@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-drawer-list {
   --drawer-list-height: 2.5rem;
@@ -13,11 +13,8 @@
   --drawer-list-option-border-color: transparent;
   --drawer-list-option-inner-border-display: none;
   --drawer-list-option-inner-background: transparent;
-  --drawer-list-list-background: var(--sb-color-white);
-  --drawer-list-list-option-background: transparent;
-  // Disabled option
-  --drawer-list-option-disabled-background: var(--sb-color-gray-light);
-  --drawer-list-option-disabled-color: var(--sb-color-gray-dark);
+  --drawer-list-sb-outside-border: var(--token-color-stroke-neutral);
+  --drawer-list-sb-list-option-background: transparent;
 
   &__list {
     margin-top: calc(
@@ -26,7 +23,7 @@
     border-radius: var(--drawer-list-options-border-radius);
 
     &:focus-visible {
-      outline: var(--sb-color-blue-dark) solid
+      outline: var(--token-color-stroke-action-focus) solid
         var(--drawer-list-option-border-width);
     }
   }
@@ -44,13 +41,18 @@
       left: 0.5rem;
       width: calc(100% - 1rem);
       height: 1px;
-      @include fakeBorder(var(--sb-color-gray-dark), 0.125rem, inset);
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-neutral-bold),
+        0.125rem,
+        inset
+      );
     }
   }
 
   &__options {
-    @include fakeBorder(
-      var(--sb-color-gray-dark-2),
+    background-color: transparent;
+    @include utilities.fakeBorder(
+      var(--drawer-list-sb-outside-border),
       var(--drawer-list-option-border-width),
       inset
     );
@@ -65,15 +67,17 @@
   &__option {
     box-shadow: inset 0 0 0 var(--drawer-list-option-border-width)
       var(--drawer-list-option-border-color);
-    background: var(--drawer-list-list-option-background);
+    background: var(--drawer-list-sb-list-option-background);
     z-index: 0;
 
     &__item.item-nr-1 {
       font-weight: var(--font-weight-medium);
     }
 
-    @include hover() {
-      --drawer-list-option-border-color: var(--sb-color-violet);
+    @include utilities.hover() {
+      --drawer-list-option-border-color: var(
+        --token-color-stroke-action-hover
+      );
       z-index: 1;
 
       .dnb-drawer-list__option__inner::before {
@@ -81,8 +85,10 @@
       }
     }
 
-    @include active() {
-      --drawer-list-option-border-color: var(--sb-color-violet);
+    @include utilities.active() {
+      --drawer-list-option-border-color: var(
+        --token-color-stroke-action-pressed
+      );
       z-index: 1;
 
       .dnb-drawer-list__option__inner::before {
@@ -91,14 +97,16 @@
     }
 
     &--selected {
-      --drawer-list-list-option-background: var(--sb-color-violet);
-      color: var(--sb-color-white);
+      --drawer-list-sb-list-option-background: var(
+        --token-color-background-selected
+      );
+      color: var(--token-color-text-neutral-inverse);
       border-right-color: var(
-        --sb-color-gray-dark-2
+        --drawer-list-sb-outside-border
       ); // Compensate for transparent right border
 
       &.last-item {
-        border-bottom-color: var(--sb-color-gray-dark-2);
+        border-bottom-color: var(--drawer-list-sb-outside-border);
       }
 
       .dnb-drawer-list__option__inner::before {
@@ -123,11 +131,11 @@
       }
     }
 
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       &--selected &__suffix {
         z-index: 2; // over check icon
         background-color: var(
-          --drawer-list-list-option-background
+          --drawer-list-sb-list-option-background
         ); // to "hide" the check icon
       }
     }
@@ -142,9 +150,13 @@
 
     &:focus-visible,
     &--focus {
-      --drawer-list-option-border-color: var(--sb-color-blue-dark);
-      --drawer-list-list-option-background: var(--sb-color-blue-light-3);
-      color: var(--sb-color-blue-dark);
+      --drawer-list-option-border-color: var(
+        --token-color-stroke-action-focus
+      );
+      --drawer-list-sb-list-option-background: var(
+        --token-color-background-action-focus-subtle
+      );
+      color: var(--token-color-text-action-focus);
       font-weight: var(--sb-font-weight-medium);
       z-index: 1;
 
@@ -165,7 +177,7 @@
     }
   }
 
-  &__triangle {
+  &__arrow {
     display: none;
   }
 
@@ -195,7 +207,7 @@
 
     .dnb-drawer-list__option--selected {
       &.first-item {
-        border-top-color: var(--sb-color-gray-dark-2);
+        border-top-color: var(--drawer-list-sb-outside-border);
       }
     }
   }

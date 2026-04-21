@@ -1,13 +1,15 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
 import SummaryListContext from './SummaryListContext'
-import Dl, { DlAllProps } from '../../../../elements/Dl'
+import type { DlAllProps } from '../../../../elements/Dl'
+import Dl from '../../../../elements/Dl'
 import ValueProvider from '../Provider/ValueProvider'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import { useVerifyChildren } from './useVerifyChildren'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<
+export type ValueSummaryListProps = Omit<
   DlAllProps,
   'label' | 'labelSrOnly' | 'children'
 > & {
@@ -17,7 +19,7 @@ export type Props = Omit<
   inheritLabel?: ValueProps['inheritLabel']
 }
 
-function SummaryList(props: Props) {
+function SummaryList(props: ValueSummaryListProps) {
   const {
     className,
     children,
@@ -42,18 +44,20 @@ function SummaryList(props: Props) {
   })
 
   return (
-    <SummaryListContext.Provider value={{ layout, verifyChild }}>
+    <SummaryListContext value={{ layout, verifyChild }}>
       <Dl
-        className={classnames('dnb-forms-summary-list', className)}
+        className={clsx('dnb-forms-summary-list', className)}
         layout={layout}
         {...rest}
       >
         <ValueProvider {...valueProviderProps}>{children}</ValueProvider>
       </Dl>
-    </SummaryListContext.Provider>
+    </SummaryListContext>
   )
 }
 
-SummaryList._supportsSpacingProps = true
+withComponentMarkers(SummaryList, {
+  _supportsSpacingProps: true,
+})
 
 export default SummaryList

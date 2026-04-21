@@ -6,22 +6,25 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Section, { SectionAllProps } from '../Section'
+import type { SectionAllProps } from '../Section'
+import Section from '../Section'
 import Provider from '../../../shared/Provider'
+import Theme from '../../../shared/Theme'
+import Context from '../../../shared/Context'
 
 const props: SectionAllProps = {
-  style_type: 'mint-green-12',
+  backgroundColor: 'mint-green-12',
 }
 
 describe('Section component', () => {
   it('should have correct styles', () => {
-    render(<Section style_type="divider" />)
+    render(<Section variant="divider" />)
     expect(
       document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--divider')
   })
 
-  it('should support "variant" props and takes precedence over "style_type"', () => {
+  it('should support "variant" prop', () => {
     const { rerender } = render(<Section variant="warning">text</Section>)
 
     const element = document.querySelector('section.dnb-section')
@@ -32,16 +35,12 @@ describe('Section component', () => {
       'dnb-section--warning',
     ])
 
-    rerender(
-      <Section variant="info" style_type="divider">
-        text
-      </Section>
-    )
+    rerender(<Section variant="information">text</Section>)
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-section',
-      'dnb-section--info',
+      'dnb-section--information',
     ])
   })
 
@@ -71,13 +70,6 @@ describe('Section component', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('should support any string in style_type', () => {
-    render(<Section style_type="custom" />)
-    expect(
-      document.querySelector('section.dnb-section').classList
-    ).toContain('dnb-section--custom')
-  })
-
   it('should support spacing props', () => {
     render(<Section top="medium">text</Section>)
 
@@ -93,7 +85,7 @@ describe('Section component', () => {
 
   it('will use props from Provider', () => {
     render(
-      <Provider Section={{ style_type: 'divider' }}>
+      <Provider Section={{ variant: 'divider' }}>
         <Section />
       </Provider>
     )
@@ -101,28 +93,6 @@ describe('Section component', () => {
     expect(
       document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--divider')
-  })
-
-  it('should have correct spacing', () => {
-    const hasSpacing = () =>
-      Array.from(document.querySelector('section.dnb-section').classList)
-        .filter((className) => className.includes('dnb-section--spacing'))
-        .join('')
-
-    const { rerender } = render(<Section />)
-    expect(hasSpacing()).toBe('')
-
-    rerender(<Section spacing="large" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-large')
-
-    rerender(<Section spacing="medium" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-medium')
-
-    rerender(<Section spacing="small" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-small')
-
-    rerender(<Section spacing />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-large')
   })
 
   it('should have a div as the element tag', () => {
@@ -284,14 +254,14 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 1rem; --space-r-s: 1rem; --space-b-s: 1rem; --space-l-s: 1rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-t-l: 1rem; --space-r-l: 1rem; --space-b-l: 1rem; --space-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;'
       )
 
       rerender(<Section innerSpace="large medium small" />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 4.5rem; --space-r-s: 4.5rem; --space-b-s: 4.5rem; --space-l-s: 4.5rem; --space-t-m: 4.5rem; --space-r-m: 4.5rem; --space-b-m: 4.5rem; --space-l-m: 4.5rem; --space-t-l: 4.5rem; --space-r-l: 4.5rem; --space-b-l: 4.5rem; --space-l-l: 4.5rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;'
       )
 
       rerender(
@@ -306,7 +276,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 0.5rem; --space-r-s: 2rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-r-l: 0.5rem; --space-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 0.5rem; --padding-r-s: 2rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-r-l: 0.5rem; --padding-l-l: 1rem;'
       )
     })
   })
@@ -315,18 +285,124 @@ describe('Section component', () => {
     const Component = render(<Section {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return (
+        <Section {...props} ref={ref}>
+          content
+        </Section>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+    expect(ref.current.classList).toContain('dnb-section')
+  })
+
+  it('gets valid element when using createRef', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Section {...props} ref={ref}>
+        content
+      </Section>
+    )
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+    expect(ref.current.classList).toContain('dnb-section')
+  })
+})
+
+describe('surface', () => {
+  it('adds surface-dark class when surface is "dark"', () => {
+    render(<Section surface="dark">content</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).toContain('dnb-section--surface-dark')
+  })
+
+  it('wraps children in Theme.Context when surface is set', () => {
+    let receivedSurface: string | undefined
+
+    function Consumer() {
+      const context = React.useContext(Context)
+      receivedSurface = context?.theme?.surface
+      return null
+    }
+
+    render(
+      <Section surface="dark">
+        <Consumer />
+      </Section>
+    )
+
+    expect(receivedSurface).toBe('dark')
+  })
+
+  it('inherits surface from Theme context', () => {
+    render(
+      <Theme surface="dark">
+        <Section>content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).toContain('dnb-section--surface-dark')
+  })
+
+  it('does not inherit surface from Theme context when surface is set by props', () => {
+    render(
+      <Theme surface="dark">
+        <Section surface="light">content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).not.toContain('dnb-section--surface-dark')
+  })
+
+  it('resets surface when "initial" even inside dark Theme context', () => {
+    render(
+      <Theme surface="dark">
+        <Section surface="initial">content</Section>
+      </Theme>
+    )
+
+    const element = document.querySelector('section.dnb-section')
+    expect(element.classList).not.toContain('dnb-section--surface-dark')
+  })
+
+  it('resets surface context to undefined when "initial"', () => {
+    let receivedSurface: string | undefined
+
+    function Consumer() {
+      const context = React.useContext(Context)
+      receivedSurface = context?.theme?.surface
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <Section surface="initial">
+          <Consumer />
+        </Section>
+      </Theme>
+    )
+
+    expect(receivedSurface).toBeUndefined()
+  })
 })
 
 describe('Section scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-section-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Dialog from '../../dialog/Dialog'
-import HelpButton, { HelpButtonProps } from '../HelpButton'
+import type { HelpButtonProps } from '../HelpButton'
+import HelpButton from '../HelpButton'
 import {
   question as QuestionIcon,
   information_medium as InformationIcon,
@@ -175,6 +176,33 @@ describe('HelpButton', () => {
   it('should validate with ARIA rules', async () => {
     const Component = render(<HelpButton {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it('should support spacing props', () => {
+    render(<HelpButton top="large" bottom="small" left="small" />)
+
+    const button = document.querySelector('.dnb-help-button')
+    expect(button).toHaveClass('dnb-space__top--large')
+    expect(button).toHaveClass('dnb-space__bottom--small')
+    expect(button).toHaveClass('dnb-space__left--small')
+  })
+
+  it('should support spacing props when children are given', () => {
+    render(
+      <HelpButton size="small" left>
+        Text
+      </HelpButton>
+    )
+
+    const button = document.querySelector('.dnb-help-button')
+    expect(button).toHaveClass('dnb-space__left--small')
+  })
+
+  it('should support spacing props when used via Dialog', () => {
+    render(<Dialog left="small">Dialog content</Dialog>)
+
+    const button = document.querySelector('.dnb-help-button')
+    expect(button).toHaveClass('dnb-space__left--small')
   })
 })
 

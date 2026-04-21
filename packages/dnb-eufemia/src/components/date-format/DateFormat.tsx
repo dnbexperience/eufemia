@@ -6,7 +6,8 @@ import React, {
   useState,
   useRef,
 } from 'react'
-import SharedContext, { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context'
+import SharedContext from '../../shared/Context'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import {
   formatDate,
@@ -18,10 +19,10 @@ import {
   getDateTimeSeparator,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
-import { SpacingProps } from '../space/types'
-import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingUtils'
-import { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import clsx from 'clsx'
+import { applySpacing } from '../space/SpacingUtils'
+import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
   createSkeletonClass,
@@ -29,6 +30,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import { useTranslation } from '../../shared'
 import { convertJsxToString } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type DateFormatProps = SpacingProps & {
   value?: Date | string | number
@@ -73,7 +75,7 @@ function DateFormat(props: DateFormatProps) {
   } = props
 
   const locale = localeProp || context.locale
-  const ref = useRef<HTMLTimeElement>()
+  const ref = useRef<HTMLTimeElement>(undefined)
 
   const date = useMemo(() => {
     // Always call getDate to maintain expected console.log behavior
@@ -84,7 +86,7 @@ function DateFormat(props: DateFormatProps) {
     const durationString = String(value || children)
 
     if (!durationString || !isValidDuration(durationString)) {
-      return // stop here
+      return undefined // stop here
     }
 
     return parseDuration(durationString)
@@ -93,7 +95,7 @@ function DateFormat(props: DateFormatProps) {
   const getDuration = useCallback(
     (dateStyle: Intl.DateTimeFormatOptions['dateStyle']) => {
       if (durationValue === undefined) {
-        return // stop here
+        return undefined // stop here
       }
 
       return formatDuration(
@@ -113,14 +115,13 @@ function DateFormat(props: DateFormatProps) {
   }, [getDuration])
 
   const attributes = useMemo(() => {
-    const attrs = {
-      className: classnames(
+    const attrs = applySpacing(props, {
+      className: clsx(
         'dnb-date-format',
-        createSpacingClasses(props),
         createSkeletonClass('font', skeleton, context)
       ),
       lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
-    }
+    })
     skeletonDOMAttributes(attrs, skeleton, context)
 
     return attrs
@@ -129,7 +130,7 @@ function DateFormat(props: DateFormatProps) {
   const getAbsoluteDateTime = useCallback(
     (style = 'yyyy-MM-dd') => {
       if (!date || isNaN(date.getTime())) {
-        return // stop here
+        return undefined // stop here
       }
 
       return format(date, style)
@@ -151,7 +152,7 @@ function DateFormat(props: DateFormatProps) {
       hideCurrentYear?: boolean
     } = {}) => {
       if (!date || isNaN(date.getTime())) {
-        return // stop here
+        return undefined // stop here
       }
 
       // Get the original input value to detect UTC dates
@@ -160,8 +161,8 @@ function DateFormat(props: DateFormatProps) {
         value !== undefined
           ? value
           : children !== undefined
-          ? convertJsxToString(children)
-          : date
+            ? convertJsxToString(children)
+            : date
 
       // When timeStyle is provided, format date and time separately and join with separator
       // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
@@ -233,7 +234,7 @@ function DateFormat(props: DateFormatProps) {
 
   useEffect(() => {
     if (!relativeTime || !date) {
-      return
+      return undefined
     }
 
     let timeoutId: NodeJS.Timeout
@@ -397,7 +398,7 @@ function getDate({
   if (value) {
     // Check if it's a duration string first to avoid unnecessary date conversion
     if (typeof value === 'string' && isValidDuration(value)) {
-      return // stop here // Return undefined for duration strings to avoid date conversion
+      return undefined // stop here // Return undefined for duration strings to avoid date conversion
     }
     if (typeof value === 'string') {
       return convertStringToDate(value)
@@ -412,7 +413,7 @@ function getDate({
   const childrenValue = convertJsxToString(children)
   // Check if it's a duration string first to avoid unnecessary date conversion
   if (childrenValue && isValidDuration(childrenValue)) {
-    return // stop here // Return undefined for duration strings to avoid date conversion
+    return undefined // stop here // Return undefined for duration strings to avoid date conversion
   }
   return convertStringToDate(childrenValue)
 }
@@ -434,4 +435,4 @@ function getInvalidValue({
 
 export default DateFormat
 
-DateFormat._supportsSpacingProps = true
+withComponentMarkers(DateFormat, { _supportsSpacingProps: true })

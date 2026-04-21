@@ -13,7 +13,8 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Checkbox, { CheckboxProps } from '../Checkbox'
+import type { CheckboxProps } from '../Checkbox'
+import Checkbox from '../Checkbox'
 import { Provider } from '../../../shared'
 
 const props: CheckboxProps = {
@@ -209,7 +210,7 @@ describe('Checkbox component', () => {
     expect(checkbox.checked).toBe(true)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
@@ -321,7 +322,7 @@ describe('Checkbox component', () => {
   it('should inherit formElement vertical label', () => {
     render(
       <Provider
-        formElement={{ label_direction: 'vertical', disabled: true }}
+        formElement={{ labelDirection: 'vertical', disabled: true }}
       >
         <Checkbox label="Label" />
       </Provider>
@@ -339,12 +340,12 @@ describe('Checkbox component', () => {
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
       'id',
-      'name',
-      'type',
       'class',
       'disabled',
       'aria-disabled',
+      'type',
       'value',
+      'name',
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-checkbox',
@@ -365,8 +366,8 @@ describe('Checkbox component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <Checkbox id="unique" innerRef={ref} />
+      ref = React.useRef<HTMLInputElement | null>(null)
+      return <Checkbox id="unique" ref={ref} />
     }
 
     render(<MockComponent />)
@@ -377,13 +378,13 @@ describe('Checkbox component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+    const ref: React.RefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem
     }
 
-    render(<Checkbox id="unique" innerRef={refFn} />)
+    render(<Checkbox id="unique" ref={refFn} />)
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-checkbox__input')
@@ -446,13 +447,6 @@ describe('Checkbox component', () => {
 describe('Checkbox scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-checkbox-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

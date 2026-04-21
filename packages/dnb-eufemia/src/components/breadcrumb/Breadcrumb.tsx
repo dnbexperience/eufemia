@@ -5,56 +5,61 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import Section, {
-  SectionSpacing,
-  SectionStyleTypes,
+import { applySpacing } from '../space/SpacingUtils'
+import type {
+  SectionBackgroundColor,
   SectionVariants,
 } from '../section/Section'
+import Section from '../section/Section'
 import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import type { SpacingProps } from '../../shared/types'
+import type {
+  SpaceTypeAll,
+  SpaceTypeMedia,
+  SpacingProps,
+} from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import type { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,
-  isTrue,
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia, useTheme } from '../../shared'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbProps = {
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
-   * Default: null
+   * Default: `null`
    */
   data?: Array<BreadcrumbItemProps>
 
   /**
    * The content of the component. Can be used instead of prop "data".
-   * Default: null
+   * Default: `null`
    */
   children?:
     | React.ReactElement<BreadcrumbItemProps>
@@ -62,37 +67,37 @@ export type BreadcrumbProps = {
 
   /**
    * The variant of the component.
-   * Default: When children and data is not defined, it defaults to "single". "responsive" if they are defined.
+   * Defaults to `single` when children and data are not defined, `responsive` if they are.
    */
   variant?: 'responsive' | 'single' | 'multiple' | 'collapse'
 
   /**
    * Handle the click event on 'single'/'collapse'
-   * Default: null
+   * Default: `null`
    */
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 
   /**
    * For variant 'single', use href (or onClick) to set href when clicking "Back"
-   * Default: null
+   * Default: `null`
    */
   href?: string
 
   /**
    * Every <nav> on a page needs an unique aria-label text
-   * Default: Page hierarchy
+   * Default: `Page hierarchy`
    */
   navText?: React.ReactNode
 
   /**
    * Add custom 'Back' text for variant 'single'
-   * Default: 'Back' or defined by Context translation
+   * Default: `'Back' or defined by Context translation`
    */
   goBackText?: React.ReactNode
 
   /**
    * Add custom 'Home' text
-   * Default: 'Home' or defined by Context translation
+   * Default: `'Home' or defined by Context translation`
    */
   homeText?: React.ReactNode
 
@@ -103,53 +108,63 @@ export type BreadcrumbProps = {
   backToText?: React.ReactNode
 
   /**
-   * If variant='collapse', you can override isCollapsed for the collapsed content by updating this value.
-   * Default: null
+   * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
+   * Default: `null`
    */
-  isCollapsed?: boolean
+  collapsed?: boolean
 
   /**
-   * Use one of the Section component style types (style_type)
-   * Default: transparent
+   * Use one of the Section background colors.
+   * Default: `transparent`
    */
-  styleType?: SectionStyleTypes
+  backgroundColor?: SectionBackgroundColor
 
   /**
    * Use one of the Section component variants
-   * Default: info
+   * Default: `information`
    */
   collapsedStyleType?: SectionVariants
 
   /**
-   * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
-   * Default: false
+   * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
+   * Default: `false`
    */
-  spacing?: SectionSpacing
+  spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
    * Will disable the height animation
-   * Default: false
+   * Default: `false`
    */
   noAnimation?: boolean
   /**
    * Will be called when breadcrumb expands or collapses.
    */
-  onToggle?: (isCollapsed: boolean) => void
+  onToggle?: (collapsed: boolean) => void
+
+  /**
+   * Send along a custom React Ref.
+   * Default: `null`
+   */
+  ref?: React.Ref<HTMLElement>
 }
 
-export const defaultProps = {
+export type BreadcrumbAllProps = BreadcrumbProps &
+  SpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, keyof BreadcrumbProps>
+
+const defaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
   backToText: 'Back to...',
-  isCollapsed: true,
-  styleType: 'transparent',
-  collapsedStyleType: 'info',
+  collapsed: true,
+  backgroundColor: 'transparent',
+  collapsedStyleType: 'information',
   spacing: false,
 }
 
-const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
+const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -170,11 +185,11 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     onClick,
     navText, // has a translation in context
     goBackText, // has a translation in context
-    homeText, // eslint-disable-line
+    homeText,
     backToText, // has a translation in context
-    styleType,
+    backgroundColor,
     collapsedStyleType,
-    isCollapsed: overrideIsCollapsed,
+    collapsed: overrideCollapsed,
     spacing,
     noAnimation,
     data,
@@ -183,24 +198,23 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     ...props
   } = allProps
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const isCollapsedRef = useRef(overrideIsCollapsed)
+  const isCollapsedRef = useRef(overrideCollapsed)
 
   const { isLarge } = useMedia()
 
   useEffect(() => {
-    if (overrideIsCollapsed !== isCollapsedRef.current) {
-      isCollapsedRef.current = overrideIsCollapsed
+    if (overrideCollapsed !== isCollapsedRef.current) {
+      isCollapsedRef.current = overrideCollapsed
       forceUpdate()
     }
-  }, [overrideIsCollapsed])
+  }, [overrideCollapsed])
 
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
-    if (isLarge && overrideIsCollapsed !== false) {
+    if (isLarge && overrideCollapsed !== false) {
       // Call onToggle if breadcrumbs is expanded and is going to collapse due to large screen size.
       if (isCollapsedRef.current === false) {
         onToggle?.(true)
@@ -210,7 +224,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
       forceUpdate()
     }
-  }, [isLarge, overrideIsCollapsed, onToggle])
+  }, [isLarge, overrideCollapsed, onToggle])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
@@ -233,26 +247,31 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const innerSpace = isTrue(spacing) ? 'small' : spacing
+  const innerSpace = spacing
+    ? spacing === true
+      ? 'small'
+      : spacing
+    : undefined
 
   const overrideSbankenSectionColor =
-    useTheme()?.isSbanken && collapsedStyleType === 'info'
+    useTheme()?.isSbanken && collapsedStyleType === 'information'
+
+  const navProps = applySpacing(allProps, {
+    ...props,
+    'aria-label': convertJsxToString(navText),
+    className: clsx(
+      'dnb-breadcrumb',
+      `dnb-breadcrumb--variant-${currentVariant}`,
+      skeletonClasses,
+      className
+    ),
+  })
 
   return (
-    <nav
-      aria-label={convertJsxToString(navText)}
-      className={classnames(
-        'dnb-breadcrumb',
-        `dnb-breadcrumb--variant-${currentVariant}`,
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
-      {...props}
-    >
+    <nav {...(navProps as React.HTMLAttributes<HTMLElement>)}>
       <Section
         className="dnb-breadcrumb__bar"
-        style_type={styleType || 'transparent'}
+        backgroundColor={backgroundColor || 'transparent'}
         innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (
@@ -260,7 +279,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
             text={goBackText}
             variant="tertiary"
             icon="chevron_left"
-            icon_position="left"
+            iconPosition="left"
             onClick={onClick}
             href={href}
           />
@@ -272,7 +291,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
                 text={backToText}
                 variant="tertiary"
                 icon="chevron_left"
-                icon_position="left"
+                iconPosition="left"
                 onClick={onClick ?? onClickHandler}
                 aria-expanded={!isCollapsedRef.current}
               />
@@ -282,7 +301,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
               <BreadcrumbMultiple
                 data={data}
                 items={items}
-                isCollapsed={false}
+                collapsed={false}
                 noAnimation={noAnimation}
               />
             )}
@@ -306,7 +325,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
           <BreadcrumbMultiple
             data={data}
             items={items}
-            isCollapsed={isCollapsedRef.current}
+            collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
           />
         </Section>
@@ -316,7 +335,9 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 }
 
 Breadcrumb.Item = BreadcrumbItem
-Breadcrumb._supportsSpacingProps = true
-
 export { BreadcrumbItem }
+withComponentMarkers(Breadcrumb, {
+  _supportsSpacingProps: true,
+})
+
 export default Breadcrumb

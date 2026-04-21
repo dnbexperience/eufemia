@@ -1,68 +1,63 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
-export const inputMaskedProperties: PropertiesTableProps = {
-  as_number: {
+export const InputMaskedProperties: PropertiesTableProps = {
+  asNumber: {
     doc: 'Set to `true` to automatically set a number mask based on the given or inherited locale.',
     type: 'boolean',
     status: 'optional',
   },
-  as_percent: {
+  asPercent: {
     doc: 'Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.',
     type: 'boolean',
     status: 'optional',
   },
-  as_currency: {
+  asCurrency: {
     doc: 'Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.',
-    type: 'boolean',
+    type: ['boolean', 'string'],
     status: 'optional',
   },
-  mask_options: {
-    doc: 'Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.',
+  maskOptions: {
+    doc: 'Use it to manipulate internal masks. You can use it instead of e.g. `numberMask` or `currencyMask`. All options are listed below.',
     type: 'object',
     status: 'optional',
   },
-  number_mask: {
+  numberMask: {
     doc: 'Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.',
     type: ['boolean', 'object'],
     status: 'optional',
   },
-  currency_mask: {
-    doc: 'Set to `true` or set the _valuta_ (currency_mask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.',
+  currencyMask: {
+    doc: 'Set to `true` or set the _valuta_ (currencyMask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.',
     type: ['boolean', 'object'],
     status: 'optional',
   },
-  number_format: {
+  numberFormat: {
     doc: 'Use an object with [NumberFormat](/uilib/components/number-format/properties).',
     type: 'object',
     status: 'optional',
   },
   locale: {
-    doc: 'Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.',
+    doc: 'Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
   mask: {
-    doc: 'A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.',
-    type: ['RegExp', 'function'],
+    doc: 'A mask defined as an array of RegExp and string tokens (e.g. `[/\\d/, /\\d/, " ", /\\d/, /\\d/]`) or a single RegExp. Defaults to `number mask`.',
+    type: ['RegExp', 'Array<RegExp | string>'],
     status: 'optional',
   },
-  show_mask: {
+  allowOverflow: {
+    doc: 'Allow users to keep typing after the defined mask has been filled. Extra characters will be appended without masking.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  overwriteMode: {
+    doc: 'Control how overwriting characters is handled; `shift` (default) moves to the next slot while `replace` stays on the current slot.',
+    type: ['string', 'function'],
+    status: 'optional',
+  },
+  showMask: {
     doc: 'Show mask when input is empty and has no focus. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  show_guide: {
-    doc: "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
-    type: 'boolean',
-    status: 'optional',
-  },
-  placeholder_char: {
-    doc: 'The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.',
-    type: 'string',
-    status: 'optional',
-  },
-  keep_char_positions: {
-    doc: 'When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -78,8 +73,8 @@ export const inputMaskedProperties: PropertiesTableProps = {
   },
 }
 
-export const inputMaskedEvents: PropertiesTableProps = {
-  on_change: {
+export const InputMaskedEvents: PropertiesTableProps = {
+  onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.',
     type: 'function',
     status: 'optional',
@@ -91,7 +86,7 @@ export const inputMaskedEvents: PropertiesTableProps = {
   },
 }
 
-export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
+export const InputMaskedMaskOptionsProperties: PropertiesTableProps = {
   prefix: {
     doc: 'What to display before the amount. Defaults to an empty string.',
     type: 'string',
@@ -100,11 +95,6 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
   suffix: {
     doc: 'What to display after the amount. Defaults to an empty string.',
     type: 'string',
-    status: 'optional',
-  },
-  includeThousandsSeparator: {
-    doc: 'Whether or not to separate thousands. Defaults to `true`.',
-    type: 'boolean',
     status: 'optional',
   },
   thousandsSeparatorSymbol: {
@@ -130,11 +120,6 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
   integerLimit: {
     doc: 'Limit the length of the integer number. Defaults to `null` for unlimited.',
     type: 'number',
-    status: 'optional',
-  },
-  requireDecimal: {
-    doc: 'Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`.',
-    type: 'boolean',
     status: 'optional',
   },
   allowNegative: {

@@ -1,6 +1,6 @@
-import { PropertiesTableProps } from '../../shared/types'
-import { UlProperties } from './../../elements/lists/UlDocs'
-import { OlProperties } from './../../elements/lists/OlDocs'
+import type { PropertiesTableProps } from '../../shared/types'
+import { UlProperties } from '../../elements/lists/UlDocs'
+import { OlProperties } from '../../elements/lists/OlDocs'
 
 const ListProperties = { ...UlProperties, ...OlProperties }
 const { children, ...ListPropertiesWithoutChildren } = ListProperties
@@ -23,21 +23,21 @@ export const ListFormatProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.',
-    type: ['ol', 'ul', 'text'],
+    type: ['"ol"', '"ul"', '"text"'],
     status: 'optional',
   },
   listType: {
     doc: 'Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.',
     type: [
-      'a',
-      'A',
-      'i',
-      'I',
-      '1',
-      'circle',
-      'disc',
-      'square',
-      'unstyled',
+      '"a"',
+      '"A"',
+      '"i"',
+      '"I"',
+      '"1"',
+      '"circle"',
+      '"disc"',
+      '"square"',
+      '"unstyled"',
       'undefined',
     ],
     status: 'optional',

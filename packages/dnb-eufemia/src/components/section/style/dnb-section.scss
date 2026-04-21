@@ -3,10 +3,10 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  --section-z-index: 1;
+  --section-z-index: var(--z-index-section);
 }
 
 .dnb-section {
@@ -23,10 +23,12 @@
 
   --breakout--on: visible;
   --breakout--off: hidden;
-  --rounded-corner--value: 0.5rem;
+  --rounded-corner--value: 1.5rem;
   --outline: 0 0 0 var(--outline-width, 1px)
     var(--outline-color, transparent);
   --outline-none: 0 0 0 0 transparent;
+  --outline-color--value: var(--token-color-stroke-neutral-subtle);
+  --drop-shadow-none: var(--outline-none);
   --top: 0;
   --left: -100vw;
   --width: 100vw;
@@ -39,10 +41,7 @@
 
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
-
-  &[style*='--background-color'] {
-    background-color: var(--background-color, white);
-  }
+  background-color: var(--background-color, white);
 
   // The outline border
   &::before {
@@ -50,7 +49,8 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    box-shadow: var(--drop-shadow, var(--outline-none)),
+    box-shadow:
+      var(--drop-shadow, var(--outline-none)),
       var(--outline, var(--outline-none));
     border-radius: var(--rounded-corner, 0);
   }
@@ -68,7 +68,8 @@
     color: var(--background-color, currentcolor);
     background-color: currentcolor;
 
-    --box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+    --box-shadow:
+      99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
       297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
 
     // we use box-shadow to avoid a horizontal scrollbar
@@ -100,7 +101,7 @@
     }
   }
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     --breakout: var(--breakout--small, var(--breakout--fallback));
     --outset: var(--outset--small, var(--outset--fallback));
     --background-color--value: var(--background-color--small);
@@ -113,7 +114,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include allBetween(small, medium) {
+  @include utilities.allBetween(small, medium) {
     --breakout: var(--breakout--medium, var(--breakout--fallback));
     --outset: var(--outset--medium, var(--outset--fallback));
     --background-color--value: var(--background-color--medium);
@@ -126,7 +127,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     --breakout: var(--breakout--large, var(--breakout--fallback));
     --outset: var(--outset--large, var(--outset--fallback));
     --background-color--value: var(--background-color--large);
@@ -172,30 +173,63 @@
     z-index: -7;
   }
 
-  // deprecated and can be removed in v11
-  &--spacing-x-small {
-    padding-top: var(--spacing-x-small);
-    padding-bottom: var(--spacing-x-small);
+  // Section colors
+  &--divider {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-neutral);
+    --separator-color: var(--token-color-stroke-neutral-subtle);
+
+    // will else cover parts of the divider lines
+    z-index: 0;
+
+    &::after {
+      --box-shadow:
+        99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+        297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+        0 0.0625rem 0 0 var(--separator-color),
+        99vw 0.0625rem 0 0 var(--separator-color),
+        0 -0.0625rem 0 0 var(--separator-color),
+        99vw -0.0625rem 0 0 var(--separator-color),
+        198vw 0.0625rem 0 0 var(--separator-color),
+        198vw -0.0625rem 0 0 var(--separator-color);
+    }
   }
-  &--spacing-small {
-    padding-top: var(--spacing-small);
-    padding-bottom: var(--spacing-small);
+
+  &--transparent {
+    --background-color: transparent;
   }
-  &--spacing-medium {
-    padding-top: var(--spacing-medium);
-    padding-bottom: var(--spacing-medium);
+
+  &--default {
+    --text-color: var(
+      --text-color--value,
+      var(--token-color-text-neutral)
+    );
+    --background-color: var(
+      --background-color--value,
+      var(--token-color-background-neutral)
+    );
   }
-  &--spacing,
-  &--spacing-large {
-    padding-top: var(--spacing-large);
-    padding-bottom: var(--spacing-large);
+
+  // GlobalStatus states and Section variant colors
+  &--error {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-error-subtle);
   }
-  &--spacing-x-large {
-    padding-top: var(--spacing-x-large);
-    padding-bottom: var(--spacing-x-large);
+
+  &--information,
+  // No designs for success state in Figma, treat as information until verified by design team
+  &--success {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-info-subtle);
   }
-  &--spacing-xx-large {
-    padding-top: var(--spacing-xx-large);
-    padding-bottom: var(--spacing-xx-large);
+
+  &--warning {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-warning-subtle);
+  }
+
+  &--surface-dark {
+    --text-color: var(--token-color-text-neutral-ondark);
+    --background-color: var(--token-color-decorative-first-bold-static);
   }
 }

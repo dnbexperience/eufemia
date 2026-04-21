@@ -1,23 +1,22 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import { replaceItemNo } from '../ItemNo'
 import { useTranslation } from '../../hooks'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
-import {
-  DataValueReadWriteComponentProps,
-  omitDataValueReadWriteProps,
-} from '../../types'
+import type { DataValueReadWriteComponentProps } from '../../types'
+import { omitDataValueReadWriteProps } from '../../types'
 import { trash } from '../../../../icons'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps &
+export type IterateRemoveButtonProps = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
     showConfirmDialog?: boolean
   }
 
-function RemoveButton(props: Props) {
+function RemoveButton(props: IterateRemoveButtonProps) {
   const iterateItemContext = useContext(IterateItemContext)
   const { handleRemove, itemPath, index } = iterateItemContext || {}
 
@@ -35,7 +34,7 @@ function RemoveButton(props: Props) {
   const { handleRemoveItem } = arrayItemAreaContext || {}
 
   const handleClick = useCallback(
-    ({ close }) => {
+    ({ close }: { close?: () => void }) => {
       close?.()
 
       // - Don't call handleRemoveItem when itemPath is given to support nested arrays
@@ -49,14 +48,11 @@ function RemoveButton(props: Props) {
   )
 
   const triggerAttributes: ButtonProps = {
-    className: classnames(
-      'dnb-forms-iterate-remove-element-button',
-      className
-    ),
+    className: clsx('dnb-forms-iterate-remove-element-button', className),
     text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
     icon: trash,
-    icon_position: 'left',
+    iconPosition: 'left',
     ...buttonProps,
   }
 
@@ -74,11 +70,14 @@ function RemoveButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      on_click={handleClick}
+      onClick={(args) => handleClick(args)}
       {...buttonProps}
     />
   )
 }
 
-RemoveButton._supportsSpacingProps = true
+withComponentMarkers(RemoveButton, {
+  _supportsSpacingProps: true,
+})
+
 export default RemoveButton

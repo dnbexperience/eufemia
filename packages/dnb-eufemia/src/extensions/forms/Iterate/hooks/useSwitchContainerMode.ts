@@ -1,12 +1,10 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import { ContainerMode } from '../Array'
-import FieldBoundaryContext, {
-  FieldBoundaryContextState,
-} from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import IterateItemContext, {
-  IterateItemContextState,
-} from '../IterateItemContext'
-import { Path } from '../../types'
+import type { ContainerMode } from '../Array'
+import type { FieldBoundaryContextState } from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import type { IterateItemContextState } from '../IterateItemContext'
+import IterateItemContext from '../IterateItemContext'
+import type { Path } from '../../types'
 
 type GlobalCacheHash = string
 type GlobalCacheId = string
@@ -33,7 +31,7 @@ const globalCache: Record<
  * Therefore, it is imported and used in both e.g. the EditContainer and e.g. the PushButton.
  */
 export default function useSwitchContainerMode(path?: Path) {
-  const nextContainerModeRef = useRef()
+  const nextContainerModeRef = useRef(undefined)
   const { hasError } = useContext(FieldBoundaryContext) || {}
   const iterateItemContext = useContext(IterateItemContext)
 
@@ -92,6 +90,8 @@ export default function useSwitchContainerMode(path?: Path) {
         if (!hasError && index === count - 2) {
           return mode
         }
+
+        return undefined
       })
     },
     [setContainerMode]

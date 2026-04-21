@@ -14,28 +14,34 @@ import { Button, GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
+import type {
+  JSONSchema,
+  OnChange,
+  DataValueWriteProps,
+  OnSubmit,
+  OnSubmitRequest,
+} from '../../../'
 import {
   Form,
   DataContext,
   Field,
-  JSONSchema,
   Ajv,
-  OnChange,
-  DataValueWriteProps,
-  OnSubmit,
   Iterate,
-  OnSubmitRequest,
   Wizard,
   makeAjvInstance,
 } from '../../../'
 import { isCI } from 'repo-utils'
-import { Props as StringFieldProps } from '../../../Field/String'
-import { ContextState, FilterData, DataPathHandler } from '../../Context'
+import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
+import type {
+  ContextState,
+  FilterData,
+  DataPathHandler,
+} from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-type OnChangeValue = DataValueWriteProps['onChange']
+type OnChangeValue = DataValueWriteProps<any>['onChange']
 
 if (isCI) {
   jest.retryTimes(5) // because of an flaky async validation test
@@ -398,11 +404,15 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
         const barHandler: DataPathHandler = jest.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         const filterDataPaths: FilterData = {
@@ -448,7 +458,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -457,7 +466,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         rerender(
@@ -495,7 +503,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -505,7 +512,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -516,6 +522,8 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -559,9 +567,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/bar',
@@ -576,9 +581,6 @@ describe('DataContext.Provider', () => {
             value: 'bar',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         rerender(
@@ -619,9 +621,6 @@ describe('DataContext.Provider', () => {
             value: 'Skip this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/bar',
@@ -636,9 +635,6 @@ describe('DataContext.Provider', () => {
             value: 'bar value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -649,6 +645,8 @@ describe('DataContext.Provider', () => {
           if (/\/_/.test(path)) {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -723,9 +721,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/_bar',
@@ -737,9 +732,6 @@ describe('DataContext.Provider', () => {
             value: 'Exclude this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
           path: '/nested/_baz',
@@ -749,9 +741,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/nested/baz',
@@ -761,9 +750,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
           path: '/_nested/baz',
@@ -773,82 +759,7 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
-      })
-
-      it('"filterSubmitData" should not mutate internal data', async () => {
-        const onSubmit: OnSubmit = jest.fn()
-        const onChange = jest.fn()
-
-        const filterDataHandler: FilterData = jest.fn(({ value }) => {
-          if (value === 'remove me') {
-            return false
-          }
-        })
-
-        let originalData = undefined
-        let filteredData = undefined
-
-        const MyForm = () => {
-          const { data: original, filterData } = Form.useData('my-form')
-          originalData = original
-
-          const data = filterData(filterDataHandler)
-          filteredData = data
-
-          return (
-            <DataContext.Provider
-              id="my-form"
-              onSubmit={onSubmit}
-              onChange={onChange}
-              filterSubmitData={filterDataHandler}
-            >
-              <Field.String path="/myField" />
-              <Form.SubmitButton />
-            </DataContext.Provider>
-          )
-        }
-
-        render(<MyForm />)
-
-        const submitButton = document.querySelector('button')
-        const input = document.querySelector('input')
-
-        await userEvent.type(input, 'remove m')
-        expect(filteredData).toMatchObject({ myField: 'remove m' })
-        expect(originalData).toMatchObject({ myField: 'remove m' })
-        expect(onChange).toHaveBeenCalledTimes(8)
-        expect(onChange).toHaveBeenLastCalledWith(
-          { myField: 'remove m' },
-          expect.anything()
-        )
-
-        fireEvent.click(submitButton)
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-        expect(onSubmit).toHaveBeenLastCalledWith(
-          { myField: 'remove m' },
-          expect.anything()
-        )
-        expect(filteredData).toEqual({
-          myField: 'remove m',
-        })
-
-        await userEvent.type(input, 'e')
-        expect(filteredData).toMatchObject({})
-        expect(originalData).toMatchObject({ myField: 'remove me' })
-        expect(onChange).toHaveBeenCalledTimes(9)
-        expect(onChange).toHaveBeenLastCalledWith(
-          { myField: 'remove me' },
-          expect.anything()
-        )
-
-        fireEvent.click(submitButton)
-        expect(onSubmit).toHaveBeenCalledTimes(2)
-        expect(onSubmit).toHaveBeenLastCalledWith({}, expect.anything())
-        expect(filteredData).toEqual({})
       })
 
       it('onChange should return filterData', async () => {
@@ -856,6 +767,8 @@ describe('DataContext.Provider', () => {
           if (value === 'remove me') {
             return false
           }
+
+          return undefined
         })
 
         let filteredData = undefined
@@ -1006,7 +919,7 @@ describe('DataContext.Provider', () => {
     const UseContext = ({
       result,
     }: {
-      result: React.MutableRefObject<ContextState>
+      result: React.RefObject<ContextState>
     }) => {
       result.current = useContext(DataContext.Context)
       return null
@@ -1203,6 +1116,14 @@ describe('DataContext.Provider', () => {
             'onChangeField',
           ])
         })
+
+        await waitFor(() => {
+          expect(eventsEnd).toEqual([
+            'onChangeValidator',
+            'onChangeForm',
+            'onChangeField',
+          ])
+        })
       })
 
       it('during submit', async () => {
@@ -1254,12 +1175,16 @@ describe('DataContext.Provider', () => {
         if (value === 'onChangeValidator-error') {
           return new Error('onChangeValidator-error')
         }
+
+        return undefined
       })
       const onBlurValidator = jest.fn(async (value) => {
         await wait(10)
         if (value === 'onBlurValidator-error') {
           return new Error('onBlurValidator-error')
         }
+
+        return undefined
       })
 
       render(
@@ -1552,6 +1477,8 @@ describe('DataContext.Provider', () => {
         if (value === 'invalid') {
           return Error('My error')
         }
+
+        return undefined
       }, 10)
 
       render(
@@ -1665,6 +1592,8 @@ describe('DataContext.Provider', () => {
           if (value !== 'valid') {
             return Error(`value: ${value}`)
           }
+
+          return undefined
         })
 
       render(
@@ -1884,11 +1813,15 @@ describe('DataContext.Provider', () => {
         if (myField === 'onChangeForm-error') {
           return Error('onChangeForm-error')
         }
+
+        return undefined
       }
       const onChangeField: OnChangeValue = async (value) => {
         if (value === 'onChangeField-error') {
           return Error('onChangeField-error')
         }
+
+        return undefined
       }
 
       render(
@@ -1936,11 +1869,15 @@ describe('DataContext.Provider', () => {
         if (myField === 'onChangeForm-info') {
           return { info: 'onChangeForm-info' }
         }
+
+        return undefined
       }
       const onChangeField: OnChangeValue = async (value) => {
         if (value === 'onChangeField-warning') {
           return { warning: 'onChangeField-warning' }
         }
+
+        return undefined
       }
 
       render(
@@ -1966,7 +1903,7 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('onChangeForm-info')
-        expect(status).toHaveClass('dnb-form-status--info')
+        expect(status).toHaveClass('dnb-form-status--information')
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1979,7 +1916,7 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('onChangeField-warning')
-        expect(status).toHaveClass('dnb-form-status--warn')
+        expect(status).toHaveClass('dnb-form-status--warning')
       })
     })
 
@@ -2071,6 +2008,8 @@ describe('DataContext.Provider', () => {
         if (value === 'invalid') {
           return Error('My error')
         }
+
+        return undefined
       })
 
       render(
@@ -3339,9 +3278,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3370,9 +3306,6 @@ describe('DataContext.Provider', () => {
               bar: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
           {
             path: '/foo',
@@ -3386,9 +3319,6 @@ describe('DataContext.Provider', () => {
               foo: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3415,9 +3345,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
       })
@@ -3532,7 +3459,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--info'
+              '.dnb-forms-form__status-message.dnb-form-status--information'
             )
           ).toHaveTextContent('Please fix the errors above')
         })
@@ -3580,7 +3507,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--warn'
+              '.dnb-forms-form__status-message.dnb-form-status--warning'
             )
           ).toHaveTextContent('Some fields need attention')
         })
@@ -3664,7 +3591,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--warn'
+              '.dnb-forms-form__status-message.dnb-form-status--warning'
             )
           ).toHaveTextContent('Some fields need attention')
         })
@@ -3715,7 +3642,7 @@ describe('DataContext.Provider', () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-form__status-message.dnb-form-status--info'
+              '.dnb-forms-form__status-message.dnb-form-status--information'
             )
           ).toHaveTextContent('Please review the errors above')
         })
@@ -3737,148 +3664,6 @@ describe('DataContext.Provider', () => {
           ).toBeNull()
         })
       })
-    })
-
-    it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
-
-      const schema: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'string',
-          },
-        },
-      }
-      const validData = {
-        myKey: 'some-value',
-      }
-      const invalidData = {
-        myKey: 123,
-      }
-      const { rerender } = render(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={validData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={invalidData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={validData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should revalidate correctly based on changes in provided schema using deprecated continuousValidation', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
-
-      const schema1: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'number',
-          },
-        },
-      }
-      const schema2: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'string',
-          },
-        },
-      }
-      const data = {
-        myKey: 'some-value',
-      }
-      const { rerender } = render(
-        <DataContext.Provider
-          schema={schema1}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-      expect(screen.queryByRole('alert')).toHaveTextContent(
-        'The field at path="/myKey" value (some-value) type must be number'
-      )
-
-      rerender(
-        <DataContext.Provider
-          schema={schema2}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema1}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-      log.mockRestore()
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
@@ -4446,6 +4231,8 @@ describe('DataContext.Provider', () => {
       if (props.disabled === true) {
         return false
       }
+
+      return undefined
     })
     let filteredData = undefined
     const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
@@ -4478,9 +4265,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: true,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({})
 
@@ -4509,9 +4293,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: false,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({
       myField: 'bar',
@@ -4650,17 +4431,15 @@ describe('DataContext.Provider', () => {
         </>
       )
 
-      expect(sidecarMockData).toHaveLength(3)
+      expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([
         undefined,
         { fieldA: 'updated A', fieldB: 'updated B' },
-        { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
-      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toHaveLength(2)
       expect(nestedMockData).toEqual([
         undefined,
-        { fieldA: 'updated A', fieldB: 'updated B' },
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
@@ -4701,13 +4480,8 @@ describe('DataContext.Provider', () => {
         { wrapper: StrictMode }
       )
 
-      expect(sidecarMockData).toHaveLength(4)
-      expect(sidecarMockData).toEqual([
-        undefined,
-        undefined,
-        initialData,
-        initialData,
-      ])
+      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toEqual([undefined, undefined])
 
       expect(nestedMockData).toHaveLength(4)
       expect(nestedMockData).toEqual([
@@ -5111,7 +4885,7 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('123')
       expect(labelElement).toHaveTextContent('123')
-      expect(countRender).toBe(3)
+      expect(countRender).toBe(2)
     })
 
     it('should return unvalidated data in sync', async () => {
@@ -5128,6 +4902,8 @@ describe('DataContext.Provider', () => {
         if (value !== 123) {
           return new Error('Invalid')
         }
+
+        return undefined
       })
 
       const MockComponent = () => {
@@ -5210,6 +4986,8 @@ describe('DataContext.Provider', () => {
         if (props.disabled === true) {
           return false
         }
+
+        return undefined
       })
       let filteredData = undefined
       const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
@@ -5255,9 +5033,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({})
 
@@ -5299,9 +5074,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: false,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({
         myField: 'bar',
@@ -5329,9 +5101,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({ myField: 'bar' })
     })
@@ -5419,6 +5188,8 @@ describe('DataContext.Provider', () => {
           if (props.disabled === true) {
             return false
           }
+
+          return undefined
         })
 
         const MockComponent = () => {

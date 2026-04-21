@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import InfoCard, { InfoCardAllProps } from '../InfoCard'
+import type { InfoCardAllProps } from '../InfoCard'
+import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
@@ -99,25 +100,25 @@ describe('InfoCard', () => {
   })
 
   it('renders the image', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
 
     render(
-      <InfoCard text="text" imgProps={{ alt: 'alt-text', src: img_src }} />
+      <InfoCard text="text" imgProps={{ alt: 'alt-text', src: imgSrc }} />
     )
 
-    expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
+    expect(screen.queryByRole('img').getAttribute('src')).toBe(imgSrc)
   })
 
   it('renders imgProps', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
-    const img_width = '16'
-    const img_height = '16'
-    const img_alt = 'custom_alt_label'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
+    const imgWidth = '16'
+    const imgHeight = '16'
+    const imgAlt = 'custom_alt_label'
     const imgProps = {
-      width: img_width,
-      height: img_height,
-      src: img_src,
-      alt: img_alt,
+      width: imgWidth,
+      height: imgHeight,
+      src: imgSrc,
+      alt: imgAlt,
     }
 
     render(<InfoCard text="text" imgProps={imgProps} />)
@@ -127,10 +128,10 @@ describe('InfoCard', () => {
     ) as HTMLElement
     const image = within(infoCard).queryByRole('img')
 
-    expect(image.getAttribute('src')).toBe(img_src)
-    expect(image.getAttribute('alt')).toBe(img_alt)
-    expect(image.getAttribute('width')).toBe(img_width)
-    expect(image.getAttribute('height')).toBe(img_height)
+    expect(image.getAttribute('src')).toBe(imgSrc)
+    expect(image.getAttribute('alt')).toBe(imgAlt)
+    expect(image.getAttribute('width')).toBe(imgWidth)
+    expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
   it('does not render the buttons', () => {
@@ -144,7 +145,7 @@ describe('InfoCard', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders the accept button when on_accept is provided', () => {
+  it('renders the accept button when onAccept is provided', () => {
     const onAccept = jest.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
@@ -188,7 +189,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the close button when on_close is provided', () => {
+  it('renders the close button when onClose is provided', () => {
     const onClose = jest.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
@@ -301,9 +302,18 @@ describe('InfoCard', () => {
     expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-info-card',
-      'dnb-space__top--large',
       'dnb-info-card--shadow',
+      'dnb-space__top--large',
     ])
+  })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<InfoCard text="text" top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-info-card')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--padding-t-s')
   })
 
   it('renders the drop shadow if dropShadow is true', () => {

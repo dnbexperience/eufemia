@@ -1,8 +1,10 @@
 import React from 'react'
-import classnames from 'classnames'
-import Space, { SpaceProps } from '../space/Space'
+import clsx from 'clsx'
+import type { SpaceProps } from '../space/Space'
+import Space from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Sizes =
+export type FlexSpans =
   | 1
   | 2
   | 3
@@ -16,61 +18,61 @@ export type Sizes =
   | 11
   | 12
   | 'auto'
-type MediaSizes = {
-  xsmall?: Sizes
-  small?: Sizes
-  medium?: Sizes
-  large?: Sizes
+type MediaSpans = {
+  xsmall?: FlexSpans
+  small?: FlexSpans
+  medium?: FlexSpans
+  large?: FlexSpans
 }
-export type Size = MediaSizes | Sizes
+export type FlexSpan = MediaSpans | FlexSpans
 
-export type BasicProps = {
+export type FlexItemProps = {
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  size?: Size
-  innerRef?: React.RefObject<HTMLElement>
+  span?: FlexSpan
+  ref?: React.Ref<HTMLElement>
 }
 
-export type Props = BasicProps &
+export type FlexItemAllProps = FlexItemProps &
   SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
 
-function FlexItem(props: Props) {
+function FlexItem(props: FlexItemAllProps) {
   const {
     element = 'div',
     className,
     grow,
     shrink,
     alignSelf,
-    size,
+    span,
     style,
     children,
     ...rest
   } = props
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-flex-item',
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
     alignSelf && `dnb-flex-item--align-self-${alignSelf}`,
-    size && 'dnb-flex-item--responsive'
+    span && 'dnb-flex-item--responsive'
   )
 
-  const isValidSize = React.useCallback((size: Sizes) => {
-    return typeof size === 'number' || size === 'auto'
+  const isValidSpan = React.useCallback((span: FlexSpans) => {
+    return typeof span === 'number' || span === 'auto'
   }, [])
 
   const spaceStyles = {} as React.CSSProperties
 
-  if (size) {
-    if (isValidSize(size as Sizes)) {
-      spaceStyles['--size--default'] = size
+  if (span) {
+    if (isValidSpan(span as FlexSpans)) {
+      spaceStyles['--span--default'] = span
     } else {
-      const sizes = size as MediaSizes
-      for (const key in sizes) {
-        if (isValidSize(size[key])) {
-          spaceStyles[`--${key}`] = size[key]
+      const spans = span as MediaSpans
+      for (const key in spans) {
+        if (isValidSpan(span[key])) {
+          spaceStyles[`--${key}`] = span[key]
         }
       }
     }
@@ -80,7 +82,7 @@ function FlexItem(props: Props) {
     return (
       <Space element={element} className={cn} style={spaceStyles}>
         <Space
-          className={classnames('dnb-flex-item__spacer', className)}
+          className={clsx('dnb-flex-item__spacer', className)}
           style={style}
           {...rest}
         >
@@ -93,7 +95,7 @@ function FlexItem(props: Props) {
   return (
     <Space
       element={element}
-      className={classnames(cn, className)}
+      className={clsx(cn, className)}
       style={style}
       {...rest}
     >
@@ -102,6 +104,8 @@ function FlexItem(props: Props) {
   )
 }
 
-FlexItem._supportsSpacingProps = true
+withComponentMarkers(FlexItem, {
+  _supportsSpacingProps: true,
+})
 
 export default FlexItem

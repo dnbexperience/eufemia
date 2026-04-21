@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
   outset: {
@@ -13,17 +13,23 @@ export const CardProperties: PropertiesTableProps = {
   },
   direction: {
     doc: 'Defaults to `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   alignSelf: {
     doc: 'Defaults to `stretch`.',
-    type: 'string',
+    type: [
+      '"flex-start"',
+      '"flex-end"',
+      '"center"',
+      '"baseline"',
+      '"stretch"',
+    ],
     status: 'optional',
   },
   title: {
     doc: 'Define a title that appears on top of the Card.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   responsive: {
@@ -41,6 +47,16 @@ export const CardProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  outlineWidth: {
+    doc: 'Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  dropShadow: {
+    doc: 'Define if the Card should have drop shadow. Uses Section `dropShadow`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   backgroundColor: {
     doc: 'Define the background color. Defaults to `var(--card-background-color)`.',
     type: 'string',
@@ -53,7 +69,7 @@ export const CardProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {

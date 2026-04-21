@@ -1,4 +1,4 @@
-import { ReceiveAdditionalEventArgs } from '../types'
+import type { ReceiveAdditionalEventArgs } from '../types'
 import { COUNTRY as defaultCountry } from '../../../shared/defaults'
 
 export type UrlSecondParameter = {
@@ -20,12 +20,13 @@ export function createContext<GeneralConfigGeneric = GeneralConfig>(
   generalConfig: GeneralConfigGeneric = null
 ) {
   return {
-    withConfig<
-      HandlerMethod extends (
+    withConfig<HandlerConfig, ReturnValue>(
+      fn: (
         generalConfig: GeneralConfigGeneric,
-        handlerConfig: unknown
-      ) => ReturnType<HandlerMethod>,
-    >(fn: HandlerMethod, handlerConfig?: Parameters<HandlerMethod>[1]) {
+        handlerConfig?: HandlerConfig
+      ) => ReturnValue,
+      handlerConfig?: HandlerConfig
+    ): ReturnValue {
       return fn(generalConfig, handlerConfig)
     },
   }
@@ -105,10 +106,11 @@ async function fetchDataFromAPI<Data = unknown>(
       data: await response.json(),
     }
   } catch (error) {
-    if (error.name !== 'AbortError') {
-      return error
+    if (!(error instanceof DOMException && error.name === 'AbortError')) {
+      return error as never
     }
   }
+  return undefined
 }
 
 export type FetchDataReturnValue<Data = unknown> = {

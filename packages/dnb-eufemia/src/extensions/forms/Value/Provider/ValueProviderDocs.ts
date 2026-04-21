@@ -1,11 +1,11 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { ValueProperties } from '../ValueDocs'
 
 export const ValueProviderProperties: PropertiesTableProps = {
   ...ValueProperties,
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

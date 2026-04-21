@@ -1,0 +1,776 @@
+/**
+ * Web Dropdown Component
+ */
+
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import React, { useContext, useRef, useCallback } from 'react'
+import clsx from 'clsx'
+import {
+  validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
+  combineLabelledBy,
+  dispatchCustomElementEvent,
+  convertJsxToString,
+  removeUndefinedProps,
+} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useId from '../../shared/helpers/useId'
+import AlignmentHelper from '../../shared/AlignmentHelper'
+import { applySpacing } from '../space/SpacingUtils'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+
+import Suffix from '../../shared/helpers/Suffix'
+import Icon from '../icon-primary/IconPrimary'
+import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
+import Button from '../button/Button'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
+import {
+  parseContentTitle,
+  getCurrentData,
+} from '../../fragments/drawer-list/DrawerListHelpers'
+import type {
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonVariant,
+} from '../Button'
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type {
+  DrawerListProps,
+  DrawerListData,
+  DrawerListEvent,
+  DrawerListSuffix,
+} from '../../fragments/DrawerList'
+
+export type DropdownData = DrawerListData
+
+export type DropdownOpenEvent = DrawerListEvent
+
+export type DropdownCloseEvent = Omit<DrawerListEvent, 'ulElement'> & {
+  event?: React.SyntheticEvent
+}
+type DropdownTitle = string | React.ReactNode
+type DropdownAlign = 'left' | 'right'
+type DropdownTriggerElement =
+  | ((props: Record<string, unknown>) => React.ReactNode)
+  | React.ReactNode
+
+export type DropdownProps = {
+  /**
+   * Give a title to let the users know what they have to do. Defaults to `Valgmeny`.
+   */
+  title?: DropdownTitle
+  /**
+   * Defines the kind of dropdown. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `secondary`.
+   */
+  variant?: ButtonVariant
+  /**
+   * Icon to be included in the dropdown.
+   */
+  icon?: IconIcon
+  /**
+   * Change the size of the icon pragmatically.
+   */
+  iconSize?: IconSize
+  /**
+   * Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.
+   */
+  iconPosition?: ButtonIconPosition
+  /**
+   * Prepends the Form Label component. If no ID is provided, a random ID is created.
+   */
+  label?: React.ReactNode
+  /**
+   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
+   */
+  labelDirection?: 'vertical' | 'horizontal'
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
+  labelSrOnly?: boolean
+  /**
+   * By providing a React.ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
+   */
+  ref?: React.Ref<HTMLElement>
+  /**
+   * By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
+  buttonRef?: React.Ref<HTMLElement>
+  /**
+   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.
+   */
+  align?: DropdownAlign
+  /**
+   * Lets you provide a custom React element as the trigger HTML element.
+   */
+  triggerElement?: DropdownTriggerElement
+  /**
+   * If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
+   */
+  openOnFocus?: boolean
+  disabled?: boolean
+  /**
+   * If set to `true`, then the dropdown will be 100% in available `width`.
+   */
+  stretch?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
+  /**
+   * Text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component.
+   */
+  suffix?: DrawerListSuffix
+  /**
+   * Will be called once the Dropdown shows up.
+   */
+  onOpen?: (event: DropdownOpenEvent) => void
+  /**
+   * Will be called once the Dropdown gets closed.
+   */
+  onClose?: (event: DropdownCloseEvent) => void
+  onOpenFocus?: (args: { element: HTMLElement }) => void
+  onCloseFocus?: (args: { element: HTMLElement }) => void
+}
+
+export type DropdownAllProps = DropdownProps &
+  FormStatusBaseProps &
+  DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'title'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
+    | 'onSelect'
+    | 'onResize'
+  >
+
+const dropdownDefaultProps: Partial<DropdownAllProps> = {
+  id: null,
+  title: 'Option Menu',
+  variant: 'secondary',
+  icon: null,
+  iconSize: null,
+  iconPosition: null,
+  arrowPosition: null,
+  label: null,
+  labelDirection: 'vertical',
+  labelSrOnly: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  ref: null,
+  buttonRef: null,
+  suffix: null,
+  scrollable: true,
+  focusable: false,
+  maxHeight: null,
+  direction: 'auto',
+  skipPortal: null,
+  portalClass: null,
+  noAnimation: false,
+  noScrollAnimation: false,
+  preventSelection: false,
+  independentWidth: false,
+  size: 'default',
+  align: null,
+  triggerElement: null,
+  data: null,
+  defaultValue: null,
+  value: 'initval',
+  openOnFocus: false,
+  preventClose: false,
+  keepOpen: false,
+  open: false,
+  disabled: null,
+  stretch: null,
+  skeleton: null,
+
+  className: null,
+  children: null,
+
+  onOpen: null,
+  onClose: null,
+
+  onChange: null,
+  onSelect: null,
+}
+
+const DropdownInstance = React.memo(function DropdownInstance({
+  externalRef,
+  externalButtonRef,
+  ...ownProps
+}: DropdownAllProps & {
+  externalRef?: React.Ref<HTMLElement>
+  externalButtonRef?: React.Ref<HTMLElement>
+}) {
+  const context = useContext(DrawerListContext)
+
+  const elRef = useRef<HTMLElement>(null)
+  const wrapperRef = useRef<HTMLElement>(null)
+  const buttonRef = useRef<HTMLElement>(null)
+  const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const attributesRef = useRef<Record<string, unknown>>({})
+
+  // Combine internal and external refs
+  const setRootRef = useCallback(
+    (el: HTMLElement | null) => {
+      elRef.current = el
+      if (typeof externalRef === 'function') {
+        externalRef(el)
+      } else if (externalRef) {
+        externalRef.current = el
+      }
+    },
+    [externalRef]
+  )
+
+  const setButtonRef = useCallback(
+    (el: HTMLElement | null) => {
+      buttonRef.current = el
+      if (typeof externalButtonRef === 'function') {
+        externalButtonRef(el)
+      } else if (externalButtonRef) {
+        externalButtonRef.current = el
+      }
+    },
+    [externalButtonRef]
+  )
+
+  // Strip undefined values so they fall through to defaults,
+  // preserving the legacy React defaultProps behavior.
+  const propsWithDefaults = {
+    ...dropdownDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
+  const propsWithDefaultsRef = useRef(propsWithDefaults)
+  propsWithDefaultsRef.current = propsWithDefaults
+
+  // Open on mount if props.open is set.
+  // Use useIsomorphicLayoutEffect to make the dropdown visible before paint,
+  // avoiding a flash of the closed state.
+  useIsomorphicLayoutEffect(() => {
+    if (propsWithDefaults.open) {
+      context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
+    }
+    // Only on mount
+  }, [])
+
+  // Cleanup timeout on unmount
+  useMountEffect(() => {
+    return () => {
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current)
+      }
+    }
+  })
+
+  const setVisible = useCallback(() => {
+    context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
+  }, [context.drawerList])
+
+  const setHidden = useCallback(
+    (...args: unknown[]) => {
+      context.drawerList.setHidden(...(args as [unknown[], (() => void)?]))
+    },
+    [context.drawerList]
+  )
+
+  const setFocus = useCallback((args: Record<string, unknown>) => {
+    if (focusTimeoutRef.current) {
+      clearTimeout(focusTimeoutRef.current)
+    }
+    focusTimeoutRef.current = setTimeout(() => {
+      try {
+        const element = buttonRef.current
+        if (element && typeof element.focus === 'function') {
+          if (args.preventHideFocus !== true) {
+            element.focus({ preventScroll: true })
+          }
+          dispatchCustomElementEvent(
+            { props: propsWithDefaultsRef.current },
+            'onCloseFocus',
+            { element }
+          )
+        }
+      } catch (e) {
+        // do nothing
+      }
+    }, 1) // NVDA / Firefox needs a delay to set this focus
+  }, [])
+
+  const onFocusHandler = useCallback(() => {
+    if (propsWithDefaults.openOnFocus) {
+      setVisible()
+    }
+  }, [propsWithDefaults.openOnFocus, setVisible])
+
+  const onBlurHandler = useCallback(() => {
+    if (propsWithDefaults.openOnFocus) {
+      setHidden()
+    }
+  }, [propsWithDefaults.openOnFocus, setHidden])
+
+  const onClickHandler = useCallback(() => {
+    if (propsWithDefaults.disabled) {
+      return // stop here
+    }
+    if (!context.drawerList.hidden && context.drawerList.isOpen) {
+      setHidden()
+    } else {
+      setVisible()
+    }
+  }, [
+    propsWithDefaults.disabled,
+    context.drawerList.hidden,
+    context.drawerList.isOpen,
+    setHidden,
+    setVisible,
+  ])
+
+  const onTriggerKeyDownHandler = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          e.preventDefault()
+          setVisible()
+          break
+
+        case 'ArrowUp':
+        case 'ArrowDown':
+          e.preventDefault()
+          setVisible()
+          break
+
+        case 'Escape':
+          setHidden()
+          break
+
+        case 'Home':
+        case 'End':
+        case 'PageDown':
+        case 'PageUp':
+          e.preventDefault()
+          break
+      }
+    },
+    [setVisible, setHidden]
+  )
+
+  const onCloseHandler = useCallback(
+    (args: Record<string, unknown> = {}) => {
+      const attributes = attributesRef.current || {}
+      const res = dispatchCustomElementEvent(
+        { props: propsWithDefaultsRef.current },
+        'onClose',
+        {
+          ...args,
+          attributes,
+        }
+      )
+
+      if (res !== false) {
+        setFocus(args)
+      }
+
+      return res
+    },
+    [setFocus]
+  )
+
+  const onSelectHandler = useCallback((args: Record<string, unknown>) => {
+    if (parseFloat(args.activeItem as string) > -1) {
+      const attributes = attributesRef.current || {}
+      dispatchCustomElementEvent(
+        { props: propsWithDefaultsRef.current },
+        'onSelect',
+        {
+          ...args,
+          attributes,
+        }
+      )
+    }
+  }, [])
+
+  const onChangeHandler = useCallback((args: Record<string, unknown>) => {
+    const attributes = attributesRef.current || {}
+    dispatchCustomElementEvent(
+      { props: propsWithDefaultsRef.current },
+      'onChange',
+      {
+        ...args,
+        attributes,
+      }
+    )
+  }, [])
+
+  const getTitle = (title: string | React.ReactNode = null) => {
+    const { data } = context.drawerList
+    if (data && data.length > 0) {
+      const currentOptionData = getCurrentData(
+        context.drawerList.selectedItem,
+        data
+      )
+      if (currentOptionData) {
+        title =
+          currentOptionData.selectedValue ||
+          parseContentTitle(currentOptionData)
+      }
+    }
+    return title
+  }
+
+  // Render logic
+  const props = extendPropsWithContext(
+    propsWithDefaults,
+    dropdownDefaultProps,
+    { skeleton: context?.skeleton },
+    (context as Record<string, any>).getTranslation(propsWithDefaults)
+      .Dropdown,
+    pickFormElementProps(context?.formElement),
+    (context as Record<string, any>).Dropdown
+  )
+
+  const {
+    label,
+    labelDirection,
+    labelSrOnly,
+    iconSize,
+    size,
+    fixedPosition,
+    enableBodyLock,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    scrollable,
+    focusable,
+    keepOpen,
+    preventClose,
+    noAnimation,
+    noScrollAnimation,
+    arrowPosition,
+    skipPortal,
+    portalClass,
+    triggerElement: CustomTrigger,
+    independentWidth,
+    preventSelection,
+    maxHeight,
+    defaultValue,
+    className,
+    disabled,
+    stretch,
+    skeleton,
+    variant,
+
+    title: _title,
+    icon: _icon,
+    align: _align,
+    iconPosition: _iconPosition,
+    openOnFocus: _openOnFocus,
+    data: _data,
+    children: _children,
+    direction: _direction,
+    id: _id,
+    open: _open,
+    value: _value,
+    pageOffset: _pageOffset,
+    observerElement: _observerElement,
+    enableBodyLock: _enableBodyLock,
+    listClass: _listClass,
+    buttonRef: _buttonRef,
+    ref: _ref,
+
+    onOpen: _onOpen,
+    onClose: _onClose,
+    onFocus: _onFocus,
+    onChange: _onChange,
+    onSelect: _onSelect,
+    onOpenFocus: _onOpenFocus,
+    onCloseFocus: _onCloseFocus,
+
+    externalRef: _externalRef,
+    externalButtonRef: _externalButtonRef,
+
+    ...attributes
+  } = props as any
+
+  let { icon, iconPosition, align } = props
+
+  const handleAsMenu = preventSelection
+
+  const title = getTitle(_title)
+  const isPopupMenu = !title
+
+  if (isPopupMenu) {
+    icon = icon || 'chevron_down'
+  }
+  if (isPopupMenu) {
+    if (iconPosition !== 'right' && align !== 'right') {
+      iconPosition = 'left'
+      align = 'left'
+    }
+  }
+  // Aligns the dropdown to the right when using independentWidth,
+  // to ensure the triangle is positioned correctly.
+  if (independentWidth && iconPosition !== 'left' && !align) {
+    align = 'right'
+  }
+
+  const { id, selectedItem, direction, open } = context.drawerList
+  const showStatus = getStatusState(status)
+
+  Object.assign(
+    context.drawerList.attributes,
+    validateDOMAttributes(null, attributes)
+  )
+
+  const mainParams = applySpacing(props, {
+    className: clsx(
+      'dnb-dropdown',
+      `dnb-dropdown--${direction}`,
+      open && 'dnb-dropdown--open',
+      labelDirection && `dnb-dropdown--${labelDirection}`,
+      `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
+      isPopupMenu && 'dnb-dropdown--is-popup',
+      independentWidth && 'dnb-dropdown--independent-width',
+      size && `dnb-dropdown--${size}`,
+      stretch && `dnb-dropdown--stretch`,
+      `dnb-dropdown--${align || 'right'}`,
+      status && `dnb-dropdown__status--${statusState}`,
+      showStatus && 'dnb-dropdown__form-status',
+      'dnb-form-component',
+      className
+    ),
+  })
+
+  const triggerParams = {
+    className: 'dnb-dropdown__trigger',
+    id,
+    disabled,
+    'aria-haspopup': handleAsMenu ? true : 'listbox',
+    'aria-expanded': open,
+    ...attributes,
+    onFocus: onFocusHandler,
+    onBlur: onBlurHandler,
+    onClick: onClickHandler,
+    onKeyDown: onTriggerKeyDownHandler,
+  }
+
+  if (open) {
+    triggerParams['aria-controls'] = `${id}-ul`
+  }
+
+  if (showStatus || suffix) {
+    triggerParams['aria-describedby'] = combineDescribedBy(
+      triggerParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
+    )
+  }
+
+  if (label) {
+    triggerParams['aria-labelledby'] = combineLabelledBy(
+      triggerParams,
+      id + '-label',
+      id // used to read the current value
+    )
+  }
+
+  // also used for code markup simulation
+  validateDOMAttributes(null, mainParams)
+  validateDOMAttributes(ownProps, triggerParams)
+
+  // make it possible to grab the rest attributes and return it with all events
+  attributesRef.current = validateDOMAttributes(null, attributes)
+
+  return (
+    <span ref={setRootRef} {...mainParams}>
+      {label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
+          disabled={disabled}
+          skeleton={skeleton}
+          onClick={onClickHandler}
+        />
+      )}
+
+      <span className="dnb-dropdown__inner" ref={wrapperRef}>
+        <AlignmentHelper />
+
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          globalStatus={globalStatus}
+          label={label}
+          textId={id + '-status'} // used for "aria-describedby"
+          text={status}
+          state={statusState}
+          noAnimation={statusNoAnimation}
+          skeleton={skeleton}
+          {...statusProps}
+        />
+
+        <span className="dnb-dropdown__row">
+          <span className="dnb-dropdown__shell">
+            {CustomTrigger ? (
+              React.createElement(
+                CustomTrigger as React.ElementType,
+                triggerParams
+              )
+            ) : (
+              <Button
+                variant={variant}
+                status={status ? statusState : null}
+                statusState={statusState}
+                icon={false} // only to suppress the warning about the icon when tertiary variant is used
+                size={(size === 'default' ? 'medium' : size) as ButtonSize}
+                ref={setButtonRef}
+                customContent={
+                  <>
+                    {!isPopupMenu && (
+                      <span className="dnb-dropdown__text dnb-button__text">
+                        <span className="dnb-dropdown__text__inner">
+                          {title}
+                        </span>
+                      </span>
+                    )}
+                    <span
+                      aria-hidden
+                      className={clsx(
+                        'dnb-dropdown__icon',
+                        parseFloat(String(selectedItem)) === 0 &&
+                          'dnb-dropdown__icon--first'
+                      )}
+                    >
+                      {icon !== false && (
+                        <Icon
+                          icon={icon || 'chevron_down'}
+                          size={
+                            iconSize ||
+                            (size === 'large' ? 'medium' : 'default')
+                          }
+                        />
+                      )}
+                    </span>
+                  </>
+                }
+                role="combobox"
+                title={convertJsxToString(title) || undefined}
+                {...triggerParams}
+              />
+            )}
+
+            <DrawerList
+              id={id}
+              role={handleAsMenu ? 'menu' : 'listbox'}
+              portalClass={portalClass}
+              listClass={clsx(
+                'dnb-dropdown__list',
+                variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
+              )}
+              value={selectedItem}
+              defaultValue={defaultValue}
+              scrollable={scrollable}
+              focusable={focusable}
+              noAnimation={noAnimation}
+              noScrollAnimation={noScrollAnimation}
+              skipPortal={skipPortal}
+              preventSelection={handleAsMenu}
+              arrowPosition={arrowPosition || iconPosition || 'right'}
+              keepOpen={keepOpen}
+              preventClose={preventClose}
+              independentWidth={independentWidth || isPopupMenu}
+              isPopup={isPopupMenu}
+              alignDrawer={align || 'left'}
+              fixedPosition={fixedPosition}
+              enableBodyLock={enableBodyLock}
+              disabled={disabled}
+              maxHeight={maxHeight}
+              direction={direction}
+              size={size}
+              onChange={onChangeHandler}
+              onSelect={onSelectHandler}
+              onClose={onCloseHandler}
+            />
+          </span>
+
+          {suffix && (
+            <Suffix
+              className="dnb-dropdown__suffix"
+              id={id + '-suffix'} // used for "aria-describedby"
+              context={props}
+              onClick={setHidden}
+            >
+              {suffix}
+            </Suffix>
+          )}
+        </span>
+      </span>
+    </span>
+  )
+})
+
+/**
+ * Function component wrapper that provides DrawerListProvider context
+ * and forwards `ref` and `buttonRef` to the inner DOM elements.
+ */
+function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
+  const id = useId(props.id)
+  const { preventSelection, children, data } = props
+
+  return (
+    <DrawerListProvider
+      {...(props as any)}
+      id={id}
+      data={(data || children) as any}
+      open={false}
+      tagName="dnb-dropdown"
+      ignoreEvents={false}
+      preventSelection={preventSelection}
+    >
+      <DropdownInstance
+        {...props}
+        id={id}
+        externalRef={ref}
+        externalButtonRef={buttonRef}
+      />
+    </DrawerListProvider>
+  )
+}
+
+Dropdown.HorizontalItem = DrawerList.HorizontalItem
+
+withComponentMarkers(Dropdown, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
+
+export default Dropdown

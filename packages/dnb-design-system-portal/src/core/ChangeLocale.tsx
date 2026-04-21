@@ -1,5 +1,7 @@
 import React from 'react'
-import Context, { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+import Context, {
+  type InternalLocale,
+} from '@dnb/eufemia/src/shared/Context'
 import { setLang, supportedTranslationsKey } from './PortalProviders'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
@@ -7,7 +9,6 @@ export const languageDisplayNames = {
   'nb-NO': { label: 'Norsk' },
   'sv-SE': { label: 'Svenska' },
   'da-DK': { label: 'Dansk' },
-  'en-NO': { label: 'English (NO)' },
   'en-GB': { label: 'English (GB)' },
   'en-US': { label: 'English (US)' },
 }

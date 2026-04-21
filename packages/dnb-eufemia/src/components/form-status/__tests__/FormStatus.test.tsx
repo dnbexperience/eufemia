@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormStatus, { FormStatusProps } from '../FormStatus'
+import type { FormStatusProps } from '../FormStatus'
+import FormStatus from '../FormStatus'
 import Input from '../../input/Input'
 import { render, waitFor } from '@testing-library/react'
 import {
@@ -42,7 +43,7 @@ describe('FormStatus component', () => {
   })
 
   it('should have correct icon label', () => {
-    render(<Input status="Error message" status_state="error" />)
+    render(<Input status="Error message" statusState="error" />)
     expect(
       document.querySelector('[role="presentation"]')
     ).toHaveAttribute('data-testid', 'ErrorIcon icon')
@@ -63,7 +64,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 35rem' }}
+        statusProps={{ text: 'change width to 35rem' }}
         style={{ width: '35rem' }}
       />
     )
@@ -75,7 +76,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 40rem' }}
+        statusProps={{ text: 'change width to 40rem' }}
         style={{ width: '40rem' }}
       />
     )
@@ -87,7 +88,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 10rem' }}
+        statusProps={{ text: 'change width to 10rem' }}
         style={{ width: '10rem' }}
       />
     )
@@ -114,7 +115,7 @@ describe('FormStatus component', () => {
     render(
       <Input
         status="status message"
-        status_props={{
+        statusProps={{
           variant: 'outlined',
         }}
       />
@@ -306,9 +307,9 @@ describe('FormStatus component', () => {
       'dnb-height-animation',
       'dnb-form-status',
       'dnb-form-status__size--default',
-      'dnb-space__top--large',
       'dnb-form-status--error',
       'dnb-form-status--has-content',
+      'dnb-space__top--large',
       'dnb-height-animation--is-visible',
       'dnb-height-animation--is-in-dom',
     ])
@@ -324,30 +325,30 @@ describe('FormStatus component', () => {
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large'
     )
+    expect(element).not.toHaveAttribute('style')
 
     rerender(<FormStatus shellSpace="2rem">test</FormStatus>)
 
     expect(element).toHaveClass(
       'dnb-form-status__shell dnb-space__top--large dnb-space__bottom--large dnb-space__right--large dnb-space__left--large'
     )
+    expect(element).not.toHaveAttribute('style')
   })
 
   it('cache content and update it', () => {
     const { rerender } = render(
-      <FormStatus {...props} no_animation={false} />
+      <FormStatus {...props} noAnimation={false} />
     )
 
     const element = document.querySelector('.dnb-form-status__text')
 
     expect(element).toHaveTextContent(String(props.text))
 
-    rerender(
-      <FormStatus {...props} no_animation={false} text="new text" />
-    )
+    rerender(<FormStatus {...props} noAnimation={false} text="new text" />)
 
     expect(element).toHaveTextContent('new text')
 
-    rerender(<FormStatus {...props} no_animation={false} text="" />)
+    rerender(<FormStatus {...props} noAnimation={false} text="" />)
 
     expect(element).toHaveTextContent('new text')
 
@@ -358,19 +359,24 @@ describe('FormStatus component', () => {
 
   it('cache state and update it', () => {
     const { rerender } = render(
-      <FormStatus {...props} no_animation={false} state="info" />
+      <FormStatus {...props} noAnimation={false} state="information" />
     )
 
     const element = document.querySelector('.dnb-form-status')
 
-    expect(element).toHaveClass('dnb-form-status--info')
+    expect(element).toHaveClass('dnb-form-status--information')
 
-    rerender(<FormStatus {...props} no_animation={false} state="error" />)
+    rerender(<FormStatus {...props} noAnimation={false} state="error" />)
 
     expect(element).toHaveClass('dnb-form-status--error')
 
     rerender(
-      <FormStatus {...props} no_animation={false} text="" state="" />
+      <FormStatus
+        {...props}
+        noAnimation={false}
+        text=""
+        state={undefined}
+      />
     )
 
     expect(element).toHaveClass('dnb-form-status--error')
@@ -394,13 +400,6 @@ describe('FormStatus scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-form-status-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
 })
 
 describe('FormStatus role', () => {
@@ -412,8 +411,8 @@ describe('FormStatus role', () => {
     ).toBe('alert')
   })
 
-  it('should have role status when state is info', () => {
-    render(<FormStatus text="status text" state="info" />)
+  it('should have role status when state is information', () => {
+    render(<FormStatus text="status text" state="information" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')

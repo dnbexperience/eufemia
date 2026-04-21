@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/aria-role */
 /**
  * @dnb/eufemia Component Story
  *
@@ -26,7 +25,7 @@ export const TooltipSandbox = () => {
           skipPortal
           hideDelay={1e3}
           targetElement={<Button right>Skipped Portal</Button>}
-          position="bottom"
+          placement="bottom"
         >
           Tooltip
         </Tooltip>
@@ -37,7 +36,7 @@ export const TooltipSandbox = () => {
 
         <hr />
 
-        <Tooltip id="unique-1" active targetSelector=".target-1">
+        <Tooltip id="unique-1" open targetSelector=".target-1">
           Tooltip
         </Tooltip>
 
@@ -46,13 +45,13 @@ export const TooltipSandbox = () => {
         </Tooltip>
       </Box>
       <Box>
-        <Tooltip
-          // hideDelay={1e3}
-          targetElement={<Button right>Top</Button>}
-        >
+        <Tooltip targetElement={<Button right>Top</Button>}>
           Tooltip 1
         </Tooltip>
-        <Tooltip position="bottom" targetElement={<Button>Bottom</Button>}>
+        <Tooltip
+          placement="bottom"
+          targetElement={<Button>Bottom</Button>}
+        >
           Tooltip 2
         </Tooltip>
       </Box>
@@ -60,19 +59,13 @@ export const TooltipSandbox = () => {
         <Button>Clickable</Button>
         <br />
         <StyledTooltip
-          // id="button1"
-          position="top"
-          // target="#button1"
-          // active
+          placement="top"
           targetElement={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
         <StyledTooltip
-          // id="button2"
-          position="bottom"
-          // target="#button2"
-          // active
+          placement="bottom"
           targetElement={<Button>Bottom 2</Button>}
         >
           Tooltip 2
@@ -80,24 +73,21 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <Button
-          on_click={(e) => {
+          onClick={(e) => {
             console.log(e)
           }}
-          // aria-describedby="customId"
-          tooltip={
-            // 'Tooltip for this Button 1a'
-            <Tooltip>Tooltip for this Button 1b</Tooltip>
-          }
+          tooltip={<Tooltip>Tooltip for this Button 1b</Tooltip>}
         >
           Button with Tooltip 1
         </Button>
         <Button
-          on_click={(e) => {
+          onClick={(e) => {
             console.log(e)
           }}
           tooltip={
-            // 'Tooltip for this Button 2a'
-            <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
+            <Tooltip placement="bottom">
+              Tooltip for this Button 2b
+            </Tooltip>
           }
         >
           Button with Tooltip 2
@@ -105,25 +95,27 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <P>
-          <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+          <Tooltip
+            targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}
+          >
             Tooltip
           </Tooltip>
         </P>
 
         <P>
-          <NumberFormat
+          <NumberFormat.Number
             tooltip={
-              <Tooltip position="bottom">
+              <Tooltip placement="bottom">
                 Tooltip for this NumberFormat
               </Tooltip>
             }
           >
             5678
-          </NumberFormat>
+          </NumberFormat.Number>
         </P>
       </Box>
       <Box>
-        <Tooltip skipPortal active>
+        <Tooltip skipPortal open>
           Tooltip
         </Tooltip>
       </Box>

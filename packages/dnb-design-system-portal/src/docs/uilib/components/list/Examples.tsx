@@ -72,7 +72,9 @@ export const RowsWithSlots = () => {
           </List.Cell.Title>
           <List.Cell.End>End</List.Cell.End>
           <List.Cell.Footer
-            style={{ background: 'var(--color-sand-yellow)' }}
+            style={{
+              background: 'var(--token-color-background-neutral-subtle)',
+            }}
           >
             <P>Footer</P>
           </List.Cell.Footer>
@@ -88,7 +90,7 @@ export const FooterWithButtons = () => {
       <List.Container>
         <List.Item.Basic title="Item with actions" icon={fish_medium}>
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
           <List.Cell.Footer>
             <Flex.Horizontal>
@@ -116,12 +118,12 @@ export const FooterWithButtons = () => {
         >
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Cell.Footer
             style={{
-              background: 'var(--color-sand-yellow)',
+              background: 'var(--token-color-background-neutral-subtle)',
             }}
           >
             <Button variant="tertiary" text="Next" icon="chevron_right" />
@@ -146,7 +148,7 @@ export const NavigableItem = () => {
           onClick={() => console.log('Clicked')}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -156,7 +158,7 @@ export const NavigableItem = () => {
           onClick={() => console.log('Clicked')}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -177,7 +179,7 @@ export const NavigableItemWithHref = () => {
           href="#details"
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -189,7 +191,7 @@ export const NavigableItemWithHref = () => {
           rel="noopener noreferrer"
         >
           <List.Cell.End>
-            <NumberFormat currency value={5678} />
+            <NumberFormat.Currency value={5678} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -210,7 +212,7 @@ export const WithAnchor = () => {
           title={<Anchor href="#">Link with icon and end value</Anchor>}
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
       </List.Container>
@@ -227,7 +229,7 @@ export const WithAvatar = () => {
             <Avatar size="medium">A</Avatar>
           </List.Cell.Start>
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
 
@@ -293,7 +295,7 @@ export const BackgroundColor = () => {
 
 export const SkeletonState = () => {
   return (
-    <ComponentBox scope={{ fish_medium }} background="white">
+    <ComponentBox scope={{ fish_medium }} background="plain">
       <List.Container>
         <List.Item.Action
           icon={fish_medium}
@@ -301,7 +303,7 @@ export const SkeletonState = () => {
           skeleton
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -319,7 +321,7 @@ export const PendingState = () => {
           pending
         >
           <List.Cell.End>
-            <NumberFormat currency value={1234} />
+            <NumberFormat.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>
@@ -378,7 +380,7 @@ export const Accordion = () => {
         <List.Item.Accordion icon={fish_medium} title="Accordion title">
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
 
@@ -399,7 +401,7 @@ export const Accordion = () => {
         >
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>
@@ -655,7 +657,7 @@ export const WithFormElements = () => {
 
 export const GridColumns = () => {
   return (
-    <ComponentBox scope={{ fish_medium }} background="white">
+    <ComponentBox scope={{ fish_medium }} background="plain">
       <Grid.Container
         rowGap
         columnGap
@@ -677,7 +679,7 @@ export const GridColumns = () => {
               title="Navigate to details"
             >
               <List.Cell.End>
-                <NumberFormat currency value={1234} />
+                <NumberFormat.Currency value={1234} />
               </List.Cell.End>
             </List.Item.Action>
 
@@ -686,7 +688,7 @@ export const GridColumns = () => {
               title="Navigate to details"
             >
               <List.Cell.End>
-                <NumberFormat currency value={1234} />
+                <NumberFormat.Currency value={1234} />
               </List.Cell.End>
             </List.Item.Action>
           </List.Container>
@@ -702,7 +704,7 @@ export const GridColumns = () => {
             display: 'gid',
             placeContent: 'center',
             textAlign: 'center',
-            background: 'var(--color-sand-yellow)',
+            background: 'var(--token-color-background-neutral-subtle)',
           }}
         >
           <P>Second Grid Item</P>
@@ -768,7 +770,7 @@ export const InsideCardWithoutScrollView = () => {
       data-visual-test="list-card-no-scroll-view"
       scope={{ fish_medium }}
     >
-      <List.Card>
+      <List.Card innerSpace="x-small">
         <List.Container>
           <List.Item.Action
             icon={fish_medium}
@@ -797,6 +799,73 @@ export const InsideCardWithoutScrollView = () => {
           </List.Item.Basic>
         </List.Container>
       </List.Card>
+    </ComponentBox>
+  )
+}
+
+export const WithShowMoreButton = () => {
+  return (
+    <ComponentBox scope={{ fish_medium }} background="plain">
+      <Flex.Horizontal justify="space-between" align="center" bottom>
+        <Heading size="medium" top={false} bottom={false}>
+          Transactions
+        </Heading>
+        <List.ShowMoreButton id="my-limited-list" />
+      </Flex.Horizontal>
+
+      <List.Container id="my-limited-list" visibleCount={3}>
+        <List.Item.Action icon={fish_medium} title="Payment received">
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion
+          icon={fish_medium}
+          title="Transfer sent (Accordion)"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Value.Currency value={-500} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Details about the transfer go here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+
+        <List.Item.Basic icon={fish_medium} title="Subscription">
+          <List.Cell.End>
+            <Value.Currency value={-99} />
+          </List.Cell.End>
+        </List.Item.Basic>
+
+        <List.Item.Action icon={fish_medium} title="Refund">
+          <List.Cell.End>
+            <Value.Currency value={250} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Salary">
+          <List.Cell.End>
+            <Value.Currency value={45000} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion
+          icon={fish_medium}
+          title="Groceries (Accordion)"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Value.Currency value={-320} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Details about the transfer go here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>
     </ComponentBox>
   )
 }

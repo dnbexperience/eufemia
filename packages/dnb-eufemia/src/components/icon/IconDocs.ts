@@ -1,10 +1,10 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const IconProperties: PropertiesTableProps = {
   icon: {
     doc: 'A React SVG Component.',
     type: 'React.ReactNode',
-    status: 'required',
+    status: 'optional',
   },
   title: {
     doc: 'Use a title to provide extra information about the icon used.',
@@ -24,20 +24,20 @@ export const IconProperties: PropertiesTableProps = {
   size: {
     doc: 'The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
     type: [
-      'small',
-      'medium',
-      'large',
-      'default',
-      'x-large',
-      'xx-large',
-      'auto',
-      'basis',
+      '"default"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+      '"basis"',
+      '"auto"',
       'number',
     ],
     status: 'optional',
   },
   color: {
-    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.',
+    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.',
     type: 'Various',
     status: 'optional',
   },

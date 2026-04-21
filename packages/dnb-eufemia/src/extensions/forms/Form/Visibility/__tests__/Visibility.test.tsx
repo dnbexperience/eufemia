@@ -1,13 +1,15 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { FilterData, Provider } from '../../../DataContext'
+import type { FilterData } from '../../../DataContext'
+import { Provider } from '../../../DataContext'
 import SummaryListContext from '../../../Value/SummaryList/SummaryListContext'
 import Visibility from '../Visibility'
 import useVisibility from '../useVisibility'
 import { Field, Form, Iterate } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 describe('Visibility', () => {
   it('renders children when no props is given', () => {
@@ -16,7 +18,70 @@ describe('Visibility', () => {
   })
 
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Visibility._supportsSpacingProps).toBe('children')
+    expect((Visibility as ComponentMarkers)._supportsSpacingProps).toBe(
+      'children'
+    )
+  })
+
+  describe('id', () => {
+    it('should forward id to span wrapper when visible in default mode', () => {
+      render(
+        <Visibility id="my-id" visible>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element.tagName).toBe('SPAN')
+      expect(element).toHaveClass('dnb-forms-visibility')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should not render wrapper when not visible in default mode', () => {
+      render(
+        <Visibility id="my-id" visible={false}>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).not.toBeInTheDocument()
+    })
+
+    it('should forward id to HeightAnimation wrapper when animate is true', () => {
+      render(
+        <Visibility id="my-id" animate visible>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass('dnb-forms-visibility')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should forward id to span when keepInDOM is true', () => {
+      render(
+        <Visibility id="my-id" keepInDOM visible={false}>
+          Child
+        </Visibility>
+      )
+
+      const element = document.querySelector('#my-id')
+      expect(element).toBeInTheDocument()
+      expect(element.tagName).toBe('SPAN')
+      expect(element).toHaveAttribute('hidden')
+      expect(element).toHaveTextContent('Child')
+    })
+
+    it('should not render wrapper when id is not provided', () => {
+      render(<Visibility visible>Child</Visibility>)
+
+      const element = document.querySelector('.dnb-forms-visibility')
+      expect(element).not.toBeInTheDocument()
+    })
   })
 
   describe('visibility', () => {
@@ -159,7 +224,6 @@ describe('Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
         <Provider data={{ foo: 'bar' }}>
@@ -170,7 +234,6 @@ describe('Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
         <Provider data={{ foo: 'bar' }}>
@@ -180,30 +243,6 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData).toHaveBeenCalledTimes(1)
       expect(inferData).toHaveBeenLastCalledWith({ foo: 'bar' })
-    })
-  })
-
-  describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-    })
-
-    it('does not render children when target path not not value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="not-checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).toBeNull()
     })
   })
 
@@ -241,46 +280,6 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
-    })
-
-    it('should render children when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'foo',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should not render children when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'bar',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      log.mockRestore()
     })
 
     it('should run hasValue even when path not exists', () => {
@@ -894,6 +893,8 @@ describe('Visibility', () => {
         if (path === '/isVisible' && value === true) {
           return false
         }
+
+        return undefined
       })
 
       render(
@@ -932,9 +933,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
 
       await userEvent.click(document.querySelector('input'))
@@ -954,9 +952,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
     })
 
@@ -1145,16 +1140,16 @@ describe('Visibility', () => {
         </Provider>
       )
 
-      expect(collectResult).toEqual([false, false, false])
+      expect(collectResult).toEqual([false, false])
 
       fireEvent.focus(document.querySelector('input'))
       fireEvent.change(document.querySelector('input'), {
         target: { value: '2' },
       })
-      expect(collectResult).toEqual([false, false, false, false])
+      expect(collectResult).toEqual([false, false, false])
 
       fireEvent.blur(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, false, true])
+      expect(collectResult).toEqual([false, false, false, true])
     })
 
     it('should support fields without focus and blur events', async () => {
@@ -1178,35 +1173,35 @@ describe('Visibility', () => {
         </Provider>
       )
 
-      expect(collectResult).toEqual([false, false, false])
+      expect(collectResult).toEqual([false, false])
 
       await userEvent.click(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, true])
+      expect(collectResult).toEqual([false, false, true])
 
       // Should have no effect
       fireEvent.focus(document.querySelector('input'))
       fireEvent.blur(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, true])
+      expect(collectResult).toEqual([false, false, true])
     })
   })
 
   it('should render without additional wrapper when inside SummaryListContext', async () => {
     const { container, rerender } = render(
-      <SummaryListContext.Provider value={{ isNested: false }}>
+      <SummaryListContext value={{ isNested: false }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
 
     rerender(
-      <SummaryListContext.Provider value={{ isNested: true }}>
+      <SummaryListContext value={{ isNested: true }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(document.querySelector('.dnb-forms-visibility')).toHaveClass(
@@ -1214,11 +1209,11 @@ describe('Visibility', () => {
     )
 
     rerender(
-      <SummaryListContext.Provider value={{ isNested: false }}>
+      <SummaryListContext value={{ isNested: false }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)

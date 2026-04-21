@@ -1,16 +1,18 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
-import { Props as FieldBlockProps } from '../../FieldBlock'
+import clsx from 'clsx'
+import type { FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
+import StringField from '../String'
 import CompositionField from '../Composition'
-import { CountryCode, Path } from '../../types'
+import type { CountryCode } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Pick<
+export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
   | 'error'
   | 'warning'
@@ -24,24 +26,13 @@ export type Props = Pick<
     /**
      * Defines which country the postal code and city is for.
      * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
-     * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
-     * Default: `NO`
-     */
-    /**
-     * @deprecated – use countryCode instead. Will be removed in v11.
-     */
-    country?: Path | string
-
-    /**
-     * Defines which country the postal code and city is for.
-     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
      * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
      * Default: `NO`
      */
     countryCode?: CountryCode
   } & Pick<StringFieldProps, 'size'>
 
-function PostalCodeAndCity(props: Props) {
+function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
   const { getSourceValue } = useDataValue()
   const countryCodeFromProvider = useContext(DataContext)?.countryCode
@@ -51,13 +42,12 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    country,
     countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
     ...compositionFieldProps
   } = props
 
-  const countryCodeValue = getSourceValue(country || countryCode)
+  const countryCodeValue = getSourceValue(countryCode)
 
   const handleCityDefaults = useCallback(
     (city: StringFieldProps) => {
@@ -118,7 +108,7 @@ function PostalCodeAndCity(props: Props) {
 
   return (
     <CompositionField
-      className={classnames(
+      className={clsx(
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
@@ -127,7 +117,7 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
         )}
@@ -151,14 +141,14 @@ function PostalCodeAndCity(props: Props) {
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
-        data-country-code={country || countryCode}
+        data-country-code={countryCode}
         {...postalCode}
       />
 
       <StringField
         help={help}
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__city',
           cityClassName
         )}
@@ -186,5 +176,8 @@ function PostalCodeAndCity(props: Props) {
   )
 }
 
-PostalCodeAndCity._supportsSpacingProps = undefined
+withComponentMarkers(PostalCodeAndCity, {
+  _supportsSpacingProps: undefined,
+})
+
 export default PostalCodeAndCity

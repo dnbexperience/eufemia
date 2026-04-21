@@ -4,23 +4,23 @@ import { useHeightAnimation } from '../../height-animation/useHeightAnimation'
 import { TableAccordionContext } from './TableAccordionContext'
 import type { TableAccordionContentRowProps } from './TableAccordionContent'
 
-export type useTableAnimationHandlerProps = {
+export type UseTableAnimationHandlerProps = {
   /**
    * Ref to <div> inside the <tr> element being expanded/collapsed
    */
-  innerRef: React.MutableRefObject<HTMLDivElement>
+  contentRef: React.RefObject<HTMLDivElement>
   /**
    * Ref to the <tr> element being clicked
    */
-  trRef: React.MutableRefObject<HTMLTableRowElement>
+  trRef: React.RefObject<HTMLTableRowElement>
 }
 
 export function useTableAnimationHandler({
-  innerRef,
+  contentRef,
   trRef,
   expanded,
   noAnimation,
-}: useTableAnimationHandlerProps & TableAccordionContentRowProps) {
+}: UseTableAnimationHandlerProps & TableAccordionContentRowProps) {
   const tableAccordionContext = React.useContext(TableAccordionContext)
   const [ariaLive, setAriaLive] = React.useState(null)
   const open = Boolean(expanded || tableAccordionContext?.trIsOpen)
@@ -50,11 +50,11 @@ export function useTableAnimationHandler({
       const event = { target: trRef.current }
       switch (state) {
         case 'opened':
-          tableAccordionContext.onOpened?.(event)
+          tableAccordionContext.onOpen?.(event)
           break
 
         case 'closed':
-          tableAccordionContext.onClosed?.(event)
+          tableAccordionContext.onClose?.(event)
           break
       }
 
@@ -64,7 +64,7 @@ export function useTableAnimationHandler({
   )
 
   const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
-    useHeightAnimation(innerRef, {
+    useHeightAnimation(contentRef, {
       open,
       animate: Boolean(
         !noAnimation && !tableAccordionContext?.noAnimation

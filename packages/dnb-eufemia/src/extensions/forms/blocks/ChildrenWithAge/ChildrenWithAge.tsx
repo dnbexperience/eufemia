@@ -1,18 +1,20 @@
 import React from 'react'
 import { Field, Form, Iterate, Value, Wizard } from '../..'
 import { Lead } from '../../../../elements'
-import { Translation, translations } from './ChildrenWithAgeTranslations'
+import type { Translation } from './ChildrenWithAgeTranslations'
+import { translations } from './ChildrenWithAgeTranslations'
 import type { SectionProps } from '../../Form/Section'
 import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>
 
-export type Props = SectionProps & {
+export type ChildrenWithAgeProps = SectionProps & {
   mode?: Mode
   enableAdditionalQuestions?: Variant
   toWizardStep?: number
@@ -25,8 +27,8 @@ export default function ChildrenWithAge({
   enableAdditionalQuestions,
   toWizardStep,
   ...props
-}: Props) {
-  const spacingProps = pickSpacingProps<Props>(props)
+}: ChildrenWithAgeProps) {
+  const spacingProps = pickSpacingProps<ChildrenWithAgeProps>(props)
   const restProps = omitSpacingProps(props)
   return (
     <Form.Section translations={translations} required {...restProps}>
@@ -49,7 +51,7 @@ export default function ChildrenWithAge({
 function EditContainer({
   spacingProps,
   enableAdditionalQuestions,
-}: Props & {
+}: ChildrenWithAgeProps & {
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()
@@ -188,7 +190,7 @@ function EditContainer({
 function SummaryContainer({
   spacingProps,
   toWizardStep,
-}: Props & {
+}: ChildrenWithAgeProps & {
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()
@@ -256,4 +258,4 @@ function SummaryContainer({
   )
 }
 
-ChildrenWithAge._supportsSpacingProps = true
+withComponentMarkers(ChildrenWithAge, { _supportsSpacingProps: true })

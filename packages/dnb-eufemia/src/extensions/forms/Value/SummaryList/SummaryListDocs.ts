@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { ValueProperties } from '../ValueDocs'
 
 const { transformLabel } = ValueProperties
@@ -6,7 +6,7 @@ const { transformLabel } = ValueProperties
 export const SummaryListProperties: PropertiesTableProps = {
   layout: {
     doc: 'Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.',
-    type: 'string',
+    type: ['"grid"', '"horizontal"', '"vertical"'],
     status: 'optional',
   },
   inheritVisibility: {
@@ -22,7 +22,7 @@ export const SummaryListProperties: PropertiesTableProps = {
   transformLabel,
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Space](/uilib/layout/space/properties)': {

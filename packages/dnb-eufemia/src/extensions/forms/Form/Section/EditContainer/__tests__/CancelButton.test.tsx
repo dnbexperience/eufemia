@@ -16,15 +16,13 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
-        value={{ verifyFieldError: () => false }}
-      >
-        <SectionContainerContext.Provider value={{ switchContainerMode }}>
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
+        <SectionContainerContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -37,7 +35,7 @@ describe('CancelButton', () => {
 
   it('to have button with correct text', () => {
     render(
-      <SectionContainerContext.Provider
+      <SectionContainerContext
         value={{
           containerMode: 'edit',
         }}
@@ -45,7 +43,7 @@ describe('CancelButton', () => {
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const button = document.querySelector('button')
@@ -57,23 +55,21 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: false,
           verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -89,23 +85,21 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -122,23 +116,23 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
+        <SectionContainerContext
           value={{ containerMode: 'edit', initialContainerMode: 'auto' }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -155,25 +149,25 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => false,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
+        <SectionContainerContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -201,13 +195,11 @@ describe('CancelButton', () => {
             return null
           }}
         </DataContext.Consumer>
-        <SectionContainerContext.Provider
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </SectionContainerContext.Provider>
+        </SectionContainerContext>
       </DataContext.Provider>
     )
 
@@ -222,15 +214,13 @@ describe('CancelButton', () => {
 
   it('shows a confirm dialog by default and proceeds on confirm', async () => {
     render(
-      <FieldBoundaryContext.Provider
-        value={{ verifyFieldError: () => false }}
-      >
-        <SectionContainerContext.Provider value={{}}>
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
+        <SectionContainerContext value={{}}>
           <Toolbar>
             <CancelButton />
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))

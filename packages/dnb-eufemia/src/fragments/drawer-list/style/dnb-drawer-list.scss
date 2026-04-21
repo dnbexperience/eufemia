@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 @mixin openDrawerList($type: 'slide') {
   z-index: 100; // make sure we are over e.g. switch
@@ -39,7 +39,7 @@
     }
   }
 }
-@mixin drawer-listClosed() {
+@mixin drawerListClosed() {
   display: none;
 }
 
@@ -51,15 +51,23 @@
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
-  --drawer-list-option-inner-background: var(--color-white);
-  --drawer-list-list-background: var(--color-white);
+  --drawer-list-option-inner-background: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-list-background: var(--token-color-background-neutral);
   --drawer-list-list-line-height: var(--line-height-basis);
   // Disabled option
-  --drawer-list-option-disabled-background: var(--color-white);
-  --drawer-list-option-disabled-color: var(--color-black-20);
+  --drawer-list-option-disabled-background: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-disabled-color: var(
+    --token-color-text-action-disabled
+  );
   // Group
-  --drawer-list-group-title-color: var(--color-black-80); // TODO: theme
-  --drawer-list-group-title-bg: var(--color-lavender); // TODO: theme
+  --drawer-list-group-title-color: var(--token-color-text-neutral);
+  --drawer-list-group-title-bg: var(
+    --token-color-background-neutral-alternative
+  );
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -76,7 +84,10 @@
 
   &__portal__style {
     position: absolute;
-    transition: all 300ms var(--easing-default);
+    transition:
+      top 300ms var(--easing-default),
+      left 300ms var(--easing-default),
+      width 300ms var(--easing-default);
 
     html[data-visual-test] & {
       transition: none !important;
@@ -146,7 +157,6 @@
     padding: 0;
 
     list-style: none;
-    background-color: transparent;
   }
 
   &--scroll &__options {
@@ -154,9 +164,9 @@
     max-height: 70vh;
     transition: max-height 300ms var(--easing-default);
 
-    @include scrollY(auto);
+    @include utilities.scrollY(auto);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
   }
@@ -164,7 +174,7 @@
   &--scroll#{&}--no-animation &__options {
     transition: none !important;
   }
-  &--opened &__options {
+  &--open &__options {
     scroll-behavior: smooth;
 
     @media (prefers-reduced-motion: reduce) {
@@ -195,15 +205,15 @@
 
     margin: 0;
     padding: 0;
-    color: inherit;
+    color: var(--token-color-text-neutral);
 
     outline: none;
 
-    background-color: var(--color-white);
+    background-color: var(--drawer-list-list-background);
 
     &__inner {
       position: relative;
-      z-index: 1; // only to go over &__triangle
+      z-index: 1; // only to go over &__arrow
 
       display: grid;
 
@@ -253,7 +263,7 @@
 
     &__suffix {
       // TODO: Use CSS Container Queries when available
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         grid-column: 2;
         grid-row: 1 / -1;
 
@@ -277,7 +287,7 @@
   }
 
   // arrow
-  &__triangle {
+  &__arrow {
     position: absolute;
     top: calc(
       var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2
@@ -304,19 +314,18 @@
       height: calc(var(--drawer-list-height) / 2);
       transform: translateY(60%) rotate(45deg);
 
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
+      background-color: var(--drawer-list-list-background);
     }
   }
-  &--triangle-position-left &__triangle {
+  &--arrow-position-left &__arrow {
     left: 0;
     right: auto;
   }
-  &--top &__triangle {
+  &--top &__arrow {
     top: auto;
     bottom: calc(
-      var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
-        2px
+      var(--drawer-list-focus-border-width) - var(--drawer-list-height) /
+        2 - 2px
     );
     transform: rotate(180deg);
     &::before {
@@ -340,12 +349,12 @@
     right: -0.5rem;
   }
 
-  &--opened &__list {
+  &--open &__list {
     @include openDrawerList();
   }
 
   &--hidden &__list {
-    @include drawer-listClosed();
+    @include drawerListClosed();
   }
 
   // size--default
@@ -397,7 +406,7 @@
   &--large#{&}--top &__list {
     bottom: var(--drawer-list-height--large);
   }
-  &--large &__triangle {
+  &--large &__arrow {
     margin: 0 1.25rem;
   }
   &--large#{&}--is-popup#{&}--left &__list {
@@ -427,25 +436,8 @@
     bottom: 0;
   }
 
-  &:not(.dnb-drawer-list--opened) &__list {
+  &:not(.dnb-drawer-list--open) &__list {
     @include closDrawerList();
-  }
-
-  // action-menu
-  &--action-menu &__option {
-    &__inner {
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-    }
-  }
-  @include allAbove(small) {
-    &--action-menu#{&}--is-popup#{&}--left &__list {
-      left: 0;
-    }
-    &--action-menu#{&}--is-popup#{&}--right &__list {
-      right: 0;
-    }
   }
 }
 

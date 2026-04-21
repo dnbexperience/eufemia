@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../../shared/types'
 
 export const ViewContainerProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
     doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
-    type: 'string',
+    type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
   '[FlexVertical](/uilib/layout/flex/container/properties)': {
@@ -21,7 +21,7 @@ export const ViewContainerProperties: PropertiesTableProps = {
 export const ViewContainerEvents: PropertiesTableProps = {
   onEdit: {
     doc: 'Callback for the edit button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
 }

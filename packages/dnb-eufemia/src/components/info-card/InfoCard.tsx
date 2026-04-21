@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Img, { ImgProps } from '../../elements/img/Img'
+import type { ImgProps } from '../../elements/img/Img'
+import Img from '../../elements/img/Img'
 import Space from '../space/Space'
 import P from '../../elements/P'
 
@@ -13,7 +15,7 @@ import P from '../../elements/P'
 import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -22,36 +24,37 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface InfoCardProps {
+export type InfoCardProps = {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
+   * Default: `null`
    */
   alt?: React.ReactNode
   /**
    * Aligns the content to center, rather than left
-   * Default: false
+   * Default: `false`
    */
   centered?: boolean
   /**
    * Determines whether to display a drop shadow around the card.
-   * Default: true
+   * Default: `true`
    */
   dropShadow?: boolean
   /**
    * Replace the default icon with custom icon.
-   * Default: Lightbulb (icon)
+   * Default: `Lightbulb (icon)`
    */
   icon?: IconIcon
   /**
    * Props applied to the `img` element if the component is used to display an image. Replace the 'icon'
-   * Default: null
+   * Default: `null`
    */
   imgProps?: ImgProps
   /**
-   * Skeleton should be applied when loading content
-   * Default: null
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   * Default: `false`
    */
   skeleton?: SkeletonShow
   /**
@@ -60,52 +63,52 @@ export interface InfoCardProps {
   stretch?: boolean
   /**
    * Specifies the path to the image
-   * Default: null
+   * Default: `null`
    */
   src?: string
   /**
-   * Image src, will replace the 'icon' with the image
-   * Default: null
+   * The text content of the InfoCard
+   * Default: `null`
    */
   text?: React.ReactNode
   /**
    * Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
   /**
    * Component title
-   * Default: null
+   * Default: `null`
    */
   title?: React.ReactNode
   /**
    * Is called when the close button is clicked
-   * Default: null
+   * Default: `null`
    */
   onClose?: React.MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the close button.
-   * Default: null
+   * Default: `null`
    */
   closeButtonText?: React.ReactNode
   /**
    * Is called when the accept button is clicked
-   * Default: null
+   * Default: `null`
    */
   onAccept?: React.MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the accept button.
-   * Default: null
+   * Default: `null`
    */
   acceptButtonText?: React.ReactNode
   /**
    * Additional attributes for the close button.
-   * Default: null
+   * Default: `null`
    */
   closeButtonAttributes?: ButtonProps
   /**
    * Additional attributes for the accept button
-   * Default: null
+   * Default: `null`
    */
   acceptButtonAttributes?: ButtonProps
 }
@@ -125,9 +128,14 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
-  const allProps = extendPropsWithContext(localProps, defaultProps, {
-    skeleton: context?.skeleton,
-  })
+  const allProps = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    {
+      skeleton: context?.skeleton,
+    },
+    context?.InfoCard
+  )
 
   // Extract additional props from global context
   const {
@@ -152,12 +160,21 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     ...props
   } = allProps
 
-  const spacingClasses = createSpacingClasses(props)
-
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
 
   validateDOMAttributes(allProps, props)
+
+  const rootProps = applySpacing(allProps, {
+    ...props,
+    className: clsx(
+      'dnb-info-card',
+      centered && 'dnb-info-card--centered',
+      stretch && 'dnb-info-card--stretch',
+      dropShadow && 'dnb-info-card--shadow',
+      className
+    ),
+  })
 
   const getButtons = useCallback(() => {
     if (closeButtonIsHidden && acceptButtonIsHidden) return null
@@ -171,7 +188,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__accept-button"
             variant="secondary"
             right={centered ? 'zero' : 'small'}
-            on_click={onAccept}
+            onClick={onAccept}
             text={acceptButtonText}
             {...acceptButtonAttributes}
           />
@@ -182,9 +199,9 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__close-button"
             variant="tertiary"
             top="small"
-            on_click={onClose}
+            onClick={onClose}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             text={closeButtonText}
             {...closeButtonAttributes}
           />
@@ -218,17 +235,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   }, [alt, icon, imgProps, src])
 
   return (
-    <div
-      className={classnames(
-        'dnb-info-card',
-        centered && 'dnb-info-card--centered',
-        stretch && 'dnb-info-card--stretch',
-        dropShadow && 'dnb-info-card--shadow',
-        spacingClasses,
-        className
-      )}
-      {...props}
-    >
+    <div {...rootProps}>
       <Provider skeleton={skeleton}>
         <Space
           right={!centered ? 'small' : false}
@@ -242,7 +249,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             <P
               className="dnb-info-card__title"
               size="small"
-              modifier="medium"
+              weight="medium"
               bottom="x-small"
             >
               {title}
@@ -261,6 +268,8 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   )
 }
 
-InfoCard._supportsSpacingProps = true
+withComponentMarkers(InfoCard, {
+  _supportsSpacingProps: true,
+})
 
 export default InfoCard

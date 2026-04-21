@@ -12,7 +12,7 @@ import {
   useLocation,
   Router as ReachRouter,
   navigate,
-} from '@reach/router'
+} from '@gatsbyjs/reach-router'
 import {
   Tabs,
   Section,
@@ -70,11 +70,11 @@ export const TabsExampleContentObject = () => (
   </Wrapper>
 )
 
-export const TabsExamplePrerender = () => (
+export const TabsExampleKeepInDOM = () => (
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs prerender content_style="info">
+        <Tabs keepInDOM contentStyle="information">
           <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>
@@ -126,13 +126,13 @@ export const TabsExampleUsingData = () => (
             content: exampleContent.second,
           },
         }}
-        // Only use "on_click" if you really have to
-        on_click={({ selected_key }) => {
-          console.log('on_click', selected_key)
+        // Only use "onClick" if you really have to
+        onClick={({ selectedKey }) => {
+          console.log('onClick', selectedKey)
         }}
         // Preferred way to listen on changes
-        on_change={({ selected_key }) => {
-          console.log('on_change', selected_key)
+        onChange={({ selectedKey }) => {
+          console.log('onChange', selectedKey)
         }}
       />
     </ComponentBox>
@@ -145,7 +145,7 @@ export const TabsExampleScrollable = () => (
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
     >
-      <Tabs selected_key="second" data={manyTabs}>
+      <Tabs selectedKey="second" data={manyTabs}>
         {manyTabsContent}
       </Tabs>
     </ComponentBox>
@@ -155,16 +155,26 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabs_style="info" content_style="info">
+      <Tabs tabsStyle="information" contentStyle="information">
         <Tabs.Content title="First" key="first">
-          <Section spacing top bottom style_type="white">
+          <Section
+            innerSpace={{ block: 'large' }}
+            top
+            bottom
+            backgroundColor="white"
+          >
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
         <Tabs.Content title="Second" key="second">
-          <Section spacing top bottom style_type="white">
+          <Section
+            innerSpace={{ block: 'large' }}
+            top
+            bottom
+            backgroundColor="white"
+          >
             <H2 top={0} bottom>
               Second
             </H2>
@@ -212,8 +222,8 @@ export const TabsExampleHorizontallyAligned = () => (
             <RightArea>
               <Tabs
                 left
-                no_border
-                selected_key="first"
+                noBorder
+                selectedKey="first"
                 id="unique-tabs-row"
                 data={manyTabs}
               />
@@ -240,8 +250,8 @@ export const TabsExampleMaxWidth = () => (
           <MaxWidthWrapper>
             <Tabs
               top
-              no_border
-              selected_key="fifth"
+              noBorder
+              selectedKey="fifth"
               id="unique-tabs-max-width"
               data={manyTabs}
             />
@@ -273,9 +283,9 @@ export const TabsExampleReachRouterNavigation = () =>
                   { title: 'About', key: '/about' },
                   { title: 'Topics', key: '/topics' },
                 ]}
-                selected_key={pathname}
-                on_change={({ key }) => navigate(key)}
-                tabs_style="info"
+                selectedKey={pathname}
+                onChange={({ key }) => navigate(key)}
+                tabsStyle="information"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>
                   <Router>
@@ -332,7 +342,7 @@ const Wrapper = styled.div`
 export const TabsNoBorder = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
-      <Tabs no_border={true}>
+      <Tabs noBorder={true}>
         <Tabs.Content title="First" key="first">
           <H2 top={0} bottom>
             First

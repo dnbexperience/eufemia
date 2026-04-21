@@ -2,6 +2,23 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import Grid from '../Grid'
+import { axeComponent } from '../../../core/jest/jestSetup'
+
+function getStyleProperties(
+  element: HTMLElement,
+  properties: Array<string>
+): Record<string, string> {
+  const result: Record<string, string> = {}
+
+  for (const prop of properties) {
+    const value = element.style.getPropertyValue(prop)
+    if (value !== '') {
+      result[prop] = value
+    }
+  }
+
+  return result
+}
 
 describe('Grid.Item', () => {
   it('should forward HTML attributes', () => {
@@ -103,7 +120,16 @@ describe('Grid.Item', () => {
     const elements: NodeListOf<HTMLElement> =
       document.querySelectorAll('.dnb-grid-item')
 
-    expect(elements[0].style['_values']).toEqual({
+    const gridProps = [
+      '--large-c-s',
+      '--large-c-e',
+      '--medium-c-s',
+      '--medium-c-e',
+      '--small-c-s',
+      '--small-c-e',
+    ]
+
+    expect(getStyleProperties(elements[0], gridProps)).toEqual({
       '--large-c-s': '1',
       '--large-c-e': '13',
       '--medium-c-s': '1',
@@ -111,7 +137,7 @@ describe('Grid.Item', () => {
       '--small-c-s': '1',
       '--small-c-e': '-1',
     })
-    expect(elements[1].style['_values']).toEqual({
+    expect(getStyleProperties(elements[1], gridProps)).toEqual({
       '--large-c-e': '5',
       '--large-c-s': '1',
       '--medium-c-e': '5',
@@ -119,7 +145,7 @@ describe('Grid.Item', () => {
       '--small-c-e': '-1',
       '--small-c-s': '1',
     })
-    expect(elements[2].style['_values']).toEqual({
+    expect(getStyleProperties(elements[2], gridProps)).toEqual({
       '--large-c-e': '9',
       '--large-c-s': '5',
       '--medium-c-e': '5',
@@ -127,7 +153,7 @@ describe('Grid.Item', () => {
       '--small-c-e': '3',
       '--small-c-s': '1',
     })
-    expect(elements[3].style['_values']).toEqual({
+    expect(getStyleProperties(elements[3], gridProps)).toEqual({
       '--large-c-e': '13',
       '--large-c-s': '9',
       '--medium-c-e': '5',
@@ -185,7 +211,16 @@ describe('Grid.Item', () => {
     const elements: NodeListOf<HTMLElement> =
       document.querySelectorAll('.dnb-grid-item')
 
-    expect(elements[0].style['_values']).toEqual({
+    const gridProps = [
+      '--large-c-s',
+      '--large-c-e',
+      '--medium-c-s',
+      '--medium-c-e',
+      '--small-c-s',
+      '--small-c-e',
+    ]
+
+    expect(getStyleProperties(elements[0], gridProps)).toEqual({
       '--large-c-e': '13',
       '--large-c-s': '1',
       '--medium-c-e': '3',
@@ -193,7 +228,7 @@ describe('Grid.Item', () => {
       '--small-c-e': '-1',
       '--small-c-s': '1',
     })
-    expect(elements[1].style['_values']).toEqual({
+    expect(getStyleProperties(elements[1], gridProps)).toEqual({
       '--large-c-e': '5',
       '--large-c-s': '1',
       '--medium-c-e': '-1',
@@ -201,7 +236,7 @@ describe('Grid.Item', () => {
       '--small-c-e': '5',
       '--small-c-s': '2',
     })
-    expect(elements[2].style['_values']).toEqual({
+    expect(getStyleProperties(elements[2], gridProps)).toEqual({
       '--large-c-e': '9',
       '--large-c-s': '5',
       '--medium-c-e': '7',
@@ -209,7 +244,7 @@ describe('Grid.Item', () => {
       '--small-c-e': '5',
       '--small-c-s': '3',
     })
-    expect(elements[3].style['_values']).toEqual({
+    expect(getStyleProperties(elements[3], gridProps)).toEqual({
       '--large-c-e': '13',
       '--large-c-s': '9',
       '--medium-c-e': '7',
@@ -231,7 +266,16 @@ describe('Grid.Item', () => {
     const elements: NodeListOf<HTMLElement> =
       document.querySelectorAll('.dnb-grid-item')
 
-    expect(elements[0].style['_values']).toEqual({
+    const gridProps = [
+      '--large-c-s',
+      '--large-c-e',
+      '--medium-c-s',
+      '--medium-c-e',
+      '--small-c-s',
+      '--small-c-e',
+    ]
+
+    expect(getStyleProperties(elements[0], gridProps)).toEqual({
       '--small-c-s': '1',
       '--small-c-e': '7',
       '--large-c-s': '1',
@@ -239,7 +283,7 @@ describe('Grid.Item', () => {
       '--medium-c-s': '1',
       '--medium-c-e': '7',
     })
-    expect(elements[1].style['_values']).toEqual({
+    expect(getStyleProperties(elements[1], gridProps)).toEqual({
       '--small-c-s': '7',
       '--small-c-e': '13',
       '--large-c-s': '7',
@@ -255,5 +299,12 @@ describe('Grid.Item', () => {
     const element = document.querySelector('.dnb-grid-item')
 
     expect(element.tagName).toBe('SECTION')
+  })
+})
+
+describe('Grid.Item aria', () => {
+  it('should validate', async () => {
+    const Component = render(<Grid.Item>content</Grid.Item>)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

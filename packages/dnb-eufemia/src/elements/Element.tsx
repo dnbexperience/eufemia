@@ -4,17 +4,17 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../shared/Context'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
-import { createSpacingClasses } from '../components/space/SpacingHelper'
+import { applySpacing } from '../components/space/SpacingUtils'
+import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
-  SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../components/skeleton/Skeleton'
 
@@ -38,7 +38,7 @@ export type ElementProps = {
    * Default: `undefined`
    */
   internalClass?: string | boolean
-  innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
+  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
   children?: React.ReactNode
 } & SpacingProps
 
@@ -52,11 +52,7 @@ export const defaultProps = {
   skeletonMethod: 'font',
 }
 
-const Element = React.forwardRef((props: ElementAllProps, ref) => {
-  return <ElementInstance innerRef={ref} {...props} />
-})
-
-function ElementInstance(localProps: ElementAllProps) {
+function Element(localProps: ElementAllProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps, {
     skeleton: context?.skeleton,
@@ -66,7 +62,7 @@ function ElementInstance(localProps: ElementAllProps) {
     className,
     internalClass,
     as,
-    innerRef,
+    ref,
     skeleton,
     skeletonMethod,
     ...rest
@@ -81,25 +77,39 @@ function ElementInstance(localProps: ElementAllProps) {
       : (internalClass === true ? undefined : internalClass) ||
         (typeof Tag === 'string' ? `dnb-${Tag}` : '')
 
-  const internalClassName = classnames(
+  const internalClassName = clsx(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
-    createSkeletonClass(skeletonMethod, skeleton, context),
-    createSpacingClasses(
-      attributes,
-      typeof Tag === 'string' ? `dnb-${Tag}` : null
-    )
+    createSkeletonClass(skeletonMethod, skeleton, context)
   )
 
-  validateDOMAttributes(null, attributes)
+  // applySpacing must be called before validateDOMAttributes
+  // because the validator removes non-DOM attributes like spacing props
+  const params = applySpacing(
+    attributes,
+    { ...attributes, className: internalClassName },
+    typeof Tag === 'string' ? `dnb-${Tag}` : null
+  )
 
-  skeletonDOMAttributes(attributes, skeleton, context)
+  validateDOMAttributes(null, params)
 
-  if (typeof Tag !== 'function' && innerRef) {
-    attributes.ref = innerRef
+  skeletonDOMAttributes(params, skeleton, context)
+
+  const isFragment = Tag === React.Fragment
+
+  if (!isFragment && typeof Tag !== 'function' && ref) {
+    ;(params as Record<string, unknown>).ref = ref
   }
 
-  return <Tag className={internalClassName} {...attributes} />
+  if (isFragment) {
+    return (
+      <>
+        {(params as Record<string, unknown>).children as React.ReactNode}
+      </>
+    )
+  }
+
+  return <Tag {...params} />
 }
 
 export default Element

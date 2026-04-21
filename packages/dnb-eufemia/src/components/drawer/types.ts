@@ -1,7 +1,5 @@
-import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
-import { ScrollViewAllProps } from '../../fragments/ScrollView'
-import { ModalPropTypes } from '../modal/Modal'
-import { ReactChildType } from '../modal/types'
+import type { ScrollViewAllProps } from '../../fragments/ScrollView'
+import type { ModalAllProps } from '../modal/Modal'
 
 export type DrawerProps = {
   /**
@@ -13,7 +11,7 @@ export type DrawerProps = {
    * The drawer title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-} & ToCamelCasePartial<ModalPropTypes>
+} & ModalAllProps
 
 export type DrawerContentProps = {
   /**
@@ -44,22 +42,26 @@ export type DrawerContentProps = {
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: ReactChildType
+  navContent?: React.ReactNode
 
   /**
    * The content which will appear in the header of the drawer.
    */
-  headerContent?: ReactChildType
+  headerContent?: React.ReactNode
 
   /**
    * The content which will appear when triggering the drawer.
    */
-  modalContent?: ReactChildType
+  modalContent?:
+    | React.ReactNode
+    | ((props: DrawerContentProps) => React.ReactNode)
 
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?:
+    | React.ReactNode
+    | ((props: DrawerContentProps) => React.ReactNode)
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
@@ -77,12 +79,12 @@ export type DrawerContentProps = {
   containerPlacement?: string
 
   /**
-   * If set to `true`, no open/close animation will be shown. Defaults to false.
+   * If set to `true`, no open/close animation will be shown. Defaults to `false`.
    */
   noAnimation?: boolean
 
   /**
-   * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
+   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
    */
   noAnimationOnMobile?: boolean
 } & Omit<ScrollViewAllProps, 'children'>

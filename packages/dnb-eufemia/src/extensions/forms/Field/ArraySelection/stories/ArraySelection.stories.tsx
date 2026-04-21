@@ -10,13 +10,7 @@ export function NestingWithLogic() {
   return (
     <Form.Handler>
       <Form.Card>
-        <Field.ArraySelection
-          // variant="checkbox"
-          // variant="button"
-          label="Make a selection"
-          path="/mySelection"
-          // defaultValue={['showInput']}
-        >
+        <Field.ArraySelection label="Make a selection" path="/mySelection">
           <Field.Option
             value="nothing"
             title="Nothing"
@@ -37,7 +31,7 @@ export function NestingWithLogic() {
             }}
             compensateForGap="auto"
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
@@ -69,7 +63,7 @@ export function NestingWithLogic() {
                 },
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" />
               </Section>
             </Form.Visibility>

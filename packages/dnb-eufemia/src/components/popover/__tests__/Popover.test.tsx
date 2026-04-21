@@ -3,6 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { Dialog } from '../../'
+import Button from '../../button/Button'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
@@ -369,6 +370,119 @@ describe('Popover', () => {
     )
   })
 
+  it('does not mark direct Button triggers as selected automatically', async () => {
+    render(
+      <Popover
+        trigger={<Button icon="question" title="Toggle popover" />}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    )
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+  })
+
+  it('supports explicit selected={active} for render trigger Button triggers', async () => {
+    render(
+      <Popover
+        trigger={({ active, ...triggerProps }) => (
+          <Button
+            icon="question"
+            title="Toggle popover"
+            {...triggerProps}
+            selected={active}
+          />
+        )}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveClass('dnb-button--selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveClass('dnb-button--selected')
+    )
+
+    fireEvent.mouseDown(document.documentElement)
+
+    await waitFor(() =>
+      expect(trigger).not.toHaveClass('dnb-button--selected')
+    )
+  })
+
+  it('provides updated active state to trigger render props', async () => {
+    const activeStates: boolean[] = []
+
+    render(
+      <Popover
+        trigger={({ active, ref, ...triggerProps }) => {
+          activeStates.push(active)
+
+          return (
+            <button type="button" ref={ref} {...triggerProps}>
+              Trigger
+            </button>
+          )
+        }}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      'button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(activeStates.at(-1)).toBe(false)
+
+    await userEvent.click(trigger)
+
+    await waitFor(() => expect(activeStates.at(-1)).toBe(true))
+
+    fireEvent.mouseDown(document.documentElement)
+
+    await waitFor(() => expect(activeStates.at(-1)).toBe(false))
+  })
+
+  it('does not pass selected to native button triggers', async () => {
+    render(
+      <Popover
+        trigger={<button type="button">Trigger</button>}
+        content={contentText}
+      />
+    )
+
+    const trigger = document.querySelector(
+      'button[aria-controls]'
+    ) as HTMLButtonElement
+
+    expect(trigger).not.toHaveAttribute('selected')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    )
+
+    expect(trigger).not.toHaveAttribute('selected')
+  })
+
   it('moves focus to a custom element when focusOnOpenElement is provided', async () => {
     const focusRef = React.createRef<HTMLButtonElement>()
 
@@ -388,6 +502,25 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(document.activeElement).toBe(focusRef.current)
     )
+  })
+
+  it('calls onFocusComplete after focus sequence finishes', async () => {
+    const onFocusComplete = jest.fn()
+
+    render(
+      <Popover
+        open
+        noAnimation
+        onFocusComplete={onFocusComplete}
+        trigger={<button type="button">Trigger</button>}
+      >
+        Content
+      </Popover>
+    )
+
+    expect(onFocusComplete).not.toHaveBeenCalled()
+
+    await waitFor(() => expect(onFocusComplete).toHaveBeenCalledTimes(1))
   })
 
   it('should have a delay of more than 1ms before focusing content when opened', async () => {
@@ -458,7 +591,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -967,7 +1099,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -995,7 +1126,7 @@ describe('Popover', () => {
 
   it('keeps dialog open when Popover handles Escape locally', async () => {
     render(
-      <Dialog noAnimation openState={true} title="Dialog">
+      <Dialog noAnimation open={true} title="Dialog">
         <Popover
           noAnimation
           trigger={({ ref, ...rest }) => (
@@ -1051,7 +1182,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -1070,9 +1200,7 @@ describe('Popover', () => {
       fireEvent.focus(dialogContent)
     }
 
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27 })
-    )
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
 
     await waitFor(() =>
       expect(document.documentElement).not.toHaveAttribute(
@@ -1417,7 +1545,6 @@ describe('Popover', () => {
       popover?.dispatchEvent(
         new KeyboardEvent('keydown', {
           key: 'Escape',
-          keyCode: 27,
           bubbles: true,
         })
       )
@@ -1462,7 +1589,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -1568,20 +1694,6 @@ describe('Popover', () => {
     expect(
       document.querySelectorAll('.dnb-popover button.dnb-sr-only')
     ).toHaveLength(0)
-  })
-
-  it('applies the theme class when theme is provided', async () => {
-    renderWithTrigger({ theme: 'dark' })
-
-    const trigger = (await waitFor(() =>
-      document.querySelector('button[aria-controls]')
-    )) as HTMLButtonElement
-    await userEvent.click(trigger)
-
-    const popover = await waitFor(() =>
-      document.querySelector('.dnb-popover')
-    )
-    expect(popover).toHaveClass('dnb-popover--theme-dark')
   })
 
   it('merges custom className on the popover root', async () => {
@@ -1861,7 +1973,6 @@ describe('Popover', () => {
         popover?.dispatchEvent(
           new KeyboardEvent('keydown', {
             key: 'Escape',
-            keyCode: 27,
             bubbles: true,
             cancelable: true,
           })

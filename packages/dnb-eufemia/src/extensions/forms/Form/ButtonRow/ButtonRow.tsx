@@ -1,23 +1,25 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { ComponentProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+/** Props for the Form.ButtonRow component which provides consistent spacing for form action buttons. */
+export type FormButtonRowProps = ComponentProps & {
   children?: React.ReactNode
 }
 
-function ButtonRow(props: Props) {
+function ButtonRow(props: FormButtonRowProps) {
   const { className, children, ...rest } = props
   return (
-    <Space
-      className={classnames('dnb-forms-button-row', className)}
-      {...rest}
-    >
+    <Space className={clsx('dnb-forms-button-row', className)} {...rest}>
       {children}
     </Space>
   )
 }
 
-ButtonRow._supportsSpacingProps = true
+withComponentMarkers(ButtonRow, {
+  _supportsSpacingProps: true,
+})
+
 export default ButtonRow

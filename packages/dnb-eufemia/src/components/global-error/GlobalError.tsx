@@ -4,17 +4,20 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import Context, { GetTranslationProps } from '../../shared/Context'
+import clsx from 'clsx'
+import type { GetTranslationProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Anchor from '../anchor/Anchor'
-import Skeleton, { SkeletonShow } from '../skeleton/Skeleton'
-import { H1, P, Code } from '../../elements'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import Skeleton from '../skeleton/Skeleton'
+import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type GlobalErrorLink = {
   text: string
@@ -27,14 +30,6 @@ export type GlobalErrorProps = {
    * Defaults to `404`.
    */
   statusCode?: '404' | '500' | string
-
-  /**
-   *
-   * When `404` or `500` is given, a predefined text will be shown.
-   * Defaults to `404`.
-   * @deprecated – Replaced with statusCode, status can be removed in v11.
-   */
-  status?: '404' | '500' | string
 
   /**
    * Will overwrite the default title.
@@ -50,12 +45,6 @@ export type GlobalErrorProps = {
    * Will overwrite the default error message code.
    */
   errorMessageCode?: React.ReactNode
-
-  /**
-   * Will overwrite the default error message code.
-   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
-   */
-  code?: React.ReactNode
 
   /**
    * Will overwrite the default additional help text.
@@ -74,7 +63,7 @@ export type GlobalErrorProps = {
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 }
@@ -86,12 +75,12 @@ export type GlobalErrorAllProps = GlobalErrorProps &
 
 export type GlobalErrorTranslationContent = {
   /**
-   * Defining a `title` will overwrite the default provided by `status_content`.
+   * Defining a `title` will overwrite the default provided by the `statusCode` translation.
    */
   title?: React.ReactNode
 
   /**
-   * Defining a `text` will overwrite the default provided by `status_content`.
+   * Defining a `text` will overwrite the default provided by the `statusCode` translation.
    */
   text?: React.ReactNode
 }
@@ -100,9 +89,7 @@ export type GlobalErrorTranslation = {
   500?: GlobalErrorTranslationContent
 }
 
-const defaultProps = {
-  // deprecated – Replaced with statusCode, status can be removed in v11.
-  status: '404',
+const defaultProps: Partial<GlobalErrorAllProps> = {
   statusCode: '404',
 }
 
@@ -119,14 +106,11 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     defaultProps,
     context?.GlobalError,
     translation,
-    translation[
-      localProps.status || localProps.statusCode || defaultProps.statusCode
-    ],
+    translation[localProps.statusCode || defaultProps.statusCode],
     { skeleton: context?.skeleton }
   )
 
   const {
-    status,
     statusCode,
     skeleton,
     center,
@@ -134,7 +118,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
     title,
     help,
-    code,
     errorMessageCode,
     links,
     text,
@@ -142,50 +125,39 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     ...attributes
   } = allProps
 
-  // When status is deprecated, we just use the statusCode
-  const statusToUse = status !== defaultProps.status ? status : statusCode
-
   // Security: Always render text as children to prevent XSS attacks.
   // If formatting is needed, pass ReactNode instead of HTML strings.
   const textParams: React.HTMLAttributes<HTMLElement> = {
     children: text,
   }
 
-  const params = {
-    className: classnames(
+  const params = applySpacing(attributes, {
+    className: clsx(
       'dnb-global-error',
-      `dnb-global-error--${statusToUse}`,
+      `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
-      createSpacingClasses(attributes),
       className
     ),
-    ...attributes,
-  } as Record<string, unknown>
+  }) as Record<string, unknown>
 
   const additionalContent = processChildren(allProps)
 
-  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
-  const userProvidedCodeValue = Object.hasOwn(localProps, 'code')
-
   return (
-    <Skeleton {...params} show={skeleton} element="section">
+    <Skeleton
+      {...attributes}
+      {...params}
+      show={skeleton}
+      element="section"
+    >
       <div className="dnb-global-error__inner">
         <div className="dnb-global-error__inner__content">
           <H1 size="x-large" top bottom>
             {title}
           </H1>
           <P bottom {...textParams} />
-          {userProvidedCodeValue && code && (
+          {errorMessageCode && (
             <P bottom className="dnb-global-error__status">
-              {code} {statusToUse && <Code>{statusToUse}</Code>}
-            </P>
-          )}
-          {!userProvidedCodeValue && errorMessageCode && (
-            <P bottom className="dnb-global-error__status">
-              {String(errorMessageCode).replace(
-                '%statusCode',
-                statusToUse
-              )}
+              {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>
           )}
           {help && links?.length > 0 && (
@@ -211,4 +183,4 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   )
 }
 
-GlobalError._supportsSpacingProps = true
+withComponentMarkers(GlobalError, { _supportsSpacingProps: true })

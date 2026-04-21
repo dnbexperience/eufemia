@@ -1,6 +1,12 @@
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-card {
+  --card-outline-color: var(
+    --border-color,
+    var(--token-color-stroke-neutral-subtle)
+  );
+  --card-background-color: var(--token-color-background-neutral);
+
   &__heading {
     font-size: var(--font-size-basis);
     font-weight: var(--font-weight-medium);
@@ -15,7 +21,7 @@
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
   }
-  &:not([style*='--space-']) &__title {
+  &:not([style*='--padding-']) &__title {
     padding: 1rem;
   }
 
@@ -27,7 +33,16 @@
   & .dnb-section {
     z-index: 1;
   }
-  @include allAbove(small) {
+
+  // Prevent inherited drop shadow from parent cards.
+  // Nested cards should only show shadow when they explicitly set dropShadow.
+  & .dnb-card {
+    --drop-shadow--small: var(--drop-shadow-none);
+    --drop-shadow--medium: var(--drop-shadow-none);
+    --drop-shadow--large: var(--drop-shadow-none);
+  }
+
+  @include utilities.allAbove(small) {
     // These vars needs to be declared outside of the nested .dnb-section
     --nested-space-l: calc(var(--padding-left, 0px) * -1);
     --nested-space-r: calc(var(--padding-right, 0px) * -1);
@@ -42,11 +57,12 @@
   }
 
   &--responsive {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       &.dnb-section::before {
         left: var(--left);
 
-        --outline: 99vw 0 0 0 var(--background-color),
+        --outline:
+          99vw 0 0 0 var(--background-color),
           198vw 0 0 0 var(--background-color),
           297vw 0 0 0 var(--background-color),
           396vw 0 0 0 var(--background-color),
@@ -57,12 +73,18 @@
           198vw var(--outline-width) 0 0 var(--outline-color),
           198vw calc(var(--outline-width) * -1) 0 0 var(--outline-color);
       }
+
+      // Disable drop shadow when borders are stretched across the viewport
+      // to avoid right-edge clipping artifacts.
+      &.dnb-section[style*='--drop-shadow'] {
+        --drop-shadow: var(--drop-shadow-none);
+      }
     }
   }
 
   // Show only one border (combined) when stacked
   & + .dnb-card--responsive:not([class*='space__top']) {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       &::before {
         top: var(--outline-width);
       }
@@ -79,7 +101,7 @@
   .dnb-flex-container.dnb-flex-container--divider-space
     &
     + .dnb-card--responsive {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       margin-top: 0;
 
       &::before {
@@ -119,36 +141,11 @@
     }
     &.dnb-card > .dnb-flex-container {
       margin-left: calc(
-        var(--padding-left, var(--spacing-medium)) * -1 * var(--outset)
+        var(--padding-left, var(--spacing-small)) * -1 * var(--outset)
       );
       margin-right: calc(
-        var(--padding-right, var(--spacing-medium)) * -1 * var(--outset)
+        var(--padding-right, var(--spacing-small)) * -1 * var(--outset)
       );
-    }
-  }
-}
-
-.dnb-card--auto-indent:has(
-  + .dnb-card,
-  + * + .dnb-card,/* e.g. one paragraph */
-  + * + * + .dnb-card,/* e.g. two paragraphs */
-  + .dnb-help-button__content + .dnb-section + .dnb-card
-) {
-  &:not([class*='space__bottom']) {
-    margin-bottom: var(--spacing-small);
-  }
-}
-
-// Deprecated – can be removed in v11 (its handled by the outset prop)
-.dnb-card--auto-indent:has(
-  + .dnb-card:not([style*='--outset']),
-  + * + .dnb-card:not([style*='--outset']),/* e.g. one paragraph */
-  + * + * + .dnb-card:not([style*='--outset']),/* e.g. two paragraphs */
-  + .dnb-help-button__content + .dnb-section + .dnb-card:not([style*='--outset'])
-) {
-  &:not([class*='space__left']) {
-    @include allAbove(small) {
-      margin-left: var(--spacing-medium);
     }
   }
 }

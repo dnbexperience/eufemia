@@ -1,23 +1,23 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
 
 export type TableTdProps = {
   /**
    * if set to `true`, no padding will be added
-   * Default: false
+   * Default: `false`
    */
   noSpacing?: boolean
 
   /**
    * Set to `horizontal` for padding on left and right side
-   * Default: undefined
+   * Default: `undefined`
    */
   spacing?: 'horizontal'
 
   /**
    * The content of the component.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 }
@@ -33,7 +33,7 @@ export default function Td(
     <td
       // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
       role="cell"
-      className={classnames(
+      className={clsx(
         'dnb-table__td',
         noSpacing && 'dnb-table__td--no-spacing',
         spacing && `dnb-table__td--spacing-${spacing}`,

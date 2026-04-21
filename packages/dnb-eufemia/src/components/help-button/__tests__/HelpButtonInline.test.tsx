@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { act, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -111,9 +111,9 @@ describe('HelpButtonInline', () => {
 
   it('keeps dialog open when Escape is pressed inside the inline help', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
+      <Dialog noAnimation open title="Dialog">
         <HelpButtonInline
-          focusWhenOpen
+          focusOnOpen
           help={{
             title: 'Help title',
             content: 'Help content',
@@ -172,10 +172,10 @@ describe('HelpButtonInline', () => {
     document.body.removeAttribute('style')
   })
 
-  describe('focusWhenOpen', () => {
+  describe('focusOnOpen', () => {
     it('should set focus on the button when closing with Escape key', async () => {
       render(
-        <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />
       )
 
       expect(document.body).toHaveFocus()
@@ -196,7 +196,7 @@ describe('HelpButtonInline', () => {
 
     it('should set focus on the content when open', async () => {
       render(
-        <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+        <HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />
       )
 
       expect(document.body).toHaveFocus()
@@ -224,7 +224,7 @@ describe('HelpButtonInline', () => {
     it('should not set focus on the content when open is true', async () => {
       render(
         <HelpButtonInline
-          focusWhenOpen
+          focusOnOpen
           help={{ open: true, title: 'Help title' }}
         />
       )
@@ -245,7 +245,7 @@ describe('HelpButtonInline', () => {
     it('should have tabindex with -1', () => {
       render(
         <HelpButtonInlineContent
-          focusWhenOpen
+          focusOnOpen
           contentId="test-content"
           help={{
             open: true,
@@ -262,7 +262,7 @@ describe('HelpButtonInline', () => {
     it('should have aria-label attribute when title is HTML', () => {
       render(
         <HelpButtonInline
-          focusWhenOpen
+          focusOnOpen
           help={{
             open: true,
             title: <span>Help title</span>,
@@ -278,7 +278,7 @@ describe('HelpButtonInline', () => {
     it('should have aria-label attribute', () => {
       render(
         <HelpButtonInline
-          focusWhenOpen
+          focusOnOpen
           help={{ open: true, title: 'Help title' }}
         />
       )
@@ -288,10 +288,10 @@ describe('HelpButtonInline', () => {
       ).toHaveAttribute('aria-label', 'Help title')
     })
 
-    it('should not have aria-live when focusWhenOpen is true', () => {
+    it('should not have aria-live when focusOnOpen is true', () => {
       render(
         <HelpButtonInline
-          focusWhenOpen
+          focusOnOpen
           help={{ open: true, title: 'Help title' }}
         />
       )
@@ -485,9 +485,7 @@ describe('HelpButtonInline', () => {
   })
 
   it('calls focus with preventScroll when opening', async () => {
-    render(
-      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
-    )
+    render(<HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />)
 
     const button = document.querySelector('button') as HTMLButtonElement
 
@@ -510,9 +508,7 @@ describe('HelpButtonInline', () => {
   })
 
   it('calls focus with preventScroll when closing', async () => {
-    render(
-      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
-    )
+    render(<HelpButtonInline focusOnOpen help={{ title: 'Help title' }} />)
 
     const button = document.querySelector('button') as HTMLButtonElement
 
@@ -522,7 +518,7 @@ describe('HelpButtonInline', () => {
       expect(button).toHaveClass('dnb-help-button__inline--open')
     })
 
-    // Get the content section element (where onKeyDown is attached when focusWhenOpen is true)
+    // Get the content section element (where onKeyDown is attached when focusOnOpen is true)
     const content = (await waitFor(() => {
       const elem = document.querySelector(
         '.dnb-help-button__content .dnb-section'
@@ -547,6 +543,67 @@ describe('HelpButtonInline', () => {
     )
 
     focusSpy.mockRestore()
+  })
+})
+
+describe('animation end reset', () => {
+  const simulateAnimationEnd = (
+    element: Element = document.querySelector('.dnb-height-animation')
+  ) => {
+    act(() => {
+      element.dispatchEvent(new CustomEvent('transitionend'))
+    })
+  }
+
+  it('should remove --was-open class after closing animation ends', async () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    const button = document.querySelector('button')
+
+    await userEvent.click(button)
+    expect(button).toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveClass('dnb-help-button__inline--was-open')
+
+    await userEvent.click(button)
+    expect(button).not.toHaveClass('dnb-help-button__inline--open')
+
+    await waitFor(() => {
+      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+    })
+  })
+
+  it('should remove --was-open class when using separate content', async () => {
+    const id = makeUniqueId()
+
+    render(
+      <>
+        <HelpButtonInline contentId={id} help={{ title: 'Help title' }} />
+        <HelpButtonInlineContent contentId={id} />
+      </>
+    )
+
+    const button = document.querySelector('button')
+
+    await userEvent.click(button)
+    expect(button).toHaveClass('dnb-help-button__inline--was-open')
+
+    await userEvent.click(button)
+
+    const heightAnimation = document.querySelector('.dnb-height-animation')
+    if (heightAnimation) {
+      simulateAnimationEnd(heightAnimation)
+    }
+
+    await waitFor(() => {
+      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+    })
+  })
+
+  it('should not have --was-open class initially', () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    const button = document.querySelector('button')
+    expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
   })
 })
 

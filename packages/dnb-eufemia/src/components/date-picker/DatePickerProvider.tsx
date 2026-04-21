@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import type {
   DatePickerEventAttributes,
   DatePickerAllProps,
@@ -17,52 +17,51 @@ import {
 } from 'date-fns'
 
 import SharedContext from '../../shared/Context'
-import { correctV1Format, isDisabled } from './DatePickerCalc'
-import DatePickerContext, {
-  DatePickerContextValues,
-} from './DatePickerContext'
+import { isDisabled } from './DatePickerCalc'
+import type { DatePickerContextValue } from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
 import useViews from './hooks/useViews'
-import useDates, { DatePickerDates } from './hooks/useDates'
+import type { DatePickerDates } from './hooks/useDates'
+import useDates from './hooks/useDates'
 import useLastEventCallCache from './hooks/useLastEventCallCache'
-import { InvalidDates } from './DatePickerInput'
-import { PartialDates } from './hooks/usePartialDates'
+import type { DatePickerInvalidDates } from './DatePickerInput'
+import type { DatePickerPartialDates } from './hooks/usePartialDates'
 import useHoverDate from './hooks/useHoverDate'
 import useSubmittedDates from './hooks/useSubmittedDates'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
-    func: DatePickerContextValues['getReturnObject']
-  ) => DatePickerContextValues['getReturnObject']
-  hidePicker?: DatePickerContextValues['hidePicker']
+    func: DatePickerContextValue['getReturnObject']
+  ) => DatePickerContextValue['getReturnObject']
+  hidePicker?: DatePickerContextValue['hidePicker']
   attributes?: DatePickerEventAttributes
   children: React.ReactNode
 }
 
 export type DatePickerChangeEvent<E> = DatePickerDates &
-  InvalidDates & {
+  DatePickerInvalidDates & {
     nr?: number
     hidePicker?: boolean
     event?: E
   }
 
 export type GetReturnObjectParams<E> = DatePickerDates &
-  PartialDates &
-  InvalidDates & {
+  DatePickerPartialDates &
+  DatePickerInvalidDates & {
     event?: E
   }
 
-// TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
-export type ReturnObject<E> = InvalidDates &
-  PartialDates & {
+export type DatePickerReturnObject<E> = DatePickerInvalidDates &
+  DatePickerPartialDates & {
     event?: E
     attributes?: Record<string, unknown>
-    days_between?: number
+    daysBetween?: number
     date?: string | null
-    start_date?: string | null
-    end_date?: string | null
-    is_valid?: boolean
-    is_valid_start_date?: boolean
-    is_valid_end_date?: boolean
+    startDate?: string | null
+    endDate?: string | null
+    isValid?: boolean
+    isValidStartDate?: boolean
+    isValidEndDate?: boolean
   }
 
 function DatePickerProvider(props: DatePickerProviderProps) {
@@ -77,6 +76,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     date,
     startDate,
     endDate,
+    month,
     startMonth,
     endMonth,
     minDate,
@@ -87,14 +87,13 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     returnFormat: returnFormatProp,
     children,
     onChange,
+    open,
     setReturnObject,
     hidePicker,
-    // Deprecated – can be removed in v11
-    correctInvalidDate,
   } = props
 
   const returnFormat = useMemo(
-    () => correctV1Format(returnFormatProp || defaultReturnFormat),
+    () => returnFormatProp || defaultReturnFormat,
     [returnFormatProp, defaultReturnFormat]
   )
 
@@ -103,7 +102,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       date,
       startDate,
       endDate,
-      startMonth,
+      startMonth: startMonth ?? month,
       endMonth,
       minDate,
       maxDate,
@@ -111,8 +110,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     {
       dateFormat,
       isRange: range,
-      // Deprecated – can be removed in v11
-      shouldCorrectDate: correctInvalidDate,
     }
   )
 
@@ -132,16 +129,19 @@ function DatePickerProvider(props: DatePickerProviderProps) {
 
   const { submittedDatesRef, setSubmittedDates } = useSubmittedDates()
 
+  // Snapshot current dates when the picker opens, so cancel reverts to the correct value
+  const prevOpenRef = useRef(open)
+  if (open && !prevOpenRef.current) {
+    setSubmittedDates({
+      startDate: dates.startDate,
+      endDate: dates.endDate,
+    })
+  }
+  prevOpenRef.current = open
+
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
-      const {
-        startDate,
-        endDate,
-        partialStartDate,
-        partialEndDate,
-        invalidStartDate,
-        invalidEndDate,
-      } = {
+      const { startDate, endDate, invalidStartDate, invalidEndDate } = {
         ...views,
         ...dates,
         ...rest,
@@ -151,7 +151,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = minDate || maxDate
 
-      const returnObject: ReturnObject<E> = {
+      const returnObject: DatePickerReturnObject<E> = {
         event,
         attributes: attributes || {},
       }
@@ -160,15 +160,15 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       if (range) {
         return {
           ...returnObject,
-          days_between:
+          daysBetween:
             startDateIsValid && endDateIsValid
               ? differenceInCalendarDays(endDate, startDate)
               : null,
-          start_date: startDateIsValid
+          startDate: startDateIsValid
             ? format(startDate, returnFormat)
             : null,
-          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-          is_valid_start_date:
+          endDate: endDateIsValid ? format(endDate, returnFormat) : null,
+          isValidStartDate:
             // Range order: start date must not be after end date
             (startDateIsValid &&
               endDateIsValid &&
@@ -178,7 +178,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
               isDisabled(startDate, dates.minDate, dates.maxDate))
               ? false
               : startDateIsValid,
-          is_valid_end_date:
+          isValidEndDate:
             // Range order: end date must not be before start date
             (startDateIsValid &&
               endDateIsValid &&
@@ -188,8 +188,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
               isDisabled(endDate, dates.minDate, dates.maxDate))
               ? false
               : endDateIsValid,
-          partialStartDate,
-          partialEndDate,
           invalidStartDate,
           invalidEndDate,
         }
@@ -198,12 +196,8 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
-        partialDate: partialStartDate,
-        // Can be removed in v11, in favor to partialDate,
-        // to keep the naming logic the same as with date and invalidDate when not in range mode
-        partialStartDate,
         invalidDate: invalidStartDate,
-        is_valid:
+        isValid:
           hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
@@ -217,7 +211,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   const callOnChangeHandler = useCallback(
     <E,>(event: E & DatePickerDates) => {
       /**
-       * Prevent on_change to be fired twice if date not has actually changed
+       * Prevent onChange to be fired twice if date not has actually changed
        */
       if (
         lastEventCallCache &&
@@ -249,7 +243,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   }
 
   return (
-    <DatePickerContext.Provider
+    <DatePickerContext
       value={{
         translation: sharedContext.translation,
         updateDates,
@@ -270,7 +264,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       }}
     >
       {children}
-    </DatePickerContext.Provider>
+    </DatePickerContext>
   )
 }
 

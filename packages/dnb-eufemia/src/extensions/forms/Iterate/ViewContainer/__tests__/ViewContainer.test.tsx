@@ -10,11 +10,9 @@ const nb = nbNO['nb-NO'].IterateViewContainer
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <IterateItemContext.Provider
-        value={{ containerMode: 'edit', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -27,11 +25,9 @@ describe('ViewContainer', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -41,9 +37,9 @@ describe('ViewContainer', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext value={{ switchContainerMode }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -54,9 +50,9 @@ describe('ViewContainer', () => {
 
   it('should render "title"', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext value={{ containerMode: 'edit' }}>
         <ViewContainer title="Item title">content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
@@ -77,27 +73,13 @@ describe('ViewContainer', () => {
     expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
-  // Deprecated, can be removed in v11
-  it('should render title with "itemNr"', () => {
-    render(
-      <Iterate.Array value={['foo', 'bar']}>
-        <ViewContainer title="Item title {itemNr}">content</ViewContainer>
-      </Iterate.Array>
-    )
-
-    const leads = document.querySelectorAll('.dnb-p')
-    expect(leads).toHaveLength(2)
-    expect(leads[0]).toHaveTextContent('Item title 1')
-    expect(leads[1]).toHaveTextContent('Item title 2')
-  })
-
   it('calls "handleRemove" when remove button is clicked', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ handleRemove }}>
+      <IterateItemContext value={{ handleRemove }}>
         <ViewContainer>content</ViewContainer>{' '}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[1])
@@ -107,9 +89,9 @@ describe('ViewContainer', () => {
 
   it('has correct class', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -119,9 +101,9 @@ describe('ViewContainer', () => {
 
   it('will forward custom HTML attributes to the inner wrapper', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -133,9 +115,9 @@ describe('ViewContainer', () => {
 
   it('to have buttons with correct text', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const buttons = document.querySelectorAll('button')
@@ -162,9 +144,9 @@ describe('ViewContainer', () => {
           },
         }}
       >
-        <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+        <IterateItemContext value={{ containerMode: 'view' }}>
           <ViewContainer>content</ViewContainer>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       </Form.Handler>
     )
 

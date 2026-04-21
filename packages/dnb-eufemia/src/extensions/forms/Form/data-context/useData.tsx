@@ -5,19 +5,21 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import pointer, { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer'
+import pointer from '../../utils/json-pointer'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
-import DataContext, {
+import type {
   FilterData,
   VisibleDataHandler,
 } from '../../DataContext/Context'
-import { SharedAttachments } from '../../DataContext/Provider'
+import DataContext from '../../DataContext/Context'
+import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
@@ -70,12 +72,12 @@ export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
-  const sharedDataRef =
-    useRef<ReturnType<typeof useSharedState<Data>>>(null)
-  const sharedAttachmentsRef =
-    useRef<ReturnType<typeof useSharedState<SharedAttachments<Data>>>>(
-      null
-    )
+  const sharedDataRef = useRef<ReturnType<
+    typeof useSharedState<Data>
+  > | null>(null)
+  const sharedAttachmentsRef = useRef<ReturnType<
+    typeof useSharedState<SharedAttachments<Data>>
+  > | null>(null)
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   sharedDataRef.current = useSharedState<Data>(

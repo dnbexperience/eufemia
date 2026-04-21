@@ -33,49 +33,45 @@ export const DatePickerRange = () => (
       endDate="2019-05-17"
       range
       showInput
-      onChange={({ start_date, end_date }) => {
-        console.log('onChange', start_date, end_date)
+      onChange={({ startDate, endDate }) => {
+        console.log('onChange', startDate, endDate)
       }}
-      onSubmit={({ start_date, end_date }) => {
-        console.log('onSubmit', start_date, end_date)
+      onSubmit={({ startDate, endDate }) => {
+        console.log('onSubmit', startDate, endDate)
       }}
-      onCancel={({ start_date, end_date }) => {
-        console.log('onCancel', start_date, end_date)
+      onCancel={({ startDate, endDate }) => {
+        console.log('onCancel', startDate, endDate)
       }}
-      onBlur={({
-        start_date,
-        end_date,
-        partialStartDate,
-        partialEndDate,
-      }) => {
-        console.log('onBlurPartial', partialStartDate, partialEndDate)
-        console.log('onBlurComplete', start_date, end_date)
+      onBlur={({ startDate, endDate }) => {
+        console.log('onBlurComplete', startDate, endDate)
       }}
       shortcuts={[
         {
           title: 'Set date period',
-          start_date: '1969-07-15',
-          end_date: '1969-08-15',
+          startDate: '1969-07-15',
+          endDate: '1969-08-15',
         },
         {
           title: 'Today',
-          start_date: new Date(),
+          startDate: new Date(),
         },
         {
           title: 'This week',
-          start_date: startOfWeek(new Date()),
-          end_date: lastDayOfWeek(new Date()),
+          startDate: startOfWeek(new Date()),
+          endDate: lastDayOfWeek(new Date()),
         },
         {
-          close_on_select: true,
+          closeOnSelect: true,
           title: 'This month',
-          start_date: startOfMonth(new Date()),
-          end_date: lastDayOfMonth(new Date()),
+          startDate: startOfMonth(new Date()),
+          endDate: lastDayOfMonth(new Date()),
         },
         {
           title: 'Relative +3 days',
-          start_date: ({ start_date }) => start_date || new Date(),
-          end_date: ({ end_date }) => addDays(end_date || new Date(), 3),
+          // @ts-expect-error -- strictFunctionTypes
+          startDate: ({ startDate }) => startDate || new Date(),
+          // @ts-expect-error -- strictFunctionTypes
+          endDate: ({ endDate }) => addDays(endDate || new Date(), 3),
         },
       ]}
     />
@@ -112,11 +108,11 @@ export const DatePickerTrigger = () => (
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
-      onShow={({ date }) => {
-        console.log('onShow', date)
+      onOpen={({ date }) => {
+        console.log('onOpen', date)
       }}
-      onBlur={({ start_date, end_date }) => {
-        console.log('onBlur', start_date, end_date)
+      onBlur={({ startDate, endDate }) => {
+        console.log('onBlur', startDate, endDate)
       }}
     />
   </ComponentBox>
@@ -136,8 +132,8 @@ export const DatePickerHiddenNav = () => (
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
-      onHide={({ date }) => {
-        console.log('onHide', date)
+      onClose={({ date }) => {
+        console.log('onClose', date)
       }}
       onBlur={({ date }) => {
         console.log('onBlur', date)
@@ -164,7 +160,7 @@ export const DatePickerStatusMessage = () => (
       date={new Date()}
       showInput
       status="Please select a valid date"
-      statusState="info"
+      statusState="information"
     />
   </ComponentBox>
 )
@@ -225,7 +221,7 @@ export const DatePickerErrorStatus = () => (
 )
 
 export const DatePickerCalendarInline = () => (
-  <ComponentBox background="white">
+  <ComponentBox background="plain">
     <DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />
   </ComponentBox>
 )
@@ -237,6 +233,7 @@ export const DatePickerDateFns = () => (
         { title: 'Set date', date: '1969-07-15' },
         {
           title: 'Relative +3 days',
+          // @ts-expect-error -- strictFunctionTypes
           date: ({ date }) => date && addDays(date, 3),
         },
       ]}
@@ -254,14 +251,14 @@ export const DatePickerDateFnsRange = () => (
       shortcuts={[
         {
           title: 'Set date period',
-          start_date: '1969-07-15',
-          end_date: '1969-07-15',
-          close_on_select: true, // will close the picker
+          startDate: '1969-07-15',
+          endDate: '1969-07-15',
+          closeOnSelect: true, // will close the picker
         },
         {
           title: 'This month',
-          start_date: startOfMonth(new Date()),
-          end_date: lastDayOfMonth(new Date()),
+          startDate: startOfMonth(new Date()),
+          endDate: lastDayOfMonth(new Date()),
         },
       ]}
     />

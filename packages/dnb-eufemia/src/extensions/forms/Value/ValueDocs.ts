@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 import { FieldBlockProperties } from '../FieldBlock/FieldBlockDocs'
 
 export const ValueProperties: PropertiesTableProps = {
@@ -60,7 +60,7 @@ export const ValueProperties: PropertiesTableProps = {
   },
   maxWidth: {
     doc: 'Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.',
-    type: 'string',
+    type: ['"auto"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   transformIn: {

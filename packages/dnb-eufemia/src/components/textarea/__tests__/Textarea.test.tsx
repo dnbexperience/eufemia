@@ -6,7 +6,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Textarea, { TextareaProps } from '../Textarea'
+import type { TextareaProps } from '../Textarea'
+import Textarea from '../Textarea'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
 import enGB from '../../../shared/locales/en-GB'
@@ -19,7 +20,7 @@ const props: TextareaProps = {
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details
-  textarea_element: null,
+  textareaElement: null,
   disabled: false,
 }
 
@@ -84,26 +85,26 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('')
   })
 
-  it('events gets emitted correctly: "on_change" and "on_key_down"', async () => {
+  it('events gets emitted correctly: "onChange" and "onKeyDown"', async () => {
     const initValue = 'init value'
     const newValue = 'new value'
 
-    const on_change = jest.fn()
-    const on_key_down = jest.fn() // additional native event test
+    const onChange = jest.fn()
+    const onKeyDown = jest.fn() // additional native event test
 
     render(
       <Textarea
         {...props}
         value={initValue}
-        on_change={on_change}
-        on_key_down={on_key_down} // additional native event test
+        onChange={onChange}
+        onKeyDown={onKeyDown} // additional native event test
       />
     )
 
     expect(document.querySelector('textarea').value).toBe(initValue)
     userEvent.type(document.querySelector('textarea'), newValue)
     await waitFor(() => {
-      expect(on_change.mock.calls.length).toBe(9)
+      expect(onChange.mock.calls.length).toBe(9)
       expect(document.querySelector('textarea').value).toBe(
         initValue + newValue
       )
@@ -111,12 +112,11 @@ describe('Textarea component', () => {
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('textarea'), {
-      keyCode: 84, // space,
       key: 'Space',
     })
     await waitFor(() => {
-      expect(on_key_down.mock.calls.length).toBe(10)
-      expect(on_key_down.mock.calls[0][0].rows).toBe(1)
+      expect(onKeyDown.mock.calls.length).toBe(10)
+      expect(onKeyDown.mock.calls[0][0].rows).toBe(1)
     })
   })
 
@@ -187,10 +187,17 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
-    render(<Textarea textarea_attributes={{ size: 2 }} />)
+  it('has correct size attribute (chars length) on textarea by using spread props', () => {
+    render(<Textarea {...({ size: 2 } as Record<string, unknown>)} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
+    )
+  })
+
+  it('has correct attributes on textarea by using spread props', () => {
+    render(<Textarea {...({ wrap: 'hard' } as Record<string, unknown>)} />)
+    expect(document.querySelector('textarea').getAttribute('wrap')).toBe(
+      'hard'
     )
   })
 
@@ -215,7 +222,7 @@ describe('Textarea component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Textarea {...props} status="status" status_state="error" />)
+    render(<Textarea {...props} status="status" statusState="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -230,9 +237,9 @@ describe('Textarea component', () => {
     )
   })
 
-  it('should accept props like autoresize via provider', () => {
+  it('should accept props like autoResize via provider', () => {
     render(
-      <Provider Textarea={{ autoresize: true }}>
+      <Provider Textarea={{ autoResize: true }}>
         <Textarea />
       </Provider>
     )
@@ -241,8 +248,8 @@ describe('Textarea component', () => {
     )
   })
 
-  it('will correctly auto resize if prop autoresize is used', async () => {
-    render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
+  it('will correctly auto resize if prop autoResize is used', async () => {
+    render(<Textarea rows={1} autoResize={true} autoResizeMaxRows={4} />)
 
     const elem = document.querySelector('textarea')
 
@@ -280,13 +287,14 @@ describe('Textarea component', () => {
       'dnb-textarea',
       'dnb-textarea--virgin',
       'dnb-form-component',
+      'dnb-textarea--vertical',
       'dnb-space__top--large',
     ])
   })
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Textarea label="Label" />
       </Provider>
     )
@@ -320,31 +328,30 @@ describe('Textarea component', () => {
     let ref: React.RefObject<HTMLTextAreaElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <Textarea {...props} inner_ref={ref} />
+      ref = React.useRef(null)
+      return <Textarea {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current.classList).toContain('dnb-textarea__textarea')
-    expect(ref.current.tagName).toBe('TEXTAREA')
+    // ref should be the DOM element, not a class instance
+    const textarea = document.querySelector('.dnb-textarea__textarea')
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    expect(ref.current).toBe(textarea)
+    expect(ref.current.tagName).toBe('TEXTAREA')
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLTextAreaElement> =
-      React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLTextAreaElement) => {
-      ref.current = elem
-    }
+    render(<Textarea id="unique" ref={refFn} />)
 
-    render(<Textarea id="unique" inner_ref={refFn} />)
-
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.classList).toContain('dnb-textarea__textarea')
-    expect(ref.current.tagName).toBe('TEXTAREA')
-    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const textarea = document.querySelector('#unique')
+    expect(refFn).toHaveBeenCalledWith(textarea)
+    expect(textarea.classList).toContain('dnb-textarea__textarea')
+    expect(textarea.tagName).toBe('TEXTAREA')
   })
 
   it('should support align property', () => {
@@ -506,10 +513,10 @@ describe('Textarea component', () => {
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
-    it('Safari on Mac with autoresize will not get "medium"', () => {
+    it('Safari on Mac with autoResize will not get "medium"', () => {
       jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
       jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
-      render(<Textarea autoresize />)
+      render(<Textarea autoResize />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
     })
 

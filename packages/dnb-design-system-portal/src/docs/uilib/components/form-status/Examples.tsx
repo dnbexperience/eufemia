@@ -29,12 +29,12 @@ export const FormStatusDefault = () => (
   </ComponentBox>
 )
 
-export const FormStatusWithInfo = () => (
-  <ComponentBox data-visual-test="form-status-info">
+export const FormStatusWithInformation = () => (
+  <ComponentBox data-visual-test="form-status-information">
     <FormStatus
       title="Hover title"
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-      state="info"
+      state="information"
     />
   </ComponentBox>
 )
@@ -44,14 +44,14 @@ export const FormStatusWithStretch = () => (
     <FormStatus
       stretch={true}
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-      state="warn"
+      state="warning"
     />
   </ComponentBox>
 )
 
-export const FormStatusWithWarn = () => (
-  <ComponentBox data-visual-test="form-status-warn">
-    <FormStatus state="warn" variant="outlined">
+export const FormStatusWithWarning = () => (
+  <ComponentBox data-visual-test="form-status-warning">
+    <FormStatus state="warning" variant="outlined">
       Warningmessage. Take notice!
     </FormStatus>
   </ComponentBox>
@@ -94,7 +94,7 @@ export const FormStatusAnimation = () => (
               value="Input value"
               right
             />
-            <ToggleButton top on_change={toggleStatus}>
+            <ToggleButton top onChange={toggleStatus}>
               Toggle
             </ToggleButton>
           </Provider>
@@ -118,7 +118,7 @@ export const FormStatusCustom = () => (
         <Input
           label="Input with custom status"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="information"
           value="Input value"
         />
       )
@@ -130,7 +130,7 @@ export const FormStatusLarge = () => (
   <ComponentBox>
     {() => {
       return (
-        <FormStatus state="info" size="large" variant="outlined">
+        <FormStatus state="information" size="large" variant="outlined">
           My HTML{' '}
           <Anchor href="/" target="_blank">
             with a link
@@ -185,19 +185,19 @@ export const FormStatusAllVariants = () => (
       rowGap="small"
     >
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="info" variant="flat" />
-        <FormStatus text="Text" state="info" variant="outlined" />
+        <FormStatus text="Text" state="information" variant="plain" />
+        <FormStatus text="Text" state="information" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
         <FormStatus text="Text" state="success" />
         <FormStatus text="Text" state="success" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="warn" variant="flat" />
-        <FormStatus text="Text" state="warn" variant="outlined" />
+        <FormStatus text="Text" state="warning" variant="plain" />
+        <FormStatus text="Text" state="warning" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="error" variant="flat" />
+        <FormStatus text="Text" state="error" variant="plain" />
         <FormStatus text="Text" state="error" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>

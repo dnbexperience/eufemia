@@ -2,10 +2,10 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
 import { createMockFile } from './testHelpers'
-import { UploadContextProps } from '../types'
+import type { UploadContextValue } from '../types'
 import { UploadContext } from '../UploadContext'
 
-const defaultProps: UploadContextProps = {
+const defaultProps: UploadContextValue = {
   acceptedFileTypes: ['png'],
   onInputUpload: jest.fn(),
   buttonText: 'upload button text',
@@ -16,16 +16,12 @@ const defaultProps: UploadContextProps = {
 }
 
 const makeWrapper = (props = null) => {
-  const defaultContext: UploadContextProps = {
+  const defaultContext: UploadContextValue = {
     ...defaultProps,
     ...props,
   }
   return ({ children }) => {
-    return (
-      <UploadContext.Provider value={defaultContext}>
-        {children}
-      </UploadContext.Provider>
-    )
+    return <UploadContext value={defaultContext}>{children}</UploadContext>
   }
 }
 

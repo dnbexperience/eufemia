@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
-import { Field, Form, FormError, UseFieldProps } from '../../..'
+import type { UseFieldProps } from '../../..'
+import { Field, Form, FormError } from '../../..'
 import { Anchor, Flex } from '../../../../../components'
 
 export default {
@@ -36,7 +37,6 @@ export const Number = () => {
         minimum={10}
         step={5}
         required
-        // validateInitially
         disabled
       />
       <Field.Number showStepControls width="stretch" value={1} />
@@ -49,13 +49,14 @@ export const WithFreshValidator = () => {
     useCallback((num, { connectWithPath }) => {
       const { getValue } = connectWithPath('/refValue')
       const amount = getValue()
-      // console.log('amount', amount, amount >= num)
       if (amount >= num) {
         return new Error(`The amount should be greater than ${amount}`)
       }
       if (num === undefined) {
         return new Error(`No amount was given`)
       }
+
+      return undefined
     }, [])
 
   return (
@@ -70,12 +71,8 @@ export const WithFreshValidator = () => {
 
         <Field.Number
           label="Num"
-          // onBlurValidator={validator}
           onChangeValidator={validator}
           defaultValue={2}
-          // validateInitially
-          // validateContinuously
-          // validateUnchanged
           path="/myNumberWithOnChangeValidator"
         />
 
@@ -116,6 +113,8 @@ export const ConditionalInfo = () => {
             )
           )
         }
+
+        return undefined
       },
       {
         showInitially: true,
@@ -134,6 +133,8 @@ export const ConditionalInfo = () => {
         messageValues: { maximum: maximum.toString() },
       })
     }
+
+    return undefined
   }
 
   return (
@@ -151,12 +152,7 @@ export const ConditionalInfo = () => {
           }
           path="/maximum"
           required
-          // defaultValue={4}
           info={conditionalInfo}
-          // warning={conditionalInfo}
-          // error={conditionalInfo}
-          // validateInitially
-          // validateUnchanged
         />
         <Field.Number
           label="Amount"
@@ -167,10 +163,10 @@ export const ConditionalInfo = () => {
             if (value < 5) {
               return new Error('You done messed up, A-a-ron!')
             }
+
+            return undefined
           }}
-          // defaultValue={5}
           onBlurValidator={onBlurValidator}
-          // validateInitially
         />
       </Form.Card>
 

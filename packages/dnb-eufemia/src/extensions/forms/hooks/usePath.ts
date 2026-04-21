@@ -1,17 +1,17 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { Path } from '../types'
+import type { Path } from '../types'
 import useId from '../../../shared/helpers/useId'
 import SectionContext from '../Form/Section/SectionContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 
-export type Props = {
+export type UsePathProps = {
   id?: string
   path?: Path
   itemPath?: Path
   omitSectionPath?: boolean
 }
 
-export default function usePath(props: Props = {}) {
+export default function usePath(props: UsePathProps = {}) {
   const { path: pathProp, itemPath: itemPathProp, omitSectionPath } = props
   const id = useId(props.id)
   const { path: sectionPath } = useContext(SectionContext) ?? {}
@@ -88,6 +88,8 @@ export default function usePath(props: Props = {}) {
     if (itemPathProp) {
       return makeIteratePath()
     }
+
+    return undefined
   }, [itemPathProp, makeIteratePath])
 
   const makePath = useCallback(
@@ -137,11 +139,11 @@ export default function usePath(props: Props = {}) {
 
 // Will remove duplicate slashes and trailing slashes
 // /foo///bar/// => /foo/bar
-export function cleanPath(path: Path) {
+export function cleanPath(path: Path): string {
   return path.replace(/\/+$|\/(\/)+/g, '$1')
 }
 
-function isParentRelativePath(path: Path) {
+function isParentRelativePath(path: Path): boolean {
   return path.startsWith('../')
 }
 

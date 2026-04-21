@@ -1,14 +1,16 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Shared
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import {
   extendPropsWithContext,
   makeUniqueId,
 } from '../../shared/component-helper'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
@@ -42,6 +44,7 @@ const Upload = (localProps: UploadAllProps) => {
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
     translations,
     context.Upload
   )
@@ -55,30 +58,28 @@ const Upload = (localProps: UploadAllProps) => {
     filesAmountLimit,
     fileMaxSize,
     onChange,
-    onFileDelete, // eslint-disable-line
-    onFileClick, // eslint-disable-line
-    download, // eslint-disable-line
+    onFileDelete,
+    onFileClick,
+    download,
     allowDuplicates,
-    title, // eslint-disable-line
-    text, // eslint-disable-line
-    fileTypeTableCaption, // eslint-disable-line
-    fileTypeDescription, // eslint-disable-line
-    fileSizeDescription, // eslint-disable-line
-    fileAmountDescription, // eslint-disable-line
-    fileSizeContent, // eslint-disable-line
-    buttonText, // eslint-disable-line
-    loadingText, // eslint-disable-line
+    title,
+    text,
+    fileTypeTableCaption,
+    fileTypeDescription,
+    fileSizeDescription,
+    fileAmountDescription,
+    fileSizeContent,
+    buttonText,
+    loadingText,
     errorLargeFile,
     errorUnsupportedFile,
-    errorAmountLimit, // eslint-disable-line
-    deleteButton, // eslint-disable-line
-    fileListAriaLabel, // eslint-disable-line
-    buttonProps, // eslint-disable-line
+    errorAmountLimit,
+    deleteButton,
+    listAriaLabel,
+    buttonProps,
     disableDragAndDrop,
     ...props
   } = extendedProps
-
-  const spacingClasses = createSpacingClasses(props)
 
   const id = useId(idProp)
 
@@ -150,21 +151,24 @@ const Upload = (localProps: UploadAllProps) => {
     : UploadDropzone
 
   return (
-    <UploadContext.Provider
+    <UploadContext
       value={{
         ...extendedProps,
         id,
+        // @ts-expect-error - strictFunctionTypes
         onInputUpload,
       }}
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          className={classnames(
-            'dnb-upload',
-            variant && `dnb-upload--${variant}`,
-            spacingClasses,
-            className
-          )}
+          {...applySpacing(props, {
+            className: clsx(
+              'dnb-upload',
+              'dnb-form-component',
+              variant && `dnb-upload--${variant}`,
+              className
+            ),
+          })}
           {...(!wrapperIsHeightAnimation
             ? { hideOutline: variant === 'compact' }
             : {})}
@@ -186,7 +190,7 @@ const Upload = (localProps: UploadAllProps) => {
           <UploadFileList />
         </UploadWrapper>
       </Provider>
-    </UploadContext.Provider>
+    </UploadContext>
   )
 }
 
@@ -213,7 +217,9 @@ function CompactLabel(props: {
 
 Upload.useUpload = useUpload
 
-Upload._formElement = true
-Upload._supportsSpacingProps = true
+withComponentMarkers(Upload, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Upload

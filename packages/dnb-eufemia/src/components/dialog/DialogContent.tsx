@@ -4,9 +4,8 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
-  isTrue,
   findElementInChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -17,10 +16,11 @@ import DialogAction from './parts/DialogAction'
 import { getContent } from '../modal/helpers'
 import ModalContext from '../modal/ModalContext'
 import { checkMinMaxWidth } from '../drawer/helpers'
-import { DialogContentProps } from './types'
+import type { DialogContentProps } from './types'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
 import ModalHeader from '../modal/parts/ModalHeader'
 import IconPrimary from '../icon-primary/IconPrimary'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export default function DialogContent({
   modalContent = null,
@@ -33,10 +33,10 @@ export default function DialogContent({
   fullscreen,
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: min_width = null,
-  maxWidth: max_width = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   variant = 'information',
-  confirmType = 'info',
+  confirmType = 'information',
   icon = null,
   description,
   hideDecline,
@@ -46,9 +46,12 @@ export default function DialogContent({
   declineText,
   confirmText,
   ...rest
-}: DialogContentProps): JSX.Element {
+}: DialogContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(
@@ -62,19 +65,19 @@ export default function DialogContent({
   }
 
   const contentParams = {
-    className: classnames(
-      !isTrue(preventCoreStyle) && 'dnb-core-style',
+    className: clsx(
+      !preventCoreStyle && 'dnb-core-style',
 
       'dnb-dialog',
       variant && `dnb-dialog--${variant}`,
-      isTrue(spacing) && 'dnb-dialog--spacing',
+      spacing && 'dnb-dialog--spacing',
       alignContent && `dnb-dialog__align--${alignContent}`,
-      isTrue(fullscreen)
+      fullscreen === true
         ? `dnb-dialog--fullscreen`
         : fullscreen === 'auto' && `dnb-dialog--auto-fullscreen`,
-      isTrue(context?.hide) && `dnb-dialog--hide`,
-      isTrue(noAnimation) && `dnb-dialog--no-animation`,
-      isTrue(noAnimationOnMobile) && `dnb-dialog--no-animation-on-mobile`,
+      context?.hide && `dnb-dialog--hide`,
+      noAnimation && `dnb-dialog--no-animation`,
+      noAnimationOnMobile && `dnb-dialog--no-animation-on-mobile`,
       className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
@@ -127,7 +130,7 @@ export default function DialogContent({
                 key="dialog-icon"
                 icon={icon}
                 aria-hidden
-                className={classnames(
+                className={clsx(
                   'dnb-dialog__icon__primary',
                   'dnb-dialog__icon--' + confirmType
                 )}
@@ -161,4 +164,4 @@ export default function DialogContent({
   )
 }
 
-DialogContent._supportsSpacingProps = true
+withComponentMarkers(DialogContent, { _supportsSpacingProps: true })

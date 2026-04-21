@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
+import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
-import { ToCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringFieldProps & {
-  element?: React.ElementType<Props>
-  autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+export type FieldAddressProps = StringFieldProps & {
+  element?: React.ElementType<FieldAddressProps>
+  autocompleteProps?: AutocompleteAllProps
 }
 
-function Address(props: Props) {
+function Address(props: FieldAddressProps) {
   const { element: Element = StringField, ...rest } = props
 
   if (Element === StringField) {
@@ -23,9 +24,9 @@ function Address(props: Props) {
 
   return <Element {...rest} />
 }
-Address._supportsSpacingProps = true
+withComponentMarkers(Address, { _supportsSpacingProps: true })
 
-Address.Postal = function PostalAddress(props: Props) {
+Address.Postal = function PostalAddress(props: FieldAddressProps) {
   const { label, errorRequired, errorPattern } =
     useTranslation().PostalAddress
 
@@ -38,7 +39,7 @@ Address.Postal = function PostalAddress(props: Props) {
     [errorPattern, errorRequired, props.errorMessages]
   )
 
-  const postalAddressProps: Props = {
+  const postalAddressProps: FieldAddressProps = {
     label,
     errorMessages,
     ...props,
@@ -48,7 +49,7 @@ Address.Postal = function PostalAddress(props: Props) {
 }
 Address.Postal['_supportsSpacingProps'] = true
 
-Address.Street = function StreetAddress(props: Props) {
+Address.Street = function StreetAddress(props: FieldAddressProps) {
   const { label, errorRequired, errorPattern } =
     useTranslation().StreetAddress
 
@@ -61,7 +62,7 @@ Address.Street = function StreetAddress(props: Props) {
     [errorPattern, errorRequired, props.errorMessages]
   )
 
-  const streetAddressProps: Props = {
+  const streetAddressProps: FieldAddressProps = {
     label,
     errorMessages,
     ...props,

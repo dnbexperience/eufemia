@@ -1,0 +1,416 @@
+/**
+ * Global helpers
+ *
+ */
+
+// For backward compatibility
+export { debounce, debounceAsync } from './helpers/debounce'
+
+export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
+export const PLATFORM_WIN = 'Win'
+export const PLATFORM_ANDROID = 'Android'
+export const PLATFORM_LINUX = 'Linux'
+export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
+
+export let IS_IOS = false
+export let IS_SAFARI = false
+export let IS_WIN = false
+export let IS_MAC = false
+export let IS_ANDROID = false
+export let IS_LINUX = false
+
+const getPlatform = () => {
+  if (typeof navigator === 'undefined') {
+    return ''
+  }
+  return (
+    (
+      navigator as Navigator & {
+        userAgentData?: { platform?: string }
+      }
+    ).userAgentData?.platform || navigator?.platform
+  )
+}
+
+export const isMac = () =>
+  (IS_MAC =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_MAC, 'i').test(getPlatform()))
+
+export const isWin = () =>
+  (IS_WIN =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_WIN, 'i').test(getPlatform()))
+
+export const isAndroid = () =>
+  (IS_ANDROID =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_ANDROID, 'i').test(navigator?.userAgent))
+
+export const isLinux = () =>
+  (IS_LINUX =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_LINUX, 'i').test(getPlatform()))
+
+export const isiOS = () =>
+  (IS_IOS =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_IOS, 'i').test(getPlatform()))
+
+export const isSafari = () =>
+  (IS_SAFARI =
+    typeof navigator !== 'undefined' &&
+    /safari/i.test(navigator?.userAgent) &&
+    !/chrome/i.test(navigator?.userAgent))
+
+isiOS()
+isSafari()
+isWin()
+isAndroid()
+isMac()
+isLinux()
+
+const pageFocusElements: Record<string, string | HTMLElement> = {}
+export function setPageFocusElement(
+  selectorOrElement: string | HTMLElement,
+  key = 'default'
+) {
+  return (pageFocusElements[key] = selectorOrElement)
+}
+
+export function applyPageFocus(
+  selector = 'default',
+  callback: ((element: HTMLElement) => void) | null = null
+) {
+  try {
+    let element: string | HTMLElement | null = /^[.#]/.test(selector)
+      ? selector
+      : pageFocusElements[selector]
+    if (typeof element === 'string' && typeof document !== 'undefined') {
+      element = document.querySelector<HTMLElement>(element)
+    } else if (!element && typeof document !== 'undefined') {
+      element = document.querySelector<HTMLElement>('.dnb-no-focus')
+    }
+
+    if (!(element instanceof HTMLElement)) {
+      return undefined // stop here
+    }
+
+    const role = element.getAttribute('role')
+    const list = [
+      'a',
+      'button',
+      'input',
+      'textarea',
+      'select',
+      'label',
+      'menu',
+    ]
+    const isInteractive =
+      list.includes(String(element.nodeName).toLowerCase()) ||
+      list.includes(String(role).toLowerCase())
+    const hasTabIndex = element.hasAttribute('tabindex')
+    const hasNoFocus = element.classList.contains('dnb-no-focus')
+
+    if (!isInteractive) {
+      if (!hasTabIndex) {
+        element.setAttribute('tabindex', '-1')
+      }
+      if (!hasNoFocus) {
+        element.classList.add('dnb-no-focus')
+      }
+    }
+
+    element.focus()
+
+    const onBlur = () => {
+      if (!isInteractive) {
+        if (!hasTabIndex) {
+          element.removeAttribute('tabindex')
+        }
+        if (!hasNoFocus) {
+          element.classList.remove('dnb-no-focus')
+        }
+      }
+    }
+    element.addEventListener('blur', onBlur, { once: true })
+
+    if (typeof callback === 'function') {
+      callback(element)
+    }
+  } catch (e) {
+    warn('Error on applyPageFocus:', e)
+  }
+}
+
+export function getOffsetTop(elem: HTMLElement | null) {
+  let offsetTop = 0
+  let current: Element | null = elem
+  if (current) {
+    do {
+      if (!isNaN((current as HTMLElement).offsetTop)) {
+        offsetTop += (current as HTMLElement).offsetTop
+      }
+    } while ((current = (current as HTMLElement).offsetParent))
+  }
+  return offsetTop
+}
+
+export function getOffsetLeft(elem: HTMLElement | null) {
+  let offsetLeft = 0
+  let current: Element | null = elem
+  if (current) {
+    do {
+      if (!isNaN((current as HTMLElement).offsetLeft)) {
+        offsetLeft += (current as HTMLElement).offsetLeft
+      }
+    } while ((current = (current as HTMLElement).offsetParent))
+  }
+  return offsetLeft
+}
+
+export function scrollToLocationHashId({
+  offset = 0,
+  delay = null as number | null,
+  onCompletion = null as ((elem: HTMLElement) => void) | null,
+} = {}) {
+  if (
+    typeof document !== 'undefined' &&
+    typeof window !== 'undefined' &&
+    window.location
+  ) {
+    try {
+      let _timeout
+      const id = String(window.location.hash).replace('#', '')
+      if (id.length > 0) {
+        const handleScroll = () => {
+          const runScroll = () => {
+            const totalOffset = getOffsetTop(elem)
+
+            if (totalOffset <= 0) {
+              return undefined // stop here
+            }
+
+            const top = totalOffset - offset
+
+            try {
+              if (typeof IntersectionObserver !== 'undefined') {
+                const intersectionObserver = new IntersectionObserver(
+                  (entries) => {
+                    const [entry] = entries
+                    if (entry.isIntersecting) {
+                      intersectionObserver.unobserve(elem)
+                      if (typeof onCompletion === 'function') {
+                        onCompletion(elem)
+                      }
+                    }
+                  }
+                )
+                // start observing
+                intersectionObserver.observe(elem)
+              }
+
+              window.scrollTo({
+                top,
+                behavior: 'smooth',
+              })
+            } catch (e) {
+              warn('Error on scrollToLocationHashId:', e)
+            }
+          }
+
+          if (delay > 0) {
+            clearTimeout(_timeout)
+            _timeout = setTimeout(runScroll, delay) // to make sure we run our scrollTo after the native anchor
+          } else {
+            runScroll()
+          }
+        }
+
+        const elem = document.getElementById(id)
+        if (elem instanceof HTMLElement) {
+          window.addEventListener('beforeunload', () =>
+            clearTimeout(_timeout)
+          )
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', handleScroll)
+          } else {
+            handleScroll()
+          }
+        }
+
+        return elem
+      }
+    } catch (e) {
+      warn('Error on scrollToLocationHashId:', e)
+    }
+  }
+  return undefined
+}
+
+export function getSelectedText() {
+  try {
+    return window.getSelection().toString()
+  } catch (e) {
+    //
+  }
+  return undefined
+}
+
+export function emptySelectedText() {
+  try {
+    if (window.getSelection && window.getSelection().empty) {
+      window.getSelection().empty()
+    }
+  } catch (e) {
+    //
+  }
+}
+
+export function hasSelectedText() {
+  return getSelectedText().length > 0
+}
+
+export function getSelectedElement() {
+  try {
+    const selection = window.getSelection()
+    if (selection.rangeCount > 0) {
+      let elem = selection.getRangeAt(0).startContainer
+      if (elem && typeof elem === 'object') {
+        elem = elem.parentNode
+      }
+      return elem
+    }
+  } catch (e) {
+    //
+  }
+
+  return null
+}
+
+export async function copyToClipboard(string: string) {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return false
+  }
+
+  // get the selection range
+  const selection = window.getSelection()
+  const range =
+    selection.rangeCount > 0 // Check if there is any content selected previously
+      ? selection.getRangeAt(0) // Store selection if found
+      : null // Mark as null to know no selection existed before
+
+  const resetSelection = () => {
+    try {
+      // If a selection existed before copying
+      if (range) {
+        selection.removeAllRanges() // Unselect everything on the HTML document
+        selection.addRange(range) // Restore the original selection
+      }
+    } catch (e) {
+      //
+    }
+  }
+
+  const copyFallback = () => {
+    try {
+      // create the focusable element
+      const elem = document.createElement('textarea')
+      elem.value = String(string)
+      elem.contentEditable = 'true'
+      elem.readOnly = false
+      elem.style.position = 'fixed'
+      elem.style.top = '-1000px'
+      document.body.appendChild(elem)
+
+      elem.select()
+
+      // NB: copy only works as a result of a user action (e.g. click events)
+      const success = document.execCommand('copy')
+
+      // Cleanup
+      document.body.removeChild(elem)
+
+      resetSelection()
+
+      if (success) {
+        return true
+      }
+    } catch (e) {
+      return e
+    }
+
+    return `Could not copy! Unknown reason. ${string}`
+  }
+
+  let success
+
+  // eslint-disable-next-line compat/compat
+  if (typeof navigator !== 'undefined' && navigator?.clipboard) {
+    try {
+      // eslint-disable-next-line compat/compat
+      await navigator.clipboard.writeText(String(string))
+      success = true
+      resetSelection()
+    } catch (e) {
+      success = e
+      const newTry = copyFallback()
+      if (newTry === true) {
+        success = newTry
+      }
+    }
+  } else {
+    // use the fallback as the primary, because we get
+    success = copyFallback()
+  }
+
+  return success
+}
+
+/**
+ * Uses console.log to warn about Eufemia usage issues
+ *
+ * It uses log instead of warn,
+ * because of the stack track some browser do add
+ * which takes a lot of visual space in the console
+ *
+ * @param  {...any} params Send in what ever you would
+ */
+export const warn = (...params) => {
+  if (
+    typeof process !== 'undefined' &&
+    process.env.NODE_ENV !== 'production' &&
+    typeof console !== 'undefined' &&
+    typeof console.log === 'function'
+  ) {
+    const isBrowser =
+      typeof window !== 'undefined' && process.env.NODE_ENV !== 'test'
+
+    if (isBrowser) {
+      const styles = [
+        `padding: 0.125rem 0.5rem ${IS_SAFARI ? '' : '0'}`,
+        'font-weight: bold',
+        'color: #00343E',
+        'background: #A5E1D2',
+      ].join(';')
+      console.log('%cEufemia', styles, ...params)
+    } else {
+      console.log(
+        // How to generate it: JSON.stringify(chalk.reset.bold.hex('#00343E').bgHex('#A5E1D2')('Eufemia'))
+        '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+        ...params
+      )
+    }
+  }
+}
+
+export function getColor(value: string | undefined) {
+  if (String(value).includes('--')) {
+    return value
+  }
+  return value
+    ? !/#|var/.test(value)
+      ? `var(--color-${value})`
+      : value
+    : undefined
+}

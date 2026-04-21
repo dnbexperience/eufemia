@@ -1,30 +1,32 @@
+import type { ElementRef, RefObject } from 'react'
 import React, {
   useContext,
   useRef,
   useState,
-  ElementRef,
-  MutableRefObject,
   useCallback,
   useMemo,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
+import StringField from '../String'
+import useId from '../../../../shared/helpers/useId'
 
-import { InputProps, SubmitButton } from '../../../../components/Input'
+import type { InputProps } from '../../../../components/Input'
+import { SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
-import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type PasswordVisibilityEvent =
   React.MouseEvent<HTMLButtonElement> & {
     value: string
   }
 
-export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
+export type PasswordProps = Omit<StringFieldProps, 'ref'> & {
   /**
    * Fires when the input toggles to show the password.
    */
@@ -40,44 +42,28 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * ElementRef passed on to the password input element.
    */
-  innerRef?: MutableRefObject<HTMLInputElement>
-  /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowLabel` instead.
-   */
-  show_password?: string
-  /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHideLabel` instead.
-   */
-  hide_password?: string
-  /**
-   * @deprecated in v11, use `onShowPassword` instead.
-   */
-  on_show_password?: (event: PasswordVisibilityEvent) => void
-  /**
-   * @deprecated in v11, use `onHidePassword` instead.
-   */
-  on_hide_password?: (event: PasswordVisibilityEvent) => void
+  ref?: RefObject<HTMLInputElement>
 }
 
 function Password({
   id,
   className,
-  innerRef,
+  ref: refProp,
   value,
   label,
   disabled,
   size,
-  ...externalProps
+  ...props
 }: PasswordProps) {
-  // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
-  const props = convertSnakeCaseProps(Object.freeze(externalProps))
+  const generatedId = useId()
+  const idToUse = id || generatedId
 
   const [hidden, setHidden] = useState<boolean>(true)
 
   const sharedContext = useContext(SharedContext)
   const translations = useTranslation().Password
 
-  const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
+  const ref = useRef<ElementRef<'input'>>(refProp?.current ?? null)
 
   const errorMessages = useMemo(() => {
     return {
@@ -88,8 +74,7 @@ function Password({
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      const { onShowPassword, onHidePassword } =
-        convertSnakeCaseProps(props)
+      const { onShowPassword, onHidePassword } = props
 
       const value = ref.current.value
 
@@ -108,39 +93,23 @@ function Password({
     [props]
   )
 
-  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
-  const getAriaLabel = useCallback(() => {
-    const ariaLabels = {
-      showPassword: translations.ariaLabelShow,
-      hidePassword: translations.ariaLabelHide,
-    }
+  const preventFocusChange = useCallback((event: React.MouseEvent) => {
+    // Prevent the button from stealing focus from the input on click.
+    // Without this, the input blurs and triggers a re-render that
+    // replaces the icon SVG between mousedown and mouseup, causing
+    // the browser to swallow the click event.
+    event.preventDefault()
+  }, [])
 
-    if (externalProps.show_password) {
-      ariaLabels['showPassword'] = externalProps.show_password
-    }
-
-    if (externalProps.hide_password) {
-      ariaLabels['hidePassword'] = externalProps.hide_password
-    }
-
-    return ariaLabels
-  }, [
-    externalProps.show_password,
-    externalProps.hide_password,
-    translations,
-  ])
-
-  const ariaLabels = getAriaLabel()
-
-  const ToggleVisibilityButton = useCallback(() => {
+  const toggleVisibilityButton = useMemo(() => {
     return (
       <SubmitButton
-        id={id + '-submit-button'}
+        id={idToUse + '-submit-button'}
         type="button"
         variant="secondary"
-        aria-controls={id}
+        aria-controls={idToUse}
         aria-label={
-          hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+          hidden ? translations.ariaLabelShow : translations.ariaLabelHide
         }
         icon={
           size === 'large'
@@ -148,34 +117,37 @@ function Password({
               ? IconViewMedium
               : IconViewOffMedium
             : hidden
-            ? IconView
-            : IconViewOff
+              ? IconView
+              : IconViewOff
         }
         disabled={disabled}
         skeleton={sharedContext.skeleton}
+        onMouseDown={preventFocusChange}
         onClick={toggleVisibility}
       />
     )
   }, [
-    id,
+    idToUse,
     hidden,
-    sharedContext.skeleton,
-    disabled,
+    translations.ariaLabelShow,
+    translations.ariaLabelHide,
     size,
+    disabled,
+    sharedContext.skeleton,
+    preventFocusChange,
     toggleVisibility,
-    ariaLabels,
   ])
 
   return (
     <StringField
-      id={id}
-      className={classnames('dnb-forms-field-password', className)}
+      id={idToUse}
+      className={clsx('dnb-forms-field-password', className)}
       label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
-      innerRef={ref}
-      aria-describedby={id + '-submit-button'}
-      submitElement={<ToggleVisibilityButton />}
+      ref={ref}
+      aria-describedby={idToUse + '-submit-button'}
+      submitElement={toggleVisibilityButton}
       disabled={disabled}
       size={size}
       autoComplete="current-password"
@@ -187,4 +159,4 @@ function Password({
 
 export default Password
 
-Password._supportsSpacingProps = true
+withComponentMarkers(Password, { _supportsSpacingProps: true })

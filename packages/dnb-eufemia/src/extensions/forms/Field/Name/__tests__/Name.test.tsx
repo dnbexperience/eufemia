@@ -2,7 +2,8 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { companyPattern, namePattern, Props } from '../'
+import type { FieldNameProps } from '../'
+import { companyPattern, namePattern } from '../'
 import { Field, Form, FormError } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -10,7 +11,7 @@ const nb = nbNO['nb-NO']
 
 describe('Field.Name', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldNameProps = {}
     render(<Field.Name {...props} />)
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
@@ -197,6 +198,8 @@ describe('Field.Name', () => {
       if (value && !/^[A-Z]+$/.test(value)) {
         return new Error('Field.errorPattern')
       }
+
+      return undefined
     }
 
     render(
@@ -321,6 +324,8 @@ describe('Field.Name', () => {
         if (value && !value.includes('Corp')) {
           return new FormError('Field.errorPattern')
         }
+
+        return undefined
       }
 
       // Value that passes internal validator but fails custom one

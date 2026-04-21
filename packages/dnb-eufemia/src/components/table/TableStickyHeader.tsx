@@ -2,16 +2,16 @@ import React from 'react'
 import { getClosestParent, warn } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
 
-export type StickyTableHeaderProps = {
+export type TableStickyHeaderProps = {
   /**
    * Makes the Table header sticky
-   * Default: false
+   * Default: `false`
    */
   sticky?: boolean | 'css-position'
 
   /**
    * The offset from top in rem or em unit
-   * Default: false
+   * Default: `false`
    */
   stickyOffset?: string | number
 }
@@ -19,8 +19,8 @@ export type StickyTableHeaderProps = {
 export const useStickyHeader = ({
   sticky,
   stickyOffset,
-}: StickyTableHeaderProps) => {
-  const elementRef = React.useRef<HTMLTableElement>()
+}: TableStickyHeaderProps) => {
+  const elementRef = React.useRef<HTMLTableElement>(undefined)
 
   React.useEffect(() => {
     if (sticky) {
@@ -152,7 +152,7 @@ export const useStickyHeader = ({
             scrollElem.addEventListener('scroll', onScroll)
             window.addEventListener('resize', onResize)
           } catch (e) {
-            stickyWarning(e)
+            stickyWarning(String(e))
           }
         }
 
@@ -164,9 +164,11 @@ export const useStickyHeader = ({
           window.removeEventListener('resize', onResize)
         }
       } catch (e) {
-        stickyWarning(e)
+        stickyWarning(String(e))
       }
     }
+
+    return undefined
   }, [elementRef, sticky, stickyOffset])
 
   return { elementRef }

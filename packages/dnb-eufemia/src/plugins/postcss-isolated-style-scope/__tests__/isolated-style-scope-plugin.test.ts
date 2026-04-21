@@ -315,8 +315,8 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test-hash-from-file')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        .mockImplementation((path: string) => {
-          return path.endsWith('scope-hash.txt')
+        .mockImplementation((path: fs.PathLike) => {
+          return String(path).endsWith('scope-hash.txt')
         })
       const getStyleScopeHashSpy = jest
         .spyOn(scopeHash, 'getStyleScopeHash')
@@ -371,8 +371,8 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test hash with spaces')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        .mockImplementation((path: string) =>
-          path.includes('scope-hash.txt')
+        .mockImplementation((path: fs.PathLike) =>
+          String(path).includes('scope-hash.txt')
         )
       const getStyleScopeHashSpy = jest
         .spyOn(scopeHash, 'getStyleScopeHash')
@@ -1262,6 +1262,38 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global html * { color: red; }',
           ':global html * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope class after :global(html[data-attr])', async () => {
+        return await run(
+          ':global(html[data-visual-test]) .someClass { color: red; }',
+          'html[data-visual-test] :global(.test-scope) .someClass { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope class with pseudo-element after :global(html[data-attr])', async () => {
+        return await run(
+          ':global(html[data-visual-test]) .someClass::after { color: red; }',
+          'html[data-visual-test] :global(.test-scope) .someClass::after { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope :global(html) alone', async () => {
+        return await run(
+          ':global(html) { color: red; }',
+          ':global(html) { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope class after :global(body[data-attr])', async () => {
+        return await run(
+          ':global(body[data-theme]) .someClass { color: red; }',
+          'body[data-theme] :global(.test-scope) .someClass { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })

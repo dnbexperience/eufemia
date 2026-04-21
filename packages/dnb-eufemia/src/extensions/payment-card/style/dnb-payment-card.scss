@@ -4,8 +4,7 @@
  * and variations for different card types (e.g., default, pluss, gold, etc.).
  */
 
-@import '../../../style/core/utilities.scss';
-@import '../../../style/themes/theme-sbanken/properties.scss';
+@use '../../../style/themes/sbanken/properties.scss';
 
 .dnb-payment-card {
   /*
@@ -40,7 +39,9 @@
     color: var(--color-white);
     box-shadow: var(--shadow-default);
 
-    transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    transition:
+      box-shadow 225ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+      opacity 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
     // Ensure the card content cannot be selected
     user-select: none;
@@ -64,7 +65,7 @@
       }
     }
 
-    // Styles for a card marked as: not_active | blocked | expired
+    // Styles for a card marked as: notActive | blocked | expired
     &--blocked {
       opacity: 0.5;
     }

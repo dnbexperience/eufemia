@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const AvatarProperties: PropertiesTableProps = {
   size: {
     doc: 'Size of the Avatar. Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.',
-    type: ['small', 'medium', 'large', 'x-large'],
+    type: ['"small"', '"medium"', '"large"', '"x-large"'],
     status: 'optional',
   },
   children: {
@@ -33,11 +33,11 @@ export const AvatarProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.',
-    type: ['primary', 'secondary', 'tertiary'],
+    type: ['"primary"', '"secondary"', '"tertiary"'],
     status: 'optional',
   },
   hasLabel: {
-    doc: 'If aria-hidden is set to `true` or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.',
+    doc: 'If `aria-hidden` is set to `true` or if a label is given, typically inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.',
     type: 'boolean',
     status: 'optional',
   },
@@ -71,12 +71,12 @@ export const AvatarGroupProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Size of the Avatars, and "elements hidden text (+x)". Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.',
-    type: ['small', 'medium', 'large', 'x-large'],
+    type: ['"small"', '"medium"', '"large"', '"x-large"'],
     status: 'optional',
   },
   variant: {
     doc: 'Override the variant of the Avatars. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.',
-    type: ['primary', 'secondary', 'tertiary'],
+    type: ['"primary"', '"secondary"', '"tertiary"'],
     status: 'optional',
   },
   maxElements: {

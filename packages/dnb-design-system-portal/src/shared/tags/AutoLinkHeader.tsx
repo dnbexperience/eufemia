@@ -1,11 +1,11 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Anchor from './Anchor'
 import Heading, {
-  HeadingAllProps,
+  type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { useLocation } from '@reach/router'
+import { useLocation } from '@gatsbyjs/reach-router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {
@@ -56,7 +56,7 @@ const AutoLinkHeader = ({
     <Heading
       level={level}
       element={element}
-      className={classnames(anchorLinkStyle, className)}
+      className={clsx(anchorLinkStyle, className)}
       {...props}
     >
       <>

@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import SectionContext, { SectionContextState } from './SectionContext'
+import type { SectionContextState } from './SectionContext'
+import SectionContext from './SectionContext'
 import DataContext from '../../DataContext/Context'
 import Provider from '../../DataContext/Provider/Provider'
 import FieldPropsProvider from '../../Field/Provider'
@@ -9,13 +10,14 @@ import EditContainer from './EditContainer'
 import Toolbar from './Toolbar'
 import { cleanPath } from '../../hooks/usePath'
 
-import type { Props as DataContextProps } from '../../DataContext/Provider'
+import type { DataContextProviderProps as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
 import type { Path, FieldProps, OnChange, Schema } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type OverwritePropsDefaults = {
   [key: Path]:
@@ -153,7 +155,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
 
   const resolvedSchema = useMemo(() => {
     if (!schema) {
-      return // stop here
+      return undefined // stop here
     }
     if (typeof schema === 'function') {
       try {
@@ -161,7 +163,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
           schema as (props: SectionBaseProps<overwriteProps>) => Schema
         )(props)
       } catch (_) {
-        return // stop here
+        return undefined // stop here
       }
     }
 
@@ -173,7 +175,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
 
   useLayoutEffect(() => {
     if (!registerSectionSchema || !resolvedSchema) {
-      return // stop here
+      return undefined // stop here
     }
 
     const normalizedIdentifier = identifier || '/'
@@ -196,7 +198,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
   const sectionProps = props as SectionProps
 
   return (
-    <SectionContext.Provider
+    <SectionContext
       value={{
         path: identifier,
         errorPrioritization,
@@ -225,7 +227,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
           {children}
         </FieldPropsProvider>
       </SectionContainerProvider>
-    </SectionContext.Provider>
+    </SectionContext>
   )
 }
 
@@ -233,5 +235,8 @@ SectionComponent.Toolbar = Toolbar
 SectionComponent.ViewContainer = ViewContainer
 SectionComponent.EditContainer = EditContainer
 
-SectionComponent._supportsSpacingProps = undefined
+withComponentMarkers(SectionComponent, {
+  _supportsSpacingProps: undefined,
+})
+
 export default SectionComponent

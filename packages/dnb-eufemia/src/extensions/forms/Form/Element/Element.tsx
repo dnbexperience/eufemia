@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import DataContext from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'
@@ -7,15 +7,23 @@ import type { SpacingProps } from '../../../../shared/types'
 import { FormStatus } from '../../../../components'
 import { combineLabelledBy } from '../../../../shared/component-helper'
 
-export type Props = Omit<
+export type FormElementProps = Omit<
   React.HTMLProps<HTMLFormElement>,
   'ref' | 'autoComplete'
 > &
   SpacingProps & {
-    innerRef?: React.RefObject<HTMLFormElement>
+    ref?: React.RefObject<HTMLFormElement>
+    /**
+     * Set to `false` to allow the browser's native form submission.
+     */
+    preventDefaultOnSubmit?: boolean
   }
 
-export default function FormElement(props: Props) {
+export default function FormElement(props: FormElementProps) {
+  return <FormElementInstance {...props} />
+}
+
+function FormElementInstance(props: FormElementProps) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}
@@ -23,10 +31,16 @@ export default function FormElement(props: Props) {
     ([, value]) => value
   )
 
-  const { children, className, onSubmit, ...restProps } = {
+  const {
+    children,
+    className,
+    onSubmit,
+    preventDefaultOnSubmit = true,
+    ...restProps
+  } = {
     ...restHandlerProps,
     ...props,
-  } as Props
+  } as FormElementProps
 
   /**
    * Set to true,
@@ -36,11 +50,15 @@ export default function FormElement(props: Props) {
   if (!dataContext.hasElementRef) {
     dataContext.hasElementRef = hasElementRef
   }
-  dataContext.hasElementRef.current = true
+  const mutableHasElementRef =
+    dataContext.hasElementRef as React.RefObject<boolean>
+  mutableHasElementRef.current = true
 
   const onSubmitHandler = useCallback(
-    (event: React.SyntheticEvent<HTMLFormElement>) => {
-      event?.preventDefault()
+    (event: React.SyntheticEvent<HTMLElement>) => {
+      if (preventDefaultOnSubmit) {
+        event?.preventDefault()
+      }
 
       const formElement = event.target as HTMLFormElement
       const submitter = (
@@ -59,16 +77,16 @@ export default function FormElement(props: Props) {
       }
 
       if (typeof onSubmit === 'function') {
-        onSubmit(event)
+        ;(onSubmit as (event: React.SyntheticEvent) => void)(event)
       }
     },
-    [dataContext, onSubmit]
+    [dataContext, onSubmit, preventDefaultOnSubmit]
   )
 
   return (
     <Space
       element="form"
-      className={classnames('dnb-forms-form', className)}
+      className={clsx('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
       aria-labelledby={
         combineLabelledBy(
@@ -82,16 +100,16 @@ export default function FormElement(props: Props) {
     >
       {children}
 
-      {['error', 'warning', 'info'].map((key) => {
+      {(['error', 'warning', 'info'] as const).map((key) => {
         const value = submitState?.[key]
         return (
           <FormStatus
             key={key}
-            state={key}
+            state={key === 'info' ? 'information' : key}
             id={`${id}-form-status-${key}`}
             className="dnb-forms-form__status-message"
             show={Boolean(value)}
-            no_animation={false}
+            noAnimation={false}
             shellSpace={{ top: 'small' }}
           >
             {String(value?.['message'] || value || '')}

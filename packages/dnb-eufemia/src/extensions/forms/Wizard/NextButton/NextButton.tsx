@@ -1,21 +1,23 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
-import { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & Omit<ButtonProps, 'variant'>
+export type WizardNextButtonProps = ComponentProps &
+  Omit<ButtonProps, 'variant'>
 
-function NextButton(props: Props) {
+function NextButton(props: WizardNextButtonProps) {
   const translations = useTranslation().WizardNextButton
 
   const {
     className,
-    icon_position = 'right',
+    iconPosition = 'right',
     icon = 'chevron_right',
     children = translations.text,
   } = props
@@ -23,7 +25,7 @@ function NextButton(props: Props) {
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
-    return null as JSX.Element
+    return null as React.JSX.Element
   }
 
   return (
@@ -31,9 +33,9 @@ function NextButton(props: Props) {
       {/* Use SubmitButton to inherit the indicator functionality */}
       <SubmitButton
         type="button"
-        className={classnames('dnb-forms-next-button', className)}
-        onClick={handleNext}
-        icon_position={icon_position}
+        className={clsx('dnb-forms-next-button', className)}
+        onClick={handleNext as any}
+        iconPosition={iconPosition}
         icon={icon}
         {...props}
       >
@@ -43,5 +45,8 @@ function NextButton(props: Props) {
   )
 }
 
-NextButton._supportsSpacingProps = true
+withComponentMarkers(NextButton, {
+  _supportsSpacingProps: true,
+})
+
 export default NextButton

@@ -3,8 +3,9 @@
 *
 */
 
-@import './table-mixins.scss';
-@import './table-header-buttons.scss';
+@use 'sass:meta';
+@use './table-mixins.scss' as table-mixins;
+@use './table-header-buttons.scss';
 
 .dnb-table,
 .dnb-table__container {
@@ -48,7 +49,7 @@
     background-color: var(--color-white);
     text-align: left;
 
-    @include tableBorder() {
+    @include table-mixins.tableBorder() {
       top: calc(
         var(--table-border-width) * -1
       ); // so we are behind the border-bottom (end of table)
@@ -64,9 +65,8 @@
     // because firefox clip-path ignores caption
     // Use "clip-path" instead of "overflow" because display=table-row does not give the expected/same result like display=block would.
     clip-path: inset(
-      0 0 -10rem 0 round var(--table-outline-radius) var(
-          --table-outline-radius
-        ) 0 0
+      0 0 -10rem 0 round var(--table-outline-radius)
+        var(--table-outline-radius) 0 0
     );
     z-index: 1; // firefox places caption in from of table without z-index
 
@@ -74,7 +74,7 @@
     &::after {
       border-radius: var(--table-outline-radius);
     }
-    @include tableOutline() {
+    @include table-mixins.tableOutline() {
       z-index: 3;
       border: var(--table-outline);
     }
@@ -111,20 +111,26 @@
 
   // When used in a Card without inner space
   .dnb-card--no-inner-space & {
+    --table-outline-radius: var(--rounded-corner, 0.5rem);
     --table-outline-color: transparent;
     margin-bottom: 0;
   }
 
-  @include buttonsInTable();
+  // Keep rounded corners in sync with the parent Card.
+  .dnb-card & {
+    --table-outline-radius: var(--rounded-corner, 0.5rem);
+  }
+
+  @include table-header-buttons.buttonsInTable();
 }
 
-@import './table-th.scss';
-@import './table-td.scss';
-@import './table-tr.scss';
-@import './table-cell.scss';
-@import './table-sticky.scss';
-@import './table-container.scss';
-@import './table-accordion.scss';
+@include meta.load-css('table-th');
+@include meta.load-css('table-td');
+@include meta.load-css('table-tr');
+@include meta.load-css('table-cell');
+@include meta.load-css('table-sticky');
+@include meta.load-css('table-container');
+@include meta.load-css('table-accordion');
 
 // Reset Table spacing
 .dnb-spacing .dnb-table {

@@ -4,16 +4,19 @@
  */
 
 import React from 'react'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DivProps = SpacingProps & React.HTMLAttributes<HTMLElement>
 
-const Div = React.forwardRef((props: DivProps, ref) => (
-  <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
-))
+function Div({
+  ref,
+  ...props
+}: DivProps & { ref?: React.Ref<HTMLElement> }) {
+  return <E as="div" skeletonMethod="shape" ref={ref} {...props} />
+}
 
-// @ts-expect-error - Adding custom property to component for spacing detection
-Div._supportsSpacingProps = true
+withComponentMarkers(Div, { _supportsSpacingProps: true })
 
 export default Div

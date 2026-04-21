@@ -1,7 +1,8 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useReportError from '../useReportError'
-import { Context, ContextState } from '../../../DataContext'
+import type { ContextState } from '../../../DataContext'
+import { Context } from '../../../DataContext'
 import WizardContext from '../../../Wizard/Context'
 import WizardStepContext from '../../../Wizard/Step/StepContext'
 
@@ -29,13 +30,13 @@ describe('useReportError', () => {
       initialProps: undefined,
       wrapper: ({ children }) => {
         return (
-          <Context.Provider value={dataContextValue}>
-            <WizardContext.Provider value={wizardContextValue}>
-              <WizardStepContext.Provider value={wizardStepContextValue}>
+          <Context value={dataContextValue}>
+            <WizardContext value={wizardContextValue}>
+              <WizardStepContext value={wizardStepContextValue}>
                 {children}
-              </WizardStepContext.Provider>
-            </WizardContext.Provider>
-          </Context.Provider>
+              </WizardStepContext>
+            </WizardContext>
+          </Context>
         )
       },
     })
@@ -122,13 +123,13 @@ describe('useReportError', () => {
       initialProps: error,
       wrapper: ({ children }) => {
         return (
-          <Context.Provider value={dataContextValue}>
-            <WizardContext.Provider value={wizardContextValue}>
-              <WizardStepContext.Provider value={wizardStepContextValue}>
+          <Context value={dataContextValue}>
+            <WizardContext value={wizardContextValue}>
+              <WizardStepContext value={wizardStepContextValue}>
                 {children}
-              </WizardStepContext.Provider>
-            </WizardContext.Provider>
-          </Context.Provider>
+              </WizardStepContext>
+            </WizardContext>
+          </Context>
         )
       },
     })
@@ -198,11 +199,11 @@ describe('useReportError', () => {
     renderHook(() => useReportError(error, dataContextValue), {
       wrapper: ({ children }) => {
         return (
-          <WizardContext.Provider value={wizardContextValue}>
-            <WizardStepContext.Provider value={wizardStepContextValue}>
+          <WizardContext value={wizardContextValue}>
+            <WizardStepContext value={wizardStepContextValue}>
               {children}
-            </WizardStepContext.Provider>
-          </WizardContext.Provider>
+            </WizardStepContext>
+          </WizardContext>
         )
       },
     })

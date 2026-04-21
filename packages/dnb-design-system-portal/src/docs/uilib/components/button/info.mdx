@@ -6,7 +6,6 @@ import {
   PrimaryButtonSizes,
   SecondaryButtonSizes,
   TertiaryButtonSizes,
-  SignalButtonSizes,
   IconButtonSizes,
 } from 'Docs/uilib/components/button/Examples'
 
@@ -25,6 +24,10 @@ The Button component should be used as the **primary call-to-action** in a form,
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=339-154)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/button)
+
+## Accessibility
+
+Buttons are keyboard accessible and support standard interaction patterns. Use meaningful text or `aria-label` when using icon-only buttons. Avoid using disabled buttons when possible, as they don't communicate why an action is unavailable.
 
 ### Variants and sizes
 
@@ -46,21 +49,11 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 
 #### Tertiary button sizes
 
-For the tertiary variant, the recommended size is `default`. A variant with `icon_position="top"` is also available.
+For the tertiary variant, the recommended size is `default`. A variant with `iconPosition="top"` is also available.
 
 It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? Check out [Anchor](/uilib/components/anchor) instead.
 
 <TertiaryButtonSizes />
-
-<VisibilityByTheme hidden="sbanken">
-
-#### Signal button sizes
-
-For the signal variant, the recommended sizes are `default` and `large`.
-
-<SignalButtonSizes />
-
-</VisibilityByTheme>
 
 #### Icon button sizes
 

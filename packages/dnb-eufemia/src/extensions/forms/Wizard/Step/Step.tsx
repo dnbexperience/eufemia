@@ -1,15 +1,16 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
-import { ComponentProps } from '../../types'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import clsx from 'clsx'
+import type { ComponentProps } from '../../types'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps &
+export type WizardStepProps = ComponentProps &
   FlexContainerProps & {
     /**
      * An unique title of the step.
@@ -34,18 +35,6 @@ export type Props = ComponentProps &
 
     /**
      * If set to `false`, the step will not be rendered.
-     * @deprecated use `include` instead
-     */
-    active?: boolean
-
-    /**
-     * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
-     * @deprecated use `includeWhen` instead
-     */
-    activeWhen?: VisibleWhen
-
-    /**
-     * If set to `false`, the step will not be rendered.
      */
 
     include?: boolean
@@ -66,27 +55,13 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-export function handleDeprecatedProps({
-  active,
-  activeWhen,
-  include,
-  includeWhen,
-  ...rest
-}: Props): Omit<Props, 'active' | 'activeWhen'> {
-  return {
-    include: include ?? active,
-    includeWhen: includeWhen ?? activeWhen,
-    ...rest,
-  }
-}
-
-function Step(props: Props): JSX.Element {
+function Step(props: WizardStepProps): React.JSX.Element {
   const {
     id,
     className,
     title,
     index: indexProp,
-    inactive, // eslint-disable-line
+    inactive,
     include = true,
     includeWhen,
     required,
@@ -94,7 +69,7 @@ function Step(props: Props): JSX.Element {
     prerenderFieldProps,
     children,
     ...restProps
-  } = handleDeprecatedProps(props)
+  } = props
 
   const {
     check,
@@ -208,26 +183,26 @@ function Step(props: Props): JSX.Element {
 
   if (prerenderFieldProps) {
     return (
-      <WizardStepContext.Provider value={{ index }}>
-        {childrenWithFieldProvider as JSX.Element}
-      </WizardStepContext.Provider>
+      <WizardStepContext value={{ index }}>
+        {childrenWithFieldProvider as React.JSX.Element}
+      </WizardStepContext>
     )
   }
 
-  const innerRef = activeIndex === index ? stepElementRef : null
+  const stepRef = activeIndex === index ? stepElementRef : null
   const childrenWithFlex = (
-    <WizardStepContext.Provider value={{ index }}>
+    <WizardStepContext value={{ index }}>
       <Flex.Stack
-        className={classnames('dnb-forms-step', className)}
+        className={clsx('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
-        innerRef={innerRef}
+        ref={stepRef}
         tabIndex={-1}
         {...restProps}
       >
         {childrenWithFieldProvider}
       </Flex.Stack>
-    </WizardStepContext.Provider>
+    </WizardStepContext>
   )
 
   if (
@@ -249,5 +224,6 @@ function Step(props: Props): JSX.Element {
   return childrenWithFlex
 }
 
-Step._supportsSpacingProps = true
+withComponentMarkers(Step, { _supportsSpacingProps: true })
+
 export default Step

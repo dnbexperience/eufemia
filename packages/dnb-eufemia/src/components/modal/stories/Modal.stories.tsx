@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import type { ModalContentProps } from '../types'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import {
@@ -52,12 +53,11 @@ export const ModalSandbox = () => (
       <Modal
         title="1s close delay"
         triggerAttributes={{ text: 'Click me' }}
-        focus_selector=".dnb-input__input:first-of-type"
-        prevent_close={true}
-        // hide_close_button={true}
-        on_open={(e) => console.log('on_open', e)}
-        on_close={(e) => console.log('on_close', e)}
-        on_close_prevent={({ close, triggeredBy }) => {
+        focusSelector=".dnb-input__input:first-of-type"
+        preventClose={true}
+        onOpen={(e) => console.log('onOpen', e)}
+        onClose={(e) => console.log('onClose', e)}
+        onClosePrevent={({ close, triggeredBy }) => {
           switch (triggeredBy) {
             case 'keyboard':
             case 'button':
@@ -68,11 +68,13 @@ export const ModalSandbox = () => (
               return () => clearTimeout(timeout) // clear timeout on unmount
             }
           }
+
+          return undefined
         }}
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing style_type="divider">
+        <Section top innerSpace={{ block: 'large' }} variant="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Modal>
@@ -82,15 +84,13 @@ export const ModalSandbox = () => (
       <Modal
         spacing={false}
         fullscreen={false}
-        align_content="centered"
-        hide_close_button
+        alignContent="centered"
+        hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
-        max_width="12rem"
+        maxWidth="12rem"
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -99,15 +99,13 @@ export const ModalSandbox = () => (
       <Modal
         spacing={false}
         fullscreen={false}
-        align_content="centered"
-        hide_close_button
+        alignContent="centered"
+        hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
-        max_width="12rem"
+        maxWidth="12rem"
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -116,13 +114,11 @@ export const ModalSandbox = () => (
     </Box>
 
     <Box>
-      <Modal
-        title="Modal Title"
-        // fullscreen
-        // open_state="opened"
-        // no_animation
-      >
-        <Modal.Content spacing style_type="mint-green">
+      <Modal title="Modal Title">
+        <Modal.Content
+          innerSpace={{ block: 'large' }}
+          backgroundColor="mint-green"
+        >
           <P>This is the modal text.</P>
         </Modal.Content>
       </Modal>
@@ -140,7 +136,6 @@ export const ModalSandbox = () => (
       <Modal
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // open_state="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -166,9 +161,6 @@ export const ModalSandbox = () => (
     </Box>
     <Box>
       <Modal
-        // min_width="90vw"
-        // max_width="2rem"
-        // open_state="opened"
         fullscreen
         title="Modal Title"
         triggerAttributes={{ text: 'Click me', variant: 'tertiary' }}
@@ -178,19 +170,18 @@ export const ModalSandbox = () => (
     </Box>
     <Box>
       <Modal
-        // min_width="60vw"
-        max_width="40rem"
+        maxWidth="40rem"
         triggerAttributes={{ text: 'Open modal' }}
         title="Modal Title"
-        on_close={(e) => {
-          console.log('on_close', e)
+        onClose={(e) => {
+          console.log('onClose', e)
         }}
       >
-        <Modal.Content spacing>
+        <Modal.Content innerSpace={{ block: 'large' }}>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top innerSpace={{ block: 'large' }}>
             <P>
               <Switch label="Checked:" checked />
             </P>
@@ -218,7 +209,7 @@ export const ModalSandbox = () => (
 
 export const ModalV2Sandbox = () => (
   <Modal
-    openState={true}
+    open={true}
     title="hellooo"
     triggerAttributes={{
       text: 'Custom',
@@ -230,31 +221,30 @@ export const ModalV2Sandbox = () => (
 )
 
 class ModalRerenderExample extends React.PureComponent {
-  state = {
+  override state = {
     title: 'Modal Title',
     triggerText: 'Open Modal',
   }
   timeout
 
-  componentDidMount() {
+  override componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
       this.setState({ triggerText: 'New Open Modal' })
     }, 1e3)
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  render() {
+  override render() {
     return (
       <Modal
-        // open_state="opened"
         triggerAttributes={{ text: this.state.triggerText }}
         title={this.state.title}
       >
-        <Modal.Content spacing>
+        <Modal.Content innerSpace={{ block: 'large' }}>
           {/* <Hr /> */}
           {/* <Box>
           <H2>Some content</H2>
@@ -276,80 +266,78 @@ class ModalRerenderExample extends React.PureComponent {
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         44445678902
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann A',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         12345623902
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann B',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         55555672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann C',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         77775672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann D',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         99995672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann E',
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         11345678962
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         15349648901
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState<
-    false | 'opened' | 'closed'
-  >(false)
+  const [openState, setOpenState] = React.useState<boolean>(false)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (open_state === 'opened') {
+    if (openState) {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -361,44 +349,39 @@ const ModalCloseExample = () => {
 
   return (
     <>
-      <Button
-        text="Set opened state"
-        on_click={() => setOpenState('opened')}
-      />
+      <Button text="Set opened state" onClick={() => setOpenState(true)} />
       <Modal
         triggerAttributes={{ text: 'Open Modal and auto close' }}
         title="Modal Title"
-        open_state={open_state}
-        open_modal={(open) => {
+        open={openState}
+        openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hide_close_button
-        close_modal={(close) => {
+        closeModal={(close) => {
           let timeout
 
-          if (open_state !== 'opened') {
+          if (!openState) {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
 
           return () => clearTimeout(timeout)
         }}
-        on_open={(e) => {
-          console.log('on_open', e)
+        onOpen={(e) => {
+          console.log('onOpen', e)
         }}
-        on_close={(e) => {
-          console.log('on_close', e)
-          // clearTimeout(timeoutId)
-          setOpenState('closed')
+        onClose={(e) => {
+          console.log('onClose', e)
+          setOpenState(false)
         }}
       >
         <Hr />
-        <Section spacing>
+        <Section innerSpace={{ block: 'large' }}>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Section>
-        <Section spacing>
+        <Section innerSpace={{ block: 'large' }}>
           <P>
             <Switch label="Checked:" checked />
           </P>
@@ -417,22 +400,21 @@ const ModalTriggerExample = () => {
         <Button
           variant="secondary"
           text="Count"
-          on_click={() => setCount(count + 1)}
+          onClick={() => setCount(count + 1)}
         />
 
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={() => {
-            // console.log('on_click', e)
+          onClick={() => {
             return (
               <Modal
                 title="Modal Title"
                 triggerAttributes={{ hidden: true }}
-                open_state="opened"
-                labelled_by="custom-triggerer"
+                open={true}
+                labelledBy="custom-triggerer"
               >
-                <Section spacing style_type="divider">
+                <Section innerSpace={{ block: 'large' }} variant="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Modal>
@@ -451,13 +433,7 @@ function FillContent() {
       This is the modal text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        skip_portal
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right skipPortal />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
       himenaeos nec est turpis ridiculus posuere sollicitudin nostra
@@ -499,12 +475,7 @@ function FillContent() {
       quisque tellus consectetur fringilla curae praesent nullam vulputate
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
       luctus eget tempus rutrum faucibus et suspendisse aliquam felis
@@ -570,12 +541,7 @@ function FillContent() {
       dolor fusce nostra orci turpis velit fames a porttitor quis mi rutrum
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
     </>
   )
 }
@@ -584,10 +550,7 @@ function ModalWithScrollableBox() {
   return (
     <>
       {/* <ScrollView /> */}
-      <Modal
-      // fullscreen={true}
-      // open_state="opened"
-      >
+      <Modal>
         <SimScrollView />
       </Modal>
     </>
@@ -599,7 +562,6 @@ function SimScrollView() {
     <div
       style={{
         width: '100%',
-        // height: '100vh',
         height: '20rem',
         display: 'flex',
         alignItems: 'center',
@@ -611,7 +573,6 @@ function SimScrollView() {
         style={{
           width: '50%',
           height: '50%',
-          // overflowY: 'auto',
           maxHeight: '12rem',
         }}
       >
@@ -632,14 +593,14 @@ function CloseWithAnimation() {
   return (
     <Modal
       triggerAttributes={{ text: 'CloseWithAnimation' }}
-      hide_close_button
-      open_state={modalOpen}
-      on_open={() => setModalOpen(true)}
-      on_close={() => setModalOpen(false)}
+      hideCloseButton
+      open={modalOpen}
+      onOpen={() => setModalOpen(true)}
+      onClose={() => setModalOpen(false)}
     >
       <Button
         text="Close from inside modal"
-        on_click={() => setModalOpen(false)}
+        onClick={() => setModalOpen(false)}
       />
     </Modal>
   )
@@ -648,7 +609,11 @@ function CloseWithAnimation() {
 function CloseByCallback() {
   return (
     <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
-      {({ close }) => <Button text="Close by callback" on_click={close} />}
+      {
+        (({ close }) => (
+          <Button text="Close by callback" onClick={close} />
+        )) as (props: ModalContentProps) => React.ReactNode
+      }
     </Modal>
   )
 }

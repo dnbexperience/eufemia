@@ -9,34 +9,28 @@ import {
   InputMaskedExampleCustomNumberMask,
   InputMaskedExampleNumberMask,
   InputMaskedExamplePrefix,
-  InputMaskedExampleCustomMask,
-  InputMaskedExampleMulti,
 } from 'Docs/uilib/components/input-masked/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ## Demos
 
-<ChangeLocale
-  label="Locale used in the demos:"
-  label_direction="vertical"
-  bottom
-/>
+<ChangeLocale label="Locale used in the demos:" bottom />
 
 ### Locale based numbers
 
-When you use `as_number` or `as_percent` (and `as_currency` see below) it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale property is not given.
+When you use `asNumber` or `asPercent` (and `asCurrency` see below) it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale property is not given.
 
-You can still define extra mask parameters with `number_mask` or `mask_options`, as the second input example shows (e.g. `decimalLimit`).
+You can still define extra mask parameters with `numberMask` or `maskOptions`, as the second input example shows (e.g. `decimalLimit`).
 
 <InputMaskedExampleNumberLocale />
 
-### Locale based `as_currency`
+### Locale based `asCurrency`
 
-When you use `as_currency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale property is not given.
+When you use `asCurrency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale property is not given.
 
 <InputMaskedExampleCurrencyLocale />
 
-### Define the `currency_mask` manually
+### Define the `currencyMask` manually
 
 <InputMaskedExampleCurrencyMask />
 
@@ -44,32 +38,10 @@ When you use `as_currency` it will create a mask for you and inherit the locale 
 
 <InputMaskedExampleCustomNumberMask />
 
-### Using the `number_mask` with a combined suffix
+### Using the `numberMask` with a combined suffix
 
 <InputMaskedExampleNumberMask />
 
-### Using the `number_mask` and a prefix
+### Using the `numberMask` and a prefix
 
 <InputMaskedExamplePrefix />
-
-### Custom mask
-
-This is an example of how you can utilize a custom mask.
-
-For a phone number input, use the [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) field instead.
-
-<InputMaskedExampleCustomMask />
-
-### Mask with multiple inputs
-
-Allows for the same input functionality as in the [DatePicker](/uilib/components/date-picker), but with your own defined inputs.
-`onChange` takes an object with keys based on the step id's. e.g. `{month: string, year: string, suffix: string}`
-
-`import` as demonstrated below
-
-```tsx
-import { MultiInputMask } from '@dnb/eufemia/components/input-masked'
-render(<MultiInputMask />)
-```
-
-<InputMaskedExampleMulti />

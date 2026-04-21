@@ -91,7 +91,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   }
 
   const thumbParams = attributes as Record<string, unknown>
-  const elemRef = React.useRef<HTMLElement>()
+  const elemRef = React.useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = React.useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
@@ -130,7 +130,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         variant="secondary"
         disabled={disabled}
         skeleton={skeleton}
-        innerRef={elemRef}
+        ref={elemRef}
         {...thumbParams}
       />
 
@@ -138,7 +138,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         <Tooltip
           key={`group-${currentIndex}`}
           targetElement={elemRef}
-          forceActive={Boolean(alwaysShowTooltip || forceActive)}
+          open={alwaysShowTooltip || forceActive || undefined}
           targetRefreshKey={value}
           showDelay={1}
           hideDelay={300}

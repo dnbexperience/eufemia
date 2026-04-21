@@ -4,10 +4,9 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import { isTrue } from '../../shared/component-helper'
+import clsx from 'clsx'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -16,6 +15,7 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Button from '../button/Button'
+import type { ButtonOnClick } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -57,23 +57,22 @@ export function SliderInstance() {
     extensions,
   } = allProps
 
-  const mainParams = {
-    className: classnames(
+  const mainParams = applySpacing(allProps, {
+    className: clsx(
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
       shouldAnimate && 'dnb-slider__state--animate',
       !showButtons && 'dnb-slider--no-buttons',
-      isTrue(stretch) && 'dnb-slider--stretch',
+      stretch && 'dnb-slider--stretch',
       label && labelDirection && `dnb-slider__label--${labelDirection}`,
       showStatus && 'dnb-slider__form-status',
       status && `dnb-slider__status--${statusState}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      createSpacingClasses(allProps),
       className
     ),
-  }
+  })
 
   const subtractButton = showButtons ? <SubtractButton /> : null
   const addButton = showButtons ? <AddButton /> : null
@@ -101,10 +100,10 @@ export function SliderInstance() {
           show={showStatus}
           id={id + '-form-status'}
           globalStatus={globalStatus}
-          text_id={id + '-status'} // used for "aria-describedby"
+          textId={id + '-status'} // used for "aria-describedby"
           text={status}
           state={statusState}
-          no_animation={statusNoAnimation}
+          noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
         />
@@ -183,7 +182,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onSubtractClickHandler}
+      onClick={onSubtractClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
       {...subtractParams}
@@ -218,7 +217,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onAddClickHandler}
+      onClick={onAddClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
       {...addParams}

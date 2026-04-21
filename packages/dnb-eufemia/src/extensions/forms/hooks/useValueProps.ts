@@ -5,19 +5,18 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import { Path, ValueProps } from '../types'
+import type { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 
-export type Props<Value> = ValueProps<Value>
+export type UseValueProps<Value> = ValueProps<Value>
 
-export default function useValueProps<
-  Value = unknown,
-  Props extends ValueProps<Value> = ValueProps<Value>,
->(localProps: Props): Props & ValueProps<Value> {
+export default function useValueProps<Value = unknown, Props = unknown>(
+  localProps: Props & ValueProps<Value>
+): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const { extend } = useContext(ValueProviderContext)
@@ -89,7 +88,8 @@ export default function useValueProps<
   )
 
   const value = shouldBeVisible(path)
-    ? transformIn(toInput(externalValue))
+    ? // @ts-expect-error - strictFunctionTypes
+      transformIn(toInput(externalValue))
     : undefined
 
   const label =
@@ -98,5 +98,5 @@ export default function useValueProps<
       ? fieldInternalsRef?.current?.[path]?.props?.label
       : undefined)
 
-  return { ...props, label, value }
+  return { ...props, label, value } as typeof props
 }

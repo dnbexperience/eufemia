@@ -8,7 +8,7 @@ import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
-import { DatePickerDates } from './hooks/useDates'
+import type { DatePickerDates } from './hooks/useDates'
 
 type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
   DatePickerDates & {
@@ -67,10 +67,6 @@ function DatePickerFooter({
 
   const onCancelHandler = useCallback(
     (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
       updateDates(submittedDates, (dates) => {
         onCancel?.({ ...args, ...dates })
       })
@@ -80,19 +76,15 @@ function DatePickerFooter({
 
   const onResetHandler = useCallback(
     (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
       const startDate = previousDateProps.startDate
         ? convertStringToDate(previousDateProps.startDate, {
             dateFormat,
           })
         : previousDateProps.date
-        ? convertStringToDate(previousDateProps.date, {
-            dateFormat,
-          })
-        : undefined
+          ? convertStringToDate(previousDateProps.date, {
+              dateFormat,
+            })
+          : undefined
 
       const endDate = previousDateProps.endDate
         ? convertStringToDate(previousDateProps.endDate, {
@@ -136,7 +128,7 @@ function DatePickerFooter({
           <Button
             text={resetButtonText || resetButtonTextTranslation}
             icon="reset"
-            icon_position="left"
+            iconPosition="left"
             variant="tertiary"
             onClick={onResetHandler}
             data-testid="reset"
@@ -148,7 +140,7 @@ function DatePickerFooter({
           <Button
             text={cancelButtonText || cancelButtonTextTranslation}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             variant="tertiary"
             onClick={onCancelHandler}
             data-testid="cancel"

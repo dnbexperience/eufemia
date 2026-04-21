@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Badge, { BadgeProps } from '../Badge'
+import type { BadgeProps } from '../Badge'
+import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
@@ -311,6 +312,27 @@ describe('Badge', () => {
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Badge ref={ref} content="1" />)
+
+    const element = document.querySelector('.dnb-badge')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<Badge ref={refFn} content="1" />)
+
+    const element = document.querySelector('.dnb-badge')
+    expect(refElement).toBe(element)
   })
 })
 

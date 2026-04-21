@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import FormStatus from '../form-status/FormStatus'
@@ -17,8 +17,9 @@ import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import TimelineContext from './TimelineContext'
 
-export type TimeLineItemStates = 'completed' | 'current' | 'upcoming'
+export type TimelineItemState = 'completed' | 'current' | 'upcoming'
 
 export type TimelineItemProps = {
   /**
@@ -29,7 +30,7 @@ export type TimelineItemProps = {
 
   /**
    * Text displaying the title of the item's corresponding page.
-   * Default: translations based on the icon.
+   * Defaults to a translation based on the icon.
    */
   iconAlt?: string
 
@@ -50,13 +51,13 @@ export type TimelineItemProps = {
 
   /**
    * The component state. State 'completed', 'current' or 'upcoming'.
-   * Default: null
+   * Default: `null`
    */
-  state: TimeLineItemStates
+  state: TimelineItemState
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 }
@@ -64,7 +65,7 @@ export type TimelineItemProps = {
 export type TimelineItemAllProps = TimelineItemProps &
   Omit<React.AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
-const defaultProps = {
+const defaultProps: Partial<TimelineItemAllProps> = {
   icon: null,
   iconAlt: null,
   title: null,
@@ -77,13 +78,15 @@ const defaultProps = {
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+  const timelineContext = React.useContext(TimelineContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.TimelineItem,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
+    timelineContext
   )
 
   const {
@@ -98,7 +101,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
   } = allProps
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const classes = classnames(
+  const classes = clsx(
     'dnb-timeline__item',
     skeletonClasses,
     `dnb-timeline__item--${state}`
@@ -147,9 +150,9 @@ type TimeLineIconProps = Pick<
 > & { translations: TimeLineIconAltTranslations }
 
 type TimeLineIconAltTranslations = {
-  alt_label_completed: string
-  alt_label_current: string
-  alt_label_upcoming: string
+  altLabelCompleted: string
+  altLabelCurrent: string
+  altLabelUpcoming: string
 }
 
 const TimelineItemIcon = ({
@@ -159,19 +162,19 @@ const TimelineItemIcon = ({
   skeleton,
   translations,
 }: TimeLineIconProps) => {
-  const { alt_label_completed, alt_label_current, alt_label_upcoming } =
+  const { altLabelCompleted, altLabelCurrent, altLabelUpcoming } =
     translations
 
-  const icons: Record<TimeLineItemStates, IconIcon> = {
+  const icons: Record<TimelineItemState, IconIcon> = {
     completed: checkIcon,
     current: pinIcon,
     upcoming: calendarIcon,
   }
 
-  const labels: Record<TimeLineItemStates, string> = {
-    completed: alt_label_completed,
-    current: alt_label_current,
-    upcoming: alt_label_upcoming,
+  const labels: Record<TimelineItemState, string> = {
+    completed: altLabelCompleted,
+    current: altLabelCurrent,
+    upcoming: altLabelUpcoming,
   }
 
   const currentIcon = icon || icons[state]
@@ -227,7 +230,7 @@ const TimelineItemContent = ({
       {infoMessage && (
         <FormStatus
           text={infoMessage}
-          state="info"
+          state="information"
           className="dnb-timeline__item__content__info"
           stretch
         />

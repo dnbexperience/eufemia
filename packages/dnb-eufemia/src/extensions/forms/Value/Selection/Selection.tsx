@@ -1,17 +1,18 @@
 import React, { useContext, useMemo } from 'react'
 import StringValue from '../String'
-import { Path, ValueProps } from '../../types'
+import type { Path, ValueProps } from '../../types'
 import { useValueProps } from '../../hooks'
 import useDataValue from '../../hooks/useDataValue'
 import Context from '../../DataContext/Context'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import { Data } from '../../Field/Selection'
+import type { Data } from '../../Field/Selection'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<string> & {
+export type ValueSelectionProps = ValueProps<string> & {
   dataPath?: Path
 }
 
-function Selection(props: Props) {
+function Selection(props: ValueSelectionProps) {
   const { fieldInternalsRef } = useContext(Context) || {}
   const { path, dataPath, value, ...rest } = useValueProps(props)
   const { getValueByPath } = useDataValue()
@@ -24,7 +25,7 @@ function Selection(props: Props) {
 
       if (!list) {
         list = fieldProp?.children as Array<
-          Omit<JSX.Element, 'props'> & { props: Data[number] }
+          Omit<React.JSX.Element, 'props'> & { props: Data[number] }
         >
       }
 
@@ -40,5 +41,8 @@ function Selection(props: Props) {
   return <StringValue value={valueToDisplay} path={path} {...rest} />
 }
 
-Selection._supportsSpacingProps = true
+withComponentMarkers(Selection, {
+  _supportsSpacingProps: true,
+})
+
 export default Selection

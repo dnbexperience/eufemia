@@ -184,7 +184,7 @@ export const warningValidCases = [
           type: 'React.ReactNode',
         },
         config: {
-          type: '{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }',
+          type: '{ horizontalRef?: HTMLElement | React.RefObject<HTMLElement> }',
         },
         render: {
           type: '({ close, open, toggle, id }) => React.ReactNode',

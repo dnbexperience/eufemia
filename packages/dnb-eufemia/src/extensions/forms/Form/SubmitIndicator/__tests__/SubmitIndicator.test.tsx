@@ -8,6 +8,21 @@ import locales from '../../../constants/locales'
 const nbNO = locales['nb-NO']
 
 describe('Form.SubmitIndicator', () => {
+  it('should forward id to the wrapper element', () => {
+    render(<Form.SubmitIndicator id="my-indicator" state="pending" />)
+
+    const element = document.querySelector('#my-indicator')
+    expect(element).toBeInTheDocument()
+    expect(element).toHaveClass('dnb-forms-submit-indicator')
+  })
+
+  it('should not render id when not provided', () => {
+    render(<Form.SubmitIndicator state="pending" />)
+
+    const element = document.querySelector('.dnb-forms-submit-indicator')
+    expect(element).not.toHaveAttribute('id')
+  })
+
   it('should set custom "className"', () => {
     render(
       <Form.SubmitIndicator className="custom-class" state={undefined} />

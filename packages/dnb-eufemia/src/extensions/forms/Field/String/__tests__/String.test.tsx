@@ -12,13 +12,13 @@ import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import { GlobalStatus } from '../../../../../components'
+import type { Validator } from '../../..'
 import {
   Field,
   FieldBlock,
   Form,
   FormError,
   Iterate,
-  Validator,
   Value,
   z,
   makeAjvInstance,
@@ -64,6 +64,17 @@ describe('Field.String', () => {
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
         screen.getByText('Enter something')
       ).toBeInTheDocument()
+    })
+
+    it('allows typing beyond the provided mask length when allowOverflow is set', async () => {
+      render(
+        <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+      )
+
+      const element = document.querySelector('input')
+      await userEvent.type(element, '123456')
+
+      expect(element).toHaveValue('1-2-3456')
     })
 
     it('renders help', () => {
@@ -181,13 +192,13 @@ describe('Field.String', () => {
       )
     })
 
-    it('support Textarea props such as "autoresizeMaxRows"', async () => {
+    it('support Textarea props such as "autoResizeMaxRows"', async () => {
       render(
         <Field.String
           multiline
-          autoresize
+          autoResize
           rows={1}
-          autoresizeMaxRows={4}
+          autoResizeMaxRows={4}
         />
       )
 
@@ -1445,24 +1456,6 @@ describe('Field.String', () => {
         ).toBe('A formatted error message')
       })
 
-      /**
-       * @deprecated – can be removed in v11
-       */
-      it('should support deprecated "required" errorMessage', () => {
-        render(
-          <Field.String
-            errorMessages={{
-              required: 'You need this',
-            }}
-            required
-            validateInitially
-          />
-        )
-        expect(
-          document.querySelector('.dnb-form-status').textContent
-        ).toBe('You need this')
-      })
-
       it('should show provided errorMessages based on validation rule with injected value', () => {
         render(
           <Field.String
@@ -1470,9 +1463,6 @@ describe('Field.String', () => {
             value=""
             errorMessages={{
               'StringField.errorMinLength': 'At least {minLength}.',
-
-              /** @deprecated – can be removed in v11 */
-              minLength: 'At least {minLength}.',
             }}
             minLength={4}
             validateInitially
@@ -1485,7 +1475,6 @@ describe('Field.String', () => {
       })
 
       it('should provide error message to the onBlurValidator', async () => {
-        let collectDeprecatedMessage = null
         let collectCustomMessage = null
         const customMessage = 'Your custom error message'
 
@@ -1495,7 +1484,6 @@ describe('Field.String', () => {
               'MyCustom.message': customMessage,
             }}
             onBlurValidator={(value, { errorMessages }) => {
-              collectDeprecatedMessage = errorMessages.required
               collectCustomMessage = errorMessages['MyCustom.message']
               return new FormError('MyCustom.message')
             }}
@@ -1510,7 +1498,6 @@ describe('Field.String', () => {
         })
 
         expect(collectCustomMessage).toBe(customMessage)
-        expect(collectDeprecatedMessage).toBe(nb.Field.errorRequired)
       })
 
       it('should update required error message when changing locale in Provider', async () => {
@@ -1670,18 +1657,19 @@ describe('Field.String', () => {
 
   it('gets valid ref element', () => {
     const id = 'unique'
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
 
     const MockComponent = () => {
-      ref = React.useRef()
-      return <Field.String id={id} innerRef={ref} />
+      ref = React.useRef(null)
+      return <Field.String id={id} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current instanceof HTMLInputElement).toBe(true)
-    expect(ref.current.id).toBe(id)
-    expect(ref.current.tagName).toBe('INPUT')
+    // ref flows through to Input (class component), giving the instance
+    expect(ref.current).toBeTruthy()
+    const input = document.querySelector(`#${id}`)
+    expect(input.tagName).toBe('INPUT')
   })
 
   it('should store "displayValue" in data context', async () => {
@@ -1708,16 +1696,16 @@ describe('Field.String', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '123 kr',
+        value: '123',
       },
     })
 
-    await userEvent.type(input, '{Backspace>2}4')
+    await userEvent.type(input, '{Backspace}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '124 kr',
+        value: '124',
       },
     })
 
@@ -1821,24 +1809,24 @@ describe('Field.String', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
-        value: '123 kr',
+        value: '123',
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
 
-    await userEvent.type(input, '{Backspace>2}4')
+    await userEvent.type(input, '{Backspace}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
-        value: '124 kr',
+        value: '124',
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
 
@@ -1850,7 +1838,7 @@ describe('Field.String', () => {
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
   })
@@ -1935,7 +1923,7 @@ describe('Field.String', () => {
       const ids = document.querySelectorAll(`#${describedBy}`)
       expect(ids).toHaveLength(1)
       expect(ids[0]).toBeInTheDocument()
-      expect(ids[0]).toHaveClass('dnb-form-status--info')
+      expect(ids[0]).toHaveClass('dnb-form-status--information')
       expect(ids[0]).toHaveTextContent('Info message')
     })
 
@@ -1961,7 +1949,7 @@ describe('Field.String', () => {
       const ids = document.querySelectorAll(`#${describedBy}`)
       expect(ids).toHaveLength(1)
       expect(ids[0]).toBeInTheDocument()
-      expect(ids[0]).toHaveClass('dnb-form-status--warn')
+      expect(ids[0]).toHaveClass('dnb-form-status--warning')
       expect(ids[0]).toHaveTextContent('Warning message')
     })
 
@@ -2138,7 +2126,7 @@ describe('Field.String', () => {
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
 
       const [first, second, third] = Array.from(
@@ -2147,7 +2135,10 @@ describe('Field.String', () => {
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
-      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+      expect(third).toHaveAttribute(
+        'id',
+        'unique-form-status--information'
+      )
 
       expect(
         document.querySelectorAll('#unique-form-status--error')
@@ -2156,7 +2147,7 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
 
       await userEvent.type(input, 'x')
@@ -2168,14 +2159,14 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
 
       fireEvent.blur(input)
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
     })
 
@@ -2193,7 +2184,7 @@ describe('Field.String', () => {
 
       expect(input).toHaveAttribute(
         'aria-describedby',
-        'unique-form-status--error unique-form-status--warning unique-form-status--info'
+        'unique-form-status--error unique-form-status--warning unique-form-status--information'
       )
 
       const [first, second, third] = Array.from(
@@ -2202,7 +2193,10 @@ describe('Field.String', () => {
 
       expect(first).toHaveAttribute('id', 'unique-form-status--error')
       expect(second).toHaveAttribute('id', 'unique-form-status--warning')
-      expect(third).toHaveAttribute('id', 'unique-form-status--info')
+      expect(third).toHaveAttribute(
+        'id',
+        'unique-form-status--information'
+      )
 
       expect(
         document.querySelectorAll('#unique-form-status--error')
@@ -2211,7 +2205,7 @@ describe('Field.String', () => {
         document.querySelectorAll('#unique-form-status--warning')
       ).toHaveLength(1)
       expect(
-        document.querySelectorAll('#unique-form-status--info')
+        document.querySelectorAll('#unique-form-status--information')
       ).toHaveLength(1)
     })
 

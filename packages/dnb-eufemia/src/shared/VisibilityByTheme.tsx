@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import useTheme from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 
@@ -45,7 +45,7 @@ export default function VisibilityByTheme({
     }
   }
 
-  return children as JSX.Element
+  return children as React.JSX.Element
 
   function match(theme: ThemeProps) {
     return (themeItem: ThemeItem) => {
@@ -78,4 +78,5 @@ VisibilityByTheme.Name = function ThemeName() {
   if (theme.isUi) {
     return 'DNB'
   }
+  return undefined
 }

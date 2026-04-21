@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import * as Examples from 'Docs/uilib/layout/space/Examples'
+import * as Examples from './Examples'
 
 ## Demos
 
@@ -20,21 +20,30 @@ Define the space directly.
 
 ### Spacing method #3
 
-Using `createSpacingClasses` or `createSpacingProperties`.
+Using `createSpacing` or `applySpacing`.
 
 <Examples.Method3 />
 
+## Responsive `space`
+
+The `space` property supports [media query breakpoints](/uilib/usage/layout/media-queries) (`small`, `medium`, `large`) for responsive spacing. Provide an object with breakpoint keys to apply different values at each screen size.
+
+<Examples.ResponsiveOuterSpace />
+
 ### Responsive `innerSpace`
 
-For "padding" inside the space component, you can use the property `innerSpace`.
-
-It supports the same API as the `space` property.
-
-But in addition it supports [media query breakpoints](/uilib/usage/layout/media-queries), such as `small`, `medium` and `large`.
-
-For `innerSpace` object values, you can also use `block` and `inline` shorthand.
+The `innerSpace` property controls padding inside the Space component. It shares the same API as `space`.
 
 <Examples.InnerSpace />
+
+### `inline` and `block` shorthand
+
+Both `space` and `innerSpace` properties support `inline` and `block` shorthand properties for more semantic spacing control.
+
+- `inline` applies spacing to left and right (horizontal)
+- `block` applies spacing to top and bottom (vertical)
+
+<Examples.SpaceInlineBlock />
 
 ### Spacing with no margin collapse, due to the flex usage
 
@@ -51,4 +60,6 @@ For `innerSpace` object values, you can also use `block` and `inline` shorthand.
 <VisibleWhenVisualTest>
   <Examples.SpaceVisibleWhenVisualTestElements />
   <Examples.SpaceVisibleWhenVisualTestReset />
+  <Examples.SpaceMediaQueries />
+  <Examples.InnerSpaceMediaQueries />
 </VisibleWhenVisualTest>

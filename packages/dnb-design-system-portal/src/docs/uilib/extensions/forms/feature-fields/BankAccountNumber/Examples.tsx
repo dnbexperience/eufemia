@@ -145,3 +145,30 @@ export const ValidationExtendValidator = () => {
     </ComponentBox>
   )
 }
+
+export const BankAccountTypes = () => {
+  return (
+    <ComponentBox>
+      <Field.BankAccountNumber
+        bankAccountType="swedishBban"
+        value="50001234567"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.BankAccountNumber
+        bankAccountType="swedishBankgiro"
+        value="59140129"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.BankAccountNumber
+        bankAccountType="swedishPlusgiro"
+        value="1263664"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.BankAccountNumber
+        bankAccountType="iban"
+        value="NO9386011117947"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}

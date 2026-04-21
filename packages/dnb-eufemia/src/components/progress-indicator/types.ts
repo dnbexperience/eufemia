@@ -1,11 +1,11 @@
-import * as React from 'react'
-import CSS from 'csstype'
-import { SpacingProps } from '../space/types'
+import type * as React from 'react'
+import type CSS from 'csstype'
+import type { SpacingProps } from '../../shared/types'
 
 const validSizes = ['default', 'small', 'medium', 'large', 'huge'] as const
 
 export type ValidSizes = (typeof validSizes)[number]
-export type CustomSize = CSS.Property.Width
+export type ProgressIndicatorCustomSize = CSS.Property.Width
 
 export function isValidSize(
   size: ProgressIndicatorProps['size']
@@ -15,9 +15,9 @@ export function isValidSize(
 
 export type ProgressIndicatorProps = {
   /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
+   * Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation. Defaults to `true`.
    */
-  visible?: boolean
+  show?: boolean
   /**
    * Defines the type. Defaults to `circular`.
    */
@@ -29,13 +29,13 @@ export type ProgressIndicatorProps = {
   /**
    * Defines the size. Defaults to `default`.
    */
-  size?: ValidSizes | CustomSize
+  size?: ValidSizes | ProgressIndicatorCustomSize
   /**
    * A number between 0-100, if not supplied a continuous loading-type animation will be used. Defaults to `undefined`
    */
   progress?: string | number
   /**
-   * Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)
+   * Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)
    */
   label?: React.ReactNode
   /**
@@ -43,7 +43,7 @@ export type ProgressIndicatorProps = {
    */
   children?: React.ReactNode
   /**
-   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `horizontal`.
+   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `vertical`.
    */
   labelDirection?: 'horizontal' | 'vertical' | 'inside'
   /**
@@ -53,17 +53,17 @@ export type ProgressIndicatorProps = {
   /**
    * Use this to override the default label from text locales.
    */
-  indicator_label?: string
+  indicatorLabel?: string
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
    */
   title?: string
   /**
-   * Will be called once it's no longer `visible`.
+   * Will be called once it's no longer visible (show=false).
    */
-  onComplete?: (...args: any[]) => any
+  onComplete?: () => void
   /**
-   * Send in custom css colors that overrides any css. Default is `undefined`.
+   * Send in custom css colors that overrides any css. Default: `undefined`.
    */
   customColors?: {
     /**
@@ -80,7 +80,7 @@ export type ProgressIndicatorProps = {
     background?: CSS.Property.BackgroundColor
   }
   /**
-   * Send in custom css width for circle progress line. Default is `undefined`. (`undefined` defaults to one eighth of the size).
+   * Send in custom css width for circle progress line. Default: `undefined`. (`undefined` defaults to one eighth of the size).
    */
   customCircleWidth?: CSS.Property.StrokeWidth
 }
@@ -88,7 +88,7 @@ export type ProgressIndicatorProps = {
 export type ProgressIndicatorAnimationProps = Pick<
   ProgressIndicatorProps,
   | 'size'
-  | 'visible'
+  | 'show'
   | 'progress'
   | 'onComplete'
   | 'customColors'
@@ -97,9 +97,9 @@ export type ProgressIndicatorAnimationProps = Pick<
   size?: ValidSizes | 'custom-size'
   progress?: number
   /**
-   * Callback when animation ends because `visible` is set to false
+   * Callback when animation ends because `show` is set to false
    */
-  callOnCompleteHandler?: (...args: any[]) => any
+  callOnCompleteHandler?: () => void
 }
 
 export type ProgressIndicatorAllProps = Omit<

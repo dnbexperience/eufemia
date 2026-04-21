@@ -1,20 +1,22 @@
 import { useContext, useMemo } from 'react'
 import pointer from '../utils/json-pointer'
-import { FieldProps, Path } from '../types'
+import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
 
-export type Props<Value> = {
+export type UseExternalValueProps<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
-  transformers?: React.MutableRefObject<{
+  transformers?: React.RefObject<{
     fromExternal: FieldProps<Value>['fromExternal']
   }>
   emptyValue?: FieldProps<Value>['emptyValue']
 }
 
-export default function useExternalValue<Value>(props: Props<Value>) {
+export default function useExternalValue<Value>(
+  props: UseExternalValueProps<Value>
+) {
   const {
     path,
     itemPath,

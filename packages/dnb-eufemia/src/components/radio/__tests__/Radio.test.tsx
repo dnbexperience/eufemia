@@ -6,7 +6,8 @@
 import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Radio, { RadioProps } from '../Radio'
+import type { RadioProps } from '../Radio'
+import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
 const props: RadioProps = {
@@ -34,23 +35,12 @@ describe('Radio component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
-    const my_event = jest.fn()
+  it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
-    render(
-      <Radio
-        on_change={my_event}
-        onChange={myEvent}
-        checked={false}
-        group={null}
-      />
-    )
+    render(<Radio onChange={myEvent} checked={false} group={null} />)
     fireEvent.click(document.querySelector('input'))
-    expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {
@@ -62,7 +52,7 @@ describe('Radio component', () => {
         <>
           <Radio
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
@@ -161,13 +151,13 @@ describe('Radio component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
-      'type',
       'id',
       'class',
       'aria-checked',
       'disabled',
       'role',
       'aria-label',
+      'type',
       'value',
     ])
     expect(Array.from(element.classList)).toEqual([
@@ -195,39 +185,34 @@ describe('Radio ARIA', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <Radio {...props} innerRef={ref} />
+      ref = React.useRef(null)
+      return <Radio {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current.classList).toContain('dnb-radio__input')
+    // ref should be the DOM element, not a class instance
+    const input = document.querySelector('.dnb-radio__input')
+    expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    expect(ref.current).toBe(input)
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLInputElement) => {
-      ref.current = elem
-    }
+    render(<Radio id="unique" ref={refFn} />)
 
-    render(<Radio id="unique" innerRef={refFn} />)
-
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.classList).toContain('dnb-radio__input')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const input = document.querySelector('#unique')
+    expect(refFn).toHaveBeenCalledWith(input)
+    expect(input.classList).toContain('dnb-radio__input')
   })
 })
 
 describe('Radio scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-radio-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

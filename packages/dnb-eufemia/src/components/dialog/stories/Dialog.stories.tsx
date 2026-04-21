@@ -19,6 +19,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
+import type { ButtonOnClick } from '../../button/Button'
 import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
@@ -42,7 +43,7 @@ export const DialogConfirmLoggedout = () => {
   return (
     <Dialog
       variant="confirmation"
-      openState={active}
+      open={active}
       icon={LogOutIcon}
       title="Du har blitt logget ut"
       description="For å fortsette må du logge inn igjen."
@@ -78,16 +79,20 @@ export const DialogConfirm = () => (
             variant="tertiary"
             text="Administrer"
             icon={edit}
-            icon_position="left"
-            on_click={({ close }) => {
-              close()
-            }}
+            iconPosition="left"
+            onClick={
+              (({ close }) => {
+                close()
+              }) as ButtonOnClick
+            }
           />
           <Button
             text="Jeg godtar"
-            on_click={({ close }) => {
-              close()
-            }}
+            onClick={
+              (({ close }) => {
+                close()
+              }) as ButtonOnClick
+            }
           />
         </Dialog.Action>
       </Dialog>
@@ -205,8 +210,8 @@ export const DialogSandbox = () => (
         focusSelector=".dnb-input__input:first-of-type"
         preventClose={true}
         hideCloseButton={true}
-        onOpen={(e) => console.log('on_open', e)}
-        onClose={(e) => console.log('on_close', e)}
+        onOpen={(e) => console.log('onOpen', e)}
+        onClose={(e) => console.log('onClose', e)}
         onClosePrevent={({ close, triggeredBy }) => {
           switch (triggeredBy) {
             case 'keyboard':
@@ -218,11 +223,13 @@ export const DialogSandbox = () => (
               return () => clearTimeout(timeout) // clear timeout on unmount
             }
           }
+
+          return undefined
         }}
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing style_type="divider">
+        <Section top innerSpace={{ block: 'large' }} variant="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Dialog>
@@ -230,40 +237,30 @@ export const DialogSandbox = () => (
 
     <Box>
       <Dialog
-        // triggerAttributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
         maxWidth="12rem"
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
         />
       </Dialog>
       <Dialog
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
         maxWidth="12rem"
       >
         <ProgressIndicator
           showDefaultLabel
-          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -272,13 +269,11 @@ export const DialogSandbox = () => (
     </Box>
 
     <Box>
-      <Dialog
-        title="Dialog Title"
-        // fullscreen
-        // openState="opened"
-        // noAnimation
-      >
-        <Dialog.Body spacing styleType="mint-green">
+      <Dialog title="Dialog Title">
+        <Dialog.Body
+          innerSpace={{ block: 'large' }}
+          backgroundColor="mint-green"
+        >
           <P>This is the modal text.</P>
         </Dialog.Body>
       </Dialog>
@@ -296,7 +291,6 @@ export const DialogSandbox = () => (
       <Dialog
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // open_state="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -342,14 +336,14 @@ export const DialogSandbox = () => (
         }}
         title="Modal Title"
         onClose={(e) => {
-          console.log('on_close', e)
+          console.log('onClose', e)
         }}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace={{ block: 'large' }}>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top innerSpace={{ block: 'large' }}>
             <P>
               <Switch label="Checked:" checked />
             </P>
@@ -373,32 +367,32 @@ export const DialogSandbox = () => (
 )
 
 class ModalRerenderExample extends React.PureComponent {
-  state = {
+  override state = {
     title: 'Modal Title',
-    trigger_text: 'Open Modal',
+    triggerText: 'Open Modal',
   }
   timeout: NodeJS.Timeout
 
-  componentDidMount() {
+  override componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
-      this.setState({ trigger_text: 'New Open Modal' })
+      this.setState({ triggerText: 'New Open Modal' })
     }, 1e3)
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  render() {
+  override render() {
     return (
       <Dialog
         triggerAttributes={{
-          text: this.state.trigger_text,
+          text: this.state.triggerText,
         }}
         title={this.state.title}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace={{ block: 'large' }}>
           <DatePicker label="DatePicker" right />
           <Dropdown
             label="Dropdown"
@@ -415,78 +409,78 @@ class ModalRerenderExample extends React.PureComponent {
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         44445678902
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann A',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         12345623902
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann B',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         55555672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann C',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         77775672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann D',
     ],
   },
   {
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         99995672302
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Sparekonto - Ole Nordmann E',
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         11345678962
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
-      <NumberFormat key={15349648901} ban>
+      <NumberFormat.BankAccountNumber key={15349648901}>
         15349648901
-      </NumberFormat>,
+      </NumberFormat.BankAccountNumber>,
       <>Custom content {'🔥'}</>,
     ],
   },
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState(null)
+  const [openState, setOpenState] = React.useState<boolean | null>(null)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (open_state === 'opened') {
+    if (openState === true) {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -498,25 +492,21 @@ const ModalCloseExample = () => {
 
   return (
     <>
-      <Button
-        text="Set opened state"
-        on_click={() => setOpenState('opened')}
-      />
+      <Button text="Set opened state" onClick={() => setOpenState(true)} />
       <Dialog
         triggerAttributes={{
           text: 'Open Modal and auto close',
         }}
         title="Modal Title"
-        openState={open_state}
+        open={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hide_close_button
         closeModal={(close) => {
           let timeout
 
-          if (open_state !== 'opened') {
+          if (openState !== true) {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -524,20 +514,19 @@ const ModalCloseExample = () => {
           return () => clearTimeout(timeout)
         }}
         onOpen={(e) => {
-          console.log('on_open', e)
+          console.log('onOpen', e)
         }}
         onClose={(e) => {
-          console.log('on_close', e)
-          // clearTimeout(timeoutId)
-          setOpenState('closed')
+          console.log('onClose', e)
+          setOpenState(false)
         }}
       >
         <Hr />
-        <Section spacing>
+        <Section innerSpace={{ block: 'large' }}>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Section>
-        <Section spacing>
+        <Section innerSpace={{ block: 'large' }}>
           <P>
             <Switch label="Checked:" checked />
           </P>
@@ -556,24 +545,23 @@ const ModalTriggerExample = () => {
         <Button
           variant="secondary"
           text="Count"
-          on_click={() => setCount(count + 1)}
+          onClick={() => setCount(count + 1)}
         />
 
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={(e) => {
-            // console.log('on_click', e)
+          onClick={(e) => {
             return (
               <Dialog
                 title="Modal Title"
                 triggerAttributes={{
                   hidden: true,
                 }}
-                openState="opened"
+                open={true}
                 labelledBy="custom-triggerer"
               >
-                <Section spacing style_type="divider">
+                <Section innerSpace={{ block: 'large' }} variant="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Dialog>
@@ -592,13 +580,7 @@ function FillContent() {
       This is the modal text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        skip_portal
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right skipPortal />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
       himenaeos nec est turpis ridiculus posuere sollicitudin nostra
@@ -640,12 +622,7 @@ function FillContent() {
       quisque tellus consectetur fringilla curae praesent nullam vulputate
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
       luctus eget tempus rutrum faucibus et suspendisse aliquam felis
@@ -711,12 +688,7 @@ function FillContent() {
       dolor fusce nostra orci turpis velit fames a porttitor quis mi rutrum
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
     </>
   )
 }
@@ -725,10 +697,7 @@ function ModalWithScrollableBox() {
   return (
     <>
       {/* <ScrollView /> */}
-      <Dialog
-      // fullscreen={true}
-      // open_state="opened"
-      >
+      <Dialog>
         <SimScrollView />
       </Dialog>
     </>
@@ -740,7 +709,6 @@ function SimScrollView() {
     <div
       style={{
         width: '100%',
-        // height: '100vh',
         height: '20rem',
         display: 'flex',
         alignItems: 'center',
@@ -752,7 +720,6 @@ function SimScrollView() {
         style={{
           width: '50%',
           height: '50%',
-          // overflowY: 'auto',
           maxHeight: '12rem',
         }}
       >
@@ -776,13 +743,13 @@ function CloseWithAnimation() {
         text: 'CloseWithAnimation',
       }}
       hideCloseButton
-      openState={modalOpen}
+      open={modalOpen}
       onOpen={() => setModalOpen(true)}
       onClose={() => setModalOpen(false)}
     >
       <Button
         text="Close from inside modal"
-        on_click={() => setModalOpen(false)}
+        onClick={() => setModalOpen(false)}
       />
     </Dialog>
   )
@@ -792,7 +759,7 @@ export const DialogConfirmHideConfirm = () => {
   return (
     <Box>
       <Dialog
-        openState="opened"
+        open={true}
         variant="confirmation"
         icon={WarningIcon}
         title="Beholdning kan ikke flyttes"
@@ -823,7 +790,7 @@ export function WithStrictMode() {
           console.log('triggeredBy', triggeredBy)
           setOpen(false)
         }}
-        openState={open}
+        open={open}
         omitTriggerButton
       >
         <P>
@@ -852,10 +819,10 @@ export function OpenStateInReactV19() {
 
   return (
     <React.StrictMode>
-      openState: {isOpen.toString()}
+      open: {isOpen.toString()}
       <Dialog
         triggerAttributes={{ text: 'Open dialog' }}
-        openState={isOpen}
+        open={isOpen}
         onOpen={() => {
           setIsOpen(true)
         }}

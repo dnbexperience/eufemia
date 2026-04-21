@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 const dateType = ['string', 'Date']
 
@@ -75,7 +75,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'To open the date-picker by default. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -110,6 +110,41 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  submitButtonText: {
+    doc: 'Custom text for the submit button. Defaults to `Ok`.',
+    type: 'string',
+    status: 'optional',
+  },
+  cancelButtonText: {
+    doc: 'Custom text for the cancel button. Defaults to `Avbryt`.',
+    type: 'string',
+    status: 'optional',
+  },
+  resetButtonText: {
+    doc: 'Custom text for the reset button. Defaults to `Tilbakestill`.',
+    type: 'string',
+    status: 'optional',
+  },
+  resetDate: {
+    doc: 'If set to `true`, the date will be reset when the reset button is clicked. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  preventClose: {
+    doc: 'If set to `true`, the date picker will not close after a date is selected. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  noAnimation: {
+    doc: 'If set to `true`, no open/close animation will be shown. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  direction: {
+    doc: 'Defines the direction of the date picker popup. Defaults to `auto`.',
+    type: ['"auto"', '"top"', '"bottom"'],
+    status: 'optional',
+  },
   link: {
     doc: 'Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.',
     type: 'boolean',
@@ -123,13 +158,13 @@ export const DatePickerProperties: PropertiesTableProps = {
   firstDay: {
     doc: 'To define the first day of the week. Defaults to `monday`.',
     type: [
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-      'sunday',
+      '"monday"',
+      '"tuesday"',
+      '"wednesday"',
+      '"thursday"',
+      '"friday"',
+      '"saturday"',
+      '"sunday"',
     ],
     status: 'optional',
   },
@@ -150,7 +185,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   labelAlignment: {
     doc: 'Sets the alignment of the label. Defaults to `left`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   onlyMonth: {
@@ -174,8 +209,8 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: ' Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['vertical', 'horizontal'],
+    doc: ' Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
+    type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
   suffix: {
@@ -199,18 +234,18 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputElement: {
-    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
+    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the masked input should not be used, e.g. in testing environments. Defaults to custom masked input.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: 'string',
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {
@@ -230,7 +265,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   tooltip: {
     doc: 'Provide a short Tooltip content that shows up on the picker button.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {
@@ -276,12 +311,12 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onShow: {
+  onOpen: {
     doc: 'Will be called once date-picker is visible.',
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Will be called once date-picker is hidden.',
     type: 'function',
     status: 'optional',

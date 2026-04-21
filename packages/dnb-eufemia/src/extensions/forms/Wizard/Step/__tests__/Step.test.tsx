@@ -5,7 +5,7 @@ import { Field, Form, Wizard } from '../../..'
 import { PrerenderFieldPropsOfOtherSteps } from '../../Container/PrerenderFieldPropsOfOtherSteps'
 import WizardContext from '../../Context'
 import WizardStepContext from '../StepContext'
-import { Steps } from '../../Context/types'
+import type { Steps } from '../../Context/types'
 
 const log = global.console.log
 beforeEach(() => {
@@ -25,9 +25,9 @@ describe('Step', () => {
     const activeIndex = 0
     const index = 0
     render(
-      <WizardContext.Provider value={{ activeIndex }}>
+      <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -39,9 +39,9 @@ describe('Step', () => {
     const activeIndex = 1
     const index = 0
     render(
-      <WizardContext.Provider value={{ activeIndex }}>
+      <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -50,9 +50,9 @@ describe('Step', () => {
 
   it('should use section element', () => {
     render(
-      <WizardContext.Provider value={{}}>
+      <WizardContext value={{}}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -61,9 +61,9 @@ describe('Step', () => {
 
   it('should have tabIndex of -1', () => {
     render(
-      <WizardContext.Provider value={{}}>
+      <WizardContext value={{}}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -74,9 +74,9 @@ describe('Step', () => {
     const stepElementRef = { current: null }
 
     render(
-      <WizardContext.Provider value={{ stepElementRef }}>
+      <WizardContext value={{ stepElementRef }}>
         <Wizard.Step>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -119,21 +119,13 @@ describe('Step', () => {
     expect(stepElement).toBeNull()
   })
 
-  // Deprecated – active is replaced with include - can be removed in v11
-  it('should not render when active is false', () => {
-    render(<Wizard.Step active={false}>Step Content</Wizard.Step>)
-
-    const stepElement = document.querySelector('.dnb-forms-step')
-    expect(stepElement).toBeNull()
-  })
-
   it('should not focus the step element when activeIndex does not match the index prop', () => {
     const activeIndex = 1
     const index = 0
     render(
-      <WizardContext.Provider value={{ activeIndex }}>
+      <WizardContext value={{ activeIndex }}>
         <Wizard.Step index={index}>Step Content</Wizard.Step>
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const stepElement = document.querySelector('.dnb-forms-step')
@@ -143,11 +135,11 @@ describe('Step', () => {
   it('should make all nested fields required, when the step is set to be required', () => {
     render(
       <Form.Handler>
-        <WizardContext.Provider value={{ activeIndex: 0 }}>
+        <WizardContext value={{ activeIndex: 0 }}>
           <Wizard.Step required index={0}>
             <Field.String />
           </Wizard.Step>
-        </WizardContext.Provider>
+        </WizardContext>
       </Form.Handler>
     )
 
@@ -288,13 +280,13 @@ describe('Step', () => {
       const activeIndex = 0
 
       render(
-        <WizardContext.Provider value={{ activeIndex }}>
+        <WizardContext value={{ activeIndex }}>
           <Wizard.Step index={0}>Active Content</Wizard.Step>
           <Wizard.Step index={1} keepInDOM>
             keepInDOM Content
           </Wizard.Step>
           <Wizard.Step index={2}>Hidden Content</Wizard.Step>
-        </WizardContext.Provider>
+        </WizardContext>
       )
 
       const [step1, step2, step3] = Array.from(
@@ -313,7 +305,7 @@ describe('Step', () => {
       const CheckPrerender = () => {
         const wizardStepContext = useContext(WizardStepContext)
         const { index } = wizardStepContext || {}
-        const ref = useRef<HTMLDivElement>()
+        const ref = useRef<HTMLDivElement>(undefined)
 
         useEffect(() => {
           if (
@@ -386,7 +378,7 @@ describe('Step', () => {
           [2, {}],
           [3, {}],
         ]),
-      } as React.MutableRefObject<Steps>
+      } as React.RefObject<Steps>
 
       render(
         <Form.Handler>

@@ -173,6 +173,8 @@ describe('DateFormat', () => {
       expect(tooltipElem).toHaveTextContent('2025')
       expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
 
+      // Flush all pending timers and React updates before switching back to real timers
+      jest.runOnlyPendingTimers()
       jest.useRealTimers()
     })
 
@@ -669,9 +671,9 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
+          'dnb-space__top--large',
         ])
       })
     })
@@ -1279,9 +1281,9 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
         expect(Array.from(element.classList)).toEqual([
           'dnb-date-format',
-          'dnb-space__top--large',
           'dnb-skeleton',
           'dnb-skeleton--font',
+          'dnb-space__top--large',
         ])
       })
     })

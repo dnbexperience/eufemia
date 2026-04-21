@@ -4,10 +4,11 @@
  */
 
 import React, { createContext, useContext } from 'react'
-import classnames from 'classnames'
-import { SpacingProps } from '../../components/space/types'
-import type { DynamicElement } from '../../shared/types'
+import clsx from 'clsx'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import Context from '../../shared/Context'
 
 export type TypographySize =
   | 'x-small'
@@ -83,7 +84,7 @@ export type TypographyProps<
   }
 
 type TypographyInternalProps = {
-  innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
+  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
 }
 
 const Typography = ({
@@ -99,6 +100,8 @@ const Typography = ({
   proseMaxWidth: proseMaxWidthProp,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
+  const context = useContext(Context)
+
   const { proseMaxWidth: proseMaxWidthContext } =
     useContext(TypographyContext)
 
@@ -111,10 +114,10 @@ const Typography = ({
 
   return (
     <E
-      as={element}
+      as={element as DynamicElement<unknown>}
       {...props}
       style={{ ...props.style, ...style }}
-      className={classnames(
+      className={clsx(
         className,
         size && `dnb-t__size--${size}`,
         align && `dnb-t__align--${align}`,
@@ -122,6 +125,7 @@ const Typography = ({
         weight && `dnb-t__weight--${weight}`,
         decoration && `dnb-t__decoration--${decoration}`,
         slant && `dnb-t__slant--${slant}`,
+        context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
         (lineHeight || size) && `dnb-t__line-height--${lineHeight || size}`
       )}
     />
@@ -133,13 +137,13 @@ const Provider = ({
   proseMaxWidth,
 }: TypographyProviderProps) => {
   return (
-    <TypographyContext.Provider value={{ proseMaxWidth }}>
+    <TypographyContext value={{ proseMaxWidth }}>
       {children}
-    </TypographyContext.Provider>
+    </TypographyContext>
   )
 }
 
-Typography._supportsSpacingProps = true
+withComponentMarkers(Typography, { _supportsSpacingProps: true })
 Typography.Provider = Provider
 
 export default Typography

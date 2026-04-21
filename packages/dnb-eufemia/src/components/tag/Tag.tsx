@@ -1,10 +1,12 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps, ButtonOnClick } from '../button/Button'
+import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
@@ -18,67 +20,59 @@ import {
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
-export interface TagProps {
+export type TagProps = {
   /**
    * The content of the tag element, can be a string or a React Element.
-   * Default: null
+   * Default: `null`
    */
   text?: string | React.ReactNode
 
   /**
-   * Icon displaying on the left side
-   * Default: null
+   * To be included in the tag. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.
    */
   icon?: IconIcon
 
   /**
    * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
-   * Default: null
+   * Default: `null`
    */
   hasLabel?: boolean
 
   /**
    * Defines the variant
-   * Default: 'default'
+   * Default: `'default'`
    */
   variant?: 'default' | 'clickable' | 'addable' | 'removable'
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop
-   * Default: null
+   * Default: `null`
    */
   children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
    * Handle the click event on 'tag' element
-   * Default: null
+   * Default: `null`
    */
   onClick?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
 
   /**
    * Handle the delete event on 'tag' element
-   * Default: null
-   * @deprecated Use `onClick` instead. With `variant='removable'`
-   */
-  onDelete?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
-
-  /**
-   * Handle the delete event on 'tag' element
-   * Default: null
+   * Default: `null`
    */
   omitOnKeyUpDeleteEvent?: boolean
 
@@ -95,7 +89,7 @@ export interface TagProps {
   addIconTitle?: string
 }
 
-export const defaultProps = {
+const defaultProps: Partial<TagProps> = {
   skeleton: null,
   omitOnKeyUpDeleteEvent: false,
 }
@@ -127,25 +121,28 @@ const Tag = (
     variant = 'default',
     onClick,
     omitOnKeyUpDeleteEvent,
+    icon,
     removeIconTitle, // has a translation in context
     addIconTitle, // has a translation in context
     ...props
-  } = handleDeprecatedBehavior(allProps)
+  } = allProps
 
   const content = text || children
 
-  const addIcon = variant === 'removable' || variant === 'addable'
-  const isInteractive = variant !== 'default'
-  const spacingClasses = createSpacingClasses(props)
-  const tagClassNames = classnames(
-    'dnb-tag',
-    className,
-    spacingClasses,
-    isInteractive && 'dnb-tag--interactive',
-    `dnb-tag--${variant}`
-  )
-  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
-    props
+  const usedVariant =
+    onClick && variant === 'default' ? 'clickable' : variant
+
+  const addIcon = usedVariant === 'removable' || variant === 'addable'
+  const isInteractive = usedVariant !== 'default'
+  const tagProps = applySpacing(props, {
+    className: clsx(
+      'dnb-tag',
+      className,
+      isInteractive && 'dnb-tag--interactive',
+      `dnb-tag--${usedVariant}`
+    ),
+  })
+  const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
   const isDeleteKeyboardEvent = (keyboardEvent) => {
     return (
@@ -160,14 +157,8 @@ const Tag = (
   }
 
   if (!isInteractive) {
-    buttonAttr.element = 'span'
-    buttonAttr.type = ''
-  }
-
-  if (addIcon) {
-    buttonAttr.icon = getIcon(
-      variant === 'addable' ? addIconTitle : removeIconTitle
-    )
+    additionalButtonParams.element = 'span'
+    additionalButtonParams.type = ''
   }
 
   if (!tagGroupContext && !hasLabel) {
@@ -180,9 +171,14 @@ const Tag = (
     <Button
       variant="unstyled"
       size="small"
-      icon_position={addIcon ? 'right' : 'left'}
-      className={tagClassNames}
-      on_click={onClick}
+      icon={
+        addIcon
+          ? getIcon(variant === 'addable' ? addIconTitle : removeIconTitle)
+          : icon
+      }
+      iconPosition={addIcon ? 'right' : 'left'}
+      {...tagProps}
+      onClick={onClick as ButtonOnClick}
       text={content}
       skeleton={skeleton}
       onKeyUp={
@@ -190,29 +186,12 @@ const Tag = (
           ? (e) => handleDeleteKeyUp(e)
           : undefined
       }
-      {...buttonAttr}
+      {...additionalButtonParams}
+      {...(props as Record<string, unknown>)}
     />
   )
 }
 
-/**
- * Support deprecated behavior by mutating the props.
- * Deprecated behavior: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
- */
-const handleDeprecatedBehavior: (allProps: TagProps) => TagProps = ({
-  onDelete,
-  ...allProps
-}) => {
-  if (!allProps.variant) {
-    if (allProps.onClick) {
-      allProps.variant = 'clickable'
-    } else if (onDelete) {
-      allProps.onClick = onDelete
-      allProps.variant = 'removable'
-    }
-  }
-  return allProps
-}
 const getIcon = (title: string) => (
   <IconPrimary
     title={title}
@@ -242,7 +221,9 @@ const getIcon = (title: string) => (
 
 Tag.Group = TagGroup
 
-Tag._formElement = true
-Tag._supportsSpacingProps = true
+withComponentMarkers(Tag, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Tag

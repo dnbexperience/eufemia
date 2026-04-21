@@ -6,8 +6,9 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
-import Isolation, { IsolationProps } from '../../Form/Isolation'
+import clsx from 'clsx'
+import type { IsolationProps } from '../../Form/Isolation'
+import Isolation from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
 import * as z from 'zod'
 import { isZodSchema } from '../../utils/zod'
@@ -18,17 +19,18 @@ import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
+import type { IterateEditContainerAllProps as EditContainerProps } from '../EditContainer'
 import EditContainer, {
   DoneButton,
   CancelButton,
   ResetButton,
-  AllProps as EditContainerProps,
 } from '../EditContainer'
-import IterateArray, { ContainerMode } from '../Array'
+import type { ContainerMode } from '../Array'
+import IterateArray from '../Array'
 import OpenButton from './OpenButton'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
-import { OnCommit, Path } from '../../types'
-import { SpacingProps } from '../../../../shared/types'
+import type { OnCommit, Path } from '../../types'
+import type { SpacingProps } from '../../../../shared/types'
 import {
   useArrayLimit,
   useItemPath,
@@ -36,9 +38,10 @@ import {
 } from '../hooks'
 import Toolbar from '../Toolbar'
 import { usePath, useTranslation } from '../../hooks'
-import { JsonObject } from '../../utils'
+import type { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type OnlyPathRequired = {
   /**
@@ -60,7 +63,10 @@ type OnlyItemPathRequired = {
   itemPath: Path
 }
 
-export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
+export type IteratePushContainerProps = (
+  | OnlyPathRequired
+  | OnlyItemPathRequired
+) & {
   /**
    * The title of the container.
    */
@@ -108,14 +114,6 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   bubbleValidation?: boolean
 
   /**
-   * If the container should be committed before the form is submitted.
-   */
-  /**
-   * @deprecated – Replaced with preventUncommittedChanges, requireCommit will be removed in v11.
-   */
-  requireCommit?: boolean
-
-  /**
    * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
   preventUncommittedChanges?: boolean
@@ -141,11 +139,11 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   children: React.ReactNode
 } & Pick<IsolationProps<JsonObject>, 'dataReference'>
 
-export type AllProps = Props &
+export type IteratePushContainerAllProps = IteratePushContainerProps &
   SpacingProps &
   Omit<EditContainerProps, 'data'>
 
-function PushContainer(props: AllProps) {
+function PushContainer(props: IteratePushContainerAllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const outerContext = useContext(DataContext)
   const { data: outerData, required: requiredInherited } = outerContext
@@ -155,8 +153,7 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    preventUncommittedChanges = props?.requireCommit,
-    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
+    preventUncommittedChanges,
     dataReference,
     showResetButton,
     path,
@@ -173,9 +170,10 @@ function PushContainer(props: AllProps) {
 
   const { absolutePath } = useItemPath(itemPath)
   const { path: relativePath } = usePath({ path, itemPath })
-  const commitHandleRef = useRef<() => void>()
-  const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
-  const containerModeRef = useRef<ContainerMode>()
+  const commitHandleRef = useRef<() => void>(undefined)
+  const switchContainerModeRef =
+    useRef<(mode: ContainerMode) => void>(undefined)
+  const containerModeRef = useRef<ContainerMode>(undefined)
   const {
     value: entries = [],
     moveValueToPath,
@@ -205,7 +203,7 @@ function PushContainer(props: AllProps) {
 
   const data = useMemo(() => {
     if (defaultDataProp) {
-      return // don't return a fallback, because we want to use the defaultData
+      return undefined // don't return a fallback, because we want to use the defaultData
     }
     return {
       ...isolatedData,
@@ -255,7 +253,7 @@ function PushContainer(props: AllProps) {
     const targetPath = absolutePath || relativePath
 
     if (!parentSchema || !targetPath) {
-      return // stop here
+      return undefined // stop here
     }
 
     if (isZodSchema(parentSchema)) {
@@ -277,7 +275,7 @@ function PushContainer(props: AllProps) {
         : undefined
 
       if (!itemsSchema) {
-        return // stop here
+        return undefined // stop here
       }
 
       return {
@@ -330,7 +328,7 @@ function PushContainer(props: AllProps) {
         onCommit?.(data, options)
       }}
     >
-      <PushContainerContext.Provider value={newItemContextProps}>
+      <PushContainerContext value={newItemContextProps}>
         <IterateArray
           path="/pushContainerItems"
           containerMode={showOpenButton ? 'view' : 'edit'}
@@ -354,7 +352,7 @@ function PushContainer(props: AllProps) {
             {children}
           </NewContainer>
         </IterateArray>
-      </PushContainerContext.Provider>
+      </PushContainerContext>
     </Isolation>
   )
 }
@@ -374,8 +372,8 @@ function NewContainer({
   children,
   ...rest
 }) {
-  const { containerMode, switchContainerMode } =
-    useContext(IterateItemContext) || {}
+  const iterateItemContext = useContext(IterateItemContext)
+  const { containerMode, switchContainerMode } = iterateItemContext || {}
   containerModeRef.current = containerMode
 
   const { hasContentChanged, showStatus } = useHandleStatus({
@@ -396,8 +394,8 @@ function NewContainer({
       ? false
       : Boolean(
           !showOpenButton ||
-            containerMode === 'edit' ||
-            ((required || hasContentChanged) && showStatus)
+          containerMode === 'edit' ||
+          ((required || hasContentChanged) && showStatus)
         )
 
   const { preventUncommittedChangesText } = useTranslation().Isolation
@@ -407,53 +405,43 @@ function NewContainer({
     clearData?.()
   }, [clearData])
 
+  const newItemContextProps = {
+    ...iterateItemContext,
+    restoreOriginalValue,
+  }
+
   const toolbar = (
     <Toolbar>
-      <IterateItemContext.Consumer>
-        {(context) => {
-          const newItemContextProps = {
-            ...context,
-            restoreOriginalValue,
-          }
-          return (
-            <IterateItemContext.Provider value={newItemContextProps}>
-              <Flex.Horizontal gap="large">
-                <DoneButton text={createButton} />
-                {showOpenButton && (
-                  <CancelButton onClick={cancelHandler} />
-                )}
-                {(preventUncommittedChanges || showResetButton) && (
-                  <ResetButton
-                    // Use hidden in order to render the useHasContentChanged hook
-                    hidden={!(showResetButton || showStatus)}
-                  />
-                )}
-              </Flex.Horizontal>
+      <IterateItemContext value={newItemContextProps}>
+        <Flex.Horizontal gap="large">
+          <DoneButton text={createButton} />
+          {showOpenButton && <CancelButton onClick={cancelHandler} />}
+          {(preventUncommittedChanges || showResetButton) && (
+            <ResetButton
+              // Use hidden in order to render the useHasContentChanged hook
+              hidden={!(showResetButton || showStatus)}
+            />
+          )}
+        </Flex.Horizontal>
 
-              {preventUncommittedChanges && showStatus && (
-                <FormStatus no_animation={false} show={hasContentChanged}>
-                  {preventUncommittedChangesText}
-                </FormStatus>
-              )}
-            </IterateItemContext.Provider>
-          )
-        }}
-      </IterateItemContext.Consumer>
+        {preventUncommittedChanges && showStatus && (
+          <FormStatus noAnimation={false} show={hasContentChanged}>
+            {preventUncommittedChangesText}
+          </FormStatus>
+        )}
+      </IterateItemContext>
     </Toolbar>
   )
 
   return (
-    <VisibilityContext.Provider value={{ isVisible, keepInDOM: false }}>
+    <VisibilityContext value={{ isVisible, keepInDOM: false }}>
       <EditContainer
         open={isVisible}
         title={title}
         toolbar={toolbar}
         {...rest}
         // Add the class by default, because we don't get a "hasSubmitError" trigger
-        className={classnames(
-          'dnb-forms-section-block--error',
-          rest.className
-        )}
+        className={clsx('dnb-forms-section-block--error', rest.className)}
       >
         {children}
       </EditContainer>
@@ -463,13 +451,15 @@ function NewContainer({
           {openButton}
         </HeightAnimation>
       )}
-    </VisibilityContext.Provider>
+    </VisibilityContext>
   )
 }
 
 const pushContainerError = new Error('Iterate.PushContainer')
 
 PushContainer.OpenButton = OpenButton
-PushContainer._supportsSpacingProps = true
+withComponentMarkers(PushContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default PushContainer

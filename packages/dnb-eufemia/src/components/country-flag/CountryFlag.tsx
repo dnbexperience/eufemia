@@ -1,9 +1,11 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'
 import useCountries from '../../extensions/forms/Field/SelectCountry/useCountries'
-import Space, { SpaceAllProps } from '../space/Space'
+import type { SpaceAllProps } from '../space/Space'
+import Space from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type CountryFlagProps = {
   iso?: string
@@ -32,7 +34,7 @@ const CountryFlag = (props: CountryFlagProps) => {
   return (
     <Space
       element="span"
-      className={classnames(
+      className={clsx(
         'dnb-country-flag',
         'dnb-country-flag__size--' + (size || 'auto'),
         shape && 'dnb-country-flag__shape--' + shape,
@@ -48,6 +50,8 @@ const CountryFlag = (props: CountryFlagProps) => {
   )
 }
 
-CountryFlag._supportsSpacingProps = true
+withComponentMarkers(CountryFlag, {
+  _supportsSpacingProps: true,
+})
 
 export default CountryFlag

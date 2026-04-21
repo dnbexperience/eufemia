@@ -316,12 +316,12 @@ describe('Card', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLDivElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLDivElement | null>(null)
       return (
-        <Card innerRef={ref} element="div">
+        <Card ref={ref} element="div">
           Content
         </Card>
       )
@@ -350,11 +350,11 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(element.getAttribute('style')).toContain('--space-')
+    expect(element.getAttribute('style')).toContain('--padding-')
 
     rerender(<Card innerSpace={0} />)
 
-    expect(element.getAttribute('style')).not.toContain('--space-')
+    expect(element.getAttribute('style')).not.toContain('--padding-')
   })
 
   it('should support "outset"', () => {
@@ -385,6 +385,30 @@ describe('Card', () => {
     expect(element).toHaveStyle('--outset--small: 0')
     expect(element).toHaveStyle('--outset--medium: 0')
     expect(element).toHaveStyle('--outset--large: 0')
+  })
+
+  it('should support "outlineWidth"', () => {
+    render(<Card outlineWidth={2}>Content</Card>)
+
+    const element = document.querySelector('.dnb-card')
+    expect(element).toHaveStyle('--outline-width--small: 2px')
+    expect(element).toHaveStyle('--outline-width--medium: 2px')
+    expect(element).toHaveStyle('--outline-width--large: 2px')
+  })
+
+  it('should support "dropShadow"', () => {
+    render(<Card dropShadow>Content</Card>)
+
+    const element = document.querySelector('.dnb-card')
+    expect(element).toHaveStyle(
+      '--drop-shadow--small: var(--shadow-default)'
+    )
+    expect(element).toHaveStyle(
+      '--drop-shadow--medium: var(--shadow-default)'
+    )
+    expect(element).toHaveStyle(
+      '--drop-shadow--large: var(--shadow-default)'
+    )
   })
 
   it('should not allow "outset" on nested cards', () => {
@@ -436,7 +460,7 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--space-l-s')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
     ).toBe('0')
 
     rerender(
@@ -446,8 +470,8 @@ describe('Card', () => {
     )
 
     expect(
-      window.getComputedStyle(element).getPropertyValue('--space-l-s')
-    ).toBe('1.5rem')
+      window.getComputedStyle(element).getPropertyValue('--padding-l-s')
+    ).toBe('1rem')
   })
 
   it('should support "title"', () => {
@@ -506,6 +530,35 @@ describe('Card', () => {
       'aria-labelledby',
       '123 ' + element.querySelector('.dnb-card__title').getAttribute('id')
     )
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Card ref={ref}>
+        <P>Card content</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Card ref={refFn}>
+        <P>Card content</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    expect(refElement).toBe(element)
   })
 
   describe('Card accessibility', () => {

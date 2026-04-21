@@ -1,5 +1,5 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {
@@ -63,12 +63,12 @@ export const NumberProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.',
-    type: 'string',
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   autoComplete: {
     doc: 'For HTML `autocomplete` attributes.',
-    type: ['on', 'string'],
+    type: ['"on"', 'string'],
     status: 'optional',
   },
   prefix: {

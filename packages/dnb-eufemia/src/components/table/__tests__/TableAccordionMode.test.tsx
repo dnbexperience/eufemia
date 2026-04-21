@@ -327,7 +327,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -364,7 +364,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -457,13 +457,13 @@ describe('Table using mode="accordion" prop', () => {
     // Simulate keyboard usage
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
-    fireEvent.keyDown(inputElem, { keyCode: 13 }) // enter
+    fireEvent.keyDown(inputElem, { key: 'Enter' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
     )
 
-    fireEvent.keyDown(inputElem, { keyCode: 32 }) // space
+    fireEvent.keyDown(inputElem, { key: ' ' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -473,13 +473,13 @@ describe('Table using mode="accordion" prop', () => {
       .spyOn(document, 'activeElement', 'get')
       .mockReturnValue(labelElement)
 
-    fireEvent.keyDown(labelElement, { keyCode: 13 }) // enter
+    fireEvent.keyDown(labelElement, { key: 'Enter' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
     )
 
-    fireEvent.keyDown(labelElement, { keyCode: 32 }) // space
+    fireEvent.keyDown(labelElement, { key: ' ' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -593,7 +593,7 @@ describe('Table using mode="accordion" prop', () => {
     )
 
     rerender(
-      <Table mode="accordion" accordionChevronPlacement="end">
+      <Table mode="accordion" accordionChevronPlacement="right">
         <thead>
           <Tr>
             <Th>heading</Th>
@@ -734,7 +734,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -749,7 +749,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // close
     const spaceKey = createEvent.keyDown(trElement, {
-      keyCode: 32, // space
+      key: ' ',
     })
     spaceKey.preventDefault = jest.fn()
     fireEvent(trElement, spaceKey)
@@ -805,16 +805,10 @@ describe('Table using mode="accordion" prop', () => {
   })
 
   it('should have expanded accordion content when id matches location hash', () => {
-    global.window = Object.create(window)
     const hash = '#unique-id-1'
-    const href = `https://url.tld/${hash}`
+    const href = `http://localhost/${hash}`
 
-    Object.defineProperty(window, 'location', {
-      value: {
-        href,
-        hash,
-      },
-    })
+    window.history.replaceState({}, '', href)
 
     render(
       <Table mode="accordion">
@@ -879,13 +873,13 @@ describe('Table using mode="accordion" prop', () => {
       expect(target.dataset.trid).toBe(trid)
     })
 
-    it('should emit onOpened event', () => {
-      const onOpened = jest.fn()
+    it('should emit onOpen event', () => {
+      const onOpen = jest.fn()
 
       render(
         <Table mode="accordion">
           <tbody>
-            <Tr onOpened={onOpened}>
+            <Tr onOpen={onOpen}>
               <Td>content</Td>
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
@@ -897,20 +891,20 @@ describe('Table using mode="accordion" prop', () => {
 
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(1)
-      expect(onOpened).toHaveBeenCalledWith({
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(onOpen).toHaveBeenCalledWith({
         target: expect.any(Element),
       })
     })
 
-    it('should emit onClosed event', () => {
-      const onClosed = jest.fn()
-      const onOpened = jest.fn()
+    it('should emit onClose event', () => {
+      const onClose = jest.fn()
+      const onOpen = jest.fn()
 
       render(
         <Table mode="accordion">
           <tbody>
-            <Tr onOpened={onOpened} onClosed={onClosed}>
+            <Tr onOpen={onOpen} onClose={onClose}>
               <Td>content</Td>
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
@@ -923,18 +917,18 @@ describe('Table using mode="accordion" prop', () => {
       fireEvent.click(trElement)
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(1)
-      expect(onOpened).toHaveBeenCalledWith({
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(onOpen).toHaveBeenCalledWith({
         target: expect.any(Element),
       })
 
-      expect(onClosed).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledTimes(1)
 
       fireEvent.click(trElement)
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(2)
-      expect(onClosed).toHaveBeenCalledTimes(2)
+      expect(onOpen).toHaveBeenCalledTimes(2)
+      expect(onClose).toHaveBeenCalledTimes(2)
     })
   })
 

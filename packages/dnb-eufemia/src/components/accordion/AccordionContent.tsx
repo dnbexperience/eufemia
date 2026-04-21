@@ -3,8 +3,9 @@
  *
  */
 
-import React, { HTMLProps } from 'react'
-import classnames from 'classnames'
+import type { HTMLProps } from 'react'
+import React from 'react'
+import clsx from 'clsx'
 import {
   warn,
   validateDOMAttributes,
@@ -12,50 +13,50 @@ import {
   getClosestParent,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
-import AccordionContext, {
-  AccordionContextProps,
-} from './AccordionContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import type { AccordionContextValue } from './AccordionContext'
+import AccordionContext from './AccordionContext'
+import { applySpacing } from '../space/SpacingUtils'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionContentProps = Omit<
   React.HTMLProps<HTMLElement>,
   'onAnimationStart' | 'onAnimationEnd' | 'children'
 > &
   SpacingProps & {
-    instance?: React.MutableRefObject<unknown>
+    instance?: React.RefObject<unknown>
     className?: string
-    children?: React.ReactNode | ((...args: any[]) => any)
+    children?: React.ReactNode | (() => React.ReactNode)
   }
 
 export default function AccordionContent(props: AccordionContentProps) {
-  const context = React.useContext<AccordionContextProps>(AccordionContext)
+  const context = React.useContext<AccordionContextValue>(AccordionContext)
 
   const {
     id,
     expanded,
-    prerender,
-    prevent_rerender,
-    single_container,
+    keepInDOM,
+    preventRerender,
+    singleContainer,
     disabled,
-    no_animation,
+    noAnimation,
     contentRef,
   } = context
 
   const { className, children, instance, ...rest } = props
 
-  let elementRef = React.useRef(null)
-  const cacheRef = React.useRef(null)
+  let elementRef = React.useRef<HTMLElement>(null)
+  const cacheRef = React.useRef<React.ReactNode | null>(null)
 
   if (contentRef) {
     elementRef = contentRef
   }
 
   const setContainerHeight = () => {
-    const { single_container } = context
+    const { singleContainer } = context
 
-    if (single_container) {
+    if (singleContainer) {
       const contentElem = elementRef.current
       if (contentElem) {
         try {
@@ -66,7 +67,7 @@ export default function AccordionContent(props: AccordionContentProps) {
             contentElem
           ) as HTMLElement
 
-          if (no_animation) {
+          if (noAnimation) {
             containerElement.style.transitionDuration = '1ms'
           }
 
@@ -85,9 +86,9 @@ export default function AccordionContent(props: AccordionContentProps) {
 
     const {
       expanded,
-      prerender,
-      prevent_rerender,
-      prevent_rerender_conditional,
+      keepInDOM,
+      preventRerender,
+      preventRerenderConditional,
     } = context
 
     let content = children
@@ -96,16 +97,16 @@ export default function AccordionContent(props: AccordionContentProps) {
       content = <p className="dnb-p">{content}</p>
     }
 
-    if (prevent_rerender) {
+    if (preventRerender) {
       /**
        * Ensure we do not render, if it is not expanded
        */
-      if (!(expanded || prerender)) {
+      if (!(expanded || keepInDOM)) {
         content = null
       }
 
       // update the cache if children is not the same anymore
-      if (prevent_rerender_conditional && cacheRef.current !== content) {
+      if (preventRerenderConditional && cacheRef.current !== content) {
         cacheRef.current = content
       }
 
@@ -120,14 +121,17 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   React.useEffect(() => {
-    if (expanded && single_container) {
+    if (expanded && singleContainer) {
       setContainerHeight()
     }
-  }, [children, expanded, single_container, setContainerHeight])
+  }, [children, expanded, singleContainer, setContainerHeight])
 
   React.useState(() => {
     if (instance && Object.hasOwn(instance, 'current')) {
-      instance.current = { setContainerHeight }
+      const mutableInstance = instance as React.RefObject<unknown>
+      mutableInstance.current = {
+        setContainerHeight,
+      }
     }
   })
 
@@ -138,20 +142,17 @@ export default function AccordionContent(props: AccordionContentProps) {
   const content = renderContent()
 
   const wrapperParams = {
-    className: classnames('dnb-accordion__content', className),
+    className: clsx('dnb-accordion__content', className),
     ...rest,
   }
 
-  const keepInDOM = prerender || prevent_rerender
+  const keepInDOMContent = keepInDOM || preventRerender
 
-  const innerParams = {
+  const innerParams = applySpacing(rest, {
     id: `${id}-content`,
     'aria-labelledby': `${id}-header`,
-    className: classnames(
-      'dnb-accordion__content__inner',
-      createSpacingClasses(rest)
-    ),
-  } as HTMLProps<HTMLElement>
+    className: 'dnb-accordion__content__inner',
+  }) as HTMLProps<HTMLElement>
 
   if (expanded) {
     innerParams['aria-expanded'] = true
@@ -166,20 +167,19 @@ export default function AccordionContent(props: AccordionContentProps) {
   validateDOMAttributes(props, wrapperParams)
   validateDOMAttributes(null, innerParams)
 
-  const animate =
-    !no_animation && (single_container ? isSmallScreen : true)
+  const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation
       {...wrapperParams}
       open={expanded}
       animate={animate}
-      keepInDOM={keepInDOM}
-      innerRef={elementRef}
+      keepInDOM={keepInDOMContent}
+      ref={elementRef}
     >
       <section {...innerParams}>{content}</section>
     </HeightAnimation>
   )
 }
 
-AccordionContent._supportsSpacingProps = true
+withComponentMarkers(AccordionContent, { _supportsSpacingProps: true })

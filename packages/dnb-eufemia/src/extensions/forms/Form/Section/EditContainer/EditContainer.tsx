@@ -1,28 +1,31 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import Toolbar from '../Toolbar/Toolbar'
 import DoneButton from './DoneButton'
 import CancelButton from './CancelButton'
-import SectionContainer, {
-  SectionContainerProps,
-} from '../containers/SectionContainer'
-import { Path } from '../../../types'
+import type { SectionContainerProps } from '../containers/SectionContainer'
+import SectionContainer from '../containers/SectionContainer'
+import type { Path } from '../../../types'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSectionEditContainerProps = {
   title?: React.ReactNode
   onDone?: () => void
   onCancel?: () => void
 }
 
-export type AllProps = Props & SectionContainerProps & FlexContainerProps
+export type FormSectionEditContainerAllProps =
+  FormSectionEditContainerProps &
+    SectionContainerProps &
+    FlexContainerProps
 
-function EditContainer(props: AllProps) {
+function EditContainer(props: FormSectionEditContainerAllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =
     props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
@@ -57,9 +60,10 @@ function EditContainer(props: AllProps) {
     ]
   )
 
-  const hasToolbar = React.Children.toArray(children).some((child) => {
-    return child?.['type'] === Toolbar
-  })
+  const childArray = Array.isArray(children) ? children : [children]
+  const hasToolbar = childArray.some(
+    (child) => React.isValidElement(child) && child.type === Toolbar
+  )
 
   return (
     <FieldBoundaryProvider
@@ -70,7 +74,7 @@ function EditContainer(props: AllProps) {
         mode="edit"
         ariaLabel={ariaLabel}
         omitFocusManagementRef={omitFocusManagementRef}
-        className={classnames('dnb-forms-section-edit-block', className)}
+        className={clsx('dnb-forms-section-edit-block', className)}
         {...restProps}
       >
         <Flex.Stack>
@@ -90,5 +94,9 @@ function EditContainer(props: AllProps) {
 
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton
-EditContainer._supportsSpacingProps = true
+
+withComponentMarkers(EditContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default EditContainer

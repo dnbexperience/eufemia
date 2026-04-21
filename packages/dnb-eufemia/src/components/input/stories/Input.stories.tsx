@@ -17,9 +17,8 @@ import {
   Flex,
 } from '../..'
 
-import { format } from '../../number-format/NumberUtils'
+import { formatNumber } from '../../number-format/NumberUtils'
 import { FieldBlock, Form } from '../../../extensions/forms'
-import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -31,68 +30,56 @@ const CustomStyle = styled.div`
   }
 `
 
-const myRef = React.createRef<HTMLInputElement>()
-
-// export default {
-//   title: 'Components'
-// }
+const myRef = { current: null as HTMLInputElement | null }
 
 export const InputSandbox = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   return (
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
-            <Flex.Vertical>
-              <Input value="Plain" />
-              <Input value="Search" type="search" />
-              <Input value="Search" size="medium" type="search" />
-              <Input value="Search" size="large" type="search" />
-              <Input
-                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="medium"
-                placeholder="Placeholder"
-                icon_position="right"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                value="Value"
-                icon="calendar"
-                align="right"
-              />
-              <Input
-                size="large"
-                placeholder="Placeholder"
-                icon_position="right"
-                icon="calendar"
-                align="right"
-              />
-            </Flex.Vertical>
-          </Provider>
+          <Flex.Vertical>
+            <Input value="Plain" />
+            <Input value="Search" type="search" />
+            <Input value="Search" size="medium" type="search" />
+            <Input value="Search" size="large" type="search" />
+            <Input
+              value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="medium"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              value="Value"
+              icon="calendar"
+              align="right"
+            />
+            <Input
+              size="large"
+              placeholder="Placeholder"
+              iconPosition="right"
+              icon="calendar"
+              align="right"
+            />
+          </Flex.Vertical>
         </Box>
         <Box>
           <Input
@@ -106,36 +93,28 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ label_direction: 'vertical' }}>
-            <Form.Handler>
-              <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
-                <Flex.Vertical>
-                  <Input
-                    inner_ref={myRef}
-                    label="Input A:"
-                    placeholder="Placeholder text"
-                  />
+          <Form.Handler>
+            <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
+              <Flex.Vertical>
+                <Input
+                  ref={myRef}
+                  label="Input A:"
+                  placeholder="Placeholder text"
+                />
 
-                  <Input label="Input B:" placeholder="Placeholder text" />
-                  <Input label="Input C:" />
-                </Flex.Vertical>
-              </FieldBlock>
-            </Form.Handler>
-          </Provider>
+                <Input label="Input B:" placeholder="Placeholder text" />
+                <Input label="Input C:" />
+              </Flex.Vertical>
+            </FieldBlock>
+          </Form.Handler>
         </Box>
         <Box>
-          <Provider
-            formElement={{
-              label_direction: 'vertical',
-            }}
-          >
-            <FieldBlock label="Vertical label:">
-              <Flex.Horizontal>
-                <Input label="Input label A:" right="small" />
-                <Input label="Input label B:" />
-              </Flex.Horizontal>
-            </FieldBlock>
-          </Provider>
+          <FieldBlock label="Vertical label:">
+            <Flex.Horizontal>
+              <Input label="Input label A:" right="small" />
+              <Input label="Input label B:" />
+            </Flex.Horizontal>
+          </FieldBlock>
         </Box>
         <Box>
           <FieldBlock label="Legend:">
@@ -146,30 +125,23 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
-            <FieldBlock label="Legend:">
-              <Flex.Vertical>
-                <Input label="Vertical 1:" />
-                <Input label="Vertical 2:" stretch top="small" />
-              </Flex.Vertical>
-            </FieldBlock>
-          </Provider>
+          <FieldBlock label="Legend:">
+            <Flex.Vertical>
+              <Input label="Vertical 1:" />
+              <Input label="Vertical 2:" stretch top="small" />
+            </Flex.Vertical>
+          </FieldBlock>
         </Box>
         <Box>
-          <Input
-            label="Vertical label:"
-            value="Stretch me ..."
-            stretch
-            label_direction="vertical"
-          />
+          <Input label="Vertical label:" value="Stretch me ..." stretch />
         </Box>
         <Box>
           Text
           <Input
-            selectall
+            selectAll
             label="Label:"
-            on_change={(event) => {
-              console.log('on_change', event)
+            onChange={(event) => {
+              console.log('onChange', event)
             }}
           >
             Input ...
@@ -209,7 +181,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Large input clear button with right aligned text"
           />
         </Box>
@@ -219,7 +191,7 @@ export const InputSandbox = () => {
             status="Error"
             label="Disabled search:"
             type="search"
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Search text placeholder"
           />
         </Box>
@@ -241,7 +213,6 @@ export const InputSandbox = () => {
           <InputMasked
             label="Masked:"
             autocomplete="off"
-            // value="1000000"
             mask={[
               '+',
               /[4]/, // have to start with 4
@@ -260,24 +231,19 @@ export const InputSandbox = () => {
               /\d/,
               /\d/,
             ]}
-            show_mask={true}
+            showMask={true}
           />
         </Box>
         <Box>
           <form
             onSubmit={(event) => {
-              // console.log('onSubmit', event)
               event.preventDefault()
-              // event.persist()
             }}
           >
             <InputUpdate />
             <Button
               text="Submit"
               type="submit"
-              on_click={(event) => {
-                console.log('on_click', event)
-              }}
               onClick={(event) => {
                 console.log('onClick', event)
               }}
@@ -287,21 +253,21 @@ export const InputSandbox = () => {
 
         {/* <Box>
           <Input
-            clear
+            showClearButton
            label="Input" />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Small Input"
             size="small"
-            icon_size="small"
+            iconSize="small"
             bottom="small"
           />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Medium Input"
             size="medium"
             bottom="small"
@@ -309,21 +275,21 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Large Input"
             size="large"
           />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Input clear button with submit button"
             type="search"
           />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Small Input clear button with submit button"
             type="search"
             size="small"
@@ -331,7 +297,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Medium Input clear button with submit button"
             type="search"
             size="medium"
@@ -339,7 +305,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Large Input clear button with submit button"
             type="search"
             size="large"
@@ -363,11 +329,11 @@ const InputUpdate = () => {
   return (
     <Input
       label="Label:"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
-      on_submit={({ value }) => {
-        console.log('on_submit', value)
+      onSubmit={({ value }) => {
+        console.log('onSubmit', value)
       }}
       value={initValue}
     />
@@ -380,12 +346,8 @@ const CustomInput = () => {
     <>
       <Input
         value={value}
-        on_change={({ value }) => {
-          console.log('on_change', value)
-          setValue(value)
-        }}
-        on_state_update={({ value }) => {
-          console.warn('on_state_update', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
           setValue(value)
         }}
         right
@@ -393,7 +355,7 @@ const CustomInput = () => {
       />
       <Button
         text="Reset"
-        on_click={() => {
+        onClick={() => {
           setValue('123')
         }}
       />
@@ -407,29 +369,34 @@ export function InputClearButton() {
       <Box>
         <Input icon="loupe" label="Input" />
         <br />
-        <Input icon="loupe" clear label="Input" />
+        <Input icon="loupe" showClearButton label="Input" />
       </Box>
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Small Input"
           size="small"
-          icon_size="small"
+          iconSize="small"
           bottom="small"
         />
       </Box>
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Medium Input"
           size="medium"
           bottom="small"
         />
       </Box>
       <Box>
-        <Input icon="loupe" clear label="Large Input" size="large" />
+        <Input
+          icon="loupe"
+          showClearButton
+          label="Large Input"
+          size="large"
+        />
       </Box>
       <Box>
         <Input icon="loupe" label="Input A" />
@@ -440,12 +407,17 @@ export function InputClearButton() {
 
         <br />
 
-        <Input icon="loupe" clear label="Input C" type="search" />
+        <Input
+          icon="loupe"
+          showClearButton
+          label="Input C"
+          type="search"
+        />
       </Box>
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Small Input clear button with submit button"
           type="search"
           size="small"
@@ -454,7 +426,7 @@ export function InputClearButton() {
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Medium Input clear button with submit button"
           type="search"
           size="medium"
@@ -463,7 +435,7 @@ export function InputClearButton() {
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Large Input clear button with submit button"
           type="search"
           size="large"
@@ -479,8 +451,6 @@ export function ControlledInput() {
   const onChangeHandler = ({ value }) => {
     value = value.replace(/[^0-9]/g, '')
     setValue(value)
-    // return format(value)
-    // return false
   }
 
   const onChangeHandlerHtml = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -492,7 +462,7 @@ export function ControlledInput() {
     event.preventDefault()
   }
 
-  console.log(format(value))
+  console.log(formatNumber(value))
 
   return (
     <>
@@ -501,14 +471,14 @@ export function ControlledInput() {
         top
         left
         right
-        on_change={onChangeHandler}
-        on_key_down={onKeyDownHandler}
-        value={format(value).toString()}
-        selectall
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
+        value={formatNumber(value).toString()}
+        selectAll
       />
       <input
         onChange={onChangeHandlerHtml}
-        value={format(value).toString()}
+        value={formatNumber(value).toString()}
       />
     </>
   )
@@ -534,14 +504,14 @@ export const OnSubmitTypeSearch = () => {
         <Input
           label="type: search"
           type="search"
-          on_submit={({ value }) => {
-            console.log('on_submit:', value)
+          onSubmit={({ value }) => {
+            console.log('onSubmit:', value)
           }}
-          on_submit_focus={({ value }) => {
-            console.log('on_submit_focus:', value)
+          onSubmitFocus={({ value }) => {
+            console.log('onSubmitFocus:', value)
           }}
-          on_submit_blur={({ value }) => {
-            console.log('on_submit_blur:', value)
+          onSubmitBlur={({ value }) => {
+            console.log('onSubmitBlur:', value)
           }}
         />
       </Box>

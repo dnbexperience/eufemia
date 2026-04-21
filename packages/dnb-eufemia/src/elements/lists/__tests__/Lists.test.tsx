@@ -6,9 +6,12 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Dl, { DlAllProps } from '../Dl'
-import Dt, { DtProps } from '../../Dt'
-import Dd, { DdProps } from '../../Dd'
+import type { DlAllProps } from '../Dl'
+import Dl from '../Dl'
+import type { DtProps } from '../../Dt'
+import Dt from '../../Dt'
+import type { DdProps } from '../../Dd'
+import Dd from '../../Dd'
 
 describe('Dl', () => {
   it('renders with props as an object', () => {
@@ -32,20 +35,20 @@ describe('Dl', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-dl__layout--horizontal',
-      'dnb-space__top--medium',
       'dnb-dl',
+      'dnb-space__top--medium',
     ])
     expect(Array.from(element.querySelector('dt').classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-dt',
+      'dnb-space__top--medium',
     ])
     expect(Array.from(element.querySelector('dd').classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-dd',
+      'dnb-space__top--medium',
     ])
     expect(
       Array.from(element.querySelector('.dnb-dl__item').classList)
-    ).toEqual(['dnb-dl__item', 'dnb-space__top--medium', 'dnb-dd'])
+    ).toEqual(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
   })
 
   describe('in horizontal direction', () => {

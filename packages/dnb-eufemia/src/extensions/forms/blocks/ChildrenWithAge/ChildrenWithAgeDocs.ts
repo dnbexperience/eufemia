@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const ChildrenWithAgeProperties: PropertiesTableProps = {
   mode: {
     doc: '`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.',
-    type: 'number',
+    type: ['"edit"', '"summary"'],
     status: 'optional',
   },
   enableAdditionalQuestions: {

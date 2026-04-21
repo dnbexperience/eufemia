@@ -1,17 +1,9 @@
 import React, { useCallback } from 'react'
-import {
-  Field,
-  Form,
-  JSONSchema,
-  SectionProps,
-  Tools,
-  Value,
-  makeAjvInstance,
-  z,
-} from '../../..'
+import type { JSONSchema, SectionProps } from '../../..'
+import { Field, Form, Tools, Value, makeAjvInstance, z } from '../../..'
 import { Flex, Table } from '../../../../../components'
 import { Tr, Td, Th, P } from '../../../../../elements'
-import { Props as FieldNameProps } from '../../../Field/Name'
+import type { FieldNameProps as FieldNameProps } from '../../../Field/Name'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Section',
@@ -22,20 +14,8 @@ const MySection = (props: SectionProps<{ lastName?: FieldNameProps }>) => {
     <Form.Section {...props}>
       <Flex.Stack>
         <Field.Composition width="large">
-          <Field.Name.First
-            path="/firstName"
-            // required
-            // value="x"
-            // validateInitially
-          />
-          <Field.Name.Last
-            path="/lastName"
-            // required
-            // value="x"
-            // minLength={4}
-            // validateContinuously
-            // validateInitially
-          />
+          <Field.Name.First path="/firstName" />
+          <Field.Name.Last path="/lastName" />
         </Field.Composition>
 
         <Form.Visibility
@@ -44,7 +24,6 @@ const MySection = (props: SectionProps<{ lastName?: FieldNameProps }>) => {
             hasValue: 'x',
           }}
           animate
-          // pathDefined="/firstName"
         >
           <Field.PostalCodeAndCity />
         </Form.Visibility>
@@ -62,90 +41,35 @@ const mySchema: JSONSchema = {
         firstName: {
           type: 'string',
           minLength: 3,
-          // maxLength: 4,
         },
         lastName: {
           type: 'string',
           minLength: 9,
-          // maxLength: 4,
         },
       },
       required: ['firstName'],
     },
-    // firstName: {
-    //   type: 'string',
-    //   // minLength: 9,
-    //   // maxLength: 4,
-    // },
-    // lastName: {
-    //   type: 'string',
-    //   minLength: 10,
-    //   // maxLength: 4,
-    // },
   },
 
-  // properties: {
-  //   'mySection/lastName': {
-  //     type: 'string',
-  //     minLength: 20,
-  //   },
-  //   lastName: {
-  //     type: 'string',
-  //     minLength: 20,
-  //   },
-  // },
-  required: [
-    // 'mySection',
-    // 'mySection/firstName',
-    // 'mySection/lastName',
-    'firstName',
-    'lastName',
-  ],
+  required: ['firstName', 'lastName'],
 }
 
 export const FormSection = () => {
-  // const { data } = Form.useData('myForm')
-  // console.dir('data', data)
   return (
-    // <React.StrictMode>
-    <Form.Handler
-      id="myForm"
-      onSubmit={console.log}
-      // defaultData={{
-      //   // firstName: 'Tobias',
-      //   mySection: {
-      //     lastName: 'Høegh',
-      //   },
-      // }}
-      schema={mySchema}
-      // id="myForm"
-    >
+    <Form.Handler id="myForm" onSubmit={console.log} schema={mySchema}>
       <Flex.Stack>
         <MySection
-          // required
           path="/mySection"
-          // onChange={console.log}
           overwriteProps={{
             firstName: {
-              // required: false,
-              // path: '/firstName2',
               label: 'Custom',
-              // value: 'Tobias',
-              // onChange: console.log,
             },
-            lastName: {
-              // minLength: 3,
-              // required: false,
-              // required: true,
-              // value: 'H',
-              // onChange: console.log,
-            },
+            lastName: {},
           }}
         />
         <Form.SubmitButton />
       </Flex.Stack>
     </Form.Handler>
-    // </React.StrictMode>
   )
 }
 
@@ -240,12 +164,7 @@ export function EditViewContainer() {
     >
       <Form.Card>
         <Form.SubHeading>Your account</Form.SubHeading>
-        <Form.Section
-          path="/nestedPath"
-          required
-          onChange={console.log}
-          // containerMode="edit"
-        >
+        <Form.Section path="/nestedPath" required onChange={console.log}>
           <EditContainer />
           <ViewContainer />
         </Form.Section>

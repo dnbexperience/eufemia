@@ -1,17 +1,18 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import Context from '../../DataContext/Context'
-import ListFormat, {
-  ListFormatProps,
-} from '../../../../components/list-format'
+import type { ListFormatProps } from '../../../../components/list-format'
+import ListFormat from '../../../../components/list-format'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<Array<number | string>> & ListFormatProps
+export type ValueArraySelectionProps = ValueProps<Array<number | string>> &
+  ListFormatProps
 
-function ArraySelection(props: Props) {
+function ArraySelection(props: ValueArraySelectionProps) {
   const { fieldInternalsRef } = useContext(Context) || {}
   const {
     path,
@@ -54,7 +55,7 @@ function ArraySelection(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-array-selection', className)}
+      className={clsx('dnb-forms-value-array-selection', className)}
       {...rest}
     >
       {list}
@@ -62,5 +63,8 @@ function ArraySelection(props: Props) {
   )
 }
 
-ArraySelection._supportsSpacingProps = true
+withComponentMarkers(ArraySelection, {
+  _supportsSpacingProps: true,
+})
+
 export default ArraySelection

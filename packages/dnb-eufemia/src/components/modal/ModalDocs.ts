@@ -1,16 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
-import { toSnakeCase } from '../../shared/component-helper'
-
-const transformPropertyNamesWithSnakeCase = (
-  properties: PropertiesTableProps
-) => {
-  return Object.fromEntries(
-    Object.entries(properties).map(([key, value]) => [
-      key !== key.toLowerCase() ? `${key} / ${toSnakeCase(key)}` : key,
-      value,
-    ])
-  )
-}
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ModalProperties: PropertiesTableProps = {
   id: {
@@ -18,13 +6,8 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  rootId: {
-    doc: 'Defaults to `root`, so the element id will be `dnb-modal-root`.',
-    type: 'string',
-    status: 'deprecated',
-  },
   contentId: {
-    doc: 'Defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal content.',
+    doc: 'Defines a unique identifier to a modal. Use it in case you have to refer in some way to the modal content.',
     type: 'string',
     status: 'optional',
   },
@@ -40,12 +23,12 @@ export const ModalProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: 'boolean',
+    type: ['boolean', 'string'],
     status: 'optional',
   },
-  openState: {
-    doc: 'Use this property to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.',
-    type: ['boolean', 'opened', 'closed'],
+  open: {
+    doc: 'Use this property to control the open/close state by setting `true` / `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   openDelay: {
@@ -69,7 +52,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   animationDuration: {
-    doc: 'Duration of animation open/close in ms. Defaults to 300ms.',
+    doc: 'Duration of animation open/close in ms. Defaults to `300ms`.',
     type: ['number', 'string'],
     status: 'optional',
   },
@@ -125,7 +108,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   dialogTitle: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
-    type: ['string', 'React.ReactNode'],
+    type: 'string',
     status: 'optional',
   },
   directDomReturn: {
@@ -135,7 +118,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   bypassInvalidationSelectors: {
     doc: "Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.",
-    type: 'boolean',
+    type: 'Array<string>',
     status: 'optional',
   },
   scrollRef: {
@@ -158,30 +141,62 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  title: {
+    doc: 'The modal/drawer title. Displays on the very top of the content.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  modalContent: {
+    doc: 'The content which will appear when triggering the modal/drawer. Alternative to `children`.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  barContent: {
+    doc: 'The content which will appear in the bar, above the header, and side-by-side the close button.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  headerContent: {
+    doc: 'The content which will appear in the header of the modal/drawer.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  minWidth: {
+    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  maxWidth: {
+    doc: 'The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  alignContent: {
+    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
+    type: ['"left"', '"center"', '"centered"', '"right"'],
+    status: 'optional',
+  },
+  containerPlacement: {
+    doc: 'For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.',
+    type: ['"left"', '"right"', '"top"', '"bottom"'],
+    status: 'optional',
+  },
+  verticalAlignment: {
+    doc: 'Define the vertical alignment of the container. Defaults to `center`.',
+    type: ['"top"', '"center"'],
+    status: 'optional',
+  },
   closeTitle: {
     doc: 'The title of the close button. Defaults to _Lukk_.',
     type: 'string',
     status: 'optional',
   },
   hideCloseButton: {
-    doc: 'If true, the close button will not be shown.',
+    doc: 'If `true`, the close button will not be shown.',
     type: 'boolean',
     status: 'optional',
   },
-  class: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
-    type: 'string',
-    status: 'optional',
-  },
-  className: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
-    type: 'string',
-    status: 'optional',
-  },
 }
-
-export const ModalPropertiesWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalProperties)
 
 export const ModalEvents: PropertiesTableProps = {
   onOpen: {
@@ -195,11 +210,8 @@ export const ModalEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onClosePrevent: {
-    doc: 'This event gets triggered once the user tries to close the modal, but `preventClose` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
+    doc: 'This event gets triggered once the user tries to close the modal, but `preventClose` is set to `true`. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
     type: 'function',
     status: 'optional',
   },
 }
-
-export const ModalEventsWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalEvents)

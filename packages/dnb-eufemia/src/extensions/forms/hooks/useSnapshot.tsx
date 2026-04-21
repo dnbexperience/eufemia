@@ -1,13 +1,16 @@
 import { useCallback, useMemo, useRef } from 'react'
 import { makeUniqueId } from '../../../shared/component-helper'
-import pointer, { JsonObject } from '../utils/json-pointer'
-import { SharedStateId } from '../../../shared/helpers/useSharedState'
+import type { JsonObject } from '../utils/json-pointer'
+import pointer from '../utils/json-pointer'
+import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 import useDataContext from './useDataContext'
-import { SnapshotId, SnapshotName } from '../Form/Snapshot'
+import type { SnapshotId, SnapshotName } from '../Form/Snapshot'
 import useData from '../Form/data-context/useData'
 
 export default function useSnapshot(id?: SharedStateId) {
-  const internalSnapshotsRef = useRef<Map<SnapshotId, JsonObject>>()
+  const internalSnapshotsRef = useRef<
+    Map<SnapshotId, JsonObject> | undefined
+  >(undefined)
   if (!internalSnapshotsRef.current) {
     internalSnapshotsRef.current = new Map()
   }
@@ -96,6 +99,9 @@ export default function useSnapshot(id?: SharedStateId) {
   }, [applySnapshot, createSnapshot, revertSnapshot])
 }
 
-function combineIdWithName(id: SnapshotId, name: SnapshotName = null) {
-  return name ? `${id}-${name}` : id
+function combineIdWithName(
+  id: SnapshotId,
+  name: SnapshotName = null
+): string {
+  return name ? `${id}-${name}` : String(id)
 }

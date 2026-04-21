@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-breadcrumb {
   margin: 0;
@@ -75,7 +75,7 @@
 
     transition: height 400ms var(--easing-default);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
   }
@@ -85,7 +85,7 @@
       calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
   }
@@ -103,13 +103,13 @@
   /* stylelint-enable */
 
   &--variant-responsive &__bar &__multiple {
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       display: none;
     }
   }
 
   &--variant-responsive &__toggle {
-    @include allAbove(medium) {
+    @include utilities.allAbove(medium) {
       display: none;
     }
   }

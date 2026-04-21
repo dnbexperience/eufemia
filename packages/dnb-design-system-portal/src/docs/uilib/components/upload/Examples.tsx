@@ -303,7 +303,7 @@ export const UploadIsLoading = () => (
             <ToggleButton
               top="small"
               disabled={files.length < 1}
-              on_change={({ checked }) =>
+              onChange={({ checked }) =>
                 setFiles(
                   files.map((fileItem) => {
                     return { ...fileItem, isLoading: checked }
@@ -339,7 +339,7 @@ export const UploadErrorMessage = () => (
             <ToggleButton
               top="small"
               disabled={files.length < 1}
-              on_change={({ checked }) => {
+              onChange={({ checked }) => {
                 setFiles(
                   files.map((fileItem) => {
                     return {
@@ -454,9 +454,9 @@ export const UploadOnFileDeleteAsync = () => (
         console.log('making API request to remove:', fileItem.file.name)
         await request(3000) // Simulate a request
         const mockResponse = {
-          successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+          successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
         }
-        if (!mockResponse.successful_removal) {
+        if (!mockResponse.successfulRemoval) {
           throw new Error('Unable to remove this file')
         }
       }

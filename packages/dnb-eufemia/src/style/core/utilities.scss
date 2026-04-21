@@ -2,7 +2,11 @@
  * Utilities
  */
 
-@import '../../components/space/style/space-mixins.scss';
+@use 'sass:map';
+@use 'sass:string';
+
+@use '../../components/space/style/space-mixins.scss' as space-mixins;
+@forward '../../components/space/style/space-mixins.scss';
 
 @mixin defaultDropShadow() {
   box-shadow: var(--shadow-default);
@@ -38,21 +42,22 @@
   }
 }
 
-@mixin focus-visible() {
-  html:not([data-whatintent='touch']) &:focus-visible {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    // stylelint-disable-next-line
-    &:not([disabled]) {
-      @content;
+@mixin focusVisible() {
+  &:focus-visible {
+    @include whatInputNot('touch') {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      // stylelint-disable-next-line
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 
 @mixin focus() {
-  &:focus,
-  html:not([data-whatintent='touch']) &:focus {
+  &:focus {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -80,6 +85,30 @@
   }
 }
 
+// Uses design token. Should become standard. Should be integrated with --focus-ring- variables
+@mixin focusStyle(
+  $bgColor: var(--token-color-background-action-focus-subtle),
+  $textColor: var(--token-color-text-neutral-inverse),
+  $borderColor: var(--token-color-stroke-action-focus),
+  $borderWidth: 0.1875rem,
+  $inset: null,
+  $extendShadow: null,
+  $outline: none
+) {
+  outline: $outline;
+  background-color: $bgColor;
+  color: $textColor;
+
+  @if $borderColor != null {
+    @include fakeBorder(
+      $borderColor,
+      $borderWidth,
+      $inset,
+      $extendShadow: $extendShadow
+    );
+  }
+}
+
 @mixin focusRing(
   $whatinput: null,
   $color: null,
@@ -96,19 +125,25 @@
   }
 
   @if $whatinput == 'always' {
-    @include fakeBorder(
-      $color,
-      var(--focus-ring-width),
-      $inset,
-      $extendShadow: $extendShadow
+    @include focusStyle(
+      $bgColor: null,
+      $textColor: null,
+      $borderColor: $color,
+      $borderWidth: var(--focus-ring-width),
+      $inset: $inset,
+      $extendShadow: $extendShadow,
+      $outline: null
     );
   } @else {
     @include whatInput($whatinput) {
-      @include fakeBorder(
-        $color,
-        var(--focus-ring-width),
-        $inset,
-        $extendShadow: $extendShadow
+      @include focusStyle(
+        $bgColor: null,
+        $textColor: null,
+        $borderColor: $color,
+        $borderWidth: var(--focus-ring-width),
+        $inset: $inset,
+        $extendShadow: $extendShadow,
+        $outline: null
       );
     }
   }
@@ -154,17 +189,6 @@
   }
 }
 
-@mixin extendFocusRing(
-  $first-color: null,
-  $second-color: null,
-  $width: 0.0625rem /*1px*/
-) {
-  $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
-  box-shadow:
-    0 0 0 $width $first-color,
-    $second;
-}
-
 @mixin dummySpacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
   .dnb-dummy {
@@ -178,12 +202,6 @@
 }
 
 @mixin scrollbarAppearance() {
-  // older iOS safari
-  -webkit-overflow-scrolling: touch;
-
-  // show scrollbar in IE & Edge
-  -ms-overflow-style: auto;
-
   // NB: We have used "scrollbar-track-width: auto;" before,
   // first, it only effects Firefox.
   // But "thin" changes the behavior in Windows,
@@ -255,42 +273,33 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
-// Edge fix
-@mixin IS_EDGE() {
-  @supports (-ms-ime-align: auto) {
-    @content;
-  }
-}
-
 // Firefox fix
-@mixin IS_FF() {
-  @-moz-document url-prefix() {
+@mixin isFirefox() {
+  @supports (-moz-appearance: none) {
     @content;
   }
 }
 
 // Chrome fix
-@mixin IS_CHROME() {
+@mixin isChrome() {
   @supports (-webkit-appearance: none) and
-    (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
-    (not (-moz-appearance: none)) {
+    (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
     @content;
   }
 }
 
 // Safari Mobile fix
-@mixin IS_SAFARI_MOBILE() {
+@mixin isSafariMobile() {
   @supports (-webkit-touch-callout: none) {
     @content;
   }
 }
 
 // Safari Desktop fix
-@mixin IS_SAFARI_DESKTOP() {
+@mixin isSafariDesktop() {
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and
     (not (-webkit-touch-callout: none)) {
     @content;
@@ -308,16 +317,24 @@ $breakpoints: (
 );
 $breakpoint-offset: 0;
 
+@function breakpoint-value($size, $list) {
+  @if map.has-key($list, $size) {
+    @return map.get($list, $size);
+  }
+
+  @return $size;
+}
+
 // Example usage:
 // @include allAbove(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), $size) + $offset + 0.00625)) {
+  @media screen and (min-width: (breakpoint-value($size, $list) + $offset + 0.00625)) {
     @content;
   }
 }
 @mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (max-width: (if(map-has-key($list, $size), map-get($list, $size), $size) + $offset)) {
+  @media screen and (max-width: (breakpoint-value($size, $list) + $offset)) {
     @content;
   }
 }
@@ -382,9 +399,9 @@ $breakpoint-offset: 0;
   $index: string.index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace +
+    @return string.slice($string, 1, $index - 1) + $replace +
       str-replace(
-        str-slice($string, $index + str-length($search)),
+        string.slice($string, $index + string.length($search)),
         $search,
         $replace
       );
@@ -404,7 +421,7 @@ $breakpoint-offset: 0;
 }
 
 @mixin fieldsetReset() {
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 0;
   border: none;
 }

@@ -3,13 +3,10 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-
 .dnb-number-format {
   display: inline-block;
   position: relative;
   speak-as: numbers;
-  color: inherit;
   white-space: nowrap;
 
   // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
@@ -26,7 +23,7 @@
     cursor: pointer;
   }
 
-  &--selectall {
+  &--select-all {
     cursor: text;
   }
 
@@ -36,8 +33,8 @@
   }
 
   &--selected &__visible {
-    color: var(--color-black);
-    background-color: var(--color-mint-green);
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-action-pressed-subtle);
   }
 
   &__selection {
@@ -54,7 +51,7 @@
 
   &--selected &__selection {
     z-index: 3;
-    user-select: all; // makes the "copy_selection" feature actually work
+    user-select: all; // makes the "copySelection" feature actually work
   }
 
   &--monospace {

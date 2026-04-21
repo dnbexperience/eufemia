@@ -2,7 +2,8 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Validator } from '../../..'
+import type { Validator } from '../../..'
+import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -31,7 +32,7 @@ describe('Field.OrganizationNumber', () => {
     render(<Field.OrganizationNumber />)
 
     const element = document.querySelector('input')
-    expect(element).not.toHaveAttribute('autocomplete')
+    expect(element).toHaveAttribute('autocomplete', 'off')
   })
 
   it('should link for and label', () => {
@@ -93,32 +94,6 @@ describe('Field.OrganizationNumber', () => {
         nb.OrganizationNumber.errorRequired
       )
     })
-  })
-
-  // Deprecated – can be removed in v11
-  it('should validate given function as validator', async () => {
-    const text = 'Custom Error message'
-    const validator = jest.fn((value) => {
-      return value.length < 4 ? new Error(text) : undefined
-    })
-
-    render(
-      <Field.OrganizationNumber
-        value="123"
-        required
-        validator={validator}
-        validateInitially
-      />
-    )
-
-    await waitFor(() => {
-      expect(validator).toHaveBeenCalledTimes(1)
-    })
-
-    const element = document.querySelector('.dnb-form-status')
-
-    expect(element).toBeInTheDocument()
-    expect(element.textContent).toBe(text)
   })
 
   it('should validate given function as onChangeValidator', async () => {
@@ -332,6 +307,8 @@ describe('Field.OrganizationNumber', () => {
       if (result.status === 'invalid') {
         return new Error('My error')
       }
+
+      return undefined
     }
 
     render(
@@ -495,6 +472,8 @@ describe('Field.OrganizationNumber', () => {
       if (value.substring(0, 1) !== '1') {
         return new Error('My error')
       }
+
+      return undefined
     }
 
     const customValidator: Validator<string> = (value, { validators }) => {
@@ -636,7 +615,7 @@ describe('Field.OrganizationNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNoLength
+        nb.OrganizationNumber.errorOrgNo
       )
     })
 

@@ -59,7 +59,7 @@ describe('NextButton', () => {
     const setFormError = jest.fn()
 
     render(
-      <WizardContext.Provider
+      <WizardContext
         value={{
           activeIndex: 1,
           handlePrevious,
@@ -69,7 +69,7 @@ describe('NextButton', () => {
         }}
       >
         <NextButton />
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const button = document.querySelector('.dnb-forms-next-button')

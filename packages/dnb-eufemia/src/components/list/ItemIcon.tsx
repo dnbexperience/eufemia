@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import clsx from 'clsx'
+import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
+import FlexItem from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -23,7 +24,7 @@ function ItemIcon({
 
   return (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__icon',
         appliedSkeleton && createSkeletonClass('font', true),
         className

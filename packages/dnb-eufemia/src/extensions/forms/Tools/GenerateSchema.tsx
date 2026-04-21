@@ -1,7 +1,9 @@
 import { useCallback, useContext, useRef } from 'react'
-import pointer, { JsonObject } from '../utils/json-pointer'
-import DataContext, { FilterData } from '../DataContext/Context'
-import { JSONSchema } from '../types'
+import type { JsonObject } from '../utils/json-pointer'
+import pointer from '../utils/json-pointer'
+import type { FilterData } from '../DataContext/Context'
+import DataContext from '../DataContext/Context'
+import type { JSONSchema } from '../types'
 
 export type GenerateSchemaReturn = {
   schema: JSONSchema
@@ -11,7 +13,7 @@ export type GenerateSchemaReturn = {
 }
 export type GenerateSchemaProps = {
   log?: boolean
-  generateRef?: React.MutableRefObject<() => GenerateSchemaReturn>
+  generateRef?: React.RefObject<() => GenerateSchemaReturn>
   filterData?: FilterData
   children: React.ReactNode
 }
@@ -172,7 +174,10 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     }
 
     if (generateRef) {
-      generateRef.current = generate
+      const mutableGenerateRef = generateRef as React.RefObject<
+        () => GenerateSchemaReturn
+      >
+      mutableGenerateRef.current = generate
     }
   }
 

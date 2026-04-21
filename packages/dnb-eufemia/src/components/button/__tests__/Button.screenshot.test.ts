@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   'Button for %s',
   (themeName) => {
     setupPageScreenshot({
@@ -282,6 +282,29 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         })
         expect(screenshot).toMatchImageSnapshot()
       })
+
+      it('tertiary have to match icon button', async () => {
+        const screenshot = await makeScreenshot({
+          selector: '[data-visual-test="button-icon-tertiary"]',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('tertiary have to match icon button hover', async () => {
+        const screenshot = await makeScreenshot({
+          selector: '[data-visual-test="button-icon-tertiary"]',
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      it('tertiary have to match icon button focus', async () => {
+        const screenshot = await makeScreenshot({
+          selector: '[data-visual-test="button-icon-tertiary"]',
+          simulate: 'focus',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
     })
 
     describe('with href', () => {
@@ -308,33 +331,10 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   }
 )
 
-describe.each(['sbanken'])('Button for %s', (themeName) => {
+describe.each(['dnb', 'sbanken'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/uilib/components/button/demos/',
-  })
-
-  it('have to match tertiary icon button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-icon-tertiary"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match tertiary icon button hover', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-icon-tertiary"]',
-      simulate: 'hover',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match tertiary icon button focus', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-icon-tertiary"]',
-      simulate: 'focus',
-    })
-    expect(screenshot).toMatchImageSnapshot()
   })
 
   describe.each(['primary', 'secondary', 'tertiary'])(
@@ -415,46 +415,6 @@ describe.each(['ui'])('Button for %s', (themeName) => {
     it('have to match with icon', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="button-unstyled"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  })
-})
-
-describe.each(['ui'])('Button for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/button/demos/',
-  })
-
-  describe('signal', () => {
-    it('have to match default style', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-signal"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match focus state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-signal"]',
-        simulate: 'focus',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match hover state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-signal"]',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match active state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-signal"]',
-        simulate: 'active',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

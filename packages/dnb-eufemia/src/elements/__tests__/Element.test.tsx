@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Element, { defaultProps, ElementAllProps } from '../Element'
+import type { ElementAllProps } from '../Element'
+import Element, { defaultProps } from '../Element'
 import { Provider } from '../../shared'
 
 const myPElement = (props) => <p {...props} />
@@ -40,8 +41,8 @@ describe('Element', () => {
     const element = document.querySelector('.dnb-p')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-space__top--medium',
       'dnb-p',
+      'dnb-space__top--medium',
     ])
 
     const attributes = Array.from(element.attributes).map(
@@ -112,8 +113,8 @@ describe('Element', () => {
     ])
   })
 
-  it('does not have inner_ref null inside default props', () => {
-    expect(defaultProps['inner_ref']).toBe(undefined)
+  it('does not have ref null inside default props', () => {
+    expect(defaultProps['ref']).toBe(undefined)
   })
 
   it('should validate with ARIA rules as a Element element', async () => {

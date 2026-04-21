@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { format, formatReturnValue } from '../number-format/NumberUtils'
+import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
+import { formatCurrency, formatNumber } from '../number-format/NumberUtils'
 import { clamp } from '../../shared/helpers/clamp'
 
-import type { NumberFormatTypes, ValueTypes } from './types'
+import type { SliderNumberFormat, SliderValue } from './types'
 
 export const percentToValue = (
   percent: number,
@@ -102,7 +102,7 @@ export const getUpdatedValues = (
   value: Array<number>,
   index: number,
   newValue: number
-): ValueTypes => {
+): SliderValue => {
   return value.map((val, i) => {
     if (i === index) {
       val = newValue
@@ -120,7 +120,7 @@ export const closestIndex = (goal: number, array: Array<number>) => {
 
 export const getFormattedNumber = (
   value: number,
-  numberFormat: NumberFormatTypes
+  numberFormat: SliderNumberFormat
 ) => {
   if (numberFormat) {
     if (typeof numberFormat === 'function') {
@@ -128,11 +128,16 @@ export const getFormattedNumber = (
       return { number, aria: number }
     }
 
-    return format(value as number, {
+    const options = {
       ...(numberFormat || {}),
-      returnAria: true,
-    }) as formatReturnValue
+      returnAria: true as const,
+    }
+    const formatter =
+      options.currency === true || typeof options.currency === 'string'
+        ? formatCurrency
+        : formatNumber
+    return formatter(value as number, options)
   }
 
-  return { aria: null, number: null } as formatReturnValue
+  return { aria: null, number: null } as NumberFormatReturnValue
 }

@@ -24,7 +24,7 @@ export const HeightAnimationSandbox = () => {
     <>
       <ToggleButton
         checked={openState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setOpenState(checked)
         }}
         right
@@ -35,7 +35,7 @@ export const HeightAnimationSandbox = () => {
       <ToggleButton
         disabled={!isOpen}
         checked={contentState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setContentState(checked)
         }}
         right
@@ -51,7 +51,7 @@ export const HeightAnimationSandbox = () => {
         {count}
       </Button>
 
-      <StyledSection style_type="lavender" top>
+      <StyledSection backgroundColor="lavender" top>
         <HeightAnimation
           open={openState}
           element="div" // Optional
@@ -60,7 +60,10 @@ export const HeightAnimationSandbox = () => {
           duration={1000}
           onOpen={setIsOpen}
         >
-          <Section spacing style_type="lavender">
+          <Section
+            innerSpace={{ block: 'large' }}
+            backgroundColor="lavender"
+          >
             <P>Your content</P>
           </Section>
           {contentState && <P>More content</P>}
@@ -97,21 +100,15 @@ export function HeightAnimationKeepInDOM() {
       setOpenState(checked)
     }
 
-    // console.log('contentState', contentState)
-
     return (
       <>
-        <ToggleButton
-          checked={openState}
-          on_change={onChangeHandler}
-          right
-        >
+        <ToggleButton checked={openState} onChange={onChangeHandler} right>
           Open/close
         </ToggleButton>
         <ToggleButton
           checked={contentState || !openState}
           disabled={!openState}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setContentState(checked)
           }}
           space={{ top: true, bottom: true }}
@@ -119,13 +116,12 @@ export function HeightAnimationKeepInDOM() {
           Change height inside
         </ToggleButton>
 
-        <StyledSection style_type="lavender" top>
-          <HeightAnimation
-            open={openState}
-            // keepInDOM={true}
-            duration={1000}
-          >
-            <Section spacing style_type="lavender">
+        <StyledSection backgroundColor="lavender" top>
+          <HeightAnimation open={openState} duration={1000}>
+            <Section
+              innerSpace={{ block: 'large' }}
+              backgroundColor="lavender"
+            >
               <P space={0}>Your content</P>
             </Section>
             {contentState && <P space={0}>More content</P>}

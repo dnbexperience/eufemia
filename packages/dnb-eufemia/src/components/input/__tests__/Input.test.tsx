@@ -7,8 +7,9 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Input, { InputProps } from '../Input'
-import { format } from '../../number-format/NumberUtils'
+import type { InputProps } from '../Input'
+import Input from '../Input'
+import { formatNumber } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 import {
   add_medium as AddIcon,
@@ -70,29 +71,30 @@ describe('Input component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <Input {...props} inner_ref={ref} />
+      ref = React.useRef(null)
+      return <Input {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    // ref should be the DOM element, not a class instance
+    const input = document.querySelector('input')
+    expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    expect(ref.current).toBe(input)
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('INPUT')
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLInputElement) => {
-      ref.current = elem
-    }
+    render(<Input {...props} ref={refFn} />)
 
-    render(<Input {...props} inner_ref={refFn} />)
-
-    expect(ref.current instanceof HTMLInputElement).toBe(true)
-    expect(ref.current.id).toBe(props.id)
-    expect(ref.current.tagName).toBe('INPUT')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const input = document.querySelector('input')
+    expect(refFn).toHaveBeenCalledWith(input)
+    expect(input.tagName).toBe('INPUT')
   })
 
   it('should support inline styling', () => {
@@ -109,8 +111,8 @@ describe('Input component', () => {
       const [value, setValue] = React.useState(initialValue)
       return (
         <Input
-          value={String(format(value))}
-          on_change={({ value }) => {
+          value={String(formatNumber(value))}
+          onChange={({ value }) => {
             setValue(value)
           }}
         />
@@ -120,7 +122,7 @@ describe('Input component', () => {
     render(<Controlled />)
 
     expect(document.querySelector('input').value).toBe(
-      format(initialValue)
+      formatNumber(initialValue)
     )
 
     const newValue = '12345678'
@@ -128,13 +130,15 @@ describe('Input component', () => {
       target: { value: newValue },
     })
 
-    expect(document.querySelector('input').value).toBe(format(newValue))
+    expect(document.querySelector('input').value).toBe(
+      formatNumber(newValue)
+    )
   })
 
-  it('value can be manipulated during on_change', () => {
+  it('value can be manipulated during onChange', () => {
     render(
       <Input
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           return String(value).toUpperCase()
         }}
       />
@@ -148,10 +152,10 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('NEW VALUE')
   })
 
-  it('value will not change when returning false on_change', () => {
+  it('value will not change when returning false onChange', () => {
     render(
       <Input
-        on_change={() => {
+        onChange={() => {
           return false
         }}
       />
@@ -165,19 +169,19 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('')
   })
 
-  it('events gets emitted correctly: "on_change" and "onKeyDown"', () => {
+  it('events gets emitted correctly: "onChange" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
     const emptyValue = null // gets emitted also on values as null
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     const onKeyDown = jest.fn() // additional native event test
 
     render(
       <Input
         {...props}
         value={initValue}
-        on_change={on_change}
+        onChange={onChange}
         onKeyDown={onKeyDown} // additional native event test
       />
     )
@@ -187,19 +191,18 @@ describe('Input component', () => {
     fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
-    expect(on_change.mock.calls.length).toBe(1)
+    expect(onChange.mock.calls.length).toBe(1)
     expect(document.querySelector('input').value).toBe(newValue)
 
     fireEvent.change(document.querySelector('input'), {
       target: { value: emptyValue },
     })
-    expect(on_change.mock.calls.length).toBe(2)
+    expect(onChange.mock.calls.length).toBe(2)
     expect(document.querySelector('input').value).toBe('')
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Space',
-      keyCode: 84, // space
     })
     expect(onKeyDown.mock.calls.length).toBe(1)
   })
@@ -256,6 +259,30 @@ describe('Input component', () => {
     expect(
       document.querySelector('.dnb-input__placeholder')
     ).not.toBeInTheDocument()
+  })
+
+  it('should keep placeholder element in DOM during focus when value is empty', () => {
+    render(<Input {...props} placeholder="My placeholder" />)
+
+    const input = document.querySelector('input')
+    const placeholder = () =>
+      document.querySelector('.dnb-input__placeholder')
+
+    expect(placeholder()).toBeInTheDocument()
+    expect(placeholder().textContent).toBe('My placeholder')
+
+    fireEvent.focus(input)
+
+    // Placeholder element stays in the DOM — CSS handles visual hiding on focus
+    expect(placeholder()).toBeInTheDocument()
+
+    fireEvent.change(input, { target: { value: 'typed' } })
+
+    expect(placeholder()).not.toBeInTheDocument()
+
+    fireEvent.change(input, { target: { value: '' } })
+
+    expect(placeholder()).toBeInTheDocument()
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
@@ -358,8 +385,8 @@ describe('Input component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will select the whole input when selectall is set', async () => {
-    render(<Input selectall={true} value="1234" />)
+  it('will select the whole input when selectAll is set', async () => {
+    render(<Input selectAll={true} value="1234" />)
 
     const select = jest.fn()
     document.querySelector('input').select = select
@@ -383,13 +410,13 @@ describe('Input component', () => {
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes', () => {
-    render(<Input input_attributes={{ size: 2 }} />)
+  it('has correct size attribute (chars length) on input by using inputAttributes', () => {
+    render(<Input inputAttributes={{ size: 2 }} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
-    render(<Input input_attributes='{"size": "2"}' />)
+  it('has correct size attribute (chars length) on input by using inputAttributes and a JSON object', () => {
+    render(<Input inputAttributes='{"size": "2"}' />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
@@ -415,7 +442,7 @@ describe('Input component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Input {...props} status="status" status_state="error" />)
+    render(<Input {...props} status="status" statusState="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -426,13 +453,13 @@ describe('Input component', () => {
       <Input
         value="value"
         status="status text"
-        status_state="warn"
-        status_props={{ stretch: true }}
+        statusState="warning"
+        statusProps={{ stretch: true }}
       />
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
     )
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
       'dnb-height-animation--is-visible dnb-height-animation--is-in-dom'
@@ -501,14 +528,14 @@ describe('Input component', () => {
     expect(input).toHaveValue('foo bar')
   })
 
-  it('should call on_submit event handler on enter key press', () => {
-    const on_submit = jest.fn()
+  it('should call onSubmit event handler on enter key press', () => {
+    const onSubmit = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit={on_submit}
+        onSubmit={onSubmit}
       />
     )
 
@@ -516,20 +543,19 @@ describe('Input component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Enter',
-      keyCode: 13, // enter
     })
-    expect(on_submit).toHaveBeenCalledTimes(1)
-    expect(on_submit.mock.calls[0][0].value).toBe('value')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit event handler on submit button click', () => {
-    const on_submit = jest.fn()
+  it('should call onSubmit event handler on submit button click', () => {
+    const onSubmit = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit={on_submit}
+        onSubmit={onSubmit}
       />
     )
 
@@ -538,18 +564,18 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.click(submitButton)
 
-    expect(on_submit).toHaveBeenCalledTimes(1)
-    expect(on_submit.mock.calls[0][0].value).toBe('value')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit_focus event handler on submit button focus', () => {
-    const on_submit_focus = jest.fn()
+  it('should call onSubmitFocus event handler on submit button focus', () => {
+    const onSubmitFocus = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit_focus={on_submit_focus}
+        onSubmitFocus={onSubmitFocus}
       />
     )
 
@@ -558,18 +584,18 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.focus(submitButton)
 
-    expect(on_submit_focus).toHaveBeenCalledTimes(1)
-    expect(on_submit_focus.mock.calls[0][0].value).toBe('value')
+    expect(onSubmitFocus).toHaveBeenCalledTimes(1)
+    expect(onSubmitFocus.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit_blur event handler on submit button blur', () => {
-    const on_submit_blur = jest.fn()
+  it('should call onSubmitBlur event handler on submit button blur', () => {
+    const onSubmitBlur = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit_blur={on_submit_blur}
+        onSubmitBlur={onSubmitBlur}
       />
     )
 
@@ -578,19 +604,19 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.blur(submitButton)
 
-    expect(on_submit_blur).toHaveBeenCalledTimes(1)
-    expect(on_submit_blur.mock.calls[0][0].value).toBe('value')
+    expect(onSubmitBlur).toHaveBeenCalledTimes(1)
+    expect(onSubmitBlur.mock.calls[0][0].value).toBe('value')
   })
 })
 
 describe('Input with clear button', () => {
   it('should have the button', () => {
-    render(<Input clear={true} />)
+    render(<Input showClearButton={true} />)
     expect(document.querySelector('.dnb-input--clear')).toBeInTheDocument()
   })
 
   it('should clear the value on press', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     expect(document.querySelector('input').value).toBe('value')
 
@@ -603,7 +629,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when no value is given', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     expect(document.querySelector('input').value).toBe('value')
 
@@ -618,7 +644,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when initially empty value is given', () => {
-    render(<Input id="input-id" clear={true} />)
+    render(<Input id="input-id" showClearButton={true} />)
 
     expect(document.querySelector('input').value).toBe('')
 
@@ -632,7 +658,7 @@ describe('Input with clear button', () => {
   })
 
   it('should set focus on input when clear button is pressed', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
@@ -654,14 +680,15 @@ describe('Input with clear button', () => {
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',
-      'dnb-space__top--large',
       'dnb-input--text',
+      'dnb-input--vertical',
+      'dnb-space__top--large',
     ])
   })
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Input label="Label" />
       </Provider>
     )
@@ -686,7 +713,9 @@ describe('Input with clear button', () => {
   })
 
   it('should support icon', () => {
-    const { rerender } = render(<Input clear={true} icon="bell" />)
+    const { rerender } = render(
+      <Input showClearButton={true} icon="bell" />
+    )
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeInTheDocument()
@@ -697,7 +726,9 @@ describe('Input with clear button', () => {
       document.querySelector('.dnb-input--icon-position-right')
     ).not.toBeInTheDocument()
 
-    rerender(<Input clear={true} icon="bell" icon_position="right" />)
+    rerender(
+      <Input showClearButton={true} icon="bell" iconPosition="right" />
+    )
 
     expect(
       document.querySelector('.dnb-input--icon-position-right')
@@ -713,7 +744,9 @@ describe('Input with clear button', () => {
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
-    render(<Input clear={true} icon="bell" icon_position="right" />)
+    render(
+      <Input showClearButton={true} icon="bell" iconPosition="right" />
+    )
     expect(
       document.querySelector('.dnb-input--clear')
     ).not.toBeInTheDocument()
@@ -723,13 +756,13 @@ describe('Input with clear button', () => {
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      `You cannot have a clear button and icon_position="right"`
+      `You cannot have a clear button and iconPosition="right"`
     )
   })
 
-  it('should render inner_element', () => {
+  it('should render innerElement', () => {
     const CustomComponent = () => <div>custom element</div>
-    render(<Input inner_element={<CustomComponent />} icon="bell" />)
+    render(<Input innerElement={<CustomComponent />} icon="bell" />)
 
     expect(
       document
@@ -746,24 +779,42 @@ describe('Input with clear button', () => {
     ).toBeInTheDocument()
   })
 
-  it('should emit on_clear event on clear button click', () => {
-    const on_clear = jest.fn()
-    const on_change = jest.fn()
+  it('should emit onClear event on clear button click', () => {
+    const onClear = jest.fn()
+    const onChange = jest.fn()
 
     render(
-      <Input value="123" clear on_clear={on_clear} on_change={on_change} />
+      <Input
+        value="123"
+        showClearButton
+        onClear={onClear}
+        onChange={onChange}
+      />
     )
 
     fireEvent.click(document.querySelector('.dnb-input__clear-button'))
 
-    expect(on_clear).toHaveBeenCalledTimes(1)
-    expect(on_clear).toHaveBeenCalledWith(
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenCalledWith(
       expect.objectContaining({ value: '', previousValue: '123' })
     )
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change).toHaveBeenCalledWith(
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ value: '' })
     )
+  })
+
+  it('should omit input shell classes when _omitInputShellClass is true', () => {
+    render(<Input _omitInputShellClass value="value" />)
+
+    const wrapper = document.querySelector('.dnb-input')
+    // Should not render shell or border elements/classes
+    expect(
+      wrapper.querySelector('.dnb-input__shell')
+    ).not.toBeInTheDocument()
+    expect(
+      wrapper.querySelector('.dnb-input__border')
+    ).not.toBeInTheDocument()
   })
 })
 
@@ -784,12 +835,13 @@ describe('Input icon memoization', () => {
     const renderSpy = jest.fn()
 
     // Create a wrapper to spy on renders
-    const IconWrapper = React.forwardRef<HTMLInputElement, InputProps>(
-      (props, ref) => {
-        renderSpy()
-        return <Input {...props} inner_ref={ref} />
-      }
-    )
+    const IconWrapper = ({
+      ref,
+      ...props
+    }: InputProps & { ref?: React.Ref<HTMLInputElement> }) => {
+      renderSpy()
+      return <Input {...props} ref={ref} />
+    }
 
     const { rerender } = render(<IconWrapper {...props} icon="loupe" />)
 

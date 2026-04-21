@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
-import { format } from '../../number-format/NumberUtils'
+import { formatCurrency } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 import SliderMarker from '../SliderMarker'
 
@@ -49,11 +49,12 @@ export function Marker() {
           },
         }}
         label="Label with some text"
-        labelDirection="vertical"
         min={-40}
         max={100}
         stretch
-        numberFormat={(value) => format(value, { currency: 'USD' })}
+        numberFormat={(value) =>
+          formatCurrency(value, { currency: 'USD' })
+        }
         tooltip
       />
       <div style={{ height: '20rem' }}>
@@ -66,7 +67,6 @@ export function Marker() {
             },
           }}
           label="Label with some text"
-          labelDirection="vertical"
           min={-40}
           max={100}
           stretch
@@ -86,17 +86,14 @@ export function NegativeValues() {
       <Slider
         top="x-large"
         label="Label with some text"
-        labelDirection="vertical"
         multiThumbBehavior="push"
-        // multiThumbBehavior="omit"
-        // vertical
-        // reverse
-        // step={10}
         value={value}
         min={-40}
         max={100}
         stretch
-        numberFormat={(value) => format(value, { currency: 'USD' })}
+        numberFormat={(value) =>
+          formatCurrency(value, { currency: 'USD' })
+        }
         tooltip
         onChange={({ value, number }) => {
           console.log('onChange:', value, number)
@@ -118,20 +115,17 @@ export function MultiButtons() {
         <Slider
           top="x-large"
           label="Label with some text"
-          labelDirection="vertical"
           multiThumbBehavior="push"
-          // multiThumbBehavior="omit"
-          // vertical
-          // reverse
           value={value}
           min={100}
           max={1000}
           step={10}
           stretch
-          numberFormat={(value) => format(value, { currency: 'USD' })}
+          numberFormat={(value) =>
+            formatCurrency(value, { currency: 'USD' })
+          }
           tooltip
           onChange={({ value, number }) => {
-            // console.log('onChange:', value, number)
             setValue(value as Array<number>)
           }}
         />
@@ -142,22 +136,19 @@ export function MultiButtons() {
         <Slider
           top="x-large"
           label="Label with some text"
-          labelDirection="vertical"
           value={valueSecond}
           min={100}
           max={1000}
           step={10}
           stretch
           vertical
-          // reverse
           numberFormat={{
             decimals: 2,
             currency: 'EUR',
-            currency_display: 'symbol',
+            currencyDisplay: 'symbol',
           }}
           tooltip
           onChange={({ value, number }) => {
-            // console.log('onChange:', value, number)
             setValueSecond(value as number)
           }}
         />
@@ -177,15 +168,12 @@ const SliderStory = () => {
       <Box>
         Text
         <Slider
-          // hideButtons
           label="Label:"
           suffix="123"
-          // min={'50'}
           max={100}
           value={value}
           step={0.05}
           numberFormat={{ currency: true }}
-          // reverse
           onChange={({ value, number, rawValue }) => {
             console.log('onChange:', { value, number, rawValue })
             setValue(value as number)
@@ -197,7 +185,6 @@ const SliderStory = () => {
         <VerticalWrapper>
           <Slider
             label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
-            labelDirection="vertical"
             suffix="123"
             min={0}
             max={100}
@@ -213,8 +200,8 @@ const SliderStory = () => {
           <Input
             align="center"
             value={String(value)}
-            on_change={({ value }) => {
-              setValue(value as number)
+            onChange={({ value }) => {
+              setValue(Number(value))
             }}
           />
         </VerticalWrapper>

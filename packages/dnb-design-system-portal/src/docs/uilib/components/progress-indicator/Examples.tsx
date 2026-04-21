@@ -9,7 +9,6 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   ProgressIndicator,
   Button,
-  FormRow,
   Dialog,
   Flex,
   IconPrimary,
@@ -45,7 +44,6 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
       // label="Custom label ..."
       type="circular"
       showDefaultLabel={true}
-      labelDirection="vertical"
     />
   </ComponentBox>
 )
@@ -65,11 +63,12 @@ export const ProgressIndicatorCircularLabelInsideExample = () => (
       type="circular"
       labelDirection="inside"
       data-visual-test="progress-indicator-label-inside"
-    >
-      <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
-        {72}%
-      </span>
-    </ProgressIndicator>
+      label={
+        <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
+          {72}%
+        </span>
+      }
+    />
   </ComponentBox>
 )
 
@@ -95,6 +94,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
               type="circular"
               progress={value}
               showDefaultLabel
+              labelDirection="horizontal"
               noAnimation
             />
             <Button
@@ -149,10 +149,10 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [visible, setVisible] = React.useState(true)
+        const [show, setShow] = React.useState(true)
         React.useEffect(() => {
           const timer = setInterval(
-            () => setVisible(!visible),
+            () => setShow(!show),
             random(2400, 4200)
           )
           return () => clearTimeout(timer)
@@ -161,9 +161,9 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
           <ProgressIndicator
             type="circular"
             size="large"
-            visible={visible}
+            show={show}
             onComplete={() => {
-              console.log('on_complete_circular')
+              console.log('onCompleteCircular')
             }}
           />
         )
@@ -187,7 +187,6 @@ export const ProgressIndicatorCircularDialogExample = () => (
       <ProgressIndicator
         type="circular"
         showDefaultLabel
-        labelDirection="vertical"
         top="large"
         bottom="large"
         size="large"
@@ -221,12 +220,7 @@ export const ProgressIndicatorLinearLabelHorizontalExample = () => (
 
 export const ProgressIndicatorLinearLabelVerticalExample = () => (
   <ComponentBox>
-    <ProgressIndicator
-      type="linear"
-      // label="Custom label ..."
-      showDefaultLabel={true}
-      labelDirection="vertical"
-    />
+    <ProgressIndicator type="linear" showDefaultLabel={true} />
   </ComponentBox>
 )
 
@@ -247,7 +241,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center">
             <ProgressIndicator
               type="linear"
               progress={value}
@@ -261,7 +255,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 
@@ -299,10 +293,10 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [visible, setVisible] = React.useState(true)
+        const [show, setShow] = React.useState(true)
         React.useEffect(() => {
           const timer = setInterval(
-            () => setVisible(!visible),
+            () => setShow(!show),
             random(2400, 4200)
           )
           return () => clearTimeout(timer)
@@ -311,9 +305,9 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
           <ProgressIndicator
             type="linear"
             size="large"
-            visible={visible}
+            show={show}
             onComplete={() => {
-              console.log('on_complete_linear')
+              console.log('onCompleteLinear')
             }}
           />
         )
@@ -337,7 +331,6 @@ export const ProgressIndicatorLinearDialogExample = () => (
       <ProgressIndicator
         type="linear"
         showDefaultLabel
-        labelDirection="vertical"
         top="large"
         bottom="large"
       />
@@ -347,12 +340,12 @@ export const ProgressIndicatorLinearDialogExample = () => (
 
 export const ProgressIndicatorSizesExample = () => (
   <ComponentBox data-visual-test="progress-indicator-sizes">
-    <div style={{ display: 'flex' }}>
+    <Flex.Horizontal align="center" gap={false}>
       <ProgressIndicator progress="50" size="small" />
       <ProgressIndicator progress="50" size="medium" />
       <ProgressIndicator progress="50" />
       <ProgressIndicator progress="50" size="large" />
-    </div>
+    </Flex.Horizontal>
   </ComponentBox>
 )
 
@@ -390,9 +383,8 @@ export const ProgressIndicatorCountdownExample = () => (
             title={`${current} av ${max}`}
             size="large"
             labelDirection="inside"
-          >
-            <MyCustomLabel aria-hidden>{current}</MyCustomLabel>
-          </ProgressIndicator>
+            label={<MyCustomLabel aria-hidden>{current}</MyCustomLabel>}
+          />
         )
       }
 
@@ -446,12 +438,13 @@ export const ProgressIndicatorCustomCountdown = () => (
               }}
               title={daysLeft + 'days left'}
               customCircleWidth="0.5rem"
-            >
-              <StyledText>
-                <StyledTitle>{daysLeft} d</StyledTitle>
-                left
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <StyledTitle>{daysLeft} d</StyledTitle>
+                  left
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }
@@ -481,16 +474,16 @@ export const ProgressIndicatorCustomHorizontal = () => (
               type="linear"
               progress={75}
               size="1rem"
-              labelDirection="vertical"
               customColors={{
                 line: 'var(--color-summer-green)',
                 shaft: 'var(--color-sea-green)',
               }}
-            >
-              <StyledText>
-                <NumberFormat percent value={75} /> done
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <NumberFormat.Percent value={75} /> done
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }

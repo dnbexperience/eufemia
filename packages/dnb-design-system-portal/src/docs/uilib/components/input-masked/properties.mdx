@@ -4,17 +4,13 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import {
-  inputMaskedProperties,
-  inputMaskedMaskOptionsProperties,
+  InputMaskedProperties,
+  InputMaskedMaskOptionsProperties,
 } from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
-import {
-  multiInputMaskedProperties,
-  multiInputMaskedInputsProperties,
-} from '@dnb/eufemia/src/components/input-masked/MultiInputMaskedDocs'
 
 ## Properties
 
-<PropertiesTable props={inputMaskedProperties} />
+<PropertiesTable props={InputMaskedProperties} />
 
 ## Number mask properties
 
@@ -22,24 +18,24 @@ The number mask is used for all kinds of number based masks, like:
 
 **Locale based masks:**
 
-- `as_number`
-- `as_currency`
-- `as_percent`
+- `asNumber`
+- `asCurrency`
+- `asPercent`
 
 **Static masks:**
 
-- `number_mask`
-- `currency_mask`
+- `numberMask`
+- `currencyMask`
 
-You can `mask_options` to manipulate the options.
+You can `maskOptions` to manipulate the options.
 
 Defaults to Norwegian number format.
 
-<PropertiesTable props={inputMaskedMaskOptionsProperties} />
+<PropertiesTable props={InputMaskedMaskOptionsProperties} />
 
 ### Custom number mask usage
 
-The number mask is included and can be set with the `number_mask` property.
+The number mask is included and can be set with the `numberMask` property.
 
 ```jsx
 
@@ -49,46 +45,6 @@ const numberMask = {
   suffix: ',- kr'
 }
 
-// 2. Then pass 'numberMask' to the InputMasked component as the number_mask
-<InputMasked number_mask={numberMask} ... />
+// 2. Then pass 'numberMask' to the InputMasked component as the numberMask
+<InputMasked numberMask={numberMask} ... />
 ```
-
-But in case you have to create the mask by yourself, you can do so:
-
-```jsx
-import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
-
-// 1. Create the 'numberMask' with your desired configurations
-const numberMask = createNumberMask({
-  prefix: '',
-  suffix: ',- kr'
-})
-
-// 2. Then pass 'numberMask' to the InputMasked component as the mask
-<InputMasked mask={numberMask} ... />
-```
-
-## Email mask
-
-```jsx
-import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
-
-render(
-  <InputMasked
-    label="Email:"
-    mask={emailMask}
-    placeholder="@."
-    keep_placeholder={true}
-  />
-)
-```
-
-Read more about other addons [on the open-source project](https://github.com/text-mask/text-mask)
-
-## Multi-input mask
-
-<PropertiesTable props={multiInputMaskedProperties} />
-
-### MultiInputMask inputs properties
-
-<PropertiesTable props={multiInputMaskedInputsProperties} />

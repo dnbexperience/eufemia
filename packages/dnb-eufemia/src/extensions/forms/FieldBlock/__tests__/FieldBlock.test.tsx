@@ -10,7 +10,8 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { Field, Form, Validator } from '../..'
+import type { Validator } from '../..'
+import { Field, Form } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
 
@@ -379,7 +380,10 @@ describe('FieldBlock', () => {
 
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
-      const fromInput = React.useCallback(({ value }) => value, [])
+      const fromInput = React.useCallback(
+        (external: unknown) => (external as { value: string }).value,
+        []
+      )
       const { value, handleChange } = useFieldProps({
         value: '',
         fromInput,
@@ -387,7 +391,7 @@ describe('FieldBlock', () => {
 
       return (
         <FieldBlock label="Label" forId="unique">
-          <Input id="unique" value={value} on_change={handleChange} />
+          <Input id="unique" value={value} onChange={handleChange} />
         </FieldBlock>
       )
     }
@@ -867,7 +871,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
@@ -882,7 +886,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
@@ -894,7 +898,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-form-status--information')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
@@ -935,7 +939,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-form-status--warning')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockWarning)
       })
@@ -950,7 +954,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-form-status--warning')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockWarning)
       })

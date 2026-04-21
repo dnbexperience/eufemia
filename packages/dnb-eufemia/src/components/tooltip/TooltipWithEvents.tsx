@@ -4,7 +4,6 @@
  */
 
 import React, {
-  cloneElement,
   isValidElement,
   useCallback,
   useContext,
@@ -13,12 +12,12 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
 import Popover from '../popover/Popover'
 import getRefElement from '../../shared/internal/getRefElement'
-import { TooltipProps } from './types'
+import type { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
 import AriaLive from '../AriaLive'
 
@@ -26,20 +25,19 @@ type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
   attributes?: React.HTMLAttributes<HTMLElement>
   targetRefreshKey?: TooltipProps['targetRefreshKey']
-  forceActive?: TooltipProps['forceActive']
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const { children, attributes, ...restProps } = props
   const {
-    active,
+    open,
     target,
     skipPortal,
     noAnimation,
     showDelay,
     hideDelay,
     arrow,
-    position,
+    placement,
     align,
     fixedPosition,
     portalRootClass,
@@ -48,17 +46,16 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
-    forceActive,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
 
-  const [isActive, setIsActive] = useState(active)
+  const [isOpen, setIsOpen] = useState(open)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
 
-  const delayTimeout = useRef<NodeJS.Timeout>()
-  const overlayDelayTimeout = useRef<NodeJS.Timeout>()
-  const cloneRef = useRef<HTMLElement>()
+  const delayTimeout = useRef<NodeJS.Timeout>(undefined)
+  const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
+  const cloneRef = useRef<HTMLElement>(undefined)
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
@@ -66,12 +63,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }
 
   const onMouseEnter = useCallback(
-    (e: MouseEvent) => {
+    (e: Event) => {
       try {
         const elem = e.currentTarget as HTMLElement
 
         if (elem.getAttribute('data-autofocus')) {
-          return // stop here
+          return undefined // stop here
         }
 
         if (isTouch(e.type)) {
@@ -82,7 +79,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       const run = () => {
-        setIsActive(true)
+        setIsOpen(true)
       }
 
       if (noAnimation || globalThis.IS_TEST) {
@@ -99,7 +96,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   )
 
   const onFocus = useCallback(
-    (e: MouseEvent) => {
+    (e: Event) => {
       /**
        * VoiceOver needs to show the Tooltip in order to read the aria-describedby
        */
@@ -109,8 +106,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   )
 
   const onMouseLeave = useCallback(
-    (e: MouseEvent) => {
-      if (active) {
+    (e: Event) => {
+      if (open) {
         return // stop here, because it is set to true by the original prop
       }
 
@@ -126,7 +123,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
 
       const run = () => {
-        setIsActive(false)
+        setIsOpen(false)
       }
 
       if (skipPortal) {
@@ -138,7 +135,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         run()
       }
     },
-    [active, hideDelay, skipPortal]
+    [open, hideDelay, skipPortal]
   )
 
   const addEvents = useCallback(
@@ -160,7 +157,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const removeEvents = useCallback(
     (element: HTMLElement) => {
       if (!(element instanceof HTMLElement)) {
-        return // stop here
+        return undefined // stop here
       }
       try {
         element.removeEventListener('focus', onFocus)
@@ -176,19 +173,18 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [onFocus, onMouseEnter, onMouseLeave]
   )
 
-  const overlayActive = Boolean(
-    isActive || isOverlayHovered || forceActive
-  )
+  const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
   // const fallbackDescriptionId = `${internalId}-sr`
-  const describedById = overlayActive ? internalId : null
+  const describedById = overlayOpen ? internalId : null
 
   /**
    * Get our "target"
    */
   const componentWrapper = useMemo(() => {
-    if (isValidElement(target)) {
-      return cloneElement(target, {
+    if (isValidElement<Record<string, unknown>>(target)) {
+      return React.createElement(target.type as React.ComponentType<any>, {
+        ...target.props,
         ref: cloneRef,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],
@@ -222,15 +218,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useEffect(() => {
     if (isControlled) {
-      setIsActive(active)
+      setIsOpen(open)
+    } else {
+      setIsOpen(false)
     }
-  }, [active, isControlled])
+  }, [open, isControlled])
 
   useEffect(() => {
     const targetElement = getRefElement(cloneRef)
     if (!(targetElement instanceof HTMLElement)) {
       previousDescribedByIdRef.current = null
-      return
+      return undefined
     }
 
     const updateAriaDescribedBy = (nextId: string | null) => {
@@ -288,7 +286,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const handleOverlayMouseLeave = useCallback(() => {
     if (isControlled) {
-      return
+      return undefined
     }
     const run = () => setOverlayHovered(false)
     clearOverlayTimers()
@@ -309,14 +307,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     <>
       <Popover
         baseClassName="dnb-tooltip"
-        className={classnames(
+        className={clsx(
           attributeClassName,
           'dnb-tooltip',
-          size && `dnb-tooltip--${size}`
+          size && size !== 'default' && `dnb-tooltip--${size}`
         )}
-        theme="dark"
         id={internalId}
-        open={overlayActive}
+        open={overlayOpen}
         targetElement={cloneRef}
         arrowEdgeOffset={4}
         hideDelay={hideDelay}
@@ -326,7 +323,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         triggerOffset={triggerOffset}
         targetRefreshKey={targetRefreshKey}
         arrowPosition={arrow}
-        placement={position}
+        placement={placement}
         alignOnTarget={align}
         fixedPosition={fixedPosition}
         portalRootClass={portalRootClass}
@@ -349,7 +346,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       </Popover>
 
       <AriaLive element="span" priority="low">
-        {overlayActive ? children : null}
+        {overlayOpen ? children : null}
       </AriaLive>
 
       {componentWrapper}

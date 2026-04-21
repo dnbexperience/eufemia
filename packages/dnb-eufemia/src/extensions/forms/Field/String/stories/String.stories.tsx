@@ -15,7 +15,7 @@ export const StringAndLabelStretch = () => {
         path="/moreInfo"
         label="Her kan du gi oss andre opplysninger som du tror kan være relevante for søknaden. Ønsker du for eksempel fastrente eller rammelån, kan du skrive det her."
         multiline
-        autoresize
+        autoResize
         maxLength={250}
         characterCounter={{
           max: 250,
@@ -64,8 +64,8 @@ export const Transform = () => {
   const transformIn = (external: unknown) => {
     return String(external)?.toUpperCase()
   }
-  const transformOut = (internal: string) => {
-    return internal?.toLowerCase()
+  const transformOut = (internal: unknown) => {
+    return String(internal)?.toLowerCase()
   }
   return (
     <Form.Handler onChange={console.log}>
@@ -115,8 +115,8 @@ export function TransformObject() {
         transformOut={(value) => {
           return { value, test: 'test' }
         }}
-        transformIn={(data: typeof defaultData.myLabel) => {
-          return data?.value
+        transformIn={(data: unknown) => {
+          return (data as typeof defaultData.myLabel)?.value
         }}
       />
 
@@ -145,14 +145,6 @@ export function ErrorMessages() {
           required
           value="abc"
           minLength={4}
-          // pattern="[0-9]"
-          // onChangeValidator={() => {
-          //   return new FormError('OrganizationNumber.errorRequired')
-          // }}
-          // errorMessages={{
-          //   'OrganizationNumber.errorRequired':
-          //     'Display me, instead of the default message',
-          // }}
         />
       </Flex.Stack>
     </Form.Handler>
@@ -182,7 +174,7 @@ export const UpdateLocaleInProviderForAllFields = () => {
       <ToggleButton.Group
         value={locale}
         onChange={({ value }) => {
-          setLocale(value)
+          setLocale(value as string)
         }}
       >
         <ToggleButton value="nb-NO" className="nb-NO">

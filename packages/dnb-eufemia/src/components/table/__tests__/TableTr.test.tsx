@@ -1,7 +1,8 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
-import TableTr, { TableTrProps } from '../TableTr'
+import type { TableTrProps } from '../TableTr'
+import TableTr from '../TableTr'
 
 describe('TableTr', () => {
   it('renders with props as an object', () => {

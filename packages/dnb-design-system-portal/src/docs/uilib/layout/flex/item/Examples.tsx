@@ -26,8 +26,8 @@ export const BasicSize = () => {
   return (
     <ComponentBox>
       <Flex.Container>
-        <Flex.Item size={6}>uses 50% in width</Flex.Item>
-        <Flex.Item size={6}>uses 50% in width</Flex.Item>
+        <Flex.Item span={6}>uses 50% in width</Flex.Item>
+        <Flex.Item span={6}>uses 50% in width</Flex.Item>
       </Flex.Container>
     </ComponentBox>
   )
@@ -37,10 +37,10 @@ export const ResponsiveSize = () => {
   return (
     <ComponentBox hidePreview>
       <Flex.Container>
-        <Flex.Item size={{ small: 12, large: 6 }}>
+        <Flex.Item span={{ small: 12, large: 6 }}>
           uses 50% or 100% based on the screen size
         </Flex.Item>
-        <Flex.Item size={{ small: 12, large: 6 }}>
+        <Flex.Item span={{ small: 12, large: 6 }}>
           uses 50% or 100% based on the screen size
         </Flex.Item>
       </Flex.Container>

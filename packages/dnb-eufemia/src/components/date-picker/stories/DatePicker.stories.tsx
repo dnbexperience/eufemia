@@ -41,23 +41,13 @@ const ScrollbarInner = styled.div`
 `
 
 const ChangeLocale = () => {
-  const {
-    setLocale,
-    // setCurrentLocale,// to update only the current context
-    locale,
-  } = React.useContext(Context)
-
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     setLocale('en-GB')
-  //   }, 2e3)
-  // }, [])
+  const { setLocale, locale } = React.useContext(Context)
 
   return (
     <Dropdown
       value={locale}
       data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { value } }) => {
+      onChange={({ data: { value } }) => {
         setLocale(value)
       }}
     />
@@ -67,70 +57,49 @@ const ChangeLocale = () => {
 export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <DatePicker
-          label="Linked Range DatePicker:"
-          // labelDirection="vertical"
-          // startDate={new Date()}
-          startDate="2019-01-15"
-          // startDate="2020-11-01"
-          endDate="2020-11-02"
-          // minDate="2020-10-28"
-          // maxDate="2020-11-03"
-          range={true}
-          // link={true}
-          // sync={false}
-          // opened={true}
-          showInput={true}
-          onShow={(props) => {
-            console.log('onShow', props)
-          }}
-          onDaysRender={(
-            days
-            // , nr
-          ) => {
-            // console.log('onDaysRender', nr, days)
-
-            return days.map((dateObject) => {
-              // console.log('dateObject', dateObject)
-              if (isWeekend(dateObject.date)) {
-                // console.log('dateObject', dateObject)
-                dateObject.isInactive = true
-                // dateObject.isDisabled = true
-                // dateObject.isSelectable = false
-                dateObject.className = 'dnb-date-picker__day--weekend'
-              }
-              return dateObject
-            })
-          }}
-          onHide={(props) => {
-            console.log('onHide', props)
-          }}
-          onChange={(props) => {
-            console.log('onChange', props)
-          }}
-          onType={(props) => {
-            console.log('onType', props)
-          }}
-          onSubmit={(props) => {
-            console.log('onSubmit', props)
-          }}
-          onCancel={(props) => {
-            console.log('onCancel', props)
-          }}
-          onReset={(props) => {
-            console.log('onReset', props)
-          }}
-          showCancelButton
-          showResetButton
-          showSubmitButton
-          // status="Please select a valid date"
-        />
-      </Provider>
+      <DatePicker
+        label="Linked Range DatePicker:"
+        startDate="2019-01-15"
+        endDate="2020-11-02"
+        range={true}
+        showInput={true}
+        onOpen={(props) => {
+          console.log('onOpen', props)
+        }}
+        onDaysRender={(days) => {
+          return days.map((dateObject) => {
+            if (isWeekend(dateObject.date)) {
+              dateObject.isInactive = true
+              dateObject.className = 'dnb-date-picker__day--weekend'
+            }
+            return dateObject
+          })
+        }}
+        onClose={(props) => {
+          console.log('onClose', props)
+        }}
+        onChange={(props) => {
+          console.log('onChange', props)
+        }}
+        onType={(props) => {
+          console.log('onType', props)
+        }}
+        onSubmit={(props) => {
+          console.log('onSubmit', props)
+        }}
+        onCancel={(props) => {
+          console.log('onCancel', props)
+        }}
+        onReset={(props) => {
+          console.log('onReset', props)
+        }}
+        showCancelButton
+        showResetButton
+        showSubmitButton
+      />
     </Box>
     <Box>
       <DatePicker
-        // opened
         showInput
         showSubmitButton
         showCancelButton
@@ -140,7 +109,10 @@ export const DatePickerSandbox = () => (
           { title: 'Set date', date: '2019-11-15' },
           {
             title: 'Relative +3 days',
-            date: ({ date }) => date && addDays(date, 3),
+            date: ((...args: unknown[]) => {
+              const { date } = args[0] as { date: Date }
+              return date && addDays(date, 3)
+            }) as (...args: unknown[]) => Date,
           },
         ]}
         right
@@ -152,17 +124,15 @@ export const DatePickerSandbox = () => (
         shortcuts={JSON.stringify([
           {
             title: 'Set cake',
-            start_date: '1981-01-15',
-            end_date: '1981-02-15',
+            startDate: '1981-01-15',
+            endDate: '1981-02-15',
           },
           {
             title: 'This stake',
-            start_date: startOfMonth(new Date()),
-            end_date: lastDayOfMonth(new Date()),
+            startDate: startOfMonth(new Date()),
+            endDate: lastDayOfMonth(new Date()),
           },
         ])}
-        // addonElement={ToggleButtons}
-        // addonElement={<>Bla</>}
       />
     </Box>
     <Box>
@@ -189,90 +159,66 @@ export const DatePickerSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider
-        formElement={{
-          labelDirection: 'vertical',
-        }}
-      >
-        <FieldBlock label="Legend:">
-          <Flex.Vertical>
-            <DatePicker
-              label="Date Picker 1"
-              right="small"
-              date="1981-01-15"
-              title="My Button"
-            />
-            <DatePicker
-              label="Date Picker 2:"
-              alignPicker="right"
-              date={new Date()}
-            />
-            <DatePicker
-              label="Date Picker 3:"
-              showInput
-              alignPicker="right"
-              maskPlaceholder="dd/mm/yyyy"
-              firstDay="sunday"
-              returnFormat="dd/MM/yyyy"
-              date="1981-01-15"
-              data-foo="bar"
-              onShow={(props) => {
-                console.log(
-                  'onShow',
-                  // props,
-                  props.event
-                )
-              }}
-              onHide={(props) => {
-                console.log(
-                  'onHide',
-                  // props,
-                  props.event
-                )
-              }}
-              onChange={(props) => {
-                console.log(
-                  'onChange',
-                  // props,
-                  props.event
-                )
-              }}
-            />
-            <DatePicker
-              label="Hidden Nav:"
-              showInput
-              // date="2019/05/05"
-              // startDate="05/05/2019"
-              hideNavigation={true}
-              hideDays={true}
-              submitButtonText="OK"
-              cancelButtonText="Cancel"
-              dateFormat="dd/MM/yyyy"
-              range={true}
-              // returnFormat="dd/MM/yyyy"
-              returnFormat="yyyy/MM/dd"
-              onChange={({ date }) => {
-                console.log('onChange', date)
-              }}
-              // onHide={({ date }) => {
-              //   console.log('onHide', date)
-              // }}
-              shortcuts={[
-                {
-                  title: 'Set date period',
-                  start_date: '1981-01-15',
-                  end_date: '1981-02-15',
-                },
-                {
-                  title: 'This month',
-                  start_date: startOfMonth(new Date()),
-                  end_date: lastDayOfMonth(new Date()),
-                },
-              ]}
-            />
-          </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+      <FieldBlock label="Legend:">
+        <Flex.Vertical>
+          <DatePicker
+            label="Date Picker 1"
+            right="small"
+            date="1981-01-15"
+            title="My Button"
+          />
+          <DatePicker
+            label="Date Picker 2:"
+            alignPicker="right"
+            date={new Date()}
+          />
+          <DatePicker
+            label="Date Picker 3:"
+            showInput
+            alignPicker="right"
+            maskPlaceholder="dd/mm/yyyy"
+            firstDay="sunday"
+            returnFormat="dd/MM/yyyy"
+            date="1981-01-15"
+            data-foo="bar"
+            onOpen={(props) => {
+              console.log('onOpen', props.event)
+            }}
+            onClose={(props) => {
+              console.log('onClose', props.event)
+            }}
+            onChange={(props) => {
+              console.log('onChange', props.event)
+            }}
+          />
+          <DatePicker
+            label="Hidden Nav:"
+            showInput
+            hideNavigation={true}
+            hideDays={true}
+            submitButtonText="OK"
+            cancelButtonText="Cancel"
+            dateFormat="dd/MM/yyyy"
+            range={true}
+            returnFormat="yyyy/MM/dd"
+            onChange={({ date }) => {
+              console.log('onChange', date)
+            }}
+            shortcuts={[
+              {
+                title: 'Set date period',
+                startDate: '1981-01-15',
+                endDate: '1981-02-15',
+              },
+              {
+                title: 'This month',
+                startDate: startOfMonth(new Date()),
+                endDate: lastDayOfMonth(new Date()),
+              },
+            ]}
+          />
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
       <FieldBlock label="Legend:">
@@ -293,12 +239,8 @@ export const DatePickerSandbox = () => (
     <Box>
       <DatePicker
         label="Range DatePicker:"
-        // startDate="2019-05-01"
-        // endDate="2019-06-17"
-        // minDate="2019-05-02"
-        // maxDate="2019-06-15"
         range={true}
-        opened={false}
+        open={false}
         showInput={true}
         onChange={(props) => {
           console.log('onChange', props)
@@ -316,7 +258,6 @@ export const DatePickerSandbox = () => (
         label="Default DatePicker with Input:"
         date="2019-05-05"
         showInput={true}
-        // showSubmitButton={true}
         showCancelButton={true}
         onChange={(props) => {
           console.log('onChange', props)
@@ -335,64 +276,55 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Show month only:"
         date="2019-02-05"
-        // hideNavigationButtons={true}
         onlyMonth={true}
       />
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <Input label="Input Default" />
-          <DatePicker
-            label="DatePicker Default"
-            date={new Date()}
-            showInput={true}
-          />
-          <Input label="Input Default" />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <Input label="Input Default" />
+        <DatePicker
+          label="DatePicker Default"
+          date={new Date()}
+          showInput={true}
+        />
+        <Input label="Input Default" />
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <Input size="small" label="Input Small" />
-          <DatePicker
-            size="small"
-            label="DatePicker Small"
-            date={new Date()}
-            showInput={true}
-          />
-          <Input size="small" label="Input Small" />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <Input size="small" label="Input Small" />
+        <DatePicker
+          size="small"
+          label="DatePicker Small"
+          date={new Date()}
+          showInput={true}
+        />
+        <Input size="small" label="Input Small" />
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <Input size="medium" label="Input Medium" />
-          <DatePicker
-            size="medium"
-            label="DatePicker Medium"
-            date={new Date()}
-            showInput={true}
-          />
-          <Input size="medium" label="Input Medium" />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <Input size="medium" label="Input Medium" />
+        <DatePicker
+          size="medium"
+          label="DatePicker Medium"
+          date={new Date()}
+          showInput={true}
+        />
+        <Input size="medium" label="Input Medium" />
+      </Flex.Vertical>
     </Box>
     <Box>
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Flex.Vertical>
-          <Input size="large" label="Input Large" />
-          <DatePicker
-            size="large"
-            label="DatePicker Large"
-            date={new Date()}
-            showInput={true}
-          />
-          <Input size="large" label="Input Large" />
-        </Flex.Vertical>
-      </Provider>
+      <Flex.Vertical>
+        <Input size="large" label="Input Large" />
+        <DatePicker
+          size="large"
+          label="DatePicker Large"
+          date={new Date()}
+          showInput={true}
+        />
+        <Input size="large" label="Input Large" />
+      </Flex.Vertical>
     </Box>
   </Wrapper>
 )
@@ -400,22 +332,10 @@ export const DatePickerSandbox = () => (
 const CustomDate = () => {
   const [startDate, setStartDate] = React.useState('2019-02-15')
   const [endDate, setEndDate] = React.useState('2019-03-15')
-  // const [startDate, setStartDate] = React.useState('2019-10-02')
-  // const [endDate, setEndDate] = React.useState(null)
   const [errorStatus, setErrorStatus] = React.useState('')
 
-  // const [count, increment] = React.useState(0)
-  //
-  // React.useEffect(() => {
-  //   const id = setInterval(() => {
-  //     increment(count + 1)
-  //   }, 1e3)
-  //
-  //   return () => clearInterval(id)
-  // }, [count])
-
   return (
-    <Section spacing>
+    <Section innerSpace={{ block: 'large' }}>
       {/* <H2>{count}</H2> */}
       <DatePicker
         right
@@ -427,12 +347,11 @@ const CustomDate = () => {
         showInput
         startDate={startDate}
         endDate={endDate}
-        onChange={({ date, start_date, end_date, ...rest }) => {
-          console.log('onChange', date, start_date, end_date, rest)
-          setStartDate(start_date)
-          setEndDate(end_date)
+        onChange={({ date, startDate, endDate, ...rest }) => {
+          console.log('onChange', date, startDate, endDate, rest)
+          setStartDate(startDate)
+          setEndDate(endDate)
         }}
-        // returnFormat="yyyy-MM-dd"
         status={errorStatus}
       />
       <Button
@@ -448,8 +367,6 @@ const CustomDate = () => {
         right
         text="Reset"
         onClick={() => {
-          // setStartDate(undefined)
-          // setEndDate(undefined)
           setStartDate(null)
           setEndDate(null)
         }}
@@ -466,70 +383,6 @@ const CustomDate = () => {
     </Section>
   )
 }
-
-// const CustomDate = () => {
-//   // const [startDate, setStartDate] = React.useState('2019-02-15')
-//   // const [endDate, setEndDate] = React.useState('2019-03-15')
-//   const [startDate, setStartDate] = React.useState(null)
-//   const [endDate, setEndDate] = React.useState(null)
-//   const [errorStatus, setErrorStatus] = React.useState(false)
-//
-//   const [count, increment] = React.useState(0)
-//
-//   React.useEffect(() => {
-//     console.log('count', count)
-//     const id = setInterval(() => {
-//       increment(count + 1)
-//     }, 1e3)
-//
-//     return () => clearInterval(id)
-//   }, [])
-//
-//   return (
-//     <Section spacing>
-//       <H2>{count}</H2>
-//       <DatePicker
-//         right
-//         range
-//         label="Default DatePicker:"
-//         showInput
-//         startDate={startDate}
-//         endDate={endDate}
-//         onChange={({ start_date, end_date }) => {
-//           console.log('on_change', start_date, end_date)
-//           setStartDate(start_date)
-//           setEndDate(end_date)
-//         }}
-//         // returnFormat="yyyy-MM-dd"
-//         status={errorStatus}
-//       />
-//       <Button
-//         right
-//         text="Change"
-//         variant="secondary"
-//         onClick={() => {
-//           setStartDate('2019-03-15')
-//           setEndDate('2019-04-15')
-//         }}
-//       />
-//       <Button
-//         right
-//         text="Reset"
-//         onClick={() => {
-//           setStartDate(null)
-//           setEndDate(null)
-//         }}
-//       />
-//       <Button
-//         right
-//         text="Error"
-//         onClick={() => {
-//           setErrorStatus('Please select a valid date')
-//         }}
-//       />
-//     </Section>
-//   )
-// }
 
 export const GlobalStatusExample = () => {
   return (

@@ -1,6 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
-import classnames from 'classnames'
-import Space, { SpaceProps } from '../space/Space'
+import clsx from 'clsx'
+import type { SpaceProps } from '../space/Space'
+import Space from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
 import {
@@ -10,9 +11,10 @@ import {
 } from './utils'
 
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
-import type { SpaceType } from '../space/types'
+import type { SpaceType } from '../../shared/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
-import type { End, Start } from './types'
+import type { FlexEnd, FlexStart } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type Gap =
   | false
@@ -24,13 +26,12 @@ type Gap =
   | 'x-large'
   | 'xx-large'
 
-export type BasicProps = {
+export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
   /** Disable automatic Space wrappers for intrinsic DOM children such as `li` or `p`. */
   wrapChildrenInSpace?: boolean
-  /** value `true` is deprecated, use `undefined` instead */
-  rowGap?: Gap | true
+  rowGap?: Gap
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -46,60 +47,45 @@ export type BasicProps = {
   divider?: 'space' | 'line' | 'line-framed'
   /** Spacing between items inside */
   gap?: Gap
-  /** @deprecated Use `gap` instead */
-  spacing?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
 
-export type Props = BasicProps &
+export type FlexContainerAllProps = FlexContainerProps &
   SpaceProps &
   Omit<
     React.HTMLAttributes<HTMLDivElement>,
     'ref' | 'wrap' | 'value' | 'label' | 'title' | 'placeholder'
   >
 
-const propNames: Array<keyof Props> = [
+const propNames: Array<keyof FlexContainerAllProps> = [
   'direction',
   'wrap',
   'wrapChildrenInSpace',
   'justify',
   'align',
   'divider',
-  'spacing',
   'gap',
 ]
 
-export function pickFlexContainerProps<T extends Props>(
+export function pickFlexContainerProps<T extends FlexContainerAllProps>(
   props: T,
-  defaults: Partial<Props> = {},
-  skip: Array<keyof Props> = []
-): Omit<Props, 'children'> {
+  defaults: Partial<FlexContainerAllProps> = {},
+  skip: Array<keyof FlexContainerAllProps> = []
+): Omit<FlexContainerAllProps, 'children'> {
   return {
     ...defaults,
     ...Object.fromEntries(
       Object.entries(props ?? {}).filter(
         ([key]) =>
-          propNames.includes(key as keyof Props) &&
-          !skip.includes(key as keyof Props)
+          propNames.includes(key as keyof FlexContainerAllProps) &&
+          !skip.includes(key as keyof FlexContainerAllProps)
       )
     ),
   }
 }
-function handleDeprecatedProps({
-  spacing,
-  gap,
-  rowGap,
-  ...rest
-}: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
-  return {
-    ...rest,
-    rowGap: rowGap === true ? undefined : rowGap,
-    gap: spacing ?? gap,
-  }
-}
 
-function FlexContainer(props: Props) {
+function FlexContainer(props: FlexContainerAllProps) {
   const {
     className,
     style,
@@ -118,7 +104,7 @@ function FlexContainer(props: Props) {
     breakpoints,
     queries,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
@@ -134,7 +120,7 @@ function FlexContainer(props: Props) {
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
-    childrenArray.some((child) => child['props']?.size)
+    childrenArray.some((child) => child['props']?.span)
 
   const { key: mediaKey } = useMedia({
     disabled: !hasSizeProp,
@@ -153,8 +139,8 @@ function FlexContainer(props: Props) {
 
     // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
     // having to divide spacing between both with smaller values.
-    const start: Start = direction === 'horizontal' ? 'left' : 'top'
-    const end: End = direction === 'horizontal' ? 'right' : 'bottom'
+    const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
+    const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
     // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
     // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
     const endSpacing = 0
@@ -230,7 +216,7 @@ function FlexContainer(props: Props) {
     return undefined
   }, [direction, rowGap])
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-flex-container',
     direction && `${n}--direction-${direction}`,
     justify && `${n}--justify-${justify}`,
@@ -261,16 +247,23 @@ function FlexContainer(props: Props) {
   )
 }
 
-function wrapChildren(props: Props, children: React.ReactNode) {
+function wrapChildren(
+  props: FlexContainerAllProps,
+  children: React.ReactNode
+) {
   return React.Children.toArray(children).map((child) => {
     if (
-      React.isValidElement(child) &&
+      React.isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'
     ) {
-      return React.cloneElement(
-        child,
-        child.props,
-        <FlexContainer {...props}>{child.props.children}</FlexContainer>
+      const childElement = child as React.ReactElement<any>
+      const { key, ...childProps } = childElement.props || {}
+      return React.createElement(
+        childElement.type as React.ComponentType<any>,
+        { key, ...childProps },
+        <FlexContainer {...props}>
+          {childElement.props.children}
+        </FlexContainer>
       )
     }
 
@@ -289,6 +282,8 @@ function replaceRootFragment(children) {
   return children
 }
 
-FlexContainer._supportsSpacingProps = true
+withComponentMarkers(FlexContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default FlexContainer

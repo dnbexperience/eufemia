@@ -1,7 +1,10 @@
 import { runCssVersionMismatchWarning } from '../runCssVersionMismatchWarning'
 
 describe('runCssVersionMismatchWarning', () => {
-  let consoleErrorSpy, consoleWarnSpy, originalGetComputedStyle
+  let consoleErrorSpy,
+    consoleWarnSpy,
+    consoleLogSpy,
+    originalGetComputedStyle
 
   const NODE_ENV = process.env.NODE_ENV
 
@@ -19,6 +22,7 @@ describe('runCssVersionMismatchWarning', () => {
     originalGetComputedStyle = window.getComputedStyle
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
     consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation()
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
   })
 
   afterEach(() => {
@@ -26,6 +30,7 @@ describe('runCssVersionMismatchWarning', () => {
     window.getComputedStyle = originalGetComputedStyle
     consoleErrorSpy?.mockRestore()
     consoleWarnSpy?.mockRestore()
+    consoleLogSpy?.mockRestore()
     if (window?.Eufemia) {
       delete window.Eufemia.version
     }
@@ -132,8 +137,10 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
-    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1)
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '%cEufemia',
+      expect.any(String),
       'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
       '\nCSS: unknown',
       '\nJS: 1.0.0'
@@ -198,8 +205,10 @@ describe('runCssVersionMismatchWarning', () => {
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
-    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1)
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '%cEufemia',
+      expect.any(String),
       'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
       '\nCSS: unknown',
       '\nJS: undefined'

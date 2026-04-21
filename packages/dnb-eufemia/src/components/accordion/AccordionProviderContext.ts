@@ -4,19 +4,20 @@
  */
 
 import React from 'react'
-import { AccordionGroupProps } from './AccordionGroup'
+import type { AccordionGroupProps } from './AccordionGroup'
+import type { AccordionInstance } from './types'
 
 type AccordionGroupContextProps = {
   expanded?: boolean
   group?: string
-  expanded_ssr?: boolean
-  remember_state?: boolean
-  flush_remembered_state?: boolean
-  expanded_id?: string
+  expandedSsr?: boolean
+  rememberState?: boolean
+  flushRememberedState?: boolean
+  expandedId?: string
   onChange?: (...params: unknown[]) => void
-  onInit?: (...args: any[]) => any
-  collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  onInit?: (accordion: AccordionInstance) => void
+  collapseAccordionCallbacks?: React.RefObject<(() => void)[]>
+  collapseAllHandleRef?: React.RefObject<() => void>
   expandBehavior?: AccordionGroupProps['expandBehavior']
 }
 

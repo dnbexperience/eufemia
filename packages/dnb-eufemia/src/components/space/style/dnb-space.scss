@@ -5,15 +5,14 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import './space-mixins.scss';
+@use 'sass:string';
+@use '../../../style/core/utilities.scss' as utilities;
+@use './space-mixins.scss';
 
-@mixin direction($direction) {
-  // 0rem
-  &--zero {
-    margin-#{$direction}: 0;
-  }
-  // 0.25rem
+@mixin marginDirection($direction) {
+  // Get the first letter for the custom property name (top -> t, left -> l, etc.)
+  $short: string.slice($direction, 1, 1);
+
   &--xx-small {
     margin-#{$direction}: var(--spacing-xx-small);
   }
@@ -131,6 +130,33 @@
         var(--spacing-x-large)
     );
   }
+
+  // Apply responsive custom property overrides for all modifiers above
+  &--xx-small,
+  &--x-small,
+  &--small,
+  &--medium,
+  &--large,
+  &--x-large,
+  &--xx-large,
+  &--xx-large-x2 {
+    &[style*='--margin-#{$short}-'] {
+      @include utilities.allBelow(medium) {
+        margin-#{$direction}: var(--margin-#{$short}-s);
+      }
+      @include utilities.allBetween(small, medium) {
+        margin-#{$direction}: var(--margin-#{$short}-m);
+      }
+      @include utilities.allAbove(medium) {
+        margin-#{$direction}: var(--margin-#{$short}-l);
+      }
+    }
+  }
+
+  // 0rem
+  &--zero {
+    margin-#{$direction}: 0;
+  }
 }
 
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
@@ -138,16 +164,16 @@
   */
 .dnb-core-style .dnb-space {
   &__top {
-    @include direction(top);
+    @include marginDirection(top);
   }
   &__right {
-    @include direction(right);
+    @include marginDirection(right);
   }
   &__bottom {
-    @include direction(bottom);
+    @include marginDirection(bottom);
   }
   &__left {
-    @include direction(left);
+    @include marginDirection(left);
   }
 }
 
@@ -163,52 +189,52 @@
     display: inline-block;
   }
   &__top {
-    @include direction(top);
+    @include marginDirection(top);
   }
   &__right {
-    @include direction(right);
+    @include marginDirection(right);
   }
   &__bottom {
-    @include direction(bottom);
+    @include marginDirection(bottom);
   }
   &__left {
-    @include direction(left);
+    @include marginDirection(left);
   }
   &__reset {
-    @include spaceReset();
+    @include utilities.spaceReset();
   }
 
   // innerSpace
-  &[style*='--space-t-'] {
+  &[style*='--padding-t-'] {
     padding-top: var(--padding-top, 0);
   }
-  &[style*='--space-r-'] {
+  &[style*='--padding-r-'] {
     padding-right: var(--padding-right, 0);
   }
-  &[style*='--space-b-'] {
+  &[style*='--padding-b-'] {
     padding-bottom: var(--padding-bottom, 0);
   }
-  &[style*='--space-l-'] {
+  &[style*='--padding-l-'] {
     padding-left: var(--padding-left, 0);
   }
 
-  @include allBelow(medium) {
-    --padding-right: var(--space-r-s);
-    --padding-left: var(--space-l-s);
-    --padding-top: var(--space-t-s);
-    --padding-bottom: var(--space-b-s);
+  @include utilities.allBelow(medium) {
+    --padding-right: var(--padding-r-s);
+    --padding-left: var(--padding-l-s);
+    --padding-top: var(--padding-t-s);
+    --padding-bottom: var(--padding-b-s);
   }
-  @include allBetween(small, medium) {
-    --padding-right: var(--space-r-m);
-    --padding-left: var(--space-l-m);
-    --padding-top: var(--space-t-m);
-    --padding-bottom: var(--space-b-m);
+  @include utilities.allBetween(small, medium) {
+    --padding-right: var(--padding-r-m);
+    --padding-left: var(--padding-l-m);
+    --padding-top: var(--padding-t-m);
+    --padding-bottom: var(--padding-b-m);
   }
-  @include allAbove(medium) {
-    --padding-right: var(--space-r-l);
-    --padding-left: var(--space-l-l);
-    --padding-top: var(--space-t-l);
-    --padding-bottom: var(--space-b-l);
+  @include utilities.allAbove(medium) {
+    --padding-right: var(--padding-r-l);
+    --padding-left: var(--padding-l-l);
+    --padding-top: var(--padding-t-l);
+    --padding-bottom: var(--padding-b-l);
   }
 }
 span.dnb-space--no-collapse > span {

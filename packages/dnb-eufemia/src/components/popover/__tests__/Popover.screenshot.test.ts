@@ -22,20 +22,6 @@ describe.each(['ui', 'sbanken'])('Popover for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('matches the dark theme style', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        'margin-left': '160px',
-        'padding-bottom': '140px',
-        'padding-right': '160px',
-      },
-      selector: '[data-visual-test="popover-dark"]',
-      simulate: 'click',
-      simulateSelector: '[data-visual-test="popover-dark"] button',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })
 
 describe.each(['ui'])('Popover alignment for %s', (themeName) => {
@@ -47,7 +33,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
   it('have to match align center and arrow center', async () => {
     const screenshot = await makeScreenshot({
       style: {
-        'padding-bottom': '3rem',
+        'padding-top': '3rem',
       },
       simulate: 'click',
       simulateSelector:

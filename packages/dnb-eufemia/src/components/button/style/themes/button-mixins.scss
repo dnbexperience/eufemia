@@ -1,17 +1,14 @@
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss' as utilities;
 
 /*
 * Button mixins
 *
 */
 @mixin buttonHoverStyle($color, $background-color, $border-color) {
-  // NB: to get "over" sibling, because of the extendFocusRing
-  // But if we would use it, then we have to take care of places we use position="absolute", like the Modal Close button
-
   color: $color;
   background-color: $background-color;
 
-  @include fakeBorder($border-color, 0.125rem /*2px*/);
+  @include utilities.fakeBorder($border-color, 0.125rem /*2px*/);
 }
 
 @mixin buttonHover(
@@ -20,7 +17,7 @@
   $border-color: var(--color-emerald-green),
   $enable-touch: null
 ) {
-  @include hover() {
+  @include utilities.hover() {
     @include buttonHoverStyle($color, $background-color, $border-color);
 
     @content;
@@ -28,7 +25,7 @@
 
   @if $enable-touch == 'touch' {
     html[data-whatintent='touch'] & {
-      @include active() {
+      @include utilities.active() {
         @include buttonHoverStyle(
           $color,
           $background-color,
@@ -40,12 +37,12 @@
 }
 
 @mixin buttonActive($color: null, $background-color: null) {
-  @include active() {
+  @include utilities.active() {
     color: $color;
     background-color: $background-color;
 
     // no animation yet
-    @include fakeBorder(transparent);
+    @include utilities.fakeBorder(transparent);
 
     @content;
   }
@@ -57,13 +54,13 @@
   $focus-color: null,
   $extendShadow: null
 ) {
-  @include focus() {
+  @include utilities.focus() {
     html[data-whatinput='keyboard'] & {
       color: $color;
       background-color: $background-color;
     }
 
-    @include focusRing(
+    @include utilities.focusRing(
       null,
       $focus-color,
       inset,
@@ -80,11 +77,11 @@
   $focus-color: null,
   $extendShadow: null
 ) {
-  @include focus-visible() {
+  @include utilities.focusVisible() {
     color: $color;
     background-color: $background-color;
 
-    @include focusRing(
+    @include utilities.focusRing(
       always,
       $focus-color,
       inset,
@@ -117,7 +114,7 @@
     height: inherit;
     border-radius: inherit;
 
-    @include focusRing(
+    @include utilities.focusRing(
       $whatinput,
       null,
       $inset,
@@ -141,7 +138,10 @@
     height: 0.095rem; // 1.5 - because of webkit, we round to .095
     border-radius: calc(0.095rem / 2);
 
-    color: var(--color-sea-green); // border color
+    color: var(
+      --button-color-underline,
+      var(--button-color-underline--default)
+    ); // border color
     background-color: currentcolor;
 
     // using box-shadow works well to get 1.5px

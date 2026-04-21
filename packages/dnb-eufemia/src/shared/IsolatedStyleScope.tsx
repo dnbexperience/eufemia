@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
-import { getSha } from './build-info/BuildInfo.js'
+import { getSha } from './build-info/BuildInfo'
 
 export { getStyleScopeHash }
 
@@ -8,27 +8,31 @@ export type IsolatedStyleScopeProps = {
   scopeHash?: string | 'auto'
   disableCoreStyleWrapper?: boolean
   uniqueKey?: string | false
-  innerRef?: React.MutableRefObject<HTMLDivElement>
+  ref?: React.RefObject<HTMLDivElement>
   children: React.ReactNode
   style?: React.CSSProperties & {
     [key: `--${string}`]: string | number
   }
 }
 
-export const IsolatedStyleScopeContext = React.createContext<
-  {
-    generatedScopeHash: string
-    scopeElementRef: React.RefObject<HTMLDivElement>
-    internalKeys: Set<string>
-    parentContextMap?: Map<string, any>
-  } & Pick<
-    IsolatedStyleScopeProps,
-    'scopeHash' | 'disableCoreStyleWrapper' | 'style'
-  >
->(undefined)
+type IsolatedStyleScopeContextValue = {
+  generatedScopeHash: string
+  scopeElementRef: React.RefObject<HTMLDivElement>
+  internalKeys: Set<string>
+  parentContextMap?: Map<string, IsolatedStyleScopeContextValue>
+} & Pick<
+  IsolatedStyleScopeProps,
+  'scopeHash' | 'disableCoreStyleWrapper' | 'style'
+>
+
+export const IsolatedStyleScopeContext =
+  React.createContext<IsolatedStyleScopeContextValue>(undefined)
 
 // Map to keep track of parent contexts by generatedScopeHash
-const parentScopeContextMap = new Map<string, any>()
+const parentScopeContextMap = new Map<
+  string,
+  IsolatedStyleScopeContextValue
+>()
 
 export default function IsolatedStyleScope(
   props: IsolatedStyleScopeProps
@@ -38,13 +42,13 @@ export default function IsolatedStyleScope(
     scopeHash = 'auto',
     disableCoreStyleWrapper = false,
     uniqueKey = 'default',
-    innerRef,
+    ref: refProp,
     children,
     style,
   } = props
 
-  const localRef = useRef<HTMLDivElement>()
-  const scopeElementRef = innerRef || localRef
+  const localRef = useRef<HTMLDivElement>(undefined)
+  const scopeElementRef = refProp || localRef
 
   // Determine the generated scope hash for this instance
   const generatedScopeHash =
@@ -84,7 +88,7 @@ export default function IsolatedStyleScope(
       }
 
       return (
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             scopeHash,
             generatedScopeHash,
@@ -98,7 +102,7 @@ export default function IsolatedStyleScope(
           <div
             data-scope-hash={
               scopeHash === 'auto'
-                ? styleScopeContext?.scopeHash ?? scopeHash
+                ? (styleScopeContext?.scopeHash ?? scopeHash)
                 : scopeHash
             }
             data-scope-hash-id={uniqueKey || undefined}
@@ -113,7 +117,7 @@ export default function IsolatedStyleScope(
               <div className="dnb-core-style">{children}</div>
             )}
           </div>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
     }
   }

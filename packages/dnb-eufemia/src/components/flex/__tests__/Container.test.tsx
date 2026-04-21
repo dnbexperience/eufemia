@@ -4,8 +4,8 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
-import { createSpacingClasses } from '../../space/SpacingUtils'
-import { SpaceProps } from '../../Space'
+import { applySpacing } from '../../space/SpacingUtils'
+import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
 import P from '../../../elements/P'
@@ -276,7 +276,7 @@ describe('Flex.Container', () => {
         class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
       >
         <h1
-          class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
+          class="dnb-h--xx-large dnb-space__top--zero dnb-space__bottom--zero"
         >
           Heading
         </h1>
@@ -286,7 +286,7 @@ describe('Flex.Container', () => {
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr"
+          class="dnb-flex-container__hr dnb-hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
@@ -489,9 +489,8 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = undefined
 
       const TestComponent = (props: SpaceProps) => {
-        const cn = createSpacingClasses(props)
-        cn.push('test-item')
-        return <div className={cn.join(' ')}>content</div>
+        const params = applySpacing(props, { className: 'test-item' })
+        return <div {...params}>content</div>
       }
       TestComponent._supportsSpacingProps = undefined
 
@@ -535,7 +534,7 @@ describe('Flex.Container', () => {
             </div>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -578,17 +577,17 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
-            class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--zero dnb-space__bottom--zero"
           >
             content
           </div>
           <div
-            class="dnb-space__top--small dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--small dnb-space__bottom--zero"
           >
             content
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -640,17 +639,17 @@ describe('Flex.Container', () => {
               class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
-                class="dnb-space__top--zero dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--zero dnb-space__bottom--zero"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--small dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--small dnb-space__bottom--zero"
               >
                 content
               </div>
               <div
-                class="dnb-space__top--large dnb-space__bottom--zero test-item"
+                class="test-item dnb-space__top--large dnb-space__bottom--zero"
               >
                 content
               </div>
@@ -759,7 +758,7 @@ describe('Flex.Container', () => {
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -810,7 +809,7 @@ describe('Flex.Container', () => {
             </p>
           </div>
           <div
-            class="dnb-space__top--large dnb-space__bottom--zero test-item"
+            class="test-item dnb-space__top--large dnb-space__bottom--zero"
           >
             content
           </div>
@@ -869,7 +868,7 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--auto-indent dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
           >
             Heading
           </h3>
@@ -936,7 +935,7 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--auto-indent dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
           >
             Heading
           </h3>
@@ -961,12 +960,12 @@ describe('Flex.Container', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLElement | null>(null)
       return (
-        <Flex.Container innerRef={ref} element="section">
+        <Flex.Container ref={ref} element="section">
           <Flex.Item>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -995,7 +994,7 @@ describe('Flex.Container', () => {
     it('should set default "sizeCount" of 12', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1005,7 +1004,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container sizeCount={6}>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1023,7 +1022,7 @@ describe('Flex.Container', () => {
     it('should set --has-size class', () => {
       render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1037,7 +1036,7 @@ describe('Flex.Container', () => {
 
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1049,7 +1048,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1061,7 +1060,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1080,7 +1079,7 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--row-gap-medium')
 
       rerender(
-        <Flex.Container rowGap>
+        <Flex.Container rowGap="small">
           <Flex.Item>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1099,7 +1098,7 @@ describe('Flex.Container', () => {
     it('should have no rowGap when false, but size on items are given', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1111,7 +1110,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container rowGap={false}>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1119,6 +1118,35 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--spacing-small')
       expect(element).not.toHaveClass('dnb-flex-container--row-gap-small')
     })
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Flex.Container ref={ref}>
+        <Flex.Item>Item 1</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Flex.Container ref={refFn}>
+        <Flex.Item>Item 1</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    expect(refElement).toBe(element)
   })
 
   describe('Flex.Container accessibility', () => {

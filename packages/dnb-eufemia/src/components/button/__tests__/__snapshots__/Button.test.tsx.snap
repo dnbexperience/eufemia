@@ -6,22 +6,13 @@ exports[`Button scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -103,22 +94,26 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
 /*
  * Utilities
  */
+/*
+ * Utilities
+ */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
   z-index: var(--tooltip-z-index);
 }
 .dnb-popover--inside-modal .dnb-tooltip {
@@ -156,14 +151,12 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Tooltip component
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -171,11 +164,56 @@ p > .dnb-icon {
   opacity: 1;
 }
 .dnb-form-status__shell {
+  --form-status-color-text: var(--token-color-text-neutral);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   min-width: inherit;
   border-radius: var(--form-status-radius);
+  background-color: var(--form-status-color-background);
+  color: var(--form-status-color-text);
+}
+.dnb-form-status__variant--outlined .dnb-form-status__shell {
+  --border-color: var(--form-status-color-outline);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-error-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-error);
+}
+.dnb-form-status--information .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-info-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-info);
+}
+.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-marketing-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-marketing);
+}
+.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-warning-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-error);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-marketing);
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
@@ -215,6 +253,8 @@ button .dnb-form-status__text {
   justify-content: center;
   align-items: center;
   margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+  color: var(--form-status-color-icon);
+  border: none;
 }
 .dnb-form-status__size--large .dnb-form-status__text {
   padding-top: 1.125rem;
@@ -233,20 +273,48 @@ button .dnb-form-status__text {
 .dnb-form-status[hidden] {
   display: none;
 }
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
 
+@keyframes attention-focus {
+  0%, 100% {
+    color: var(--token-color-text-destructive);
+    background-color: var(--token-color-background-error-subtle);
+    border-color: var(--token-color-stroke-error);
+  }
+  35% {
+    color: var(--token-color-text-neutral-inverse);
+    background-color: var(--token-color-background-error);
+    border-color: var(--token-color-stroke-error);
+  }
+}
+/*
+* Tooltip component
+*
+*/
 /*
 * Button component
 *
 */
-/*
- * Utilities
- */
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
 }
 
 .dnb-button {
+  --button-color-text: var(--button-color-text--default);
+  --button-color-icon: var(--button-color-icon--default);
+  --button-color-bg: var(--button-color-bg--default);
+  --button-color-border: var(--button-color-border--default);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
+  --button-border-inset--default: inset;
+  --button-border-inset--hover: ;
+  --button-border-inset--focus: ;
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-icon-size--small: 0.75rem;
@@ -260,8 +328,10 @@ button .dnb-form-status__text {
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: var(--button-border-width--default);
+  --button-border-width--default: 0.0625rem;
+  --button-border-width--hover: 0.125rem;
+  --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
@@ -282,6 +352,450 @@ button .dnb-form-status__text {
   overflow-wrap: break-word;
   white-space: normal;
 }
+.dnb-button__icon {
+  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
+}
+.dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  color: var(--button-color-text, var(--button-color-text--default));
+  background-color: var(--button-color-bg, var(--button-color-bg--default));
+}
+.dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
+  color: var(--button-color-icon, var(--button-color-icon--default));
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
+  --button-color-bg: var(--button-color-bg--hover);
+  --button-color-border: var(--button-color-border--hover);
+  --button-color-icon: var(--button-color-icon--hover);
+  --button-color-text: var(--button-color-text--hover);
+  --button-color-underline: var(--button-color-underline--hover);
+  --button-border-inset: var(--button-border-inset--hover);
+  --button-border-width: var(--button-border-width--hover);
+  --button-input-separator-color: var(
+    --button-input-separator-color--hover
+  );
+}
+.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  --button-color-bg: var(--button-color-bg--active);
+  --button-color-border: var(--button-color-border--active);
+  --button-color-icon: var(--button-color-icon--active);
+  --button-color-text: var(--button-color-text--active);
+  --button-color-underline: var(--button-color-underline--active);
+  --button-border-inset: var(--button-border-inset--active);
+  --button-border-width: var(--button-border-width--active);
+  --button-input-separator-color: var(
+    --button-input-separator-color--active
+  );
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-border: var(--token-color-stroke-action-focus);
+  --button-color-icon: var(--token-color-icon-action-focus);
+  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-underline: var(--button-color-underline--focus);
+  --button-border-inset: var(--button-border-inset--focus);
+  --button-border-width: var(--button-border-width--focus);
+  --button-input-separator-color: var(
+    --button-input-separator-color--focus
+  );
+  outline: none;
+}
+.dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-border: var(--button-color-border--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
+  --button-input-separator-color: var(
+    --button-input-separator-color--disabled
+  );
+}
+.dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary::before {
+  --border-color: var(--button-color-border, var(--button-color-border--default));
+  --border-width: var(--button-border-width, var(--button-border-width--default));
+  box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--primary {
+  --button-color-bg--default: var(
+    --token-color-component-button-background-action
+  );
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-hover
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-hover
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--disabled: var(
+    --token-color-component-button-icon-action-disabled
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--disabled: var(
+    --token-color-component-button-text-action-disabled
+  );
+}
+.dnb-button--primary.dnb-button--surface-dark {
+  --button-color-bg--default: var(
+    --token-color-background-action-ondark
+  );
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-ondark
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --button-color-border--hover: var(
+    --token-color-stroke-action-hover-ondark
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+}
+.dnb-button--primary.dnb-button__status--error {
+  --button-color-bg--default: var(
+    --token-color-component-button-background-action-destructive
+  );
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-destructive-hover
+  );
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-destructive-hover
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+}
+.dnb-button--secondary {
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --button-color-bg--disabled: var(--token-color-background-neutral);
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-action
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-hover
+  );
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --button-color-border--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-hover
+  );
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(
+    --token-color-component-button-text-action
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-hover
+  );
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
+}
+.dnb-button--secondary.dnb-button--icon-only {
+  --button-color-border--default: var(--token-color-stroke-action);
+  --button-color-border--hover: var(--token-color-stroke-action-hover);
+  --button-color-border--active: transparent;
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+}
+.dnb-button--secondary.dnb-button--surface-dark {
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+  --button-color-bg--disabled: transparent;
+  --button-color-border--default: var(
+    --token-color-stroke-action-ondark
+  );
+  --button-color-border--hover: var(
+    --token-color-stroke-action-hover-ondark
+  );
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed-ondark
+  );
+  --button-color-border--disabled: var(
+    --token-color-stroke-action-disabled-ondark
+  );
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
+    --token-color-icon-action-pressed-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
+    --token-color-text-action-pressed-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+}
+.dnb-button--secondary.dnb-button__status--error {
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-destructive-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed-subtle
+  );
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-action-destructive
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-destructive-hover
+  );
+  --button-color-border--active: var(
+    --token-color-component-button-stroke-action-destructive-pressed
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action-destructive
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-destructive-hover
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-action-destructive-pressed
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-action-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-destructive-hover
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-action-destructive-pressed
+  );
+}
+.dnb-button--tertiary > * {
+  z-index: 2;
+}
+.dnb-button--tertiary::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: var(--button-tertiary-focus-left);
+  bottom: 0;
+  right: var(--button-tertiary-focus-right);
+  background-color: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.dnb-skeleton .dnb-button--tertiary::before {
+  content: none;
+}
+.dnb-button--tertiary {
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(--token-color-text-action);
+  --button-color-text--hover: var(--token-color-text-action-hover);
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
+  --button-color-underline--default: transparent;
+  --button-color-underline--hover: var(
+    --token-color-background-action-hover
+  );
+}
+.dnb-button--tertiary.dnb-button--icon-only {
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+}
+.dnb-button--tertiary.dnb-button--surface-dark {
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
+    --token-color-icon-action-pressed-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
+    --token-color-text-action-pressed-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+  --button-color-underline--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+}
+.dnb-button--tertiary.dnb-button__status--error {
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action-destructive
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-destructive-hover
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-action-destructive-pressed
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-action-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-destructive-hover
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-action-destructive-pressed
+  );
+  --button-color-underline--hover: var(
+    --token-color-component-button-background-action-destructive-hover
+  );
+}
+.dnb-button--icon-only.dnb-button--selected {
+  --button-color-bg--default: var(
+    --token-color-background-selected-subtle
+  );
+  --button-color-border--default: var(--token-color-stroke-selected);
+  --button-color-icon--default: var(--token-color-icon-selected);
+  --button-border-width--default: 0.125rem;
+  --button-border-inset--default: ;
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(--token-color-background-action);
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --button-color-border--default: transparent;
+  --button-color-border--hover: transparent;
+  --button-color-border--active: transparent;
+  --button-border-inset--focus: inset;
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--disabled: var(
+    --token-color-component-button-text-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button.dnb-button__status--error {
+  --button-color-bg--hover: var(--token-color-background-error);
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --button-input-separator-color--default: var(--button-color-text);
+  --button-input-separator-color--hover: var(--button-color-bg);
+  --button-input-separator-color--active: var(--button-color-bg);
+  --button-input-separator-color--focus: var(--button-color-border);
+  --button-input-separator-color--disabled: var(
+    --token-color-background-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--input-border-width);
+  background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
+}
+.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+  top: var(--input-border-width);
+  bottom: var(--input-border-width);
+}
 .dnb-button {
   display: inline-flex;
   align-items: center;
@@ -295,7 +809,6 @@ button .dnb-form-status__text {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
   text-decoration: none;
-  box-shadow: none;
 }
 .dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
@@ -370,9 +883,6 @@ button .dnb-form-status__text {
   --button-padding-right: var(--button-padding--default);
   width: auto;
 }
-.dnb-button__icon {
-  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
-}
 .dnb-button--has-text.dnb-button--icon-position-left {
   --button-padding-left: var(--button-padding-icon);
   --button-icon-margin-right: var(--button-icon-gutter);
@@ -421,43 +931,6 @@ button .dnb-form-status__text {
 .dnb-button--control-after {
   border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
 }
-.dnb-button--reset {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  appearance: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  line-height: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
-}
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
   /* stylelint-disable-next-line */
@@ -468,12 +941,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
-}
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
 }
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
@@ -494,18 +961,13 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
  * Utilities
  */
 /*
- * Utilities
- */
-/*
-* Button mixins
+* Button theme
 *
 */
 /*
- * Utilities
- */
-/*
- * Utilities
- */
+* Button theme
+*
+*/
 /*
 * Button mixins
 *
@@ -538,10 +1000,9 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
   width: auto;
   height: 0.095rem;
   border-radius: 0.0475rem;
-  color: var(--color-sea-green);
+  color: var(--button-color-underline, var(--button-color-underline--default));
   background-color: currentcolor;
   bottom: -0.0625rem;
-  color: transparent;
   transition: color 250ms ease-in-out;
 }
 [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
@@ -554,29 +1015,10 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
 .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
   content: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  outline: none;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: var(--button-tertiary-focus-left);
-  bottom: 0;
-  right: var(--button-tertiary-focus-right);
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text::after {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text::after {
   visibility: hidden;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
@@ -674,9 +1116,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   --button-primary-shadow--hover: var(--sb-shadow-medium);
   --button-primary-color: var(--sb-color-white);
   --button-primary-color--hover: var(--sb-color-purple-alternative);
-  --button-primary-color--active: var(--sb-color-white);
   --button-primary-color--disabled: var(--sb-color-gray-dark-2);
-  --button-primary-background: var(--sb-color-purple-alternative);
   --button-primary-background--hover: var(--sb-color-green);
   --button-primary-background--active: var(--sb-color-purple-alternative);
   --button-primary-background--disabled: var(--sb-color-gray-light);
@@ -697,59 +1137,11 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
     --button-secondary-border--default
   );
   --button-secondary-border--disabled: var(--sb-color-gray-light);
-  --button-tertiary-color: var(--sb-color-violet);
   --button-tertiary-border: var(--sb-color-violet);
   border: none;
 }
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-icon: 1rem;
-}
-.dnb-button--primary {
-  color: var(--button-primary-color);
-  background-color: var(--button-primary-background);
-  box-shadow: var(--button-primary-shadow);
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
-  color: var(--button-primary-color--hover);
-  background-color: var(--button-primary-background--hover);
-  --border-color: var(--button-primary-border--hover);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--button-primary-shadow--hover);
-  border-color: transparent;
-}
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]) {
-  color: var(--button-primary-color--active);
-  background-color: var(--button-primary-background--active);
-}
-.dnb-button--secondary {
-  color: var(--button-secondary-color);
-  background-color: var(--button-secondary-background);
-  --border-color: var(--button-secondary-border);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]) {
-  --button-secondary-border: var(--button-secondary-border--hover);
-  color: var(--button-secondary-color--hover);
-  background-color: var(--button-secondary-background--hover);
-}
-.dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) {
-  --button-secondary-border: var(--button-secondary-border--active);
-  color: var(--button-secondary-color--active);
-  background-color: var(--button-secondary-background--active);
 }
 .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before, .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after {
   box-shadow: none;
@@ -762,61 +1154,18 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   box-shadow: none;
   border: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:focus-visible:not([disabled]) {
-  color: var(--sb-color-blue-dark);
-  background-color: var(--button-background--focus);
-  outline: none;
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
-  border-color: transparent;
-}
-.dnb-button[disabled] {
-  --button-primary-shadow: 0 0 transparent;
-  --button-primary-color: var(--button-primary-color--disabled);
-  --button-primary-background: var(
-    --button-primary-background--disabled
-  );
-  --button-secondary-color: var(--button-secondary-color--disabled);
-  --button-secondary-border--default: var(
-    --button-secondary-border--disabled
-  );
-}
-.dnb-button:not([disabled]).dnb-button__status--error {
-  --button-primary-shadow--hover: 0 0 transparent;
-  --button-primary-color: var(--sb-color-white);
-  --button-primary-color--hover: var(--sb-color-red);
-  --button-primary-color--active: var(--sb-color-white);
-  --button-primary-background: var(--sb-color-red);
-  --button-primary-background--hover: var(--sb-color-magenta-light-3);
-  --button-primary-background--active: var(--sb-color-red);
-  --button-primary-border--hover: var(--sb-color-red);
-  --button-secondary-color: var(--sb-color-red);
-  --button-secondary-color--hover: var(--sb-color-red);
-  --button-secondary-color--active: var(--sb-color-red);
-  --button-secondary-background--hover: var(--sb-color-magenta-light-3);
-  --button-secondary-border--default: var(--sb-color-red);
-  --button-tertiary-color: var(--sb-color-red);
-  --button-tertiary-border: var(--sb-color-red);
+.dnb-button--input-button:not(.dnb-button--secondary--has-text)::after {
+  display: none;
 }
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow--icon-top: 0;
   --button-tertiary-underline-overflow: -0.5rem;
   --button-tertiary-underline-overflow--icon: calc(
-    (
-        var(--button-icon-gutter) + var(--button-icon-size) - var(
-            --button-tertiary-underline-overflow
-          )
-      ) * -1
+    (var(--button-icon-gutter) + var(--button-icon-size) - var(--button-tertiary-underline-overflow)) * -1
   );
   --button-tertiary-underline-bottom: -0.5rem;
   --button-tertiary-text-bottom--icon: 0.5rem;
   --button-tertiary-text-top--icon: 0;
-  color: var(--button-tertiary-color);
-  background-color: transparent;
 }
 .dnb-button--tertiary .dnb-button__text::after {
   height: 0.0625rem;
@@ -840,90 +1189,6 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
   --button-tertiary-underline-overflow: -1.5rem;
   --button-tertiary-text-bottom--icon: 0.75rem;
   --button-tertiary-text-top--icon: 0.25rem;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(:focus-visible) .dnb-button__text::after {
-  color: var(--button-tertiary-border);
-  transition: none;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text) {
-  --focus-ring-width: 0.0625rem;
-  --sb-shadow-medium: 0 0 transparent;
-  color: var(--sb-color-blue-dark);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text)::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: var(--button-tertiary-focus-left);
-  bottom: 0;
-  right: var(--button-tertiary-focus-right);
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text)::before {
-  background-color: var(--button-background--focus);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text) > * {
-  z-index: 2;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  color: var(--sb-color-blue-dark);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: var(--button-tertiary-focus-left);
-  bottom: 0;
-  right: var(--button-tertiary-focus-right);
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
-  background-color: var(--button-background--focus);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) > * {
-  z-index: 2;
-}
-.dnb-button--tertiary[disabled] {
-  color: var(--sb-color-gray-dark);
-}
-.dnb-button--on-dark-background {
-  --button-primary-color: var(--sb-color-text);
-  --button-primary-color--hover: var(--sb-color-purple-alternative);
-  --button-primary-color--active: var(--sb-color-purple-alternative);
-  --button-primary-background: var(--sb-color-green);
-  --button-primary-background--hover: var(--sb-color-violet-light-2);
-  --button-primary-background--active: var(--sb-color-violet-light-3);
-  --button-secondary-color: var(--sb-color-white);
-  --button-secondary-color--hover: var(--sb-color-purple-alternative);
-  --button-secondary-color--active: var(--sb-color-purple-alternative);
-  --button-secondary-background: transparent;
-  --button-secondary-background--hover: var(--sb-color-violet-light-2);
-  --button-secondary-background--active: var(--sb-color-violet-light-3);
-  --button-secondary-border--default: var(--sb-color-green);
-  --button-secondary-border--hover: var(--sb-color-violet-light);
-  --button-secondary-border--active: var(--sb-color-violet-light);
-  --button-tertiary-color: var(--sb-color-white);
-  --button-tertiary-border: var(--sb-color-green);
 }"
 `;
 
@@ -936,18 +1201,13 @@ exports[`Button scss has to match theme css for ui 1`] = `
  * Utilities
  */
 /*
- * Utilities
- */
-/*
-* Button mixins
+* Button theme
 *
 */
 /*
- * Utilities
- */
-/*
- * Utilities
- */
+* Button theme
+*
+*/
 /*
 * Button mixins
 *
@@ -980,10 +1240,9 @@ exports[`Button scss has to match theme css for ui 1`] = `
   width: auto;
   height: 0.095rem;
   border-radius: 0.0475rem;
-  color: var(--color-sea-green);
+  color: var(--button-color-underline, var(--button-color-underline--default));
   background-color: currentcolor;
   bottom: -0.0625rem;
-  color: transparent;
   transition: color 250ms ease-in-out;
 }
 [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
@@ -996,29 +1255,10 @@ exports[`Button scss has to match theme css for ui 1`] = `
 .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
   content: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  outline: none;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: var(--button-tertiary-focus-left);
-  bottom: 0;
-  right: var(--button-tertiary-focus-right);
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text::after {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text::after {
   visibility: hidden;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
@@ -1108,158 +1348,6 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   visibility: hidden;
 }
 
-.dnb-button--primary {
-  color: var(--color-white);
-  background-color: var(--color-sea-green);
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--primary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:focus[disabled] {
-  cursor: not-allowed;
-}
-html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-}
-.dnb-button--primary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
-  --border-color: transparent;
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--primary[disabled] {
-  color: var(--color-white);
-  background-color: var(--color-sea-green-30);
-}
-.dnb-button:not([disabled]).dnb-button--primary.dnb-button__status--error {
-  color: var(--color-white);
-  background-color: var(--color-fire-red);
-}
-.dnb-button--secondary {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-  --border-color: var(--color-sea-green);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--secondary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:focus[disabled] {
-  cursor: not-allowed;
-}
-html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-}
-.dnb-button--secondary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
-  --border-color: transparent;
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-  color: var(--color-sea-green-30);
-  background-color: var(--color-white);
-  --border-color: var(--color-sea-green-30);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-  color: var(--color-fire-red);
-  --border-color: var(--color-fire-red);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
-  color: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--secondary:not(.dnb-button--has-text):focus[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled] {
-  cursor: not-allowed;
-}
-html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-}
-.dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--secondary:not(.dnb-button--has-text):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green-50);
-  --border-color: transparent;
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
 .dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
   width: calc(var(--button-width--large) - 0.5rem);
   line-height: calc(var(--button-height) - 0.5rem);
@@ -1281,141 +1369,16 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-button--tertiary {
-  color: var(--color-sea-green);
-  background-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
-  color: var(--color-sea-green);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
-  color: var(--color-emerald-green);
-}
 .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
-  color: var(--color-sea-green);
-}
 html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
-  color: var(--color-emerald-green);
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  color: var(--color-sea-green);
+  --button-color-underline: var(--button-color-underline--hover);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
   font-size: var(--font-size-x-small);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
   font-size: var(--font-size-small);
-}
-.dnb-button--tertiary[disabled] {
-  color: var(--color-sea-green-30);
-}
-.dnb-button:not([disabled]).dnb-button--tertiary.dnb-button__status--error {
-  color: var(--color-fire-red);
-}
-.dnb-button--signal {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-}
-html:not([data-whatintent=touch]) .dnb-button--signal:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--signal:hover:not([disabled]) {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-  --border-color: var(--color-ocean-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatintent=touch] .dnb-button--signal:active[disabled], html:not([data-whatintent=touch]) html[data-whatintent=touch] .dnb-button--signal:active[disabled] {
-  cursor: not-allowed;
-}
-html[data-whatintent=touch] .dnb-button--signal:active:not([disabled]), html:not([data-whatintent=touch]) html[data-whatintent=touch] .dnb-button--signal:active:not([disabled]) {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-  --border-color: var(--color-ocean-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--signal:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--signal:focus[disabled] {
-  cursor: not-allowed;
-}
-html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-}
-.dnb-button--signal:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--signal:active[disabled], html:not([data-whatintent=touch]) .dnb-button--signal:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--signal:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--signal:active:not([disabled]) {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-  --border-color: transparent;
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-button--signal[disabled] {
-  color: var(--color-black-20);
-  background-color: var(--color-accent-yellow-30);
-}
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
-  background-color: transparent;
-  box-shadow: none;
-}
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: var(--input-border-width);
-  background-color: currentcolor;
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover {
-  color: var(--color-white);
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus-visible::after, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover::after {
-  background-color: var(--color-sea-green);
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover {
-  box-shadow: none;
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active {
-  color: var(--color-sea-green);
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active::after {
-  background-color: var(--color-mint-green-50);
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active::after {
-  top: var(--input-border-width);
-  bottom: var(--input-border-width);
-}
-html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)[disabled] {
-  color: var(--color-black-55);
-  background-color: var(--color-black-3);
-  --border-color: var(--color-black-55);
-  --border-width: var(--input-border-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }"
 `;

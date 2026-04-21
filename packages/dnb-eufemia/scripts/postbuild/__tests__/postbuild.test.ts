@@ -12,13 +12,14 @@ import path from 'path'
 import packpath from 'packpath'
 import { getCommittedFiles } from '../../tools/cliTools'
 
-const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
-const normalizeCss = (value) =>
+const makeStagePathException = (stage: string) =>
+  stage === '/esm' ? '' : stage
+const normalizeCss = (value: string) =>
   value.replace(/\s+/g, ' ').replace(/'/g, '"').trim()
 
 // Filter out /es stage when BUILD_MINI is set (it's not built in mini builds)
 // Also filter it out if the directory doesn't exist (to avoid test failures)
-const getBuildStages = (stages) => {
+const getBuildStages = (stages: string[]) => {
   const shouldSkipEs = process.env.BUILD_MINI
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
@@ -58,7 +59,7 @@ describe('type definitions', () => {
           ),
           'utf-8'
         )
-      ).toMatch(/export interface/g)
+      ).toMatch(/export (type|interface)/g)
 
       // Test the output of js files
       const file = path.resolve(
@@ -69,9 +70,9 @@ describe('type definitions', () => {
       expect(fs.existsSync(file)).toBe(true)
 
       const content = fs.readFileSync(file, 'utf-8')
-      expect(content).toContain('export interface InputProps')
+      expect(content).toMatch(/export (type|interface) InputProps/)
       expect(content).toContain(
-        "extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'>,"
+        "Omit<React.HTMLProps<HTMLInputElement>, 'ref'"
       )
       expect(content).toContain('SpacingProps')
     }
@@ -202,7 +203,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('class Input extends')
+            expect(content).toContain(
+              'var _default = exports.default = Input;'
+            )
             expect(content).toMatch(/^"use strict";/g)
           }
 
@@ -215,7 +218,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain(
-              'var _default = exports.default = Breadcrumb'
+              'var _default = exports.default = Breadcrumb;'
             )
             expect(content).toMatch(/^"use strict";/g)
           }
@@ -242,11 +245,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default class Input extends')
+            expect(content).toContain('export default Input;')
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -258,9 +259,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -301,11 +300,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toMatch(/export default class Input extends/g)
+            expect(content).toContain('export default Input;')
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -318,9 +315,7 @@ describe('babel build', () => {
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -480,13 +475,13 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './core/scopes.scss';`)
+      expect(content).toContain(`@use './core/scopes.scss' as scopes;`)
       expect(content).toContain(`
 .dnb-core-style {
-  @include bodyDefault();
+  @include scopes.bodyDefault();
 }`)
       expect(content).toContain(
-        `@import './core/helper-classes/helper-classes.scss';`
+        `@include meta.load-css('core/helper-classes/helper-classes');`
       )
     }
 
@@ -494,32 +489,28 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-basis.scss`
+          `build${stage}/style/themes/ui/ui-theme-basis.scss`
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './properties.scss';`)
-      expect(content).toContain(`@import './fonts.scss';`)
-      expect(content).toContain(`@import './ui-theme-elements.scss';`)
-      expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`
-      )
+      expect(content).toContain(`@use './properties.scss';`)
+      expect(content).toContain(`@use './fonts.scss';`)
+      expect(content).toContain(`@use './ui-theme-elements.scss';`)
+      expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
     }
 
     {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.scss`
+          `build${stage}/style/themes/sbanken/sbanken-theme-basis.scss`
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './properties.scss';`)
-      expect(content).toContain(`@import './fonts.scss';`)
-      expect(content).toContain(`@import './sbanken-theme-elements.scss';`)
-      expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`
-      )
+      expect(content).toContain(`@use './properties.scss';`)
+      expect(content).toContain(`@use './fonts.scss';`)
+      expect(content).toContain(`@use './sbanken-theme-elements.scss';`)
+      expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
     }
 
     {
@@ -558,7 +549,7 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-basis.css`
+          `build${stage}/style/themes/ui/ui-theme-basis.css`
         ),
         'utf-8'
       )
@@ -574,6 +565,7 @@ describe('style build', () => {
         normalizeCss(`
 .dnb-p {
   font-size: var(--font-size-basis);
+  color: var(--token-color-text-neutral);
 }`)
       )
       expect(normalizeCss(content)).toContain(
@@ -602,7 +594,7 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.css`
+          `build${stage}/style/themes/sbanken/sbanken-theme-basis.css`
         ),
         'utf-8'
       )
@@ -611,6 +603,7 @@ describe('style build', () => {
         normalizeCss(`
 .dnb-p {
   font-size: var(--font-size-basis);
+  color: var(--token-color-text-neutral);
 }`)
       )
       expect(normalizeCss(content)).toContain(
@@ -639,7 +632,7 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-components.css`
+          `build${stage}/style/themes/sbanken/sbanken-theme-components.css`
         ),
         'utf-8'
       )
@@ -661,7 +654,7 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-components.css`
+          `build${stage}/style/themes/ui/ui-theme-components.css`
         ),
         'utf-8'
       )
@@ -672,7 +665,7 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-components.css`
+          `build${stage}/style/themes/ui/ui-theme-components.css`
         ),
         'utf-8'
       )
@@ -706,18 +699,18 @@ describe('style build', () => {
     // Test that properties-tailwind.css files exist in src directory (generated by prebuild)
     const themeTests = [
       {
-        theme: 'theme-ui',
+        theme: 'ui',
         expectedFontFamily: "--font-default: 'DNB', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
       {
-        theme: 'theme-sbanken',
+        theme: 'sbanken',
         expectedFontFamily:
           "--font-sb-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;",
         expectedColor: '--color-sb-purple: #1c1b4e;',
       },
       {
-        theme: 'theme-eiendom',
+        theme: 'eiendom',
         expectedFontFamily: "--font-default: 'DNB', sans-serif;",
         expectedColor: '--color-black: #000;',
       },

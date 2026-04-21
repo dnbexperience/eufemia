@@ -1,11 +1,13 @@
 import React from 'react'
-import classnames from 'classnames'
-import TableScrollView, { TableScrollViewProps } from './TableScrollView'
-import { createSpacingClasses } from '../space/SpacingUtils'
+import clsx from 'clsx'
+import type { TableScrollViewProps } from './TableScrollView'
+import TableScrollView from './TableScrollView'
+import { applySpacing } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableContainerProps = {
   /**
@@ -33,13 +35,17 @@ type InternalTableContainerTableScrollView = Omit<
 
 export default function TableContainer(props: TableContainerAllProps) {
   const { children, className, ...rest } = props
-  const spacingClasses = createSpacingClasses(props)
 
   validateDOMAttributes(props, rest)
 
+  const sectionProps = applySpacing(props, {
+    className: clsx('dnb-table__container', className),
+    ...rest,
+  })
+
   const ScrollView = TableScrollView as (
     props: InternalTableContainerTableScrollView
-  ) => JSX.Element
+  ) => React.JSX.Element
 
   const isArray = Array.isArray(children)
   const content = isArray ? children : [children]
@@ -52,14 +58,7 @@ export default function TableContainer(props: TableContainerAllProps) {
   }
 
   return (
-    <section
-      className={classnames(
-        'dnb-table__container',
-        className,
-        spacingClasses
-      )}
-      {...rest}
-    >
+    <section {...sectionProps}>
       <ScrollView>{content}</ScrollView>
     </section>
   )
@@ -81,7 +80,7 @@ export function TableContainerBody(
 
   return (
     <div
-      className={classnames('dnb-table__container__body', className)}
+      className={clsx('dnb-table__container__body', className)}
       {...rest}
     >
       {children}
@@ -103,7 +102,7 @@ export function TableContainerHead(
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-table__container__head',
         !children && 'dnb-table__container__head--empty',
         className
@@ -129,7 +128,7 @@ export function TableContainerFoot(
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-table__container__foot',
         !children && 'dnb-table__container__foot--empty',
         className
@@ -143,4 +142,4 @@ export function TableContainerFoot(
 TableContainer.Body = TableContainerBody
 TableContainer.Head = TableContainerHead
 TableContainer.Foot = TableContainerFoot
-TableContainer._supportsSpacingProps = true
+withComponentMarkers(TableContainer, { _supportsSpacingProps: true })

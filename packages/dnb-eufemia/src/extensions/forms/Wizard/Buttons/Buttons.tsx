@@ -1,17 +1,18 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { ComponentProps } from '../../types'
+import clsx from 'clsx'
+import type { ComponentProps } from '../../types'
 import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../Context'
 import DataContext from '../../DataContext/Context'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type WizardButtonsProps = ComponentProps & {
   children?: string
 }
 
-function Buttons(props: Props) {
+function Buttons(props: WizardButtonsProps) {
   const { className } = props
   const { activeIndex, totalStepsRef } = useContext(WizardContext) || {}
 
@@ -21,23 +22,23 @@ function Buttons(props: Props) {
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
-    return null as JSX.Element
+    return null as React.JSX.Element
   }
 
   if (!showPreviousButton && !showNextButton) {
-    return null as JSX.Element
+    return null as React.JSX.Element
   }
 
   return (
-    <ButtonRow
-      className={classnames('dnb-forms-buttons', className)}
-      {...props}
-    >
+    <ButtonRow className={clsx('dnb-forms-buttons', className)} {...props}>
       {showPreviousButton && <PreviousButton />}
       {showNextButton && <NextButton />}
     </ButtonRow>
   )
 }
 
-Buttons._supportsSpacingProps = true
+withComponentMarkers(Buttons, {
+  _supportsSpacingProps: true,
+})
+
 export default Buttons

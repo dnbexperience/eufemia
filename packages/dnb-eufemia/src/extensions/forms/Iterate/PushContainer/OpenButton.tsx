@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
-import Button, { ButtonProps } from '../../../../components/Button'
+import clsx from 'clsx'
+import type { ButtonProps } from '../../../../components/Button'
+import Button from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'
@@ -32,11 +33,11 @@ function OpenButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-iterate__open-button', className)}
+      className={clsx('dnb-forms-iterate__open-button', className)}
       variant="secondary"
       icon={add}
-      icon_position="left"
-      on_click={handleClick}
+      iconPosition="left"
+      onClick={handleClick}
       {...restProps}
     >
       {content}

@@ -5,10 +5,11 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Button, { ButtonOnClick, ButtonProps } from '../Button'
+import type { ButtonOnClick, ButtonProps } from '../Button'
+import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { Provider } from '../../../shared'
+import { Provider, Theme } from '../../../shared'
 import userEvent from '@testing-library/user-event'
 
 const props: ButtonProps = {
@@ -112,6 +113,18 @@ describe('Button component', () => {
     expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
 
+  it('uses dark surface styling from Theme context', () => {
+    render(
+      <Theme.Context surface="dark">
+        <Button>Button</Button>
+      </Theme.Context>
+    )
+
+    expect(document.querySelector('.dnb-button')).toHaveClass(
+      'dnb-button--surface-dark'
+    )
+  })
+
   it('should be able to omit button type', () => {
     render(<Button type="" />)
 
@@ -163,35 +176,35 @@ describe('Button component', () => {
     ])
   })
 
-  it('has "on_click" event which will trigger on a click', () => {
-    const my_event = jest.fn()
+  it('has "onClick" event which will trigger on a click', () => {
     const myEvent = jest.fn()
-    render(<Button on_click={my_event} onClick={myEvent} />)
+    render(<Button onClick={myEvent} />)
     const button = document.querySelector('button')
     fireEvent.click(button)
-    expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
   })
 
-  it('has set innerRef if ref was given', () => {
-    const ref = React.createRef()
+  it('has set ref if ref was given', () => {
+    const ref = React.createRef<HTMLButtonElement>()
     expect(ref.current).toBe(null)
-    render(<Button {...props} innerRef={ref} />)
-    expect(ref.current).not.toBe(null)
-    expect(typeof ref.current).toBe('object')
+    render(<Button ref={ref} />)
+
+    // ref should be the DOM element, not a class instance
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    expect(ref.current.tagName).toBe('BUTTON')
+    expect(ref.current).toBe(document.querySelector('.dnb-button'))
   })
 
-  it('gets valid element when innerRef is function', () => {
-    const ref: React.MutableRefObject<HTMLButtonElement> =
-      React.createRef()
+  it('gets valid element when ref is function', () => {
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLButtonElement) => {
-      ref.current = elem
-    }
-    render(<Button id="unique" innerRef={refFn} />)
+    render(<Button id="unique" ref={refFn} />)
 
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.tagName).toBe('BUTTON')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const button = document.querySelector('#unique')
+    expect(refFn).toHaveBeenCalledWith(button)
+    expect(button.tagName).toBe('BUTTON')
   })
 
   it('has type of button', () => {
@@ -360,21 +373,19 @@ describe('Button component', () => {
   })
 
   it('will only have attached event listener if one is given', () => {
-    const on_click = jest.fn()
-    const { rerender } = render(
-      <Button text="Button" on_click={on_click} />
-    )
+    const onClick = jest.fn()
+    const { rerender } = render(<Button text="Button" onClick={onClick} />)
 
     type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
 
     const button = document.querySelector('button') as Button
 
-    button.onClickHandler = on_click
+    button.onClickHandler = onClick
 
     fireEvent.click(button)
     fireEvent.click(button)
 
-    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(2)
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
 
     rerender(<Button text="Button" onClick={undefined} />)
@@ -382,7 +393,7 @@ describe('Button component', () => {
     fireEvent.click(button)
 
     // still 2
-    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(2)
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
   })
 
@@ -466,6 +477,114 @@ describe('Button component', () => {
         document.querySelector('.dnb-tooltip--active')
       ).toBeInTheDocument()
     })
+  })
+})
+
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should not forward provider-only props to the DOM', () => {
+    const providerButtonProps: Partial<ButtonProps> & {
+      unexpected?: string
+    } = {
+      unexpected: 'value',
+      iconSize: 'medium',
+    }
+
+    render(
+      <Provider Button={providerButtonProps}>
+        <Button text="Button" icon="bell" />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button).not.toHaveAttribute('unexpected')
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should let context override a prop that is explicitly undefined', () => {
+    render(
+      <Provider Button={{ iconSize: 'medium' }}>
+        <Button text="Button" icon="bell" iconSize={undefined} />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should use default value when prop is explicitly undefined and no context overrides it', () => {
+    render(<Button text="Button" icon="bell" iconSize={undefined} />)
+
+    const button = document.querySelector('.dnb-button')
+
+    // Default iconSize is null, so no icon-size class should be present
+    expect(button.className).not.toContain('dnb-button--icon-size')
+  })
+
+  it('should use explicit prop value over context when prop differs from default', () => {
+    render(
+      <Provider Button={{ iconSize: 'small' }}>
+        <Button text="Button" icon="bell" iconSize="medium" />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // 'medium' differs from the default null, so context cannot override it
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should let context override iconSize when using a React element as icon and iconSize is undefined', () => {
+    render(
+      <Provider Button={{ iconSize: 'medium' }}>
+        <Button
+          text="Button"
+          icon={<IconPrimary icon="bell" />}
+          iconSize={undefined}
+        />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should use default iconSize when using a React element as icon and iconSize is undefined', () => {
+    render(
+      <Button
+        text="Button"
+        icon={<IconPrimary icon="bell" />}
+        iconSize={undefined}
+      />
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // Default iconSize is null, so no icon-size class should be present
+    expect(button.className).not.toContain('dnb-button--icon-size')
+  })
+
+  it('should preserve explicit iconSize when using a React element as icon', () => {
+    render(
+      <Provider Button={{ iconSize: 'small' }}>
+        <Button
+          text="Button"
+          icon={<IconPrimary icon="bell" />}
+          iconSize="medium"
+        />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // 'medium' differs from the default null, so context cannot override it
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
   })
 })
 

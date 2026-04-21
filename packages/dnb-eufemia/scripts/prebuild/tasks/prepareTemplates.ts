@@ -6,10 +6,13 @@
 
 import fs from 'fs-extra'
 import path, { join as joinPath } from 'path'
-import camelCase from 'camelcase'
 import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
 import { asyncForEach } from '../../tools'
+
+function toPascalCase(str: string): string {
+  return str.replace(/(^|-)([a-z])/g, (_, _sep, c) => c.toUpperCase())
+}
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -325,39 +328,39 @@ export const runFactory = async ({
   const template = await fs.readFile(srcFile, 'utf-8')
 
   if (destPath) {
-    await asyncForEach(filesToFindGlob, async ({ file }) => {
-      const destFile = path.resolve(
-        destPath,
-        `${camelCase(file, { pascalCase: true })}.ts`
-      )
+    await asyncForEach(
+      filesToFindGlob,
+      async ({ file }: { file: string }) => {
+        const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
 
-      try {
-        // replace the content in the template
-        const content = template
-          .trim()
-          // 1. replace templateListToExtendBy
-          .replace(
-            new RegExp(templateListToExtendBy, 'g'),
-            camelCase(file, { pascalCase: true })
-          )
-          // 2. replace templateListToExtendBy, but lower case
-          .replace(
-            new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
-            file
-          )
+        try {
+          // replace the content in the template
+          const content = template
+            .trim()
+            // 1. replace templateListToExtendBy
+            .replace(
+              new RegExp(templateListToExtendBy, 'g'),
+              toPascalCase(file)
+            )
+            // 2. replace templateListToExtendBy, but lower case
+            .replace(
+              new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
+              file
+            )
 
-        await fs.writeFile(
-          destFile,
-          await prettier.format(`${autoAdvice}${content}`, {
-            ...prettierrc,
-            parser: 'babel',
-          })
-        )
-      } catch (e) {
-        log.fail(`There was an error on creating ${destFile}!`)
-        ErrorHandler(e)
+          await fs.writeFile(
+            destFile,
+            await prettier.format(`${autoAdvice}${content}`, {
+              ...prettierrc,
+              parser: 'babel',
+            })
+          )
+        } catch (e) {
+          log.fail(`There was an error on creating ${destFile}!`)
+          ErrorHandler(String(e))
+        }
       }
-    })
+    )
   }
 
   if (destFile) {
@@ -368,7 +371,7 @@ export const runFactory = async ({
       .replace(
         new RegExp(templateObjectToFill, 'g'),
         `{ ${filesToFindGlob
-          .map(({ file }) => camelCase(file, { pascalCase: true }))
+          .map(({ file }) => toPascalCase(file))
           .join(', ')} }`
       )
       // 2. replace templateListToExtend
@@ -379,7 +382,7 @@ export const runFactory = async ({
             let res = templateListToExtend
               .replace(
                 new RegExp(templateListToExtendBy, 'g'),
-                camelCase(file, { pascalCase: true })
+                toPascalCase(file)
               )
               .replace(
                 new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
@@ -417,7 +420,7 @@ export const runFactory = async ({
       )
     } catch (e) {
       log.fail(`There was an error on creating ${destFile}!`)
-      ErrorHandler(e)
+      ErrorHandler(String(e))
     }
   }
 

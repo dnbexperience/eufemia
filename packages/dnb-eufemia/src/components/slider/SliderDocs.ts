@@ -1,10 +1,10 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SliderProperties: PropertiesTableProps = {
   value: {
     doc: 'The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).',
     type: ['number', 'Array<number>'],
-    status: 'required',
+    status: 'optional',
   },
   min: {
     doc: 'The minimum value. Can be a negative number as well. Defaults to `0`.',
@@ -43,7 +43,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   multiThumbBehavior: {
     doc: 'Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.',
-    type: 'string',
+    type: ['"omit"', '"push"', '"swap"'],
     status: 'optional',
   },
   thumbTitle: {
@@ -63,7 +63,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   numberFormat: {
     doc: 'Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.',
-    type: 'object',
+    type: ['object', 'function'],
     status: 'optional',
   },
   tooltip: {
@@ -78,12 +78,12 @@ export const SliderProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelDirection: {
-    doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'string',
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   labelSrOnly: {
@@ -93,12 +93,12 @@ export const SliderProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {
@@ -106,14 +106,14 @@ export const SliderProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  globalStatusId: {
-    doc: 'The `status_id` used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'string',
+  globalStatus: {
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    type: 'object',
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {
@@ -135,7 +135,7 @@ export const SliderProperties: PropertiesTableProps = {
 
 export const SliderEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.',
+    doc: 'Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the `numberFormat` property is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.',
     type: 'function',
     status: 'optional',
   },

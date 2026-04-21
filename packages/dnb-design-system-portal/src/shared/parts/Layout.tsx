@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Anchor from '../tags/Anchor'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
 import {
@@ -17,7 +17,7 @@ import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
-import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
+import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
   portalStyle,
@@ -36,8 +36,7 @@ export function scrollToAnimation() {
     delay: 100,
     onCompletion: (elem) => {
       try {
-        // elem.classList.add('focus')// run link-attention-focus animation
-        elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+        elem.parentElement.classList.add('focus')
       } catch (e) {
         //
       }
@@ -53,7 +52,7 @@ type LayoutProps = {
 }
 
 function Layout(props: LayoutProps) {
-  const mainRef = React.useRef<HTMLElement>()
+  const mainRef = React.useRef<HTMLElement>(undefined)
 
   const { fullscreen, location, hideSidebar, children } = props
 
@@ -89,7 +88,7 @@ function Layout(props: LayoutProps) {
   const fs = fullscreen || isFullscreen()
 
   return (
-    <div className={classnames(portalStyle, fs && fullscreenStyle)}>
+    <div className={clsx(portalStyle, fs && fullscreenStyle)}>
       <a
         className="dnb-skip-link"
         href="#dnb-app-content"
@@ -144,7 +143,7 @@ const Content = ({
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         contentStyle,
         'dnb-app-content',
         fullscreen && 'fullscreen-page',
@@ -160,7 +159,7 @@ const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
     id="dnb-app-content"
-    className={classnames(
+    className={clsx(
       mainStyle,
       'dnb-no-focus',
       'dnb-spacing' // used so the portal elements uses their default space
@@ -171,23 +170,21 @@ const MainContent = ({ mainRef, ...props }) => (
 
 const Footer = () => {
   return (
-    <footer className={footerStyle}>
-      <P>
-        <small>
-          Package release: {packageJson.releaseVersion} <br />
-          Portal update: {packageJson.buildVersion}
-        </small>
+    <Section
+      element="footer"
+      surface="dark"
+      innerSpace
+      className={footerStyle}
+    >
+      <P size="small">
+        Package release: {packageJson.releaseVersion} <br />
+        Portal update: {packageJson.buildVersion}
       </P>
 
       <Logo height="40" color="white" />
 
-      <Anchor
-        to="/license"
-        className="dnb-anchor--contrast dnb-anchor--no-underline"
-      >
-        Copyright (c) 2018-present DNB.no
-      </Anchor>
-    </footer>
+      <Anchor to="/license">Copyright (c) 2018-present DNB.no</Anchor>
+    </Section>
   )
 }
 

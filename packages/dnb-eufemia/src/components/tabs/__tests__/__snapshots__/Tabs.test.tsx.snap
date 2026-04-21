@@ -6,9 +6,6 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
  * Tabs component
  *
  */
@@ -16,7 +13,8 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
- * Utilities
+ * Tabs component
+ *
  */
 /*
 * Button mixins
@@ -41,8 +39,6 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   z-index: 1;
   display: flex;
   align-items: center;
-}
-.dnb-tabs__tabs, .dnb-tabs__tabs.dnb-section--spacing {
   padding-bottom: 0;
 }
 .dnb-tabs__tabs__tablist {
@@ -76,8 +72,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
 }
 .dnb-tabs__tabs__tablist {
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
@@ -109,7 +103,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   display: none;
 }
 .dnb-tabs__tabs__tablist {
-  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
@@ -359,9 +352,6 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
 .dnb-tabs {
   /* stylelint-enable */
 }
-.dnb-tabs__content {
-  padding-bottom: 0;
-}
 .dnb-tabs__content:focus {
   position: relative;
 }
@@ -400,8 +390,9 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
- * Utilities
- */
+* Tabs theme
+*
+*/
 /*
 * Button mixins
 *

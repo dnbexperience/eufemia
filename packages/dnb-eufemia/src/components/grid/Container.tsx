@@ -1,24 +1,26 @@
 import React from 'react'
-import classnames from 'classnames'
-import Space, { SpaceAllProps } from '../space/Space'
+import clsx from 'clsx'
+import type { SpaceAllProps } from '../space/Space'
+import Space from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Columns = number
+export type GridContainerColumns = number
 
-export type Media = {
-  small?: Columns | false
-  medium?: Columns | false
-  large?: Columns | false
+export type GridContainerMedia = {
+  small?: GridContainerColumns | false
+  medium?: GridContainerColumns | false
+  large?: GridContainerColumns | false
 }
 
-export type BasicProps = {
-  columns?: Media | Columns
+export type GridContainerProps = {
+  columns?: GridContainerMedia | GridContainerColumns
   rowGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
   columnGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
 }
 
-export type AllProps = BasicProps & SpaceAllProps
+export type GridContainerAllProps = GridContainerProps & SpaceAllProps
 
-function GridContainer(props: AllProps) {
+function GridContainer(props: GridContainerAllProps) {
   const {
     columns,
     rowGap,
@@ -48,7 +50,7 @@ function GridContainer(props: AllProps) {
     }
   }
 
-  const cn = classnames(
+  const cn = clsx(
     n,
     className,
     columnGap &&
@@ -64,7 +66,9 @@ function GridContainer(props: AllProps) {
   )
 }
 
-GridContainer._supportsSpacingProps = true
+withComponentMarkers(GridContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default GridContainer
 

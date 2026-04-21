@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const CountProperties: PropertiesTableProps = {
   path: {
@@ -13,7 +13,7 @@ export const CountProperties: PropertiesTableProps = {
   },
   filter: {
     doc: 'A filter function to filter the data before counting.',
-    type: 'string',
+    type: 'function',
     status: 'optional',
   },
 }

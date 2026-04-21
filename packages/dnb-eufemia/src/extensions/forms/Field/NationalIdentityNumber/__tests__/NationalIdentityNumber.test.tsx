@@ -1,7 +1,8 @@
 import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
-import { Props } from '..'
-import { Field, Form, Validator } from '../../..'
+import type { FieldNationalIdentityNumberProps } from '..'
+import type { Validator } from '../../..'
+import { Field, Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import nbNO from '../../../constants/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
@@ -10,7 +11,7 @@ const nb = nbNO['nb-NO']
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldNationalIdentityNumberProps = {}
     render(<Field.NationalIdentityNumber {...props} />)
   })
 
@@ -135,32 +136,6 @@ describe('Field.NationalIdentityNumber', () => {
     expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
   })
 
-  // Deprecated – can be removed in v11
-  it('should validate given function as validator', async () => {
-    const text = 'Custom Error message'
-    const validator = jest.fn((value) => {
-      return value.length < 4 ? new Error(text) : undefined
-    })
-
-    render(
-      <Field.NationalIdentityNumber
-        value="123"
-        required
-        validator={validator}
-        validateInitially
-      />
-    )
-
-    await waitFor(() => {
-      expect(validator).toHaveBeenCalledTimes(1)
-    })
-
-    const element = document.querySelector('.dnb-form-status')
-
-    expect(element).toBeInTheDocument()
-    expect(element.textContent).toBe(text)
-  })
-
   it('should validate given function as onChangeValidator', async () => {
     const text = 'Custom Error message'
     const onChangeValidator = jest.fn((value) => {
@@ -209,12 +184,6 @@ describe('Field.NationalIdentityNumber', () => {
             expect.stringContaining('{minLength}'),
           'StringField.errorMaxLength':
             expect.stringContaining('{maxLength}'),
-
-          // For backward compatibility – can be removed in v11
-          maxLength: expect.stringContaining('{maxLength}'),
-          minLength: expect.stringContaining('{minLength}'),
-          pattern: expect.stringContaining('fødselsnummer'),
-          required: expect.stringContaining('fødselsnummer'),
         }),
       })
     )
@@ -345,6 +314,8 @@ describe('Field.NationalIdentityNumber', () => {
       if (value?.length < 4) {
         return new Error('My error')
       }
+
+      return undefined
     }
 
     render(
@@ -558,6 +529,8 @@ describe('Field.NationalIdentityNumber', () => {
       if (value.substring(2, 4) !== '04') {
         return new Error('custom error')
       }
+
+      return undefined
     }
 
     const customValidator: Validator<string> = (value, { validators }) => {
@@ -703,7 +676,7 @@ describe('Field.NationalIdentityNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnrLength
+        nb.NationalIdentityNumber.errorFnr
       )
     })
 

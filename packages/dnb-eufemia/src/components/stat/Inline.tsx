@@ -1,7 +1,7 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Flex from '../flex/Flex'
-import type { Props as FlexHorizontalProps } from '../flex/Horizontal'
+import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
@@ -33,14 +33,14 @@ function Inline({
   applySkeletonAttributes(attributes as React.HTMLProps<HTMLElement>)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Flex.Horizontal
           {...rest}
           {...attributes}
           gap={gap}
           align={align}
-          className={classnames(
+          className={clsx(
             'dnb-stat',
             'dnb-stat__inline',
             skeletonClass,
@@ -50,7 +50,7 @@ function Inline({
           {children}
         </Flex.Horizontal>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 

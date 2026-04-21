@@ -21,7 +21,7 @@ import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import {
   createPagination,
-  CreatePaginationReturn,
+  type PaginationCreateReturn,
 } from '@dnb/eufemia/src/components/Pagination'
 
 type HeightLimitProps = {
@@ -56,10 +56,10 @@ export const PaginationExampleInfinityLoadButton = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        use_load_button
-        startup_page={5}
-        min_wait_time={0}
-        on_load={({ pageNumber, setContent }) => {
+        useLoadButton
+        startupPage={5}
+        minWaitTime={0}
+        onLoad={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -80,13 +80,13 @@ export const PaginationExampleInfinityIndicator = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        indicator_element={() => (
+        indicatorElement={() => (
           <LargePage color="lightgreen">Loading ...</LargePage>
         )}
-        startup_page={3}
-        page_count={10}
-        min_wait_time={0}
-        on_load={({ pageNumber, setContent }) => {
+        startupPage={3}
+        pageCount={10}
+        minWaitTime={0}
+        onLoad={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -97,7 +97,7 @@ export const PaginationExampleInfinityIndicator = () => (
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ pageNumber, setContent }) => {
+        onEnd={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
             <LargePage color="lightgreen">End</LargePage>
@@ -113,9 +113,9 @@ export const PaginationExampleInfinityUnknown = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        parallel_load_count={2}
-        min_wait_time={0}
-        on_load={({ pageNumber, setContent, endInfinity }) => {
+        parallelLoadCount={2}
+        minWaitTime={0}
+        onLoad={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -130,7 +130,7 @@ export const PaginationExampleInfinityUnknown = () => (
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ pageNumber, setContent }) => {
+        onEnd={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
             <LargePage color="lightgreen">End</LargePage>
@@ -151,7 +151,7 @@ export const PaginationExampleInfinityTable = () => (
 
 export function PaginationTableExample() {
   return (
-    <Wrapper className="dnb-core-style" spacing>
+    <Wrapper className="dnb-core-style" innerSpace={{ block: 'large' }}>
       <Space left>
         <H1 size="small">Infinity Table</H1>
         <P bottom>
@@ -185,13 +185,13 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
-  ] = React.useState<CreatePaginationReturn>(createPagination)
+  ] = React.useState<PaginationCreateReturn>(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 
@@ -251,7 +251,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
+    console.log('onChange: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
@@ -277,9 +277,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <Button
               size="small"
               icon="reset"
-              icon_position="left"
+              iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 clearTimeout(serverDelayTimeout) // stop the server delay simulation
 
                 resetInfinity()
@@ -306,7 +306,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
+              onClick={() => {
                 // 1. empty
                 resetContent()
 
@@ -319,18 +319,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the row
-          current_page={currentPage}
-          page_count={maxPagesCount}
+          currentPage={currentPage}
+          pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>
@@ -389,7 +389,7 @@ const InfinityPagination = ({
     }
 
     // we do this only to have a working useEffect, so we can call onMounted
-    const trRef = React.createRef<HTMLTableRowElement>()
+    const trRef = { current: null as HTMLTableRowElement | null }
     mountedItems.push({ ...item, element: trRef })
 
     return (

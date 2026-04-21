@@ -1,9 +1,16 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type property.',
-    type: 'string',
+    doc: 'Defines the semantic purpose and subsequently the style of the visual helper.',
+    type: [
+      '"error"',
+      '"information"',
+      '"warning"',
+      '"success"',
+      '"divider"',
+      'string',
+    ],
     status: 'optional',
   },
   breakout: {
@@ -12,7 +19,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.',
+    doc: 'Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -23,7 +30,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   outlineWidth: {
     doc: "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
-    type: 'string | number',
+    type: ['string', 'number'],
     status: 'optional',
   },
   roundedCorner: {
@@ -42,7 +49,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   textColor: {
-    doc: "Define a custom text color to compliment the backgroundColor. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
+    doc: "Define a custom text color to compliment the `backgroundColor`. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
     type: 'string',
     status: 'optional',
   },
@@ -51,8 +58,18 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  surface: {
+    doc: "Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.",
+    type: ['"dark"', '"light"', '"initial"'],
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define what HTML element should be used. Defaults to `<section>`.',
+    type: ['string', 'React.Element'],
+    status: 'optional',
+  },
+  ref: {
+    doc: 'By providing a `React.Ref` we can get the internally used element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

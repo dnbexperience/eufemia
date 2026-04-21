@@ -1,11 +1,13 @@
 import React, { Fragment, useContext, useMemo } from 'react'
 import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import SharedContext, { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context'
+import SharedContext from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
-import { UlAllProps } from '../../elements/Ul'
-import { OlAllProps } from '../../elements/Ol'
-import classNames from 'classnames'
+import type { UlAllProps } from '../../elements/Ul'
+import type { OlAllProps } from '../../elements/Ol'
+import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListFormatProps = {
   /**
@@ -38,13 +40,13 @@ export type ListFormatProps = {
 
   /**
    * The value to format as list.
-   * Default: null
+   * Default: `null`
    */
   value?: Array<React.ReactNode>
 
   /**
    * The children to format as list.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 }
@@ -94,7 +96,7 @@ function ListFormat(
     return (
       <ListElement
         type={listType !== 'unstyled' ? listType : null}
-        className={classNames(
+        className={clsx(
           'dnb-list-format',
           listType === 'unstyled' && 'dnb-unstyled-list',
           className
@@ -153,10 +155,12 @@ export function listFormat(
         if (v.startsWith('id-')) {
           const element = buffer.get(v)
 
-          return element.key
-            ? element
-            : // Support lists without a key
-              React.createElement(React.Fragment, { key: i }, element)
+          return element.key ? (
+            element
+          ) : (
+            // Support lists without a key
+            <React.Fragment key={i}>{element}</React.Fragment>
+          )
         }
 
         return v
@@ -191,6 +195,8 @@ function replaceRootFragment(children) {
   return children
 }
 
-ListFormat._supportsSpacingProps = true
+withComponentMarkers(ListFormat, {
+  _supportsSpacingProps: true,
+})
 
 export default ListFormat

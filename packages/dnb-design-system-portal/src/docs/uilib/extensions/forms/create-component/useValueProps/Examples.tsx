@@ -5,11 +5,11 @@ import {
   Form,
   useValueProps,
 } from '@dnb/eufemia/src/extensions/forms'
-import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import { formatCurrency } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 export const CustomComponentExample = () => {
   return (
-    <ComponentBox scope={{ useValueProps, ValueBlock, format }}>
+    <ComponentBox scope={{ useValueProps, ValueBlock, formatCurrency }}>
       {() => {
         const MyValueComponent = (props) => {
           const preparedProps = {
@@ -22,7 +22,7 @@ export const CustomComponentExample = () => {
 
           return (
             <ValueBlock {...rest}>
-              {format(value, { currency: true })} kroner
+              {formatCurrency(value)} kroner
             </ValueBlock>
           )
         }

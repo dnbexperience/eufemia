@@ -7,6 +7,7 @@ export const sha = getSha()
 export const buildDate = getBuildDate()
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     Eufemia?: {
       version?: string

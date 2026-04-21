@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useReducer, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../shared/IsolatedStyleScope'
@@ -24,9 +24,9 @@ type SelectorOptions = {
 }
 
 export type PortalRootProps = {
-  innerRef?:
+  ref?:
     | React.Ref<HTMLElement>
-    | React.MutableRefObject<HTMLElement>
+    | React.RefObject<HTMLElement>
     | ((instance: HTMLElement) => void)
 } & SelectorOptions &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'id'>
@@ -41,7 +41,7 @@ export type PortalRootProviderProps =
 
 export function PortalRootProvider(
   props: PortalRootProviderProps
-): JSX.Element | null {
+): React.JSX.Element | null {
   const { id, insideSelector, beforeSelector, children } = props
 
   const value = useMemo(
@@ -49,19 +49,15 @@ export function PortalRootProvider(
     [id, insideSelector, beforeSelector]
   )
 
-  return (
-    <PortalRootContext.Provider value={value}>
-      {children}
-    </PortalRootContext.Provider>
-  )
+  return <PortalRootContext value={value}>{children}</PortalRootContext>
 }
 
-function PortalRoot(props: PortalRootProps = {}): JSX.Element {
+function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
     beforeSelector: beforeSelectorProp,
-    innerRef,
+    ref: refProp,
     className,
     style,
     children,
@@ -112,15 +108,15 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       }
     }
 
-    if (innerRef && localRef.current) {
-      if (typeof innerRef === 'function') {
-        innerRef(localRef.current)
+    if (refProp && localRef.current) {
+      if (typeof refProp === 'function') {
+        refProp(localRef.current)
       } else {
-        const ref = innerRef as React.MutableRefObject<HTMLElement>
+        const ref = refProp as React.RefObject<HTMLElement | null>
         ref.current = localRef.current
       }
     }
-  }, [effectiveId, idProp, innerRef, insideSelector, beforeSelector])
+  }, [effectiveId, idProp, refProp, insideSelector, beforeSelector])
 
   const portalElement = localRef.current || initialElement
   if (!portalElement) {
@@ -134,7 +130,7 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       uniqueKey={false} // ensure that the scope is used on every portal root
     >
       <div
-        className={classnames(
+        className={clsx(
           'dnb-core-style',
           'eufemia-portal-root',
           className
@@ -190,6 +186,9 @@ export function getOrCreatePortalElement({
   }
 
   return elem
+}
+function PortalRoot(props: PortalRootProps) {
+  return <PortalRootInstance {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
 

@@ -1,15 +1,15 @@
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type CopyOnClickProps = {
   /**
    * Whether to show the copy cursor or not.
-   * @default true
+   * Default: `true`
    */
   showCursor?: boolean
 
   /**
    * Whether the CopyOnClick component is on or off.
-   * @default false
+   * Default: `false`
    */
   disabled?: boolean
 
@@ -21,7 +21,7 @@ export type CopyOnClickProps = {
 
   /**
    * The message shown in the tooltip when the content is copied.
-   * Defaults to the translation `CopyOnClick.clipboard_copy`.
+   * Defaults to the translation `CopyOnClick.clipboardCopy`.
    */
   tooltipContent?: React.ReactNode
 

@@ -1,6 +1,17 @@
+import type React from 'react'
 import { warn, processChildren } from '../../shared/component-helper'
 
-export function getListOfModalRoots(): any[] {
+export type ModalStackEntry = {
+  _id: string
+  _scrollRef: React.RefObject<HTMLElement | null>
+  _contentRef: React.RefObject<HTMLElement | null>
+  _iiLocal?: {
+    activate: (target?: HTMLElement | null) => void
+    revert: () => void
+  }
+}
+
+export function getListOfModalRoots(): ModalStackEntry[] {
   if (typeof window !== 'undefined') {
     try {
       const stack = window.__modalStack || []
@@ -13,7 +24,7 @@ export function getListOfModalRoots(): any[] {
   return []
 }
 
-export function getModalRoot(index?: number): any {
+export function getModalRoot(index?: number): ModalStackEntry | null {
   if (typeof window !== 'undefined') {
     try {
       const stack = window.__modalStack || []
@@ -34,7 +45,7 @@ export function getModalRoot(index?: number): any {
   return null
 }
 
-export function addToIndex(elem) {
+export function addToIndex(elem: ModalStackEntry) {
   if (typeof window !== 'undefined') {
     try {
       if (!Array.isArray(window.__modalStack)) {
@@ -47,7 +58,7 @@ export function addToIndex(elem) {
   }
 }
 
-export function removeFromIndex(elem) {
+export function removeFromIndex(elem: ModalStackEntry) {
   if (typeof window !== 'undefined') {
     try {
       if (!Array.isArray(window.__modalStack)) {
@@ -63,10 +74,10 @@ export function removeFromIndex(elem) {
 }
 
 export function getContent(props) {
-  if (typeof props.modal_content === 'string') {
-    return props.modal_content
-  } else if (typeof props.modal_content === 'function') {
-    return props.modal_content(props)
+  if (typeof props.modalContent === 'string') {
+    return props.modalContent
+  } else if (typeof props.modalContent === 'function') {
+    return props.modalContent(props)
   }
   return processChildren(props)
 }

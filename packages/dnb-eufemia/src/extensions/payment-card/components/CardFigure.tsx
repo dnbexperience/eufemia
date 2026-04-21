@@ -1,28 +1,14 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
-import StatusOverlay, {
-  isCardBlocked,
-  Translations,
-} from './StatusOverlay'
+import type { Translations } from './StatusOverlay'
+import StatusOverlay, { isCardBlocked } from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
-import { BankAxeptType, CardType } from '../utils/Types'
+import type { PaymentCardRawData } from '../PaymentCard'
 
-export type CardData = {
-  productCode: string
-  productName: string
-  displayName: string
-  cardDesign: {
-    cardStyle: string
-    bankLogo: string
-    backgroundImage?: string
-  }
-  cardType: CardType
-  productType: any
-  bankAxept: BankAxeptType
-}
+export type CardData = PaymentCardRawData
 
 type CardFigureProps = {
   id?: string | null
@@ -43,7 +29,7 @@ function CardFigure({
   compact = false,
   translations,
 }: CardFigureProps) {
-  const cardClasses = classnames(
+  const cardClasses = clsx(
     'dnb-payment-card__card',
     `dnb-payment-card__${data.cardDesign.cardStyle}`,
     `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`
@@ -51,11 +37,10 @@ function CardFigure({
 
   const ProviderIcons = () => {
     const multipleProviders =
-      data.bankAxept === BankAxeptType.BankAxept &&
-      data.cardType !== CardType.None
+      data.bankAxept.tag === 'BankAxept' && data.cardType.tag !== 'None'
     return (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-payment-card__card__providers',
           `${
             multipleProviders
@@ -101,7 +86,7 @@ function CardFigure({
                 <ProviderIcons />
               ) : (
                 <CardTypeText
-                  isCredit={data.bankAxept === BankAxeptType.Credit}
+                  isCredit={data.bankAxept.tag === 'Credit'}
                   skeleton={skeleton}
                 />
               )}

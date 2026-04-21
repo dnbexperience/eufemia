@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {
@@ -93,9 +93,14 @@
 @mixin headingDefaults() {
   padding: 0;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
 
   font-family: var(--font-family-heading);
+  color: var(--token-color-text-neutral);
+
+  &.dnb-t--surface-dark {
+    color: var(--token-color-text-neutral-ondark);
+  }
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -112,13 +117,9 @@
     padding-top: 0;
     padding-bottom: 0.03125rem;
   }
-
-  @if mixin-exists('headingDefaultsCustomisation') {
-    @include headingDefaultsCustomisation();
-  }
 }
 
-@mixin headingSize_xx-large() {
+@mixin headingSizeXxLarge() {
   @include headingStyle(
     var(--typography-h-xx-large-font-size),
     var(--typography-h-xx-large-line-height),
@@ -133,7 +134,7 @@
   }
 }
 
-@mixin headingSize_x-large() {
+@mixin headingSizeXLarge() {
   @include headingStyle(
     var(--typography-h-x-large-font-size),
     var(--typography-h-x-large-line-height),
@@ -148,7 +149,7 @@
   }
 }
 
-@mixin headingSize_large() {
+@mixin headingSizeLarge() {
   @include headingStyle(
     var(--typography-h-large-font-size),
     var(--typography-h-large-line-height),
@@ -160,7 +161,7 @@
   }
 }
 
-@mixin typography_lead() {
+@mixin typographyLead() {
   @include headingStyle(
     var(--typography-lead-font-size),
     var(--typography-lead-line-height),
@@ -172,7 +173,7 @@
   }
 }
 
-@mixin headingSize_medium() {
+@mixin headingSizeMedium() {
   @include headingStyle(
     var(--typography-h-medium-font-size),
     var(--typography-h-medium-line-height),
@@ -184,7 +185,7 @@
   }
 }
 
-@mixin headingSize_basis() {
+@mixin headingSizeBasis() {
   @include headingStyle(
     var(--typography-h-basis-font-size),
     var(--typography-h-basis-line-height),
@@ -197,7 +198,7 @@
   }
 }
 
-@mixin headingSize_small() {
+@mixin headingSizeSmall() {
   @include headingStyle(
     var(--typography-h-small-font-size),
     var(--typography-h-small-line-height),
@@ -210,7 +211,7 @@
   }
 }
 
-@mixin headingSize_x-small() {
+@mixin headingSizeXSmall() {
   @include headingStyle(
     var(--typography-h-x-small-font-size),
     var(--typography-h-x-small-line-height),
@@ -223,8 +224,13 @@
   }
 }
 
-@mixin paragraphStyle() {
+@mixin paragraphDefaults() {
   font-size: var(--font-size-basis);
+  color: var(--token-color-text-neutral);
+
+  &.dnb-t--surface-dark {
+    color: var(--token-color-text-neutral-ondark);
+  }
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
   &:not([class*='space__top']) {
@@ -237,14 +243,12 @@
   padding: 0;
 
   &--lead {
-    @include typography_lead();
+    @include typographyLead();
   }
   b,
   strong {
     font-weight: var(--font-weight-medium);
   }
-  // is still needed for backwards compatibility when ".dnp-p" was used for all typography
-  @include paragraphDeprecated();
 
   & > small {
     font-size: var(--font-size-small);
@@ -258,57 +262,7 @@
   }
 }
 
-// should use the .dnb-t classes instead
-@mixin paragraphDeprecated() {
-  // weights
-  &--medium {
-    font-weight: var(--font-weight-medium);
-  }
-
-  &--bold {
-    font-weight: var(--font-weight-bold);
-  }
-
-  // sizes and line-heights
-  &__size--xx-large {
-    font-size: var(--font-size-xx-large);
-    line-height: var(--line-height-xx-large);
-  }
-
-  &__size--x-large {
-    font-size: var(--font-size-x-large);
-    line-height: var(--line-height-x-large);
-  }
-
-  &__size--large {
-    font-size: var(--font-size-large);
-    line-height: var(--line-height-large);
-  }
-
-  &__size--basis {
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-  }
-
-  &__size--medium {
-    font-size: var(--font-size-medium);
-    line-height: var(--line-height-medium);
-  }
-
-  &--small, // backwards compatibility
-  &__size--small {
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
-  }
-
-  &--x-small, // backwards compatibility
-  &__size--x-small {
-    font-size: var(--font-size-x-small);
-    line-height: var(--line-height-x-small);
-  }
-}
-
-@mixin headingSpacing_xx-large() {
+@mixin headingSpacingXxLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -318,7 +272,7 @@
   }
 }
 
-@mixin headingSpacing_x-large() {
+@mixin headingSpacingXLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -328,7 +282,7 @@
   }
 }
 
-@mixin headingSpacing_large() {
+@mixin headingSpacingLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -345,91 +299,5 @@
 
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
-  }
-}
-
-@mixin typographyTags() {
-  p {
-    @include paragraphStyle();
-  }
-
-  b,
-  strong {
-    font-weight: var(--font-weight-bold);
-  }
-
-  small {
-    font-size: var(--font-size-small);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @include headingDefaults();
-  }
-
-  h1 {
-    @include headingSize_xx-large();
-  }
-
-  h2 {
-    @include headingSize_large();
-  }
-
-  h3 {
-    @include headingSize_medium();
-  }
-
-  h4 {
-    @include headingSize_basis();
-  }
-
-  h5 {
-    @include headingSize_small();
-  }
-
-  h6 {
-    @include headingSize_x-small();
-  }
-
-  h2 > small,
-  h3 > small,
-  h4 > small,
-  h5 > small,
-  h6 > small {
-    line-height: var(
-      --line-height-xx-small--em
-    ); // for vertical alignment, we have to have no line-height
-  }
-
-  .dnb-spacing {
-    h1,
-    .dnb-core-style & h1 {
-      @include headingSpacing_xx-large();
-    }
-
-    h2,
-    .dnb-core-style & h2 {
-      @include headingSpacing_large();
-    }
-
-    h3,
-    h4,
-    h5,
-    h6,
-    .dnb-core-style & h3,
-    .dnb-core-style & h4,
-    .dnb-core-style & h5,
-    .dnb-core-style & h6 {
-      @include headingSpacing();
-    }
-
-    p,
-    .dnb-core-style & p {
-      @include ui-spacing.defaultSpacing();
-    }
   }
 }

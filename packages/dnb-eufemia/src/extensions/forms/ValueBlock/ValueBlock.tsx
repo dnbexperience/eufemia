@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import type { DlProps } from '../../../elements/Dl'
@@ -15,23 +15,25 @@ import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
-import { Path, ValueProps } from '../types'
+import type { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import { replaceItemNo } from '../Iterate/ItemNo'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
+import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../components/help-button/HelpButtonInline'
 import useId from '../../../shared/helpers/useId'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 /**
- * Props are documented in ValueDocs.ts
+ * ValueBlockProps are documented in ValueDocs.ts
  */
-export type Props = Omit<ValueProps<unknown>, 'value'> & {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ValueBlockProps = Omit<ValueProps<any>, 'value'> & {
   id?: string
 
   /** The id to link a element with */
@@ -61,7 +63,7 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode
 }
 
-function ValueBlock(localProps: Props) {
+function ValueBlock(localProps: ValueBlockProps) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
@@ -81,7 +83,7 @@ function ValueBlock(localProps: Props) {
     path,
     itemPath,
     labelSrOnly,
-    transformLabel = (label: Props['label']) => label,
+    transformLabel = (label: ValueBlockProps['label']) => label,
     inline,
     maxWidth = props.composition ? props.maxWidth : 'large',
     placeholder,
@@ -159,7 +161,7 @@ function ValueBlock(localProps: Props) {
 
   let content = null
 
-  const defaultClass = classnames(
+  const defaultClass = clsx(
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
     maxWidth && `dnb-forms-value-block__content--max-width-${maxWidth}`
@@ -175,8 +177,8 @@ function ValueBlock(localProps: Props) {
     const Item = summaryListContext.isNested
       ? Dl
       : summaryListContext.layout === 'horizontal'
-      ? Dl.Item
-      : Fragment
+        ? Dl.Item
+        : Fragment
 
     if (!label && !hasHelp && isCompositionInContext) {
       content = children ? (
@@ -192,12 +194,12 @@ function ValueBlock(localProps: Props) {
       const { layout = defaultLayout } = summaryListContext
 
       content = (
-        <SummaryListContext.Provider
+        <SummaryListContext
           value={{ ...summaryListContext, isNested: true }}
         >
           <Item>
             <Dt
-              className={classnames(
+              className={clsx(
                 'dnb-forms-value-block__label',
                 ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
                 className
@@ -216,7 +218,7 @@ function ValueBlock(localProps: Props) {
               </VisibilityWrapper>
             </Dt>
             <Dd
-              className={classnames(
+              className={clsx(
                 compositionClass,
                 maxWidth &&
                   `dnb-forms-value-block__content--max-width-${maxWidth}`
@@ -239,7 +241,7 @@ function ValueBlock(localProps: Props) {
           {isCompositionInContextWithoutLabel && hasHelp
             ? getHelpContent(layout, { renderOnNextLine: true })
             : null}
-        </SummaryListContext.Provider>
+        </SummaryListContext>
       )
     }
   } else {
@@ -247,7 +249,7 @@ function ValueBlock(localProps: Props) {
       <>
         <Span
           ref={ref}
-          className={classnames(
+          className={clsx(
             'dnb-forms-value-block',
             inline && 'dnb-forms-value-block--inline',
             compositionClass,
@@ -258,7 +260,7 @@ function ValueBlock(localProps: Props) {
           {(label || hasHelp) && (
             <FormLabel
               element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-              className={classnames('dnb-forms-value-block__label')}
+              className={clsx('dnb-forms-value-block__label')}
               labelDirection={inline ? 'horizontal' : 'vertical'}
               srOnly={labelSrOnly}
             >
@@ -293,11 +295,7 @@ function ValueBlock(localProps: Props) {
     )
   }
 
-  return (
-    <ValueBlockContext.Provider value={props}>
-      {content}
-    </ValueBlockContext.Provider>
-  )
+  return <ValueBlockContext value={props}>{content}</ValueBlockContext>
 }
 
 function useNotInSummaryList(
@@ -330,12 +328,15 @@ function useNotInSummaryList(
   }, [itemPath, label, path, ref])
 }
 
-ValueBlock._supportsSpacingProps = true
+withComponentMarkers(ValueBlock, {
+  _supportsSpacingProps: true,
+})
+
 export default ValueBlock
 
 const transformLabelParameters = {
   convertJsxToString,
-} as unknown as Parameters<Props['transformLabel']>[1]
+} as unknown as Parameters<ValueBlockProps['transformLabel']>[1]
 
 function VisibilityWrapper({ children }) {
   const visibilityContext = useContext(VisibilityContext)

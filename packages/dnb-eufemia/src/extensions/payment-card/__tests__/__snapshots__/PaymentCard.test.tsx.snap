@@ -6,15 +6,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
  * PaymentCard component styles
  * This file provides styling for the PaymentCard component, including general design tokens
  * and variations for different card types (e.g., default, pluss, gold, etc.).
- */
-/*
- * Utilities
  */
 /*
  * CSS Properties Sbanken
@@ -22,8 +16,8 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
  */
 :root {
   --sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  --sb-font-family-heading: 'MaisonNeueHeadings', 'Roboto', 'Helvetica',
-    'Arial', sans-serif;
+  --sb-font-family-heading:
+    'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --sb-font-weight-default: normal;
   --sb-font-weight-basis: normal;
   --sb-font-weight-regular: normal;
@@ -143,7 +137,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   border-radius: inherit;
   color: var(--color-white);
   box-shadow: var(--shadow-default);
-  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: box-shadow 225ms cubic-bezier(0, 0, 0.2, 1) 0ms, opacity 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   user-select: none;
 }
 .dnb-payment-card__card__wrapper {

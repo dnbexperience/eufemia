@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useReducer } from 'react'
 import WizardContext from '../Context'
 import StepIndicator from '../../../../components/StepIndicator'
-import { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
+import type { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
 import { useTranslation } from '../../hooks'
 
 export function DisplaySteps({
@@ -26,13 +26,13 @@ export function DisplaySteps({
 
   const getStepIndicatorStatus = useCallback(() => {
     if (!hasErrorInOtherStepRef.current) {
-      return // stop here
+      return undefined // stop here
     }
     if (hasInvalidStepsState(undefined, ['error'])) {
       return {
         // Show FormStatus inside the StepIndicator
         status: translations.Step.stepHasError,
-        status_state: 'error',
+        statusState: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
     return {}
@@ -42,29 +42,29 @@ export function DisplaySteps({
     translations.Step.stepHasError,
   ])
 
-  const { status, status_state } = getStepIndicatorStatus() ?? {}
+  const { status, statusState } = getStepIndicatorStatus() ?? {}
 
   return (
     <div className="dnb-forms-wizard-layout__indicator">
       <StepIndicator
         bottom
-        current_step={activeIndexRef.current}
+        currentStep={activeIndexRef.current}
         data={Array.from(stepsRef.current.values()).map(
           ({ stringifiedTitle, title, inactive, status, statusState }) =>
             ({
               title: stringifiedTitle || title,
               inactive,
               status,
-              status_state: statusState,
+              statusState: statusState,
             }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>
         )}
         mode={mode}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         expandedInitially={expandedInitially}
-        on_change={handleChange}
+        onChange={handleChange}
         outset={outset}
         status={status}
-        status_state={status_state}
+        statusState={statusState}
       />
     </div>
   )

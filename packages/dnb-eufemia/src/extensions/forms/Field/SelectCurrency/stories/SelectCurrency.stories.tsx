@@ -1,7 +1,10 @@
 import React from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
-import { CurrencyISO, CurrencyType } from '../../../constants/currencies'
+import type {
+  CurrencyISO,
+  CurrencyType,
+} from '../../../constants/currencies'
 
 export default {
   title: 'Eufemia/Extensions/Forms/SelectCurrency',
@@ -16,18 +19,20 @@ export function SelectCurrency() {
     <Field.SelectCurrency
       required
       value={state}
-      onChange={(value: CurrencyISO, data) => {
+      onChange={(value, data) => {
         console.log('onChange', value, data)
-        update(value)
+        update(value as CurrencyISO)
       }}
     />
   )
 }
 
-const transformOut = (internal: CurrencyType, currency: CurrencyType) => {
+const transformOut = (internal: unknown, additionalArgs?: unknown) => {
+  const currency = additionalArgs as CurrencyType
   if (internal) {
     return `${currency.name} (${internal})`
   }
+  return undefined
 }
 const transformIn = (external: unknown) => {
   return (String(external).match(/\((.*)\)/)?.[1] || 'NOK') as CurrencyISO

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ModalContent from '../ModalContent'
-import { ModalContentProps } from '../types'
+import type { ModalContentProps } from '../types'
 import DialogContent from '../../dialog/DialogContent'
 
 // Mock the focus method to track calls
@@ -49,7 +49,7 @@ afterEach(() => {
 })
 
 const createTestProps = (): ModalContentProps => {
-  const contentRef: React.MutableRefObject<HTMLElement> = React.createRef()
+  const contentRef: React.RefObject<HTMLElement> = React.createRef()
 
   // Set up the content ref with a mock element that has the expected structure
   const mockElement = document.createElement('div')
@@ -70,9 +70,9 @@ const createTestProps = (): ModalContentProps => {
 
   return {
     id: 'test-modal',
-    no_animation: true,
+    noAnimation: true,
     children: <DialogContent>Test content</DialogContent>,
-    content_ref: contentRef,
+    contentRef: contentRef,
   }
 }
 
@@ -270,21 +270,21 @@ describe('ModalContent Focus Logic', () => {
   })
 
   describe('Integration with existing functionality', () => {
-    it('should work with focus_selector prop', () => {
+    it('should work with focusSelector prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} focus_selector="#custom-focus" />
+        <ModalContent {...props} focusSelector="#custom-focus" />
       )
 
       // Add custom focus element to the mock
       const customElement = document.createElement('input')
       customElement.id = 'custom-focus'
       customElement.focus = mockFocus
-      props.content_ref.current.appendChild(customElement)
+      props.contentRef.current.appendChild(customElement)
 
       // Trigger children change
       rerender(
-        <ModalContent {...props} focus_selector="#custom-focus">
+        <ModalContent {...props} focusSelector="#custom-focus">
           <DialogContent>Updated content</DialogContent>
         </ModalContent>
       )
@@ -293,15 +293,15 @@ describe('ModalContent Focus Logic', () => {
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
     })
 
-    it('should work with animation_duration prop', () => {
+    it('should work with animationDuration prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} animation_duration="100" />
+        <ModalContent {...props} animationDuration="100" />
       )
 
       // Trigger children change
       rerender(
-        <ModalContent {...props} animation_duration="100">
+        <ModalContent {...props} animationDuration="100">
           <DialogContent>Updated content</DialogContent>
         </ModalContent>
       )

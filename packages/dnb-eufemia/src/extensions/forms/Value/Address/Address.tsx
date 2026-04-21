@@ -1,22 +1,24 @@
 import React from 'react'
-import StringValue, { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
+import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValueAddressProps = StringValueProps
 
-function Address(props: Props) {
-  const stringProps: Props = {
+function Address(props: ValueAddressProps) {
+  const stringProps: ValueAddressProps = {
     ...props,
   }
 
   return <StringValue {...stringProps} />
 }
-Address._supportsSpacingProps = true
+withComponentMarkers(Address, { _supportsSpacingProps: true })
 
-Address.Postal = function PostalAddress(props: Props) {
+Address.Postal = function PostalAddress(props: ValueAddressProps) {
   const translations = useTranslation()
 
-  const postalAddressProps: Props = {
+  const postalAddressProps: ValueAddressProps = {
     ...props,
     label: props.label ?? translations.PostalAddress.label,
   }
@@ -25,10 +27,10 @@ Address.Postal = function PostalAddress(props: Props) {
 }
 Address.Postal['_supportsSpacingProps'] = true
 
-Address.Street = function StreetAddress(props: Props) {
+Address.Street = function StreetAddress(props: ValueAddressProps) {
   const translations = useTranslation()
 
-  const streetAddressProps: Props = {
+  const streetAddressProps: ValueAddressProps = {
     ...props,
     label: props.label ?? translations.StreetAddress.label,
   }

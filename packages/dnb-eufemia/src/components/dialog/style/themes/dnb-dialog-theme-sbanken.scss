@@ -1,22 +1,13 @@
 /*
-* Drawer theme
+* Dialog theme
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-dialog {
-  --dialog-background: var(--sb-color-white);
   --dialog-icon-positioning: -0.5rem;
   --dialog-radius: 0.25rem;
-
-  // icon color
-  --dialog-icon-color--info: var(--sb-color-violet);
-  --dialog-icon-color--warning: var(--sb-color-red);
-
-  // icon background
-  --dialog-icon-background--info: var(--sb-color-green-light-2);
-  --dialog-icon-background--warning: var(--sb-color-magenta-light-2);
 
   &__icon {
     margin-top: calc(var(--dialog-icon-positioning) * -1);
@@ -24,7 +15,7 @@
   }
 
   &__title {
-    @include allBetween(small, medium) {
+    @include utilities.allBetween(small, medium) {
       font-size: var(--sb-font-size-medium--plus) !important;
       line-height: var(--line-height-medium) !important;
     }

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const BreadcrumbProperties: PropertiesTableProps = {
   data: {
@@ -7,13 +7,13 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...props} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
-    doc: "Defaults to 'responsive' or 'single' depending on content. Options: `responsive` | `single` | `multiple` | `collapse` .",
-    type: ['responsive', 'single', 'multiple', 'collapse'],
+    doc: 'Defaults to `responsive` or `single` depending on content. Options: `responsive` | `single` | `multiple` | `collapse`.',
+    type: ['"responsive"', '"single"', '"multiple"', '"collapse"'],
     status: 'optional',
   },
   href: {
@@ -22,7 +22,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   navText: {
-    doc: 'Every `<nav>` on a page needs an unique aria-label text.',
+    doc: 'Every `<nav>` on a page needs a unique `aria-label` text.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -32,7 +32,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   homeText: {
-    doc: "Override with a custom 'Home' text (Not recommended)",
+    doc: "Override with a custom 'Home' text (Not recommended).",
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -41,33 +41,39 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  styleType: {
-    doc: 'Use one of the Section component style types (style_type). Defaults to `transparent`.',
+  backgroundColor: {
+    doc: 'Use one of the Section background colors. Defaults to `transparent`.',
     type: 'Various',
     status: 'optional',
   },
   collapsedStyleType: {
-    doc: 'Use one of the Section component variants. Defaults to `info`.',
-    type: ['error', 'info', 'warning', 'success'],
+    doc: 'Use one of the Section component variants. Defaults to `information`.',
+    type: ['"error"', '"information"', '"warning"', '"success"'],
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },
-  isCollapsed: {
-    doc: 'For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.',
+  collapsed: {
+    doc: 'For variant `collapse`, override collapsed state for the collapsed content by updating this value using the provided property `onClick`.',
     type: 'boolean',
     status: 'optional',
   },
+
   spacing: {
-    doc: 'Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.',
+    doc: 'Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.',
     type: 'Various',
     status: 'optional',
   },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  noAnimation: {
+    doc: 'Disables the height animation. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -99,11 +105,11 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'The component variant. Options: `home` | `previous` | `current`.',
-    type: ['home', 'previous', 'current'],
+    type: ['"home"', '"previous"', '"current"'],
     status: 'optional',
   },
   icon: {
-    doc: 'Override icon displaying on the left side (Not recommended). Default: `chevron_left`.',
+    doc: 'Override icon displaying on the left side (Not recommended). Defaults to `chevron_left`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

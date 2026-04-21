@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import {
   ProviderEvents,
   ProviderProperties,
@@ -18,6 +18,11 @@ export const HandlerProperties: PropertiesTableProps = {
   },
   autoComplete: {
     doc: 'Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  preventDefaultOnSubmit: {
+    doc: "Set to `false` to allow the browser's native form submission, such as a native `POST` to the given `action` URL.",
     type: 'boolean',
     status: 'optional',
   },

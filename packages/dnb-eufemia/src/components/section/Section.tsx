@@ -4,67 +4,38 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
-import {
-  isTrue,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   DynamicElement,
+  InnerSpaceType,
   ResponsiveProp,
   SpacingProps,
 } from '../../shared/types'
-import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
+import Theme, { type ThemeSurface } from '../../shared/Theme'
 import { getColor } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
-
-export type SectionStyleTypes =
+export type SectionVariants =
+  | 'error'
+  | 'information'
+  | 'warning'
+  | 'success'
   | 'divider'
-  | 'white'
-  | 'transparent'
 
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'lavender'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'pistachio'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'emerald-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sea-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red-8'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sand-yellow'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'black-3'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green-12'
-
-export type SectionSpacing =
+export type SectionTextColor = string
+export type SectionOutlineColor = string | boolean
+export type SectionBackgroundColor = string
+export type SectionDropShadow = boolean
+export type SectionRoundedCorner =
   | boolean
-  | 'x-small'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'x-large'
-  | 'xx-large'
-
-export type TextColor = string
-export type OutlineColor = string | boolean
-export type BackgroundColor = string
-export type DropShadow = boolean
-export type RoundedCorner = boolean | [boolean, boolean, boolean, boolean]
+  | [boolean, boolean, boolean, boolean]
 
 export type SectionProps = {
   /**
-   * Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop
+   * Defines the semantic purpose and subsequently the style of the visual helper.
    */
   variant?: SectionVariants | string
 
@@ -74,7 +45,7 @@ export type SectionProps = {
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
+   * Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
    * Defaults to `false`
    */
   outset?: boolean | ResponsiveProp<boolean>
@@ -82,12 +53,14 @@ export type SectionProps = {
   /**
    * Define if the section should have rounded corners. Defaults to `false`.
    */
-  roundedCorner?: RoundedCorner | ResponsiveProp<RoundedCorner>
+  roundedCorner?:
+    | SectionRoundedCorner
+    | ResponsiveProp<SectionRoundedCorner>
 
   /**
    * Define a custom border color. Use a Eufemia color.
    */
-  outline?: OutlineColor | ResponsiveProp<OutlineColor>
+  outline?: SectionOutlineColor | ResponsiveProp<SectionOutlineColor>
 
   /**
    * Define a custom border width. Defaults to `var(--card-outline-width)`.
@@ -97,17 +70,24 @@ export type SectionProps = {
   /**
    * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
    */
-  textColor?: TextColor | ResponsiveProp<TextColor>
+  textColor?: SectionTextColor | ResponsiveProp<SectionTextColor>
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
    */
-  backgroundColor?: BackgroundColor | ResponsiveProp<BackgroundColor>
+  backgroundColor?:
+    | SectionBackgroundColor
+    | ResponsiveProp<SectionBackgroundColor>
 
   /**
    * Define a custom drop-shadow.
    */
-  dropShadow?: DropShadow | ResponsiveProp<DropShadow>
+  dropShadow?: SectionDropShadow | ResponsiveProp<SectionDropShadow>
+
+  /**
+   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors.
+   */
+  surface?: ThemeSurface
 
   /**
    * Define what HTML element should be used. Defaults to `<section>`.
@@ -117,20 +97,7 @@ export type SectionProps = {
   /**
    * Define a React.Ref.
    */
-  innerRef?: React.RefObject<HTMLElement>
-
-  /**
-   * @deprecated in v11 use "innerSpace" prop instead
-   */
-  spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
-  /**
-   * @deprecated in v11 use "background" prop instead
-   */
-  style_type?: SectionStyleTypes | string
-  /**
-   * @deprecated in v11 use "innerRef" prop instead
-   */
-  inner_ref?: React.RefObject<HTMLElement>
+  ref?: React.RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -143,17 +110,21 @@ export type SectionAllProps = SectionProps &
 
 type SectionReturnParams = Record<string, unknown> & {
   className: string
-  innerRef: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement>
   children: React.ReactNode
   style: React.CSSProperties
 }
 
-const defaultProps = {
+const defaultProps: Partial<SectionAllProps> = {
   element: 'section',
 }
 
-export default function Section(localProps: SectionAllProps) {
+function SectionInstance(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
+}
+
+export default function Section(props: SectionAllProps) {
+  return <SectionInstance {...props} />
 }
 
 export function SectionParams(
@@ -165,7 +136,8 @@ export function SectionParams(
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.Section
+    context.Section,
+    { surface: localProps?.surface ?? context?.theme?.surface }
   )
 
   const {
@@ -181,28 +153,24 @@ export function SectionParams(
     typeof props.outlineWidth === 'undefined'
       ? 'none'
       : props.outlineWidth,
-    innerRef,
+    surface,
+    ref: refProp,
 
     className,
     children,
 
-    spacing,
-    style_type,
-    inner_ref,
-
     ...attributes
   } = props
 
-  const internalRef = React.useRef<HTMLElement>()
-  const elementRef = innerRef || inner_ref || internalRef
+  const internalRef = React.useRef<HTMLElement>(undefined)
+  const elementRef = refProp || internalRef
 
   return Object.freeze({
     ...attributes,
-    className: classnames(
+    className: clsx(
       'dnb-section',
-      `dnb-section--${variant ? variant : style_type || 'default'}`,
-      spacing &&
-        `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
+      `dnb-section--${variant ?? surface ?? 'default'}`,
+      surface && `dnb-section--surface-${surface}`,
       className
     ),
     style: {
@@ -238,8 +206,12 @@ export function SectionParams(
       ),
       ...attributes?.style,
     } as React.CSSProperties,
-    innerRef: elementRef,
-    children,
+    ref: elementRef,
+    children: surface ? (
+      <Theme.Context surface={surface}>{children}</Theme.Context>
+    ) : (
+      children
+    ),
   })
 }
 
@@ -276,4 +248,4 @@ function computeStyle<T extends boolean | string | number | boolean[]>(
 }
 
 Section._name = 'Section'
-Section._supportsSpacingProps = true
+withComponentMarkers(Section, { _supportsSpacingProps: true })

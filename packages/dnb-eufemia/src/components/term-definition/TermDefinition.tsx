@@ -2,16 +2,15 @@
  * Web TermDefinition Component
  */
 
-import React, { useCallback, useRef, useState } from 'react'
-import classnames from 'classnames'
+import React, { useCallback, useContext, useRef, useState } from 'react'
+import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
-import {
-  createSpacingClasses,
-  removeSpaceProps,
-} from '../space/SpacingHelper'
+import { applySpacing, removeSpaceProps } from '../space/SpacingUtils'
+import Context from '../../shared/Context'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 export type TermDefinitionProps = {
   /**
@@ -32,17 +31,28 @@ export type TermDefinitionProps = {
   placement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
-type TermDefinitionAllProps = TermDefinitionProps &
+export type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
   React.HTMLAttributes<HTMLSpanElement>
 
-export default function TermDefinition({
-  children,
-  content,
-  className,
-  placement = 'bottom',
-  ...rest
-}: TermDefinitionAllProps) {
+const defaultProps: Partial<TermDefinitionAllProps> = {
+  placement: 'bottom',
+}
+
+export default function TermDefinition(
+  localProps: TermDefinitionAllProps
+) {
+  const context = useContext(Context)
+
+  const allProps = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton },
+    context?.TermDefinition
+  )
+
+  const { children, content, className, placement, ...rest } = allProps
+
   const [active, setActive] = useState(false)
   const triggerRef = useRef<HTMLSpanElement | null>(null)
   const id = useId()
@@ -81,29 +91,29 @@ export default function TermDefinition({
     [toggle]
   )
 
-  const spacingClasses = createSpacingClasses(rest)
   const triggerProps = removeSpaceProps(rest)
 
   return (
     <>
       <span
-        role="button"
-        tabIndex={0}
-        ref={triggerRef}
-        className={classnames(
-          'dnb-term-definition__trigger',
-          'dnb-anchor',
-          active && 'dnb-anchor--hover',
-          className,
-          spacingClasses
-        )}
-        aria-expanded={active}
-        aria-controls={active ? id : undefined}
-        aria-describedby={`${id}-description`}
-        title={title}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        {...triggerProps}
+        {...applySpacing(rest, {
+          role: 'button',
+          tabIndex: 0,
+          ref: triggerRef,
+          className: clsx(
+            'dnb-term-definition__trigger',
+            'dnb-anchor',
+            active && 'dnb-anchor--hover',
+            className
+          ),
+          'aria-expanded': active,
+          'aria-controls': active ? id : undefined,
+          'aria-describedby': `${id}-description`,
+          title,
+          onClick,
+          onKeyDown,
+          ...triggerProps,
+        })}
       >
         {children}
       </span>

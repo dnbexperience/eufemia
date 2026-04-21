@@ -11,49 +11,23 @@ import {
   NumberFormat,
   Icon,
   Link,
-  HelpButton,
   P,
   Flex,
 } from '@dnb/eufemia/src'
 import {
   chevron_down,
   chevron_right,
-  download,
   newspaper,
-  trash,
 } from '@dnb/eufemia/src/icons'
 
 import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
 type VisibleWhenVisualTestReturn = Pick<
   DropdownAllProps,
-  | 'opened'
-  | 'prevent_close'
-  | 'independent_width'
-  | 'skip_portal'
-  | 'direction'
+  'open' | 'preventClose' | 'independentWidth' | 'skipPortal' | 'direction'
 >
 
 const Wrapper = styled.div`
-  .dnb-form-label {
-    margin-right: 1rem;
-  }
-  [data-visual-test] {
-    > :not(.dnb-dropdown--is-popup):not(
-        .dnb-dropdown--independent-width
-      ):not(.dnb-dropdown--stretch)
-      .dnb-dropdown__shell {
-      width: var(--dropdown-width);
-    }
-  }
-  [data-visual-test-wrapper='dropdown-action_menu-custom'],
-  [data-visual-test-wrapper='dropdown-more_menu'] {
-    width: 20rem;
-    height: 15rem !important;
-  }
-  [data-visual-test='dropdown-action_menu-custom'] .dnb-dropdown__list {
-    width: 15rem;
-  }
   [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
@@ -67,26 +41,26 @@ const data = [
   // Every data item can, beside "content" - contain what ever
   {
     // (optional) can be what ever
-    selected_key: 'key_0',
+    selectedKey: 'key_0',
 
     // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
+    selectedValue: 'Item 1 Value',
 
     // Item content as a string or array
     content: 'Item 1 Content',
   },
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content'],
   },
   {
-    selected_key: 'key_2',
-    selected_value: 'Item 3 Value',
+    selectedKey: 'key_2',
+    selectedValue: 'Item 3 Value',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
-    selected_key: 'key_3',
-    selected_value: 'Item 4 Value',
+    selectedKey: 'key_3',
+    selectedValue: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
@@ -103,28 +77,28 @@ export const DropdownFind = () => (
             content: 'B',
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban-1" always_selectall ban>
+              <NumberFormat.BankAccountNumber key="ban-1" alwaysSelectAll>
                 11345678962
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'C',
             ],
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 15349648901
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban-2" always_selectall ban>
+              <NumberFormat.BankAccountNumber key="ban-2" alwaysSelectAll>
                 15349648901
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'D',
             ],
           },
@@ -132,8 +106,8 @@ export const DropdownFind = () => (
             content: 'E',
           },
           {
-            selected_key: 'key_1',
-            selected_value: 'Find me by keypress',
+            selectedKey: 'key_1',
+            selectedValue: 'Find me by keypress',
             content: ['F', 'F', 'F', 'F'],
           },
           {
@@ -147,7 +121,7 @@ export const DropdownFind = () => (
         return (
           <Dropdown
             data={scrollableData}
-            value="key_1" // use either index (5) or selected_key: 'key_1'
+            value="key_1" // use either index (5) or selectedKey: 'key_1'
             label="Label"
           />
         )
@@ -164,39 +138,39 @@ export const DropdownNoValue = () => (
           // Every data item can, beside "content" - contain what ever
           {
             // (optional) can be what ever
-            selected_key: 'key_0',
+            selectedKey: 'key_0',
 
             // (optional) is show instead of "content", once selected
-            selected_value: 'Item 1 Value',
+            selectedValue: 'Item 1 Value',
 
             // Item content as a string or array
             content: 'Item 1 Content',
           },
           {
-            selected_key: 'key_1',
+            selectedKey: 'key_1',
             content: ['Item 2 Value', 'Item 2 Content'],
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
-              </NumberFormat>
+              </NumberFormat.BankAccountNumber>
             ),
             content: [
-              <NumberFormat key="ban" always_selectall ban>
+              <NumberFormat.BankAccountNumber key="ban" alwaysSelectAll>
                 11345678962
-              </NumberFormat>,
+              </NumberFormat.BankAccountNumber>,
               'Bank account number',
             ],
           },
           {
-            selected_key: 'key_2',
-            selected_value: 'Item 3 Value',
+            selectedKey: 'key_2',
+            selectedValue: 'Item 3 Value',
             content: ['Item 3 Content A', 'Item 3 Content B'],
           },
           {
-            selected_key: 'key_3',
-            selected_value: 'Item 4 Value',
+            selectedKey: 'key_3',
+            selectedValue: 'Item 4 Value',
             content: ['Item 4 Content A', <>Custom Component</>],
           },
         ]
@@ -206,8 +180,8 @@ export const DropdownNoValue = () => (
             data={data}
             label="Label"
             title="Please select a value"
-            on_change={({ data }) => {
-              console.log('on_change', data)
+            onChange={({ data }) => {
+              console.log('onChange', data)
             }}
           />
         )
@@ -272,46 +246,16 @@ export const DropdownIconLeft = () => (
     <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
       <Dropdown
         label="Label"
-        icon_position="left"
+        iconPosition="left"
         data={data}
         value={3}
-        skip_portal={true}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        skipPortal={true}
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onOpen={() => {
+          console.log('onOpen')
         }}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const DropdownActionMenu = () => (
-  <Wrapper>
-    <ComponentBox
-      scope={{ trash, download }}
-      data-visual-test="dropdown-action_menu"
-    >
-      <Dropdown
-        title="ActionMenu"
-        action_menu={true}
-        align_dropdown="left"
-        data={() => ({
-          trash: (
-            <>
-              <Icon icon={trash} right />
-              Move to trash
-            </>
-          ),
-          download: (
-            <>
-              <Icon icon={download} right />
-              Download
-            </>
-          ),
-        })}
-        on_change={({ value }) => console.log('action:', value)}
       />
     </ComponentBox>
   </Wrapper>
@@ -323,9 +267,9 @@ export const DropdownTertiary = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
-        icon_position="left"
-        align_dropdown="left"
+        independentWidth={true}
+        iconPosition="left"
+        align="left"
         data={data}
       />
     </ComponentBox>
@@ -341,110 +285,22 @@ export const DropdownTertiaryRight = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
-        icon_position="right"
-        align_dropdown="right"
+        independentWidth={true}
+        iconPosition="right"
+        align="right"
         data={data}
       />
     </ComponentBox>
   </Wrapper>
 )
 
-export const DropdownMoreMenu = () => {
-  const visualTestProps = (
-    enabled: boolean
-  ): VisibleWhenVisualTestReturn => {
-    if (!enabled) {
-      return {}
-    }
-    return {
-      independent_width: true,
-      direction: 'bottom',
-    }
-  }
-  return (
-    <Wrapper>
-      <ComponentBox
-        scope={{ visualTestProps }}
-        data-visual-test="dropdown-more_menu"
-      >
-        <Dropdown
-          more_menu={true}
-          size="small"
-          title="Choose an item"
-          data={() => [
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
-          right="small"
-          {...visualTestProps(globalThis.IS_TEST)}
-        />
-        <Dropdown
-          prevent_selection={true}
-          align_dropdown="right"
-          size="small"
-          title={null}
-          aria-label="Choose an item"
-          data={() => ({
-            first: (
-              <Link href="/" key="item-1">
-                Go to this Link
-              </Link>
-            ),
-            second: 'Or press on me',
-            third: <>Custom component</>,
-          })}
-          right="small"
-          {...visualTestProps(globalThis.IS_TEST)}
-        />
-        <Dropdown
-          more_menu={true}
-          title="Choose an item"
-          data={[
-            <Link href="/" key="item-1">
-              Go to this Link
-            </Link>,
-            'Or press on me',
-            <>Custom component</>,
-          ]}
-          right="small"
-        />
-        <Dropdown
-          prevent_selection={true}
-          align_dropdown="right"
-          title={null}
-          aria-label="Choose an item"
-          data={() => ({
-            first: (
-              <Link href="/" key="item-1">
-                Go to this Link
-              </Link>
-            ),
-            second: 'Or press on me',
-            third: <>Custom component</>,
-          })}
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
-          }}
-        />
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
 export const DropdownIndependentWidthLeft = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="dropdown-independent_width_left">
         <Dropdown
-          independent_width={true}
-          icon_position="left"
+          independentWidth={true}
+          iconPosition="left"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -466,8 +322,8 @@ export const DropdownIndependentWidthRight = () => {
     <Wrapper>
       <ComponentBox data-visual-test="dropdown-independent_width_right">
         <Dropdown
-          independent_width={true}
-          icon_position="right"
+          independentWidth={true}
+          iconPosition="right"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -525,79 +381,6 @@ export const DropdownDisabledTertiary = () => (
   </Wrapper>
 )
 
-export const DropdownCustomEvent = () => {
-  const visualTestProps = (
-    enabled: boolean
-  ): VisibleWhenVisualTestReturn => {
-    if (!enabled) {
-      return {}
-    }
-    return {
-      prevent_close: true,
-      independent_width: true,
-      skip_portal: true,
-      direction: 'bottom',
-    }
-  }
-  return (
-    <Wrapper>
-      <ComponentBox
-        scope={{ data, visualTestProps }}
-        data-visual-test="dropdown-action_menu-custom"
-      >
-        {() => {
-          const CustomComponent = () => (
-            <CustomComponentInner
-              onTouchStart={preventDefault}
-              onClick={(e) => {
-                console.log('Do something different')
-                preventDefault(e)
-              }}
-            >
-              Custom event handler
-            </CustomComponentInner>
-          )
-          const CustomComponentInner = styled.span`
-            display: block;
-            width: 100%;
-            margin: -1rem -2rem -1rem -1rem;
-            padding: 1rem 2rem 1rem 1rem;
-          `
-          const preventDefault = (e) => {
-            e.stopPropagation()
-            e.preventDefault()
-          }
-
-          return (
-            <Dropdown
-              action_menu
-              right
-              label="Label"
-              title="Choose an item"
-              data={() => ({
-                first: (
-                  <Link href="/" key="item-1">
-                    Go to this Link
-                  </Link>
-                ),
-                second: 'Or press on me',
-                third: <CustomComponent key="item-2" />,
-              })}
-              on_change={({ value }) => {
-                console.log('More menu:', value)
-              }}
-              suffix={
-                <HelpButton title="Modal Title">Modal content</HelpButton>
-              }
-              {...visualTestProps(globalThis.IS_TEST)}
-            />
-          )
-        }}
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
 export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
@@ -651,19 +434,20 @@ export const DropdownCustomWidth = () => (
             <CustomWidthOne
               label="Label"
               size="default"
-              icon_position="left"
+              iconPosition="left"
               data={data}
             />
             <CustomWidthTwo
               label="Label"
               size="small"
-              more_menu
+              preventSelection
+              title={null}
               data={data}
             />
             <CustomWidthThree
               label="Label"
               size="large"
-              align_dropdown="right"
+              align="right"
               data={data}
             />
             <CustomWidthFour
@@ -684,12 +468,7 @@ export const DropdownStatusVertical = () => (
       data-visual-test="dropdown-status-error"
       scope={{ data }}
     >
-      <Dropdown
-        data={data}
-        label="Label"
-        label_direction="vertical"
-        status="Message to the user"
-      />
+      <Dropdown data={data} label="Label" status="Message to the user" />
     </ComponentBox>
   </Wrapper>
 )
@@ -711,9 +490,9 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-1" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-1">
                   12345678902
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Sparekonto - Ole Nordmann
@@ -723,9 +502,9 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-2" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-2">
                   11345678962
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
@@ -735,16 +514,16 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-3" ban>
+                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-3">
                   15349648901
-                </NumberFormat>
+                </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item">
                 Oppussing - Ole Nordmann
               </span>
             </span>
           </li>
-          <li className="dnb-drawer-list__triangle" />
+          <li className="dnb-drawer-list__arrow" />
         </ul>
       </span>
     </ComponentBox>
@@ -822,8 +601,8 @@ export const DropdownCustomizedLook = () => {
           return (
             <Dropdown
               data={data}
-              action_menu
-              trigger_element={(props) => (
+              preventSelection
+              triggerElement={(props) => (
                 <button {...props} style={styles.customTrigger}>
                   <Icon icon={newspaper} /> Custom trigger{' '}
                   <Icon icon={chevron_down} />

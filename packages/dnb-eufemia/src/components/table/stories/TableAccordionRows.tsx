@@ -9,7 +9,8 @@ import styled from '@emotion/styled'
 import Table from '../Table'
 import Td from '../TableTd'
 import Th from '../TableTh'
-import Tr, { TableTrProps } from '../TableTr'
+import type { TableTrProps } from '../TableTr'
+import Tr from '../TableTr'
 
 import { P, Lead } from '../../..'
 import { ToggleButton, NumberFormat, Avatar } from '../../'
@@ -34,8 +35,8 @@ const ContentTrAccordion = ({
       disabled={disabled}
       // noAnimation
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
-      onClosed={trCloseHandler}
+      onOpen={trOpenHandler}
+      onClose={trCloseHandler}
       {...rest}
     >
       <Td>
@@ -54,19 +55,19 @@ const ContentTrAccordion = ({
 
       <Td>
         <SuccessGreen size="x-small">
-          +<NumberFormat percent>17.24</NumberFormat>
+          +<NumberFormat.Percent>17.24</NumberFormat.Percent>
         </SuccessGreen>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.5</NumberFormat>
+          <NumberFormat.Percent>0.5</NumberFormat.Percent>
         </P>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.8</NumberFormat>
+          <NumberFormat.Percent>0.8</NumberFormat.Percent>
         </P>
       </Td>
 
@@ -183,7 +184,7 @@ const TableAccordionRows = () => {
       <ToggleButton
         bottom
         // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -191,7 +192,7 @@ const TableAccordionRows = () => {
       </ToggleButton>
 
       <Table
-        accordion
+        mode="accordion"
         skeleton={skeleton}
         outline
         border

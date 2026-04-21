@@ -103,7 +103,17 @@ const plugins = [
       ignore: ignoreAsPage,
     },
   },
-  'gatsby-plugin-sass',
+  {
+    resolve: 'gatsby-plugin-sass',
+    options: {
+      sassOptions: {
+        // gatsby-plugin-sass bundles sass-loader v10 which uses the legacy
+        // sass.render() JS API. Silencing this warning until the plugin
+        // ships a version with sass-loader >=14 (which uses the modern API).
+        silenceDeprecations: ['legacy-js-api'],
+      },
+    },
+  },
   'gatsby-plugin-emotion',
   {
     resolve: 'gatsby-plugin-babel-react-live',
@@ -132,41 +142,45 @@ const plugins = [
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
-        carnegie: { name: 'Carnegie (WIP)' },
+        carnegie: { name: 'DNB Carnegie (WIP)' },
       },
+      themeMatchers: [
+        /\/themes\/[^/]*theme-([^/.]*)[/.]/,
+        // Also match the new `themes/<name>/...` layout so the generated UI files are picked up.
+        /\/themes\/([^/]+)\//,
+      ],
       filesGlobs:
         enableBuildStyleScope() || enablePortalStyleScope()
           ? shouldUsePrebuild()
             ? [
-                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
                 '**/build/style/dnb-ui-core--isolated.min.css',
-                '**/build/style/themes/**/*-theme-{basis,components}--isolated.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components,dark-mode}--isolated.min.css',
                 '**/build/extensions/payment-card/**/dnb-*--isolated.min.css',
               ]
             : [
-                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
                 '**/src/style/dnb-ui-core.scss',
-                '**/src/style/themes/**/*-theme-{basis,components}.scss',
+                '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
                 '**/src/extensions/payment-card/**/dnb-*.scss',
               ]
           : shouldUsePrebuild()
-          ? [
-              // Use the core package
-              '**/build/style/dnb-ui-core.min.css',
-              '**/build/style/themes/**/*-theme-{basis,components}.min.css',
-              '**/build/extensions/payment-card/**/dnb-*.min.css',
-            ]
-          : [
-              // Use the core package
-              '**/src/style/dnb-ui-core.scss',
-              '**/src/style/themes/**/*-theme-{basis,components}.scss',
-              '**/src/extensions/payment-card/**/dnb-*.scss',
-            ],
+            ? [
+                // Use the core package
+                '**/build/style/dnb-ui-core.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components,dark-mode}.min.css',
+                '**/build/extensions/payment-card/**/dnb-*.min.css',
+              ]
+            : [
+                // Use the core package
+                '**/src/style/dnb-ui-core.scss',
+                '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
+                '**/src/extensions/payment-card/**/dnb-*.scss',
+              ],
       includeFiles: [
         '**/dnb-ui-core*',
         '**/dnb-ui-basis*',
         '**/*-theme-components*',
         '**/*-theme-basis*',
+        '**/*-theme-dark-mode*',
         '**/payment-card/**/*',
       ],
       // also load the extensions CSS package

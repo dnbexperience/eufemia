@@ -1,0 +1,33 @@
+import React from 'react'
+import type { Preview } from '@storybook/react-vite'
+import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
+
+import '@dnb/eufemia/src/style/dnb-ui-core.scss'
+
+// Default theme
+import '@dnb/eufemia/src/style/themes/ui/ui-theme-components.scss'
+import '@dnb/eufemia/src/style/themes/ui/ui-theme-basis.scss'
+
+// Sbanken styles
+// import '@dnb/eufemia/src/style/themes/sbanken/sbanken-theme-components.scss'
+// import '@dnb/eufemia/src/style/themes/sbanken/sbanken-theme-basis.scss'
+
+const preview: Preview = {
+  parameters: {
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <IsolatedStyleScope scopeHash="eufemia-scope--portal">
+        <Story />
+      </IsolatedStyleScope>
+    ),
+  ],
+}
+
+export default preview

@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-pagination {
   display: flex;
@@ -34,7 +34,7 @@
   &--center &__bar {
     justify-content: center;
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       justify-content: flex-start;
     }
   }
@@ -50,7 +50,7 @@
   }
 
   &--layout-horizontal &__bar__wrapper {
-    @include allAbove(large) {
+    @include utilities.allAbove(large) {
       flex-flow: row-reverse wrap;
       justify-content: space-between;
       flex: 1;
@@ -71,6 +71,22 @@
 
   &__button {
     max-width: 3.5rem;
+    &.dnb-button--secondary {
+      --button-color-border--hover: var(--token-color-stroke-action-hover);
+      --button-color-border--active: transparent;
+      --button-color-text--default: var(--token-color-text-action);
+      --button-color-text--hover: var(--token-color-text-action-hover);
+      --button-color-text--active: var(--token-color-text-action-pressed);
+    }
+    &.dnb-button--primary {
+      --button-color-bg--default: var(--token-color-background-selected);
+      --button-color-bg--hover: var(
+        --token-color-background-action-hover-subtle
+      );
+      --button-color-border--hover: var(--token-color-stroke-action-hover);
+      --button-color-text--default: var(--token-color-text-action-inverse);
+      --button-color-text--hover: var(--token-color-text-action-hover);
+    }
   }
 
   &__button--large-number {
@@ -101,6 +117,7 @@
   }
 
   &__dots {
+    color: var(--token-color-icon-neutral-alternative);
     align-self: flex-end;
   }
 

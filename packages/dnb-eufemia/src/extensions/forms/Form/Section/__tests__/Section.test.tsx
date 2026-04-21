@@ -2,23 +2,17 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import {
-  Field,
-  Form,
-  JSONSchema,
-  makeAjvInstance,
-  Tools,
-  Value,
-  z,
-} from '../../..'
-import { SectionProps } from '../Section'
-import { Props as FieldNameProps } from '../../../Field/Name'
+import type { JSONSchema } from '../../..'
+import { Field, Form, makeAjvInstance, Tools, Value, z } from '../../..'
+import type { SectionProps } from '../Section'
+import type { FieldNameProps as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
-import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
-import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
+import type { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
+import type { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 import DataContext from '../../../DataContext/Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 const nb = nbNO['nb-NO']
 
 describe('Form.Section', () => {
@@ -55,7 +49,9 @@ describe('Form.Section', () => {
   }
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
-    expect(Form.Section._supportsSpacingProps).toBeUndefined()
+    expect(
+      (Form.Section as ComponentMarkers)._supportsSpacingProps
+    ).toBeUndefined()
   })
 
   it('should throw then "path" without slash was given', () => {
@@ -127,18 +123,18 @@ describe('Form.Section', () => {
           "exportValidators": {
             "nameValidator": [Function],
           },
-          "innerRef": {
+          "label": "Fornavn",
+          "minLength": 1,
+          "path": "/firstName",
+          "ref": {
             "current": <input
               autocomplete="given-name"
               class="dnb-input__input"
-              id="id-r1b"
+              id="id-r2e"
               name="firstName"
               type="text"
             />,
           },
-          "label": "Fornavn",
-          "minLength": 1,
-          "path": "/firstName",
           "trim": true,
           "width": "large",
         },
@@ -151,19 +147,19 @@ describe('Form.Section', () => {
           "exportValidators": {
             "nameValidator": [Function],
           },
-          "innerRef": {
+          "label": "Etternavn",
+          "minLength": 2,
+          "path": "/lastName",
+          "ref": {
             "current": <input
               aria-required="true"
               autocomplete="family-name"
               class="dnb-input__input"
-              id="id-r1h"
+              id="id-r2p"
               name="lastName"
               type="text"
             />,
           },
-          "label": "Etternavn",
-          "minLength": 2,
-          "path": "/lastName",
           "required": true,
           "trim": true,
           "width": "large",

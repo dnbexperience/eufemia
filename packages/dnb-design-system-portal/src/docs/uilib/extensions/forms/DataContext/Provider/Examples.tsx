@@ -4,7 +4,7 @@ import {
   DataContext,
   Field,
   Value,
-  JSONSchema,
+  type JSONSchema,
   makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'

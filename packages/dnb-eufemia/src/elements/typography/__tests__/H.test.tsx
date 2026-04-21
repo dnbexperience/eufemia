@@ -5,8 +5,10 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import H, { SharedHProps } from '../H'
+import type { SharedHProps } from '../H'
+import H from '../H'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 
 const props: SharedHProps = {
   size: 'large',
@@ -34,7 +36,7 @@ describe('H element', () => {
 
   it('can set h2', () => {
     render(
-      <H as="h2" size="medium">
+      <H element="h2" size="medium">
         Test heading
       </H>
     )
@@ -118,6 +120,28 @@ describe('H element', () => {
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
+    })
+  })
+
+  describe('surface', () => {
+    it('does not apply dark surface class by default', () => {
+      render(<H>Test heading</H>)
+
+      const element = document.querySelector('.dnb-h--xx-large')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(false)
+    })
+
+    it('applies dark surface class from Theme.Context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <H>Test heading</H>
+        </Theme.Context>
+      )
+
+      const element = document.querySelector('.dnb-h--xx-large')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
     })
   })
 })

@@ -4,32 +4,26 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import E, { ElementProps } from '../Element'
+import clsx from 'clsx'
+import type { ElementProps } from '../Element'
+import E from '../Element'
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DlProps = {
   /**
    * Use "true" to horizontally align both the term and the description
    */
   layout?: 'vertical' | 'horizontal' | 'grid'
-
-  /**
-   * @deprecated Use layout instead
-   */
-  direction?: 'vertical' | 'horizontal'
 }
 
 export type DlAllProps = DlProps &
   React.AllHTMLAttributes<HTMLDListElement> &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
-const Dl = ({ direction, layout, ...props }: DlAllProps) => {
-  if (layout || direction) {
-    props.className = classnames(
-      props.className,
-      `dnb-dl__layout--${layout || direction}`
-    )
+const Dl = ({ layout, ...props }: DlAllProps) => {
+  if (layout) {
+    props.className = clsx(props.className, `dnb-dl__layout--${layout}`)
   }
   return <E as="dl" {...props} skeleton={false} />
 }
@@ -45,13 +39,13 @@ Dl.Item = ({
       <E
         as="dd"
         aria-hidden
-        className={classnames(className, 'dnb-dl__item')}
+        className={clsx(className, 'dnb-dl__item')}
         {...props}
       />
     </>
   )
 }
 
-Dl._supportsSpacingProps = true
+withComponentMarkers(Dl, { _supportsSpacingProps: true })
 
 export default Dl

@@ -3,6 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import './dnb-step-indicator.scss';
+@use '../../button/style/deps.scss' as *;
+@use './dnb-step-indicator.scss';

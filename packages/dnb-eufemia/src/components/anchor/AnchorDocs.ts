@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const AnchorProperties: PropertiesTableProps = {
   element: {
@@ -12,7 +12,7 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   to: {
-    doc: 'Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
+    doc: 'Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
     type: 'string',
     status: 'optional',
   },
@@ -32,13 +32,13 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: '[Primary Icons](/icons/primary) can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements.',
-    type: 'React.Node',
+    doc: '[Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   iconPosition: {
     doc: '`left` (default) or `right`. Places icon to the left or to the right of the text.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   noAnimation: {

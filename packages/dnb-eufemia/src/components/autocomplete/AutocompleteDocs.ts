@@ -1,12 +1,12 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
-export const AutocompleteProperties = {
+export const AutocompleteProperties: PropertiesTableProps = {
   mode: {
     doc: 'If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.',
-    type: 'string',
+    type: ['"sync"', '"async"'],
     status: 'optional',
   },
-  input_value: {
+  inputValue: {
     doc: 'Lets you define a custom input value. Setting it to an empty string `""` will reset the input value.',
     type: 'string',
     status: 'optional',
@@ -18,165 +18,161 @@ export const AutocompleteProperties = {
   },
   title: {
     doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  disable_filter: {
+  disableFilter: {
     doc: 'If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  disable_highlighting: {
+  disableHighlighting: {
     doc: 'If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  disable_reorder: {
+  disableReorder: {
     doc: 'If set to `true`, reordering of search results will be disabled. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  search_numbers: {
-    doc: 'If set to `true` and `search_in_word_index` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.',
+  searchNumbers: {
+    doc: 'If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  search_in_word_index: {
-    doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Does not work together with `search_numbers`. Defaults to `3`.',
-    type: 'boolean',
+  searchInWordIndex: {
+    doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.',
+    type: ['string', 'number'],
     status: 'optional',
   },
   searchMatch: {
     doc: 'Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.',
-    type: 'string',
+    type: ['"word"', '"starts-with"'],
     status: 'optional',
   },
-  keep_value: {
+  keepValue: {
     doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_selection: {
+  keepSelection: {
     doc: 'Use `true` to not remove selected item on input blur, when the input value is empty. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_value_and_selection: {
-    doc: 'Like `keep_value` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.',
+  keepValueAndSelection: {
+    doc: 'Like `keepValue` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  prevent_selection: {
-    doc: 'If set to `true`, no permanent selection will be made. Also, the typed value will not disappear on input blur (like `keep_value`). Defaults to `false`.',
+  preventSelection: {
+    doc: 'If set to `true`, no permanent selection will be made. Also, the typed value will not disappear on input blur (like `keepValue`). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  show_clear_button: {
+  showClearButton: {
     doc: 'If set to `true`, a clear button is shown inside the input field. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   icon: {
     doc: 'To be included in the autocomplete input.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Change the size of the icon pragmatically.',
     type: 'string',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
-  input_icon: {
-    doc: 'Same as `icon`.',
-    type: ['string', 'React.Node'],
-    status: 'optional',
-  },
-  triangle_position: {
-    doc: 'Position of icon arrow / triangle the drawer. Set to `left` or `right`. Defaults to `left`.',
-    type: 'string',
+
+  arrowPosition: {
+    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   size: {
     doc: 'Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
-    type: 'string',
+    type: ['"small"', '"default"', '"medium"', '"large"'],
     status: 'optional',
   },
-  drawer_class: {
+  drawerClass: {
     doc: 'Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
-  show_submit_button: {
+  showSubmitButton: {
     doc: 'Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  align_autocomplete: {
+  align: {
     doc: 'Use `right` to change the options alignment direction. Defaults to `left`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
-  no_options: {
+  noOptions: {
     doc: 'Text show in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  aria_live_options: {
+  ariaLiveOptions: {
     doc: 'Text read out by screen readers. This way users with screen readers know how many options they got during typing. Defaults to `%s alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  show_all: {
+  showAll: {
     doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  indicator_label: {
-    doc: 'Text show on indicator "options" item. Defaults to `Henter data ...`.',
-    type: 'React.Node',
+  indicatorLabel: {
+    doc: 'Text shown on indicator "options" item. Defaults to `Henter data ...`.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  show_options_sr: {
+  showOptionsSr: {
     doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.',
     type: 'string',
     status: 'optional',
   },
-  selected_sr: {
+  selectedSr: {
     doc: 'Only for screen readers (VoiceOver). The label used to announce the selected item. Defaults to `Valgt:`.',
     type: 'string',
     status: 'optional',
   },
-  selectall: {
+  selectAll: {
     doc: 'If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.',
     type: 'boolean',
     status: 'optional',
   },
-  submit_button_title: {
+  submitButtonTitle: {
     doc: 'Title on submit button. Defaults to `Vis alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  submit_button_icon: {
+  submitButtonIcon: {
     doc: 'The icon used in the submit button. Defaults to `chevron_down`.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  submit_element: {
-    doc: 'Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from &#39;@dnb/eufemia/components/input/Input&#39;`.',
-    type: 'React.Node',
+  submitElement: {
+    doc: "Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.",
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'If set to `true`, the Autocomplete will be rendered initially with a visible and accessible data list / options.',
     type: 'boolean',
     status: 'optional',
   },
-  open_on_focus: {
+  openOnFocus: {
     doc: 'Use `true` to auto open the list once the user is entering the input field with the keyboard.',
     type: 'boolean',
     status: 'optional',
@@ -186,22 +182,22 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
+  skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  status_state: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+  statusState: {
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -213,22 +209,22 @@ export const AutocompleteProperties = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'React.Node',
+  labelDirection: {
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the Autocomplete more than the label. You can also send in a React component, so it gets wrapped inside the Autocomplete component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {
@@ -236,12 +232,12 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  input_ref: {
-    doc: 'Use a React.Ref to get access to the `input` DOM element.',
+  inputRef: {
+    doc: 'Use a `React.Ref` to get access to the `input` DOM element.',
     type: 'React.RefObject',
     status: 'optional',
   },
-  input_element: {
+  inputElement: {
     doc: 'Lets you provide a custom React element as the input HTML element.',
     type: ['string', 'React.Element'],
     status: 'optional',
@@ -256,40 +252,40 @@ export const AutocompleteProperties = {
     type: ['string', 'object'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}
 
-export const AutocompleteEvents = {
-  on_type: {
-    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data)',
+export const AutocompleteEvents: PropertiesTableProps = {
+  onType: {
+    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
+  onFocus: {
     doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_blur: {
+  onBlur: {
     doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
-    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "active_item" property is the currently selected item by keyboard navigation',
+  onSelect: {
+    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onOpen: {
     doc: 'Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onClose: {
     doc: 'Will be called once the user presses the autocomplete again, or clicks somewhere else. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
@@ -299,4 +295,14 @@ export const AutocompleteEvents = {
     type: 'function',
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+  onSubmit: {
+    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    type: 'function',
+    status: 'optional',
+  },
+  onItemMouseEnter: {
+    doc: 'Will be called when the mouse enters a dropdown item. Useful for pre-fetching data on hover. Returns `{ item, data, event }` where `item` is the item index and `data` is the item data.',
+    type: 'function',
+    status: 'optional',
+  },
+}

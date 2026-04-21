@@ -1,10 +1,10 @@
-import { AnyLocale } from '../../shared/Context'
+import type { AnyLocale } from '../../shared/Context'
 import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
-import { DateType } from '../date-picker/DatePickerContext'
+import type { DatePickerDateType } from '../date-picker/DatePickerContext'
 
 // Type definitions for Intl.DurationFormat (newer API)
-interface DurationFormatInput {
+type DurationFormatInput = {
   years?: number
   months?: number
   weeks?: number
@@ -14,19 +14,19 @@ interface DurationFormatInput {
   seconds?: number
 }
 
-interface DurationFormatOptions {
+type DurationFormatOptions = {
   style?: 'long' | 'short' | 'narrow'
 }
 
-interface DurationFormat {
+type DurationFormat = {
   format(duration: DurationFormatInput): string
 }
 
-interface DurationFormatConstructor {
+type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 
-export type FormatDateOptions = {
+export type DateFormatOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
@@ -36,7 +36,7 @@ export type FormatDateOptions = {
   hideYear?: boolean
 }
 
-type FormatDateInput = DateType | number | string
+type FormatDateInput = DatePickerDateType | number | string
 
 /**
  * Detects if a date string represents a UTC date
@@ -110,19 +110,19 @@ export function formatDate(
     timeZone,
     hideCurrentYear,
     hideYear,
-  }: FormatDateOptions = {}
+  }: DateFormatOptions = {}
 ) {
   // Preserve original string for UTC detection
   const originalString =
     typeof dateValue === 'string'
       ? dateValue
       : typeof dateValue === 'number'
-      ? String(dateValue)
-      : null
+        ? String(dateValue)
+        : null
 
   // Convert to DateType (Date | string) for convertStringToDate
   // Numbers are converted to strings to preserve UTC detection
-  const dateInput: DateType =
+  const dateInput: DatePickerDateType =
     typeof dateValue === 'number' ? String(dateValue) : dateValue
 
   const date = convertStringToDate(dateInput)
@@ -203,11 +203,11 @@ export function formatDate(
 }
 
 export function formatDateRange(
-  dates: { startDate: DateType; endDate: DateType },
+  dates: { startDate: DatePickerDateType; endDate: DatePickerDateType },
   {
     locale = defaultLocale,
     options = { dateStyle: 'long' },
-  }: FormatDateOptions = {}
+  }: DateFormatOptions = {}
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
@@ -235,7 +235,7 @@ const timeUnitsInMs = {
   months: 30.4375 * 86_400_000, // avg month (365.25 / 12 days)
   years: 365.25 * 86_400_000, // avg year including leap years
 } as const
-export type RelativeTimeUnit = keyof typeof timeUnitsInMs
+export type DateFormatRelativeTimeUnit = keyof typeof timeUnitsInMs
 
 /**
  * Returns a relative time string, e.g. "3 days ago"
@@ -263,8 +263,8 @@ export function getRelativeTime(
       dateStyle === 'short'
         ? 'narrow'
         : dateStyle === 'medium'
-        ? 'short'
-        : 'long',
+          ? 'short'
+          : 'long',
   }
   try {
     // eslint-disable-next-line compat/compat
@@ -277,8 +277,8 @@ export function getRelativeTime(
       relativeTimeReference instanceof Date
         ? relativeTimeReference
         : typeof relativeTimeReference === 'function'
-        ? relativeTimeReference()
-        : new Date()
+          ? relativeTimeReference()
+          : new Date()
 
     const msDateDifference = date.getTime() - nowDate.getTime()
     const timeUnit = getTimeUnit(msDateDifference)
@@ -309,8 +309,8 @@ export function getRelativeTimeNextUpdateMs(
     relativeTimeReference instanceof Date
       ? relativeTimeReference
       : typeof relativeTimeReference === 'function'
-      ? relativeTimeReference()
-      : new Date()
+        ? relativeTimeReference()
+        : new Date()
   const diff = date.getTime() - nowDate.getTime()
   if (!Number.isFinite(diff)) {
     return 1000
@@ -325,7 +325,9 @@ export function getRelativeTimeNextUpdateMs(
   return Math.max(min, Math.floor(msUntilFlip) + 50)
 }
 
-const UNIT_THRESHOLDS: ReadonlyArray<[number, RelativeTimeUnit]> = [
+const UNIT_THRESHOLDS: ReadonlyArray<
+  [number, DateFormatRelativeTimeUnit]
+> = [
   [timeUnitsInMs.minutes, 'seconds'],
   [timeUnitsInMs.hours, 'minutes'],
   [timeUnitsInMs.days, 'hours'],
@@ -334,7 +336,7 @@ const UNIT_THRESHOLDS: ReadonlyArray<[number, RelativeTimeUnit]> = [
   [timeUnitsInMs.years, 'months'],
 ]
 
-function getTimeUnit(msDifference: number): RelativeTimeUnit {
+function getTimeUnit(msDifference: number): DateFormatRelativeTimeUnit {
   const abs = Math.abs(msDifference)
   return UNIT_THRESHOLDS.find(([limit]) => abs < limit)?.[1] ?? 'years'
 }
@@ -370,13 +372,13 @@ export function parseDuration(durationString: string): number {
   ] = match
 
   return (
-    parseInt(years) * timeUnitsInMs.years +
-    parseInt(months) * timeUnitsInMs.months +
-    parseInt(weeks) * timeUnitsInMs.weeks +
-    parseInt(days) * timeUnitsInMs.days +
-    parseInt(hours) * timeUnitsInMs.hours +
-    parseInt(minutes) * timeUnitsInMs.minutes +
-    parseInt(seconds) * timeUnitsInMs.seconds
+    parseInt(years, 10) * timeUnitsInMs.years +
+    parseInt(months, 10) * timeUnitsInMs.months +
+    parseInt(weeks, 10) * timeUnitsInMs.weeks +
+    parseInt(days, 10) * timeUnitsInMs.days +
+    parseInt(hours, 10) * timeUnitsInMs.hours +
+    parseInt(minutes, 10) * timeUnitsInMs.minutes +
+    parseInt(seconds, 10) * timeUnitsInMs.seconds
   )
 }
 
@@ -395,25 +397,25 @@ function buildDurationObject(
       const result: DurationFormatInput = {}
 
       if (years !== undefined && years !== '0') {
-        result.years = parseInt(years)
+        result.years = parseInt(years, 10)
       }
       if (months !== undefined && months !== '0') {
-        result.months = parseInt(months)
+        result.months = parseInt(months, 10)
       }
       if (weeks !== undefined && weeks !== '0') {
-        result.weeks = parseInt(weeks)
+        result.weeks = parseInt(weeks, 10)
       }
       if (days !== undefined && days !== '0') {
-        result.days = parseInt(days)
+        result.days = parseInt(days, 10)
       }
       if (hours !== undefined && hours !== '0') {
-        result.hours = parseInt(hours)
+        result.hours = parseInt(hours, 10)
       }
       if (minutes !== undefined && minutes !== '0') {
-        result.minutes = parseInt(minutes)
+        result.minutes = parseInt(minutes, 10)
       }
       if (seconds !== undefined && seconds !== '0') {
-        result.seconds = parseInt(seconds)
+        result.seconds = parseInt(seconds, 10)
       }
 
       return result
@@ -500,8 +502,8 @@ function createDurationFormatter(
         dateStyle === 'short'
           ? 'narrow'
           : dateStyle === 'medium'
-          ? 'short'
-          : 'long',
+            ? 'short'
+            : 'long',
     })
   } catch {
     return null

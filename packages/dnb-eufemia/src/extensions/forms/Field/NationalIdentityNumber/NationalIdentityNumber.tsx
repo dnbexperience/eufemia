@@ -1,9 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
+import StringField from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type NationalIdentityNumberValidator =
   ValidatorWithCustomValidators<
@@ -15,13 +17,16 @@ export type NationalIdentityNumberValidator =
     }
   >
 
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type FieldNationalIdentityNumberProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
   omitMask?: boolean
   validate?: boolean
   onBlurValidator?: NationalIdentityNumberValidator | false
 }
 
-function NationalIdentityNumber(props: Props) {
+function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
   const translations = useTranslation().NationalIdentityNumber
   const {
     label,
@@ -50,7 +55,7 @@ function NationalIdentityNumber(props: Props) {
   const fnrValidator = useCallback(
     (value: string) => {
       if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1)) > 3) {
+        if (Number.parseInt(value.substring(0, 1), 10) > 3) {
           return Error(errorFnr)
         }
 
@@ -63,6 +68,8 @@ function NationalIdentityNumber(props: Props) {
           return Error(errorFnr)
         }
       }
+
+      return undefined
     },
     [errorFnr, errorFnrLength]
   )
@@ -70,7 +77,7 @@ function NationalIdentityNumber(props: Props) {
   const dnrValidator = useCallback(
     (value: string) => {
       if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1)) < 4) {
+        if (Number.parseInt(value.substring(0, 1), 10) < 4) {
           return Error(errorDnr)
         }
 
@@ -83,6 +90,8 @@ function NationalIdentityNumber(props: Props) {
           return Error(errorDnr)
         }
       }
+
+      return undefined
     },
     [errorDnr, errorDnrLength]
   )
@@ -102,9 +111,7 @@ function NationalIdentityNumber(props: Props) {
   const {
     validate = true,
     omitMask,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     onBlurValidator = dnrAndFnrValidator,
     width,
     label: labelProp,
@@ -142,6 +149,7 @@ function NationalIdentityNumber(props: Props) {
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
+    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: {
       dnrValidator,
@@ -168,57 +176,53 @@ export function getAgeByBirthDate(birthDate: Date): number {
 
 export function getBirthDateByFnrOrDnr(value: string) {
   if (value === undefined) {
-    return // stop here
+    return undefined // stop here
   }
 
   const yearPart = value.substring(4, 6)
-  const centuryNumber = Number.parseInt(value.substring(6, 7))
+  const centuryNumber = Number.parseInt(value.substring(6, 7), 10)
 
   const isBornIn20XX = centuryNumber >= 5
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
-  const month = Number.parseInt(value.substring(2, 4))
+  const month = Number.parseInt(value.substring(2, 4), 10)
 
   const differentiatorValue =
-    value.length > 0 ? Number.parseInt(value.substring(0, 1)) : undefined
+    value.length > 0
+      ? Number.parseInt(value.substring(0, 1), 10)
+      : undefined
   const isDnr = differentiatorValue && differentiatorValue > 3
 
   const day = isDnr
-    ? Number.parseInt(value.substring(0, 2)) - 40
-    : Number.parseInt(value.substring(0, 2))
+    ? Number.parseInt(value.substring(0, 2), 10) - 40
+    : Number.parseInt(value.substring(0, 2), 10)
 
-  return new Date(Number.parseInt(year), month - 1, day)
+  return new Date(Number.parseInt(year, 10), month - 1, day)
 }
 
 export function createMinimumAgeValidator(age: number) {
   return (value: string) => {
     if (typeof value !== 'string') {
-      return // stop here
+      return undefined // stop here
     }
 
     const identificationNumberIs7DigitsOrMore = value?.length >= 7
 
     if (!identificationNumberIs7DigitsOrMore) {
       return new FormError(
-        'NationalIdentityNumber.errorMinimumAgeValidatorLength',
-        {
-          validationRule: 'errorMinimumAgeValidatorLength', // "validationRule" Will be removed in future PR
-        }
+        'NationalIdentityNumber.errorMinimumAgeValidatorLength'
       )
     }
 
     if (identificationNumberIs7DigitsOrMore) {
       const date = getBirthDateByFnrOrDnr(value)
       if (getAgeByBirthDate(date) >= age) {
-        return // stop here
+        return undefined // stop here
       }
     }
 
     return new FormError(
       'NationalIdentityNumber.errorMinimumAgeValidator',
-      {
-        validationRule: 'errorMinimumAgeValidator', // "validationRule" Will be removed in future PR
-        messageValues: { age: String(age) },
-      }
+      { messageValues: { age: String(age) } }
     )
   }
 }
@@ -234,5 +238,8 @@ export function createMinimumAgeVerifier(age: number) {
   }
 }
 
-NationalIdentityNumber._supportsSpacingProps = true
+withComponentMarkers(NationalIdentityNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default NationalIdentityNumber

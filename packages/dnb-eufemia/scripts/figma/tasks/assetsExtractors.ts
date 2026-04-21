@@ -19,7 +19,7 @@ import {
   saveToFile,
   md5,
 } from '../helpers/docHelpers'
-import properties from '../../../src/style/themes/theme-ui/properties'
+import properties from '../../../src/style/themes/ui/properties'
 import { create, extract } from 'tar'
 import { runCommand } from '../../tools/cliTools'
 
@@ -177,6 +177,7 @@ export const extractIcons = async ({
   } catch (e) {
     log.fail(ErrorHandler('extractIcons failed', e))
   }
+  return undefined
 }
 
 async function collectIconsFromFigmaDoc({
@@ -203,7 +204,7 @@ async function collectIconsFromFigmaDoc({
         /^\./.test(frameDoc.name) ||
         !frameNameSelector.test(frameDoc.name)
       ) {
-        return // stop here
+        return undefined // stop here
       }
 
       const { files, newFiles } = await frameIconsFactory({
@@ -550,6 +551,8 @@ const frameIconsFactory = async ({
         } catch (e) {
           log.fail(ErrorHandler('Failed to process new icons', e))
         }
+
+        return undefined
       }
     )
   ).filter(Boolean)
@@ -843,12 +846,15 @@ const createXMLTarBundles = async ({
 }
 
 const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
-  await asyncForEach(listWithFiles, async ({ iconFile }) => {
-    const file = path.resolve(destDir, iconFile)
-    await optimizeSVG(file)
+  await asyncForEach(
+    listWithFiles,
+    async ({ iconFile }: { iconFile: string }) => {
+      const file = path.resolve(destDir, iconFile)
+      await optimizeSVG(file)
 
-    log.info(`> Figma: Icon was optimized: ${iconFile}`)
-  })
+      log.info(`> Figma: Icon was optimized: ${iconFile}`)
+    }
+  )
 }
 
 const optimizeSVG = async (file) => {

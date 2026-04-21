@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2, P, Anchor } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
@@ -8,12 +8,12 @@ import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
-import { TooltipPosition } from '@dnb/eufemia/src/components/tooltip/types'
-import { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
+import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 
 type Props = {
   className?: string
-  tooltipPosition?: TooltipPosition
+  tooltipPosition?: TooltipPlacement
   triggerAttributes?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
@@ -25,26 +25,26 @@ export default function PortalToolsMenu({
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton, theme } = React.useContext(Context)
+  const { skeleton } = React.useContext(Context)
 
   return (
     <Drawer
       id="portal-tools"
       title="Portal Tools"
       triggerAttributes={{
-        className: classnames(
+        className: clsx(
           className,
           buttonStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
         ),
         size: 'default',
         icon: 'more',
-        icon_size: 'medium',
+        iconSize: 'medium',
         skeleton: false,
         left: 'x-small',
         tooltip: (
           <Tooltip
-            position={tooltipPosition}
+            placement={tooltipPosition}
             // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
             fixedPosition
@@ -56,7 +56,7 @@ export default function PortalToolsMenu({
       }}
       {...props}
     >
-      <Drawer.Body spacing>
+      <Drawer.Body innerSpace={{ block: 'large' }}>
         <Space>
           <H2 skeleton={false} size="small">
             Show everything behind skeletons
@@ -84,14 +84,13 @@ export default function PortalToolsMenu({
           <Space top>
             <ChangeStyleTheme />
           </Space>
+          <P size="small" top="x-small">
+            Read more about{' '}
+            <Anchor href="/uilib/usage/customisation/theming/">
+              theming
+            </Anchor>
+          </P>
         </Space>
-
-        {theme.name === 'sbanken' && (
-          <Space top="large">
-            <H2 size="small">Map colors</H2>
-            <ChangeStyleTheme.PropMapping enabled={theme.propMapping} />
-          </Space>
-        )}
 
         <Space top="large">
           <H2 size="small">Helper grid lines</H2>

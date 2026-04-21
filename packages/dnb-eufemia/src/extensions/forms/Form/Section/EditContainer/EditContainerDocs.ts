@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../../shared/types'
 
 export const EditContainerProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
     doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
-    type: 'string',
+    type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
 
@@ -22,12 +22,12 @@ export const EditContainerProperties: PropertiesTableProps = {
 export const EditContainerEvents: PropertiesTableProps = {
   onDone: {
     doc: 'Callback for the done button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
   onCancel: {
     doc: 'Callback for the cancel button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
 }

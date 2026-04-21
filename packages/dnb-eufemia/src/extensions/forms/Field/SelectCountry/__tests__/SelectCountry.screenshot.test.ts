@@ -34,7 +34,7 @@ describe('Field.SelectCountry', () => {
         '[data-visual-test="select-country-opened"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
       waitAfterSimulateSelector:
-        '[data-visual-test="select-country-opened"] .dnb-autocomplete--opened',
+        '[data-visual-test="select-country-opened"] .dnb-autocomplete--open',
       style: {
         height: '30rem',
       },

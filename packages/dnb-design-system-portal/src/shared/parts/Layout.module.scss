@@ -1,5 +1,7 @@
-@import '@dnb/eufemia/src/style/core/utilities.scss';
-@import './PortalStyle.mixins.scss';
+@use 'sass:map';
+
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+@use './PortalStyle.mixins.scss' as PortalMixins;
 
 :global {
   .fullscreen-page {
@@ -11,8 +13,8 @@
   /* for wider screens */
   .dnb-app-content:not(.fullscreen-page) {
     .dnb-app-content > div:first-of-type {
-      @include allAbove(x-large) {
-        max-width: map-get($breakpoints, x-large);
+      @include utilities.allAbove(x-large) {
+        max-width: map.get(utilities.$breakpoints, x-large);
       }
     }
   }
@@ -40,7 +42,11 @@
     }
 
     .image-box {
-      @include gridStyle(rgb(40 180 130), 0.4);
+      @include PortalMixins.gridStyle();
+
+      --grid-rgb: 40 180 130;
+      --grid-opacity: 0;
+      --grid-opacity-bold: 0.25;
 
       position: relative;
 
@@ -82,7 +88,9 @@
     }
 
     .typography-box {
-      @include gridStyle(rgb(164, 255, 255), 0.8);
+      @include PortalMixins.gridStyle();
+
+      --grid-rgb: 164 255 255;
 
       position: relative;
 
@@ -108,20 +116,6 @@
         font-size: var(--font-size-basis);
         font-family: monospace;
         line-height: var(--line-height-basis);
-      }
-    }
-
-    .example-box {
-      @include gridStyle(rgb(236, 236, 236), 1);
-
-      position: relative;
-
-      padding: 2rem;
-
-      &.center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
       }
     }
 
@@ -201,7 +195,7 @@
   min-height: 90vh;
   padding: 0 32px;
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     padding: 0 16px;
   }
 }
@@ -210,21 +204,12 @@
   position: relative;
   z-index: 2; /* 1 higher than aside */
 
-  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
 
-  padding: 1rem;
-
-  border-top: 1px solid var(--color-black-border);
-  background-color: var(--footer-bg);
-  color: var(--color-white);
-
-  :global {
-    .dnb-p {
-      color: var(--color-white);
-    }
+  &:global(.dnb-section) {
+    display: flex;
   }
 }
 
@@ -255,7 +240,7 @@
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -268,7 +253,7 @@
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     display: block;
   }
 }

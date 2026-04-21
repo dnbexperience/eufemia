@@ -6,9 +6,6 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
@@ -16,12 +13,16 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
   z-index: var(--tooltip-z-index);
 }
 .dnb-popover--inside-modal .dnb-tooltip {
@@ -53,11 +54,4 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
   right: -13px;
   top: auto !important;
 }"
-`;
-
-exports[`Tooltip scss have to match default theme snapshot 1`] = `
-"/*
-* Tooltip theme
-*
-*/"
 `;

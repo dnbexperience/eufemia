@@ -4,14 +4,12 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import {
-  isTrue,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import clsx from 'clsx'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import HeadingContext, { HeadingContextProps } from './HeadingContext'
+import { applySpacing } from '../space/SpacingUtils'
+import type { HeadingContextValue } from './HeadingContext'
+import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
@@ -23,19 +21,16 @@ import {
   globalHeadingCounter,
   windupHeadings,
   teardownHeadings,
-  debugCounter,
+  debugCounter as debugCounterFn,
   getHeadingSize,
   getHeadingElement,
 } from './HeadingHelpers'
-import {
-  HeadingCounter,
-  HeadingDebugCounter,
-  initCounter,
-} from './HeadingCounter'
-import { SpacingProps } from '../space/types'
-import { SkeletonShow } from '../Skeleton'
+import type { HeadingCounter, HeadingDebugCounter } from './HeadingCounter'
+import { initCounter } from './HeadingCounter'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
-import type { DynamicElement } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -75,12 +70,12 @@ export type HeadingProps = {
   group?: string
 
   /**
-   * <em>(required)</em> a heading, can be text or React.Node.
+   * A heading, can be text or React.ReactNode.
    */
   text?: React.ReactNode
 
   /**
-   * Define the typography <a href="/uilib/typography/font-size">font-size</a> by a size <em>type</em>, e.g. `x-large`. Defaults to the predefined heading sizes.
+   * Define the typography font-size by a size type, e.g. `x-large`. Defaults to the predefined heading sizes.
    */
   size?: HeadingSize
   level?: HeadingLevel
@@ -100,7 +95,7 @@ export type HeadingProps = {
   /**
    * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
    */
-  skip_correction?: boolean
+  skipCorrection?: boolean
 
   /**
    * If set to `true`, the content will have a prefix, showing the heading level.
@@ -110,7 +105,7 @@ export type HeadingProps = {
   /**
    * If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.
    */
-  debug_counter?: HeadingDebugCounter
+  debugCounter?: HeadingDebugCounter
   counter?: HeadingCounter
 
   /**
@@ -141,24 +136,24 @@ export type HeadingAllProps = HeadingProps &
 export default function Heading(props: HeadingAllProps) {
   const context = React.useContext(Context)
   const headingContext = React.useContext(HeadingContext)
-  const _ref = React.useRef()
+  const _ref = React.useRef(undefined)
 
   const {
     text,
-    group: _group, // eslint-disable-line
-    debug: _debug, // eslint-disable-line
-    debug_counter: _debug_counter, // eslint-disable-line
-    reset: _reset, // eslint-disable-line
-    skip_correction: _skip_correction, // eslint-disable-line
-    increase: _increase, // eslint-disable-line
-    decrease: _decrease, // eslint-disable-line
-    up: _up, // eslint-disable-line
-    down: _down, // eslint-disable-line
-    inherit: _inherit, // eslint-disable-line
-    level: _level, // eslint-disable-line
-    size: _size, // eslint-disable-line
-    skeleton: _skeleton, // eslint-disable-line
-    element: _element, // eslint-disable-line
+    group: _group,
+    debug: _debug,
+    debugCounter: _debugCounter,
+    reset: _reset,
+    skipCorrection: _skipCorrection,
+    increase: _increase,
+    decrease: _decrease,
+    up: _up,
+    down: _down,
+    inherit: _inherit,
+    level: _level,
+    size: _size,
+    skeleton: _skeleton,
+    element: _element,
     className,
     children,
     ...rest
@@ -169,8 +164,8 @@ export default function Heading(props: HeadingAllProps) {
       level: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
       counter: HeadingCounter
-      context: HeadingContextProps
-      headingContext?: HeadingContextProps
+      context: HeadingContextValue
+      headingContext?: HeadingContextValue
     }
     const state: State = {
       level: null,
@@ -194,13 +189,13 @@ export default function Heading(props: HeadingAllProps) {
       counter: state.counter,
       ref: props, // Do that only to make sure we run the correction only if props has changed
       level: parseFloat(String(props.level)),
-      inherit: isTrue(props.inherit),
+      inherit: props.inherit,
       reset: props.reset,
-      increase: isTrue(props.increase) || isTrue(props.up),
-      decrease: isTrue(props.decrease) || isTrue(props.down),
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
       bypassChecks:
-        isTrue(props.skip_correction) ||
-        isTrue(state.headingContext?.heading?.skip_correction),
+        props.skipCorrection ||
+        state.headingContext?.heading?.skipCorrection,
       source: props.text || props.children, // only for debugging
       debug: props.debug || state.headingContext?.heading?.debug,
     })
@@ -236,8 +231,8 @@ export default function Heading(props: HeadingAllProps) {
         isRerender: true,
         level,
         bypassChecks:
-          isTrue(props.skip_correction) ||
-          isTrue(state.headingContext?.heading?.skip_correction),
+          props.skipCorrection ||
+          state.headingContext?.heading?.skipCorrection,
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.headingContext?.heading?.debug,
       })
@@ -253,8 +248,8 @@ export default function Heading(props: HeadingAllProps) {
   const { level } = state
 
   const debug = _debug || headingContext?.heading?.debug
-  const debug_counter =
-    _debug_counter || headingContext?.heading?.debug_counter
+  const debugCounter =
+    _debugCounter || headingContext?.heading?.debugCounter
 
   const attributes: Record<string, unknown> = {
     ...rest,
@@ -282,28 +277,29 @@ export default function Heading(props: HeadingAllProps) {
 
   const Element = element as
     | string
-    | ((props: React.HTMLProps<HTMLElement>) => JSX.Element) // typecasting to avoid typescript parser error ts(2590)
+    | ((props: React.HTMLProps<HTMLElement>) => React.JSX.Element) // typecasting to avoid typescript parser error ts(2590)
+
+  const elementProps = applySpacing(props, {
+    ...attributes,
+    ref: _ref,
+    className: clsx(
+      'dnb-heading',
+      `dnb-h--${size}`,
+      createSkeletonClass('font', skeleton, headingContext),
+      className
+    ),
+  })
 
   return (
-    <Element
-      {...attributes}
-      ref={_ref}
-      className={classnames(
-        'dnb-heading',
-        `dnb-h--${size}`,
-        createSkeletonClass('font', skeleton, headingContext),
-        className,
-        createSpacingClasses(props)
-      )}
-    >
+    <Element {...elementProps}>
       {debug && (
         <span className="dnb-heading__debug">
           {`[h${level || '6'}] `}
-          {debug_counter && (
+          {debugCounter && (
             <>
               {' '}
               <span className="dnb-code">
-                {debugCounter(state.counter)}
+                {debugCounterFn(state.counter)}
               </span>
             </>
           )}
@@ -336,8 +332,10 @@ Heading.Reset = (props: HeadingStaticProps) => {
 Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel
 
-Heading._isHeadingElement = true
-Heading._supportsSpacingProps = true
+withComponentMarkers(Heading, {
+  _isHeadingElement: true,
+  _supportsSpacingProps: true,
+})
 
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }

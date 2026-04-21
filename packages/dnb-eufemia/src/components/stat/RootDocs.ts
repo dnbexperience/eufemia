@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { spacingProperties } from './StatDocsUtils'
 
 export const RootProperties: PropertiesTableProps = {
@@ -10,7 +10,7 @@ export const RootProperties: PropertiesTableProps = {
   visualOrder: {
     doc: 'Visual order of label and content while keeping semantic `dt`/`dd` markup in DOM.',
     type: ['"label-content"', '"content-label"'],
-    defaultValue: 'label-content',
+    defaultValue: '"label-content"',
     status: 'optional',
   },
   skeleton: {

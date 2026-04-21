@@ -6,63 +6,82 @@ import React, {
   useRef,
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
-import { InputMaskedProps } from '../../../../components/InputMasked'
+import type { InputMaskedProps } from '../../../../components/InputMasked'
+import type { NumberFormatOptionParams } from '../../../../components/number-format/NumberUtils'
 import {
-  format,
-  formatOptionParams,
+  formatCurrency,
+  formatPercent,
+  formatNumber,
 } from '../../../../components/number-format/NumberUtils'
-import type {
-  InputAlign,
-  InputProps,
-  InputSize,
-} from '../../../../components/Input'
+import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import classnames from 'classnames'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import clsx from 'clsx'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, Schema } from '../../types'
+import type { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { ButtonProps, ButtonSize } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonSize,
+} from '../../../../components/Button'
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = FieldProps<number, undefined | number> & {
-  innerRef?: React.RefObject<HTMLInputElement>
+export type FieldNumberProps = FieldProps<number, undefined | number> & {
+  /** Ref to the underlying input element. */
+  ref?: React.RefObject<HTMLInputElement>
+  /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
-  currency?: InputMaskedProps['as_currency']
+  /** Formats the value as a currency. Pass `true` for locale default or a currency code string. */
+  currency?: InputMaskedProps['asCurrency']
+  /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. */
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
-  percent?: InputMaskedProps['as_percent']
+  /** Formats the value as a percentage. */
+  percent?: InputMaskedProps['asPercent']
+  /** Input mask configuration for the underlying masked input. */
   mask?: InputMaskedProps['mask']
+  /** Step increment/decrement value for the step controls. Defaults to `1`. */
   step?: number
+  /** Initial value when the field is empty and the user clicks a step control. */
   startWith?: number
-  // Formatting
+  /** Maximum number of decimal digits allowed. Defaults to `12`. */
   decimalLimit?: number
+  /** If `true`, allows negative numbers. Defaults to `true`. */
   allowNegative?: boolean
+  /** If `true`, disallows leading zeroes (e.g. `007`). */
   disallowLeadingZeroes?: boolean
+  /** Text or function returning text to display before the number value. */
   prefix?: string | ((value: number) => string)
+  /** Text or function returning text to display after the number value. */
   suffix?: string | ((value: number) => string)
-  // Validation
-  minimum?: number // aka greater than or equal to
-  maximum?: number // aka less than or equal to
-  exclusiveMinimum?: number // aka greater than
-  exclusiveMaximum?: number // aka less than
+  /** Minimum allowed value (inclusive, i.e. greater than or equal to). */
+  minimum?: number
+  /** Maximum allowed value (inclusive, i.e. less than or equal to). */
+  maximum?: number
+  /** Exclusive minimum (value must be strictly greater than this). */
+  exclusiveMinimum?: number
+  /** Exclusive maximum (value must be strictly less than this). */
+  exclusiveMaximum?: number
+  /** Value must be a multiple of this number. */
   multipleOf?: number
-  // Styling
+  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputSize
+  /** Defines the width of the field block container. */
   width?: FieldBlockWidth
+  /** Text alignment inside the input: `left`, `center`, or `right`. */
   align?: InputAlign
+  /** If `true`, shows increment/decrement step control buttons. */
   showStepControls?: boolean
 }
 
 const defaultMinimum = Number.MIN_SAFE_INTEGER
 const defaultMaximum = Number.MAX_SAFE_INTEGER
 
-function NumberComponent(props: Props) {
+function NumberComponent(props: FieldNumberProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
@@ -90,22 +109,29 @@ function NumberComponent(props: Props) {
       // at validation time (min/max/exclusive/multipleOf). This keeps rules
       // in sync with dynamic prop changes and avoids stale closures.
       props.schema ??
-      ((p: Props) => {
+      ((p: FieldNumberProps) => {
         // Helper function to format validation values with currency/percent suffix
         const formatValidationValue = (value: number) => {
-          const formatOptions: Partial<formatOptionParams> = { locale }
+          const formatOptions: Partial<NumberFormatOptionParams> = {
+            locale,
+          }
 
-          if (p.currency) {
-            formatOptions.currency = p.currency
-          }
-          if (p.percent) {
-            formatOptions.percent = true
-          }
           if (p.decimalLimit !== undefined) {
             formatOptions.decimals = p.decimalLimit
           }
 
-          return format(value, formatOptions)
+          if (p.percent) {
+            return formatPercent(value, formatOptions)
+          }
+
+          if (p.currency) {
+            return formatCurrency(value, {
+              ...formatOptions,
+              currency: p.currency,
+            })
+          }
+
+          return formatNumber(value, formatOptions)
         }
 
         return z
@@ -271,8 +297,16 @@ function NumberComponent(props: Props) {
     return external
   }, [])
   const fromInput = useCallback(
-    ({ value, numberValue }: { value: string; numberValue: number }) => {
-      if (value === '') {
+    ({
+      value,
+      numberValue,
+      cleanedValue,
+    }: {
+      value: string
+      numberValue: number
+      cleanedValue: string
+    }) => {
+      if (value === '' || cleanedValue === '') {
         return props.emptyValue
       }
 
@@ -288,25 +322,26 @@ function NumberComponent(props: Props) {
     [props.emptyValue, allowNegative]
   )
 
-  const ref = useRef<HTMLInputElement>()
-  const preparedProps: Props = {
+  const ref = useRef<HTMLInputElement>(undefined)
+  const preparedProps: FieldNumberProps = {
     valueType: 'number',
     validateContinuously: validateContinuouslyRef.current,
     ...props,
     schema,
     toInput,
+    // @ts-expect-error - strictFunctionTypes
     fromInput,
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'medium'),
-    innerRef: props.innerRef ?? ref,
+    ref: props.ref ?? ref,
   }
 
   const {
     id,
     name,
     className,
-    innerRef,
+    ref: inputRef,
     inputClassName,
     autoComplete,
     placeholder,
@@ -327,8 +362,10 @@ function NumberComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(innerRef.current?.value)
-  }, [innerRef, setDisplayValue, value])
+    // Use getElementById to read the current DOM input value
+    const input = id ? document.getElementById(id) : null
+    setDisplayValue((input as HTMLInputElement)?.value)
+  }, [id, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
@@ -365,7 +402,6 @@ function NumberComponent(props: Props) {
       }
 
       if (numberValue !== null) {
-        event.persist()
         event.preventDefault()
         handleChange({ numberValue })
       }
@@ -401,12 +437,12 @@ function NumberComponent(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
       className
     ),
-    contentClassName: classnames(
+    contentClassName: clsx(
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
@@ -440,6 +476,7 @@ function NumberComponent(props: Props) {
       '%s',
       String(value + step)
     ),
+    status: hasError ? 'error' : undefined,
   }
 
   const decreaseClickHandler = useCallback(() => {
@@ -467,7 +504,7 @@ function NumberComponent(props: Props) {
     typeof suffixProp === 'function' ? suffixProp(value) : suffixProp
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
-    const mask_options = {
+    const maskOptions = {
       prefix,
       suffix,
       decimalLimit,
@@ -477,9 +514,9 @@ function NumberComponent(props: Props) {
 
     if (currency) {
       return {
-        as_currency: currency,
-        mask_options,
-        currency_mask: {
+        asCurrency: currency,
+        maskOptions,
+        currencyMask: {
           currencyDisplay,
           decimalLimit,
         },
@@ -488,16 +525,16 @@ function NumberComponent(props: Props) {
 
     if (percent) {
       return {
-        as_percent: percent,
-        mask_options,
+        asPercent: percent,
+        maskOptions,
       }
     }
 
     // Custom mask based on props
     return {
       mask,
-      as_number: mask ? undefined : true,
-      number_mask: mask ? undefined : mask_options,
+      asNumber: mask ? undefined : true,
+      numberMask: mask ? undefined : maskOptions,
     }
   }, [
     currency,
@@ -512,19 +549,19 @@ function NumberComponent(props: Props) {
   ])
 
   const ariaParams = showStepControls && {
-    role: 'spinbutton',
-    'aria-valuemin': String(minimum),
-    'aria-valuemax': String(maximum),
-    'aria-valuenow': String(value), // without it, VO will read an invalid value
-    'aria-valuetext': String(value), // without it, VO will read %
+    role: 'spinbutton' as const,
+    'aria-valuemin': minimum,
+    'aria-valuemax': maximum,
+    'aria-valuenow': value ?? 0, // without it, VO will read an invalid value
+    'aria-valuetext': String(value ?? ''), // without it, VO will read %
   }
 
-  const inputProps: InputProps = {
+  const inputProps = {
     id,
     name,
-    inner_ref: innerRef,
+    ref: inputRef,
     autoComplete,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-number__input',
       `dnb-input--${size}`,
       inputClassName
@@ -543,7 +580,7 @@ function NumberComponent(props: Props) {
     stretch: Boolean(width),
     ...maskProps,
     ...htmlAttributes,
-    ...(ariaParams as any),
+    ...(ariaParams || {}),
   }
 
   if (showStepControls) {
@@ -565,5 +602,8 @@ function NumberComponent(props: Props) {
   )
 }
 
-NumberComponent._supportsSpacingProps = true
+withComponentMarkers(NumberComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default NumberComponent

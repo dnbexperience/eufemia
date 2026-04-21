@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp } from './SliderHelpers'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 
 export function SliderMainTrack({
   children,
@@ -13,13 +13,12 @@ export function SliderMainTrack({
   const { id } = allProps
   const { onTrackMouseDownHandler, removeEvents } = useSliderEvents()
 
-  React.useEffect(() => {
+  useMountEffect(() => {
     return () => {
       removeEvents()
       clearTimeout(animationTimeout.current)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const trackParams = {
     onTouchStart: onTrackMouseDownHandler,

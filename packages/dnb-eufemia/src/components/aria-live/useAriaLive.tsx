@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
-import { AriaLiveAllProps } from './types'
+import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
+import type { AriaLiveAllProps } from './types'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
 const variantConfig: {
@@ -37,7 +38,7 @@ const priorityConfig: {
 
 export default function useAriaLive(props: AriaLiveAllProps) {
   const [announcement, setAnnouncement] = useState<React.ReactNode>('')
-  const timeoutRef = useRef(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const {
     disabled = false,
@@ -48,8 +49,8 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     className,
     children,
     showAnnouncement,
-    variant, // eslint-disable-line
-    priority, // eslint-disable-line
+    variant,
+    priority,
     ...rest
   } = extendPropsWithContext(
     props,
@@ -84,13 +85,15 @@ export default function useAriaLive(props: AriaLiveAllProps) {
         clearTimeout(timeoutRef.current)
       }
     }
+
+    return undefined
   }, [delay, children, disabled, showTextAnnouncement])
 
   return {
     'aria-live': disabled && !showTextAnnouncement ? 'off' : politeness,
     'aria-atomic': atomic,
     'aria-relevant': relevant,
-    className: classnames(
+    className: clsx(
       'dnb-aria-live',
       !showAnnouncement && 'dnb-sr-only',
       className

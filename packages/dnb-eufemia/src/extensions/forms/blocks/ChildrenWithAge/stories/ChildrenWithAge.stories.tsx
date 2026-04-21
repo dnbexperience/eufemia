@@ -24,12 +24,6 @@ export function Basic() {
   return (
     <Form.Handler
       id="ChildrenWithAge"
-      // defaultData={{
-      //   hasChildren: true,
-      // }}
-      // onChange={(data) => {
-      //   console.log('onChange', data.children.length)
-      // }}
       onSubmit={(data, { reduceToVisibleFields }) => {
         console.log('Raw', data)
         console.log('Reduced', reduceToVisibleFields(data))
@@ -54,7 +48,7 @@ export function Basic() {
 export function InsideWizard() {
   const { filterData } = Form.useData('ChildrenWithAge')
   console.log('data', filterData(filterDataPaths))
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
 
   return (
     <Form.Handler

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-slider {
   --slider-track-height: 0.25rem;
@@ -83,7 +83,7 @@
 
     &:focus {
       outline: none; // we show a Tooltip instead
-      @include focusRing();
+      @include utilities.focusRing();
     }
 
     // Larger bounding area
@@ -199,7 +199,7 @@
   }
 
   &__thumb {
-    @include sharpDropShadow();
+    @include utilities.sharpDropShadow();
   }
 
   &__button-helper,
@@ -256,7 +256,7 @@
       right 250ms var(--easing-default),
       box-shadow 250ms var(--easing-default);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
   }
@@ -273,10 +273,12 @@
     opacity: 0;
 
     transform: translate3d(0.0625rem, 0, 0);
-  }
 
-  &__button-helper:not(:disabled):focus ~ .dnb-button {
-    @include focusRing();
+    @include utilities.focusVisible() {
+      ~ .dnb-button {
+        @include utilities.focusStyle();
+      }
+    }
   }
 
   > .dnb-form-label {
@@ -315,7 +317,7 @@
   }
 
   .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

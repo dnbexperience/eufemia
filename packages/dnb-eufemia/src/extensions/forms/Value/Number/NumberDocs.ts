@@ -1,8 +1,8 @@
-import { PropertiesTableProps } from '../../../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../../../../components/number-format/NumberFormatDocs'
+import type { PropertiesTableProps } from '../../../../shared/types'
+import { NumberFormatProperties } from '../../../../components/number-format/NumberFormatDocs'
 
 export const NumberProperties: PropertiesTableProps = {
-  value: NumberFormatPropertiesCamelCase.value,
+  value: NumberFormatProperties.value,
   minimum: {
     doc: 'Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',
@@ -13,5 +13,10 @@ export const NumberProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  ...NumberFormatPropertiesCamelCase,
+  percent: {
+    doc: 'Formats the value as a percentage.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  ...NumberFormatProperties,
 }

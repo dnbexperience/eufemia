@@ -3,8 +3,8 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/themes/button-mixins.scss';
+@use '../../../style/core/utilities.scss' as utilities;
+@use '../../button/style/themes/button-mixins.scss';
 
 .dnb-tabs {
   --tablist-border-color--default: grey;
@@ -26,23 +26,19 @@
 
     display: flex;
     align-items: center;
-
-    &,
-    &.dnb-section--spacing {
-      padding-bottom: 0;
-    }
+    padding-bottom: 0;
 
     &__tablist {
       display: flex;
       flex: 0 1 auto;
 
       &:focus {
-        @include focusRing();
+        @include utilities.focusRing();
         border-radius: 0.5rem;
       }
 
-      @include scrollX(auto);
-      @include hideScrollbar();
+      @include utilities.scrollX(auto);
+      @include utilities.hideScrollbar();
       // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
     }
 
@@ -174,7 +170,7 @@
       color: var(--tab-title-font-color);
       padding: 0.5rem 0 0.25rem;
 
-      @include hover() {
+      @include utilities.hover() {
         color: var(--tab-title-color--hover);
       }
 
@@ -187,7 +183,7 @@
     }
 
     // hover
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--tab-title-background--hover);
 
       &::after {
@@ -197,7 +193,7 @@
       }
     }
 
-    @include dummySpacing();
+    @include utilities.dummySpacing();
 
     & .dnb-dummy {
       margin-top: 0.25rem;
@@ -230,7 +226,7 @@
 
     /* stylelint-disable no-descending-specificity */
     &:focus {
-      @include buttonFocusRing();
+      @include button-mixins.buttonFocusRing();
       overflow: visible;
 
       &::before {
@@ -270,7 +266,7 @@
 
     padding: 0 1rem 0 1.5rem;
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       padding: 0 1rem;
     }
 
@@ -318,7 +314,7 @@
     height: 0 !important;
     overflow: hidden;
 
-    // Ensure the content is always hidden when "prerender" is set
+    // Ensure the content is always hidden when "keepInDOM" is set
     * {
       height: 0 !important;
     }
@@ -332,10 +328,6 @@
     transition: none !important;
   }
   /* stylelint-enable */
-
-  &__content {
-    padding-bottom: 0;
-  }
 
   // Make focus ring when keyboard is used to navigate
   &__content:focus {
@@ -359,7 +351,7 @@
 
       border-radius: 0.5rem;
 
-      @include focusRing();
+      @include utilities.focusRing();
     }
   }
 

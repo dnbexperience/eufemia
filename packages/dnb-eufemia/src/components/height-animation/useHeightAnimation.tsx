@@ -1,18 +1,19 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
-export type useHeightAnimationOptions = {
+export type UseHeightAnimationOptions = {
   /**
    * Set to `true`, when initially `false` was given, to animate from 0px to auto.
-   * Default: true
+   * Default: `true`
    */
   open?: boolean
 
   /**
    * Set to `false` to omit the animation.
-   * Default: true
+   * Default: `true`
    */
   animate?: boolean
 
@@ -40,20 +41,17 @@ export type useHeightAnimationOptions = {
   /**
    * Is called when animation has started.
    */
-  onAnimationStart?: (state: HeightAnimationOnStartTypes) => void
+  onAnimationStart?: (state: HeightAnimationOnStart) => void
 
   /**
    * Is called when animation is done and the full height is reached.
    */
-  onAnimationEnd?: (state: HeightAnimationOnEndTypes) => void
+  onAnimationEnd?: (state: HeightAnimationOnEnd) => void
 }
 
-export type HeightAnimationOnStartTypes =
-  | 'opening'
-  | 'closing'
-  | 'adjusting'
+export type HeightAnimationOnStart = 'opening' | 'closing' | 'adjusting'
 
-export type HeightAnimationOnEndTypes = 'opened' | 'closed' | 'adjusted'
+export type HeightAnimationOnEnd = 'opened' | 'closed' | 'adjusted'
 
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
@@ -66,9 +64,9 @@ export function useHeightAnimation(
     onOpen = null,
     onAnimationStart = null,
     onAnimationEnd = null,
-  }: useHeightAnimationOptions = {}
+  }: UseHeightAnimationOptions = {}
 ) {
-  const instRef = useRef<HeightAnimationInstance>(null)
+  const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(
     typeof globalThis !== 'undefined'
       ? globalThis.readjustTime !== -1
@@ -124,7 +122,7 @@ export function useHeightAnimation(
   }, [compensateForGap])
 
   useLayoutEffect(() => {
-    instRef.current.onStart((state: HeightAnimationOnStartTypes) => {
+    instRef.current.onStart((state) => {
       switch (state) {
         case 'opening':
           handleCompensateForGap()
@@ -144,11 +142,13 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        eventsRef.current.onAnimationStart?.(state)
+        eventsRef.current.onAnimationStart?.(
+          state as HeightAnimationOnStart
+        )
       }
     })
 
-    instRef.current.onEnd((state: HeightAnimationOnEndTypes) => {
+    instRef.current.onEnd((state) => {
       switch (state) {
         case 'opened':
           setIsVisible(true)
@@ -171,7 +171,7 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        eventsRef.current.onAnimationEnd?.(state)
+        eventsRef.current.onAnimationEnd?.(state as HeightAnimationOnEnd)
       }
     })
   }, [compensateForGap, handleCompensateForGap])

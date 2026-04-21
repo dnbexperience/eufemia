@@ -3,7 +3,8 @@
  *
  */
 
-@import './reset.scss';
+@use './reset.scss' as reset;
+@forward './reset.scss';
 
 @mixin typographyBasis() {
   font-family: var(--font-family-default);
@@ -11,7 +12,7 @@
   font-size: var(--font-size-small); // has to be 16px
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--theme-color-body, var(--color-black-80, #333));
+  color: var(--token-color-text-neutral, #333);
 }
 
 @mixin coreDefault() {
@@ -34,12 +35,6 @@
   tab-size: 4;
 
   /* stylelint-disable-next-line */
-  -moz-tab-size: 4;
-
-  /* stylelint-disable-next-line */
-  -ms-text-size-adjust: 100%;
-
-  /* stylelint-disable-next-line */
   -webkit-text-size-adjust: 100%;
 
   word-break: break-word;
@@ -51,7 +46,7 @@
 }
 
 @mixin bodyDefault() {
-  @include reset();
+  @include reset.reset();
   @include coreDefault();
 
   @media print {
@@ -87,17 +82,5 @@
   }
 
   // reset ePlatform css
-  @include resetLegacyStyles();
-}
-
-// Can be used to include the most important "CSS reset" rules to one component.
-// Should only be used when this component is imported in isolation.
-@mixin componentReset() {
-  @include coreDefault();
-  @include coreReset();
-
-  margin: 0;
-  padding: 0;
-
-  @content;
+  @include reset.resetLegacyStyles();
 }

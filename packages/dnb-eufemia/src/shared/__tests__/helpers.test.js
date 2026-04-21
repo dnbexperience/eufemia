@@ -14,8 +14,6 @@ import {
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
-  insertElementBeforeSelection,
-  isEdge,
   isiOS,
   isSafari,
   isWin,
@@ -124,11 +122,7 @@ describe('"scrollToLocationHashId" should', () => {
   })
 
   it('should not call scrollTo when internal "totalOffset" is 0 or less', () => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        hash: '#unique-id',
-      },
-    })
+    window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
@@ -141,11 +135,7 @@ describe('"scrollToLocationHashId" should', () => {
   })
 
   it('will call scrollTo with correct top value', () => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        hash: '#unique-id',
-      },
-    })
+    window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
@@ -165,11 +155,7 @@ describe('"scrollToLocationHashId" should', () => {
   })
 
   it('will handle document.readyState with hash', () => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        hash: '#unique-id',
-      },
-    })
+    window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
@@ -192,9 +178,7 @@ describe('"scrollToLocationHashId" should', () => {
   })
 
   it('will handle document.readyState', () => {
-    Object.defineProperty(window, 'location', {
-      value: undefined,
-    })
+    window.history.replaceState({}, '', 'http://localhost/')
 
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
@@ -233,10 +217,6 @@ describe('platform', () => {
 })
 
 describe('user agent', () => {
-  it('"isEdge" should result in true', () => {
-    userAgentGetter.mockReturnValue('Edge')
-    expect(isEdge()).toBe(true)
-  })
   it('"isSafari" should result in true', () => {
     userAgentGetter.mockReturnValue('Safari')
     expect(isSafari()).toBe(true)
@@ -262,14 +242,6 @@ describe('selection related methods', () => {
   })
   it('hasSelectedText should be true', () => {
     expect(hasSelectedText()).toBe(true)
-  })
-  it('insertElementBeforeSelection should be true', () => {
-    const elem = document.createElement('div')
-    insertElementBeforeSelection(elem)
-    expect(
-      window.getSelection().getRangeAt(1).getElement() instanceof
-        HTMLElement
-    ).toBe(true)
   })
 })
 
@@ -330,11 +302,15 @@ describe('"warn" should', () => {
   })
 
   it('run not use styles when not in browser', () => {
-    const windowSpy = jest.spyOn(window, 'window', 'get')
-    windowSpy.mockImplementation(() => undefined)
-
+    // In the test environment, isBrowser is always false because
+    // process.env.NODE_ENV === 'test', so warn() uses the non-styled path
     warn('message-1', 'message-2')
 
     expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+      'message-1',
+      'message-2'
+    )
   })
 })

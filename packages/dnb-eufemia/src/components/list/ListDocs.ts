@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
   separated: {
@@ -14,6 +14,11 @@ export const ContainerProperties: PropertiesTableProps = {
   disabled: {
     doc: 'When `true`, all child items are visually dimmed and interaction is prevented. Individual items can override this with their own `disabled` prop.',
     type: 'boolean',
+    status: 'optional',
+  },
+  visibleCount: {
+    doc: 'Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle. Hidden items stay mounted in the DOM to preserve internal state (e.g. open accordions). The list is wrapped in a `HeightAnimation` so expand/collapse transitions are animated.',
+    type: 'number',
     status: 'optional',
   },
   children: {
@@ -74,14 +79,14 @@ export const ItemContentProperties: PropertiesTableProps = {
 export const ItemCenterProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the center content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
-    defaultValue: "'basis'",
+    type: ['"small"', '"basis"'],
+    defaultValue: '"basis"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the center content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
-    defaultValue: "'regular'",
+    type: ['"regular"', '"medium"'],
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -99,8 +104,8 @@ export const ItemCenterProperties: PropertiesTableProps = {
 export const ItemTitleProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
-    defaultValue: "'basis'",
+    type: ['"small"', '"basis"'],
+    defaultValue: '"basis"',
     status: 'optional',
   },
   children: {
@@ -117,14 +122,14 @@ export const ItemTitleProperties: PropertiesTableProps = {
 export const ItemOverlineProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the overline content. Defaults to `x-small`.',
-    type: ["'basis'", "'small'", "'x-small'"],
-    defaultValue: "'x-small'",
+    type: ['"basis"', '"small"', '"x-small"'],
+    defaultValue: '"x-small"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the overline content. Defaults to `medium`.',
-    type: ["'regular'", "'medium'"],
-    defaultValue: "'medium'",
+    type: ['"regular"', '"medium"'],
+    defaultValue: '"medium"',
     status: 'optional',
   },
   children: {
@@ -142,19 +147,19 @@ export const ItemOverlineProperties: PropertiesTableProps = {
 export const ItemSublineProperties: PropertiesTableProps = {
   variant: {
     doc: 'Visual variant. Use `description` for smaller, muted text style.',
-    type: ["'description'"],
+    type: ['"description"'],
     status: 'optional',
   },
   fontSize: {
     doc: 'Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.',
-    type: ["'basis'", "'small'", "'x-small'"],
-    defaultValue: "'small'",
+    type: ['"basis"', '"small"', '"x-small"'],
+    defaultValue: '"small"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the subline content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
-    defaultValue: "'regular'",
+    type: ['"regular"', '"medium"'],
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -185,14 +190,14 @@ export const ItemFooterProperties: PropertiesTableProps = {
 export const ItemEndProperties: PropertiesTableProps = {
   fontWeight: {
     doc: 'Font weight of the end content. Defaults to `medium`.',
-    type: ["'regular'", "'medium'"],
-    defaultValue: "'medium'",
+    type: ['"regular"', '"medium"'],
+    defaultValue: '"medium"',
     status: 'optional',
   },
   fontSize: {
     doc: 'Font size of the end content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
-    defaultValue: "'basis'",
+    type: ['"small"', '"basis"'],
+    defaultValue: '"basis"',
     status: 'optional',
   },
   children: {
@@ -210,14 +215,14 @@ export const ItemEndProperties: PropertiesTableProps = {
 export const ItemStartProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the start content. Defaults to `basis`. Use `small` for smaller text.',
-    type: ["'small'", "'basis'"],
-    defaultValue: "'basis'",
+    type: ['"small"', '"basis"'],
+    defaultValue: '"basis"',
     status: 'optional',
   },
   fontWeight: {
     doc: 'Font weight of the start content. Defaults to `regular`.',
-    type: ["'regular'", "'medium'"],
-    defaultValue: "'regular'",
+    type: ['"regular"', '"medium"'],
+    defaultValue: '"regular"',
     status: 'optional',
   },
   children: {
@@ -245,8 +250,8 @@ export const ItemAccordionProperties: PropertiesTableProps = {
   },
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
-    type: ["'left'", "'right'"],
-    defaultValue: "'right'",
+    type: ['"left"', '"right"'],
+    defaultValue: '"right"',
     status: 'optional',
   },
   open: {
@@ -363,8 +368,8 @@ export const ItemActionProperties: PropertiesTableProps = {
   },
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
-    type: ["'left'", "'right'"],
-    defaultValue: "'right'",
+    type: ['"left"', '"right"'],
+    defaultValue: '"right"',
     status: 'optional',
   },
   pending: {
@@ -458,6 +463,34 @@ export const ScrollViewProperties: PropertiesTableProps = {
   disabled: {
     doc: 'When `true`, dims all child items and prevents interaction. Propagated via context so nested `List.Container` and items inherit it.',
     type: 'boolean',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ShowMoreButtonProperties: PropertiesTableProps = {
+  id: {
+    doc: 'Shared identifier that links this button to a `List.Container` with the same `id`. Controls the expanded/collapsed state via `useSharedState`.',
+    type: 'string',
+    status: 'required',
+  },
+  showMore: {
+    doc: 'Button label shown when the list is collapsed. Defaults to the localized `List.showMore` translation.',
+    type: 'string',
+    status: 'optional',
+  },
+  showLess: {
+    doc: 'Button label shown when the list is expanded. Defaults to the localized `List.showLess` translation.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Button](/uilib/components/button/properties)': {
+    doc: 'All [Button](/uilib/components/button) properties are supported except `variant`, `text`, `icon`, and `onClick` which are managed internally.',
+    type: 'Various',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

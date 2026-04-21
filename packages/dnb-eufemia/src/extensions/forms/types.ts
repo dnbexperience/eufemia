@@ -1,5 +1,5 @@
 import type { AriaAttributes } from 'react'
-import type { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../shared/types'
 import type {
   ContextState,
   DataPathHandlerParameters,
@@ -12,14 +12,13 @@ import type {
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020.js'
-import type { ZodSchema } from './utils'
-import { JsonObject, FormError } from './utils'
-import {
+import type { ZodSchema, JsonObject, FormError } from './utils'
+import type {
   FormsTranslationFlat,
   FormsTranslationLocale,
 } from './hooks/useTranslation'
-import { GetValueByPath } from './hooks/useDataValue'
-import { HelpProps } from '../../components/help-button/HelpButtonInline'
+import type { GetValueByPath } from './hooks/useDataValue'
+import type { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -138,14 +137,14 @@ export type ReceiveAdditionalEventArgs<
    * The internal data context.
    */
   dataContext: ContextState
-} & {
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  pattern?: string
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  required?: string
 }
 
 export type ValidatorDisableable<Value> = Validator<Value> | false
+
+export type ConnectorProps<Value = unknown> = Pick<
+  UseFieldProps<Value>,
+  'onChange' | 'onBlurValidator'
+>
 
 /**
  * Accept any key, so custom message keys can be used
@@ -154,7 +153,6 @@ export type ValidatorDisableable<Value> = Validator<Value> | false
 export type GlobalErrorMessagesWithPaths =
   | VariousErrorMessages
   | {
-      // eslint-disable-next-line no-unused-vars
       [K in `/${string}`]?: VariousErrorMessages
     }
 
@@ -178,53 +176,13 @@ export type InternalErrorMessages = Record<
   string
 >
 export type DefaultErrorMessages = Partial<InternalErrorMessages> &
-  Partial<DotNotationErrorMessages> &
-  Partial<DeprecatedErrorMessages>
+  Partial<DotNotationErrorMessages>
 
 export type VariousErrorMessages =
   | DefaultErrorMessages
   | ErrorMessagesWithLocaleSupport
 
-export type DeprecatedErrorMessages = {
-  /**
-   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorRequired)
-   */
-  required?: string
-  /**
-   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorPattern)
-   */
-  pattern?: string
-  /**
-   * @deprecated use StringField.errorMinLength instead
-   */
-  minLength?: string
-  /**
-   * @deprecated use StringField.errorMaxLength instead
-   */
-  maxLength?: string
-  /**
-   * @deprecated use NumberField.errorMinimum instead
-   */
-  minimum?: string
-  /**
-   * @deprecated use NumberField.errorMaximum instead
-   */
-  maximum?: string
-  /**
-   * @deprecated use NumberField.errorExclusiveMinimum instead
-   */
-  exclusiveMinimum?: string
-  /**
-   * @deprecated use NumberField.errorExclusiveMaximum instead
-   */
-  exclusiveMaximum?: string
-  /**
-   * @deprecated use NumberField.errorMultipleOf instead
-   */
-  multipleOf?: string
-}
-
-export interface DataValueReadProps<Value = unknown> {
+export type DataValueReadProps<Value = unknown> = {
   /** JSON Pointer for where the data for this field is located in the source dataset */
   path?: Path
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
@@ -262,12 +220,12 @@ type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
   additionalArgs?: ExtraValue & ReceiveAdditionalEventArgs<Value>,
 ]
 
-export interface DataValueWriteProps<
+export type DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> {
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
+> = {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
   onBlur?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -316,17 +274,15 @@ export function pickDataValueReadWriteProps<
 }
 
 export function omitDataValueReadWriteProps<
-  Props extends DataValueReadWriteProps,
->(
-  props: Props
-): Omit<DataValueReadWriteProps, keyof DataValueReadWriteProps> {
+  Props extends Record<string, unknown>,
+>(props: Props): Omit<Props, keyof DataValueReadWriteProps> {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(
       ([key]) =>
         !dataValueReadProps.includes(key) &&
         !dataValueWriteProps.includes(key)
     )
-  )
+  ) as Omit<Props, keyof DataValueReadWriteProps>
 }
 
 export type ComponentProps = SpacingProps & {
@@ -379,11 +335,6 @@ export type FieldStatus = {
   error?: StatusError
 }
 
-export type ConnectorProps<Value = unknown> = Pick<
-  UseFieldProps<Value>,
-  'onChange' | 'onBlurValidator'
->
-
 export type InfoProp<Value> = MessageProp<
   Value,
   React.ReactNode | Array<React.ReactNode>
@@ -401,13 +352,16 @@ export type ErrorProp<Value> = MessageProp<
   | Array<string | React.ReactElement | Error | FormError>
 >
 
-export interface UseFieldProps<
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+interface UseFieldPropsInterface<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
+>
+  extends
+    DataValueReadWriteComponentProps<Value, EmptyValue>,
     AriaAttributes {
   // - HTML Element Attributes
   /**
@@ -450,8 +404,6 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: Schema<Value> | ((props: UseFieldProps<Value>) => Schema<Value>)
-  /** @deprecated Use `onChangeValidator` instead */
-  validator?: Validator<Value>
   onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
@@ -472,7 +424,7 @@ export interface UseFieldProps<
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
-   * @default false
+   * Default: `false`
    */
   validateInitially?: boolean
   /**
@@ -480,13 +432,6 @@ export interface UseFieldProps<
    * the value? So the user did not introduce a new error, but it was invalid based on validation initially.
    */
   validateUnchanged?: boolean
-  /**
-   * Should validation be done while writing, not just when blurring the field?
-   */
-  /**
-   * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-   */
-  continuousValidation?: boolean
   /**
    * Should validation be done while writing, not just when blurring the field?
    */
@@ -555,12 +500,20 @@ export interface UseFieldProps<
   valueType?: string | number | boolean | Array<string | number | boolean>
 }
 
+export type UseFieldProps<
+  Value = unknown,
+  EmptyValue = undefined | unknown,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
+> = UseFieldPropsInterface<Value, EmptyValue, ErrorMessages, ExtraValue>
+
 export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
 > = UseFieldProps<Value, EmptyValue, ErrorMessages, ExtraValue> &
   SharedFieldBlockProps
 
@@ -576,8 +529,8 @@ export type FieldPropsGeneric<
 
 export type FieldPropsWithExtraValue<
   Value = unknown,
-  ExtraValue extends
-    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+  ExtraValue extends ProvideAdditionalEventArgs =
+    ProvideAdditionalEventArgs,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
@@ -586,8 +539,10 @@ export type FieldPropsWithExtraValue<
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
-export interface ValueProps<Value = unknown>
-  extends DataValueReadComponentProps<Value> {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+interface ValuePropsInterface<
+  Value = unknown,
+> extends DataValueReadComponentProps<Value> {
   /**
    * Field label to show above the data value.
    */
@@ -653,6 +608,8 @@ export interface ValueProps<Value = unknown>
    */
   fromExternal?: (external: Value) => Value
 }
+
+export type ValueProps<Value = unknown> = ValuePropsInterface<Value>
 
 export type Path = string
 export type PathStrict = `/${string}`
@@ -758,7 +715,7 @@ export type OnSubmit<Data = JsonObject> = (
     filterData,
     resetForm,
     clearData,
-  }: OnSubmitParams
+  }: OnSubmitParams<Data>
 ) => OnSubmitReturn
 export type OnSubmitRequestReturn = OnSubmitReturn
 export type OnSubmitRequest = ({

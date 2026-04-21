@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
 import {
@@ -16,6 +16,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const CopyOnClick = ({
   children,
@@ -27,7 +28,7 @@ const CopyOnClick = ({
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
   const [active, setActive] = React.useState(false)
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const CopyOnClick = ({
   }, [])
 
   const {
-    CopyOnClick: { clipboard_copy },
+    CopyOnClick: { clipboardCopy },
   } = useTranslation()
 
   const copy = useCallback(async (str: string) => {
@@ -83,11 +84,11 @@ const CopyOnClick = ({
   const params = {
     onClick: disabled ? undefined : onClickHandler,
   }
-  const message = tooltipContent ?? clipboard_copy
+  const message = tooltipContent ?? clipboardCopy
 
   return (
     <Span
-      className={classnames(
+      className={clsx(
         'dnb-copy-on-click',
         showCursor && !disabled && 'dnb-copy-on-click--cursor',
         className
@@ -97,12 +98,15 @@ const CopyOnClick = ({
       {...params}
     >
       {children}
-      <Tooltip active={active} targetElement={ref}>
+      <Tooltip open={active} targetElement={ref}>
         {message}
       </Tooltip>
     </Span>
   )
 }
 
-CopyOnClick._supportsSpacingProps = true
+withComponentMarkers(CopyOnClick, {
+  _supportsSpacingProps: true,
+})
+
 export default CopyOnClick

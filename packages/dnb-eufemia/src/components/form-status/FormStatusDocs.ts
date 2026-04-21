@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormStatusProperties: PropertiesTableProps = {
   text: {
@@ -22,28 +22,34 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   state: {
-    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.',
-    type: ['error', 'warn', 'info', 'success', 'marketing'],
+    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   size: {
     doc: 'Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.',
-    type: ['default', 'large'],
+    type: ['"default"', '"large"'],
     status: 'optional',
   },
   icon: {
-    doc: 'The `icon` show before the status text. Defaults to `exclamation`.',
+    doc: 'The `icon` show before the status text. Defaults to `error`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'The icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
   variant: {
-    doc: 'As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.',
-    type: ['flat', 'outlined'],
+    doc: 'As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.',
+    type: ['"plain"', '"outlined"'],
     status: 'optional',
   },
   stretch: {
@@ -56,8 +62,8 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
-    doc: 'NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~',
+  noAnimation: {
+    doc: '**NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~',
     type: 'boolean',
     status: 'optional',
   },

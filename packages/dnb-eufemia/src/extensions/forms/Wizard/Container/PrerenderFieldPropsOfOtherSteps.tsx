@@ -5,13 +5,12 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 import DataContext, {
   defaultContextState,
 } from '../../DataContext/Context'
-import WizardContext, {
-  WizardContextState,
-} from '../Context/WizardContext'
+import type { WizardContextState } from '../Context/WizardContext'
+import WizardContext from '../Context/WizardContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 
 export function PrerenderFieldPropsOfOtherSteps({
@@ -92,8 +91,8 @@ function usePrerenderState() {
 }
 
 function useEffectPromise() {
-  const promiseRef = useRef<Promise<void>>()
-  const resolveRef = useRef<() => void>()
+  const promiseRef = useRef<Promise<void> | undefined>(undefined)
+  const resolveRef = useRef<(() => void) | null>(null)
 
   const effectPromise = useCallback(() => {
     promiseRef.current = new Promise((resolve) => {
@@ -138,11 +137,13 @@ function usePreventSubmit() {
 
   // Only add the listener when there is an unknown step state
   if (hasUnknownSteps) {
+    // @ts-expect-error - strictFunctionTypes
     setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
   }
 
   useEffect(() => {
     return () => {
+      // @ts-expect-error - strictFunctionTypes
       setFieldEventListener?.(undefined, 'onSubmit', handleSubmit, {
         remove: true,
       })
@@ -150,10 +151,15 @@ function usePreventSubmit() {
   }, [handleSubmit, setFieldEventListener])
 }
 
-function PrerenderPortal({ children }) {
+function PrerenderPortal({
+  children,
+}: {
+  children: React.ReactNode
+}): React.ReactNode {
   if (typeof document !== 'undefined') {
-    return ReactDOM.createPortal(children, document.body)
+    return createPortal(children, document.body)
   }
+  return undefined
 }
 
 function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
@@ -170,7 +176,7 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
   // Run validation of all fields
   if (showAllErrorsNow) {
     return (
-      <DataContext.Provider
+      <DataContext
         value={{
           ...dataContext,
           hasContext: true,
@@ -179,13 +185,13 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
         }}
       >
         {children}
-      </DataContext.Provider>
+      </DataContext>
     )
   }
 
   // Pre-render field props
   return (
-    <DataContext.Provider
+    <DataContext
       value={{
         ...defaultContextState,
         hasContext: true,
@@ -199,6 +205,6 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
       }}
     >
       {children}
-    </DataContext.Provider>
+    </DataContext>
   )
 }

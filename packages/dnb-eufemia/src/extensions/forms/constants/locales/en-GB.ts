@@ -183,6 +183,10 @@ export default {
     },
     BankAccountNumber: {
       label: 'Bank account',
+      labelSwedishBban: 'Swedish account number',
+      labelSwedishBankgiro: 'Bankgiro',
+      labelSwedishPlusgiro: 'Plusgiro',
+      labelIban: 'IBAN',
       errorRequired: 'You must enter an account number.',
       errorBankAccountNumber: 'Invalid account number.',
       errorBankAccountNumberLength:
@@ -202,7 +206,7 @@ export default {
         'Invalid date of birth. Enter todays date or earlier.',
     },
     PhoneNumber: {
-      label: 'Mobile number',
+      numberLabel: 'Mobile number',
       countryCodeLabel: 'Country code',
       errorRequired:
         'Mobile number must be filled in. If you don’t have a mobile number, you can enter another phone number.',

@@ -5,9 +5,6 @@ exports[`Avatar scss should match default theme snapshot 1`] = `
 * Avatar theme
 *
 */
-/*
- * Utilities
- */
 .dnb-avatar {
   --color: var(--color-pistachio);
 }
@@ -28,9 +25,6 @@ exports[`Avatar scss should match style dependencies css 1`] = `
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
 /*
 * Avatar component
 *

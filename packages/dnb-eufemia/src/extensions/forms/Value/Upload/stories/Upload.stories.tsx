@@ -1,9 +1,34 @@
-import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { Form, Value } from '../../..'
 import { P } from '../../../../../elements'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Value/Upload',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 function createMockFile(name: string, size: number, type: string) {
@@ -86,7 +111,7 @@ export function Upload() {
           <P>layout="grid"</P>
           <Value.SummaryList
             layout="grid"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -98,7 +123,7 @@ export function Upload() {
           <P>layout="horizontal"</P>
           <Value.SummaryList
             layout="horizontal"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -110,7 +135,7 @@ export function Upload() {
           <P>layout="vertical"</P>
           <Value.SummaryList
             layout="vertical"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -121,7 +146,7 @@ export function Upload() {
         <Form.Card>
           <P>empty values</P>
           <Value.SummaryList
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" />
             <Value.String label="bar" />

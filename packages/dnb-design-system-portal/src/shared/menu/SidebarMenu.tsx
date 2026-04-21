@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
@@ -158,7 +158,7 @@ export default function SidebarLayout({
     <nav
       id="portal-sidebar-menu"
       aria-labelledby="toggle-sidebar-menu"
-      className={classnames(
+      className={clsx(
         navStyle,
         'dnb-scrollbar-appearance',
         isOpen && 'show-mobile-menu',
@@ -172,7 +172,7 @@ export default function SidebarLayout({
           top: 'large',
           text: 'Portal Tools',
           icon: 'chevron_right',
-          icon_position: 'right',
+          iconPosition: 'right',
         }}
         tooltipPosition="bottom"
         hideWhenMediaLarge
@@ -222,26 +222,19 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       ui: 'DNB',
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
-      carnegie: 'Carnegie',
+      carnegie: 'DNB Carnegie',
     }[theme]
   const themeTitleTitle =
     theme && `This component is ready for use with the ${themeTitle} theme`
   return (
     <span
       title={themeTitleTitle}
-      className={classnames(
+      className={clsx(
         'dnb-sidebar-menu__theme-badge',
         `dnb-sidebar-menu__theme-badge--${theme}`
       )}
       {...props}
-    >
-      <span
-        title={themeTitleTitle}
-        className={classnames('dnb-sidebar-menu__theme-badge__title')}
-      >
-        {themeTitle}
-      </span>
-    </span>
+    />
   )
 }
 
@@ -253,7 +246,7 @@ type ListItemProps = {
   level?: number
   nr?: number
   status?: string
-  theme?: ThemeNames
+  theme?: ThemeNames[]
   icon?: string
   isActive?: boolean
   hideInMenu?: boolean
@@ -261,7 +254,7 @@ type ListItemProps = {
   isInsideActiveCategory?: boolean
   currentPathName?: string
   accordion?: boolean
-  scrollRef?: React.MutableRefObject<HTMLElement>
+  scrollRef?: React.RefObject<HTMLElement>
 }
 
 function ListItem({
@@ -273,7 +266,7 @@ function ListItem({
   isInsideActiveCategory = false,
   nr,
   status,
-  theme,
+  theme: supportedThemes,
   icon,
   title,
   subheadings,
@@ -342,7 +335,7 @@ function ListItem({
   return (
     <>
       <li
-        className={classnames(
+        className={clsx(
           'dnb-sidebar-menu',
           `l-${level}`,
           isActive && 'is-active', // use anchor hover style
@@ -374,7 +367,7 @@ function ListItem({
                 setIsExpanded(true)
               }
             }}
-            className={classnames(
+            className={clsx(
               'dnb-anchor',
               'dnb-anchor--no-underline',
               'dnb-anchor--no-radius',
@@ -388,14 +381,14 @@ function ListItem({
                 <Icon icon={graphics[icon]} size="medium" />
               )}
               <span
-                className={classnames(
-                  createSkeletonClass('font', skeleton)
-                )}
+                className={clsx(createSkeletonClass('font', skeleton))}
               >
                 {title.replace(/^[A-Z][a-z]*\./, '')}
               </span>
             </span>
-            {theme === currentTheme && <ThemeBadge theme={theme} />}
+            {supportedThemes?.indexOf(currentTheme) > -1 && (
+              <ThemeBadge theme={currentTheme} />
+            )}
             {status && (
               <Badge space={{ right: 'xx-small' }} content={statusTitle} />
             )}
@@ -748,7 +741,7 @@ function usePrevious<T>(
 }
 
 function ensureActiveMenuItemIsInView(
-  parentRef: React.MutableRefObject<HTMLElement>
+  parentRef: React.RefObject<HTMLElement>
 ) {
   const nav = parentRef?.current
   if (nav) {

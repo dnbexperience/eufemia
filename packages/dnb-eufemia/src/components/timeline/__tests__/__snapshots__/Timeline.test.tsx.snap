@@ -9,8 +9,9 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
  * Utilities
  */
 /*
- * Utilities
- */
+* Timeline theme
+*
+*/
 /*
 * Button mixins
 *
@@ -31,7 +32,8 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
         var(--timeline-icon-width--medium) - var(
             --timeline-icon-width--small
           )
-      ) / 2
+      ) /
+      2
   );
   --timeline-border-spacing: var(--spacing-small);
   --timeline-border-spacing--icon-adjusted: calc(
@@ -112,15 +114,9 @@ exports[`Timeline scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Timeline component
 *
 */
-/*
- * Utilities
- */
 .dnb-timeline {
   display: flex;
   flex-direction: column;

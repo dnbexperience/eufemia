@@ -5,9 +5,9 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import GlobalStatus, { GlobalStatusProps } from '../GlobalStatus'
+import type { GlobalStatusProps } from '../GlobalStatus'
+import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
-import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -19,6 +19,7 @@ import {
   simulateAnimationEnd,
 } from '../../height-animation/__tests__/HeightAnimationUtils'
 import { confetti_medium as ConfettiIcon } from '../../../icons'
+import { Form } from '../../../extensions/forms'
 
 const text = 'text'
 const items = [
@@ -26,17 +27,21 @@ const items = [
   { id: 'id-2', text: 'item #2' },
 ]
 const show = true
-const autoscroll = false
+const autoScroll = false
 
 const props: GlobalStatusProps = {
   show,
-  autoscroll,
+  autoScroll,
   items,
   text,
 }
 
 // To be able to test the height animation / cached content
 initializeTestSetup()
+
+beforeEach(() => {
+  window.scrollTo = jest.fn()
+})
 
 describe('GlobalStatus component', () => {
   it('should have a text value as defined in the prop', () => {
@@ -51,7 +56,9 @@ describe('GlobalStatus component', () => {
   it('should have list items as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
     expect(document.querySelector('.dnb-ul').textContent).toBe(
-      props.items.map(({ text }) => text).join('')
+      props.items
+        .map((item) => (typeof item === 'string' ? item : item.text))
+        .join('')
     )
   })
 
@@ -90,16 +97,16 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have correct attributes like "aria-live"', async () => {
-    const { rerender } = render(<GlobalStatus autoscroll={false} />)
+    const { rerender } = render(<GlobalStatus autoScroll={false} />)
     expect(document.querySelector('[aria-live]')).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoscroll={false} show={true} />)
+    rerender(<GlobalStatus autoScroll={false} show={true} />)
 
     expect(
       document.querySelector('[aria-live="assertive"]')
     ).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoscroll={false} show={false} />)
+    rerender(<GlobalStatus autoScroll={false} show={false} />)
 
     expect(
       document.querySelector('.dnb-global-status__wrapper')
@@ -113,24 +120,24 @@ describe('GlobalStatus component', () => {
     render(
       <>
         <GlobalStatus
-          autoscroll={false}
+          autoScroll={false}
           id="custom-status-update"
           text={startupText}
           items={['item#1']}
         />
         <GlobalStatus.Add
           id="custom-status-update"
-          status_id="status-update-1"
+          statusId="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
-          on_close={jest.fn()}
+          onClose={jest.fn()}
         />
         <GlobalStatus.Add
           id="custom-status-update"
-          status_id="status-update-1"
+          statusId="status-update-1"
           text={newText}
           item={{ text: 'item#3' }}
-          on_close={jest.fn()}
+          onClose={jest.fn()}
         />
       </>
     )
@@ -160,15 +167,15 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-update" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-update" />)
 
     render(
       <GlobalStatus.Add
         id="custom-status-update"
-        status_id="status-update-1"
+        statusId="status-update-1"
         text={startupText}
         items={startupItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -184,10 +191,10 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-update"
-        status_id="status-update-1"
+        statusId="status-update-1"
         text={newText}
         items={newItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -203,8 +210,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-update"
-        status_id="status-update-1"
-        buffer_delay={0}
+        statusId="status-update-1"
+        bufferDelay={0}
       />
     )
 
@@ -219,17 +226,17 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-remove" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-remove" />)
 
     expect(document.querySelector('.dnb-global-status').innerHTML).toBe('')
 
     render(
       <GlobalStatus.Add
         id="custom-status-remove"
-        status_id="status-remove-1"
+        statusId="status-remove-1"
         text={startupText}
         items={startupItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -248,10 +255,10 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-remove"
-        status_id="status-remove-2"
+        statusId="status-remove-2"
         text={newText}
         items={newItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -270,8 +277,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-remove"
-        status_id="status-remove-1"
-        buffer_delay={0}
+        statusId="status-remove-1"
+        bufferDelay={0}
       />
     )
 
@@ -292,8 +299,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-remove"
-        status_id="status-remove-2"
-        buffer_delay={0}
+        statusId="status-remove-2"
+        bufferDelay={0}
       />
     )
 
@@ -309,8 +316,8 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-1"
           status={status}
-          status_no_animation={true}
-          on_change={({ checked }) => {
+          statusNoAnimation={true}
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message-1' : null)
           }}
         />
@@ -323,8 +330,8 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-2"
           status={status}
-          status_no_animation={true}
-          on_change={({ checked }) => {
+          statusNoAnimation={true}
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message-2' : null)
           }}
         />
@@ -337,11 +344,11 @@ describe('GlobalStatus component', () => {
         <Autocomplete
           id="autocomplete-3"
           status={status}
-          status_no_animation={true}
-          on_focus={() => {
+          statusNoAnimation={true}
+          onFocus={() => {
             setStatus('error-message-3')
           }}
-          on_blur={() => {
+          onBlur={() => {
             setStatus(null)
           }}
         />
@@ -350,23 +357,32 @@ describe('GlobalStatus component', () => {
 
     render(
       <>
-        <GlobalStatus id="my-form" autoscroll={false} />
-        <FormSet globalStatus={{ id: 'my-form' }}>
+        <GlobalStatus id="my-form" autoScroll={false} />
+        <Form.Handler globalStatusId="my-form">
           <FormField1 />
           <FormField2 />
           <FormField3 />
-        </FormSet>
+        </Form.Handler>
       </>
     )
 
-    await wait(1)
-    fireEvent.click(document.querySelector('input#switch-1'))
+    const getInput = (selector: string) =>
+      document.querySelector(selector) as HTMLInputElement
+    const clickInput = (selector: string) =>
+      fireEvent.click(getInput(selector))
+    const focusInput = (selector: string) =>
+      fireEvent.focus(getInput(selector))
+    const blurInput = (selector: string) =>
+      fireEvent.blur(getInput(selector))
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-2'))
+    clickInput('input#switch-1')
 
     await wait(1)
-    fireEvent.focus(document.querySelector('input#autocomplete-3'))
+    clickInput('input#switch-2')
+
+    await wait(1)
+    focusInput('input#autocomplete-3')
 
     // FormStatus content
     expect(
@@ -398,13 +414,13 @@ describe('GlobalStatus component', () => {
     ).toBe('error-message-3')
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-1'))
+    clickInput('input#switch-1')
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-2'))
+    clickInput('input#switch-2')
 
     await wait(1)
-    fireEvent.blur(document.querySelector('input#autocomplete-3'))
+    blurInput('input#autocomplete-3')
 
     expect(
       document.querySelector('.dnb-form-status__text')
@@ -440,9 +456,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'scroll-to-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -493,9 +509,77 @@ describe('GlobalStatus component', () => {
     })
   })
 
+  it('should not scroll when autoScroll is false', async () => {
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch-no-scroll"
+          status={status}
+          statusNoAnimation={true}
+          globalStatus={{ id: 'no-scroll-test' }}
+          onChange={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+
+    render(
+      <>
+        <GlobalStatus id="no-scroll-test" autoScroll={false} />
+        <ToggleStatus />
+      </>
+    )
+
+    fireEvent.click(document.querySelector('input#switch-no-scroll'))
+
+    await refresh()
+
+    expect(scrollTo).not.toHaveBeenCalled()
+  })
+
+  it('should scroll when autoScroll is true (default)', async () => {
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch-scroll"
+          status={status}
+          statusNoAnimation={true}
+          globalStatus={{ id: 'scroll-test' }}
+          onChange={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+
+    render(
+      <>
+        <GlobalStatus id="scroll-test" />
+        <ToggleStatus />
+      </>
+    )
+
+    fireEvent.click(document.querySelector('input#switch-scroll'))
+
+    await refresh()
+
+    expect(scrollTo).toHaveBeenCalled()
+  })
+
   it('should close when esc key is pressed', async () => {
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -504,9 +588,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'esc-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -516,9 +600,9 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="esc-test"
-          autoscroll={false}
-          on_hide={on_hide}
-          on_close={on_close}
+          autoScroll={false}
+          onHide={onHide}
+          onClose={onClose}
         />
         <ToggleStatus />
       </>
@@ -529,21 +613,21 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
 
     // Close with key
-    keydown(27) // esc
+    keydown('Escape')
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('should close when escape key name is pressed', async () => {
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -552,9 +636,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-escape-key"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'escape-name-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -565,9 +649,9 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="escape-name-test"
-          autoscroll={false}
-          on_hide={on_hide}
-          on_close={on_close}
+          autoScroll={false}
+          onHide={onHide}
+          onClose={onClose}
         />
         <ToggleStatus />
       </>
@@ -577,15 +661,15 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
 
-    keydownWithKeyName('Escape')
+    keydown('Escape')
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('should have height of auto value', async () => {
@@ -596,9 +680,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'height-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -629,9 +713,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -639,7 +723,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <GlobalStatus id="main-to-be-empty" autoscroll={false} />
+        <GlobalStatus id="main-to-be-empty" autoScroll={false} />
         <ToggleStatus />
       </>
     )
@@ -674,37 +758,35 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
   })
 
-  it('should generate item_id form React Element', async () => {
-    const StatusAsComponent = React.forwardRef<
-      HTMLSpanElement,
-      React.PropsWithChildren<unknown>
-    >(({ children }, ref) => <span ref={ref}>{children}</span>)
+  it('should generate itemId form React Element', async () => {
+    const StatusAsComponent = ({
+      children,
+      ref,
+    }: React.PropsWithChildren<{
+      ref?: React.Ref<HTMLSpanElement>
+    }>) => <span ref={ref}>{children}</span>
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-element" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-element" />)
 
     const provider = new GlobalStatusInterceptor({
       id: 'custom-status-element',
     })
 
     provider.add({
-      status_id: 'status-1',
+      statusId: 'status-1',
       item: {
         text: <StatusAsComponent>error-message--a</StatusAsComponent>,
-        status_anchor_label: (
-          <StatusAsComponent>label--a</StatusAsComponent>
-        ),
-        status_anchor_url: true,
+        statusAnchorLabel: <StatusAsComponent>label--a</StatusAsComponent>,
+        statusAnchorUrl: true,
       },
     })
 
     provider.add({
-      status_id: 'status-2',
+      statusId: 'status-2',
       item: {
         text: <StatusAsComponent>error-message--b</StatusAsComponent>,
-        status_anchor_label: (
-          <StatusAsComponent>label--b</StatusAsComponent>
-        ),
-        status_anchor_url: true,
+        statusAnchorLabel: <StatusAsComponent>label--b</StatusAsComponent>,
+        statusAnchorUrl: true,
       },
     })
 
@@ -734,9 +816,9 @@ describe('GlobalStatus component', () => {
           id="switch"
           label={<LabelAsComponent />}
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? <StatusAsComponent /> : null)
           }}
         />
@@ -746,8 +828,8 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="main-to-be-empty"
-          autoscroll={false}
-          status_anchor_text={<span>custom anchor text</span>}
+          autoScroll={false}
+          statusAnchorText={<span>custom anchor text</span>}
         />
         <ToggleStatus />
       </>
@@ -769,33 +851,33 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have a working auto close', () => {
-    const on_open = jest.fn()
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     render(
       <GlobalStatus
-        autoclose={true}
-        autoscroll={false}
-        id="custom-status-autoclose"
-        on_open={on_open}
-        on_close={on_close}
-        on_hide={on_hide}
+        autoClose={true}
+        autoScroll={false}
+        id="custom-status-autoClose"
+        onOpen={onOpen}
+        onClose={onClose}
+        onHide={onHide}
       />
     )
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        status_id="status-autoclose-1"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
         text="text only"
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
     simulateAnimationEnd()
 
-    expect(on_open.mock.calls.length).toBe(1)
+    expect(onOpen.mock.calls.length).toBe(1)
 
     expect(
       document.querySelector('div.dnb-global-status__message')
@@ -806,11 +888,11 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        status_id="status-autoclose-2"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-2"
         text="text only"
         items={['foo']}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -820,28 +902,28 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Remove
-        id="custom-status-autoclose"
-        status_id="status-autoclose-1"
-        buffer_delay={0}
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
+        bufferDelay={0}
       />
     )
 
     simulateAnimationEnd()
 
-    expect(on_close.mock.calls.length).toBe(0)
+    expect(onClose.mock.calls.length).toBe(0)
 
     render(
       <GlobalStatus.Remove
-        id="custom-status-autoclose"
-        status_id="status-autoclose-2"
-        buffer_delay={0}
+        id="custom-status-autoClose"
+        statusId="status-autoClose-2"
+        bufferDelay={0}
       />
     )
 
     simulateAnimationEnd()
 
-    expect(on_close.mock.calls.length).toBe(1)
-    expect(on_hide.mock.calls.length).toBe(0)
+    expect(onClose.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(0)
 
     expect(
       document.querySelector('div.dnb-global-status__message')
@@ -849,10 +931,10 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        status_id="status-autoclose-1"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
         items={['foo']}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
         text="text"
       />
     )
@@ -861,14 +943,14 @@ describe('GlobalStatus component', () => {
       document.querySelector('button.dnb-global-status__close-button')
     )
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(1)
   })
 
   it('should take account to the show prop', () => {
     const { rerender } = render(
       <GlobalStatus
         show={false}
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )
@@ -884,7 +966,7 @@ describe('GlobalStatus component', () => {
     rerender(
       <GlobalStatus
         show={true}
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )
@@ -899,9 +981,9 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-show"
-        status_id="status-show-1"
+        statusId="status-show-1"
         text="text only"
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -912,7 +994,7 @@ describe('GlobalStatus component', () => {
     rerender(
       <GlobalStatus
         show="auto"
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )
@@ -920,7 +1002,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-show"
-        status_id="status-show-1"
+        statusId="status-show-1"
       />
     )
 
@@ -941,8 +1023,8 @@ describe('GlobalStatus component', () => {
 
     expect(element.classList).toContain('dnb-global-status--warning')
 
-    rerender(<GlobalStatus state="info" />)
-    expect(element.classList).toContain('dnb-global-status--info')
+    rerender(<GlobalStatus state="information" />)
+    expect(element.classList).toContain('dnb-global-status--information')
 
     rerender(<GlobalStatus state="success" />)
     expect(element.classList).toContain('dnb-global-status--success')
@@ -955,9 +1037,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should support removing icon', () => {
-    render(
-      <GlobalStatus icon={null} show no_animation hide_close_button />
-    )
+    render(<GlobalStatus icon={null} show noAnimation hideCloseButton />)
 
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
@@ -969,8 +1049,8 @@ describe('GlobalStatus component', () => {
           <Icon icon={ConfettiIcon} data-testid="custom-icon-testid" />
         }
         show
-        no_animation
-        hide_close_button
+        noAnimation
+        hideCloseButton
       />
     )
 
@@ -984,6 +1064,161 @@ describe('GlobalStatus component', () => {
     const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should update state class when state prop changes while items remain the same', () => {
+    const fixedItems = [{ id: 'id-1', text: 'item #1' }]
+
+    const { rerender } = render(
+      <GlobalStatus
+        show
+        autoScroll={false}
+        noAnimation
+        state="error"
+        items={fixedItems}
+      />
+    )
+
+    const element = document.querySelector('.dnb-global-status')
+    expect(element).toHaveClass('dnb-global-status--error')
+
+    rerender(
+      <GlobalStatus
+        show
+        autoScroll={false}
+        noAnimation
+        state="information"
+        items={fixedItems}
+      />
+    )
+
+    expect(element).toHaveClass('dnb-global-status--information')
+    expect(element).not.toHaveClass('dnb-global-status--error')
+  })
+
+  it('should reflect dynamic locale changes from Provider context', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <GlobalStatus show autoScroll={false} noAnimation text="Test" />
+      </Provider>
+    )
+
+    const titleElement = document.querySelector(
+      '.dnb-global-status__title'
+    )
+    const closeButton = document.querySelector(
+      '.dnb-global-status__close-button'
+    )
+
+    expect(titleElement.textContent).toContain('An error has occurred')
+    expect(closeButton.textContent).toContain('Close')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus show autoScroll={false} noAnimation text="Test" />
+      </Provider>
+    )
+
+    expect(titleElement.textContent).toContain('En feil har skjedd')
+    expect(closeButton.textContent).toContain('Lukk')
+  })
+
+  it('should reflect dynamic state prop changes combined with locale changes', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <GlobalStatus
+          show
+          autoScroll={false}
+          noAnimation
+          state="error"
+          text="Test"
+        />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-global-status')
+    const titleElement = document.querySelector(
+      '.dnb-global-status__title'
+    )
+    const closeButton = document.querySelector(
+      '.dnb-global-status__close-button'
+    )
+
+    expect(element).toHaveClass('dnb-global-status--error')
+    expect(titleElement.textContent).toContain('An error has occurred')
+    expect(closeButton.textContent).toContain('Close')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus
+          show
+          autoScroll={false}
+          noAnimation
+          state="information"
+          text="Test"
+        />
+      </Provider>
+    )
+
+    expect(element).toHaveClass('dnb-global-status--information')
+    expect(element).not.toHaveClass('dnb-global-status--error')
+    expect(closeButton.textContent).toContain('Lukk')
+  })
+
+  it('should not become visible when rendered without show prop', () => {
+    render(<GlobalStatus id="auto-show-test" autoScroll={false} />)
+
+    const wrapper = document.getElementById('auto-show-test')
+    expect(wrapper).toHaveAttribute('aria-live', 'off')
+    expect(
+      wrapper.querySelector('.dnb-global-status__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not become visible after a provider update when show is auto', async () => {
+    render(
+      <>
+        <GlobalStatus id="provider-update-test" autoScroll={false} />
+        <GlobalStatus.Add
+          id="provider-update-test"
+          statusId="temp-status"
+          text="temporary"
+        />
+      </>
+    )
+
+    simulateAnimationEnd()
+
+    render(
+      <GlobalStatus.Remove
+        id="provider-update-test"
+        statusId="temp-status"
+      />
+    )
+
+    await waitFor(() => {
+      const wrapper = document.getElementById('provider-update-test')
+      expect(wrapper).toHaveAttribute('aria-live', 'off')
+    })
+  })
+
+  it('should render with error state when show is true but state prop is not explicitly set', () => {
+    render(
+      <GlobalStatus
+        show={true}
+        autoScroll={false}
+        noAnimation={true}
+        id="state-default-test"
+        text="Failure text"
+        title="Custom Title"
+      />
+    )
+
+    const wrapper = document.getElementById('state-default-test')
+    expect(wrapper).toHaveAttribute('aria-live', 'assertive')
+
+    const status = wrapper.querySelector('.dnb-global-status')
+    expect(status).toHaveClass('dnb-global-status--error')
+  })
 })
 
 describe('GlobalStatus scss', () => {
@@ -994,12 +1229,12 @@ describe('GlobalStatus scss', () => {
         items={[
           {
             text: 'List item',
-            status_anchor_url: '/uilib/components/global-status',
-            status_anchor_label: 'eksempel',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'eksempel',
           },
         ]}
         show={true}
-        autoscroll={false}
+        autoScroll={false}
       />
     )
 
@@ -1014,31 +1249,13 @@ describe('GlobalStatus scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-global-status-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
 })
 
 const refresh = async () => {
   await wait(1)
 }
 
-const keydown = (keyCode) => {
-  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
-
-  fireEvent.keyDown(
-    document.querySelector('.dnb-global-status__wrapper'),
-    {
-      keyCode,
-    }
-  )
-}
-
-const keydownWithKeyName = (key: string) => {
+const keydown = (key: string) => {
   const eventInit = { key }
 
   document.dispatchEvent(new KeyboardEvent('keydown', eventInit))

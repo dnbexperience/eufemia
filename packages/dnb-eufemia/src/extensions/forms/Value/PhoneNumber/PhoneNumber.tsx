@@ -1,28 +1,28 @@
 import React, { useCallback } from 'react'
-import StringValue, { Props as StringValueProps } from '../String'
-import { format } from '../../../../components/number-format/NumberUtils'
+import type { ValueStringProps as StringValueProps } from '../String'
+import StringValue from '../String'
+import { formatPhoneNumber } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValuePhoneNumberProps = StringValueProps
 
-function PhoneNumber(props: Props) {
+function PhoneNumber(props: ValuePhoneNumberProps) {
   const translations = useTranslation().PhoneNumber
 
   const label =
-    props.label ?? (props.inline ? undefined : translations.label)
+    props.label ?? (props.inline ? undefined : translations.numberLabel)
 
   const toInput = useCallback((value) => {
     if (isValueEmpty(value)) {
       return undefined
     }
-    // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
-    return format(value, {
-      phone: true,
-    }).toString()
+
+    return formatPhoneNumber(value).toString()
   }, [])
 
-  const stringValueProps: Props = {
+  const stringValueProps: ValuePhoneNumberProps = {
     ...props,
     label,
     toInput,
@@ -31,5 +31,8 @@ function PhoneNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-PhoneNumber._supportsSpacingProps = true
+withComponentMarkers(PhoneNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default PhoneNumber

@@ -29,8 +29,6 @@ import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
 import Flex from './flex/Flex'
 import FormLabel from './form-label/FormLabel'
-import FormRow from './form-row/FormRow'
-import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
@@ -46,6 +44,7 @@ import InputMasked from './input-masked/InputMasked'
 import List from './list/List'
 import ListFormat from './list-format/ListFormat'
 import Logo from './logo/Logo'
+import Menu from './menu/Menu'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
@@ -93,8 +92,6 @@ export {
   Dropdown,
   Flex,
   FormLabel,
-  FormRow,
-  FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,
@@ -110,6 +107,7 @@ export {
   List,
   ListFormat,
   Logo,
+  Menu,
   Modal,
   NumberFormat,
   Pagination,

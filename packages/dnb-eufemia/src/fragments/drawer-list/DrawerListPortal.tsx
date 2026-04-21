@@ -1,12 +1,9 @@
 /**
- * Web DrawerList Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
+ * Web DrawerList Portal Component
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   getClosestScrollViewElement,
@@ -16,24 +13,24 @@ import PortalRoot from '../../components/PortalRoot'
 export type DrawerListPortalProps = {
   id: string
   children: React.ReactNode
-  opened: boolean
-  innerRef?: React.ForwardedRef<HTMLSpanElement>
+  open: boolean
+  ref?: React.Ref<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
-  include_owner_width?: boolean
-  independent_width?: boolean
-  fixed_position?: boolean
+  includeOwnerWidth?: boolean
+  independentWidth?: boolean
+  fixedPosition?: boolean
   skipPortal?: boolean
   className?: string
 }
 
 function DrawerListPortal({
-  innerRef,
+  ref: refProp,
   id,
-  opened,
+  open,
   rootRef = { current: undefined },
-  include_owner_width,
-  independent_width,
-  fixed_position,
+  includeOwnerWidth,
+  independentWidth,
+  fixedPosition,
   skipPortal,
   className,
   children,
@@ -43,12 +40,12 @@ function DrawerListPortal({
 
   const localRef = useRef<HTMLSpanElement>(null)
   const portalRef =
-    innerRef && typeof innerRef !== 'function' ? innerRef : localRef
+    refProp && typeof refProp !== 'function' ? refProp : localRef
 
-  const setPosition = useRef<() => void>()
-  const positionTimeout = useRef<NodeJS.Timeout>()
-  const customElem = useRef<Element | Window>()
-  const resizeObserver = useRef<ResizeObserver>()
+  const setPosition = useRef<() => void>(undefined)
+  const positionTimeout = useRef<NodeJS.Timeout>(undefined)
+  const customElem = useRef<Element | Window>(undefined)
+  const resizeObserver = useRef<ResizeObserver>(undefined)
 
   const init = useCallback(() => {
     setIsMounted(true)
@@ -92,13 +89,13 @@ function DrawerListPortal({
 
   const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
       const rootElem = rootRef.current
       if (!rootElem) {
-        return // stop here
+        return undefined // stop here
       }
       const ownerElem = rootElem.parentElement
 
@@ -109,7 +106,7 @@ function DrawerListPortal({
       const ownerWidth = window.getComputedStyle(ownerElem).width
 
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
-      if (independent_width || parseFloat(ownerWidth) < 64) {
+      if (independentWidth || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
         let minWidth = 0
         if (portalRef.current) {
@@ -125,28 +122,28 @@ function DrawerListPortal({
 
       // also check if root "has a custom width"
       const customWidth = rootElem.getBoundingClientRect().width
-      if (!independent_width && (customWidth || 0) >= 64) {
+      if (!independentWidth && (customWidth || 0) >= 64) {
         width = customWidth
       }
 
       // Handle positions
       const rect = rootElem.getBoundingClientRect()
-      const scrollY = fixed_position
+      const scrollY = fixedPosition
         ? 0
         : window.scrollY !== undefined
-        ? window.scrollY
-        : window.pageYOffset
-      const scrollX = fixed_position
+          ? window.scrollY
+          : window.pageYOffset
+      const scrollX = fixedPosition
         ? 0
         : window.scrollX !== undefined
-        ? window.scrollX
-        : window.pageXOffset
+          ? window.scrollX
+          : window.pageXOffset
 
       let top = scrollY + rect.top
       let left =
         scrollX +
         rect.left +
-        (include_owner_width ? parseFloat(ownerWidth || '0') : 0)
+        (includeOwnerWidth ? parseFloat(ownerWidth || '0') : 0)
 
       if (width > window.innerWidth) {
         width = window.innerWidth
@@ -170,25 +167,27 @@ function DrawerListPortal({
     } catch (e) {
       warn(e)
     }
+
+    return undefined
   }, [
     isMounted,
     rootRef,
-    independent_width,
-    fixed_position,
-    include_owner_width,
+    independentWidth,
+    fixedPosition,
+    includeOwnerWidth,
     portalRef,
   ])
 
   const addPositionObserver = useCallback(() => {
     if (setPosition.current || typeof window === 'undefined') {
-      return // stop here
+      return undefined // stop here
     }
 
     // debounce
     setPosition.current = () => {
       clearTimeout(positionTimeout.current)
       positionTimeout.current = setTimeout(() => {
-        if (opened) {
+        if (open) {
           setForceRerender(Date.now())
         }
       }, 200)
@@ -205,18 +204,18 @@ function DrawerListPortal({
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
     }
-  }, [opened, rootRef])
+  }, [open, rootRef])
 
   if (skipPortal) {
     return children
   }
 
   if (typeof window !== 'undefined' && isMounted) {
-    if (opened) {
+    if (open) {
       addPositionObserver()
     }
 
-    const style = (opened ? makeStyle() : {}) as React.CSSProperties
+    const style = (open ? makeStyle() : {}) as React.CSSProperties
 
     return (
       <PortalRoot>
@@ -226,9 +225,9 @@ function DrawerListPortal({
           ref={portalRef}
         >
           <span
-            className={classnames(
+            className={clsx(
               'dnb-drawer-list__portal__style',
-              fixed_position && 'dnb-drawer-list__portal__style--fixed',
+              fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className
             )}
             style={style}
@@ -243,11 +242,4 @@ function DrawerListPortal({
   return null
 }
 
-export default React.forwardRef(
-  (
-    props: Omit<DrawerListPortalProps, 'innerRef'>,
-    ref: React.ForwardedRef<HTMLSpanElement>
-  ) => {
-    return <DrawerListPortal innerRef={ref} {...props} />
-  }
-)
+export default DrawerListPortal

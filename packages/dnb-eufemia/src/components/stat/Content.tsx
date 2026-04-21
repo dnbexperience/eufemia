@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import clsx from 'clsx'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -9,7 +9,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type ContentOwnProps = {
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
 }
@@ -43,27 +43,29 @@ function Content(props: ContentProps) {
     warn('Stat.Content should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    className: classnames(
-      'dnb-stat',
-      'dnb-stat__content-item',
-      `dnb-stat__content-item--${direction}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
+  const attributes = validateDOMAttributes(
+    props,
+    applySpacing(props, {
+      ...rest,
+      style,
+      className: clsx(
+        'dnb-stat',
+        'dnb-stat__content-item',
+        `dnb-stat__content-item--${direction}`,
+        skeletonClass,
+        className
+      ),
+    })
+  )
 
   applySkeletonAttributes(attributes)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Element {...attributes}>{children}</Element>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 

@@ -32,7 +32,6 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
     // scroll to top on opening the menu, and back again
     if (!this.state.isOpen && typeof window !== 'undefined') {
       try {
-        // use "window.pageYOffset" instead of "window.scrollY" because IE
         this.lastScrollPosition = window.pageYOffset
       } catch (e) {
         console.error('Could not get scrollY', e)
@@ -88,7 +87,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
     const { children } = this.props
 
     return (
-      <SidebarMenuContext.Provider
+      <SidebarMenuContext
         value={{
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
@@ -97,7 +96,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
         }}
       >
         {children}
-      </SidebarMenuContext.Provider>
+      </SidebarMenuContext>
     )
   }
 }

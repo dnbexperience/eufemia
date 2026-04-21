@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { DataValueWritePropsProperties } from '../../hooks/DataValueWritePropsDocs'
 
 export const ArrayProperties: PropertiesTableProps = {
   value: {
-    doc: 'The data to iterate over. Alternative you can use the `path` prop.',
+    doc: 'The data to iterate over. Alternative you can use the `path` property.',
     type: 'array',
     status: 'optional',
   },
@@ -18,7 +18,7 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
     type: 'boolean',
     status: 'optional',
   },
@@ -69,7 +69,7 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   placeholder: {
     doc: 'Will be shown if the value or data context value is empty.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   emptyValue: {
@@ -79,14 +79,14 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   containerMode: {
     doc: 'Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.',
-    type: 'string',
+    type: ['"view"', '"edit"', '"auto"'],
     status: 'optional',
   },
   onChangeValidator: DataValueWritePropsProperties.onChangeValidator,
   validateInitially: DataValueWritePropsProperties.validateInitially,
   validateContinuously: DataValueWritePropsProperties.validateContinuously,
   children: {
-    doc: 'React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
+    doc: '`React.ReactNode` or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },

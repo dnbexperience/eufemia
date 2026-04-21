@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../shared/types'
+import type { PropertiesTableProps } from '../shared/types'
 
 export const ElementPropertiesWithoutSkeleton: PropertiesTableProps = {
-  innerRef: {
-    doc: 'Send along a custom React Ref.',
+  ref: {
+    doc: 'Send along a custom `React.Ref`.',
     type: 'React.RefObject',
     status: 'optional',
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
@@ -26,8 +26,8 @@ export const ElementProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skeletonMethod: {
-    doc: 'Can be `shape`, `font` or `form`. Defaults to `font`.',
-    type: 'string',
+    doc: 'Can be `shape`, `font` or `code`. Defaults to `font`.',
+    type: ['"shape"', '"font"', '"code"'],
     status: 'optional',
   },
 }

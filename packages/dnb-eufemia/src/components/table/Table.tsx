@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
@@ -12,10 +12,11 @@ import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
 
-import type { StickyTableHeaderProps } from './TableStickyHeader'
+import type { TableStickyHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
@@ -40,25 +41,25 @@ export type TableProps = {
 
   /**
    * The size of the component.
-   * Default: large.
+   * Default: `large`
    */
   size?: TableSizes
 
   /**
    * The style variant of the component. Currently not implemented.
-   * Default: generic.
+   * Default: `generic`
    */
   variant?: TableVariants
 
   /**
    * Use `true` to show borders between table data cell
-   * Default: false
+   * Default: `false`
    */
   border?: boolean
 
   /**
    * Use `true` to show a outline border around the table
-   * Default: false
+   * Default: `false`
    */
   outline?: boolean
 
@@ -68,19 +69,14 @@ export type TableProps = {
   mode?: 'accordion' | 'navigation'
 
   /**
-   * @deprecated – use mode="accordion" instead. Will be removed in v11.
-   */
-  accordion?: boolean
-
-  /**
    * Defines where the chevron will be placed, should only be used together with mode="accordion".
-   * Default: 'start'
+   * Default: `'left'`
    */
-  accordionChevronPlacement?: 'start' | 'end'
+  accordionChevronPlacement?: 'left' | 'right'
 
   /**
    * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
-   * Default: null.
+   * Default: `null`
    */
   fixed?: boolean
 
@@ -89,15 +85,15 @@ export type TableProps = {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
-} & StickyTableHeaderProps
+  collapseAllHandleRef?: React.RefObject<() => void>
+} & TableStickyHeaderProps
 
 export type TableAllProps = TableProps &
   Omit<React.TableHTMLAttributes<HTMLTableElement>, 'border'> &
   LocaleProps &
   SpacingProps
 
-export const defaultProps = {
+const defaultProps: Partial<TableAllProps> = {
   size: 'large',
   variant: 'generic',
 }
@@ -121,13 +117,12 @@ const Table = (componentProps: TableAllProps) => {
     skeleton,
     variant,
     sticky,
-    stickyOffset, // eslint-disable-line
+    stickyOffset,
     fixed,
     border,
     outline,
-    accordion, // Deprecated – can be removed in v11
     mode,
-    accordionChevronPlacement, // eslint-disable-line
+    accordionChevronPlacement,
     collapseAllHandleRef,
     ...props
   } = allProps
@@ -138,20 +133,39 @@ const Table = (componentProps: TableAllProps) => {
 
   useEffect(() => {
     if (collapseAllHandleRef) {
-      collapseAllHandleRef.current = () => {
+      const mutableCollapseAllHandleRef =
+        collapseAllHandleRef as React.RefObject<() => void>
+      mutableCollapseAllHandleRef.current = () => {
         collapseTrCallbacks.current.forEach((callback) => callback())
       }
     }
   }, [collapseAllHandleRef])
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   validateDOMAttributes(allProps, props)
 
+  const tableProps = applySpacing(allProps, {
+    ...props,
+    ref: elementRef,
+    className: clsx(
+      'dnb-table',
+      variant && `dnb-table__variant--${variant}`,
+      size && `dnb-table__size--${size}`,
+      sticky && 'dnb-table--sticky',
+      fixed && 'dnb-table--fixed',
+      border && 'dnb-table--border',
+      outline && 'dnb-table--outline',
+      mode === 'accordion' && 'dnb-table--accordion',
+      mode === 'navigation' && 'dnb-table--navigation',
+      skeletonClasses,
+      className
+    ),
+  })
+
   return (
     <Provider skeleton={Boolean(skeleton)}>
-      <TableContext.Provider
+      <TableContext
         value={{
           trCountRef,
           rerenderAlias,
@@ -162,33 +176,13 @@ const Table = (componentProps: TableAllProps) => {
           },
         }}
       >
-        <table
-          className={classnames(
-            'dnb-table',
-            variant && `dnb-table__variant--${variant}`,
-            size && `dnb-table__size--${size}`,
-            sticky && 'dnb-table--sticky',
-            fixed && 'dnb-table--fixed',
-            border && 'dnb-table--border',
-            outline && 'dnb-table--outline',
-            accordion && 'dnb-table--accordion', // Deprecated – can be removed in v11
-            mode === 'accordion' && 'dnb-table--accordion',
-            mode === 'navigation' && 'dnb-table--navigation',
-            spacingClasses,
-            skeletonClasses,
-            className
-          )}
-          ref={elementRef}
-          {...props}
-        >
-          {children}
-        </table>
-      </TableContext.Provider>
+        <table {...tableProps}>{children}</table>
+      </TableContext>
     </Provider>
   )
 }
 
-Table._supportsSpacingProps = true
+withComponentMarkers(Table, { _supportsSpacingProps: true })
 
 export default Table
 

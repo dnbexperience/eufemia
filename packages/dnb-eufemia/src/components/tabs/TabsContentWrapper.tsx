@@ -1,141 +1,181 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import React from 'react'
-import classnames from 'classnames'
+import React, { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
+import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
   validateDOMAttributes,
-  isTrue,
   combineLabelledBy,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
-import EventEmitter from '../../shared/helpers/EventEmitter'
+import {
+  createSharedState,
+  type SharedStateReturn,
+} from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
-  static defaultProps = {
-    selected_key: null,
-    content_style: null,
-    animate: null,
-    content_spacing: true,
-    children: null,
+type ContentWrapperState = {
+  key: string | number | null
+}
+
+type SharedState = SharedStateReturn<ContentWrapperState> & {
+  subscribe: (subscriber: () => void) => void
+  unsubscribe: (subscriber: () => void) => void
+}
+
+export default function ContentWrapper({
+  id,
+  children = null,
+  selectedKey = null,
+  contentStyle = null,
+  animate = null,
+  contentInnerSpace = { top: 'large' } as InnerSpaceType | boolean,
+  ...rest
+}: TabsContentWrapperProps) {
+  const sharedStateRef = useRef<SharedState | null>(null)
+
+  const [state, setState] = useState<ContentWrapperState>(() => {
+    if (id) {
+      const shared = createSharedState(id) as unknown as SharedState
+      sharedStateRef.current = shared
+      return shared.get() || { key: null }
+    }
+    return { key: null }
+  })
+
+  useEffect(() => {
+    if (!id || !sharedStateRef.current) {
+      return undefined // stop here
+    }
+
+    const sharedState = sharedStateRef.current
+
+    const subscriber = () => {
+      const params = sharedState.get()
+      if (params?.key !== undefined) {
+        setState((prev) => {
+          if (params.key !== prev.key) {
+            return params
+          }
+          return prev
+        })
+      }
+    }
+
+    sharedState.subscribe(subscriber)
+
+    return () => {
+      sharedState.unsubscribe(subscriber)
+      sharedStateRef.current = null
+    }
+  }, [id])
+
+  if (!children) {
+    return null
   }
 
-  state = { key: null }
+  const params = { ...rest }
 
-  constructor(props) {
-    super(props)
+  // Use state.key if available (when linked with shared state),
+  // otherwise fall back to selectedKey prop
+  const activeKey = state.key !== null ? state.key : selectedKey
 
-    if (props.id) {
-      this._eventEmitter = EventEmitter.createInstance(props.id)
-      this.state = this._eventEmitter.get()
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.id && this._eventEmitter) {
-      this._eventEmitter.listen((params) => {
-        if (this._eventEmitter && params.key !== this.state.key) {
-          this.setState(params)
-        }
-      })
-    }
-  }
-
-  componentWillUnmount() {
-    if (this._eventEmitter) {
-      this._eventEmitter.remove()
-      this._eventEmitter = null
-    }
-  }
-
-  render() {
-    const {
-      id,
-      children,
-      selected_key: key,
-      content_style,
-      animate,
-      content_spacing,
-      ...rest
-    } = this.props
-
-    if (!children) {
-      return null
-    }
-
-    const params = rest
-
-    if (key) {
-      params['aria-labelledby'] = combineLabelledBy(
-        params,
-        `${id}-tab-${key}`
-      )
-    }
-
-    validateDOMAttributes(this.props, params)
-
-    let content = children
-    if (typeof children === 'function') {
-      content = children(this.state)
-    }
-
-    return (
-      <HeightAnimation
-        role="tabpanel"
-        tabIndex="-1"
-        id={`${id}-content`}
-        element={
-          content_style
-            ? React.forwardRef((props, ref) => {
-                return (
-                  <Section
-                    spacing={content_style ? false : undefined}
-                    style_type={content_style ? content_style : undefined}
-                    innerRef={ref}
-                    {...props}
-                  />
-                )
-              })
-            : 'div'
-        }
-        className={classnames(
-          'dnb-tabs__content',
-          'dnb-no-focus',
-          content_spacing
-            ? `dnb-section--spacing-${
-                isTrue(content_spacing) ? 'large' : content_spacing
-              }`
-            : null,
-          createSpacingClasses(rest)
-        )}
-        duration={600}
-        animate={animate === true}
-        {...params}
-      >
-        {content}
-      </HeightAnimation>
+  if (activeKey) {
+    params['aria-labelledby'] = combineLabelledBy(
+      params,
+      `${id}-tab-${activeKey}`
     )
   }
+
+  validateDOMAttributes(
+    {
+      id,
+      children,
+      selectedKey,
+      contentStyle,
+      animate,
+      contentInnerSpace,
+      ...rest,
+    },
+    params
+  )
+
+  let content: React.ReactNode = children as React.ReactNode
+  if (typeof children === 'function') {
+    // If state.key is null but we have an activeKey, create a proper state object
+    const stateToPass =
+      state.key !== null ? state : { ...state, key: activeKey }
+    content = children(stateToPass) as React.ReactNode
+  }
+
+  const resolvedInnerSpace =
+    contentInnerSpace === true ? 'large' : contentInnerSpace
+
+  return (
+    <HeightAnimation
+      role="tabpanel"
+      tabIndex={-1}
+      id={`${id}-content`}
+      element={
+        (contentStyle
+          ? ({
+              ref,
+              ...props
+            }: {
+              ref: React.RefObject<HTMLElement>
+              [key: string]: unknown
+            }) => {
+              return (
+                <Section
+                  variant={contentStyle ? contentStyle : undefined}
+                  innerSpace={resolvedInnerSpace || undefined}
+                  ref={ref}
+                  {...props}
+                />
+              )
+            }
+          : 'div') as DynamicElement
+      }
+      {...applySpacing(
+        {
+          ...rest,
+          innerSpace:
+            !contentStyle && resolvedInnerSpace
+              ? resolvedInnerSpace
+              : undefined,
+        },
+        {
+          className: clsx(
+            'dnb-tabs__content',
+            'dnb-no-focus',
+            !contentStyle && resolvedInnerSpace && 'dnb-space'
+          ),
+        }
+      )}
+      duration={600}
+      animate={animate === true}
+      {...params}
+    >
+      {content}
+    </HeightAnimation>
+  )
 }
 
 // Type definitions
-import type {
-  SectionSpacing,
-  SectionStyleTypes,
-  SectionVariants,
-} from '../Section'
+import type { SectionVariants } from '../Section'
 
-export type ContentWrapperSelectedKey = string | number
-export type ContentWrapperChildren =
+export type TabsContentWrapperSelectedKey = string | number
+export type TabsContentWrapperChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | ((...args: any[]) => React.ReactNode)
 
-export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
+export type TabsContentWrapperProps = {
   id: string
-  selected_key?: ContentWrapperSelectedKey
-  content_style?: SectionStyleTypes | SectionVariants
+  selectedKey?: TabsContentWrapperSelectedKey
+  contentStyle?: SectionVariants | string
   animate?: boolean
-  content_spacing?: SectionSpacing
-  children?: ContentWrapperChildren
-}
+  contentInnerSpace?: InnerSpaceType | boolean
+  children?: TabsContentWrapperChildren
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+>

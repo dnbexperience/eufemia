@@ -1,31 +1,31 @@
 import React from 'react'
-import classnames from 'classnames'
-import { NumberFormatProps } from '../number-format/NumberFormat'
+import clsx from 'clsx'
+import type { NumberFormatProps } from '../number-format/NumberFormatBase'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
-import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
+import {
+  formatCurrency,
+  formatPercent,
+  formatNumber,
+} from '../number-format/utils'
 import type {
   TypographySize,
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import { formatReturnValue } from '../number-format/NumberUtils'
-import { convertJsxToString, warn } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
 
-/**
- * @deprecated Use `NumberProps` from `Stat.Number` instead.
- */
 type AmountOwnProps = Omit<
   NumberFormatProps,
-  'children' | 'currency_display' | 'currency_position' | 'element'
+  'children' | 'currencyDisplay' | 'currencyPosition' | 'element'
 > & {
   children?: string | number
-  element?: keyof JSX.IntrinsicElements
-  currencyDisplay?: NumberFormatProps['currency_display']
-  currencyPosition?: NumberFormatProps['currency_position']
+  element?: keyof React.JSX.IntrinsicElements
+  currencyDisplay?: NumberFormatProps['currencyDisplay']
+  currencyPosition?: NumberFormatProps['currencyPosition']
   /**
    * Typography size fallback.
    *
@@ -56,6 +56,8 @@ type AmountOwnProps = Omit<
    * Opt-in sign-based text color (`+` => green, `-` => red).
    */
   colorizeBySign?: boolean
+  /** Formats the value as a percentage. */
+  percent?: boolean
 }
 
 export type AmountProps = Omit<
@@ -117,31 +119,42 @@ function AmountBase(props: AmountProps) {
     typeof value !== 'undefined'
       ? value
       : typeof children === 'string' || typeof children === 'number'
-      ? children
-      : null
+        ? children
+        : null
 
+  const isCurrency = currency === true || typeof currency === 'string'
   const suffixStartsWithSlash =
     typeof suffix === 'string' && suffix.startsWith('/')
   const forceCurrencyAfterAmount =
-    suffixStartsWithSlash && currencyPosition === 'auto'
+    isCurrency &&
+    currencyPosition === 'auto' &&
+    (suffixStartsWithSlash || signDisplay === 'always')
+  const resolvedCurrencyPosition = forceCurrencyAfterAmount
+    ? 'after'
+    : currencyPosition === 'auto'
+      ? null
+      : currencyPosition
+  const formatter = percent
+    ? formatPercent
+    : isCurrency
+      ? formatCurrency
+      : formatNumber
 
-  const formatted = useNumberFormatWithParts(rawValue, {
+  const formatted = useNumberFormatWithParts(rawValue, formatter, {
     locale: resolvedLocale,
-    currency,
+    currency: isCurrency ? currency : false,
     currencyDisplay,
-    currencyPosition,
+    currencyPosition: resolvedCurrencyPosition,
     compact,
-    percent,
     decimals,
     rounding,
     signDisplay,
-    forceCurrencyAfterAmount,
     options,
-  }) as formatReturnValue & {
-    parts?: NumberFormatParts
-  }
+  })
 
-  const parts = formatted.parts as NumberFormatParts
+  const parts = formatted.parts
+  const omitCurrencySpacing =
+    isCurrency && currencyPosition === 'auto' && signDisplay === 'always'
   const isNegativeZero = Object.is(Number(rawValue), -0)
   const renderSign =
     signDisplay === 'always' && parts.sign
@@ -174,19 +187,19 @@ function AmountBase(props: AmountProps) {
       : null)
   const numericValue = Number(rawValue)
 
-  const currencyClass = classnames(
+  const currencyClass = clsx(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
-  const amountClass = classnames(
+  const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
     `dnb-t__weight--${resolvedMainWeight}`
   )
-  const percentClass = classnames(
+  const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -198,7 +211,7 @@ function AmountBase(props: AmountProps) {
       {renderSign && (
         <>
           <span
-            className={classnames(
+            className={clsx(
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
@@ -213,7 +226,7 @@ function AmountBase(props: AmountProps) {
       {hasCurrency && renderCurrencyBefore && (
         <>
           <span className={currencyClass}>{parts.currency}</span>
-          {parts.spaceAfterCurrency ? ' ' : null}
+          {parts.spaceAfterCurrency && !omitCurrencySpacing ? ' ' : null}
         </>
       )}
       <span className={amountClass}>{renderedAmount}</span>
@@ -225,7 +238,7 @@ function AmountBase(props: AmountProps) {
       )}
       {hasCurrency && !renderCurrencyBefore && (
         <>
-          {parts.spaceBeforeCurrency ? ' ' : null}
+          {parts.spaceBeforeCurrency && !omitCurrencySpacing ? ' ' : null}
           <span className={currencyClass}>{parts.currency}</span>
         </>
       )}
@@ -245,7 +258,7 @@ function AmountBase(props: AmountProps) {
   if (prefix) {
     const prefixElement = renderAffix(
       prefix,
-      classnames(
+      clsx(
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -263,7 +276,7 @@ function AmountBase(props: AmountProps) {
   if (suffix) {
     const suffixElement = renderAffix(
       suffix,
-      classnames(
+      clsx(
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -291,7 +304,7 @@ function AmountBase(props: AmountProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames('dnb-stat', className)}
+      className={clsx('dnb-stat', className)}
       colorizeBySign={colorizeBySign ? numericValue : false}
       style={style}
       lang={lang || resolvedLocale || formatted.locale}
@@ -310,18 +323,4 @@ function AmountBase(props: AmountProps) {
 AmountBase._supportsSpacingProps = true
 
 export { AmountBase }
-
-/**
- * @deprecated Use `Stat.Number` instead. `Stat.Currency` and `Stat.Percent` are not affected.
- */
-function Amount(props: AmountProps) {
-  warn(
-    'Stat.Amount is deprecated. Use Stat.Number instead. Stat.Currency and Stat.Percent are not affected by this deprecation.'
-  )
-
-  return <AmountBase {...props} />
-}
-
-Amount._supportsSpacingProps = true
-
-export default Amount
+export default AmountBase

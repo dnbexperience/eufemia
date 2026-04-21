@@ -142,11 +142,11 @@ describe('Table using mode="navigation" prop', () => {
     // Simulate keyboard usage
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
-    fireEvent.keyDown(inputElem, { keyCode: 13 }) // enter
+    fireEvent.keyDown(inputElem, { key: 'Enter' })
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
-    fireEvent.keyDown(inputElem, { keyCode: 32 }) // space
+    fireEvent.keyDown(inputElem, { key: ' ' })
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
@@ -154,11 +154,11 @@ describe('Table using mode="navigation" prop', () => {
       .spyOn(document, 'activeElement', 'get')
       .mockReturnValue(labelElement)
 
-    fireEvent.keyDown(labelElement, { keyCode: 13 }) // enter
+    fireEvent.keyDown(labelElement, { key: 'Enter' })
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
-    fireEvent.keyDown(labelElement, { keyCode: 32 }) // space
+    fireEvent.keyDown(labelElement, { key: ' ' })
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
@@ -306,7 +306,7 @@ describe('Table using mode="navigation" prop', () => {
 
     // click enter
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -316,7 +316,7 @@ describe('Table using mode="navigation" prop', () => {
 
     // click space
     const spaceKey = createEvent.keyDown(trElement, {
-      keyCode: 32, // space
+      key: ' ',
     })
     spaceKey.preventDefault = jest.fn()
     fireEvent(trElement, spaceKey)

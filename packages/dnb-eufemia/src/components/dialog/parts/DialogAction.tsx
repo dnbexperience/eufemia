@@ -1,14 +1,15 @@
 import React, { useCallback, useContext } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 
-import type { SpacingProps } from '../../space/types'
+import type { SpacingProps } from '../../../shared/types'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
-type extendedMouseEvent = {
+type ExtendedMouseEvent = {
   event: React.MouseEvent<HTMLElement>
   close: () => void
 }
@@ -17,22 +18,22 @@ export type DialogActionProps = {
   /**
    * For dialog actions, give a custom text for the decline button.
    */
-  declineText?: string | React.ReactNode
+  declineText?: React.ReactNode
 
   /**
    * For dialog actions, give a custom text for the confirm button.
    */
-  confirmText?: string | React.ReactNode
+  confirmText?: React.ReactNode
 
   /**
    * For variant confirmation, handle the confirm action click.
    */
-  onConfirm?: (event: extendedMouseEvent) => void
+  onConfirm?: (event: ExtendedMouseEvent) => void
 
   /**
    * For variant confirmation, handle the decline action click.
    */
-  onDecline?: (event: extendedMouseEvent) => void
+  onDecline?: (event: ExtendedMouseEvent) => void
 
   /**
    * For variant confirmation, hide the default decline button and only show the confirm button.
@@ -54,7 +55,7 @@ export type DialogActionAllProps = DialogActionProps &
   SpacingProps &
   Omit<React.HTMLAttributes<HTMLElement>, 'children'>
 
-const fallbackCloseAction = ({ close }: extendedMouseEvent) => close()
+const fallbackCloseAction = ({ close }: ExtendedMouseEvent) => close()
 
 const DialogAction = ({
   declineText = null,
@@ -69,7 +70,7 @@ const DialogAction = ({
 }: DialogActionAllProps) => {
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
-  let childrenWithCloseFunc: Array<React.ReactChild>
+  let childrenWithCloseFunc: React.ReactNode
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -92,19 +93,21 @@ const DialogAction = ({
 
   if (children) {
     childrenWithCloseFunc = React.Children.map(children, (child) => {
-      if (child.type === Button) {
-        return React.cloneElement(
-          child,
+      if (React.isValidElement<any>(child) && child.type === Button) {
+        const childElement = child as React.ReactElement<any>
+
+        return React.createElement(
+          childElement.type as React.ComponentType<any>,
           {
-            ...child.props,
-            on_click: (event) => {
-              dispatchCustomElementEvent(child.props, 'on_click', {
+            ...(childElement.props || {}),
+            onClick: (event) => {
+              dispatchCustomElementEvent(childElement.props, 'onClick', {
                 event,
                 close,
               })
             },
           },
-          child.props.children
+          childElement.props.children
         )
       } else {
         return child
@@ -115,7 +118,7 @@ const DialogAction = ({
   return (
     <Space
       element="section"
-      className={classNames('dnb-dialog__actions', className)}
+      className={clsx('dnb-dialog__actions', className)}
       {...props}
     >
       {childrenWithCloseFunc}
@@ -140,6 +143,8 @@ const DialogAction = ({
   )
 }
 
-DialogAction._supportsSpacingProps = true
+withComponentMarkers(DialogAction, {
+  _supportsSpacingProps: true,
+})
 
 export default DialogAction

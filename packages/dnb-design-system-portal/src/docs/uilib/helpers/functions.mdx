@@ -9,16 +9,6 @@ order: 3
 
 All components provide various function helpers that you can also use in your projects.
 
-### isTrue
-
-Checks if a value is Truthy or Falsy.
-
-```js
-import { isTrue } from '@dnb/eufemia/shared/component-helper'
-
-isTrue(String | Boolean | Number) // returns Boolean
-```
-
 ### isTouchDevice
 
 Checks if the target device has touch support.
@@ -37,26 +27,6 @@ Transforms a string from **snake_case** to [PascalCase](/contribute/style-guides
 import { toPascalCase } from '@dnb/eufemia/shared/component-helper'
 
 toPascalCase(String) // returns String
-```
-
-### toCamelCase
-
-Transforms a string from **snake_case** to [camelCase](/contribute/style-guides/naming).
-
-```js
-import { toCamelCase } from '@dnb/eufemia/shared/component-helper'
-
-toCamelCase(String) // returns String
-```
-
-### toSnakeCase
-
-Transforms a string from **PascalCase** to [snake_case](/contribute/style-guides/naming).
-
-```js
-import { toSnakeCase } from '@dnb/eufemia/shared/component-helper'
-
-toSnakeCase(String) // returns String
 ```
 
 ### toKebabCase
@@ -299,7 +269,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Function   | Description                                        | Parameters | Return    |
 | ---------- | -------------------------------------------------- | ---------- | --------- |
-| `isEdge`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isSafari` | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isiOS`    | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isMac`    | Returns true or false, depending on the detection. | none       | `Boolean` |
@@ -310,7 +279,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Constant    | Description                                                         | Value     |
 | ----------- | ------------------------------------------------------------------- | --------- |
-| `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_MAC`    | Gives you true or false, depending on the detection during startup. | `Boolean` |

@@ -6,19 +6,20 @@ import type {
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
-import classnames from 'classnames'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
-import { MultiInputMask } from '../../../../components/input-masked'
+import clsx from 'clsx'
+import type { FieldBlockProps } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import type {
-  MultiInputMaskProps,
-  MultiInputMaskValue,
-} from '../../../../components/input-masked'
+  SegmentedFieldProps,
+  SegmentedFieldValue,
+} from '../../../../components/input-masked/segmented-field/SegmentedField'
+import SegmentedField from '../../../../components/input-masked/segmented-field/SegmentedField'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
-import { Translation } from '../../../../shared/Context'
+import type { Translation } from '../../../../shared/Context'
 
-type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
+type ExpiryValue = SegmentedFieldValue<'month' | 'year'>
 
 export type ExpiryValidator = ValidatorWithCustomValidators<
   string,
@@ -34,7 +35,7 @@ export type ExpiryProps = Omit<
   /**
    * The size of the component.
    */
-  size?: MultiInputMaskProps<'month' | 'year'>['size']
+  size?: SegmentedFieldProps<'month' | 'year'>['size']
 }
 
 function Expiry(props: ExpiryProps = {}) {
@@ -74,17 +75,23 @@ function Expiry(props: ExpiryProps = {}) {
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {
-      const month = expiryValueToString(values.month, placeholders.month)
-      const year = expiryValueToString(values.year, placeholders.year)
+      const monthString = expiryValueToString(
+        stripPlaceholderChars(values.month, placeholders.month),
+        placeholders.month
+      )
+      const yearString = expiryValueToString(
+        stripPlaceholderChars(values.year, placeholders.year),
+        placeholders.year
+      )
 
       if (
-        isFieldEmpty(month, placeholders.month) &&
-        isFieldEmpty(year, placeholders.year)
+        isFieldEmpty(monthString, placeholders.month) &&
+        isFieldEmpty(yearString, placeholders.year)
       ) {
         return undefined
       }
 
-      return `${month}${year}`
+      return `${monthString}${yearString}`
     },
     [placeholders.month, placeholders.year]
   )
@@ -138,28 +145,44 @@ function Expiry(props: ExpiryProps = {}) {
           return external
         }
 
-        if (external?.year && external?.month) {
-          return `${external.month}${external.year}`
+        if (external?.year || external?.month) {
+          const monthString = expiryValueToString(
+            external.month as string,
+            placeholders.month
+          )
+          const yearString = expiryValueToString(
+            external.year as string,
+            placeholders.year
+          )
+
+          if (
+            isFieldEmpty(monthString, placeholders.month) &&
+            isFieldEmpty(yearString, placeholders.year)
+          ) {
+            return undefined
+          }
+
+          return `${monthString}${yearString}`
         }
       }
 
       return value
     },
-    [transformInProp]
+    [transformInProp, placeholders.month, placeholders.year]
   )
 
-  const provideAdditionalArgs = useCallback((value: string) => {
-    let { month, year } = stringToExpiryValue(value)
+  const provideAdditionalArgs = useCallback(
+    (value: string) => {
+      const { month, year } = stringToExpiryValue(value)
 
-    if (isNaN(Number(month))) {
-      month = undefined
-    }
-    if (isNaN(Number(year))) {
-      year = undefined
-    }
-
-    return { month, year }
-  }, [])
+      return {
+        month:
+          stripPlaceholderChars(month, placeholders.month) || undefined,
+        year: stripPlaceholderChars(year, placeholders.year) || undefined,
+      }
+    },
+    [placeholders.month, placeholders.year]
+  )
 
   const preparedProps: ExpiryProps = {
     ...props,
@@ -167,7 +190,9 @@ function Expiry(props: ExpiryProps = {}) {
     validateInitially,
     validateContinuously,
     fromExternal,
+    // @ts-expect-error - strictFunctionTypes
     transformIn,
+    // @ts-expect-error - strictFunctionTypes
     fromInput,
     provideAdditionalArgs,
     validateRequired,
@@ -196,10 +221,14 @@ function Expiry(props: ExpiryProps = {}) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = useMemo(
-    () => stringToExpiryValue(value),
-    [value]
-  )
+  const expiry: ExpiryValue = useMemo(() => {
+    const { month, year } = stringToExpiryValue(value)
+
+    return {
+      month: stripPlaceholderChars(month, placeholders.month),
+      year: stripPlaceholderChars(year, placeholders.year),
+    }
+  }, [placeholders.month, placeholders.year, value])
 
   useMemo(() => {
     if ((path || itemPath) && expiry.month && expiry.year) {
@@ -210,27 +239,26 @@ function Expiry(props: ExpiryProps = {}) {
   const status = hasError
     ? 'error'
     : warning
-    ? 'warn'
-    : info
-    ? 'info'
-    : null
+      ? 'warning'
+      : info
+        ? 'information'
+        : null
 
   const fieldBlockProps: FieldBlockProps = {
     id,
-    forId: `${id}-input-month`,
-    className: classnames('dnb-forms-field-expiry', className),
+    forId: `${id}-input`,
+    className: clsx('dnb-forms-field-expiry', className),
     label,
     ...pickSpacingProps(props),
   }
 
   return (
     <FieldBlock {...fieldBlockProps}>
-      <MultiInputMask
+      <SegmentedField
         stretch
         id={`${id}-input`}
         values={expiry}
         status={status === 'error'}
-        statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         size={size}
         onChange={handleChange}
@@ -243,7 +271,12 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'month',
             label: monthLabel,
             mask: [/[0-9]/, /[0-9]/],
-            placeholderCharacter: placeholders['month'],
+            spinButton: {
+              min: 1,
+              max: 12,
+              getInitialValue: () => new Date().getMonth() + 1,
+            },
+            placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
           },
@@ -251,7 +284,12 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'year',
             label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
-            placeholderCharacter: placeholders['year'],
+            spinButton: {
+              min: 0,
+              max: 99,
+              getInitialValue: () => new Date().getFullYear() % 100,
+            },
+            placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
             ...htmlAttributes,
           },
@@ -284,6 +322,29 @@ function expiryValueToString(value: string, placeholder: string) {
   }
 
   return value
+}
+
+function repeatPlaceholder(character: string, length: number) {
+  if (!character) {
+    return ''
+  }
+
+  return Array.from({ length }, () => character).join('')
+}
+
+function stripPlaceholderChars(
+  value: string | undefined,
+  placeholder: string
+) {
+  if (!value) {
+    return ''
+  }
+
+  if (!placeholder) {
+    return value
+  }
+
+  return value.split(placeholder).join('')
 }
 
 function validateMonthAndYear(
@@ -331,6 +392,7 @@ function validateMonthAndYear(
   if (messages.length) {
     return messages
   }
+  return undefined
 }
 
 Expiry._supportsEufemiaSpacingProps = true

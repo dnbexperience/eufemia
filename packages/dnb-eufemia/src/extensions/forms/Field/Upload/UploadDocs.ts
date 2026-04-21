@@ -2,7 +2,7 @@ import {
   UploadEvents,
   UploadProperties,
 } from '../../../../components/upload/UploadDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const UploadFieldProperties: PropertiesTableProps = {
   fileHandler: {

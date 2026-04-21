@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -13,12 +13,8 @@ const infoContextValue = {
 } as const
 
 type InfoOwnProps = {
-  element?: keyof JSX.IntrinsicElements
-  variant?:
-    | 'plain'
-    | 'subtle'
-    | 'prominent'
-    | /** @deprecated Use "plain" instead */ 'default'
+  element?: keyof React.JSX.IntrinsicElements
+  variant?: 'plain' | 'subtle' | 'prominent'
   skeleton?: SkeletonShow
 }
 
@@ -38,18 +34,10 @@ function Info(props: InfoProps) {
     element: Element = 'span',
     className = null,
     style = null,
-    variant: variantProp = 'subtle',
+    variant = 'subtle',
     skeleton = null,
     ...rest
   } = props
-
-  let variant = variantProp
-  if (variant === 'default') {
-    warn(
-      'Stat.Info variant="default" is deprecated. Use variant="plain" instead.'
-    )
-    variant = 'plain'
-  }
 
   if (!inRoot) {
     warn('Stat.Info should be used inside Stat.Root')
@@ -60,7 +48,7 @@ function Info(props: InfoProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames(
+      className={clsx(
         'dnb-stat',
         'dnb-stat__info',
         `dnb-stat__info--${variant}`,
@@ -70,9 +58,9 @@ function Info(props: InfoProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <StatValueContext.Provider value={infoContextValue}>
+      <StatValueContext value={infoContextValue}>
         {children}
-      </StatValueContext.Provider>
+      </StatValueContext>
     </Text>
   )
 }

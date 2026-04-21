@@ -30,6 +30,8 @@ export default function useHasContentChanged({
         hasChanged = true
         return false // stop walking
       }
+
+      return undefined
     })
 
     return hasChanged

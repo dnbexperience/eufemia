@@ -1,5 +1,3 @@
-import { isTrue } from '../component-helper'
-
 /**
  * Filters out props from a given object/context
  * It returns a new object, with keys defined in validKeys
@@ -46,12 +44,9 @@ export function pickFormElementProps(
 export function prepareFormElementContext<Props>(
   props: Props & FormElementProps
 ) {
-  if (isTrue(props.vertical)) {
+  if (props.vertical) {
     if (typeof props.labelDirection === 'undefined') {
       props.labelDirection = 'vertical'
-    }
-    if (typeof props.label_direction === 'undefined') {
-      props.label_direction = 'vertical'
     }
   }
   return props
@@ -60,16 +55,10 @@ export type FormElementProps = {
   disabled?: boolean
   vertical?: boolean
   labelDirection?: 'vertical' | 'horizontal'
-
-  /** @deprecated use labelDirection instead */
-  label_direction?: 'vertical' | 'horizontal'
 }
 const validFormElementProps = {
   skeleton: null,
   disabled: null,
   vertical: null,
   labelDirection: null,
-
-  /** @deprecated use labelDirection instead */
-  label_direction: null,
 }

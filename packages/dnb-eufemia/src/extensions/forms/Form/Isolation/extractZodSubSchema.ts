@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
 /**
  * Extract a Zod subschema using a JSON Pointer like "/mySchema/secondSubSchema".
@@ -94,11 +94,11 @@ export function unwrap(t: z.ZodTypeAny | unknown): z.ZodTypeAny {
     t instanceof z.ZodPromise
     ? unwrap(t.unwrap())
     : t instanceof z.ZodPipe
-    ? unwrap(t.out)
-    : (t as z.ZodTypeAny)
+      ? unwrap(t.out)
+      : (t as z.ZodTypeAny)
 }
 
-export function decodePointerSegment(seg: string) {
+export function decodePointerSegment(seg: string): string {
   // JSON Pointer unescape: ~1 -> /, ~0 -> ~
   return seg.replace(/~1/g, '/').replace(/~0/g, '~')
 }

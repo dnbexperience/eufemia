@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const InfoCardProperties: PropertiesTableProps = {
   text: {
@@ -27,7 +27,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },

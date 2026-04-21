@@ -19,7 +19,10 @@ export const Default = () => (
 
 export const NoBreakout = () => (
   <ComponentBox hideCode data-visual-test="section-no-breakout">
-    <Section breakout={false} backgroundColor="pistachio">
+    <Section
+      breakout={false}
+      backgroundColor="var(--token-color-background-neutral-subtle)"
+    >
       <P space={0}>No breakout</P>
     </Section>
   </ComponentBox>
@@ -39,9 +42,9 @@ export const ResponsiveAppearance = () => (
       }}
       roundedCorner={{ large: true }}
       backgroundColor={{
-        small: 'white',
-        medium: 'pistachio',
-        large: 'pistachio',
+        small: 'var(--token-color-background-neutral)',
+        medium: 'var(--token-color-background-neutral-subtle)',
+        large: 'var(--token-color-background-neutral-subtle)',
       }}
       dropShadow={{
         small: false,
@@ -63,7 +66,7 @@ export const ResponsiveInnerSpace = () => (
         medium: { block: 'medium', inline: 'small' },
         large: false,
       }}
-      backgroundColor="pistachio"
+      backgroundColor="var(--token-color-background-neutral-subtle)"
       breakout={false}
     >
       <P space={0}>Responsive innerSpace</P>
@@ -76,19 +79,6 @@ export const Spacing = () => (
     <Section innerSpace={{ top: 'large', bottom: 'large', left: 'small' }}>
       <P space={0}>
         Visual Section: <Anchor href="#">default with innerSpace</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const White = () => (
-  <ComponentBox hideCode data-visual-test="section-white">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="white"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">white</Anchor>
       </P>
     </Section>
   </ComponentBox>
@@ -107,185 +97,64 @@ export const Divider = () => (
   </ComponentBox>
 )
 
-export const MintGreen = () => (
-  <ComponentBox hideCode data-visual-test="section-mint-green">
-    <Section
-      innerSpace={{ top: 'small', bottom: 'small' }}
-      backgroundColor="mint-green"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">mint-green</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const SeaGreen = () => (
-  <ComponentBox hideCode data-visual-test="section-sea-green">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      style_type="sea-green"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">sea-green</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const EmeraldGreen = () => (
-  <ComponentBox hideCode data-visual-test="section-emerald-green">
-    <Section
-      innerSpace={{ top: 'medium', bottom: 'medium' }}
-      style_type="emerald-green"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">emerald-green</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const Lavender = () => (
-  <ComponentBox hideCode data-visual-test="section-lavender">
-    <Section
-      innerSpace={{ top: 'small', bottom: 'small' }}
-      textColor="black-80"
-      backgroundColor="lavender"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">lavender</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const Black3 = () => (
-  <ComponentBox hideCode data-visual-test="section-black-3">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="black-3"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">black-3</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const SandYellow = () => (
-  <ComponentBox hideCode data-visual-test="section-sand-yellow">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="sand-yellow"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">sand-yellow</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const Pistachio = () => (
-  <ComponentBox hideCode data-visual-test="section-pistachio">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="pistachio"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">pistachio</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const FireRed = () => (
-  <ComponentBox hideCode data-visual-test="section-fire-red">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      style_type="fire-red"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">fire-red</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
-export const FireRed8 = () => (
-  <ComponentBox hideCode data-visual-test="section-fire-red-8">
-    <Section
-      innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="fire-red-8"
-    >
-      <P space={0}>
-        Visual Section: <Anchor href="#">fire-red-8</Anchor>
-      </P>
-    </Section>
-  </ComponentBox>
-)
-
 export const SectionZIndex = () => (
   <ComponentBox hideCode data-visual-test="section-z-index">
     <Section
       innerSpace={{ top: 'large', bottom: 'large' }}
-      backgroundColor="mint-green-12"
+      backgroundColor="var(--token-color-background-neutral-subtle)"
     >
-      mint-green-12
+      token-color-background-neutral-subtle
       <div>
         <Section
           innerSpace={{ top: 'large', bottom: 'large' }}
-          backgroundColor="mint-green"
+          backgroundColor="var(--token-color-background-positive-subtle)"
         >
-          mint-green
+          token-color-background-positive-subtle
           <div>
             <Section
               innerSpace={{ top: 'large', bottom: 'large' }}
-              textColor="white"
-              backgroundColor="sea-green"
+              textColor="var(--token-color-text-neutral-ondark)"
+              backgroundColor="var(--token-color-background-info)"
             >
-              sea-green
+              token-color-background-info
               <div>
                 <Section
                   innerSpace={{ top: 'large', bottom: 'large' }}
-                  textColor="mint-green"
-                  backgroundColor="emerald-green"
+                  textColor="var(--token-color-text-neutral-ondark)"
+                  backgroundColor="var(--token-color-background-marketing)"
                 >
-                  emerald-green
+                  token-color-background-marketing
                   <div>
                     <Section
                       innerSpace={{ top: 'large', bottom: 'large' }}
-                      textColor="white"
-                      backgroundColor="fire-red"
+                      textColor="var(--token-color-text-neutral-ondark)"
+                      backgroundColor="var(--token-color-background-error)"
                     >
-                      fire-red
+                      token-color-background-error
                       <div>
                         <Section
                           innerSpace={{ top: 'large', bottom: 'large' }}
-                          textColor="black-80"
-                          backgroundColor="sand-yellow"
+                          backgroundColor="var(--token-color-background-warning-subtle)"
                         >
-                          sand-yellow
+                          token-color-background-warning-subtle
                           <div>
                             <Section
                               innerSpace={{
                                 top: 'large',
                                 bottom: 'large',
                               }}
-                              textColor="black-80"
-                              backgroundColor="pistachio"
+                              backgroundColor="var(--token-color-background-neutral-subtle)"
                             >
-                              pistachio
+                              token-color-background-neutral-subtle
                               <div>
                                 <Section
                                   innerSpace={{
                                     top: 'large',
                                     bottom: 'large',
                                   }}
-                                  textColor="black-80"
-                                  backgroundColor="lavender"
+                                  backgroundColor="var(--token-color-background-marketing-subtle)"
                                 >
-                                  lavender
+                                  token-color-background-marketing-subtle
                                   <div>
                                     <Section
                                       innerSpace={{
@@ -316,10 +185,13 @@ export const SectionZIndex = () => (
 )
 
 export const Info = () => (
-  <ComponentBox hideCode data-visual-test="section-info">
-    <Section innerSpace={{ top: 'large', bottom: 'large' }} variant="info">
+  <ComponentBox hideCode data-visual-test="section-information">
+    <Section
+      innerSpace={{ top: 'large', bottom: 'large' }}
+      variant="information"
+    >
       <P space={0}>
-        Generic info section: <Anchor href="#">info</Anchor>
+        Generic information section: <Anchor href="#">info</Anchor>
       </P>
     </Section>
   </ComponentBox>

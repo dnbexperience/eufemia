@@ -2,7 +2,8 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'
-import Table, { TableAllProps } from '../Table'
+import type { TableAllProps } from '../Table'
+import Table from '../Table'
 
 const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
@@ -201,6 +202,19 @@ describe('Table', () => {
       document.querySelector('.dnb-table').getAttribute('style')
     ).toBe('color: red;')
   })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(
+      <Table top="large" innerSpace="small">
+        <BasicTable />
+      </Table>
+    )
+
+    const element = document.querySelector('.dnb-table')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--padding-t-s')
+  })
 })
 
 describe('Table aria', () => {
@@ -215,6 +229,13 @@ describe('Table aria', () => {
 })
 
 describe('Table scss', () => {
+  it('should inherit card rounded corners when used inside Card', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toContain(
+      '.dnb-card .dnb-table {\n  --table-outline-radius: var(--rounded-corner, 0.5rem);'
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

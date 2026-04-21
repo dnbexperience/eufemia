@@ -17,7 +17,6 @@ export function Date() {
   return (
     <Field.Date
       required
-      // validateInitially
       value={state}
       onBlur={console.log}
       onFocus={console.log}
@@ -45,7 +44,7 @@ const ChangeLocale = () => {
     <Dropdown
       value={locale}
       data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { value } }) => {
+      onChange={({ data: { value } }) => {
         setLocale(value)
       }}
     />

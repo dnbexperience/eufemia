@@ -1,17 +1,19 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateItemContext from '../IterateItemContext'
-import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
+import type { ArrayItemAreaProps } from '../Array/ArrayItemArea'
+import ArrayItemArea from '../Array/ArrayItemArea'
 import Toolbar from '../Toolbar'
 import { useSwitchContainerMode } from '../hooks'
 import DoneButton from './DoneButton'
 import CancelButton, { useWasNew } from './CancelButton'
 import { replaceItemNo } from '../ItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type IterateEditContainerProps = {
   /**
    * The title of the EditContainer.
    */
@@ -38,11 +40,13 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props &
+export type IterateEditContainerAllProps = IterateEditContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
-export default function EditContainer(props: AllProps) {
+export default function EditContainer(
+  props: IterateEditContainerAllProps
+) {
   const { toolbar, toolbarVariant, children, ...rest } = props
   const { arrayValue } = useContext(IterateItemContext)
 
@@ -53,22 +57,22 @@ export default function EditContainer(props: AllProps) {
 
   const hasToolbar =
     !toolbarElement &&
-    React.Children.toArray(children).some((child) => {
-      return child?.['type'] === Toolbar
-    })
+    (Array.isArray(children) ? children : [children]).some(
+      (child) => React.isValidElement(child) && child.type === Toolbar
+    )
 
   return (
     <EditContainerWithoutToolbar
       toolbar={
         hasToolbar
           ? null
-          : toolbarElement ??
+          : (toolbarElement ??
             (toolbarVariant !== 'custom' && (
               <Toolbar>
                 <DoneButton />
                 <CancelButton />
               </Toolbar>
-            ))
+            )))
       }
       toolbarVariant={toolbarVariant}
       {...rest}
@@ -79,7 +83,7 @@ export default function EditContainer(props: AllProps) {
 }
 
 export function EditContainerWithoutToolbar(
-  props: Props &
+  props: IterateEditContainerProps &
     Omit<FlexContainerProps, 'onAnimationEnd'> & {
       toolbar?: React.ReactNode
     }
@@ -110,7 +114,7 @@ export function EditContainerWithoutToolbar(
   return (
     <ArrayItemArea
       mode="edit"
-      className={classnames('dnb-forms-section-edit-block', className)}
+      className={clsx('dnb-forms-section-edit-block', className)}
       ariaLabel={convertJsxToString(itemTitle)}
       toolbarVariant={toolbarVariant}
       {...restProps}
@@ -125,5 +129,7 @@ export function EditContainerWithoutToolbar(
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton
 
-EditContainer._supportsSpacingProps = true
-EditContainerWithoutToolbar._supportsSpacingProps = true
+withComponentMarkers(EditContainer, { _supportsSpacingProps: true })
+withComponentMarkers(EditContainerWithoutToolbar, {
+  _supportsSpacingProps: true,
+})

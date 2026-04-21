@@ -212,7 +212,7 @@ export const CheckboxNestingWithLogic = () => (
               animate
               compensateForGap="auto" // makes animation smooth
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter some value" required />
               </Section>
             </Form.Visibility>
@@ -249,7 +249,7 @@ export const CheckboxNestingWithLogic = () => (
                   },
                 }}
               >
-                <Section variant="info" innerSpace>
+                <Section variant="information" innerSpace>
                   <Field.String placeholder="Enter more info" required />
                 </Section>
               </Form.Visibility>
@@ -598,7 +598,7 @@ export const ButtonNestingWithLogic = () => (
             animate
             compensateForGap="auto" // makes animation smooth
           >
-            <Section variant="info" innerSpace>
+            <Section variant="information" innerSpace>
               <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
@@ -635,7 +635,7 @@ export const ButtonNestingWithLogic = () => (
                 },
               }}
             >
-              <Section variant="info" innerSpace>
+              <Section variant="information" innerSpace>
                 <Field.String placeholder="Enter more info" />
               </Section>
             </Form.Visibility>

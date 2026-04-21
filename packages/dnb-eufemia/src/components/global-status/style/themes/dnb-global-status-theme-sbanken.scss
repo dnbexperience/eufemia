@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-global-status {
   &__close-button {
@@ -11,24 +11,8 @@
   }
 
   &__title {
-    @include allBelow('large') {
+    @include utilities.allBelow('large') {
       padding-right: 2.5rem;
     }
-  }
-
-  &--error &__content .dnb-hr {
-    --hr-color: var(--sb-color-red);
-  }
-
-  &--info &__content .dnb-hr {
-    --hr-color: var(--sb-color-green-dark-2);
-  }
-
-  &--warning &__content .dnb-hr {
-    --hr-color: var(--sb-color-yellow-dark);
-  }
-
-  &--success &__content .dnb-hr {
-    --hr-color: var(--sb-color-green-dark-3);
   }
 }

@@ -8,17 +8,17 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input {
-  color: var(--color-black-55);
+.dnb-date-picker__portal .dnb-popover {
+  --popover-background-color: var(--color-white);
+  --popover-border-radius: 0.25rem;
+  box-shadow: var(--shadow-sharp);
 }
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input ~ .dnb-date-picker--separator {
-  color: var(--color-black-55);
+.dnb-date-picker__container {
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
 }
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input--highlight:not([disabled]) {
-  color: var(--color-black);
-}
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input--highlight:not([disabled]) ~ .dnb-date-picker--separator {
-  color: var(--color-black);
+.dnb-date-picker--inline .dnb-date-picker__container {
+  box-shadow: var(--shadow-sharp);
 }
 .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
   background-color: var(--color-black-8);
@@ -110,20 +110,20 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-pic
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
   cursor: default;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-date-picker--open .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
-  color: var(--color-white);
-  background-color: var(--color-sea-green);
+.dnb-date-picker--open .dnb-button--input-button.dnb-button--selected {
+  --button-color-bg--default: var(--button-color-bg--active);
+  --button-color-icon--default: var(--button-color-icon--active);
+  --button-input-separator-color--default: var(
+    --button-input-separator-color--active
+  );
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
-  background-color: inherit;
-}
-.dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-date-picker__status--error:not(.dnb-date-picker--open) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -137,36 +137,21 @@ exports[`DatePicker scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -248,22 +233,26 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
 /*
  * Utilities
  */
+/*
+ * Utilities
+ */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
   z-index: var(--tooltip-z-index);
 }
 .dnb-popover--inside-modal .dnb-tooltip {
@@ -301,14 +290,12 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Tooltip component
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -316,11 +303,56 @@ p > .dnb-icon {
   opacity: 1;
 }
 .dnb-form-status__shell {
+  --form-status-color-text: var(--token-color-text-neutral);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   min-width: inherit;
   border-radius: var(--form-status-radius);
+  background-color: var(--form-status-color-background);
+  color: var(--form-status-color-text);
+}
+.dnb-form-status__variant--outlined .dnb-form-status__shell {
+  --border-color: var(--form-status-color-outline);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-error-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-error);
+}
+.dnb-form-status--information .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-info-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-info);
+}
+.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-marketing-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-marketing);
+}
+.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-warning-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-error);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-marketing);
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
@@ -360,6 +392,8 @@ button .dnb-form-status__text {
   justify-content: center;
   align-items: center;
   margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+  color: var(--form-status-color-icon);
+  border: none;
 }
 .dnb-form-status__size--large .dnb-form-status__text {
   padding-top: 1.125rem;
@@ -378,20 +412,48 @@ button .dnb-form-status__text {
 .dnb-form-status[hidden] {
   display: none;
 }
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
 
+@keyframes attention-focus {
+  0%, 100% {
+    color: var(--token-color-text-destructive);
+    background-color: var(--token-color-background-error-subtle);
+    border-color: var(--token-color-stroke-error);
+  }
+  35% {
+    color: var(--token-color-text-neutral-inverse);
+    background-color: var(--token-color-background-error);
+    border-color: var(--token-color-stroke-error);
+  }
+}
+/*
+* Tooltip component
+*
+*/
 /*
 * Button component
 *
 */
-/*
- * Utilities
- */
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
 }
 
 .dnb-button {
+  --button-color-text: var(--button-color-text--default);
+  --button-color-icon: var(--button-color-icon--default);
+  --button-color-bg: var(--button-color-bg--default);
+  --button-color-border: var(--button-color-border--default);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
+  --button-border-inset--default: inset;
+  --button-border-inset--hover: ;
+  --button-border-inset--focus: ;
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-icon-size--small: 0.75rem;
@@ -405,8 +467,10 @@ button .dnb-form-status__text {
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: var(--button-border-width--default);
+  --button-border-width--default: 0.0625rem;
+  --button-border-width--hover: 0.125rem;
+  --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
@@ -427,6 +491,450 @@ button .dnb-form-status__text {
   overflow-wrap: break-word;
   white-space: normal;
 }
+.dnb-button__icon {
+  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
+}
+.dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  color: var(--button-color-text, var(--button-color-text--default));
+  background-color: var(--button-color-bg, var(--button-color-bg--default));
+}
+.dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
+  color: var(--button-color-icon, var(--button-color-icon--default));
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
+  --button-color-bg: var(--button-color-bg--hover);
+  --button-color-border: var(--button-color-border--hover);
+  --button-color-icon: var(--button-color-icon--hover);
+  --button-color-text: var(--button-color-text--hover);
+  --button-color-underline: var(--button-color-underline--hover);
+  --button-border-inset: var(--button-border-inset--hover);
+  --button-border-width: var(--button-border-width--hover);
+  --button-input-separator-color: var(
+    --button-input-separator-color--hover
+  );
+}
+.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  --button-color-bg: var(--button-color-bg--active);
+  --button-color-border: var(--button-color-border--active);
+  --button-color-icon: var(--button-color-icon--active);
+  --button-color-text: var(--button-color-text--active);
+  --button-color-underline: var(--button-color-underline--active);
+  --button-border-inset: var(--button-border-inset--active);
+  --button-border-width: var(--button-border-width--active);
+  --button-input-separator-color: var(
+    --button-input-separator-color--active
+  );
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-border: var(--token-color-stroke-action-focus);
+  --button-color-icon: var(--token-color-icon-action-focus);
+  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-underline: var(--button-color-underline--focus);
+  --button-border-inset: var(--button-border-inset--focus);
+  --button-border-width: var(--button-border-width--focus);
+  --button-input-separator-color: var(
+    --button-input-separator-color--focus
+  );
+  outline: none;
+}
+.dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-border: var(--button-color-border--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
+  --button-input-separator-color: var(
+    --button-input-separator-color--disabled
+  );
+}
+.dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary::before {
+  --border-color: var(--button-color-border, var(--button-color-border--default));
+  --border-width: var(--button-border-width, var(--button-border-width--default));
+  box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--primary {
+  --button-color-bg--default: var(
+    --token-color-component-button-background-action
+  );
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-hover
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-hover
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--disabled: var(
+    --token-color-component-button-icon-action-disabled
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--disabled: var(
+    --token-color-component-button-text-action-disabled
+  );
+}
+.dnb-button--primary.dnb-button--surface-dark {
+  --button-color-bg--default: var(
+    --token-color-background-action-ondark
+  );
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-ondark
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --button-color-border--hover: var(
+    --token-color-stroke-action-hover-ondark
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+}
+.dnb-button--primary.dnb-button__status--error {
+  --button-color-bg--default: var(
+    --token-color-component-button-background-action-destructive
+  );
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-destructive-hover
+  );
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-destructive-hover
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+}
+.dnb-button--secondary {
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --button-color-bg--disabled: var(--token-color-background-neutral);
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-action
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-hover
+  );
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --button-color-border--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-hover
+  );
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(
+    --token-color-component-button-text-action
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-hover
+  );
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
+}
+.dnb-button--secondary.dnb-button--icon-only {
+  --button-color-border--default: var(--token-color-stroke-action);
+  --button-color-border--hover: var(--token-color-stroke-action-hover);
+  --button-color-border--active: transparent;
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+}
+.dnb-button--secondary.dnb-button--surface-dark {
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+  --button-color-bg--disabled: transparent;
+  --button-color-border--default: var(
+    --token-color-stroke-action-ondark
+  );
+  --button-color-border--hover: var(
+    --token-color-stroke-action-hover-ondark
+  );
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed-ondark
+  );
+  --button-color-border--disabled: var(
+    --token-color-stroke-action-disabled-ondark
+  );
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
+    --token-color-icon-action-pressed-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
+    --token-color-text-action-pressed-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+}
+.dnb-button--secondary.dnb-button__status--error {
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(
+    --token-color-component-button-background-action-destructive-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed-subtle
+  );
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-action-destructive
+  );
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-destructive-hover
+  );
+  --button-color-border--active: var(
+    --token-color-component-button-stroke-action-destructive-pressed
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action-destructive
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-destructive-hover
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-action-destructive-pressed
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-action-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-destructive-hover
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-action-destructive-pressed
+  );
+}
+.dnb-button--tertiary > * {
+  z-index: 2;
+}
+.dnb-button--tertiary::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: var(--button-tertiary-focus-left);
+  bottom: 0;
+  right: var(--button-tertiary-focus-right);
+  background-color: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.dnb-skeleton .dnb-button--tertiary::before {
+  content: none;
+}
+.dnb-button--tertiary {
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+  --button-color-icon--active: var(--token-color-icon-action-pressed);
+  --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --button-color-text--default: var(--token-color-text-action);
+  --button-color-text--hover: var(--token-color-text-action-hover);
+  --button-color-text--active: var(--token-color-text-action-pressed);
+  --button-color-text--disabled: var(--token-color-text-action-disabled);
+  --button-color-underline--default: transparent;
+  --button-color-underline--hover: var(
+    --token-color-background-action-hover
+  );
+}
+.dnb-button--tertiary.dnb-button--icon-only {
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+}
+.dnb-button--tertiary.dnb-button--surface-dark {
+  --button-color-icon--default: var(--token-color-icon-action-ondark);
+  --button-color-icon--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+  --button-color-icon--active: var(
+    --token-color-icon-action-pressed-ondark
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --button-color-text--default: var(--token-color-text-action-ondark);
+  --button-color-text--hover: var(
+    --token-color-text-action-hover-ondark
+  );
+  --button-color-text--active: var(
+    --token-color-text-action-pressed-ondark
+  );
+  --button-color-text--disabled: var(
+    --token-color-text-action-disabled-ondark
+  );
+  --button-color-underline--hover: var(
+    --token-color-icon-action-hover-ondark
+  );
+}
+.dnb-button--tertiary.dnb-button__status--error {
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action-destructive
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-action-destructive-hover
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-action-destructive-pressed
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-action-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-action-destructive-hover
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-action-destructive-pressed
+  );
+  --button-color-underline--hover: var(
+    --token-color-component-button-background-action-destructive-hover
+  );
+}
+.dnb-button--icon-only.dnb-button--selected {
+  --button-color-bg--default: var(
+    --token-color-background-selected-subtle
+  );
+  --button-color-border--default: var(--token-color-stroke-selected);
+  --button-color-icon--default: var(--token-color-icon-selected);
+  --button-border-width--default: 0.125rem;
+  --button-border-inset--default: ;
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --button-color-bg--default: transparent;
+  --button-color-bg--hover: var(--token-color-background-action);
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --button-color-border--default: transparent;
+  --button-color-border--hover: transparent;
+  --button-color-border--active: transparent;
+  --button-border-inset--focus: inset;
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-neutral
+  );
+  --button-color-icon--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-neutral
+  );
+  --button-color-text--disabled: var(
+    --token-color-component-button-text-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button.dnb-button__status--error {
+  --button-color-bg--hover: var(--token-color-background-error);
+  --button-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed
+  );
+  --button-color-icon--hover: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-icon--active: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --button-color-text--hover: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+  --button-color-text--active: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --button-input-separator-color--default: var(--button-color-text);
+  --button-input-separator-color--hover: var(--button-color-bg);
+  --button-input-separator-color--active: var(--button-color-bg);
+  --button-input-separator-color--focus: var(--button-color-border);
+  --button-input-separator-color--disabled: var(
+    --token-color-background-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--input-border-width);
+  background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
+}
+.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+  top: var(--input-border-width);
+  bottom: var(--input-border-width);
+}
 .dnb-button {
   display: inline-flex;
   align-items: center;
@@ -440,7 +948,6 @@ button .dnb-form-status__text {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
   text-decoration: none;
-  box-shadow: none;
 }
 .dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
@@ -515,9 +1022,6 @@ button .dnb-form-status__text {
   --button-padding-right: var(--button-padding--default);
   width: auto;
 }
-.dnb-button__icon {
-  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
-}
 .dnb-button--has-text.dnb-button--icon-position-left {
   --button-padding-left: var(--button-padding-icon);
   --button-icon-margin-right: var(--button-icon-gutter);
@@ -566,43 +1070,6 @@ button .dnb-form-status__text {
 .dnb-button--control-after {
   border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
 }
-.dnb-button--reset {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  appearance: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  line-height: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
-}
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
   /* stylelint-disable-next-line */
@@ -613,12 +1080,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
-}
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
 }
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
@@ -633,152 +1094,6 @@ button.dnb-button::-moz-focus-inner {
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
-* Icon component
-*
-*/
-/*
- * Utilities
- */
-.dnb-icon {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em;
-}
-.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
-.dnb-icon svg,
-:where(.dnb-core-style) .dnb-icon svg {
-  width: inherit;
-  height: inherit;
-  shape-rendering: geometricprecision;
-  vertical-align: top;
-}
-.dnb-icon svg[width="100%"] {
-  width: inherit;
-}
-.dnb-icon svg[height="100%"] {
-  height: inherit;
-}
-.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentcolor;
-}
-.dnb-icon--inherit-color svg [stroke] {
-  stroke: currentcolor;
-}
-.dnb-icon--small {
-  font-size: 0.75rem;
-}
-.dnb-icon--default {
-  font-size: 1rem;
-}
-.dnb-icon--medium {
-  font-size: 1.5rem;
-}
-.dnb-icon--large {
-  font-size: 2rem;
-}
-.dnb-icon--x-large {
-  font-size: 2.5rem;
-}
-.dnb-icon--xx-large {
-  font-size: 3rem;
-}
-.dnb-icon--custom-size {
-  width: auto;
-  height: auto;
-  line-height: 0;
-}
-.dnb-icon--auto {
-  font-size: 1em;
-}
-.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
-  vector-effect: non-scaling-stroke;
-}
-.dnb-icon--auto > .dnb-icon--wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
-  vertical-align: middle;
-}
-p > .dnb-icon {
-  vertical-align: inherit;
-}
-.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-  content: none !important;
-}
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Tooltip component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --tooltip-z-index: 1100;
-}
-
-.dnb-tooltip {
-  --inner-space: 0;
-  --tooltip-border-radius: 1rem;
-  z-index: var(--tooltip-z-index);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
-}
-.dnb-tooltip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: auto;
-  text-align: center;
-  border-radius: var(--tooltip-border-radius);
-  box-shadow: var(--shadow-default);
-}
-.dnb-tooltip--large {
-  padding: 0.25rem 0;
-}
-.dnb-tooltip .dnb-popover__content {
-  min-width: 2rem;
-  min-height: 1.5rem;
-  padding: 0 1rem;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--right {
-  left: -13px;
-  top: auto !important;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--left {
-  right: -13px;
-  top: auto !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
 /*
  * FormLabel component
  *
@@ -796,7 +1111,7 @@ p > .dnb-icon {
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit;
+  color: var(--token-color-text-neutral);
 }
 .dnb-form-label--vertical {
   display: block;
@@ -815,95 +1130,37 @@ legend.dnb-form-label {
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Input component
 *
 */
-/*
- * Utilities
- */
+.dnb-input__border--tokens {
+  --input-border-color: var(--token-color-stroke-action);
+  --input-border-color--hover: var(--token-color-stroke-action-hover);
+  --input-border-color--active: var(--token-color-stroke-action-pressed);
+  --input-border-color--focus: var(--token-color-stroke-action-pressed);
+  --input-border-color--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --input-border-color__error: var(--token-color-stroke-error);
+  --input-border-color__error--active: var(--token-color-stroke-error);
+  --input-border-color__error--focus: var(--token-color-stroke-error);
+  --input-border-width: 0.0625rem;
+  --input-border-width--hover: 0.125rem;
+  --input-border-width--active: 0.125rem;
+  --input-border-width--focus: 0.125rem;
+  --input-border-width--disabled: 0.0625rem;
+  --input-border-width__error: 0.0625rem;
+  --input-border-width__error--hover: 0.125rem;
+  --input-border-width__error--active: 0.125rem;
+  --input-border-inset: inset;
+  --input-border-inset--hover: ;
+  --input-border-inset--active: ;
+  --input-border-inset--focus: ;
+  --input-border-inset--disabled: inset;
+  --input-border-radius: var(--input-border-radius--default);
+  --input-border-radius--default: 0.25rem;
+}
+
 .dnb-input {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
@@ -917,7 +1174,19 @@ button .dnb-form-status__text {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-background-color: var(--color-white);
+  --input-background-color: var(--token-color-background-neutral);
+  --input-background-color--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --input-color-text: var(--token-color-text-neutral);
+  --input-color-text--disabled: var(
+    --token-color-text-neutral-alternative
+  );
+  --input-color-placeholder: var(--token-color-text-neutral-alternative);
+  --input-color-placeholder--disabled: var(
+    --token-color-text-action-disabled
+  );
+  color: var(--input-color-text);
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -931,9 +1200,10 @@ button .dnb-form-status__text {
 }
 .dnb-input__shell {
   position: relative;
+  background-color: var(--input-background-color);
   display: flex;
   align-items: center;
-  border: var(--input-border-width) solid var(--color-sea-green);
+  border: none;
 }
 .dnb-input__row {
   display: inline-flex;
@@ -946,13 +1216,35 @@ button .dnb-form-status__text {
   position: relative;
   z-index: 2;
 }
+.dnb-input__input::-webkit-search-cancel-button {
+  display: none;
+}
+.dnb-input__input::-webkit-file-upload-button {
+  outline: none;
+  margin-left: calc(var(--input-padding) * -1);
+  margin-right: calc(var(--input-padding) / 4);
+  padding-left: var(--input-padding);
+  padding-right: calc(var(--input-padding) / 4);
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button {
+  color: var(--token-color-component-button-text-action);
+  cursor: pointer;
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+  background-color: var(--token-color-background-action-hover-subtle);
+  color: var(--token-color-component-button-text-action-hover);
+}
+.dnb-input__input:not([disabled])::-webkit-file-upload-button:active {
+  background-color: var(--token-color-background-action-pressed-subtle);
+  color: var(--token-color-text-action-pressed);
+}
 .dnb-input__input[disabled] {
   user-select: none;
   opacity: 1;
 }
 .dnb-input__shell, .dnb-input__input {
   height: var(--input-height);
-  border-radius: var(--input-border-radius);
+  border-radius: var(--b-radius, var(--input-border-radius--default));
 }
 .dnb-input__placeholder, .dnb-input__input {
   width: 100%;
@@ -977,10 +1269,11 @@ button .dnb-form-status__text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--input-color-placeholder);
 }
 .dnb-input__border {
   display: flex;
-  border-radius: var(--b-radius, var(--input-border-radius));
+  border-radius: var(--b-radius, var(--input-border-radius--default));
   --border-color: var(--b-color, var(--input-border-color));
   --border-width: var(--b-width, var(--input-border-width));
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
@@ -1015,7 +1308,7 @@ button .dnb-form-status__text {
   --b-width: var(--input-border-width__error);
 }
 .dnb-input__status--error .dnb-input__border:focus-within {
-  --b-color: var(--input-border-color__error);
+  --b-color: var(--input-border-color__error--active);
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
   --b-radius: var(--input-border-radius--active);
@@ -1040,32 +1333,12 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
 }
-.dnb-input__input::-webkit-search-cancel-button {
-  display: none;
-}
-.dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input ::-webkit-file-upload-button {
-  cursor: pointer;
-  outline: none;
-  color: var(--color-sea-green);
-}
-.dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
-  color: var(--color-emerald-green);
-}
 .dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--has-submit-element .dnb-input__input, .dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--has-clear-button .dnb-input__input {
   padding-right: calc(var(--input-padding) * 2.5);
 }
 .dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
   margin-right: 2.5rem;
   padding-right: 0;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-clear, .dnb-input--password .dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-reveal, .dnb-input--password .dnb-input__input::-ms-reveal {
-  display: none;
 }
 .dnb-input--password .dnb-input__placeholder {
   padding-right: 4rem;
@@ -1088,10 +1361,9 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input__submit-button {
   position: relative;
-  align-self: center; /* IE needs this to stay centered */
 }
 .dnb-input__submit-button__button {
-  border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
+  border-radius: 0 var(--input-border-radius--default) var(--input-border-radius--default) 0;
 }
 .dnb-input > .dnb-form-label {
   line-height: var(--line-height-basis);
@@ -1215,6 +1487,10 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: var(--input-height--small);
   height: var(--input-height--small);
 }
+.dnb-input[data-has-content=false] {
+  --input-border-color__error--active: var(--input-border-color--active);
+  --input-border-color__error--focus: var(--input-border-color--focus);
+}
 .dnb-input[data-has-content=true] .dnb-input--clear {
   opacity: 1;
 }
@@ -1249,13 +1525,22 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 .dnb-input--stretch .dnb-input__inner, .dnb-input--stretch .dnb-input__shell {
   width: 100%;
 }
+.dnb-input[data-input-state=disabled] {
+  --input-color-text: var(--input-color-text--disabled);
+  --input-color-placeholder: var(--input-color-placeholder--disabled);
+}
+.dnb-input[data-input-state=disabled] .dnb-input__shell,
+.dnb-input[data-input-state=disabled] .dnb-input__shell .dnb-icon {
+  color: var(--input-color-text--disabled);
+}
+.dnb-input[data-input-state=disabled] .dnb-input__shell {
+  -webkit-text-fill-color: currentcolor;
+  background-color: var(--input-background-color--disabled);
+}
 .dnb-input--stretch .dnb-form-label + .dnb-input__inner {
   width: auto;
 }
 .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-input--stretch {
   width: 100%;
 }
 .dnb-input__icon {
@@ -1293,7 +1578,7 @@ html[data-visual-test] .dnb-input__input {
 }
 .dnb-input--keep-placeholder[data-input-state=focus] .dnb-input__placeholder {
   display: block;
-  color: var(--color-black-20);
+  color: var(--input-color-placeholder);
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-input {
@@ -1315,1207 +1600,110 @@ html[data-visual-test] .dnb-input__input {
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
-* Icon component
-*
-*/
-/*
- * Utilities
- */
-.dnb-icon {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em;
-}
-.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
-.dnb-icon svg,
-:where(.dnb-core-style) .dnb-icon svg {
-  width: inherit;
-  height: inherit;
-  shape-rendering: geometricprecision;
-  vertical-align: top;
-}
-.dnb-icon svg[width="100%"] {
-  width: inherit;
-}
-.dnb-icon svg[height="100%"] {
-  height: inherit;
-}
-.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentcolor;
-}
-.dnb-icon--inherit-color svg [stroke] {
-  stroke: currentcolor;
-}
-.dnb-icon--small {
-  font-size: 0.75rem;
-}
-.dnb-icon--default {
-  font-size: 1rem;
-}
-.dnb-icon--medium {
-  font-size: 1.5rem;
-}
-.dnb-icon--large {
-  font-size: 2rem;
-}
-.dnb-icon--x-large {
-  font-size: 2.5rem;
-}
-.dnb-icon--xx-large {
-  font-size: 3rem;
-}
-.dnb-icon--custom-size {
-  width: auto;
-  height: auto;
-  line-height: 0;
-}
-.dnb-icon--auto {
-  font-size: 1em;
-}
-.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
-  vector-effect: non-scaling-stroke;
-}
-.dnb-icon--auto > .dnb-icon--wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
-  vertical-align: middle;
-}
-p > .dnb-icon {
-  vertical-align: inherit;
-}
-.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-  content: none !important;
-}
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Tooltip component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --tooltip-z-index: 1100;
-}
-
-.dnb-tooltip {
-  --inner-space: 0;
-  --tooltip-border-radius: 1rem;
-  z-index: var(--tooltip-z-index);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
-}
-.dnb-tooltip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: auto;
-  text-align: center;
-  border-radius: var(--tooltip-border-radius);
-  box-shadow: var(--shadow-default);
-}
-.dnb-tooltip--large {
-  padding: 0.25rem 0;
-}
-.dnb-tooltip .dnb-popover__content {
-  min-width: 2rem;
-  min-height: 1.5rem;
-  padding: 0 1rem;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--right {
-  left: -13px;
-  top: auto !important;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--left {
-  right: -13px;
-  top: auto !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
-* Button component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --button-icon-size: 1rem;
-  --button-height: 2.5rem;
-}
-
-.dnb-button {
-  --button-font-size: var(--font-size-basis);
-  --button-font-size-small: var(--font-size-small);
-  --button-icon-size--small: 0.75rem;
-  --button-icon-size--medium: 1.5rem;
-  --button-icon-size--large: 2rem;
-  --button-icon-gutter: 0.5rem;
-  --button-width: 2.5rem;
-  --button-width--small: 1.5rem;
-  --button-height--small: 1.5rem;
-  --button-width--medium: 2rem;
-  --button-height--medium: 2rem;
-  --button-width--large: 3rem;
-  --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--control-button: 0.25rem;
-  --button-padding-left: 0;
-  --button-padding-right: 0;
-  --button-padding-icon: 1rem;
-  --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
-  --button-padding--large: 2rem;
-  --button-icon-margin-top: 0;
-  --button-icon-margin-left: 0;
-  --button-icon-margin-right: 0;
-  position: relative;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.dnb-button--wrap {
-  overflow-wrap: break-word;
-  white-space: normal;
-}
-.dnb-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--button-width);
-  height: auto;
-  padding: 0 var(--button-padding-right) 0 var(--button-padding-left);
-  border: none;
-  border-radius: var(--button-border-radius);
-  text-align: left;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-regular);
-  text-decoration: none;
-  box-shadow: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
-  line-height: var(--button-height);
-}
-.dnb-button__text {
-  margin: 0.5rem 0;
-  font-size: var(--button-font-size);
-  line-height: var(--line-height-basis);
-  color: inherit;
-  transform: translateY(-0.03125rem);
-}
-.dnb-button__text [data-os=linux] {
-  transform: translateY(-0.035rem);
-}
-.dnb-button__alignment {
-  display: inline-block;
-  width: 0;
-}
-.dnb-button__bounding {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  transform: scale(1.1, 1.4);
-  background-color: transparent;
-  border-radius: var(--button-border-radius);
-}
-.dnb-button--size-small {
-  --button-height: var(--button-height--small);
-  width: var(--button-width--small);
-  font-size: var(--button-font-size-small);
-}
-.dnb-button--size-small .dnb-button__text {
-  margin: 0;
-}
-.dnb-button--has-text.dnb-button--size-small {
-  --button-padding-left: var(--button-padding--small);
-  --button-padding-right: var(--button-padding--small);
-}
-.dnb-button--size-medium {
-  --button-height: var(--button-height--medium);
-  width: var(--button-width--medium);
-}
-.dnb-button--size-medium .dnb-button__text {
-  margin: 0;
-}
-.dnb-button--has-text.dnb-button--size-medium {
-  --button-padding-left: var(--button-padding--medium);
-  --button-padding-right: var(--button-padding--medium);
-}
-.dnb-button--control-before.dnb-button--size-medium {
-  line-height: var(--button-height);
-}
-.dnb-button--control-after.dnb-button--size-medium {
-  line-height: var(--button-height);
-}
-.dnb-button--size-large {
-  --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
-  width: var(--button-width--large);
-}
-.dnb-button--has-text.dnb-button--size-large {
-  --button-padding-left: var(--button-padding--large);
-  --button-padding-right: var(--button-padding--large);
-}
-.dnb-button {
-  /* stylelint-disable-next-line */
-}
-.dnb-button--has-text {
-  --button-padding-left: var(--button-padding--default);
-  --button-padding-right: var(--button-padding--default);
-  width: auto;
-}
-.dnb-button__icon {
-  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
-}
-.dnb-button--has-text.dnb-button--icon-position-left {
-  --button-padding-left: var(--button-padding-icon);
-  --button-icon-margin-right: var(--button-icon-gutter);
-}
-.dnb-button--has-text.dnb-button--icon-position-right {
-  --button-padding-right: var(--button-padding-icon);
-  --button-icon-margin-left: var(--button-icon-gutter);
-}
-.dnb-button--icon-size-small {
-  --button-icon-size: var(--button-icon-size--small);
-}
-.dnb-button--icon-size-medium {
-  --button-icon-size: var(--button-icon-size--medium);
-}
-.dnb-button--icon-size-large {
-  --button-icon-size: var(--button-icon-size--large);
-}
-.dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
-  order: 2;
-}
-.dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
-  order: 1;
-}
-.dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
-  width: inherit;
-}
-.dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-  width: var(--button-icon-size);
-  height: var(--button-icon-size);
-}
-[href] > .dnb-button__icon.dnb-icon {
-  line-height: var(--button-font-size);
-}
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
-  order: 1;
-}
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
-  order: 2;
-}
-.dnb-button--stretch {
-  width: 100%;
-}
-.dnb-button--control-before {
-  border-radius: var(--button-border-radius--control-button) 0 0 var(--button-border-radius--control-button);
-}
-.dnb-button--control-after {
-  border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
-}
-.dnb-button--reset {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  appearance: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  line-height: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
-}
-.dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
-  appearance: none;
-  /* stylelint-disable-next-line */
-  -moz-appearance: none;
-  /* stylelint-disable-next-line */
-  -webkit-appearance: none;
-}
-.dnb-button[disabled] {
-  cursor: not-allowed;
-  outline: none;
-}
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
-.dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
-}
-
-/* Firefox includes a hidden border which messes up button dimensions */
-button.dnb-button::-moz-focus-inner {
-  border: none;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Icon component
-*
-*/
-/*
- * Utilities
- */
-.dnb-icon {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em;
-}
-.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
-.dnb-icon svg,
-:where(.dnb-core-style) .dnb-icon svg {
-  width: inherit;
-  height: inherit;
-  shape-rendering: geometricprecision;
-  vertical-align: top;
-}
-.dnb-icon svg[width="100%"] {
-  width: inherit;
-}
-.dnb-icon svg[height="100%"] {
-  height: inherit;
-}
-.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentcolor;
-}
-.dnb-icon--inherit-color svg [stroke] {
-  stroke: currentcolor;
-}
-.dnb-icon--small {
-  font-size: 0.75rem;
-}
-.dnb-icon--default {
-  font-size: 1rem;
-}
-.dnb-icon--medium {
-  font-size: 1.5rem;
-}
-.dnb-icon--large {
-  font-size: 2rem;
-}
-.dnb-icon--x-large {
-  font-size: 2.5rem;
-}
-.dnb-icon--xx-large {
-  font-size: 3rem;
-}
-.dnb-icon--custom-size {
-  width: auto;
-  height: auto;
-  line-height: 0;
-}
-.dnb-icon--auto {
-  font-size: 1em;
-}
-.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
-  vector-effect: non-scaling-stroke;
-}
-.dnb-icon--auto > .dnb-icon--wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
-  vertical-align: middle;
-}
-p > .dnb-icon {
-  vertical-align: inherit;
-}
-.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-  content: none !important;
-}
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Tooltip component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --tooltip-z-index: 1100;
-}
-
-.dnb-tooltip {
-  --inner-space: 0;
-  --tooltip-border-radius: 1rem;
-  z-index: var(--tooltip-z-index);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
-}
-.dnb-tooltip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: auto;
-  text-align: center;
-  border-radius: var(--tooltip-border-radius);
-  box-shadow: var(--shadow-default);
-}
-.dnb-tooltip--large {
-  padding: 0.25rem 0;
-}
-.dnb-tooltip .dnb-popover__content {
-  min-width: 2rem;
-  min-height: 1.5rem;
-  padding: 0 1rem;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--right {
-  left: -13px;
-  top: auto !important;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--left {
-  right: -13px;
-  top: auto !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
-* Button component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --button-icon-size: 1rem;
-  --button-height: 2.5rem;
-}
-
-.dnb-button {
-  --button-font-size: var(--font-size-basis);
-  --button-font-size-small: var(--font-size-small);
-  --button-icon-size--small: 0.75rem;
-  --button-icon-size--medium: 1.5rem;
-  --button-icon-size--large: 2rem;
-  --button-icon-gutter: 0.5rem;
-  --button-width: 2.5rem;
-  --button-width--small: 1.5rem;
-  --button-height--small: 1.5rem;
-  --button-width--medium: 2rem;
-  --button-height--medium: 2rem;
-  --button-width--large: 3rem;
-  --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--control-button: 0.25rem;
-  --button-padding-left: 0;
-  --button-padding-right: 0;
-  --button-padding-icon: 1rem;
-  --button-padding--default: 1.5rem;
-  --button-padding--small: 1rem;
-  --button-padding--medium: 1rem;
-  --button-padding--large: 2rem;
-  --button-icon-margin-top: 0;
-  --button-icon-margin-left: 0;
-  --button-icon-margin-right: 0;
-  position: relative;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.dnb-button--wrap {
-  overflow-wrap: break-word;
-  white-space: normal;
-}
-.dnb-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--button-width);
-  height: auto;
-  padding: 0 var(--button-padding-right) 0 var(--button-padding-left);
-  border: none;
-  border-radius: var(--button-border-radius);
-  text-align: left;
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-regular);
-  text-decoration: none;
-  box-shadow: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
-  line-height: var(--button-height);
-}
-.dnb-button__text {
-  margin: 0.5rem 0;
-  font-size: var(--button-font-size);
-  line-height: var(--line-height-basis);
-  color: inherit;
-  transform: translateY(-0.03125rem);
-}
-.dnb-button__text [data-os=linux] {
-  transform: translateY(-0.035rem);
-}
-.dnb-button__alignment {
-  display: inline-block;
-  width: 0;
-}
-.dnb-button__bounding {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  transform: scale(1.1, 1.4);
-  background-color: transparent;
-  border-radius: var(--button-border-radius);
-}
-.dnb-button--size-small {
-  --button-height: var(--button-height--small);
-  width: var(--button-width--small);
-  font-size: var(--button-font-size-small);
-}
-.dnb-button--size-small .dnb-button__text {
-  margin: 0;
-}
-.dnb-button--has-text.dnb-button--size-small {
-  --button-padding-left: var(--button-padding--small);
-  --button-padding-right: var(--button-padding--small);
-}
-.dnb-button--size-medium {
-  --button-height: var(--button-height--medium);
-  width: var(--button-width--medium);
-}
-.dnb-button--size-medium .dnb-button__text {
-  margin: 0;
-}
-.dnb-button--has-text.dnb-button--size-medium {
-  --button-padding-left: var(--button-padding--medium);
-  --button-padding-right: var(--button-padding--medium);
-}
-.dnb-button--control-before.dnb-button--size-medium {
-  line-height: var(--button-height);
-}
-.dnb-button--control-after.dnb-button--size-medium {
-  line-height: var(--button-height);
-}
-.dnb-button--size-large {
-  --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
-  width: var(--button-width--large);
-}
-.dnb-button--has-text.dnb-button--size-large {
-  --button-padding-left: var(--button-padding--large);
-  --button-padding-right: var(--button-padding--large);
-}
-.dnb-button {
-  /* stylelint-disable-next-line */
-}
-.dnb-button--has-text {
-  --button-padding-left: var(--button-padding--default);
-  --button-padding-right: var(--button-padding--default);
-  width: auto;
-}
-.dnb-button__icon {
-  margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
-}
-.dnb-button--has-text.dnb-button--icon-position-left {
-  --button-padding-left: var(--button-padding-icon);
-  --button-icon-margin-right: var(--button-icon-gutter);
-}
-.dnb-button--has-text.dnb-button--icon-position-right {
-  --button-padding-right: var(--button-padding-icon);
-  --button-icon-margin-left: var(--button-icon-gutter);
-}
-.dnb-button--icon-size-small {
-  --button-icon-size: var(--button-icon-size--small);
-}
-.dnb-button--icon-size-medium {
-  --button-icon-size: var(--button-icon-size--medium);
-}
-.dnb-button--icon-size-large {
-  --button-icon-size: var(--button-icon-size--large);
-}
-.dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
-  order: 2;
-}
-.dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
-  order: 1;
-}
-.dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
-  width: inherit;
-}
-.dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-  width: var(--button-icon-size);
-  height: var(--button-icon-size);
-}
-[href] > .dnb-button__icon.dnb-icon {
-  line-height: var(--button-font-size);
-}
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
-  order: 1;
-}
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
-  order: 2;
-}
-.dnb-button--stretch {
-  width: 100%;
-}
-.dnb-button--control-before {
-  border-radius: var(--button-border-radius--control-button) 0 0 var(--button-border-radius--control-button);
-}
-.dnb-button--control-after {
-  border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
-}
-.dnb-button--reset {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  appearance: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  line-height: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
-}
-.dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
-  appearance: none;
-  /* stylelint-disable-next-line */
-  -moz-appearance: none;
-  /* stylelint-disable-next-line */
-  -webkit-appearance: none;
-}
-.dnb-button[disabled] {
-  cursor: not-allowed;
-  outline: none;
-}
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
-.dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
-}
-
-/* Firefox includes a hidden border which messes up button dimensions */
-button.dnb-button::-moz-focus-inner {
-  border: none;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
 /*
 * Checkbox component
 *
 */
-/*
- * Utilities
- */
-:root {
-  --checkbox-width--medium: 1.5rem;
-  --checkbox-height--medium: 1.5rem;
-}
-
 .dnb-checkbox {
+  --checkbox-width--medium: 1.25rem;
+  --checkbox-height--medium: 1.25rem;
   --checkbox-border-radius: 0.25rem;
-  --checkbox-gfx-border-radius__indeterminate: 0.125rem;
+  --checkbox-border-width: 0.0625rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-gfx-height__indeterminate: 0.625rem;
-  --checkbox-gfx-width__indeterminate: 0.625rem;
-  --checkbox-gfx-height__indeterminate--large: 0.875rem;
-  --checkbox-gfx-width__indeterminate--large: 0.875rem;
-  --checkbox-border-width: 0.09375rem;
-  --checkbox-color-gfx-on: black;
-  --checkbox-color-gfx-off: white;
-  --checkbox-color-background-on: white;
-  --checkbox-color-background-off: white;
-  --checkbox-color-border-on: black;
-  --checkbox-color-border-off: black;
-  --checkbox-border-width--disabled: 0.125rem;
-  --checkbox-color-gfx--disabled: grey;
-  --checkbox-color-background-on--disabled: lightgrey;
-  --checkbox-color-background-off--disabled: lightgrey;
-  --checkbox-color-border-on--disabled: grey;
-  --checkbox-color-border-off--disabled: grey;
-  --checkbox-color-gfx__indeterminate--disabled: grey;
-  --checkbox-color-background--active: lightgrey;
-  --checkbox-color-border--active: transparent;
+  --checkbox-gfx-size__indeterminate: 0.625rem;
+  --checkbox-gfx-size__indeterminate--large: 1rem;
+  --checkbox-gfx-border-radius__indeterminate: 0.125rem;
+  --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-gfx-off: var(--token-color-background-neutral);
+  --checkbox-color-background-off: var(--token-color-background-neutral);
+  --checkbox-color-background-on: var(--token-color-background-selected);
+  --checkbox-color-border-off: var(
+    --token-color-stroke-action-alternative
+  );
+  --checkbox-color-border-on: var(--token-color-background-selected);
+  --checkbox-color-gfx__indeterminate: var(
+    --token-color-background-selected
+  );
+  --checkbox-color-background__indeterminate: var(
+    --token-color-background-selected-subtle
+  );
+  --checkbox-color-border__indeterminate: var(
+    --token-color-stroke-selected
+  );
+  --checkbox-color-gfx--disabled: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background-off--disabled: var(
+    --token-color-background-neutral
+  );
+  --checkbox-color-border-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-border-off--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --checkbox-color-background__indeterminate--disabled: var(
+    --token-color-background-neutral
+  );
+  --checkbox-color-background-off--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --checkbox-color-border-off--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --checkbox-color-background-on--active: var(
+    --token-color-background-action-pressed
+  );
+  --checkbox-color-border-on--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --checkbox-color-gfx__indeterminate--active: var(
+    --token-color-background-action-pressed
+  );
   --checkbox-border-width--hover: 0.125rem;
-  --checkbox-color-gfx--hover: grey;
-  --checkbox-color-background--hover: white;
-  --checkbox-color-border-on--hover: grey;
-  --checkbox-color-border-off--hover: grey;
-  --checkbox-color-gfx--focus: grey;
-  --checkbox-color-background--focus: lightgrey;
-  --checkbox-border-width--error: 0.125rem;
-  --checkbox-color-gfx--error: lavenderblush;
-  --checkbox-color-gfx--error-contrast: red;
-  --checkbox-color-background-on--error: red;
-  --checkbox-color-background--error-contrast: lavenderblush;
-  --checkbox-color-border--error: red;
-  --checkbox-color-gfx-indeterminate--error: red;
-  --checkbox-color-gfx--error--hover: red;
-  --checkbox-color-background--error--hover: lavenderblush;
-  --checkbox-color-border--error--hover: red;
-  --checkbox-color-background-indeterminate: grey;
-  --checkbox-color-gfx-indeterminate: darkgray;
-  --checkbox-color-background-indeterminate--active: grey;
-  --checkbox-color-border-indeterminate--active: white;
-  --checkbox-color-gfx-indeterminate--active: white;
+  --checkbox-color-gfx--hover: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--hover: var(
+    --token-color-background-action-hover
+  );
+  --checkbox-color-background-off--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --checkbox-color-border--hover: var(--token-color-stroke-action-hover);
+  --checkbox-color-gfx__indeterminate--hover: var(
+    --token-color-background-action-hover
+  );
+  --checkbox-color-background__indeterminate--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --checkbox-color-border__indeterminate--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
+  --checkbox-color-background--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --checkbox-color-gfx__indeterminate--focus: var(
+    --token-color-background-action-focus
+  );
+  --checkbox-color-gfx--error: var(--token-color-icon-neutral-inverse);
+  --checkbox-color-background-on--error: var(
+    --token-color-background-error
+  );
+  --checkbox-color-background-off--error: var(
+    --token-color-background-error-subtle
+  );
+  --checkbox-color-border--error: var(--token-color-stroke-error);
+  --checkbox-color-gfx__indeterminate--error: var(
+    --token-color-background-error
+  );
   --checkbox-bounding--medium: 1.75, 1.75;
   display: inline-flex;
   flex-direction: column;
@@ -2542,14 +1730,16 @@ button .dnb-form-status__text {
 }
 .dnb-checkbox__button {
   display: inline-block;
-  border: var(--checkbox-border-width) solid transparent;
+  border: var(--checkbox-border-width) solid var(--checkbox-color-border-off);
+  background-color: var(--checkbox-color-background-off);
 }
 .dnb-checkbox__focus {
   display: none;
+  --focus-ring-width: 0.25rem;
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -2557,14 +1747,13 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__focus, .dnb-checkbox__button {
   position: relative;
   z-index: 4;
-  width: calc(var(--checkbox-width--medium) - 0.25rem);
-  height: calc(var(--checkbox-height--medium) - 0.25rem);
+  width: var(--checkbox-width--medium);
+  height: var(--checkbox-height--medium);
   border-radius: var(--checkbox-border-radius);
 }
 .dnb-checkbox--large .dnb-checkbox__focus, .dnb-checkbox--large .dnb-checkbox__button {
   width: var(--checkbox-width--large);
   height: var(--checkbox-height--large);
-  border-radius: var(--checkbox-border-radius);
 }
 .dnb-checkbox__gfx {
   position: absolute;
@@ -2654,24 +1843,19 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   background-color: var(--checkbox-color-background-on);
   border-color: var(--checkbox-color-border-on);
 }
-.dnb-checkbox__input:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:not(:checked):not([data-checked=true]):not(:indeterminate) ~ .dnb-checkbox__gfx {
   opacity: 0;
   transform: scale(0.8);
   color: var(--checkbox-color-gfx-off);
 }
-.dnb-checkbox__input:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-off);
-  border-color: var(--checkbox-color-border-off);
-  transition: background-color 100ms ease-out;
-}
 .dnb-checkbox__input ~ .dnb-checkbox__indeterminate {
   position: absolute;
   z-index: 5;
-  width: var(--checkbox-gfx-width__indeterminate);
-  height: var(--checkbox-gfx-height__indeterminate);
+  width: var(--checkbox-gfx-size__indeterminate);
+  height: var(--checkbox-gfx-size__indeterminate);
   transform: scale(0.85);
   opacity: 0;
-  background-color: var(--checkbox-color-gfx-indeterminate);
+  background-color: var(--checkbox-color-gfx__indeterminate);
   border-radius: var(--checkbox-gfx-border-radius__indeterminate);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
 }
@@ -2679,22 +1863,19 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   transform: scale(1);
   opacity: 1;
 }
-.dnb-checkbox__input:indeterminate:checked ~ .dnb-checkbox__button {
-  background-color: transparent;
-  border-color: var(--checkbox-color-border-off);
+.dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate);
+  border-color: var(--checkbox-color-border__indeterminate);
 }
-.dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate:checked:hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
   color: transparent;
 }
 .dnb-checkbox--large .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
-  width: var(--checkbox-gfx-width__indeterminate--large);
-  height: var(--checkbox-gfx-height__indeterminate--large);
+  width: var(--checkbox-gfx-size__indeterminate--large);
+  height: var(--checkbox-gfx-size__indeterminate--large);
 }
 .dnb-checkbox {
   /** Disabled state **/
-}
-.dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
-  border-width: var(--checkbox-border-width--disabled);
 }
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__button {
   background-color: var(--checkbox-color-background-on--disabled);
@@ -2710,111 +1891,99 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--disabled);
 }
+.dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate--disabled);
+}
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
+  color: transparent;
+}
+.dnb-checkbox {
+  /** Error state **/
+}
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
+  border-color: var(--checkbox-color-border--error);
+  background-color: var(--checkbox-color-background-off--error);
+}
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
+  color: var(--checkbox-color-gfx--error);
+}
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled])[data-checked=true] ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--error);
+}
+.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--error);
+}
+.dnb-checkbox {
+  /** Hover state **/
+}
+.dnb-checkbox__input:not([disabled]):hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
+  border-color: var(--checkbox-color-border--hover);
+  background-color: var(--checkbox-color-background-off--hover);
+  border-width: var(--checkbox-border-width--hover);
+}
+.dnb-checkbox__input:hover:not(:active):not(:focus) ~ .dnb-checkbox__gfx {
+  color: var(--checkbox-color-gfx--hover);
+}
+.dnb-checkbox__input:not([disabled]):checked:hover:not(:active):not(:focus) ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--hover);
+  border-color: var(--checkbox-color-border--hover);
+  border-width: var(--checkbox-border-width--hover);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background__indeterminate--hover);
+  border-color: var(--checkbox-color-border__indeterminate--hover);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active):not(:focus) ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--hover);
+}
+.dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active):not(:focus) ~ .dnb-checkbox__gfx {
   color: transparent;
 }
 .dnb-checkbox {
   /** Active state **/
 }
 .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background--active);
-  border-color: var(--checkbox-color-border--active);
+  background-color: var(--checkbox-color-background-off--active);
+  border-color: var(--checkbox-color-border-off--active);
+  border-width: var(--checkbox-border-width);
+}
+.dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--active);
+  border-color: var(--checkbox-color-border-on--active);
+  border-width: var(--checkbox-border-width);
 }
 .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx-on);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-indeterminate--active);
-  border-color: var(--checkbox-color-border-indeterminate--active);
+  background-color: var(--checkbox-color-background-off--active);
+  border-color: var(--checkbox-color-border-off--active);
+  border-width: var(--checkbox-border-width);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--active);
-}
-.dnb-checkbox {
-  /** Hover state **/
-}
-.dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__button {
-  border-color: var(--checkbox-color-border-off--hover);
-  background-color: var(--checkbox-color-background--hover);
-  border-width: var(--checkbox-border-width--hover);
-}
-.dnb-checkbox__input:hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--hover);
-}
-.dnb-checkbox__input:not([disabled]):checked:hover ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover ~ .dnb-checkbox__button {
-  border: var(--checkbox-border-width--hover) solid var(--checkbox-color-border-on--hover);
+  background-color: var(--checkbox-color-gfx__indeterminate--active);
 }
 .dnb-checkbox {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--focus);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--focus);
 }
-.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button .dnb-checkbox__focus, .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):indeterminate:focus ~ .dnb-checkbox__gfx {
+  color: transparent;
+}
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus {
   display: block;
 }
-.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx--focus);
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__indeterminate {
+  background-color: var(--checkbox-color-gfx__indeterminate--focus);
 }
 .dnb-checkbox {
-  /** Error state **/
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button {
-  border: none;
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-  display: block;
-  --border-color: var(--checkbox-color-border--error);
-  --border-width: var(--checkbox-border-width--error);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button[data-checked=true] {
-  border-color: var(--checkbox-color-border--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error);
-}
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__button {
-  border: none;
-  background-color: var(--checkbox-color-background--error-contrast);
-  --border-color: var(--checkbox-color-border--error);
-  --border-width: calc(var(--checkbox-border-width--hover));
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error-contrast);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked=true] ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background-on--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error-contrast);
-  background-color: var(--checkbox-color-gfx--error-contrast);
-  border-radius: var(--checkbox-border-radius);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:not(:active):not(:hover) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not(:indeterminate) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx-indeterminate--error);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:indeterminate:hover:not(:active) ~ .dnb-checkbox__indeterminate {
-  background-color: var(--checkbox-color-gfx--error--hover);
-}
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--error--hover);
+  /** Skeleton **/
 }
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
   border-radius: 0;
@@ -2834,140 +2003,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Radio component
 *
 */
-/*
- * Utilities
- */
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
@@ -2979,34 +2017,46 @@ button .dnb-form-status__text {
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
   --radio-border-width: 0.09375rem;
-  --radio-color-dot-on: black;
-  --radio-color-background-on: white;
-  --radio-color-border-on: black;
-  --radio-color-background-off: white;
-  --radio-color-border-off: black;
+  --radio-color-dot-on: var(--token-color-background-selected);
+  --radio-color-background-on: var(
+    --token-color-background-selected-subtle
+  );
+  --radio-color-background-off: var(--token-color-background-neutral);
+  --radio-color-border-on: var(--token-color-stroke-selected);
+  --radio-color-border-off: var(--token-color-stroke-action-alternative);
   --radio-border-width--disabled: 0.125rem;
-  --radio-color-dot-on--disabled: lightgrey;
-  --radio-color-background--disabled: white;
-  --radio-color-border-on--disabled: lightgrey;
-  --radio-color-border-off--disabled: lightgrey;
-  --radio-color-dot-on--active: lightgrey;
-  --radio-color-border-on--active: lightgrey;
-  --radio-color-background-off--active: lightgrey;
-  --radio-color-border-off--active: transparent;
+  --radio-color-dot-on--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --radio-color-background--disabled: var(
+    --token-color-background-neutral
+  );
+  --radio-color-border--disabled: var(--token-color-icon-action-disabled);
+  --radio-color-dot-on--active: var(
+    --token-color-background-action-pressed
+  );
+  --radio-color-background--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --radio-color-border--active: var(--token-color-stroke-action-pressed);
   --radio-border-width--hover: 0.125rem;
   --radio-border-width-on--hover: 0.125rem;
-  --radio-color-dot-on--hover: lightgrey;
-  --radio-color-background-on--hover: lightgrey;
-  --radio-color-background-off--hover: lightgrey;
+  --radio-color-dot-on--hover: var(--token-color-background-action-hover);
+  --radio-color-background--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --radio-color-border--hover: var(--token-color-stroke-action-hover);
   --radio-border-width--focus: 0.125rem;
-  --radio-color-background-on--focus: var(--color-white);
-  --radio-color-background-off--focus: lightgrey;
-  --radio-color-dot-on--error: red;
-  --radio-color-border-on--error: red;
-  --radio-color-border--error-hover: red;
-  --radio-color-background-off--error-hover: lavenderblush;
-  --radio-color-background-on--error-hover: lavenderblush;
-  --radio-color-dot-on--error-hover: lavenderblush;
+  --radio-color-dot-on--focus: var(--token-color-background-action-focus);
+  --radio-color-background--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --radio-color-border--focus: var(--token-color-stroke-action-focus);
+  --radio-color-dot-on--error: var(--token-color-background-error);
+  --radio-color-background--error: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-border--error: var(--token-color-stroke-error);
   --radio-focus-ring-width--error: var(--focus-ring-width);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
@@ -3042,7 +2092,7 @@ button .dnb-form-status__text {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-radio__focus {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--radio-color-border--focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -3224,16 +2274,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio__input[disabled] ~ .dnb-radio__button {
   border-width: var(--radio-border-width--disabled);
 }
-.dnb-radio__input[disabled]:checked ~ .dnb-radio__button, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__button {
-  border-color: var(--radio-color-border-on--disabled);
+.dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
+  border-color: var(--radio-color-border--disabled);
   background-color: var(--radio-color-background--disabled);
 }
 .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--disabled);
-}
-.dnb-radio__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-radio__button:not(.dnb-skeleton) {
-  border-color: var(--radio-color-border-off--disabled);
-  background-color: var(--radio-color-background--disabled);
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton::before {
   border-radius: 0;
@@ -3244,28 +2290,27 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio {
   /** Active state **/
 }
-.dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__button {
-  border-color: var(--radio-color-border-on--active);
+.dnb-radio__input:not([disabled]):active ~ .dnb-radio__button {
+  background-color: var(--radio-color-background--active);
+  border-color: var(--radio-color-border--active);
 }
 .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__dot, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--active);
 }
-.dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):active ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-off--active);
-  border-color: var(--radio-color-border-off--active);
-}
 .dnb-radio {
   /** Hover state **/
+}
+.dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
+  background-color: var(--radio-color-background--hover);
+  border-color: var(--radio-color-border--hover);
 }
 .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--hover);
 }
 .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__button, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-on--hover);
   border-width: var(--radio-border-width-on--hover);
 }
 .dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked=true]):hover ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-off--hover);
   border-width: var(--radio-border-width--hover);
 }
 .dnb-radio {
@@ -3278,14 +2323,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-rad
 .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
   display: block;
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__button, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-on--focus);
+html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):focus ~ .dnb-radio__button {
+  background-color: var(--radio-color-background--focus);
 }
 html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--focus, var(--focus-ring-color));
-}
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-off--focus);
+  background-color: var(--radio-color-dot-on--focus);
 }
 .dnb-radio {
   /** Error state **/
@@ -3295,120 +2337,28 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
   display: block;
-  --border-color: var(--radio-color-border-on--error);
+  --border-color: var(--radio-color-border--error);
   --border-width: var(--radio-focus-ring-width--error);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-radio__focus {
-  --border-color: var(--radio-color-border--error-hover);
+  --border-color: var(--radio-color-border--hover);
   --border-width: var(--radio-focus-ring-width--error);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__button {
+  background-color: var(--radio-color-background--error);
+}
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot, .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked=true] ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--error);
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot, .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active)[data-checked=true]:hover ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--error-hover);
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__button, .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active)[data-checked=true]:hover ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-on--error-hover);
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked=true]):hover ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-off--error-hover);
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
 }
 
 /*
 * ToggleButton component
 *
 */
-/*
- * Utilities
- */
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
@@ -3445,10 +2395,12 @@ button .dnb-form-status__text {
 }
 .dnb-toggle-button__button .dnb-checkbox__button {
   display: unset;
+  border-color: inherit;
+  transition: none;
 }
 .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
-  width: calc(var(--checkbox-width--medium) - 0.5rem);
-  height: calc(var(--checkbox-height--medium) - 0.5rem);
+  width: calc(var(--checkbox-width--medium) - 0.25rem);
+  height: calc(var(--checkbox-height--medium) - 0.25rem);
   border-width: 0.0625rem;
 }
 .dnb-toggle-button__button .dnb-checkbox__dot {
@@ -3456,8 +2408,8 @@ button .dnb-form-status__text {
   height: calc(var(--checkbox-height--medium) - 1rem);
 }
 .dnb-toggle-button__button .dnb-checkbox__gfx {
-  width: calc(var(--checkbox-width--medium) - 0.75rem);
-  height: calc(var(--checkbox-height--medium) - 0.75rem);
+  width: calc(var(--checkbox-width--medium) - 0.5rem);
+  height: calc(var(--checkbox-height--medium) - 0.5rem);
 }
 .dnb-toggle-button__button .dnb-radio {
   margin-left: -0.5rem;
@@ -3555,141 +2507,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * DatePicker component
 *
 */
-/*
- * Utilities
- */
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
+  --date-picker-day-horizontal-spacing: 0.25rem;
   display: inline-flex;
   align-items: center;
   column-gap: var(--spacing-small);
@@ -3715,28 +2539,6 @@ button .dnb-form-status__text {
   white-space: nowrap;
   height: inherit;
 }
-.dnb-date-picker__triangle {
-  pointer-events: none;
-  position: absolute;
-  top: calc(2px - var(--date-picker-input-height) / 2);
-  left: 0;
-  right: auto;
-  margin: 0 1.5rem;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  overflow: hidden;
-}
-.dnb-date-picker__triangle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  transform: translateY(60%) rotate(45deg);
-  border: 1px solid var(--color-black-border);
-  background-color: var(--color-white);
-}
 .dnb-date-picker__container {
   width: min-content;
   position: relative;
@@ -3761,29 +2563,15 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-  display: inline-block;
-  width: auto;
-  margin: 0;
-  padding: 0 0.125rem;
-  transform: translateY(0);
-  outline: none;
-  font-family: var(--font-family-monospace);
-  text-align: center;
-  border: none;
-  background: transparent;
-  overflow: visible;
-  white-space: nowrap;
+  --input-padding--small: 0.05rem;
+  --input-padding--medium: 0.05rem;
+  --input-padding--large: 0.05rem;
+  padding: 0 0.0625rem;
 }
-@supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
+@supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
     margin: 0 -4px;
-  }
-}
-@supports (-ms-ime-align: auto) {
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    margin: 0 -5px;
   }
 }
 @supports (-webkit-touch-callout: none) {
@@ -3791,65 +2579,47 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
     margin: 0;
   }
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    text-indent: -2px;
-  }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-date-picker__input:not(*:root),
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
-    margin: 0 -4px;
+    margin-right: -10px;
   }
-  .dnb-date-picker__input:first-of-type:not(*:root),
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {
-    margin-left: 0.8rem;
-  }
-  .dnb-date-picker__input:last-of-type:not(*:root),
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input:last-of-type:not(*:root) {
-    margin-right: 2.2rem;
-  }
-}
-.dnb-date-picker__input--small.dnb-date-picker__input--small, .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-date-picker__input--small__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small.dnb-date-picker__input--small,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small,
-.dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small__input, .dnb-core-style .dnb-date-picker__input--small.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-core-style .dnb-date-picker__input--small__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--small:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--small:last-of-type:not(*:root) {
-  margin-right: 2.2rem;
-}
-.dnb-date-picker__input--medium.dnb-date-picker__input--medium, .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-date-picker__input--medium__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium.dnb-date-picker__input--medium,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium,
-.dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium__input, .dnb-core-style .dnb-date-picker__input--medium.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-core-style .dnb-date-picker__input--medium__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--medium:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--medium:last-of-type:not(*:root) {
-  margin-right: 3.2rem;
-}
-.dnb-date-picker__input--large.dnb-date-picker__input--large, .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-date-picker__input--large__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large.dnb-date-picker__input--large,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large,
-.dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large__input, .dnb-core-style .dnb-date-picker__input--large.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-core-style .dnb-date-picker__input--large__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--large:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--large:last-of-type:not(*:root) {
-  margin-right: 4rem;
 }
 .dnb-date-picker__input--label-alignment-right,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input--label-alignment-right, .dnb-core-style .dnb-date-picker__input--label-alignment-right {
   flex-flow: row-reverse;
   width: fit-content;
 }
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
-  margin-left: 0.8rem;
+.dnb-date-picker .dnb-segmented-field__section.dnb-date-picker__input,
+.dnb-date-picker .dnb-segmented-field__section.dnb-input__input.dnb-date-picker__input {
+  margin-right: 0;
+  text-indent: 0;
 }
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-date-picker__input:last-of-type {
-  margin-right: 2.2rem;
+.dnb-date-picker .dnb-segmented-field__section.dnb-date-picker__input:last-of-type,
+.dnb-date-picker .dnb-segmented-field__section.dnb-input__input.dnb-date-picker__input:last-of-type {
+  width: auto;
+}
+.dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
+  margin-left: 0.2rem;
+}
+.dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  --input-padding--small: 0.25rem;
+  --input-padding--medium: 0.333rem;
+  --input-padding--large: 0.5rem;
+  margin-right: 2rem;
+}
+.dnb-date-picker--small .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 1.5rem;
+}
+.dnb-date-picker--medium .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 2.5rem;
+}
+.dnb-date-picker--large .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  margin-right: 3rem;
+}
+.dnb-date-picker--medium .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker--large .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
+  margin-left: 0.5rem;
 }
 .dnb-date-picker .dnb-input__shell {
   display: none;
@@ -4025,9 +2795,6 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker--stretch .dnb-date-picker__inner, .dnb-date-picker--stretch .dnb-date-picker__shell {
   width: 100%;
 }
-.dnb-form-row--horizontal .dnb-date-picker--stretch {
-  width: 100%;
-}
 .dnb-date-picker:not(.dnb-date-picker--vertical)[class*=__status] {
   align-items: flex-start;
 }
@@ -4073,7 +2840,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__portal {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
+  --date-picker-day-horizontal-spacing: 0.25rem;
   --popover-z-index: calc(var(--modal-z-index) + 10);
   line-height: var(--date-picker-input-height);
 }

@@ -6,22 +6,13 @@ exports[`Accordion scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -105,10 +96,23 @@ p > .dnb-icon {
 /*
  * Utilities
  */
+/*
+ * Utilities
+ */
 .dnb-accordion {
-  --accordion-border-width: 0.0625rem;
+  --accordion-color-text: var(--accordion-color-text--default);
+  --accordion-color-description: var(
+    --accordion-color-description--default
+  );
+  --accordion-color-bg: var(--accordion-color-bg--default);
+  --accordion-color-border: var(--accordion-color-border--default);
+  --accordion-border-width: var(
+    --accordion-border-width--default,
+    0.0625rem
+  );
   --accordion-border-radius: 0.5rem;
   --accordion-easing: var(--easing-default);
+  --accordion-border-inset: var(--accordion-border-inset--default, inset);
   --accordion-header-margin-vertical: 1.25rem;
   --accordion-header-margin-vertical--description: 0.75rem;
   --accordion-header-wrapper-margin: 1rem;
@@ -131,8 +135,71 @@ p > .dnb-icon {
   align-items: center;
   cursor: pointer;
   outline: none;
-  border: var(--accordion-border-width) solid transparent;
+  color: var(--accordion-color-text, var(--accordion-color-text--default));
+  background-color: var(--accordion-color-bg);
+  box-shadow: var(--ui-accordion-box-shadow);
+  border: none;
   border-radius: var(--accordion-border-radius);
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header:hover:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--hover);
+  --accordion-color-description: var(
+    --accordion-color-description--hover
+  );
+  --accordion-color-bg: var(--accordion-color-bg--hover);
+  --accordion-color-border: var(--accordion-color-border--hover);
+  --accordion-border-width: var(--accordion-border-width--hover);
+  --accordion-border-inset: var(--accordion-border-inset--hover);
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--after-click);
+  --accordion-color-description: var(
+    --accordion-color-description--after-click
+  );
+  --accordion-color-bg: var(--accordion-color-bg--after-click);
+  --accordion-color-border: var(
+    --accordion-color-border--after-click
+  );
+}
+.dnb-accordion__header:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-accordion__header:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header:active:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--active);
+  --accordion-color-description: var(
+    --accordion-color-description--active
+  );
+  --accordion-color-bg: var(--accordion-color-bg--active);
+  --accordion-color-border: var(--accordion-color-border--active);
+  --accordion-border-width: var(--accordion-border-width--active);
+  --accordion-border-inset: var(--accordion-border-inset--active);
+}
+html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--focus);
+  --accordion-color-description: var(
+    --accordion-color-description--focus
+  );
+  --accordion-color-bg: var(--accordion-color-bg--focus);
+  --accordion-color-border: var(--accordion-color-border--focus);
+  --accordion-border-width: var(--accordion-border-width--focus);
+  --accordion-border-inset: var(--accordion-border-inset--focus);
+}
+.dnb-accordion__header[disabled] {
+  --accordion-color-text: var(--accordion-color-text--disabled);
+  --accordion-color-bg: var(--accordion-color-bg--disabled);
+  --accordion-color-border: var(--accordion-color-border--disabled);
+  --accordion-color-description: var(
+    --accordion-color-description--disabled
+  );
 }
 .dnb-accordion__header * {
   pointer-events: none;
@@ -190,6 +257,27 @@ p > .dnb-icon {
 .dnb-accordion__header--icon-right .dnb-accordion__header__container + .dnb-accordion__header__wrapper {
   margin-left: 0;
 }
+html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([disabled]) {
+  z-index: 1;
+}
+.dnb-accordion__header--outlined, .dnb-accordion__header--filled {
+  --ui-accordion-box-shadow: var(
+      --accordion-border-inset,
+      var(--accordion-border-inset--default)
+    )
+    0 0 0
+    var(
+      --accordion-border-width,
+      var(--accordion-border-width--default)
+    )
+    var(
+      --accordion-color-border,
+      var(--accordion-color-border--default)
+    );
+}
 .dnb-accordion__header--expanded {
   --accordion-title-font-weight: var(
     --accordion-title-font-weight--expanded
@@ -201,6 +289,7 @@ p > .dnb-icon {
   font-weight: var(--accordion-title-font-weight);
 }
 .dnb-accordion__header__description {
+  color: var(--accordion-color-description, var(--accordion-color-description--default));
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   font-weight: var(--font-weight-basis);
@@ -289,166 +378,125 @@ p > .dnb-icon {
 `;
 
 exports[`Accordion scss have to match default theme snapshot 1`] = `
-"/*
+"/* 
  * Accordion theme
  *
  */
-/*
- * Utilities
- */
-.dnb-accordion__header {
-  color: var(--ui-accordion-color--override, var(--ui-accordion-color));
-  background-color: var(--ui-accordion-background--override, var(--ui-accordion-background));
-  box-shadow: var(--ui-accordion-box-shadow);
-  border: none;
-}
-.dnb-accordion__header__description {
-  color: var(--ui-accordion-description-color--override, var(--ui-accordion-description-color));
-}
-.dnb-accordion__header {
-  /* 
-   * VARIANTS
-   * Each variant is mutually exclusive
-   */
-}
-.dnb-accordion__header--outlined, .dnb-accordion__header--filled {
-  --ui-accordion-border-inset: inset;
-  --ui-accordion-box-shadow: var(--ui-accordion-border-inset) 0 0 0
-    var(--accordion-border-width)
-    var(
-      --ui-accordion-border-color--override,
-      var(--ui-accordion-border-color)
-    );
-}
-.dnb-accordion__header--outlined[disabled], .dnb-accordion__header--filled[disabled] {
-  --ui-accordion-color: var(--color-sea-green-30);
-  --ui-accordion-background-: var(--color-white);
-  --ui-accordion-border-color: var(--color-sea-green-30);
-  --ui-accordion-description-color: var(--ui-accordion-color);
-  --ui-accordion-expanded-color: var(--color-white);
-  --ui-accordion-expanded-background: var(--color-sea-green-30);
-}
-.dnb-accordion__header--outlined {
-  --ui-accordion-color: var(--color-emerald-green);
-  --ui-accordion-background: var(--color-white);
-  --ui-accordion-border-color: var(--color-black-8);
-  --ui-accordion-description-color: var(--color-black-55);
-  --ui-accordion-expanded-color: var(--color-white);
-  --ui-accordion-expanded-background: var(--color-sea-green);
-  --ui-accordion-expanded-border-color: var(
-    --ui-accordion-expanded-background
+.dnb-accordion__variant--outlined {
+  --accordion-color-text--default: var(
+    --token-color-text-action
   );
-  --ui-accordion-expanded-description-color: var(
-    --ui-accordion-expanded-color
+  --accordion-color-text--hover: var(--token-color-text-action);
+  --accordion-color-text--after-click: var(
+    --token-color-text-neutral-inverse
   );
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible:not([disabled]) {
-  --accordion-border-width: 0.125rem;
-  --ui-accordion-border-color: var(--color-emerald-green);
-  --ui-accordion-expanded-border-color: var(--color-emerald-green);
-  --ui-accordion-expanded-color: var(--color-emerald-green);
-  --ui-accordion-expanded-background: var(--color-mint-green);
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([disabled]) {
-  --accordion-border-width: 0.125rem;
-  --ui-accordion-color: var(--color-emerald-green);
-  --ui-accordion-background: var(--color-white);
-  --ui-accordion-border-color: var(--color-emerald-green);
-  --ui-accordion-description-color: var(--color-black-55);
-  --ui-accordion-border-inset: ;
-  --ui-accordion-expanded-color: var(--ui-accordion-color);
-  --ui-accordion-expanded-background: var(--ui-accordion-background);
-  --ui-accordion-expanded-border-color: var(
-    --ui-accordion-border-color
+  --accordion-color-bg--default: var(--token-color-background-neutral);
+  --accordion-color-bg--after-click: var(
+    --token-color-background-action
   );
-  --ui-accordion-expanded-description-color: var(
-    --ui-accordion-description-color
+  --accordion-color-bg--hover: var(--token-color-background-neutral);
+  --accordion-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
   );
-  --ui-accordion-after-click-color: var(--color-white);
-  --ui-accordion-after-click-background: var(--color-sea-green);
-  --ui-accordion-after-click-border-color: var(--color-sea-green);
-  --ui-accordion-after-click-description-color: var(--color-white);
-  z-index: 1;
-}
-.dnb-accordion__header--outlined:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-accordion__header--outlined:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active:not([disabled]) {
-  --accordion-border-width: 0.0625rem;
-  --ui-accordion-background: var(--color-pistachio);
-  --ui-accordion-border-inset: inset;
-}
-.dnb-accordion__header--filled {
-  --accordion-border-width: 0.125rem;
-  --accordion-title-font-weight--expanded: var(--font-weight-basis);
-  --ui-accordion-color: var(--color-emerald-green);
-  --ui-accordion-background: var(--color-pistachio);
-  --ui-accordion-border-color: var(--color-pistachio);
-  --ui-accordion-description-color: var(--color-black-55);
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover:not([disabled]) {
-  --ui-accordion-background: var(--color-white);
-}
-.dnb-accordion__header--filled:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-accordion__header--filled:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active:not([disabled]) {
-  --ui-accordion-color: var(--color-white);
-  --ui-accordion-background: var(--color-sea-green);
-  --ui-accordion-border-color: var(--color-sea-green);
-  --ui-accordion-description-color: ar(--color-white);
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
-  --ui-accordion-border-color: var(--color-sea-green);
-}
-.dnb-accordion__header {
-  /* 
-   * STATES
-   * States that can exist across all variants.
-   */
-}
-.dnb-accordion__header--expanded {
-  --ui-accordion-color--override: var(
-    --ui-accordion-expanded-color--override,
-    var(--ui-accordion-expanded-color)
+  --accordion-color-bg--disabled: var(--token-color-background-neutral);
+  --accordion-color-border--default: var(
+    --token-color-stroke-neutral-bold
   );
-  --ui-accordion-background--override: var(
-    --ui-accordion-expanded-background--override,
-    var(--ui-accordion-expanded-background)
+  --accordion-color-border--hover: var(
+    --token-color-stroke-action-hover
   );
-  --ui-accordion-border-color--override: var(
-    --ui-accordion-expanded-border-color--override,
-    var(--ui-accordion-expanded-border-color)
+  --accordion-color-border--active: var(
+    --token-color-stroke-action-pressed
   );
-  --ui-accordion-description-color--override: var(
-    --ui-accordion-expanded-description-color--override,
-    var(--ui-accordion-expanded-description-color)
+  --accordion-color-border--after-click: var(
+    --token-color-background-action
   );
+  --accordion-border-width--hover: 0.125rem;
+  --accordion-border-width--active: 0.125rem;
 }
-.dnb-accordion__header--after-click {
-  --ui-accordion-expanded-color--override: var(
-    --ui-accordion-after-click-color
+.dnb-accordion__variant--outlined.dnb-accordion--expanded {
+  --accordion-color-text--default: var(
+    --token-color-text-neutral-inverse
   );
-  --ui-accordion-expanded-background--override: var(
-    --ui-accordion-after-click-background
+  --accordion-color-text--active: var(--token-color-text-action);
+  --accordion-color-bg--default: var(--token-color-background-action);
+  --accordion-color-border--default: var(--accordion-color-bg);
+}
+.dnb-accordion__variant--filled {
+  --accordion-color-text--default: var(--token-color-text-action);
+  --accordion-color-text--hover: var(--token-color-text-action-hover);
+  --accordion-color-text--active: var(
+    --token-color-text-neutral-inverse
   );
-  --ui-accordion-expanded-border-color--override: var(
-    --ui-accordion-after-click-border-color
+  --accordion-color-text--disabled: var(
+    --token-color-text-action-disabled
   );
-  --ui-accordion-expanded-description-color--override: var(
-    --ui-accordion-after-click-description-color
+  --accordion-color-bg--default: var(
+    --token-color-decorative-third-muted
+  );
+  --accordion-color-bg--hover: var(--token-color-background-neutral);
+  --accordion-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --accordion-color-border--default: var(
+    --token-color-decorative-third-muted
+  );
+  --accordion-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --accordion-border-width--default: 0.125rem;
+}
+.dnb-accordion__variant--outlined, .dnb-accordion__variant--filled {
+  --accordion-color-text--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --accordion-color-text--focus: var(--token-color-text-action-focus);
+  --accordion-color-description--default: var(
+    --token-color-text-neutral-alternative
+  );
+  --accordion-color-description--hover: var(
+    --token-color-text-neutral-alternative
+  );
+  --accordion-color-description--active: var(
+    --token-color-text-neutral-alternative
+  );
+  --accordion-color-description--focus: var(
+    --token-color-text-neutral-alternative
+  );
+  --accordion-color-description--after-click: var(
+    --accordion-color-text
+  );
+  --accordion-color-description--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --accordion-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --accordion-color-border--focus: var(
+    --token-color-stroke-action-focus
+  );
+  --accordion-color-border--disabled: var(
+    --token-color-stroke-action-disabled
+  );
+  --accordion-border-width--focus: 0.25rem;
+  --accordion-border-inset--default: inset;
+  --accordion-border-inset--hover: ;
+  --accordion-border-inset--active: inset;
+  --accordion-border-inset--focus: ;
+}
+.dnb-accordion__variant--outlined.dnb-accordion--expanded, .dnb-accordion__variant--filled.dnb-accordion--expanded {
+  --accordion-color-text--disabled: var(
+    --token-color-text-neutral-inverse
+  );
+  --accordion-color-description--default: var(--accordion-color-text);
+  --accordion-color-description--disabled: var(
+    --token-color-text-neutral-inverse
+  );
+  --accordion-color-bg--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --accordion-color-border--disabled: var(
+    --accordion-color-bg--disabled
   );
 }"
 `;

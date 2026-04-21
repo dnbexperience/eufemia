@@ -9,7 +9,7 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import {
+import type {
   UploadFile,
   UploadValue,
 } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
@@ -186,7 +186,7 @@ export const WithAsyncFileHandler = () => {
               const mockResponse = {
                 ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
                 json: async () => ({
-                  server_generated_id:
+                  serverGeneratedId:
                     file.file.name + '_' + crypto.randomUUID(),
                 }),
               }
@@ -198,7 +198,7 @@ export const WithAsyncFileHandler = () => {
               const data = await mockResponse.json()
               updatedFiles.push({
                 ...file,
-                id: data.server_generated_id,
+                id: data.serverGeneratedId,
               })
             } catch (error) {
               updatedFiles.push({
@@ -264,9 +264,9 @@ export const WithAsyncOnFileDelete = () => {
           )
           await request(3000) // Simulate a request
           const mockResponse = {
-            successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+            successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
           }
-          if (!mockResponse.successful_removal) {
+          if (!mockResponse.successfulRemoval) {
             throw new Error('Unable to remove this file')
           }
         }
@@ -564,7 +564,7 @@ export const WithIterateArray = () => {
               const mockResponse = {
                 ok: true,
                 json: async () => ({
-                  server_generated_id:
+                  serverGeneratedId:
                     file.file.name + '_' + crypto.randomUUID(),
                 }),
               }
@@ -572,7 +572,7 @@ export const WithIterateArray = () => {
               const data = await mockResponse.json()
               updatedFiles.push({
                 ...file,
-                id: data.server_generated_id,
+                id: data.serverGeneratedId,
               })
             } catch (error) {
               updatedFiles.push({
@@ -628,6 +628,7 @@ export const WithIterateArray = () => {
                 label="Required field with async fileHandler"
                 onFileDelete={mockAsyncFileRemoval}
                 onFileClick={mockAsyncOnFileClick}
+                // @ts-expect-error -- strictFunctionTypes
                 fileHandler={mockAsyncFileUpload}
                 required
                 onChange={(e) => {

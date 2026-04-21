@@ -1,6 +1,8 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import Theme, { ThemeAllProps } from '../Theme'
+import { act, render } from '@testing-library/react'
+import Context from '../Context'
+import type { ThemeAllProps } from '../Theme'
+import Theme from '../Theme'
 import {
   Autocomplete,
   Dialog,
@@ -64,16 +66,6 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets prop-mapping as HTML classes', () => {
-    render(<Theme propMapping="basis">content</Theme>)
-
-    const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__prop-mapping--basis',
-    ])
-  })
-
   it('sets contrast-mode as HTML classes', () => {
     render(<Theme contrastMode>content</Theme>)
 
@@ -84,14 +76,207 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets dark-mode as HTML classes', () => {
-    render(<Theme darkMode>content</Theme>)
+  it('sets colorScheme="dark" as HTML class', () => {
+    render(<Theme colorScheme="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
       'eufemia-theme',
-      'eufemia-theme__dark-mode',
+      'eufemia-theme__color-scheme--dark',
     ])
+  })
+
+  it('sets colorScheme="light" as HTML class', () => {
+    render(<Theme colorScheme="light">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+  })
+
+  it('sets colorScheme="auto" as HTML class', () => {
+    const matchMediaOriginal = window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      matches: false,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('sets colorScheme="auto" and resolves dark mode via matchMedia', () => {
+    const matchMediaOriginal = window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      matches: true,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--dark',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('updates colorScheme="auto" when system preference changes', () => {
+    const matchMediaOriginal = window.matchMedia
+    let listener: (event: { matches: boolean }) => void = null
+    let matches = false
+
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      media: query,
+      get matches() {
+        return matches
+      },
+      addEventListener: jest.fn((eventName, callback) => {
+        if (eventName === 'change') {
+          listener = callback
+        }
+      }),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<Theme colorScheme="auto">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--light',
+    ])
+
+    matches = true
+    act(() => {
+      listener?.({ matches: true })
+    })
+
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-scheme--dark',
+    ])
+
+    window.matchMedia = matchMediaOriginal
+  })
+
+  it('provides surface through the theme context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <ThemeConsumer />
+      </Theme.Context>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
+  })
+
+  it('resets surface to default when nested inside a dark surface theme', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context surface="light">
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'light',
+      })
+    )
+  })
+
+  it('inherits surface when not set', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context>
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
+  })
+
+  it('does not set surface as HTML class', () => {
+    render(<Theme surface="dark">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+  })
+
+  it('does not set surface as HTML classes when "light"', () => {
+    render(<Theme surface="light">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+  })
+
+  it('resets surface to undefined when "initial" inside a dark surface context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme.Context surface="dark">
+        <Theme.Context surface="initial">
+          <ThemeConsumer />
+        </Theme.Context>
+      </Theme.Context>
+    )
+
+    expect(receivedTheme.surface).toBeUndefined()
   })
 
   it('sets additional attributes', () => {
@@ -116,20 +301,35 @@ describe('Theme', () => {
   })
 
   it('uses custom component when set', () => {
-    const Component = React.forwardRef(
-      (
-        { children, ...rest }: { children: React.ReactNode },
-        ref: React.LegacyRef<HTMLElement>
-      ) => (
-        <section {...rest} ref={ref}>
-          {children}
-        </section>
-      )
+    const Component = ({
+      children,
+      ref,
+      ...rest
+    }: {
+      children?: React.ReactNode
+      ref?: React.Ref<HTMLElement>
+    }) => (
+      <section {...rest} ref={ref}>
+        {children}
+      </section>
     )
     render(<Theme element={Component}>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SECTION')
+  })
+
+  it('Theme.Context provides theme without wrapper element', () => {
+    const { getByText } = render(
+      <Theme.Context name="eiendom" variant="soft">
+        content
+      </Theme.Context>
+    )
+
+    expect(
+      document.querySelector('.eufemia-theme')
+    ).not.toBeInTheDocument()
+    expect(getByText('content')).toBeInTheDocument()
   })
 
   it('will omit element on false or fragment', () => {
@@ -155,7 +355,7 @@ describe('Portals', () => {
   it('have correct theme classes in dialog content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dialog noAnimation openState="opened">
+        <Dialog noAnimation open>
           content
         </Dialog>
       </Theme>
@@ -177,7 +377,7 @@ describe('Portals', () => {
   it('have correct theme classes in drawer content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Drawer noAnimation openState="opened">
+        <Drawer noAnimation open>
           content
         </Drawer>
       </Theme>
@@ -200,7 +400,7 @@ describe('Portals', () => {
   it('have correct theme classes in dropdown', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dropdown open no_animation data={['A', 'B']} />
+        <Dropdown open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -219,7 +419,7 @@ describe('Portals', () => {
   it('have correct theme classes in autocomplete', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Autocomplete open no_animation data={['A', 'B']} />
+        <Autocomplete open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -240,8 +440,8 @@ describe('Portals', () => {
       <Theme name="eiendom" variant="soft" element={false}>
         <button id="tooltip-target">Target</button>
         <Tooltip
-          active
-          no_animation
+          open
+          noAnimation
           targetSelector="#tooltip-target"
           portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
         />

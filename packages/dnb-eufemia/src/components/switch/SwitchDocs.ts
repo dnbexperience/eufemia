@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SwitchProperties: PropertiesTableProps = {
   checked: {
@@ -9,36 +9,42 @@ export const SwitchProperties: PropertiesTableProps = {
   title: {
     doc: 'The `title` of the input - describing it a bit further for accessibility reasons.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   size: {
-    doc: 'The size of the switch. For now there is **medium** (default) and **large**.',
-    type: ['default', 'medium', 'large'],
+    doc: 'The size of the switch. For now there is `medium` (default) and `large`.',
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
-    type: ['error', 'warn', 'info', 'success', 'marketing'],
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
@@ -53,7 +59,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {
@@ -61,8 +67,8 @@ export const SwitchProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

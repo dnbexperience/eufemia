@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import { render, act } from '@testing-library/react'
 import FieldBoundaryProvider from '../FieldBoundaryProvider'
-import FieldBoundaryContext, {
-  FieldBoundaryContextState,
-} from '../FieldBoundaryContext'
+import type { FieldBoundaryContextState } from '../FieldBoundaryContext'
+import FieldBoundaryContext from '../FieldBoundaryContext'
 import Provider from '../../Provider'
 import { Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
@@ -18,7 +17,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in context', async () => {
-    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+    const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
     const ContextConsumer = () => {
@@ -127,7 +126,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set showBoundaryErrorsRef to true when showErrors is true', async () => {
-    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+    const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
     const ContextConsumer = () => {
@@ -148,7 +147,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in boundary context', async () => {
-    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+    const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
     const ContextConsumer = () => {
@@ -200,47 +199,8 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.showBoundaryErrors).toBe(false)
   })
 
-  it('should set error in context with continuousValidation', async () => {
-    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
-      React.createRef()
-
-    const Contexts = ({ children }) => {
-      contextRef.current = useContext(FieldBoundaryContext)
-      return <>{children}</>
-    }
-
-    render(
-      <Provider>
-        <FieldBoundaryProvider>
-          <Contexts>
-            <Field.String required path="/bar" continuousValidation />
-            <Form.SubmitButton />
-          </Contexts>
-        </FieldBoundaryProvider>
-      </Provider>
-    )
-
-    await userEvent.click(document.querySelector('button'))
-
-    expect(contextRef.current.hasError).toBe(true)
-    expect(contextRef.current.hasSubmitError).toBe(true)
-    expect(contextRef.current.hasVisibleError).toBe(true)
-    expect(contextRef.current.errorsRef.current).toMatchObject({
-      '/bar': true,
-    })
-
-    const inputElement = document.querySelector('input')
-    await userEvent.type(inputElement, 'b')
-    await userEvent.click(document.querySelector('button'))
-
-    expect(contextRef.current.hasError).toBe(false)
-    expect(contextRef.current.hasSubmitError).toBe(false)
-    expect(contextRef.current.hasVisibleError).toBe(false)
-    expect(contextRef.current.errorsRef.current).toMatchObject({})
-  })
-
   it('should set error in context with validateContinuously', async () => {
-    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+    const contextRef: React.RefObject<FieldBoundaryContextState> =
       React.createRef()
 
     const Contexts = ({ children }) => {

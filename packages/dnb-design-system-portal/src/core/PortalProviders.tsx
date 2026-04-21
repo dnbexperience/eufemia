@@ -20,10 +20,9 @@ import svSE_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/lo
 import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
-import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
-import PortalLayout, { PortalLayoutProps } from './PortalLayout'
+import PortalLayout, { type PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
-import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+import type { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 
 // Enable other existing locales here
@@ -39,16 +38,10 @@ export const translations = mergeTranslations(
   translationsWithoutEnUS,
   enUS
 )
-const allSupportedTranslationsKey: InternalLocale[] = [
-  ...(Object.keys(coreTranslations) as InternalLocale[]),
-  ...(Object.keys(translations) as InternalLocale[]),
-  'en-NO',
+export const supportedTranslationsKey = [
+  ...Object.keys(coreTranslations),
+  ...Object.keys(translations),
 ]
-
-export const supportedTranslationsKey: InternalLocale[] =
-  allSupportedTranslationsKey.filter((locale, index, list) => {
-    return list.indexOf(locale) === index
-  })
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
@@ -109,11 +102,7 @@ export const rootElement =
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
 
-  return (
-    <Theme {...theme} darkMode>
-      {children}
-    </Theme>
-  )
+  return <Theme {...theme}>{children}</Theme>
 }
 
 // This ensures we actually will get skeletons enabled when defined in the url
@@ -156,7 +145,7 @@ export function setLang(locale) {
 
 export function getSkeletonEnabled() {
   try {
-    return isTrue(window.localStorage.getItem('skeleton-enabled'))
+    return window.localStorage.getItem('skeleton-enabled') === 'true'
   } catch (e) {
     //
   }

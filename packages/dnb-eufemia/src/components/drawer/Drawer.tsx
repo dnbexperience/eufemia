@@ -8,16 +8,16 @@ import DrawerContent from './DrawerContent'
 import DrawerBody from './parts/DrawerBody'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
-import { DrawerProps, DrawerContentProps } from './types'
+import type { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
 function Drawer({
   id,
-  rootId,
   contentId,
   focusSelector,
   labelledBy,
@@ -42,7 +42,7 @@ function Drawer({
   closeModal,
   preventClose,
   preventOverlayClose,
-  openState,
+  open,
   openDelay,
 
   omitTriggerButton,
@@ -61,7 +61,7 @@ function Drawer({
   space,
 
   ...props
-}: DrawerAllProps): JSX.Element {
+}: DrawerAllProps): React.JSX.Element {
   const context = useContext(Context)
 
   const modalProps = removeUndefinedProps({
@@ -83,9 +83,8 @@ function Drawer({
     noAnimationOnMobile,
     fullscreen,
     containerPlacement,
-    openState,
+    open,
     directDomReturn,
-    rootId,
     onOpen,
     onClose,
     onClosePrevent,
@@ -119,7 +118,7 @@ function Drawer({
       {...context.Drawer}
       {...modalProps}
       fullscreen={false} // to avoid double fullscreen as it's handled in DrawerContent
-      contentClass={classnames('dnb-drawer__root', contentClass)}
+      contentClass={clsx('dnb-drawer__root', contentClass)}
     >
       <DrawerContent {...context.Drawer} {...drawerProps} />
     </Modal>
@@ -130,6 +129,8 @@ Drawer.Body = DrawerBody
 Drawer.Header = DrawerHeader
 Drawer.Navigation = DrawerNavigation
 
-Drawer._supportsSpacingProps = true
+withComponentMarkers(Drawer, {
+  _supportsSpacingProps: true,
+})
 
 export default Drawer

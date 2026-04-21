@@ -51,7 +51,7 @@ export const CopyTextContent = () => {
     <ComponentBox>
       <P>
         <CopyOnClick>
-          <NumberFormat value={1234567.89} currency="NOK" />
+          <NumberFormat.Currency value={1234567.89} currency="NOK" />
         </CopyOnClick>
       </P>
     </ComponentBox>
@@ -75,7 +75,7 @@ export const CustomTooltipMessage = () => {
 export const InsideDrawer = () => {
   return (
     <ComponentBox data-visual-test="copy-on-click-inside-drawer">
-      <Drawer openState="opened">
+      <Drawer open>
         <CopyOnClick>I'm inside the drawer</CopyOnClick>
       </Drawer>
     </ComponentBox>

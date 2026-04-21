@@ -185,6 +185,10 @@ export default {
     },
     BankAccountNumber: {
       label: 'Bankkonto',
+      labelSwedishBban: 'Svensk kontonummer',
+      labelSwedishBankgiro: 'Bankgiro',
+      labelSwedishPlusgiro: 'Plusgiro',
+      labelIban: 'IBAN',
       errorRequired: 'Du skal udfylde et kontonummer.',
       errorBankAccountNumber: 'Ugyldigt kontonummer.',
       errorBankAccountNumberLength:
@@ -204,7 +208,7 @@ export default {
         'Ugyldig fødselsdato. Angiv dags dato eller tidligere.',
     },
     PhoneNumber: {
-      label: 'Mobilnummer',
+      numberLabel: 'Mobilnummer',
       countryCodeLabel: 'Landskode',
       errorRequired:
         'Mobilnummer skal udfyldes. Hvis du ikke har et mobilnummer, kan du indtaste et andet telefonnummer.',

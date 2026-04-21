@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { IsolationEvents } from '../../Form/Isolation/IsolationDocs'
 
 export const PushContainerProperties: PropertiesTableProps = {
@@ -19,7 +19,7 @@ export const PushContainerProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   data: {
@@ -59,7 +59,7 @@ export const PushContainerProperties: PropertiesTableProps = {
   },
   openButton: {
     doc: 'The button to open container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   showOpenButtonWhen: {
@@ -69,12 +69,12 @@ export const PushContainerProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
-    type: 'string',
+    type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
   toolbar: {
     doc: 'A custom toolbar to be shown below the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   dataReference: {
@@ -84,7 +84,7 @@ export const PushContainerProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'The container contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Space](/uilib/layout/space/properties)': {

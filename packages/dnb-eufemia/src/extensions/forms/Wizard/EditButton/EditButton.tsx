@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
-import Button, { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
+import Button from '../../../../components/button/Button'
 import ButtonRow from '../../Form/ButtonRow'
 import type { StepIndex } from '../Context/types'
 import useTranslation from '../../hooks/useTranslation'
@@ -12,17 +13,19 @@ import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & ButtonProps & { toStep?: StepIndex }
+export type WizardEditButtonProps = ComponentProps &
+  ButtonProps & { toStep?: StepIndex }
 
-function EditButton(props: Props) {
+function EditButton(props: WizardEditButtonProps) {
   const translations = useTranslation().WizardEditButton
   const { setActiveIndex } = useStep()
 
   const {
     className,
     variant = 'tertiary',
-    icon_position = 'left',
+    iconPosition = 'left',
     icon,
     toStep,
     children = translations.text,
@@ -39,11 +42,11 @@ function EditButton(props: Props) {
     <ButtonRow {...pickSpacingProps(props)}>
       <Hr space={0} />
       <Button
-        className={classnames('dnb-forms-edit-button', className)}
+        className={clsx('dnb-forms-edit-button', className)}
         variant={variant}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         icon={edit || icon}
-        on_click={handleClick}
+        onClick={handleClick}
         {...omitSpacingProps(rest)}
       >
         {children}
@@ -52,5 +55,8 @@ function EditButton(props: Props) {
   )
 }
 
-EditButton._supportsSpacingProps = true
+withComponentMarkers(EditButton, {
+  _supportsSpacingProps: true,
+})
+
 export default EditButton

@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.',
-    type: ['string', 'Function', 'Object', 'React.Context'],
+    type: ['string', 'function', 'object', 'React.Context'],
     status: 'optional',
   },
   children: {
@@ -12,8 +12,8 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
-    type: ['normal', 'compact'],
+    doc: 'Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.',
+    type: ['"default"', '"compact"'],
     status: 'optional',
   },
   acceptedFileTypes: {
@@ -66,6 +66,66 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  buttonText: {
+    doc: 'Custom text for the upload button. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileTypeTableCaption: {
+    doc: 'Custom caption for the file type table used by screen readers. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileTypeDescription: {
+    doc: 'Custom label for the file type description column. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileSizeDescription: {
+    doc: 'Custom label for the file size description column. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileAmountDescription: {
+    doc: 'Custom text for the file amount description. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileSizeContent: {
+    doc: 'Custom text for the file size content. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  errorLargeFile: {
+    doc: 'Custom error message for files exceeding the size limit. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  errorUnsupportedFile: {
+    doc: 'Custom error message for unsupported file types. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  errorAmountLimit: {
+    doc: 'Custom error message when the file amount limit is reached. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  loadingText: {
+    doc: 'Custom text displayed during file loading. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  deleteButton: {
+    doc: 'Custom text for the delete button. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  listAriaLabel: {
+    doc: 'Custom `aria-label` for the file list. Overrides the default translation.',
+    type: 'string',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -98,7 +158,7 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileClick: {
-    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.',
+    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.',
     type: 'function',
     status: 'optional',
   },

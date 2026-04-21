@@ -1,10 +1,10 @@
 import React from 'react'
-import classnames from 'classnames'
-import ScrollView, {
-  ScrollViewAllProps,
-} from '../../fragments/scroll-view/ScrollView'
+import clsx from 'clsx'
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableScrollViewProps = {
   /**
@@ -23,7 +23,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
 
   return (
     <ScrollView
-      className={classnames('dnb-table__scroll-view', className)}
+      className={clsx('dnb-table__scroll-view', className)}
       interactive="auto"
       {...rest}
     >
@@ -32,4 +32,4 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
   )
 }
 
-TableScrollView._supportsSpacingProps = true
+withComponentMarkers(TableScrollView, { _supportsSpacingProps: true })

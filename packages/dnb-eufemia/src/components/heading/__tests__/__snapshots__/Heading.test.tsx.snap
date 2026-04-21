@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Heading component has to match style dependencies css 1`] = `
 "/*
@@ -6,14 +6,8 @@ exports[`Heading component has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
  * Heading Component
  *
- */
-/*
- * Utilities
  */
 .dnb-heading__debug {
   color: var(--color-black-20);

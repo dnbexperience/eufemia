@@ -3,15 +3,10 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { inputMaskedEvents } from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
-import { multiInputMaskedEvents } from '@dnb/eufemia/src/components/input-masked/MultiInputMaskedDocs'
+import { InputMaskedEvents } from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
 
 ## Events
 
-<PropertiesTable props={inputMaskedEvents} />
+<PropertiesTable props={InputMaskedEvents} />
 
-**NB:** `numberValue` is returned as a float value and is only returned if the createNumberMask is used by either using `number_mask`, `currency_mask`, `as_number` or `as_currency`.
-
-### MultiInputMask
-
-<PropertiesTable props={multiInputMaskedEvents} />
+**NB:** `numberValue` is returned as a float value and is only returned when using `numberMask`, `currencyMask`, `asNumber`, or `asCurrency`.

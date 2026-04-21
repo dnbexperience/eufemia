@@ -1,7 +1,9 @@
 import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
-import Section, { SectionAllProps } from '../../../components/Section'
+import type { SectionAllProps } from '../../../components/Section'
+import Section from '../../../components/Section'
 import { FormLabel } from '../../../components'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 function Log({
   placeholder,
@@ -46,7 +48,7 @@ function Log({
 /**
  * Replaces undefined values in an object with a specified replacement value.
  * @param value - The value to check for undefined values.
- * @param replaceWith - The value to replace undefined values with. Default is null.
+ * @param replaceWith - The value to replace undefined values with. Default: `null`
  * @returns The object with undefined values replaced.
  */
 function replaceUndefinedValues(
@@ -72,5 +74,6 @@ function replaceUndefinedValues(
   }
 }
 
-Log._supportsSpacingProps = true
+withComponentMarkers(Log, { _supportsSpacingProps: true })
+
 export default Log

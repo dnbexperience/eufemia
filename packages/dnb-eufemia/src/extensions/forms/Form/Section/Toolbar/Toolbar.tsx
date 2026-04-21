@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from '../../../hooks'
 import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Hr } from '../../../../../elements'
 import { Flex, FormStatus } from '../../../../../components'
-import Space, { SpaceAllProps } from '../../../../../components/Space'
+import type { SpaceAllProps } from '../../../../../components/Space'
+import Space from '../../../../../components/Space'
 
-export type Props = SpaceAllProps & {
+export type FormSectionToolbarProps = SpaceAllProps & {
   onEdit?: () => void
   onDone?: () => void
   onCancel?: () => void
 }
 
-export default function Toolbar(props: Props) {
+export default function Toolbar(props: FormSectionToolbarProps) {
   const { errorInSection } = useTranslation().SectionEditContainer
   const { children, className, onEdit, onDone, onCancel, ...rest } = props
 
@@ -29,23 +30,21 @@ export default function Toolbar(props: Props) {
 
   return (
     <Space
-      className={classnames('dnb-forms-section-toolbar', className)}
+      className={clsx('dnb-forms-section-toolbar', className)}
       {...rest}
     >
       <Hr space={0} />
 
-      <ToolbarContext.Provider
-        value={{ setShowError, onEdit, onDone, onCancel }}
-      >
+      <ToolbarContext value={{ setShowError, onEdit, onDone, onCancel }}>
         <Flex.Horizontal top="x-small" gap="large">
           {children}
         </Flex.Horizontal>
-      </ToolbarContext.Provider>
+      </ToolbarContext>
 
       <FormStatus
         show={showError && hasVisibleError}
         shellSpace={{ top: 'x-small' }}
-        no_animation={false}
+        noAnimation={false}
       >
         {errorInSection}
       </FormStatus>

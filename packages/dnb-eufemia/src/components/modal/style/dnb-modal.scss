@@ -3,11 +3,11 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import './modal-mixins.scss';
+@use '../../../style/core/utilities.scss' as utilities;
+@use './modal-mixins.scss';
 
 :root {
-  --modal-z-index: 3000;
+  --modal-z-index: var(--z-index-modal);
   --modal-animation-duration: 300ms;
 }
 
@@ -33,7 +33,7 @@ html[data-dnb-modal-active] {
     height: 100%;
 
     &--auto-fullscreen {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         height: auto;
       }
     }
@@ -76,6 +76,12 @@ html[data-dnb-modal-active] {
 
     width: 100%;
     height: 100%;
+
+    --modal-overlay-bg: rgb(0 0 0 / 32%);
+    background-color: var(--modal-overlay-bg);
+  }
+  &__color-scheme--dark#{&}__overlay {
+    --modal-overlay-bg: rgb(0 0 0 / 48%);
   }
 
   &-root__inner &__overlay {
@@ -99,7 +105,7 @@ html[data-dnb-modal-active] {
     animation-duration: 0ms !important;
   }
 
-  @include reducedMotion() {
+  @include utilities.reducedMotion() {
     &__overlay {
       animation-duration: 0.01ms !important;
     }

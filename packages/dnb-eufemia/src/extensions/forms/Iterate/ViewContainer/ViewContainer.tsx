@@ -1,16 +1,18 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
-import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
+import type { ArrayItemAreaProps } from '../Array/ArrayItemArea'
+import ArrayItemArea from '../Array/ArrayItemArea'
 import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
 import { replaceItemNo } from '../ItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type IterateViewContainerProps = {
   /**
    * The title of the ViewContainer.
    */
@@ -27,11 +29,11 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props &
+export type IterateViewContainerAllProps = IterateViewContainerProps &
   Omit<FlexContainerProps, 'onAnimationEnd'> &
   ArrayItemAreaProps
 
-function ViewContainer(props: AllProps) {
+function ViewContainer(props: IterateViewContainerAllProps) {
   const {
     children,
     className,
@@ -56,15 +58,15 @@ function ViewContainer(props: AllProps) {
 
   const hasToolbar =
     !toolbarElement &&
-    React.Children.toArray(children).some((child) => {
-      return child?.['type'] === Toolbar
-    })
+    (Array.isArray(children) ? children : [children]).some(
+      (child) => React.isValidElement(child) && child.type === Toolbar
+    )
 
   return (
     <ArrayItemArea
       mode="view"
       ariaLabel={convertJsxToString(itemTitle)}
-      className={classnames('dnb-forms-section-view-block', className)}
+      className={clsx('dnb-forms-section-view-block', className)}
       toolbarVariant={toolbarVariant}
       {...restProps}
     >
@@ -72,13 +74,13 @@ function ViewContainer(props: AllProps) {
       {children}
       {hasToolbar
         ? null
-        : toolbarElement ??
+        : (toolbarElement ??
           (toolbarVariant !== 'custom' && (
             <Toolbar>
               <EditButton />
               <RemoveButton />
             </Toolbar>
-          ))}
+          )))}
     </ArrayItemArea>
   )
 }
@@ -86,5 +88,8 @@ function ViewContainer(props: AllProps) {
 ViewContainer.EditButton = EditButton
 ViewContainer.RemoveButton = RemoveButton
 
-ViewContainer._supportsSpacingProps = true
+withComponentMarkers(ViewContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default ViewContainer

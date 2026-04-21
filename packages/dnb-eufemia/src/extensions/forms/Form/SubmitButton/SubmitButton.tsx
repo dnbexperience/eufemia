@@ -1,14 +1,16 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
-import Button, { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
+import Button from '../../../../components/button/Button'
 import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSubmitButtonProps = {
   /**
    * Show the submit indicator
    */
@@ -19,7 +21,7 @@ export type Props = {
     variant?: 'send' | 'secondary'
   }
 
-function SubmitButton(props: Props) {
+function SubmitButton(props: FormSubmitButtonProps) {
   const translations = useTranslation().SubmitButton
 
   const { variant, className, showIndicator, children, text, ...rest } =
@@ -58,12 +60,12 @@ function SubmitButton(props: Props) {
   const indicatorState = showIndicator
     ? 'pending'
     : isActiveSubmitButton
-    ? formState
-    : undefined
+      ? formState
+      : undefined
 
   return (
     <Button
-      className={classnames('dnb-forms-submit-button', className)}
+      className={clsx('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}
@@ -78,5 +80,8 @@ function SubmitButton(props: Props) {
   )
 }
 
-SubmitButton._supportsSpacingProps = true
+withComponentMarkers(SubmitButton, {
+  _supportsSpacingProps: true,
+})
+
 export default SubmitButton

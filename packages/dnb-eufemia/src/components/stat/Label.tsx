@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import clsx from 'clsx'
+import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import type {
   TypographySize,
@@ -14,14 +14,11 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type LabelOwnProps = {
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
-  variant?:
-    | 'plain'
-    | 'subtle'
-    | /** @deprecated Use "plain" instead */ 'default'
+  variant?: 'plain' | 'subtle'
   skeleton?: SkeletonShow
 }
 
@@ -42,7 +39,7 @@ function Label(props: LabelProps) {
     srOnly = false,
     fontSize = 'basis',
     fontWeight = 'regular',
-    variant: variantProp = 'plain',
+    variant = 'plain',
     skeleton = null,
     style = null,
     ...rest
@@ -61,43 +58,37 @@ function Label(props: LabelProps) {
       : rootSkeleton
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
-  let variant = variantProp
-  if (variant === 'default') {
-    warn(
-      'Stat.Label variant="default" is deprecated. Use variant="plain" instead.'
-    )
-    variant = 'plain'
-  }
-
   if (!inRoot) {
     warn('Stat.Label should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(props, {
-    ...rest,
-    style,
-    className: classnames(
-      'dnb-stat',
-      'dnb-stat__label',
-      `dnb-stat__label--${variant}`,
-      srOnly && 'dnb-sr-only',
-      `dnb-t__size--${fontSize}`,
-      `dnb-t__line-height--${resolvedLineHeight}`,
-      `dnb-t__weight--${fontWeight}`,
-      createSpacingClasses(props),
-      skeletonClass,
-      className
-    ),
-  })
+  const attributes = validateDOMAttributes(
+    props,
+    applySpacing(props, {
+      ...rest,
+      style,
+      className: clsx(
+        'dnb-stat',
+        'dnb-stat__label',
+        `dnb-stat__label--${variant}`,
+        srOnly && 'dnb-sr-only',
+        `dnb-t__size--${fontSize}`,
+        `dnb-t__line-height--${resolvedLineHeight}`,
+        `dnb-t__weight--${fontWeight}`,
+        skeletonClass,
+        className
+      ),
+    })
+  )
 
   applySkeletonAttributes(attributes)
 
   return (
-    <StatRootContext.Provider value={{ inRoot, skeleton: childSkeleton }}>
+    <StatRootContext value={{ inRoot, skeleton: childSkeleton }}>
       <Provider skeleton={hasSkeleton}>
         <Element {...attributes}>{children}</Element>
       </Provider>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 

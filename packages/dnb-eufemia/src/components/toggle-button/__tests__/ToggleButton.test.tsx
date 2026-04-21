@@ -11,7 +11,8 @@ import {
 } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
+import type { ToggleButtonProps } from '../ToggleButton'
+import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 import userEvent from '@testing-library/user-event'
 
@@ -96,29 +97,18 @@ describe('ToggleButton component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
-    const my_event = jest.fn()
+  it('has "onChange" event which will trigger on a button click', () => {
     const myEvent = jest.fn()
-    render(
-      <ToggleButton
-        on_change={my_event}
-        onChange={myEvent}
-        checked={false}
-      />
-    )
+    render(<ToggleButton onChange={myEvent} checked={false} />)
 
     // first click
     fireEvent.click(document.querySelector('button'))
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
-
-    expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
+    expect(myEvent).toHaveBeenCalled()
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
 
     // second click
     fireEvent.click(document.querySelector('button'))
-    expect(my_event.mock.calls[1][0].checked).toBe(false)
+    expect(myEvent.mock.calls[1][0].checked).toBe(false)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {
@@ -131,7 +121,7 @@ describe('ToggleButton component', () => {
           <ToggleButton
             {...props}
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
@@ -298,14 +288,14 @@ describe('ToggleButton component', () => {
 
   it('should support enter key', () => {
     const onChange = jest.fn()
-    render(<ToggleButton on_change={onChange} />)
+    render(<ToggleButton onChange={onChange} />)
 
     const element = document.querySelector('button')
 
-    fireEvent.keyDown(element, { keyCode: 13 }) // enter
+    fireEvent.keyDown(element, { key: 'Enter' })
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    fireEvent.keyUp(element, { keyCode: 13 }) // enter
+    fireEvent.keyUp(element, { key: 'Enter' })
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
@@ -316,13 +306,14 @@ describe('ToggleButton component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-toggle-button',
+      'dnb-toggle-button--vertical',
       'dnb-space__top--large',
     ])
   })
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <ToggleButton label="Label" />
       </Provider>
     )

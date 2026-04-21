@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   path: {
@@ -7,7 +7,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   overwriteProps: {
-    doc: 'Overwrite field props for the section.',
+    doc: 'Overwrite field properties for the section.',
     type: 'object',
     status: 'optional',
   },
@@ -38,7 +38,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   containerMode: {
     doc: 'Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be "edit" if fields contain errors. Defaults to `auto`.',
-    type: 'string',
+    type: ['"view"', '"edit"', '"auto"'],
     status: 'optional',
   },
   disableEditing: {
@@ -48,7 +48,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'All the fields and values inside the section.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }

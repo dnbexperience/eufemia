@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 
@@ -11,25 +11,25 @@ export type TableThChildren =
 export type TableThProps = {
   /**
    * Defines the table header as sortable (ascending)
-   * Default: false
+   * Default: `false`
    */
   sortable?: boolean
 
   /**
    * Defines the sortable column as the current active (ascending)
-   * Default: false
+   * Default: `false`
    */
   active?: boolean
 
   /**
    * Defines the sortable column as in reversed order (descending)
-   * Default: false
+   * Default: `false`
    */
   reversed?: boolean
 
   /**
    * If set to true, the header text will not wrap to new lines
-   * Default: false
+   * Default: `false`
    */
   noWrap?: boolean
 
@@ -78,7 +78,7 @@ export default function Th(
       role={role}
       scope={scope}
       aria-sort={ariaSort}
-      className={classnames(
+      className={clsx(
         'dnb-table__th',
         sortable && 'dnb-table--sortable',
         active && 'dnb-table--active',
@@ -101,7 +101,7 @@ function Horizontal({
   return (
     <div
       {...rest}
-      className={classnames('dnb-table__th__horizontal', className)}
+      className={clsx('dnb-table__th__horizontal', className)}
     />
   )
 }

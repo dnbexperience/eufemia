@@ -5,12 +5,11 @@
 
 import React, { useCallback, useContext } from 'react'
 
-import DatePickerCalendar, {
-  DatePickerCalendarProps,
-} from './DatePickerCalendar'
+import type { DatePickerCalendarProps } from './DatePickerCalendar'
+import DatePickerCalendar from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
-import { DatePickerDates } from './hooks/useDates'
-import { DatePickerChangeEvent } from './DatePickerProvider'
+import type { DatePickerDates } from './hooks/useDates'
+import type { DatePickerChangeEvent } from './DatePickerProvider'
 
 export type DatePickerRangeViews = number | Record<string, unknown>[]
 
@@ -67,6 +66,7 @@ function DatePickerRange({
           {...calendar}
           {...props}
           id={`${props.id}-${i}-`}
+          // @ts-expect-error - strictFunctionTypes
           onSelect={onSelect}
         />
       ))}

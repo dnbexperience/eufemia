@@ -226,12 +226,12 @@ It depends from case to case on how you would make [spacing](/uilib/layout/space
 
 ```tsx
 import { Context } from '../../shared'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
 
@@ -256,14 +256,13 @@ function MyComponent(props: ComponentAllProps) {
   // This helper will remove e.g. all spacing properties so you get only valid HTML attributes
   validateDOMAttributes(props, rest)
 
-  // This helper will add needed spacing css classes based on the given properties
-  rest.className = classnames(
-    'dnb-my-component',
-    createSpacingClasses(props),
-    className
-  )
+  // This helper applies spacing classes and CSS custom properties to the root element props
+  const rootParams = applySpacing(props, {
+    ...rest,
+    className: clsx('dnb-my-component', className),
+  })
 
-  // Spread the ...rest on your root element
+  // Spread the ...rootParams on your root element
 }
 ```
 

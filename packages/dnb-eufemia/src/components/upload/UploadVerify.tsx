@@ -1,8 +1,8 @@
-import { format } from '../number-format/NumberUtils'
-import {
+import { formatNumber } from '../number-format/NumberUtils'
+import type {
   UploadFile,
-  UploadContextProps,
-  UploadAcceptedFileTypes,
+  UploadContextValue,
+  UploadAcceptedFiles,
   UploadAcceptedFileTypesWithFileMaxSize,
   UploadFileNative,
 } from './types'
@@ -12,7 +12,7 @@ export const BYTES_IN_A_MEGA_BYTE = 1048576
 export function verifyFiles(
   files: Array<UploadFile | UploadFileNative>,
   context: Pick<
-    UploadContextProps,
+    UploadContextValue,
     | 'errorUnsupportedFile'
     | 'errorLargeFile'
     | 'acceptedFileTypes'
@@ -28,7 +28,7 @@ export function verifyFiles(
 
   const getFileType = (
     file: File,
-    listOfAcceptedFilesTypes: UploadAcceptedFileTypes
+    listOfAcceptedFilesTypes: UploadAcceptedFiles
   ) => {
     return hasPreferredMimeType(listOfAcceptedFilesTypes, file)
       ? file.type
@@ -47,7 +47,7 @@ export function verifyFiles(
       ) {
         return String(errorLargeFile).replace(
           '%size',
-          format(maxFileSize).toString()
+          formatNumber(maxFileSize).toString()
         )
       }
       return null
@@ -127,7 +127,7 @@ export function getFileTypeFromExtension(file: File) {
 
 export function getAcceptedFileTypes(
   acceptedFileTypes:
-    | UploadAcceptedFileTypes
+    | UploadAcceptedFiles
     | UploadAcceptedFileTypesWithFileMaxSize
 ) {
   return extendWithAbbreviation(
@@ -138,7 +138,7 @@ export function getAcceptedFileTypes(
 }
 
 export function hasPreferredMimeType(
-  acceptedFileTypes: UploadAcceptedFileTypes,
+  acceptedFileTypes: UploadAcceptedFiles,
   file: File
 ) {
   return (
@@ -152,11 +152,11 @@ export function hasPreferredMimeType(
 
 function getAcceptedFileTypesAsListOfStrings(
   acceptedFileTypes:
-    | UploadAcceptedFileTypes
+    | UploadAcceptedFiles
     | UploadAcceptedFileTypesWithFileMaxSize
 ) {
   return isArrayOfStrings(acceptedFileTypes)
-    ? (acceptedFileTypes as UploadAcceptedFileTypes)
+    ? (acceptedFileTypes as UploadAcceptedFiles)
     : (acceptedFileTypes as UploadAcceptedFileTypesWithFileMaxSize).map(
         (obj) => obj.fileType
       )
@@ -179,7 +179,7 @@ export function isArrayOfObjects(arr) {
 }
 
 export function extendWithAbbreviation(
-  acceptedFileTypes: UploadAcceptedFileTypes,
+  acceptedFileTypes: UploadAcceptedFiles,
   abbreviations = { jpg: 'jpeg' }
 ) {
   const list = [...acceptedFileTypes]

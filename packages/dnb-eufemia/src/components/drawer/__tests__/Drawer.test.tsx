@@ -1,5 +1,6 @@
 import React from 'react'
-import Drawer, { DrawerAllProps } from '../Drawer'
+import type { DrawerAllProps } from '../Drawer'
+import Drawer from '../Drawer'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
@@ -79,57 +80,61 @@ describe('Drawer', () => {
   })
 
   it('will close by using callback method', () => {
-    const on_close = jest.fn()
-    const on_open = jest.fn()
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
     render(
       <Drawer
         noAnimation={true}
-        onOpen={on_open}
-        onClose={on_close}
+        onOpen={onOpen}
+        onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <>
-            <h1>title</h1>
-            <Button id="close-me" text="close" on_click={close} />
-          </>
-        )}
+        {
+          (({ close }) => (
+            <>
+              <h1>title</h1>
+              <Button id="close-me" text="close" onClick={close} />
+            </>
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelector('button#close-me'))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('will render Navigation, Header and Body even when hideCloseButton is true', () => {
-    const on_close = jest.fn()
-    const on_open = jest.fn()
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
 
     render(
       <Drawer
         noAnimation={true}
-        onOpen={on_open}
-        onClose={on_close}
+        onOpen={onOpen}
+        onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <>
-            <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
-            <Drawer.Header>
-              <h1>Drawer.Header</h1>
-              <Button id="close-me" on_click={close} />
-            </Drawer.Header>
-            <Drawer.Body>Drawer.Body</Drawer.Body>
-          </>
-        )}
+        {
+          (({ close }) => (
+            <>
+              <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
+              <Drawer.Header>
+                <h1>Drawer.Header</h1>
+                <Button id="close-me" onClick={close} />
+              </Drawer.Header>
+              <Drawer.Body>Drawer.Body</Drawer.Body>
+            </>
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
 
     expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
 
@@ -153,13 +158,13 @@ describe('Drawer', () => {
     ).toBe('Drawer.Navigation')
 
     fireEvent.click(document.querySelector('button#close-me'))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('sends along closeButtonAttributes to close button', () => {
     render(
       <Drawer
-        openState
+        open
         noAnimation
         closeButtonAttributes={{ text: 'Custom text' }}
       >
@@ -198,7 +203,7 @@ describe('Drawer', () => {
 
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
-    const on_close = jest.fn(
+    const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
@@ -206,36 +211,35 @@ describe('Drawer', () => {
       directDomReturn: false,
       noAnimation: true,
     }
-    render(<Drawer {...props} id="modal-drawer" onClose={on_close} />)
+    render(<Drawer {...props} id="modal-drawer" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-drawer'))
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
   })
 
   it('is closed by keyboardevent esc by window listener', async () => {
-    const on_close = jest.fn()
+    const onClose = jest.fn()
 
     const props: DrawerAllProps = {
       directDomReturn: false,
       noAnimation: true,
     }
-    render(<Drawer {...props} id="modal-drawer" onClose={on_close} />)
+    render(<Drawer {...props} id="modal-drawer" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-drawer'))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
-      expect(on_close).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledTimes(1)
     })
   })
 
   it('moves focus to content by default when opened', async () => {
-    render(<Drawer noAnimation openState title="Title" />)
+    render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
       const title = document.querySelector(
@@ -249,12 +253,7 @@ describe('Drawer', () => {
 
   it('respects focusSelector over close button', async () => {
     render(
-      <Drawer
-        noAnimation
-        openState
-        title="Title"
-        focusSelector="#focus-me"
-      >
+      <Drawer noAnimation open title="Title" focusSelector="#focus-me">
         <Drawer.Body>
           <input id="focus-me" />
         </Drawer.Body>
@@ -283,8 +282,7 @@ describe('Drawer', () => {
 
     // Close with ESC
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     // Trigger gets focus with data-autofocus set
@@ -300,12 +298,12 @@ describe('Drawer', () => {
   })
 
   it('has support for nested Drawers', async () => {
-    const on_open = {
+    const onOpen = {
       first: jest.fn(),
       second: jest.fn(),
       third: jest.fn(),
     }
-    const on_close = {
+    const onClose = {
       first: jest.fn(),
       second: jest.fn(),
       third: jest.fn(),
@@ -321,24 +319,24 @@ describe('Drawer', () => {
         {...props}
         id="modal-first"
         title="modal-first"
-        onOpen={on_open.first}
-        onClose={on_close.first}
+        onOpen={onOpen.first}
+        onClose={onClose.first}
       >
         <button id="content-first">first</button>
         <Drawer
           {...props}
           id="modal-second"
           title="modal-second"
-          onOpen={on_open.second}
-          onClose={on_close.second}
+          onOpen={onOpen.second}
+          onClose={onClose.second}
         >
           <button id="content-second">second</button>
           <Drawer
             {...props}
             id="modal-third"
             title="modal-third"
-            onOpen={on_open.third}
-            onClose={on_close.third}
+            onOpen={onOpen.third}
+            onClose={onClose.third}
           >
             <button id="content-third">third</button>
           </Drawer>
@@ -363,9 +361,9 @@ describe('Drawer', () => {
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
 
-    expect(on_open.first).toHaveBeenCalledTimes(1)
-    expect(on_open.second).toHaveBeenCalledTimes(1)
-    expect(on_open.third).toHaveBeenCalledTimes(1)
+    expect(onOpen.first).toHaveBeenCalledTimes(1)
+    expect(onOpen.second).toHaveBeenCalledTimes(1)
+    expect(onOpen.third).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelectorAll('button.dnb-modal__close-button').length
@@ -397,11 +395,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(0)
-      expect(on_close.second).toHaveBeenCalledTimes(0)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(0)
+      expect(onClose.second).toHaveBeenCalledTimes(0)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
     })
 
     expect(
@@ -425,11 +423,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(0)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(0)
+      expect(onClose.second).toHaveBeenCalledTimes(1)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
     })
 
     expect(
@@ -446,11 +444,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(1)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(1)
+      expect(onClose.second).toHaveBeenCalledTimes(1)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
     })
 
     expect(
@@ -468,7 +466,7 @@ describe('Drawer', () => {
     const MockComponent = () => {
       return (
         <Drawer
-          openState
+          open
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
@@ -495,9 +493,11 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <Button id="close-button" text="close" on_click={close} />
-        )}
+        {
+          (({ close }) => (
+            <Button id="close-button" text="close" onClick={close} />
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
@@ -605,79 +605,8 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = render(
-      <Drawer {...props} openState={true} title="title" />
-    )
+    const Comp = render(<Drawer {...props} open={true} title="title" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('Drawer rootId', () => {
-  it('should create modal root element with custom rootId', () => {
-    render(
-      <Drawer {...props} rootId="custom-drawer-root">
-        <button>button</button>
-      </Drawer>
-    )
-
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
-
-    const customRootElement = document.getElementById(
-      'dnb-modal-custom-drawer-root'
-    )
-    expect(customRootElement).toBeInTheDocument()
-    expect(customRootElement).toHaveClass('dnb-modal-root__inner')
-
-    // Default root should not exist
-    expect(document.getElementById('dnb-modal-root')).toBeNull()
-  })
-
-  it('should use default rootId when not provided', () => {
-    render(
-      <Drawer {...props}>
-        <button>button</button>
-      </Drawer>
-    )
-
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
-
-    // Default rootId is 'root', so it should create dnb-modal-root
-    const defaultRootElement = document.getElementById('dnb-modal-root')
-    expect(defaultRootElement).toBeInTheDocument()
-    expect(defaultRootElement).toHaveClass('dnb-modal-root__inner')
-  })
-
-  it('should create multiple drawers with different rootId', () => {
-    render(
-      <>
-        <Drawer {...props} id="drawer1" rootId="drawer-root1">
-          <h1>title</h1>
-          <button>button</button>
-        </Drawer>
-        <Drawer {...props} id="drawer2" rootId="drawer-root2">
-          <h1>title</h1>
-          <button>button</button>
-        </Drawer>
-      </>
-    )
-
-    // Open first drawer
-    const triggers = document.querySelectorAll('button.dnb-modal__trigger')
-    fireEvent.click(triggers[0])
-
-    const root1Element = document.getElementById('dnb-modal-drawer-root1')
-    expect(root1Element).toBeInTheDocument()
-
-    // Close first drawer
-    fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
-    )
-
-    // Open second drawer
-    fireEvent.click(triggers[1])
-
-    const root2Element = document.getElementById('dnb-modal-drawer-root2')
-    expect(root2Element).toBeInTheDocument()
   })
 })
 

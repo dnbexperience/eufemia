@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ProgressIndicatorProperties: PropertiesTableProps = {
   progress: {
@@ -7,16 +7,16 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
-  visible: {
-    doc: 'Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.',
+  show: {
+    doc: 'Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
   },
   type: {
     doc: 'Defines the type.',
-    type: [`'circular'`, `'linear'`, `'countdown'`],
-    defaultValue: `'circular'`,
+    type: ['"circular"', '"linear"', '"countdown"'],
+    defaultValue: '"circular"',
     status: 'optional',
   },
   noAnimation: {
@@ -28,32 +28,32 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   size: {
     doc: 'Defines the size.',
     type: [
-      `'default'`,
-      `'small'`,
-      `'medium'`,
-      `'large'`,
-      `'huge'`,
+      '"default"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"huge"',
       'string',
     ],
-    defaultValue: `'default'`,
+    defaultValue: '"default"',
     status: 'optional',
   },
   label: {
-    doc: 'Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)',
+    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
   },
   children: {
-    doc: 'Same as `label` prop (`label` prop has priority)',
+    doc: 'Same as `label` prop (`label` prop has priority).',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
   },
   labelDirection: {
     doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
-    type: [`'horizontal'`, `'vertical'`, `'inside'`],
-    defaultValue: `'horizontal'`,
+    type: ['"horizontal"', '"vertical"', '"inside"'],
+    defaultValue: '"vertical"',
     status: 'optional',
   },
   showDefaultLabel: {
@@ -62,14 +62,14 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  indicator_label: {
+  indicatorLabel: {
     doc: 'Use this to override the default label from text locales.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
   },
   title: {
-    doc: 'Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.',
+    doc: 'Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',
@@ -115,37 +115,11 @@ export const CustomColorsData: PropertiesTableProps = {
   },
 }
 
-export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
-  {
-    no_animation: {
-      doc: 'Use `noAnimation`.',
-      type: ' boolean',
-      status: 'deprecated',
-    },
-    label_direction: {
-      doc: 'Use `labelDirection`.',
-      type: 'string',
-      status: 'deprecated',
-    },
-    show_label: {
-      doc: 'Use `showDefaultLabel`.',
-      type: 'boolean',
-      status: 'deprecated',
-    },
-  }
-
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
-    doc: "Will be called once it's no longer `visible`.",
+    doc: "Will be called once it's no longer visible (`show=false`).",
     type: 'function',
     defaultValue: 'undefined',
     status: 'optional',
-  },
-}
-export const ProgressIndicatorDeprecatedEvents: PropertiesTableProps = {
-  on_complete: {
-    doc: 'Use `onComplete`.',
-    type: 'function',
-    status: 'deprecated',
   },
 }

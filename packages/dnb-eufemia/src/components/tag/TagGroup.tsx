@@ -1,8 +1,8 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
 import {
@@ -13,34 +13,35 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface TagGroupProps {
+export type TagGroupProps = {
   /**
    * Aria label to describe the tag group
-   * Default: null
+   * Default: `null`
    */
   label: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * The tags to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * Skeleton should be applied when loading content
-   * Default: false
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 }
 
-export const defaultProps = {
+const defaultProps: Partial<TagGroupProps> = {
   label: null,
   className: null,
   children: null,
@@ -72,25 +73,26 @@ const TagGroup = (
     })
   }
 
-  const spacingClasses = createSpacingClasses(props)
-  const {
-    skeleton, // eslint-disable-line
-    ...attributes
-  } = validateDOMAttributes({}, props)
+  const spacingProps = applySpacing(props, {
+    className: clsx('dnb-tag__group', className),
+  })
+  const { skeleton, ...attributes } = validateDOMAttributes({}, {
+    ...props,
+    ...spacingProps,
+  } as Record<string, unknown>)
 
   return (
-    <TagGroupContext.Provider value={props}>
-      <span
-        className={classnames('dnb-tag__group', spacingClasses, className)}
-        {...attributes}
-      >
+    <TagGroupContext value={props}>
+      <span {...(attributes as React.HTMLAttributes<HTMLSpanElement>)}>
         <span className="dnb-sr-only">{label}</span>
         {children}
       </span>
-    </TagGroupContext.Provider>
+    </TagGroupContext>
   )
 }
 
-TagGroup._supportsSpacingProps = true
+withComponentMarkers(TagGroup, {
+  _supportsSpacingProps: true,
+})
 
 export default TagGroup

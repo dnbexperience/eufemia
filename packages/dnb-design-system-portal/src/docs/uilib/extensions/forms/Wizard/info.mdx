@@ -47,7 +47,7 @@ A wizard needs a summary step at the end. You can use the `Wizard.Step` componen
 import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
 
 const MyForm = () => {
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
 
   return (
     <Form.Handler>

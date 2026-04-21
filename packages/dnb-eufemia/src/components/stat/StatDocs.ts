@@ -1,4 +1,3 @@
-export { AmountProperties } from './AmountDocs'
 export { NumberProperties } from './NumberDocs'
 export { CurrencyProperties } from './CurrencyDocs'
 export { PercentProperties } from './PercentDocs'

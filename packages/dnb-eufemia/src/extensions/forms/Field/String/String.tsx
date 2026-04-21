@@ -5,71 +5,100 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Input, Textarea } from '../../../../components'
 import * as z from 'zod'
-import { InputProps } from '../../../../components/input/Input'
-import InputMasked, {
-  InputMaskedProps,
-} from '../../../../components/InputMasked'
-import { TextareaProps } from '../../../../components/Textarea'
+import type { InputProps } from '../../../../components/input/Input'
+import type { InputMaskedProps } from '../../../../components/InputMasked'
+import InputMasked from '../../../../components/InputMasked'
+import type { TextareaProps } from '../../../../components/Textarea'
 import DataContext from '../../DataContext/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = FieldProps<string, undefined | string> & {
-  // - Shared props
+export type FieldStringProps = FieldProps<string, undefined | string> & {
+  /** Renders a multiline textarea instead of a single-line input. */
   multiline?: boolean
+  /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
-  innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  /** Ref to the underlying input or textarea element. */
+  ref?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  /** Defines the width of the field block container. */
   width?: FieldBlockWidth
+  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputProps['size'] | TextareaProps['size']
-  keepPlaceholder?: InputProps['keep_placeholder']
+  /** If set to `true` the placeholder will remain visible when the field has focus. */
+  keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
+  /** Minimum number of characters required. Triggers a validation error if the value is shorter. */
   minLength?: number
+  /** Maximum number of characters allowed. Triggers a validation error if the value is longer. */
   maxLength?: number
+  /** Regex pattern string the value must match. Triggers a validation error on mismatch. */
   pattern?: string
 
   // - Input props
+  /** HTML input type attribute, e.g. `text`, `password`, `search`. Defaults to `text`. */
   type?: InputProps['type']
+  /** Text alignment inside the input: `left`, `center`, or `right`. */
   align?: InputProps['align']
-  selectall?: InputProps['selectall']
+  /** If `true`, all text in the input is selected on focus. */
+  selectAll?: InputProps['selectAll']
+  /** If `true`, shows a clear button inside the input. */
   clear?: boolean
+  /** Input mask configuration for masked input patterns. */
   mask?: InputMaskedProps['mask']
+  /** If `true`, allows typing beyond the defined mask boundaries. */
+  allowOverflow?: InputMaskedProps['allowOverflow']
+  /** Icon displayed on the left side of the input. Accepts icon name strings. */
   leftIcon?: string
+  /** Icon displayed on the right side of the input. Accepts icon name strings. */
   rightIcon?: string
-  submitElement?: InputProps['submit_element']
+  /** Custom React element rendered as a submit button inside the input. */
+  submitElement?: InputProps['submitElement']
+  /** If `true`, capitalizes the first letter of the input value. */
   capitalize?: boolean
+  /** If `true`, trims leading and trailing whitespace from the value on blur. */
   trim?: boolean
 
   // - Textarea props
+  /** Number of visible text rows for the textarea (when `multiline` is true). */
   rows?: TextareaProps['rows']
-  autoresizeMaxRows?: TextareaProps['autoresize_max_rows']
-  autoresize?: TextareaProps['autoresize']
+  /** Maximum number of rows the textarea can grow to when `autoResize` is enabled. */
+  autoResizeMaxRows?: TextareaProps['autoResizeMaxRows']
+  /** If `true`, the textarea height adjusts automatically to its content. */
+  autoResize?: TextareaProps['autoResize']
+  /** Displays a character counter. Pass a number to set the max count, or a config object. */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
   // - Html props
+  /** HTML `autocomplete` attribute for browser autofill hints. */
   autoComplete?: HTMLInputElement['autocomplete']
+  /** Hint for the virtual keyboard type on touch devices, e.g. `numeric`, `email`, `tel`. */
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
+  /** Controls browser autocorrect behavior. */
   autoCorrect?: React.HTMLAttributes<HTMLInputElement>['autoCorrect']
+  /** Controls browser spell-checking behavior. */
   spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
+  /** If `true`, the input receives focus when the component mounts. */
   autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
+  /** Controls text auto-capitalization on touch devices. */
   autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
 
   // - Events
+  /** Callback fired when a key is pressed while the input has focus. */
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
-function StringComponent(props: Props) {
+function StringComponent(props: FieldStringProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
 
@@ -79,7 +108,7 @@ function StringComponent(props: Props) {
       // at validation time (min/max/pattern). This keeps rules in sync
       // with dynamic prop changes and avoids stale closures.
       props.schema ??
-      ((p: Props) => {
+      ((p: FieldStringProps) => {
         return z.string().superRefine((val, ctx) => {
           if (p.minLength !== undefined && val.length < p.minLength) {
             ctx.addIssue({
@@ -165,24 +194,25 @@ function StringComponent(props: Props) {
     [props.capitalize, transform]
   )
 
-  const ref = useRef<HTMLInputElement>()
-  const preparedProps: Props = {
+  const ref = useRef<HTMLInputElement>(undefined)
+  const preparedProps: FieldStringProps = {
     ...props,
     schema,
-    fromInput,
+    // @ts-expect-error - strictFunctionTypes
+    fromInput: props.fromInput ?? fromInput,
     toEvent,
     transformValue,
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'large'),
-    innerRef: props.innerRef ?? ref,
+    ref: props.ref ?? ref,
   }
 
   const {
     id,
     name,
     className,
-    innerRef,
+    ref: inputRef,
     inputClassName,
     placeholder,
     value,
@@ -190,6 +220,7 @@ function StringComponent(props: Props) {
     disabled,
     multiline,
     mask,
+    allowOverflow,
     leftIcon,
     rightIcon,
     width,
@@ -201,13 +232,13 @@ function StringComponent(props: Props) {
     clear,
     align,
     size,
-    selectall,
+    selectAll,
     keepPlaceholder,
 
     // - Textarea props
     rows,
-    autoresizeMaxRows = 6,
-    autoresize = true,
+    autoResizeMaxRows = 6,
+    autoResize = true,
     characterCounter,
 
     // - Html props
@@ -227,8 +258,10 @@ function StringComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(innerRef.current?.value)
-  }, [innerRef, setDisplayValue, value])
+    // Use getElementById to read the current DOM input value
+    const input = id ? document.getElementById(id) : null
+    setDisplayValue((input as HTMLInputElement)?.value)
+  }, [id, setDisplayValue, value])
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),
@@ -252,9 +285,9 @@ function StringComponent(props: Props) {
     [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
   )
 
-  const cn = classnames('dnb-forms-field-string__input', inputClassName)
+  const cn = clsx('dnb-forms-field-string__input', inputClassName)
 
-  const sharedProps: InputProps & TextareaProps = {
+  const sharedProps = {
     id,
     name,
     autoComplete,
@@ -265,14 +298,14 @@ function StringComponent(props: Props) {
     inputMode,
     className: cn,
     placeholder,
-    on_focus: handleFocus,
-    on_blur: handleBlur,
-    on_change: handleChange,
-    on_key_down: handleKeyDown,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onChange: handleChange,
+    onKeyDown: handleKeyDown as any,
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    inner_ref: innerRef,
+    ref: inputRef as any,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
@@ -280,26 +313,26 @@ function StringComponent(props: Props) {
   const textareaProps: TextareaProps = {
     keepPlaceholder,
     rows,
-    autoresize_max_rows: autoresizeMaxRows,
-    autoresize,
+    autoResizeMaxRows: autoResizeMaxRows,
+    autoResize,
     characterCounter,
   }
 
-  const inputProps: InputProps = {
+  const inputProps = {
     type,
     clear,
     size,
     align,
-    selectall,
+    selectAll,
     icon: leftIcon ?? rightIcon,
-    icon_position: rightIcon && !leftIcon ? 'right' : undefined,
-    submit_element: submitElement,
-    keep_placeholder: keepPlaceholder,
+    iconPosition: rightIcon && !leftIcon ? ('right' as const) : undefined,
+    submitElement: submitElement,
+    keepPlaceholder: keepPlaceholder,
   }
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-string', className),
+    className: clsx('dnb-forms-field-string', className),
     width:
       width === 'stretch' || fieldBlockContext?.composition
         ? width
@@ -313,7 +346,12 @@ function StringComponent(props: Props) {
       {multiline ? (
         <Textarea {...sharedProps} {...textareaProps} />
       ) : mask ? (
-        <InputMasked {...sharedProps} {...inputProps} mask={mask} />
+        <InputMasked
+          {...sharedProps}
+          {...inputProps}
+          mask={mask}
+          allowOverflow={allowOverflow}
+        />
       ) : (
         <Input {...sharedProps} {...inputProps} />
       )}
@@ -321,5 +359,8 @@ function StringComponent(props: Props) {
   )
 }
 
-StringComponent._supportsSpacingProps = true
+withComponentMarkers(StringComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default StringComponent

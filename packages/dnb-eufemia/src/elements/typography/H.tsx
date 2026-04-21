@@ -3,16 +3,19 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { SpacingProps } from '../../components/space/types'
-import E, { ElementProps } from '../Element'
-import { HeadingSize } from '../../components/heading/Heading'
+import clsx from 'clsx'
+import type { SpacingProps } from '../../shared/types'
+import type { ElementProps } from '../Element'
+import E from '../Element'
+import type { HeadingSize } from '../../components/heading/Heading'
 import {
   setNextLevel,
   getHeadingSize,
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
+import Context from '../../shared/Context'
 import { TypographyContext } from './Typography'
 
 export type HSize = HeadingSize
@@ -20,10 +23,10 @@ export type HSize = HeadingSize
 type HProps = SpacingProps &
   React.HTMLAttributes<HTMLHeadingElement> & {
     /**
-     * Defines the Element Type, like "h1"
-     * Default: h1
+     * Defines the Element Type, like "h1".
+     * Default: `h1`
      */
-    as?: string
+    element?: string
     /**
      * Makes the component use the elements heading level. e.g. h3 will make the component use level 3
      */
@@ -31,7 +34,7 @@ type HProps = SpacingProps &
     /**
      * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/.
      * Use value 'auto' to base size on heading level
-     * Default: xx-large
+     * Default: `xx-large`
      */
     size?: HSize | 'auto'
     /**
@@ -40,10 +43,10 @@ type HProps = SpacingProps &
     proseMaxWidth?: number | boolean
   } & ElementProps
 
-export type SharedHProps = Omit<HProps, 'as'>
+export type SharedHProps = Omit<HProps, 'element'>
 
 const H = ({
-  as = 'h1',
+  element = 'h1',
   is,
   level,
   size,
@@ -51,7 +54,8 @@ const H = ({
   className,
   ...props
 }: HProps) => {
-  const numSiz = parseFloat(String(as || is).substring(1))
+  const resolvedElement = element ?? is
+  const numSiz = parseFloat(String(resolvedElement).substring(1))
 
   if (level === 'use') {
     setNextLevel(numSiz)
@@ -63,6 +67,7 @@ const H = ({
     size ||
     'xx-large'
 
+  const context = useContext(Context)
   const { proseMaxWidth: proseMaxWidthContext } =
     useContext(TypographyContext)
 
@@ -75,9 +80,10 @@ const H = ({
 
   return (
     <E
-      as={as || is}
-      internalClass={classnames(
+      as={resolvedElement}
+      internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
+        context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
         className
       )}
       {...props}
@@ -86,7 +92,9 @@ const H = ({
   )
 }
 
-H._isHeadingElement = true
-H._supportsSpacingProps = true
+withComponentMarkers(H, {
+  _isHeadingElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default H

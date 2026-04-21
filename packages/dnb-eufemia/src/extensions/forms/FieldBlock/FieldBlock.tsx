@@ -6,19 +6,20 @@ import React, {
   useReducer,
   useEffect,
 } from 'react'
-import classnames from 'classnames'
-import FieldBlockContext, {
+import clsx from 'clsx'
+import type {
   StateWithMessage,
   StatesWithMessages,
   FieldErrorIdsRef,
   MountedFieldsRef,
   StateRecord,
   StateMessage,
-  StateTypes,
+  FieldState,
   StatusContent,
   FieldBlockContextProps,
   StateBasis,
 } from './FieldBlockContext'
+import FieldBlockContext from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
@@ -27,7 +28,7 @@ import {
   findElementInChildren,
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
-import {
+import type {
   ComponentProps,
   FieldProps,
   SubmitState,
@@ -35,17 +36,23 @@ import {
   UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
+import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../components/help-button/HelpButtonInline'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
-export const states: Array<StateTypes> = ['error', 'info', 'warning']
+export const states: Array<FieldState> = [
+  'error',
+  'information',
+  'warning',
+]
 
 /**
  * The width of a field block
@@ -121,12 +128,12 @@ export type SharedFieldBlockProps = {
    */
   hideHelpButton?: boolean
   /**
-   * Controls where status messages (error, warning, info) are visually shown.
+   * Controls where status messages (error, warning, information) are visually shown.
    */
   statusPosition?: 'below' | 'above'
 }
 
-export type Props<Value = unknown> = SharedFieldBlockProps &
+export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
   Pick<
     FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
@@ -154,7 +161,7 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     children?: React.ReactNode
   } & React.HTMLAttributes<HTMLDivElement>
 
-function FieldBlock<Value = unknown>(props: Props<Value>) {
+function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const nestedFieldBlockContext = !fieldBlockContext?.disableStatusSummary
@@ -162,7 +169,9 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     : null
 
   const id = useId(props.id ?? props.forId)
-  const sharedData = createSharedState<Props>('field-block-props-' + id)
+  const sharedData = createSharedState<FieldBlockProps>(
+    'field-block-props-' + id
+  )
   const {
     className,
     forId,
@@ -198,16 +207,16 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const infoRef = useRef<UseFieldProps['info']>()
-  const warningRef = useRef<UseFieldProps['warning']>()
-  const errorRef = useRef<UseFieldProps['error']>()
+  const infoRef = useRef<UseFieldProps['info']>(undefined)
+  const warningRef = useRef<UseFieldProps['warning']>(undefined)
+  const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
-  const fieldStateRef = useRef<SubmitState>(null)
+  const fieldStateRef = useRef<SubmitState | null>(null)
   const stateRecordRef = useRef<StateRecord>({})
-  const fieldStateIdsRef = useRef<FieldErrorIdsRef>(null)
+  const fieldStateIdsRef = useRef<FieldErrorIdsRef | null>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
   const hasInitiallyErrorPropRef = useRef(Boolean(error))
 
@@ -224,7 +233,11 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       stateRecordRef.current[identifier] = []
     }
 
-    fieldStateIdsRef.current = { error: null, warning: null, info: null }
+    fieldStateIdsRef.current = {
+      error: null,
+      warning: null,
+      information: null,
+    }
 
     const existingIndex = stateRecordRef.current[identifier].findIndex(
       (item) => {
@@ -248,7 +261,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
         setBlockRecordNested(props)
-        return
+        return undefined
       }
 
       setInternalRecord(props)
@@ -274,7 +287,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
         nestedFieldBlockContext.showFieldError(identifier, show)
-        return
+        return undefined
       }
 
       if (stateRecordRef.current[identifier]) {
@@ -323,7 +336,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
-        type: 'info',
+        type: 'information',
         content: info,
       })
     }
@@ -372,16 +385,16 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       acc[type] = {
         id,
         label,
-        state: type === 'warning' ? 'warn' : type,
-        width_element: contentsRef,
+        state: type,
+        widthElement: contentsRef,
 
         // Enable animation only in the browser and not in tests
-        no_animation:
+        noAnimation:
           process.env.NODE_ENV === 'test'
             ? true
             : typeof globalThis !== 'undefined'
-            ? globalThis.IS_TEST === true
-            : false,
+              ? globalThis.IS_TEST === true
+              : false,
       }
 
       const found = statesWithMessages.find((item) => {
@@ -459,7 +472,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     []
   )
 
-  const mainClasses = classnames(
+  const mainClasses = clsx(
     'dnb-forms-field-block',
     width &&
       `dnb-forms-field-block--width-${hasCustomWidth ? 'custom' : width}`,
@@ -477,7 +490,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       }`,
     className
   )
-  const gridClasses = classnames(
+  const gridClasses = clsx(
     'dnb-forms-field-block__grid',
     `dnb-forms-field-block--layout-${layout}`
   )
@@ -544,7 +557,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const hasOnlyLabelDescription = !label && hasLabelDescription
 
   return (
-    <FieldBlockContext.Provider
+    <FieldBlockContext
       value={{
         setBlockRecord,
         setFieldState,
@@ -621,7 +634,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           )}
 
           <div
-            className={classnames(
+            className={clsx(
               'dnb-forms-field-block__status',
 
               // Handle the width of the status messages
@@ -636,11 +649,11 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           >
             <FormStatus {...statusContent?.error} />
             <FormStatus {...statusContent?.warning} />
-            <FormStatus {...statusContent?.info} />
+            <FormStatus {...statusContent?.information} />
           </div>
 
           <div
-            className={classnames(
+            className={clsx(
               'dnb-forms-field-block__contents',
               contentWidth &&
                 `dnb-forms-field-block__contents--width-${
@@ -660,7 +673,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           />
         </div>
       </Space>
-    </FieldBlockContext.Provider>
+    </FieldBlockContext>
   )
 }
 
@@ -680,16 +693,18 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: React.ReactElement) => {
+      findElementInChildren(children, (child: React.ReactElement<any>) => {
         if (
           child?.props?.label ||
-          child?.type?.['_formElement'] === true
+          (child?.type as ComponentMarkers)?._formElement === true
         ) {
           count++
         }
         if (count > 1) {
           return (result = true)
         }
+
+        return undefined
       })
     }
 
@@ -701,7 +716,7 @@ function CombineMessages({
   type,
   messages,
 }: {
-  type: StateTypes
+  type: FieldState
   messages: Array<StateWithMessage>
 }) {
   const translations = useTranslation().Field
@@ -767,7 +782,7 @@ function isFragment(fragment: React.ReactNode) {
 
 function fragmentHasChildren(fragment: React.ReactNode) {
   return (
-    React.isValidElement(fragment) &&
+    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
     React.Children.count(fragment.props.children) > 0
   )
 }
@@ -776,12 +791,14 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
   const isUndefined = (child) => child === undefined
 
   return (
-    React.isValidElement(fragment) &&
+    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
     React.Children.toArray(fragment.props.children).every(isUndefined)
   )
 }
 
-FieldBlock._supportsSpacingProps = true
+withComponentMarkers(FieldBlock, {
+  _supportsSpacingProps: true,
+})
 
 export default FieldBlock
 

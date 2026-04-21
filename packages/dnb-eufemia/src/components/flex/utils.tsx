@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
-import classnames from 'classnames'
-import { SpaceType, SpacingProps } from '../../shared/types'
+import clsx from 'clsx'
+import type { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {
-  createSpacingClasses,
-  createSpacingProperties,
+  createSpacing,
   isValidSpaceProp,
   removeSpaceProps,
 } from '../space/SpacingUtils'
-import { End, Start } from './types'
+import type { FlexEnd, FlexStart } from './types'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 export const omitSpacingProps = removeSpaceProps
 
@@ -37,17 +37,19 @@ export function pickSpacingProps<Props extends SpacingProps>(
  * @returns The space value of the element, or undefined if it cannot be determined.
  */
 export function getSpaceValue(
-  type: Start | End,
+  type: FlexStart | FlexEnd,
   element: React.ReactNode
 ): SpaceType | undefined {
-  if (!React.isValidElement(element)) {
-    return
+  if (!React.isValidElement<Record<string, any>>(element)) {
+    return undefined
   }
 
+  const elementProps = (element as React.ReactElement<any>).props || {}
+
   return (
-    element.props?.[type] ??
-    (typeof element.props?.space === 'object'
-      ? element.props.space[type]
+    elementProps?.[type] ??
+    (typeof elementProps?.space === 'object'
+      ? elementProps.space[type]
       : undefined)
   )
 }
@@ -57,12 +59,10 @@ export function getSpaceValue(
  * @param element - The element to check.
  * @returns `true` if the element is a heading element, `false` otherwise.
  */
-export function isHeadingElement(
-  element: React.ReactNode & { _isHeadingElement?: boolean }
-): boolean {
+export function isHeadingElement(element: React.ReactNode): boolean {
   return (
     React.isValidElement(element) &&
-    element?.type?.['_isHeadingElement'] === true
+    (element?.type as ComponentMarkers)?._isHeadingElement === true
   )
 }
 
@@ -72,19 +72,20 @@ export function isHeadingElement(
  * @returns The spacing variant (true, false or "children") of the element, or undefined if it does not support spacing props.
  */
 export function getSpaceVariant(element: React.ReactNode) {
-  if (React.isValidElement(element)) {
+  if (React.isValidElement<Record<string, any>>(element)) {
     if (element?.type === Fragment) {
       return 'children'
     }
 
-    const check = element?.type?.['_supportsSpacingProps']
+    const check = (element?.type as ComponentMarkers)
+      ?._supportsSpacingProps
     if (typeof check !== 'undefined') {
       return check
     }
 
     const keys = ['space', 'top', 'right', 'bottom', 'left']
-    const props = element?.props ?? {}
-    if (keys.some((key) => key in props)) {
+    const props = (element as React.ReactElement<any>)?.props ?? {}
+    if (keys.some((key) => key in (props as object))) {
       return true
     }
   }
@@ -118,15 +119,22 @@ export function renderWithSpacing(
   }
 
   if (variant === 'children') {
-    return React.Children.toArray(element).map(
-      (child: React.ReactElement) => {
+    return (React.Children.toArray(element) as React.ReactElement[]).map(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (child: React.ReactElement<any>) => {
         const children = child?.props?.children
+        const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
-          return React.cloneElement(
-            child,
-            { key: i, ...child?.props },
-            wrapWithSpace({ element, spaceProps, wrapInSpace })
+          return React.createElement(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            child.type as React.ComponentType<any>,
+            { key: childKey || i, ...childProps },
+            wrapWithSpace({
+              element: element as React.ReactNode,
+              spaceProps,
+              wrapInSpace,
+            })
           )
         })
       }
@@ -147,10 +155,20 @@ function wrapWithSpace({
   wrapInSpace = true,
 }) {
   const resolvedVariant = variant ?? getSpaceVariant(element)
-  const { wrapInSpace: _, ...props } = spaceProps
+  const { wrapInSpace: _, key, ...props } = spaceProps
 
   if (resolvedVariant === true) {
-    return React.cloneElement(element as React.ReactElement, props)
+    return React.createElement(
+      (element as React.ReactElement).type as React.ComponentType<any>,
+      {
+        ...((element as React.ReactElement).props as Record<
+          string,
+          unknown
+        >),
+        key,
+        ...props,
+      }
+    )
   }
 
   if (resolvedVariant === 'children') {
@@ -161,7 +179,11 @@ function wrapWithSpace({
     return cloneIntrinsicElementWithSpacing(element, spaceProps)
   }
 
-  return <Space {...props}>{element}</Space>
+  return (
+    <Space key={key} {...props}>
+      {element}
+    </Space>
+  )
 }
 
 function cloneIntrinsicElementWithSpacing(
@@ -178,21 +200,32 @@ function cloneIntrinsicElementWithSpacing(
     wrapInSpace?: boolean
   }
 ) {
-  if (!React.isValidElement(element)) {
+  if (!React.isValidElement<Record<string, any>>(element)) {
     return element
   }
 
-  return React.cloneElement(element as React.ReactElement, {
-    key: spaceProps.key,
-    className: classnames(
-      element.props?.className,
-      ...createSpacingClasses(spaceProps),
-      className
-    ),
-    style: {
-      ...element.props?.style,
-      ...createSpacingProperties(spaceProps),
-      ...style,
-    },
-  })
+  const elementProps = (element as React.ReactElement<any>).props || {}
+
+  const spacing = createSpacing(spaceProps)
+
+  return React.createElement(
+    (element as React.ReactElement).type as React.ComponentType<any>,
+    {
+      ...((element as React.ReactElement).props as Record<
+        string,
+        unknown
+      >),
+      key: spaceProps.key,
+      className: clsx(
+        elementProps?.className,
+        ...spacing.className,
+        className
+      ),
+      style: {
+        ...elementProps?.style,
+        ...spacing.style,
+        ...style,
+      },
+    }
+  )
 }

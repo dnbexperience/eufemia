@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Button } from '../../../../../components'
 import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
-import { FilterData } from '../../../DataContext/Context'
+import type { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 
@@ -1290,15 +1290,6 @@ describe('Form.useData', () => {
       field3: 'baz',
     })
 
-    const filterError: FilterData = jest.fn(({ internal }) => {
-      return !(internal.error instanceof Error)
-    })
-
-    expect(result.current.filterData(filterError)).toEqual({
-      field1: 'foo',
-      field3: 'baz',
-    })
-
     const filterValue: FilterData = jest.fn(({ path, value }) => {
       return path === '/field3' && value === 'baz'
     })
@@ -1335,7 +1326,7 @@ describe('Form.useData', () => {
     expect(
       result.current.filterData({
         '/field1': false,
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({
       field2: '',
       field3: 'baz',
@@ -1347,7 +1338,7 @@ describe('Form.useData', () => {
         '/field2': ({ value }) => {
           return value !== ''
         },
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({
       field3: 'baz',
     })
@@ -1359,9 +1350,9 @@ describe('Form.useData', () => {
           return value !== ''
         },
         '/field3': ({ data }) => {
-          return data.field2 !== ''
+          return (data as Data).field2 !== ''
         },
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({})
   })
 

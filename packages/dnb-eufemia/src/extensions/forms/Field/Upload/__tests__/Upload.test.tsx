@@ -8,7 +8,7 @@ import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVer
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
-import { UploadFileNative, UploadValue } from '../Upload'
+import type { UploadFileNative, UploadValue } from '../Upload'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -1484,7 +1484,7 @@ describe('Field.Upload', () => {
       resolveFileHandler([
         {
           file: successFile1,
-          id: 'server_generated_id',
+          id: 'serverGeneratedId',
           exists: false,
         },
       ])
@@ -1517,7 +1517,7 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file,
-                  id: 'server_generated_id',
+                  id: 'serverGeneratedId',
                   exists: false,
                 },
               ]),
@@ -1563,7 +1563,7 @@ describe('Field.Upload', () => {
           {
             exists: false,
             file: file,
-            id: 'server_generated_id',
+            id: 'serverGeneratedId',
             isLoading: false,
             name: 'fileName-1.png',
           },
@@ -1630,12 +1630,12 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file: newFile1,
-                  id: 'server_generated_id_1',
+                  id: 'serverGeneratedId_1',
                   exists: false,
                 },
                 {
                   file: newFile2,
-                  id: 'server_generated_id_2',
+                  id: 'serverGeneratedId_2',
                   exists: false,
                 },
               ]),
@@ -1751,7 +1751,7 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file: files[id],
-                  id: 'server_generated_id_' + id,
+                  id: 'serverGeneratedId_' + id,
                   exists: false,
                 },
               ]),
@@ -1979,7 +1979,7 @@ describe('Field.Upload', () => {
       resolveFileHandler([
         {
           file: supportedFile,
-          id: 'server_generated_id',
+          id: 'serverGeneratedId',
           exists: false,
         },
       ])
@@ -2188,7 +2188,7 @@ describe('Field.Upload', () => {
             resolve([
               {
                 file: successFile,
-                id: 'server_generated_id',
+                id: 'serverGeneratedId',
                 exists: false,
               },
               {
@@ -2364,9 +2364,16 @@ describe('Field.Upload', () => {
   })
 
   it('should remove correct file when transformIn and transformOut is used to change the file', async () => {
-    function transformIn(external) {
+    function transformIn(external: unknown) {
+      const files = external as
+        | Array<{
+            id: string
+            fileName: string
+            errorMessage?: React.ReactNode
+          }>
+        | undefined
       return (
-        external?.map((file) => ({
+        files?.map((file) => ({
           ...file,
           id: file.id,
           file: new File([], file.fileName),
@@ -2375,7 +2382,8 @@ describe('Field.Upload', () => {
       )
     }
 
-    function transformOut(upload?: UploadValue) {
+    function transformOut(internal: unknown) {
+      const upload = internal as UploadValue | undefined
       return upload?.map((file) => ({
         ...file,
         id: file.id,
@@ -2981,9 +2989,10 @@ describe('Field.Upload', () => {
     const filesCache = new Map<string, File>()
 
     // To the Field (from e.g. defaultValue)
-    const transformIn = (external?: DocumentMetadata[]) => {
+    const transformIn = (external: unknown) => {
+      const docs = external as DocumentMetadata[] | undefined
       return (
-        external?.map(({ id, fileName }) => {
+        docs?.map(({ id, fileName }) => {
           const file: File = filesCache.get(id) || new File([], fileName)
 
           return { id, file } satisfies UploadFileNative
@@ -2992,9 +3001,10 @@ describe('Field.Upload', () => {
     }
 
     // From the Field (internal value) to the data context or event parameter
-    const transformOut = (internal?: UploadValue) => {
+    const transformOut = (internal: unknown) => {
+      const upload = internal as UploadValue | undefined
       return (
-        internal?.map(({ id, file }) => {
+        upload?.map(({ id, file }) => {
           if (!filesCache.has(id)) {
             filesCache.set(id, file)
           }

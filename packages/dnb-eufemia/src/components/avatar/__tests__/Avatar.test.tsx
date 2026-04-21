@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Avatar, { AvatarImgProps, AvatarProps } from '../Avatar'
+import type { AvatarImgProps, AvatarProps } from '../Avatar'
+import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 
@@ -134,38 +135,38 @@ describe('Avatar', () => {
   })
 
   it('renders img from src', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
     render(
       <Avatar.Group label="label">
-        <Avatar src={img_src} alt="custom_alt_label" />
+        <Avatar src={imgSrc} alt="custom_alt_label" />
       </Avatar.Group>
     )
 
-    expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
+    expect(screen.queryByRole('img').getAttribute('src')).toBe(imgSrc)
   })
 
   it('renders alt for img from src', () => {
-    const img_alt = 'custom_alt_label'
+    const imgAlt = 'custom_alt_label'
     render(
       <Avatar.Group label="label">
-        <Avatar alt={img_alt} src="/dnb/android-chrome-192x192.png" />
+        <Avatar alt={imgAlt} src="/dnb/android-chrome-192x192.png" />
       </Avatar.Group>
     )
 
-    expect(screen.getByAltText(img_alt)).toBeInTheDocument()
-    expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
+    expect(screen.getByAltText(imgAlt)).toBeInTheDocument()
+    expect(screen.queryByRole('img').getAttribute('alt')).toBe(imgAlt)
   })
 
   it('renders imgProps', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
-    const img_width = '48'
-    const img_height = '48'
-    const img_alt = 'custom_alt_label'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
+    const imgWidth = '48'
+    const imgHeight = '48'
+    const imgAlt = 'custom_alt_label'
     const imgProps: AvatarImgProps = {
-      width: img_width,
-      height: img_height,
-      src: img_src,
-      alt: img_alt,
+      width: imgWidth,
+      height: imgHeight,
+      src: imgSrc,
+      alt: imgAlt,
     }
 
     render(
@@ -176,10 +177,10 @@ describe('Avatar', () => {
 
     const image = screen.queryByRole('img')
 
-    expect(image.getAttribute('src')).toBe(img_src)
-    expect(image.getAttribute('alt')).toBe(img_alt)
-    expect(image.getAttribute('width')).toBe(img_width)
-    expect(image.getAttribute('height')).toBe(img_height)
+    expect(image.getAttribute('src')).toBe(imgSrc)
+    expect(image.getAttribute('alt')).toBe(imgAlt)
+    expect(image.getAttribute('width')).toBe(imgWidth)
+    expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
   it('warns when Avatar is used without a Avatar.Group as parent component', () => {
@@ -226,13 +227,13 @@ describe('Avatar', () => {
   })
 
   it('should support spacing props', () => {
-    const img_alt = 'custom_alt_label'
+    const imgAlt = 'custom_alt_label'
 
     render(
       <Avatar.Group label="label" top>
         <Avatar
           top="2rem"
-          alt={img_alt}
+          alt={imgAlt}
           src="/dnb/android-chrome-192x192.png"
         />
       </Avatar.Group>
@@ -262,6 +263,41 @@ describe('Avatar', () => {
     expect(
       document.querySelector('.dnb-avatar').getAttribute('style')
     ).toBe('color: red;')
+  })
+
+  it('should apply spacing classes on Avatar root', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar top="large" bottom="small">
+          A
+        </Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-avatar',
+      'dnb-avatar--primary',
+      'dnb-avatar--size-medium',
+      'dnb-space__top--large',
+      'dnb-space__bottom--small',
+    ])
+  })
+
+  it('should apply innerSpace CSS custom properties on Avatar root', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar innerSpace="small">A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+
+    expect(element.getAttribute('style')).toContain('--padding-t-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-r-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-b-s: 1rem')
+    expect(element.getAttribute('style')).toContain('--padding-l-s: 1rem')
   })
 
   it('should support variant tertiary', () => {
@@ -722,6 +758,97 @@ describe('Avatar', () => {
         document.querySelector('.dnb-avatar').getAttribute('style')
       ).toBe('--color: var(--color-fire-red);')
     })
+
+    it('should pass size, variant, color, and backgroundColor to Avatars via context', () => {
+      render(
+        <Avatar.Group
+          label="tags"
+          size="large"
+          variant="secondary"
+          color="fire-red"
+          backgroundColor="emerald-green"
+        >
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatars = Array.from(document.querySelectorAll('.dnb-avatar'))
+
+      expect(avatars).toHaveLength(2)
+
+      for (const avatar of avatars) {
+        expect(avatar).toHaveClass('dnb-avatar--size-large')
+        expect(avatar).toHaveClass('dnb-avatar--secondary')
+        expect(avatar.getAttribute('style')).toContain(
+          '--background-color: var(--color-emerald-green)'
+        )
+        expect(avatar.getAttribute('style')).toContain(
+          '--color: var(--color-fire-red)'
+        )
+      }
+    })
+
+    it('should let individual Avatar props override AvatarGroup context', () => {
+      render(
+        <Avatar.Group
+          label="tags"
+          size="large"
+          variant="secondary"
+          color="fire-red"
+          backgroundColor="emerald-green"
+        >
+          <Avatar
+            size="small"
+            variant="tertiary"
+            color="white"
+            backgroundColor="sea-green"
+          >
+            A
+          </Avatar>
+        </Avatar.Group>
+      )
+
+      const avatar = document.querySelector('.dnb-avatar')
+
+      expect(avatar).toHaveClass('dnb-avatar--size-small')
+      expect(avatar).toHaveClass('dnb-avatar--tertiary')
+      expect(avatar.getAttribute('style')).toContain(
+        '--background-color: var(--color-sea-green)'
+      )
+      expect(avatar.getAttribute('style')).toContain(
+        '--color: var(--color-white)'
+      )
+    })
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Avatar.Group label="label">
+        <Avatar ref={ref}>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Avatar.Group label="label">
+        <Avatar ref={refFn}>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+    expect(refElement).toBe(element)
   })
 })
 

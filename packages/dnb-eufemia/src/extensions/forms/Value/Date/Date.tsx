@@ -1,7 +1,9 @@
 import React, { useCallback, useContext } from 'react'
-import StringValue, { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
+import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
-import SharedContext, { AnyLocale } from '../../../../shared/Context'
+import type { AnyLocale } from '../../../../shared/Context'
+import SharedContext from '../../../../shared/Context'
 
 import { parseRangeValue } from '../../Field/Date'
 import {
@@ -9,14 +11,15 @@ import {
   formatDateRange,
 } from '../../../../components/date-format/DateFormatUtils'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps & {
+export type ValueDateProps = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
   locale?: AnyLocale
   dateFormat?: string
 }
 
-function DateComponent(props: Props) {
+function DateComponent(props: ValueDateProps) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
@@ -48,16 +51,17 @@ function DateComponent(props: Props) {
     [locale, options, dateFormat]
   )
 
-  const stringProps: Props = {
+  const stringProps: ValueDateProps = {
     ...props,
     label: props.label ?? translations.label,
+    // @ts-expect-error - strictFunctionTypes
     toInput,
   }
   return <StringValue {...stringProps} />
 }
 
 function convertVariantToDateStyle(
-  variant: Props['variant']
+  variant: ValueDateProps['variant']
 ): Intl.DateTimeFormatOptions {
   if (variant === 'long') {
     return { dateStyle: 'long' }
@@ -92,5 +96,8 @@ function formatCustomDate(value: string, dateFormat: string): string {
   }
 }
 
-DateComponent._supportsSpacingProps = true
+withComponentMarkers(DateComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default DateComponent

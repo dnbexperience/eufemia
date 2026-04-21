@@ -4,25 +4,25 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import { convertJsxToString, isTrue } from '../../shared/component-helper'
+import clsx from 'clsx'
+import { convertJsxToString } from '../../shared/component-helper'
 import type { SkeletonShow } from './Skeleton'
 import type { ContextProps } from '../../shared/Context'
 
 export type SkeletonMethods = 'shape' | 'font' | 'code'
 
-export type SkeletonContextProps = ContextProps & {
+export type SkeletonContextValue = ContextProps & {
   translation?: {
     Skeleton?: {
-      aria_busy?: string
+      ariaBusy?: string
     }
   }
 }
 
-export type skeletonDOMAttributesContext = {
+export type SkeletonDOMAttributesContext = {
   translation?: {
     Skeleton: {
-      aria_busy?: string
+      ariaBusy?: string
     }
   }
 }
@@ -30,12 +30,12 @@ export type skeletonDOMAttributesContext = {
 export const skeletonDOMAttributes = (
   params: React.HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
-  context?: SkeletonContextProps
+  context?: SkeletonContextValue
 ) => {
-  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
+  if (skeleton || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
-    params['aria-label'] = context?.translation?.Skeleton?.aria_busy
+    params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
   }
 
   return params
@@ -44,11 +44,11 @@ export const skeletonDOMAttributes = (
 export const createSkeletonClass = (
   method: SkeletonMethods,
   skeleton: SkeletonShow,
-  context?: SkeletonContextProps,
+  context?: SkeletonContextValue,
   className = null
 ) => {
-  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
-    return classnames(
+  if (skeleton || (skeleton !== false && context?.skeleton)) {
+    return clsx(
       className,
       'dnb-skeleton',
       method && `dnb-skeleton--${method}`
@@ -58,56 +58,41 @@ export const createSkeletonClass = (
   return className
 }
 
-export type AutoSizeProps = {
+export type SkeletonAutoSizeProps = {
   __element?: React.ElementType
   children?: React.ReactNode
   className?: string
   style?: React.CSSProperties
 }
 
-export class AutoSize extends React.Component<AutoSizeProps, any> {
-  static defaultProps = {
-    __element: null,
-    children: null,
-    className: null,
-    style: null,
-  }
+export function AutoSize({
+  __element: Comp = null,
+  children = null,
+  className = null,
+  style = null,
+  ...props
+}: SkeletonAutoSizeProps) {
+  const string = convertJsxToString(children)
 
-  render() {
-    const {
-      className,
-      children,
-      __element: Comp,
-      style,
-      ...props
-    } = this.props
+  if (typeof string === 'string') {
+    const countChars = string.trim().length
 
-    const string = convertJsxToString(children)
-
-    if (typeof string === 'string') {
-      const countChars = string.trim().length
-
-      if (countChars > 0) {
-        return React.createElement(
-          Comp,
-          {
-            className: classnames(
-              className,
-              'dnb-skeleton',
-              'dnb-skeleton--font'
-            ),
-            'data-skeleton-chars': String(countChars),
-            style: {
-              ...(style || {}),
-              '--skeleton-chars': `${countChars}ch`,
-            },
-            ...props,
-          },
-          children
-        )
-      }
+    if (countChars > 0) {
+      return (
+        <Comp
+          className={clsx(className, 'dnb-skeleton', 'dnb-skeleton--font')}
+          data-skeleton-chars={String(countChars)}
+          style={{
+            ...(style || {}),
+            '--skeleton-chars': `${countChars}ch`,
+          }}
+          {...props}
+        >
+          {children}
+        </Comp>
+      )
     }
-
-    return <Comp {...props} className={className} style={style} />
   }
+
+  return <Comp {...props} className={className} style={style} />
 }

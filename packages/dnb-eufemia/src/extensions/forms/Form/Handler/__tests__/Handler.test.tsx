@@ -4,15 +4,9 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
-import {
-  Form,
-  Field,
-  JSONSchema,
-  JSONSchemaType,
-  OnSubmit,
-  makeAjvInstance,
-} from '../../..'
-import type { Props as StringFieldProps } from '../../../Field/String'
+import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
+import { Form, Field, makeAjvInstance } from '../../..'
+import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 
@@ -159,8 +153,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call preventDefault', () => {
-    const preventDefault = jest.fn()
-    const onSubmit: OnSubmit = jest.fn(preventDefault)
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler
@@ -172,18 +165,44 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inputElement = document.querySelector('input')
-    const buttonElement = document.querySelector('button')
+    const formElement = document.querySelector('form')
+    const submitEvent = new Event('submit', {
+      bubbles: true,
+      cancelable: true,
+    })
 
-    fireEvent.submit(inputElement)
+    fireEvent(formElement, submitEvent)
 
-    expect(preventDefault).toHaveBeenCalledTimes(1)
+    expect(submitEvent.defaultPrevented).toBe(true)
     expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
 
-    fireEvent.click(buttonElement)
+  it('should allow native submit when preventDefaultOnSubmit is false', () => {
+    const onSubmit: OnSubmit = jest.fn()
 
-    expect(preventDefault).toHaveBeenCalledTimes(2)
-    expect(onSubmit).toHaveBeenCalledTimes(2)
+    render(
+      <Form.Handler
+        action="/login"
+        method="post"
+        data={{ foo: 'data-context-value' }}
+        onSubmit={onSubmit}
+        preventDefaultOnSubmit={false}
+      >
+        <Field.String path="/foo" value="Value" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const formElement = document.querySelector('form')
+    const submitEvent = new Event('submit', {
+      bubbles: true,
+      cancelable: true,
+    })
+
+    fireEvent(formElement, submitEvent)
+
+    expect(submitEvent.defaultPrevented).toBe(false)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
   it('should default to form element', () => {
@@ -939,12 +958,6 @@ describe('Form.Handler', () => {
             'NumberField.errorExclusiveMinimum': expect.any(String),
             'NumberField.errorExclusiveMaximum': expect.any(String),
             'NumberField.errorMultipleOf': expect.any(String),
-
-            /** @deprecated – can be removed in v11 */
-            maxLength: expect.any(String),
-            minLength: expect.any(String),
-            pattern: expect.any(String),
-            required: expect.any(String),
           }),
         })
       )
@@ -1090,8 +1103,8 @@ describe('Form.Handler', () => {
 
   it('should support translations prop', () => {
     const translations = {
-      'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
-      'en-GB': { PhoneNumber: { label: 'Custom' } },
+      'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert' } },
+      'en-GB': { PhoneNumber: { numberLabel: 'Custom' } },
     }
     const { rerender } = render(
       <Form.Handler locale="en-GB" translations={translations}>
@@ -1105,7 +1118,7 @@ describe('Form.Handler', () => {
 
     expect(countryCode).toHaveTextContent(en.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['en-GB'].PhoneNumber.label
+      translations['en-GB'].PhoneNumber.numberLabel
     )
 
     rerender(
@@ -1116,7 +1129,7 @@ describe('Form.Handler', () => {
 
     expect(countryCode).toHaveTextContent(nb.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['nb-NO'].PhoneNumber.label
+      translations['nb-NO'].PhoneNumber.numberLabel
     )
   })
 
@@ -1360,7 +1373,7 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should throw a type error when interface is used', () => {
-      interface MyInterface {
+      type MyInterface = {
         foo: string
       }
 
@@ -1368,14 +1381,7 @@ describe('Form.Handler TypeScript type validation', () => {
         data.foo satisfies string
       }
 
-      render(
-        <Form.Handler
-          // @ts-expect-error
-          onSubmit={submitHandler}
-        >
-          ...
-        </Form.Handler>
-      )
+      render(<Form.Handler onSubmit={submitHandler}>...</Form.Handler>)
     })
   })
 
@@ -1411,12 +1417,11 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should throw a type error when interface is used', () => {
-      interface MyInterface {
+      type MyInterface = {
         foo: string
       }
 
       render(
-        // @ts-expect-error
         <Form.Handler<MyInterface>
           onSubmit={(data) => {
             data.foo satisfies string
@@ -1428,10 +1433,10 @@ describe('Form.Handler TypeScript type validation', () => {
     })
   })
 
-  it('should support innerRef prop', () => {
+  it('should support ref prop', () => {
     const formRef = React.createRef<HTMLFormElement>()
 
-    render(<Form.Handler innerRef={formRef}>...</Form.Handler>)
+    render(<Form.Handler ref={formRef}>...</Form.Handler>)
 
     expect(formRef.current).toBeDefined()
     expect(formRef.current.tagName).toBe('FORM')

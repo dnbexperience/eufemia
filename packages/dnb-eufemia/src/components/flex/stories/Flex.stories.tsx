@@ -5,24 +5,25 @@
 
 import { P } from '../../../elements'
 import { Field, Form, TestElement } from '../../../extensions/forms'
-import { SpaceProps } from '../../Space'
+import type { SpaceProps } from '../../Space'
 import { Section } from '../../lib'
-import { createSpacingClasses } from '../../space/SpacingUtils'
+import { applySpacing } from '../../space/SpacingUtils'
 import Flex from '../Flex'
 
 export default {
   title: 'Eufemia/Components/Flex',
 }
 
-const Wrapper = Flex.withChildren(({ children }) => {
-  return <div className="wrapper">{children}</div>
-})
+const Wrapper = Flex.withChildren(
+  ({ children }: { children?: React.ReactNode }) => {
+    return <div className="wrapper">{children}</div>
+  }
+)
 
 export function FlexWithVisibility() {
   const TestComponent = (props: SpaceProps) => {
-    const cn = createSpacingClasses(props)
-    cn.push('test-item')
-    return <div className={cn.join(' ')}>content</div>
+    const params = applySpacing(props, { className: 'test-item' })
+    return <div {...params}>content</div>
   }
   TestComponent._supportsSpacingProps = true
 

@@ -21,7 +21,7 @@ import {
   Tooltip,
   Heading,
   Icon,
-  Dropdown,
+  Menu,
 } from '@dnb/eufemia/src'
 import {
   stop as stopIcon,
@@ -49,17 +49,17 @@ import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 function useCopyWithNotice() {
   const [active, setActive] = useState(false)
   const { NumberFormat } = useTranslation()
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
-  const CopyTooltip = useCallback(
-    ({ target }) => {
+  const copyTooltip = useCallback(
+    (target: HTMLElement | null) => {
       return (
-        <Tooltip active={active} targetElement={target}>
-          {NumberFormat.clipboard_copy}
+        <Tooltip open={active} targetElement={target}>
+          {NumberFormat.clipboardCopy}
         </Tooltip>
       )
     },
-    [NumberFormat.clipboard_copy, active]
+    [NumberFormat.clipboardCopy, active]
   )
 
   const copy = useCallback((str: string) => {
@@ -71,7 +71,7 @@ function useCopyWithNotice() {
     }, 1500)
   }, [])
 
-  return { copy, CopyTooltip }
+  return { copy, copyTooltip }
 }
 
 export const VariantBasic = () => (
@@ -123,7 +123,7 @@ export const VariantBasic = () => (
                     <Th.SortButton
                       text="Sortable Active"
                       title="Sort table column"
-                      on_click={sortHandler.column1}
+                      onClick={sortHandler.column1}
                     />
                   </Th>
                   <Th
@@ -135,7 +135,7 @@ export const VariantBasic = () => (
                     <Th.SortButton
                       text="Sortable"
                       title="Sort table column"
-                      on_click={sortHandler.column2}
+                      onClick={sortHandler.column2}
                     />
                   </Th>
                 </Tr>
@@ -743,14 +743,14 @@ export const Accordion = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef()
-          const { copy, CopyTooltip } = useCopyWithNotice()
+          const ref = React.useRef(undefined)
+          const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
@@ -764,7 +764,7 @@ export const Accordion = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace={{ block: 'large' }}>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>
@@ -777,14 +777,14 @@ export const Accordion = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
-                on_click={shareHandler}
-                inner_ref={ref}
+                iconPosition="left"
+                onClick={shareHandler}
+                ref={ref}
               >
                 Copy link to this row
               </Button>
 
-              <CopyTooltip target={ref.current} />
+              {copyTooltip(ref.current)}
             </>
           )
         }
@@ -835,7 +835,7 @@ export const Accordion = () => (
             <AccordionTable
               id="accordion-table-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -862,14 +862,14 @@ export const AccordionMixed = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef()
-          const { copy, CopyTooltip } = useCopyWithNotice()
+          const ref = React.useRef(undefined)
+          const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
@@ -883,7 +883,7 @@ export const AccordionMixed = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace={{ block: 'large' }}>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>
@@ -896,14 +896,14 @@ export const AccordionMixed = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
-                on_click={shareHandler}
-                inner_ref={ref}
+                iconPosition="left"
+                onClick={shareHandler}
+                ref={ref}
               >
                 Copy link to this row
               </Button>
 
-              <CopyTooltip target={ref.current} />
+              {copyTooltip(ref.current)}
             </>
           )
         }
@@ -965,7 +965,7 @@ export const AccordionMixed = () => (
             <AccordionTable
               id="accordion-table-mixed-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -997,7 +997,7 @@ export const AccordionRow = () => {
         ]
         return (
           <Table.ScrollView>
-            <Table mode="accordion" accordionChevronPlacement="end">
+            <Table mode="accordion" accordionChevronPlacement="right">
               <thead>
                 <Tr>
                   <Th noWrap style={{ width: '25%' }}>
@@ -1073,10 +1073,10 @@ export const Navigation = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         const Row = ({ nr }) => {
@@ -1146,10 +1146,10 @@ export const NavigationMixed = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         return (
@@ -1213,7 +1213,7 @@ export const NavigationMixed = () => (
             <NavigationTable
               id="navigation-table-mixed-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -1401,9 +1401,9 @@ export function PaginationTable() {
 
           return (
             <Pagination
-              page_count={data.length / amountPerPage}
-              current_page={currentPage}
-              on_change={({ pageNumber }) => {
+              pageCount={data.length / amountPerPage}
+              currentPage={currentPage}
+              onChange={({ pageNumber }) => {
                 setCurrentPage(pageNumber)
               }}
             >
@@ -1691,8 +1691,8 @@ export const ResponsiveInCard = () => (
         const align = isLarge
           ? 'flex-end'
           : isSmall
-          ? 'center'
-          : 'flex-start'
+            ? 'center'
+            : 'flex-start'
 
         const tableRow = (
           <>
@@ -1730,7 +1730,7 @@ export const ResponsiveInCard = () => (
                   <Button
                     variant="tertiary"
                     icon={stopIcon}
-                    icon_position="left"
+                    iconPosition="left"
                   >
                     Avvis signering
                   </Button>
@@ -1884,7 +1884,13 @@ export const InCard = () => (
               </Heading>
             </Flex.Horizontal>
 
-            <Dropdown data={['My list', 'All']} more_menu />
+            <Menu.Root>
+              <Menu.Button />
+              <Menu.List>
+                <Menu.Action text="My list" />
+                <Menu.Action text="All" />
+              </Menu.List>
+            </Menu.Root>
           </Flex.Horizontal>
           <MyTable />
         </Card>
@@ -1901,10 +1907,10 @@ export const TableInAccordionTable = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Row = ({ nr }) => {
           const shareId = id + '-' + nr
@@ -1962,7 +1968,7 @@ export const TableInAccordionTable = () => (
         <Table.ScrollView>
           <AccordionTable
             id="accordion-table-in-table"
-            accordionChevronPlacement="end"
+            accordionChevronPlacement="right"
           />
         </Table.ScrollView>
       )

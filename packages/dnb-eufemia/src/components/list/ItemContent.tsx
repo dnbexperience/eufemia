@@ -1,7 +1,9 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { ListVariant, ListContext } from './ListContext'
-import FlexContainer, { Props as FlexProps } from '../flex/Container'
+import clsx from 'clsx'
+import type { ListVariant } from './ListContext'
+import { ListContext } from './ListContext'
+import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
+import FlexContainer from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
@@ -41,7 +43,7 @@ function ItemContent(props: ItemContentProps) {
       justify="space-between"
       wrap={false}
       gap={false}
-      className={classnames(
+      className={clsx(
         'dnb-list__item',
         'dnb-t__size--basis',
         appliedVariant && `dnb-list--variant-${appliedVariant}`,
@@ -61,9 +63,9 @@ function ItemContent(props: ItemContentProps) {
 
   if (appliedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+      <Context value={{ ...context, skeleton: appliedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 

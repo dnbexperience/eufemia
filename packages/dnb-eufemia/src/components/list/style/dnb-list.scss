@@ -1,4 +1,4 @@
-@import './../../../style/core/utilities.scss';
+@use './../../../style/core/utilities.scss' as utilities;
 
 .dnb-list {
   &--variant-basic {
@@ -9,14 +9,16 @@
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
-    --item-outline-color: var(--color-black-8);
-    --item-navigation-color: var(--color-sea-green);
-    --item-navigation-color--active: var(--color-emerald-green);
+    --item-outline-color: var(--token-color-stroke-neutral-subtle);
+    --item-navigation-color: var(--token-color-icon-action);
+    --item-navigation-color--active: var(
+      --token-color-icon-action-pressed
+    );
     --item-icon-color: var(--item-navigation-color);
-    --item-pending-color: var(--color-black-3);
-    --item-background-color: var(--color-white);
+    --item-pending-color: var(--token-color-stroke-neutral-subtle);
+    --item-background-color: var(--token-color-background-neutral);
     --item-selected-background-color: var(
-      --internal-color-background-selected-subtle,
+      --token-color-background-selected-subtle,
       var(--item-background-color)
     );
 
@@ -31,9 +33,10 @@
     &::after {
       content: '';
       position: absolute;
-      inset: calc(var(--item-outline-width) * -1);
-      left: 0;
-      right: 0;
+      inset: var(
+        --item-outline-inset,
+        calc(var(--item-outline-width) * -1)
+      );
       z-index: 10;
 
       border-radius: inherit;
@@ -51,7 +54,7 @@
       'footer footer footer footer footer footer footer';
 
     // On small screens, use 2-row layout so end wraps to a new line
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
         'chevron-left end end end end end chevron-right'
         'footer footer footer footer footer footer footer';
@@ -64,7 +67,7 @@
     }
 
     // On x-small screens, use 3-row layout so end wraps to a new line
-    @include allBelow(x-small) {
+    @include utilities.allBelow(x-small) {
       --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
         'chevron-left center center center center center chevron-right'
         'chevron-left end end end end end chevron-right'
@@ -99,7 +102,7 @@
     }
     &:has(#{&}__overline) &__center,
     &:has(#{&}__overline) &__end {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: end;
       }
     }
@@ -109,7 +112,7 @@
     }
     &:has(#{&}__subline) &__center,
     &:has(#{&}__subline) &__end {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: start;
       }
     }
@@ -129,23 +132,24 @@
     &:not(#{&}__accordion):has(#{&}__end),
     &__accordion__header:has(#{&}__center),
     &__accordion__header:has(#{&}__end) {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         row-gap: var(--item-row-gap);
       }
     }
 
     // Handle border radius
     border-radius: 0;
-    &:first-of-type {
+    .dnb-list--separated & {
+      border-radius: var(--item-rounded-corner);
+    }
+    &:first-of-type:not([hidden]) {
       border-top-left-radius: var(--item-rounded-corner);
       border-top-right-radius: var(--item-rounded-corner);
     }
-    &:last-of-type {
+    &:not([hidden]):has(+ [hidden]),
+    &:last-of-type:not([hidden]) {
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
-    }
-    .dnb-list--separated & {
-      border-radius: var(--item-rounded-corner);
     }
 
     background-color: var(--item-background-color);
@@ -168,7 +172,7 @@
       z-index: 10; // above checkbox and radio click boundary
     }
     &__end &__subline {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: end;
       }
     }
@@ -195,7 +199,7 @@
       justify-self: start;
       align-items: flex-end;
 
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         align-items: flex-start;
       }
     }
@@ -213,12 +217,13 @@
       margin-top: var(--item-padding);
       padding: var(--item-padding);
     }
-    &:last-of-type:not(#{&}__accordion--open) &__footer {
+    &:not([hidden]):has(+ [hidden]):not(#{&}__accordion--open) &__footer,
+    &:last-of-type:not([hidden]):not(#{&}__accordion--open) &__footer {
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
     }
     &__subline--description {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     // Deal with chevron
@@ -244,7 +249,7 @@
     }
     // So the __end is aligned with checkbox/radio label on small screens
     &:has(.dnb-form-label) &__end {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         display: flex;
         margin-left: calc(var(--item-padding) * 2 + 0.5rem);
       }
@@ -303,6 +308,7 @@
       &:not(.dnb-list__item--disabled):focus-visible {
         --item-outline-color: var(--item-navigation-color);
         --item-outline-width: 0.125rem;
+        --item-outline-inset: 0;
         z-index: 2;
       }
       &:not(.dnb-list__item--disabled):active {
@@ -320,6 +326,7 @@
       ) {
       --item-outline-color: var(--item-navigation-color);
       --item-outline-width: 0.125rem;
+      --item-outline-inset: 0;
       z-index: 2;
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
@@ -361,17 +368,20 @@
     }
 
     &--pending {
+      --item-outline-inset: 0;
       pointer-events: none;
       overflow: clip;
     }
     &--disabled {
       cursor: not-allowed;
-      color: var(--color-black-20);
+      color: var(--token-color-text-action-disabled);
 
-      --item-navigation-color: var(--color-sea-green-30);
-      --item-navigation-color--active: var(--color-sea-green-30);
-      --item-icon-color: var(--color-sea-green-30);
-      --item-outline-color: var(--color-black-8);
+      --item-navigation-color: var(--token-color-icon-action-disabled);
+      --item-navigation-color--active: var(
+        --token-color-icon-action-disabled
+      );
+      --item-icon-color: var(--token-color-icon-action-disabled);
+      --item-outline-color: var(--token-color-stroke-action-disabled);
 
       .dnb-list__item__accordion__header {
         cursor: not-allowed;
@@ -412,15 +422,17 @@
         inset: 0;
         bottom: calc(var(--item-outline-width) * -1);
       }
-      &:last-of-type::after {
+      &:not([hidden]):has(+ [hidden])::after,
+      &:last-of-type:not([hidden])::after {
         bottom: 0;
       }
     }
 
     .dnb-card & {
       .dnb-list__item {
-        &:first-of-type,
-        &:last-of-type {
+        &:first-of-type:not([hidden]),
+        &:not([hidden]):has(+ [hidden]),
+        &:last-of-type:not([hidden]) {
           border-radius: 0;
         }
 
@@ -434,11 +446,12 @@
             border-left: none;
           }
 
-          &:first-of-type::after {
+          &:first-of-type:not([hidden])::after {
             border-top: none;
           }
 
-          &:last-of-type::after {
+          &:not([hidden]):has(+ [hidden])::after,
+          &:last-of-type:not([hidden])::after {
             border-bottom: none;
           }
         }
@@ -453,6 +466,19 @@
       padding-right: calc(
         var(--padding-right) - (var(--scrollbar-track-width) * 2)
       );
+    }
+
+    // First/last items inherit the card's border radius if not inside a scroll view
+    .dnb-card:not(:has(.dnb-scroll-view)) & {
+      .dnb-list__item:first-of-type:not([hidden]) {
+        border-top-left-radius: var(--rounded-corner, 0);
+        border-top-right-radius: var(--rounded-corner, 0);
+      }
+      .dnb-list__item:not([hidden]):has(+ [hidden]),
+      .dnb-list__item:last-of-type:not([hidden]) {
+        border-bottom-left-radius: var(--rounded-corner, 0);
+        border-bottom-right-radius: var(--rounded-corner, 0);
+      }
     }
   }
 }

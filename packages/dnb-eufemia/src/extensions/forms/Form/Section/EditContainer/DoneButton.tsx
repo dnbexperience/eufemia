@@ -40,8 +40,8 @@ export default function DoneEditButton() {
     <Button
       variant="tertiary"
       icon={check}
-      icon_position="left"
-      on_click={doneHandler}
+      iconPosition="left"
+      onClick={doneHandler}
     >
       {translation.doneButton}
     </Button>

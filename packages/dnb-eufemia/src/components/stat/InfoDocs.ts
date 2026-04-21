@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const InfoProperties: PropertiesTableProps = {
@@ -8,9 +8,9 @@ export const InfoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Info color style variant. `"default"` is deprecated — use `"plain"` instead.',
+    doc: 'Info color style variant.',
     type: ['"plain"', '"subtle"', '"prominent"'],
-    defaultValue: 'subtle',
+    defaultValue: '"subtle"',
     status: 'optional',
   },
   skeleton: skeletonProperty,

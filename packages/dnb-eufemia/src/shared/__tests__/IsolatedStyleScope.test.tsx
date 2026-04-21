@@ -3,10 +3,10 @@ import { render } from '@testing-library/react'
 import IsolatedStyleScope, {
   useIsolatedStyleScope,
 } from '../IsolatedStyleScope'
-import { getSha } from '../build-info/BuildInfo.js'
+import { getSha } from '../build-info/BuildInfo'
 
 // Mock the build info to control the SHA value in tests
-jest.mock('../build-info/BuildInfo.js', () => ({
+jest.mock('../build-info/BuildInfo', () => ({
   getSha: jest.fn(),
   getVersion: jest.fn(),
 }))
@@ -174,7 +174,7 @@ describe('useIsolatedStyleScope', () => {
     expect(scopeElement).toBe(undefined)
   })
 
-  it('returns the custom innerRef element if provided', () => {
+  it('returns the custom ref element if provided', () => {
     let scopeElement = null
     const customRef = React.createRef<HTMLDivElement>()
 
@@ -189,7 +189,7 @@ describe('useIsolatedStyleScope', () => {
     }
 
     render(
-      <IsolatedStyleScope scopeHash="custom-scope" innerRef={customRef}>
+      <IsolatedStyleScope scopeHash="custom-scope" ref={customRef}>
         <MockComponent />
       </IsolatedStyleScope>
     )

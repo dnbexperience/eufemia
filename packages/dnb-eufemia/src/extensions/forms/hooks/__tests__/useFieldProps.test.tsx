@@ -9,29 +9,30 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
-import { Context, ContextState, Provider } from '../../DataContext'
+import type { ContextState } from '../../DataContext'
+import { Context, Provider } from '../../DataContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
-import Field, {
-  DataContext,
-  FieldBlock,
-  FieldPropsGeneric,
-  Form,
-  FormError,
-  Iterate,
+import type {
   JSONSchema,
   OnChange,
   SubmitState,
   UseFieldProps,
+} from '../../Forms'
+import Field, {
+  DataContext,
+  FieldBlock,
+  Form,
+  FormError,
+  Iterate,
   Wizard,
   makeAjvInstance,
 } from '../../Forms'
-import SectionContext, {
-  SectionContextState,
-} from '../../Form/Section/SectionContext'
+import type { SectionContextState } from '../../Form/Section/SectionContext'
+import SectionContext from '../../Form/Section/SectionContext'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
@@ -40,7 +41,7 @@ import enGB from '../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
-function getError(error: FieldPropsGeneric['error']) {
+function getError(error: unknown) {
   return error as Error | FormError
 }
 
@@ -97,14 +98,17 @@ describe('useFieldProps', () => {
     it('should call onStatusChange when statuses change', async () => {
       const onStatusChange = jest.fn()
       const initialError = new Error('initial')
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          warning: 'initial warning',
-          error: initialError,
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            warning: 'initial warning',
+            error: initialError,
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -158,13 +162,16 @@ describe('useFieldProps', () => {
 
     it('should call onStatusChange when info is set', async () => {
       const onStatusChange = jest.fn()
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          info: 'initial info',
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            info: 'initial info',
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -238,13 +245,16 @@ describe('useFieldProps', () => {
     it('should call onStatusChange when going from error to no error', async () => {
       const onStatusChange = jest.fn()
       const errorValue = new Error('some error')
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          error: errorValue,
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            error: errorValue,
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -708,15 +718,18 @@ describe('useFieldProps', () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-          defaultValue,
-        },
-        wrapper: (props) => (
-          <Provider data={{ foo: givenValue }} {...props} />
-        ),
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+            defaultValue,
+          },
+          wrapper: (props) => (
+            <Provider data={{ foo: givenValue }} {...props} />
+          ),
+        }
+      )
 
       expect(result.current.dataContext.data).toEqual({
         foo: givenValue,
@@ -733,11 +746,14 @@ describe('useFieldProps', () => {
       const defaultValue = 'use this value'
       const changedValue = 'changed value'
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          defaultValue,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            defaultValue,
+          },
+        }
+      )
 
       expect(result.current.value).toBe(defaultValue)
 
@@ -857,7 +873,7 @@ describe('useFieldProps', () => {
 
   describe('with local validation', () => {
     it('should not return error when validateInitially is set to false', async () => {
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           value: '',
           onChangeValidator: () => {
@@ -893,7 +909,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1012,15 +1028,18 @@ describe('useFieldProps', () => {
         type: 'number',
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          value: 'invalid',
-          schema,
-        },
-        wrapper: ({ children }) => (
-          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
-        ),
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            value: 'invalid',
+            schema,
+          },
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
+      )
 
       const { handleChange } = result.current
 
@@ -1113,7 +1132,7 @@ describe('useFieldProps', () => {
         path: '/foo',
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps,
         wrapper: ({ children }) => (
           <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
@@ -1229,10 +1248,13 @@ describe('useFieldProps', () => {
 
       const error = 'A formatted error message'
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: { error },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { error },
+          wrapper,
+        }
+      )
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
         'A formatted error message'
@@ -1254,10 +1276,13 @@ describe('useFieldProps', () => {
         </>
       )
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: { error },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { error },
+          wrapper,
+        }
+      )
 
       expect(
         document.querySelector('.dnb-form-status__text').innerHTML
@@ -1276,19 +1301,22 @@ describe('useFieldProps', () => {
     it('should render error messages given as JSX in an array', () => {
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          error: [
-            <>
-              First <strong>formatted</strong> error message
-            </>,
-            <>
-              Second <strong>formatted</strong> error message
-            </>,
-          ],
-        },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            error: [
+              <>
+                First <strong>formatted</strong> error message
+              </>,
+              <>
+                Second <strong>formatted</strong> error message
+              </>,
+            ],
+          },
+          wrapper,
+        }
+      )
 
       expect(
         document.querySelector('.dnb-form-status__text').innerHTML
@@ -1328,14 +1356,17 @@ describe('useFieldProps', () => {
           required: true,
           validateInitially: true,
         }
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            ...props,
-            errorMessages: {
-              'Field.errorRequired': 'Show this message',
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              ...props,
+              errorMessages: {
+                'Field.errorRequired': 'Show this message',
+              },
             },
-          },
-        })
+          }
+        )
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
           'Show this message'
@@ -1406,13 +1437,16 @@ describe('useFieldProps', () => {
         }
         const error = new FormError('MyCustom.message')
 
-        const { rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            error,
-            errorMessages,
-          },
-          wrapper,
-        })
+        const { rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              error,
+              errorMessages,
+            },
+            wrapper,
+          }
+        )
 
         expect(
           document.querySelector('.dnb-form-status__text').innerHTML
@@ -1426,26 +1460,6 @@ describe('useFieldProps', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
-      })
-
-      /**
-       * @deprecated – can be removed in v11
-       */
-      it('with backwards compatibility', () => {
-        const { result } = renderHook(() =>
-          useFieldProps({
-            value: undefined,
-            required: true,
-            validateInitially: true,
-            errorMessages: {
-              required: 'Show this message',
-            },
-          })
-        )
-        expect(result.current.error).toBeInstanceOf(Error)
-        expect(getError(result.current.error).message).toBe(
-          'Show this message'
-        )
       })
     })
 
@@ -1478,9 +1492,6 @@ describe('useFieldProps', () => {
           validateRequired,
           errorMessages: {
             'Field.errorRequired': 'Show this message',
-
-            /** @deprecated – can be removed in v11 */
-            required: 'Show this message',
           },
           onChange,
           onBlur,
@@ -1528,14 +1539,17 @@ describe('useFieldProps', () => {
 
     describe('disabled and readOnly', () => {
       it('should skip validation when disabled is given', async () => {
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            path: '/foo',
-            value: '',
-            required: true,
-            validateInitially: true,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              path: '/foo',
+              value: '',
+              required: true,
+              validateInitially: true,
+            },
+          }
+        )
 
         expect(result.current.error).toBeInstanceOf(Error)
 
@@ -1547,14 +1561,17 @@ describe('useFieldProps', () => {
       })
 
       it('should skip validation when readOnly is given', async () => {
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            path: '/foo',
-            value: '',
-            required: true,
-            validateInitially: true,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              path: '/foo',
+              value: '',
+              required: true,
+              validateInitially: true,
+            },
+          }
+        )
 
         expect(result.current.error).toBeInstanceOf(Error)
 
@@ -1571,7 +1588,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onBlur', () => {
       const onBlur: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlur,
           value: '',
@@ -1602,7 +1619,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onFocus', () => {
       const onFocus: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onFocus,
           value: '',
@@ -1633,7 +1650,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onChange', () => {
       const onChange: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           value: '',
@@ -1672,12 +1689,15 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChange,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChange,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
 
@@ -1700,7 +1720,7 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1738,7 +1758,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1782,12 +1802,14 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async () => {
         events.push('onChangeValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -1830,12 +1852,14 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onBlurValidator = async () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -1874,13 +1898,16 @@ describe('useFieldProps', () => {
       const onChangeValidator = async () => null
       const onBlurValidator = async () => null
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChange,
-          onChangeValidator,
-          onBlurValidator,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChange,
+            onChangeValidator,
+            onBlurValidator,
+          },
+        }
+      )
 
       expect(result.current.disabled).toBeUndefined()
 
@@ -1930,6 +1957,8 @@ describe('useFieldProps', () => {
         if (value === '456') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async () => {
         events.push('onChangeValidator')
@@ -1938,7 +1967,7 @@ describe('useFieldProps', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -1994,7 +2023,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -2038,7 +2067,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -2085,7 +2114,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -2127,7 +2156,7 @@ describe('useFieldProps', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -2203,6 +2232,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid') {
           return new Error('Error message by onChangeValidator')
         }
+
+        return undefined
       }
       const onBlurValidator = async (value) => {
         events.push('onBlurValidator')
@@ -2210,9 +2241,11 @@ describe('useFieldProps', () => {
         if (value === 'invalid') {
           return new Error('Error message by onBlurValidator')
         }
+
+        return undefined
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange: onChangeField,
           onChangeValidator,
@@ -2352,6 +2385,8 @@ describe('useFieldProps', () => {
         if (value !== 'invalid-onChangeForm') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeForm: OnChange<{ foo: string }> = async ({ foo }) => {
         events.push('onChangeForm')
@@ -2363,6 +2398,8 @@ describe('useFieldProps', () => {
         if (foo !== 'invalid-onChangeField') {
           return { success: 'saved' } as const
         }
+
+        return undefined
       }
       const onChangeValidator = async (value) => {
         events.push('onChangeValidator')
@@ -2370,6 +2407,8 @@ describe('useFieldProps', () => {
         if (value === 'invalid-onChangeValidator') {
           return new Error('Error in onChangeValidator')
         }
+
+        return undefined
       }
       const onBlurValidator = async (value) => {
         events.push('onBlurValidator')
@@ -2377,9 +2416,11 @@ describe('useFieldProps', () => {
         if (value === 'invalid-onBlurValidator') {
           return new Error('Error in onBlurValidator')
         }
+
+        return undefined
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange: onChangeField,
           onChangeValidator,
@@ -2566,7 +2607,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -2596,7 +2637,7 @@ describe('useFieldProps', () => {
         return null
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           value: '',
@@ -2807,9 +2848,12 @@ describe('useFieldProps', () => {
     })
 
     it('should return aria-describedby', async () => {
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {},
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {},
+        }
+      )
 
       expect(result.current.htmlAttributes).toEqual({})
 
@@ -2895,7 +2939,7 @@ describe('useFieldProps', () => {
     it('should call "transformOut" initially when path is given', () => {
       const transformOut = jest.fn((v) => v + 1)
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           path: '/myPath',
           value: 1,
@@ -3189,7 +3233,7 @@ describe('useFieldProps', () => {
         }
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           path: '/myPath',
           value: 1,
@@ -3492,12 +3536,15 @@ describe('useFieldProps', () => {
   })
 
   it('should return autoComplete based on DataContext', () => {
-    const { result, rerender } = renderHook(useFieldProps, {
-      initialProps: {},
-      wrapper: ({ children }) => (
-        <Form.Handler autoComplete>{children}</Form.Handler>
-      ),
-    })
+    const { result, rerender } = renderHook(
+      (props: any) => useFieldProps(props),
+      {
+        initialProps: {},
+        wrapper: ({ children }) => (
+          <Form.Handler autoComplete>{children}</Form.Handler>
+        ),
+      }
+    )
 
     expect(result.current.autoComplete).toBe('on')
 
@@ -3558,14 +3605,10 @@ describe('useFieldProps', () => {
       setMountedFieldState,
     } as unknown as ContextState
 
-    const { rerender } = renderHook(useFieldProps, {
+    const { rerender } = renderHook((props: any) => useFieldProps(props), {
       initialProps: props,
       wrapper: ({ children }) => {
-        return (
-          <Context.Provider value={dataContextValue}>
-            {children}
-          </Context.Provider>
-        )
+        return <Context value={dataContextValue}>{children}</Context>
       },
     })
 
@@ -3598,7 +3641,7 @@ describe('useFieldProps', () => {
   it('should call async context onChange when no error is present', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         error: undefined,
@@ -3621,7 +3664,7 @@ describe('useFieldProps', () => {
   it('should not call async context onChange when error is present', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         error: new Error('Error message'),
@@ -3641,7 +3684,7 @@ describe('useFieldProps', () => {
     const onSubmit = jest.fn(() => null)
 
     const first = {}
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         emptyValue: first,
@@ -3688,7 +3731,7 @@ describe('useFieldProps', () => {
   it('should not call onChange when value is not changed', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook((props) => useFieldProps(props), {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         value: 'my-value',
@@ -3760,1082 +3803,18 @@ describe('useFieldProps', () => {
     expect(result.current.error).toBeInstanceOf(Error)
   })
 
-  // Deprecated – can be removed in v11
-  describe('validator (deprecated)', () => {
-    describe('validateInitially', () => {
-      it('should show error message initially', async () => {
-        const validator = jest.fn(() => {
-          return new Error('My Error')
-        })
-
-        render(
-          <Form.Handler>
-            <Field.Number validator={validator} validateInitially />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
-        expect(validator).toHaveBeenCalledTimes(1)
-      })
-
-      it('should show error message initially when validator is async', async () => {
-        const validator = jest.fn(async () => {
-          return new Error('My Error')
-        })
-
-        render(
-          <Form.Handler>
-            <Field.Number
-              label="Label"
-              validator={validator}
-              validateInitially
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
-        expect(validator).toHaveBeenCalledTimes(1)
-      })
-    })
-
-    describe('connectWithPath', () => {
-      const validatorFn: UseFieldProps<number>['validator'] = (
-        num,
-        { connectWithPath }
-      ) => {
-        const amount = connectWithPath('/refValue').getValue()
-
-        if (amount >= num) {
-          return new Error(`The amount should be greater than ${amount}`)
-        }
-      }
-
-      it('should show validator error on form submit', async () => {
-        const validator = jest.fn(validatorFn)
-
-        render(
-          <Form.Handler>
-            <Field.Number path="/refValue" defaultValue={2} />
-
-            <Field.Number
-              path="/myNumberWithValidator"
-              defaultValue={2}
-              validator={validator}
-            />
-          </Form.Handler>
-        )
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-        fireEvent.submit(document.querySelector('form'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
-          )
-        })
-        expect(validator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenLastCalledWith(
-          2,
-          expect.objectContaining({
-            connectWithPath: expect.any(Function),
-          })
-        )
-      })
-
-      it('should update error message on input change', async () => {
-        const validator = jest.fn(validatorFn)
-
-        render(
-          <Form.Handler>
-            <Field.Number path="/refValue" defaultValue={2} />
-
-            <Field.Number
-              path="/myNumberWithValidator"
-              defaultValue={2}
-              validator={validator}
-            />
-          </Form.Handler>
-        )
-
-        const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
-        )
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-        // Show error message
-        fireEvent.submit(document.querySelector('form'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
-          )
-        })
-
-        // Make a change to the ref input
-        await userEvent.type(inputWithRefValue, '2')
-
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          'The amount should be greater than 22'
-        )
-      })
-
-      it('should hide error message when validation is successful', async () => {
-        const validator = jest.fn(validatorFn)
-
-        render(
-          <Form.Handler>
-            <Field.Number path="/refValue" defaultValue={2} />
-
-            <Field.Number
-              path="/myNumberWithValidator"
-              defaultValue={2}
-              validator={validator}
-            />
-          </Form.Handler>
-        )
-
-        const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
-        )
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-        // Show error message
-        fireEvent.submit(document.querySelector('form'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
-          )
-        })
-
-        await userEvent.type(inputWithRefValue, '{Backspace}')
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        expect(validator).toHaveBeenCalledTimes(2)
-        expect(validator).toHaveBeenLastCalledWith(
-          2,
-          expect.objectContaining({
-            connectWithPath: expect.any(Function),
-          })
-        )
-      })
-
-      it('should keep error message hidden after validation is successful and another input change', async () => {
-        const validator = jest.fn(validatorFn)
-
-        render(
-          <Form.Handler>
-            <Field.Number path="/refValue" defaultValue={2} />
-
-            <Field.Number
-              path="/myNumberWithValidator"
-              defaultValue={2}
-              validator={validator}
-            />
-          </Form.Handler>
-        )
-
-        const [inputWithRefValue] = Array.from(
-          document.querySelectorAll('input')
-        )
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-        // Show error message
-        fireEvent.submit(document.querySelector('form'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            'The amount should be greater than 2'
-          )
-        })
-
-        await userEvent.type(inputWithRefValue, '{Backspace}')
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        expect(validator).toHaveBeenCalledTimes(2)
-
-        await userEvent.type(inputWithRefValue, '2')
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-      })
-
-      describe('validateInitially', () => {
-        it('should show error message initially', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateInitially
-              />
-            </Form.Handler>
-          )
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-        })
-
-        it('should show error message continuously when using onChangeValidator', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateInitially
-              />
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          })
-        })
-      })
-
-      describe('validateUnchanged', () => {
-        it('should show error message initially', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateUnchanged
-              />
-            </Form.Handler>
-          )
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-        })
-
-        it('should hide and show error message while typing', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateUnchanged
-              />
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
-            )
-          })
-        })
-      })
-
-      describe('continuousValidation', () => {
-        it('should show not show error message initially', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                continuousValidation
-              />
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should hide and show error message while typing', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                continuousValidation
-              />
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          // Show error message
-          fireEvent.submit(document.querySelector('form'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
-            )
-          })
-        })
-      })
-
-      describe('validateContinuously', () => {
-        it('should show not show error message initially', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateContinuously
-              />
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should hide and show error message while typing', async () => {
-          const validator = jest.fn(validatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithValidator"
-                defaultValue={2}
-                validator={validator}
-                validateContinuously
-              />
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          // Show error message
-          fireEvent.submit(document.querySelector('form'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
-            )
-          })
-        })
-      })
-    })
-
-    describe('validators given as an array', () => {
-      it('should call all validators returned as an array', async () => {
-        const fooValidator = jest.fn((value) => {
-          if (value.includes('foo')) {
-            return new Error('foo')
-          }
-        })
-
-        const barValidator = jest.fn((value) => {
-          if (value.includes('bar')) {
-            return new Error('bar')
-          }
-        })
-
-        const myValidator = jest.fn(() => {
-          return [fooValidator, barValidator]
-        })
-
-        render(
-          <Form.Handler>
-            <Field.String
-              path="/myField"
-              defaultValue="foo"
-              validator={myValidator}
-              validateUnchanged
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
-        })
-        expect(myValidator).toHaveBeenCalledTimes(1)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}bar'
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
-        })
-        expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
-        expect(barValidator).toHaveBeenCalledTimes(4)
-      })
-
-      it('should call all validators returned as an array (mixed async and sync)', async () => {
-        const fooValidator = jest.fn(async (value) => {
-          if (value.includes('foo')) {
-            return new Error('foo')
-          }
-        })
-
-        const barValidator = jest.fn((value) => {
-          if (value.includes('bar')) {
-            return new Error('bar')
-          }
-        })
-
-        // The main validator needs to be async, because it contains async validators in the array
-        const myValidator = jest.fn(async () => {
-          return [fooValidator, barValidator]
-        })
-
-        render(
-          <Form.Handler>
-            <Field.String
-              label="Label"
-              path="/myField"
-              defaultValue="foo"
-              validator={myValidator}
-              validateUnchanged
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
-        })
-        expect(myValidator).toHaveBeenCalledTimes(1)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}bar'
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
-        })
-        expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
-        expect(barValidator).toHaveBeenCalledTimes(4)
-      })
-    })
-
-    describe('exportValidators', () => {
-      it('should call exported validators from mock component', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
-
-        const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
-            if (value.includes('bar')) {
-              return new Error('bar')
-            }
-          })
-
-          bazValidator = jest.fn((value) => {
-            if (value.includes('baz')) {
-              return new Error('baz')
-            }
-          })
-
-          internalValidators = jest.fn((value) => {
-            return barValidator(value) || bazValidator(value)
-          })
-
-          return (
-            <Field.String
-              exportValidators={{ barValidator, bazValidator }}
-              validator={internalValidators}
-              {...props}
-            />
-          )
-        }
-
-        const publicValidator = jest.fn(
-          (value, { validators: { barValidator, bazValidator } }) => {
-            fooValidator = jest.fn(() => {
-              if (value.includes('foo')) {
-                return new Error('foo')
-              }
-            })
-
-            return [fooValidator, barValidator, bazValidator]
-          }
-        )
-
-        render(
-          <Form.Handler>
-            <MockComponent
-              path="/myField"
-              defaultValue="foo"
-              validator={publicValidator}
-              validateUnchanged
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(1)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(0)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        expect(publicValidator).toHaveBeenLastCalledWith(
-          'foo',
-          expect.objectContaining({
-            validators: {
-              barValidator,
-              bazValidator,
-            },
-          })
-        )
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}bar'
-        )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(4)
-        expect(bazValidator).toHaveBeenCalledTimes(3)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}baz'
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(8)
-        expect(bazValidator).toHaveBeenCalledTimes(7)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-      })
-
-      it('should export and call same validator without "Maximum call stack size exceeded"', async () => {
-        const onBlurValidator = jest.fn((value) => {
-          if (value === '1234') {
-            return Error('Error message')
-          }
-        })
-
-        render(
-          <Field.String
-            onBlurValidator={onBlurValidator}
-            exportValidators={{ onBlurValidator }}
-          />
-        )
-
-        const input = document.querySelector('input')
-
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
-
-        expect(onBlurValidator).toHaveBeenCalledTimes(1)
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
-
-        expect(onBlurValidator).toHaveBeenCalledTimes(2)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-      })
-
-      it('should show error on every value change', async () => {
-        const exportedValidator = jest.fn((value) => {
-          if (value === '1234') {
-            return Error('Error message')
-          }
-        })
-
-        const myValidator = jest.fn((value, { validators }) => {
-          const { exportedValidator } = validators
-
-          return [exportedValidator]
-        })
-
-        const MockComponent = (props) => {
-          return (
-            <Field.String
-              label="Label"
-              onBlurValidator={props.onBlurValidator}
-              exportValidators={{ exportedValidator }}
-            />
-          )
-        }
-
-        render(<MockComponent onBlurValidator={myValidator} />)
-
-        const input = document.querySelector('input')
-
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
-
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
-
-        expect(exportedValidator).toHaveBeenCalledTimes(2)
-        expect(myValidator).toHaveBeenCalledTimes(2)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-
-        await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
-
-        expect(exportedValidator).toHaveBeenCalledTimes(3)
-        expect(myValidator).toHaveBeenCalledTimes(3)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-      })
-
-      it('should support mixed sync and async validators', async () => {
-        const exportedValidator = jest.fn(async (value) => {
-          if (value === '1234') {
-            return Error('Error message')
-          }
-        })
-
-        const myValidator = jest.fn((value, { validators }) => {
-          const { exportedValidator } = validators
-
-          return [exportedValidator]
-        })
-
-        const MockComponent = (props) => {
-          return (
-            <Field.String
-              label="Label"
-              onBlurValidator={props.onBlurValidator}
-              exportValidators={{ exportedValidator }}
-            />
-          )
-        }
-
-        render(<MockComponent onBlurValidator={myValidator} />)
-
-        const input = document.querySelector('input')
-
-        await userEvent.type(input, '123')
-        fireEvent.blur(input)
-
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-
-        await userEvent.type(input, '4')
-        fireEvent.blur(input)
-
-        expect(exportedValidator).toHaveBeenCalledTimes(1)
-        expect(myValidator).toHaveBeenCalledTimes(4)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-
-        await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
-
-        expect(exportedValidator).toHaveBeenCalledTimes(2)
-        expect(myValidator).toHaveBeenCalledTimes(6)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-      })
-
-      it('should call returned validators (barValidator should not be called)', async () => {
-        let internalValidators, fooValidator, barValidator, bazValidator
-
-        const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
-            if (value.includes('bar')) {
-              return new Error('bar')
-            }
-          })
-
-          bazValidator = jest.fn((value) => {
-            if (value.includes('baz')) {
-              return new Error('baz')
-            }
-          })
-
-          internalValidators = jest.fn((value) => {
-            return barValidator(value) || bazValidator(value)
-          })
-
-          return (
-            <Field.String
-              exportValidators={{ barValidator, bazValidator }}
-              validator={internalValidators}
-              {...props}
-            />
-          )
-        }
-
-        const publicValidator = jest.fn(
-          (value, { validators: { bazValidator } }) => {
-            fooValidator = jest.fn(() => {
-              if (value.includes('foo')) {
-                return new Error('foo')
-              }
-            })
-
-            return [fooValidator, bazValidator]
-          }
-        )
-
-        render(
-          <Form.Handler>
-            <MockComponent
-              path="/myField"
-              defaultValue="foo"
-              validator={publicValidator}
-              validateUnchanged
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(1)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(0)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        expect(publicValidator).toHaveBeenLastCalledWith(
-          'foo',
-          expect.objectContaining({
-            validators: {
-              barValidator,
-              bazValidator,
-            },
-          })
-        )
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
-        )
-        await waitFor(() => {
-          // Here we should not see the bar validator called
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(4)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}baz'
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(8)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-      })
-
-      it('should show error when validateInitially is set to true', async () => {
-        const exportedValidator = jest.fn(() => {
-          return Error('Error message')
-        })
-
-        const myValidator = jest.fn((value, { validators }) => {
-          const { exportedValidator } = validators
-          return [exportedValidator]
-        })
-
-        const MockComponent = (props) => {
-          return (
-            <Field.String
-              label="Label"
-              validator={props.validator}
-              exportValidators={{ exportedValidator }}
-              validateInitially
-            />
-          )
-        }
-
-        render(<MockComponent validator={myValidator} />)
-
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toBeInTheDocument()
-        })
-      })
-
-      it('should not run exported internal validators when a validator is given', async () => {
-        const exportedValidator = jest.fn(() => {
-          return undefined
-        })
-
-        const myValidator = jest.fn(() => {
-          return undefined
-        })
-
-        const MockComponent = (props) => {
-          return (
-            <Field.String
-              label="Label"
-              validator={props.validator}
-              exportValidators={{ exportedValidator }}
-              validateInitially
-            />
-          )
-        }
-
-        render(<MockComponent validator={myValidator} />)
-
-        await expect(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toBeInTheDocument()
-        }).toNeverResolve()
-      })
-
-      it('should not call internal validators when they are not returned in the publicValidator', async () => {
-        let internalValidators, barValidator, bazValidator
-
-        const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
-            if (value.includes('bar')) {
-              return new Error('bar')
-            }
-          })
-
-          bazValidator = jest.fn((value) => {
-            if (value.includes('baz')) {
-              return new Error('baz')
-            }
-          })
-
-          internalValidators = jest.fn((value) => {
-            return barValidator(value) || bazValidator(value)
-          })
-
-          return (
-            <Field.String
-              exportValidators={{ barValidator, bazValidator }}
-              validator={internalValidators}
-              {...props}
-            />
-          )
-        }
-
-        const publicValidator = jest.fn((value) => {
-          if (value.includes('foo')) {
-            return new Error('foo')
-          }
-        })
-
-        render(
-          <Form.Handler>
-            <MockComponent
-              path="/myField"
-              defaultValue="foo"
-              validator={publicValidator}
-              validateUnchanged
-            />
-          </Form.Handler>
-        )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
-        })
-        expect(publicValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(0)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        expect(publicValidator).toHaveBeenLastCalledWith(
-          'foo',
-          expect.objectContaining({
-            validators: {
-              barValidator,
-              bazValidator,
-            },
-          })
-        )
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}bar'
-        )
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-        expect(publicValidator).toHaveBeenCalledTimes(5)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(0)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-
-        await userEvent.type(
-          document.querySelector('input'),
-          '{Backspace}baz'
-        )
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-        expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(barValidator).toHaveBeenCalledTimes(0)
-        expect(bazValidator).toHaveBeenCalledTimes(0)
-        expect(internalValidators).toHaveBeenCalledTimes(0)
-      })
-    })
-  })
-
   describe('onChangeValidator', () => {
     it('should return error when onChangeValidator callback returns error', async () => {
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChangeValidator: () => new Error('This is wrong...'),
-          value: 'foo',
-          validateInitially: true,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChangeValidator: () => new Error('This is wrong...'),
+            value: 'foo',
+            validateInitially: true,
+          },
+        }
+      )
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
@@ -4867,12 +3846,15 @@ describe('useFieldProps', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -4920,15 +3902,18 @@ describe('useFieldProps', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator: validator,
-            onBlurValidator: undefined,
-            value: '',
-            info: 'Info message',
-            warning: 'Warning message',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator: validator,
+              onBlurValidator: undefined,
+              value: '',
+              info: 'Info message',
+              warning: 'Warning message',
+            },
+          }
+        )
         const id = result.current.id
         const { result: sharedResult } = renderHook(() =>
           useSharedState<{
@@ -5043,12 +4028,15 @@ describe('useFieldProps', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -5084,13 +4072,16 @@ describe('useFieldProps', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-            disabled: undefined,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+              disabled: undefined,
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -5125,6 +4116,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return new Error('onChangeValidator error')
           }
+
+          return undefined
         })
         const schema: JSONSchema = {
           type: 'string',
@@ -5208,6 +4201,8 @@ describe('useFieldProps', () => {
           if (amount >= num) {
             return new Error(`The amount should be greater than ${amount}`)
           }
+
+          return undefined
         }
 
       it('should show onChangeValidator error on form submit', async () => {
@@ -5498,71 +4493,6 @@ describe('useFieldProps', () => {
         })
       })
 
-      describe('continuousValidation', () => {
-        it('should show not show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithOnChangeValidator"
-                defaultValue={2}
-                onChangeValidator={onChangeValidator}
-                continuousValidation
-              />
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithOnChangeValidator"
-                defaultValue={2}
-                onChangeValidator={onChangeValidator}
-                continuousValidation
-              />
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          // Show error message
-          fireEvent.submit(document.querySelector('form'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
-            )
-          })
-        })
-      })
-
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
           const onChangeValidator = jest.fn(onChangeValidatorFn)
@@ -5637,6 +4567,8 @@ describe('useFieldProps', () => {
           if (amount >= num) {
             return new Error(`The amount should be greater than ${amount}`)
           }
+
+          return undefined
         }
 
       it('should show onChangeValidator error on form submit', async () => {
@@ -5960,75 +4892,6 @@ describe('useFieldProps', () => {
         })
       })
 
-      describe('continuousValidation', () => {
-        it('should show not show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
-
-          render(
-            <Form.Handler defaultData={{ myList: [{}] }}>
-              <Iterate.Array path="/myList">
-                <Field.Number itemPath="/refValue" defaultValue={2} />
-
-                <Field.Number
-                  itemPath="/myNumberWithOnChangeValidator"
-                  defaultValue={2}
-                  onChangeValidator={onChangeValidator}
-                  continuousValidation
-                />
-              </Iterate.Array>
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
-
-          render(
-            <Form.Handler defaultData={{ myList: [{}] }}>
-              <Iterate.Array path="/myList">
-                <Field.Number itemPath="/refValue" defaultValue={2} />
-
-                <Field.Number
-                  itemPath="/myNumberWithOnChangeValidator"
-                  defaultValue={2}
-                  onChangeValidator={onChangeValidator}
-                  continuousValidation
-                />
-              </Iterate.Array>
-            </Form.Handler>
-          )
-
-          const [inputWithRefValue] = Array.from(
-            document.querySelectorAll('input')
-          )
-
-          // Show error message
-          fireEvent.submit(document.querySelector('form'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 2'
-            )
-          })
-
-          await userEvent.type(inputWithRefValue, '{Backspace}')
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-          await userEvent.type(inputWithRefValue, '3')
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              'The amount should be greater than 3'
-            )
-          })
-        })
-      })
-
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
           const onChangeValidator = jest.fn(onChangeValidatorFn)
@@ -6105,12 +4968,16 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         const barValidator = jest.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
+
+          return undefined
         })
 
         const myOnChangeValidator = jest.fn(() => {
@@ -6153,12 +5020,16 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         const barValidator = jest.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
+
+          return undefined
         })
 
         // The main validator needs to be async, because it contains async validators in the array
@@ -6208,10 +5079,12 @@ describe('useFieldProps', () => {
             </>
           )
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
         wrapper,
       })
@@ -6241,10 +5114,12 @@ describe('useFieldProps', () => {
         if (value === '1') {
           return 'A formatted error message'
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
         wrapper,
       })
@@ -6275,12 +5150,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -6302,6 +5181,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, barValidator, bazValidator]
@@ -6371,6 +5252,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         render(
@@ -6404,6 +5287,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         const myValidator = jest.fn((value, { validators }) => {
@@ -6459,6 +5344,8 @@ describe('useFieldProps', () => {
           if (value === '1234') {
             return Error('Error message')
           }
+
+          return undefined
         })
 
         const myValidator = jest.fn((value, { validators }) => {
@@ -6517,12 +5404,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -6544,6 +5435,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, bazValidator]
@@ -6676,12 +5569,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -6701,6 +5598,8 @@ describe('useFieldProps', () => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
+
+          return undefined
         })
 
         render(
@@ -6818,6 +5717,8 @@ describe('useFieldProps', () => {
         if (amount >= num) {
           return new Error(`The amount should be greater than ${amount}`)
         }
+
+        return undefined
       }
 
       it('should show onBlurValidator error on form submit', async () => {
@@ -7079,27 +5980,6 @@ describe('useFieldProps', () => {
         })
       })
 
-      describe('continuousValidation', () => {
-        it('should show not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
-
-          render(
-            <Form.Handler>
-              <Field.Number path="/refValue" defaultValue={2} />
-
-              <Field.Number
-                path="/myNumberWithOnBlurValidator"
-                defaultValue={2}
-                onBlurValidator={onBlurValidator}
-                continuousValidation
-              />
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-      })
-
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
           const onBlurValidator = jest.fn(onBlurValidatorFn)
@@ -7132,6 +6012,8 @@ describe('useFieldProps', () => {
         if (amount >= num) {
           return new Error(`The amount should be greater than ${amount}`)
         }
+
+        return undefined
       }
 
       it('should show onBlurValidator error on form submit', async () => {
@@ -7429,29 +6311,6 @@ describe('useFieldProps', () => {
         })
       })
 
-      describe('continuousValidation', () => {
-        it('should show not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
-
-          render(
-            <Form.Handler defaultData={{ myArray: [{}] }}>
-              <Iterate.Array>
-                <Field.Number itemPath="/refValue" defaultValue={2} />
-
-                <Field.Number
-                  itemPath="/myNumberWithOnBlurValidator"
-                  defaultValue={2}
-                  onBlurValidator={onBlurValidator}
-                  continuousValidation
-                />
-              </Iterate.Array>
-            </Form.Handler>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-      })
-
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
           const onBlurValidator = jest.fn(onBlurValidatorFn)
@@ -7485,12 +6344,16 @@ describe('useFieldProps', () => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
+
+            return undefined
           })
 
           bazValidator = jest.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
+
+            return undefined
           })
 
           internalValidators = jest.fn((value) => {
@@ -7512,6 +6375,8 @@ describe('useFieldProps', () => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
+
+              return undefined
             })
 
             return [fooValidator, bazValidator]
@@ -7583,7 +6448,7 @@ describe('useFieldProps', () => {
     it('should not call onBlurValidator when required error is present', () => {
       const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           required: true,
@@ -7620,7 +6485,7 @@ describe('useFieldProps', () => {
 
       const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           schema,
@@ -7660,7 +6525,7 @@ describe('useFieldProps', () => {
         () => new Error('Error message by onBlurValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChangeValidator,
           onBlurValidator,
@@ -7696,7 +6561,7 @@ describe('useFieldProps', () => {
         async () => new Error('Error message by onChangeValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChangeValidator,
@@ -7728,7 +6593,7 @@ describe('useFieldProps', () => {
       )
       const onChange = jest.fn(async () => null)
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChange,
@@ -7762,7 +6627,7 @@ describe('useFieldProps', () => {
         async () => new Error('Error message by onChangeValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChangeValidator,
@@ -7830,12 +6695,15 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onBlurValidator,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onBlurValidator,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
       expect(result.current.error).toBeUndefined()
@@ -7876,12 +6744,15 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onBlurValidator,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onBlurValidator,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
       expect(result.current.disabled).toBeUndefined()
@@ -7931,7 +6802,7 @@ describe('useFieldProps', () => {
         return firstReturn
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           value: '',
@@ -7967,7 +6838,7 @@ describe('useFieldProps', () => {
         return firstReturn
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           value: '',
@@ -7999,10 +6870,12 @@ describe('useFieldProps', () => {
             </>
           )
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
         wrapper,
       })
@@ -8033,10 +6906,12 @@ describe('useFieldProps', () => {
         if (value === '1') {
           return 'A formatted error message'
         }
+
+        return undefined
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
         wrapper,
       })
@@ -8068,50 +6943,50 @@ describe('useFieldProps', () => {
       const showFieldErrorFieldBlock = jest.fn()
       const handlePathChangeUnvalidated = jest.fn()
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-          required: false,
-        },
-        wrapper: ({ children }) => {
-          const dataContextValue = {
-            revealError: revealErrorDataContext,
-            handlePathChangeUnvalidated,
-            setMountedFieldState: jest.fn(),
-          } as unknown as ContextState
-          const fieldBoundaryContextErrorValue = {
-            revealError: revealErrorBoundary,
-          }
-          const fieldBlockContextValue = {
-            showFieldError: showFieldErrorFieldBlock,
-          }
-          const wizardContextValue = {
-            setFieldError: setFieldErrorWizard,
-          }
-          const wizardStepContextValue = {
-            index: 1,
-          }
-          return (
-            <Context.Provider value={dataContextValue}>
-              <FieldBoundaryContext.Provider
-                value={fieldBoundaryContextErrorValue}
-              >
-                <FieldBlockContext.Provider value={fieldBlockContextValue}>
-                  <WizardContext.Provider value={wizardContextValue}>
-                    <WizardStepContext.Provider
-                      value={wizardStepContextValue}
-                    >
-                      {children}
-                    </WizardStepContext.Provider>
-                  </WizardContext.Provider>
-                </FieldBlockContext.Provider>
-              </FieldBoundaryContext.Provider>
-            </Context.Provider>
-          )
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+            required: false,
+          },
+          wrapper: ({ children }) => {
+            const dataContextValue = {
+              revealError: revealErrorDataContext,
+              handlePathChangeUnvalidated,
+              setMountedFieldState: jest.fn(),
+            } as unknown as ContextState
+            const fieldBoundaryContextErrorValue = {
+              revealError: revealErrorBoundary,
+            }
+            const fieldBlockContextValue = {
+              showFieldError: showFieldErrorFieldBlock,
+            }
+            const wizardContextValue = {
+              setFieldError: setFieldErrorWizard,
+            }
+            const wizardStepContextValue = {
+              index: 1,
+            }
+            return (
+              <Context value={dataContextValue}>
+                <FieldBoundaryContext
+                  value={fieldBoundaryContextErrorValue}
+                >
+                  <FieldBlockContext value={fieldBlockContextValue}>
+                    <WizardContext value={wizardContextValue}>
+                      <WizardStepContext value={wizardStepContextValue}>
+                        {children}
+                      </WizardStepContext>
+                    </WizardContext>
+                  </FieldBlockContext>
+                </FieldBoundaryContext>
+              </Context>
+            )
+          },
+        }
+      )
 
-      // @ts-expect-error - Testing that revealError is not exposed in the return type
       const { revealError } = result.current
 
       expect(revealErrorDataContext).toHaveBeenCalledTimes(0)
@@ -8203,10 +7078,12 @@ describe('useFieldProps', () => {
                         title: 'Bar',
                       },
                     ]}
-                    onChangeValidator={(value: string) => {
+                    onChangeValidator={(value) => {
                       if (value === 'foo') {
                         return new Error('Show this error!')
                       }
+
+                      return undefined
                     }}
                     required
                   />
@@ -8263,19 +7140,20 @@ describe('useFieldProps', () => {
     it('should mount and unmount when the field is removed from the DOM', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return (
-            <Context.Provider value={value}>{children}</Context.Provider>
-          )
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return <Context value={value}>{children}</Context>
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -8298,21 +7176,24 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return (
-            <Context.Provider value={value}>
-              <Form.Visibility visible>{children}</Form.Visibility>
-            </Context.Provider>
-          )
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return (
+              <Context value={value}>
+                <Form.Visibility visible>{children}</Form.Visibility>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -8338,23 +7219,26 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context with a negative visibility', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return (
-            <Context.Provider value={value}>
-              <Form.Visibility visible={false} keepInDOM>
-                {children}
-              </Form.Visibility>
-            </Context.Provider>
-          )
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return (
+              <Context value={value}>
+                <Form.Visibility visible={false} keepInDOM>
+                  {children}
+                </Form.Visibility>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -8382,26 +7266,29 @@ describe('useFieldProps', () => {
       const setMountedFieldState = jest.fn()
 
       let activeIndex = 0
-      const { rerender, unmount } = renderHook(useFieldProps, {
-        initialProps: { path: '/foo' },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          activeIndex++
-          return (
-            <Context.Provider value={value}>
-              <WizardContext.Provider
-                value={{
-                  activeIndex,
-                }}
-              >
-                {children}
-              </WizardContext.Provider>
-            </Context.Provider>
-          )
-        },
-      })
+      const { rerender, unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { path: '/foo' },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            activeIndex++
+            return (
+              <Context value={value}>
+                <WizardContext
+                  value={{
+                    activeIndex,
+                  }}
+                >
+                  {children}
+                </WizardContext>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -8646,11 +7533,11 @@ describe('Zod schema support', () => {
     }
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -8685,9 +7572,9 @@ describe('Zod schema support', () => {
       ['contextSchema']
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={undefined}>{children}</Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -8707,14 +7594,14 @@ describe('Zod schema support', () => {
 
     // Test with Zod schema
     const zodWrapper = ({ children }) => (
-      <SectionContext.Provider
+      <SectionContext
         value={{
           path: '',
           errorPrioritization: ['contextSchema', 'fieldSchema'],
         }}
       >
         <Provider schema={mockZodSchema}>{children}</Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result: zodResult } = renderHook(
@@ -8739,7 +7626,7 @@ describe('Zod schema support', () => {
     }
 
     const jsonWrapper = ({ children }) => (
-      <SectionContext.Provider
+      <SectionContext
         value={{
           path: '',
           errorPrioritization: ['contextSchema', 'fieldSchema'],
@@ -8748,7 +7635,7 @@ describe('Zod schema support', () => {
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result: jsonResult } = renderHook(
@@ -8808,11 +7695,11 @@ describe('Zod schema support', () => {
       ['contextSchema', 'fieldSchema']
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     // This test specifically verifies that the JSON Pointer logic doesn't crash
@@ -8840,11 +7727,11 @@ describe('Zod schema support', () => {
 
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -8881,11 +7768,11 @@ describe('Zod schema support', () => {
 
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(

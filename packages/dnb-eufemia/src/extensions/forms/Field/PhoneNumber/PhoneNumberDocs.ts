@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
 import { StringProperties } from '../String/StringDocs'
 import { FieldProperties } from '../../Field/FieldDocs'
@@ -6,16 +6,16 @@ import { FieldProperties } from '../../Field/FieldDocs'
 export const PhoneNumberProperties: PropertiesTableProps = {
   countries: {
     doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
-    type: 'string',
+    type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],
     status: 'optional',
   },
   filterCountries: {
-    doc: 'Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.',
+    doc: 'Use this property to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.',
     type: 'function',
     status: 'optional',
   },
   pattern: {
-    doc: 'Validation based on regex pattern for the number field e.g. `pattern="^[49]+"`.',
+    doc: 'Validation based on regex pattern for the combined E.164 value e.g. `pattern="^\\+47[49]\\d{7}$"`.',
     type: 'string',
     status: 'optional',
   },
@@ -41,12 +41,12 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   countryCodeLabel: {
     doc: 'Label to show above / before the country code field.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   numberLabel: {
     doc: 'Label to show above / before the number field. Defaults to the translated label from `PhoneNumber.label`.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   numberMask: {
@@ -56,7 +56,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   width: {
     doc: '`large` for predefined standard width, `stretch` for fill available width.',
-    type: 'string | false',
+    type: ['string', 'false'],
     status: 'optional',
   },
   label: {

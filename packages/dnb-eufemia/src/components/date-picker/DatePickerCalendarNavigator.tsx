@@ -7,12 +7,12 @@ import {
   subMonths,
   subYears,
 } from 'date-fns'
-import { CalendarNavigationEvent } from './DatePickerCalendar'
-import classnames from 'classnames'
+import type { DatePickerCalendarNavigationEvent } from './DatePickerCalendar'
+import clsx from 'clsx'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
-import { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 type CalendarNavigationDateType = 'month' | 'year'
@@ -31,7 +31,7 @@ export type DatePickerCalendarNavigationProps = Omit<
   date?: Date
 
   /**
-   * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
+   * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import { enGB } from 'date-fns/locale/en-GB'`. Defaults to `nb-NO`.
    */
   locale?: InternalLocale
 }
@@ -87,10 +87,10 @@ export function DatePickerCalendarNav({
   const buttonDateType = type === 'year' ? 'year' : 'month'
 
   const onNav = useCallback(
-    ({ nr, type: navigationType }: CalendarNavigationEvent) => {
+    ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
-        if (view.nr === nr || (isLinkedCalendars && view.nr === 1)) {
+        if (view.nr === nr || isLinkedCalendars) {
           const month = dateHandlers[handlerType][navigationType](
             view.month,
             1
@@ -108,7 +108,7 @@ export function DatePickerCalendarNav({
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-date-picker__header__row',
         type === 'year' && 'dnb-date-picker__header__row--year'
       )}
@@ -212,7 +212,7 @@ function CalendarNavButton({
 
   return (
     <Button
-      className={classnames(`dnb-date-picker__${type}`, { disabled })}
+      className={clsx(`dnb-date-picker__${type}`, { disabled })}
       icon={icon}
       size="small"
       aria-label={title}

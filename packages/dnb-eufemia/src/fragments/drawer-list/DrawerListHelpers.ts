@@ -1,20 +1,13 @@
 /**
  * Web DrawerList Helpers
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
-  isTrue,
   makeUniqueId,
-  dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
-import { spacingPropTypes } from '../../components/space/SpacingHelper'
-import {
+import type {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
   DrawerListData,
@@ -22,191 +15,64 @@ import {
   DrawerListDataArray,
   DrawerListInternalData,
   DrawerListInternalItem,
+  DrawerListProps,
 } from './DrawerList'
-import { DrawerListProviderProps } from './DrawerListProvider'
-import { DrawerListContextState } from './DrawerListContext'
+import type { DrawerListProviderProps } from './DrawerListProvider'
+import type { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
 
-// legacy used by Autocomplete and Dropdown
-export const drawerListPropTypes = {
-  id: PropTypes.string,
-  role: PropTypes.string,
-  cache_hash: PropTypes.string,
-  triangle_position: PropTypes.string,
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  max_height: PropTypes.number,
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_scroll_animation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-
-  prevent_selection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  align_drawer: PropTypes.oneOf(['left', 'right']),
-  options_render: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  wrapper_element: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  portal_class: PropTypes.string,
-  list_class: PropTypes.string,
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  independent_width: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  fixed_position: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selectedKey: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-          ]),
-          /** @deprecated use `selectedKey` */
-          selected_key: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-          ]),
-          selected_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-          ]),
-          suffix_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-          ]),
-          disabled: PropTypes.bool,
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string),
-          ]),
-        }),
-      ])
-    ),
-  ]),
-  raw_data: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  ...spacingPropTypes,
-
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array,
-  ]),
-
-  on_show: PropTypes.func,
-  on_hide: PropTypes.func,
-  handle_dismiss_focus: PropTypes.func,
-  on_change: PropTypes.func,
-  on_pre_change: PropTypes.func,
-  on_resize: PropTypes.func,
-  on_select: PropTypes.func,
-  on_state_update: PropTypes.func,
-}
-
-export const drawerListDefaultProps = {
+export const drawerListDefaultProps: Partial<DrawerListProps> = {
   id: null,
   role: 'listbox',
-  cache_hash: null,
-  triangle_position: 'left',
+  cacheHash: null,
+  arrowPosition: 'left',
   scrollable: true,
   focusable: false,
-  max_height: null,
+  maxHeight: null,
   direction: 'auto',
   size: 'default',
-  no_animation: false,
-  no_scroll_animation: false,
-  prevent_selection: false,
-  action_menu: false,
-  is_popup: false,
-  align_drawer: 'left',
-  wrapper_element: null,
-  default_value: null,
+  noAnimation: false,
+  noScrollAnimation: false,
+  preventSelection: false,
+  isPopup: false,
+  alignDrawer: 'left',
+  wrapperElement: null,
+  defaultValue: null,
   value: 'initval',
-  portal_class: null,
-  list_class: null,
-  skip_portal: null,
-  prevent_close: false,
-  keep_open: false,
-  prevent_focus: false,
-  fixed_position: false,
-  independent_width: false,
-  skip_keysearch: false,
-  opened: null,
+  portalClass: null,
+  listClass: null,
+  skipPortal: null,
+  preventClose: false,
+  keepOpen: false,
+  preventFocus: false,
+  fixedPosition: false,
+  independentWidth: false,
+  skipKeysearch: false,
+  open: null,
   data: null,
-  raw_data: null,
-  ignore_events: null,
+  ignoreEvents: null,
 
   className: null,
   children: null,
 
-  on_show: null,
-  on_hide: null,
-  handle_dismiss_focus: null,
-  on_change: null,
-  on_pre_change: null,
-  on_resize: null,
-  on_select: null,
-  on_state_update: null,
-  options_render: null,
+  onOpen: null,
+  onClose: null,
+  handleDismissFocus: null,
+  onChange: null,
+  onPreChange: null,
+  onResize: null,
+  onSelect: null,
+  optionsRender: null,
 }
 
-// legacy used by Dropdown
-export const drawerListProviderPropTypes = {
-  enable_body_lock: PropTypes.bool,
-  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  observer_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]),
-  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-}
-
-export const drawerListProviderDefaultProps = {
-  enable_body_lock: false,
-  page_offset: null,
-  observer_element: null,
-  min_height: 10, // 10rem = 10x16=160,
-}
+export const drawerListProviderDefaultProps: Partial<DrawerListProviderProps> =
+  {
+    enableBodyLock: false,
+    pageOffset: null,
+    observerElement: null,
+    minHeight: 10, // 10rem = 10x16=160,
+  }
 
 export function parseContentTitle(
   dataItem: DrawerListDataArrayItem,
@@ -225,7 +91,7 @@ export function parseContentTitle(
   let ret = ''
   const onlyNumericRegex = /[0-9.,-\s]+/
 
-  const hasValue = dataItem && dataItem.selected_value
+  const hasValue = dataItem && dataItem.selectedValue
 
   if (
     !(preferSelectedValue && hasValue) &&
@@ -254,18 +120,22 @@ export function parseContentTitle(
   if (hasValue) {
     if (preferSelectedValue) {
       ret = String(
-        convertJsxToString(dataItem.selected_value, separator, (word) => {
+        convertJsxToString(dataItem.selectedValue, separator, (word) => {
+          const element = word as React.ReactElement<any>
           const nestedChildren =
-            !word.props.children &&
-            word?.type !== Icon &&
-            word?.type !== CountryFlag &&
-            typeof word?.type === 'function' &&
-            (word.type as () => React.ReactElement)()
+            !element.props.children &&
+            element?.type !== Icon &&
+            element?.type !== CountryFlag &&
+            typeof element?.type === 'function' &&
+            (element.type as () => React.ReactElement)()
 
-          return nestedChildren?.props?.children ? nestedChildren : word
+          return (nestedChildren as React.ReactElement<any>)?.props
+            ?.children
+            ? nestedChildren
+            : element
         })
       )
-    } else if (!onlyNumericRegex.test(dataItem.selected_value as string)) {
+    } else if (!onlyNumericRegex.test(dataItem.selectedValue as string)) {
       ret = separator + ret
     }
   }
@@ -274,7 +144,7 @@ export function parseContentTitle(
 }
 
 export const hasObjectKeyAsValue = (data) => {
-  data = data?.raw_data || data
+  data = data?.rawData || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
@@ -307,7 +177,6 @@ export function normalizeData(props): DrawerListInternalData {
     for (const key in data) {
       list.push({
         selectedKey: key,
-        selected_key: key,
         value: key,
         content: data[key],
         type: 'object',
@@ -331,11 +200,11 @@ function normalizeDataItem(
   return dataItem === null
     ? undefined
     : typeof dataItem === 'object' && 'content' in dataItem
-    ? dataItem
-    : {
-        content: dataItem,
-        ...(markAsTransformed ? { __isTransformed: true } : {}),
-      }
+      ? dataItem
+      : {
+          content: dataItem,
+          ...(markAsTransformed ? { __isTransformed: true } : {}),
+        }
 }
 
 export const getData = (props) => {
@@ -370,12 +239,13 @@ export const getCurrentIndex = (value, data) => {
       }
       if (
         typeof data[i]?.selectedKey !== 'undefined' ||
-        typeof data[i]?.selected_key !== 'undefined' ||
         data[i]?.type === 'object'
       ) {
         return true
       }
     }
+
+    return undefined
   }
 }
 
@@ -393,17 +263,14 @@ export const parseCurrentValue = (current) => {
   if (typeof current?.selectedKey !== 'undefined') {
     return current?.selectedKey
   }
-  if (typeof current?.selected_key !== 'undefined') {
-    return current?.selected_key
-  }
   if (typeof current?.content !== 'undefined') {
     return current?.content
   }
   return current
 }
 
-export const getEventData = (item_index, data) => {
-  data = getCurrentData(item_index, data)
+export const getEventData = (itemIndex, data) => {
+  data = getCurrentData(itemIndex, data)
 
   // cleanup
   if (data && data.__id) {
@@ -415,12 +282,12 @@ export const getEventData = (item_index, data) => {
   return data
 }
 
-export const getCurrentData = (item_index, data) => {
+export const getCurrentData = (itemIndex, data) => {
   if (typeof data === 'function') {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }) => __id === item_index)) || null
+  data = (data && data.find(({ __id }) => __id === itemIndex)) || null
 
   if (data && data.__isTransformed) {
     return data.content
@@ -440,7 +307,7 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
         firstItemIndex = index
       }
       if (item.groupIndex === 0) {
-        return
+        return undefined
       }
     }
   })
@@ -451,30 +318,30 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
 export function prepareStartupState(
   props: DrawerListProviderProps
 ): DrawerListContextState {
-  const selected_item = null
-  const raw_data = preSelectData(
+  const selectedItem = null
+  const rawData = preSelectData(
     props.data ||
       (!React.isValidElement(props.children)
         ? (props.children as DrawerListData)
         : undefined)
   )
   const data = getData(props)
-  const opened = props.opened !== null ? isTrue(props.opened) : null
+  const open = props.open !== null ? props.open : null
 
   const state: DrawerListContextState = {
     id: props.id || makeUniqueId(),
-    opened,
+    open,
     data,
-    original_data: data, // used to reset in case we reorder data etc.
-    raw_data,
+    originalData: data, // used to reset in case we reorder data etc.
+    rawData,
     direction: props.direction,
-    max_height: props.max_height,
-    selected_item,
-    active_item: selected_item,
-    on_hide: props.on_hide,
-    on_show: props.on_show,
-    on_change: props.on_change,
-    on_select: props.on_select,
+    maxHeight: props.maxHeight,
+    selectedItem,
+    activeItem: selectedItem,
+    onClose: props.onClose,
+    onOpen: props.onOpen,
+    onChange: props.onChange,
+    onSelect: props.onSelect,
   }
 
   if (
@@ -482,13 +349,13 @@ export function prepareStartupState(
     typeof props.value !== 'undefined' &&
     props.value !== 'initval'
   ) {
-    state.selected_item = state.active_item = getCurrentIndex(
+    state.selectedItem = state.activeItem = getCurrentIndex(
       props.value,
       data
     )
-  } else if (props.default_value !== null) {
-    state.selected_item = state.active_item = getCurrentIndex(
-      props.default_value,
+  } else if (props.defaultValue !== null) {
+    state.selectedItem = state.activeItem = getCurrentIndex(
+      props.defaultValue,
       data
     )
     state._value = props.value
@@ -501,71 +368,66 @@ export const prepareDerivedState = (
   props: DrawerListProviderProps,
   state: DrawerListContextState
 ) => {
-  if (state.opened && !state.data && typeof props.data === 'function') {
+  if (state.open && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
   }
 
   if (props.data && props.data !== state._data) {
     if (state._data) {
-      state.cache_hash = state.cache_hash + Date.now()
+      state.cacheHash = state.cacheHash + Date.now()
     }
     state.data = getData(props)
-    state.original_data = getData(props)
+    state.originalData = getData(props)
+
+    // When data changes, selectedItem indices may shift.
+    // Recalculate to keep the correct item selected.
+    if (props.value != null && props.value !== 'initval') {
+      state.selectedItem = getCurrentIndex(props.value, state.originalData)
+    }
   }
 
-  state.skipPortal = isTrue(props.skip_portal)
+  state.skipPortal = props.skipPortal
 
-  if (typeof props.wrapper_element === 'string') {
+  if (typeof props.wrapperElement === 'string') {
     if (typeof document !== 'undefined') {
-      const wrapper_element = document.querySelector<HTMLElement>(
-        props.wrapper_element
+      const wrapperElement = document.querySelector<HTMLElement>(
+        props.wrapperElement
       )
-      if (wrapper_element) {
-        state.wrapper_element = wrapper_element
+      if (wrapperElement) {
+        state.wrapperElement = wrapperElement
       }
     }
-  } else if (props.wrapper_element) {
-    state.wrapper_element = props.wrapper_element
+  } else if (props.wrapperElement) {
+    state.wrapperElement = props.wrapperElement
   }
 
   if (
-    state.selected_item !== props.value &&
-    (state._value !== props.value || isTrue(props.prevent_selection))
+    state.selectedItem !== props.value &&
+    (state._value !== props.value || props.preventSelection)
   ) {
     if (props.value === 'initval') {
-      state.selected_item = null
+      state.selectedItem = null
     } else {
-      state.selected_item = getCurrentIndex(
-        props.value,
-        state.original_data
-      )
-    }
-
-    if (typeof props.on_state_update === 'function') {
-      dispatchCustomElementEvent({ props }, 'on_state_update', {
-        selected_item: state.selected_item,
-        value: getSelectedItemValue(state.selected_item, state),
-        data: getEventData(state.selected_item, state.data),
-      })
+      state.selectedItem = getCurrentIndex(props.value, state.originalData)
     }
   }
 
-  // active_item can be -1, so we check for -2
+  // activeItem can be -1, so we check for -2
   if (
     !(
-      state.active_item !== null &&
-      parseFloat(state.active_item as string) > -2
+      state.activeItem !== null &&
+      parseFloat(state.activeItem as string) > -2
     ) ||
     state._value !== props.value
   ) {
-    state.active_item = state.selected_item
+    state.activeItem = state.selectedItem
   }
 
   // set aria-activedescendant for screenreaders
   if (
-    isNaN(parseFloat(state.active_item as string)) ||
-    parseFloat(state.active_item as string) === -1 ||
-    getCurrentData(parseFloat(state.active_item as string), state.data) ===
+    isNaN(parseFloat(state.activeItem as string)) ||
+    parseFloat(state.activeItem as string) === -1 ||
+    getCurrentData(parseFloat(state.activeItem as string), state.data) ===
       null
   ) {
     // no valid active item
@@ -574,9 +436,9 @@ export const prepareDerivedState = (
     state.ariaActiveDescendant =
       firstItem === null ? '' : `option-${state.id}-${firstItem}`
 
-    state.active_item = -1
+    state.activeItem = -1
   } else {
-    state.ariaActiveDescendant = `option-${state.id}-${state.active_item}`
+    state.ariaActiveDescendant = `option-${state.id}-${state.activeItem}`
   }
 
   if (props.direction !== 'auto' && props.direction !== state.direction) {
@@ -584,11 +446,11 @@ export const prepareDerivedState = (
   }
 
   if (
-    state.selected_item !== null &&
-    parseFloat(state.selected_item as string) > -1
+    state.selectedItem !== null &&
+    parseFloat(state.selectedItem as string) > -1
   ) {
-    state.current_title = getCurrentDataTitle(
-      state.selected_item,
+    state.currentTitle = getCurrentDataTitle(
+      state.selectedItem,
       state.data
     )
   }
@@ -600,8 +462,8 @@ export const prepareDerivedState = (
   return state
 }
 
-export const getCurrentDataTitle = (selected_item, data) => {
-  const currentData = getCurrentData(selected_item, data)
+export const getCurrentDataTitle = (selectedItem, data) => {
+  const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
     separator: ' ',
     preferSelectedValue: true,

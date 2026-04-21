@@ -14,7 +14,7 @@ describe('useCurrency', () => {
     {
       iso: 'USD',
       content: ['United States dollar', 'USD'],
-      selected_value: 'United States dollar (USD)',
+      selectedValue: 'United States dollar (USD)',
     },
   ]
 
@@ -24,9 +24,9 @@ describe('useCurrency', () => {
   })
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <SharedContext.Provider value={{ locale: mockLocale }}>
+    <SharedContext value={{ locale: mockLocale }}>
       {children}
-    </SharedContext.Provider>
+    </SharedContext>
   )
 
   it('should return currency display name by ISO code', () => {

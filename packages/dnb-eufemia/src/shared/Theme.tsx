@@ -4,28 +4,35 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
-import { DynamicElement } from './types'
+import type { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
+import withComponentMarkers from './helpers/withComponentMarkers'
+import useMediaQuery from './useMediaQuery'
 
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
-export type PropMapping = string
 export type ContrastMode = boolean
-export type DarkMode = boolean
-export type DarkBackground = boolean
+/**
+ * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
+ */
+export type ThemeColorScheme = 'auto' | 'light' | 'dark'
+/**
+ * Adjusts component appearance based on background. Defaults to `undefined`.
+ * Use `'initial'` to reset to the component's default behavior, ignoring any parent surface context.
+ */
+export type ThemeSurface = 'light' | 'dark' | 'initial'
 
 export type ThemeProps = {
   name?: ThemeNames
   variant?: ThemeVariants
   size?: ThemeSizes
-  propMapping?: PropMapping
   contrastMode?: ContrastMode
-  darkMode?: DarkMode
-  darkBackground?: DarkBackground
+  colorScheme?: ThemeColorScheme
+  surface?: ThemeSurface
   element?: DynamicElement | false
 }
 
@@ -40,26 +47,41 @@ export default function Theme(themeProps: ThemeAllProps) {
     name,
     variant,
     size,
-    propMapping,
     contrastMode,
-    darkMode,
-    darkBackground,
+    colorScheme,
+    surface,
     ...restProps
   } = themeProps
+
+  const prefersDarkColorScheme = useMediaQuery({
+    query: '(prefers-color-scheme: dark)',
+    disabled: colorScheme !== 'auto',
+  })
+
+  const activeColorScheme =
+    colorScheme === 'auto'
+      ? prefersDarkColorScheme
+        ? 'dark'
+        : 'light'
+      : colorScheme
 
   const theme = extendPropsWithContext(
     {
       name,
       variant,
       size,
-      propMapping,
       contrastMode,
-      darkMode,
-      darkBackground,
+      colorScheme: activeColorScheme,
+      surface,
     },
     null,
     context?.theme
   )
+
+  // When surface is "initial", reset it to break context inheritance
+  if (surface === 'initial') {
+    theme.surface = undefined
+  }
 
   return (
     <Provider theme={theme}>
@@ -70,10 +92,12 @@ export default function Theme(themeProps: ThemeAllProps) {
   )
 }
 
-Theme.Provider = ({ element, ...themeProps }: ThemeAllProps) => {
+Theme.Context = ({ element, ...themeProps }: ThemeAllProps) => {
   return <Theme {...themeProps} element={false} />
 }
-Theme.Provider['_supportsSpacingProps'] = 'children'
+withComponentMarkers(Theme.Context, {
+  _supportsSpacingProps: 'children',
+})
 
 export function ThemeWrapper({
   children,
@@ -112,17 +136,15 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, propMapping, contrastMode, darkMode } =
-    theme
+  const { name, variant, size, contrastMode, colorScheme } = theme
 
-  return classnames(
+  return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
-    darkMode && 'eufemia-theme__dark-mode',
+    colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
     size && `eufemia-theme__size--${size}`
   )
 }

@@ -1,14 +1,16 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import Icon, { IconIcon, IconAllProps } from '../icon/Icon'
+import type { IconIcon, IconAllProps } from '../icon/Icon'
+import Icon from '../icon/Icon'
 import IconPrimary from '../IconPrimary'
 
 // Elements
-import Img, { ImgProps } from '../../elements/img/Img'
+import type { ImgProps } from '../../elements/img/Img'
+import Img from '../../elements/img/Img'
 
 // Shared
 import Context from '../../shared/Context'
@@ -21,55 +23,58 @@ import {
 } from '../../shared/component-helper'
 
 // Internal
-import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
+import AvatarGroup, {
+  AvatarGroupContext,
+  AvatarGroupItemContext,
+} from './AvatarGroup'
 import { getColor } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
 
 export type AvatarImgProps = ImgProps
 
-export interface AvatarProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
+export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
+   * Default: `null`
    */
   alt?: string
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content of the component. Can be used instead of prop "data".
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the component.
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 
   /**
    * Specifies the path to the image
-   * Default: null
+   * Default: `null`
    */
   src?: string
 
   /**
    * Props applied to the `img` element if the component is used to display an image.
-   * Default: null
+   * Default: `null`
    */
   imgProps?: ImgProps
 
@@ -81,40 +86,43 @@ export interface AvatarProps
 
   /**
    * The variant of the component.
-   * Default: primary.
+   * Default: `primary`
    */
   variant?: AvatarVariants
 
   /**
    * If an avatar is hidden from the screen reader (by setting aria-hidden={true}) or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
    * Use `true` to omit the `Avatar group required:` warning.
-   * Default: null
+   * Default: `null`
    */
   hasLabel?: boolean
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   backgroundColor?: string
 
   /**
    * Define a custom color to compliment the backgroundColor. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   color?: string
 }
 
-export const defaultProps = {
+export type AvatarAllProps = AvatarProps & SpacingProps
+
+const defaultProps: Partial<AvatarAllProps> = {
   size: 'medium',
   variant: 'primary',
   skeleton: false,
 }
 
-const Avatar = (localProps: AvatarProps & SpacingProps) => {
+const Avatar = (localProps: AvatarAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
+  const avatarGroupItemContext = React.useContext(AvatarGroupItemContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -144,7 +152,6 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
   let children = null
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const childrenIsString = typeof childrenProp === 'string'
 
@@ -186,21 +193,25 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     '--background-color': getColor(backgroundColor),
     '--color': getColor(color),
     ...props?.style,
+    ...(avatarGroupItemContext?.zIndex != null && {
+      zIndex: avatarGroupItemContext.zIndex,
+    }),
   } as React.CSSProperties
 
+  const rootProps = applySpacing(allProps, {
+    ...props,
+    className: clsx(
+      'dnb-avatar',
+      `dnb-avatar--${variant || 'primary'}`,
+      `dnb-avatar--size-${size || 'medium'}`,
+      skeletonClasses,
+      className
+    ),
+    style,
+  })
+
   return (
-    <span
-      className={classnames(
-        'dnb-avatar',
-        `dnb-avatar--${variant || 'primary'}`,
-        `dnb-avatar--size-${size || 'medium'}`,
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
-      {...props}
-      style={style}
-    >
+    <span {...rootProps}>
       {childrenIsString && (
         <span className="dnb-sr-only">{childrenProp}</span>
       )}
@@ -213,7 +224,9 @@ Avatar.Group = AvatarGroup
 
 export { AvatarGroup }
 
-Avatar._supportsSpacingProps = true
+withComponentMarkers(Avatar, {
+  _supportsSpacingProps: true,
+})
 
 export default Avatar
 
@@ -229,9 +242,12 @@ function isIconComponent(
 function iconAutoSize(
   icon: React.ReactElement<IconAllProps>
 ): React.ReactElement<IconAllProps> {
-  return !icon.props.size
-    ? React.cloneElement(icon, {
-        size: 'auto',
-      })
-    : icon
+  if (!icon.props.size) {
+    return React.createElement(
+      icon.type as React.ComponentType<IconAllProps>,
+      { ...icon.props, size: 'auto' }
+    )
+  }
+
+  return icon
 }

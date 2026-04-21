@@ -5,13 +5,13 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../../components'
-import SectionContainerContext, {
-  SectionContainerContextState,
-} from './SectionContainerContext'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { SectionContainerContextState } from './SectionContainerContext'
+import SectionContainerContext from './SectionContainerContext'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type ContainerMode = 'view' | 'edit' | 'auto'
 export type SectionContainerProps = {
@@ -22,14 +22,16 @@ export type SectionContainerProps = {
   variant?: 'outline' | 'basic' | 'filled'
 }
 
-export type Props = {
+export type SectionContainerAllProps = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
-  omitFocusManagementRef?: React.MutableRefObject<boolean>
+  omitFocusManagementRef?: React.RefObject<boolean | undefined>
 } & SectionContainerProps
 
-function SectionContainer(props: Props & FlexContainerProps) {
+function SectionContainer(
+  props: SectionContainerAllProps & FlexContainerProps
+) {
   const {
     mode,
     open,
@@ -44,13 +46,13 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const containerRef = useRef<HTMLDivElement>()
+  const containerRef = useRef<HTMLDivElement>(undefined)
   const contextRef = useRef<
     SectionContainerContextState & {
       hasError?: boolean
       hasSubmitError?: boolean
     }
-  >()
+  >(undefined)
   contextRef.current = useContext(SectionContainerContext) || {}
 
   const { hasError, hasSubmitError } =
@@ -114,7 +116,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
   return (
     <HeightAnimation
-      className={classnames(
+      className={clsx(
         'dnb-forms-section-block',
         variant && `dnb-forms-section-block--variant-${variant}`,
         omitFocusManagementRef.current &&
@@ -135,7 +137,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
         className="dnb-forms-section-block__inner"
         {...restProps}
         aria-label={ariaLabel}
-        innerRef={containerRef}
+        ref={containerRef}
         tabIndex={-1}
       >
         {children}
@@ -144,5 +146,8 @@ function SectionContainer(props: Props & FlexContainerProps) {
   )
 }
 
-SectionContainer._supportsSpacingProps = true
+withComponentMarkers(SectionContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default SectionContainer

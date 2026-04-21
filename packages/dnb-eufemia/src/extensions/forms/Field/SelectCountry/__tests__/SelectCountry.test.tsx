@@ -2,16 +2,16 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Props } from '../SelectCountry'
+import type { FieldSelectCountryProps } from '../SelectCountry'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
-import { CountryISO } from '../../../constants/countries'
+import type { CountryISO } from '../../../constants/countries'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
-    const props: Props = {}
+    const props: FieldSelectCountryProps = {}
     render(<Field.SelectCountry {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })
@@ -409,6 +409,8 @@ describe('Field.SelectCountry', () => {
       if (value) {
         return `${country.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] || external
@@ -526,6 +528,8 @@ describe('Field.SelectCountry', () => {
       if (value) {
         return `${country.name} (${value})`
       }
+
+      return undefined
     })
     const transformIn = jest.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] as CountryISO
@@ -768,5 +772,44 @@ describe('Field.SelectCountry', () => {
       const input = document.querySelector('input')
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
+  })
+
+  it('should not change value on blur when initial value is SE', async () => {
+    const onChange = jest.fn()
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+        <Field.SelectCountry path="/country" value="SE" noAnimation />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // Initial state: should show Sverige
+    expect(inputElement).toHaveValue('Sverige')
+
+    // Click on the input to focus (simulates real user interaction)
+    await userEvent.click(inputElement)
+
+    // Verify it's focused and value is still correct
+    expect(inputElement).toHaveValue('Sverige')
+
+    // Click outside to blur (simulates clicking somewhere else)
+    await userEvent.click(document.body)
+
+    // Value should still be Sverige, not Norge
+    expect(inputElement).toHaveValue('Sverige')
+
+    // onChange should NOT have been called since we didn't change anything
+    expect(onChange).not.toHaveBeenCalled()
+
+    // Focus and blur again to verify consistent behavior
+    await userEvent.click(inputElement)
+    await userEvent.click(document.body)
+    expect(inputElement).toHaveValue('Sverige')
+    expect(onChange).not.toHaveBeenCalled()
   })
 })

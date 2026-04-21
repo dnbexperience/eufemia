@@ -1,31 +1,35 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import Toolbar from '../Toolbar/Toolbar'
-import SectionContainer, {
-  SectionContainerProps,
-} from '../containers/SectionContainer'
+import type { SectionContainerProps } from '../containers/SectionContainer'
+import SectionContainer from '../containers/SectionContainer'
 import EditButton from './EditButton'
 import SectionContainerContext from '../containers/SectionContainerContext'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSectionViewContainerProps = {
   title?: React.ReactNode
   onEdit?: () => void
 }
 
-export type AllProps = Props & SectionContainerProps & FlexContainerProps
+export type FormSectionViewContainerAllProps =
+  FormSectionViewContainerProps &
+    SectionContainerProps &
+    FlexContainerProps
 
-function ViewContainer(props: AllProps) {
+function ViewContainer(props: FormSectionViewContainerAllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const { disableEditing } = useContext(SectionContainerContext) || {}
 
-  const hasToolbar = React.Children.toArray(children).some((child) => {
-    return child?.['type'] === Toolbar
-  })
+  const childArray = Array.isArray(children) ? children : [children]
+  const hasToolbar = childArray.some(
+    (child) => React.isValidElement(child) && child.type === Toolbar
+  )
 
   const showDefaultToolbar = !disableEditing && !hasToolbar
 
@@ -33,7 +37,7 @@ function ViewContainer(props: AllProps) {
     <SectionContainer
       mode="view"
       ariaLabel={ariaLabel}
-      className={classnames('dnb-forms-section-view-block', className)}
+      className={clsx('dnb-forms-section-view-block', className)}
       {...restProps}
     >
       <Flex.Stack>
@@ -49,5 +53,9 @@ function ViewContainer(props: AllProps) {
   )
 }
 ViewContainer.EditButton = EditButton
-ViewContainer._supportsSpacingProps = true
+
+withComponentMarkers(ViewContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default ViewContainer

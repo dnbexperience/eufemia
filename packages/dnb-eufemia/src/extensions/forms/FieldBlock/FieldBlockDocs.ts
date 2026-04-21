@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 
 export const FieldBlockSharedProperties: PropertiesTableProps = {
   label: {
@@ -7,12 +7,12 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDescription: {
-    doc: 'A more discreet text displayed beside the label (i.e for "(optional)").',
+    doc: 'A more discreet text displayed beside the label (i.e. for "(optional)").',
     type: 'string',
     status: 'optional',
   },
   labelDescriptionInline: {
-    doc: 'If true, the `labelDescription` will be displayed on the same line as the label.',
+    doc: 'If `true`, the `labelDescription` will be displayed on the same line as the label.',
     type: 'boolean',
     status: 'optional',
   },
@@ -23,11 +23,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
   },
   labelSize: {
     doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
-    type: ['medium', 'large'],
+    type: ['"medium"', '"large"'],
     status: 'optional',
   },
   help: {
-    doc: 'Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
+    doc: 'Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
     type: 'object',
     status: 'optional',
   },
@@ -37,17 +37,17 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusPosition: {
-    doc: 'Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.',
+    doc: 'Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.',
     type: ['"below"', '"above"'],
     status: 'optional',
   },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   layoutOptions: {
-    doc: 'Use this to set additional options for the `horizontal` layout. E.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
+    doc: 'Use this to set additional options for the `horizontal` layout, e.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
     type: 'object',
     status: 'optional',
   },
@@ -73,11 +73,11 @@ export const FieldBlockProperties: PropertiesTableProps = {
   ...FieldBlockSharedProperties,
   labelSize: {
     doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
-    type: ['string', 'false'],
+    type: ['"medium"', '"large"'],
     status: 'optional',
   },
   labelHeight: {
-    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
+    doc: 'Defines the height of an component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
     type: 'string',
     status: 'optional',
   },

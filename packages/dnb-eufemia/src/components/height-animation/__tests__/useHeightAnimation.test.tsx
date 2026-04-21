@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   render,
   fireEvent,
@@ -7,10 +7,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import {
-  useHeightAnimation,
-  useHeightAnimationOptions,
-} from '../useHeightAnimation'
+import type { UseHeightAnimationOptions } from '../useHeightAnimation'
+import { useHeightAnimation } from '../useHeightAnimation'
 import {
   simulateAnimationEnd,
   initializeTestSetup,
@@ -25,8 +23,8 @@ describe('useHeightAnimation', () => {
   const AnimatedContent = ({
     open = false,
     animate = true,
-  }: useHeightAnimationOptions) => {
-    const element = React.useRef()
+  }: UseHeightAnimationOptions) => {
+    const element = React.useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {
         open,
@@ -35,7 +33,7 @@ describe('useHeightAnimation', () => {
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           'wrapper-element',
           isInDOM && 'is-in-dom',
           isVisible && 'is-visible',
@@ -59,7 +57,7 @@ describe('useHeightAnimation', () => {
 
     return (
       <>
-        <ToggleButton checked={openState} on_change={onChangeHandler}>
+        <ToggleButton checked={openState} onChange={onChangeHandler}>
           Toggle me
         </ToggleButton>
 

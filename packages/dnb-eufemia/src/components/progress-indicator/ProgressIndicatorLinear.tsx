@@ -4,12 +4,12 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { ProgressIndicatorLinearAllProps } from './types'
+import type { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {
-  const ref = useRef<P>()
+  const ref = useRef<P>(undefined)
   useEffect(() => {
     ref.current = value
   }, [value])
@@ -21,7 +21,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     size,
     title,
     progress,
-    visible,
+    show,
     onComplete,
     callOnCompleteHandler,
     customColors,
@@ -33,9 +33,9 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     typeof onComplete === 'function' &&
     typeof callOnCompleteHandler === 'function'
 
-  const [visibleCurrent, visiblePrev] = usePrevious(visible)
+  const [showCurrent, showPrev] = usePrevious(show)
 
-  if (onCompleteIsFn && !visibleCurrent && visiblePrev) {
+  if (onCompleteIsFn && !showCurrent && showPrev) {
     callOnCompleteHandler()
   }
 
@@ -56,7 +56,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator__linear',
         size && `dnb-progress-indicator__linear--${size}`
       )}
@@ -69,7 +69,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
       {...remainingDOMAttributes}
     >
       <span
-        className={classnames(
+        className={clsx(
           'dnb-progress-indicator__linear__bar',
           hasProgressValue &&
             'dnb-progress-indicator__linear__bar-transition',
@@ -83,7 +83,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
       />
       {!hasProgressValue && (
         <span
-          className={classnames(
+          className={clsx(
             'dnb-progress-indicator__linear__bar',
             'dnb-progress-indicator__linear__bar2-animation'
           )}

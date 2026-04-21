@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import type {
   PopoverAlign,
@@ -30,7 +30,7 @@ type PopoverContainerProps = {
   fixedPosition?: boolean
   noAnimation?: boolean
   skipPortal?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   children?: React.ReactNode
   targetElement?: PopoverResolvedTargetElement
   triggerOffset?: number
@@ -83,13 +83,13 @@ function PopoverContainer(props: PopoverContainerProps) {
     useState<PopoverPlacement>(placement)
   const [wasActive, setWasActive] = useState(active)
   const [delayedActive, setDelayedActive] = useState(false)
-  const showDelayTimeout = useRef<NodeJS.Timeout>()
+  const showDelayTimeout = useRef<NodeJS.Timeout>(undefined)
   const isActive = delayedActive
 
   const [isInDOM, setIsInDOM] = useState(() => keepInDOMProp || active)
 
   const offset = useRef(triggerOffsetProp)
-  const domTimeout = useRef<NodeJS.Timeout>()
+  const domTimeout = useRef<NodeJS.Timeout>(undefined)
 
   const clearDomTimeout = () => {
     clearTimeout(domTimeout.current)
@@ -99,8 +99,8 @@ function PopoverContainer(props: PopoverContainerProps) {
     offset.current = triggerOffsetProp
   }, [triggerOffsetProp])
 
-  const debounceTimeout = useRef<NodeJS.Timeout>()
-  const resizeObserver = useRef<ResizeObserver>(null)
+  const debounceTimeout = useRef<NodeJS.Timeout>(undefined)
+  const resizeObserver = useRef<ResizeObserver | null>(null)
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef
@@ -130,19 +130,19 @@ function PopoverContainer(props: PopoverContainerProps) {
       if (noAnimation || globalThis.IS_TEST) {
         clearShowDelay()
         run()
-        return
+        return undefined
       }
 
       const delay = Math.max(0, parseFloat(String(showDelay)) || 0)
       if (delay === 0) {
         clearShowDelay()
         run()
-        return
+        return undefined
       }
 
       clearShowDelay()
       showDelayTimeout.current = setTimeout(run, delay)
-      return
+      return undefined
     }
 
     clearShowDelay()
@@ -195,7 +195,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   const addPositionObserver = useCallback(() => {
     if (resizeObserver.current || typeof document === 'undefined') {
-      return
+      return undefined
     }
 
     try {
@@ -245,7 +245,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
-      return
+      return undefined
     }
     window.addEventListener('resize', handleViewportResize)
     return () => window.removeEventListener('resize', handleViewportResize)
@@ -253,11 +253,11 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') {
-      return
+      return undefined
     }
 
     if (!isActive) {
-      return
+      return undefined
     }
 
     const handleScroll = (event: Event) => {
@@ -279,7 +279,7 @@ function PopoverContainer(props: PopoverContainerProps) {
           targetRect.top <= scrollRect.bottom
 
         if (!isVisible) {
-          return
+          return undefined
         }
       }
 
@@ -300,13 +300,13 @@ function PopoverContainer(props: PopoverContainerProps) {
           setStyle(null)
         }, hideDelay + 200)
       }
-      return
+      return undefined
     }
 
     const element = elementRef?.current
 
     if (typeof window === 'undefined' || !element) {
-      return
+      return undefined
     }
 
     const resolvedRefs = isResolvedTargetRefsObject(targetElement)
@@ -341,7 +341,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       !effectiveHorizontalTarget?.getBoundingClientRect ||
       !effectiveVerticalTarget?.getBoundingClientRect
     ) {
-      return
+      return undefined
     }
 
     const elementWidth = element.offsetWidth
@@ -416,8 +416,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       alignOnTarget === 'left'
         ? -targetBodySize.width / 2
         : alignOnTarget === 'right'
-        ? targetBodySize.width / 2
-        : 0
+          ? targetBodySize.width / 2
+          : 0
     let anchorX = centerX + (isInitialVertical ? alignOffset : 0)
 
     if (arrowPositionSelector) {
@@ -515,8 +515,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       autoAlignMode === 'never'
         ? false
         : autoAlignMode === 'initial'
-        ? initialAutoAlignAllowed
-        : true
+          ? initialAutoAlignAllowed
+          : true
 
     if (initialAutoAlignAllowed) {
       autoAlignInitialUsedRef.current = true
@@ -856,7 +856,7 @@ function PopoverContainer(props: PopoverContainerProps) {
         onMouseDown: handlePropagation,
         onTouchStart: handlePropagation,
       }}
-      className={classnames(
+      className={clsx(
         attributes?.className,
         noAnimationClasses,
         fixedClasses,
@@ -867,7 +867,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     >
       {!hideArrow && (
         <span
-          className={classnames(
+          className={clsx(
             baseClassNames.map((base) => `${base}__arrow`),
             baseClassNames.map(
               (base) => `${base}__arrow__arrow--${arrowPosition}`

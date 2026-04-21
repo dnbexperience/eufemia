@@ -1,50 +1,44 @@
 /**
  * Web List Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React, { useContext } from 'react'
-import classnames from 'classnames'
+import React, { useContext, useCallback } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import clsx from 'clsx'
 import {
-  isTrue,
-  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
-  keycode,
+  removeUndefinedProps,
   warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
 import { getThemeClasses } from '../../shared/Theme'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
-import DrawerListContext, {
-  DrawerListContextProps,
-} from './DrawerListContext'
+import type { DrawerListContextValue } from './DrawerListContext'
+import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
-import { drawerListDefaultProps } from './DrawerListHelpers'
+import { drawerListDefaultProps, getEventData } from './DrawerListHelpers'
 import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 import type { DrawerListItemProps } from './DrawerListItem'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-const propsToFilterOut = {
-  on_show: null,
-  on_hide: null,
-  handle_dismiss_focus: null,
-  on_change: null,
-  on_pre_change: null,
-  on_resize: null,
-  on_select: null,
-  on_state_update: null,
-  on_key_down: null,
-  options_render: null,
-  wrapper_element: null,
+const propsToFilterOut: Record<string, null> = {
+  onOpen: null,
+  onClose: null,
+  handleDismissFocus: null,
+  onChange: null,
+  onPreChange: null,
+  onResize: null,
+  onSelect: null,
+  onKeyDown: null,
+  optionsRender: null,
+  wrapperElement: null,
+  onItemMouseEnter: null,
 }
-/** @deprecated use `DrawerListDataArrayItem` */
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 
 export type DrawerListContent =
   | string
@@ -54,20 +48,19 @@ export type DrawerListContent =
 export type DrawerListDataArrayObjectStrict = {
   /** index of group supplied in the `groups` prop */
   groupIndex?: number
-  selected_value?: string | React.ReactNode
+  selectedValue?: string | React.ReactNode
   selectedKey?: string | number
-  selected_key?: string | number
-  suffix_value?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   content: DrawerListContent
   disabled?: boolean
   /** used by Autocomplete for additional search hits */
-  search_content?: string | React.ReactNode | string[]
+  searchContent?: string | React.ReactNode | string[]
   /** style prop of the html list item */
   style?: React.CSSProperties
   /** classname added to the html list item */
-  class_name?: string
-  /** set to true to disable mouse events selected style. Keyboard can still select @deprecated */
-  ignore_events?: boolean
+  className?: string
+  /** set to true to disable mouse events selected style. Keyboard can still select. */
+  ignoreEvents?: boolean
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
@@ -110,21 +103,50 @@ export type DrawerListOptionsRender = ({
 export type DrawerListValue = string | number
 export type DrawerListData =
   | string
-  | ((...args: any[]) => DrawerListDataAll)
+  | (() => DrawerListDataAll)
   | DrawerListDataAll
 export type DrawerListSuffix = React.ReactNode
 
-export interface DrawerListProps {
+export type DrawerListEvent = {
+  data: DrawerListDataArrayObject | null
+  attributes: Record<string, unknown>
+  ulElement?: HTMLUListElement | null
+}
+
+export type DrawerListChangeEvent = {
+  selectedItem: number | null
+  value: string | number
+  data: DrawerListDataArrayObject | null
+  event: React.SyntheticEvent | null
+  attributes: Record<string, unknown>
+}
+
+export type DrawerListSelectEvent = DrawerListChangeEvent & {
+  activeItem: number | string
+}
+
+export type DrawerListResizeEvent = {
+  direction: string
+  maxHeight: number
+}
+
+export type DrawerListItemMouseEnterEvent = {
+  item: number
+  data: DrawerListDataArrayObject | string | null
+  event: React.MouseEvent<HTMLLIElement>
+}
+
+export type DrawerListProps = {
   id?: string
   role?: string
   /**
-   * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
+   * Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
    */
-  cache_hash?: string
+  cacheHash?: string
   /**
-   * Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.
+   * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  triangle_position?: string
+  arrowPosition?: string
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`).
    */
@@ -134,48 +156,47 @@ export interface DrawerListProps {
    */
   focusable?: boolean
   /**
-   * Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.
+   * Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.
    */
   direction?: 'auto' | 'top' | 'bottom'
   size?: DrawerListSize
   /**
    * Defines the minimum height (in `rem`) of the options list.
    */
-  min_height?: string | number
+  minHeight?: string | number
   /**
    * Defines the maximum height (in `rem`) of the options list.
    */
-  max_height?: string | number
+  maxHeight?: string | number
   /**
    * To disable appear/disappear (show/hide) animation.
    */
-  no_animation?: boolean
+  noAnimation?: boolean
   /**
    * To disable scrolling animation.
    */
-  no_scroll_animation?: boolean
+  noScrollAnimation?: boolean
   /**
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
-  prevent_selection?: boolean
-  action_menu?: boolean
-  is_popup?: boolean
+  preventSelection?: boolean
+  isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.
    */
-  align_drawer?: 'left' | 'right'
+  alignDrawer?: 'left' | 'right'
   /**
-   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.
+   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
    */
-  options_render?: DrawerListOptionsRender
+  optionsRender?: DrawerListOptionsRender
   /**
-   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.
+   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
-  wrapper_element?: string | HTMLElement
+  wrapperElement?: string | HTMLElement
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
-  default_value?: DrawerListValue
+  defaultValue?: DrawerListValue
   /**
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
@@ -183,44 +204,46 @@ export interface DrawerListProps {
   /**
    * To disable the React Portal behavior.
    */
-  skip_portal?: boolean
+  skipPortal?: boolean
   /**
    * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */
-  portal_class?: string
+  portalClass?: string
   /**
    * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
    */
-  list_class?: string
+  listClass?: string
   /**
    * If set to `true`, the DrawerList will not close on any events.
    */
-  prevent_close?: boolean
+  preventClose?: boolean
   /**
    * If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.
    */
-  independent_width?: boolean
+  independentWidth?: boolean
   /**
    * If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.
    */
-  fixed_position?: boolean
+  fixedPosition?: boolean
   /**
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
-  keep_open?: boolean
-  prevent_focus?: boolean
+  keepOpen?: boolean
+  preventFocus?: boolean
   /**
    * If set to `true`, search items by the first key will be ignored.
    */
-  skip_keysearch?: boolean
-  opened?: boolean
+  skipKeysearch?: boolean
+  /**
+   * If set to `true`, the DrawerList will be open. Use together with onHide/onShow to control visibility.
+   */
+  open?: boolean
   data?: DrawerListData
   groups?: DrawerListGroupTitles
-  prepared_data?: any[]
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
    */
-  ignore_events?: boolean
+  ignoreEvents?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
   children?: DrawerListData | React.ReactElement
@@ -228,23 +251,26 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.
    */
-  enable_body_lock?: boolean
+  enableBodyLock?: boolean
   /**
    * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).
    */
-  page_offset?: string | number
+  pageOffset?: string | number
   /**
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
-  observer_element?: string | React.ReactNode
-  on_show?: (...args: any[]) => any
-  on_hide?: (...args: any[]) => any
-  handle_dismiss_focus?: (...args: any[]) => any
-  on_change?: (...args: any[]) => any
-  on_pre_change?: (...args: any[]) => any
-  on_resize?: (...args: any[]) => any
-  on_select?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  observerElement?: string | React.ReactNode
+  onOpen?: (event: DrawerListEvent) => void
+  onClose?: (event: DrawerListEvent) => void
+  handleDismissFocus?: () => void
+  onChange?: (event: DrawerListChangeEvent) => void
+  onPreChange?: (event: DrawerListChangeEvent) => boolean | void
+  onResize?: (event: DrawerListResizeEvent) => void
+  onSelect?: (event: DrawerListSelectEvent) => void
+  /**
+   * Will be called when the mouse enters a dropdown item. Returns item data and index.
+   */
+  onItemMouseEnter?: (event: DrawerListItemMouseEnterEvent) => void
 }
 
 // Internal data structures
@@ -262,7 +288,15 @@ export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
-    'ref' | 'size' | 'label' | 'placeholder' | 'data' | 'children'
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+    | 'onChange'
+    | 'onSelect'
+    | 'onResize'
   >
 function DrawerList(props: DrawerListAllProps) {
   const drawerListContext = useContext(DrawerListContext)
@@ -287,385 +321,400 @@ function DrawerList(props: DrawerListAllProps) {
     </DrawerListProvider>
   )
 }
-DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"
+DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms"
 
-class DrawerListInstance extends React.Component<DrawerListAllProps> {
-  static defaultProps = {
+const DrawerListInstance = React.memo(function DrawerListInstance(
+  ownProps: DrawerListAllProps
+) {
+  const context = useContext(DrawerListContext)
+
+  const propsWithDefaults = {
     ...drawerListDefaultProps,
-  }
-  static contextType = DrawerListContext
-  context!: React.ContextType<typeof DrawerListContext>
-
-  constructor(props) {
-    super(props)
-
-    this.state = this.state || {}
+    ...removeUndefinedProps({ ...ownProps }),
   }
 
-  componentDidMount() {
-    // send along the event handlers to the provider state
-
-    this.context.drawerList.setState(
-      Object.entries(propsToFilterOut).reduce((acc, [key]) => {
-        if (this.props[key]) {
-          acc[key] = this.props[key]
-        }
-        return acc
-      }, {})
-    )
-
-    this.context.drawerList.setState({
-      triangle_position: this.props.triangle_position,
-    })
-  }
-  preventTab = (e) => {
-    switch (keycode(e)) {
-      case 'tab':
-        if (!this.context.drawerList.hasFocusOnElement) {
-          e.preventDefault()
-          this.context.drawerList.setHidden()
-        }
-        break
-
-      case 'page down':
-      case 'page up':
-        e.preventDefault()
-        break
-    }
-  }
-
-  selectItemHandler = (event) => {
-    // In case we want to stop if the users makes a number selection.
-    // Should optional
-    // if (getClosestParent('dnb-number-format', event.target)) {
-    //   return // stop
-    // }
-    const selected_item = parseFloat(
-      event.currentTarget.getAttribute('data-item')
-    )
-    if (selected_item > -1) {
-      this.context.drawerList.selectItemAndClose(selected_item, {
-        fireSelectEvent: true,
-        event,
-      })
-    }
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      DrawerListInstance.defaultProps
-      // TODO: should we only allow getTranslation if we define lang and locale props?
-      // this.context.getTranslation(this.props).Button
-    )
-    const {
-      role,
-      align_drawer,
-      fixed_position,
-      independent_width,
-      scrollable,
-      focusable,
-      size,
-      no_animation,
-      no_scroll_animation,
-      prevent_selection,
-      action_menu,
-      is_popup,
-      portal_class,
-      list_class,
-      ignore_events,
-      options_render,
-      className,
-      cache_hash: _cache_hash, // eslint-disable-line
-      wrapper_element: _wrapper_element, // eslint-disable-line
-      triangle_position: _triangle_position, // eslint-disable-line
-      direction: _direction, // eslint-disable-line
-      max_height: _max_height, // eslint-disable-line
-      id: _id, // eslint-disable-line
-      data: _data, // eslint-disable-line
-      opened: _opened, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      children,
-      ...attributes
-    } = props
-
-    function noNullNumbers({
-      selected_item,
-      active_item,
-      max_height,
-      ...rest
-    }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
-      return {
-        selected_item: selected_item ?? undefined,
-        active_item: active_item ?? undefined,
-        max_height: max_height ?? undefined,
-        ...rest,
+  // Send along event handlers and arrowPosition to the provider state on mount
+  useMountEffect(() => {
+    const eventHandlerState = Object.keys(propsToFilterOut).reduce<
+      Record<string, unknown>
+    >((acc, key) => {
+      if (propsWithDefaults[key as keyof typeof propsWithDefaults]) {
+        acc[key] = propsWithDefaults[key as keyof typeof propsWithDefaults]
       }
+      return acc
+    }, {})
+
+    context.drawerList.setState(eventHandlerState)
+    context.drawerList.setState({
+      arrowPosition: propsWithDefaults.arrowPosition,
+    })
+  })
+
+  const preventTab = useCallback(
+    (e: React.KeyboardEvent) => {
+      switch (e.key) {
+        case 'Tab':
+          if (!context.drawerList.hasFocusOnElement) {
+            e.preventDefault()
+            context.drawerList.setHidden()
+          }
+          break
+
+        case 'PageDown':
+        case 'PageUp':
+          e.preventDefault()
+          break
+      }
+    },
+    [context.drawerList]
+  )
+
+  const selectItemHandler = useCallback(
+    (params: { 'data-item'?: number; [key: string]: unknown }) => {
+      const selectedItem = Number(params['data-item'])
+      if (selectedItem > -1) {
+        context.drawerList.selectItemAndClose(selectedItem, {
+          fireSelectEvent: true,
+          event: params,
+        })
+      }
+    },
+    [context.drawerList]
+  )
+
+  const onItemMouseEnterCallback = context.drawerList
+    .onItemMouseEnter as DrawerListProps['onItemMouseEnter']
+
+  const onItemMouseEnterHandler = useCallback(
+    (itemId: number, event: React.MouseEvent<HTMLLIElement>) => {
+      if (onItemMouseEnterCallback) {
+        const data = getEventData(itemId, context.drawerList.data)
+        onItemMouseEnterCallback({ item: itemId, data, event })
+      }
+    },
+    [onItemMouseEnterCallback, context.drawerList.data]
+  )
+
+  const {
+    role,
+    alignDrawer,
+    fixedPosition,
+    independentWidth,
+    scrollable,
+    focusable,
+    size,
+    noAnimation,
+    noScrollAnimation,
+    preventSelection,
+    isPopup,
+    portalClass,
+    listClass,
+    ignoreEvents,
+    optionsRender,
+    className,
+    cacheHash: _cacheHash,
+    wrapperElement: _wrapperElement,
+    arrowPosition: _arrowPosition,
+    direction: _direction,
+    maxHeight: _maxHeight,
+    id: _id,
+    data: _data,
+    open: _open,
+    value: _value,
+    keepOpen: _keepOpen,
+    preventClose: _preventClose,
+    skipKeysearch: _skipKeysearch,
+    skipPortal: _skipPortal,
+    enableBodyLock: _enableBodyLock,
+    preventFocus: _preventFocus,
+    pageOffset: _pageOffset,
+    observerElement: _observerElement,
+    children,
+
+    onOpen: _onOpen,
+    onClose: _onClose,
+    handleDismissFocus: _handleDismissFocus,
+    onChange: _onChange,
+    onPreChange: _onPreChange,
+    onResize: _onResize,
+    onSelect: _onSelect,
+    onKeyDown: _onKeyDown,
+    onItemMouseEnter: _onItemMouseEnter,
+
+    ...attributes
+  } = propsWithDefaults as DrawerListAllProps & {
+    onKeyDown?: (e: React.KeyboardEvent) => void
+  }
+
+  function noNullNumbers({
+    selectedItem,
+    activeItem,
+    maxHeight,
+    ...rest
+  }: DrawerListContextValue['drawerList']): DrawerListContextValue['drawerList'] {
+    return {
+      selectedItem: selectedItem ?? undefined,
+      activeItem: activeItem ?? undefined,
+      maxHeight: maxHeight ?? undefined,
+      ...rest,
     }
+  }
 
-    const {
-      id,
-      data,
-      groups,
-      opened,
-      hidden,
-      triangle_position,
-      direction,
-      max_height,
-      cache_hash,
-      selected_item,
-      active_item,
-      showFocusRing,
-      closestToTop,
-      closestToBottom,
-      skipPortal,
-      addObservers,
-      removeObservers,
-      _refShell,
-      _refTriangle,
-      _refUl,
-      _refRoot,
-    } = noNullNumbers(this.context.drawerList)
+  const {
+    id,
+    data,
+    groups,
+    open,
+    hidden,
+    arrowPosition,
+    direction,
+    maxHeight,
+    cacheHash,
+    selectedItem,
+    activeItem,
+    showFocusRing,
+    closestToTop,
+    closestToBottom,
+    skipPortal,
+    addObservers,
+    removeObservers,
+    _refShell,
+    _refTriangle,
+    _refUl,
+    _refRoot,
+  } = noNullNumbers(context.drawerList)
 
-    const renderData = makeRenderData(
-      data,
-      groups,
-      this.context.getTranslation(this.props).DrawerList
-    )
-    const hasGroups =
-      renderData.length > 1 || renderData[0]?.groupTitle !== undefined
+  const renderData = makeRenderData(
+    data,
+    groups,
+    context.getTranslation(propsWithDefaults).DrawerList
+  )
+  const hasGroups =
+    renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
-    const mainParams = {
-      id: `${id}-drawer-list`,
-      className: classnames(
-        'dnb-drawer-list',
-        opened && 'dnb-drawer-list--opened',
-        hidden && 'dnb-drawer-list--hidden',
-        `dnb-drawer-list--${direction}`,
-        triangle_position &&
-          `dnb-drawer-list--triangle-position-${triangle_position}`,
-        align_drawer && `dnb-drawer-list--${align_drawer}`,
-        size && `dnb-drawer-list--${size}`,
-        isTrue(action_menu) && `dnb-drawer-list--action-menu`,
-        isTrue(is_popup) && 'dnb-drawer-list--is-popup',
-        (isTrue(independent_width) || isTrue(action_menu)) &&
-          'dnb-drawer-list--independent-width',
-        isTrue(scrollable) && 'dnb-drawer-list--scroll',
-        isTrue(no_scroll_animation) &&
-          'dnb-drawer-list--no-scroll-animation',
-        createSpacingClasses(props),
-        className
-      ),
-      ...attributes,
-    }
+  const mainParams = applySpacing(propsWithDefaults, {
+    id: `${id}-drawer-list`,
+    className: clsx(
+      'dnb-drawer-list',
+      open && 'dnb-drawer-list--open',
+      hidden && 'dnb-drawer-list--hidden',
+      `dnb-drawer-list--${direction}`,
+      arrowPosition && `dnb-drawer-list--arrow-position-${arrowPosition}`,
+      alignDrawer && `dnb-drawer-list--${alignDrawer}`,
+      size && `dnb-drawer-list--${size}`,
+      isPopup && 'dnb-drawer-list--is-popup',
+      independentWidth && 'dnb-drawer-list--independent-width',
+      scrollable && 'dnb-drawer-list--scroll',
+      noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',
+      className
+    ),
+    ...attributes,
+  })
 
-    const listParams = {
-      id: `${id}-listbox`,
-      /**
-       * We may consider to use the hidden attribute in future
-       * Or we may add an prop to put the HTML in the DOM, if needed
-       */
-      // hidden: hidden !== false,
-      className: classnames(
-        'dnb-drawer-list__list',
-        isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
-        list_class
-      ),
-    }
+  const listParams = {
+    id: `${id}-listbox`,
+    className: clsx(
+      'dnb-drawer-list__list',
+      noAnimation && 'dnb-drawer-list__list--no-animation',
+      listClass
+    ),
+  }
 
-    const ulParams = {
-      role,
-      id: `${id}-ul`,
-      'aria-expanded': opened,
-      'aria-labelledby': `${id}-label`,
-      tabIndex: -1,
-      style: {
-        maxHeight:
-          parseFloat(max_height as string) > 0 ? `${max_height}rem` : null,
-      },
-      ref: _refUl,
-    }
+  const ulParams: Record<string, unknown> = {
+    role,
+    id: `${id}-ul`,
+    'aria-expanded': open,
+    'aria-labelledby': `${id}-label`,
+    tabIndex: -1,
+    style: {
+      maxHeight:
+        parseFloat(maxHeight as string) > 0 ? `${maxHeight}rem` : null,
+    },
+    ref: _refUl,
+  }
 
-    if (!hidden) {
-      ulParams['aria-activedescendant'] =
-        this.context.drawerList.ariaActiveDescendant
-    }
+  if (!hidden) {
+    ulParams['aria-activedescendant'] =
+      context.drawerList.ariaActiveDescendant
+  }
 
-    if (isTrue(focusable)) {
-      ulParams.tabIndex = 0
-    }
+  if (focusable) {
+    ulParams.tabIndex = 0
+  }
 
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, mainParams)
-    validateDOMAttributes(null, listParams)
-    validateDOMAttributes(null, ulParams)
+  // also used for code markup simulation
+  validateDOMAttributes(ownProps, mainParams)
+  validateDOMAttributes(null, listParams)
+  validateDOMAttributes(null, ulParams)
 
-    // make it possible to grab the rest attributes and return it with all events
-    Object.assign(
-      this.context.drawerList.attributes,
-      validateDOMAttributes(null, attributes)
-    )
+  Object.assign(
+    context.drawerList.attributes,
+    validateDOMAttributes(null, attributes)
+  )
 
-    const ignoreEvents = isTrue(ignore_events)
+  const ignoreEventsBoolean = ignoreEvents
 
-    const GroupItems = () =>
-      renderData
-        .filter(Boolean) // filter out empty groups
-        .map(({ groupTitle, groupData: data, hideTitle }, j) => {
-          const Items = () =>
-            data.map((dataItem, i) => {
-              const { __id, ignore_events, class_name, disabled, style } =
-                dataItem
-              const hash = `option-${id}-${__id}-${i}`
-              const tagId = `option-${id}-${__id}`
-              const liParams = {
-                role: role === 'menu' ? 'menuitem' : 'option',
-                'data-item': __id,
-                id: tagId,
-                hash,
-                className: classnames(
-                  // helper classes
-                  j === 0 && i === 0 && 'first-item',
-                  j === renderData.length - 1 &&
-                    i === data.length - 1 &&
-                    'last-item',
-                  tagId === closestToTop && 'closest-to-top',
-                  tagId === closestToBottom && 'closest-to-bottom',
-                  i === 0 && 'first-of-type', // because of the triangle element
-                  i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents || (ignore_events && 'ignore-events'),
-                  class_name
-                ),
-                active: __id === active_item,
-                selected: !ignore_events && __id === selected_item,
-                onClick: this.selectItemHandler,
-                onKeyDown: this.preventTab,
-                disabled: disabled,
-                style: style,
-              }
-              if (ignoreEvents) {
-                liParams.active = null
-                liParams.selected = null
-                liParams.onClick = null
-                liParams.onKeyDown = null
-                liParams.className = classnames(
-                  liParams.className,
-                  'dnb-drawer-list__option--ignore'
-                )
-              }
-
-              return (
-                <DrawerList.Item key={hash} {...liParams}>
-                  {dataItem}
-                </DrawerList.Item>
+  const GroupItems = () =>
+    renderData
+      .filter(Boolean) // filter out empty groups
+      .map(({ groupTitle, groupData: data, hideTitle }, j) => {
+        const Items = () =>
+          data.map((dataItem, i) => {
+            const { __id, ignoreEvents, className, disabled, style } =
+              dataItem
+            const hash = `option-${id}-${__id}-${i}`
+            const tagId = `option-${id}-${__id}`
+            const liParams = {
+              role: role === 'menu' ? 'menuitem' : 'option',
+              'data-item': __id,
+              id: tagId,
+              hash,
+              className: clsx(
+                // helper classes
+                j === 0 && i === 0 && 'first-item',
+                j === renderData.length - 1 &&
+                  i === data.length - 1 &&
+                  'last-item',
+                tagId === closestToTop && 'closest-to-top',
+                tagId === closestToBottom && 'closest-to-bottom',
+                i === 0 && 'first-of-type', // because of the triangle element
+                i === data.length - 1 && 'last-of-type', // because of the triangle element
+                (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
+                className
+              ),
+              active: __id === activeItem,
+              selected: !ignoreEvents && __id === selectedItem,
+              onClick: selectItemHandler,
+              onKeyDown: preventTab,
+              onMouseEnter: onItemMouseEnterHandler
+                ? (e: React.MouseEvent<HTMLLIElement>) =>
+                    onItemMouseEnterHandler(__id, e)
+                : undefined,
+              disabled: disabled,
+              style: style,
+            }
+            if (ignoreEventsBoolean) {
+              liParams.active = null
+              liParams.selected = null
+              liParams.onClick = null
+              liParams.onKeyDown = null
+              liParams.onMouseEnter = null
+              liParams.className = clsx(
+                liParams.className,
+                'dnb-drawer-list__option--ignore'
               )
-            })
-          const ItemsRendered = () =>
-            typeof options_render === 'function' ? (
-              options_render({ data, Items, Item: DrawerList.Item })
-            ) : (
-              <Items />
-            )
-          if (hasGroups) {
-            const groupdId = `${id}-group-title-${j}`
+            }
+
             return (
-              <ul
-                key={j}
-                role="group"
-                aria-labelledby={groupdId}
-                className={classnames(
-                  'dnb-drawer-list__group',
-                  j === 0 && 'first-of-type',
-                  j === renderData.length - 1 && 'last-of-type'
+              <DrawerList.Item key={hash} {...liParams}>
+                {dataItem}
+              </DrawerList.Item>
+            )
+          })
+        const ItemsRendered = () =>
+          typeof optionsRender === 'function' ? (
+            optionsRender({ data, Items, Item: DrawerList.Item })
+          ) : (
+            <Items />
+          )
+        if (hasGroups) {
+          const groupdId = `${id}-group-title-${j}`
+          return (
+            <ul
+              key={j}
+              role="group"
+              aria-labelledby={groupdId}
+              className={clsx(
+                'dnb-drawer-list__group',
+                j === 0 && 'first-of-type',
+                j === renderData.length - 1 && 'last-of-type'
+              )}
+            >
+              <li
+                id={groupdId}
+                role="presentation"
+                className={clsx(
+                  'dnb-drawer-list__group-title',
+                  hideTitle && 'dnb-sr-only',
+                  groupdId === closestToBottom && 'closest-to-bottom',
+                  groupdId === closestToTop && 'closest-to-top'
                 )}
               >
-                <li
-                  id={groupdId}
-                  role="presentation"
-                  className={classnames(
-                    'dnb-drawer-list__group-title',
-                    hideTitle && 'dnb-sr-only',
-                    groupdId === closestToBottom && 'closest-to-bottom',
-                    groupdId === closestToTop && 'closest-to-top'
-                  )}
-                >
-                  {groupTitle}
-                </li>
-                <ItemsRendered />
-              </ul>
-            )
-          } else {
-            return <ItemsRendered key={j} />
-          }
-        })
+                {groupTitle}
+              </li>
+              <ItemsRendered />
+            </ul>
+          )
+        } else {
+          return <ItemsRendered key={j} />
+        }
+      })
 
-    const mainList = (
-      <span {...mainParams} ref={_refShell}>
-        <span {...listParams}>
-          {hidden === false && renderData.length > 0 ? (
-            <>
-              <DrawerList.Options
-                hasGroups={hasGroups}
-                cache_hash={
-                  cache_hash +
-                  active_item +
-                  selected_item +
-                  closestToTop +
-                  closestToBottom +
-                  direction +
-                  max_height
-                }
-                {...ulParams}
-                showFocusRing={showFocusRing}
-                triangleRef={_refTriangle}
-              >
-                <GroupItems />
-              </DrawerList.Options>
-              <OnMounted
-                addObservers={addObservers}
-                removeObservers={removeObservers}
+  const mainList = (
+    <span {...mainParams} ref={_refShell}>
+      <span {...listParams}>
+        {hidden === false && renderData.length > 0 ? (
+          <>
+            <DrawerList.Options
+              hasGroups={hasGroups}
+              cacheHash={
+                cacheHash +
+                activeItem +
+                selectedItem +
+                closestToTop +
+                closestToBottom +
+                direction +
+                maxHeight
+              }
+              {...ulParams}
+              showFocusRing={showFocusRing}
+              triangleRef={_refTriangle}
+            >
+              <GroupItems />
+            </DrawerList.Options>
+            <OnMounted
+              addObservers={addObservers}
+              removeObservers={removeObservers}
+            />
+          </>
+        ) : (
+          React.isValidElement(children) && (
+            <span className="dnb-drawer-list__content">
+              {children}
+              <span
+                className="dnb-drawer-list__arrow"
+                ref={_refTriangle}
               />
-            </>
-          ) : (
-            React.isValidElement(children) && (
-              <span className="dnb-drawer-list__content">
-                {children}
-                <span
-                  className="dnb-drawer-list__triangle"
-                  ref={_refTriangle}
-                />
-              </span>
-            )
-          )}
-        </span>
-      </span>
-    )
-
-    return (
-      <span
-        className={classnames(
-          'dnb-drawer-list__root',
-          !skipPortal && 'dnb-drawer-list__root--portal'
+            </span>
+          )
         )}
-        ref={_refRoot}
-      >
-        <DrawerListPortal
-          id={id}
-          rootRef={_refRoot}
-          opened={hidden === false}
-          include_owner_width={align_drawer === 'right'}
-          independent_width={isTrue(independent_width)}
-          fixed_position={isTrue(fixed_position)}
-          className={getThemeClasses(this.context?.theme, portal_class)}
-          skipPortal={skipPortal}
-        >
-          {mainList}
-        </DrawerListPortal>
       </span>
-    )
-  }
-}
+    </span>
+  )
+
+  return (
+    <span
+      className={clsx(
+        'dnb-drawer-list__root',
+        !skipPortal && 'dnb-drawer-list__root--portal'
+      )}
+      ref={_refRoot}
+    >
+      <DrawerListPortal
+        id={id}
+        rootRef={_refRoot}
+        open={hidden === false}
+        includeOwnerWidth={alignDrawer === 'right'}
+        independentWidth={independentWidth}
+        fixedPosition={fixedPosition}
+        className={getThemeClasses(context?.theme, portalClass)}
+        skipPortal={skipPortal}
+      >
+        {mainList}
+      </DrawerListPortal>
+    </span>
+  )
+})
 
 function makeRenderData(
   data: DrawerListInternalData,
@@ -721,75 +770,78 @@ function makeRenderData(
 
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
-  triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
-  cache_hash?: string
+  triangleRef?: React.Ref<HTMLLIElement | HTMLSpanElement>
+  cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
 }
 // DrawerList List
 DrawerList.Options = React.memo(
-  React.forwardRef(
-    (
-      props: DrawerListOptionsProps,
-      ref: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
-    ) => {
-      const {
-        children,
-        className,
-        triangleRef,
-        cache_hash, // eslint-disable-line
-        showFocusRing = false,
-        hasGroups = false,
-        ...rest
-      } = props
-
-      return (
+  ({
+    children,
+    className,
+    triangleRef,
+    cacheHash,
+    showFocusRing = false,
+    hasGroups = false,
+    ref,
+    ...rest
+  }: DrawerListOptionsProps & {
+    ref?: React.Ref<HTMLUListElement | HTMLSpanElement>
+  }) => {
+    return (
+      <E
+        internalClass={false}
+        as={hasGroups ? 'span' : 'ul'}
+        className={clsx(
+          'dnb-drawer-list__options',
+          showFocusRing && 'dnb-drawer-list__options--focusring',
+          className
+        )}
+        {...rest}
+        ref={ref}
+      >
+        {children}
         <E
           internalClass={false}
-          as={hasGroups ? 'span' : 'ul'}
-          className={classnames(
-            'dnb-drawer-list__options',
-            showFocusRing && 'dnb-drawer-list__options--focusring',
-            className
-          )}
-          {...rest}
-          ref={ref}
-        >
-          {children}
-          <E
-            internalClass={false}
-            as={hasGroups ? 'span' : 'li'}
-            className="dnb-drawer-list__triangle"
-            aria-hidden
-            ref={triangleRef}
-          />
-        </E>
-      )
-    }
-  ),
+          as={hasGroups ? 'span' : 'li'}
+          className="dnb-drawer-list__arrow"
+          aria-hidden
+          ref={triangleRef}
+        />
+      </E>
+    )
+  },
   (prevProps, nextProps) => {
-    if (!prevProps.cache_hash) {
+    if (!prevProps.cacheHash) {
       return false
     }
-    return prevProps.cache_hash === nextProps.cache_hash
+    return prevProps.cacheHash === nextProps.cacheHash
   }
 )
 
 DrawerList.Item = DrawerListItem
 DrawerList.HorizontalItem = DrawerListHorizontalItem
 
-class OnMounted extends React.PureComponent<{
+withComponentMarkers(DrawerList, {
+  _supportsSpacingProps: true,
+})
+
+function OnMounted({
+  addObservers,
+  removeObservers,
+}: {
   addObservers: () => void
   removeObservers: () => void
-}> {
-  componentDidMount() {
-    this.props.addObservers()
-  }
-  componentWillUnmount() {
-    this.props.removeObservers()
-  }
-  render() {
-    return null
-  }
+}) {
+  useMountEffect(() => {
+    addObservers()
+    return () => {
+      removeObservers()
+    }
+  })
+
+  return null
 }
+
 export default DrawerList

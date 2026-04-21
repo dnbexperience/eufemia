@@ -1,6 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
-import keycode from '../../shared/keycode'
+import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
@@ -25,9 +24,10 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     children,
     className,
     disabled,
+    expanded,
     onClick,
-    onOpened,
-    onClosed,
+    onOpen,
+    onClose,
 
     trIsOpen,
     trIsHover,
@@ -57,7 +57,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   return (
     <tr
       tabIndex={clickable && !disabled ? 0 : undefined}
-      className={classnames(
+      className={clsx(
         className,
         clickable && 'dnb-table__tr--clickable',
         trIsOpen && 'dnb-table__tr--expanded',
@@ -81,9 +81,9 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   function onKeydownHandler(
     event: React.KeyboardEvent<HTMLTableRowElement>
   ) {
-    switch (keycode(event.nativeEvent)) {
-      case 'space':
-      case 'enter':
+    switch (event.key) {
+      case ' ':
+      case 'Enter':
         {
           const target = event.target as HTMLElement
           if (
@@ -168,7 +168,7 @@ export function TableClickableButtonTd(props: {
           {...(trIsOpen != null
             ? { 'aria-expanded': Boolean(trIsOpen) }
             : {})}
-          on_click={(event) => onClick(event, true)}
+          onClick={(event) => onClick(event, true)}
         />
       </span>
     </Td>
@@ -186,4 +186,4 @@ export function TableIconSrTh(props: { text: string }) {
 }
 
 export const isTableHead = (children: React.ReactNode[]) =>
-  children.some((element: React.ReactElement) => element.type === Th)
+  children.some((element) => (element as React.ReactElement).type === Th)

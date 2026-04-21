@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'
@@ -42,7 +42,7 @@ type PopoverPortalProps = {
     typeof PopoverContainer
   >['arrowPositionSelector']
   fixedPosition?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   triggerOffset?: number
   autoAlignMode?: PopoverAutoAlignMode
   hideArrow?: boolean
@@ -115,7 +115,7 @@ function PopoverPortal(props: PopoverPortalProps) {
   return (
     <PortalRoot>
       <div
-        className={classnames(
+        className={clsx(
           baseClassNames.map((base) => `${base}__portal`),
           portalRootClass,
           theme && getThemeClasses(theme),

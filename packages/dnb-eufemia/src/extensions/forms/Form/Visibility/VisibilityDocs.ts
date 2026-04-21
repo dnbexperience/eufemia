@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { HeightAnimationEvents } from '../../../../components/height-animation/HeightAnimationDocs'
 
 export const VisibilityProperties: PropertiesTableProps = {
@@ -18,7 +18,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pathUndefined: {
-    doc: 'Given data context path must be undefined to show children.',
+    doc: 'Given data context path must be `undefined` to show children.',
     type: 'string',
     status: 'optional',
   },
@@ -33,12 +33,12 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pathTrue: {
-    doc: 'Given data context path must be true to show children.',
+    doc: 'Given data context path must be `true` to show children.',
     type: 'string',
     status: 'optional',
   },
   pathFalse: {
-    doc: 'Given data context path must be false to show children.',
+    doc: 'Given data context path must be `false` to show children.',
     type: 'string',
     status: 'optional',
   },
@@ -48,7 +48,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visible: {
-    doc: 'Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.',
+    doc: 'Control visibility directly using the `visible` property. When used alongside other conditions, the `visible` property takes precedence.',
     type: 'boolean',
     status: 'optional',
   },
@@ -73,18 +73,18 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fieldPropsWhenHidden: {
-    doc: 'When visibility is hidden, and `keepInDOM` is true, pass these props to the children.',
-    type: 'various',
+    doc: 'When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.',
+    type: '"various"',
     status: 'optional',
   },
   element: {
-    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is true.',
-    type: 'string or React.Element',
+    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is `true`.',
+    type: ['string', 'React.Element'],
     status: 'optional',
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

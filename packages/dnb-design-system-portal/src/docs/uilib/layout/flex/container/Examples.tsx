@@ -156,13 +156,13 @@ export const LayoutHorizontalFlexGrowItems = () => {
   return (
     <ComponentBox>
       <Flex.Horizontal>
-        <Flex.Item size={3}>
+        <Flex.Item span={3}>
           <Card>Card contents</Card>
         </Flex.Item>
-        <Flex.Item size={4}>
+        <Flex.Item span={4}>
           <Card>Card contents</Card>
         </Flex.Item>
-        <Flex.Item size={5}>
+        <Flex.Item span={5}>
           <Card>Card contents</Card>
         </Flex.Item>
         <Flex.Item grow>
@@ -186,6 +186,7 @@ export const WrappedWithChildren = () => {
       data-visual-test="flex-container-with-children"
     >
       {() => {
+        // @ts-expect-error -- strictFunctionTypes
         const Wrapper = Flex.withChildren(({ children }) => {
           return <div>{children}</div>
         })
@@ -210,7 +211,7 @@ export const FramedLineDividers = () => {
     <ComponentBox
       scope={{ TestElement }}
       data-visual-test="flex-container-line-framed"
-      background="white" // will be enabled in related PR
+      background="plain" // will be enabled in related PR
     >
       {() => {
         const Item = () => (

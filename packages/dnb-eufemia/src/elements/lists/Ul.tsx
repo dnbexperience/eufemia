@@ -4,8 +4,10 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import E, { ElementProps } from '../Element'
+import clsx from 'clsx'
+import type { ElementProps } from '../Element'
+import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type UlProps = {
   /**
@@ -33,7 +35,7 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
     <E
       as="ul"
       {...props}
-      className={classnames(
+      className={clsx(
         props.className,
         nested && 'dnb-ul--nested',
         inside && 'dnb-ul--inside',
@@ -44,6 +46,6 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
   )
 }
 
-Ul._supportsSpacingProps = true
+withComponentMarkers(Ul, { _supportsSpacingProps: true })
 
 export default Ul
