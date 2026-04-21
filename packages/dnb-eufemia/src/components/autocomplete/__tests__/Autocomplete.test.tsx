@@ -4165,6 +4165,76 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('The Godfather')
   })
 
+  it('should close dropdown when selecting an option with Enter after arrow key navigation', async () => {
+    render(<Autocomplete data={['AA', 'BB', 'CC']} {...mockProps} />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    // Open the dropdown
+    keyDownOnInput('ArrowDown')
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    // Navigate to first option
+    keyDownOnInput('ArrowDown')
+
+    // Press Enter to select
+    keyDownOnInput('Enter')
+
+    // Wait for all deferred callbacks
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    })
+
+    // Dropdown should stay closed
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+
+    // Value should be selected
+    expect(input.value).toBe('AA')
+  })
+
+  it('should close dropdown when selecting with Enter and openOnFocus is true', async () => {
+    render(
+      <Autocomplete data={['AA', 'BB', 'CC']} openOnFocus {...mockProps} />
+    )
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    // Focus opens the dropdown with openOnFocus
+    fireEvent.focus(input)
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    // Navigate to first option
+    keyDownOnInput('ArrowDown')
+
+    // Press Enter to select
+    keyDownOnInput('Enter')
+
+    // Wait for all deferred callbacks
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    })
+
+    // Dropdown should stay closed
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+
+    // Value should be selected
+    expect(input.value).toBe('AA')
+  })
+
   it('should open and search after clearing input following keyboard selection', async () => {
     const movies = [
       'The Shawshank Redemption',
