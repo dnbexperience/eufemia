@@ -92,6 +92,8 @@
 .dnb-help-button__content {
   .dnb-section {
     --background-color: var(--help-button-content-background);
+    --outset-left: calc(var(--spacing-small));
+    --outset-right: calc(var(--spacing-small));
 
     // Because we don't use/need an outline, we need to add to get a wider corner radius.
     --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
@@ -106,18 +108,6 @@
         transition-duration: 0.01ms;
       }
     }
-  }
-
-  // Defines the negative margin (extra border) to align on UX design.
-  --help-button-indent-width: var(--card-outline-width);
-
-  :not(.dnb-card) & .dnb-section {
-    --outset-left: calc(
-      var(--spacing-medium) + var(--help-button-indent-width)
-    );
-    --outset-right: calc(
-      var(--spacing-medium) + var(--help-button-indent-width)
-    );
   }
 
   &.dnb-height-animation--parallax .dnb-section .dnb-p {

@@ -134,8 +134,6 @@ fieldset.dnb-forms-field-block {
         '. status';
 
       .dnb-help-button__content {
-        --help-button-indent-width: 0;
-
         // Align to how the FormStatus looks
         .dnb-section {
           --rounded-corner: 0.25rem;
