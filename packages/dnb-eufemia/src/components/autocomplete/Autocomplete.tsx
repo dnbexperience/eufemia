@@ -2168,7 +2168,17 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           setSkipFocusDuringChange(false)
 
           // Deferred refocus — matches class component's setState callback timing
-          _focusTimeout.current = setTimeout(() => setFocusOnInput(), 0)
+          _focusTimeout.current = setTimeout(() => {
+            setFocusOnInput()
+
+            // Sync internal focus state so subsequent typing
+            // correctly reopens the dropdown via runFilterWithSideEffects.
+            // setHidden() above set hasFocus=false/hasBlur=false, and
+            // setFocusOnInput() suppresses onInputFocusHandler to avoid
+            // double onFocus dispatch, so we restore these manually.
+            setHasFocus(true)
+            setHasBlur(false)
+          }, 0)
         }
 
         const val = getCurrentDataTitle(
@@ -2194,6 +2204,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       focusDrawerList,
       setFocusOnInput,
       setInputValue,
+      setHasBlur,
     ]
   )
 
