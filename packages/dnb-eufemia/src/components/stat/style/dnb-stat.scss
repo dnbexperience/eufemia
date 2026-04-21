@@ -195,11 +195,11 @@
       }
 
       &--base {
-        color: var(--color-black-20);
+        color: var(--token-color-icon-action-disabled);
       }
 
       &--active {
-        color: var(--color-black-80);
+        color: var(--token-color-icon-neutral);
       }
     }
 
@@ -216,8 +216,10 @@
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
-        var(--color-black-80) var(--dnb-stat-rating-step-fill, 0%),
-        var(--color-black-20) var(--dnb-stat-rating-step-fill, 0%)
+        var(--token-color-icon-neutral)
+          var(--dnb-stat-rating-step-fill, 0%),
+        var(--token-color-icon-action-disabled)
+          var(--dnb-stat-rating-step-fill, 0%)
       );
     }
   }
