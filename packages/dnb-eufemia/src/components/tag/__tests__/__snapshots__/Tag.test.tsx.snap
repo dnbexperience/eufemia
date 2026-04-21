@@ -973,7 +973,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-tag.dnb-button {
   appearance: none;
-  background-color: var(--color-black-8);
+  background-color: var(--token-color-background-neutral-base);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
@@ -1114,7 +1114,7 @@ html:not([data-whatinput=touch]) .dnb-tag--addable.dnb-button:focus-visible:not(
   --tag-icon-border-color: var(--token-color-stroke-action-disabled);
 }
 .dnb-tag--removable {
-  --tag-icon-fill-color: var(--color-white);
+  --tag-icon-fill-color: var(--token-color-background-neutral);
   --tag-icon-stroke-color: var(--token-color-stroke-action);
 }
 html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover[disabled] {
@@ -1139,6 +1139,7 @@ html:not([data-whatinput=touch]) .dnb-tag--removable.dnb-button:focus-visible:no
   --tag-icon-border-color: var(--token-color-stroke-action-pressed);
 }
 .dnb-tag--removable.dnb-button[disabled] {
+  --tag-icon-fill-color: var(--token-color-background-neutral);
   --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
   --tag-icon-border-color: var(--token-color-stroke-action-disabled);
 }
