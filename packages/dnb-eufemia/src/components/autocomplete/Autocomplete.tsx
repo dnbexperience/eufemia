@@ -840,15 +840,24 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const showAllItems = useCallback(() => {
     resetFilter()
+
+    // Re-compute selectedItem from current value and data to avoid
+    // reading stale state. When updateData triggers both
+    // revalidateSelectedItem and showAllItems in the same callback
+    // cycle, the selectedItem state update from revalidateSelectedItem
+    // may not have been committed yet.
+    const selectedItem =
+      getCurrentIndex(
+        propsRef.current.value,
+        drawerListRef.current.originalData
+      ) ?? drawerListRef.current.selectedItem
+
     drawerListRef.current.setState({
       cacheHash: 'all',
     })
-    drawerListRef.current.setActiveItemAndScrollToIt(
-      drawerListRef.current.selectedItem,
-      {
-        scrollTo: false,
-      }
-    )
+    drawerListRef.current.setActiveItemAndScrollToIt(selectedItem, {
+      scrollTo: false,
+    })
   }, [resetFilter])
 
   const setSearchIndex = useCallback(

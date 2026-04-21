@@ -1,7 +1,7 @@
 import React from 'react'
 import { isCI } from 'repo-utils'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
 import type { JSONSchema } from '../../..'
@@ -826,6 +826,89 @@ describe('Field.PhoneNumber', () => {
         countryCodePrefix: '+44',
         phoneNumber: '9999',
       })
+    })
+
+    it('should set active item to selected country when opening dropdown with transformIn', () => {
+      type PhoneNumberDataShape = {
+        countryCode: string
+        phoneNumber: string
+        countryCodePrefix: string
+      }
+
+      const transformIn = (external: unknown) => {
+        const {
+          countryCode: iso,
+          phoneNumber,
+          countryCodePrefix: countryCode,
+        } = (external || {}) as PhoneNumberDataShape
+        return {
+          countryCode,
+          phoneNumber,
+          iso,
+        } satisfies AdditionalArgs
+      }
+
+      const transformOut = (
+        _internal: unknown,
+        additionalArgs?: unknown
+      ) => {
+        const args = additionalArgs as AdditionalArgs | undefined
+        return {
+          countryCode: args?.iso,
+          phoneNumber: args?.phoneNumber,
+          countryCodePrefix: args?.countryCode,
+        }
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            myField: {
+              countryCode: 'GB',
+              phoneNumber: '9123457',
+              countryCodePrefix: '+44',
+            },
+          }}
+        >
+          <Field.PhoneNumber
+            path="/myField"
+            transformIn={transformIn}
+            transformOut={transformOut}
+            noAnimation
+          />
+        </Form.Handler>
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      expect(codeElement).toHaveValue('GB (+44)')
+
+      // Simulate a real click: mouseDown opens the drawer,
+      // focus triggers handleCountryCodeFocus which calls updateData.
+      // Both must be batched to reproduce the stale selectedItem issue.
+      act(() => {
+        fireEvent.mouseDown(codeElement)
+        fireEvent.focus(codeElement)
+      })
+
+      // The dropdown should be open with all countries listed
+      const items = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(items.length).toBeGreaterThan(1)
+
+      // The selected item should be GB (+44)
+      const selectedItem = document.querySelector(
+        'li.dnb-drawer-list__option--selected'
+      )
+      expect(selectedItem.textContent).toContain('+44')
+
+      // The active/focused item should also be the selected country,
+      // not the first item in the list
+      const focusedItem = document.querySelector(
+        'li.dnb-drawer-list__option--focus'
+      )
+      expect(focusedItem.textContent).toContain('+44')
     })
 
     it('should support transformOut', async () => {
