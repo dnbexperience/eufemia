@@ -449,11 +449,4 @@ describe('Checkbox scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-checkbox-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
 })

@@ -66,6 +66,12 @@
     --button-color-text--active: var(--sb-color-violet-light-3);
     --button-color-text--focus: var(--sb-color-blue-dark-2);
     --button-color-text--disabled: var(--sb-color-gray-dark);
+
+    .dnb-checkbox {
+      --checkbox-color-background-on: var(--sb-color-white);
+      --checkbox-color-border-on: var(--sb-color-white);
+      --checkbox-color-gfx-on: var(--sb-color-violet);
+    }
   }
   /* stylelint-enable no-descending-specificity */
 }
