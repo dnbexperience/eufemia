@@ -1946,6 +1946,337 @@ describe('Field.Date', () => {
     })
   })
 
+  it('should not change value when clicking cancel after reset and typing', async () => {
+    render(<Field.Date value="2023-01-16" showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+
+    // Type a new date
+    await userEvent.click(day)
+    await userEvent.keyboard('12122024')
+
+    expect(day.value).toBe('12')
+    expect(month.value).toBe('12')
+    expect(year.value).toBe('2024')
+
+    // Open picker and click reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to the initial value
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+
+    // Type another date
+    await userEvent.click(day)
+    await userEvent.keyboard('12122025')
+
+    expect(day.value).toBe('12')
+    expect(month.value).toBe('12')
+    expect(year.value).toBe('2025')
+
+    // Open picker and click cancel — should keep the typed value
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Should keep the typed value (2025-12-12), NOT revert to stale 2024-12-12
+    expect(day.value).toBe('12')
+    expect(month.value).toBe('12')
+    expect(year.value).toBe('2025')
+  })
+
+  it('should keep value unchanged when cancelling without changes', async () => {
+    render(<Field.Date value="2023-01-16" showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+
+    // Open picker and cancel immediately
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+  })
+
+  it('should keep typed value when cancelling after typing', async () => {
+    render(<Field.Date value="2023-01-16" showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Type a new date
+    await userEvent.click(day)
+    await userEvent.keyboard('25062025')
+
+    expect(day.value).toBe('25')
+    expect(month.value).toBe('06')
+    expect(year.value).toBe('2025')
+
+    // Open picker and cancel — should keep the typed value
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Cancel keeps the value from when the picker was opened
+    expect(day.value).toBe('25')
+    expect(month.value).toBe('06')
+    expect(year.value).toBe('2025')
+  })
+
+  it('should revert to value at open when cancelling after submit and typing', async () => {
+    render(<Field.Date value="2023-01-16" showInput showSubmitButton />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Type a new date
+    await userEvent.click(day)
+    await userEvent.keyboard('25062025')
+
+    // Open picker and submit
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="submit"]')
+    )
+
+    expect(day.value).toBe('25')
+    expect(month.value).toBe('06')
+    expect(year.value).toBe('2025')
+
+    // Type another date
+    await userEvent.click(day)
+    await userEvent.keyboard('01012026')
+
+    expect(day.value).toBe('01')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2026')
+
+    // Open picker and cancel — should keep the typed value (value at open)
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Cancel reverts to value when picker was opened (2026-01-01)
+    expect(day.value).toBe('01')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2026')
+  })
+
+  it('should keep typed value when cancelling after reset with no initial value', async () => {
+    render(<Field.Date showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Type a date
+    await userEvent.click(day)
+    await userEvent.keyboard('15032025')
+
+    expect(day.value).toBe('15')
+    expect(month.value).toBe('03')
+    expect(year.value).toBe('2025')
+
+    // Open picker and reset (should clear since no initial value)
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    // Type another date
+    await userEvent.click(day)
+    await userEvent.keyboard('20102025')
+
+    expect(day.value).toBe('20')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2025')
+
+    // Open picker and cancel — should keep the typed value
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Cancel keeps the value from when the picker was opened
+    expect(day.value).toBe('20')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2025')
+  })
+
+  it('should keep typed value when cancelling after double reset', async () => {
+    render(<Field.Date value="2023-01-16" showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Type a new date
+    await userEvent.click(day)
+    await userEvent.keyboard('12122024')
+
+    // First reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+
+    // Type another date
+    await userEvent.click(day)
+    await userEvent.keyboard('05052025')
+
+    // Second reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(day.value).toBe('16')
+    expect(month.value).toBe('01')
+    expect(year.value).toBe('2023')
+
+    // Type yet another date
+    await userEvent.click(day)
+    await userEvent.keyboard('30112025')
+
+    expect(day.value).toBe('30')
+    expect(month.value).toBe('11')
+    expect(year.value).toBe('2025')
+
+    // Cancel — should keep the typed value
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Cancel keeps the value from when the picker was opened
+    expect(day.value).toBe('30')
+    expect(month.value).toBe('11')
+    expect(year.value).toBe('2025')
+  })
+
+  it('should keep typed value when cancelling after reset in range mode', async () => {
+    render(<Field.Date value="2023-01-16|2023-02-20" range showInput />)
+
+    const inputs: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      inputs
+
+    expect(startDay.value).toBe('16')
+    expect(startMonth.value).toBe('01')
+    expect(startYear.value).toBe('2023')
+    expect(endDay.value).toBe('20')
+    expect(endMonth.value).toBe('02')
+    expect(endYear.value).toBe('2023')
+
+    // Type new start date
+    await userEvent.click(startDay)
+    await userEvent.keyboard('01032024')
+
+    // Type new end date
+    await userEvent.click(endDay)
+    await userEvent.keyboard('15042024')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('03')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('15')
+    expect(endMonth.value).toBe('04')
+    expect(endYear.value).toBe('2024')
+
+    // Open picker and reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(startDay.value).toBe('16')
+    expect(startMonth.value).toBe('01')
+    expect(startYear.value).toBe('2023')
+    expect(endDay.value).toBe('20')
+    expect(endMonth.value).toBe('02')
+    expect(endYear.value).toBe('2023')
+
+    // Type new dates again
+    await userEvent.click(startDay)
+    await userEvent.keyboard('10062025')
+    await userEvent.click(endDay)
+    await userEvent.keyboard('20072025')
+
+    // Open picker and cancel — should keep the typed values
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    // Cancel keeps the values from when the picker was opened
+    expect(startDay.value).toBe('10')
+    expect(startMonth.value).toBe('06')
+    expect(startYear.value).toBe('2025')
+    expect(endDay.value).toBe('20')
+    expect(endMonth.value).toBe('07')
+    expect(endYear.value).toBe('2025')
+  })
+
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
       <Field.Date showSubmitButton showCancelButton showResetButton />

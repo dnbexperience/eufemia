@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import type {
   DatePickerEventAttributes,
   DatePickerAllProps,
@@ -87,6 +87,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     returnFormat: returnFormatProp,
     children,
     onChange,
+    open,
     setReturnObject,
     hidePicker,
   } = props
@@ -127,6 +128,16 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   const { hoverDate, setHoverDate } = useHoverDate()
 
   const { submittedDatesRef, setSubmittedDates } = useSubmittedDates()
+
+  // Snapshot current dates when the picker opens, so cancel reverts to the correct value
+  const prevOpenRef = useRef(open)
+  if (open && !prevOpenRef.current) {
+    setSubmittedDates({
+      startDate: dates.startDate,
+      endDate: dates.endDate,
+    })
+  }
+  prevOpenRef.current = open
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {

@@ -1870,6 +1870,56 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('should update submittedDates on reopen so cancel reverts to current value', async () => {
+    const { rerender } = render(
+      <DatePicker
+        date="2023-01-16"
+        showInput
+        showCancelButton
+        noAnimation
+      />
+    )
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    expect(day).toHaveValue('16')
+    expect(month).toHaveValue('01')
+    expect(year).toHaveValue('2023')
+
+    // Open the picker, then close it
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+    await userEvent.click(submitButton)
+    await userEvent.click(submitButton)
+
+    // Change the date via props (simulating an external value change)
+    rerender(
+      <DatePicker
+        date="2025-06-25"
+        showInput
+        showCancelButton
+        noAnimation
+      />
+    )
+
+    expect(day).toHaveValue('25')
+    expect(month).toHaveValue('06')
+    expect(year).toHaveValue('2025')
+
+    // Open picker and cancel — should keep the current value (2025-06-25)
+    await userEvent.click(submitButton)
+    await userEvent.click(
+      document.querySelector('button[data-testid="cancel"]')
+    )
+
+    expect(day).toHaveValue('25')
+    expect(month).toHaveValue('06')
+    expect(year).toHaveValue('2025')
+  })
+
   it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
     const onReset = jest.fn()
 
