@@ -4,11 +4,12 @@
  */
 
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Anchor, { scrollToHash } from '../Anchor'
 
 describe('Anchor with scrollToHash', () => {
-  it('should call window.scroll', () => {
+  it('should call window.scroll', async () => {
     const onScroll = jest.fn()
 
     jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
@@ -20,7 +21,7 @@ describe('Anchor with scrollToHash', () => {
       </>
     )
 
-    fireEvent.click(document.querySelector('a'))
+    await userEvent.click(document.querySelector('a'))
 
     expect(onScroll).toHaveBeenCalledTimes(1)
     expect(onScroll).toHaveBeenCalledWith({ top: 0 })

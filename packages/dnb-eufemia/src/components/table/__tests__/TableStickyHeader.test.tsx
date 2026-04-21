@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Table from '../Table'
 import { BasicTable } from './TableMocks'
@@ -26,7 +26,9 @@ describe('useStickyHeader', () => {
       window.pageYOffset = y
     }
 
-    fireEvent.scroll(scrollElement || document)
+    act(() => {
+      fireEvent.scroll(scrollElement || document)
+    })
   }
 
   beforeEach(() => {
@@ -179,7 +181,9 @@ describe('useStickyHeader', () => {
 
     // change the table offset
     jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
-    fireEvent.resize(window)
+    act(() => {
+      fireEvent.resize(window)
+    })
 
     // Should set correct value (320-(80-64)=304)
     simulateScroll(320)
@@ -298,7 +302,9 @@ describe('useStickyHeader', () => {
 
     // change the table offset
     jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
-    fireEvent.resize(window)
+    act(() => {
+      fireEvent.resize(window)
+    })
 
     // Should set correct value (320-(80-40)=280)
     simulateScroll(320, scrollElem)

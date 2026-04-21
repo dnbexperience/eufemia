@@ -1,5 +1,11 @@
 import React from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+  act,
+} from '@testing-library/react'
 import type { FieldNationalIdentityNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
@@ -161,7 +167,7 @@ describe('Field.NationalIdentityNumber', () => {
     expect(element.textContent).toBe(text)
   })
 
-  it('should contain errorMessages as second parameter', () => {
+  it('should contain errorMessages as second parameter', async () => {
     const onChangeValidator = jest.fn()
 
     render(
@@ -173,7 +179,9 @@ describe('Field.NationalIdentityNumber', () => {
       />
     )
 
-    expect(onChangeValidator).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+    })
     expect(onChangeValidator).toHaveBeenCalledWith(
       '123',
       expect.objectContaining({
@@ -206,7 +214,9 @@ describe('Field.NationalIdentityNumber', () => {
     await userEvent.type(element, '{Backspace>11}')
     expect(element).toHaveValue('')
 
-    element.blur()
+    await act(async () => {
+      element.blur()
+    })
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -222,7 +232,9 @@ describe('Field.NationalIdentityNumber', () => {
     await userEvent.type(element, '{Backspace>11}')
     expect(element).toHaveValue('')
 
-    element.blur()
+    await act(async () => {
+      element.blur()
+    })
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()

@@ -4,7 +4,13 @@
  */
 
 import React, { StrictMode, useState } from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import {
@@ -5048,7 +5054,9 @@ describe('Custom text for buttons', () => {
       const setData = jest.fn()
       const clipboardData = { setData }
 
-      day.focus()
+      act(() => {
+        day.focus()
+      })
       day.select()
       fireEvent.copy(day, {
         clipboardData,
@@ -5056,7 +5064,9 @@ describe('Custom text for buttons', () => {
       expect(setData).toHaveBeenLastCalledWith('text/plain', '01.04.2025')
 
       rerender(<DatePicker showInput date="2025-04-02" />)
-      month.focus()
+      act(() => {
+        month.focus()
+      })
       month.select()
       fireEvent.copy(month, {
         clipboardData,
@@ -5064,7 +5074,9 @@ describe('Custom text for buttons', () => {
       expect(setData).toHaveBeenLastCalledWith('text/plain', '02.04.2025')
 
       rerender(<DatePicker showInput date="2025-04-03" />)
-      year.focus()
+      act(() => {
+        year.focus()
+      })
       year.select()
       fireEvent.copy(year, {
         clipboardData,
@@ -5105,7 +5117,9 @@ describe('Custom text for buttons', () => {
       const clipboardData = { getData }
 
       date = '01.04.2025'
-      day.focus()
+      act(() => {
+        day.focus()
+      })
       day.select()
       fireEvent.paste(day, { clipboardData })
       expect(getData).toHaveBeenCalledWith('text/plain')
@@ -5114,7 +5128,9 @@ describe('Custom text for buttons', () => {
       expect(year).toHaveValue('2025')
 
       date = '02.05.2025'
-      month.focus()
+      act(() => {
+        month.focus()
+      })
       month.select()
       fireEvent.paste(month, { clipboardData })
       expect(getData).toHaveBeenCalledWith('text/plain')
@@ -5123,7 +5139,9 @@ describe('Custom text for buttons', () => {
       expect(year).toHaveValue('2025')
 
       date = '03.05.2026'
-      year.focus()
+      act(() => {
+        year.focus()
+      })
       year.select()
       fireEvent.paste(year, { clipboardData })
       expect(getData).toHaveBeenCalledWith('text/plain')

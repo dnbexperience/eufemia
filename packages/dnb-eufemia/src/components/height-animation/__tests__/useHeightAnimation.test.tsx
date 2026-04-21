@@ -1,11 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import clsx from 'clsx'
-import {
-  render,
-  fireEvent,
-  renderHook,
-  waitFor,
-} from '@testing-library/react'
+import { render, renderHook, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import ToggleButton from '../../ToggleButton'
 import type { UseHeightAnimationOptions } from '../useHeightAnimation'
 import { useHeightAnimation } from '../useHeightAnimation'
@@ -126,14 +122,14 @@ describe('useHeightAnimation', () => {
     )
   })
 
-  it('should act with different states through the animation transition', () => {
+  it('should act with different states through the animation transition', async () => {
     render(<MockComponent />)
 
     const element = document.querySelector('.wrapper-element')
 
     expect(element).toHaveAttribute('class', 'wrapper-element')
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(element).toHaveAttribute(
       'class',
@@ -147,7 +143,7 @@ describe('useHeightAnimation', () => {
       'wrapper-element is-in-dom is-visible is-parallax is-open'
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(element).toHaveAttribute(
       'class',
@@ -164,14 +160,14 @@ describe('useHeightAnimation', () => {
 
     const element = document.querySelector('.wrapper-element')
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     await waitFor(() => {
       expect(element).toHaveClass('wrapper-element')
       expect(element).toHaveClass('is-in-dom')
     })
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     await waitFor(() => {
       expect(element).toHaveClass('wrapper-element')

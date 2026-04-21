@@ -1,6 +1,12 @@
 import React, { useContext, useLayoutEffect } from 'react'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import {
@@ -148,7 +154,9 @@ describe('PushContainer', () => {
       </Form.Handler>
     )
 
-    fireEvent.submit(document.querySelector('form'))
+    act(() => {
+      fireEvent.submit(document.querySelector('form'))
+    })
 
     await waitFor(() => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -407,7 +415,9 @@ describe('PushContainer', () => {
 
       // Wait for the internal "refresh" to be called,
       // which is inside a requestAnimationFrame.
-      await new Promise((resolve) => requestAnimationFrame(resolve))
+      await act(async () => {
+        await new Promise((resolve) => requestAnimationFrame(resolve))
+      })
 
       await waitFor(() => {
         expect(
@@ -523,7 +533,9 @@ describe('PushContainer', () => {
 
       await userEvent.type(input, 'Tony')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -533,7 +545,9 @@ describe('PushContainer', () => {
 
       expect(onCommit).toHaveBeenCalledTimes(1)
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -567,6 +581,12 @@ describe('PushContainer', () => {
         </Form.Handler>
       )
 
+      // Wait for the internal "refresh" to be called,
+      // which is inside a requestAnimationFrame.
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
       const form = document.querySelector('form')
       const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
@@ -579,24 +599,27 @@ describe('PushContainer', () => {
         'dnb-height-animation--is-visible'
       )
 
-      // Wait for the internal "refresh" to be called,
-      // which is inside a requestAnimationFrame.
-      await new Promise((resolve) => requestAnimationFrame(resolve))
-
       // Invalidate the comparison
-      dataReference.refresh()
-      dataReference.update({
-        name: 'Tony',
+      await act(async () => {
+        dataReference.refresh()
+        dataReference.update({
+          name: 'Tony',
+        })
+        await new Promise((resolve) => requestAnimationFrame(resolve))
       })
 
       // Wait for the form to be rendered
-      await new Promise((resolve) => requestAnimationFrame(resolve))
+      await act(async () => {
+        await new Promise((resolve) => requestAnimationFrame(resolve))
+      })
 
       expect(editContainer).not.toHaveClass(
         'dnb-height-animation--is-visible'
       )
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       await waitFor(() => {
         expect(editContainer).toHaveClass(
@@ -616,7 +639,9 @@ describe('PushContainer', () => {
       })
       expect(onCommit).toHaveBeenCalledTimes(1)
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       await waitFor(() => {
         expect(editContainer).not.toHaveClass(
@@ -647,7 +672,9 @@ describe('PushContainer', () => {
 
       await userEvent.type(input, 'Tony')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -662,7 +689,9 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -695,7 +724,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('The empty value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -704,7 +735,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.click(doneButton)
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -738,7 +771,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('The empty value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -747,7 +782,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.type(input, 'X')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(input).toHaveValue('The empty valueX')
         expect(
@@ -765,7 +802,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('The empty value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -777,7 +816,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('The empty value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -813,7 +854,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -822,7 +865,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.click(doneButton)
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -856,7 +901,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -865,7 +912,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.type(input, 'X')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(input).toHaveValue('A default valueX')
         expect(
@@ -883,7 +932,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -895,7 +946,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -929,7 +982,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -938,7 +993,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.click(doneButton)
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -970,7 +1027,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -979,7 +1038,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.type(input, 'X')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(input).toHaveValue('A default valueX')
         expect(
@@ -997,7 +1058,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1009,7 +1072,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1043,7 +1108,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1052,7 +1119,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.click(doneButton)
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1084,7 +1153,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1093,7 +1164,9 @@ describe('PushContainer', () => {
         )
 
         await userEvent.type(input, 'X')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(input).toHaveValue('A default valueX')
         expect(
@@ -1111,7 +1184,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1123,7 +1198,9 @@ describe('PushContainer', () => {
 
         expect(input).toHaveValue('A default value')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(3)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1214,7 +1291,9 @@ describe('PushContainer', () => {
         expect.anything()
       )
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -1240,7 +1319,9 @@ describe('PushContainer', () => {
 
       await userEvent.type(input, 'Tony')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1258,7 +1339,9 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-forms-iterate__reset-button')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
     })
 
     it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
@@ -1288,7 +1371,9 @@ describe('PushContainer', () => {
 
       await userEvent.type(input, 'Tony')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -1313,7 +1398,9 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -1607,7 +1694,9 @@ describe('PushContainer', () => {
         nb.Field.errorRequired
       )
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -1618,7 +1707,9 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
@@ -1686,7 +1777,9 @@ describe('PushContainer', () => {
         </Form.Handler>
       )
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1707,7 +1800,9 @@ describe('PushContainer', () => {
       const input = document.querySelector('input')
       const form = document.querySelector('form')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.Field.errorRequired
@@ -1719,7 +1814,9 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
     })
 
     describe('inside Wizard', () => {
@@ -1920,7 +2017,9 @@ describe('PushContainer', () => {
 
         expect(output()).toHaveTextContent('Step 2')
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          fireEvent.submit(document.querySelector('form'))
+        })
 
         await expect(() => {
           expect(
@@ -2877,7 +2976,9 @@ describe('PushContainer', () => {
       ).toHaveTextContent('Add no. 2')
     })
 
-    await wait(100) // Wait for the animation to finish
+    await act(async () => {
+      await wait(100) // Wait for the animation to finish
+    })
 
     // Remove the item
     await userEvent.click(
@@ -3173,7 +3274,9 @@ describe('PushContainer', () => {
 
       await userEvent.click(button)
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import type { JSONSchema } from '../../..'
 import { Field, Form, makeAjvInstance, Tools, Value, z } from '../../..'
 import type { SectionProps } from '../Section'
@@ -1165,7 +1165,7 @@ describe('Form.Section', () => {
       ).toHaveAttribute('aria-required', 'true')
     })
 
-    it('should overwrite minLength', () => {
+    it('should overwrite minLength', async () => {
       const schema: JSONSchema = {
         type: 'object',
         properties: {
@@ -1181,19 +1181,21 @@ describe('Form.Section', () => {
         },
       }
 
-      render(
-        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
-          <MySection
-            path="/mySection"
-            overwriteProps={{
-              lastName: {
-                value: 'f',
-                validateInitially: true,
-              },
-            }}
-          />
-        </Form.Handler>
-      )
+      await act(async () => {
+        render(
+          <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
+            <MySection
+              path="/mySection"
+              overwriteProps={{
+                lastName: {
+                  value: 'f',
+                  validateInitially: true,
+                },
+              }}
+            />
+          </Form.Handler>
+        )
+      })
 
       const statusMessage = document.querySelector('.dnb-form-status')
 

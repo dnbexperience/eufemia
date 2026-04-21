@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, renderHook } from '@testing-library/react'
+import { render, renderHook } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Translation from '../Translation'
 import useTranslation from '../useTranslation'
 import { LOCALE as defaultLocale } from '../defaults'
@@ -476,7 +477,7 @@ describe('useTranslation with an ID', () => {
       )
     })
 
-    it('should change to requested locale', () => {
+    it('should change to requested locale', async () => {
       render(
         <Provider translations={defaultLocales}>
           <output>
@@ -490,14 +491,14 @@ describe('useTranslation with an ID', () => {
         expectedNbNO
       )
 
-      fireEvent.click(document.querySelector('button.en-GB'))
+      await userEvent.click(document.querySelector('button.en-GB'))
 
       expect(document.querySelector('output').textContent).toBe(
         expectedEnGB
       )
     })
 
-    it('should have valid strings inside render', () => {
+    it('should have valid strings inside render', async () => {
       render(
         <Provider translations={defaultLocales}>
           <span className="root">
@@ -523,7 +524,9 @@ describe('useTranslation with an ID', () => {
         expectedNbNONested
       )
 
-      fireEvent.click(document.querySelector('div.root button.en-GB'))
+      await userEvent.click(
+        document.querySelector('div.root button.en-GB')
+      )
 
       expect(document.querySelector('span.root').textContent).toBe(
         expectedEnGB
@@ -532,7 +535,9 @@ describe('useTranslation with an ID', () => {
         expectedEnGBNested
       )
 
-      fireEvent.click(document.querySelector('div.nested button.en-GB'))
+      await userEvent.click(
+        document.querySelector('div.nested button.en-GB')
+      )
 
       expect(document.querySelector('span.root').textContent).toBe(
         expectedEnGB
@@ -542,7 +547,9 @@ describe('useTranslation with an ID', () => {
       )
 
       // if we change the nested locale ...
-      fireEvent.click(document.querySelector('div.nested button.nb-NO'))
+      await userEvent.click(
+        document.querySelector('div.nested button.nb-NO')
+      )
 
       // ... we also change the root
       expect(document.querySelector('span.root').textContent).toBe(

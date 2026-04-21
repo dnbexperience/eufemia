@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -59,7 +60,7 @@ describe('Toolbar', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('calls "handleRemove" when remove button is clicked and isNew is true', () => {
+  it('calls "handleRemove" when remove button is clicked and isNew is true', async () => {
     const handleRemove = jest.fn()
 
     render(
@@ -70,7 +71,7 @@ describe('Toolbar', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })

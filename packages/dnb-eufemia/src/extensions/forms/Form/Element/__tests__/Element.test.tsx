@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Form, DataContext, Field } from '../../..'
 
 describe('Form.Element', () => {
-  it('should call "onSubmit"', () => {
+  it('should call "onSubmit"', async () => {
     const onSubmitElement = jest.fn()
 
     render(
@@ -17,11 +18,13 @@ describe('Form.Element', () => {
     const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    act(() => {
+      fireEvent.submit(inputElement)
+    })
 
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(onSubmitElement).toHaveBeenCalledTimes(2)
 
@@ -30,7 +33,7 @@ describe('Form.Element', () => {
     )
   })
 
-  it('should call "onSubmit" from Provider at the same time', () => {
+  it('should call "onSubmit" from Provider at the same time', async () => {
     const onSubmit = jest.fn()
     const onSubmitElement = jest.fn()
 
@@ -49,7 +52,9 @@ describe('Form.Element', () => {
     const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    act(() => {
+      fireEvent.submit(inputElement)
+    })
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -62,7 +67,7 @@ describe('Form.Element', () => {
       expect.objectContaining({ type: 'submit', target: inputElement })
     )
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -92,7 +97,9 @@ describe('Form.Element', () => {
       cancelable: true,
     })
 
-    fireEvent(formElement, submitEvent)
+    act(() => {
+      fireEvent(formElement, submitEvent)
+    })
 
     expect(submitEvent.defaultPrevented).toBe(true)
     expect(onSubmitElement).toHaveBeenCalledTimes(1)

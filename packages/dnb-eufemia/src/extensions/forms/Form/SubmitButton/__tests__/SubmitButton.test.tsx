@@ -1,6 +1,6 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
@@ -8,7 +8,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Form.SubmitButton', () => {
-  it('should call "onSubmit" on form element', () => {
+  it('should call "onSubmit" on form element', async () => {
     const onSubmit = jest.fn()
 
     render(
@@ -20,11 +20,13 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
 
-    fireEvent.submit(buttonElement)
+    act(() => {
+      fireEvent.submit(buttonElement)
+    })
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
 
@@ -33,7 +35,7 @@ describe('Form.SubmitButton', () => {
     )
   })
 
-  it('should call preventDefault', () => {
+  it('should call preventDefault', async () => {
     const preventDefault = jest.fn()
     const onSubmit = jest.fn(preventDefault)
 
@@ -45,12 +47,14 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledTimes(1)
 
-    fireEvent.submit(buttonElement)
+    act(() => {
+      fireEvent.submit(buttonElement)
+    })
 
     expect(preventDefault).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -210,9 +214,13 @@ describe('Form.SubmitButton', () => {
   })
 
   it('should only show submit indicator on the clicked submit button', async () => {
-    const onSubmit = jest.fn(async () => {
-      await wait(10)
-    })
+    let resolveSubmit: () => void
+    const onSubmit = jest.fn(
+      async () =>
+        new Promise<void>((resolve) => {
+          resolveSubmit = resolve
+        })
+    )
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -223,7 +231,7 @@ describe('Form.SubmitButton', () => {
 
     const [firstButton, secondButton] = screen.getAllByRole('button')
 
-    fireEvent.click(secondButton)
+    await userEvent.click(secondButton)
 
     const firstIndicator = firstButton.querySelector(
       '.dnb-forms-submit-indicator'
@@ -238,6 +246,10 @@ describe('Form.SubmitButton', () => {
     expect(secondIndicator).toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
+
+    await act(async () => {
+      resolveSubmit()
+    })
   })
 
   it('should contain submit indicator and its aria features', () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldSelectCurrencyProps } from '../SelectCurrency'
 import { Provider } from '../../../../../shared'
@@ -916,9 +916,16 @@ describe('Field.SelectCurrency', () => {
 
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
+      jest.useFakeTimers()
+
       const result = render(
         <Field.SelectCurrency required validateInitially />
       )
+
+      act(() => {
+        jest.runAllTimers()
+      })
+      jest.useRealTimers()
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })

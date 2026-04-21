@@ -1,5 +1,11 @@
 import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
@@ -2325,19 +2331,25 @@ describe('Wizard.Container', () => {
       </Form.Handler>
     )
 
+    await act(async () => {})
+
     // Verify we start on Step 1
     expect(output()).toHaveTextContent('Step 1')
 
     await userEvent.click(nextButton())
 
     // Wait a bit to ensure async operations have completed
-    await wait(100)
+    await act(async () => {
+      await wait(100)
+    })
 
     expect(output()).toHaveTextContent('Step 1')
 
     // Now clear the pending state - this should trigger the onSubmitContinueRef mechanism
     // which will retry the submit and allow navigation
-    clearPendingState?.()
+    act(() => {
+      clearPendingState?.()
+    })
 
     // Wait for navigation to complete after pending state is cleared
     // The onSubmitContinueRef mechanism should retry the submit

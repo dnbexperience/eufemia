@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
@@ -45,11 +46,13 @@ describe('Pagination bar', () => {
 
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
-    rerender(
-      <Pagination {...props} currentPage={1}>
-        <div id="page-content">content</div>
-      </Pagination>
-    )
+    act(() => {
+      rerender(
+        <Pagination {...props} currentPage={1}>
+          <div id="page-content">content</div>
+        </Pagination>
+      )
+    })
 
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
@@ -75,7 +78,7 @@ describe('Pagination bar', () => {
     ).toBe('chevron left icon')
   })
 
-  it('reacts to prop changes and calls the render prop fn', () => {
+  it('reacts to prop changes and calls the render prop fn', async () => {
     // Set our test reference
     let currentPage = 15
 
@@ -96,37 +99,41 @@ describe('Pagination bar', () => {
       .querySelector('.dnb-pagination__bar__inner')
       .querySelectorAll('button.dnb-pagination__button')
 
-    fireEvent.click(buttonElements[2])
+    await userEvent.click(buttonElements[2])
     expect(currentPage).toBe(13)
     expect(document.querySelector('div#page-no').textContent).toBe('13')
 
-    fireEvent.click(buttonElements[3])
+    await userEvent.click(buttonElements[3])
     expect(currentPage).toBe(14)
     expect(document.querySelector('div#page-no').textContent).toBe('14')
 
-    rerender(
-      <Pagination {...props} currentPage={5}>
-        {({ pageNumber }) => {
-          // Update our test reference
-          currentPage = pageNumber
+    act(() => {
+      rerender(
+        <Pagination {...props} currentPage={5}>
+          {({ pageNumber }) => {
+            // Update our test reference
+            currentPage = pageNumber
 
-          return <div id="page-no">{pageNumber}</div>
-        }}
-      </Pagination>
-    )
+            return <div id="page-no">{pageNumber}</div>
+          }}
+        </Pagination>
+      )
+    })
     expect(currentPage).toBe(5)
     expect(document.querySelector('div#page-no').textContent).toBe('5')
 
-    rerender(
-      <Pagination {...props} currentPage={3}>
-        {({ pageNumber }) => {
-          // Update our test reference
-          currentPage = pageNumber
+    act(() => {
+      rerender(
+        <Pagination {...props} currentPage={3}>
+          {({ pageNumber }) => {
+            // Update our test reference
+            currentPage = pageNumber
 
-          return <div id="page-no">{pageNumber}</div>
-        }}
-      </Pagination>
-    )
+            return <div id="page-no">{pageNumber}</div>
+          }}
+        </Pagination>
+      )
+    })
     expect(currentPage).toBe(3)
     expect(document.querySelector('div#page-no').textContent).toBe('3')
   })
@@ -142,7 +149,7 @@ describe('Pagination bar', () => {
     ).toBe('2')
   })
 
-  it('sets content with setContent', () => {
+  it('sets content with setContent', async () => {
     render(
       <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber, setContent }) => {
@@ -161,7 +168,7 @@ describe('Pagination bar', () => {
 
     expect(nextButton.getAttribute('title')).toBe('Neste side')
 
-    fireEvent.click(nextButton)
+    await userEvent.click(nextButton)
 
     expect(
       document.querySelector('.dnb-pagination__content').textContent
@@ -189,7 +196,7 @@ describe('Pagination bar', () => {
     )
   })
 
-  it('rerenders properly', () => {
+  it('rerenders properly', async () => {
     const Rerender = () => {
       const [count, incrementBy] = React.useReducer((state, count) => {
         return state + count
@@ -218,7 +225,7 @@ describe('Pagination bar', () => {
       document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":2,"count":1}')
 
-    fireEvent.click(document.querySelector('#button'))
+    await userEvent.click(document.querySelector('#button'))
 
     expect(document.querySelector('#button').textContent).toBe('2')
     expect(
@@ -230,18 +237,18 @@ describe('Pagination bar', () => {
       .querySelector('.dnb-pagination__bar__skip')
       .querySelectorAll('.dnb-button')[1]
 
-    fireEvent.click(nextButton)
+    await userEvent.click(nextButton)
     expect(
       document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":3,"count":2}')
 
-    fireEvent.click(document.querySelector('#button'))
+    await userEvent.click(document.querySelector('#button'))
     expect(
       document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":3,"count":3}')
   })
 
-  it('has valid onChange callback', () => {
+  it('has valid onChange callback', async () => {
     const onChange = jest.fn()
 
     render(<Pagination {...props} onChange={onChange} />)
@@ -251,11 +258,11 @@ describe('Pagination bar', () => {
       .querySelector('.dnb-pagination__bar__skip')
       .querySelectorAll('.dnb-button')[1]
 
-    fireEvent.click(nextButton)
+    await userEvent.click(nextButton)
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].pageNumber).toBe(16)
 
-    fireEvent.click(nextButton)
+    await userEvent.click(nextButton)
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange.mock.calls[1][0].pageNumber).toBe(17)
   })
@@ -282,7 +289,9 @@ describe('Infinity scroller', () => {
   )
 
   const waitForComponent = async () => {
-    await wait(20)
+    await act(async () => {
+      await wait(20)
+    })
   }
 
   it('should derive startupPage from currentPage set after mount', async () => {
@@ -340,7 +349,9 @@ describe('Infinity scroller', () => {
     })
 
     const intersect = async () => {
-      callObserver([{ isIntersecting: true }])
+      await act(async () => {
+        callObserver([{ isIntersecting: true }])
+      })
       await waitForComponent()
     }
 
@@ -408,7 +419,9 @@ describe('Infinity scroller', () => {
     })
 
     const intersect = async () => {
-      callObserver([{ isIntersecting: true }])
+      await act(async () => {
+        callObserver([{ isIntersecting: true }])
+      })
       await waitForComponent()
     }
 
@@ -510,7 +523,9 @@ describe('Infinity scroller', () => {
     ).toBe('page-50')
 
     localStack.current = {}
-    resetInfinityHandler()
+    act(() => {
+      resetInfinityHandler()
+    })
 
     await waitForComponent()
 
@@ -595,7 +610,7 @@ describe('Infinity scroller', () => {
     const onLoad = jest.fn()
 
     const clickOnLoadMore = async () => {
-      fireEvent.click(
+      await userEvent.click(
         document.querySelector('div.dnb-pagination__loadbar button')
       )
 
@@ -661,19 +676,23 @@ describe('Infinity scroller', () => {
 
     expect(element.textContent).toContain(nb.prevTitle)
 
-    rerender(
-      <Provider locale="en-GB">
-        <Pagination {...props} />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="en-GB">
+          <Pagination {...props} />
+        </Provider>
+      )
+    })
 
     expect(element.textContent).toContain(en.prevTitle)
 
-    rerender(
-      <Provider locale="nb-NO">
-        <Pagination {...props} />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="nb-NO">
+          <Pagination {...props} />
+        </Provider>
+      )
+    })
 
     expect(element.textContent).toContain(nb.prevTitle)
   })
@@ -796,7 +815,7 @@ describe('Infinity scroller', () => {
     await waitForComponent()
 
     const clickOnLoadMore = async () => {
-      fireEvent.click(
+      await userEvent.click(
         document.querySelector('div.dnb-pagination__loadbar button')
       )
 
@@ -824,7 +843,9 @@ describe('Infinity scroller', () => {
     expect(onLoad).toHaveBeenCalledTimes(3)
     expect(onEnd).toHaveBeenCalledTimes(1)
 
-    resetInfinityHandler()
+    act(() => {
+      resetInfinityHandler()
+    })
 
     await waitForComponent()
 
@@ -926,7 +947,9 @@ describe('Pagination ARIA', () => {
         minWaitTime={0}
       />
     )
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

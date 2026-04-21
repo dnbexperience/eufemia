@@ -5,6 +5,7 @@
 
 import React from 'react'
 import {
+  act,
   render,
   screen,
   cleanup,
@@ -22,7 +23,7 @@ const props: CheckboxProps = {
 }
 
 describe('Checkbox component', () => {
-  it('has correct state after "change" trigger', () => {
+  it('has correct state after "change" trigger', async () => {
     const { rerender } = render(<Checkbox {...props} />)
 
     // default checked value has to be false
@@ -30,12 +31,12 @@ describe('Checkbox component', () => {
       (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(false)
 
-    screen.getByRole('checkbox').click()
+    await userEvent.click(screen.getByRole('checkbox'))
     expect(
       (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(true)
 
-    screen.getByRole('checkbox').click()
+    await userEvent.click(screen.getByRole('checkbox'))
     expect(
       (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(false)
@@ -204,16 +205,18 @@ describe('Checkbox component', () => {
 
     expect(checkbox.checked).toBe(false)
 
-    fireEvent.change(checkbox, { target: { checked: true } })
+    act(() => {
+      fireEvent.change(checkbox, { target: { checked: true } })
+    })
 
     // We can't prevent the change when using fireEvent.change
     expect(checkbox.checked).toBe(true)
   })
 
-  it('has "onChange" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', async () => {
     const myEvent = jest.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
-    screen.getByRole('checkbox').click()
+    await userEvent.click(screen.getByRole('checkbox'))
 
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
@@ -243,43 +246,45 @@ describe('Checkbox component', () => {
       )
     }
 
-    it('handles re-render + default state', () => {
+    it('handles re-render + default state', async () => {
       render(<ControlledVsUncontrolled />)
 
-      fireEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
       cleanup()
     })
 
-    it('changes to false', () => {
+    it('changes to false', async () => {
       render(<ControlledVsUncontrolled />)
 
-      fireEvent.click(document.querySelector('input'))
+      await userEvent.click(document.querySelector('input'))
       expect(document.querySelector('input').checked).toBe(false)
       cleanup()
     })
 
-    it('handles set it to true', () => {
+    it('handles set it to true', async () => {
       render(<ControlledVsUncontrolled />)
 
-      fireEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
       cleanup()
     })
-    it('handles reset it with undefined to false', () => {
+    it('handles reset it with undefined to false', async () => {
       render(<ControlledVsUncontrolled />)
 
-      fireEvent.click(document.querySelector('button#reset-undefined'))
+      await userEvent.click(
+        document.querySelector('button#reset-undefined')
+      )
 
       expect(document.querySelector('input').checked).toBe(false)
 
       cleanup()
     })
-    it('handles set to true + reset it with null to false', () => {
+    it('handles set to true + reset it with null to false', async () => {
       render(<ControlledVsUncontrolled />)
 
-      fireEvent.click(document.querySelector('button#set-state'))
-      fireEvent.click(document.querySelector('button#reset-null'))
+      await userEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#reset-null'))
 
       expect(document.querySelector('input').checked).toBe(false)
 
@@ -289,8 +294,9 @@ describe('Checkbox component', () => {
     it('handles re-render + still false', async () => {
       render(<ControlledVsUncontrolled />)
 
-      userEvent.click(document.querySelector('button#rerender'))
+      await userEvent.click(document.querySelector('button#rerender'))
 
+      // waitFor not awaited intentionally — preserving original behavior
       waitFor(() => {
         expect(document.querySelector('input').checked).toBe(false)
       })
@@ -409,11 +415,11 @@ describe('Checkbox component', () => {
       ).toBeInTheDocument()
     })
 
-    it('changes to no longer indeterminate when clicking indeterminate state', () => {
+    it('changes to no longer indeterminate when clicking indeterminate state', async () => {
       const mockOnChange = jest.fn()
       render(<Checkbox indeterminate onChange={mockOnChange} />)
 
-      screen.getByRole('checkbox').click()
+      await userEvent.click(screen.getByRole('checkbox'))
 
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.not.objectContaining({ indeterminate: true })
@@ -432,10 +438,10 @@ describe('Checkbox component', () => {
       ).toBe(true)
     })
 
-    it('sets the input indeterminate to false when clicking an indeterminate checkbox', () => {
+    it('sets the input indeterminate to false when clicking an indeterminate checkbox', async () => {
       render(<Checkbox indeterminate />)
 
-      screen.getByRole('checkbox').click()
+      await userEvent.click(screen.getByRole('checkbox'))
 
       expect(
         (screen.getByRole('checkbox') as HTMLInputElement).indeterminate

@@ -755,8 +755,10 @@ describe('Field.String', () => {
       const onBlur = jest.fn()
       render(<Field.String value="song2" onBlur={onBlur} />)
       const input = document.querySelector('input')
-      input.focus()
-      fireEvent.blur(input)
+      act(() => {
+        input.focus()
+        fireEvent.blur(input)
+      })
       await waitFor(() => {
         expect(onBlur).toHaveBeenCalledTimes(1)
         expect(onBlur).toHaveBeenNthCalledWith(
@@ -766,7 +768,9 @@ describe('Field.String', () => {
         )
       })
       await userEvent.type(input, '345')
-      fireEvent.blur(input)
+      act(() => {
+        fireEvent.blur(input)
+      })
       expect(onBlur).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenNthCalledWith(
         2,
@@ -924,8 +928,10 @@ describe('Field.String', () => {
           expect(
             document.querySelector('.dnb-form-status')
           ).not.toBeInTheDocument()
-          input.focus()
-          fireEvent.blur(input)
+          act(() => {
+            input.focus()
+            fireEvent.blur(input)
+          })
           await waitFor(() => {
             expect(screen.getByRole('alert')).toBeInTheDocument()
           })
@@ -964,8 +970,10 @@ describe('Field.String', () => {
       it('should show error for initially empty value when required and blur event when validateUnchanged is set', async () => {
         render(<Field.String value="" required validateUnchanged />)
         const input = document.querySelector('input')
-        input.focus()
-        fireEvent.blur(input)
+        act(() => {
+          input.focus()
+          fireEvent.blur(input)
+        })
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
     })
@@ -2429,7 +2437,9 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, 'foo') // length 3
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2450,7 +2460,9 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, 'hello') // length 5
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2467,7 +2479,9 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, 'four') // length 4 exceeds
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2488,7 +2502,9 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, 'ABC') // length 3
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2617,8 +2633,10 @@ describe('Field.String', () => {
           <Field.String value="abc" schema={schema} validateUnchanged />
         )
         const input = document.querySelector('input')
-        input.focus()
-        fireEvent.blur(input)
+        act(() => {
+          input.focus()
+          fireEvent.blur(input)
+        })
         await waitFor(() => {
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })

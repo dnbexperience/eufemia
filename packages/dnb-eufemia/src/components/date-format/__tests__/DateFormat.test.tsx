@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { format } from 'date-fns'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import DateFormat from '../../DateFormat'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
@@ -130,11 +131,10 @@ describe('DateFormat', () => {
       expect(timeElem?.textContent).not.toContain('2025')
 
       // The tooltip should show on hover
-      fireEvent.mouseEnter(timeElem)
+      await userEvent.hover(timeElem)
 
       await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+        expect(timeElem.getAttribute('aria-describedby')).toBeTruthy()
       })
 
       const tooltipId = timeElem.getAttribute('aria-describedby')
@@ -159,22 +159,19 @@ describe('DateFormat', () => {
       expect(timeElem?.textContent).not.toContain('2025')
 
       // The tooltip should show on hover
-      fireEvent.mouseEnter(timeElem)
-
-      await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+      act(() => {
+        fireEvent.mouseEnter(timeElem)
+        jest.runAllTimers()
       })
 
       const tooltipId = timeElem.getAttribute('aria-describedby')
+      expect(tooltipId).toBeTruthy()
       const tooltipElem = document.body.querySelector('#' + tooltipId)
 
       // The tooltip should contain the year
       expect(tooltipElem).toHaveTextContent('2025')
       expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
 
-      // Flush all pending timers and React updates before switching back to real timers
-      jest.runOnlyPendingTimers()
       jest.useRealTimers()
     })
 
@@ -195,11 +192,10 @@ describe('DateFormat', () => {
       expect(timeElem?.textContent).toContain('14:30')
 
       // The tooltip should show on hover
-      fireEvent.mouseEnter(timeElem)
+      await userEvent.hover(timeElem)
 
       await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+        expect(timeElem.getAttribute('aria-describedby')).toBeTruthy()
       })
 
       const tooltipId = timeElem.getAttribute('aria-describedby')
@@ -234,11 +230,17 @@ describe('DateFormat', () => {
           const timeElem = document.querySelector('.dnb-date-format')
           expect(timeElem).toBeTruthy()
 
-          fireEvent.mouseEnter(timeElem)
+          if (useFakeNow) {
+            act(() => {
+              fireEvent.mouseEnter(timeElem)
+              jest.runAllTimers()
+            })
+          } else {
+            await userEvent.hover(timeElem)
+          }
 
           await waitFor(() => {
-            const tooltipId = timeElem?.getAttribute('aria-describedby')
-            expect(tooltipId).toBeTruthy()
+            expect(timeElem?.getAttribute('aria-describedby')).toBeTruthy()
           })
 
           const tooltipId = timeElem?.getAttribute('aria-describedby')
@@ -681,6 +683,9 @@ describe('DateFormat', () => {
     describe('ARIA', () => {
       it('should validate', async () => {
         const Component = render(<DateFormat>2025-08-01</DateFormat>)
+        await act(async () => {
+          await new Promise((resolve) => setTimeout(resolve, 150))
+        })
         expect(await axeComponent(Component)).toHaveNoViolations()
       })
 
@@ -778,12 +783,10 @@ describe('DateFormat', () => {
       // When tooltip is inactive, aria-describedby should not be set
       expect(timeElem.getAttribute('aria-describedby')).toBeNull()
 
-      fireEvent.mouseEnter(timeElem)
+      await userEvent.hover(timeElem)
 
-      // Wait for tooltip to show
       await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+        expect(timeElem.getAttribute('aria-describedby')).toBeTruthy()
       })
 
       // When tooltip is active, aria-describedby should point to the tooltip id
@@ -796,7 +799,7 @@ describe('DateFormat', () => {
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
       )
 
-      fireEvent.mouseLeave(timeElem)
+      await userEvent.unhover(timeElem)
 
       // Wait for tooltip to hide
       await waitFor(() => {
@@ -819,11 +822,10 @@ describe('DateFormat', () => {
 
       expect(timeElem.getAttribute('aria-describedby')).toBeNull()
 
-      fireEvent.mouseEnter(timeElem)
+      await userEvent.hover(timeElem)
 
       await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+        expect(timeElem.getAttribute('aria-describedby')).toBeTruthy()
       })
 
       const tooltipId = timeElem.getAttribute('aria-describedby')
@@ -1304,6 +1306,9 @@ describe('DateFormat', () => {
         const Component = render(
           <DateFormat value={pastDate} relativeTime />
         )
+        await act(async () => {
+          await new Promise((resolve) => setTimeout(resolve, 150))
+        })
         expect(await axeComponent(Component)).toHaveNoViolations()
       })
 

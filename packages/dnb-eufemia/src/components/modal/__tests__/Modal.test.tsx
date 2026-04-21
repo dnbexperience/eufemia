@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
 import type { ModalProps, ModalContentProps } from '../types'
@@ -694,15 +694,15 @@ describe('Modal component', () => {
       document.querySelector('#content-third')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(document.querySelector('button#modal-first'))
+    await userEvent.click(document.querySelector('button#modal-first'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    fireEvent.click(document.querySelector('button#modal-second'))
+    await userEvent.click(document.querySelector('button#modal-second'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    fireEvent.click(document.querySelector('button#modal-third'))
+    await userEvent.click(document.querySelector('button#modal-third'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
@@ -742,7 +742,11 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(0)
@@ -770,7 +774,11 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -791,7 +799,11 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(1)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -1892,7 +1904,12 @@ describe('Modal trigger', () => {
 
 describe('Modal ARIA', () => {
   it('should validate with ARIA rules as a dialog', async () => {
+    jest.useFakeTimers()
     const Comp = render(<Modal {...props} />)
+    act(() => {
+      jest.runAllTimers()
+    })
+    jest.useRealTimers()
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

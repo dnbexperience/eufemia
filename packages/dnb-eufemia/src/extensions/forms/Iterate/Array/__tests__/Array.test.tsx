@@ -1,5 +1,11 @@
 import React, { useContext, useEffect } from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
@@ -505,8 +511,10 @@ describe('Iterate.Array', () => {
         items: [22, 2],
       })
 
-      fireEvent.change(document.querySelector('input'), {
-        target: { value: '3' },
+      act(() => {
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '3' },
+        })
       })
 
       expect(document.querySelectorAll('section input')).toHaveLength(3)
@@ -539,8 +547,10 @@ describe('Iterate.Array', () => {
         items: [22, 2, 2],
       })
 
-      fireEvent.change(document.querySelector('input'), {
-        target: { value: '1' },
+      act(() => {
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '1' },
+        })
       })
 
       expect(document.querySelectorAll('section input')).toHaveLength(1)
@@ -739,7 +749,9 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.Field.errorRequired
@@ -760,7 +772,9 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.Field.errorRequired
@@ -808,7 +822,9 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       await userEvent.click(
         document.querySelector('.dnb-forms-iterate-push-button')
@@ -930,7 +946,9 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1031,7 +1049,7 @@ describe('Iterate.Array', () => {
         ).toHaveTextContent('Error message')
       })
 
-      fireEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('button'))
 
       expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
@@ -1074,7 +1092,9 @@ describe('Iterate.Array', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(0)
 
       const form = document.querySelector('form')
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
@@ -1091,7 +1111,7 @@ describe('Iterate.Array', () => {
         ).toHaveTextContent('Error message')
       })
 
-      fireEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('button'))
 
       expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
@@ -1254,7 +1274,7 @@ describe('Iterate.Array', () => {
   })
 
   describe('in DataContext', () => {
-    it('should call onChange when new item is added', () => {
+    it('should call onChange when new item is added', async () => {
       const onChangeDataContext = jest.fn()
       const onChangeIterate = jest.fn()
 
@@ -1269,7 +1289,7 @@ describe('Iterate.Array', () => {
       )
 
       const addButton = document.querySelector('button')
-      fireEvent.click(addButton)
+      await userEvent.click(addButton)
 
       const elements = document.querySelectorAll(
         '.dnb-forms-iterate__element'
@@ -1300,7 +1320,9 @@ describe('Iterate.Array', () => {
         )
 
         const form = document.querySelector('form')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveLength(0)
 
@@ -1329,7 +1351,9 @@ describe('Iterate.Array', () => {
 
         expect(input).toHaveValue('')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1356,7 +1380,9 @@ describe('Iterate.Array', () => {
 
         expect(input).toHaveValue('foo')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1383,7 +1409,9 @@ describe('Iterate.Array', () => {
 
         expect(input).toHaveValue('foo')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1410,7 +1438,9 @@ describe('Iterate.Array', () => {
 
         expect(input).toHaveValue('foo')
 
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1431,7 +1461,9 @@ describe('Iterate.Array', () => {
         )
 
         const form = document.querySelector('form')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1452,7 +1484,9 @@ describe('Iterate.Array', () => {
         )
 
         const form = document.querySelector('form')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1473,7 +1507,9 @@ describe('Iterate.Array', () => {
         )
 
         const form = document.querySelector('form')
-        fireEvent.submit(form)
+        act(() => {
+          fireEvent.submit(form)
+        })
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1624,7 +1660,7 @@ describe('Iterate.Array', () => {
           )
         })
 
-        it('should filter data based with multi wildcard paths', () => {
+        it('should filter data based with multi wildcard paths', async () => {
           let filteredData = undefined
           const onSubmit = jest.fn(
             (data, { filterData }) =>
@@ -1662,7 +1698,7 @@ describe('Iterate.Array', () => {
 
           const submitButton = document.querySelector('button')
 
-          fireEvent.click(submitButton)
+          await userEvent.click(submitButton)
 
           expect(onSubmit).toHaveBeenCalledTimes(1)
           expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1806,7 +1842,9 @@ describe('Iterate.Array', () => {
       expect(third).toHaveValue('value 3')
       expect(forth).toHaveValue('value 4')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1849,7 +1887,9 @@ describe('Iterate.Array', () => {
       expect(second).toHaveValue('default value 2')
       expect(third).toHaveValue('something')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1901,13 +1941,17 @@ describe('Iterate.Array', () => {
 
       const staleSecondItemChange = changeItemValue[1]
 
-      changeItemValue[0]('first')
+      act(() => {
+        changeItemValue[0]('first')
+      })
 
       await waitFor(() => {
         expect(latestData?.items?.[0]?.name).toBe('first')
       })
 
-      staleSecondItemChange('second')
+      act(() => {
+        staleSecondItemChange('second')
+      })
 
       await waitFor(() => {
         expect(latestData?.items?.[0]?.name).toBe('first')
@@ -1953,7 +1997,9 @@ describe('Iterate.Array', () => {
         outer: [{ inner: ['value 1', 'value 2'] }],
       })
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1996,7 +2042,9 @@ describe('Iterate.Array', () => {
       expect(first).toHaveValue('value 1')
       expect(second).toHaveValue('value 2')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -2042,7 +2090,9 @@ describe('Iterate.Array', () => {
       expect(first).toHaveValue('value 1')
       expect(second).toHaveValue('value 2')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -2088,7 +2138,9 @@ describe('Iterate.Array', () => {
       expect(first).toHaveValue('value foo')
       expect(second).toHaveValue('value bar')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -2133,7 +2185,9 @@ describe('Iterate.Array', () => {
       expect(second).toHaveValue('default value 2')
       expect(third).toHaveValue('something')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -2306,17 +2360,19 @@ describe('Iterate.Array', () => {
       'Content "foo" 0'
     )
 
-    rerender(
-      <Iterate.Array value={['foo', 'bar']}>
-        {(itemValue, index) => {
-          return (
-            <output>
-              Content {JSON.stringify(itemValue)} {index}
-            </output>
-          )
-        }}
-      </Iterate.Array>
-    )
+    act(() => {
+      rerender(
+        <Iterate.Array value={['foo', 'bar']}>
+          {(itemValue, index) => {
+            return (
+              <output>
+                Content {JSON.stringify(itemValue)} {index}
+              </output>
+            )
+          }}
+        </Iterate.Array>
+      )
+    })
 
     const outputs = document.querySelectorAll('output')
     expect(outputs[0]).toHaveTextContent('Content "foo" 0')
@@ -2336,11 +2392,13 @@ describe('Iterate.Array', () => {
       ).toHaveLength(2)
       expect(document.body.textContent).toBe('foobar')
 
-      rerender(
-        <Iterate.Array value={['foo', 'bar', 'baz']} limit={1}>
-          <Value.String itemPath="/" />
-        </Iterate.Array>
-      )
+      act(() => {
+        rerender(
+          <Iterate.Array value={['foo', 'bar', 'baz']} limit={1}>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+        )
+      })
 
       expect(
         document.querySelectorAll('.dnb-forms-iterate__element')
@@ -2430,21 +2488,23 @@ describe('Iterate.Array', () => {
         'You need at least 1 items.'
       )
 
-      rerender(
-        <Form.Handler
-          data={{ items: ['one', 'two', 'three'] }}
-          ajvInstance={makeAjvInstance()}
-        >
-          <Iterate.Array
-            path="/items"
-            schema={schema}
-            errorMessages={errorMessages}
-            validateInitially
+      act(() => {
+        rerender(
+          <Form.Handler
+            data={{ items: ['one', 'two', 'three'] }}
+            ajvInstance={makeAjvInstance()}
           >
-            <Field.String itemPath="/" />
-          </Iterate.Array>
-        </Form.Handler>
-      )
+            <Iterate.Array
+              path="/items"
+              schema={schema}
+              errorMessages={errorMessages}
+              validateInitially
+            >
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'You cannot have more than 2 items.'
@@ -2488,21 +2548,23 @@ describe('Iterate.Array', () => {
         'You need at least 1 items.'
       )
 
-      rerender(
-        <Form.Handler
-          data={{ items: ['one', 'two', 'three'] }}
-          ajvInstance={makeAjvInstance()}
-          schema={schema}
-        >
-          <Iterate.Array
-            path="/items"
-            errorMessages={errorMessages}
-            validateInitially
+      act(() => {
+        rerender(
+          <Form.Handler
+            data={{ items: ['one', 'two', 'three'] }}
+            ajvInstance={makeAjvInstance()}
+            schema={schema}
           >
-            <Field.String itemPath="/" />
-          </Iterate.Array>
-        </Form.Handler>
-      )
+            <Iterate.Array
+              path="/items"
+              errorMessages={errorMessages}
+              validateInitially
+            >
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'You cannot have more than 2 items.'
@@ -2608,7 +2670,9 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-forms-value-block')
       ).toHaveTextContent('bar')
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {

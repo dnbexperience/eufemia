@@ -5,7 +5,8 @@ import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { act, render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const props: DrawerAllProps = {
   noAnimation: true,
@@ -41,7 +42,7 @@ afterEach(() => {
 })
 
 describe('Drawer', () => {
-  it('will run bodyScrollLock with disableBodyScroll', () => {
+  it('will run bodyScrollLock with disableBodyScroll', async () => {
     render(
       <Drawer {...props}>
         <button>button</button>
@@ -50,21 +51,25 @@ describe('Drawer', () => {
 
     expect(document.body.getAttribute('style')).toBe(null)
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     expect(document.body.getAttribute('style')).toContain(
       'overflow: hidden;'
     )
   })
 
-  it('appears on trigger click', () => {
+  it('appears on trigger click', async () => {
     render(
       <Drawer {...props}>
         <button>button</button>
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     expect(
       document.querySelector('button.dnb-modal__close-button')
@@ -79,7 +84,7 @@ describe('Drawer', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will close by using callback method', () => {
+  it('will close by using callback method', async () => {
     const onClose = jest.fn()
     const onOpen = jest.fn()
     render(
@@ -100,14 +105,14 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
     expect(onOpen).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(document.querySelector('button#close-me'))
+    await userEvent.click(document.querySelector('button#close-me'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('will render Navigation, Header and Body even when hideCloseButton is true', () => {
+  it('will render Navigation, Header and Body even when hideCloseButton is true', async () => {
     const onClose = jest.fn()
     const onOpen = jest.fn()
 
@@ -133,7 +138,7 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
     expect(onOpen).toHaveBeenCalledTimes(1)
 
     expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
@@ -157,7 +162,7 @@ describe('Drawer', () => {
       document.querySelector('.dnb-drawer__navigation').textContent
     ).toBe('Drawer.Navigation')
 
-    fireEvent.click(document.querySelector('button#close-me'))
+    await userEvent.click(document.querySelector('button#close-me'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
@@ -182,7 +187,7 @@ describe('Drawer', () => {
     ).toBe('Custom text')
   })
 
-  it('will use props from global context', () => {
+  it('will use props from global context', async () => {
     const contextTitle = 'Custom title'
     render(
       <Provider
@@ -194,14 +199,14 @@ describe('Drawer', () => {
       </Provider>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('.dnb-drawer__title').textContent).toBe(
       contextTitle
     )
   })
 
-  it('is closed by keyboardevent esc', () => {
+  it('is closed by keyboardevent esc', async () => {
     let testTriggeredBy = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
@@ -213,9 +218,11 @@ describe('Drawer', () => {
     }
     render(<Drawer {...props} id="modal-drawer" onClose={onClose} />)
 
-    fireEvent.click(document.querySelector('button#modal-drawer'))
-    fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Escape',
+    await userEvent.click(document.querySelector('button#modal-drawer'))
+    act(() => {
+      fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
+        key: 'Escape',
+      })
     })
 
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -231,8 +238,12 @@ describe('Drawer', () => {
     }
     render(<Drawer {...props} id="modal-drawer" onClose={onClose} />)
 
-    fireEvent.click(document.querySelector('button#modal-drawer'))
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    await userEvent.click(document.querySelector('button#modal-drawer'))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1)
     })
@@ -278,11 +289,13 @@ describe('Drawer', () => {
     const trigger = document.querySelector(
       'button.dnb-modal__trigger'
     ) as HTMLButtonElement
-    fireEvent.click(trigger)
+    await userEvent.click(trigger)
 
     // Close with ESC
-    fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Escape',
+    act(() => {
+      fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
+        key: 'Escape',
+      })
     })
 
     // Trigger gets focus with data-autofocus set
@@ -348,15 +361,15 @@ describe('Drawer', () => {
       document.querySelector('#content-third')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(document.querySelector('button#modal-first'))
+    await userEvent.click(document.querySelector('button#modal-first'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    fireEvent.click(document.querySelector('button#modal-second'))
+    await userEvent.click(document.querySelector('button#modal-second'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    fireEvent.click(document.querySelector('button#modal-third'))
+    await userEvent.click(document.querySelector('button#modal-third'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
@@ -395,7 +408,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(0)
@@ -423,7 +440,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -444,7 +465,11 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(1)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -482,7 +507,7 @@ describe('Drawer', () => {
     expect(scrollRef.current).toBeTruthy()
   })
 
-  it('will close drawer by using callback method', () => {
+  it('will close drawer by using callback method', async () => {
     const onClose = jest.fn()
     const onOpen = jest.fn()
 
@@ -501,14 +526,16 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
     expect(onOpen).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(document.querySelector('button#close-button'))
+    await userEvent.click(document.querySelector('button#close-button'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('can contain drawer parts', () => {
+  it('can contain drawer parts', async () => {
     render(
       <Drawer noAnimation directDomReturn={false}>
         <Drawer.Navigation>navigation</Drawer.Navigation>
@@ -517,7 +544,7 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     {
       const elements = document.querySelectorAll(
@@ -539,14 +566,16 @@ describe('Drawer', () => {
     ).toBe(1)
   })
 
-  it('sets default fullscreen to auto', () => {
+  it('sets default fullscreen to auto', async () => {
     render(
       <Drawer {...props}>
         <button>button</button>
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     expect(
       document.querySelector('.dnb-modal__content--fullscreen')
@@ -559,14 +588,16 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
-  it('sets fullscreen to true', () => {
+  it('sets fullscreen to true', async () => {
     render(
       <Drawer {...props} fullscreen>
         <button>button</button>
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     expect(
       document.querySelector('.dnb-modal__content--fullscreen')
@@ -579,14 +610,16 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
-  it('sets fullscreen to false', () => {
+  it('sets fullscreen to false', async () => {
     render(
       <Drawer {...props} fullscreen={false}>
         <button>button</button>
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     expect(
       document.querySelector('.dnb-modal__content--fullscreen')
@@ -605,7 +638,12 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
+    jest.useFakeTimers()
     const Comp = render(<Drawer {...props} open={true} title="title" />)
+    act(() => {
+      jest.runAllTimers()
+    })
+    jest.useRealTimers()
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

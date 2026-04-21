@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import NextButton from '../NextButton'
 import { Provider } from '../../../../../shared'
 import WizardContext from '../../Context/WizardContext'
@@ -52,7 +53,7 @@ describe('NextButton', () => {
     )
   })
 
-  it('should handle handlePrevious event', () => {
+  it('should handle handlePrevious event', async () => {
     const handlePrevious = jest.fn()
     const handleNext = jest.fn()
     const setActiveIndex = jest.fn()
@@ -74,7 +75,7 @@ describe('NextButton', () => {
 
     const button = document.querySelector('.dnb-forms-next-button')
 
-    fireEvent.click(button)
+    await userEvent.click(button)
 
     expect(handlePrevious).toHaveBeenCalledTimes(0)
     expect(handleNext).toHaveBeenCalledTimes(1)

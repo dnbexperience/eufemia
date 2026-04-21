@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, waitFor, fireEvent } from '@testing-library/react'
+import {
+  screen,
+  render,
+  waitFor,
+  fireEvent,
+  act,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   DataContext,
@@ -176,6 +182,8 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
+      await act(async () => {})
+
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
@@ -219,6 +227,8 @@ describe('Field.Boolean', () => {
           </DataContext.Consumer>
         </Form.Handler>
       )
+
+      await act(async () => {})
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
@@ -306,7 +316,7 @@ describe('Field.Boolean', () => {
         expect(input).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -317,7 +327,10 @@ describe('Field.Boolean', () => {
         )
 
         const input = document.querySelector('input')
-        expect(input).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(input).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
   })
@@ -481,6 +494,8 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
+      await act(async () => {})
+
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
@@ -524,6 +539,8 @@ describe('Field.Boolean', () => {
           </DataContext.Consumer>
         </Form.Handler>
       )
+
+      await act(async () => {})
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
@@ -611,7 +628,7 @@ describe('Field.Boolean', () => {
         expect(input).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -622,7 +639,10 @@ describe('Field.Boolean', () => {
         )
 
         const input = document.querySelector('input')
-        expect(input).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(input).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
   })
@@ -766,6 +786,8 @@ describe('Field.Boolean', () => {
         </Form.Handler>
       )
 
+      await act(async () => {})
+
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
           type: 'field',
@@ -809,6 +831,8 @@ describe('Field.Boolean', () => {
           </DataContext.Consumer>
         </Form.Handler>
       )
+
+      await act(async () => {})
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myArray/0/mySelection': {
@@ -857,7 +881,7 @@ describe('Field.Boolean', () => {
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -868,7 +892,10 @@ describe('Field.Boolean', () => {
         )
 
         const button = document.querySelector('button')
-        expect(button).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(button).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
   })
@@ -1031,7 +1058,7 @@ describe('Field.Boolean', () => {
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -1042,7 +1069,10 @@ describe('Field.Boolean', () => {
         )
 
         const button = document.querySelector('button')
-        expect(button).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(button).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
   })
@@ -1214,7 +1244,7 @@ describe('Field.Boolean', () => {
       expect(noElement).toHaveAttribute('aria-checked', 'false')
     })
 
-    it('should reset both buttons via useData update when undefined was given', () => {
+    it('should reset both buttons via useData update when undefined was given', async () => {
       const MockComponent = () => {
         const { update } = Form.useData('unique')
 
@@ -1229,6 +1259,8 @@ describe('Field.Boolean', () => {
       }
 
       render(<MockComponent />)
+
+      await act(async () => {})
 
       const resetButton = document.querySelector(
         '.dnb-forms-submit-button'
@@ -1250,7 +1282,9 @@ describe('Field.Boolean', () => {
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
       expect(noElement).toHaveAttribute('aria-checked', 'true')
 
-      fireEvent.click(resetButton)
+      await act(async () => {
+        fireEvent.click(resetButton)
+      })
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
       expect(noElement).toHaveAttribute('aria-checked', 'false')
@@ -1311,7 +1345,7 @@ describe('Field.Boolean', () => {
         expect(second).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -1324,8 +1358,11 @@ describe('Field.Boolean', () => {
         const [first, second] = Array.from(
           document.querySelectorAll('button')
         )
-        expect(first).toHaveAttribute('aria-invalid', 'true')
-        expect(second).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
 
@@ -1530,7 +1567,7 @@ describe('Field.Boolean', () => {
       expect(noElement).toHaveAttribute('aria-checked', 'false')
     })
 
-    it('should reset both radio via useData update when undefined was given', () => {
+    it('should reset both radio via useData update when undefined was given', async () => {
       const MockComponent = () => {
         const { update } = Form.useData('unique')
 
@@ -1545,6 +1582,8 @@ describe('Field.Boolean', () => {
       }
 
       render(<MockComponent />)
+
+      await act(async () => {})
 
       const resetButton = document.querySelector(
         '.dnb-forms-submit-button'
@@ -1566,7 +1605,9 @@ describe('Field.Boolean', () => {
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
       expect(noElement).toHaveAttribute('aria-checked', 'true')
 
-      fireEvent.click(resetButton)
+      await act(async () => {
+        fireEvent.click(resetButton)
+      })
 
       expect(yesElement).toHaveAttribute('aria-checked', 'false')
       expect(noElement).toHaveAttribute('aria-checked', 'false')
@@ -1625,7 +1666,7 @@ describe('Field.Boolean', () => {
         expect(second).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Boolean
             label="Label"
@@ -1638,8 +1679,11 @@ describe('Field.Boolean', () => {
         const [first, second] = Array.from(
           document.querySelectorAll('.dnb-radio__input')
         )
-        expect(first).toHaveAttribute('aria-invalid', 'true')
-        expect(second).toHaveAttribute('aria-invalid', 'true')
+
+        await waitFor(() => {
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     })
   })

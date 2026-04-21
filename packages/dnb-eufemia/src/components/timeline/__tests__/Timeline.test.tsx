@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { TimelineAllProps } from '../Timeline'
 import Timeline from '../Timeline'
 import type { TimelineItemAllProps } from '../TimelineItem'
@@ -277,7 +278,7 @@ describe('Timeline', () => {
       ).toHaveLength(1)
     })
 
-    it('should rerender sub components', () => {
+    it('should rerender sub components', async () => {
       const TimelineMock = () => {
         const [value, setValue] = React.useState('initial state')
         return (
@@ -314,7 +315,8 @@ describe('Timeline', () => {
       const newValue1 = 'new value 1'
       const newValue2 = 'new value 2'
 
-      fireEvent.change(firstInputElem, { target: { value: newValue1 } })
+      await userEvent.clear(firstInputElem)
+      await userEvent.type(firstInputElem, newValue1)
 
       expect(firstInputElem.value).toBe(secondInputElem.value)
       expect(firstInputElem.value).toBe(newValue1)
@@ -324,7 +326,8 @@ describe('Timeline', () => {
 
       expect(firstInputElem.value).toBe(newValue1)
 
-      fireEvent.change(firstInputElem, { target: { value: newValue2 } })
+      await userEvent.clear(firstInputElem)
+      await userEvent.type(firstInputElem, newValue2)
 
       expect(firstInputElem.value).toBe(secondInputElem.value)
       expect(firstInputElem.value).toBe(newValue2)

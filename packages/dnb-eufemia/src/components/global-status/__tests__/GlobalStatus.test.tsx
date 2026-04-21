@@ -10,7 +10,8 @@ import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
 import { P } from '../../../elements'
 import { Icon } from '../../../components'
@@ -76,21 +77,25 @@ describe('GlobalStatus component', () => {
     expect(element.textContent).toContain('Close')
     expect(element).toHaveAttribute('lang', 'en-GB')
 
-    rerender(
-      <Provider locale="nb-NO">
-        <GlobalStatus {...props} />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="nb-NO">
+          <GlobalStatus {...props} />
+        </Provider>
+      )
+    })
 
     expect(element.textContent).toContain('En feil har skjedd')
     expect(element.textContent).toContain('Lukk')
     expect(element).toHaveAttribute('lang', 'nb-NO')
 
-    rerender(
-      <Provider locale="nb-NO">
-        <GlobalStatus {...props} title={<P>Custom title</P>} />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="nb-NO">
+          <GlobalStatus {...props} title={<P>Custom title</P>} />
+        </Provider>
+      )
+    })
 
     expect(element.textContent).toContain('Custom title')
     expect(element).not.toHaveAttribute('role', 'paragraph')
@@ -100,13 +105,17 @@ describe('GlobalStatus component', () => {
     const { rerender } = render(<GlobalStatus autoScroll={false} />)
     expect(document.querySelector('[aria-live]')).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoScroll={false} show={true} />)
+    act(() => {
+      rerender(<GlobalStatus autoScroll={false} show={true} />)
+    })
 
     expect(
       document.querySelector('[aria-live="assertive"]')
     ).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoScroll={false} show={false} />)
+    act(() => {
+      rerender(<GlobalStatus autoScroll={false} show={false} />)
+    })
 
     expect(
       document.querySelector('.dnb-global-status__wrapper')
@@ -472,7 +481,7 @@ describe('GlobalStatus component', () => {
     )
 
     // Open
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
 
     await refresh()
 
@@ -493,13 +502,13 @@ describe('GlobalStatus component', () => {
       .mockImplementation(() => offsetTop)
 
     // Close
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(scrollTo).toHaveBeenCalledTimes(1)
 
     // Open
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(scrollTo).toHaveBeenCalledTimes(2)
@@ -609,7 +618,7 @@ describe('GlobalStatus component', () => {
     )
 
     // Open
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
 
     await refresh()
 
@@ -657,7 +666,9 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    fireEvent.click(document.querySelector('input#switch-escape-key'))
+    await userEvent.click(
+      document.querySelector('input#switch-escape-key')
+    )
 
     await refresh()
 
@@ -695,7 +706,7 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     simulateAnimationEnd()
@@ -728,7 +739,7 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(
@@ -742,7 +753,7 @@ describe('GlobalStatus component', () => {
       document.querySelector('.dnb-global-status__message p').textContent
     ).toBe('error-message')
 
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(
@@ -768,26 +779,38 @@ describe('GlobalStatus component', () => {
 
     render(<GlobalStatus autoScroll={false} id="custom-status-element" />)
 
-    const provider = new GlobalStatusInterceptor({
-      id: 'custom-status-element',
+    let provider: GlobalStatusInterceptor
+
+    act(() => {
+      provider = new GlobalStatusInterceptor({
+        id: 'custom-status-element',
+      })
     })
 
-    provider.add({
-      statusId: 'status-1',
-      item: {
-        text: <StatusAsComponent>error-message--a</StatusAsComponent>,
-        statusAnchorLabel: <StatusAsComponent>label--a</StatusAsComponent>,
-        statusAnchorUrl: true,
-      },
+    act(() => {
+      provider.add({
+        statusId: 'status-1',
+        item: {
+          text: <StatusAsComponent>error-message--a</StatusAsComponent>,
+          statusAnchorLabel: (
+            <StatusAsComponent>label--a</StatusAsComponent>
+          ),
+          statusAnchorUrl: true,
+        },
+      })
     })
 
-    provider.add({
-      statusId: 'status-2',
-      item: {
-        text: <StatusAsComponent>error-message--b</StatusAsComponent>,
-        statusAnchorLabel: <StatusAsComponent>label--b</StatusAsComponent>,
-        statusAnchorUrl: true,
-      },
+    act(() => {
+      provider.add({
+        statusId: 'status-2',
+        item: {
+          text: <StatusAsComponent>error-message--b</StatusAsComponent>,
+          statusAnchorLabel: (
+            <StatusAsComponent>label--b</StatusAsComponent>
+          ),
+          statusAnchorUrl: true,
+        },
+      })
     })
 
     await waitFor(() => {
@@ -835,7 +858,7 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    fireEvent.click(document.querySelector('input#switch'))
+    await userEvent.click(document.querySelector('input#switch'))
 
     await refresh()
 
@@ -850,7 +873,7 @@ describe('GlobalStatus component', () => {
     ).toBe("custom anchor text 'my-label'")
   })
 
-  it('should have a working auto close', () => {
+  it('should have a working auto close', async () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
     const onHide = jest.fn()
@@ -939,7 +962,7 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    fireEvent.click(
+    await userEvent.click(
       document.querySelector('button.dnb-global-status__close-button')
     )
 
@@ -963,13 +986,15 @@ describe('GlobalStatus component', () => {
       document.querySelector('div.dnb-global-status__message__content')
     ).not.toBeInTheDocument()
 
-    rerender(
-      <GlobalStatus
-        show={true}
-        autoScroll={false}
-        id="custom-status-show"
-      />
-    )
+    act(() => {
+      rerender(
+        <GlobalStatus
+          show={true}
+          autoScroll={false}
+          id="custom-status-show"
+        />
+      )
+    })
 
     expect(
       document.querySelector('div.dnb-global-status__content')
@@ -991,13 +1016,15 @@ describe('GlobalStatus component', () => {
       document.querySelector('div.dnb-global-status__message__content')
     ).toBeInTheDocument()
 
-    rerender(
-      <GlobalStatus
-        show="auto"
-        autoScroll={false}
-        id="custom-status-show"
-      />
-    )
+    act(() => {
+      rerender(
+        <GlobalStatus
+          show="auto"
+          autoScroll={false}
+          id="custom-status-show"
+        />
+      )
+    })
 
     render(
       <GlobalStatus.Remove
@@ -1023,16 +1050,24 @@ describe('GlobalStatus component', () => {
 
     expect(element.classList).toContain('dnb-global-status--warning')
 
-    rerender(<GlobalStatus state="information" />)
+    act(() => {
+      rerender(<GlobalStatus state="information" />)
+    })
     expect(element.classList).toContain('dnb-global-status--information')
 
-    rerender(<GlobalStatus state="success" />)
+    act(() => {
+      rerender(<GlobalStatus state="success" />)
+    })
     expect(element.classList).toContain('dnb-global-status--success')
 
-    rerender(<GlobalStatus state="error" />)
+    act(() => {
+      rerender(<GlobalStatus state="error" />)
+    })
     expect(element.classList).toContain('dnb-global-status--error')
 
-    rerender(<GlobalStatus state="warning" />)
+    act(() => {
+      rerender(<GlobalStatus state="warning" />)
+    })
     expect(element.classList).toContain('dnb-global-status--warning')
   })
 
@@ -1081,15 +1116,17 @@ describe('GlobalStatus component', () => {
     const element = document.querySelector('.dnb-global-status')
     expect(element).toHaveClass('dnb-global-status--error')
 
-    rerender(
-      <GlobalStatus
-        show
-        autoScroll={false}
-        noAnimation
-        state="information"
-        items={fixedItems}
-      />
-    )
+    act(() => {
+      rerender(
+        <GlobalStatus
+          show
+          autoScroll={false}
+          noAnimation
+          state="information"
+          items={fixedItems}
+        />
+      )
+    })
 
     expect(element).toHaveClass('dnb-global-status--information')
     expect(element).not.toHaveClass('dnb-global-status--error')
@@ -1112,11 +1149,13 @@ describe('GlobalStatus component', () => {
     expect(titleElement.textContent).toContain('An error has occurred')
     expect(closeButton.textContent).toContain('Close')
 
-    rerender(
-      <Provider locale="nb-NO">
-        <GlobalStatus show autoScroll={false} noAnimation text="Test" />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="nb-NO">
+          <GlobalStatus show autoScroll={false} noAnimation text="Test" />
+        </Provider>
+      )
+    })
 
     expect(titleElement.textContent).toContain('En feil har skjedd')
     expect(closeButton.textContent).toContain('Lukk')
@@ -1147,17 +1186,19 @@ describe('GlobalStatus component', () => {
     expect(titleElement.textContent).toContain('An error has occurred')
     expect(closeButton.textContent).toContain('Close')
 
-    rerender(
-      <Provider locale="nb-NO">
-        <GlobalStatus
-          show
-          autoScroll={false}
-          noAnimation
-          state="information"
-          text="Test"
-        />
-      </Provider>
-    )
+    act(() => {
+      rerender(
+        <Provider locale="nb-NO">
+          <GlobalStatus
+            show
+            autoScroll={false}
+            noAnimation
+            state="information"
+            text="Test"
+          />
+        </Provider>
+      )
+    })
 
     expect(element).toHaveClass('dnb-global-status--information')
     expect(element).not.toHaveClass('dnb-global-status--error')
@@ -1258,10 +1299,12 @@ const refresh = async () => {
 const keydown = (key: string) => {
   const eventInit = { key }
 
-  document.dispatchEvent(new KeyboardEvent('keydown', eventInit))
+  act(() => {
+    document.dispatchEvent(new KeyboardEvent('keydown', eventInit))
 
-  fireEvent.keyDown(
-    document.querySelector('.dnb-global-status__wrapper'),
-    eventInit
-  )
+    fireEvent.keyDown(
+      document.querySelector('.dnb-global-status__wrapper'),
+      eventInit
+    )
+  })
 }

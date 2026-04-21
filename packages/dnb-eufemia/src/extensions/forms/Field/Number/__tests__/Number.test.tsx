@@ -104,15 +104,19 @@ describe('Field.Number', () => {
 
       const input = document.querySelector('input')
 
-      fireEvent.change(input, {
-        target: {
-          value: String(Number.MIN_SAFE_INTEGER - 1),
-        },
+      act(() => {
+        fireEvent.change(input, {
+          target: {
+            value: String(Number.MIN_SAFE_INTEGER - 1),
+          },
+        })
       })
 
       expect(input).toHaveValue('-9 007 199 254 740 992')
 
-      fireEvent.blur(input)
+      act(() => {
+        fireEvent.blur(input)
+      })
 
       expect(input).toHaveValue('-9 007 199 254 740 992')
 
@@ -135,15 +139,19 @@ describe('Field.Number', () => {
 
       const input = document.querySelector('input')
 
-      fireEvent.change(input, {
-        target: {
-          value: String(Number.MAX_SAFE_INTEGER + 1),
-        },
+      act(() => {
+        fireEvent.change(input, {
+          target: {
+            value: String(Number.MAX_SAFE_INTEGER + 1),
+          },
+        })
       })
 
       expect(input).toHaveValue('9 007 199 254 740 992')
 
-      fireEvent.blur(input)
+      act(() => {
+        fireEvent.blur(input)
+      })
 
       expect(input).toHaveValue('9 007 199 254 740 992')
 
@@ -170,7 +178,9 @@ describe('Field.Number', () => {
 
       expect(labelElement()).toHaveAttribute('disabled')
 
-      rerender(<Field.Number label="Disabled label" />)
+      act(() => {
+        rerender(<Field.Number label="Disabled label" />)
+      })
 
       expect(labelElement()).not.toHaveAttribute('disabled')
     })
@@ -183,7 +193,9 @@ describe('Field.Number', () => {
         document.querySelector('input').getAttribute('autocomplete')
       ).toBe('postal-code')
 
-      rerender(<Field.Number path="/postalCode" autoComplete="tel" />)
+      act(() => {
+        rerender(<Field.Number path="/postalCode" autoComplete="tel" />)
+      })
       expect(document.querySelector('input').getAttribute('name')).toBe(
         'postalCode'
       )
@@ -230,7 +242,9 @@ describe('Field.Number', () => {
           screen.getByText('This is what went wrong')
         ).toBeInTheDocument()
 
-        rerender(<Field.Number error={() => undefined} />)
+        act(() => {
+          rerender(<Field.Number error={() => undefined} />)
+        })
 
         expect(
           document.querySelector('.dnb-form-status')
@@ -908,8 +922,10 @@ describe('Field.Number', () => {
       render(<Field.Number maximum={1000} />)
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '1001' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '1001' },
+        })
       })
 
       await waitFor(() => {
@@ -930,8 +946,10 @@ describe('Field.Number', () => {
       render(<Field.Number minimum={1.5} />)
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '1' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '1' },
+        })
       })
 
       const expected = nb.NumberField.errorMinimum.replace(
@@ -950,8 +968,10 @@ describe('Field.Number', () => {
       render(<Field.Number exclusiveMinimum={1.5} />)
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '1' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '1' },
+        })
       })
 
       const expected = nb.NumberField.errorExclusiveMinimum.replace(
@@ -970,8 +990,10 @@ describe('Field.Number', () => {
       render(<Field.Number exclusiveMaximum={2.75} />)
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '2.75' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '2.75' },
+        })
       })
 
       const expected = nb.NumberField.errorExclusiveMaximum.replace(
@@ -990,8 +1012,10 @@ describe('Field.Number', () => {
       render(<Field.Number multipleOf={3000} />)
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '1' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '1' },
+        })
       })
 
       const expected = nb.NumberField.errorMultipleOf.replace(
@@ -1016,8 +1040,10 @@ describe('Field.Number', () => {
       )
 
       const input = document.querySelector('input')
-      fireEvent.change(input, {
-        target: { value: '1001' },
+      act(() => {
+        fireEvent.change(input, {
+          target: { value: '1001' },
+        })
       })
 
       const enFormatted = String(formatNumber(1000, { locale: 'en-GB' }))
@@ -1429,7 +1455,9 @@ describe('Field.Number', () => {
 
         const input = document.querySelector('input')
         await userEvent.type(input, '1.2')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           const status = document.querySelector('.dnb-form-status')
@@ -1445,7 +1473,9 @@ describe('Field.Number', () => {
 
         const input = document.querySelector('input')
         await userEvent.type(input, '1.2')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           const status = document.querySelector('.dnb-form-status')
@@ -1587,7 +1617,9 @@ describe('Field.Number', () => {
 
           const input = document.querySelector('input')
           await userEvent.type(input, '1.2')
-          input.blur()
+          act(() => {
+            input.blur()
+          })
 
           await waitFor(() => {
             const status = document.querySelector('.dnb-form-status')
@@ -1607,7 +1639,9 @@ describe('Field.Number', () => {
 
           const input = document.querySelector('input')
           await userEvent.type(input, '1.2')
-          input.blur()
+          act(() => {
+            input.blur()
+          })
 
           await waitFor(() => {
             const status = document.querySelector('.dnb-form-status')
@@ -1631,7 +1665,9 @@ describe('Field.Number', () => {
         </Form.Handler>
       )
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
@@ -1727,7 +1763,9 @@ describe('Field.Number', () => {
         </Form.Handler>
       )
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(onChangeValidator).toHaveBeenCalledWith(
@@ -1747,7 +1785,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={1} required />)
         const input = document.querySelector('input')
         await userEvent.type(input, '{backspace}')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           expect(
@@ -1760,7 +1800,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={1} required />)
         const input = document.querySelector('input')
         await userEvent.type(input, '2')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         expect(
           document.querySelector('.dnb-form-status')
@@ -1778,11 +1820,13 @@ describe('Field.Number', () => {
           document.querySelector('.dnb-form-status__text')
         ).toHaveTextContent(nb.Field.errorRequired)
 
-        rerender(
-          <SharedProvider locale="en-GB">
-            <Field.Number required validateInitially />
-          </SharedProvider>
-        )
+        act(() => {
+          rerender(
+            <SharedProvider locale="en-GB">
+              <Field.Number required validateInitially />
+            </SharedProvider>
+          )
+        })
 
         expect(
           document.querySelector('.dnb-form-status__text')
@@ -1795,7 +1839,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={50} minimum={2000} />)
         const input = document.querySelector('input')
         await userEvent.type(input, '1')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           expect(
@@ -1808,7 +1854,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={65} minimum={40} />)
         const input = document.querySelector('input')
         await userEvent.type(input, '5')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         expect(
           document.querySelector('.dnb-form-status')
@@ -1821,7 +1869,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={50} maximum={100} />)
         const input = document.querySelector('input')
         await userEvent.type(input, '0')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           expect(
@@ -1834,7 +1884,9 @@ describe('Field.Number', () => {
         render(<Field.Number value={20} maximum={500} />)
         const input = document.querySelector('input')
         await userEvent.type(input, '1')
-        input.blur()
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           expect(
@@ -1859,17 +1911,17 @@ describe('Field.Number', () => {
       expect(input).toHaveClass('dnb-input__align--center')
     })
 
-    it('controls input value correctly using control buttons', () => {
+    it('controls input value correctly using control buttons', async () => {
       render(<Field.Number showStepControls value={0} step={10} />)
       const input = document.querySelector('input')
       const [decreaseButton, increaseButton] = Array.from(
         document.querySelectorAll('.dnb-button')
       )
 
-      fireEvent.click(increaseButton)
+      await userEvent.click(increaseButton)
       expect(input).toHaveValue('10')
 
-      fireEvent.click(decreaseButton)
+      await userEvent.click(decreaseButton)
       expect(input).toHaveValue('0')
     })
 
@@ -1888,22 +1940,24 @@ describe('Field.Number', () => {
       await userEvent.type(input, '2')
       expect(input).toHaveValue('2')
 
-      rerender(<Field.Number showStepControls defaultValue={99} />)
+      act(() => {
+        rerender(<Field.Number showStepControls defaultValue={99} />)
+      })
 
       expect(input).toHaveValue('2')
     })
 
-    it('increases input value from "startWith" value using control buttons', () => {
+    it('increases input value from "startWith" value using control buttons', async () => {
       render(<Field.Number showStepControls startWith={-1} />)
       const input = document.querySelector('input')
       const [decreaseButton, increaseButton] = Array.from(
         document.querySelectorAll('.dnb-button')
       )
 
-      fireEvent.click(increaseButton)
+      await userEvent.click(increaseButton)
       expect(input).toHaveValue('0')
 
-      fireEvent.click(decreaseButton)
+      await userEvent.click(decreaseButton)
       expect(input).toHaveValue('-1')
     })
 
@@ -1925,7 +1979,7 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('0')
     })
 
-    it('respects input max/min props', () => {
+    it('respects input max/min props', async () => {
       render(
         <Field.Number
           showStepControls
@@ -1944,19 +1998,19 @@ describe('Field.Number', () => {
       expect(increaseButton).not.toBeDisabled()
       expect(decreaseButton).not.toBeDisabled()
 
-      fireEvent.click(increaseButton)
+      await userEvent.click(increaseButton)
       expect(input).toHaveValue('2')
       expect(increaseButton).toBeDisabled()
 
-      fireEvent.click(increaseButton)
+      await userEvent.click(increaseButton)
       expect(input).toHaveValue('2')
 
-      fireEvent.click(decreaseButton)
+      await userEvent.click(decreaseButton)
       expect(input).toHaveValue('0')
       expect(increaseButton).not.toBeDisabled()
       expect(decreaseButton).toBeDisabled()
 
-      fireEvent.click(decreaseButton)
+      await userEvent.click(decreaseButton)
       expect(input).toHaveValue('0')
     })
 
@@ -2076,7 +2130,9 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
       expect(input).toHaveValue('0')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 0 },
@@ -2085,7 +2141,9 @@ describe('Field.Number', () => {
 
       await userEvent.type(input, '1')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
       expect(onSubmit).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 1 },
@@ -2094,7 +2152,9 @@ describe('Field.Number', () => {
 
       await userEvent.type(input, '{Backspace}')
 
-      fireEvent.submit(form)
+      act(() => {
+        fireEvent.submit(form)
+      })
       expect(onSubmit).toHaveBeenCalledTimes(3)
       expect(onSubmit).toHaveBeenLastCalledWith(
         { myValue: 0 },
@@ -2209,14 +2269,18 @@ describe('Field.Number', () => {
       render(<Field.Number />)
       const input = document.querySelector('input')
 
-      input.focus()
+      act(() => {
+        input.focus()
+      })
       const getData = jest.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
       const clipboardData = { getData }
-      fireEvent.paste(input, { clipboardData })
-      // Simulate the input event that follows paste with the new value
-      fireEvent.input(input, {
-        inputType: 'insertFromPaste',
-        target: { value: String(Number.MAX_SAFE_INTEGER + 1) },
+      act(() => {
+        fireEvent.paste(input, { clipboardData })
+        // Simulate the input event that follows paste with the new value
+        fireEvent.input(input, {
+          inputType: 'insertFromPaste',
+          target: { value: String(Number.MAX_SAFE_INTEGER + 1) },
+        })
       })
 
       await waitFor(() => {
@@ -2242,13 +2306,17 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
 
       // Paste a safe value: 900719925474099 (below MAX_SAFE_INTEGER)
-      input.focus()
+      act(() => {
+        input.focus()
+      })
       const getData = jest.fn(() => '900719925474099')
       const clipboardData = { getData }
-      fireEvent.paste(input, { clipboardData })
-      fireEvent.input(input, {
-        inputType: 'insertFromPaste',
-        target: { value: '900719925474099' },
+      act(() => {
+        fireEvent.paste(input, { clipboardData })
+        fireEvent.input(input, {
+          inputType: 'insertFromPaste',
+          target: { value: '900719925474099' },
+        })
       })
 
       // No error yet
@@ -2379,11 +2447,15 @@ describe('Field.Number', () => {
       expect(output).toHaveTextContent('false')
 
       // Type a value within MAX_SAFE_INTEGER
-      fireEvent.change(input, { target: { value: '9007199254740991' } })
+      act(() => {
+        fireEvent.change(input, { target: { value: '9007199254740991' } })
+      })
       expect(output).toHaveTextContent('false')
 
       // Type a value exceeding MAX_SAFE_INTEGER
-      fireEvent.change(input, { target: { value: '9007199254740992' } })
+      act(() => {
+        fireEvent.change(input, { target: { value: '9007199254740992' } })
+      })
       expect(output).toHaveTextContent('true')
     })
 
@@ -2400,7 +2472,9 @@ describe('Field.Number', () => {
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2459,7 +2533,9 @@ describe('Field.Number', () => {
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2490,7 +2566,9 @@ describe('Field.Number', () => {
       ).not.toBeInTheDocument()
 
       // Error should appear on blur
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2594,7 +2672,9 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, '3')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2622,7 +2702,9 @@ describe('Field.Number', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, '15')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2647,7 +2729,9 @@ describe('Field.Number', () => {
 
       // Type a value that's too small
       await userEvent.type(input, '3')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2679,7 +2763,9 @@ describe('Field.Number', () => {
 
       // Type a value that's too small
       await userEvent.type(input, '5')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2704,7 +2790,9 @@ describe('Field.Number', () => {
 
       // Type a value that's not a multiple of 3
       await userEvent.type(input, '5')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2727,7 +2815,9 @@ describe('Field.Number', () => {
 
       // Type a value that's too small
       await userEvent.type(input, '3')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2750,7 +2840,9 @@ describe('Field.Number', () => {
 
       // Type a value that's too large
       await userEvent.type(input, '15')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2773,7 +2865,9 @@ describe('Field.Number', () => {
 
       // Type a value that's not greater than exclusiveMinimum
       await userEvent.type(input, '5')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2796,7 +2890,9 @@ describe('Field.Number', () => {
 
       // Type a value that's not less than exclusiveMaximum
       await userEvent.type(input, '10')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2819,7 +2915,9 @@ describe('Field.Number', () => {
 
       // Type a value that's not a multiple of 3
       await userEvent.type(input, '5')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2843,7 +2941,9 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, '7')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2863,7 +2963,9 @@ describe('Field.Number', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, '5')
-      input.blur()
+      act(() => {
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(
@@ -2879,8 +2981,10 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, '3')
-      input.focus()
-      input.blur()
+      act(() => {
+        input.focus()
+        input.blur()
+      })
 
       await waitFor(() => {
         expect(

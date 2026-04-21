@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import {
+  render,
+  waitFor,
+  screen,
+  fireEvent,
+  act,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
@@ -70,7 +76,9 @@ describe('Field.OrganizationNumber', () => {
     await userEvent.type(element, '{Backspace>9}')
     expect(element).toHaveValue('')
 
-    element.blur()
+    await act(() => {
+      element.blur()
+    })
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -86,7 +94,9 @@ describe('Field.OrganizationNumber', () => {
     await userEvent.type(element, '{Backspace>9}')
     expect(element).toHaveValue('')
 
-    element.blur()
+    await act(() => {
+      element.blur()
+    })
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()

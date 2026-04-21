@@ -244,21 +244,27 @@ describe('Form.SubmitConfirmation', () => {
         </Form.Handler>
       )
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
 
       preventSubmit = true
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
 
       preventSubmit = false
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(2)
       })
@@ -582,7 +588,9 @@ describe('Form.SubmitConfirmation', () => {
       expect(submitButton).not.toBeDisabled()
     })
 
-    fireEvent.submit(submitButton)
+    act(() => {
+      fireEvent.submit(submitButton)
+    })
     expect(document.querySelector('output')).toHaveTextContent(
       'readyToBeSubmitted'
     )
@@ -601,7 +609,7 @@ describe('Form.SubmitConfirmation', () => {
     })
   })
 
-  it('should prevent "onSubmit" from being called', () => {
+  it('should prevent "onSubmit" from being called', async () => {
     const onSubmit = jest.fn()
 
     const { rerender } = render(
@@ -613,20 +621,26 @@ describe('Form.SubmitConfirmation', () => {
     )
 
     const form = document.querySelector('form')
-    fireEvent.submit(form)
+    await act(async () => {
+      fireEvent.submit(form)
+    })
 
     expect(onSubmit).toHaveBeenCalledTimes(0)
 
-    rerender(
-      <Form.Handler onSubmit={onSubmit}>
-        <Form.SubmitConfirmation preventSubmitWhen={() => true}>
-          content
-        </Form.SubmitConfirmation>
-        <Form.SubmitButton />
-      </Form.Handler>
-    )
+    act(() => {
+      rerender(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation preventSubmitWhen={() => true}>
+            content
+          </Form.SubmitConfirmation>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+    })
 
-    fireEvent.click(document.querySelector('button'))
+    await act(async () => {
+      fireEvent.click(document.querySelector('button'))
+    })
     expect(onSubmit).toHaveBeenCalledTimes(0)
   })
 
@@ -649,7 +663,9 @@ describe('Form.SubmitConfirmation', () => {
       </Form.Handler>
     )
 
-    fireEvent.submit(document.querySelector('form'))
+    act(() => {
+      fireEvent.submit(document.querySelector('form'))
+    })
     expect(onSubmit).toHaveBeenCalledTimes(0)
 
     await act(submitHandlerRef.current)
@@ -682,7 +698,9 @@ describe('Form.SubmitConfirmation', () => {
     )
 
     expect(confirmationStateRef.current).toBe('idle')
-    fireEvent.submit(document.querySelector('form'))
+    act(() => {
+      fireEvent.submit(document.querySelector('form'))
+    })
     expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
 
     await act(cancelHandlerRef.current)

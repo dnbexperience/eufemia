@@ -12,7 +12,8 @@ import {
   question as QuestionIcon,
   information_medium as InformationIcon,
 } from '../../../icons'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const props: HelpButtonProps = { id: 'help-button' }
 
@@ -131,11 +132,13 @@ describe('HelpButton', () => {
     })
   })
 
-  it('should open a dialog if children are given', () => {
+  it('should open a dialog if children are given', async () => {
     const dialogContent = 'Dialog Content'
     render(<HelpButton {...props}>{dialogContent}</HelpButton>)
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     const id = `dnb-modal-${props.id}`
     const dialogElem = document.getElementById(id)
@@ -147,7 +150,7 @@ describe('HelpButton', () => {
     expect(textContent).toContain(dialogContent)
   })
 
-  it('should return given render element', () => {
+  it('should return given render element', async () => {
     render(
       <HelpButton
         title="Title"
@@ -161,7 +164,9 @@ describe('HelpButton', () => {
       </HelpButton>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    await userEvent.click(
+      document.querySelector('button.dnb-modal__trigger')
+    )
 
     const dialogElem = document.querySelector('.custom-class')
 

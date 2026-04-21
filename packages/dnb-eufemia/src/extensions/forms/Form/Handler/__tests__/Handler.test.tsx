@@ -1,7 +1,13 @@
 /* eslint-disable jest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
@@ -616,7 +622,7 @@ describe('Form.Handler', () => {
       log.mockRestore()
     })
 
-    it('should disable form elements during submit indicator when formStatus is pending', () => {
+    it('should disable form elements during submit indicator when formStatus is pending', async () => {
       const onSubmit = async () => null
 
       render(
@@ -629,10 +635,16 @@ describe('Form.Handler', () => {
       const buttonElement = document.querySelector('button')
       const inputElement = document.querySelector('input')
 
-      fireEvent.click(buttonElement)
+      act(() => {
+        fireEvent.click(buttonElement)
+      })
 
       expect(buttonElement).toBeDisabled()
       expect(inputElement).toBeDisabled()
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
     })
 
     it('should not disable form elements during an async validator handling', async () => {
@@ -684,13 +696,17 @@ describe('Form.Handler', () => {
       await userEvent.type(inputElement, 'something')
       const activeElement = document.activeElement
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        fireEvent.submit(document.querySelector('form'))
+      })
 
       expect(inputElement).toBeDisabled()
 
       // Ensure we loose focus
       inputElement.removeAttribute('disabled')
-      inputElement.blur()
+      act(() => {
+        inputElement.blur()
+      })
 
       await waitFor(() => {
         expect(activeElement).toBe(inputElement)
@@ -974,11 +990,15 @@ describe('Form.Handler', () => {
 
       const buttonElement = document.querySelector('button')
 
-      fireEvent.click(buttonElement)
+      act(() => {
+        fireEvent.click(buttonElement)
+      })
 
       expect(buttonElement).toBeDisabled()
 
-      await wait(4)
+      await act(async () => {
+        await wait(4)
+      })
 
       expect(buttonElement).toBeDisabled()
 

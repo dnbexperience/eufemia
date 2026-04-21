@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import RemoveButton from '../RemoveButton'
@@ -21,7 +22,7 @@ describe('RemoveButton', () => {
     expect(button).toHaveTextContent(nb.removeButton)
   })
 
-  it('calls "handleRemove" when remove button is clicked', () => {
+  it('calls "handleRemove" when remove button is clicked', async () => {
     const handleRemove = jest.fn()
 
     render(
@@ -33,7 +34,7 @@ describe('RemoveButton', () => {
     )
 
     const button = document.querySelector('button')
-    fireEvent.click(button)
+    await userEvent.click(button)
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })

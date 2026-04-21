@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import List from '../List'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { fish_medium } from '../../../icons'
@@ -249,6 +249,8 @@ describe('List', () => {
     })
 
     it('action list with inline anchor wrapper has no axe violations', async () => {
+      jest.useFakeTimers()
+
       const { container } = render(
         <List.Container>
           <List.Item.Action
@@ -262,6 +264,11 @@ describe('List', () => {
           </List.Item.Action>
         </List.Container>
       )
+
+      act(() => {
+        jest.runAllTimers()
+      })
+      jest.useRealTimers()
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })

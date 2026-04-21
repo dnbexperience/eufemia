@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Field, Form } from '../../..'
 
@@ -89,7 +84,7 @@ describe('Form.InfoOverlay', () => {
     expect(anchor).toHaveAttribute('href', 'http://custom')
   })
 
-  it('should disable href when buttonClickHandler is given', () => {
+  it('should disable href when buttonClickHandler is given', async () => {
     const formId = {}
     const buttonClickHandler = jest.fn()
 
@@ -106,7 +101,7 @@ describe('Form.InfoOverlay', () => {
     })
 
     const button = document.querySelector('button')
-    fireEvent.click(button)
+    await userEvent.click(button)
 
     expect(button).not.toHaveAttribute('href')
     expect(buttonClickHandler).toHaveBeenCalledTimes(1)
@@ -356,7 +351,7 @@ describe('Form.InfoOverlay', () => {
     })
   })
 
-  it('should show content when cancel button is clicked', () => {
+  it('should show content when cancel button is clicked', async () => {
     const formId = {}
 
     render(
@@ -380,14 +375,14 @@ describe('Form.InfoOverlay', () => {
 
     const [backButton] = Array.from(buttons)
 
-    fireEvent.click(backButton)
+    await userEvent.click(backButton)
 
     expect(
       document.querySelector('.dnb-forms-info-overlay')
     ).not.toHaveClass('dnb-forms-info-overlay--error')
   })
 
-  it('should call onCancel when clicking on cancel button', () => {
+  it('should call onCancel when clicking on cancel button', async () => {
     const formId = {}
     const onCancel = jest.fn()
 
@@ -413,7 +408,7 @@ describe('Form.InfoOverlay', () => {
 
     const [backButton] = Array.from(buttons)
 
-    fireEvent.click(backButton)
+    await userEvent.click(backButton)
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
@@ -488,7 +483,7 @@ describe('Form.InfoOverlay', () => {
     expect(outerContext.data).toEqual(undefined)
   })
 
-  it('should work together with onSubmit and reduceToVisibleFields', () => {
+  it('should work together with onSubmit and reduceToVisibleFields', async () => {
     let submitData = null
 
     const formId = 'bleeed'
@@ -521,7 +516,11 @@ describe('Form.InfoOverlay', () => {
 
     const form = document.querySelector('form')
 
-    fireEvent.submit(form)
+    act(() => {
+      form.dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true })
+      )
+    })
 
     expect(submitData).toEqual(defaultData)
 
@@ -531,7 +530,7 @@ describe('Form.InfoOverlay', () => {
 
     const retryButton = document.querySelectorAll('button')[1]
 
-    fireEvent.click(retryButton)
+    await userEvent.click(retryButton)
 
     expect(submitData).toEqual(defaultData)
   })

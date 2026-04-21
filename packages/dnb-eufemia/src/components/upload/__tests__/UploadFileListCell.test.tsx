@@ -1,7 +1,8 @@
 import type { UploadFileListCellProps } from '../UploadFileListCell'
 import UploadFileListCell from '../UploadFileListCell'
 import { createMockFile } from './testHelpers'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
@@ -323,7 +324,7 @@ describe('UploadFileListCell', () => {
       )
     })
 
-    it('executes onClick event when button is clicked', () => {
+    it('executes onClick event when button is clicked', async () => {
       const onClick = jest.fn()
 
       render(
@@ -339,7 +340,7 @@ describe('UploadFileListCell', () => {
         '.dnb-upload__file-cell button'
       )
 
-      fireEvent.click(element)
+      await userEvent.click(element)
 
       expect(onClick).toHaveBeenCalledTimes(1)
     })
@@ -393,7 +394,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('executes onDelete event when delete button is clicked', () => {
+    it('executes onDelete event when delete button is clicked', async () => {
       const onDelete = jest.fn()
 
       render(
@@ -407,7 +408,7 @@ describe('UploadFileListCell', () => {
       )
       const element = document.querySelector('button')
 
-      fireEvent.click(element)
+      await userEvent.click(element)
 
       expect(onDelete).toHaveBeenCalledTimes(1)
     })
@@ -443,7 +444,7 @@ describe('UploadFileListCell', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should set focus when clicking the delete button', () => {
+    it('should set focus when clicking the delete button', async () => {
       const MockComponent = () => {
         return (
           <div className="dnb-upload">
@@ -468,19 +469,20 @@ describe('UploadFileListCell', () => {
 
       expect(document.body).toHaveFocus()
 
-      fireEvent.click(removeButton)
+      await userEvent.click(removeButton)
       expect(uploadButton).toHaveFocus()
 
       const focus = jest.fn()
-      jest
+      const focusSpy = jest
         .spyOn(HTMLElement.prototype, 'focus')
-        .mockImplementationOnce(focus)
+        .mockImplementation(focus)
 
       rerender(<MockComponent />)
 
-      fireEvent.click(removeButton)
-      expect(focus).toHaveBeenCalledTimes(1)
+      await userEvent.click(removeButton)
       expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+
+      focusSpy.mockRestore()
     })
   })
 
@@ -559,7 +561,7 @@ describe('UploadFileListCell', () => {
       expect(fileLink).toHaveAttribute('download')
     })
 
-    it('should remove onClick when removeLink is true', () => {
+    it('should remove onClick when removeLink is true', async () => {
       const fileName = 'no-click-file.png'
       const onClickMock = jest.fn()
 
@@ -577,11 +579,11 @@ describe('UploadFileListCell', () => {
       const fileLink = screen.queryByText(fileName)
       expect(fileLink.tagName).toBe('SPAN')
 
-      fireEvent.click(fileLink)
+      await userEvent.click(fileLink)
       expect(onClickMock).not.toHaveBeenCalled()
     })
 
-    it('should enable onClick when removeLink is false', () => {
+    it('should enable onClick when removeLink is false', async () => {
       const fileName = 'with-click-file.png'
       const onClickMock = jest.fn()
 
@@ -597,11 +599,11 @@ describe('UploadFileListCell', () => {
       )
 
       const fileLink = screen.queryByText(fileName)
-      fireEvent.click(fileLink)
+      await userEvent.click(fileLink)
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
 
-    it('should enable onClick by default when removeLink is not set', () => {
+    it('should enable onClick by default when removeLink is not set', async () => {
       const fileName = 'default-click-file.png'
       const onClickMock = jest.fn()
 
@@ -616,7 +618,7 @@ describe('UploadFileListCell', () => {
       )
 
       const fileLink = screen.queryByText(fileName)
-      fireEvent.click(fileLink)
+      await userEvent.click(fileLink)
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
 

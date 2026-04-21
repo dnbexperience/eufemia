@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { TagProps } from '../Tag'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
@@ -279,7 +280,7 @@ describe('Tag', () => {
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
-    it('fires onClick event if onClick is defined', () => {
+    it('fires onClick event if onClick is defined', async () => {
       const onClick = jest.fn()
       render(
         <Tag.Group label="tags">
@@ -289,7 +290,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
@@ -331,7 +332,7 @@ describe('Tag', () => {
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
-    it('fires onClick event if onClick is defined', () => {
+    it('fires onClick event if onClick is defined', async () => {
       const onClick = jest.fn()
       render(
         <Tag.Group label="tags">
@@ -341,7 +342,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
@@ -399,7 +400,7 @@ describe('Tag', () => {
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
-    it('fires onClick event if onClick is defined', () => {
+    it('fires onClick event if onClick is defined', async () => {
       const onClick = jest.fn()
       render(
         <Tag.Group label="tags">
@@ -409,7 +410,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
@@ -451,12 +452,16 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      fireEvent.keyUp(screen.getByRole('button'), {
-        key: 'Backspace',
+      act(() => {
+        fireEvent.keyUp(screen.getByRole('button'), {
+          key: 'Backspace',
+        })
       })
 
-      fireEvent.keyUp(screen.getByRole('button'), {
-        key: 'Delete',
+      act(() => {
+        fireEvent.keyUp(screen.getByRole('button'), {
+          key: 'Delete',
+        })
       })
 
       expect(onClick).toHaveBeenCalledTimes(2)
@@ -489,7 +494,7 @@ describe('Tag', () => {
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
-    it('fires onClick event if onClick is defined', () => {
+    it('fires onClick event if onClick is defined', async () => {
       const onClick = jest.fn()
       render(
         <Tag.Group label="tags">
@@ -497,7 +502,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      await userEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 

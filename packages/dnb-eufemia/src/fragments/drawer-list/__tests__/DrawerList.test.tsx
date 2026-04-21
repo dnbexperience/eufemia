@@ -124,12 +124,16 @@ describe('DrawerList component', () => {
       document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
 
-    rerender(<DrawerList {...props} data={mockData} open={false} />)
+    act(() => {
+      rerender(<DrawerList {...props} data={mockData} open={false} />)
+    })
     expect(
       document.querySelector('.dnb-drawer-list--open')
     ).not.toBeInTheDocument()
 
-    rerender(<DrawerList {...props} data={mockData} open={true} />)
+    act(() => {
+      rerender(<DrawerList {...props} data={mockData} open={true} />)
+    })
     expect(
       document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
@@ -252,7 +256,7 @@ describe('DrawerList component', () => {
         expect(onSelect).toHaveBeenCalledTimes(2)
       })
 
-      await fireEvent.click(
+      await userEvent.click(
         document.querySelectorAll('.dnb-drawer-list__option')[1]
       )
       await waitFor(() => {
@@ -279,30 +283,34 @@ describe('DrawerList component', () => {
 
     // force re-render by prop change
     const title = 'show this attribute now'
-    rerender(
-      <DrawerList
-        open
-        noAnimation
-        data={mockData}
-        defaultValue={props.value}
-        {...mockProps}
-        title={title}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          open
+          noAnimation
+          data={mockData}
+          defaultValue={props.value}
+          {...mockProps}
+          title={title}
+        />
+      )
+    })
     expect(screen.getByTitle(title)).toBeInTheDocument()
 
     // force re-render with null as value by prop change
-    rerender(
-      <DrawerList
-        open
-        noAnimation
-        data={mockData}
-        defaultValue={props.value}
-        {...mockProps}
-        title={title}
-        value={(props.value as number) + 1}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          open
+          noAnimation
+          data={mockData}
+          defaultValue={props.value}
+          {...mockProps}
+          title={title}
+          value={(props.value as number) + 1}
+        />
+      )
+    })
 
     // the selected option got a new position and is focused
 
@@ -459,7 +467,9 @@ describe('DrawerList component', () => {
     })
 
     // close the list
-    contextRef.current.drawerList.setHidden()
+    act(() => {
+      contextRef.current.drawerList.setHidden()
+    })
 
     await waitFor(() => {
       expect(
@@ -468,7 +478,9 @@ describe('DrawerList component', () => {
     })
 
     // open the list again
-    contextRef.current.drawerList.setVisible()
+    act(() => {
+      contextRef.current.drawerList.setVisible()
+    })
 
     await waitFor(() => {
       expect(
@@ -510,7 +522,9 @@ describe('DrawerList component', () => {
     })
 
     // close the list
-    contextRef.current.drawerList.setHidden()
+    act(() => {
+      contextRef.current.drawerList.setHidden()
+    })
 
     await waitFor(() => {
       expect(
@@ -519,7 +533,9 @@ describe('DrawerList component', () => {
     })
 
     // open the list again
-    contextRef.current.drawerList.setVisible()
+    act(() => {
+      contextRef.current.drawerList.setVisible()
+    })
 
     await waitFor(() => {
       expect(
@@ -553,24 +569,28 @@ describe('DrawerList component', () => {
     })
 
     // reset props
-    rerender(
-      <DrawerList
-        {...props}
-        data={Object.freeze(mockData) as DrawerListDataArray}
-        onSelect={onSelect}
-        open={null}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          {...props}
+          data={Object.freeze(mockData) as DrawerListDataArray}
+          onSelect={onSelect}
+          open={null}
+        />
+      )
+    })
 
     // then open again
-    rerender(
-      <DrawerList
-        {...props}
-        data={Object.freeze(mockData) as DrawerListDataArray}
-        onSelect={onSelect}
-        open={true}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          {...props}
+          data={Object.freeze(mockData) as DrawerListDataArray}
+          onSelect={onSelect}
+          open={true}
+        />
+      )
+    })
     keydown('ArrowDown')
     await waitFor(() => {
       expect(onSelect.mock.calls[1][0].selectedItem).toBe(undefined)
@@ -586,13 +606,17 @@ describe('DrawerList component', () => {
       <DrawerList {...props} open={false} data={mockData} />
     )
 
-    rerender(<DrawerList {...props} open={true} data={mockData} />)
+    act(() => {
+      rerender(<DrawerList {...props} open={true} data={mockData} />)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
-    rerender(<DrawerList {...props} open={false} data={mockData} />)
+    act(() => {
+      rerender(<DrawerList {...props} open={false} data={mockData} />)
+    })
 
     expect(document.documentElement).not.toHaveAttribute(
       'data-dnb-drawer-list-active'
@@ -704,7 +728,9 @@ describe('DrawerList component', () => {
       <DrawerList {...props} data={mockData} open={false} />
     )
 
-    rerender(<DrawerList {...props} data={mockData} open={true} />)
+    act(() => {
+      rerender(<DrawerList {...props} data={mockData} open={true} />)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
@@ -726,13 +752,17 @@ describe('DrawerList component', () => {
 
     expect(document.body.getAttribute('style')).toBe(null)
 
-    rerender(<MockComponent open />)
+    act(() => {
+      rerender(<MockComponent open />)
+    })
 
     expect(document.body.getAttribute('style')).toBe(
       'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
     )
 
-    rerender(<MockComponent open={false} />)
+    act(() => {
+      rerender(<MockComponent open={false} />)
+    })
 
     expect(document.body.getAttribute('style')).toBe('')
   })
@@ -760,26 +790,30 @@ describe('DrawerList component', () => {
       expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
     })
 
-    rerender(
-      <DrawerList
-        {...props}
-        data={mockData}
-        onChange={onChange}
-        onSelect={onSelect}
-        open={null}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          {...props}
+          data={mockData}
+          onChange={onChange}
+          onSelect={onSelect}
+          open={null}
+        />
+      )
+    })
 
     // then open again
-    rerender(
-      <DrawerList
-        {...props}
-        data={mockData}
-        onChange={onChange}
-        onSelect={onSelect}
-        open={true}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          {...props}
+          data={mockData}
+          onChange={onChange}
+          onSelect={onSelect}
+          open={true}
+        />
+      )
+    })
 
     // then simulate changes
     keydown('ArrowDown')
@@ -826,9 +860,15 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
 
     const directionBottom = 'bottom'
-    rerender(
-      <DrawerList {...props} data={mockData} direction={directionBottom} />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          {...props}
+          data={mockData}
+          direction={directionBottom}
+        />
+      )
+    })
     expect(
       document.querySelector(`.dnb-drawer-list--${directionBottom}`)
     ).toBeInTheDocument()
@@ -955,27 +995,31 @@ describe('DrawerList component', () => {
 
     expect(getSelectedItem()).toHaveTextContent('Content 1')
 
-    rerender(
-      <DrawerList
-        open
-        noAnimation
-        data={data.second}
-        value={data.second[1].selectedKey}
-        {...mockProps}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          open
+          noAnimation
+          data={data.second}
+          value={data.second[1].selectedKey}
+          {...mockProps}
+        />
+      )
+    })
 
     expect(getSelectedItem()).toHaveTextContent('Content 5')
 
-    rerender(
-      <DrawerList
-        open
-        noAnimation
-        data={data.third}
-        value={data.third[2].selectedKey}
-        {...mockProps}
-      />
-    )
+    act(() => {
+      rerender(
+        <DrawerList
+          open
+          noAnimation
+          data={data.third}
+          value={data.third[2].selectedKey}
+          {...mockProps}
+        />
+      )
+    })
 
     expect(getSelectedItem()).toHaveTextContent('Content 8')
   })
@@ -1131,7 +1175,9 @@ describe('DrawerList component', () => {
       // Verify the list can still handle scroll events properly after direction change
       // by checking that scroll positions are tracked correctly
       expect(listElement).toBeInTheDocument()
-      fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      act(() => {
+        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      })
 
       // The scroll observer should still be working and updating internal state
       // If it wasn't refreshed, scroll tracking would be broken
@@ -1168,10 +1214,14 @@ describe('DrawerList component', () => {
 
       // Scroll to middle
       expect(listElement).toBeInTheDocument()
-      fireEvent.scroll(listElement, { target: { scrollTop: 50 } })
+      act(() => {
+        fireEvent.scroll(listElement, { target: { scrollTop: 50 } })
+      })
 
       // Update data - this should trigger refreshScrollObserver
-      rerender(<DrawerList {...props} data={updatedData} scrollable />)
+      act(() => {
+        rerender(<DrawerList {...props} data={updatedData} scrollable />)
+      })
 
       // Wait for DOM update
       await waitFor(() => {
@@ -1183,7 +1233,9 @@ describe('DrawerList component', () => {
       // Verify scroll observer still works after data change
       // by checking that new scroll events are handled
       expect(listElement).toBeInTheDocument()
-      fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      act(() => {
+        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      })
 
       await waitFor(() => {
         // If scroll observer wasn't refreshed, it would have stale item positions
@@ -1502,7 +1554,9 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(<DrawerList open noAnimation independentWidth />)
+    act(() => {
+      rerender(<DrawerList open noAnimation independentWidth />)
+    })
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -1537,11 +1591,13 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(
-      <IsolatedStyleScope>
-        <DrawerList open noAnimation independentWidth />
-      </IsolatedStyleScope>
-    )
+    act(() => {
+      rerender(
+        <IsolatedStyleScope>
+          <DrawerList open noAnimation independentWidth />
+        </IsolatedStyleScope>
+      )
+    })
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'

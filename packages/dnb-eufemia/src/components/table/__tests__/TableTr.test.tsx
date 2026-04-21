@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Table from '../Table'
 import type { TableTrProps } from '../TableTr'
 import TableTr from '../TableTr'
@@ -352,7 +353,7 @@ describe('TableTr', () => {
       )
     })
 
-    it('should re-render table when children changes', () => {
+    it('should re-render table when children changes', async () => {
       render(<MockComponent />)
 
       let elements = document.querySelectorAll('tbody tr')
@@ -370,7 +371,7 @@ describe('TableTr', () => {
         'dnb-table__tr--even'
       )
 
-      fireEvent.click(screen.queryByText('re-order'))
+      await userEvent.click(screen.queryByText('re-order'))
 
       elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(3)
@@ -388,7 +389,7 @@ describe('TableTr', () => {
       )
     })
 
-    it('should set correct odd/even in StrictMode', () => {
+    it('should set correct odd/even in StrictMode', async () => {
       render(
         <React.StrictMode>
           <MockComponent />
@@ -410,7 +411,7 @@ describe('TableTr', () => {
         'dnb-table__tr--even'
       )
 
-      fireEvent.click(screen.queryByText('re-order'))
+      await userEvent.click(screen.queryByText('re-order'))
 
       elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(3)

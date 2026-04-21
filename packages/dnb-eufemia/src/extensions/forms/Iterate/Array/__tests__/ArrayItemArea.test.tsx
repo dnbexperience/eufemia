@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import ArrayItemArea from '../ArrayItemArea'
 import RemoveButton from '../../RemoveButton'
@@ -19,7 +20,7 @@ describe('ArrayItemArea', () => {
     globalThis.animationDuration = undefined
   })
 
-  it('should call "onAnimationEnd"', () => {
+  it('should call "onAnimationEnd"', async () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
@@ -35,12 +36,12 @@ describe('ArrayItemArea', () => {
       { wrapper }
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(onAnimationEnd).toHaveBeenCalledTimes(1)
   })
 
-  it('should call "handleRemove" from the context during element remove', () => {
+  it('should call "handleRemove" from the context during element remove', async () => {
     const handleRemove = jest.fn()
 
     const wrapper = ({ children }) => (
@@ -56,12 +57,12 @@ describe('ArrayItemArea', () => {
       { wrapper }
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
-  it('should call "fulfillRemove" from the context during element remove', () => {
+  it('should call "fulfillRemove" from the context during element remove', async () => {
     const fulfillRemove = jest.fn()
 
     const wrapper = ({ children }) => (
@@ -79,7 +80,7 @@ describe('ArrayItemArea', () => {
       { wrapper }
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(fulfillRemove).toHaveBeenCalledTimes(1)
   })
@@ -100,7 +101,7 @@ describe('ArrayItemArea', () => {
     )
 
     const addButton = document.querySelector('button')
-    fireEvent.click(addButton)
+    await userEvent.click(addButton)
 
     const elements = document.querySelectorAll(
       '.dnb-forms-iterate__element'
@@ -115,7 +116,7 @@ describe('ArrayItemArea', () => {
     ).toBeTruthy()
   })
 
-  it('should set "--error" class on blocks with error', () => {
+  it('should set "--error" class on blocks with error', async () => {
     render(
       <Form.Handler
         data={{
@@ -141,7 +142,7 @@ describe('ArrayItemArea', () => {
     ).toBeFalsy()
 
     const addButton = document.querySelector('button')
-    fireEvent.click(addButton)
+    await userEvent.click(addButton)
 
     const elements = document.querySelectorAll(
       '.dnb-forms-iterate__element'
@@ -155,7 +156,9 @@ describe('ArrayItemArea', () => {
       elements[1].querySelector('.dnb-forms-section-block--error')
     ).toBeFalsy()
 
-    fireEvent.submit(document.querySelector('form'))
+    act(() => {
+      fireEvent.submit(document.querySelector('form'))
+    })
 
     expect(
       elements[0].querySelector('.dnb-forms-section-block--error')
@@ -182,15 +185,19 @@ describe('ArrayItemArea', () => {
     const block = document.querySelector('.dnb-forms-section-block')
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
-    rerender(
-      <ArrayItemArea mode="edit" openDelay={1}>
-        Content
-      </ArrayItemArea>
-    )
+    act(() => {
+      rerender(
+        <ArrayItemArea mode="edit" openDelay={1}>
+          Content
+        </ArrayItemArea>
+      )
+    })
 
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(block).toHaveClass('dnb-height-animation--is-visible')
     expect(block).not.toHaveClass('dnb-height-animation--hidden')
@@ -243,11 +250,13 @@ describe('ArrayItemArea', () => {
     expect(inner).toBeInTheDocument()
     expect(inner).toHaveTextContent('content')
 
-    rerender(
-      <ArrayItemArea mode="view" open>
-        content
-      </ArrayItemArea>
-    )
+    act(() => {
+      rerender(
+        <ArrayItemArea mode="view" open>
+          content
+        </ArrayItemArea>
+      )
+    })
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
@@ -264,7 +273,7 @@ describe('ArrayItemArea', () => {
     ).not.toHaveClass('open')
   })
 
-  it('calls handleRemove when remove button is clicked', () => {
+  it('calls handleRemove when remove button is clicked', async () => {
     const handleRemove = jest.fn()
 
     render(
@@ -275,7 +284,7 @@ describe('ArrayItemArea', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
@@ -303,7 +312,7 @@ describe('ArrayItemArea', () => {
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     simulateAnimationEnd()
 
@@ -516,19 +525,23 @@ describe('ArrayItemArea', () => {
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
-    rerender(
-      <ArrayItemArea mode="view" open={false}>
-        content
-      </ArrayItemArea>
-    )
+    act(() => {
+      rerender(
+        <ArrayItemArea mode="view" open={false}>
+          content
+        </ArrayItemArea>
+      )
+    })
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
 
-    rerender(
-      <ArrayItemArea mode="view" open={true}>
-        content
-      </ArrayItemArea>
-    )
+    act(() => {
+      rerender(
+        <ArrayItemArea mode="view" open={true}>
+          content
+        </ArrayItemArea>
+      )
+    })
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
@@ -566,7 +579,7 @@ describe('ArrayItemArea', () => {
     const buttons = document.querySelectorAll('button')
     expect(buttons).toHaveLength(1)
 
-    fireEvent.click(buttons[0])
+    await userEvent.click(buttons[0])
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
 

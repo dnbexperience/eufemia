@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import Toolbar from '../../Toolbar/Toolbar'
 import EditButton from '../EditButton'
@@ -19,7 +20,7 @@ describe('EditButton', () => {
     expect(button).toHaveTextContent(nb.editButton)
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('calls "switchContainerMode" when edit button is clicked', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -31,7 +32,7 @@ describe('EditButton', () => {
     )
 
     const button = document.querySelector('button')
-    fireEvent.click(button)
+    await userEvent.click(button)
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('edit')

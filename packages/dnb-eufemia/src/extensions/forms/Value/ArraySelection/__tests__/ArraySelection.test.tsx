@@ -1,5 +1,6 @@
 import React from 'react'
-import { screen, render, fireEvent } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Value, Form, Field } from '../../..'
 
 describe('Value.ArraySelection', () => {
@@ -220,7 +221,7 @@ describe('Value.ArraySelection', () => {
     ).toHaveTextContent('Foo title and Bar title')
   })
 
-  it('should use Field.Option title rendered in Field.ArraySelection interactively', () => {
+  it('should use Field.Option title rendered in Field.ArraySelection interactively', async () => {
     render(
       <Form.Handler
         locale="en-GB"
@@ -244,19 +245,19 @@ describe('Value.ArraySelection', () => {
 
     expect(element).toHaveTextContent('Foo title and Bar title')
 
-    fireEvent.click(screen.getAllByText('Foo title')[0])
+    await userEvent.click(screen.getAllByText('Foo title')[0])
     expect(element).toHaveTextContent('Bar title')
 
-    fireEvent.click(screen.getAllByText('Bar title')[0])
+    await userEvent.click(screen.getAllByText('Bar title')[0])
     expect(element).toHaveTextContent('')
 
-    fireEvent.click(screen.getAllByText('Bar title')[0])
+    await userEvent.click(screen.getAllByText('Bar title')[0])
     expect(element).toHaveTextContent('Bar title')
 
-    fireEvent.click(screen.getAllByText('Foo title')[0])
+    await userEvent.click(screen.getAllByText('Foo title')[0])
     expect(element).toHaveTextContent('Foo title and Bar title')
 
-    fireEvent.click(screen.getAllByText('Baz title')[0])
+    await userEvent.click(screen.getAllByText('Baz title')[0])
     expect(element).toHaveTextContent('Foo title, Bar title and Baz title')
   })
 })

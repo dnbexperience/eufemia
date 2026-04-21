@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
@@ -286,7 +286,9 @@ describe('Form.SubmitIndicator', () => {
       'dnb-forms-submit-indicator--inline-wrap'
     )
 
-    window.dispatchEvent(new Event('resize'))
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+    })
 
     await waitFor(() => {
       expect(element).toHaveClass(

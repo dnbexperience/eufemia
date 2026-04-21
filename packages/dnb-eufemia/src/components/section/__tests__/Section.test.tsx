@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { SectionAllProps } from '../Section'
 import Section from '../Section'
@@ -119,7 +119,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "outline"', () => {
+    it('should support "outline"', async () => {
       const { rerender } = render(<Section outline />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
@@ -127,22 +127,26 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-color--small: var(--outline-color--value); --outline-color--medium: var(--outline-color--value); --outline-color--large: var(--outline-color--value);'
       )
 
-      rerender(<Section outline="fire-red" />)
+      await act(async () => {
+        rerender(<Section outline="fire-red" />)
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-color--small: var(--color-fire-red); --outline-color--medium: var(--color-fire-red); --outline-color--large: var(--color-fire-red);'
       )
 
-      rerender(
-        <Section
-          outline={{
-            small: 'fire-red',
-            medium: 'success-green',
-            large: 'black',
-          }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            outline={{
+              small: 'fire-red',
+              medium: 'success-green',
+              large: 'black',
+            }}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
@@ -150,7 +154,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "backgroundColor"', () => {
+    it('should support "backgroundColor"', async () => {
       const { rerender } = render(<Section backgroundColor="fire-red" />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
@@ -158,15 +162,17 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --background-color--small: var(--color-fire-red); --background-color--medium: var(--color-fire-red); --background-color--large: var(--color-fire-red); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
-      rerender(
-        <Section
-          backgroundColor={{
-            small: 'fire-red',
-            medium: 'success-green',
-            large: 'black',
-          }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            backgroundColor={{
+              small: 'fire-red',
+              medium: 'success-green',
+              large: 'black',
+            }}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
@@ -174,7 +180,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "textColor"', () => {
+    it('should support "textColor"', async () => {
       const { rerender } = render(<Section textColor="fire-red" />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
@@ -182,15 +188,17 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --text-color--small: var(--color-fire-red); --text-color--medium: var(--color-fire-red); --text-color--large: var(--color-fire-red); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
-      rerender(
-        <Section
-          textColor={{
-            small: 'fire-red',
-            medium: 'success-green',
-            large: 'black',
-          }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            textColor={{
+              small: 'fire-red',
+              medium: 'success-green',
+              large: 'black',
+            }}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
@@ -198,7 +206,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "breakout"', () => {
+    it('should support "breakout"', async () => {
       const { rerender } = render(<Section breakout={false} />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
@@ -206,15 +214,17 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
-      rerender(
-        <Section
-          breakout={{
-            small: true,
-            medium: false,
-            large: true,
-          }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            breakout={{
+              small: true,
+              medium: false,
+              large: true,
+            }}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
@@ -222,7 +232,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "roundedCorner"', () => {
+    it('should support "roundedCorner"', async () => {
       const { rerender } = render(
         <Section roundedCorner={false} breakout={false} />
       )
@@ -232,16 +242,18 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
-      rerender(
-        <Section
-          roundedCorner={{
-            small: true,
-            medium: false,
-            large: true,
-          }}
-          breakout={false}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            roundedCorner={{
+              small: true,
+              medium: false,
+              large: true,
+            }}
+            breakout={false}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
@@ -249,7 +261,7 @@ describe('Section component', () => {
       )
     })
 
-    it('should support "innerSpace"', () => {
+    it('should support "innerSpace"', async () => {
       const { rerender } = render(<Section innerSpace={true} />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
@@ -257,22 +269,26 @@ describe('Section component', () => {
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 1rem; --padding-r-s: 1rem; --padding-b-s: 1rem; --padding-l-s: 1rem; --padding-t-m: 1rem; --padding-r-m: 1rem; --padding-b-m: 1rem; --padding-l-m: 1rem; --padding-t-l: 1rem; --padding-r-l: 1rem; --padding-b-l: 1rem; --padding-l-l: 1rem;'
       )
 
-      rerender(<Section innerSpace="large medium small" />)
+      await act(async () => {
+        rerender(<Section innerSpace="large medium small" />)
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
         '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --padding-t-s: 4.5rem; --padding-r-s: 4.5rem; --padding-b-s: 4.5rem; --padding-l-s: 4.5rem; --padding-t-m: 4.5rem; --padding-r-m: 4.5rem; --padding-b-m: 4.5rem; --padding-l-m: 4.5rem; --padding-t-l: 4.5rem; --padding-r-l: 4.5rem; --padding-b-l: 4.5rem; --padding-l-l: 4.5rem;'
       )
 
-      rerender(
-        <Section
-          innerSpace={{
-            small: { top: '0.5rem', right: 'large' },
-            medium: true,
-            large: { left: '16px', right: 'x-small' },
-          }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Section
+            innerSpace={{
+              small: { top: '0.5rem', right: 'large' },
+              medium: true,
+              large: { left: '16px', right: 'x-small' },
+            }}
+          />
+        )
+      })
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(

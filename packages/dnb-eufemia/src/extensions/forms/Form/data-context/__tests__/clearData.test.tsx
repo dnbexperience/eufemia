@@ -10,12 +10,14 @@ describe('Form.clearData', () => {
     }).not.toThrow()
   })
 
-  it('should clear a form with an id', () => {
+  it('should clear a form with an id', async () => {
     render(
       <Form.Handler id="unique-id" data={{ myString: 'my string' }}>
         <Field.String path="/myString" />
       </Form.Handler>
     )
+
+    await act(async () => {})
 
     expect(document.querySelector('input')).toHaveValue('my string')
 
@@ -46,7 +48,7 @@ describe('Form.clearData', () => {
     expect(document.querySelector('.dnb-form-status')).toBeNull()
   })
 
-  it('should call onClear', () => {
+  it('should call onClear', async () => {
     const onClear = jest.fn()
 
     render(
@@ -54,6 +56,8 @@ describe('Form.clearData', () => {
         <Field.String path="/myString" />
       </Form.Handler>
     )
+
+    await act(async () => {})
 
     expect(onClear).not.toHaveBeenCalled()
 
@@ -67,22 +71,26 @@ describe('Form.clearData', () => {
       Form.clearData('unique-id')
     })
 
-    it('first set the value', () => {
+    it('first set the value', async () => {
       render(
         <Form.Handler id="unique-id" data={{ myString: 'my string' }}>
           <Field.String path="/myString" />
         </Form.Handler>
       )
 
+      await act(async () => {})
+
       expect(document.querySelector('input')).toHaveValue('my string')
     })
 
-    it('second, it should not be present anymore', () => {
+    it('second, it should not be present anymore', async () => {
       render(
         <Form.Handler id="unique-id">
           <Field.String path="/myString" />
         </Form.Handler>
       )
+
+      await act(async () => {})
 
       expect(document.querySelector('input')).toHaveValue('')
     })

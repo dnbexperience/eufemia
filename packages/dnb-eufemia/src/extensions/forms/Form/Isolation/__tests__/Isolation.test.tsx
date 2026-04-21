@@ -1254,7 +1254,9 @@ describe('Form.Isolation', () => {
           '{Backspace>3}Use this as the reset data'
         )
 
-        dataReference.refresh()
+        act(() => {
+          dataReference.refresh()
+        })
 
         expect(isolated).toHaveValue('Use this as the reset data')
         expect(dataReference.snapshotRef.current).toEqual({
@@ -3851,7 +3853,9 @@ describe('Form.Isolation', () => {
         // Fix the field to a valid value and refresh snapshot before commit
         await userEvent.clear(nameInput)
         await userEvent.type(nameInput, 'John')
-        dataReference.refresh()
+        act(() => {
+          dataReference.refresh()
+        })
 
         // Commit the isolation
         await userEvent.click(commitButton)
@@ -4149,7 +4153,9 @@ describe('Form.Isolation', () => {
         // Fix the field and refresh snapshot before commit
         await userEvent.clear(nameInput)
         await userEvent.type(nameInput, 'John')
-        dataReference.refresh()
+        act(() => {
+          dataReference.refresh()
+        })
 
         // Commit the isolation
         await userEvent.click(commitButton)

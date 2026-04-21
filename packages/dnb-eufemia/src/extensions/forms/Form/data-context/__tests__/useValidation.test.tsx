@@ -33,24 +33,26 @@ describe('useValidation', () => {
 
   describe('hasErrors', () => {
     describe('with id', () => {
-      it('should return false when no errors where present', () => {
+      it('should return false when no errors where present', async () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/foo" />
           </Form.Handler>
         )
+        await act(async () => {})
 
         const { result } = renderHook(() => useValidation(identifier))
 
         expect(result.current.hasErrors()).toBe(false)
       })
 
-      it('should return true when errors where present', () => {
+      it('should return true when errors where present', async () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/foo" required />
           </Form.Handler>
         )
+        await act(async () => {})
 
         const { result } = renderHook(() => useValidation(identifier))
 
@@ -514,13 +516,14 @@ describe('useValidation', () => {
   })
 
   describe('hasFieldError', () => {
-    it('should return correct state with an identifier', () => {
+    it('should return correct state with an identifier', async () => {
       render(
         <Form.Handler id={identifier}>
           <Field.String path="/foo" required />
           <Field.String path="/bar" />
         </Form.Handler>
       )
+      await act(async () => {})
 
       const { result } = renderHook(() => useValidation(identifier))
 

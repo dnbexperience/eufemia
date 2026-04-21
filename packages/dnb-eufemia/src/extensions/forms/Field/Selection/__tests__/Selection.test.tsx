@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, within, waitFor } from '@testing-library/react'
+import {
+  act,
+  screen,
+  render,
+  within,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
@@ -827,6 +833,8 @@ describe('variants', () => {
 
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
+        jest.useFakeTimers()
+
         const result = render(
           <Field.Selection
             label="Label"
@@ -838,6 +846,11 @@ describe('variants', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
+
+        act(() => {
+          jest.runAllTimers()
+        })
+        jest.useRealTimers()
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
@@ -1347,6 +1360,8 @@ describe('variants', () => {
 
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
+        jest.useFakeTimers()
+
         const result = render(
           <Field.Selection
             label="Label"
@@ -1358,6 +1373,11 @@ describe('variants', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
+
+        act(() => {
+          jest.runAllTimers()
+        })
+        jest.useRealTimers()
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
@@ -1894,6 +1914,8 @@ describe('variants', () => {
 
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
+        jest.useFakeTimers()
+
         const result = render(
           <Field.Selection
             label="Label"
@@ -1906,6 +1928,11 @@ describe('variants', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
+
+        act(() => {
+          jest.runAllTimers()
+        })
+        jest.useRealTimers()
 
         await openDropdown()
 
@@ -2664,6 +2691,8 @@ describe('variants', () => {
 
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
+        jest.useFakeTimers()
+
         const result = render(
           <Field.Selection
             label="Label"
@@ -2680,6 +2709,11 @@ describe('variants', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
+
+        act(() => {
+          jest.runAllTimers()
+        })
+        jest.useRealTimers()
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })

@@ -25,8 +25,8 @@ const props: SliderAllProps = {
 }
 
 describe('Slider component', () => {
-  afterEach(() => {
-    resetMouseSimulation()
+  afterEach(async () => {
+    await resetMouseSimulation()
   })
 
   const getThumbElements = (index: number) =>
@@ -78,37 +78,47 @@ describe('Slider component', () => {
     )
   })
 
-  it('has correct value on mouse move', () => {
+  it('has correct value on mouse move', async () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     const value = props.value as number
     expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
   })
 
-  it('has correct value on mouse move in vertical mode', () => {
+  it('has correct value on mouse move in vertical mode', async () => {
     render(<Slider {...props} vertical />)
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
+    await simulateMouseMove({
+      pageX: 80,
+      pageY: 80,
+      width: 10,
+      height: 100,
+    })
 
     expect(parseFloat(getButtonHelper().value)).toBe(20) // since we use reverse in vertical mode
   })
 
-  it('has correct value with reverse', () => {
+  it('has correct value with reverse', async () => {
     render(<Slider {...props} vertical reverse />)
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
+    await simulateMouseMove({
+      pageX: 80,
+      pageY: 80,
+      width: 10,
+      height: 100,
+    })
 
     expect(parseFloat(getButtonHelper().value)).toBe(80)
   })
 
-  it('buttons add/subtract have correct labels', () => {
+  it('buttons add/subtract have correct labels', async () => {
     render(
       <Slider
         {...props}
@@ -122,11 +132,15 @@ describe('Slider component', () => {
       '.dnb-slider__button--subtract'
     )
 
-    fireEvent.click(addElem)
+    await act(async () => {
+      fireEvent.click(addElem)
+    })
     expect(parseFloat(getButtonHelper().value)).toBe(80)
     expect(addElem.getAttribute('aria-label')).toBe('Øk (80,0 kroner)')
 
-    fireEvent.click(subtractElem)
+    await act(async () => {
+      fireEvent.click(subtractElem)
+    })
     expect(parseFloat(getButtonHelper().value)).toBe(70)
     expect(subtractElem.getAttribute('aria-label')).toBe(
       'Reduser (70,0 kroner)'
@@ -134,30 +148,30 @@ describe('Slider component', () => {
   })
 
   describe('min', () => {
-    it('should respect min value', () => {
+    it('should respect min value', async () => {
       const onChange = jest.fn()
 
       render(<Slider min={50} value={60} onChange={onChange} />)
 
-      simulateMouseMove({ pageX: 60, width: 100 })
+      await simulateMouseMove({ pageX: 60, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 80 })
       )
 
-      simulateMouseMove({ pageX: -10, width: 100 })
+      await simulateMouseMove({ pageX: -10, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 50 })
       )
     })
 
-    it('should respect min value with too large "step"', () => {
+    it('should respect min value with too large "step"', async () => {
       const onChange = jest.fn()
 
       render(<Slider min={5} step={10} value={50} onChange={onChange} />)
 
-      simulateMouseMove({ pageX: 0, width: 100 })
+      await simulateMouseMove({ pageX: 0, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 5 })
@@ -166,50 +180,50 @@ describe('Slider component', () => {
   })
 
   describe('max', () => {
-    it('should respect max value value', () => {
+    it('should respect max value value', async () => {
       const onChange = jest.fn()
 
       render(<Slider max={200} onChange={onChange} />)
 
-      simulateMouseMove({ pageX: 210, width: 100 })
+      await simulateMouseMove({ pageX: 210, width: 100 })
 
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({ value: 200 })
       )
     })
 
-    it('should respect "step" that do not divide with max', () => {
+    it('should respect "step" that do not divide with max', async () => {
       const onChange = jest.fn()
 
       render(<Slider step={3} max={100} onChange={onChange} />)
 
-      simulateMouseMove({ pageX: 100, width: 100 })
+      await simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 100 })
       )
     })
 
-    it('should respect max value with too large "step"', () => {
+    it('should respect max value with too large "step"', async () => {
       const onChange = jest.fn()
 
       render(<Slider max={105} step={10} value={50} onChange={onChange} />)
 
-      simulateMouseMove({ pageX: 100, width: 100 })
+      await simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 105 })
       )
     })
 
-    it('should respect max value with too large "step" and large number', () => {
+    it('should respect max value with too large "step" and large number', async () => {
       const onChange = jest.fn()
 
       render(
         <Slider max={2040} step={100} value={1000} onChange={onChange} />
       )
 
-      simulateMouseMove({ pageX: 100, width: 100 })
+      await simulateMouseMove({ pageX: 100, width: 100 })
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 2040 })
@@ -260,20 +274,28 @@ describe('Slider component', () => {
       )
       expect(srDescription).toBeNull()
 
-      fireEvent.mouseEnter(thumbElem)
+      await act(async () => {
+        fireEvent.mouseEnter(thumbElem)
+      })
 
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      await wait(100)
+      await act(async () => {
+        await await wait(100)
+      })
 
       const tooltipElement = getTooltipElements(0)
       expect(tooltipElement.classList).toContain('dnb-tooltip')
       expect(tooltipElement.classList).toContain('dnb-tooltip--active')
       expect(tooltipElement.textContent).toBe('80,00 €')
 
-      fireEvent.mouseLeave(thumbElem)
+      await act(async () => {
+        fireEvent.mouseLeave(thumbElem)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       expect(tooltipElement.classList).toContain('dnb-tooltip')
       expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
@@ -291,20 +313,28 @@ describe('Slider component', () => {
       )
       expect(srDescription).toBeNull()
 
-      fireEvent.focus(inputElem)
+      await act(async () => {
+        fireEvent.focus(inputElem)
+      })
 
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      await wait(100)
+      await act(async () => {
+        await await wait(100)
+      })
 
       const tooltipElement = getTooltipElements(0)
       expect(tooltipElement.classList).toContain('dnb-tooltip')
       expect(tooltipElement.classList).toContain('dnb-tooltip--active')
       expect(tooltipElement.textContent).toBe('80')
 
-      fireEvent.blur(inputElem)
+      await act(async () => {
+        fireEvent.blur(inputElem)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       expect(tooltipElement.classList).toContain('dnb-tooltip')
       expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
@@ -332,11 +362,15 @@ describe('Slider component', () => {
       )
       expect(srDescription).toBeNull()
 
-      fireEvent.mouseEnter(thumbElem)
+      await act(async () => {
+        fireEvent.mouseEnter(thumbElem)
+      })
 
-      simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
 
-      await wait(100)
+      await act(async () => {
+        await await wait(100)
+      })
 
       const tooltipElement = getTooltipElements(0)
       expect(tooltipElement.classList).toContain('dnb-tooltip')
@@ -344,9 +378,13 @@ describe('Slider component', () => {
 
       expect(tooltipElement.textContent).toBe('80,5 %')
 
-      fireEvent.mouseLeave(thumbElem)
+      await act(async () => {
+        fireEvent.mouseLeave(thumbElem)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       expect(tooltipElement.classList).toContain('dnb-tooltip')
       expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
@@ -366,24 +404,34 @@ describe('Slider component', () => {
       )
       expect(srDescription).toBeNull()
 
-      fireEvent.mouseEnter(thumbElem)
+      await act(async () => {
+        fireEvent.mouseEnter(thumbElem)
+      })
 
-      await wait(100)
+      await act(async () => {
+        await await wait(100)
+      })
 
-      fireEvent.mouseLeave(thumbElem)
+      await act(async () => {
+        fireEvent.mouseLeave(thumbElem)
+      })
 
       // Enter Tooltip, and with that, prevent it from hiding/disappearing
       const tooltipElement = getTooltipElements(0)
-      fireEvent.mouseEnter(tooltipElement)
+      await act(async () => {
+        fireEvent.mouseEnter(tooltipElement)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       // Tooltip should still be in the DOM (not removed) when hovering over it
       expect(tooltipElement).toBeInTheDocument()
       expect(tooltipElement.classList).toContain('dnb-tooltip')
     })
 
-    it('updates Tooltip targetRefreshKey when the thumb value changes', () => {
+    it('updates Tooltip targetRefreshKey when the thumb value changes', async () => {
       const popoverSpy = jest.spyOn(PopoverModule, 'default')
       render(<Slider {...props} id="tooltip-key" tooltip />)
 
@@ -401,7 +449,7 @@ describe('Slider component', () => {
       expect(initialCall.targetRefreshKey).toBe(props.value)
 
       popoverSpy.mockClear()
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       const updatedCall = findTooltipPopoverCall()
       expect(updatedCall).toBeDefined()
@@ -412,7 +460,7 @@ describe('Slider component', () => {
   })
 
   describe('Slider with marker', () => {
-    it('should render marker in horizontal direction', () => {
+    it('should render marker in horizontal direction', async () => {
       const { rerender } = render(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
@@ -427,12 +475,14 @@ describe('Slider component', () => {
       )
       expect(markerElement).toHaveAttribute('style', 'left: 30%;')
 
-      rerender(<Slider />)
+      await act(async () => {
+        rerender(<Slider />)
+      })
 
       expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
     })
 
-    it('should render marker in vertical direction', () => {
+    it('should render marker in vertical direction', async () => {
       const { rerender } = render(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
@@ -448,12 +498,14 @@ describe('Slider component', () => {
       )
       expect(markerElement).toHaveAttribute('style', 'top: 70%;')
 
-      rerender(<Slider />)
+      await act(async () => {
+        rerender(<Slider />)
+      })
 
       expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
     })
 
-    it('should have html attributes to make it accessible', () => {
+    it('should have html attributes to make it accessible', async () => {
       const { rerender } = render(
         <Slider
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
@@ -468,11 +520,13 @@ describe('Slider component', () => {
       expect(markerElement).toHaveAttribute('aria-label', '30')
       expect(markerElement).toHaveAttribute('tabIndex', '0')
 
-      rerender(
-        <Slider
-          extensions={{ marker: { instance: SliderMarker, value: 120 } }}
-        />
-      )
+      await act(async () => {
+        rerender(
+          <Slider
+            extensions={{ marker: { instance: SliderMarker, value: 120 } }}
+          />
+        )
+      })
 
       expect(markerElement).toHaveAttribute('style', 'left: 100%;')
       expect(markerElement).toHaveAttribute('aria-label', '120')
@@ -487,9 +541,13 @@ describe('Slider component', () => {
         '.dnb-slider__marker'
       )
 
-      fireEvent.mouseEnter(markerElement)
+      await act(async () => {
+        fireEvent.mouseEnter(markerElement)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       const tooltipElement = getTooltipElements(0)
       expect(tooltipElement).toHaveClass('dnb-tooltip--active')
@@ -509,21 +567,25 @@ describe('Slider component', () => {
         '.dnb-slider__marker'
       )
 
-      fireEvent.mouseEnter(markerElement)
+      await act(async () => {
+        fireEvent.mouseEnter(markerElement)
+      })
 
-      await wait(300)
+      await act(async () => {
+        await await wait(300)
+      })
 
       const tooltipElement = getTooltipElements(0)
       expect(tooltipElement).toHaveTextContent(marker.text)
     })
   })
 
-  it('has events that return a correct value', () => {
+  it('has events that return a correct value', async () => {
     const onChange = jest.fn()
 
     render(<Slider onChange={onChange} />)
 
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(onChange).toHaveBeenCalledTimes(1)
 
@@ -544,7 +606,7 @@ describe('Slider component', () => {
     expect(onChange).toHaveBeenCalledWith(changeObject)
   })
 
-  it('return valid value if numberFormat was given', () => {
+  it('return valid value if numberFormat was given', async () => {
     const onChange = jest.fn()
 
     render(
@@ -554,7 +616,7 @@ describe('Slider component', () => {
       />
     )
 
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(onChange).toHaveBeenCalledTimes(1)
 
@@ -581,13 +643,13 @@ describe('Slider component', () => {
     ).toBe('80,0 kroner')
   })
 
-  it('will not emit onChange with same value twice', () => {
+  it('will not emit onChange with same value twice', async () => {
     const onChange = jest.fn()
 
     render(<Slider onChange={onChange} />)
 
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].value).toBe(80)
@@ -612,23 +674,25 @@ describe('Slider component', () => {
       return <Slider {...props} value={value} onChange={onChangeHandler} />
     }
 
-    it('will not emit onChange with same value twice', () => {
+    it('will not emit onChange with same value twice', async () => {
       const onChange = jest.fn()
 
       props.value = [20, 30, 90]
       render(<SliderWithStateUpdate {...props} onChange={onChange} />)
 
-      fireEvent.mouseDown(getRangeElement(1))
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.mouseDown(getRangeElement(1))
+      })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange.mock.calls[0][0].value).toEqual([20, 30, 80])
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
     })
 
-    it('will not need on external prop changes', () => {
+    it('will not need on external prop changes', async () => {
       const WrongUsage = () => {
         const [min, setMinVal] = React.useState(0) //eslint-disable-line
         const [max, setMaxVal] = React.useState(200) //eslint-disable-line
@@ -647,20 +711,20 @@ describe('Slider component', () => {
 
       render(<WrongUsage />)
 
-      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 20, width: 100, height: 10 })
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 20%;'
       )
 
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       expect(getThumbElements(1).getAttribute('style')).toBe(
         'z-index: 4; left: 80%;'
       )
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
     })
 
-    it('tracks mousemove on track', () => {
+    it('tracks mousemove on track', async () => {
       const onChange = jest.fn()
 
       props.value = [20, 30, 90]
@@ -672,7 +736,7 @@ describe('Slider component', () => {
         />
       )
 
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       expect(parseFloat(getRangeElement(2).value)).toBe(80)
 
@@ -690,7 +754,7 @@ describe('Slider component', () => {
         width: 100,
       })
 
-      simulateMouseMove({ pageX: 10, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
       expect(onChange).toHaveBeenCalledWith({
         event: {
@@ -706,14 +770,16 @@ describe('Slider component', () => {
         width: 100,
       })
 
-      fireEvent.mouseDown(getRangeElement(1))
+      await act(async () => {
+        fireEvent.mouseDown(getRangeElement(1))
+      })
 
-      simulateMouseMove({ pageX: 40, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
       expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
     })
 
-    it('updates thumb index and returns correct event value', () => {
+    it('updates thumb index and returns correct event value', async () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 40]
@@ -726,20 +792,24 @@ describe('Slider component', () => {
         '.dnb-slider__button-helper'
       )[2]
 
-      fireEvent.focus(secondThumb)
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(secondThumb)
+      })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       expect(onChange.mock.calls[0][0].value).toEqual([10, 40, 80])
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
 
-      fireEvent.focus(thirdThumb)
-      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(thirdThumb)
+      })
+      await simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
     })
 
-    it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
+    it('will not swap thumb positions when multiThumbBehavior="omit"', async () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 60]
@@ -760,8 +830,10 @@ describe('Slider component', () => {
         '.dnb-slider__button-helper'
       )[2]
 
-      fireEvent.focus(secondThumb)
-      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(secondThumb)
+      })
+      await simulateMouseMove({ pageX: 50, width: 100, height: 10 })
 
       expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
       expect(getThumbElements(0).getAttribute('style')).toBe(
@@ -774,10 +846,12 @@ describe('Slider component', () => {
         'z-index: 3; left: 60%;'
       )
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
 
-      fireEvent.focus(thirdThumb)
-      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(thirdThumb)
+      })
+      await simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 50, 50])
       expect(getThumbElements(0).getAttribute('style')).toBe(
@@ -791,7 +865,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('will push thumb positions when multiThumbBehavior="push"', () => {
+    it('will push thumb positions when multiThumbBehavior="push"', async () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 60]
@@ -812,8 +886,10 @@ describe('Slider component', () => {
         '.dnb-slider__button-helper'
       )[2]
 
-      fireEvent.focus(secondThumb)
-      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(secondThumb)
+      })
+      await simulateMouseMove({ pageX: 50, width: 100, height: 10 })
 
       expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
       expect(getThumbElements(0).getAttribute('style')).toBe(
@@ -826,10 +902,12 @@ describe('Slider component', () => {
         'z-index: 3; left: 60%;'
       )
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
 
-      fireEvent.focus(thirdThumb)
-      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      await act(async () => {
+        fireEvent.focus(thirdThumb)
+      })
+      await simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 20])
       expect(getThumbElements(0).getAttribute('style')).toBe(
@@ -843,7 +921,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('sets correct inline styles', () => {
+    it('sets correct inline styles', async () => {
       props.value = [20, 30, 90]
       render(
         <SliderWithStateUpdate
@@ -852,12 +930,12 @@ describe('Slider component', () => {
         />
       )
 
-      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 80%;'
       )
 
-      simulateMouseMove({ pageX: 10, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 10, width: 100, height: 10 })
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 10%;'
       )
@@ -865,7 +943,7 @@ describe('Slider component', () => {
         'z-index: 3; left: 80%;'
       )
 
-      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 50, width: 100, height: 10 })
       expect(getThumbElements(1).getAttribute('style')).toBe(
         'z-index: 4; left: 50%;'
       )
@@ -877,7 +955,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('should allow negative values', () => {
+    it('should allow negative values', async () => {
       const onChange = jest.fn()
 
       render(
@@ -902,35 +980,35 @@ describe('Slider component', () => {
         'z-index: 3; left: 85.71428571428571%;'
       )
 
-      simulateMouseMove({ pageX: 10, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-26,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 10%;'
       )
 
-      simulateMouseMove({ pageX: 0, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 0, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 0%;'
       )
 
-      simulateMouseMove({ pageX: -10, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: -10, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 0%;'
       )
 
-      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      await simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(getTooltipElements(0).textContent).toBe('-12,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 20%;'
       )
 
-      resetMouseSimulation()
+      await resetMouseSimulation()
     })
 
     it('should inherit formElement vertical label', () => {
@@ -971,15 +1049,17 @@ const getButtonHelper = (): HTMLInputElement => {
   return document.querySelector('.dnb-slider__button-helper')
 }
 
-const resetMouseSimulation = () => {
+const resetMouseSimulation = async () => {
   const elem = document.querySelector('.dnb-slider__track')
   if (elem) {
-    fireEvent.mouseUp(elem)
+    await act(async () => {
+      fireEvent.mouseUp(elem)
+    })
   }
 }
 
-const simulateMouseMove = (props) => {
-  act(() => {
+const simulateMouseMove = async (props) => {
+  await act(async () => {
     fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
     const mouseMove = new CustomEvent('mousemove', {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
@@ -60,7 +60,9 @@ describe('UploadDropzone', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    fireEvent.drop(dropZone, { dataTransfer: { files: [file1, file2] } })
+    act(() => {
+      fireEvent.drop(dropZone, { dataTransfer: { files: [file1, file2] } })
+    })
 
     expect(defaultContext.onInputUpload).toHaveBeenCalledTimes(1)
     expect(defaultContext.onInputUpload).toHaveBeenLastCalledWith([
@@ -74,7 +76,9 @@ describe('UploadDropzone', () => {
 
     const dropZone = getRootElement()
 
-    fireEvent.dragOver(dropZone)
+    act(() => {
+      fireEvent.dragOver(dropZone)
+    })
 
     expect(Array.from(getRootElement().classList)).toEqual(
       expect.arrayContaining(['dnb-upload--active'])
@@ -86,13 +90,17 @@ describe('UploadDropzone', () => {
 
     const dropZone = getRootElement()
 
-    fireEvent.dragOver(dropZone)
+    act(() => {
+      fireEvent.dragOver(dropZone)
+    })
 
     expect(Array.from(getRootElement().classList)).toEqual(
       expect.arrayContaining(['dnb-upload--active'])
     )
 
-    fireEvent.dragLeave(dropZone)
+    act(() => {
+      fireEvent.dragLeave(dropZone)
+    })
 
     await waitFor(() =>
       expect(Array.from(getRootElement().classList)).not.toContain(
@@ -132,8 +140,10 @@ describe('UploadDropzone', () => {
 
       await wait(10)
 
-      fireEvent.drop(bodyDropZone, {
-        dataTransfer: { files: [file1, file2] },
+      act(() => {
+        fireEvent.drop(bodyDropZone, {
+          dataTransfer: { files: [file1, file2] },
+        })
       })
 
       expect(defaultContext.onInputUpload).toHaveBeenCalledTimes(1)
@@ -150,7 +160,9 @@ describe('UploadDropzone', () => {
 
       await wait(10)
 
-      fireEvent.dragOver(bodyDropZone)
+      act(() => {
+        fireEvent.dragOver(bodyDropZone)
+      })
 
       expect(Array.from(getRootElement().classList)).toEqual(
         expect.arrayContaining(['dnb-upload--active'])
@@ -164,13 +176,17 @@ describe('UploadDropzone', () => {
 
       await wait(10)
 
-      fireEvent.dragOver(bodyDropZone)
+      act(() => {
+        fireEvent.dragOver(bodyDropZone)
+      })
 
       expect(Array.from(getRootElement().classList)).toEqual(
         expect.arrayContaining(['dnb-upload--active'])
       )
 
-      fireEvent.dragLeave(bodyDropZone)
+      act(() => {
+        fireEvent.dragLeave(bodyDropZone)
+      })
 
       await waitFor(() =>
         expect(Array.from(getRootElement().classList)).not.toContain(
