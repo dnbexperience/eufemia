@@ -72,7 +72,9 @@ export const RowsWithSlots = () => {
           </List.Cell.Title>
           <List.Cell.End>End</List.Cell.End>
           <List.Cell.Footer
-            style={{ background: 'var(--color-sand-yellow)' }}
+            style={{
+              background: 'var(--token-color-background-neutral-subtle)',
+            }}
           >
             <P>Footer</P>
           </List.Cell.Footer>
@@ -121,7 +123,7 @@ export const FooterWithButtons = () => {
           </List.Item.Accordion.Header>
           <List.Cell.Footer
             style={{
-              background: 'var(--color-sand-yellow)',
+              background: 'var(--token-color-background-neutral-subtle)',
             }}
           >
             <Button variant="tertiary" text="Next" icon="chevron_right" />
@@ -702,7 +704,7 @@ export const GridColumns = () => {
             display: 'gid',
             placeContent: 'center',
             textAlign: 'center',
-            background: 'var(--color-sand-yellow)',
+            background: 'var(--token-color-background-neutral-subtle)',
           }}
         >
           <P>Second Grid Item</P>
