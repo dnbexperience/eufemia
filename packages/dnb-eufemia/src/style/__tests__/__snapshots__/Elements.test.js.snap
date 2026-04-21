@@ -33,11 +33,11 @@ exports[`Elements scss has to match style dependencies css 1`] = `
  *
  */
 .dnb-blockquote {
-  --blockquote-padding-top: 2rem;
+  --blockquote-padding-top: 1.5rem;
   --blockquote-padding-left: 1.5rem;
-  --blockquote-padding-bottom: 3rem;
+  --blockquote-padding-bottom: 2rem;
   --blockquote-quote-size: 3rem;
-  --blockquote-quote-padding: 6rem;
+  --blockquote-quote-padding: 5.5rem;
   --blockquote-cite-style: italic;
   display: inline-block;
   width: auto;
@@ -59,6 +59,8 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   border-radius: 1rem;
+  color: var(--token-color-text-action-ondark);
+  background-color: var(--token-color-decorative-first-intense-static);
   position: relative;
 }
 .dnb-blockquote .dnb-blockquote__quote-icon {
@@ -159,7 +161,7 @@ del .dnb-code {
 .dnb-code--surface-dark {
   color: var(--token-color-text-neutral-ondark);
   background-color: inherit;
-  box-shadow: inset 0 0 0 0.0625rem var(--token-color-stroke-neutral-ondark);
+  box-shadow: inset 0 0 0 0.0625rem var(--token-color-stroke-action-disabled-ondark);
 }
 .dnb-code .dnb-anchor {
   font-size: inherit;
