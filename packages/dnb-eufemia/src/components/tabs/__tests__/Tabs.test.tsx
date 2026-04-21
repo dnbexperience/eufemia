@@ -104,6 +104,44 @@ describe('Tabs component', () => {
     expect(onFocus).toHaveBeenCalledTimes(2)
   })
 
+  it('should not programmatically focus tab button after click', () => {
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const secondButton = document.querySelectorAll(
+      '.dnb-tabs__button'
+    )[1] as HTMLElement
+
+    // Move focus away from the tab buttons
+    ;(document.activeElement as HTMLElement)?.blur()
+
+    fireEvent.click(secondButton)
+
+    // After click, the tab button should NOT be programmatically focused
+    expect(document.activeElement).not.toBe(secondButton)
+  })
+
+  it('should programmatically focus tab button after keyboard navigation', () => {
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowRight',
+    })
+
+    const secondButton = document.querySelector(
+      '.dnb-tabs__button[data-tab-key="second"]'
+    ) as HTMLElement
+
+    expect(document.activeElement).toBe(secondButton)
+  })
+
   it('will use given tabElement', () => {
     const Link = ({
       href,

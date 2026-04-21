@@ -402,6 +402,7 @@ function TabsComponent(ownProps: TabsProps) {
   const [hasScrollbar, setHasScrollbar] = useState(false)
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
   const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
+  const focusIsFromKeyboardRef = useRef(false)
 
   // Track previous props for getDerivedStateFromProps equivalent
   const [prevDataSource, setPrevDataSource] = useState(
@@ -733,6 +734,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     listenForPropChangesRef.current = false
+    focusIsFromKeyboardRef.current = true
     setFocusKey(newFocusKey)
 
     // setFocusOnTabButton will be called via useEffect below
@@ -746,9 +748,12 @@ function TabsComponent(ownProps: TabsProps) {
     whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
   }
 
-  // Focus tab button when focusKey changes
+  // Focus tab button when focusKey changes from keyboard interaction
   useUpdateEffect(() => {
-    setFocusOnTabButton()
+    if (focusIsFromKeyboardRef.current) {
+      focusIsFromKeyboardRef.current = false
+      setFocusOnTabButton()
+    }
   }, [focusKey])
 
   const openTab = (
