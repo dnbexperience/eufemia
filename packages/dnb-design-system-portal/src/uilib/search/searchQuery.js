@@ -9,6 +9,8 @@ const { getIndexName, runQueriesWhen } = require('./searchHelpers')
 
 require('dotenv').config()
 
+const excludedSlugPartials = ['/uilib/about-the-lib/releases/']
+
 const docsQuery = /* GraphQL */ `
   {
     pages: allMdx {
@@ -51,7 +53,10 @@ const flatten = (arr) =>
           fields: { slug },
           frontmatter: { draft },
         },
-      }) => !slug.includes('not_in_use') && draft !== true
+      }) =>
+        !slug.includes('not_in_use') &&
+        !excludedSlugPartials.some((partial) => slug.includes(partial)) &&
+        draft !== true
     )
     .map(
       ({
