@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
-import { mockClipboard } from '../../../core/jest/jestSetup'
+import { axeComponent, mockClipboard } from '../../../core/jest/jestSetup'
 import NumberFormat from '../../NumberFormat'
 import userEvent from '@testing-library/user-event'
 
@@ -134,7 +134,7 @@ describe('CopyOnClick', () => {
 
     render(
       <CopyOnClick>
-        <NumberFormat value={1234567.89} currency="NOK" />
+        <NumberFormat.Currency value={1234567.89} currency="NOK" />
       </CopyOnClick>
     )
 
@@ -201,5 +201,12 @@ describe('CopyOnClick', () => {
 
     // Restore original mock
     navigator.clipboard.writeText = originalWrite
+  })
+})
+
+describe('CopyOnClick aria', () => {
+  it('should validate', async () => {
+    const Component = render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

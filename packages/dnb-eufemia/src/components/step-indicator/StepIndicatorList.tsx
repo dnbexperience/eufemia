@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space from '../space/Space'
 import {
   skeletonDOMAttributes,
@@ -18,12 +18,12 @@ function StepIndicatorList() {
   const {
     mode,
     skeleton,
-    openState,
+    open,
     openHandler,
     closeHandler,
     countSteps,
     data,
-    no_animation,
+    noAnimation,
   } = useContext(StepIndicatorContext)
   const Element = mode === 'static' ? 'div' : 'nav'
 
@@ -31,8 +31,8 @@ function StepIndicatorList() {
   skeletonDOMAttributes(params, skeleton)
   return (
     <HeightAnimation
-      animate={!no_animation}
-      open={openState}
+      animate={!noAnimation}
+      open={open}
       onOpen={(state) => {
         if (state) {
           openHandler()
@@ -44,7 +44,7 @@ function StepIndicatorList() {
       <Space innerSpace={{ top: 'small' }}>
         <Element
           {...params}
-          className={classnames(
+          className={clsx(
             'dnb-step-indicator',
             createSkeletonClass('font', skeleton)
           )}

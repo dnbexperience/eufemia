@@ -3,7 +3,8 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
+@use '../../button/style/themes/button-mixins.scss' as button-mixins;
 
 .dnb-dropdown {
   --dropdown-width: 16rem;
@@ -17,10 +18,7 @@
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: 0.25rem;
-  --dropdown-foreground-color-primary: var(--color-black-55);
-  --dropdown-foreground-color-error: var(--color-fire-red);
-  --dropdown-background-color-disabled: var(--color-black-3);
-  --dropdown-background-color-error-active: var(--color-fire-red-8);
+  --dropdown-error-border-inset: ;
 
   display: inline-flex;
   align-items: center;
@@ -74,6 +72,20 @@
 
     width: 100%;
 
+    --button-color-bg--disabled: var(
+      --token-color-background-neutral-subtle
+    );
+    --button-color-border--disabled: var(
+      --token-color-stroke-action-disabled
+    );
+    --button-color-text--disabled: var(
+      --token-color-text-neutral-alternative
+    );
+
+    &.dnb-button__status--error {
+      --button-color-border--default: var(--token-color-stroke-error);
+    }
+
     &.dnb-button {
       padding: var(--dropdown-button-padding);
       border-radius: var(--dropdown-border-radius);
@@ -109,32 +121,6 @@
     }
   }
 
-  &__status--error:not(#{&}--opened) &__trigger {
-    @include fakeBorder(var(--dropdown-foreground-color-error));
-
-    @include hover() {
-      color: var(--dropdown-foreground-color-error);
-
-      @include fakeBorder(
-        var(--dropdown-foreground-color-error),
-        var(--dropdown-error-border-width)
-      );
-
-      & .dnb-dropdown__icon .dnb-icon {
-        color: var(--dropdown-foreground-color-error);
-      }
-    }
-
-    @include active() {
-      color: var(--dropdown-foreground-color-error);
-      background-color: var(--dropdown-background-color-error-active);
-    }
-  }
-  &__status--error:not(#{&}--opened) &__trigger,
-  &__status--error:not(#{&}--opened) &__icon {
-    color: var(--dropdown-foreground-color-error);
-  }
-
   // adjust the form-status to the inner border for 2px
   > .dnb-form-status {
     transform: translateY(-0.4375rem);
@@ -158,28 +144,6 @@
     width: auto;
   }
 
-  @media screen and (max-width: 40em) {
-    &--action-menu &__trigger.dnb-button {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-
-      border-radius: 50%;
-    }
-  }
-
-  @include allAbove(small) {
-    &--action-menu &__shell &__text {
-      padding: 0 0.5rem;
-    }
-  }
-
-  @media screen and (max-width: 40em) {
-    &--action-menu &__shell &__text {
-      width: 0;
-      padding: 0;
-    }
-  }
-
   &--icon-position-left
     .dnb-button--tertiary
     ~ .dnb-drawer-list__root--portal {
@@ -190,10 +154,6 @@
     .dnb-button--tertiary
     ~ .dnb-drawer-list__root--portal {
     left: 0.5rem;
-  }
-
-  .dnb-button--tertiary.dnb-button--active {
-    box-shadow: none;
   }
 
   .dnb-button--tertiary .dnb-button__text {
@@ -213,9 +173,39 @@
     padding: 0;
   }
 
-  .dnb-button--tertiary:focus::before {
-    left: 0 !important;
-    right: 0 !important;
+  &--open &__trigger:not([disabled]).dnb-button--secondary {
+    --button-border-inset--default: var(--dropdown-error-border-inset);
+    --border-width: var(--dropdown-error-border-width);
+
+    &:not(.dnb-button__status--error) {
+      --button-color-border--default: var(
+        --token-color-stroke-action-pressed
+      );
+    }
+  }
+
+  &__status--error .dnb-button--tertiary {
+    @include button-mixins.buttonFocusRing('always');
+
+    &::before {
+      --border-color: var(--token-color-stroke-error);
+      --border-width: 0.0625rem;
+    }
+    &:disabled::before {
+      --border-color: var(--token-color-stroke-action-disabled);
+    }
+  }
+  .dnb-button--tertiary[disabled] {
+    --button-tertiary-focus-left: 0;
+    --button-tertiary-focus-right: 0;
+  }
+  &__status--error .dnb-button--tertiary:not([disabled]) {
+    &:hover::before {
+      --border-width: var(--dropdown-error-border-width);
+    }
+  }
+  .dnb-button--secondary {
+    --button-color-bg--hover: var(--token-color-background-neutral);
   }
 
   // Button only menu
@@ -297,7 +287,7 @@
     line-height: var(--line-height-basis);
   }
 
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   // make full width
   &--stretch {
@@ -321,10 +311,6 @@
     width: auto;
   }
   &--vertical#{&}--stretch &__inner {
-    width: 100%;
-  }
-
-  .dnb-form-row--horizontal &--stretch {
     width: 100%;
   }
 
@@ -357,7 +343,7 @@
   }
 
   .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -375,17 +361,17 @@
   }
 }
 
-.dnb-drawer-list--triangle-position {
+.dnb-drawer-list--arrow-position {
   // Cant access --dropdown-padding-horizontal, as the drawer list is outside of the dropdown scope
   &-left {
-    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
       // --dropdown-padding-horizontal divided by two
       margin-left: 0.5rem;
     }
   }
 
   &-right {
-    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
       // --dropdown-padding-horizontal divided by two
       margin-right: 0.5rem;
     }

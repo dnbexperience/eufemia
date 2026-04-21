@@ -3,7 +3,7 @@ import useUpload from './../useUpload'
 import React, { useEffect } from 'react'
 import { createMockFile } from './testHelpers'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
-import { UploadFile } from '../types'
+import type { UploadFile } from '../types'
 
 describe('useUpload', () => {
   afterEach(() => {

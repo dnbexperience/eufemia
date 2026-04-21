@@ -65,7 +65,7 @@ describe('package.json', () => {
     exports?: Record<string, ExportEntry>
     main?: string
     module?: string
-    typings?: string
+    types?: string
     type?: string
     sideEffects?: unknown
     peerDependencies?: unknown
@@ -118,7 +118,7 @@ describe('package.json', () => {
   it('has main and module fields to be equal', () => {
     expect(packageJson.main).toBe('./index.js')
     expect(packageJson.module).toBe('./index.js')
-    expect(packageJson.typings).toBe('./index.d.ts')
+    expect(packageJson.types).toBe('./index.d.ts')
   })
 
   // Skipped as we do not use this currently

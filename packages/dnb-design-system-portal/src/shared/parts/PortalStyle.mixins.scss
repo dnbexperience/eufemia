@@ -1,18 +1,16 @@
-@use 'sass:color';
-
 @mixin focusRing {
   box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
 }
 
-@function get-color($rgb, $a, $c) {
-  @return hsla(hue($rgb), saturation($rgb), lightness($rgb), $a - $c);
-}
-
-@mixin gridStyle($rgb: rgb(204, 80, 72), $alpha: 0.8) {
+@mixin gridStyle {
+  --grid-rgb: 204 80 72;
+  --grid-opacity: 0.3;
+  --grid-opacity-bold: 0.65;
+  --grid-background: transparent;
   --grid-gutter: 0.5rem;
   --grid-gutter-bold: 2rem;
-  --grid-color: #{get-color($rgb, $alpha, 0.5)};
-  --grid-color-bold: #{get-color($rgb, $alpha, 0.15)};
+  --grid-color: rgb(var(--grid-rgb) / var(--grid-opacity));
+  --grid-color-bold: rgb(var(--grid-rgb) / var(--grid-opacity-bold));
   --grid-line-thickness: 1px;
   --grid-columns: repeating-linear-gradient(
     to right,
@@ -55,5 +53,7 @@
 
     border-bottom: solid var(--grid-line-thickness) var(--grid-color-bold);
     border-right: solid var(--grid-line-thickness) var(--grid-color-bold);
+
+    background-color: var(--grid-background);
   }
 }

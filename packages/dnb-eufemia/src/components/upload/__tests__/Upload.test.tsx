@@ -11,7 +11,7 @@ import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
 import { loadScss, axeComponent, wait } from '../../../core/jest/jestSetup'
-import { UploadAllProps } from '../types'
+import type { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
 import IconPrimary from '../../IconPrimary'
@@ -2164,6 +2164,14 @@ describe('Upload', () => {
         screen.queryByText('My remove file message error')
       ).toBeInTheDocument()
     })
+  })
+
+  it('should have default variant class when no variant is specified', () => {
+    render(<Upload {...defaultProps} />)
+
+    expect(
+      document.querySelector('.dnb-upload--default')
+    ).toBeInTheDocument()
   })
 
   describe('Compact variant', () => {

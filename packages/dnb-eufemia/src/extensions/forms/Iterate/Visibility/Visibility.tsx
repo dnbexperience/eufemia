@@ -1,9 +1,13 @@
 import React from 'react'
-import Visibility, { Props } from '../../Form/Visibility/Visibility'
+import type { FormVisibilityProps } from '../../Form/Visibility/Visibility'
+import Visibility from '../../Form/Visibility/Visibility'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 export * from '../../Form/Visibility/Visibility'
 
-export default function IterateVisibility(props: Props) {
+export default function IterateVisibility(props: FormVisibilityProps) {
   return <Visibility withinIterate {...props} />
 }
 
-IterateVisibility._supportsSpacingProps = 'children'
+withComponentMarkers(IterateVisibility, {
+  _supportsSpacingProps: 'children',
+})

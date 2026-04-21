@@ -6,7 +6,7 @@ showTabs: true
 
 The Theme component is a helper component that lets you create nested theming solutions.
 
-`<Theme>` will by default create a `div` wrapper, when no custom element is defined (e.g. `element="span"`).
+**NB:** `<Theme>` wraps its children in a `div` by default. Use e.g. `element="span"` to change the wrapper element, or use `Theme.Context` to skip the wrapper entirely (see below).
 
 ```tsx
 import { Theme, useTheme } from '@dnb/eufemia/shared'
@@ -24,8 +24,6 @@ render(
   </Theme>
 )
 ```
-
-**NB:** If no context is given, the hook will return `null`.
 
 From CSS you can use it as so:
 
@@ -50,85 +48,7 @@ From CSS you can use it as so:
 }
 ```
 
-### Mapping of properties with `propMapping`
-
-In order to change or map CSS properties, you can make use of the `propMapping` solution.
-
-```tsx
-import { Theme, useTheme } from '@dnb/eufemia/shared'
-
-const Component = () => {
-  const theme = useTheme()
-  const { name, propMapping } = theme || {}
-  return 'My Component'
-}
-
-render(
-  <Theme name="sbanken">
-    <App>
-      <Theme propMapping="my-class">
-        <MyComponent />
-      </Theme>
-    </App>
-  </Theme>
-)
-```
-
-The main motivation of this feature is to provide a set of maps you can use in your app (if possible). But it lets you create your own sets as well. To do so:
-
-1. Define an area in your app – it could be your component – and give it a declarative name:
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-render(
-  <Theme propMapping="my-maps">
-    <MyComponent />
-  </Theme>
-)
-```
-
-2. Define the needed properties:
-
-**CSS**
-
-```css
-.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
-  --color-sea-green: var(--sb-color-purple-alternative);
-}
-```
-
-**SCSS**
-
-```scss
-.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
-  --color-sea-green: var(--sb-color-purple-alternative);
-}
-```
-
-### Use your component as the wrapper element
-
-You can provide your component as the wrapper. This way no additional HTML Element will be created.
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-const Component = ({ className ...props }) => {
-  return <div className={className+' more-classes'} {...props} />
-}
-
-render(
-  <Theme name="theme-name">
-    <App>
-      <Theme propMapping="my-maps" element={Component}>
-        ...
-      </Theme>
-    </App>
-  </Theme>
-)
-```
-
-### React Hook useTheme
+### React Hook `useTheme`
 
 For accessing the theme context, you can use the `useTheme` Hook. It returns the theme context, with an addition of boolean constants like `isSbanken`.
 
@@ -151,9 +71,64 @@ render(
 )
 ```
 
-### Integrations
+**NB:** If no context is given, the hook will return `null`.
 
-By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
+### Theme.Context
+
+You can use `Theme.Context` to provide theme properties to children without adding a wrapper element. This is useful in cases where you don't want to add an extra DOM element, but still want to provide theme context to the children.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme.Context>
+    Children that receive theme context without an extra wrapper element.
+  </Theme.Context>
+)
+```
+
+#### `surface` property
+
+The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
+
+- Use `dark` when the content is placed on a dark surface.
+- Use `light` for light surfaces.
+- Use `initial` to tell the components to use its default behavior.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Section surface="dark">
+    Children will use the dark surface behavior (ondark).
+    <Theme.Context surface="initial">
+      Children will use their default surface behavior
+    </Theme.Context>
+  </Section>
+)
+```
+
+### Use your component as the wrapper element
+
+You can provide your component as the wrapper. This way no additional HTML Element will be created.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+const Component = ({ className ...props }) => {
+  return <div className={className+' more-classes'} {...props} />
+}
+
+render(
+  <Theme name="theme-name">
+    <App>
+      <Theme name="sbanken" element={Component}>
+        ...
+      </Theme>
+    </App>
+  </Theme>
+)
+```
 
 ### Hide or show parts of your component (filter)
 
@@ -191,3 +166,7 @@ render(
   </Theme>
 )
 ```
+
+### Integrations
+
+By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.

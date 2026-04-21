@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TimelineProperties: PropertiesTableProps = {
   data: {
@@ -7,7 +7,7 @@ export const TimelineProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...props} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -31,21 +31,21 @@ export const TimelineItemProperties: PropertiesTableProps = {
   },
   state: {
     doc: 'The component state. Options: `completed` | `current` | `upcoming`.',
-    type: ['completed', 'current', 'upcoming'],
+    type: ['"completed"', '"current"', '"upcoming"'],
     status: 'required',
   },
   subtitle: {
     doc: 'Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.',
-    type: ['React.ReactNode', 'React.ReactNode[]'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
     status: 'optional',
   },
   infoMessage: {
-    doc: 'Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.',
+    doc: 'Info message, displayed in a [FormStatus of state information](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   icon: {
-    doc: 'Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.',
+    doc: 'Override icon displaying on the left side (Not recommended). Defaults to `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

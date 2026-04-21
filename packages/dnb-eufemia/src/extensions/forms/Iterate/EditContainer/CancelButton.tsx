@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -7,9 +7,10 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
-import { ButtonProps } from '../../../../components/Button'
-import RemoveButton, { Props as RemoveButtonProps } from '../RemoveButton'
-import { ContainerMode } from '../Array'
+import type { ButtonProps } from '../../../../components/Button'
+import type { IterateRemoveButtonProps as RemoveButtonProps } from '../RemoveButton'
+import RemoveButton from '../RemoveButton'
+import type { ContainerMode } from '../Array'
 
 type Props = ButtonProps & {
   showConfirmDialog?: boolean
@@ -33,7 +34,7 @@ export default function CancelButton(props: Props) {
   const translation = useTranslation()
   const { cancelButton, removeButton } = translation.IterateEditContainer
   const { confirmCancelText } = translation.SectionEditContainer
-  const valueBackupRef = useRef<unknown>()
+  const valueBackupRef = useRef<unknown>(undefined)
 
   useEffect(() => {
     if (containerMode === 'edit' && !valueBackupRef.current) {
@@ -97,9 +98,9 @@ export default function CancelButton(props: Props) {
 
   const triggerAttributes: ButtonProps = {
     variant: 'tertiary',
-    className: classnames('dnb-forms-iterate__cancel-button', className),
+    className: clsx('dnb-forms-iterate__cancel-button', className),
     icon: close,
-    icon_position: 'left',
+    iconPosition: 'left',
     text: cancelButton,
     ...rest,
   }
@@ -116,7 +117,11 @@ export default function CancelButton(props: Props) {
   }
 
   return (
-    <Button {...triggerAttributes} on_click={cancelHandler} {...rest} />
+    <Button
+      {...triggerAttributes}
+      onClick={(args) => cancelHandler(args)}
+      {...rest}
+    />
   )
 }
 

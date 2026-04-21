@@ -4,10 +4,10 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './hr-mixins.scss';
+@use './hr-mixins.scss';
 
 .dnb-hr {
-  @include hrStyle();
+  @include hr-mixins.hrStyle();
 
   &--dashed::after {
     background-image: linear-gradient(
@@ -27,15 +27,6 @@
   }
 
   --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
-
-  // @deprecated
-  &--light {
-    --hr-thickness: 0.5px;
-  }
-  // @deprecated
-  &--medium {
-    --hr-thickness: 1.5px;
-  }
 
   .dnb-spacing & {
     @include ui-spacing.defaultSpacing();

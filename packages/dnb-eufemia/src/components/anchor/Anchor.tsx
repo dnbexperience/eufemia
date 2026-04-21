@@ -3,16 +3,17 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
-import classnames from 'classnames'
-import E, { ElementAllProps } from '../../elements/Element'
+import clsx from 'clsx'
+import type { ElementAllProps } from '../../elements/Element'
+import E from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
   extendPropsWithContext,
-  isTrue,
 } from '../../shared/component-helper'
-import { getOffsetTop, warn } from '../../shared/helpers'
+import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
@@ -31,8 +32,8 @@ type ReactRouterLink = Omit<
 export type AnchorProps = {
   element?:
     | DynamicElement<HTMLAnchorElement | AnchorAllProps>
-    | React.ForwardRefExoticComponent<
-        ReactRouterLink & React.RefAttributes<HTMLAnchorElement>
+    | React.ComponentType<
+        ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
       >
   href?: string
   to?: string
@@ -43,10 +44,8 @@ export type AnchorProps = {
   iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
-  innerRef?: React.RefObject<HTMLAnchorElement>
+  ref?: React.Ref<HTMLAnchorElement>
 
-  /** @deprecated use innerRef instead */
-  inner_ref?: React.RefObject<HTMLAnchorElement>
   /**
    * Removes default animation.
    * Default: `false`
@@ -108,15 +107,13 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
-  // deprecated: inner_ref is still needed to support Button's usage of Anchor
-  if (typeof allProps.inner_ref !== 'undefined') {
-    allProps.innerRef = allProps.inner_ref
-    delete allProps.inner_ref
+  const fallbackRef = React.useRef<HTMLAnchorElement>(null)
+
+  if (!allProps.ref) {
+    allProps.ref = fallbackRef
   }
 
-  if (!allProps.innerRef) {
-    allProps.innerRef = React.createRef()
-  }
+  const tooltipRef = React.useRef<HTMLAnchorElement | null>(null)
 
   const {
     id,
@@ -127,7 +124,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     icon,
     iconPosition = 'left',
     omitClass,
-    innerRef,
+    ref: refProp,
     targetBlankTitle,
     noAnimation,
     noHover,
@@ -142,7 +139,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const attributes = rest as ElementAllProps & { to: string | undefined }
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
-  const isDisabled = isTrue(disabled)
+  const isDisabled = disabled
   const hasNoHover = noHover || isDisabled
   const hasNoAnimation = noAnimation || isDisabled
   const hasNoUnderline = noUnderline || isDisabled
@@ -174,6 +171,20 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const prefix = iconPosition === 'left' && iconNode
 
+  const anchorRef = React.useCallback(
+    (elem: HTMLAnchorElement | null) => {
+      tooltipRef.current = elem
+
+      if (typeof refProp === 'function') {
+        refProp(elem)
+      } else if (refProp) {
+        ;(refProp as React.RefObject<HTMLAnchorElement | null>).current =
+          elem
+      }
+    },
+    [refProp]
+  )
+
   if (isDisabled) {
     attributes.disabled = true
 
@@ -201,9 +212,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         as={as}
         id={id}
         internalClass={as !== 'button'}
-        className={classnames(
+        className={clsx(
           omitClass !== true &&
-            classnames(
+            clsx(
               'dnb-anchor',
               prefix && 'dnb-anchor--icon-left',
               suffix && 'dnb-anchor--icon-right',
@@ -218,12 +229,14 @@ export function AnchorInstance(localProps: AnchorAllProps) {
                 'dnb-anchor--no-icon',
               noLaunchIcon &&
                 !className?.includes('dnb-anchor--no-launch-icon') &&
-                'dnb-anchor--no-launch-icon'
+                'dnb-anchor--no-launch-icon',
+              context?.theme?.surface === 'dark' &&
+                'dnb-anchor--surface-dark'
             ),
           className
         )}
         {...attributes}
-        innerRef={innerRef}
+        ref={anchorRef}
       >
         {prefix}
         {children}
@@ -234,7 +247,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         <Tooltip
           showDelay={100}
           id={internalId + '-tooltip'}
-          targetElement={innerRef}
+          targetElement={tooltipRef}
           tooltip={tooltip}
         >
           {allProps.title || targetBlankTitle}
@@ -244,53 +257,19 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   )
 }
 
-const Anchor = React.forwardRef(
-  (props: AnchorAllProps, ref: React.RefObject<HTMLAnchorElement>) => {
-    return <AnchorInstance innerRef={ref} {...props} />
-  }
-)
+function Anchor(props: AnchorAllProps) {
+  return <AnchorInstance {...props} />
+}
 
-// @ts-expect-error - Adding custom property to component for spacing detection
-Anchor._supportsSpacingProps = true
+withComponentMarkers(Anchor, {
+  _supportsSpacingProps: true,
+})
 
 export default Anchor
 
-/**
- * @deprecated – can be removed in v11
- */
-export function scrollToHashHandler(
-  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-) {
-  warn('"scrollToHashHandler" is deprecated.')
-
-  const element = event.currentTarget as HTMLAnchorElement
-  const href = element.getAttribute('href')
-
-  if (typeof document === 'undefined' || !href.includes('#')) {
-    return // stop here
-  }
-
-  /**
-   * What happens here?
-   * When `scroll-behavior: smooth;` in CSS is set,
-   * Blink/Chromium wants the user to click two times in order to actually scroll to the anchor hash.
-   * The first click, sets the hash, the second one, scrolls to it.
-   * We want Chromium browsers to scroll to the element on the first click.
-   */
-  const isSamePath =
-    href.startsWith('#') ||
-    window.location.href.includes(element.pathname?.replace(/\/$/, ''))
-
-  // Only continue, when we are sure we are on the same page,
-  // because, the same ID may exists occasionally on the current page.
-  if (isSamePath) {
-    return scrollToHash(href)
-  }
-}
-
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {
-    return // stop here
+    return undefined // stop here
   }
 
   // Only continue, when we are sure we are on the same page,
@@ -312,6 +291,7 @@ export function scrollToHash(hash: string) {
       console.error(error)
     }
   }
+  return undefined
 }
 
 function getIcon(icon) {
@@ -319,12 +299,15 @@ function getIcon(icon) {
 }
 
 export function pickIcon(icon, className?: string) {
-  return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
-    ? React.cloneElement(icon, {
-        key: 'button-icon-clone',
-        className: classnames(icon.props?.className, className),
-      })
-    : null
+  if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
+    return React.createElement(icon.type, {
+      ...icon.props,
+      key: 'button-icon-clone',
+      className: clsx(icon.props?.className, className),
+    })
+  }
+
+  return null
 }
 
 export const opensNewTab = (target: string, href: string): boolean =>

@@ -1,7 +1,9 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Timeline, { TimelineAllProps } from '../Timeline'
-import TimelineItem, { TimelineItemAllProps } from '../TimelineItem'
+import type { TimelineAllProps } from '../Timeline'
+import Timeline from '../Timeline'
+import type { TimelineItemAllProps } from '../TimelineItem'
+import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
@@ -287,7 +289,7 @@ describe('Timeline', () => {
                 subtitle={
                   <Input
                     value={value}
-                    on_change={({ value }) => {
+                    onChange={({ value }) => {
                       setValue(value)
                     }}
                   />
@@ -372,6 +374,56 @@ describe('Timeline', () => {
         )
       })
     })
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLOListElement>()
+
+    render(
+      <Timeline
+        ref={ref}
+        data={[
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLOListElement | null = null
+    const refFn = (elem: HTMLOListElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Timeline
+        ref={refFn}
+        data={[
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    expect(refElement).toBe(element)
+  })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(
+      <Timeline top="large" innerSpace="small">
+        <Timeline.Item title="Current" state="current" />
+      </Timeline>
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--padding-t-s')
   })
 })
 

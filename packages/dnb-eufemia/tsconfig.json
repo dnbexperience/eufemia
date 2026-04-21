@@ -9,10 +9,20 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["es2022", "dom"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "react", "react-dom"],
     "outDir": "./build",
     "rootDir": ".",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true,
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true
   },
   "exclude": ["node_modules", "build"]
 }

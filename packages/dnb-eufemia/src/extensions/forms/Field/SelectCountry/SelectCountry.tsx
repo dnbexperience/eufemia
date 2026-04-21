@@ -1,11 +1,12 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import listOfCountries, {
+import type listOfCountries from '../../constants/countries'
+import {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
@@ -13,13 +14,15 @@ import listOfCountries, {
 } from '../../constants/countries'
 import useCountries from './useCountries'
 import { useFieldProps } from '../../hooks'
-import { FieldPropsWithExtraValue } from '../../types'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldPropsWithExtraValue } from '../../types'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
-import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import type {
+  AutocompleteAllProps,
+  AutocompleteOnChangeParams,
+} from '../../../../components/autocomplete/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -28,7 +31,7 @@ export type CountryFilterSet =
   | 'Prioritized'
 export type { CountryType }
 
-export type Props = FieldPropsWithExtraValue<
+export type FieldSelectCountryProps = FieldPropsWithExtraValue<
   CountryISO,
   CountryType,
   undefined | string
@@ -60,7 +63,7 @@ export type Props = FieldPropsWithExtraValue<
   size?: AutocompleteAllProps['size']
 }
 
-function SelectCountry(props: Props) {
+function SelectCountry(props: FieldSelectCountryProps) {
   const sharedContext = useContext(SharedContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const {
@@ -91,6 +94,8 @@ function SelectCountry(props: Props) {
       if (country?.iso) {
         return country
       }
+
+      return undefined
     },
     [getCountryObjectByIso]
   )
@@ -102,7 +107,7 @@ function SelectCountry(props: Props) {
     [errorRequired]
   )
 
-  const preparedProps: Props = {
+  const preparedProps: FieldSelectCountryProps = {
     errorMessages,
     ...props,
     width:
@@ -134,9 +139,10 @@ function SelectCountry(props: Props) {
     setDisplayValue,
     forceUpdate,
     filterCountries,
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
-  const dataRef = useRef(null)
+  const dataRef = useRef<ReturnType<typeof getCountryData>>(null)
   const langRef = useRef(lang)
   const wasFilled = useRef(false)
 
@@ -180,8 +186,12 @@ function SelectCountry(props: Props) {
   }, [lang, countries, filter, ccFilter, value, updateValue])
 
   const handleCountryChange = useCallback(
-    ({ data }: { data: { selectedKey: string } }) => {
-      const newValue = data?.selectedKey
+    (event: AutocompleteOnChangeParams) => {
+      const data = event.data
+      const newValue =
+        data && typeof data === 'object' && 'selectedKey' in data
+          ? (data as { selectedKey: string }).selectedKey
+          : undefined
       const country = getCountryObjectByIso(newValue)
       if (country?.iso) {
         handleChange(country.iso, country)
@@ -239,7 +249,7 @@ function SelectCountry(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-select-country', className),
+    className: clsx('dnb-forms-field-select-country', className),
     label,
     width:
       width === 'stretch' || fieldBlockContext?.composition
@@ -254,23 +264,23 @@ function SelectCountry(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        input_icon={false}
+        icon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        on_show={fillData}
-        on_focus={onFocusHandler}
-        on_blur={handleBlur}
-        on_change={handleCountryChange}
-        on_type={onTypeHandler}
+        onOpen={fillData}
+        onFocus={onFocusHandler}
+        onBlur={handleBlur}
+        onChange={handleCountryChange}
+        onType={onTypeHandler}
         stretch
-        selectall
+        selectAll
         status={hasError ? 'error' : undefined}
-        show_submit_button
-        keep_selection
+        showSubmitButton
+        keepSelection
         autoComplete={autoComplete ?? 'country-name'}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
@@ -280,7 +290,7 @@ function SelectCountry(props: Props) {
 type GetCountryData = {
   countries: typeof listOfCountries
   lang?: CountryLang
-  filter?: Props['filterCountries']
+  filter?: FieldSelectCountryProps['filterCountries']
   sort?: Extract<CountryFilterSet, 'Prioritized'>
   makeObject?: (
     country: CountryType,
@@ -381,5 +391,8 @@ export function makeCountryFilterSet(ccFilter: CountryFilterSet) {
   }
 }
 
-SelectCountry._supportsSpacingProps = true
+withComponentMarkers(SelectCountry, {
+  _supportsSpacingProps: true,
+})
+
 export default SelectCountry

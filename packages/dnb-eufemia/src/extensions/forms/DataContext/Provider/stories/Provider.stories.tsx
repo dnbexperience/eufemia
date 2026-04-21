@@ -1,5 +1,6 @@
 import React from 'react'
-import { Field, Form, JSONSchema, Tools } from '../../..'
+import type { JSONSchema } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 import Provider from '../Provider'
 import type { FilterData } from '../../Context'
@@ -97,6 +98,7 @@ const filterDataHandler: FilterData = ({ props }) => {
   if (props.disabled === true) {
     return false
   }
+  return undefined
 }
 
 export const FilterDataStory = () => {

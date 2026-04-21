@@ -5,25 +5,28 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
-import type { GroupProps } from './Accordion'
-import { accordionDefaultProps } from './defaultProps'
+import type {
+  AccordionGroupProps as AccordionGroupBaseProps,
+  AccordionInstance,
+} from './types'
+import { accordionDefaultProps } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
-  GroupProps & {
-    onInit?: (...args: any[]) => any
+  AccordionGroupBaseProps & {
+    onInit?: (accordion: AccordionInstance) => void
   }
 
 const AccordionGroup = (props: AccordionGroupProps) => {
@@ -38,7 +41,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   function onChangeHandler(event) {
-    dispatchCustomElementEvent(thisInstance, 'on_change', {
+    dispatchCustomElementEvent(thisInstance, 'onChange', {
       id: event.id,
       expanded: event.expanded,
       event,
@@ -54,22 +57,25 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   )
 
   const {
-    expanded, // eslint-disable-line
-    expanded_id, // eslint-disable-line
-    prerender, // eslint-disable-line
-    prevent_rerender, // eslint-disable-line
-    single_container, // eslint-disable-line
-    contentRef, // eslint-disable-line
-    allow_close_all, // eslint-disable-line
-    remember_state, // eslint-disable-line
-    flush_remembered_state, // eslint-disable-line
-    disabled, // eslint-disable-line
-    group, // eslint-disable-line
-    onInit, // eslint-disable-line
+    expanded,
+    expandedId,
+    keepInDOM,
+    preventRerender,
+    singleContainer,
+    contentRef,
+    allowCloseAll,
+    rememberState,
+    flushRememberedState,
+    noAnimation,
+    iconSize,
+    disabled,
+    group,
+    iconPosition,
+    onInit,
     className,
 
-    id: _id, // eslint-disable-line
-    children, // eslint-disable-line
+    id: _id,
+    children,
     collapseAllHandleRef,
     expandBehavior,
 
@@ -80,7 +86,9 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   useEffect(() => {
     if (collapseAllHandleRef) {
-      collapseAllHandleRef.current = () => {
+      const mutableCollapseAllHandleRef =
+        collapseAllHandleRef as React.RefObject<() => void>
+      mutableCollapseAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
           callback()
         )
@@ -88,12 +96,13 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     }
   }, [collapseAllHandleRef])
 
-  const classes = classnames(
-    'dnb-accordion-group',
-    isTrue(single_container) && 'dnb-accordion-group--single-container',
-    createSpacingClasses(extendedProps),
-    className
-  )
+  const rootProps = applySpacing(extendedProps, {
+    className: clsx(
+      'dnb-accordion-group',
+      singleContainer && 'dnb-accordion-group--single-container',
+      className
+    ),
+  })
 
   const params = {
     ...restOfExtendedProps,
@@ -102,7 +111,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
-  if (!extendedProps?.group && isTrue(props.single_container)) {
+  if (!extendedProps?.group && props.singleContainer) {
     extendedProps.group = makeUniqueId()
   }
 
@@ -116,8 +125,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   return (
-    <AccordionGroupContext.Provider value={contextForProvider}>
-      <div className={classes}>
+    <AccordionGroupContext value={contextForProvider}>
+      <div {...rootProps}>
         <span
           id={id}
           className="dnb-accordion-group__shell"
@@ -127,10 +136,12 @@ const AccordionGroup = (props: AccordionGroupProps) => {
           <span className="dnb-accordion-group__children">{children}</span>
         </span>
       </div>
-    </AccordionGroupContext.Provider>
+    </AccordionGroupContext>
   )
 }
 
-AccordionGroup._supportsSpacingProps = true
+withComponentMarkers(AccordionGroup, {
+  _supportsSpacingProps: true,
+})
 
 export default AccordionGroup

@@ -1,14 +1,15 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation, useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCountry from './useCountry'
 import type { CountryISO } from '../../constants/countries'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<CountryISO>
+export type ValueSelectCountryProps = ValueProps<CountryISO>
 
-function SelectCountry(props: Props) {
+function SelectCountry(props: ValueSelectCountryProps) {
   const translations = useTranslation().SelectCountry
   const {
     value,
@@ -22,7 +23,7 @@ function SelectCountry(props: Props) {
   return (
     <ValueBlock
       label={label}
-      className={classnames('dnb-forms-value-select-country', className)}
+      className={clsx('dnb-forms-value-select-country', className)}
       {...rest}
     >
       {getCountryNameByIso(value) ?? value}
@@ -31,5 +32,8 @@ function SelectCountry(props: Props) {
 }
 
 SelectCountry.useCountry = useCountry
-SelectCountry._supportsSpacingProps = true
+withComponentMarkers(SelectCountry, {
+  _supportsSpacingProps: true,
+})
+
 export default SelectCountry

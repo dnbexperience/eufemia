@@ -6,14 +6,13 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import WizardContext, {
-  WizardContextState,
-} from '../Context/WizardContext'
+import type { WizardContextState } from '../Context/WizardContext'
+import WizardContext from '../Context/WizardContext'
 import type {
   OnStepChange,
   OnStepChangeOptions,
@@ -29,22 +28,23 @@ import type {
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
+import type { SharedStateReturn } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateReturn,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
-import { ComponentProps } from '../../types'
+import type { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'
 import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSteps'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type WizardContainerProps = ComponentProps & {
   id?: string
 
   /**
@@ -71,16 +71,6 @@ export type Props = ComponentProps & {
    * The callback function that will be called when the user clicks on the next button.
    */
   onStepChange?: OnStepChange
-
-  /**
-   * The sidebar variant.
-   * @deprecated there is only one variant available. This props has no effect
-   */
-  variant?: 'sidebar' | 'drawer'
-  /**
-   * @deprecated there is no longer a sidebar. This prop does nothing.
-   */
-  sidebarId?: string
 
   /**
    * If set to `true`, the wizard will not animate the steps.
@@ -113,21 +103,9 @@ export type Props = ComponentProps & {
    * The children of the wizard container.
    */
   children: React.ReactNode
-
-  /**
-   * @deprecated Is enabled by default. You can disable it with "omitScrollManagement"
-   */
-  scrollTopOnStepChange?: boolean
 }
 
-function handleDeprecatedProps(
-  props: Props
-): Omit<Props, 'variant' | 'sidebarId'> {
-  const { variant, sidebarId, ...rest } = props
-  return rest
-}
-
-function WizardContainer(props: Props) {
+function WizardContainer(props: WizardContainerProps) {
   const {
     className,
     id: idProp,
@@ -142,9 +120,9 @@ function WizardContainer(props: Props) {
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
-    outset = true,
+    outset = false,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const dataContext = useContext(DataContext)
   const {
@@ -165,13 +143,13 @@ function WizardContainer(props: Props) {
   const storeStepStateRef = useRef<InternalStepStatuses>(new Map())
   const onStepChangeEventsRef = useRef<Set<OnStepChange>>(new Set())
   const hasErrorInOtherStepRef = useRef<boolean>(false)
-  const elementRef = useRef<HTMLElement>()
-  const stepElementRef = useRef<HTMLElement>()
+  const elementRef = useRef<HTMLElement>(undefined)
+  const stepElementRef = useRef<HTMLElement>(undefined)
   const preventNextStepRef = useRef(false)
   const stepsRef = useRef<Steps>(new Map())
-  const tmpStepsRef = useRef<number>()
+  const tmpStepsRef = useRef<number>(undefined)
   const stepIndexRef = useRef<number>(-1)
-  const updateTitlesRef = useRef<() => void>()
+  const updateTitlesRef = useRef<() => void>(undefined)
   const prerenderFieldPropsRef = useRef<
     Pick<WizardContextState, 'prerenderFieldPropsRef'>
   >({})
@@ -179,7 +157,8 @@ function WizardContainer(props: Props) {
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
-  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>()
+  const sharedStateRef =
+    useRef<SharedStateReturn<WizardContextState>>(undefined)
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
@@ -338,7 +317,7 @@ function WizardContainer(props: Props) {
   const { setFocus, scrollToTop, isInteractionRef } =
     useHandleLayoutEffect({ elementRef, stepElementRef })
 
-  const executeLayoutAnimationRef = useRef<() => void>()
+  const executeLayoutAnimationRef = useRef<() => void>(undefined)
   useStepAnimation({
     activeIndexRef,
     stepElementRef,
@@ -478,9 +457,9 @@ function WizardContainer(props: Props) {
   }, [setActiveIndex])
 
   const handleChange = useCallback(
-    ({ current_step }) => {
+    ({ currentStep }) => {
       setActiveIndex(
-        current_step,
+        currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
       )
     },
@@ -611,10 +590,10 @@ function WizardContainer(props: Props) {
   }
 
   return (
-    <WizardContext.Provider value={providerValue}>
+    <WizardContext value={providerValue}>
       <Space
-        className={classnames('dnb-forms-wizard-layout', className)}
-        innerRef={elementRef}
+        className={clsx('dnb-forms-wizard-layout', className)}
+        ref={elementRef}
         {...rest}
       >
         <DisplaySteps
@@ -636,10 +615,12 @@ function WizardContainer(props: Props) {
           stepsRef={stepsRef}
         />
       )}
-    </WizardContext.Provider>
+    </WizardContext>
   )
 }
 
-WizardContainer._supportsSpacingProps = true
+withComponentMarkers(WizardContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default WizardContainer

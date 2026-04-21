@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import VisuallyHidden, { VisuallyHiddenAllProps } from '../VisuallyHidden'
+import type { VisuallyHiddenAllProps } from '../VisuallyHidden'
+import VisuallyHidden from '../VisuallyHidden'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
@@ -90,6 +91,27 @@ describe('VisuallyHidden', () => {
     expect(
       document.querySelector('.dnb-visually-hidden')
     ).toBeInTheDocument()
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<VisuallyHidden ref={ref}>Hidden text</VisuallyHidden>)
+
+    const element = document.querySelector('.dnb-visually-hidden')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<VisuallyHidden ref={refFn}>Hidden text</VisuallyHidden>)
+
+    const element = document.querySelector('.dnb-visually-hidden')
+    expect(refElement).toBe(element)
   })
 
   describe('VisuallyHidden aria', () => {

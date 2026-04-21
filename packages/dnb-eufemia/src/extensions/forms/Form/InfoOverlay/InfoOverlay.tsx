@@ -1,27 +1,29 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   useSharedState,
   createReferenceKey,
 } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
-import setContent, { InfoOverlayContent } from './setContent'
+import type { InfoOverlayContent } from './setContent'
+import setContent from './setContent'
 import {
   Button,
   Flex,
   HeightAnimation,
   Section,
 } from '../../../../components'
-import { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
+import type { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
 import { P } from '../../../../elements'
 import { useTranslation } from '../../hooks'
 import MainHeading from '../MainHeading'
 import SubmitButton from '../SubmitButton'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormInfoOverlayProps = {
   /**
    * The content to show.
    * If not given, the children will be shown.
@@ -52,7 +54,7 @@ export type Props = {
   className?: string
 }
 
-function InfoOverlay(props: Props) {
+function InfoOverlay(props: FormInfoOverlayProps) {
   const { id: idProp, formState } = useContext(DataContext)
 
   const {
@@ -73,19 +75,19 @@ function InfoOverlay(props: Props) {
 
   const translations = useTranslation()
   const mountedRef = useMounted()
-  const innerRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
   const onAnimationEnd: HeightAnimationAllProps['onAnimationEnd'] =
     useCallback(
       (state) => {
         if (mountedRef.current && state === 'opened') {
-          innerRef.current.focus?.()
+          overlayRef.current.focus?.()
         }
       },
       [mountedRef]
     )
 
   // To keep the content visible while hiding it with the HightAnimation
-  const currentContentRef = useRef<InfoOverlayContent>()
+  const currentContentRef = useRef<InfoOverlayContent>(undefined)
   if (content) {
     currentContentRef.current = content
   }
@@ -120,7 +122,7 @@ function InfoOverlay(props: Props) {
 
     statusContent = (
       <Section
-        variant="info"
+        variant="information"
         innerSpace={{ top: 'large', bottom: 'xx-large' }}
         {...restProps}
       >
@@ -128,8 +130,8 @@ function InfoOverlay(props: Props) {
           <MainHeading>{title ?? tr.title}</MainHeading>
           <P>{description ?? tr.description}</P>
           <Button
-            href={buttonClickHandler ? undefined : buttonHref ?? '/'}
-            on_click={buttonClickHandler}
+            href={buttonClickHandler ? undefined : (buttonHref ?? '/')}
+            onClick={buttonClickHandler}
           >
             {buttonText ?? tr.buttonText}
           </Button>
@@ -152,7 +154,7 @@ function InfoOverlay(props: Props) {
             <P>
               {formState === 'pending'
                 ? tr.retryingText
-                : description ?? tr.description}
+                : (description ?? tr.description)}
             </P>
           </HeightAnimation>
           <Flex.Horizontal>
@@ -168,14 +170,14 @@ function InfoOverlay(props: Props) {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-forms-info-overlay',
         status && `dnb-forms-info-overlay--${status}`,
         'dnb-no-focus',
         className
       )}
       tabIndex={-1}
-      ref={innerRef}
+      ref={overlayRef}
     >
       <Visibility
         visible={statusContentIsVisible}
@@ -198,6 +200,8 @@ function InfoOverlay(props: Props) {
 }
 
 InfoOverlay.setContent = setContent
-InfoOverlay._supportsSpacingProps = true
+withComponentMarkers(InfoOverlay, {
+  _supportsSpacingProps: true,
+})
 
 export default InfoOverlay

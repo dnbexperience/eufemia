@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import SnapshotContext, {
-  SnapshotContextState,
-  SnapshotMap,
-} from './SnapshotContext'
+import type { SnapshotContextState } from './SnapshotContext'
+import SnapshotContext from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
-import { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import type { Path } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SnapshotId = SharedStateId | number
 export type SnapshotName = string
@@ -18,7 +18,9 @@ function SnapshotProvider(props: SnapshotProps) {
   const { name, children } = props
 
   const { snapshotsRef } = useContext(DataContext) || {}
-  const mountedFieldsRef: SnapshotMap = useRef()
+  const mountedFieldsRef = useRef<Map<Path, unknown> | undefined>(
+    undefined
+  )
   if (!mountedFieldsRef.current) {
     mountedFieldsRef.current = new Map()
   }
@@ -36,13 +38,11 @@ function SnapshotProvider(props: SnapshotProps) {
 
   const contextValue = { name, setMountedField }
 
-  return (
-    <SnapshotContext.Provider value={contextValue}>
-      {children}
-    </SnapshotContext.Provider>
-  )
+  return <SnapshotContext value={contextValue}>{children}</SnapshotContext>
 }
 
-SnapshotProvider._supportsSpacingProps = undefined
+withComponentMarkers(SnapshotProvider, {
+  _supportsSpacingProps: undefined,
+})
 
 export default SnapshotProvider

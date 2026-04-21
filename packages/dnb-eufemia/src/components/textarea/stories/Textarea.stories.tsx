@@ -6,7 +6,6 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import Provider from '../../../shared/Provider'
 import { Textarea, GlobalStatus, Flex } from '../..'
 import { FieldBlock } from '../../../extensions/forms'
 import Input from '../../input/Input'
@@ -67,19 +66,17 @@ export const TextareaSandbox = () => (
       </Flex.Stack>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
-        <Textarea value="Text" label="Label:" suffix="123" />
-      </Provider>
+      <Textarea value="Text" label="Label:" suffix="123" />
     </Box>
     <Box>
       <Textarea
         label="Autogrow:"
         rows={1}
         stretch
-        autoresize={true}
-        autoresize_max_rows={4}
+        autoResize={true}
+        autoResizeMaxRows={4}
         placeholder="Placeholder"
-        on_key_down={({ rows, event }) => {
+        onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
             event.preventDefault()
           }
@@ -87,46 +84,42 @@ export const TextareaSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
-        <FieldBlock label="Legend:">
-          <Flex.Vertical>
-            <Textarea
-              label="Vertical label:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+      <FieldBlock label="Legend:">
+        <Flex.Vertical>
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-              right="small"
-            />
-            <Textarea
-              label="Vertical label:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+            right="small"
+          />
+          <Textarea
+            label="Vertical label:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+          />
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
-        <FieldBlock label="Legend:">
-          <Flex.Vertical>
-            <Textarea
-              label="Vertical:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+      <FieldBlock label="Legend:">
+        <Flex.Vertical>
+          <Textarea
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-            <Textarea
-              top="small"
-              label="Vertical:"
-              value="Nec litora inceptos vestibulum id interdum donec gravida nostra
+          />
+          <Textarea
+            top="small"
+            label="Vertical:"
+            value="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-        </FieldBlock>
-      </Provider>
+          />
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
       <Textarea
@@ -137,14 +130,14 @@ export const TextareaSandbox = () => (
         value="Nec litora inceptos vestibulum id interdum donec gravida
               nostra lacinia bibendum hendrerit porttitor volutpat nam duis
               nisl scelerisque sapien erat"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_focus={() => {
-          console.log('on_focus')
+        onFocus={() => {
+          console.log('onFocus')
         }}
-        on_blur={() => {
-          console.log('on_blur')
+        onBlur={() => {
+          console.log('onBlur')
         }}
       />
       <p className="dnb-p">I have still to be on the grid!</p>
@@ -188,7 +181,6 @@ export const TextareaSandbox = () => (
       <Textarea
         stretch
         label="Stretched label:"
-        label_direction="vertical"
         value="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"

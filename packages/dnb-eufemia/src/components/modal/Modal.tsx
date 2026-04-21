@@ -3,403 +3,158 @@
  *
  */
 
-import React from 'react'
-import classnames from 'classnames'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import Context, { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  isTrue,
-  makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
+  removeUndefinedProps,
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
-import { ModalProps } from './types'
+import type { ModalProps } from './types'
 
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
-import { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
-import {
-  classWithCamelCaseProps,
-  ToCamelCasePartial,
-} from '../../shared/helpers/withCamelCaseProps'
 import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
-interface ModalState {
-  hide: boolean
-  modalActive: boolean
-  preventAutoFocus: boolean
-}
-
-export type ModalPropTypes = ModalProps &
+export type ModalAllProps = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
-class Modal extends React.PureComponent<
-  ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
-  ModalState
-> {
-  static contextType = Context
+const modalDefaultProps: Partial<ModalAllProps> = {
+  spacing: true,
+  dialogTitle: 'Vindu',
+  closeTitle: 'Lukk',
+  hideCloseButton: false,
+  preventClose: false,
+  preventCoreStyle: false,
+  animationDuration: ANIMATION_DURATION,
+  noAnimation: false,
+  noAnimationOnMobile: false,
+  fullscreen: 'auto',
+  containerPlacement: null,
+  alignContent: 'left',
+  directDomReturn: false,
+  omitTriggerButton: false,
+}
 
-  context!: ContextProps
-
-  static Bar = ModalHeaderBar
-  static Header = ModalHeader
-  static Content = ModalInner
-
-  static getContent(props) {
-    if (typeof props.modal_content === 'string') {
-      return props.modal_content
-    } else if (typeof props.modal_content === 'function') {
-      return props.modal_content(props)
-    }
-    return processChildren(props)
+function getContent(props) {
+  if (typeof props.modalContent === 'string') {
+    return props.modalContent
+  } else if (typeof props.modalContent === 'function') {
+    return props.modalContent(props)
   }
+  return processChildren(props)
+}
 
-  _id: string
-  _triggerRef: React.RefObject<HTMLElement>
-  _onUnmount: Array<() => void>
-  _openTimeout: NodeJS.Timeout
-  _closeTimeout: NodeJS.Timeout
-  _sideEffectsTimeout: NodeJS.Timeout
-  _tryToOpenTimeout: NodeJS.Timeout
-  activeElement: Element
-  isInTransition: boolean
-  modalContentCloseRef: React.RefObject<
-    (event: Event, options: { triggeredBy?: string }) => void
-  >
+function ModalComponent(ownProps: ModalAllProps) {
+  const context = useContext(Context)
+  const suffixContext = useContext(SuffixContext)
 
-  state = {
-    hide: false,
-    modalActive: false,
-    preventAutoFocus: true,
-    animation_duration: ANIMATION_DURATION,
-    no_animation: false,
-  }
-
-  static defaultProps = {
-    id: null,
-    focus_selector: null,
-    labelled_by: null,
-    title: null,
-    disabled: null,
-    spacing: true,
-    open_delay: null,
-    content_id: null,
-    dialog_title: 'Vindu',
-    close_title: 'Lukk', // Close Modal Window
-    hide_close_button: false,
-    close_button_attributes: null,
-    prevent_close: false,
-    prevent_core_style: false,
-    animation_duration: ANIMATION_DURATION,
-    no_animation: false,
-    no_animation_on_mobile: false,
-    fullscreen: 'auto',
-    min_width: null,
-    max_width: null,
-    align_content: 'left',
-    container_placement: null,
-    vertical_alignment: null,
-    open_state: null,
-    direct_dom_return: false,
-    root_id: 'root',
-    omit_trigger_button: false,
-
-    className: null,
-    children: null,
-
-    on_open: null,
-    on_close: null,
-    on_close_prevent: null,
-    open_modal: null,
-    close_modal: null,
-
-    trigger: null,
-    trigger_attributes: null,
-
-    overlay_class: null,
-    content_class: null,
-
-    modal_content: null,
-    header_content: null,
-    bar_content: null,
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (typeof window !== 'undefined' && window['IS_TEST']) {
-      state.animation_duration = 0
-      state.no_animation = true
-    } else {
-      state.animation_duration = props.animation_duration
-      state.no_animation = props.no_animation
-    }
-
-    if (props.open_state !== state._open_state) {
-      switch (props.open_state) {
-        case 'opened':
-        case true:
-          state.hide = false
-          if (isTrue(state.no_animation)) {
-            state.modalActive = true
-          }
-          break
-        case 'closed':
-        case false:
-          state.hide = true
-          if (isTrue(state.no_animation)) {
-            state.modalActive = false
-          }
-          break
-      }
-    }
-    state._open_state = props.open_state
-
-    return state
-  }
-
-  constructor(props) {
-    super(props)
-    this._id = props.id || makeUniqueId('modal-')
-
-    this._triggerRef = React.createRef()
-    this.modalContentCloseRef = React.createRef()
-
-    this._onUnmount = []
-  }
-
-  componentDidMount() {
-    this.openBasedOnStateUpdate()
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._openTimeout)
-    clearTimeout(this._closeTimeout)
-
-    this.removeActiveState()
-
-    this._onUnmount.forEach((fn) => {
-      if (typeof fn === 'function') {
-        fn()
-      }
-    })
-  }
-
-  componentDidUpdate(prevProps) {
-    // Don't interfere if modal is currently transitioning, added to fix an issue with rapid state changes in React v19.
-    // Could be considered to be removed in the future, when Eufemia is using React v19.
-    if (this.isInTransition) {
-      return
-    }
-    if (prevProps !== this.props) {
-      this.openBasedOnStateUpdate()
-    }
-  }
-
-  openBasedOnStateUpdate() {
-    const { hide } = this.state
-    const { open_state } = this.props
-
-    if (!this.activeElement && typeof document !== 'undefined') {
-      this.activeElement = document.activeElement
-    }
-
-    if (!hide && (open_state === 'opened' || open_state === true)) {
-      this.toggleOpenClose(null, true)
-    } else if (hide && (open_state === 'closed' || open_state === false)) {
-      this.toggleOpenClose(null, false)
-    }
-  }
-
-  toggleOpenClose = (event = null, showModal = null) => {
-    if (event && event.preventDefault) {
-      event.preventDefault()
-    }
-
-    const toggleNow = () => {
-      const {
-        animation_duration = ANIMATION_DURATION,
-        no_animation = false,
-      } = this.state
-      const timeoutDuration =
-        typeof animation_duration === 'string'
-          ? parseFloat(animation_duration)
-          : animation_duration
-
-      const modalActive =
-        typeof showModal === 'boolean'
-          ? showModal
-          : !this.state.modalActive
-
-      this.isInTransition = true
-
-      const doItNow = () => {
-        this.setState(
-          {
-            hide: false,
-            modalActive,
-          },
-          () => {
-            this.isInTransition = false
-            this.handleSideEffects()
-          }
-        )
-      }
-
-      if (modalActive === false && !isTrue(no_animation)) {
-        this.setState({
-          hide: true,
-        })
-
-        this._closeTimeout = setTimeout(doItNow, timeoutDuration) // delay because of the animation
-      } else {
-        doItNow()
-      }
-    }
-
-    const waitBeforeOpen = () => {
-      const { open_delay } = this.props
-      const { no_animation } = this.state
-      const delay =
-        typeof open_delay === 'string'
-          ? parseFloat(open_delay)
-          : open_delay
-      if (delay > 0 && !isTrue(no_animation)) {
-        this._openTimeout = setTimeout(toggleNow, delay) // custom delay
-      } else {
-        toggleNow()
-      }
-    }
-
-    clearTimeout(this._closeTimeout)
-    clearTimeout(this._openTimeout)
-
-    const { open_modal } = this.props
-    if (typeof open_modal === 'function') {
-      const fn = open_modal(waitBeforeOpen, this)
-      if (fn) {
-        this._onUnmount.push(fn)
-      }
-    } else {
-      waitBeforeOpen()
-    }
-  }
-
-  handleSideEffects = () => {
-    const { modalActive, preventAutoFocus, animation_duration } =
-      this.state
-    const { close_modal, open_state } = this.props
-
-    if (modalActive) {
-      if (typeof close_modal === 'function') {
-        const fn = close_modal(() => {
-          this.toggleOpenClose(null, false)
-        }, this)
-        if (fn) {
-          this._onUnmount.push(fn)
+  const visualTestsPropsOverride =
+    typeof window !== 'undefined' && window['IS_TEST']
+      ? {
+          animationDuration: 0,
+          noAnimation: true,
         }
-      }
-      this.setActiveState(this._id)
-    } else if (modalActive === false && !preventAutoFocus) {
-      const focus = (elem: HTMLElement) => {
-        // So we can omit showing a Tooltip on the trigger button
-        elem.setAttribute('data-autofocus', 'true')
-        elem.focus({ preventScroll: true })
+      : {}
 
-        return new Promise<void>((resolve) => {
-          setTimeout(
-            () => {
-              elem?.removeAttribute('data-autofocus')
-              resolve()
-            },
-            parseFloat(String(animation_duration)) / 3
-          )
-        })
-      }
+  const props = extendPropsWithContext(
+    {
+      ...modalDefaultProps,
+      ...removeUndefinedProps({ ...ownProps }),
+    },
+    modalDefaultProps,
+    context.getTranslation(ownProps).Modal,
+    context.Modal,
+    visualTestsPropsOverride
+  )
 
-      if (this._triggerRef?.current) {
-        focus(this._triggerRef.current)
-      }
+  const {
+    contentId = null,
+    disabled = null,
+    labelledBy = null,
+    focusSelector = null,
+    headerContent = null,
+    barContent = null,
+    bypassInvalidationSelectors = null,
+    verticalAlignment = 'center',
 
-      // because the open_state was set to opened, we force
-      if (
-        (open_state === 'opened' || open_state === true) &&
-        this.activeElement instanceof HTMLElement
-      ) {
-        try {
-          focus(this.activeElement).then(() => {
-            this.activeElement = null
-          })
-        } catch (e) {
-          //
-        }
-      }
+    id: idProp,
+    openDelay,
 
-      this.removeActiveState()
-    }
+    omitTriggerButton = false,
+    trigger = null,
+    triggerAttributes = null,
+    ref: _ref,
+    ...rest
+  } = props
 
-    if (preventAutoFocus) {
-      this.setState({ preventAutoFocus: false })
-    }
-  }
+  const { open, openModal, closeModal, preventClose = false } = props
 
-  open = (e: Event) => {
-    this.toggleOpenClose(e, true)
-  }
+  const fallbackId = useId(idProp)
+  const _id = useRef(fallbackId)
+  const triggerRef = useRef<HTMLElement>(null)
+  const modalContentCloseRef = useRef<
+    ((event: Event, options: { triggeredBy?: string }) => void) | null
+  >(null)
+  const onUnmountRef = useRef<Array<() => void>>([])
+  const activeElementRef = useRef<Element>(null)
+  const isInTransitionRef = useRef(false)
+  const openTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const closeTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const pendingSideEffectsRef = useRef<{
+    isModalActive: boolean
+    preventAutoFocus: boolean
+  } | null>(null)
 
-  close = (
-    event: Event,
-    { ifIsLatest, triggeredBy = 'handler' } = {
-      ifIsLatest: true,
-    }
-  ) => {
-    this.modalContentCloseRef.current?.(event, { triggeredBy })
+  const [hide, setHide] = useState(false)
+  const [modalActive, setModalActive] = useState(false)
+  const [preventAutoFocus, setPreventAutoFocus] = useState(true)
 
-    const { prevent_close = false } = this.props
+  // Determine animation settings (test overrides)
+  const animationDuration =
+    typeof window !== 'undefined' && window['IS_TEST']
+      ? 0
+      : (props.animationDuration ?? ANIMATION_DURATION)
+  const noAnimation =
+    typeof window !== 'undefined' && window['IS_TEST']
+      ? true
+      : (props.noAnimation ?? false)
 
-    if (isTrue(prevent_close)) {
-      const id = this._id
-      dispatchCustomElementEvent(this, 'on_close_prevent', {
-        id,
-        event,
-        triggeredBy,
-        close: (e) => {
-          this.toggleOpenClose(e, false)
-        },
-      })
-    } else {
-      if (ifIsLatest) {
-        const list = getListOfModalRoots()
-        if (list.length > 1) {
-          const last = getModalRoot(-1)
-          if (last !== this) {
-            return // stop here
-          }
-        }
-      }
+  // Refs for latest state values used in callbacks
+  const stateRef = useRef({ hide, modalActive, preventAutoFocus })
+  stateRef.current = { hide, modalActive, preventAutoFocus }
+  const propsRef = useRef(props)
+  propsRef.current = props
 
-      this.toggleOpenClose(event, false)
-    }
-  }
-
-  removeActiveState() {
+  const removeActiveState = useCallback(() => {
     const last = getModalRoot(-1)
 
-    // If this instance is not the last one,
-    // make the current one to as the active one
-    if (last?._id && last._id !== this._id) {
-      return this.setActiveState(last._id)
+    if (last?._id && last._id !== _id.current) {
+      return setActiveState(last._id)
     }
 
     try {
@@ -407,19 +162,12 @@ class Modal extends React.PureComponent<
     } catch (e) {
       warn('Modal: Error on remove "data-dnb-modal-active"', e)
     }
-  }
+  }, [])
 
-  /**
-   * Prevent scrolling on the background
-   * But checks if this instance was the last one or not
-   *
-   * @param {string} modalId Will remove the attribute if false is given
-   */
-  setActiveState(modalId: string) {
+  const setActiveState = useCallback((modalId: string) => {
     if (!modalId) {
       warn('Modal: A valid modalId is required')
     }
-    // prevent scrolling on the background
     if (typeof document !== 'undefined') {
       try {
         document.documentElement.setAttribute(
@@ -430,145 +178,365 @@ class Modal extends React.PureComponent<
         warn('Modal: Error on set "data-dnb-modal-active"', e)
       }
     }
+  }, [])
+
+  const handleSideEffects = useCallback(
+    (isModalActive: boolean, currentPreventAutoFocus: boolean) => {
+      if (isModalActive) {
+        if (typeof closeModal === 'function') {
+          const fn = closeModal(
+            () => {
+              toggleOpenCloseRef.current(null, false)
+            },
+            { _id: _id.current, props: propsRef.current }
+          )
+          if (fn) {
+            onUnmountRef.current.push(fn)
+          }
+        }
+        setActiveState(_id.current)
+      } else if (isModalActive === false && !currentPreventAutoFocus) {
+        const focus = (elem: HTMLElement) => {
+          elem.setAttribute('data-autofocus', 'true')
+          elem.focus({ preventScroll: true })
+
+          return new Promise<void>((resolve) => {
+            setTimeout(
+              () => {
+                elem?.removeAttribute('data-autofocus')
+                resolve()
+              },
+              parseFloat(String(animationDuration)) / 3
+            )
+          })
+        }
+
+        if (triggerRef?.current) {
+          focus(triggerRef.current as HTMLElement)
+        }
+
+        if (
+          open === true &&
+          activeElementRef.current instanceof HTMLElement
+        ) {
+          try {
+            focus(activeElementRef.current).then(() => {
+              activeElementRef.current = null
+            })
+          } catch (e) {
+            //
+          }
+        }
+
+        removeActiveState()
+      }
+
+      if (currentPreventAutoFocus) {
+        setPreventAutoFocus(false)
+      }
+    },
+    [
+      closeModal,
+      open,
+      animationDuration,
+      removeActiveState,
+      setActiveState,
+    ]
+  )
+
+  const toggleOpenCloseRef =
+    useRef<(event?: Event | null, showModal?: boolean | null) => void>(
+      null
+    )
+
+  const toggleOpenClose = useCallback(
+    (event: Event | null = null, showModal: boolean | null = null) => {
+      if (event && 'preventDefault' in event) {
+        event.preventDefault()
+      }
+
+      const toggleNow = () => {
+        const timeoutDuration =
+          typeof animationDuration === 'string'
+            ? parseFloat(animationDuration)
+            : animationDuration
+
+        const newModalActive =
+          typeof showModal === 'boolean'
+            ? showModal
+            : !stateRef.current.modalActive
+
+        isInTransitionRef.current = true
+
+        const doItNow = () => {
+          setHide(false)
+          setModalActive(newModalActive)
+          isInTransitionRef.current = false
+          pendingSideEffectsRef.current = {
+            isModalActive: newModalActive,
+            preventAutoFocus: stateRef.current.preventAutoFocus,
+          }
+        }
+
+        if (newModalActive === false && !noAnimation) {
+          setHide(true)
+          closeTimeoutRef.current = setTimeout(doItNow, timeoutDuration)
+        } else {
+          doItNow()
+        }
+      }
+
+      const waitBeforeOpen = () => {
+        const delay =
+          typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
+        if (delay > 0 && !noAnimation) {
+          openTimeoutRef.current = setTimeout(toggleNow, delay)
+        } else {
+          toggleNow()
+        }
+      }
+
+      clearTimeout(closeTimeoutRef.current)
+      clearTimeout(openTimeoutRef.current)
+
+      if (typeof openModal === 'function') {
+        const fn = openModal(waitBeforeOpen, {
+          _id: _id.current,
+          props: propsRef.current,
+        })
+        if (fn) {
+          onUnmountRef.current.push(fn)
+        }
+      } else {
+        waitBeforeOpen()
+      }
+    },
+    [
+      animationDuration,
+      noAnimation,
+      openDelay,
+      openModal,
+      handleSideEffects,
+    ]
+  )
+
+  // Keep the ref in sync
+  toggleOpenCloseRef.current = toggleOpenClose
+
+  const closeHandler = useCallback(
+    (
+      event: Event,
+      {
+        ifIsLatest,
+        triggeredBy = 'handler',
+      }: { ifIsLatest?: boolean; triggeredBy?: string } = {
+        ifIsLatest: true,
+      }
+    ) => {
+      modalContentCloseRef.current?.(event, { triggeredBy })
+
+      if (preventClose) {
+        const id = _id.current
+        dispatchCustomElementEvent(propsRef.current, 'onClosePrevent', {
+          id,
+          event,
+          triggeredBy,
+          close: (e) => {
+            toggleOpenCloseRef.current(e, false)
+          },
+        })
+      } else {
+        if (ifIsLatest) {
+          const list = getListOfModalRoots()
+          if (list.length > 1) {
+            const last = getModalRoot(-1)
+            if (last !== modalStackIdentityRef.current) {
+              return // stop here
+            }
+          }
+        }
+
+        toggleOpenCloseRef.current(event, false)
+      }
+    },
+    [preventClose]
+  )
+
+  // Create a stable identity for the modal stack
+  const modalStackIdentityRef = useRef({
+    _id: _id.current,
+  })
+
+  // Handle open prop changes (getDerivedStateFromProps equivalent)
+  const prevOpenRef = useRef<typeof open>(undefined)
+  if (open !== prevOpenRef.current) {
+    if (open === true) {
+      setHide(false)
+      if (noAnimation) {
+        setModalActive(true)
+      }
+    } else if (open === false) {
+      setHide(true)
+      if (noAnimation) {
+        setModalActive(false)
+      }
+    }
+    prevOpenRef.current = open
   }
 
-  render() {
-    const visualTestsPropsOverride =
-      typeof window !== 'undefined' && window['IS_TEST']
-        ? {
-            animation_duration: 0,
-            no_animation: true,
-          }
-        : {}
-
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      Modal.defaultProps,
-      this.context.getTranslation(this.props).Modal,
-      this.context.Modal,
-      visualTestsPropsOverride
-    )
-
-    const {
-      root_id = 'root',
-      content_id = null,
-      disabled = null,
-      labelled_by = null,
-      focus_selector = null,
-      header_content = null,
-      bar_content = null,
-      bypass_invalidation_selectors = null,
-      vertical_alignment = 'center',
-
-      id, // eslint-disable-line
-      open_delay, // eslint-disable-line
-
-      omit_trigger_button = false,
-      trigger = null,
-      trigger_attributes = null,
-      ...rest
-    } = props
-
-    const { hide, modalActive } = this.state
-    const modal_content = Modal.getContent(
-      typeof this.props.children === 'function'
-        ? Object.freeze({
-            ...this.props,
-            close: this.close,
-          })
-        : this.props
-    )
-
-    const render = (suffixProps) => {
-      const triggerAttributes = {
-        hidden: false,
-        variant: 'secondary',
-        icon_position: 'left',
-        ...trigger_attributes,
-      } as ButtonProps
-
-      if (isTrue(disabled)) {
-        triggerAttributes.disabled = true
-      }
-
-      if (triggerAttributes.id) {
-        this._id = triggerAttributes.id
-      }
-
-      let fallbackTitle: string
-      if (triggerAttributes.title) {
-        fallbackTitle = triggerAttributes.title
-      }
-      // in case the modal is used in suffix and no title is given
-      // suffixProps.label is also available, so we could use that too
-      else if (suffixProps) {
-        fallbackTitle = this.context.translation.HelpButton.title
-      }
-
-      const headerTitle = rest.title || fallbackTitle
-
-      const TriggerButton = trigger
-        ? (trigger as () => JSX.Element)
-        : HelpButtonInstance
-
-      const title = (
-        !triggerAttributes.text && headerTitle
-          ? headerTitle || fallbackTitle
-          : null
-      ) as string
-
-      return (
-        <>
-          {TriggerButton && !isTrue(omit_trigger_button) && (
-            <TriggerButton
-              {...triggerAttributes}
-              id={this._id}
-              title={title}
-              onClick={this.toggleOpenClose}
-              innerRef={this._triggerRef}
-              className={classnames(
-                'dnb-modal__trigger',
-                createSpacingClasses(rest as SpacingProps),
-                triggerAttributes.className,
-
-                // @deprecated – can be removed in v11
-                triggerAttributes.class
-              )}
-            />
-          )}
-
-          {modalActive && modal_content && (
-            <ParagraphContext.Provider value={{ isNested: false }}>
-              <ModalRoot
-                {...rest}
-                id={this._id}
-                root_id={root_id}
-                content_id={content_id || `dnb-modal-${this._id}`}
-                labelled_by={labelled_by}
-                focus_selector={focus_selector}
-                modal_content={modal_content}
-                header_content={header_content}
-                vertical_alignment={vertical_alignment}
-                bar_content={bar_content}
-                bypass_invalidation_selectors={
-                  bypass_invalidation_selectors
-                }
-                close={this.close}
-                hide={hide}
-                title={headerTitle}
-                modalContentCloseRef={this.modalContentCloseRef}
-              />
-            </ParagraphContext.Provider>
-          )}
-        </>
-      )
+  // openBasedOnStateUpdate — mirrors class componentDidMount + componentDidUpdate with prevProps guard
+  const prevEffectOpenRef = useRef<typeof open>(undefined)
+  const prevOwnPropsRef = useRef<ModalAllProps | undefined>(undefined)
+  useEffect(() => {
+    if (!activeElementRef.current && typeof document !== 'undefined') {
+      activeElementRef.current = document.activeElement
     }
 
-    return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
+    // Detect if parent provided new props (equivalent to class `prevProps !== this.props`)
+    const isNewProps =
+      prevOwnPropsRef.current !== undefined &&
+      prevOwnPropsRef.current !== ownProps
+    prevOwnPropsRef.current = ownProps
+
+    const openChanged = prevEffectOpenRef.current !== open
+    prevEffectOpenRef.current = open
+
+    if (!openChanged && !isNewProps) {
+      return // stop here
+    }
+
+    if (isInTransitionRef.current) {
+      return // stop here
+    }
+
+    if (!hide && open === true) {
+      toggleOpenClose(null, true)
+    } else if (hide && open === false) {
+      toggleOpenClose(null, false)
+    }
+  })
+
+  // Process side effects after render (equivalent to class setState callback)
+  useEffect(() => {
+    if (pendingSideEffectsRef.current) {
+      const { isModalActive, preventAutoFocus } =
+        pendingSideEffectsRef.current
+      pendingSideEffectsRef.current = null
+      handleSideEffects(isModalActive, preventAutoFocus)
+    }
+  })
+
+  // Cleanup on unmount
+  useMountEffect(() => {
+    return () => {
+      clearTimeout(openTimeoutRef.current)
+      clearTimeout(closeTimeoutRef.current)
+      removeActiveState()
+
+      onUnmountRef.current.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn()
+        }
+      })
+    }
+  })
+
+  const modalContent = getContent(
+    typeof ownProps.children === 'function'
+      ? Object.freeze({
+          ...ownProps,
+          close: closeHandler,
+        })
+      : ownProps
+  )
+
+  const usedTriggerAttributes = {
+    hidden: false,
+    variant: 'secondary',
+    iconPosition: 'left',
+    ...triggerAttributes,
+  } as ButtonProps
+
+  if (disabled) {
+    usedTriggerAttributes.disabled = true
   }
+
+  if (usedTriggerAttributes.id) {
+    _id.current = usedTriggerAttributes.id
+  }
+
+  let fallbackTitle: string
+  if (usedTriggerAttributes.title) {
+    fallbackTitle = usedTriggerAttributes.title
+  } else if (suffixContext) {
+    fallbackTitle = context.translation.HelpButton.title
+  }
+
+  const headerTitle = rest.title || fallbackTitle
+  const title = (
+    !usedTriggerAttributes?.text && headerTitle
+      ? headerTitle || fallbackTitle
+      : null
+  ) as string
+
+  const TriggerButton = trigger
+    ? (trigger as () => React.JSX.Element)
+    : HelpButtonInstance
+
+  return (
+    <>
+      {TriggerButton && !omitTriggerButton && (
+        <TriggerButton
+          {...usedTriggerAttributes}
+          {...applySpacing(rest as SpacingProps, {
+            id: _id.current,
+            title,
+            onClick: (event: React.MouseEvent) =>
+              toggleOpenClose(event.nativeEvent),
+            ref: triggerRef,
+            className: clsx(
+              'dnb-modal__trigger',
+              usedTriggerAttributes.className
+            ),
+          })}
+        />
+      )}
+
+      {modalActive && modalContent && (
+        <ParagraphContext value={{ isNested: false }}>
+          <ModalRoot
+            {...rest}
+            id={_id.current}
+            contentId={contentId || `dnb-modal-${_id.current}`}
+            labelledBy={labelledBy}
+            focusSelector={focusSelector}
+            modalContent={modalContent}
+            headerContent={headerContent}
+            verticalAlignment={verticalAlignment}
+            barContent={barContent}
+            bypassInvalidationSelectors={bypassInvalidationSelectors}
+            close={closeHandler}
+            hide={hide}
+            title={headerTitle}
+            modalContentCloseRef={modalContentCloseRef}
+          />
+        </ParagraphContext>
+      )}
+    </>
+  )
 }
+
+const Modal = React.memo(ModalComponent) as React.MemoExoticComponent<
+  typeof ModalComponent
+> & {
+  Bar: typeof ModalHeaderBar
+  Header: typeof ModalHeader
+  Content: typeof ModalInner
+}
+Modal.Bar = ModalHeaderBar
+Modal.Header = ModalHeader
+Modal.Content = ModalInner
 
 export { CloseButton, Modal as OriginalComponent }
 
-export default classWithCamelCaseProps(Modal)
+export default Modal

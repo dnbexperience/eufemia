@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
 import type { SubmitState } from '../../types'
@@ -10,19 +10,22 @@ import {
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormSubmitIndicatorProps = {
   state: SubmitState
+  id?: string
   label?: React.ReactNode
   showLabel?: boolean
   className?: string
   children?: React.ReactNode
 } & SpaceProps
 
-function SubmitIndicator(props: Props) {
+function SubmitIndicator(props: FormSubmitIndicatorProps) {
   const translation = useTranslation()
 
   const {
+    id,
     className,
     children,
     state,
@@ -47,10 +50,13 @@ function SubmitIndicator(props: Props) {
         window.removeEventListener('resize', recalculate)
       }
     }
+
+    return undefined
   }, [key, recalculate])
 
   const params = {
-    className: classnames(
+    id,
+    className: clsx(
       'dnb-forms-submit-indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
       willWrap && 'dnb-forms-submit-indicator--inline-wrap',
@@ -104,22 +110,24 @@ function SubmitIndicator(props: Props) {
 
 function willWordWrap(element: HTMLElement, word: string) {
   if (!element) {
-    return
+    return undefined
   }
 
-  const { offsetHeight, innerHTML } = element
+  const { offsetHeight } = element
 
   const clone = element.cloneNode(true) as HTMLElement
   element.parentElement?.insertBefore(clone, element)
 
-  clone.innerHTML += word
+  clone.appendChild(document.createTextNode(word))
   const height = clone.offsetHeight
-  clone.innerHTML = innerHTML
 
   clone.remove()
 
   return height > offsetHeight
 }
 
-SubmitIndicator._supportsSpacingProps = true
+withComponentMarkers(SubmitIndicator, {
+  _supportsSpacingProps: true,
+})
+
 export default SubmitIndicator

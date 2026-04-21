@@ -4,7 +4,7 @@
  */
 
 const basisPresets = [
-  '@babel/preset-react',
+  ['@babel/preset-react', { runtime: 'automatic' }],
   ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
 ]
 
@@ -69,12 +69,6 @@ const testingPresets =
 
 const productionPlugins = [
   '@babel/plugin-transform-react-constant-elements',
-  [
-    'babel-plugin-transform-react-remove-prop-types',
-    {
-      mode: 'unsafe-wrap',
-    },
-  ],
   'babel-plugin-fully-specified',
 ]
 

@@ -1,10 +1,10 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormLabelProperties: PropertiesTableProps = {
   forId: {
     doc: 'The same unique `id` like the linked HTML element has.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   text: {
     doc: 'The `text` of the label. You can use `children` as well.',
@@ -17,13 +17,13 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'If set to `true`, will do the same as `label_direction` when set to **vertical**.',
+    doc: 'Defaults to `true`. If set to `false`, the label will be displayed horizontally (inline).',
     type: 'boolean',
     status: 'optional',
   },
   size: {
-    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
-    type: ['medium', 'large'],
+    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.',
+    type: ['"basis"', '"medium"', '"large"'],
     status: 'optional',
   },
   skeleton: {
@@ -41,8 +41,8 @@ export const FormLabelProperties: PropertiesTableProps = {
     type: 'React.Element',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'Attach a React Ref to the inner label `element`.',
+  ref: {
+    doc: 'Attach a `React.Ref` to the inner label `element`.',
     type: 'React.Ref',
     status: 'optional',
   },

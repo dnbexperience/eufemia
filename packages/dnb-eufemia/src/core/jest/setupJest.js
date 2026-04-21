@@ -9,7 +9,9 @@ import { toBeType } from 'jest-tobetype'
 
 // To cleanup axe test leftovers from a test run before the current one
 beforeEach(() => {
-  document.body.innerHTML = ''
+  if (typeof document !== 'undefined') {
+    document.body.innerHTML = ''
+  }
 })
 
 expect.extend({ toBeType })
@@ -42,11 +44,14 @@ if (typeof window !== 'undefined') {
 
 const originalError = console.error
 export function bypassActWarning() {
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9. See also: https://github.com/facebook/react/pull/14853
+  // Silence React "not wrapped in act" and Suspense scope warnings in tests
   beforeAll(() => {
     console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
+      const msg = String(args[0] ?? '')
+      if (
+        /not wrapped in act/.test(msg) ||
+        /component suspended inside an `act` scope/.test(msg)
+      ) {
         return
       }
       originalError.call(console, ...args)
@@ -58,7 +63,5 @@ export function bypassActWarning() {
   })
 }
 
-// Call it for now regardless
-// TODO: We may call this later only if enzyme is used
-// but we can't call it "inside a test", because we use beforeAll / afterAll
+// Called globally because it uses beforeAll / afterAll
 bypassActWarning()

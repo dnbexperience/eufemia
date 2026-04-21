@@ -4,21 +4,22 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { applySpacing } from '../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ScrollViewProps = {
   /**
    * To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation.
-   * Default: false
+   * Default: `false`
    */
   interactive?: boolean | 'auto'
 }
@@ -26,10 +27,10 @@ export type ScrollViewProps = {
 export type ScrollViewAllProps = ScrollViewProps &
   SpacingProps &
   Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>> & {
-    innerRef?: React.ForwardedRef<unknown>
+    ref?: React.Ref<unknown>
   }
 
-const defaultProps = {
+const defaultProps: Partial<ScrollViewAllProps> = {
   children: null,
 }
 
@@ -47,26 +48,22 @@ function ScrollView(localProps: ScrollViewAllProps) {
     interactive,
     children,
     className = null,
-    innerRef,
+    ref: refProp,
     ...attributes
   } = props
 
   const mainParams: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  > = {
-    className: classnames(
-      'dnb-scroll-view',
-      createSpacingClasses(props),
-      className
-    ),
+  > = applySpacing(props, {
     ...(attributes as React.HTMLAttributes<unknown>),
-  }
+    className: clsx('dnb-scroll-view', className),
+  })
 
-  const ref = React.useRef<HTMLDivElement>()
-  mainParams.ref = innerRef
-    ? (innerRef as React.RefObject<HTMLDivElement>)
-    : ref
+  const localRef = React.useRef<HTMLDivElement>(undefined)
+  mainParams.ref = refProp
+    ? (refProp as React.RefObject<HTMLDivElement>)
+    : localRef
 
   mainParams.tabIndex = useInteractive({
     interactive,
@@ -99,6 +96,8 @@ function useInteractive({ interactive, children, ref }) {
       observer.observe(ref.current)
       return () => observer?.disconnect()
     }
+
+    return undefined
   }, [interactive, ref]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isInteractive) {
@@ -123,13 +122,8 @@ function useInteractive({ interactive, children, ref }) {
   }
 }
 
-const ScrollViewWithRef = React.forwardRef(
-  (props: ScrollViewAllProps, ref) => {
-    return <ScrollView {...props} innerRef={props.innerRef || ref} />
-  }
-)
+withComponentMarkers(ScrollView, {
+  _supportsSpacingProps: true,
+})
 
-ScrollView._supportsSpacingProps = true
-ScrollViewWithRef['_supportsSpacingProps'] = true
-
-export default ScrollViewWithRef
+export default ScrollView

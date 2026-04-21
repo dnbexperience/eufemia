@@ -2,12 +2,14 @@ import { useCallback, useContext, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import usePath from '../../hooks/usePath'
-import { Path } from '../../types'
-import { Props } from './Visibility'
+import type { Path } from '../../types'
+import type { FormVisibilityProps } from './Visibility'
 
-export type { Props }
+export type { FormVisibilityProps }
 
-export default function useVisibility(props?: Partial<Props>) {
+export default function useVisibility(
+  props?: Partial<FormVisibilityProps>
+) {
   const {
     hasFieldError,
     filterDataHandler,
@@ -45,11 +47,9 @@ export default function useVisibility(props?: Partial<Props>) {
         pathFalsy,
         pathTrue,
         pathFalse,
-        pathValue,
-        whenValue,
         inferData,
         filterData,
-      }: Partial<Props> = propsRef.current
+      }: Partial<FormVisibilityProps> = propsRef.current
     ) => {
       if (typeof visible === 'boolean') {
         return visible
@@ -75,25 +75,17 @@ export default function useVisibility(props?: Partial<Props>) {
             return Boolean(visibleWhenNot)
           }
           const result =
-            (visibleWhen.continuousValidation ||
-            visibleWhen.validateContinuously
+            (visibleWhen.validateContinuously
               ? true
               : item.isFocused !== true) && !hasFieldError(path)
           return visibleWhenNot ? !result : result
         }
 
-        if ('hasValue' in visibleWhen || 'withValue' in visibleWhen) {
+        if ('hasValue' in visibleWhen) {
           const hasPath = pointer.has(data, path)
           const value = hasPath ? pointer.get(data, path) : undefined
 
-          if (visibleWhen?.['withValue']) {
-            console.warn(
-              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
-            )
-          }
-
-          const hasValue =
-            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
+          const hasValue = visibleWhen?.['hasValue']
           const result =
             typeof hasValue === 'function'
               ? hasValue(value) === false
@@ -137,11 +129,6 @@ export default function useVisibility(props?: Partial<Props>) {
       }
 
       if (inferData && !inferData(data)) {
-        return false
-      }
-
-      // Deprecated can be removed in v11
-      if (pathValue && getValue(makeLocalPath(pathValue)) !== whenValue) {
         return false
       }
 

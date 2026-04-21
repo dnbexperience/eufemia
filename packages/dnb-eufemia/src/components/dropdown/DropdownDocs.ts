@@ -1,29 +1,39 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
-export const DropdownEvents = {
-  on_change: {
+export const DropdownEvents: PropertiesTableProps = {
+  onChange: {
     doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }`.',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
-    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }`. The **active_item** property is the currently selected item by keyboard navigation.',
+  onSelect: {
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The `activeItem` property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onOpen: {
     doc: 'Will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onClose: {
     doc: 'Will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+  onOpenFocus: {
+    doc: 'Will be called when focus is set on an item inside the opened drawer list. Returns `{ element }` with the focused DOM element.',
+    type: 'function',
+    status: 'optional',
+  },
+  onCloseFocus: {
+    doc: 'Will be called when focus is moved back to the trigger button after the drawer list closes. Returns `{ element }` with the focused DOM element.',
+    type: 'function',
+    status: 'optional',
+  },
+}
 
-export const DropdownProperties = {
+export const DropdownProperties: PropertiesTableProps = {
   title: {
     doc: 'Give a title to let the users know what they have to do. Defaults to `Valgmeny`.',
     type: 'React.ReactNode',
@@ -31,75 +41,65 @@ export const DropdownProperties = {
   },
   value: {
     doc: 'Define a preselected data entry (index). More info down below.',
-    type: 'number',
+    type: ['string', 'number'],
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.',
-    type: ['primary', 'secondary', 'tertiary', 'signal'],
+    doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `secondary`.',
+    type: ['"primary"', '"secondary"', '"tertiary"', '"unstyled"'],
     status: 'optional',
   },
   icon: {
     doc: 'Icon to be included in the dropdown.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Change the size of the icon pragmatically.',
     type: 'string',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
-  triangle_position: {
-    doc: 'Position of arrow / triangle of the drawer. Set to `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+  arrowPosition: {
+    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   size: {
     doc: 'Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
-    type: ['small', 'default', 'medium', 'large'],
+    type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'If set to `true`, the Dropdown will be rendered initially with a visible and accessible data list / options.',
     type: 'boolean',
     status: 'optional',
   },
-  open_on_focus: {
+  openOnFocus: {
     doc: 'If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.',
     type: 'boolean',
     status: 'optional',
   },
-  prevent_selection: {
+  preventSelection: {
     doc: 'If set to `true`, no permanent selection will be made. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  action_menu: {
-    doc: 'Same as `prevent_selection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.',
-    type: 'boolean',
+  align: {
+    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
-  more_menu: {
-    doc: 'Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  align_dropdown: {
-    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu`. Defaults to `left`.',
-    type: ['left', 'right'],
-    status: 'optional',
-  },
-  independent_width: {
+  independentWidth: {
     doc: 'If set to `true`, the Dropdown will handle its width independent to the content width. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
+  skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -111,15 +111,15 @@ export const DropdownProperties = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  status_state: {
-    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['error', 'info'],
+  statusState: {
+    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -134,12 +134,12 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+  labelDirection: {
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
@@ -149,18 +149,18 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  trigger_element: {
+  triggerElement: {
     doc: 'Lets you provide a custom React element as the trigger HTML element.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.ref you can get the internally used main element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
   buttonRef: {
-    doc: 'By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
@@ -179,4 +179,4 @@ export const DropdownProperties = {
     type: ['string', 'object'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}

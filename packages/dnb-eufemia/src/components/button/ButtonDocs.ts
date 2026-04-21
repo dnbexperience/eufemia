@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ButtonProperties: PropertiesTableProps = {
   type: {
-    doc: 'The type HTML attribute. Defaults to `button` for legacy reasons.',
-    type: ['button', 'reset', 'submit'],
+    doc: 'The type HTML attribute. Defaults to `button` to prevent accidental form submissions.',
+    type: ['"button"', '"reset"', '"submit"'],
     status: 'optional',
   },
   text: {
@@ -12,23 +12,23 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   'aria-label': {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },
   title: {
-    doc: 'Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.',
+    doc: 'Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.',
     type: 'string',
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
-    type: ['primary', 'secondary', 'tertiary', 'signal'],
+    doc: 'Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
+    type: ['"primary"', '"secondary"', '"tertiary"', '"unstyled"'],
     status: 'optional',
   },
   size: {
-    doc: 'The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
-    type: ['small', 'medium', 'default', 'large'],
+    doc: 'The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   icon: {
@@ -36,14 +36,19 @@ export const ButtonProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.',
-    type: ['left', 'right', 'top'],
+    type: ['"left"', '"right"', '"top"'],
     status: 'optional',
   },
-  icon_size: {
-    doc: 'Define icon width and height. Defaults to 16px.',
+  iconSize: {
+    doc: 'Define icon width and height. Defaults to `16px`.',
     type: 'string',
+    status: 'optional',
+  },
+  selected: {
+    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   href: {
@@ -53,7 +58,7 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   target: {
     doc: 'When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.',
-    type: ['_self', '_blank', '_parent', '_top'],
+    type: ['"_self"', '"_blank"', '"_parent"', '"_top"'],
     status: 'optional',
   },
   rel: {
@@ -72,7 +77,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stretch: {
-    doc: 'Set it to `true` in order to stretch the button to the available space. Defaults to false.',
+    doc: 'Set it to `true` in order to stretch the button to the available space. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -86,7 +91,7 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  custom_content: {
+  customContent: {
     doc: 'If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.',
     type: 'React.ReactNode',
     status: 'optional',
@@ -103,15 +108,15 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  status_state: {
-    doc: 'Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+  statusState: {
+    doc: 'Defines the state of the status. Currently there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -129,7 +134,7 @@ export const ButtonProperties: PropertiesTableProps = {
 }
 
 export const ButtonEvents: PropertiesTableProps = {
-  on_click: {
+  onClick: {
     doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
     type: 'function',
     status: 'optional',

@@ -1,12 +1,13 @@
 import React from 'react'
 import Provider from '../../../../shared/Provider'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = {
+export type FormAppearanceProps = {
   size?: 'medium' | 'large'
   children: React.ReactNode
 }
 
-function FormAppearance({ children, size = null, ...rest }: Props) {
+function FormAppearance({ children, size, ...rest }: FormAppearanceProps) {
   return (
     <Provider
       Input={{ size }}
@@ -21,5 +22,8 @@ function FormAppearance({ children, size = null, ...rest }: Props) {
   )
 }
 
-FormAppearance._supportsSpacingProps = 'children'
+withComponentMarkers(FormAppearance, {
+  _supportsSpacingProps: 'children',
+})
+
 export default FormAppearance

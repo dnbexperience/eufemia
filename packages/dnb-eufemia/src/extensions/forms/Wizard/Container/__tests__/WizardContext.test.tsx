@@ -51,9 +51,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }
@@ -68,12 +68,9 @@ describe('Wizard.Context', () => {
       expect(output()).toHaveTextContent('Step 1')
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
+      await wait(10) // wait for the isInteractionRef to be set
+
       await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-      expect(onStepChange).toHaveBeenCalledTimes(1)
-
-      await wait(100) // wait for the isInteractionRef to be set
 
       expect(output()).toHaveTextContent('Step 2')
       expect(onStepChange).toHaveBeenCalledTimes(1)
@@ -110,9 +107,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }
@@ -171,9 +168,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }

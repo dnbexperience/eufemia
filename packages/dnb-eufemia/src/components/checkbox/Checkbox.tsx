@@ -2,6 +2,7 @@
  * Web Checkbox Component
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   useCallback,
   useContext,
@@ -9,16 +10,15 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
-  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -26,17 +26,11 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
-import type { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -44,12 +38,11 @@ import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
-export type CheckboxAttributes = string | Record<string, unknown>
-export type OnChangeParams = {
+export type CheckboxOnChangeParams = {
   checked: boolean
   event: React.ChangeEvent<HTMLInputElement>
 }
-export type OnClickParams = React.MouseEvent<HTMLInputElement> & {
+export type CheckboxOnClickParams = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
   event: React.MouseEvent<HTMLInputElement>
 }
@@ -84,29 +77,11 @@ export type CheckboxProps = {
    */
   size?: CheckboxSize
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)
-   */
-  globalStatus?: GlobalStatusConfigObject
-  /**
    * Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.
    */
   suffix?: React.ReactNode
   value?: string
   element?: React.ElementType
-  attributes?: CheckboxAttributes
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -114,41 +89,23 @@ export type CheckboxProps = {
   /**
    * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
    */
-  onChange?: (args: OnChangeParams) => void
+  onChange?: (args: CheckboxOnChangeParams) => void
   /**
    * Will be called on click made by the user. Returns the ClickEvent.
    */
-  onClick?: (args: OnClickParams) => void
+  onClick?: (args: CheckboxOnClickParams) => void
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  innerRef?:
-    | React.MutableRefObject<HTMLInputElement>
+  ref?:
+    | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
-} & SpacingProps &
+} & FormStatusBaseProps &
+  SpacingProps &
   Omit<
     React.HTMLProps<HTMLInputElement>,
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
-  > &
-  DeprecatedCheckboxProps
-
-// deprecated, can be removed in v11
-type DeprecatedCheckboxProps = {
-  /** @deprecated use the `label` prop instead */
-  children?: React.ReactNode
-  /**  @deprecated use `onChange` */
-  on_change?: (args: OnChangeParams) => void
-  /**  @deprecated use `labelPosition` */
-  label_position?: CheckboxLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
-  /**  @deprecated use `statusState` */
-  status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: FormStatusProps
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
+  >
 
 const defaultProps: CheckboxProps = {
   statusState: 'error',
@@ -159,22 +116,15 @@ function Checkbox(localProps: CheckboxProps) {
 
   const extractPropsFromContext = useCallback(() => {
     return extendPropsWithContext(
-      convertSnakeCaseProps(localProps),
+      localProps,
       defaultProps,
       context.Checkbox,
       {
         skeleton: context?.Checkbox,
       },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement)
     )
-  }, [
-    context.Checkbox,
-    context?.FormRow,
-    context?.formElement,
-    localProps,
-  ])
+  }, [context.Checkbox, context?.formElement, localProps])
 
   const props = extractPropsFromContext()
 
@@ -201,22 +151,22 @@ function Checkbox(localProps: CheckboxProps) {
     checked,
     onChange,
     onClick,
-    innerRef,
+    ref: refProp,
     ...rest
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
 
-  const isFn = typeof innerRef === 'function'
-  const refHook = useRef<HTMLInputElement>()
-  const ref = (!isFn && innerRef) || refHook
+  const isFn = typeof refProp === 'function'
+  const refHook = useRef<HTMLInputElement>(undefined)
+  const ref = (!isFn && refProp) || refHook
 
   useEffect(() => {
     if (isFn) {
-      innerRef?.(ref.current)
+      refProp?.(ref.current)
     }
-  }, [innerRef, isFn, ref])
+  }, [refProp, isFn, ref])
 
   const preventChangeRef = useRef(false)
   const isCheckedRef = useRef(checked ?? false)
@@ -242,7 +192,7 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const handleChange = useCallback(
-    (event: OnChangeParams['event']) => {
+    (event: CheckboxOnChangeParams['event']) => {
       if (preventChangeRef.current) {
         return // stop here
       }
@@ -264,7 +214,7 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const onChangeHandler = useCallback(
-    (event: OnChangeParams['event']) => {
+    (event: CheckboxOnChangeParams['event']) => {
       handleChange(event)
     },
     [handleChange]
@@ -298,11 +248,9 @@ function Checkbox(localProps: CheckboxProps) {
     )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent & OnChangeParams['event']) => {
-      switch (keycode(event)) {
-        case 'enter':
-          handleChange(event)
-          break
+    (event: KeyboardEvent & CheckboxOnChangeParams['event']) => {
+      if (event.key === 'Enter') {
+        handleChange(event)
       }
     },
     [handleChange]
@@ -349,18 +297,17 @@ function Checkbox(localProps: CheckboxProps) {
     suffix,
   ])
 
-  const mainParams = {
-    className: classnames(
+  const mainParams = applySpacing(props, {
+    className: clsx(
       'dnb-checkbox',
       status && `dnb-checkbox__status--${statusState}`,
       size && `dnb-checkbox--${size}`,
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton, context),
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const inputParams = handleInputAttributes()
 
@@ -370,11 +317,11 @@ function Checkbox(localProps: CheckboxProps) {
       id={id + '-form-status'}
       globalStatus={globalStatus}
       label={label}
-      text_id={id + '-status'} // used for "aria-describedby"
-      width_selector={id + ', ' + id + '-label'}
+      textId={id + '-status'} // used for "aria-describedby"
+      widthSelector={id + ', ' + id + '-label'}
       text={status}
       state={statusState}
-      no_animation={statusNoAnimation}
+      noAnimation={statusNoAnimation}
       skeleton={skeleton}
       {...statusProps}
     />
@@ -393,6 +340,7 @@ function Checkbox(localProps: CheckboxProps) {
             disabled={disabled}
             skeleton={skeleton}
             srOnly={labelSrOnly}
+            vertical={false}
           />
         )}
 
@@ -417,7 +365,7 @@ function Checkbox(localProps: CheckboxProps) {
             />
 
             <span
-              className={classnames(
+              className={clsx(
                 'dnb-checkbox__button',
                 createSkeletonClass('shape', skeleton, context)
               )}
@@ -448,7 +396,8 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
-export default Checkbox
+withComponentMarkers(Checkbox, {
+  _formElement: true,
+})
 
-// Mark as form element for FieldBlock
-Checkbox._formElement = true
+export default Checkbox

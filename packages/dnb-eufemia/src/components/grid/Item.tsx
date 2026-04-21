@@ -1,26 +1,30 @@
 import React from 'react'
-import classnames from 'classnames'
-import Space, { SpaceAllProps } from '../space/Space'
+import clsx from 'clsx'
+import type { SpaceAllProps } from '../space/Space'
+import Space from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Columns = number
+export type GridItemColumns = number
 
-export type Span = [Columns, Columns | 'end'] | 'full'
+export type GridItemSpan =
+  | [GridItemColumns, GridItemColumns | 'end']
+  | 'full'
 
-export type Media = {
-  small?: Span
-  medium?: Span
-  large?: Span
+export type GridItemMedia = {
+  small?: GridItemSpan
+  medium?: GridItemSpan
+  large?: GridItemSpan
 }
 
-export type BasicProps = {
-  span?: Media | Span
+export type GridItemProps = {
+  span?: GridItemMedia | GridItemSpan
 }
 
-export type AllProps = BasicProps & Omit<SpaceAllProps, 'span'>
+export type GridItemAllProps = GridItemProps & Omit<SpaceAllProps, 'span'>
 
 const media = ['small', 'medium', 'large']
 
-function GridItem(props: AllProps) {
+function GridItem(props: GridItemAllProps) {
   const {
     element = 'div',
     span,
@@ -35,7 +39,7 @@ function GridItem(props: AllProps) {
     ...style,
   }
 
-  const cn = classnames('dnb-grid-item', className)
+  const cn = clsx('dnb-grid-item', className)
 
   return (
     <Space element={element} className={cn} style={styleObj} {...rest}>
@@ -44,7 +48,9 @@ function GridItem(props: AllProps) {
   )
 }
 
-GridItem._supportsSpacingProps = true
+withComponentMarkers(GridItem, {
+  _supportsSpacingProps: true,
+})
 
 export default GridItem
 

@@ -4,9 +4,11 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import { SpacingProps } from '../../components/space/types'
+import clsx from 'clsx'
+import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
+import { Theme } from '../../shared'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type BlockquoteProps = SpacingProps &
   React.HTMLAttributes<HTMLElement> & {
@@ -21,31 +23,50 @@ type BlockquoteProps = SpacingProps &
     direction?: 'horizontal' | 'vertical'
   }
 
-const Blockquote = React.forwardRef(
-  (
-    {
-      noBackground,
-      direction = 'horizontal',
-      className,
-      ...props
-    }: BlockquoteProps,
-    ref
-  ) => (
+function Blockquote({
+  noBackground,
+  direction = 'horizontal',
+  className,
+  children,
+  ref,
+  ...props
+}: BlockquoteProps & { ref?: React.Ref<HTMLQuoteElement> }) {
+  return (
     <E
       as="blockquote"
       skeletonMethod="font"
-      innerRef={ref}
-      className={classnames(
+      ref={ref}
+      className={clsx(
         className,
         noBackground && 'dnb-blockquote--no-background',
         direction === 'vertical' && 'dnb-blockquote--top'
       )}
       {...props}
-    />
-  )
-)
+    >
+      <svg
+        className="dnb-blockquote__quote-icon"
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        aria-hidden
+      >
+        <path d="M37.5 27.496a9 9 0 1 0 0-18 9 9 0 0 0 0 18M13.5 27.496a9 9 0 1 0 0-18 9 9 0 0 0 0 18" />
+        <path
+          d="M46.5 18.496a21 21 0 0 1-21 21m-3-21a21 21 0 0 1-21 21"
+          fill="none"
+        />
+      </svg>
 
-// @ts-expect-error - Adding custom property to component for spacing detection
-Blockquote._supportsSpacingProps = true
+      <Theme.Context surface={noBackground ? 'initial' : 'dark'}>
+        {children}
+      </Theme.Context>
+    </E>
+  )
+}
+
+withComponentMarkers(Blockquote, {
+  _supportsSpacingProps: true,
+})
 
 export default Blockquote

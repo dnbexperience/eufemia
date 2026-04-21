@@ -1,16 +1,16 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { ButtonProperties } from '../button/ButtonDocs'
 
 export const ToggleButtonProperties: PropertiesTableProps = {
   value: {
-    doc: 'Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.',
-    type: 'string',
-    status: 'required',
+    doc: 'Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.',
+    type: ['string', 'number', 'object', 'Array'],
+    status: 'optional',
   },
   text: {
     doc: 'The text shown in the ToggleButton.',
-    type: 'string',
-    status: 'required',
+    type: ['string', 'React.ReactNode'],
+    status: 'optional',
   },
   checked: {
     doc: 'Determine whether the ToggleButton is checked or not. The default will be `false`.',
@@ -32,12 +32,12 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define icon width and height. Defaults to `16px`.',
     type: 'string',
     status: 'optional',
@@ -46,15 +46,15 @@ export const ToggleButtonProperties: PropertiesTableProps = {
   size: ButtonProperties.size,
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  status_state: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+  statusState: {
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -82,7 +82,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
 }
 
 export const ToggleButtonEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',

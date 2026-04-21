@@ -1,18 +1,18 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
-import { Props as CardProps } from '../../../../components/card/Card'
-import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
-import { HeightAnimationProps } from '../../../../components/HeightAnimation'
-import IterateItemContext, {
-  IterateItemContextState,
-} from '../IterateItemContext'
+import type { CardProps } from '../../../../components/card/Card'
+import type { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
+import type { HeightAnimationProps } from '../../../../components/HeightAnimation'
+import type { IterateItemContextState } from '../IterateItemContext'
+import IterateItemContext from '../IterateItemContext'
 import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-import { ContainerMode } from './types'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
+import type { ContainerMode } from './types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ArrayItemAreaProps = {
   /**
@@ -23,7 +23,7 @@ export type ArrayItemAreaProps = {
   toolbarVariant?: 'minimumOneItem' | 'custom'
 } & Omit<CardProps, 'onAnimationEnd' | 'data'>
 
-export type Props = {
+export type ArrayItemAreaAllProps = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
@@ -32,7 +32,7 @@ export type Props = {
   Pick<HeightAnimationProps, 'onAnimationEnd'>
 
 function ArrayItemArea(
-  props: Props & Omit<FlexContainerProps, 'onAnimationEnd'>
+  props: ArrayItemAreaAllProps & Omit<FlexContainerProps, 'onAnimationEnd'>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -49,11 +49,11 @@ function ArrayItemArea(
     ...restProps
   } = props
 
-  const localContextRef = useRef<IterateItemContextState>()
+  const localContextRef = useRef<IterateItemContextState>(undefined)
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
-  const nextFocusElementRef = useRef<HTMLElement>()
+  const nextFocusElementRef = useRef<HTMLElement>(undefined)
   const { isNew } = localContextRef.current
 
   const determineMode = useCallback(() => {
@@ -69,6 +69,8 @@ function ArrayItemArea(
         return 'edit'
       }
     }
+
+    return undefined
   }, [hasError, hasSubmitError])
 
   if (determineMode() === 'edit') {
@@ -174,7 +176,7 @@ function ArrayItemArea(
   }, [handleRemove, index, setOpenState])
 
   return (
-    <ArrayItemAreaContext.Provider
+    <ArrayItemAreaContext
       value={{
         handleRemoveItem,
         variant,
@@ -183,7 +185,7 @@ function ArrayItemArea(
       }}
     >
       <HeightAnimation
-        className={classnames(
+        className={clsx(
           'dnb-forms-section-block',
           variant && `dnb-forms-section-block--variant-${variant}`,
           isNew && 'dnb-forms-section-block--new',
@@ -206,9 +208,12 @@ function ArrayItemArea(
           {children}
         </Card>
       </HeightAnimation>
-    </ArrayItemAreaContext.Provider>
+    </ArrayItemAreaContext>
   )
 }
 
-ArrayItemArea._supportsSpacingProps = true
+withComponentMarkers(ArrayItemArea, {
+  _supportsSpacingProps: true,
+})
+
 export default ArrayItemArea

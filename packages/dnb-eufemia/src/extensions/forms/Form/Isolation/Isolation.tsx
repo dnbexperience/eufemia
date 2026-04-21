@@ -7,33 +7,30 @@ import React, {
   useState,
 } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
-import pointer, { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer'
+import pointer from '../../utils/json-pointer'
 import { isZodSchema } from '../../utils/zod'
 import { extractZodSubSchema } from './extractZodSubSchema'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
-import {
-  Context as DataContext,
-  ContextState,
-  Provider,
-} from '../../DataContext'
+import type { ContextState } from '../../DataContext'
+import { Context as DataContext, Provider } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
 import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
 import IsolationResetButton from './IsolationResetButton'
 import {
   clearedData,
-  type Props as ProviderProps,
+  type DataContextProviderProps as ProviderProps,
 } from '../../DataContext/Provider'
-import {
-  IsolationDataReference,
-  createDataReference,
-} from './IsolationDataReference'
+import type { IsolationDataReference } from './IsolationDataReference'
+import { createDataReference } from './IsolationDataReference'
 import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IsolationProviderProps<Data extends JsonObject> = {
   /**
@@ -90,7 +87,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
   /**
    * A ref (function) that you can call in order to commit the data programmatically to the outer context.
    */
-  commitHandleRef?: React.MutableRefObject<() => void>
+  commitHandleRef?: React.RefObject<() => void>
 }
 
 function IsolationProvider<Data extends JsonObject>(
@@ -100,6 +97,8 @@ function IsolationProvider<Data extends JsonObject>(
     if (!props?.dataReference) {
       return createDataReference()
     }
+
+    return undefined
   })
 
   const {
@@ -118,9 +117,9 @@ function IsolationProvider<Data extends JsonObject>(
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const internalDataRef = useRef<Data>()
+  const internalDataRef = useRef<Data>(undefined)
   const localDataRef = useRef<Partial<Data>>({})
-  const dataContextRef = useRef<ContextState>(null)
+  const dataContextRef = useRef<ContextState | null>(null)
   const outerContext = useContext(DataContext)
   const { path: pathSection } = useContext(SectionContext) || {}
   const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
@@ -195,7 +194,7 @@ function IsolationProvider<Data extends JsonObject>(
   // Update the isolated data with the outside context data
   useMemo(() => {
     if (localDataRef.current === clearedData) {
-      return // stop here
+      return undefined // stop here
     }
 
     let localData = data ?? defaultData
@@ -240,7 +239,7 @@ function IsolationProvider<Data extends JsonObject>(
         : onCommitProp?.(commitData, additionalArgs)
 
       if (stop) {
-        return // stop here
+        return undefined // stop here
       }
 
       // Commit the internal data to the nested context data
@@ -310,31 +309,49 @@ function IsolationProvider<Data extends JsonObject>(
 
   return (
     <Provider {...providerProps}>
-      <IsolationContext.Provider
+      <IsolationContext
         value={{
           preventUncommittedChanges,
           dataReference,
           resetDataAfterCommit,
           outerContext,
+          // @ts-expect-error - strictFunctionTypes
           setIsolatedData,
         }}
       >
-        <DataContext.Consumer>
-          {(dataContext) => {
-            dataContextRef.current = dataContext
-
-            if (commitHandleRef) {
-              commitHandleRef.current = dataContext?.handleSubmit
-            }
-
-            return <IsolatedContainer>{children} </IsolatedContainer>
-          }}
-        </DataContext.Consumer>
+        <IsolationDataContextBridge
+          dataContextRef={dataContextRef}
+          commitHandleRef={commitHandleRef}
+        >
+          {children}
+        </IsolationDataContextBridge>
 
         {bubbleValidation && <BubbleValidation />}
-      </IsolationContext.Provider>
+      </IsolationContext>
     </Provider>
   )
+}
+
+function IsolationDataContextBridge({
+  dataContextRef,
+  commitHandleRef,
+  children,
+}: {
+  dataContextRef: React.RefObject<ContextState | null>
+  commitHandleRef?: React.RefObject<() => void>
+  children: React.ReactNode
+}) {
+  const dataContext = useContext(DataContext)
+  dataContextRef.current = dataContext
+
+  if (commitHandleRef) {
+    const mutableCommitHandleRef = commitHandleRef as React.RefObject<
+      () => void
+    >
+    mutableCommitHandleRef.current = dataContext?.handleSubmit
+  }
+
+  return <IsolatedContainer>{children} </IsolatedContainer>
 }
 
 function BubbleValidation() {
@@ -366,6 +383,9 @@ function BubbleValidation() {
 IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider.createDataReference = createDataReference
-IsolationProvider._supportsSpacingProps = undefined
+
+withComponentMarkers(IsolationProvider, {
+  _supportsSpacingProps: undefined,
+})
 
 export default IsolationProvider

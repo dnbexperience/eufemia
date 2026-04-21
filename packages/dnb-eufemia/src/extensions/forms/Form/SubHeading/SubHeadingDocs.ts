@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { FieldProperties } from '../../Field/FieldDocs'
 
 export const SubHeadingProperties: PropertiesTableProps = {
@@ -10,7 +10,7 @@ export const SubHeadingProperties: PropertiesTableProps = {
   help: FieldProperties.help,
   children: {
     doc: 'Heading text / contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

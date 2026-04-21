@@ -46,10 +46,10 @@ export function PageLayoutExample() {
             const pageColumns = isSmall
               ? 4
               : isMedium
-              ? 6
-              : isLarge
-              ? 12
-              : 0
+                ? 6
+                : isLarge
+                  ? 12
+                  : 0
 
             return (
               <PageContainerWithStyles>
@@ -149,7 +149,7 @@ export function PageLayoutExample() {
                   icon={minimizedSidebar ? 'arrow_right' : 'arrow_left'}
                   space="x-small"
                   variant="secondary"
-                  on_click={clickHandler}
+                  onClick={clickHandler}
                 />
               ),
             }

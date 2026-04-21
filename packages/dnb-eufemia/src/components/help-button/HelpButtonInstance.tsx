@@ -4,18 +4,19 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   convertJsxToString,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import Button, { ButtonProps } from '../button/Button'
+import { applySpacing } from '../space/SpacingUtils'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 
-const defaultProps = {
+const defaultProps: Partial<ButtonProps> = {
   variant: 'secondary',
-  icon_position: 'left',
+  iconPosition: 'left',
 }
 
 export default function HelpButtonInstance(localProps: ButtonProps) {
@@ -28,18 +29,14 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     context.HelpButton
   )
 
-  const { size, icon, on_click, className, ...rest } = props
+  const { size, icon, onClick, className, ...rest } = props
 
-  const params = {
-    className: classnames(
-      'dnb-help-button',
-      createSpacingClasses(props),
-      className
-    ),
+  const params = applySpacing(props, {
+    className: clsx('dnb-help-button', className),
     size,
     icon,
     ...rest,
-  }
+  })
 
   const isPotentialHelpButton =
     !params.text || params.variant === 'tertiary'
@@ -55,7 +52,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   if (isHelpButton) {
     if (!params['aria-roledescription']) {
       params['aria-roledescription'] =
-        context.getTranslation(props).HelpButton.aria_role
+        context.getTranslation(props).HelpButton.ariaRole
     }
   }
 
@@ -68,7 +65,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   }
 
   if (icon === 'information' && !size) {
-    params.icon_size = 'medium'
+    params.iconSize = 'medium'
   }
   if (params.title && !params.tooltip && params.tooltip !== false) {
     params.tooltip = params.title
@@ -77,5 +74,5 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     params.title = null
   }
 
-  return <Button on_click={on_click} {...params} />
+  return <Button onClick={onClick} {...params} />
 }

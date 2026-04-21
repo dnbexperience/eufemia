@@ -3,28 +3,29 @@
  *
  */
 import {
-  format,
+  formatCurrency,
+  formatPercent,
+  formatNumber,
   getDecimalSeparator,
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
-import { safeSetSelection } from './text-mask/createTextMaskInputElement'
+import { safeSetSelection } from './text-mask/safeSetSelection'
 
 const enableLocaleSupportWhen = [
-  'as_number',
-  'as_percent',
-  'as_currency',
+  'asNumber',
+  'asPercent',
+  'asCurrency',
 ] as const
 const enableNumberMaskWhen = [
-  'as_number',
-  'as_percent',
-  'as_currency',
-  'number_mask',
-  'currency_mask',
+  'asNumber',
+  'asPercent',
+  'asCurrency',
+  'numberMask',
+  'currencyMask',
 ] as const
 
-export const invisibleSpace = '\u200B'
 // Local minus class pattern, matches multiple minus-like characters
 // Used instead of importing NUMBER_MINUS to keep types local
 const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
@@ -73,7 +74,6 @@ export const isRequestingNumberMask = (
  */
 export type InputMaskParams = {
   showMask?: boolean
-  placeholderChar?: string | null
   allowDecimal?: boolean
   decimalLimit?: number
   decimalSymbol?: string
@@ -99,8 +99,8 @@ export const correctNumberValue = ({
     props.value === null
       ? null
       : props.value === undefined
-      ? undefined
-      : String(props.value)
+        ? undefined
+        : String(props.value)
 
   if (isNaN(parseFloat(value))) {
     return value
@@ -132,18 +132,22 @@ export const correctNumberValue = ({
   }
 
   /**
-   * This only runs IF "number_format" is set – we do not use it else
+   * This only runs IF "numberFormat" is set – we do not use it else
    */
-  if (props.number_format) {
+  if (props.numberFormat) {
     const options = {
       locale,
       decimals: 0,
-      ...props.number_format,
+      ...props.numberFormat,
     }
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
     }
-    value = String(format(value, options))
+    value = String(
+      options.currency
+        ? formatCurrency(value, options)
+        : formatNumber(value, options)
+    )
   }
 
   const decimalSymbol = maskParams.decimalSymbol
@@ -187,7 +191,7 @@ export const correctNumberValue = ({
      * Step 2. 012 -> user removes 1, now use "localValue"
      * Step 3. 2012
      *
-     * If a dev listens on_change and sends the number value back in,
+     * If a dev listens onChange and sends the number value back in,
      * for this, we also ensure that "numberValue" and "localNumberValue" is the same.
      */
 
@@ -232,7 +236,6 @@ export const correctCaretPosition = (
     current?: {
       suffix?: string
       prefix?: string
-      placeholderChar?: string
     }
   },
   props: { mask?: Array<RegExp | { test?: (char: string) => boolean }> }
@@ -252,34 +255,29 @@ export const correctCaretPosition = (
       }
 
       if (suffix || prefix) {
-        const suffixStart = element.value.indexOf(suffix)
-        const suffixEnd = suffixStart + suffix?.length
+        const safeSuffix = suffix || ''
+        const safePrefix = prefix || ''
+        const suffixStart = element.value.indexOf(safeSuffix)
+        const suffixEnd = suffixStart + safeSuffix.length
         let pos: number | undefined = undefined
 
-        if (start >= suffixStart && start <= suffixEnd) {
+        if (
+          suffixStart >= 0 &&
+          start >= suffixStart &&
+          start <= suffixEnd
+        ) {
           pos = suffixStart
-
-          // If there is a placeholder,
-          // and the user clicks after the suffix
-          // we want the position to be "before" the placeholderChar
-          if (
-            maskParams.placeholderChar !== invisibleSpace &&
-            element.value.length - 1 === String(suffix + prefix).length
-          ) {
-            pos = pos - 1
-          }
         } else {
-          const prefixStart = element.value.indexOf(prefix)
-          const prefixEnd = prefixStart + prefix?.length || 0
+          const prefixStart = element.value.indexOf(safePrefix)
+          const prefixEnd = prefixStart + safePrefix.length
 
-          if (start >= prefixStart && start <= prefixEnd) {
+          if (
+            prefixStart >= 0 &&
+            start >= prefixStart &&
+            start <= prefixEnd
+          ) {
             pos = prefixEnd
           }
-        }
-
-        const char = element.value.slice(pos - 1, pos)
-        if (char === invisibleSpace) {
-          pos = suffixStart - 1
         }
 
         if (!isNaN(parseFloat(String(pos)))) {
@@ -291,12 +289,7 @@ export const correctCaretPosition = (
         for (let l = chars.length, i = l - 1; i >= 0; i--) {
           const char = chars[i]
           const mask = props.mask[i]
-          if (
-            char &&
-            char !== invisibleSpace &&
-            mask instanceof RegExp &&
-            mask.test(char)
-          ) {
+          if (char && mask instanceof RegExp && mask.test(char)) {
             for (let n = i + 1; n < l; n++) {
               const mask = props.mask[n]
               if (mask?.test?.(char)) {
@@ -337,7 +330,7 @@ export const handlePercentMask = ({
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = format(props.value as any, { locale, percent: true })
+  const value = formatPercent(props.value as any, { locale })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 
@@ -349,24 +342,23 @@ export const handlePercentMask = ({
  *
  * @param {object} param0 object with properties
  * @property {object} context Eufemia context
- * @property {object} mask_options Component property for change the mask parameters
- * @property {object} currency_mask Component property for change the currency parameters
+ * @property {object} maskOptions Component property for change the mask parameters
+ * @property {object} currencyMask Component property for change the currency parameters
  * @returns Object maskParams
  */
 export const handleCurrencyMask = ({
-  mask_options,
-  currency_mask,
+  maskOptions,
+  currencyMask,
 }: {
-  mask_options: Record<string, any>
-  currency_mask: string | Record<string, any>
+  maskOptions: Record<string, any>
+  currencyMask: string | Record<string, any>
 }): InputMaskParams => {
   const givenParams =
-    typeof currency_mask === 'string'
-      ? { ...mask_options, ...({ 0: String(currency_mask) } as any) }
-      : { ...mask_options, ...(currency_mask as Record<string, any>) }
+    typeof currencyMask === 'string'
+      ? { ...maskOptions, ...({ 0: String(currencyMask) } as any) }
+      : { ...maskOptions, ...(currencyMask as Record<string, any>) }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
-    placeholderChar: null,
     allowDecimal: true,
     decimalLimit: 2,
     decimalSymbol: ',',
@@ -374,11 +366,11 @@ export const handleCurrencyMask = ({
   }
 
   const currencyLabel =
-    typeof currency_mask === 'string'
-      ? currency_mask
+    typeof currencyMask === 'string'
+      ? currencyMask
       : typeof givenParams.currency === 'string'
-      ? givenParams.currency
-      : 'kr'
+        ? givenParams.currency
+        : 'kr'
   const hasCurrencyLabel =
     typeof currencyLabel === 'string' && currencyLabel
   const shouldShowCurrencyLabel =
@@ -411,21 +403,21 @@ export const handleCurrencyMask = ({
  *
  * @param {object} param0 object with properties
  * @property {object} context Eufemia context
- * @property {object} mask_options Component property for change the mask parameters
- * @property {object} number_mask Component property for change the number parameters
+ * @property {object} maskOptions Component property for change the mask parameters
+ * @property {object} numberMask Component property for change the number parameters
  * @returns Object maskParams
  */
 export const handleNumberMask = ({
-  mask_options,
-  number_mask,
+  maskOptions,
+  numberMask,
 }: {
-  mask_options: Record<string, any>
-  number_mask: Record<string, any>
+  maskOptions: Record<string, any>
+  numberMask: Record<string, any>
 }): InputMaskParams => {
   const maskParams: InputMaskParams = {
     decimalSymbol: ',',
-    ...mask_options,
-    ...number_mask,
+    ...maskOptions,
+    ...numberMask,
   }
 
   if (typeof maskParams.allowDecimal === 'undefined') {

@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { DatePickerDates } from './useDates'
+import type { DatePickerDates } from './useDates'
 
 export type LastEventCallCache = {
   startDate?: DatePickerDates['startDate']
   endDate?: DatePickerDates['startDate']
 }
 
-type uncachedDates = LastEventCallCache
+type UncachedDates = LastEventCallCache
 
 export default function useLastEventCallCache(
-  uncachedDates: uncachedDates
+  uncachedDates: UncachedDates
 ) {
   const [cache, setCache] = useState<LastEventCallCache>(undefined)
 

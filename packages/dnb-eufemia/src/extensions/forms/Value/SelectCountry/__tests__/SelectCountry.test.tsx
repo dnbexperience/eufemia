@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
-import { CountryISO } from '../../../constants/countries'
+import type { CountryISO } from '../../../constants/countries'
 
 describe('Value.SelectCountry', () => {
   it('renders string values', () => {

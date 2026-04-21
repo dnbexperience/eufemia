@@ -1,18 +1,20 @@
-import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { ErrorHandler } from '../../shared/error-helper'
+import React, { useContext, useMemo } from 'react'
+import clsx from 'clsx'
 import {
+  warn,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import Context, { ContextProps } from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../Skeleton'
-import { FormStatusIconTypes } from '../FormStatus'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
+import type { FormStatusIcon } from '../FormStatus'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -38,18 +40,21 @@ export type DefaultIconSizes = typeof DefaultIconSizes
 export type ValidIconType = (typeof ValidIconType)[number]
 export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
 
+export type IconSVGProps = React.SVGProps<SVGSVGElement> & {
+  title?: string
+}
+
+export type IconFunction = (props?: IconSVGProps) => React.JSX.Element
+
 /** For internal usage */
 type IconType =
   | string
   | React.ReactElement<SVGElement>
-  | ((props?: unknown) => JSX.Element)
+  | IconFunction
   | false
 
 /** For external usage */
-export type IconIcon =
-  | IconType
-  | FormStatusIconTypes
-  | ((props?: unknown) => JSX.Element)
+export type IconIcon = IconType | FormStatusIcon | IconFunction
 
 export type IconSize =
   | ValidIconNumericSize
@@ -75,7 +80,7 @@ export type IconProps = {
   size?: IconSize
 
   /**
-   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
+   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default: `--color-black-80`.
    */
   color?: IconColor
 
@@ -83,9 +88,6 @@ export type IconProps = {
    * Defaults to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
    */
   inheritColor?: boolean
-
-  /** @deprecated Use `inheritColor` instead */
-  inherit_color?: boolean
 
   /**
    * The alternative label (text version) of the icon. Defaults to the imported icon name.
@@ -128,7 +130,6 @@ export default function Icon(localProps: IconAllProps) {
     context.Icon
   )
 
-  // Todo: rewrite prepareIcon to hook
   const {
     icon: iconProp,
     size,
@@ -136,7 +137,7 @@ export default function Icon(localProps: IconAllProps) {
     iconParams,
     alt,
     children,
-  } = prepareIcon(props, context)
+  } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
 
   if (!icon) {
@@ -196,21 +197,32 @@ export function calcSize(props: IconProps) {
         sizeAsString = lastPartOfIconName
       }
     } else {
-      if (typeof icon === 'function') {
-        const elem = icon()
-        if (elem.props) {
-          let potentialSize: ValidIconNumericSize | -1 = null
-          if (elem.props.width) {
-            potentialSize = elem.props.width
-          }
-          if (!potentialSize && elem.props.viewBox) {
-            potentialSize = parseFloat(
-              /[0-9]+ [0-9]+ ([0-9]+)/.exec(elem.props.viewBox)[1]
-            ) as ValidIconNumericSize // get the width
-          }
-          if (!isNaN(potentialSize)) {
+      // Resolve the icon function — either directly or from a React element's type.
+      // This handles minified builds where Function.name no longer contains
+      // the size suffix (e.g. "bell_medium" → "e"), so we fall back to
+      // reading the SVG's width/viewBox from the rendered output.
+      const iconFn =
+        typeof icon === 'function'
+          ? icon
+          : React.isValidElement(icon) && typeof icon.type === 'function'
+            ? (icon.type as IconFunction)
+            : null
+
+      // Skip direct execution for hook-based components to avoid invalid hook call order.
+      const hasHooks = iconFn
+        ? /\buse[A-Z][A-Za-z0-9_]*\b/.test(iconFn.toString())
+        : false
+
+      if (iconFn && !hasHooks) {
+        try {
+          const elem = iconFn()
+          const potentialSize = elem?.props?.width
+
+          if (potentialSize && !isNaN(potentialSize)) {
             sizeAsInt = potentialSize
           }
+        } catch {
+          // Ignore and fallback to default size.
         }
       }
     }
@@ -243,15 +255,14 @@ export function calcSize(props: IconProps) {
 
   // check if the sizeAsInt is a default size - and no sizeAsString exists yet
   if (!sizeAsString && sizeAsInt > 0) {
-    const potentialSizeAsString = ListDefaultIconSizes.reduce(
-      (acc, [key, value]) => {
-        if (key && value === sizeAsInt) {
-          return key
-        }
-        return acc
-      },
-      null
-    )
+    const potentialSizeAsString = ListDefaultIconSizes.reduce<
+      string | null
+    >((acc, [key, value]) => {
+      if (key && value === sizeAsInt) {
+        return key
+      }
+      return acc
+    }, null)
 
     if (potentialSizeAsString) {
       sizeAsString = potentialSizeAsString
@@ -322,7 +333,15 @@ function prepareIconParams({
   return { params, sizeAsString }
 }
 
-export function prepareIcon(props: IconAllProps, context: ContextProps) {
+function prepareIconCore(
+  props: IconAllProps,
+  context: ContextProps,
+  cachedValues?: {
+    sizeAsString?: string
+    iconParams?: Record<string, unknown>
+    label?: string
+  }
+) {
   const {
     icon,
     size,
@@ -331,7 +350,6 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     border,
     color,
     inheritColor,
-    inherit_color,
     modifier,
     alt,
     title,
@@ -340,18 +358,21 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     ...attributes
   } = props
 
-  const { sizeAsString, iconParams } = calcSize({
-    icon,
-    size,
-    width,
-    height,
-  })
+  const { sizeAsString, iconParams } =
+    cachedValues ||
+    calcSize({
+      icon,
+      size,
+      width,
+      height,
+    })
 
   if (color) {
     iconParams.color = color
   }
 
-  const label = icon ? getIconNameFromComponent(icon) : null
+  const label =
+    cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
   // some wrapper params
   // also used for code markup simulation
@@ -379,15 +400,20 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     delete wrapperParams['aria-label']
   }
 
-  wrapperParams.className = classnames(
-    'dnb-icon',
-    modifier && `dnb-icon--${modifier}`,
-    border && 'dnb-icon--border',
-    (inheritColor ?? inherit_color) !== false && 'dnb-icon--inherit-color',
-    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
-    createSkeletonClass(null, skeleton, context),
-    createSpacingClasses(props),
-    className
+  Object.assign(
+    wrapperParams,
+    applySpacing(props, {
+      className: clsx(
+        'dnb-icon',
+        modifier && `dnb-icon--${modifier}`,
+        border && 'dnb-icon--border',
+        inheritColor !== false && 'dnb-icon--inherit-color',
+        sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
+        createSkeletonClass(null, skeleton, context),
+        className
+      ),
+      style: wrapperParams.style,
+    })
   )
 
   let iconToRender = getIcon(props)
@@ -417,6 +443,35 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
   }
 }
 
+function usePrepareIcon(props: IconAllProps, context: ContextProps) {
+  const { icon, size, width, height } = props
+
+  const cachedCalcSize = calcSize({
+    icon,
+    size,
+    width,
+    height,
+  })
+
+  const label = useMemo(
+    () => (icon ? getIconNameFromComponent(icon) : null),
+    [icon]
+  )
+
+  return useMemo(
+    () =>
+      prepareIconCore(props, context, {
+        ...cachedCalcSize,
+        label,
+      }),
+    [props, context, cachedCalcSize, label]
+  )
+}
+
+export function prepareIcon(props: IconAllProps, context: ContextProps) {
+  return prepareIconCore(props, context)
+}
+
 export function prerenderIcon(
   props: IconProps & {
     listOfIcons?: Record<string, IconIcon>
@@ -426,15 +481,14 @@ export function prerenderIcon(
   let { icon } = props as Omit<IconProps, 'icon'> & { icon: IconType }
 
   if (typeof icon === 'string' && /^data:image\//.test(icon)) {
-    return () => <img src={String(icon)} alt={alt || 'no-alt'} />
+    return () => <img src={String(icon)} alt={alt || ''} />
   }
 
   if (typeof icon === 'function') {
-    const elem = icon()
-    if (React.isValidElement(elem)) {
-      return icon
+    return (props?: IconSVGProps) => {
+      const IconComponent = icon as React.ComponentType<IconSVGProps>
+      return <IconComponent {...props} />
     }
-    return elem
   }
 
   if (React.isValidElement(icon) || Array.isArray(icon)) {
@@ -459,7 +513,7 @@ export function prerenderIcon(
     )[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {
-    ErrorHandler(`Icon '${icon}' did not exist!`)
+    warn(`Icon '${icon}' did not exist!`)
     return null
   }
 }
@@ -471,4 +525,4 @@ function getIcon(props) {
   return processChildren(props)
 }
 
-Icon._supportsSpacingProps = true
+withComponentMarkers(Icon, { _supportsSpacingProps: true })

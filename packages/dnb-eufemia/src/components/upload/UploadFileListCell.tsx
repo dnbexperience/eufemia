@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import Button from '../button/Button'
@@ -25,17 +25,15 @@ import {
   file_xml_medium as xml,
   file_medium as file,
 } from '../../icons'
-import { UploadFile, UploadFileNative } from './types'
+import type { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getClosestParent } from '../../shared/component-helper'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
-import { ProgressIndicatorAllProps } from '../progress-indicator/types'
+import type { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
-// Will be deprecated - and then default to only showing the file icon,
-// and not file icon per file extension type
 export const fileExtensionImages = {
   png,
   jpg,
@@ -71,13 +69,13 @@ export type UploadFileListCellProps = {
 
   /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
-   * Default: false
+   * Default: `false`
    */
   download?: boolean
 
   /**
    * Allows uploading of duplicate files.
-   * Default: false
+   * Default: `false`
    */
   allowDuplicates?: boolean
 
@@ -110,7 +108,7 @@ const UploadFileListCell = ({
   const hasWarning = errorMessage != null
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
-  const cellRef = useRef<HTMLLIElement>()
+  const cellRef = useRef<HTMLLIElement>(undefined)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists
 
@@ -131,7 +129,7 @@ const UploadFileListCell = ({
 
   return (
     <li
-      className={classnames(
+      className={clsx(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
         isDuplicate && 'dnb-upload__file-cell--highlight'
@@ -152,7 +150,7 @@ const UploadFileListCell = ({
   function getTitle() {
     return isLoading ? (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-upload__file-cell__text-container',
           'dnb-upload__file-cell__text-container--loading'
         )}
@@ -182,7 +180,7 @@ const UploadFileListCell = ({
         <Button
           icon={TrashIcon}
           variant="tertiary"
-          icon_position="left"
+          iconPosition="left"
           disabled={isLoading}
           {...deleteButtonProps}
           onClick={onDeleteHandler}
@@ -217,7 +215,7 @@ export default UploadFileListCell
 function useExistsHighlight(id: string, file: File) {
   const { internalFiles } = useUpload(id)
   const [exists, updateExists] = React.useState(false)
-  const timerRef = React.useRef<NodeJS.Timer>()
+  const timerRef = React.useRef<NodeJS.Timer>(undefined)
 
   const clearTimers = () => {
     clearTimeout(timerRef.current)

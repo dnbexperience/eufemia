@@ -1,10 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
 import useMounted from './useMounted'
 import useMountEffect from './useMountEffect'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from './useIsomorphicLayoutEffect'
@@ -65,6 +60,8 @@ export function useSharedState<Data>(
     if (instanceRef.current === fn?.['ref']) {
       return false
     }
+
+    return undefined
   }, [])
 
   useMountEffect(() => {
@@ -77,6 +74,8 @@ export function useSharedState<Data>(
     if (id) {
       return createSharedState<Data>(id, initialData, { shouldSync })
     }
+
+    return undefined
   }, [id, initialData, shouldSync])
   const sharedAttachment = useMemo(() => {
     if (id) {
@@ -86,6 +85,8 @@ export function useSharedState<Data>(
         { shouldSync }
       )
     }
+
+    return undefined
   }, [id, onChange, shouldSync])
 
   const syncAttachment = useCallback(
@@ -110,6 +111,8 @@ export function useSharedState<Data>(
     if (id) {
       return sharedState?.get?.()
     }
+
+    return undefined
   }, [id, sharedState])
 
   const set = useCallback(
@@ -134,7 +137,7 @@ export function useSharedState<Data>(
 
   useLayoutEffect(() => {
     if (!id) {
-      return
+      return undefined
     }
 
     forceRerender['ref'] = instanceRef.current
@@ -168,7 +171,7 @@ export function useSharedState<Data>(
 
 type Subscriber = () => void
 
-export interface SharedStateReturn<Data = undefined> {
+export type SharedStateReturn<Data = undefined> = {
   data: Data
   get: () => Data
   set: (newData: Partial<Data>) => void
@@ -177,11 +180,11 @@ export interface SharedStateReturn<Data = undefined> {
   subscribersRef?: { current: Subscriber[] }
 }
 
-interface SharedStateInstance<Data> extends SharedStateReturn<Data> {
+type SharedStateInstance<Data> = {
   subscribe: (subscriber: Subscriber) => void
   unsubscribe: (subscriber: Subscriber) => void
   hadInitialData: boolean
-}
+} & SharedStateReturn<Data>
 
 const sharedStates: Map<
   SharedStateId,

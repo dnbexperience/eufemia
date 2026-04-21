@@ -7,9 +7,9 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { PasswordProps } from '../Password'
+import type { PasswordProps } from '../Password'
 import { Provider } from '../../../../../shared'
-import { Translations } from '../../../../../shared/Context'
+import type { Translations } from '../../../../../shared/Context'
 import { Field, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -159,6 +159,26 @@ describe('Password component', () => {
     ).not.toBe('focus')
   })
 
+  it('can toggle visibility while input has focus', async () => {
+    render(<Field.Password />)
+
+    const input = () => document.querySelector('input')
+    const button = () => document.querySelector('button')
+
+    await userEvent.click(input())
+    await userEvent.type(input(), 'password123')
+
+    // Toggle while input still has focus
+    await userEvent.click(button())
+
+    expect(input().getAttribute('type')).toBe('text')
+
+    // Toggle back while input has focus again
+    await userEvent.click(button())
+
+    expect(input().getAttribute('type')).toBe('password')
+  })
+
   it('events gets triggered on interaction', async () => {
     const onShowPassword = jest.fn()
     const onHidePassword = jest.fn()
@@ -213,7 +233,7 @@ describe('Password component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Field.Password label="Label" />
       </Provider>
     )
@@ -286,5 +306,30 @@ describe('Password component', () => {
     const input = document.querySelector('input')
 
     expect(input).toHaveAttribute('autocomplete', 'new-password')
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLInputElement | null>(null)
+      return <Field.Password ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    const input = document.querySelector('.dnb-input__input')
+    expect(input).toBeTruthy()
+    expect(input.tagName).toBe('INPUT')
+  })
+
+  it('gets valid element when using createRef', () => {
+    const ref = React.createRef<HTMLInputElement>()
+
+    render(<Field.Password ref={ref} />)
+
+    const input = document.querySelector('.dnb-input__input')
+    expect(input).toBeTruthy()
+    expect(input.tagName).toBe('INPUT')
   })
 })

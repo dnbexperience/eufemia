@@ -3,22 +3,22 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-date-picker {
-  &:not(#{&}__status--error) &__input {
-    color: var(--color-black-55);
+  &__portal .dnb-popover {
+    --popover-background-color: var(--color-white);
+    --popover-border-radius: 0.25rem;
 
-    & ~ .dnb-date-picker--separator {
-      color: var(--color-black-55);
-    }
+    @include utilities.sharpDropShadow();
+  }
 
-    &--highlight:not([disabled]) {
-      color: var(--color-black);
+  &__container {
+    border-radius: 0.25rem;
+    background-color: var(--color-white);
 
-      & ~ .dnb-date-picker--separator {
-        color: var(--color-black);
-      }
+    .dnb-date-picker--inline & {
+      @include utilities.sharpDropShadow();
     }
   }
 
@@ -171,31 +171,30 @@
     }
   }
 
-  &--opened .dnb-input,
+  &--open .dnb-input,
   &:not(#{&}__status--error)
     .dnb-form-label:hover
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-sea-green), 0.125rem);
-    }
-
-    .dnb-input__submit-button__button.dnb-button--secondary {
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-
-      &::after {
-        background-color: inherit;
-      }
+      @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
     }
   }
 
-  &__status--error:not(#{&}--opened)
+  &--open .dnb-button--input-button.dnb-button--selected {
+    --button-color-bg--default: var(--button-color-bg--active);
+    --button-color-icon--default: var(--button-color-icon--active);
+    --button-input-separator-color--default: var(
+      --button-input-separator-color--active
+    );
+  }
+
+  &__status--error:not(#{&}--open)
     .dnb-form-label:hover
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
+      @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
     }
   }
 }

@@ -1,4 +1,4 @@
-import nb from './nb-NO'
+import type nb from './nb-NO'
 export default {
   'sv-SE': {
     TextCounter: {
@@ -7,9 +7,9 @@ export default {
       characterExceeded: '%count tecken över gränsen på %max.',
     },
     TimelineItem: {
-      alt_label_completed: 'Utförd',
-      alt_label_current: 'Nuvarande',
-      alt_label_upcoming: 'Kommande',
+      altLabelCompleted: 'Utförd',
+      altLabelCurrent: 'Nuvarande',
+      altLabelUpcoming: 'Kommande',
     },
     Breadcrumb: {
       navText: 'Sidstruktur',
@@ -53,9 +53,9 @@ export default {
       targetBlankTitle: 'Öppnar ett nytt fönster',
     },
     GlobalStatus: {
-      default_title: 'Ett fel har inträffat',
-      close_text: 'Stäng',
-      status_anchor_text: 'Gå till %s',
+      defaultTitle: 'Ett fel har inträffat',
+      closeText: 'Stäng',
+      statusAnchorText: 'Gå till %s',
     },
     GlobalError: {
       404: {
@@ -66,12 +66,11 @@ export default {
         title: 'Tyvärr, något gick fel!',
         text: 'Tjänsten fungerar inte som den ska just nu, men försök igen senare.',
       },
-      code: 'Felmeddelande-kod:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Felmeddelande-kod: %statusCode',
       help: 'Här är några länkar som kanske kan hjälpa:',
     },
     ProgressIndicator: {
-      indicator_label: 'Vänligen vänta ...',
+      indicatorLabel: 'Vänligen vänta ...',
     },
     DrawerList: {
       defaultGroupSR: 'Standardval',
@@ -83,71 +82,70 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv och välj',
-      submit_button_title: 'Visa alternativ',
-      no_options: 'Inga alternativ',
-      show_all: 'Visa allt',
-      show_options_sr: 'Bläddra genom alternativ, stäng med esc-knappen',
-      aria_live_options: '%s alternativ',
-      selected_sr: 'Vald:',
-      indicator_label: 'Hämtar data ...',
+      submitButtonTitle: 'Visa alternativ',
+      noOptions: 'Inga alternativ',
+      showAll: 'Visa allt',
+      showOptionsSr: 'Bläddra genom alternativ, stäng med esc-knappen',
+      ariaLiveOptions: '%s alternativ',
+      selectedSr: 'Vald:',
+      indicatorLabel: 'Hämtar data ...',
     },
     Modal: {
-      dialog_title: 'Separat fönster',
-      close_title: 'Stäng',
+      dialogTitle: 'Separat fönster',
+      closeTitle: 'Stäng',
     },
     Dialog: {
       declineText: 'Avbryt',
       confirmText: 'Godkänn',
     },
     CopyOnClick: {
-      clipboard_copy: 'Kopierad',
+      clipboardCopy: 'Kopierad',
     },
     NumberFormat: {
-      clipboard_copy: 'Kopierad',
-      not_available: 'Inte tillgänglig',
+      clipboardCopy: 'Kopierad',
+      notAvailable: 'Inte tillgänglig',
     },
     Stat: {
       rating: '%value av %max',
     },
     HelpButton: {
       title: 'Hjälptext',
-      aria_role: 'Hjälp-knapp',
+      ariaRole: 'Hjälp-knapp',
     },
     Input: {
-      submit_button_title: 'Skicka',
-      clear_button_title: 'Återställ',
+      submitButtonTitle: 'Skicka',
+      clearButtonTitle: 'Återställ',
     },
     Pagination: {
-      button_title: 'Sida %s',
-      next_title: 'Nästa sida',
-      prev_title: 'Föregående sida',
-      more_pages: '%s fler sidor',
-      is_loading_text: 'Laddar nytt innehåll',
-      load_button_text: 'Visa mer innehåll',
+      buttonTitle: 'Sida %s',
+      nextTitle: 'Nästa sida',
+      prevTitle: 'Föregående sida',
+      morePages: '%s fler sidor',
+      isLoadingText: 'Laddar nytt innehåll',
+      loadButtonText: 'Visa mer innehåll',
     },
     Skeleton: {
-      aria_busy: 'Bearbetar data ...',
-      aria_ready: 'Klar att interagera',
+      ariaBusy: 'Bearbetar data ...',
+      ariaReady: 'Klar att interagera',
     },
     StepIndicator: {
-      overview_title: 'Stegöversikt',
-      step_title: 'Steg %step av %count:',
+      overviewTitle: 'Stegöversikt',
+      stepTitle: 'Steg %step av %count:',
     },
     Slider: {
       addTitle: 'Öka (%s)',
       subtractTitle: 'Minska (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
-      text_blocked: 'Spärrat',
-      text_expired: 'Utgånget',
-      text_not_active: 'Inaktiv',
-      text_new_order: 'Beställd',
-      text_order_in_process: 'På väg',
-      text_replaced: 'Ersatt',
-      text_renewed: 'Förnyat',
-      text_new: 'Ny',
-      text_unknown: 'Okänt',
+      textBlocked: 'Spärrat',
+      textExpired: 'Utgånget',
+      textNotActive: 'Inaktiv',
+      textNewOrder: 'Beställd',
+      textOrderInProcess: 'På väg',
+      textReplaced: 'Ersatt',
+      textRenewed: 'Förnyat',
+      textNew: 'Ny',
+      textUnknown: 'Okänt',
     },
     Tag: {
       removeIconTitle: 'Ta bort',
@@ -177,13 +175,17 @@ export default {
         'Det är begränsat hur många filer du kan ladda upp (%amount).',
       errorUnsupportedFile: 'Filen du försöker ladda upp stöds inte.',
       deleteButton: 'Radera',
-      fileListAriaLabel: 'uppladdade filer',
+      listAriaLabel: 'uppladdade filer',
     },
     Popover: {
       closeButtonTitle: 'Stäng',
       openTriggerTitle: 'Klicka för att öppna',
       closeTriggerTitle: 'Klicka för att stänga',
       focusTrapTitle: 'Klicka för att återgå',
+    },
+    List: {
+      showMore: 'Visa mer',
+      showLess: 'Visa mindre',
     },
     TermDefinition: {
       closeButtonTitle: 'Stäng ordförklaring',

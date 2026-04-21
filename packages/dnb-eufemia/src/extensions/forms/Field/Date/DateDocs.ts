@@ -2,7 +2,7 @@ import {
   DatePickerProperties,
   DatePickerEvents,
 } from '../../../../components/date-picker/DatePickerDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 // Filter out properties that are handled by `useFieldProps` or has a different default value
 const {
@@ -26,7 +26,6 @@ const {
   date,
   startDate,
   endDate,
-  correctInvalidDate,
   '[Space](/uilib/layout/space/properties)': space,
   ...datePickerProperties
 } = DatePickerProperties
@@ -59,7 +58,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   ...datePickerProperties,
   onType: {
-    doc: 'Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, start_date, end_date, is_valid, event }.',
+    doc: 'Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, startDate, endDate, isValid, event }.',
     type: 'function',
     status: 'optional',
   },

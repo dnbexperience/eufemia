@@ -3,12 +3,12 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
+  --date-picker-day-horizontal-spacing: 0.25rem;
 
   display: inline-flex;
   align-items: center;
@@ -43,35 +43,6 @@
     height: inherit;
   }
 
-  &__triangle {
-    pointer-events: none;
-
-    position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
-    left: 0;
-    right: auto;
-    margin: 0 1.5rem;
-
-    width: calc(var(--date-picker-input-height) / 2);
-    height: calc(var(--date-picker-input-height) / 2);
-
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: calc(var(--date-picker-input-height) / 2);
-      height: calc(var(--date-picker-input-height) / 2);
-      transform: translateY(60%) rotate(45deg);
-
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
-    }
-  }
-
   &__container {
     width: min-content;
 
@@ -87,7 +58,7 @@
       margin: 0;
 
       &.dnb-no-focus:focus {
-        @include focusRing();
+        @include utilities.focusRing();
       }
     }
     &:not(#{&}--show-footer) .dnb-date-picker__calendar::after {
@@ -99,83 +70,28 @@
   &__input,
   .dnb-input__input#{&}__input,
   .dnb-core-style &__input {
-    display: inline-block;
-    width: auto;
+    --input-padding--small: 0.05rem;
+    --input-padding--medium: 0.05rem;
+    --input-padding--large: 0.05rem;
 
-    margin: 0;
-    padding: 0 0.125rem;
-
-    // reset vertical alignment
-    transform: translateY(0);
-
-    outline: none;
-
-    font-family: var(--font-family-monospace);
-    text-align: center;
-    border: none;
-    background: transparent;
-
-    overflow: visible;
-    white-space: nowrap;
+    padding: 0 0.0625rem;
 
     // Chrome fix
-    @include IS_CHROME() {
+    @include utilities.isChrome() {
       margin: 0 -4px;
     }
 
-    // Edge fix
-    @include IS_EDGE() {
-      margin: 0 -5px;
-    }
-
     // Safari Mobile fix
-    @include IS_SAFARI_MOBILE() {
+    @include utilities.isSafariMobile() {
       &:not(*:root) {
         margin: 0;
       }
-
-      // Avoid artifact (moving the value 2px) when focusing the input
-      text-indent: -2px; // The width of the cursor
     }
 
     // Safari Desktop fix
-    @include IS_SAFARI_DESKTOP() {
+    @include utilities.isSafariDesktop() {
       &:not(*:root) {
-        margin: 0 -4px;
-      }
-      &:first-of-type:not(*:root) {
-        margin-left: 0.8rem;
-      }
-      // stylelint-disable-next-line
-      &:last-of-type:not(*:root) {
-        margin-right: 2.2rem;
-      }
-    }
-
-    &--small {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 2.2rem;
-      }
-    }
-
-    &--medium {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 3.2rem;
-      }
-    }
-
-    &--large {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 4rem;
+        margin-right: -10px;
       }
     }
 
@@ -185,14 +101,51 @@
     }
   }
 
+  .dnb-segmented-field__section#{&}__input,
+  .dnb-segmented-field__section.dnb-input__input#{&}__input {
+    margin-right: 0;
+    text-indent: 0;
+
+    &:last-of-type {
+      width: auto;
+    }
+  }
+
   .dnb-input__input#{&}__input:first-of-type,
   &__input:first-of-type {
-    margin-left: 0.8rem;
+    margin-left: 0.2rem;
   }
-  .dnb-input__input#{&}__input:last-of-type,
-  &__input:last-of-type {
-    margin-right: 2.2rem;
+  .dnb-segmented-field__fieldset:last-of-type &__input:last-of-type {
+    --input-padding--small: 0.25rem;
+    --input-padding--medium: 0.333rem;
+    --input-padding--large: 0.5rem;
+
+    margin-right: 2rem; // space for the button
   }
+  &--small
+    .dnb-segmented-field__fieldset:last-of-type
+    &__input:last-of-type {
+    margin-right: 1.5rem; // space for the button
+  }
+  &--medium
+    .dnb-segmented-field__fieldset:last-of-type
+    &__input:last-of-type {
+    margin-right: 2.5rem; // space for the button
+  }
+  &--large
+    .dnb-segmented-field__fieldset:last-of-type
+    &__input:last-of-type {
+    margin-right: 3rem; // space for the button
+  }
+  &--medium
+    .dnb-segmented-field__fieldset:first-of-type
+    .dnb-input__input#{&}__input:first-of-type,
+  &--large
+    .dnb-segmented-field__fieldset:first-of-type
+    .dnb-input__input#{&}__input:first-of-type {
+    margin-left: 0.5rem;
+  }
+
   .dnb-input__shell {
     display: none;
   }
@@ -215,7 +168,7 @@
     user-select: none;
 
     // Wrap already on "medium", because "small" is too narrow in range mode
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       flex-direction: column;
     }
   }
@@ -393,7 +346,7 @@
     line-height: var(--line-height-basis);
     margin-right: 0;
   }
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   // make full width
   &--stretch {
@@ -405,9 +358,6 @@
     &__shell {
       width: 100%;
     }
-  }
-  .dnb-form-row--horizontal &--stretch {
-    width: 100%;
   }
 
   &:not(&--vertical)[class*='__status'] {
@@ -425,7 +375,7 @@
   }
 
   .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
+    @include utilities.allBelow(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -447,14 +397,14 @@
 
   &__fieldset,
   .dnb-core-style &__fieldset {
-    @include fieldsetReset();
+    @include utilities.fieldsetReset();
   }
 
   &__portal {
     // make variables available inside the portal
     --date-picker-input-height: 2rem;
     --date-picker-day-width: 2rem;
-    --date-picker-day-horizontal-spacing: 4px;
+    --date-picker-day-horizontal-spacing: 0.25rem;
 
     // Over modal, but below tooltip
     --popover-z-index: calc(var(--modal-z-index) + 10);

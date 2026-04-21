@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
@@ -12,13 +12,15 @@ import currencies, {
   type CurrencyISO,
 } from '../../constants/currencies'
 import { useFieldProps } from '../../hooks'
-import { FieldPropsWithExtraValue } from '../../types'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldPropsWithExtraValue } from '../../types'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
-import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import type {
+  AutocompleteAllProps,
+  AutocompleteOnChangeParams,
+} from '../../../../components/autocomplete/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type CurrencyFilterSet =
   | 'Scandinavia'
@@ -27,7 +29,7 @@ export type CurrencyFilterSet =
   | 'Prioritized'
 export type { CurrencyType }
 
-export type Props = FieldPropsWithExtraValue<
+export type FieldSelectCurrencyProps = FieldPropsWithExtraValue<
   CurrencyISO,
   CurrencyType,
   undefined | string
@@ -59,7 +61,7 @@ export type Props = FieldPropsWithExtraValue<
   size?: AutocompleteAllProps['size']
 }
 
-function SelectCurrency(props: Props) {
+function SelectCurrency(props: FieldSelectCurrencyProps) {
   const sharedContext = useContext(SharedContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const {
@@ -89,6 +91,8 @@ function SelectCurrency(props: Props) {
       if (currency?.iso) {
         return currency
       }
+
+      return undefined
     },
     [getCurrencyObjectByIso]
   )
@@ -100,7 +104,7 @@ function SelectCurrency(props: Props) {
     [errorRequired]
   )
 
-  const preparedProps: Props = {
+  const preparedProps: FieldSelectCurrencyProps = {
     errorMessages,
     ...props,
     width:
@@ -132,9 +136,10 @@ function SelectCurrency(props: Props) {
     setDisplayValue,
     forceUpdate,
     filterCurrencies,
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
-  const dataRef = useRef(null)
+  const dataRef = useRef<ReturnType<typeof getCurrencyData>>(null)
   const langRef = useRef(lang)
   const wasFilled = useRef(false)
 
@@ -178,8 +183,12 @@ function SelectCurrency(props: Props) {
   }, [lang, filter, ccFilter, updateValue, value])
 
   const handleCurrencyChange = useCallback(
-    ({ data }: { data: { selectedKey: string } }) => {
-      const newValue = data?.selectedKey
+    (event: AutocompleteOnChangeParams) => {
+      const data = event.data
+      const newValue =
+        data && typeof data === 'object' && 'selectedKey' in data
+          ? (data as { selectedKey: string }).selectedKey
+          : undefined
       const currency = getCurrencyObjectByIso(newValue)
       if (currency?.iso) {
         handleChange(currency.iso, currency)
@@ -237,7 +246,7 @@ function SelectCurrency(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-select-currency', className),
+    className: clsx('dnb-forms-field-select-currency', className),
     label,
     width:
       width === 'stretch' || fieldBlockContext?.composition
@@ -252,23 +261,23 @@ function SelectCurrency(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        input_icon={false}
+        icon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        on_show={fillData}
-        on_focus={onFocusHandler}
-        on_blur={handleBlur}
-        on_change={handleCurrencyChange}
-        on_type={onTypeHandler}
+        onOpen={fillData}
+        onFocus={onFocusHandler}
+        onBlur={handleBlur}
+        onChange={handleCurrencyChange}
+        onType={onTypeHandler}
         stretch
-        selectall
+        selectAll
         status={hasError ? 'error' : undefined}
-        show_submit_button
-        keep_selection
+        showSubmitButton
+        keepSelection
         autoComplete={autoComplete}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
@@ -277,7 +286,7 @@ function SelectCurrency(props: Props) {
 
 type GetCurrencyData = {
   lang?: CurrencyLang
-  filter?: Props['filterCurrencies']
+  filter?: FieldSelectCurrencyProps['filterCurrencies']
   enableSort?: Extract<CurrencyFilterSet, 'Prioritized'>
   enableSearch?: boolean
   makeObject?: (
@@ -285,7 +294,7 @@ type GetCurrencyData = {
     lang: string
   ) => {
     selectedKey: string
-    selected_value: string
+    selectedValue: string
     content: string[]
   }
 }
@@ -298,13 +307,13 @@ export function getCurrencyData({
   makeObject = (currency: CurrencyType, lang: string) => {
     const translation = currency.i18n[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
-    const search_content = enableSearch
+    const searchContent = enableSearch
       ? [translation, currency.iso, ...(currency.search?.[lang] || [])]
       : undefined
     return {
       selectedKey: currency.iso,
-      selected_value: `${translation} (${currency.iso})`,
-      search_content, // will be used for searching
+      selectedValue: `${translation} (${currency.iso})`,
+      searchContent, // will be used for searching
       content,
     }
   },
@@ -386,5 +395,8 @@ export function makeCurrencyFilterSet(ccFilter: CurrencyFilterSet) {
   }
 }
 
-SelectCurrency._supportsSpacingProps = true
+withComponentMarkers(SelectCurrency, {
+  _supportsSpacingProps: true,
+})
+
 export default SelectCurrency

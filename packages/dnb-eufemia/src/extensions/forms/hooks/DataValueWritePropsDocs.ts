@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 
 export const DataValueWritePropsProperties: PropertiesTableProps = {
   value: {
@@ -17,17 +17,17 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   info: {
-    doc: 'Info message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`',
-    type: ['React.Node', 'Array<React.Node>', 'function'],
+    doc: 'Info message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   warning: {
-    doc: 'Warning message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`',
-    type: ['React.Node', 'Array<React.Node>', 'function'],
+    doc: 'Warning message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   error: {
-    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
     type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },
@@ -47,8 +47,8 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSuffix: {
-    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.',
-    type: 'React.Node',
+    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   schema: {
@@ -57,7 +57,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   validateInitially: {
-    doc: 'Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.',
+    doc: 'Set to `true` to show validation based errors initially (from given value-property or source data) before the user interacts with the field.',
     type: 'boolean',
     status: 'optional',
   },
@@ -72,7 +72,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.',
+    doc: 'Custom error messages for each type of error, overriding default messages. The messages can be a `React.ReactNode` or a string.',
     type: 'object',
     status: 'optional',
   },
@@ -100,17 +100,17 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
 
 export const DataValueWritePropsEvents: PropertiesTableProps = {
   onChange: {
-    doc: "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+    doc: "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
     type: '(value) => void',
     status: 'optional',
   },
   onFocus: {
-    doc: 'Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).',
+    doc: 'Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
     type: '(value) => void',
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).',
+    doc: 'Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
     type: '(value) => void',
     status: 'optional',
   },

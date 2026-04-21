@@ -20,8 +20,6 @@ import {
   Space,
   Code,
   Grid,
-  FormSet,
-  FormRow,
 } from '@dnb/eufemia/src'
 import {
   TestElement,
@@ -31,8 +29,8 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 import { defaultBreakpoints } from '@dnb/eufemia/src/shared/MediaQueryUtils'
 import { defaultQueries } from '@dnb/eufemia/src/shared/useMedia'
-import { Provider, useMedia, useMediaQuery } from '@dnb/eufemia/src/shared'
-import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
+import { useMedia, useMediaQuery, Provider } from '@dnb/eufemia/src/shared'
+import type { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 
 export const LayoutComponents = () => {
@@ -59,7 +57,7 @@ export const LayoutComponents = () => {
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
-          <Field.PhoneNumber value="+47 98765432" />
+          <Field.PhoneNumber value="+4798765432" />
         </Form.Card>
       </Flex.Stack>
     </ComponentBox>
@@ -81,18 +79,18 @@ export const HorizontalFlexItemResponsiveSize = () => {
       data-visual-test="flex-item-size"
     >
       <Flex.Container>
-        <Flex.Item size={8}>
+        <Flex.Item span={8}>
           <TestElement style={colors[0]}>FlexItem (8)</TestElement>
         </Flex.Item>
-        <Flex.Item size={4}>
+        <Flex.Item span={4}>
           <TestElement style={colors[1]}>FlexItem (4)</TestElement>
         </Flex.Item>
-        <Flex.Item size={{ small: 12, medium: 4 }}>
+        <Flex.Item span={{ small: 12, medium: 4 }}>
           <TestElement style={colors[2]}>
             FlexItem (small: 8, medium: 4)
           </TestElement>
         </Flex.Item>
-        <Flex.Item size={{ small: 12, medium: 8 }}>
+        <Flex.Item span={{ small: 12, medium: 8 }}>
           <TestElement style={colors[3]}>
             FlexItem (small: 4, medium: 8)
           </TestElement>
@@ -132,7 +130,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           flex-direction: column;
           .dnb-flex-container[data-media-key='xsmall']
             .dnb-flex-item--responsive {
-            --size: var(--xsmall);
+            --span: var(--xsmall);
           }
         `
 
@@ -144,19 +142,19 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
               breakpoints={breakpoints}
               queries={queries}
             >
-              <Flex.Item size={{ small: 2, medium: 3, large: 1 }}>
+              <Flex.Item span={{ small: 2, medium: 3, large: 1 }}>
                 <TestElement style={colors[0]}>FlexItem</TestElement>
               </Flex.Item>
-              <Flex.Item size={{ small: 2, medium: 1, large: 2 }}>
+              <Flex.Item span={{ small: 2, medium: 1, large: 2 }}>
                 <TestElement style={colors[1]}>FlexItem</TestElement>
               </Flex.Item>
               <Flex.Item
-                size={{ xsmall: 4, small: 2, medium: 1, large: 1 }}
+                span={{ xsmall: 4, small: 2, medium: 1, large: 1 }}
               >
                 <TestElement style={colors[2]}>FlexItem</TestElement>
               </Flex.Item>
               <Flex.Item
-                size={{ xsmall: 4, small: 2, medium: 3, large: 4 }}
+                span={{ xsmall: 4, small: 2, medium: 3, large: 4 }}
               >
                 <TestElement style={colors[3]}>FlexItem</TestElement>
               </Flex.Item>
@@ -316,32 +314,17 @@ export const ResponsiveGridContainer = () => {
   )
 }
 
-// Deprecated – can be removed in v11
-export const FormSetAlternativeBefore = () => (
-  <ComponentBox>
-    <FormSet label_direction="vertical">
-      <H2 top={0}>Heading</H2>
-      <FormRow label={<span className="dnb-h--medium">Legend</span>}>
-        <Input label="Label A" right />
-        <Input label="Label B" />
-      </FormRow>
-    </FormSet>
-  </ComponentBox>
-)
-
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
-    <Provider formElement={{ label_direction: 'vertical' }}>
-      <Form.Handler>
-        <H2 top={0}>Heading</H2>
-        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
-          <Flex.Horizontal>
-            <Input label="Label A" />
-            <Input label="Label B" />
-          </Flex.Horizontal>
-        </FieldBlock>
-      </Form.Handler>
-    </Provider>
+    <Form.Handler>
+      <H2 top={0}>Heading</H2>
+      <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+        <Flex.Horizontal>
+          <Input label="Label A" />
+          <Input label="Label B" />
+        </Flex.Horizontal>
+      </FieldBlock>
+    </Form.Handler>
   </ComponentBox>
 )
 
@@ -480,9 +463,7 @@ export const AllComponentsVerticalLabelsTestCase = (
     data-visual-test="form-components-alignment-vertical-labels"
     {...props}
   >
-    <Provider formElement={{ label_direction: 'vertical' }}>
-      <AllComponents direction="vertical" />
-    </Provider>
+    <AllComponents direction="vertical" />
   </div>
 )
 
@@ -490,8 +471,10 @@ export const AllComponentsHorizontalTestCase = (
   props?: React.HTMLProps<HTMLDivElement>
 ) => (
   <div data-visual-test="form-components-alignment-horizontal" {...props}>
-    <ScrollView>
-      <AllComponents direction="horizontal" />
-    </ScrollView>
+    <Provider formElement={{ labelDirection: 'horizontal' }}>
+      <ScrollView>
+        <AllComponents direction="horizontal" />
+      </ScrollView>
+    </Provider>
   </div>
 )

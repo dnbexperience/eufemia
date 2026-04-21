@@ -39,6 +39,7 @@ export const fetchFigmaIcons = async ({
   } catch (e) {
     log.fail(ErrorHandler('Failed during extractIcons', e))
   }
+  return undefined
 }
 
 export const fetchFigmaAll = async ({
@@ -53,7 +54,7 @@ export const fetchFigmaAll = async ({
 
     if (ignoreBranchCheck !== true && !branchName) {
       log.fail('> Figma: Could not continue, as we require another branch')
-      return
+      return undefined
     }
 
     await fetchFigmaIcons(args)

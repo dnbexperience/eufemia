@@ -13,18 +13,6 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     themeName,
     url: '/uilib/components/input-masked/demos/',
   })
-  const style = {
-    width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
-  }
-
-  it('have to match masked input', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector:
-        '[data-visual-test="input-masked-custom-mask"] .dnb-input__shell',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
   it('have to match currency_mask', async () => {
     const screenshot = await makeScreenshot({

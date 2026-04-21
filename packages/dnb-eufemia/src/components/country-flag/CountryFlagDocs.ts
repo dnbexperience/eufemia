@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CountryFlagProperties: PropertiesTableProps = {
   iso: {
@@ -8,12 +8,20 @@ export const CountryFlagProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the component. Can be `auto`, `xx-small`, `x-small`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).',
-    type: 'string',
+    type: [
+      '"auto"',
+      '"xx-small"',
+      '"x-small"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+    ],
     status: 'optional',
   },
   shape: {
     doc: 'The shape of the component. Can be `round` or `square`. Defaults to `round`.',
-    type: 'string',
+    type: ['"round"', '"square"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

@@ -4,11 +4,11 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { edit } from '../../../../../icons'
-import { ButtonProps } from '../../../../../components/button/Button'
+import type { ButtonProps } from '../../../../../components/button/Button'
 
-export type Props = ButtonProps
+export type FormSectionEditButtonProps = ButtonProps
 
-export default function EditButton(props: Props) {
+export default function EditButton(props: FormSectionEditButtonProps) {
   const sectionContainerContext = useContext(SectionContainerContext)
   const { onEdit } = useContext(ToolbarContext) || {}
   const { switchContainerMode, disableEditing } =
@@ -29,8 +29,8 @@ export default function EditButton(props: Props) {
     <Button
       variant="tertiary"
       icon={edit}
-      icon_position="left"
-      on_click={editHandler}
+      iconPosition="left"
+      onClick={editHandler}
       {...props}
     >
       {translation.editButton}

@@ -7,8 +7,8 @@ import {
   Tools,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
-import { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
+import type { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
+import type { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
 import * as Blocks from '@dnb/eufemia/src/extensions/forms/blocks'
 import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 
@@ -59,7 +59,7 @@ export const ChildrenWithAgeWizard = (props) => {
             },
           }
 
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
           return (
             <Form.Handler
               onSubmit={(data, { reduceToVisibleFields }) => {
@@ -119,8 +119,8 @@ export function WithToolbar({ children }) {
       },
     }
   }, [filterData, filterDataPaths])
-  const generatePropsRef = useRef<GeneratePropsRef>()
-  const generateSchemaRef = useRef<GenerateSchemaRef>()
+  const generatePropsRef = useRef<GeneratePropsRef>(undefined)
+  const generateSchemaRef = useRef<GenerateSchemaRef>(undefined)
 
   return (
     <Flex.Stack top="large">

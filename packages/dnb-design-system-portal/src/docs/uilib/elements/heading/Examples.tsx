@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H, H1, H2, H3, H4, H5, H6, P } from '@dnb/eufemia/src'
+import { H, H1, H2, H3, H4, H5, H6, P, Section } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
@@ -142,12 +142,22 @@ export const HeadingRegressionTest = () => {
       </ComponentBox>
       <ComponentBox scope={{ HWrap }} data-visual-test="heading-base">
         <H>default (h1 - xx-large)</H>
-        <H as="h2">custom level (h2 - xx-large)</H>
+        <H element="h2">custom level (h2 - xx-large)</H>
         <H size="small">custom size (h1 - small)</H>
-        <H as="h2" size="small">
+        <H element="h2" size="small">
           custom level and size (h2 - small)
         </H>
       </ComponentBox>
     </>
   )
 }
+
+export const HeadingDarkSurfaceExample = () => (
+  <ComponentBox>
+    <Section innerSpace={{ block: true }} surface="dark">
+      <H1 size="large" top={false} bottom={false}>
+        Heading on dark surface
+      </H1>
+    </Section>
+  </ComponentBox>
+)

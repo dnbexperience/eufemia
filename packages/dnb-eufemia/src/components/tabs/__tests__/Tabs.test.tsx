@@ -6,12 +6,13 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Tabs, { TabsProps } from '../Tabs'
+import type { TabsProps } from '../Tabs'
+import Tabs from '../Tabs'
 import Input from '../../input/Input'
 
 const props: TabsProps = { id: 'id' }
 
-const startup_selected_key = 'second'
+const startupSelectedKey = 'second'
 const tablistData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -29,13 +30,9 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
-  it('have a "selected_key" state have to be same as prop from startup', () => {
+  it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -43,20 +40,18 @@ describe('Tabs component', () => {
       document
         .querySelector('.dnb-tabs__button.selected')
         .querySelectorAll('span')[0].textContent
-    ).toBe(
-      tablistData.find(({ key }) => key === startup_selected_key).title
-    )
+    ).toBe(tablistData.find(({ key }) => key === startupSelectedKey).title)
   })
 
-  it('has working "on_change" and "on_click" event handler', () => {
+  it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
-    const on_change = jest.fn((e) => {
+    const onChange = jest.fn((e) => {
       if (preventChange) {
         return false
       }
       return e
     })
-    const on_click = jest.fn((e) => {
+    const onClick = jest.fn((e) => {
       if (preventChange) {
         return false
       }
@@ -67,50 +62,56 @@ describe('Tabs component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        on_change={on_change}
-        on_click={on_click}
+        onChange={onChange}
+        onClick={onClick}
       >
         {contentWrapperData}
       </Tabs>
     )
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_click).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(2)
 
     preventChange = true
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_click).toHaveBeenCalledTimes(3)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(3)
   })
 
-  it('has working "on_focus" event handler', () => {
-    const on_focus = jest.fn()
+  it('has working "onFocus" event handler', () => {
+    const onFocus = jest.fn()
 
     render(
-      <Tabs {...props} data={tablistData} on_focus={on_focus}>
+      <Tabs {...props} data={tablistData} onFocus={onFocus}>
         {contentWrapperData}
       </Tabs>
     )
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
-    expect(on_focus).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(1)
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
-    expect(on_focus).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledTimes(2)
   })
 
-  it('will use given tab_element', () => {
-    const Link = ({ href, children }) => {
+  it('will use given tabElement', () => {
+    const Link = ({
+      href,
+      children,
+    }: {
+      href?: string
+      children?: React.ReactNode
+    }) => {
       return <a href={href}>{children}</a>
     }
 
@@ -121,7 +122,7 @@ describe('Tabs component', () => {
     ]
 
     render(
-      <Tabs {...props} data={tablistData} tab_element={Link}>
+      <Tabs {...props} data={tablistData} tabElement={Link}>
         {contentWrapperData}
       </Tabs>
     )
@@ -151,9 +152,9 @@ describe('Tabs component', () => {
     ])
   })
 
-  it('should support "no_border" prop', () => {
+  it('should support "noBorder" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} no_border>
+      <Tabs {...props} data={tablistData} noBorder>
         {contentWrapperData}
       </Tabs>
     )
@@ -168,9 +169,9 @@ describe('Tabs component', () => {
     ])
   })
 
-  it('should support "content_spacing" prop', () => {
+  it('should support "contentInnerSpace" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} content_spacing="small">
+      <Tabs {...props} data={tablistData} contentInnerSpace="small">
         {contentWrapperData}
       </Tabs>
     )
@@ -185,21 +186,16 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should support "tabs_spacing" prop', () => {
+  it('should support "tabsInnerSpace" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} tabs_spacing={true}>
+      <Tabs {...props} data={tablistData} tabsInnerSpace={true}>
         {contentWrapperData}
       </Tabs>
     )
 
-    const element = document.querySelector('.dnb-tabs__tabs')
+    const element = document.querySelector<HTMLElement>('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-section--spacing-large',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element.style.paddingTop).toBe('var(--spacing-large)')
   })
 
   it('should support outer spacing props', () => {
@@ -217,9 +213,9 @@ describe('Tabs component', () => {
     ])
   })
 
-  it('should use section component when "tabs_style" is set', () => {
+  it('should use section component when "tabsStyle" is set', () => {
     render(
-      <Tabs {...props} data={tablistData} tabs_style="black-3">
+      <Tabs {...props} data={tablistData} tabsStyle="black-3">
         {contentWrapperData}
       </Tabs>
     )
@@ -237,9 +233,9 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should use section component when "content_style" is set', () => {
+  it('should use section component when "contentStyle" is set', () => {
     render(
-      <Tabs {...props} data={tablistData} content_style="black-3">
+      <Tabs {...props} data={tablistData} contentStyle="black-3">
         {contentWrapperData}
       </Tabs>
     )
@@ -252,7 +248,6 @@ describe('Tabs component', () => {
         'dnb-tabs__content',
         'dnb-section',
         'dnb-section--black-3',
-        'dnb-section--spacing-large',
         'dnb-no-focus',
         'dnb-space',
         'dnb-height-animation',
@@ -268,7 +263,7 @@ describe('Tabs component', () => {
         {...props}
         data={tablistData}
         breakout={false}
-        selected_key={startup_selected_key}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -296,11 +291,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 describe('TabList component', () => {
   it('has to have the right amount of rendered components', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -315,11 +306,7 @@ describe('TabList component', () => {
 
   it('has to have the right content on a "click event"', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -339,11 +326,7 @@ describe('TabList component', () => {
 describe('A single Tab component', () => {
   it('has to have a role="tab" attribute and a selected class', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -360,11 +343,7 @@ describe('A single Tab component', () => {
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -376,7 +355,6 @@ describe('A single Tab component', () => {
 
     fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
       key: 'ArrowRight',
-      keyCode: 39, // right
     })
     fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
 
@@ -404,11 +382,11 @@ describe('A single Tab component', () => {
     ).toBe('Second')
   })
 
-  it('has to run "prevent_rerender" as supposed', () => {
+  it('has to run "preventRerender" as supposed', () => {
     render(
       <Tabs
         {...props}
-        prevent_rerender
+        preventRerender
         data={[
           {
             title: 'One',
@@ -463,11 +441,11 @@ describe('A single Tab component', () => {
     ).toBe('true')
   })
 
-  it('has to run "prerender" as supposed', () => {
+  it('has to run "keepInDOM" as supposed', () => {
     render(
       <Tabs
         {...props}
-        prerender
+        keepInDOM
         data={[
           {
             title: 'One',
@@ -532,7 +510,7 @@ describe('A single Tab component', () => {
   it('has to work with "Tabs.Content" from outside', () => {
     let testKey = null
     let testTitle = null
-    const LinkedContent = (props: { selected_key?: string }) => {
+    const LinkedContent = (props: { selectedKey?: string }) => {
       return (
         <>
           <Tabs id="linked" data={tablistData} {...props} />
@@ -558,7 +536,7 @@ describe('A single Tab component', () => {
     expect(testKey).toBe('first')
     expect(testTitle).toBe('First')
 
-    rerender(<LinkedContent selected_key="second" />)
+    rerender(<LinkedContent selectedKey="second" />)
 
     expect(
       document
@@ -717,6 +695,46 @@ describe('A single Tab component', () => {
     expect(second).toHaveAttribute('data-tab-key', 'second_key')
     expect(third).toHaveAttribute('data-tab-key', 'third_key')
   })
+
+  it('should not show scroll nav buttons when last tab margin accounts for overflow', () => {
+    const getComputedStyleOrig = window.getComputedStyle
+
+    jest
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation((element) => {
+        const style = getComputedStyleOrig(element)
+        if ((element as Element).classList.contains('dnb-tabs__button')) {
+          return { ...style, marginRight: '16' } as CSSStyleDeclaration
+        }
+        return style
+      })
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    // scrollWidth slightly exceeds offsetWidth, but within the margin tolerance
+    Object.defineProperty(tablist, 'scrollWidth', {
+      value: 117,
+      configurable: true,
+    })
+    Object.defineProperty(tablist, 'offsetWidth', {
+      value: 100,
+      configurable: true,
+    })
+
+    fireEvent(window, new Event('resize'))
+
+    expect(document.querySelector('.dnb-tabs__tabs')).not.toHaveClass(
+      'dnb-tabs--has-scrollbar'
+    )
+
+    jest.restoreAllMocks()
+  })
 })
 
 describe('Tabs scss', () => {
@@ -736,11 +754,7 @@ describe('Tabs scss', () => {
 describe('Tabs ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )

@@ -24,17 +24,17 @@ export const ProviderSandbox = () => {
     <Wrapper>
       <Box>
         <Provider locale="en-GB">
-          <Section spacing top>
+          <Section innerSpace={{ block: 'large' }} top>
             <ChangeLocale />
           </Section>
-          <Section spacing top>
-            <NumberFormat>12345678</NumberFormat>
+          <Section innerSpace={{ block: 'large' }} top>
+            <NumberFormat.Number>12345678</NumberFormat.Number>
             <DatePicker
               left
-              opened
-              show_submit_button
-              show_cancel_button
-              show_reset_button
+              open
+              showSubmitButton
+              showCancelButton
+              showResetButton
             />
           </Section>
         </Provider>
@@ -53,9 +53,9 @@ const ChangeLocale = () => {
         label="Choose:"
         variant="radio"
         value={locale}
-        on_change={({ value: locale }) => {
-          setLocale(locale)
-          update({ locale })
+        onChange={({ value: locale }) => {
+          setLocale(locale as string)
+          update({ locale: locale as string })
         }}
       >
         <ToggleButton text="English" value="en-GB" />
@@ -67,8 +67,8 @@ const ChangeLocale = () => {
         left
         value={locale}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
-        on_change={({ data: { selected_key: locale } }) => {
-          setLocale(locale)
+        onChange={({ data: { selectedKey: locale } }) => {
+          setLocale(locale as string)
         }}
       />
     </>

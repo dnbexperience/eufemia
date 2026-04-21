@@ -50,7 +50,7 @@ describe('Timeline', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Timeline with multiple completed time ine items', async () => {
+  it('have to match Timeline with multiple completed timeline items', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="timeline-multiple-completed"] .dnb-timeline',

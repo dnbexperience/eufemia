@@ -13,7 +13,6 @@ export function SubmitConfirmation() {
         console.log('Now we are submitting...', data)
         await new Promise((resolve) => setTimeout(resolve, 3000))
         return {
-          // error: new Error('Error message'),
           customStatus: 'custom',
         }
       }}
@@ -24,13 +23,6 @@ export function SubmitConfirmation() {
       </Flex.Stack>
 
       <Form.SubmitConfirmation
-        // preventSubmitWhen={({ submitState, setConfirmationState }) => {
-        //   if (submitState?.customStatus) {
-        //     setConfirmationState('readyToBeSubmitted')
-        //     return false
-        //   }
-        //   return true
-        // }}
         onSubmitResult={({ submitState, setConfirmationState }) => {
           if (submitState?.customStatus) {
             setConfirmationState('readyToBeSubmitted')
@@ -63,7 +55,7 @@ export function SubmitConfirmation() {
                 {...connectWithDialog}
               >
                 <Section
-                  variant="info"
+                  variant="information"
                   innerSpace={{ top: true, bottom: true }}
                   top
                 >

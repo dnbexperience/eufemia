@@ -4,9 +4,9 @@
  */
 
 import React from 'react'
-import { isTrue } from '../../shared/component-helper'
 
-import HeadingContext, { HeadingContextProps } from './HeadingContext'
+import type { HeadingContextValue } from './HeadingContext'
+import HeadingContext from './HeadingContext'
 import {
   globalSyncCounter,
   globalHeadingCounter,
@@ -15,8 +15,9 @@ import {
   teardownHeadings,
   debugCounter,
 } from './HeadingHelpers'
-import { HeadingCounter, initCounter } from './HeadingCounter'
-import { InternalHeadingLevel, HeadingProps } from './Heading'
+import type { HeadingCounter } from './HeadingCounter'
+import { initCounter } from './HeadingCounter'
+import type { InternalHeadingLevel, HeadingProps } from './Heading'
 
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &
@@ -30,7 +31,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       level?: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
       counter?: HeadingCounter
-      context: HeadingContextProps
+      context: HeadingContextValue
       newProps?: HeadingProps
       _listenForPropChanges?: boolean
     }
@@ -62,11 +63,11 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       counter: state.counter,
       ref: props,
       level: parseFloat(String(props.level)),
-      inherit: isTrue(props.inherit),
+      inherit: props.inherit,
       reset: props.reset,
-      increase: isTrue(props.increase) || isTrue(props.up),
-      decrease: isTrue(props.decrease) || isTrue(props.down),
-      bypassChecks: isTrue(state.newProps.skip_correction),
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
+      bypassChecks: state.newProps.skipCorrection,
       source: props.text || props.children,
       debug: state.newProps.debug,
     })
@@ -94,8 +95,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         counter: state.counter,
         level,
         bypassChecks:
-          isTrue(props.skip_correction) ||
-          isTrue(state.context.heading?.skip_correction),
+          props.skipCorrection || state.context.heading?.skipCorrection,
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.context.heading?.debug,
       })
@@ -114,7 +114,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
   }, [])
 
   return (
-    <HeadingContext.Provider
+    <HeadingContext
       value={{
         heading: {
           ...state.newProps,
@@ -122,7 +122,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         },
       }}
     >
-      {(state.newProps.debug_counter && (
+      {(state.newProps.debugCounter && (
         <span className="dnb-heading__context">
           <span className="dnb-heading__debug">
             Context:{' '}
@@ -132,6 +132,6 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         </span>
       )) ||
         props.children}
-    </HeadingContext.Provider>
+    </HeadingContext>
   )
 }

@@ -3,17 +3,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import emailMask from '../addons/emailMask'
-import { InputMasked, FormSet, ToggleButton } from '../..'
+import { InputMasked, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
-import { MultiInputMask } from '../'
-import type { MultiInputMaskValue } from '../'
-import { InternalLocale } from '../../../shared/Context'
-import { Field } from '../../../extensions/forms'
+import type { InternalLocale } from '../../../shared/Context'
+import { Field, Form } from '../../../extensions/forms'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -25,7 +22,7 @@ export default {
 }
 
 export function TypeNumber() {
-  return <InputMasked label="Number:" as_currency value="12" />
+  return <InputMasked label="Number:" asCurrency value="12" />
 }
 
 export function NoProps() {
@@ -37,10 +34,10 @@ export function Sandbox() {
   return (
     <Wrapper>
       <Provider locale={locale}>
-        <FormSet label_direction="vertical">
+        <Form.Handler>
           <ToggleButton.Group
             value={locale}
-            on_change={({ value }) => setLocale(value)}
+            onChange={({ value }) => setLocale(value as InternalLocale)}
             right
             label="Choose locale"
           >
@@ -71,12 +68,9 @@ export function Sandbox() {
             <PercentInput />
           </Box>
           <Box>
-            <EmailMask />
-          </Box>
-          <Box>
             <ShowMask />
           </Box>
-        </FormSet>
+        </Form.Handler>
       </Provider>
     </Wrapper>
   )
@@ -87,14 +81,14 @@ function BasicNumberMask() {
 
   return (
     <InputMasked
-      label="number_mask"
-      // selectall
+      label="numberMask"
+      // selectAll
       value={floatVal}
       // placeholder="En placeholder"
-      number_mask
-      mask_options={{ disallowLeadingZeroes: true, allowNegative: false }}
+      numberMask
+      maskOptions={{ disallowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
-      on_change={({ numberValue }) => {
+      onChange={({ numberValue }) => {
         setState(numberValue)
       }}
     />
@@ -106,19 +100,18 @@ function BasicCurrencyMask() {
 
   return (
     <InputMasked
-      label="currency_mask"
-      // selectall
+      label="currencyMask"
+      // selectAll
       value={floatVal}
       // placeholder="En placeholder"
-      currency_mask={{
+      currencyMask={{
         currency: 'NOK',
         prefix: 'Prefix ',
-        // allowDecimal: false,
         allowNegative: false,
       }}
-      // mask_options={{ disallowLeadingZeroes: true }}
+      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
-      on_change={({ numberValue }) => {
+      onChange={({ numberValue }) => {
         setState(numberValue)
       }}
     />
@@ -133,10 +126,10 @@ function CurrencyInput() {
     <InputMasked
       label="as_currency"
       value={floatVal}
-      as_currency="NOK"
-      // mask_options={{ disallowLeadingZeroes: true }}
+      asCurrency="NOK"
+      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
-      on_change={({ numberValue }) => {
+      onChange={({ numberValue }) => {
         setState(numberValue)
       }}
     />
@@ -151,10 +144,10 @@ function NumberInput() {
       <InputMasked
         label="as_number"
         value={floatVal}
-        as_number
-        mask_options={{ allowDecimal: true, decimalLimit: null }}
+        asNumber
+        maskOptions={{ allowDecimal: true, decimalLimit: null }}
         suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           setState(value)
         }}
       />
@@ -169,172 +162,30 @@ function PercentInput() {
     <InputMasked
       label="as_percent"
       value={floatVal}
-      as_percent
-      mask_options={{ allowDecimal: true, disallowLeadingZeroes: true }}
-      // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
+      asPercent
+      maskOptions={{ allowDecimal: true, disallowLeadingZeroes: true }}
+      // numberMask={{ allowDecimal: true, decimalLimit: 1 }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
-      on_change={({ numberValue }) => {
+      onChange={({ numberValue }) => {
         setState(numberValue)
       }}
     />
   )
 }
 
-function EmailMask() {
-  return (
-    <InputMasked
-      label="emailMask"
-      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-      // The input element's type ('email') does not support selection.
-      // type="email"
-      placeholder="@."
-      autocomplete="on"
-      keep_placeholder
-      mask={emailMask}
-      right
-      bottom
-    />
-  )
-}
-
-function ShowMask() {
-  return (
-    <InputMasked
-      label="show_mask"
-      show_mask
-      number_mask={{
-        suffix: ' kr',
-        allowDecimal: true,
-      }}
-    />
-  )
-}
-
-export function MultiInputMaskPlayground() {
+export function ShowMask() {
   return (
     <>
-      <Box>
-        <MultiInputMaskDate />
-      </Box>
-      <Box>
-        <MultiInputMaskMix />
-      </Box>
-      <Box>
-        <MultiInputMaskStatuses />
-      </Box>
-    </>
-  )
-}
-
-function MultiInputMaskDate() {
-  const [values, setValues] = useState<
-    MultiInputMaskValue<'day' | 'month' | 'year'>
-  >({
-    day: '',
-    month: '',
-    year: '',
-  })
-
-  return (
-    <MultiInputMask
-      label="Datogreier"
-      onChange={({ day, month, year }) => setValues({ day, month, year })}
-      values={values}
-      delimiter="/"
-      labelDirection="vertical"
-      inputs={[
-        {
-          id: 'day',
-          label: 'dagen',
-          placeholderCharacter: 'd',
-          mask: [/[0-9]/, /[0-9]/],
-        },
-        {
-          id: 'month',
-          label: 'måneden',
-          placeholderCharacter: 'm',
-          mask: [/[0-9]/, /[0-9]/],
-        },
-        {
-          id: 'year',
-          label: 'året',
-          placeholderCharacter: 'å',
-          mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
-        },
-      ]}
-    />
-  )
-}
-
-function MultiInputMaskMix() {
-  const [values, setValues] = useState<
-    MultiInputMaskValue<'numbers' | 'letters' | 'mix'>
-  >({
-    letters: '',
-    numbers: '',
-    mix: '',
-  })
-
-  return (
-    <MultiInputMask
-      label="Mix"
-      onChange={({ letters, numbers, mix }) =>
-        setValues({ letters, numbers, mix })
-      }
-      delimiter="/"
-      values={values}
-      inputs={[
-        {
-          id: 'numbers',
-          label: 'just numbers',
-          placeholderCharacter: 'n',
-          mask: [/[0-9]/, /[0-9]/],
-        },
-        {
-          id: 'letters',
-          label: 'just letters',
-          placeholderCharacter: 'l',
-          mask: [/[a-zA-Z]/, /[a-zA-Z]/],
-        },
-        {
-          id: 'mix',
-          label: 'numbers and letters',
-          placeholderCharacter: 'm',
-          mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
-        },
-      ]}
-    />
-  )
-}
-
-function MultiInputMaskStatuses() {
-  return (
-    <>
-      <MultiInputMask
-        label="Statuses"
-        status="error"
-        statusState="error"
-        inputs={[
-          {
-            id: 'error',
-            label: 'error',
-            placeholderCharacter: 'e',
-            mask: [/[0-9]/, /[0-9]/],
-          },
-        ]}
+      <InputMasked
+        label="showMask"
+        showMask
+        numberMask={{
+          suffix: ' kr',
+          allowDecimal: true,
+        }}
       />
-      <MultiInputMask
-        label="Statuses"
-        disabled
-        inputs={[
-          {
-            id: 'disabled',
-            label: 'disabled',
-            placeholderCharacter: 'd',
-            mask: [/[0-9]/, /[0-9]/],
-          },
-        ]}
-      />
+      <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+      <Field.OrganizationNumber />
     </>
   )
 }
@@ -344,21 +195,12 @@ export function DisallowLeadingZerosMask() {
     <Flex.Vertical>
       <InputMasked
         value={-100123}
-        currency_mask={{
-          // allowDecimal: true,
+        currencyMask={{
           disallowLeadingZeroes: true, //
-        }}
-        onChange={({ value, numberValue }) => {
-          // console.log('onChange', value, numberValue)
         }}
       />
 
-      <Field.Currency
-        disallowLeadingZeroes
-        onChange={(value) => {
-          // console.log('onChange', value)
-        }}
-      />
+      <Field.Currency disallowLeadingZeroes />
     </Flex.Vertical>
   )
 }

@@ -1,8 +1,8 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const PopoverProperties: PropertiesTableProps = {
   children: {
-    doc: 'Alternative content prop. Accepts nodes or a render function that receives the same helpers as `content`.',
+    doc: 'Alternative content property. Accepts nodes or a render function that receives the same helpers as `content`.',
     type: [
       'React.ReactNode',
       '({ close, open, toggle, id }) => React.ReactNode',
@@ -15,7 +15,7 @@ export const PopoverProperties: PropertiesTableProps = {
       'React.ReactNode',
       '({ close, open, toggle, id }) => React.ReactNode',
     ],
-    status: 'required',
+    status: 'optional',
   },
   title: {
     doc: 'Optional heading shown above the body content. Matches the typography used in TermDefinition.',
@@ -54,8 +54,8 @@ export const PopoverProperties: PropertiesTableProps = {
     doc: 'Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.',
     type: [
       'HTMLElement',
-      'React.MutableRefObject<HTMLElement>',
-      '{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }',
+      'React.RefObject<HTMLElement>',
+      '{ horizontalRef?: HTMLElement | React.RefObject<HTMLElement>; verticalRef?: HTMLElement | React.RefObject<HTMLElement> }',
     ],
     status: 'optional',
   },
@@ -87,20 +87,20 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   placement: {
     doc: 'Preferred placement of the popover relative to the trigger.',
-    type: ['top', 'right', 'bottom', 'left'],
-    defaultValue: 'bottom',
+    type: ['"top"', '"right"', '"bottom"', '"left"'],
+    defaultValue: '"bottom"',
     status: 'optional',
   },
   alignOnTarget: {
     doc: 'Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.',
-    type: ['left', 'center', 'right', 'null'],
-    defaultValue: 'center',
+    type: ['"left"', '"center"', '"right"', 'null'],
+    defaultValue: '"center"',
     status: 'optional',
   },
   arrowPosition: {
     doc: 'Align the arrow along the axis of the selected `placement` (e.g., left/right for `placement="right"`).',
-    type: ['center', 'top', 'right', 'bottom', 'left'],
-    defaultValue: 'center',
+    type: ['"center"', '"top"', '"right"', '"bottom"', '"left"'],
+    defaultValue: '"center"',
     status: 'optional',
   },
   arrowPositionSelector: {
@@ -109,14 +109,9 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideArrow: {
-    doc: 'Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.',
+    doc: 'Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` property.',
     type: 'boolean',
     defaultValue: 'false',
-    status: 'optional',
-  },
-  theme: {
-    doc: 'Sets the surface style.',
-    type: ['light', 'dark'],
     status: 'optional',
   },
   contentClassName: {
@@ -145,17 +140,17 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   focusOnOpen: {
-    doc: 'If true, focus is moved into the popover content when it opens.',
+    doc: 'If `true`, focus is moved into the popover content when it opens.',
     type: 'boolean',
     status: 'optional',
   },
   focusOnOpenElement: {
     doc: 'Provide a specific element (or function returning one) to receive focus when the popover opens.',
-    type: 'HTMLElement | () => HTMLElement',
+    type: ['HTMLElement', '() => HTMLElement'],
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to true).',
+    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`).',
     type: 'boolean',
     status: 'optional',
   },
@@ -170,7 +165,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideDelay: {
-    doc: 'Delay (ms) before the popover starts hiding. Defaults to 0.',
+    doc: 'Delay (ms) before the popover starts hiding. Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },
@@ -190,7 +185,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   portalRootClass: {
-    doc: 'Extra className applied to the portal wrapper (only when not using `skipPortal`).',
+    doc: 'Extra `className` applied to the portal wrapper (only when not using `skipPortal`).',
     type: 'string',
     status: 'optional',
   },
@@ -212,17 +207,22 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   autoAlignMode: {
     doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
-    type: ['initial', 'scroll', 'never'],
-    defaultValue: 'initial',
+    type: ['"initial"', '"scroll"', '"never"'],
+    defaultValue: '"initial"',
     status: 'optional',
   },
   contentRef: {
     doc: 'Ref forwarded to the popover content element.',
-    type: 'React.MutableRefObject<HTMLSpanElement>',
+    type: 'React.RefObject<HTMLSpanElement>',
+    status: 'optional',
+  },
+  noMaxWidth: {
+    doc: 'If set to `true`, the popover will not have a max-width limitation.',
+    type: 'boolean',
     status: 'optional',
   },
   omitDescribedBy: {
-    doc: 'Skips adding aria-describedBy on the trigger when you handle accessibility yourself.',
+    doc: 'Skips adding `aria-describedby` on the trigger when you handle accessibility yourself.',
     type: 'boolean',
     status: 'optional',
   },

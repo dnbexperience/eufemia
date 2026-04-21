@@ -28,7 +28,7 @@ export function ProgressIndicatorSizes() {
 export const ProgressIndicatorSandbox = () => (
   <Wrapper>
     <Box>
-      <ProgressIndicator progress={60} no_animation />
+      <ProgressIndicator progress={60} noAnimation />
     </Box>
     <Box>
       <ProgressIndicator size="large" />
@@ -42,23 +42,22 @@ export const ProgressIndicatorSandbox = () => (
 export const ProgressIndicatorLabel = () => (
   <>
     <Button>Button</Button>
-    <ProgressIndicator left size="small" show_label progress={60} />
+    <ProgressIndicator left size="small" showDefaultLabel progress={60} />
   </>
 )
 
 const ProgressIndicatorCircular = () => {
-  const [visible, setVisible] = React.useState(true)
+  const [show, setShow] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(() => setVisible(!visible), 3400)
+    const timer = setInterval(() => setShow(!show), 3400)
     return () => clearInterval(timer)
   })
   return (
     <ProgressIndicator
-      // progress={88}
       size="large"
-      visible={visible}
+      show={show}
       onComplete={() => {
-        console.log('on_complete')
+        console.log('onComplete')
       }}
     />
   )

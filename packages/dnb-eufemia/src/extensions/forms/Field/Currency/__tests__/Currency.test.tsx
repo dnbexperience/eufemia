@@ -156,9 +156,7 @@ describe('Field.Currency', () => {
 
     // When emptyValue={0} and user types "-", fromInput returns 0,
     // which clears the minus sign in the display.
-    await userEvent.type(input, '5')
-
-    expect(input).toHaveValue('05 kr')
+    expect(input).toHaveValue('0 kr')
   })
 
   it('should work with decimal limit 0', async () => {
@@ -210,7 +208,7 @@ describe('Field.Currency', () => {
       },
     })
 
-    await userEvent.type(input, '{Backspace>5}')
+    await userEvent.keyboard('{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {

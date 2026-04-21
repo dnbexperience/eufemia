@@ -15,12 +15,10 @@ import {
   formatIconsMetaFile,
 } from '../assetsExtractors'
 
-const localFile = require.resolve(
-  '../../helpers/__tests__/files/FigmaTestDoc.json'
-)
-const iconsLockFile = require.resolve(
-  '../../helpers/__tests__/files/icons-svg.lock'
-)
+const localFile =
+  require.resolve('../../helpers/__tests__/files/FigmaTestDoc.json')
+const iconsLockFile =
+  require.resolve('../../helpers/__tests__/files/icons-svg.lock')
 
 afterEach(() => {
   jest.clearAllMocks()

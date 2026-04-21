@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
+import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type OrganizationNumberValidator = ValidatorWithCustomValidators<
   string,
@@ -9,13 +11,16 @@ export type OrganizationNumberValidator = ValidatorWithCustomValidators<
     organizationNumberValidator: Validator<string>
   }
 >
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type FieldOrganizationNumberProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
   validate?: boolean
   omitMask?: boolean
   onBlurValidator?: OrganizationNumberValidator | false
 }
 
-function OrganizationNumber(props: Props) {
+function OrganizationNumber(props: FieldOrganizationNumberProps) {
   const translations = useTranslation().OrganizationNumber
   const { errorOrgNo, errorOrgNoLength, errorRequired, label } =
     translations
@@ -41,6 +46,8 @@ function OrganizationNumber(props: Props) {
           return Error(errorOrgNo)
         }
       }
+
+      return undefined
     },
     [errorOrgNo, errorOrgNoLength]
   )
@@ -48,9 +55,7 @@ function OrganizationNumber(props: Props) {
   const {
     validate = true,
     omitMask,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     onBlurValidator = organizationNumberValidator,
     label: labelProp,
     width,
@@ -76,6 +81,7 @@ function OrganizationNumber(props: Props) {
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
+    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { organizationNumberValidator },
   }
@@ -95,7 +101,7 @@ function isValidOrgNumber(digits: string) {
   let sum = 0
 
   for (let i = digits.length - 2; i >= 0; --i) {
-    sum += parseInt(digits.charAt(i)) * checkDigit
+    sum += parseInt(digits.charAt(i), 10) * checkDigit
 
     checkDigit += 1
 
@@ -110,5 +116,8 @@ function isValidOrgNumber(digits: string) {
   return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
-OrganizationNumber._supportsSpacingProps = true
+withComponentMarkers(OrganizationNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default OrganizationNumber

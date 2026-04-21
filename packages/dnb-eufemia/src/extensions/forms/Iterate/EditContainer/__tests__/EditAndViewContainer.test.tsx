@@ -91,6 +91,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>
@@ -128,6 +130,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>
@@ -172,6 +176,8 @@ describe('EditContainer and ViewContainer', () => {
                 if (value === '01') {
                   return new Error('error')
                 }
+
+                return undefined
               }}
             />
           </Iterate.EditContainer>
@@ -277,11 +283,15 @@ describe('EditContainer and ViewContainer', () => {
         .closest('.dnb-forms-section-block')
 
       // Initially edit due to required error
-      expect(containerMode).toBe('edit')
-      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-      expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
 
       // Cancel should keep edit (because errors exist)
       const buttons = Array.from(document.querySelectorAll('button'))
@@ -349,11 +359,15 @@ describe('EditContainer and ViewContainer', () => {
         .closest('.dnb-forms-section-block')
 
       // Initially edit due to required error
-      expect(containerMode).toBe('edit')
-      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-      expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
 
       // Cancel should keep edit (by label)
       const buttons = Array.from(document.querySelectorAll('button'))

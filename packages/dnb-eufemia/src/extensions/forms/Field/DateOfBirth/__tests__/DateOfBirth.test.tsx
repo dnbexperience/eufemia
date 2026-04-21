@@ -2,9 +2,11 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Validator } from '../../..'
+import type { Validator } from '../../..'
+import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
-import { AdditionalArgs } from '../DateOfBirth'
+import type { AdditionalArgs } from '../DateOfBirth'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 const nb = nbNO['nb-NO']
 
@@ -110,11 +112,13 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should support transformIn', async () => {
-      const transformIn = jest.fn((external: AdditionalArgs) => {
+      const transformIn = jest.fn((external: unknown) => {
+        const { year, month, day } = external as AdditionalArgs
         if (external) {
-          const { year, month, day } = external
           return `${year}-${month}-${day}`
         }
+
+        return undefined
       })
 
       render(
@@ -158,19 +162,25 @@ describe('Field.DateOfBirth', () => {
       const onChange = jest.fn()
 
       const transformOut = jest.fn(
-        (internal, additionalArgs: AdditionalArgs) => {
-          if (additionalArgs) {
-            const { year, month, day } = additionalArgs
+        (internal: unknown, additionalArgs?: unknown) => {
+          const args = additionalArgs as AdditionalArgs
+          if (args) {
+            const { year, month, day } = args
             return { year, month, day }
           }
+
+          return undefined
         }
       )
 
-      const transformIn = jest.fn((external: AdditionalArgs) => {
-        if (external) {
-          const { year, month, day } = external
+      const transformIn = jest.fn((external: unknown) => {
+        const ext = external as AdditionalArgs
+        if (ext) {
+          const { year, month, day } = ext
           return `${year}-${month}-${day}`
         }
+
+        return undefined
       })
 
       render(
@@ -411,7 +421,7 @@ describe('Field.DateOfBirth', () => {
 
       await userEvent.click(monthInput)
 
-      // Search by numeric month (uses search_content: [title, nr, value])
+      // Search by numeric month (uses searchContent: [title, nr, value])
       await userEvent.type(monthInput, '12')
 
       await waitFor(() => {
@@ -512,6 +522,8 @@ describe('Field.DateOfBirth', () => {
         if (value.substring(0, 4) !== '1990') {
           return new Error(customErrorMessage)
         }
+
+        return undefined
       })
 
       render(
@@ -609,6 +621,8 @@ describe('Field.DateOfBirth', () => {
         if (value.substring(0, 4) !== '1990') {
           return new Error(customError)
         }
+
+        return undefined
       }
 
       const customValidator: Validator<string> = (
@@ -1385,6 +1399,8 @@ describe('Field.DateOfBirth', () => {
   })
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
-    expect(Field.DateOfBirth._supportsSpacingProps).toBe(undefined)
+    expect(
+      (Field.DateOfBirth as ComponentMarkers)._supportsSpacingProps
+    ).toBe(undefined)
   })
 })

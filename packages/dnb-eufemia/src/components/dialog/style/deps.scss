@@ -3,6 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../modal/style/deps.scss';
-@import './dnb-dialog.scss';
+@use '../../modal/style/deps.scss' as *;
+@use './dnb-dialog.scss';

@@ -22,7 +22,6 @@ import convertSvgToJsx from './tasks/convertSvgToJsx'
 import makeLibStyles from './tasks/makeLibStyles'
 import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
-import generateTypes from './tasks/generateTypes'
 
 export {
   log,
@@ -33,7 +32,6 @@ export {
   makeLibStyles,
   makeMainStyle,
   makePropertiesFile,
-  generateTypes,
 }
 
 export const runPrepublishTasks = async ({
@@ -55,6 +53,7 @@ export const runPrepublishTasks = async ({
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
+    // @ts-expect-error - strictFunctionTypes
     ErrorHandler(e)
   }
   return true

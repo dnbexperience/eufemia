@@ -9,8 +9,7 @@ html {
   display: none !important;
 }
 
-.dnb-live-editor,
-.dnb-live-toolbar {
+.dnb-live-editor {
   padding: 0 !important;
 }
 .dnb-app-content {
@@ -36,13 +35,24 @@ html {
 }
 
 [data-visual-test]:has(
-    .dnb-section[style*='--outset--medium: 1'],
-    .dnb-section[style*='--outset--large: 1']
-  ) {
+  .dnb-section[style*='--outset--medium: 1'],
+  .dnb-section[style*='--outset--large: 1']
+) {
   @media (min-width: 40em) {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
+}
+
+/**
+* On non-Layout pages (no .dev-grid), reset .example-box padding
+* and grid overlay so screenshots match the old behavior.
+*/
+html[data-visual-test]:not(:has(.dev-grid)) .example-box {
+  padding: 0 !important;
+}
+html[data-visual-test]:not(:has(.dev-grid)) .example-box::after {
+  display: none !important;
 }
 
 /**

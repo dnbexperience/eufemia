@@ -3,19 +3,18 @@
  *
  */
 
-import React, { useEffect, useRef, forwardRef } from 'react'
-import * as CSS from 'csstype'
-import classnames from 'classnames'
+import React, { useEffect, useRef } from 'react'
+import type * as CSS from 'csstype'
+import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { IS_EDGE } from '../../shared/helpers'
-import { ProgressIndicatorCircularAllProps } from './types'
+import type { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
   props: ProgressIndicatorCircularAllProps
 ) {
   const {
     size,
-    visible,
+    show,
     progress,
     onComplete,
     callOnCompleteHandler,
@@ -26,11 +25,11 @@ function ProgressIndicatorCircular(
     ...rest
   } = props
   const keepAnimatingRef = useRef(true)
-  const visibleRef = useRef(false)
-  const useAnimationFrame = typeof onComplete === 'function' || IS_EDGE
+  const showRef = useRef(false)
+  const useAnimationFrame = typeof onComplete === 'function'
   const _refDark = useRef<SVGSVGElement>(null)
   const _refLight = useRef<SVGSVGElement>(null)
-  const _startupTimeout = useRef<NodeJS.Timeout>()
+  const _startupTimeout = useRef<NodeJS.Timeout>(undefined)
 
   useEffect(() => {
     if (useAnimationFrame) {
@@ -53,8 +52,8 @@ function ProgressIndicatorCircular(
   }, [])
 
   useEffect(() => {
-    visibleRef.current = visible
-  }, [visible])
+    showRef.current = show
+  }, [show])
 
   const doAnimation = (
     element: SVGSVGElement,
@@ -80,7 +79,7 @@ function ProgressIndicatorCircular(
       ms = timestamp - start
 
       if (animate1) {
-        if (!visibleRef.current && prog < 20) {
+        if (!showRef.current && prog < 20) {
           prog = min
         }
         if (setProg) {
@@ -98,13 +97,13 @@ function ProgressIndicatorCircular(
           if (animateOnStart && typeof callback === 'function') {
             callback()
           }
-        } else if (visibleRef.current && ms % 1e3 > 950) {
+        } else if (showRef.current && ms % 1e3 > 950) {
           // startAnimationFirstTime() // will not start completely from scratch
           stopNextRound = false
         }
       } else {
         // make sure we stop next round
-        stopNextRound = !visibleRef.current && prog === min
+        stopNextRound = !showRef.current && prog === min
         animate1 = true
         completeCalled = false
       }
@@ -141,7 +140,7 @@ function ProgressIndicatorCircular(
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator__circular',
         size && `dnb-progress-indicator__circular--${size}`,
         progressIsControlled &&
@@ -158,12 +157,12 @@ function ProgressIndicatorCircular(
 
       {/* The first one is the background line */}
       <Circle
-        className={classnames('light', 'paused')}
+        className={clsx('light', 'paused')}
         customColor={customColors?.shaft}
         customWidth={customCircleWidth}
       />
       <Circle
-        className={classnames(
+        className={clsx(
           'dark',
           'dark',
           progressIsControlled || useAnimationFrame ? 'paused' : null
@@ -181,10 +180,7 @@ function ProgressIndicatorCircular(
       />
       {!progressIsControlled && (
         <Circle
-          className={classnames(
-            'light',
-            useAnimationFrame ? 'paused' : null
-          )}
+          className={clsx('light', useAnimationFrame ? 'paused' : null)}
           customColor={customColors?.shaft}
           customWidth={customCircleWidth}
           ref={_refLight}
@@ -194,25 +190,21 @@ function ProgressIndicatorCircular(
   )
 }
 
-const Circle = forwardRef(function Circle(
-  {
-    customColor,
-    customWidth,
-    className,
-    ...rest
-  }: React.HTMLProps<SVGSVGElement> & {
-    customColor?: CSS.Property.BackgroundColor
-    customWidth?: CSS.Property.StrokeWidth
-  },
-  ref: React.RefObject<SVGSVGElement>
-) {
+function Circle({
+  customColor,
+  customWidth,
+  className,
+  ref,
+  ...rest
+}: React.HTMLProps<SVGSVGElement> & {
+  customColor?: CSS.Property.BackgroundColor
+  customWidth?: CSS.Property.StrokeWidth
+  ref?: React.RefObject<SVGSVGElement>
+}) {
   const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (
     <svg
-      className={classnames(
-        'dnb-progress-indicator__circular__line',
-        className
-      )}
+      className={clsx('dnb-progress-indicator__circular__line', className)}
       shapeRendering="geometricPrecision"
       ref={ref}
       {...rest}
@@ -235,11 +227,11 @@ const Circle = forwardRef(function Circle(
       />
     </svg>
   )
-})
+}
 /**
  *
  * @param progress number between 0-100
- * @param counterClockwise decides direction of movement. Default is `false`
+ * @param counterClockwise decides direction of movement. Default: `false`
  * @returns
  */
 
@@ -261,5 +253,6 @@ function correctPercentageStrokeWidth(
     const number = parseFloat(strokeWidth.slice(0, strokeWidth.length - 1))
     return `${(100 * number) / (100 - number)}%`
   }
+  return undefined
 }
 export default ProgressIndicatorCircular

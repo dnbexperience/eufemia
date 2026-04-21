@@ -1,17 +1,18 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
-import FieldBoundaryContext, {
-  FieldBoundaryContextState,
-} from './FieldBoundaryContext'
+import type { FieldBoundaryContextState } from './FieldBoundaryContext'
+import FieldBoundaryContext from './FieldBoundaryContext'
 import DataContext from '../Context'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
-export type Props = {
+export type FieldBoundaryProviderProps = {
   showErrors?: boolean
   onPathError?: (path: Path, error: Error) => void
   children: React.ReactNode
 }
 
-export default function FieldBoundaryProvider(props: Props) {
+export default function FieldBoundaryProvider(
+  props: FieldBoundaryProviderProps
+) {
   const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { showAllErrors } = useContext(DataContext)
@@ -68,8 +69,6 @@ export default function FieldBoundaryProvider(props: Props) {
   }
 
   return (
-    <FieldBoundaryContext.Provider value={context}>
-      {children}
-    </FieldBoundaryContext.Provider>
+    <FieldBoundaryContext value={context}>{children}</FieldBoundaryContext>
   )
 }

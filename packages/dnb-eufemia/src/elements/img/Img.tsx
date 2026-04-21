@@ -6,13 +6,13 @@
 import React from 'react'
 import E from '../Element'
 import {
-  createSpacingClasses,
+  applySpacing,
   removeSpaceProps,
-} from '../../components/space/SpacingHelper'
-import { SpacingProps } from '../../components/space/types'
-import { SkeletonShow } from '../../components/skeleton/Skeleton'
-import classnames from 'classnames'
-import type { DynamicElement } from '../../shared/types'
+} from '../../components/space/SpacingUtils'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
+import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ImgProps = SpacingProps &
   React.HTMLProps<HTMLImageElement> & {
@@ -41,7 +41,7 @@ const Img = ({
     <E
       as={element}
       internalClass="dnb-img"
-      className={classnames(className, createSpacingClasses(p, p.is))}
+      {...applySpacing(p, { className }, p.is)}
       skeleton={skeleton}
       skeletonMethod="shape"
     >
@@ -49,7 +49,7 @@ const Img = ({
         as="img"
         loading={loading}
         alt={alt}
-        internalClass={classnames('dnb-img', hasError && 'dnb-img--error')}
+        internalClass={clsx('dnb-img', hasError && 'dnb-img--error')}
         className={imgClass}
         skeleton={skeleton}
         onError={() => setError(true)}
@@ -60,6 +60,6 @@ const Img = ({
   )
 }
 
-Img._supportsSpacingProps = true
+withComponentMarkers(Img, { _supportsSpacingProps: true })
 
 export default Img

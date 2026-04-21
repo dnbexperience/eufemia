@@ -1,14 +1,15 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation, useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCurrency from './useCurrency'
 import type { CurrencyISO } from '../../constants/currencies'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<CurrencyISO>
+export type ValueSelectCurrencyProps = ValueProps<CurrencyISO>
 
-function SelectCurrency(props: Props) {
+function SelectCurrency(props: ValueSelectCurrencyProps) {
   const translations = useTranslation().SelectCurrency
   const {
     value,
@@ -22,7 +23,7 @@ function SelectCurrency(props: Props) {
   return (
     <ValueBlock
       label={label}
-      className={classnames('dnb-forms-value-select-currency', className)}
+      className={clsx('dnb-forms-value-select-currency', className)}
       {...rest}
     >
       {getCurrencyDisplayNameByIso(value) ?? value}
@@ -31,5 +32,8 @@ function SelectCurrency(props: Props) {
 }
 
 SelectCurrency.useCurrency = useCurrency
-SelectCurrency._supportsSpacingProps = true
+withComponentMarkers(SelectCurrency, {
+  _supportsSpacingProps: true,
+})
+
 export default SelectCurrency

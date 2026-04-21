@@ -4,9 +4,10 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
+import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'gatsby'
 import Anchor from '../tags/Anchor'
 import {
@@ -51,15 +52,21 @@ export const SearchBarInput = () => {
     showIndicator()
   }
 
-  const onChangeHandler = ({ data, emptyData, setHidden, event }) => {
+  const onChangeHandler = ({
+    data,
+    emptyData,
+    setHidden,
+    event,
+  }: AutocompleteOnChangeParams) => {
     try {
-      if (!data?.hit?.slug) {
-        return
+      const hit = typeof data === 'object' && 'hit' in data && data.hit
+      if (!hit?.slug) {
+        return // stop here
       }
 
       handleSearchResultNavigation({
-        event,
-        slug: data.hit.slug,
+        event: event as unknown as SearchResultNavigationArgs['event'],
+        slug: hit.slug,
         setHidden,
         emptyData,
       })
@@ -81,26 +88,26 @@ export const SearchBarInput = () => {
   return (
     <Autocomplete
       id="portal-search"
-      className={classnames(autocompleteStyle, 'portal-search')}
+      className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
-      show_clear_button
-      no_scroll_animation
-      prevent_selection
-      disable_filter
-      fixed_position
+      showClearButton
+      noScrollAnimation
+      preventSelection
+      disableFilter
+      fixedPosition
       size="medium"
-      align_autocomplete="right"
+      align="right"
       placeholder="Search ..."
       label="Search the Eufemia documentation"
-      label_sr_only
+      labelSrOnly
       status={status}
-      portal_class={portalClassStyle}
-      drawer_class={drawerClassStyle}
-      on_type={onTypeHandler}
-      on_change={onChangeHandler}
-      on_focus={onFocusHandler}
-      page_offset={0} // drawer-list property
-      options_render={({ Items, data }) => {
+      portalClass={portalClassStyle}
+      drawerClass={drawerClassStyle}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
+      pageOffset={0} // drawer-list property
+      optionsRender={({ Items, data }) => {
         return (
           <>
             <Items />

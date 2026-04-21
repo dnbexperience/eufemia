@@ -1,13 +1,15 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
-import Button, { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
+import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps
+export type IsolationCommitButtonProps = ButtonProps
 
-function IsolationCommitButton(props: Props) {
+function IsolationCommitButton(props: IsolationCommitButtonProps) {
   const translations = useTranslation().Isolation
 
   const { className, children, text, ...rest } = props
@@ -27,9 +29,9 @@ function IsolationCommitButton(props: Props) {
   return (
     <Button
       variant="secondary"
-      className={classnames('dnb-forms-isolate__commit-button', className)}
+      className={clsx('dnb-forms-isolate__commit-button', className)}
       icon={check}
-      icon_position="left"
+      iconPosition="left"
       onClick={onClickHandler}
       {...rest}
     >
@@ -38,5 +40,8 @@ function IsolationCommitButton(props: Props) {
   )
 }
 
-IsolationCommitButton._supportsSpacingProps = true
+withComponentMarkers(IsolationCommitButton, {
+  _supportsSpacingProps: true,
+})
+
 export default IsolationCommitButton

@@ -4,12 +4,12 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { TooltipAllProps } from './types'
 
 export function injectTooltipSemantic(params) {
   params.tabIndex = '0'
-  params.className = classnames(
+  params.className = clsx(
     'dnb-tooltip__wrapper',
     'dnb-tab-focus',
     params.className
@@ -17,11 +17,11 @@ export function injectTooltipSemantic(params) {
   return params
 }
 
-export const defaultProps = {
+export const defaultProps: Partial<TooltipAllProps> = {
   id: null,
-  size: 'basis',
-  active: null,
-  position: 'top',
+  size: 'default',
+  open: null,
+  placement: 'top',
   arrow: 'center',
   align: null,
   fixedPosition: false,
@@ -43,6 +43,7 @@ export function getTargetElement(target: HTMLElement | string | null) {
       ? typeof document !== 'undefined' && document.querySelector(target)
       : target
   }
+  return undefined
 }
 
 export function getPropsFromTooltipProp(localProps: {

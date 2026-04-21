@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 :root {
   --button-icon-size: 1rem;
@@ -11,6 +11,20 @@
 }
 
 .dnb-button {
+  // Base variables
+  --button-color-text: var(--button-color-text--default);
+  --button-color-icon: var(--button-color-icon--default);
+  --button-color-bg: var(--button-color-bg--default);
+  --button-color-border: var(--button-color-border--default);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
+
+  // Template modifiers
+  --button-border-inset--default: inset;
+  --button-border-inset--hover: ; // Need empty value to override default `inset`
+  --button-border-inset--focus: ; // Need empty value to override default `inset`
+
+  // Old variables
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-icon-size--small: 0.75rem;
@@ -24,8 +38,10 @@
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: var(--button-border-width--default);
+  --button-border-width--default: 0.0625rem;
+  --button-border-width--hover: 0.125rem;
+  --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
@@ -49,6 +65,563 @@
     white-space: normal;
   }
 
+  &__icon {
+    margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
+      var(--button-icon-margin-left);
+  }
+
+  &--primary,
+  &--secondary,
+  &--tertiary {
+    // Template base
+    color: var(--button-color-text, var(--button-color-text--default));
+    background-color: var(
+      --button-color-bg,
+      var(--button-color-bg--default)
+    );
+
+    .dnb-button__icon {
+      color: var(--button-color-icon, var(--button-color-icon--default));
+    }
+
+    // Template modifiers
+    @include utilities.hover() {
+      --button-color-bg: var(--button-color-bg--hover);
+      --button-color-border: var(--button-color-border--hover);
+      --button-color-icon: var(--button-color-icon--hover);
+      --button-color-text: var(--button-color-text--hover);
+      --button-color-underline: var(--button-color-underline--hover);
+      --button-border-inset: var(--button-border-inset--hover);
+      --button-border-width: var(--button-border-width--hover);
+      --button-input-separator-color: var(
+        --button-input-separator-color--hover
+      );
+    }
+
+    @include utilities.active() {
+      --button-color-bg: var(--button-color-bg--active);
+      --button-color-border: var(--button-color-border--active);
+      --button-color-icon: var(--button-color-icon--active);
+      --button-color-text: var(--button-color-text--active);
+      --button-color-underline: var(--button-color-underline--active);
+      --button-border-inset: var(--button-border-inset--active);
+      --button-border-width: var(--button-border-width--active);
+      --button-input-separator-color: var(
+        --button-input-separator-color--active
+      );
+    }
+
+    @include utilities.focusVisible() {
+      --button-color-bg: var(--token-color-background-action-focus-subtle);
+      --button-color-border: var(--token-color-stroke-action-focus);
+      --button-color-icon: var(--token-color-icon-action-focus);
+      --button-color-text: var(--token-color-text-action-focus);
+      --button-color-underline: var(--button-color-underline--focus);
+      --button-border-inset: var(--button-border-inset--focus);
+      --button-border-width: var(--button-border-width--focus);
+      --button-input-separator-color: var(
+        --button-input-separator-color--focus
+      );
+
+      outline: none;
+    }
+
+    &[disabled] {
+      --button-color-bg: var(--button-color-bg--disabled);
+      --button-color-border: var(--button-color-border--disabled);
+      --button-color-icon: var(--button-color-icon--disabled);
+      --button-color-text: var(--button-color-text--disabled);
+      --button-input-separator-color: var(
+        --button-input-separator-color--disabled
+      );
+    }
+  }
+
+  &--primary,
+  &--secondary,
+  &--tertiary::before {
+    // Template base
+    @include utilities.fakeBorder(
+      var(--button-color-border, var(--button-color-border--default)),
+      var(--button-border-width, var(--button-border-width--default)),
+      var(--button-border-inset, var(--button-border-inset--default))
+    );
+  }
+
+  // Primary button
+  &--primary {
+    // Background
+    --button-color-bg--default: var(
+      --token-color-component-button-background-action
+    );
+    --button-color-bg--hover: var(
+      --token-color-component-button-background-action-hover
+    );
+    --button-color-bg--active: var(
+      --token-color-background-action-pressed
+    );
+    --button-color-bg--disabled: var(
+      --token-color-background-action-disabled
+    );
+
+    // Border
+    --button-color-border--hover: var(
+      --token-color-component-button-stroke-action-hover
+    );
+
+    // Icon
+    --button-color-icon--default: var(
+      --token-color-component-button-icon-neutral
+    );
+    --button-color-icon--disabled: var(
+      --token-color-component-button-icon-action-disabled
+    );
+
+    // Text
+    --button-color-text--default: var(
+      --token-color-component-button-text-neutral
+    );
+    --button-color-text--disabled: var(
+      --token-color-component-button-text-action-disabled
+    );
+
+    &.dnb-button--surface-dark {
+      // Background
+      --button-color-bg--default: var(
+        --token-color-background-action-ondark
+      );
+      --button-color-bg--hover: var(
+        --token-color-background-action-hover-ondark
+      );
+      --button-color-bg--active: var(
+        --token-color-background-action-pressed-ondark
+      );
+      --button-color-bg--disabled: var(
+        --token-color-background-action-disabled-ondark
+      );
+
+      // Border
+      --button-color-border--hover: var(
+        --token-color-stroke-action-hover-ondark
+      );
+
+      // Icon
+      --button-color-icon--default: var(
+        --token-color-component-button-icon-neutral-ondark
+      );
+      --button-color-icon--disabled: var(
+        --token-color-icon-action-disabled-ondark
+      );
+
+      // Text
+      --button-color-text--default: var(
+        --token-color-component-button-text-neutral-ondark
+      );
+      --button-color-text--disabled: var(
+        --token-color-text-action-disabled-ondark
+      );
+    }
+    &.dnb-button__status--error {
+      // Background
+      --button-color-bg--default: var(
+        --token-color-component-button-background-action-destructive
+      );
+      --button-color-bg--hover: var(
+        --token-color-component-button-background-action-destructive-hover
+      );
+      --button-color-bg--active: var(
+        --token-color-component-button-background-action-destructive-pressed
+      );
+
+      // Border
+      --button-color-border--hover: var(
+        --token-color-component-button-stroke-action-destructive-hover
+      );
+
+      // Icon
+      --button-color-icon--default: var(
+        --token-color-component-button-icon-neutral-destructive
+      );
+
+      // Text
+      --button-color-text--default: var(
+        --token-color-component-button-text-neutral-destructive
+      );
+    }
+  }
+
+  // Secondary button
+  &--secondary {
+    // Background
+    --button-color-bg--default: var(--token-color-background-neutral);
+    --button-color-bg--hover: var(
+      --token-color-background-action-hover-subtle
+    );
+    --button-color-bg--active: var(
+      --token-color-background-action-pressed-subtle
+    );
+    --button-color-bg--disabled: var(--token-color-background-neutral);
+
+    // Border
+    --button-color-border--default: var(
+      --token-color-component-button-stroke-action
+    );
+    --button-color-border--hover: var(
+      --token-color-component-button-stroke-action-hover
+    );
+    --button-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+    --button-color-border--disabled: var(
+      --token-color-stroke-action-disabled
+    );
+
+    // Icon
+    --button-color-icon--default: var(
+      --token-color-component-button-icon-action
+    );
+    --button-color-icon--hover: var(
+      --token-color-component-button-icon-action-hover
+    );
+    --button-color-icon--active: var(--token-color-icon-action-pressed);
+    --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+
+    // Text
+    --button-color-text--default: var(
+      --token-color-component-button-text-action
+    );
+    --button-color-text--hover: var(
+      --token-color-component-button-text-action-hover
+    );
+    --button-color-text--active: var(--token-color-text-action-pressed);
+    --button-color-text--disabled: var(--token-color-text-action-disabled);
+
+    &.dnb-button--icon-only {
+      // Border
+      --button-color-border--default: var(--token-color-stroke-action);
+      --button-color-border--hover: var(--token-color-stroke-action-hover);
+      --button-color-border--active: transparent;
+
+      // Icon
+      --button-color-icon--default: var(--token-color-icon-action);
+      --button-color-icon--hover: var(--token-color-icon-action-hover);
+    }
+
+    &.dnb-button--surface-dark {
+      // Background
+      --button-color-bg--default: transparent; // TODO: might have some a11y issues, will discuss with UX
+      --button-color-bg--hover: var(
+        --token-color-background-action-hover-subtle-ondark
+      );
+      --button-color-bg--active: var(
+        --token-color-background-action-pressed-subtle-ondark
+      );
+      --button-color-bg--disabled: transparent; // TODO: might have some a11y issues, will discuss with UX
+
+      // Border
+      --button-color-border--default: var(
+        --token-color-stroke-action-ondark
+      );
+      --button-color-border--hover: var(
+        --token-color-stroke-action-hover-ondark
+      );
+      --button-color-border--active: var(
+        --token-color-stroke-action-pressed-ondark
+      );
+      --button-color-border--disabled: var(
+        --token-color-stroke-action-disabled-ondark
+      );
+
+      // Icon
+      --button-color-icon--default: var(--token-color-icon-action-ondark);
+      --button-color-icon--hover: var(
+        --token-color-icon-action-hover-ondark
+      );
+      --button-color-icon--active: var(
+        --token-color-icon-action-pressed-ondark
+      );
+      --button-color-icon--disabled: var(
+        --token-color-icon-action-disabled-ondark
+      );
+
+      // Text
+      --button-color-text--default: var(--token-color-text-action-ondark);
+      --button-color-text--hover: var(
+        --token-color-text-action-hover-ondark
+      );
+      --button-color-text--active: var(
+        --token-color-text-action-pressed-ondark
+      );
+      --button-color-text--disabled: var(
+        --token-color-text-action-disabled-ondark
+      );
+    }
+
+    &.dnb-button__status--error {
+      // Background
+      --button-color-bg--default: var(--token-color-background-neutral);
+      --button-color-bg--hover: var(
+        --token-color-component-button-background-action-destructive-hover-subtle
+      );
+      --button-color-bg--active: var(
+        --token-color-component-button-background-action-destructive-pressed-subtle
+      );
+
+      // Border
+      --button-color-border--default: var(
+        --token-color-component-button-stroke-action-destructive
+      );
+      --button-color-border--hover: var(
+        --token-color-component-button-stroke-action-destructive-hover
+      );
+      --button-color-border--active: var(
+        --token-color-component-button-stroke-action-destructive-pressed
+      );
+
+      // Icon
+      --button-color-icon--default: var(
+        --token-color-component-button-icon-action-destructive
+      );
+      --button-color-icon--hover: var(
+        --token-color-component-button-icon-action-destructive-hover
+      );
+      --button-color-icon--active: var(
+        --token-color-component-button-icon-action-destructive-pressed
+      );
+
+      // Text
+      --button-color-text--default: var(
+        --token-color-component-button-text-action-destructive
+      );
+      --button-color-text--hover: var(
+        --token-color-component-button-text-action-destructive-hover
+      );
+      --button-color-text--active: var(
+        --token-color-component-button-text-action-destructive-pressed
+      );
+    }
+  }
+
+  // Tertiary button
+  &--tertiary {
+    > * {
+      z-index: 2;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1; // to be visible in other absolute contexts
+      top: 0;
+      left: var(--button-tertiary-focus-left);
+      bottom: 0;
+      right: var(--button-tertiary-focus-right);
+
+      background-color: inherit;
+      height: inherit;
+      border-radius: inherit;
+
+      .dnb-skeleton & {
+        content: none;
+      }
+    }
+
+    // Icon
+    --button-color-icon--default: var(--token-color-icon-action);
+    --button-color-icon--hover: var(--token-color-icon-action-hover);
+    --button-color-icon--active: var(--token-color-icon-action-pressed);
+    --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+
+    // Text
+    --button-color-text--default: var(--token-color-text-action);
+    --button-color-text--hover: var(--token-color-text-action-hover);
+    --button-color-text--active: var(--token-color-text-action-pressed);
+    --button-color-text--disabled: var(--token-color-text-action-disabled);
+
+    // Underline
+    --button-color-underline--default: transparent;
+    --button-color-underline--hover: var(
+      --token-color-background-action-hover
+    );
+
+    &.dnb-button--icon-only {
+      // Background
+      --button-color-bg--hover: var(
+        --token-color-background-action-hover-subtle
+      );
+      --button-color-bg--active: var(
+        --token-color-background-action-pressed-subtle
+      );
+    }
+
+    &.dnb-button--surface-dark {
+      // Icon
+      --button-color-icon--default: var(--token-color-icon-action-ondark);
+      --button-color-icon--hover: var(
+        --token-color-icon-action-hover-ondark
+      );
+      --button-color-icon--active: var(
+        --token-color-icon-action-pressed-ondark
+      );
+      --button-color-icon--disabled: var(
+        --token-color-icon-action-disabled-ondark
+      );
+
+      // Text
+      --button-color-text--default: var(--token-color-text-action-ondark);
+      --button-color-text--hover: var(
+        --token-color-text-action-hover-ondark
+      );
+      --button-color-text--active: var(
+        --token-color-text-action-pressed-ondark
+      );
+      --button-color-text--disabled: var(
+        --token-color-text-action-disabled-ondark
+      );
+
+      // Underline
+      --button-color-underline--hover: var(
+        --token-color-icon-action-hover-ondark
+      );
+    }
+
+    &.dnb-button__status--error {
+      // Icon
+      --button-color-icon--default: var(
+        --token-color-component-button-icon-action-destructive
+      );
+      --button-color-icon--hover: var(
+        --token-color-component-button-icon-action-destructive-hover
+      );
+      --button-color-icon--active: var(
+        --token-color-component-button-icon-action-destructive-pressed
+      );
+
+      // Text
+      --button-color-text--default: var(
+        --token-color-component-button-text-action-destructive
+      );
+      --button-color-text--hover: var(
+        --token-color-component-button-text-action-destructive-hover
+      );
+      --button-color-text--active: var(
+        --token-color-component-button-text-action-destructive-pressed
+      );
+
+      // Underline
+      --button-color-underline--hover: var(
+        --token-color-component-button-background-action-destructive-hover
+      );
+    }
+  }
+
+  &--icon-only {
+    &.dnb-button--selected {
+      --button-color-bg--default: var(
+        --token-color-background-selected-subtle
+      );
+      --button-color-border--default: var(--token-color-stroke-selected);
+      --button-color-icon--default: var(--token-color-icon-selected);
+      --button-border-width--default: 0.125rem;
+      --button-border-inset--default: ; // Need empty value to override default `inset`
+    }
+
+    // Input-button
+    &.dnb-button--input-button {
+      // Background
+      --button-color-bg--default: transparent;
+      --button-color-bg--hover: var(--token-color-background-action);
+      --button-color-bg--active: var(
+        --token-color-background-action-pressed
+      );
+      --button-color-bg--disabled: var(
+        --token-color-background-neutral-subtle
+      );
+
+      // Border
+      --button-color-border--default: transparent;
+      --button-color-border--hover: transparent;
+      --button-color-border--active: transparent;
+      --button-border-inset--focus: inset;
+
+      // Icon
+      --button-color-icon--hover: var(
+        --token-color-component-button-icon-neutral
+      );
+      --button-color-icon--active: var(
+        --token-color-component-button-icon-neutral
+      );
+      --button-color-icon--disabled: var(
+        --token-color-icon-action-disabled
+      );
+
+      // Text
+      --button-color-text--hover: var(
+        --token-color-component-button-text-neutral
+      );
+      --button-color-text--active: var(
+        --token-color-component-button-text-neutral
+      );
+      --button-color-text--disabled: var(
+        --token-color-component-button-text-action-disabled
+      );
+
+      &.dnb-button__status--error {
+        // Background
+        --button-color-bg--hover: var(--token-color-background-error);
+        --button-color-bg--active: var(
+          --token-color-component-button-background-action-destructive-pressed
+        );
+
+        // Icon
+        --button-color-icon--hover: var(
+          --token-color-component-button-icon-neutral-destructive
+        );
+        --button-color-icon--active: var(
+          --token-color-component-button-icon-neutral-destructive
+        );
+
+        // Text
+        --button-color-text--hover: var(
+          --token-color-component-button-text-neutral-destructive
+        );
+        --button-color-text--active: var(
+          --token-color-component-button-text-neutral-destructive
+        );
+      }
+
+      --button-input-separator-color--default: var(--button-color-text);
+      --button-input-separator-color--hover: var(--button-color-bg);
+      --button-input-separator-color--active: var(--button-color-bg);
+      --button-input-separator-color--focus: var(--button-color-border);
+      --button-input-separator-color--disabled: var(
+        --token-color-background-action-disabled
+      );
+
+      &::after {
+        content: '';
+        position: absolute;
+
+        top: 0;
+        bottom: 0;
+        left: 0;
+
+        width: var(--input-border-width);
+        background-color: var(
+          --button-input-separator-color,
+          var(--button-input-separator-color--default)
+        );
+      }
+
+      @include utilities.active() {
+        &::after {
+          top: var(--input-border-width);
+          bottom: var(--input-border-width);
+        }
+      }
+    }
+  }
+
   // we use flex, even if they don't has effect in safari and webkit
   display: inline-flex;
   align-items: center; // centering icons
@@ -65,8 +638,6 @@
   font-size: var(--font-size-small); // reset
   font-weight: var(--font-weight-regular); // reset
   text-decoration: none;
-
-  box-shadow: none;
 
   // Safari needs a correct CSS specificity
   &,
@@ -158,10 +729,6 @@
     --button-padding-right: var(--button-padding--default);
     width: auto;
   }
-  &__icon {
-    margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
-      var(--button-icon-margin-left);
-  }
   &--has-text#{&}--icon-position-left {
     --button-padding-left: var(--button-padding-icon);
     --button-icon-margin-right: var(--button-icon-gutter);
@@ -229,42 +796,6 @@
       var(--button-border-radius--control-button) 0;
   }
 
-  &--reset {
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    overflow: visible;
-
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
-
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    line-height: inherit;
-
-    @include hover() {
-      box-shadow: none;
-      border: none;
-    }
-
-    &:not([disabled]):focus,
-    &:not([disabled]):active {
-      @include focusRing();
-    }
-
-    html[data-whatinput='mouse'] &:not([disabled]):focus,
-    html[data-whatinput='mouse'] &:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none;
-    }
-  }
-
   // because we have "appearance: button" in some css resets (not our)
   &[type='button'],
   &[type='reset'],
@@ -281,13 +812,6 @@
   &[disabled] {
     cursor: not-allowed;
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
-  }
-
-  .dnb-form-row--vertical .dnb-form-row__content > & {
-    align-self: flex-start;
-  }
-  .dnb-form-row--horizontal .dnb-form-row__content &__text {
-    white-space: nowrap;
   }
 
   & + .dnb-form-status {

@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
-import Button, { ButtonProps } from '../button/Button'
+import clsx from 'clsx'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface SkipContentProps {
+export type SkipContentProps = {
   /**
    * Define an existing `Section` id to focus when the inner button got pressed.
    * Required
@@ -26,9 +28,9 @@ export interface SkipContentProps {
 
 export type SkipContentAllProps = SkipContentProps & ButtonProps
 
-interface FocusEvent<T = Element> extends React.SyntheticEvent<T> {
+type FocusEvent<T = Element> = {
   target: EventTarget & T
-}
+} & React.SyntheticEvent<T>
 
 const SkipContent = (localProps: SkipContentAllProps) => {
   const {
@@ -49,10 +51,10 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
   const [visible, setVisible] = React.useState(false)
   const [keepReturnActive, setKeepReturnActive] = React.useState(false)
-  const ref = React.useRef<HTMLElement>()
-  const timeout = React.useRef<NodeJS.Timeout>()
+  const ref = React.useRef<HTMLElement>(undefined)
+  const timeout = React.useRef<NodeJS.Timeout>(undefined)
 
-  const classes = classnames(
+  const classes = clsx(
     'dnb-skip-content',
     visible && 'dnb-skip-content--visible',
     keepReturnActive && 'dnb-skip-content__return--active',
@@ -153,7 +155,7 @@ export type SkipContentReturnProps = SkipContentAllProps
 const SkipContentReturn = (localProps: SkipContentReturnProps) => {
   const { selector, className, ...props } = localProps
 
-  const classes = classnames('dnb-skip-content__return', className)
+  const classes = clsx('dnb-skip-content__return', className)
 
   return (
     <SkipContent
@@ -166,6 +168,8 @@ const SkipContentReturn = (localProps: SkipContentReturnProps) => {
 
 SkipContent.Return = SkipContentReturn
 
-SkipContent._supportsSpacingProps = true
+withComponentMarkers(SkipContent, {
+  _supportsSpacingProps: true,
+})
 
 export default SkipContent

@@ -1,6 +1,7 @@
 import React, { isValidElement, useMemo } from 'react'
 import { useItem } from '../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 function ItemNo({ children }) {
   const { index } = useItem()
@@ -13,49 +14,50 @@ function ItemNo({ children }) {
   return <>{processedChildren}</>
 }
 
-// Define regex at module level to avoid recreating on every call
-const TOKEN_REGEX = /\{itemN(r|o)\}/g // supports {itemNr} (deprecated) and {itemNo}
-
 export function replaceItemNo(
-  children: React.ReactNode,
+  node: React.ReactNode,
   index: number
 ): React.ReactNode {
-  const replaceIn = (node: React.ReactNode): React.ReactNode => {
-    if (node == null || node === false) return node
-
-    if (typeof node === 'string') {
-      // Fast path for strings
-      return TOKEN_REGEX.test(node)
-        ? node.replace(TOKEN_REGEX, String(index + 1))
-        : node
-    }
-
-    if (Array.isArray(node)) {
-      return node.map((n, i) => (
-        <React.Fragment key={i}>{replaceIn(n)}</React.Fragment>
-      ))
-    }
-
-    if (isValidElement(node)) {
-      // Recursively process children while preserving element and props
-      const { children: childProps, ...rest } = (node as any).props || {}
-      const nextChildren = replaceIn(childProps)
-      // Only clone if children changed (optional optimization)
-      return nextChildren === childProps
-        ? node
-        : React.cloneElement(node as any, rest, nextChildren)
-    }
-
-    // Fallback: try to convert to string if possible
-    const text = convertJsxToString(node)
-    if (text && text.includes('{itemN')) {
-      return text.replace(TOKEN_REGEX, String(index + 1))
-    }
+  if (node == null || node === false) {
     return node
   }
 
-  return replaceIn(children)
+  if (typeof node === 'string' && node.includes('{itemNo}')) {
+    // Fast path for strings
+    return node.replace('{itemNo}', String(index + 1))
+  }
+
+  if (Array.isArray(node)) {
+    return node.map((n, i) => (
+      <React.Fragment key={i}>{replaceItemNo(n, index)}</React.Fragment>
+    ))
+  }
+
+  if (isValidElement<{ children?: React.ReactNode }>(node)) {
+    // Recursively process children while preserving element and props
+    const { children: childProps, ...rest } = node.props || {}
+    const nextChildren = replaceItemNo(childProps, index)
+    // Only clone if children changed (optional optimization)
+    return nextChildren === childProps
+      ? node
+      : React.createElement(
+          node.type as React.ComponentType<any>,
+          rest,
+          nextChildren
+        )
+  }
+
+  // Fallback: try to convert to string if possible
+  const text = convertJsxToString(node)
+  if (text && text.includes('{itemNo}')) {
+    return replaceItemNo(text, index)
+  }
+
+  return node
 }
 
-ItemNo._supportsSpacingProps = false
+withComponentMarkers(ItemNo, {
+  _supportsSpacingProps: false,
+})
+
 export default ItemNo

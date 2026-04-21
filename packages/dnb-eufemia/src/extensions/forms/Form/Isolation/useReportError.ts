@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import useId from '../../../../shared/helpers/useId'
-import { ContextState } from '../../DataContext'
+import type { ContextState } from '../../DataContext'
 import DataContext from '../../DataContext/Context'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
@@ -31,7 +31,7 @@ export default function useReportError(
   const id = useId()
   useEffect(() => {
     if (prerenderFieldProps) {
-      return // stop here
+      return undefined // stop here
     }
 
     const path = joinPath(['internal', name, id])

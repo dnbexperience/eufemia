@@ -1,33 +1,35 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React from 'react'
-import classnames from 'classnames'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import type { SpacingProps } from '../space/types'
-import ContentWrapper from './TabsContentWrapper'
+import clsx from 'clsx'
+import { applySpacing } from '../space/SpacingUtils'
+import type { SpacingProps } from '../../shared/types'
+import ContentWrapper, {
+  type TabsContentWrapperProps,
+} from './TabsContentWrapper'
 
-export type CustomContentTitle =
+export type TabsCustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 
-export type CustomContentChildren =
+export type TabsCustomContentChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | ((...args: any[]) => React.ReactNode)
 
-export interface CustomContentProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,
-    SpacingProps {
+export type TabsCustomContentProps = {
   displayName?: string
-  title?: CustomContentTitle
+  title?: TabsCustomContentTitle
   hash?: string
   selected?: boolean
   disabled?: boolean
   id?: string
   key?: string | number
-  children?: CustomContentChildren
+  children?: TabsCustomContentChildren
   className?: string
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+> &
+  SpacingProps
 
 // This component is only a dummy component to collect data
 /**
@@ -37,41 +39,40 @@ export interface CustomContentProps
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-export default class CustomContent extends React.PureComponent<CustomContentProps> {
-  static defaultProps = {
-    displayName: 'CustomContent',
-    title: null,
-    hash: null,
-    selected: null,
-    disabled: null,
-    children: null,
-    className: null,
-  }
-  render() {
-    const {
-      displayName, // eslint-disable-line
-      title, // eslint-disable-line
-      hash, // eslint-disable-line
-      selected, // eslint-disable-line
-      disabled, // eslint-disable-line
-      className,
-      ...rest
-    } = this.props
+function CustomContent(props: TabsCustomContentProps) {
+  const {
+    displayName: _displayName = 'CustomContent',
+    title: _title = null,
+    hash: _hash = null,
+    selected: _selected = null,
+    disabled: _disabled = null,
+    className = null,
+    children = null,
+    id,
+    ...rest
+  } = props
 
-    if (this.props.id) {
-      return <ContentWrapper {...rest} />
-    }
-
+  if (id) {
+    const contentWrapperProps = rest as unknown as Omit<
+      TabsContentWrapperProps,
+      'id'
+    >
     return (
-      <div
-        className={classnames(
-          'dnb-tabs__content__inner',
-          createSpacingClasses(rest),
-          className
-        )}
-      >
-        {this.props.children}
-      </div>
+      <ContentWrapper {...contentWrapperProps} id={id}>
+        {children as React.ReactNode}
+      </ContentWrapper>
     )
   }
+
+  return (
+    <div
+      {...applySpacing(rest, {
+        className: clsx('dnb-tabs__content__inner', className),
+      })}
+    >
+      {children as React.ReactNode}
+    </div>
+  )
 }
+
+export default CustomContent

@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   convertJsxToString,
   makeUniqueId,
@@ -11,47 +11,30 @@ import {
   Autocomplete,
   HelpButton,
 } from '../../../../components'
-import OptionField, { Props as OptionFieldProps } from '../Option'
+import type { FieldOptionProps as OptionFieldProps } from '../Option'
+import OptionField from '../Option'
 import { useFieldProps } from '../../hooks'
-import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
+import type { ReturnAdditional } from '../../hooks/useFieldProps'
+import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
-import { FieldProps, Path } from '../../types'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
+import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
-import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
-import {
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type {
   DrawerListDataArrayObjectStrict,
   DrawerListProps,
 } from '../../../../fragments/DrawerList'
-import {
-  AssertNoMissing,
-  convertCamelCasePropsToSnakeCase,
-  KeysWithUnderscore,
-  ToCamelCase,
-} from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
-import { FormError } from '../../utils'
+import type { FormError } from '../../utils'
 import type { RadioProps } from '../../../../components/Radio'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
-import {
-  DrawerListProperties,
-  DrawerListEvents,
-} from '../../../../fragments/drawer-list/DrawerListDocs'
-import {
-  AutocompleteEvents,
-  AutocompleteProperties,
-} from '../../../../components/autocomplete/AutocompleteDocs'
-import {
-  DropdownProperties,
-  DropdownEvents,
-} from '../../../../components/dropdown/DropdownDocs'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type IOption = {
   title: string | React.ReactNode
@@ -71,25 +54,28 @@ export type Data = Array<
 
 type RenderSelectionChildren = (params: {
   value: IOption['value']
-  options: Props['data']
+  options: FieldSelectionProps['data']
 }) => React.ReactNode
 
-export type Props = FieldProps<IOption['value']> & {
+type DrawerListChangeParams = {
+  data?: DrawerListDataArrayObjectStrict | string | null
+  value?: IOption['value']
+}
+
+type DrawerListVisibilityParams = {
+  data?: DrawerListDataArrayObjectStrict | string | null
+}
+
+export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
-   * Default: dropdown
+   * Default: `dropdown`
    */
-  variant?:
-    | 'dropdown'
-    | 'autocomplete'
-    | 'radio'
-    // @deprecated `radio-list` is deprecated. Use the List component instead.
-    | 'radio-list'
-    | 'button'
+  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
 
   /**
    * The width of the component.
-   * Default: large
+   * Default: `large`
    */
   width?: FieldBlockWidth
 
@@ -123,12 +109,12 @@ export type Props = FieldProps<IOption['value']> & {
   /**
    * Autocomplete specific props
    */
-  autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+  autocompleteProps?: AutocompleteAllProps
 
   /**
    * Dropdown specific props
    */
-  dropdownProps?: ToCamelCase<DropdownAllProps>
+  dropdownProps?: DropdownAllProps
 
   /**
    * The size of the component.
@@ -145,143 +131,7 @@ export type Props = FieldProps<IOption['value']> & {
   children?: React.ReactNode | RenderSelectionChildren
 }
 
-const validDrawerListProps = [
-  // DrawerList Properties
-  'default_value',
-  'triangle_position',
-  'label_direction',
-  'prevent_selection',
-  'prevent_close',
-  'keep_open',
-  'independent_width',
-  'fixed_position',
-  'enable_body_lock',
-  'skip_keysearch',
-  'ignore_events',
-  'align_drawer',
-  'list_class',
-  'portal_class',
-  'no_scroll_animation',
-  'no_animation',
-  'skip_portal',
-  'min_height',
-  'max_height',
-  'page_offset',
-  'observer_element',
-  'cache_hash',
-  'wrapper_element',
-  'options_render',
-
-  // DrawerList Events
-  'on_pre_change',
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<typeof DrawerListProperties & typeof DrawerListEvents>
->
-
-const validAutocompleteProps = [
-  // Autocomplete Properties
-  'align_autocomplete',
-  'aria_live_options',
-  'disable_filter',
-  'disable_highlighting',
-  'disable_reorder',
-  'drawer_class',
-  'icon_position',
-  'icon_size',
-  'indicator_label',
-  'input_element',
-  'input_icon',
-  'input_ref',
-  'input_value',
-  'keep_selection',
-  'keep_value',
-  'keep_value_and_selection',
-  'label_direction',
-  'label_sr_only',
-  'no_options',
-  'open_on_focus',
-  'prevent_selection',
-  'search_in_word_index',
-  'search_numbers',
-  'selected_sr',
-  'show_all',
-  'show_clear_button',
-  'show_options_sr',
-  'show_submit_button',
-  'skip_portal',
-  'status_props',
-  'status_state',
-  'submit_button_icon',
-  'submit_button_title',
-  'submit_element',
-  'triangle_position',
-
-  // Autocomplete Events
-  'on_type',
-  'on_focus',
-  'on_blur',
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<
-    typeof AutocompleteProperties & typeof AutocompleteEvents
-  >
->
-export const listOfValidAutocompleteProps = [
-  ...(validAutocompleteProps satisfies AssertNoMissing<
-    typeof validAutocompleteProps,
-    typeof AutocompleteProperties & typeof AutocompleteEvents
-  >),
-  ...(validDrawerListProps satisfies AssertNoMissing<
-    typeof validDrawerListProps,
-    typeof DrawerListProperties & typeof DrawerListEvents
-  >),
-]
-
-const validDropdownProps = [
-  // From DropdownProperties
-  'icon_size',
-  'icon_position',
-  'triangle_position',
-  'open_on_focus',
-  'prevent_selection',
-  'action_menu',
-  'more_menu',
-  'align_dropdown',
-  'independent_width',
-  'skip_portal',
-  'status_state',
-  'status_props',
-  'label_direction',
-  'label_sr_only',
-  'trigger_element',
-
-  // From DropdownEvents
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<typeof DropdownProperties & typeof DropdownEvents>
->
-export const listOfValidDropdownProps = [
-  ...(validDropdownProps satisfies AssertNoMissing<
-    typeof validDropdownProps,
-    typeof DropdownProperties & typeof DropdownEvents
-  >),
-  ...(validDrawerListProps satisfies AssertNoMissing<
-    typeof validDrawerListProps,
-    typeof DrawerListProperties & typeof DrawerListEvents
-  >),
-]
-
-function Selection(props: Props) {
+function Selection(props: FieldSelectionProps) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
 
   const {
@@ -327,8 +177,9 @@ function Selection(props: Props) {
   }, [children, dataList, value])
 
   const handleDrawerListChange = useCallback(
-    ({ data, value }) => {
-      const selectedKey = data?.selectedKey ?? value
+    ({ data, value }: DrawerListChangeParams) => {
+      const selectedKey =
+        typeof data === 'object' && data ? data.selectedKey : value
       handleChange?.(
         !selectedKey || selectedKey === clearValue
           ? emptyValue
@@ -350,20 +201,26 @@ function Selection(props: Props) {
   // due to `useCallback` usage will have no effect, leading to useFieldProps's handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
-    ({ data }) => {
-      setHasFocus(true, data?.selectedKey)
+    ({ data }: DrawerListVisibilityParams) => {
+      setHasFocus(
+        true,
+        typeof data === 'object' && data ? data.selectedKey : undefined
+      )
     },
     [setHasFocus]
   )
 
   const handleHide = useCallback(
-    ({ data }) => {
-      setHasFocus(false, data?.selectedKey)
+    ({ data }: DrawerListVisibilityParams) => {
+      setHasFocus(
+        false,
+        typeof data === 'object' && data ? data.selectedKey : undefined
+      )
     },
     [setHasFocus]
   )
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-forms-field-selection',
     `dnb-forms-field-selection__variant--${variant}`,
     `dnb-forms-field-selection--layout-${layout}`,
@@ -395,12 +252,9 @@ function Selection(props: Props) {
 
   switch (variant) {
     case 'radio':
-    case 'radio-list':
     case 'button': {
       const Component = (
-        variant === 'radio' || variant === 'radio-list'
-          ? Radio
-          : ToggleButton
+        variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
       const items = renderRadioItems({
@@ -423,10 +277,7 @@ function Selection(props: Props) {
       const additionalFieldBlockProps: FieldBlockProps = {
         asFieldset:
           hasRenderPropChildren || React.Children.count(items) > 1,
-        fieldsetRole:
-          variant === 'radio' || variant === 'radio-list'
-            ? 'radiogroup'
-            : 'group',
+        fieldsetRole: variant === 'radio' ? 'radiogroup' : 'group',
       }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
@@ -438,13 +289,16 @@ function Selection(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
-            size={size}
+            size={
+              size as ToggleButtonGroupProps['size'] &
+                RadioGroupProps['size']
+            }
             className={cn}
-            layout_direction={
+            layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
             disabled={disabled}
-            on_change={onChangeHandler}
+            onChange={onChangeHandler}
             value={String(value ?? '')}
           >
             {items}
@@ -461,26 +315,32 @@ function Selection(props: Props) {
       )
         .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
-      const displayValue = data.find((item) => item.selectedKey === value)
-        ?.content
+      const displayValue = data.find(
+        (item) => item.selectedKey === value
+      )?.content
       setDisplayValue(displayValue)
 
-      const sharedProps: AutocompleteAllProps & DropdownAllProps = {
+      const sharedProps: Omit<
+        AutocompleteAllProps & DropdownAllProps,
+        'ref'
+      > = {
         id,
-        list_class: 'dnb-forms-field-selection__list',
-        portal_class: 'dnb-forms-field-selection__portal',
+        listClass: 'dnb-forms-field-selection__list',
+        portalClass: 'dnb-forms-field-selection__portal',
         title: placeholder,
         value: String(value ?? ''),
         status:
-          (hasError || checkForError([error, info, warning])) && 'error',
+          hasError || checkForError([error, info, warning])
+            ? 'error'
+            : undefined,
         disabled,
         ...htmlAttributes,
         data,
         groups,
         size,
-        on_change: handleDrawerListChange,
-        on_show: handleShow,
-        on_hide: handleHide,
+        onChange: handleDrawerListChange,
+        onOpen: handleShow,
+        onClose: handleHide,
         stretch: true,
       }
 
@@ -493,16 +353,11 @@ function Selection(props: Props) {
           {variant === 'autocomplete' ? (
             <Autocomplete
               {...sharedProps}
-              {...(autocompleteProps
-                ? (convertCamelCasePropsToSnakeCase(
-                    Object.freeze(autocompleteProps),
-                    listOfValidAutocompleteProps
-                  ) as AutocompleteAllProps)
-                : null)}
+              {...autocompleteProps}
               value={
                 autocompleteProps?.preventSelection ? undefined : value
               }
-              on_type={onTypeAutocompleteHandler}
+              onType={onTypeAutocompleteHandler}
               data={
                 !props.data &&
                 !props.dataPath &&
@@ -510,18 +365,10 @@ function Selection(props: Props) {
                   ? undefined
                   : data
               }
-              selectall
+              selectAll
             />
           ) : (
-            <Dropdown
-              {...sharedProps}
-              {...(dropdownProps
-                ? (convertCamelCasePropsToSnakeCase(
-                    dropdownProps,
-                    listOfValidDropdownProps
-                  ) as DropdownAllProps)
-                : null)}
-            />
+            <Dropdown {...sharedProps} {...dropdownProps} />
           )}
         </FieldBlock>
       )
@@ -530,9 +377,9 @@ function Selection(props: Props) {
 }
 
 function resolveChildren(
-  children: Props['children'],
-  value: Props['value'],
-  options: Props['data']
+  children: FieldSelectionProps['children'],
+  value: FieldSelectionProps['value'],
+  options: FieldSelectionProps['data']
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -543,13 +390,13 @@ function resolveChildren(
 
 type OptionProps = React.ComponentProps<
   (props: {
-    value: Props['value']
+    value: FieldSelectionProps['value']
     error: Error | FormError | undefined
     help: HelpProps
     title: React.ReactNode
     children: React.ReactNode
     size?: ToggleButtonProps['size'] | RadioProps['size']
-  }) => JSX.Element
+  }) => React.JSX.Element
 >
 
 function renderRadioItems({
@@ -565,16 +412,16 @@ function renderRadioItems({
   iterateOverItems,
 }: {
   id: string
-  value: Props['value']
-  variant: Props['variant']
-  info: Props['info']
-  warning: Props['warning']
-  htmlAttributes: Props['htmlAttributes']
+  value: FieldSelectionProps['value']
+  variant: FieldSelectionProps['variant']
+  info: FieldSelectionProps['info']
+  warning: FieldSelectionProps['warning']
+  htmlAttributes: FieldSelectionProps['htmlAttributes']
   children: React.ReactNode
   dataList?: Data
-  hasError: ReturnAdditional<Props['value']>['hasError']
+  hasError: ReturnAdditional<FieldSelectionProps['value']>['hasError']
   iterateOverItems?: (item: {
-    value: Props['value']
+    value: FieldSelectionProps['value']
     label: React.ReactNode
   }) => void
 }) {
@@ -593,25 +440,21 @@ function renderRadioItems({
     iterateOverItems?.({ value, label })
 
     const Component = (
-      variant === 'radio' || variant === 'radio-list'
-        ? Radio
-        : ToggleButton
+      variant === 'radio' ? Radio : ToggleButton
     ) as typeof Radio & typeof ToggleButton
 
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
-        label={
-          variant === 'radio' || variant === 'radio-list'
-            ? label
-            : undefined
-        }
+        label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
         role="radio"
         value={String(value ?? valueProp) || undefined}
         status={
-          (hasError || checkForError([error, info, warning])) && 'error'
+          hasError || checkForError([error, info, warning])
+            ? 'error'
+            : undefined
         }
         suffix={suffix}
         size={size}
@@ -656,6 +499,7 @@ export function mapOptions(
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
 ) {
   return React.Children.map(
+    // @ts-expect-error - strictFunctionTypes
     children,
     (child: React.ReactElement<OptionProps>, i) => {
       if (React.isValidElement(child)) {
@@ -667,7 +511,11 @@ export function mapOptions(
           const nestedChildren = mapOptions(child.props.children, {
             createOption,
           })
-          return React.cloneElement(child, child.props, nestedChildren)
+          return React.createElement(
+            child.type as React.ComponentType<any>,
+            child.props,
+            nestedChildren
+          )
         }
       }
 
@@ -678,7 +526,7 @@ export function mapOptions(
 
 export function makeOptions<T = DrawerListProps['data']>(
   children: React.ReactNode,
-  transformSelection?: Props['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
@@ -689,7 +537,7 @@ export function makeOptions<T = DrawerListProps['data']>(
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
-      const selected_value = transformSelection
+      const selectedValue = transformSelection
         ? transformSelection(props)
         : undefined
       const selectedKey = String(props.value ?? '')
@@ -700,7 +548,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
       return {
         selectedKey,
-        selected_value,
+        selectedValue,
         content,
         disabled,
         style,
@@ -714,12 +562,14 @@ export function makeOptions<T = DrawerListProps['data']>(
         content: child,
       }
     }
+
+    return undefined
   }) as T
 }
 
 function renderDropdownItems(
   data: Data,
-  transformSelection?: Props['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection']
 ) {
   return (
     data?.map((props) => {
@@ -727,7 +577,7 @@ function renderDropdownItems(
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
-        selected_value: transformSelection
+        selectedValue: transformSelection
           ? transformSelection(props)
           : undefined,
         disabled,
@@ -738,5 +588,8 @@ function renderDropdownItems(
   )
 }
 
-Selection._supportsSpacingProps = true
+withComponentMarkers(Selection, {
+  _supportsSpacingProps: true,
+})
+
 export default Selection

@@ -12,7 +12,15 @@
     "isolatedModules": true,
     "declarationDir": ".",
     "rootDir": ".",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true,
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": [

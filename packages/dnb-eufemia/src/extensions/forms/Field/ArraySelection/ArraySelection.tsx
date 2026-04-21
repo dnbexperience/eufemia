@@ -1,23 +1,24 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
-import { DefaultErrorMessages, FieldProps, Path } from '../../types'
+import type { ReturnAdditional } from '../../hooks/useFieldProps'
+import { checkForError } from '../../hooks/useFieldProps'
+import type { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
-import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
-import { countOptions, mapOptions, Data } from '../Selection'
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type { Data } from '../Selection'
+import { countOptions, mapOptions } from '../Selection'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
-import { FormError } from '../../utils'
+import type { FormError } from '../../utils'
 import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type OptionProps = React.ComponentProps<
   (props: {
@@ -29,16 +30,18 @@ type OptionProps = React.ComponentProps<
     children: React.ReactNode
     handleSelect: () => void
     size?: ToggleButtonProps['size'] | CheckboxProps['size']
-  }) => JSX.Element
+  }) => React.JSX.Element
 >
 
 type OptionValue = string | number
 type RenderArraySelectionChildren = (params: {
-  value: Props['value']
-  options: Props['data']
+  value: FieldArraySelectionProps['value']
+  options: FieldArraySelectionProps['data']
 }) => React.ReactNode
 
-export type Props = FieldProps<Array<OptionValue> | undefined> & {
+export type FieldArraySelectionProps = FieldProps<
+  Array<OptionValue> | undefined
+> & {
   children?: React.ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
@@ -71,7 +74,7 @@ export type Props = FieldProps<Array<OptionValue> | undefined> & {
   }
 }
 
-function ArraySelection(props: Props) {
+function ArraySelection(props: FieldArraySelectionProps) {
   const {
     id,
     path,
@@ -105,7 +108,7 @@ function ArraySelection(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-array-selection',
       `dnb-forms-field-array-selection--variant-${
         variant === 'checkbox' ? 'checkbox' : 'button'
@@ -153,7 +156,7 @@ function ArraySelection(props: Props) {
     default:
       return (
         <FieldBlock {...fieldBlockProps}>
-          <ToggleButtonGroupContext.Provider
+          <ToggleButtonGroupContext
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
@@ -161,16 +164,16 @@ function ArraySelection(props: Props) {
             }}
           >
             {options}
-          </ToggleButtonGroupContext.Provider>
+          </ToggleButtonGroupContext>
         </FieldBlock>
       )
   }
 }
 
 function resolveChildren(
-  children: Props['children'],
-  value: Props['value'],
-  options: Props['data']
+  children: FieldArraySelectionProps['children'],
+  value: FieldArraySelectionProps['value'],
+  options: FieldArraySelectionProps['data']
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -196,20 +199,24 @@ export function useCheckboxOrToggleOptions({
   handleChange,
   handleActiveData,
 }: {
-  id: Props['id']
-  path?: Props['path']
-  variant?: Props['variant']
-  info?: Props['info']
-  warning?: Props['warning']
-  emptyValue?: Props['emptyValue']
-  htmlAttributes?: Props['htmlAttributes']
-  dataList?: Props['data']
+  id: FieldArraySelectionProps['id']
+  path?: FieldArraySelectionProps['path']
+  variant?: FieldArraySelectionProps['variant']
+  info?: FieldArraySelectionProps['info']
+  warning?: FieldArraySelectionProps['warning']
+  emptyValue?: FieldArraySelectionProps['emptyValue']
+  htmlAttributes?: FieldArraySelectionProps['htmlAttributes']
+  dataList?: FieldArraySelectionProps['data']
   children?: React.ReactNode
-  value?: Props['value']
-  disabled?: Props['disabled']
-  size?: Props['size']
-  hasError?: ReturnAdditional<Props['value']>['hasError']
-  handleChange?: ReturnAdditional<Props['value']>['handleChange']
+  value?: FieldArraySelectionProps['value']
+  disabled?: FieldArraySelectionProps['disabled']
+  size?: FieldArraySelectionProps['size']
+  hasError?: ReturnAdditional<
+    FieldArraySelectionProps['value']
+  >['hasError']
+  handleChange?: ReturnAdditional<
+    FieldArraySelectionProps['value']
+  >['handleChange']
   handleActiveData?: (item: { labels: React.ReactNode[] }) => void
 }) {
   const { setFieldInternals } = useContext(DataContext)
@@ -261,7 +268,7 @@ export function useCheckboxOrToggleOptions({
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}-${value}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
-          className={classnames(
+          className={clsx(
             `dnb-forms-field-array-selection__${
               variant === 'checkbox' ? 'checkbox' : 'button'
             }`,
@@ -274,11 +281,13 @@ export function useCheckboxOrToggleOptions({
           disabled={disabled}
           checked={value?.includes(active)}
           status={
-            (hasError || checkForError([error, info, warning])) && 'error'
+            hasError || checkForError([error, info, warning])
+              ? 'error'
+              : undefined
           }
           suffix={suffix}
           role="checkbox"
-          on_change={handleSelect}
+          onChange={handleSelect}
           {...htmlAttributes}
           {...rest}
         />
@@ -304,6 +313,7 @@ export function useCheckboxOrToggleOptions({
     ...(dataList || []).map((props, i) =>
       createOption(props as OptionProps, i)
     ),
+    // @ts-expect-error - strictFunctionTypes
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),
   ]
 
@@ -322,5 +332,8 @@ export function useCheckboxOrToggleOptions({
   return result
 }
 
-ArraySelection._supportsSpacingProps = true
+withComponentMarkers(ArraySelection, {
+  _supportsSpacingProps: true,
+})
+
 export default ArraySelection

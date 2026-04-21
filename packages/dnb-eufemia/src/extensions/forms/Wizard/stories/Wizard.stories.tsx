@@ -2,17 +2,36 @@ import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
 import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
-import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
-// import { BrowserRouter, useSearchParams } from 'react-router-dom'
-// import {
-//   navigate,
-//   useLocation,
-//   Router as ReachRouter,
-// } from '@reach/router'
 
 export default {
   title: 'Eufemia/Extensions/Forms/WizardContainer',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 export const Basic = () => {
@@ -28,18 +47,10 @@ export const Basic = () => {
       <Wizard.Container
         onStepChange={onStepChange}
         mode="loose"
-        // validationMode="bypassOnNavigation"
-        // keepInDOM
-        // expandedInitially
         initialActiveIndex={2}
       >
         <Wizard.Step title="Step 1">
-          <Field.String
-            label="Step 1"
-            path="/step1"
-            required
-            // validateInitially
-          />
+          <Field.String label="Step 1" path="/step1" required />
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -152,6 +163,7 @@ const validator1 = debounceAsync(async (value) => {
   if (value === 'invalid') {
     return Error('Error message')
   }
+  return undefined
 })
 const validator2 = debounceAsync(async (value) => {
   console.log('validator2', value)
@@ -161,6 +173,7 @@ const validator2 = debounceAsync(async (value) => {
   if (value === 'invalid') {
     return Error('Error message')
   }
+  return undefined
 })
 
 export function AsyncStepChange() {
@@ -201,7 +214,6 @@ export function AsyncStepChange() {
         onStepChange={onStepChange}
         id="unique-wizard"
         mode="loose"
-        // variant="drawer"
       >
         <Wizard.Step title="Step 1">
           <Form.Card>
@@ -255,8 +267,6 @@ function RouterWizardContainer() {
   }
 
   Wizard.useQueryLocator('wizard-with-router')
-  // Wizard.useReactRouter('wizard-with-router', { useSearchParams })
-  // Wizard.useReachRouter('wizard-with-router', { useLocation, navigate })
 
   return (
     <Form.Handler>
@@ -271,15 +281,6 @@ function RouterWizardContainer() {
 export function WithRouter() {
   return <RouterWizardContainer />
 }
-// export function WithRouter() {
-//   return (
-//     <BrowserRouter>
-//       <ReachRouter>
-//         <RouterWizardContainer default />
-//       </ReachRouter>
-//     </BrowserRouter>
-//   )
-// }
 
 export function WizardWithVisibilityAndSchema() {
   function Step1() {
@@ -362,7 +363,7 @@ export const AsyncWizard = () => {
   )
 
   const Summary = () => {
-    const { summaryTitle } = Form.useLocale().Step
+    const { summaryTitle } = Form.useTranslation().Step
     return (
       <Wizard.Step title={summaryTitle}>
         <output>Summary</output>

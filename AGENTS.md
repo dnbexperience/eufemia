@@ -6,14 +6,13 @@
 - Write concise code and add comments only when they clarify intent.
 - Gather all required information from the documentation before using it as a reference.
 - Do not make assumptions or infer missing details unless explicitly instructed to do so.
-- Update `EUFEMIA_CHANGELOG.mdx` whenever a new component is added or a significant visual change is made to an existing component.
-- For Eufemia Forms changes, also `/forms/changelog.mdx` when relevant.
+- Do NOT update changelog files (such as `EUFEMIA_CHANGELOG.mdx` or `changelog.mdx`) unless the user explicitly asks you to. Changelog entries should be written by humans.
 
 ## Code Style Rules
 
 - Write code in logical blocks.
 - Keep blank lines between logical blocks to ensure better readability.
-- Follow existing Prettier and ESLint configurations.
+- Follow existing Prettier and ESLint configurations, and run them on files after making changes.
 - Use TypeScript for type safety.
 - Use React Hooks over class components.
 - Use camelCase for functions and variables.

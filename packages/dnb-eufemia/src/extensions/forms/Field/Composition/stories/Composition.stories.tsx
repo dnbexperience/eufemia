@@ -1,5 +1,6 @@
 import React from 'react'
-import { Field, Form, JSONSchema } from '../../../Forms'
+import type { JSONSchema } from '../../../Forms'
+import { Field, Form } from '../../../Forms'
 import { Flex } from '../../../../../components'
 
 export default {
@@ -33,19 +34,8 @@ export function Schema() {
     <Form.Handler schema={schema}>
       <Flex.Stack>
         <Field.Composition width="large">
-          <Field.String
-            label="First"
-            path="/first"
-            // validateInitially
-            // error={new Error('First')}
-          />
-          <Field.String
-            label="Last"
-            path="/last"
-            // validateInitially
-            // required
-            // error={new Error('Last')}
-          />
+          <Field.String label="First" path="/first" />
+          <Field.String label="Last" path="/last" />
         </Field.Composition>
 
         <Form.SubmitButton />

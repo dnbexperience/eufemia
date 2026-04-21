@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
+import type { TabsTabElement } from '@dnb/eufemia/src/components/tabs/Tabs'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
@@ -105,16 +106,17 @@ export default function TabBar({
   return (
     <div className="dnb-tab-bar dnb-tabs">
       {title && (
-        <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
+        <AutoLinkHeader className="dnb-no-focus" level={1} skipCorrection>
           {title}
         </AutoLinkHeader>
       )}
       <Tabs
         id="tab-bar"
+        // @ts-expect-error -- strictFunctionTypes
         onOpenTabNavigationFn={navigate}
-        tab_element={Link}
+        tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}
-        selected_key={selectedKey}
+        selectedKey={selectedKey}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
@@ -122,8 +124,9 @@ export default function TabBar({
                 <Tabs />
                 {wasFullscreen ? (
                   <Button
-                    on_click={quitFullscreen}
+                    onClick={quitFullscreen}
                     href={quitFullscreenPath}
+                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Quit Fullscreen"
@@ -132,8 +135,9 @@ export default function TabBar({
                   />
                 ) : (
                   <Button
-                    on_click={openFullscreen}
+                    onClick={openFullscreen}
                     href={fullscreenPath}
+                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Fullscreen"
@@ -153,5 +157,5 @@ export default function TabBar({
 }
 
 TabBar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tab-bar" content_spacing={false} {...props} />
+  <Tabs.ContentWrapper id="tab-bar" contentInnerSpace={false} {...props} />
 )

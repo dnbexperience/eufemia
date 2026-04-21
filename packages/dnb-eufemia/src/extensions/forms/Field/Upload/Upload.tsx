@@ -1,36 +1,36 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import classnames from 'classnames'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import clsx from 'clsx'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import {
   useFieldProps,
   usePath,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldProps } from '../../types'
-import Upload, {
+import type { FieldProps } from '../../types'
+import type {
   UploadFile,
   UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
+import Upload from '../../../../components/Upload'
 import useUpload, {
   isFileEqual,
 } from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
-export type Props = Omit<
+export type FieldUploadProps = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
   | 'layout'
   | 'layoutOptions'
@@ -67,7 +67,7 @@ export type Props = Omit<
     width?: 'large' | 'stretch'
   }
 
-function UploadComponent(props: Props) {
+function UploadComponent(props: FieldUploadProps) {
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
 
@@ -136,6 +136,7 @@ function UploadComponent(props: Props) {
     onValidationError,
     dataContext,
     ...rest
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
   })
@@ -152,7 +153,7 @@ function UploadComponent(props: Props) {
   const {
     title = sharedTr.title,
     text = sharedTr.text,
-    variant = 'normal',
+    variant = 'default',
     acceptedFileTypes = ['pdf', 'png', 'jpg', 'jpeg'],
     filesAmountLimit = 100,
     fileMaxSize = 5,
@@ -173,7 +174,7 @@ function UploadComponent(props: Props) {
     required: props.required,
   })
 
-  const filesRef = useRef<Array<UploadFile>>()
+  const filesRef = useRef<Array<UploadFile> | undefined>(undefined)
 
   useMemo(() => {
     filesRef.current = files
@@ -421,7 +422,7 @@ function UploadComponent(props: Props) {
     id,
     forId: `${id}-input`,
     labelSrOnly: true,
-    className: classnames('dnb-forms-field-upload', className),
+    className: clsx('dnb-forms-field-upload', className),
     width,
     help: undefined,
     ...pickSpacingProps(props),
@@ -503,9 +504,11 @@ function LabelWithHelpButton(props: {
 
 export default UploadComponent
 
-UploadComponent._supportsSpacingProps = true
+withComponentMarkers(UploadComponent, { _supportsSpacingProps: true })
 
-export function transformFiles(value: UploadValue) {
+export function transformFiles(
+  value: UploadValue
+): UploadValue | undefined {
   if (Array.isArray(value)) {
     if (value.length === 0) {
       return undefined

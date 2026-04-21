@@ -207,13 +207,15 @@ describe('Selection', () => {
 
     await userEvent.click(screen.getByRole('combobox'))
 
-    const options = Array.from(
-      document.querySelectorAll('[role="option"]')
-    )
+    await waitFor(() => {
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
 
-    expect(options).toHaveLength(2)
-    expect(options[0]).toHaveTextContent('Foo! 100')
-    expect(options[1]).toHaveTextContent('Bar! 200')
+      expect(options).toHaveLength(2)
+      expect(options[0]).toHaveTextContent('Foo! 100')
+      expect(options[1]).toHaveTextContent('Bar! 200')
+    })
 
     expect(receivedOptions).toEqual([
       { value: 'foo', title: 'Foo!', amount: 100 },
@@ -735,7 +737,7 @@ describe('variants', () => {
       expect(radioButtons[2]).not.toBeChecked()
 
       await userEvent.tab()
-      await userEvent.keyboard('{Space}')
+      await userEvent.keyboard(' ')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
@@ -967,34 +969,6 @@ describe('variants', () => {
       expect(fieldset).toHaveAttribute('role', 'radiogroup')
       expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
       expect(legend).toHaveTextContent('Legend')
-    })
-  })
-
-  describe('radio-list', () => {
-    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
-      render(
-        <Field.Selection variant="radio-list" label="Legend">
-          <Field.Option value="foo">Foo</Field.Option>
-          <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
-      )
-
-      const fieldset = document.querySelector('fieldset')
-      const legend = document.querySelector('legend')
-
-      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
-      expect(fieldset).toHaveAttribute('role', 'radiogroup')
-      expect(legend).toHaveAttribute('id')
-    })
-
-    it('should validate with ARIA rules when using fieldset', async () => {
-      const Comp = render(
-        <Field.Selection variant="radio-list" label="Legend">
-          <Field.Option value="foo">Foo</Field.Option>
-          <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
-      )
-      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 
@@ -1677,7 +1651,7 @@ describe('variants', () => {
       ).toHaveTextContent('content without a key')
     })
 
-    it('should accept camelCase props in "dropdownProps', () => {
+    it('should accept props in "dropdownProps', () => {
       render(
         <Field.Selection
           variant="dropdown"
@@ -2080,7 +2054,7 @@ describe('variants', () => {
       )
     })
 
-    it('should support extra props in data (e.g. search_content)', async () => {
+    it('should support extra props in data (e.g. searchContent)', async () => {
       render(
         <Field.Selection
           variant="autocomplete"
@@ -2089,7 +2063,7 @@ describe('variants', () => {
               value: 'foo',
               title: 'Foo!',
               text: 'Text',
-              search_content: ['Foo!', 'extra search value'],
+              searchContent: ['Foo!', 'extra search value'],
             },
           ]}
         />
@@ -2107,7 +2081,7 @@ describe('variants', () => {
         ).toHaveTextContent('Foo!')
       })
 
-      // But not found when searching by display content only (search_content takes precedence)
+      // But not found when searching by display content only (searchContent takes precedence)
       await userEvent.clear(input as HTMLInputElement)
       await userEvent.type(input, 'invalid')
       await waitFor(() => {
@@ -2330,7 +2304,9 @@ describe('variants', () => {
           document.querySelectorAll('[role="option"]')[0]
         )
 
-        expect(input).toHaveValue('Foo')
+        await waitFor(() => {
+          expect(input).toHaveValue('Foo')
+        })
 
         await userEvent.click(input)
 
@@ -2434,7 +2410,7 @@ describe('variants', () => {
       ).toHaveTextContent('content without a key')
     })
 
-    it('should accept camelCase props in "autocompleteProps', () => {
+    it('should accept props in "autocompleteProps', () => {
       render(
         <Field.Selection
           variant="autocomplete"
@@ -2695,7 +2671,7 @@ describe('variants', () => {
             required
             validateInitially
             autocompleteProps={{
-              opened: true,
+              open: true,
               noAnimation: true,
               skipPortal: true,
             }}
@@ -2773,7 +2749,11 @@ describe('event handlers', () => {
   it('calls onChange when selecting a different options', async () => {
     const onChange = jest.fn()
     render(
-      <Field.Selection value="bar" onChange={onChange}>
+      <Field.Selection
+        value="bar"
+        onChange={onChange}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
@@ -2804,7 +2784,11 @@ describe('event handlers', () => {
   it('calls onFocus when opening the dropdown with selected value as argument', async () => {
     const onFocus = jest.fn()
     render(
-      <Field.Selection value="bar" onFocus={onFocus}>
+      <Field.Selection
+        value="bar"
+        onFocus={onFocus}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
@@ -2822,7 +2806,11 @@ describe('event handlers', () => {
   it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
     const onBlur = jest.fn()
     render(
-      <Field.Selection value="bar" onBlur={onBlur}>
+      <Field.Selection
+        value="bar"
+        onBlur={onBlur}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>

@@ -56,8 +56,6 @@ import Drawer from './components/drawer/Drawer'
 import Dropdown from './components/dropdown/Dropdown'
 import Flex from './components/flex/Flex'
 import FormLabel from './components/form-label/FormLabel'
-import FormRow from './components/form-row/FormRow'
-import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
@@ -73,6 +71,7 @@ import InputMasked from './components/input-masked/InputMasked'
 import List from './components/list/List'
 import ListFormat from './components/list-format/ListFormat'
 import Logo from './components/logo/Logo'
+import Menu from './components/menu/Menu'
 import Modal from './components/modal/Modal'
 import NumberFormat from './components/number-format/NumberFormat'
 import Pagination from './components/pagination/Pagination'
@@ -147,8 +146,6 @@ export {
   Dropdown,
   Flex,
   FormLabel,
-  FormRow,
-  FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,
@@ -164,6 +161,7 @@ export {
   List,
   ListFormat,
   Logo,
+  Menu,
   Modal,
   NumberFormat,
   Pagination,

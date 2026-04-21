@@ -9,24 +9,25 @@ import type {
   Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import classnames from 'classnames'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import clsx from 'clsx'
+import type { FieldBlockProps } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
-import {
+import type {
   DatePickerEvent,
   DatePickerProps,
+  DisplayPickerEvent,
 } from '../../../../components/DatePicker'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
-import { ProviderProps } from '../../../../shared/Provider'
+import type { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
-import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import type { DatePickerInvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
-import {
-  FormatDateOptions,
-  formatDate,
-} from '../../../../components/date-format/DateFormatUtils'
+import type { DateFormatOptions } from '../../../../components/date-format/DateFormatUtils'
+import { formatDate } from '../../../../components/date-format/DateFormatUtils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -58,7 +59,7 @@ export type DateProps = Omit<
   showInput?: DatePickerProps['showInput']
 
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**
@@ -92,13 +93,13 @@ export type DateProps = Omit<
     | 'sync'
     | 'addonElement'
     | 'shortcuts'
-    | 'opened'
+    | 'open'
     | 'direction'
     | 'alignPicker'
     | 'onDaysRender'
     | 'onType'
-    | 'onShow'
-    | 'onHide'
+    | 'onOpen'
+    | 'onClose'
     | 'onSubmit'
     | 'onCancel'
     | 'onReset'
@@ -107,7 +108,7 @@ export type DateProps = Omit<
     | 'tooltip'
   >
 
-function DateComponent(props: DateProps) {
+function DateComponent(props: DateProps): React.ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
@@ -223,8 +224,8 @@ function DateComponent(props: DateProps) {
   const fromInput = useCallback(
     ({
       date,
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       invalidDate,
       invalidStartDate,
       invalidEndDate,
@@ -236,7 +237,7 @@ function DateComponent(props: DateProps) {
         invalidEndDate,
       })
 
-      return props.range ? `${start_date}|${end_date}` : date
+      return props.range ? `${startDate}|${endDate}` : date
     },
     [props.range, setInvalidDates]
   )
@@ -278,10 +279,48 @@ function DateComponent(props: DateProps) {
     maxDate,
     width,
     ...rest
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const datePickerProps = pickDatePickerProps(rest)
   const initialValueRef = useRef(props.value ?? props.defaultValue)
+  const valueOnOpenRef = useRef(internalValue)
+
+  const handleOpen = useCallback(
+    (event: DatePickerEvent<DisplayPickerEvent>) => {
+      valueOnOpenRef.current = internalValue
+      datePickerProps.onOpen?.(event)
+    },
+    [internalValue, datePickerProps.onOpen]
+  )
+
+  const handleCancel = useCallback(
+    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+      const revertValue = valueOnOpenRef.current
+
+      if (range) {
+        const [startDate, endDate] = parseRangeValue(revertValue)
+        handleChange({
+          startDate: startDate ?? undefined,
+          endDate: endDate ?? undefined,
+        })
+      } else {
+        handleChange({ date: revertValue ?? undefined })
+      }
+
+      datePickerProps.onCancel?.(event)
+    },
+    [handleChange, range, datePickerProps.onCancel]
+  )
+
+  const handleSubmit = useCallback(
+    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+      valueOnOpenRef.current = internalValue
+      datePickerProps.onSubmit?.(event)
+    },
+    [internalValue, datePickerProps.onSubmit]
+  )
+
   const handleReset = useCallback(
     (
       event: DatePickerEvent<
@@ -294,8 +333,8 @@ function DateComponent(props: DateProps) {
         if (range) {
           const [startDate, endDate] = parseRangeValue(initialValue)
           handleChange({
-            start_date: startDate ?? undefined,
-            end_date: endDate ?? undefined,
+            startDate: startDate ?? undefined,
+            endDate: endDate ?? undefined,
           })
         } else {
           handleChange({ date: initialValue })
@@ -308,9 +347,9 @@ function DateComponent(props: DateProps) {
 
       const reset = {
         date: undefined,
-        start_date: undefined,
-        end_date: undefined,
-        is_valid: false,
+        startDate: undefined,
+        endDate: undefined,
+        isValid: false,
       }
       handleChange(reset)
       setDisplayValue(undefined)
@@ -327,23 +366,23 @@ function DateComponent(props: DateProps) {
   }, [handleFocus, handleError])
   const onType = useCallback(
     (event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
-      const { date, start_date, end_date, ...rest } = event
+      const { date, startDate, endDate, ...rest } = event
 
       if (props.range) {
         // Track which date the user last edited for range order error messages
         const [prevStart, prevEnd] = parseRangeValue(internalValue)
-        if (start_date !== prevStart) {
+        if (startDate !== prevStart) {
           lastEditedRangeDateRef.current = 'start'
-        } else if (end_date !== prevEnd) {
+        } else if (endDate !== prevEnd) {
           lastEditedRangeDateRef.current = 'end'
         }
 
-        const parsedStartDate = parseISO(start_date)
-        const parsedEndDate = parseISO(end_date)
+        const parsedStartDate = parseISO(startDate)
+        const parsedEndDate = parseISO(endDate)
         if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
           handleChange({
-            ...(isValid(parsedStartDate) && { start_date }),
-            ...(isValid(parsedEndDate) && { end_date }),
+            ...(isValid(parsedStartDate) && { startDate }),
+            ...(isValid(parsedEndDate) && { endDate }),
             ...rest,
           })
         } else {
@@ -389,7 +428,7 @@ function DateComponent(props: DateProps) {
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
     label: label ?? defaultLabel,
-    className: classnames('dnb-forms-field-string', className),
+    className: clsx('dnb-forms-field-string', className),
     width,
     ...pickSpacingProps(props),
   }
@@ -421,13 +460,18 @@ function DateComponent(props: DateProps) {
         onFocus={onFocus}
         onBlur={handleBlur}
         {...datePickerProps}
+        onOpen={handleOpen}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
         {...htmlAttributes}
       />
     </FieldBlock>
   )
 }
 
-export function parseRangeValue(value: DateProps['value']) {
+export function parseRangeValue(
+  value: DateProps['value']
+): Array<string | null> {
   return (
     String(value)
       .split('|')
@@ -448,7 +492,7 @@ function validateDateLimit({
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
   locale: ProviderProps['locale']
-}) {
+}): Array<FormError> {
   if ((!dates.minDate && !dates.maxDate) || !value) {
     return []
   }
@@ -485,7 +529,7 @@ function validateDateLimit({
         : dates.maxDate,
   }
 
-  const options: FormatDateOptions = {
+  const options: DateFormatOptions = {
     locale,
     options: { dateStyle: 'long' },
   }
@@ -578,7 +622,7 @@ function validateRangeOrder({
     : undefined
 
   if (startDate && endDate && isAfter(startDate, endDate)) {
-    const options: FormatDateOptions = {
+    const options: DateFormatOptions = {
       locale,
       options: { dateStyle: 'long' },
     }
@@ -609,7 +653,7 @@ function validateDate({
   invalidDate,
   invalidStartDate,
   invalidEndDate,
-}: InvalidDates) {
+}: DatePickerInvalidDates): Array<FormError> {
   // Don't show error if the date is empty or contains only placeholder values
   if (invalidDate && !isEmptyOrPlaceholder(invalidDate)) {
     return [
@@ -658,7 +702,6 @@ const datePickerPropKeys = [
   'endMonth',
   'minDate',
   'maxDate',
-  'correctInvalidDate',
   'maskOrder',
   'maskPlaceholder',
   'dateFormat',
@@ -678,15 +721,15 @@ const datePickerPropKeys = [
   'sync',
   'addonElement',
   'shortcuts',
-  'opened',
+  'open',
   'direction',
   'alignPicker',
   'onDaysRender',
   'showInput',
   'onDaysRender',
   'onType',
-  'onShow',
-  'onHide',
+  'onOpen',
+  'onClose',
   'onSubmit',
   'onCancel',
   'onReset',
@@ -695,7 +738,7 @@ const datePickerPropKeys = [
   'tooltip',
 ]
 
-function pickDatePickerProps(props: DateProps) {
+function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {
@@ -704,11 +747,14 @@ function pickDatePickerProps(props: DateProps) {
 
       return datePickerProps
     },
-    {}
+    {} as Partial<DatePickerProps>
   )
 
   return datePickerProps
 }
 
-DateComponent._supportsSpacingProps = true
+withComponentMarkers(DateComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default DateComponent

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import CountryFlag from '../CountryFlag'
 import Provider from '../../../shared/Provider'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('CountryFlag', () => {
   it('should use NO as default', () => {
@@ -69,5 +70,33 @@ describe('CountryFlag', () => {
     const element = document.querySelector('.dnb-country-flag')
 
     expect(element).toHaveClass('dnb-space__top--large')
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<CountryFlag ref={ref} />)
+
+    const element = document.querySelector('.dnb-country-flag')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<CountryFlag ref={refFn} />)
+
+    const element = document.querySelector('.dnb-country-flag')
+    expect(refElement).toBe(element)
+  })
+})
+
+describe('CountryFlag aria', () => {
+  it('should validate', async () => {
+    const Component = render(<CountryFlag iso="NO" />)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Accordion, { AccordionProps } from '../Accordion'
+import type { AccordionProps } from '../Accordion'
+import Accordion from '../Accordion'
 import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
@@ -17,7 +18,7 @@ import userEvent from '@testing-library/user-event'
 new MatchMediaMock()
 
 const props: AccordionProps = {
-  no_animation: true,
+  noAnimation: true,
   title: 'title',
 }
 
@@ -45,29 +46,20 @@ describe('Accordion component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on click', () => {
-    const my_event = jest.fn()
+  it('has "onChange" event which will trigger on click', () => {
     const myEvent = jest.fn()
-    render(
-      <Accordion
-        {...props}
-        on_change={my_event}
-        onChange={myEvent}
-        expanded={false}
-      />
-    )
+    render(<Accordion {...props} onChange={myEvent} expanded={false} />)
 
     // first click
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].expanded).toBe(true)
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('expanded')
     expect(myEvent.mock.calls[0][0].expanded).toBe(true)
 
     // second click
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
-    expect(my_event.mock.calls[1][0].expanded).toBe(false)
+    expect(myEvent.mock.calls[1][0].expanded).toBe(false)
   })
 
   it('uses a p element when string content is given', () => {
@@ -102,8 +94,8 @@ describe('Accordion component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has correct classes when no_animation', () => {
-    render(<Accordion no_animation />)
+  it('has correct classes when noAnimation', () => {
+    render(<Accordion noAnimation />)
 
     expect(
       Array.from(
@@ -153,8 +145,8 @@ describe('Accordion component', () => {
     )
   })
 
-  it('should have hidden content when "prerender" is true but closed', () => {
-    render(<Accordion {...props} prerender={true} />)
+  it('should have hidden content when "keepInDOM" is true but closed', () => {
+    render(<Accordion {...props} keepInDOM={true} />)
 
     expect(
       Array.from(
@@ -233,50 +225,38 @@ describe('Accordion group component', () => {
     ).toBeFalsy()
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
-    const my_event = jest.fn()
+  it('has "onChange" event which will trigger on a button click', () => {
     const myEvent = jest.fn()
     render(
       <Accordion.Group
         id="group"
-        on_change={my_event}
         onChange={myEvent}
         value="second"
         data-prop="group-value"
       >
-        <Accordion
-          id="accordion-1"
-          value="first"
-          data-prop="value-1"
-          attributes={{ 'data-attr': 'value' }}
-        />
-        <Accordion
-          id="accordion-2"
-          value="second"
-          data-prop="value-2"
-          attributes={{ 'data-attr': 'value' }}
-        />
+        <Accordion id="accordion-1" value="first" data-prop="value-1" />
+        <Accordion id="accordion-2" value="second" data-prop="value-2" />
       </Accordion.Group>
     )
 
     fireEvent.click(
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].id).toBe('accordion-1')
-    expect(my_event.mock.calls[0][0].expanded).toBe(true)
+    expect(myEvent).toHaveBeenCalled()
+    expect(myEvent.mock.calls[0][0].id).toBe('accordion-1')
+    expect(myEvent.mock.calls[0][0].expanded).toBe(true)
     expect(myEvent.mock.calls.length).toBe(1)
 
     fireEvent.click(
       document.querySelector('#accordion-2 .dnb-accordion__header')
     )
-    expect(my_event.mock.calls[1][0].id).toBe('accordion-2')
-    expect(my_event.mock.calls[1][0].expanded).toBe(true)
+    expect(myEvent.mock.calls[1][0].id).toBe('accordion-2')
+    expect(myEvent.mock.calls[1][0].expanded).toBe(true)
 
     fireEvent.click(
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
-    expect(my_event.mock.calls[2][0].expanded).toBe(true)
+    expect(myEvent.mock.calls[2][0].expanded).toBe(true)
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
@@ -285,7 +265,7 @@ describe('Accordion group component', () => {
     render(
       <Accordion.Group
         expanded
-        allow_close_all
+        allowCloseAll
         collapseAllHandleRef={collapseAll}
       >
         <Accordion>
@@ -334,11 +314,11 @@ describe('Accordion container component', () => {
     id: string
   }
   class DidRender extends React.PureComponent<DidRenderProps> {
-    state = { mounted: false }
-    componentDidMount() {
+    override state = { mounted: false }
+    override componentDidMount() {
       this.setState({ mounted: true })
     }
-    render() {
+    override render() {
       return <div id={this.props.id}>{String(this.state.mounted)}</div>
     }
   }
@@ -358,10 +338,10 @@ describe('Accordion container component', () => {
         <Increment />
         <Accordion.Group
           id="container"
-          single_container
-          prevent_rerender
-          remember_state
-          no_animation
+          singleContainer
+          preventRerender
+          rememberState
+          noAnimation
           {...props}
         >
           <Accordion id="accordion-1" title="Accordion 1">
@@ -465,59 +445,6 @@ describe('Accordion container component', () => {
         .querySelector('.dnb-accordion-group--single-container')
         .getAttribute('style')
     ).toBe('transition-duration: 1ms; min-height: 6rem;')
-  })
-
-  // Deprecated – expandBehaviour is replaced with expandBehavior - can be removed in v11
-  it('should allow all accordions inside a group to be expanded at the same time - deprecated', async () => {
-    render(
-      <Accordion.Group expandBehaviour="multiple">
-        <Accordion>
-          <Accordion.Header>Accordion title 1</Accordion.Header>
-          <Accordion.Content>
-            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-            gravida himenaeos nostra mollis volutpat bibendum convallis cum
-            condimentum dictumst blandit rutrum vehicula
-          </Accordion.Content>
-        </Accordion>
-        <Accordion>
-          <Accordion.Header>Accordion title 2</Accordion.Header>
-          <Accordion.Content>
-            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
-            etiam
-          </Accordion.Content>
-        </Accordion>
-        <Accordion>
-          <Accordion.Header>Accordion title 3</Accordion.Header>
-          <Accordion.Content>
-            Nec sit mattis natoque interdum sagittis cubilia nibh nullam
-            etiam
-          </Accordion.Content>
-        </Accordion>
-      </Accordion.Group>
-    )
-
-    const [first, second, third] = Array.from(
-      document.querySelectorAll('.dnb-accordion__header')
-    )
-
-    expect(first).toHaveAttribute('aria-expanded', 'false')
-    expect(second).toHaveAttribute('aria-expanded', 'false')
-    expect(third).toHaveAttribute('aria-expanded', 'false')
-
-    await userEvent.click(first)
-    expect(first).toHaveAttribute('aria-expanded', 'true')
-    expect(second).toHaveAttribute('aria-expanded', 'false')
-    expect(third).toHaveAttribute('aria-expanded', 'false')
-
-    await userEvent.click(second)
-    expect(first).toHaveAttribute('aria-expanded', 'true')
-    expect(second).toHaveAttribute('aria-expanded', 'true')
-    expect(third).toHaveAttribute('aria-expanded', 'false')
-
-    await userEvent.click(third)
-    expect(first).toHaveAttribute('aria-expanded', 'true')
-    expect(second).toHaveAttribute('aria-expanded', 'true')
-    expect(third).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('should allow all accordions inside a group to be expanded at the same time', async () => {

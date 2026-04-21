@@ -4,7 +4,6 @@
  */
 
 import React, { Suspense } from 'react'
-import { createBrowserHistory } from 'history'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
@@ -46,11 +45,11 @@ export const SkeletonToggleExample = () => (
             <P top bottom>
               Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
             </P>
-            <Input label_direction="vertical" label="Input" />
+            <Input label="Input" />
             <Skeleton.Exclude>
               <ToggleButton
                 checked={state}
-                on_change={({ checked }) => setState(checked)}
+                onChange={({ checked }) => setState(checked)}
                 top="large"
               >
                 Toggle
@@ -107,10 +106,10 @@ export const SkeletonFiguresExample = () => (
 export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
-      <Skeleton show no_animation>
+      <Skeleton show noAnimation>
         <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
       </Skeleton>
-      <Skeleton show no_animation>
+      <Skeleton show noAnimation>
         <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
       </Skeleton>
     </>
@@ -172,7 +171,6 @@ export const SkeletonInfoCustom = () => (
     hidePreview
     hideToolbar
     scope={{
-      createBrowserHistory,
       skeletonDOMAttributes,
       createSkeletonClass,
       Context,

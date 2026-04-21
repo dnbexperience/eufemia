@@ -173,7 +173,6 @@ describe('Iterate.Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>
@@ -188,7 +187,6 @@ describe('Iterate.Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>
@@ -204,37 +202,6 @@ describe('Iterate.Visibility', () => {
       expect(inferData).toHaveBeenLastCalledWith({
         myList: [{ foo: 'bar' }],
       })
-    })
-  })
-
-  describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
-      render(
-        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility pathValue="/myPath" whenValue="checked">
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-    })
-
-    it('does not render children when target path not not value matches', () => {
-      render(
-        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              pathValue="/myPath"
-              whenValue="not-checked"
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).toBeNull()
     })
   })
 
@@ -285,50 +252,6 @@ describe('Iterate.Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
-    })
-
-    it('should render children when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              visibleWhen={{
-                itemPath: '/myPath',
-                withValue: (value) => value === 'foo',
-              }}
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should not render children when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              visibleWhen={{
-                itemPath: '/myPath',
-                withValue: (value) => value === 'bar',
-              }}
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      log.mockRestore()
     })
   })
 

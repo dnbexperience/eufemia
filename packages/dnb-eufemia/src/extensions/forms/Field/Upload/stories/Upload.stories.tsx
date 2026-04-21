@@ -1,15 +1,37 @@
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import {
-  UploadFile,
-  UploadFileNative,
-} from '../../../../../components/Upload'
+import type { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
-import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
-import { UploadValue } from '../Upload'
+import type { UploadValue } from '../Upload'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 function createMockFile(name: string, size: number, type: string) {
@@ -54,7 +76,7 @@ export function Upload() {
   )
 }
 
-async function mockAsyncFileUpload__withoutPromises(
+async function mockAsyncFileUploadWithoutPromises(
   newFiles: UploadValue
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
@@ -70,7 +92,7 @@ async function mockAsyncFileUpload__withoutPromises(
       const mockResponse = {
         ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
         json: async () => ({
-          server_generated_id: `${file.file.name}_${crypto.randomUUID()}`,
+          serverGeneratedId: `${file.file.name}_${crypto.randomUUID()}`,
         }),
       }
 
@@ -81,7 +103,7 @@ async function mockAsyncFileUpload__withoutPromises(
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     } catch (error: any) {
       updatedFiles.push({
@@ -102,7 +124,7 @@ export const WithAsyncFileHandler = () => {
           id="async_upload_context_id"
           path="/attachments"
           labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-          fileHandler={mockAsyncFileUpload__withoutPromises}
+          fileHandler={mockAsyncFileUploadWithoutPromises}
           required
         />
         <Form.SubmitButton />
@@ -133,8 +155,8 @@ async function mockAsyncFileUpload(
     const mockResponse = {
       ok: false, // Fails virus check
       json: async () => ({
-        server_generated_id:
-          'server_generated_id' +
+        serverGeneratedId:
+          'serverGeneratedId' +
           '_' +
           file.file.name +
           '_' +
@@ -145,7 +167,7 @@ async function mockAsyncFileUpload(
     const data = await mockResponse.json()
     updatedFiles.push({
       ...file,
-      id: data.server_generated_id,
+      id: data.serverGeneratedId,
     })
   }
 
@@ -180,7 +202,7 @@ export const AsyncEverything = () => {
   )
 }
 
-interface DocumentMetadata {
+type DocumentMetadata = {
   id: string
   fileName: string
 }
@@ -193,22 +215,20 @@ const defaultValue = [
 ] satisfies DocumentMetadata[] as unknown as UploadValue
 
 const filesCache = new Map<string, File>()
-
-// To the Field (from e.g. defaultValue)
-const transformIn = (external?: DocumentMetadata[]) => {
+const transformIn = (external: unknown) => {
+  const docs = external as DocumentMetadata[] | undefined
   return (
-    external?.map(({ id, fileName }) => {
+    docs?.map(({ id, fileName }) => {
       const file: File = filesCache.get(id) || new File([], fileName)
 
       return { id, file } satisfies UploadFileNative
     }) || []
   )
 }
-
-// From the Field (internal value) to the data context or event parameter
-const transformOut = (internal?: UploadValue) => {
+const transformOut = (internal: unknown) => {
+  const upload = internal as UploadValue | undefined
   return (
-    internal?.map(({ id, file }) => {
+    upload?.map(({ id, file }) => {
       if (!filesCache.has(id)) {
         filesCache.set(id, file)
       }
@@ -220,11 +240,7 @@ const transformOut = (internal?: UploadValue) => {
 
 export function TransformInAndOut() {
   return (
-    <Form.Handler
-    // defaultData={{
-    //   documents: defaultValue,
-    // }}
-    >
+    <Form.Handler>
       <Flex.Stack>
         <Field.Upload
           path="/documents"
@@ -355,9 +371,16 @@ export const AsyncEverythingWithTransform = () => {
     )
   }
 
-  function transformIn(external?: any) {
+  function transformIn(external: unknown) {
+    const files = external as
+      | Array<{
+          id: string
+          fileName: string
+          errorMessage?: React.ReactNode
+        }>
+      | undefined
     return (
-      external?.map((file) => ({
+      files?.map((file) => ({
         ...file,
         id: file.id,
         file: new File([], file.fileName),
@@ -366,7 +389,8 @@ export const AsyncEverythingWithTransform = () => {
     )
   }
 
-  function transformOut(upload?: UploadValue) {
+  function transformOut(internal: unknown) {
+    const upload = internal as UploadValue | undefined
     return upload?.map((file) => ({
       ...file,
       id: file.id,
@@ -426,9 +450,9 @@ export const RequiredProperty = () => {
 
 export const IterateArrayUpload = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadFile[]
-  ): Promise<any> {
-    const updatedFiles: UploadFile[] = []
+    newFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
 
     for (const [, file] of Object.entries(newFiles)) {
       const formData = new FormData()
@@ -441,20 +465,20 @@ export const IterateArrayUpload = () => {
         const mockResponse = {
           ok: true,
           json: async () => ({
-            server_generated_id:
-              file.file.name + '_' + crypto.randomUUID(),
+            serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
           }),
         }
 
         const data = await mockResponse.json()
         updatedFiles.push({
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         })
       } catch (error) {
         updatedFiles.push({
           ...file,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       }
     }
@@ -498,9 +522,9 @@ export const IterateArrayUpload = () => {
 
 export const TwoAsyncUploads = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadFile[]
-  ): Promise<any> {
-    const updatedFiles: UploadFile[] = []
+    newFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
 
     for (const [, file] of Object.entries(newFiles)) {
       const formData = new FormData()
@@ -513,20 +537,20 @@ export const TwoAsyncUploads = () => {
         const mockResponse = {
           ok: true,
           json: async () => ({
-            server_generated_id:
-              file.file.name + '_' + crypto.randomUUID(),
+            serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
           }),
         }
 
         const data = await mockResponse.json()
         updatedFiles.push({
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         })
       } catch (error) {
         updatedFiles.push({
           ...file,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       }
     }
@@ -600,7 +624,7 @@ export const WizardWithAsyncFileHandler = () => {
               id="async_upload_context_id"
               path="/attachments"
               labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-              fileHandler={mockAsyncFileUpload__withoutPromises}
+              fileHandler={mockAsyncFileUploadWithoutPromises}
             />
           </Form.Card>
 
@@ -678,7 +702,7 @@ export const WithOnValidationError = () => {
       const mockResponse = {
         ok: true,
         json: async () => ({
-          server_generated_id: `server_${
+          serverGeneratedId: `server_${
             file.file.name
           }_${crypto.randomUUID()}`,
         }),
@@ -687,7 +711,7 @@ export const WithOnValidationError = () => {
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     }
 

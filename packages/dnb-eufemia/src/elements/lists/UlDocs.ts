@@ -1,5 +1,5 @@
-import { PropertiesTableProps } from '../../shared/types'
-import { ElementPropertiesWithoutSkeleton } from './../ElementDocs'
+import type { PropertiesTableProps } from '../../shared/types'
+import { ElementPropertiesWithoutSkeleton } from '../ElementDocs'
 
 export const UlProperties: PropertiesTableProps = {
   inside: {

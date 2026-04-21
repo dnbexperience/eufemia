@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { FieldProperties } from '../FieldDocs'
 
 export const OptionProperties: PropertiesTableProps = {
@@ -9,17 +9,17 @@ export const OptionProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'Title for the option. Overrides `children`.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   groupIndex: {
-    doc: `What group index in the \`groups\` prop ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.`,
+    doc: 'What group index in the `groups` property ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.',
     type: 'number',
     status: 'optional',
   },
   text: {
     doc: 'Secondary text.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   disabled: {
@@ -30,7 +30,7 @@ export const OptionProperties: PropertiesTableProps = {
   help: FieldProperties.help,
   children: {
     doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }

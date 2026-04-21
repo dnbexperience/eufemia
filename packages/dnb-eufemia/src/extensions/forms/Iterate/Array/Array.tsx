@@ -3,12 +3,11 @@ import React, {
   useRef,
   useEffect,
   useReducer,
-  createRef,
   useContext,
   useCallback,
 } from 'react'
 import * as z from 'zod'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
@@ -17,15 +16,16 @@ import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
-import {
-  BasicProps as FlexContainerProps,
-  Props as FlexContainerAllProps,
-  pickFlexContainerProps,
+import type {
+  FlexContainerProps,
+  FlexContainerAllProps,
 } from '../../../../components/flex/Container'
-import IterateItemContext, {
+import { pickFlexContainerProps } from '../../../../components/flex/Container'
+import type {
   IterateItemContextState,
   ModeOptions,
 } from '../IterateItemContext'
+import IterateItemContext from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
@@ -39,13 +39,19 @@ import {
 import { getMessagesFromError } from '../../FieldBlock'
 import { clearedArray } from '../../hooks/useFieldProps'
 
-import type { ContainerMode, ElementChild, Props, Value } from './types'
+import type {
+  ContainerMode,
+  ElementChild,
+  IterateArrayProps,
+  Value,
+} from './types'
 import type { Identifier } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type * from './types'
 
-function ArrayComponent(props: Props) {
+function ArrayComponent(props: IterateArrayProps) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -110,7 +116,7 @@ function ArrayComponent(props: Props) {
       typeof props.minItems === 'number' ||
       typeof props.maxItems === 'number'
     ) {
-      shared.schema = (p: Props) => {
+      shared.schema = (p: IterateArrayProps) => {
         let s = z.array(z.any())
         if (typeof p.minItems === 'number') {
           s = s.min(p.minItems, { message: 'IterateArray.errorMinItems' })
@@ -177,8 +183,31 @@ function ArrayComponent(props: Props) {
     omitSectionPath,
   })
 
+  // Ensure the path exists as an array before children try to set values at numeric paths
+  useMountEffect(() => {
+    // Only run this if the array is using a defaultValue that needs to initialize the context
+    // Skip if data was already set by useFieldProps (which uses updateContextDataInSync)
+    if (
+      path &&
+      dataContext?.internalDataRef?.current &&
+      props.defaultValue !== undefined
+    ) {
+      const currentValue = pointer.has(
+        dataContext.internalDataRef.current,
+        path
+      )
+        ? pointer.get(dataContext.internalDataRef.current, path)
+        : undefined
+
+      // If not already an array, initialize it as one
+      if (!Array.isArray(currentValue)) {
+        dataContext.updateDataValue?.(path, arrayValue)
+      }
+    }
+  })
+
   // - Call onChange on the data context, if the count value changes
-  const countValueRef = useRef<number>()
+  const countValueRef = useRef<number>(undefined)
   useUpdateEffect(() => {
     if (countPath) {
       if (
@@ -191,7 +220,6 @@ function ArrayComponent(props: Props) {
       }
       countValueRef.current = countValue
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countValue])
 
   const idsRef = useRef<Array<Identifier>>([])
@@ -208,9 +236,9 @@ function ArrayComponent(props: Props) {
   >({})
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
-  const containerRef = useRef<HTMLDivElement>()
-  const hadPushRef = useRef<boolean>()
-  const innerRefs = useRef<
+  const containerRef = useRef<HTMLDivElement>(undefined)
+  const hadPushRef = useRef<boolean>(undefined)
+  const elementRefs = useRef<
     Record<string, React.RefObject<HTMLDivElement>>
   >({})
 
@@ -245,7 +273,7 @@ function ArrayComponent(props: Props) {
         modesRef.current[id] = {
           current:
             containerMode ??
-            (isNew ? getNextContainerMode() ?? 'edit' : 'auto'),
+            (isNew ? (getNextContainerMode() ?? 'edit') : 'auto'),
         }
       }
 
@@ -373,16 +401,18 @@ function ArrayComponent(props: Props) {
   }, [arrayValue, arrayItems, onChange])
 
   const flexProps: FlexContainerProps & {
-    innerRef: FlexContainerAllProps['innerRef']
+    id?: string
+    ref: FlexContainerAllProps['ref']
   } = {
-    className: classnames(
+    className: clsx(
       'dnb-forms-iterate',
       'dnb-forms-section', // To support containers
       props?.className
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
     ...pickSpacingProps(props),
-    innerRef: containerRef,
+    id: props?.id,
+    ref: containerRef,
   }
 
   const arrayElements =
@@ -395,8 +425,9 @@ function ArrayComponent(props: Props) {
     ) : (
       arrayItems.map((itemProps) => {
         const { id, value, index } = itemProps
-        const elementRef = (innerRefs.current[id] =
-          innerRefs.current[id] || createRef<HTMLDivElement>())
+        const elementRef = (elementRefs.current[id] = elementRefs.current[
+          id
+        ] || { current: null as HTMLDivElement | null })
 
         const renderChildren = (elementChild: ElementChild) => {
           return typeof elementChild === 'function'
@@ -415,12 +446,9 @@ function ArrayComponent(props: Props) {
 
         if (omitFlex) {
           return (
-            <IterateItemContext.Provider
-              key={`element-${id}`}
-              value={contextValue}
-            >
+            <IterateItemContext key={`element-${id}`} value={contextValue}>
               <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext.Provider>
+            </IterateItemContext>
           )
         }
 
@@ -428,12 +456,12 @@ function ArrayComponent(props: Props) {
           <Flex.Item
             className="dnb-forms-iterate__element"
             tabIndex={-1}
-            innerRef={elementRef}
+            ref={elementRef}
             key={`element-${id}`}
           >
-            <IterateItemContext.Provider value={contextValue}>
+            <IterateItemContext value={contextValue}>
               <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext.Provider>
+            </IterateItemContext>
           </Flex.Item>
         )
       })
@@ -453,13 +481,17 @@ function ArrayComponent(props: Props) {
         show={Boolean(error || limitWarning)}
         state={!error && limitWarning ? 'warning' : undefined}
         shellSpace={{ top: 0, bottom: 'medium' }}
-        no_animation={false}
+        noAnimation={false}
       >
+        {/* @ts-expect-error -- strictFunctionTypes */}
         {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
     </>
   )
 }
 
-ArrayComponent._supportsSpacingProps = true
+withComponentMarkers(ArrayComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default ArrayComponent

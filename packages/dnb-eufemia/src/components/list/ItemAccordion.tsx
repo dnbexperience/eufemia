@@ -5,10 +5,12 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
-import { ListVariant, ListContext } from './ListContext'
-import ItemContent, { ItemContentProps } from './ItemContent'
+import type { ListVariant } from './ListContext'
+import { ListContext } from './ListContext'
+import type { ItemContentProps } from './ItemContent'
+import ItemContent from './ItemContent'
 import FlexItem from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -28,7 +30,7 @@ export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
   /**
-   * When true, keeps the accordion content in the DOM when closed. Defaults to false.
+   * When true, keeps the accordion content in the DOM when closed. Defaults to `false`.
    */
   keepInDOM?: boolean
   /**
@@ -82,7 +84,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   const accordionId = useId(idProp)
   const inheritedDisabled = useContext(ListContext)?.disabled
   const appliedDisabled = disabled ?? inheritedDisabled
-  const childArray = React.Children.toArray(children)
+  const childArray = Array.isArray(children) ? children : [children]
   const hasExplicitHeader = childArray.some(
     (child) =>
       React.isValidElement(child) && child.type === AccordionHeader
@@ -107,7 +109,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   )
 
   return (
-    <ItemAccordionContext.Provider
+    <ItemAccordionContext
       value={{
         openState,
         pending,
@@ -121,7 +123,7 @@ function ItemAccordion(props: ItemAccordionProps) {
       }}
     >
       <ItemContent
-        className={classnames(
+        className={clsx(
           'dnb-list__item__accordion',
           openState && 'dnb-list__item__accordion--open',
           className
@@ -136,7 +138,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         {!hasExplicitHeader ? <AccordionHeader /> : null}
         {children}
       </ItemContent>
-    </ItemAccordionContext.Provider>
+    </ItemAccordionContext>
   )
 }
 ItemAccordion._supportsSpacingProps = true
@@ -187,7 +189,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
         inheritedSkeleton && createSkeletonClass('font', true),
@@ -213,11 +215,9 @@ function AccordionHeader(props: AccordionHeaderProps) {
 
   if (inheritedSkeleton) {
     return (
-      <Context.Provider
-        value={{ ...context, skeleton: inheritedSkeleton }}
-      >
+      <Context value={{ ...context, skeleton: inheritedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 
@@ -245,7 +245,7 @@ function AccordionContent(props: ItemContentProps) {
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__accordion__content',
         inheritedSkeleton && createSkeletonClass('font', true),
         className
@@ -264,11 +264,9 @@ function AccordionContent(props: ItemContentProps) {
 
   if (inheritedSkeleton) {
     return (
-      <Context.Provider
-        value={{ ...context, skeleton: inheritedSkeleton }}
-      >
+      <Context value={{ ...context, skeleton: inheritedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 

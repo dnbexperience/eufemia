@@ -1,11 +1,13 @@
 import type { Path, PathStrict, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import pointer from '../../utils/json-pointer'
-import {
+import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
   ResponseResolver,
+} from '../createContext'
+import {
   fetchData,
   handleCountryPath,
   isSupportedCountryCode,
@@ -37,6 +39,11 @@ type AutofillHandlerConfig = HandlerConfig & {
 export const unsupportedCountryCodeMessage =
   'Postal code verification is not supported for {countryCode}.'
 
+/**
+ * Mirrors the Bring Postal Code API response format.
+ * Property names use snake_case to match the external API contract.
+ * @see https://developer.bring.com/api/postal-code/
+ */
 export type PostalCodeResolverData = {
   postal_codes: { postal_code: string; city: string }[]
 }
@@ -48,6 +55,7 @@ export const preResponseResolver: PreResponseResolver = ({ value }) => {
   if (!value) {
     return { postal_codes: [] }
   }
+  return undefined
 }
 
 export const responseResolver: ResponseResolver<
@@ -75,9 +83,9 @@ export function autofill(
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
-  return async function autofillHandler(value, additionalArgs) {
+  return async function autofillHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value
@@ -89,7 +97,7 @@ export function autofill(
     })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
@@ -130,7 +138,7 @@ export function autofill(
         return onMatch(payload)
       }
     } catch (error) {
-      return error
+      return error as Error
     }
   }
 }
@@ -143,16 +151,18 @@ export function validator(
   | UseFieldProps<string>['onBlurValidator'] {
   const abortControllerRef = { current: null }
 
-  return async function validatorHandler(value, additionalArgs) {
+  return async function validatorHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value, and re-validate on path changes
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
+      // @ts-expect-error - strictFunctionTypes
       additionalArgs,
+      // @ts-expect-error - strictFunctionTypes
       handler: validatorHandler,
     })
 
@@ -188,8 +198,10 @@ export function validator(
         return onMatch()
       }
     } catch (error) {
-      return error
+      return error as Error
     }
+
+    return undefined
   }
 }
 

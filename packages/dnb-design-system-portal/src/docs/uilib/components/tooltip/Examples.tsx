@@ -16,19 +16,16 @@ export const TooltipExampleDefault = () => (
   </ComponentBox>
 )
 
-export const TooltipExampleActive = () => (
+export const TooltipExampleOpen = () => (
   <ComponentBox>
-    <Button
-      tooltip={<Tooltip active>Basic Tooltip</Tooltip>}
-      text="Active"
-    />
+    <Button tooltip={<Tooltip open>Basic Tooltip</Tooltip>} text="Open" />
   </ComponentBox>
 )
 
 export const TooltipExampleLinked = () => (
   <ComponentBox>
     <button className="target-1">Show the Tooltip</button>
-    <Tooltip id="unique" active targetSelector=".target-1">
+    <Tooltip id="unique" open targetSelector=".target-1">
       Tooltip linked
     </Tooltip>
   </ComponentBox>
@@ -43,7 +40,7 @@ export const TooltipExampleDelay = () => (
     >
       Tooltip 1
     </Tooltip>
-    <Tooltip position="bottom" targetElement={<Span>Bottom</Span>}>
+    <Tooltip placement="bottom" targetElement={<Span>Bottom</Span>}>
       Tooltip 2
     </Tooltip>
   </ComponentBox>
@@ -51,13 +48,15 @@ export const TooltipExampleDelay = () => (
 
 export const TooltipExampleNumberFormat = () => (
   <ComponentBox>
-    <NumberFormat tooltip="Tooltip">1234</NumberFormat>
+    <NumberFormat.Number tooltip="Tooltip">1234</NumberFormat.Number>
   </ComponentBox>
 )
 
 export const TooltipExampleNumberFormatWrapped = () => (
   <ComponentBox>
-    <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+    <Tooltip
+      targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}
+    >
       Tooltip NumberFormat
     </Tooltip>
   </ComponentBox>
@@ -242,7 +241,7 @@ export const TooltipExamplePositionRightLongText = () => (
     <Tooltip
       id="unique-position-right-long-text"
       targetSelector=".target-position-right-long-text"
-      position="right"
+      placement="right"
     >
       {longText}
     </Tooltip>
@@ -260,7 +259,7 @@ export const TooltipExamplePositionLeftLongText = () => (
     <Tooltip
       id="unique-position-left-long-text"
       targetSelector=".target-position-left-long-text"
-      position="left"
+      placement="left"
     >
       {longText}
     </Tooltip>
@@ -278,7 +277,7 @@ export const TooltipExamplePositionBottomLongText = () => (
     <Tooltip
       id="unique-position-bottom-long-text"
       targetSelector=".target-position-bottom-long-text"
-      position="bottom"
+      placement="bottom"
     >
       {longText}
     </Tooltip>
@@ -423,7 +422,7 @@ export const TooltipExamplePositionRight = () => (
     <Tooltip
       id="unique-position-right"
       targetSelector=".target-position-right"
-      position="right"
+      placement="right"
     >
       Position right
     </Tooltip>
@@ -436,7 +435,7 @@ export const TooltipExamplePositionLeft = () => (
     <Tooltip
       id="unique-position-left"
       targetSelector=".target-position-left"
-      position="left"
+      placement="left"
     >
       Position left
     </Tooltip>
@@ -449,7 +448,7 @@ export const TooltipExamplePositionBottom = () => (
     <Tooltip
       id="unique-position-bottom"
       targetSelector=".target-position-bottom"
-      position="bottom"
+      placement="bottom"
     >
       Position bottom
     </Tooltip>

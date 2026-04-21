@@ -4,6 +4,7 @@ import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../../shared/IsolatedStyleScope'
+import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('PortalRoot', () => {
   let originalWindow: Window & typeof globalThis
@@ -41,7 +42,7 @@ describe('PortalRoot', () => {
   it('should handle ref forwarding', () => {
     const ref = React.createRef<HTMLElement>()
     render(
-      <PortalRoot innerRef={ref}>
+      <PortalRoot ref={ref}>
         <div>Content</div>
       </PortalRoot>
     )
@@ -57,7 +58,7 @@ describe('PortalRoot', () => {
     }
 
     render(
-      <PortalRoot innerRef={refFn}>
+      <PortalRoot ref={refFn}>
         <div>Content</div>
       </PortalRoot>
     )
@@ -283,7 +284,7 @@ describe('PortalRoot', () => {
     const customId = 'custom-portal-with-ref'
     const ref = React.createRef<HTMLElement>()
     render(
-      <PortalRoot id={customId} innerRef={ref}>
+      <PortalRoot id={customId} ref={ref}>
         <div>Content</div>
       </PortalRoot>
     )
@@ -519,7 +520,7 @@ describe('PortalRoot', () => {
       const componentStyle = { color: 'blue', margin: '20px' }
 
       render(
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             style: scopeStyle,
             generatedScopeHash: 'test-hash',
@@ -532,7 +533,7 @@ describe('PortalRoot', () => {
           <PortalRoot style={componentStyle}>
             <div>Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -647,7 +648,7 @@ describe('PortalRoot', () => {
 
     it('should create isolated style scope even when nested inside another style scope', () => {
       render(
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             style: {},
             generatedScopeHash: 'parent-scope-hash',
@@ -660,7 +661,7 @@ describe('PortalRoot', () => {
           <PortalRoot>
             <div data-testid="portal-content">Portal Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -1054,5 +1055,16 @@ describe('getOrCreatePortalElement', () => {
       // Ensure provider id element not created
       expect(document.getElementById('provider-portal-root')).toBeNull()
     })
+  })
+})
+
+describe('PortalRoot aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <PortalRoot>
+        <div>Portal content</div>
+      </PortalRoot>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

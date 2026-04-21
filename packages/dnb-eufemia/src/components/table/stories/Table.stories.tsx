@@ -10,7 +10,8 @@ import styled from '@emotion/styled'
 import Table from '../Table'
 import Td from '../TableTd'
 import Th from '../TableTh'
-import Tr, { TableTrProps } from '../TableTr'
+import type { TableTrProps } from '../TableTr'
+import Tr from '../TableTr'
 import TableContainer from '../TableContainer'
 
 import {
@@ -38,14 +39,7 @@ export default {
 
 export const StickyBasicTable = () => {
   return (
-    <Table
-      // top="5rem"
-      // skeleton // toggle
-      border
-      outline
-      sticky="css-position"
-      // stickyOffset="2.5rem" // height of header
-    >
+    <Table border outline sticky="css-position">
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
         <Tr>
@@ -144,12 +138,7 @@ export const ContainerTable = () => {
       </TableContainer.Head>
 
       <TableContainer.Body>
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table One</caption>
           <thead>
             <Tr noWrap>
@@ -204,12 +193,7 @@ export const ContainerTable = () => {
           </tbody>
         </Table>
 
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table Two</caption>
           <thead>
             <Tr noWrap>
@@ -321,7 +305,7 @@ export const BasicTable = () => {
               active={sortState.column1.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column1}
+                onClick={sortHandler.column1}
                 text="Column 1"
                 title="Sort table column"
               />
@@ -332,7 +316,7 @@ export const BasicTable = () => {
               active={sortState.column2.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column2}
+                onClick={sortHandler.column2}
                 text="Column 2"
                 title="Sort table column"
               />
@@ -344,7 +328,7 @@ export const BasicTable = () => {
               active={sortState.column3.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column3}
+                onClick={sortHandler.column3}
                 text="Column 3"
                 title="Sort table column"
               />
@@ -468,10 +452,9 @@ const ContentTr = ({
     <Tr
       expanded={expanded}
       disabled={disabled}
-      // noAnimation
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
-      onClosed={trCloseHandler}
+      onOpen={trOpenHandler}
+      onClose={trCloseHandler}
       {...rest}
     >
       <Td>
@@ -490,19 +473,19 @@ const ContentTr = ({
 
       <Td>
         <SuccessGreen size="x-small">
-          +<NumberFormat percent>17.24</NumberFormat>
+          +<NumberFormat.Percent>17.24</NumberFormat.Percent>
         </SuccessGreen>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.5</NumberFormat>
+          <NumberFormat.Percent>0.5</NumberFormat.Percent>
         </P>
       </Td>
 
       <Td>
         <P size="x-small">
-          <NumberFormat percent>0.8</NumberFormat>
+          <NumberFormat.Percent>0.8</NumberFormat.Percent>
         </P>
       </Td>
 
@@ -512,9 +495,7 @@ const ContentTr = ({
         <span>some content</span>
       </Td>
 
-      <Td.AccordionContent
-      // noAnimation
-      >
+      <Td.AccordionContent>
         <Dl>
           <dt>Favorittfarge</dt>
           <dd>Grønn</dd>
@@ -523,8 +504,8 @@ const ContentTr = ({
             <Button
               variant="secondary"
               icon={shopping_cart}
-              icon_position="left"
-              on_click={buttonClickHandler}
+              iconPosition="left"
+              onClick={buttonClickHandler}
             >
               Taco
             </Button>
@@ -558,11 +539,7 @@ const TableContent = () => {
       {/* <caption>A Table Caption</caption> */}
       <thead>
         <Tr>
-          <Th
-            // colSpan={2}
-            sortable
-            active
-          >
+          <Th sortable active>
             <HeaderSortButton>Fond</HeaderSortButton>
           </Th>
           <Th sortable reversed>
@@ -584,11 +561,7 @@ const TableContent = () => {
       </thead>
 
       <tbody>
-        <ContentTr
-        // variant="even"
-        // disabled
-        // expanded
-        />
+        <ContentTr />
 
         {manyRows}
       </tbody>
@@ -606,53 +579,13 @@ const HeaderSortButton = ({ children }) => {
   )
 }
 
-export const TableDeprecatedAccordionProp = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
-  return (
-    <main aria-label="main area">
-      <h1 className="dnb-sr-only">Table with accordion row</h1>
-      <ToggleButton
-        // size="small"
-        on_change={() => {
-          setSkeleton((s) => !s)
-        }}
-      >
-        Toggle Skeleton
-      </ToggleButton>
-
-      <Table.ScrollView top>
-        <Table
-          accordion
-          skeleton={skeleton}
-          outline
-          border
-          size="large"
-          sticky
-          // lang="no"
-        >
-          <TableContent />
-        </Table>
-      </Table.ScrollView>
-
-      <Global
-        styles={css`
-          html {
-            overflow: scroll;
-          }
-        `}
-      />
-    </main>
-  )
-}
-
 export const TableAccordionMode = () => {
   const [skeleton, setSkeleton] = React.useState(false)
   return (
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -667,7 +600,6 @@ export const TableAccordionMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -690,8 +622,7 @@ export const TableNavigationMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -706,7 +637,6 @@ export const TableNavigationMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -736,7 +666,7 @@ export function TableSort() {
     },
   })
 
-  interface Row {
+  type Row = {
     name: string
     minAmount: number
   }
@@ -764,7 +694,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column1.direction])
 
   React.useEffect(() => {
@@ -782,7 +711,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column2.direction])
 
   return (
@@ -882,11 +810,7 @@ export const InCard = () => {
       <Tr>
         <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
           <Flex.Horizontal justify={align}>
-            <Button
-              variant="tertiary"
-              icon={stopIcon}
-              icon_position="left"
-            >
+            <Button variant="tertiary" icon={stopIcon} iconPosition="left">
               Avvis signering
             </Button>
             <Button variant="secondary" icon={composeIcon}>
@@ -1385,53 +1309,16 @@ const tableData = [
 
 export function Overflow() {
   return (
-    <div
-    // style={{
-    //   padding: '2rem',
-    //   minHeight: '100vh',
-    // }}
-    >
-      {/* <h1
-        style={{
-          color: '#007272',
-          fontSize: '2rem',
-          fontWeight: '500',
-          marginBottom: '1.5rem',
-          textAlign: 'center',
-        }}
-      >
-        DNB Eufemia Design System Test - Fun Facts About DNB
-      </h1> */}
+    <div>
       <Table.ScrollView
         top="6rem"
         style={{
           maxHeight: '400px',
-          // backgroundColor: '#ffffff',
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
         }}
       >
-        <Table
-          fixed
-          border
-          outline
-          mode="accordion"
-
-          // style={{
-          //   '--table-border-color': '#d6d6d6',
-          // }}
-        >
-          {/* <caption
-            style={{
-              color: '#707070',
-              fontSize: '1rem',
-              marginBottom: '1rem',
-              textAlign: 'left',
-              fontWeight: '400',
-            }}
-          >
-            Interesting Facts About DNB with Expandable Details
-          </caption> */}
+        <Table fixed border outline mode="accordion">
           <thead>
             <Tr>
               <Th style={{ width: '30%' }}>Fun Fact</Th>
@@ -1444,12 +1331,7 @@ export function Overflow() {
           </thead>
           <tbody>
             {tableData.map((item) => (
-              <Tr
-                key={item.id}
-                // style={{
-                //   borderBottom: '1px solid #e5e5e5',
-                // }}
-              >
+              <Tr key={item.id}>
                 <Td>{item.fact}</Td>
                 <Td>{item.category}</Td>
                 <Td>{item.location}</Td>
@@ -1467,18 +1349,16 @@ export function Overflow() {
 export function Accodion() {
   const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
     const TdCheckbox = () => {
-      return <Checkbox label="Select row" label_sr_only />
+      return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
-      return <Input label="Label" label_sr_only size={4} />
+      return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
-      const ref = React.useRef()
-      // const { copy, CopyTooltip } = useCopyWithNotice()
+      const ref = React.useRef<HTMLButtonElement | null>(null)
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId
-        // copy(url.toString())
       }
       return (
         <>
@@ -1486,27 +1366,15 @@ export function Accodion() {
             Ring the bell
           </Button>
 
-          {/* <Section top spacing>
-            <Dl>
-              <Dt>Favorittfarge</Dt>
-              <Dd>Grønn</Dd>
-              <Dt>Favorittmat</Dt>
-              <Dd>Taco</Dd>
-            </Dl>
-          </Section> */}
-
           <Button
             top
             variant="tertiary"
-            // icon={copyIcon}
-            icon_position="left"
-            on_click={shareHandler}
-            inner_ref={ref}
+            iconPosition="left"
+            onClick={shareHandler}
+            ref={ref}
           >
             Copy link to this row
           </Button>
-
-          {/* <CopyTooltip target={ref.current} /> */}
         </>
       )
     }
@@ -1555,7 +1423,7 @@ export function Accodion() {
         <AccordionTable
           id="accordion-table-1"
           showCheckbox
-          accordionChevronPlacement="end"
+          accordionChevronPlacement="right"
         />
       </Table.ScrollView>
 

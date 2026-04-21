@@ -1,10 +1,9 @@
 import React from 'react'
-import CardInstance, {
-  Props as CardProps,
-} from '../../../../components/card/Card'
+import type { CardProps } from '../../../../components/card/Card'
+import CardInstance from '../../../../components/card/Card'
 
 function Card(props: CardProps) {
-  return <CardInstance stack outset {...props} />
+  return <CardInstance stack {...props} />
 }
 
 Object.assign(Card, CardInstance)

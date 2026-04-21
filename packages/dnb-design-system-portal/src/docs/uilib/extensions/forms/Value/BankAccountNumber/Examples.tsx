@@ -53,3 +53,26 @@ export const Inline = () => {
     </ComponentBox>
   )
 }
+
+export const BankAccountTypes = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber
+        bankAccountType="swedishBban"
+        value="50001234567"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="swedishBankgiro"
+        value="59140129"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="swedishPlusgiro"
+        value="1263664"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="iban"
+        value="NO9386011117947"
+      />
+    </ComponentBox>
+  )
+}

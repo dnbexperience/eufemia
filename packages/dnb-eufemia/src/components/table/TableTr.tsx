@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
@@ -13,35 +13,35 @@ export type TableTrProps = {
 
   /**
    * If set to true, the inherited header text will not wrap to new lines.
-   * Default: false
+   * Default: `false`
    */
   noWrap?: boolean
 
   /**
    * Set true to render the tr initially as expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   expanded?: boolean
 
   /**
    * Set true to disable the tr to be accessible as an interactive element.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"`prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   disabled?: boolean
 
   /**
    * Set to true to skip animation.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   noAnimation?: boolean
 
   /**
    * Set to `true` to keep the accordion content in the DOM when closed.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
-   * Default: false
+   * Default: `false`
    */
   keepInDOM?: boolean
 
@@ -55,13 +55,13 @@ export type TableTrProps = {
    * Will emit when table row is expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
-  onOpened?: ({ target }: { target: HTMLTableRowElement }) => void
+  onOpen?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * Will emit when table row is closed (after it was open)
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
-  onClosed?: ({ target }: { target: HTMLTableRowElement }) => void
+  onClose?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * The content of the component.
@@ -84,7 +84,7 @@ export default function Tr(
     variant,
   })
 
-  const className = classnames(
+  const className = clsx(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
     isLast && 'dnb-table__tr--last',
@@ -94,13 +94,7 @@ export default function Tr(
 
   const tableContext = React.useContext(TableContext)
 
-  // Deprecated – can be removed in v11
-  const deprecatedAccordionProp = tableContext?.allProps?.accordion
-
-  if (
-    deprecatedAccordionProp ||
-    tableContext?.allProps?.mode === 'accordion'
-  ) {
+  if (tableContext?.allProps?.mode == 'accordion') {
     return (
       <TableAccordionHead
         count={count}
@@ -114,13 +108,13 @@ export default function Tr(
   }
 
   const {
-    expanded, // eslint-disable-line @typescript-eslint/no-unused-vars
-    disabled, // eslint-disable-line @typescript-eslint/no-unused-vars
-    noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
-    keepInDOM, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onClosed, // eslint-disable-line @typescript-eslint/no-unused-vars
+    expanded,
+    disabled,
+    noAnimation,
+    keepInDOM,
+    onClick,
+    onOpen,
+    onClose,
     ...trProps
   } = restProps
 
@@ -134,6 +128,9 @@ function useHandleTrVariant({ variant }) {
    * Handle odd/even
    */
   const countRef = tableContext?.trCountRef.current
+  const lastRenderAliasRef = React.useRef(undefined)
+  const hasIncrementedRef = React.useRef(false)
+
   const increment = React.useCallback(() => {
     if (typeof countRef === 'undefined') {
       return 0
@@ -152,14 +149,25 @@ function useHandleTrVariant({ variant }) {
   const [count, setCount] = React.useState(() => {
     // SSR Support
     if (typeof window === 'undefined') {
+      hasIncrementedRef.current = true
       return increment()
     }
+
+    return undefined
   })
 
   // StrictMode support
   React.useEffect(() => {
     // SSR will not execute useEffect
-    setCount(increment())
+    if (lastRenderAliasRef.current !== tableContext?.rerenderAlias) {
+      lastRenderAliasRef.current = tableContext?.rerenderAlias
+      hasIncrementedRef.current = false
+    }
+
+    if (!hasIncrementedRef.current) {
+      hasIncrementedRef.current = true
+      setCount(increment())
+    }
   }, [tableContext?.rerenderAlias, increment])
 
   /**
@@ -190,7 +198,7 @@ export function useHandleOddEven({ children }) {
 
   // When the alias changes, all tr's will rerender and get a new even/odd color
   // This is useful, when one tr gets removed
-  const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
+  const [rerenderAlias, setRerenderAlias] = React.useState({})
 
   const forceRerender = React.useCallback(() => {
     trCountRef.current.count = 0

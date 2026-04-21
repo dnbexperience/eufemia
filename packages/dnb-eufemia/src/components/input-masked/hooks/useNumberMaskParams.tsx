@@ -1,0 +1,93 @@
+/**
+ * Returns number mask parameters if requested by the component properties
+ *
+ * @returns object of number mask parameter
+ */
+
+import React from 'react'
+import { extendPropsWithContext } from '../../../shared/component-helper'
+import { getCurrencySymbol } from '../../number-format/NumberUtils'
+import InputMaskedContext from '../InputMaskedContext'
+
+import {
+  isRequestingLocaleSupport,
+  isRequestingNumberMask,
+  handlePercentMask,
+  handleCurrencyMask,
+  handleNumberMask,
+  handleThousandsSeparator,
+  handleDecimalSeparator,
+  fromJSON,
+} from '../InputMaskedUtils'
+
+import { useTranslation } from './useTranslation'
+
+export const useNumberMaskParams = () => {
+  const { props } = React.useContext(InputMaskedContext)
+  const locale = useTranslation()
+
+  if (!isRequestingNumberMask(props)) {
+    return { ...(fromJSON(props.maskOptions) as Record<string, unknown>) }
+  }
+
+  let { numberMask, currencyMask, maskOptions } = props
+  const { asNumber, asPercent, asCurrency, value } = props
+
+  maskOptions = fromJSON(maskOptions) as Record<string, unknown>
+  numberMask =
+    numberMask === true
+      ? {}
+      : (fromJSON(numberMask) as Record<string, unknown>)
+  currencyMask =
+    currencyMask === true
+      ? {}
+      : (fromJSON(currencyMask, {
+          currency: currencyMask,
+        }) as Record<string, unknown>)
+  if (!currencyMask?.currency) {
+    delete currencyMask.currency
+  }
+
+  if (isRequestingLocaleSupport(props)) {
+    const thousandsSeparatorSymbol = handleThousandsSeparator(locale)
+    const decimalSymbol = handleDecimalSeparator(locale)
+
+    if (asNumber || asPercent) {
+      numberMask = extendPropsWithContext(numberMask, null, {
+        decimalSymbol,
+        thousandsSeparatorSymbol,
+      })
+    } else if (asCurrency) {
+      currencyMask = extendPropsWithContext(currencyMask, null, {
+        decimalSymbol,
+        thousandsSeparatorSymbol,
+        currency: getCurrencySymbol(
+          locale,
+          typeof asCurrency === 'string' ? asCurrency : null,
+          currencyMask?.currencyDisplay,
+          value
+        ),
+      })
+    }
+  }
+
+  let maskParams = null
+
+  if (numberMask) {
+    maskParams = handleNumberMask({
+      maskOptions,
+      numberMask,
+    })
+
+    if (asPercent) {
+      maskParams = handlePercentMask({ props, locale, maskParams })
+    }
+  } else if (currencyMask) {
+    maskParams = handleCurrencyMask({
+      maskOptions,
+      currencyMask,
+    })
+  }
+
+  return maskParams
+}

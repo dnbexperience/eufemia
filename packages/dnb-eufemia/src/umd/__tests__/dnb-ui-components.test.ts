@@ -16,6 +16,6 @@ describe('UMD Components package', () => {
   })
 
   it('has to have a Anchor Component', () => {
-    expect(dnbComponents.Anchor).toBeType('object')
+    expect(dnbComponents.Anchor).toBeType('function')
   })
 })

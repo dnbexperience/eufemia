@@ -3,6 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../tooltip/style/deps.scss';
-@import './dnb-number-format.scss';
+@use '../../tooltip/style/deps.scss';
+@use './dnb-number-format.scss';

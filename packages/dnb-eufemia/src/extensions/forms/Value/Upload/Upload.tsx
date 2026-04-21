@@ -1,29 +1,27 @@
 import React, { useMemo, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
-import ListFormat, {
-  ListFormatProps,
-} from '../../../../components/list-format'
+import type { ListFormatProps } from '../../../../components/list-format'
+import ListFormat from '../../../../components/list-format'
 import type { UploadFile } from '../../../../components/upload/types'
 import { getFileIcon } from '../../../../components/upload/UploadFileListCell'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../components/upload/UploadVerify'
-import {
-  Props as FieldUploadProps,
-  transformFiles,
-} from '../../Field/Upload/Upload'
-import { format } from '../../../../components/number-format/NumberUtils'
+import type { FieldUploadProps as FieldUploadProps } from '../../Field/Upload/Upload'
+import { transformFiles } from '../../Field/Upload/Upload'
+import { formatNumber } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<Array<UploadFile>> &
+export type ValueUploadProps = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
   Pick<FieldUploadProps, 'download' | 'onFileClick'> & {
     displaySize?: boolean
   }
 
-function Upload(props: Props) {
+function Upload(props: ValueUploadProps) {
   const preparedProps = {
     fromExternal: transformFiles,
     ...props,
@@ -39,13 +37,14 @@ function Upload(props: Props) {
     displaySize = false,
     onFileClick,
     ...rest
+    // @ts-expect-error - strictFunctionTypes
   } = useValueProps(preparedProps)
 
   const list = useMemo(() => {
     const valueToUse =
       value?.map((uploadFile, index) => {
         if (!uploadFile) {
-          return
+          return undefined
         }
 
         return (
@@ -69,6 +68,8 @@ function Upload(props: Props) {
         />
       )
     }
+
+    return undefined
   }, [
     value,
     download,
@@ -81,7 +82,7 @@ function Upload(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-upload', className)}
+      className={clsx('dnb-forms-value-upload', className)}
       {...rest}
     >
       {list}
@@ -91,21 +92,24 @@ function Upload(props: Props) {
 
 function getSize(size: number) {
   if (!size) {
-    return
+    return undefined
   }
   // Converts from b (binary) to MB (decimal)
   const sizeInMb = size / BYTES_IN_A_MEGA_BYTE
-  return ` (${format(sizeInMb, {
+  return ` (${formatNumber(sizeInMb, {
     decimals: 0,
   })} MB)`
 }
 
-Upload._supportsSpacingProps = true
+withComponentMarkers(Upload, {
+  _supportsSpacingProps: true,
+})
+
 export default Upload
 
 function UploadFileItem(
   props: { uploadFile: UploadFile } & Pick<
-    Props,
+    ValueUploadProps,
     'download' | 'onFileClick' | 'displaySize'
   >
 ) {

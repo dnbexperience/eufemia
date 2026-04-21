@@ -1,18 +1,20 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Flex from '../flex/Flex'
-import { SectionParams, SectionProps } from '../section/Section'
+import type { SectionProps } from '../section/Section'
+import { SectionParams } from '../section/Section'
 import { combineLabelledBy } from '../../shared/component-helper'
 import CardContext from './CardContext'
 import Space from '../Space'
 import useId from '../../shared/helpers/useId'
 
-import type { BasicProps as FlexContainerProps } from '../flex/Container'
-import type { BasicProps as FlexItemProps } from '../flex/Item'
+import type { FlexContainerProps } from '../flex/Container'
+import type { FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
 
-export type Props = {
+export type CardProps = {
   /**
    * Define a title that appears on top of the Card
    */
@@ -30,14 +32,18 @@ export type Props = {
 } & FlexContainerProps &
   Pick<
     SectionProps,
-    'outset' | 'outline' | 'outlineWidth' | 'backgroundColor'
+    | 'outset'
+    | 'outline'
+    | 'outlineWidth'
+    | 'dropShadow'
+    | 'backgroundColor'
   > &
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size' | 'title'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
 
-function Card(props: Props) {
+function Card(props: CardProps) {
   const nestedContext = useContext(CardContext)
 
   const {
@@ -45,7 +51,6 @@ function Card(props: Props) {
     stack,
     direction,
     gap,
-    spacing,
     innerSpace,
     alignSelf = 'stretch',
     align,
@@ -54,6 +59,8 @@ function Card(props: Props) {
     responsive = !nestedContext?.isNested,
     filled,
     outset,
+    outlineWidth = 'var(--card-outline-width)',
+    dropShadow,
     title,
     children,
     ...rest
@@ -63,10 +70,10 @@ function Card(props: Props) {
   const falseWhenSmall = { small: false, medium: true, large: true }
   const trueWhenSmall = { small: true, medium: false, large: false }
   const basisSpace = {
-    top: 'medium',
-    right: 'medium',
-    bottom: 'large',
-    left: 'medium',
+    top: 'small',
+    right: 'small',
+    bottom: 'small',
+    left: 'small',
   }
   const smallSpace = responsive
     ? {
@@ -77,7 +84,7 @@ function Card(props: Props) {
     : basisSpace
 
   const params = SectionParams({
-    className: classnames(
+    className: clsx(
       'dnb-card',
       className,
       responsive && 'dnb-card--responsive',
@@ -88,11 +95,12 @@ function Card(props: Props) {
     outset: nestedContext?.isNested
       ? false
       : outset === true
-      ? falseWhenSmall
-      : outset,
+        ? falseWhenSmall
+        : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
     outline: 'var(--card-outline-color)',
-    outlineWidth: 'var(--card-outline-width)',
+    outlineWidth,
+    dropShadow,
     backgroundColor: 'var(--card-background-color)',
     innerSpace:
       innerSpace ??
@@ -107,14 +115,14 @@ function Card(props: Props) {
 
   return (
     <Flex.Item alignSelf={alignSelf} element="section" {...params}>
-      <Card.Provider disableCardBreakout>
+      <CardContext value={{ ...nestedContext, isNested: true }}>
         <Flex.Container
           direction={direction ?? 'vertical'}
           divider={divider}
           alignSelf={alignSelf}
           align={stack ? 'stretch' : align}
           wrap={!stack}
-          gap={gap ?? spacing ?? (stack ? 'medium' : false)}
+          gap={gap ?? (stack ? 'medium' : false)}
           rowGap={rowGap}
         >
           {title && (
@@ -124,37 +132,13 @@ function Card(props: Props) {
           )}
           {children}
         </Flex.Container>
-      </Card.Provider>
+      </CardContext>
     </Flex.Item>
   )
 }
 
-Card._supportsSpacingProps = true
-
-/**
- * Provides the default context for the Card component's children.
- * Can be used to tell children to act as if they are in a Card, even if they are not.
- */
-Card.Provider = function CardProvider({
-  /**
-   * Defines if Card components should act as if it is nested inside another Card.
-   * Used to control side-margins outset behavior.
-   *
-   * Defaults to existing context value.
-   */
-  disableCardBreakout,
-  children,
-}: {
-  disableCardBreakout?: boolean
-  children: React.ReactNode
-}) {
-  const context = useContext(CardContext) || {}
-
-  context.isNested = disableCardBreakout ?? context?.isNested
-
-  return (
-    <CardContext.Provider value={context}>{children}</CardContext.Provider>
-  )
-}
+withComponentMarkers(Card, {
+  _supportsSpacingProps: true,
+})
 
 export default Card

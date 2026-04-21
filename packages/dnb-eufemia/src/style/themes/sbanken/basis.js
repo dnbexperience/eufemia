@@ -5,4 +5,4 @@
  *
  */
 
-import '../theme-sbanken/sbanken-theme-basis.scss'
+import './sbanken-theme-basis.scss'

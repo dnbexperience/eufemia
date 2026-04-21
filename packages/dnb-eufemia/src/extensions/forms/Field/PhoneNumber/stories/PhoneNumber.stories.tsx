@@ -1,13 +1,13 @@
 import React from 'react'
 import { Field, Form, FormError, Tools } from '../../..'
 import { Flex } from '../../../../../components'
-import { AdditionalArgs } from '../PhoneNumber'
+import type { AdditionalArgs } from '../PhoneNumber'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PhoneNumber',
 }
 
-const initialData = { phone: '+47 42345678' }
+const initialData = { phone: '+4742345678' }
 
 const makeRequest = async (value) => {
   return new Promise((resolve) => {
@@ -18,18 +18,18 @@ const makeRequest = async (value) => {
 }
 
 const onChangeValidator = async (value) => {
-  // Delay the response
   const isValid = await makeRequest(value)
   if (!isValid) {
     return new FormError('Field.errorRequired')
   }
+  return undefined
 }
 
 export function PhoneNumber() {
   const { update } = Form.useData('uniqueId')
 
   React.useEffect(() => {
-    update('/phone', () => '+41 123')
+    update('/phone', () => '+41123')
   }, [update])
 
   return (
@@ -38,7 +38,6 @@ export function PhoneNumber() {
         <Field.PhoneNumber
           required
           onChangeValidator={onChangeValidator}
-          // pattern="^\+41 [1]\d{2}$"
           validateInitially
           path="/phone"
           onBlur={console.log}
@@ -76,13 +75,12 @@ const transformOut = (internal, additionalArgs = {}) => {
     countryCodePrefix,
   } satisfies PhoneNumberDataShape
 }
-const transformIn = (
-  {
+const transformIn = (external: unknown) => {
+  const {
     countryCode: iso,
     phoneNumber,
     countryCodePrefix: countryCode,
-  }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
-) => {
+  } = (external || {}) as PhoneNumberDataShape
   return {
     countryCode,
     phoneNumber,
@@ -127,6 +125,47 @@ export function Basic() {
           })
         }
       />
+
+      <Tools.Log top />
+    </Form.Handler>
+  )
+}
+
+export function E164AutoDetection() {
+  return (
+    <Form.Handler
+      defaultData={{
+        norwegian: '+4798712345',
+        swedish: '+46701234567',
+        american: '+12025551234',
+        samoa: '+16841234567',
+      }}
+    >
+      <Flex.Stack>
+        <Field.PhoneNumber path="/norwegian" numberLabel="Norway (+47)" />
+        <Field.PhoneNumber path="/swedish" numberLabel="Sweden (+46)" />
+        <Field.PhoneNumber path="/american" numberLabel="USA (+1)" />
+        <Field.PhoneNumber
+          path="/samoa"
+          numberLabel="American Samoa (+1-684)"
+        />
+      </Flex.Stack>
+
+      <Tools.Log top />
+    </Form.Handler>
+  )
+}
+
+export function ZeroPrefixAutoDetection() {
+  return (
+    <Form.Handler
+      defaultData={{
+        phone: '004798712345',
+      }}
+    >
+      <Flex.Stack>
+        <Field.PhoneNumber path="/phone" numberLabel="00 prefix" />
+      </Flex.Stack>
 
       <Tools.Log top />
     </Form.Handler>

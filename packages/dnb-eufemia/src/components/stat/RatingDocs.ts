@@ -1,5 +1,5 @@
-import { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
+import type { PropertiesTableProps } from '../../shared/types'
+import { NumberFormatProperties } from '../number-format/NumberFormatDocs'
 import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const RatingProperties: PropertiesTableProps = {
@@ -18,10 +18,10 @@ export const RatingProperties: PropertiesTableProps = {
   variant: {
     doc: 'Visual variant.',
     type: ['"stars"', '"progressive"'],
-    defaultValue: 'stars',
+    defaultValue: '"stars"',
     status: 'optional',
   },
-  srLabel: NumberFormatPropertiesCamelCase.srLabel,
+  srLabel: NumberFormatProperties.srLabel,
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

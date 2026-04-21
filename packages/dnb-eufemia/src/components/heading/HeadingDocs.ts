@@ -1,26 +1,26 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const HeadingProperties: PropertiesTableProps = {
   text: {
-    doc: 'A heading, can be text or React.Node.',
-    type: 'React.Node',
+    doc: 'A heading, can be text or `React.ReactNode`.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'A heading, can be text or React.Node.',
-    type: 'React.Node',
+    doc: 'A heading, can be text or `React.ReactNode`.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   size: {
     doc: 'Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.',
     type: [
-      'xx-large',
-      'x-large',
-      'large',
-      'medium',
-      'basis',
-      'small',
-      'x-small',
+      '"xx-large"',
+      '"x-large"',
+      '"large"',
+      '"medium"',
+      '"basis"',
+      '"small"',
+      '"x-small"',
     ],
     status: 'optional',
   },
@@ -49,8 +49,8 @@ export const HeadingProperties: PropertiesTableProps = {
     type: ['boolean', 'number'],
     status: 'optional',
   },
-  skip_correction: {
-    doc: 'If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either',
+  skipCorrection: {
+    doc: 'If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.',
     type: 'boolean',
     status: 'optional',
   },
@@ -59,7 +59,7 @@ export const HeadingProperties: PropertiesTableProps = {
     type: ['boolean', 'function'],
     status: 'optional',
   },
-  debug_counter: {
+  debugCounter: {
     doc: 'If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.',
     type: ['boolean', 'function'],
     status: 'optional',
@@ -72,11 +72,6 @@ export const HeadingProperties: PropertiesTableProps = {
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
-    status: 'optional',
-  },
-  proseMaxWidth: {
-    doc: 'Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.',
-    type: ['number', 'boolean'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

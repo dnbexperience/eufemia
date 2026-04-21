@@ -1,16 +1,18 @@
 import React, { useCallback, useContext } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
-import Context, { ContextState } from '../Context'
+import type { ContextState } from '../Context'
+import Context from '../Context'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type DataContextAtProps = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */
   path?: string
   iterate?: boolean
   children?: React.ReactNode
 }
 
-function At(props: Props) {
+function At(props: DataContextAtProps) {
   const { path = '/', iterate, children } = props
   const dataContext = useContext(Context)
   const {
@@ -49,7 +51,7 @@ function At(props: Props) {
           ) as ContextState['handlePathChange']
 
           return (
-            <Context.Provider
+            <Context
               key={`element${i}`}
               value={{
                 ...dataContext,
@@ -58,7 +60,7 @@ function At(props: Props) {
               }}
             >
               {children}
-            </Context.Provider>
+            </Context>
           )
         })}
       </>
@@ -66,7 +68,7 @@ function At(props: Props) {
   }
 
   return (
-    <Context.Provider
+    <Context
       value={{
         ...dataContext,
         data,
@@ -74,9 +76,10 @@ function At(props: Props) {
       }}
     >
       {children}
-    </Context.Provider>
+    </Context>
   )
 }
 
-At._supportsSpacingProps = true
+withComponentMarkers(At, { _supportsSpacingProps: true })
+
 export default At

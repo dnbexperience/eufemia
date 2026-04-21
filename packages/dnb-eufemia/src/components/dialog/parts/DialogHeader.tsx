@@ -1,19 +1,19 @@
 import React from 'react'
-import classnames from 'classnames'
-import ModalHeader, {
-  ModalHeaderProps,
-} from '../../modal/parts/ModalHeader'
-import type { SpacingProps } from '../../space/types'
+import clsx from 'clsx'
+import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
+import ModalHeader from '../../modal/parts/ModalHeader'
+import type { SpacingProps } from '../../../shared/types'
 
-interface DialogHeaderProps extends ModalHeaderProps, SpacingProps {
+type DialogHeaderProps = {
   titleClass?: string
-}
+} & ModalHeaderProps &
+  SpacingProps
 
 export default function DialogHeader({
   className,
   titleClass,
   size = 'large',
-  ref, // eslint-disable-line
+  ref,
   ...props
 }: DialogHeaderProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {
@@ -21,8 +21,8 @@ export default function DialogHeader({
     <ModalHeader
       {...props}
       size={size}
-      className={classnames('dnb-dialog__header', className)}
-      title_class={classnames('dnb-dialog__title', titleClass)}
+      className={clsx('dnb-dialog__header', className)}
+      titleClass={clsx('dnb-dialog__title', titleClass)}
     />
   )
 }

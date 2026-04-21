@@ -16,18 +16,12 @@ import {
   Flex,
 } from '../../components'
 import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
-import { Provider } from '../../shared'
-// import Link from '../../../elements/Link'
 
 export default {
   title: 'Eufemia/Elements/Other',
 }
 
 const CustomStyles = styled.div`
-  .dnb-form-row {
-    background-color: rgba(200, 0, 200, 0.15);
-  }
-
   ul,
   ol,
   dl {
@@ -53,12 +47,6 @@ const CustomStyles = styled.div`
 
   p {
     background-color: rgba(0, 0, 0, 0.15);
-  }
-  ${
-    '' /* .dnb-form-row + p,
-  textarea + p {
-    margin-top: 1rem;
-  } */
   }
 `
 
@@ -163,22 +151,20 @@ export const Textarea = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
-          <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="hendrerit">
-              Label for the textarea:
-            </label>
-            <textarea
-              className="dnb-textarea"
-              id="hendrerit"
-              rows={5}
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
+        <Flex.Vertical>
+          <label className="dnb-form-label" htmlFor="hendrerit">
+            Label for the textarea:
+          </label>
+          <textarea
+            className="dnb-textarea"
+            id="hendrerit"
+            rows={5}
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida
             nostra lacinia bibendum hendrerit porttitor volutpat nam duis
             nisl scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-        </Provider>
+          />
+        </Flex.Vertical>
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
@@ -212,22 +198,20 @@ export const Textarea = () => (
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
-          <Flex.Vertical>
-            <label className="dnb-form-label" htmlFor="vestibulum">
-              Label:
-            </label>
-            <textarea
-              id="vestibulum"
-              className="dnb-textarea status--error"
-              cols={33}
-              defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
+        <Flex.Vertical>
+          <label className="dnb-form-label" htmlFor="vestibulum">
+            Label:
+          </label>
+          <textarea
+            id="vestibulum"
+            className="dnb-textarea status--error"
+            cols={33}
+            defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
             scelerisque sapien erat"
-            />
-          </Flex.Vertical>
-          <FormStatus text="Message to the user" />
-        </Provider>
+          />
+        </Flex.Vertical>
+        <FormStatus text="Message to the user" />
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
@@ -239,7 +223,6 @@ export const Textarea = () => (
             className="dnb-textarea"
             id="volutpat"
             disabled
-            // readOnly
             cols={33}
             defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
@@ -253,14 +236,7 @@ export const Textarea = () => (
 )
 
 export const ElementsAndSkeleton = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   const [showSkeleton, setSkeletonState] = React.useState(false)
-  // console.log('showSkeleton', showSkeleton)
 
   return (
     <Box>
@@ -268,17 +244,12 @@ export const ElementsAndSkeleton = () => {
         <ToggleButton
           skeleton={false}
           checked={showSkeleton}
-          on_change={() => setSkeletonState((s) => !s)}
+          onChange={() => setSkeletonState((s) => !s)}
         >
           Toggle Skeleton
         </ToggleButton>
       </Skeleton.Exclude>
-      <Skeleton
-        show={showSkeleton}
-        // no_animation
-        // show
-        // figure={() => <SkeletonArticle rows={2} />}
-      >
+      <Skeleton show={showSkeleton}>
         <Hr top="large" bottom />
         <Span>span span</Span>
         <Hr top bottom />
@@ -291,7 +262,7 @@ export const ElementsAndSkeleton = () => {
           alt="logo"
         />
         <Hr top bottom />
-        <StyledButton className="dnb-button dnb-button--reset">
+        <StyledButton className="dnb-button dnb-button--unstyled">
           <Span>Text</Span>
           <IconPrimary icon="chevron_right" />
         </StyledButton>

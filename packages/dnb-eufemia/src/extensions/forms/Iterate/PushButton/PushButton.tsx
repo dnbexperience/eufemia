@@ -1,21 +1,23 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button } from '../../../../components'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import {
   useArrayLimit,
   useItemPath,
   useSwitchContainerMode,
 } from '../hooks'
-import { omitDataValueReadWriteProps, Path } from '../../types'
+import type { Path } from '../../types'
+import { omitDataValueReadWriteProps } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ButtonProps & {
+export type IteratePushButtonProps = ButtonProps & {
   path?: Path
   itemPath?: Path
   pushValue: unknown | ((value: unknown) => void)
@@ -26,7 +28,7 @@ export type Props = ButtonProps & {
   value?: unknown
 }
 
-function PushButton(props: Props) {
+function PushButton(props: IteratePushButtonProps) {
   const { handlePathChange } = useContext(DataContext) || {}
   const iterateItemContext = useContext(IterateItemContext)
   const { handlePush } = iterateItemContext ?? {}
@@ -108,11 +110,11 @@ function PushButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-iterate-push-button', className)}
+      className={clsx('dnb-forms-iterate-push-button', className)}
       variant="secondary"
       icon={add}
-      icon_position="left"
-      on_click={handleClick}
+      iconPosition="left"
+      onClick={handleClick}
       {...buttonProps}
     >
       {content}
@@ -120,5 +122,8 @@ function PushButton(props: Props) {
   )
 }
 
-PushButton._supportsSpacingProps = true
+withComponentMarkers(PushButton, {
+  _supportsSpacingProps: true,
+})
+
 export default PushButton

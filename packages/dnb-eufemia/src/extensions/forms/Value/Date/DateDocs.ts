@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const DateProperties: PropertiesTableProps = {
   variant: {
     doc: 'Defines the variant of the date. Can be `long`, `short` or `numeric`. Defaults to `long`.',
-    type: 'string',
+    type: ['"long"', '"short"', '"numeric"'],
     status: 'optional',
   },
   dateFormat: {

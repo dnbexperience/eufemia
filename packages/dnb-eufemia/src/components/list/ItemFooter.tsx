@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import clsx from 'clsx'
+import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
+import FlexItem from '../flex/Item'
 import Hr from '../../elements/Hr'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -30,7 +31,7 @@ function ItemFooter({
         className="dnb-list__item__footer-separator"
       />
       <FlexItem
-        className={classnames(
+        className={clsx(
           'dnb-list__item__footer',
           appliedSkeleton && createSkeletonClass('font', true),
           className
@@ -44,9 +45,9 @@ function ItemFooter({
 
   if (appliedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+      <Context value={{ ...context, skeleton: appliedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 

@@ -8,20 +8,14 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  Field,
-  Form,
-  Iterate,
-  JSONSchema,
-  makeAjvInstance,
-  Wizard,
-  z,
-} from '../../..'
+import type { JSONSchema } from '../../..'
+import { Field, Form, Iterate, makeAjvInstance, Wizard, z } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
 import useReportError from '../useReportError'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
@@ -34,7 +28,9 @@ describe('Form.Isolation', () => {
   })
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
-    expect(Form.Isolation._supportsSpacingProps).toBeUndefined()
+    expect(
+      (Form.Isolation as ComponentMarkers)._supportsSpacingProps
+    ).toBeUndefined()
   })
 
   it('should use initial value from root context', () => {
@@ -1444,7 +1440,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedString, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(isolatedString, enterKey)
@@ -1454,7 +1449,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedNumber, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(isolatedNumber, enterKey)
@@ -1464,7 +1458,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(regular, enterKey)
@@ -1495,7 +1488,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedString, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolatedString, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1505,7 +1497,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedNumber, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolatedNumber, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1515,7 +1506,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1645,7 +1635,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular.querySelector('input'), enterKey)
     }
@@ -1655,7 +1644,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolated, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolated.querySelector('input'), enterKey)
     }
@@ -1719,7 +1707,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular.querySelector('input'), enterKey)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -1732,7 +1719,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolated, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolated.querySelector('input'), enterKey)
       expect(isolated.querySelector('.dnb-form-status')).toHaveTextContent(

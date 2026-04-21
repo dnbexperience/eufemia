@@ -1,4 +1,4 @@
-import { isTrue, toKebabCase } from './component-helper'
+import { toKebabCase } from './component-helper'
 import { warn } from './helpers'
 
 export type MediaQuerySizes =
@@ -59,7 +59,7 @@ export type MediaQueryOptions = {
 
   /**
    * Will correct the size of the media query ranges (e.g. medium will be from 40.0625em to 60em)
-   * Default: true
+   * Default: `true`
    */
   correctRange?: boolean
 
@@ -91,7 +91,10 @@ export type MediaQueryState = {
  */
 export function onMediaQueryChange(
   property: MediaQueryProperties | string,
-  callback?: (matches: boolean, mediaQueryList: MediaQueryList) => void,
+  callback?: (
+    matches: boolean,
+    event: Partial<MediaQueryListEvent>
+  ) => void,
   { runOnInit = false } = {}
 ): MediaQueryListener {
   let query = property
@@ -211,7 +214,7 @@ export function buildQuery(
     }
   }
 
-  if (isTrue(not)) {
+  if (not) {
     query = reverseQuery(String(query))
   }
 

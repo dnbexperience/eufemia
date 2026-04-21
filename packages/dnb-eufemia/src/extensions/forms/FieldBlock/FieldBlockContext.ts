@@ -1,16 +1,16 @@
 import React from 'react'
 import type { FieldProps, Identifier, SubmitState } from '../types'
 
-export type FieldErrorIdsRef = Record<StateTypes, string>
+export type FieldErrorIdsRef = Record<FieldState, string>
 export type MountedFieldsRef = Map<Identifier, boolean>
-export type StateTypes = 'error' | 'warning' | 'info'
+export type FieldState = 'error' | 'warning' | 'information'
 export type StateContent =
   | FieldProps<unknown>['error']
   | FieldProps<unknown>['warning']
   | FieldProps<unknown>['info']
 export type StateBasis = {
   identifier: Identifier
-  type: StateTypes
+  type: FieldState
   content: StateContent
   stateId?: string
   showInitially?: boolean
@@ -31,7 +31,7 @@ export type StatusContentState = { id: string; text: React.ReactNode }
 export type StatusContent = {
   error: StatusContentState
   warning: StatusContentState
-  info: StatusContentState
+  information: StatusContentState
 }
 
 export type FieldBlockContextProps = {
@@ -48,8 +48,8 @@ export type FieldBlockContextProps = {
   hasErrorProp?: boolean
   composition?: true
   disableStatusSummary?: boolean
-  fieldStateIdsRef?: React.MutableRefObject<FieldErrorIdsRef>
-  mountedFieldsRef?: React.MutableRefObject<MountedFieldsRef>
+  fieldStateIdsRef?: React.RefObject<FieldErrorIdsRef>
+  mountedFieldsRef?: React.RefObject<MountedFieldsRef>
 }
 
 const FieldBlockContext = React.createContext<

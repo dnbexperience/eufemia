@@ -10,7 +10,8 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 
 // date-fns
 import {
@@ -35,20 +36,18 @@ import {
   dayOffset,
   getCalendar,
 } from './DatePickerCalc'
-import Button, { ButtonProps } from '../button/Button'
-import DatePickerContext, {
-  DatePickerContextValues,
-} from './DatePickerContext'
-import { InternalLocale } from '../../shared/Context'
-import { DatePickerChangeEvent } from './DatePickerProvider'
-import { DatePickerDates } from './hooks/useDates'
-import {
-  CalendarNavButtonProps,
-  DatePickerCalendarNav,
-} from './DatePickerCalendarNavigator'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
+import type { DatePickerContextValue } from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
+import type { InternalLocale } from '../../shared/Context'
+import type { DatePickerChangeEvent } from './DatePickerProvider'
+import type { DatePickerDates } from './hooks/useDates'
+import type { CalendarNavButtonProps } from './DatePickerCalendarNavigator'
+import { DatePickerCalendarNav } from './DatePickerCalendarNavigator'
 import { formatDate } from '../date-format/DateFormatUtils'
 
-export type CalendarDay = {
+export type DatePickerCalendarDay = {
   date: Date
   isDisabled?: boolean
   isEndDate?: boolean
@@ -63,7 +62,7 @@ export type CalendarDay = {
   className?: string
 }
 
-export type CalendarNavigationEvent = {
+export type DatePickerCalendarNavigationEvent = {
   nr: number
   type?: CalendarNavButtonProps['type']
 }
@@ -92,11 +91,11 @@ export type DatePickerCalendarProps = Omit<
   ) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
-    tableRef: React.MutableRefObject<HTMLTableElement>,
+    tableRef: React.RefObject<HTMLTableElement>,
     nr: number
   ) => void
   /**
-   * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
+   * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import { enGB } from 'date-fns/locale/en-GB'`. Defaults to `nb-NO`.
    */
   locale?: InternalLocale
   rtl?: boolean
@@ -169,15 +168,29 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onlyMonth,
   } = props
 
-  const tableRef = useRef<React.ElementRef<'table'>>()
-  const days = useRef<Record<string, Array<CalendarDay>>>({})
-  const cache = useRef<Record<string, CalendarDay[][]>>({})
+  const tableRef = useRef<React.ElementRef<'table'> | null>(null)
+  const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})
+  const cache = useRef<Record<string, DatePickerCalendarDay[][]>>({})
+  const currentDatesRef = useRef({
+    startDate,
+    endDate,
+    startMonth,
+    endMonth,
+  })
 
   // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
-  useEffect(() => {
+  useMountEffect(() => {
     setSubmittedDates({ startDate, endDate })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
+
+  useEffect(() => {
+    currentDatesRef.current = {
+      startDate,
+      endDate,
+      startMonth,
+      endMonth,
+    }
+  }, [endDate, endMonth, startDate, startMonth])
 
   const onMouseLeaveHandler = useCallback(() => {
     setHoverDate(undefined)
@@ -308,14 +321,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return onKeyDown(event, tableRef, nr)
       }
 
-      // only continue of key is one of these
+      // only continue if key is one of these
       if (!keysToHandle.includes(pressedKey)) {
         return
       }
       event.preventDefault()
-      event.persist() // since we use the event after updateDates
 
-      const currentDates = { startDate, endDate, startMonth, endMonth }
+      const currentDates = currentDatesRef.current
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
       const currentDate = currentDates[`${dateType}Date`]
 
@@ -354,8 +366,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         newDate = !isRange
           ? currentMonth
           : nr === 0
-          ? setDate(currentMonth, 1)
-          : lastDayOfMonth(currentMonth)
+            ? setDate(currentMonth, 1)
+            : lastDayOfMonth(currentMonth)
 
         // only to make sure we navigate the calendar to the new date
       } else if (currentMonth && !isSameMonth(currentDate, currentMonth)) {
@@ -401,6 +413,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           ...dates,
         })
       })
+      currentDatesRef.current = {
+        ...currentDates,
+        ...dates,
+        startMonth:
+          dates.startMonth ?? dates.startDate ?? currentDates.startMonth,
+        endMonth: dates.endMonth ?? dates.endDate ?? currentDates.endMonth,
+      }
 
       // and set the focus back again
       if (tableRef && tableRef.current) {
@@ -420,8 +439,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       keyNavCalc,
       nr,
       onlyMonth,
-      endMonth,
-      startMonth,
     ]
   )
 
@@ -479,7 +496,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   return (
     <div
-      className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
+      className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
       {!hideNavigation && !onlyMonth && (
@@ -563,7 +580,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 role="row"
                 className="dnb-date-picker__days"
               >
-                {week.map((day: DayObject, i) => {
+                {(week as DayObject[]).map((day, i) => {
                   const title = formatDate(day.date, {
                     locale,
                     options: {
@@ -583,8 +600,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   const dateType = day.isStartDate
                     ? 'start'
                     : day.isEndDate
-                    ? 'end'
-                    : undefined
+                      ? 'end'
+                      : undefined
                   const isSelectedDate =
                     nr === 0 ? day.isStartDate : day.isEndDate
 
@@ -604,7 +621,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     <td
                       key={'day' + i}
                       role="gridcell"
-                      className={classnames(
+                      className={clsx(
                         'dnb-date-picker__day',
                         'dnb-no-focus',
                         buildDayClassNames(day)
@@ -621,7 +638,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         aria-disabled={handleAsDisabled}
                         aria-label={title}
                         {...paramsButton}
-                        on_click={
+                        onClick={
                           handleAsDisabled
                             ? undefined
                             : ({ event }) =>
@@ -681,7 +698,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 export default DatePickerCalendar
 
 type SelectRangeEvent = Pick<
-  DatePickerContextValues,
+  DatePickerContextValue,
   'setHasClickedCalendarDay'
 > & {
   day: DayObject
@@ -703,8 +720,6 @@ function onSelectRange({
   event,
   setHasClickedCalendarDay,
 }: SelectRangeEvent) {
-  event.persist()
-
   if (!isRange) {
     // set only date
     return onSelect({
@@ -756,7 +771,7 @@ function onHoverDay({
   hoverDate,
   setHoverDate,
 }: {
-  day: CalendarDay
+  day: DatePickerCalendarDay
   hoverDate?: Date
   setHoverDate: (date: Date) => void
 }) {
@@ -766,7 +781,7 @@ function onHoverDay({
 }
 
 function buildDayClassNames(day: DayObject) {
-  return classnames(
+  return clsx(
     {
       'dnb-date-picker__day--start-date': day.isStartDate,
       'dnb-date-picker__day--end-date': day.isEndDate,

@@ -7,9 +7,8 @@ import React, {
   useRef,
 } from 'react'
 import StringField from '../String'
-import CompositionField, {
-  Props as CompositionFieldProps,
-} from '../Composition'
+import type { FieldCompositionProps as CompositionFieldProps } from '../Composition'
+import CompositionField from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isAfter } from 'date-fns'
@@ -23,6 +22,7 @@ import type {
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
   day: string
@@ -43,7 +43,7 @@ export type DateOfBirthValidator = ValidatorWithCustomValidators<
   }
 >
 
-export type Props = Omit<
+export type FieldDateOfBirthProps = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions'
 > & {
@@ -57,7 +57,7 @@ export type Props = Omit<
 
 export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 
-function DateOfBirth(props: Props) {
+function DateOfBirth(props: FieldDateOfBirthProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
     errorDateOfBirth,
@@ -75,9 +75,11 @@ function DateOfBirth(props: Props) {
 
   const { dateFormat = DEFAULT_DATE_FORMAT, labelSuffix, required } = props
 
-  const dayRef = useRef<Props['value']>(props?.emptyValue)
-  const monthRef = useRef<Props['value']>(props?.emptyValue)
-  const yearRef = useRef<Props['value']>(props?.emptyValue)
+  const dayRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
+  const monthRef = useRef<FieldDateOfBirthProps['value']>(
+    props?.emptyValue
+  )
+  const yearRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
 
   const errorMessages = useMemo(() => {
     return {
@@ -98,6 +100,8 @@ function DateOfBirth(props: Props) {
           day,
         }
       }
+
+      return undefined
     },
     [dateFormat]
   )
@@ -116,6 +120,8 @@ function DateOfBirth(props: Props) {
           return Error(errorDateOfBirthFuture)
         }
       }
+
+      return undefined
     },
     [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
   )
@@ -147,7 +153,7 @@ function DateOfBirth(props: Props) {
     return dateOfBirthValidator
   }, [propOnBlurValidator, dateOfBirthValidator])
 
-  const preparedProps: Props = useMemo(
+  const preparedProps: FieldDateOfBirthProps = useMemo(
     () => ({
       ...otherProps,
       value: propValue,
@@ -186,6 +192,7 @@ function DateOfBirth(props: Props) {
     onYearChange,
     setHasFocus,
     value: fieldValue,
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const labelWithItemNo = useIterateItemNo({
@@ -353,6 +360,7 @@ function DateOfBirth(props: Props) {
 
   const compositionFieldProps: CompositionFieldProps = {
     className: 'dnb-forms-field-date-of-birth',
+    // @ts-expect-error - strictFunctionTypes
     error,
     label: labelWithItemNo,
     labelSrOnly,
@@ -373,24 +381,27 @@ function DateOfBirth(props: Props) {
         })
       )
 
-      return { value, title, search_content: [title, nr, value] }
+      return { value, title, searchContent: [title, nr, value] }
     })
   }, [locale])
 
   const onBlurAutocomplete = useCallback(
-    ({ value }) => {
+    (event: { value?: string }) => {
       // If the value is a number, find the corresponding month
-      const nr = parseFloat(value)
+      const nr = parseFloat(event.value ?? '')
       if (!isNaN(nr)) {
-        const monthValue = months.find((m) => parseFloat(m.value) === nr)
-          ?.value
+        const monthValue = months.find(
+          (m) => parseFloat(m.value) === nr
+        )?.value
         const month = monthValue || emptyValue
         monthRef.current = month
         forceUpdate()
         callOnChange({ month })
       } else {
         // If the value is a month name, find the corresponding value
-        const monthValue = months.find((m) => m.title === value)?.value
+        const monthValue = months.find(
+          (m) => m.title === event.value
+        )?.value
         if (monthValue) {
           monthRef.current = monthValue
           forceUpdate()
@@ -428,7 +439,7 @@ function DateOfBirth(props: Props) {
         placeholder=""
         autocompleteProps={{
           openOnFocus: true,
-          inputIcon: '',
+          icon: '',
           placeholder: monthPlaceholder,
           autoComplete: 'bday-month',
           independentWidth: true,
@@ -436,6 +447,7 @@ function DateOfBirth(props: Props) {
           onBlur: onBlurAutocomplete,
         }}
         data={months}
+        // @ts-expect-error - strictFunctionTypes
         onChange={handleMonthChange}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
@@ -460,7 +472,10 @@ function DateOfBirth(props: Props) {
   )
 }
 
-DateOfBirth._supportsSpacingProps = undefined
+withComponentMarkers(DateOfBirth, {
+  _supportsSpacingProps: undefined,
+})
+
 export default DateOfBirth
 
 function capitalizeFirstLetter(s) {

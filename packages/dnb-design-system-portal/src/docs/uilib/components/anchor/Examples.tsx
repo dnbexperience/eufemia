@@ -7,6 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Section, Anchor, IconPrimary, H2, P } from '@dnb/eufemia/src'
+import { Theme } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
   [data-visual-test-wrapper] {
@@ -24,16 +25,6 @@ const Example = styled.div`
     margin: 0 !important;
   }
 `
-const ContrastExample = styled(Example)`
-  display: inline-block;
-  padding: 0.5rem;
-
-  html[data-visual-test] & {
-    padding: 1.5rem;
-  }
-
-  background-color: var(--color-ocean-green);
-`
 
 export const AnchorBasicUse = () => (
   <Wrapper>
@@ -50,7 +41,7 @@ export const AnchorBasicUse = () => (
 export const AnchorExampleInSection = () => (
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section spacing>
+      <Section innerSpace={{ block: 'large' }}>
         <Anchor
           className="dnb-anchor--no-underline"
           href="https://dnb.no/"
@@ -62,9 +53,27 @@ export const AnchorExampleInSection = () => (
   </Wrapper>
 )
 
+export const AnchorDarkSurfaceExample = () => (
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Section
+        surface="dark"
+        innerSpace
+        data-visual-test="anchor-surface-dark"
+      >
+        <Anchor href="/uilib/components/anchor">Dark surface style</Anchor>
+      </Section>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AnchorExampleStates = () => (
   <Wrapper>
-    <ComponentBox scope={{ Example }} data-visual-test="anchor-states">
+    <ComponentBox
+      scope={{ Example }}
+      data-visual-test="anchor-states"
+      hideCode
+    >
       <Example>
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
       </Example>
@@ -98,15 +107,7 @@ export const AnchorExampleStates = () => (
 
 export const AnchorExampleHelperClasses = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
-      <ContrastExample data-visual-test="anchor-contrast">
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--contrast"
-        >
-          Contrast Style
-        </Anchor>
-      </ContrastExample>
+    <ComponentBox hideCode scope={{ Example }}>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
@@ -190,57 +191,79 @@ export const AnchorExampleDisabled = () => (
 
 export const AnchorExampleHelperContrastVariations = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-hover">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-hover"
+    <ComponentBox hideCode scope={{ Example }}>
+      <Theme.Context surface="dark">
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-hover"
           >
-            Contrast - no hover
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-radius">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-radius"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-hover"
+            >
+              Dark surface - no hover
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-radius"
           >
-            Contrast - no radius
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-radius"
+            >
+              Dark surface - no radius
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline"
           >
-            Contrast - no underline
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-hover">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-hover"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline"
+            >
+              Dark surface - no underline
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline-no-hover"
           >
-            Contrast - no underline - no hover
-          </Anchor>
-        </ContrastExample>
-      </Example>
-      <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-radius">
-          <Anchor
-            href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-radius"
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline dnb-anchor--no-hover"
+            >
+              Dark surface - no underline - no hover
+            </Anchor>
+          </Section>
+        </Example>
+        <Example>
+          <Section
+            surface="dark"
+            innerSpace
+            data-visual-test="anchor-contrast-no-underline-no-radius"
           >
-            Contrast - no underline - no radius
-          </Anchor>
-        </ContrastExample>
-      </Example>
+            <Anchor
+              href="/uilib/components/anchor"
+              className="dnb-anchor--no-underline dnb-anchor--no-radius"
+            >
+              Dark surface - no underline - no radius
+            </Anchor>
+          </Section>
+        </Example>
+      </Theme.Context>
     </ComponentBox>
   </Wrapper>
 )
@@ -371,34 +394,6 @@ export const AnchorExampleHeadings = () => (
     </ComponentBox>
   </Wrapper>
 )
-
-export const AnchorLegacyUsage = () => {
-  return (
-    <Wrapper>
-      <ComponentBox hideCode scope={{ Example }}>
-        <Example data-visual-test="anchor-legacy-icon">
-          <Anchor href="/uilib/components/anchor">
-            Anchor with Icon <IconPrimary icon="chevron_right" />
-          </Anchor>
-        </Example>
-        <Example data-visual-test="anchor-legacy-paragraph">
-          <P>
-            text{' '}
-            <Anchor href="/uilib/components/anchor">
-              Inside a Paragraph <IconPrimary icon="bell" />
-            </Anchor>{' '}
-            text
-          </P>
-        </Example>
-        <Example data-visual-test="anchor-legacy-blank-with-icon">
-          <Anchor target="_blank" href="/uilib/components/anchor">
-            <IconPrimary icon="bell" /> Blank target with https
-          </Anchor>
-        </Example>
-      </ComponentBox>
-    </Wrapper>
-  )
-}
 
 const WidthMarkers = () => (
   <>

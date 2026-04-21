@@ -1,5 +1,5 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const StringProperties: PropertiesTableProps = {
   multiline: {
@@ -18,23 +18,32 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   capitalize: {
-    doc: 'When set to true, it will capitalize the first letter of every word, transforming the rest to lower case.',
+    doc: 'When set to `true`, it will capitalize the first letter of every word, transforming the rest to lower case.',
     type: 'boolean',
     status: 'optional',
   },
   trim: {
-    doc: 'When true, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
+    doc: 'When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
     type: 'boolean',
     status: 'optional',
   },
   inputMode: {
     doc: 'Define an [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).',
-    type: 'string',
+    type: [
+      '"none"',
+      '"text"',
+      '"tel"',
+      '"url"',
+      '"email"',
+      '"numeric"',
+      '"decimal"',
+      '"search"',
+    ],
     status: 'optional',
   },
   autoComplete: {
     doc: 'For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.',
-    type: ['on', 'string'],
+    type: ['"on"', 'string'],
     status: 'optional',
   },
   minLength: {
@@ -64,9 +73,9 @@ export const StringProperties: PropertiesTableProps = {
     doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   align: InputProperties.align,
-  selectall: InputProperties.selectall,
+  selectAll: InputProperties.selectAll,
   clear: InputProperties.clear,
-  keepPlaceholder: InputProperties.keep_placeholder,
+  keepPlaceholder: InputProperties.keepPlaceholder,
 
   // - Textarea props
   rows: {
@@ -74,7 +83,7 @@ export const StringProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  autoresizeMaxRows: {
+  autoResizeMaxRows: {
     doc: 'To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.',
     type: 'number',
     status: 'optional',
@@ -84,7 +93,7 @@ export const StringProperties: PropertiesTableProps = {
     type: ['number', 'object'],
     status: 'optional',
   },
-  autoresize: {
+  autoResize: {
     doc: 'To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
@@ -92,17 +101,17 @@ export const StringProperties: PropertiesTableProps = {
 
   // - Additional props
   inputClassName: {
-    doc: 'Class name set on the <input> DOM element.',
+    doc: 'Class name set on the `<input>` DOM element.',
     type: 'string',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.Ref we can get the internally used input element (DOM).',
+  ref: {
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM).',
     type: 'React.RefObject',
     status: 'optional',
   },
   submitElement: {
-    doc: 'Accepts a React element which will show up like the "submit button" would do on type="search".',
+    doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
     type: 'React.Element',
     status: 'optional',
   },

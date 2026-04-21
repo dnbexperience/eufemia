@@ -372,7 +372,7 @@ export const WithAriaLive = () => (
             <Button
               text="Update value"
               variant="secondary"
-              on_click={() => setValue((prev) => prev + 100)}
+              onClick={() => setValue((prev) => prev + 100)}
             />
           </Flex.Stack>
         )

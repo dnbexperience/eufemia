@@ -1,27 +1,27 @@
 import React, { useCallback } from 'react'
-import StringValue, { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
+import StringValue from '../String'
 import {
-  format,
+  formatOrganizationNumber,
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValueOrganizationNumberProps = StringValueProps
 
-function OrganizationNumber(props: Props) {
+function OrganizationNumber(props: ValueOrganizationNumberProps) {
   const translations = useTranslation().OrganizationNumber
 
   const toInput = useCallback((value) => {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return format(cleanNumber(value), {
-      org: true,
-    }).toString()
+    return formatOrganizationNumber(cleanNumber(value)).toString()
   }, [])
 
-  const stringValueProps: Props = {
+  const stringValueProps: ValueOrganizationNumberProps = {
     ...props,
     label: props.label ?? (props.inline ? undefined : translations.label),
     toInput,
@@ -29,5 +29,8 @@ function OrganizationNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-OrganizationNumber._supportsSpacingProps = true
+withComponentMarkers(OrganizationNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default OrganizationNumber

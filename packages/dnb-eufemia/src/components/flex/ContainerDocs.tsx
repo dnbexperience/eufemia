@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const FlexContainerProperties: PropertiesTableProps = {
   direction: {
@@ -86,7 +86,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'div'`,
     status: 'optional',
   },
-  innerRef: {
+  ref: {
     doc: 'Provide a React.Ref to accessing the inner HTML element.',
     type: 'React.RefObject',
     defaultValue: 'undefined',
@@ -102,20 +102,5 @@ export const FlexContainerProperties: PropertiesTableProps = {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: 'Various',
     status: 'optional',
-  },
-  spacing: {
-    doc: 'Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~',
-    type: [
-      `'xx-small'`,
-      `'x-small'`,
-      `'small'`,
-      `'medium'`,
-      `'large'`,
-      `'x-large'`,
-      `'xx-large'`,
-      'false',
-    ],
-    defaultValue: `'small'`,
-    status: 'deprecated',
   },
 }

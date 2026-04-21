@@ -2,13 +2,9 @@
   cursor: pointer;
   overflow-wrap: break-word;
 
+  color: var(--token-color-text-neutral);
+
   &[disabled] {
     cursor: not-allowed;
-  }
-}
-
-@mixin labelTag() {
-  label {
-    @include labelStyle();
   }
 }

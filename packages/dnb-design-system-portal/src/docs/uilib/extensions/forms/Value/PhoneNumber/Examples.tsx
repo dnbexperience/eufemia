@@ -21,7 +21,7 @@ export const Placeholder = () => {
 export const WithValue = () => {
   return (
     <ComponentBox>
-      <Value.PhoneNumber value="98712345" />
+      <Value.PhoneNumber value="+4798712345" />
     </ComponentBox>
   )
 }
@@ -37,19 +37,7 @@ export const Label = () => {
 export const LabelAndValue = () => {
   return (
     <ComponentBox>
-      <Value.PhoneNumber label="Label text" value="98712345" />
-    </ComponentBox>
-  )
-}
-
-export const InternationalSuffix = () => {
-  return (
-    <ComponentBox>
-      <Flex.Stack>
-        <Value.PhoneNumber label="Label text" value="+47 98712345" />
-        <Value.PhoneNumber label="Label text" value="+886 0998472751" />
-        <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
-      </Flex.Stack>
+      <Value.PhoneNumber label="Label text" value="+4798712345" />
     </ComponentBox>
   )
 }
@@ -62,6 +50,18 @@ export const Inline = () => {
         <Value.PhoneNumber value="98712345" inline /> This is after the
         component
       </P>
+    </ComponentBox>
+  )
+}
+
+export const InternationalSuffix = () => {
+  return (
+    <ComponentBox>
+      <Flex.Stack>
+        <Value.PhoneNumber label="Label text" value="+4798712345" />
+        <Value.PhoneNumber label="Label text" value="+8860998472751" />
+        <Value.PhoneNumber label="Label text" value="+18686758288" />
+      </Flex.Stack>
     </ComponentBox>
   )
 }

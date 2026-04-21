@@ -33,7 +33,12 @@ export const SkipContentTable = () => (
       <LargeTableWithInteractiveElements id="table-with-caption" />
     </section>
 
-    <Section id="submit-area" spacing="small" style_type="divider" top>
+    <Section
+      id="submit-area"
+      innerSpace={{ block: 'small' }}
+      variant="divider"
+      top
+    >
       <SkipContent.Return selector="#submit-area" bottom>
         Back to beginning of table
       </SkipContent.Return>
@@ -45,10 +50,10 @@ export const SkipContentTable = () => (
 
 const LargeTableWithInteractiveElements = (props) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
 
   const Row = ({ nr }) => {
@@ -64,7 +69,7 @@ const LargeTableWithInteractiveElements = (props) => {
         <Td align="right">Row {nr}</Td>
 
         <Td.AccordionContent>
-          <Section top spacing>
+          <Section top innerSpace={{ block: 'large' }}>
             <Dl>
               <Dt>Favorittfarge</Dt>
               <Dd>Grønn</Dd>

@@ -5,13 +5,13 @@ import P from '../../elements/P'
 import Dl from '../../elements/Dl'
 import Dt from '../../elements/Dt'
 import Dd from '../../elements/Dd'
-import { format } from '../number-format/NumberUtils'
+import { formatNumber } from '../number-format/NumberUtils'
 import { isArrayOfObjects, isArrayOfStrings } from './UploadVerify'
 import Table from '../Table'
 import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
-import { UploadAcceptedFileTypeObject, UploadProps } from './types'
+import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
@@ -83,7 +83,7 @@ const UploadInfo = () => {
               <Dd>
                 {String(fileSizeContent).replace(
                   '%size',
-                  format(fileMaxSize).toString()
+                  formatNumber(fileMaxSize).toString()
                 )}
               </Dd>
             </Dl.Item>
@@ -133,10 +133,10 @@ function UploadInfoAcceptedFileTypesTable() {
       const groupName = itemFileMaxSize
         ? itemFileMaxSize
         : fileMaxSizeIsFalseOrZero(itemFileMaxSize)
-        ? 0
-        : fileMaxSizeIsFalseOrZero(fallBackFileMaxSize)
-        ? 0
-        : fallBackFileMaxSize
+          ? 0
+          : fileMaxSizeIsFalseOrZero(fallBackFileMaxSize)
+            ? 0
+            : fallBackFileMaxSize
 
       group[groupName] = group[groupName] || []
       group[groupName].push(item)
@@ -182,7 +182,7 @@ function UploadInfoAcceptedFileTypesTable() {
                   {key !== '0' &&
                     String(fileSizeContent).replace(
                       '%size',
-                      format(key).toString()
+                      formatNumber(key).toString()
                     )}
                 </Td>
               </Tr>

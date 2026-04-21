@@ -7,8 +7,8 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
-import { ProgressIndicatorAllProps } from '../types'
-import { format } from '../../number-format/NumberUtils'
+import type { ProgressIndicatorAllProps } from '../types'
+import { formatPercent } from '../../number-format/NumberUtils'
 
 const props: ProgressIndicatorAllProps = {}
 
@@ -31,10 +31,7 @@ describe('Circular ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(50, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(50, { decimals: 2 })
     )
   })
 
@@ -54,10 +51,7 @@ describe('Circular ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="circular" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(80, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(80, { decimals: 2 })
     )
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
@@ -69,10 +63,7 @@ describe('Circular ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(1, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(1, { decimals: 2 })
     )
   })
 
@@ -81,10 +72,7 @@ describe('Circular ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      format(1, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(1, { decimals: 2 })
     )
   })
 
@@ -154,10 +142,10 @@ describe('Circular ProgressIndicator component', () => {
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
-      'dnb-space__top--large',
-      'dnb-progress-indicator--visible',
-      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--show',
+      'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
+      'dnb-space__top--large',
     ])
   })
 
@@ -307,10 +295,7 @@ describe('Linear ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(50, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(50, { decimals: 2 })
     )
   })
 
@@ -319,10 +304,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      format(50, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(50, { decimals: 2 })
     )
   })
 
@@ -340,10 +322,7 @@ describe('Linear ProgressIndicator component', () => {
     render(<ProgressIndicator {...props} type="linear" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(80, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(80, { decimals: 2 })
     )
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
@@ -355,10 +334,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
-      format(1, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(1, { decimals: 2 })
     )
   })
 
@@ -367,10 +343,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(
-      format(1, {
-        decimals: 2,
-        percent: true,
-      })
+      formatPercent(1, { decimals: 2 })
     )
   })
 
@@ -440,11 +413,11 @@ describe('Linear ProgressIndicator component', () => {
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
-      'dnb-space__top--large',
-      'dnb-progress-indicator--visible',
-      'dnb-progress-indicator--horizontal',
+      'dnb-progress-indicator--show',
+      'dnb-progress-indicator--vertical',
       'dnb-progress-indicator--default',
       'dnb-progress-indicator--full-width',
+      'dnb-space__top--large',
     ])
   })
 
@@ -566,9 +539,7 @@ describe('ProgressIndicator scss', () => {
 
   it('should match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve(
-        '../style/themes/dnb-progress-indicator-theme-ui.scss'
-      )
+      require.resolve('../style/themes/dnb-progress-indicator-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

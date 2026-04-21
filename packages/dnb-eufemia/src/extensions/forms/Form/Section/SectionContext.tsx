@@ -1,8 +1,8 @@
 import React from 'react'
-import { Path } from '../../types'
-import { SectionProps } from '.'
+import type { Path } from '../../types'
+import type { SectionProps } from '.'
 
-export interface SectionContextState {
+export type SectionContextState = {
   path?: Path
   props?: SectionProps
   errorPrioritization?: Array<

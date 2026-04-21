@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -7,7 +7,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check } from '../../../../icons'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 
 type Props = ButtonProps
 
@@ -21,7 +21,7 @@ export default function DoneButton(props: Props) {
   const { setShowError } = useContext(ToolbarContext) || {}
 
   const { doneButton } = useTranslation().IterateEditContainer
-  const valueBackupRef = useRef<unknown>()
+  const valueBackupRef = useRef<unknown>(undefined)
 
   useEffect(() => {
     if (containerMode === 'edit' && !valueBackupRef.current) {
@@ -59,10 +59,10 @@ export default function DoneButton(props: Props) {
   return (
     <Button
       variant="tertiary"
-      className={classnames('dnb-forms-iterate__done-button', className)}
+      className={clsx('dnb-forms-iterate__done-button', className)}
       icon={check}
-      icon_position="left"
-      on_click={doneHandler}
+      iconPosition="left"
+      onClick={doneHandler}
       {...restProps}
     >
       {doneButton}

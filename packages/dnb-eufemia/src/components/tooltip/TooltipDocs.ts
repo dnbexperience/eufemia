@@ -1,29 +1,29 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TooltipProperties: PropertiesTableProps = {
   children: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  active: {
-    doc: 'Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.',
+  open: {
+    doc: 'Controls visibility. When provided as a boolean, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden. When not provided (undefined), the Tooltip uses default hover/focus behavior.',
     type: 'boolean',
     status: 'optional',
   },
-  position: {
+  placement: {
     doc: 'Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.',
-    type: ['top', 'right', 'left', 'bottom'],
+    type: ['"top"', '"right"', '"left"', '"bottom"'],
     status: 'optional',
   },
   align: {
-    doc: 'Defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`. Defaults to `center`.',
-    type: ['center', 'right', 'left'],
+    doc: 'Defines the offset alignment to the target element the arrow appears. Can be `left`, `center` and `right`. Defaults to `center`.',
+    type: ['"left"', '"center"', '"right"', 'null'],
     status: 'optional',
   },
   arrow: {
     doc: 'Defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.',
-    type: ['center', 'top', 'right', 'bottom', 'left'],
+    type: ['"center"', '"top"', '"right"', '"bottom"', '"left"'],
     status: 'optional',
   },
   portalRootClass: {
@@ -47,23 +47,23 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showDelay: {
-    doc: 'Define the delay until the tooltip should show up after the initial hover / active state.',
-    type: 'boolean',
+    doc: 'Define the delay (in milliseconds) until the tooltip should show up after the initial hover / active state. Defaults to `300`.',
+    type: 'number',
     status: 'optional',
   },
   hideDelay: {
-    doc: 'Define the delay until the tooltip should disappear up after initial visibility.',
-    type: 'boolean',
+    doc: 'Define the delay (in milliseconds) until the tooltip should disappear after initial visibility. Defaults to `500`.',
+    type: 'number',
     status: 'optional',
   },
   size: {
-    doc: 'Defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.',
-    type: ['large', 'basis'],
+    doc: 'Defines the spacing size of the tooltip. Can be `large` or `default`. Defaults to `default`.',
+    type: ['"default"', '"large"'],
     status: 'optional',
   },
   targetElement: {
-    doc: 'Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.',
-    type: ['React.Node', 'React.RefObject'],
+    doc: 'Provide an element directly as a `React.ReactNode` or a `React.Ref` that will be wrapped and rendered.',
+    type: ['React.ReactNode', 'React.RefObject'],
     status: 'optional',
   },
   targetSelector: {

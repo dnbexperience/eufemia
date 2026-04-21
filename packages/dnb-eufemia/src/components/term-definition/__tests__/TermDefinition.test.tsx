@@ -7,7 +7,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
-import { wait } from '../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../core/jest/jestSetup'
 import { Field } from '../../../extensions/forms'
 
 const term = 'unusual words'
@@ -403,5 +403,14 @@ describe('TermDefinition', () => {
     // Verify the input did NOT receive focus
     expect(document.activeElement).not.toBe(input)
     expect(input).not.toHaveFocus()
+  })
+})
+
+describe('TermDefinition aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <TermDefinition content="A definition">Term</TermDefinition>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })

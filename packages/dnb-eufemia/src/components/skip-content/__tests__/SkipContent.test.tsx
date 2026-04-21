@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import SkipContent, { SkipContentAllProps } from '../SkipContent'
+import type { SkipContentAllProps } from '../SkipContent'
+import SkipContent from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 
@@ -100,7 +101,6 @@ describe('SkipContent', () => {
     // 1. make it visible
     fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     expect(
@@ -136,7 +136,6 @@ describe('SkipContent', () => {
     // 1. make it visible
     fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     await waitFor(() => {
@@ -166,7 +165,6 @@ describe('SkipContent', () => {
     // make it visible
     fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     expect(
@@ -192,7 +190,6 @@ describe('SkipContent', () => {
     // make it visible
     fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     expect(await axeComponent(Component)).toHaveNoViolations()
@@ -229,7 +226,6 @@ describe('SkipContent.Return', () => {
     // 1. make it visible
     fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     expect(
@@ -252,7 +248,6 @@ describe('SkipContent.Return', () => {
     // 3. make "return" visible
     fireEvent.keyUp(section.querySelector('button.dnb-sr-only'), {
       key: 'Tab',
-      keyCode: 'Tab',
     })
 
     expect(

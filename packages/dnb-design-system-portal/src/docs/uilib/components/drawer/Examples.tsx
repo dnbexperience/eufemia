@@ -180,7 +180,9 @@ export const FullDrawerExample = () => (
         <Button bottom size="large" variant="secondary">
           Dolor sit
         </Button>
-        <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
+        <FormStatus state="information">
+          This is a lorem ipsum dolor
+        </FormStatus>
         <Tabs
           id="unique-linked-id"
           data={[
@@ -235,10 +237,10 @@ export const DrawerCustomTriggerExample = () => (
         variant: 'primary',
         size: 'large',
         icon: 'loupe',
-        icon_position: 'left',
+        iconPosition: 'left',
       }}
     >
-      <Drawer.Body spacing>
+      <Drawer.Body innerSpace={{ block: 'large' }}>
         <P>Opened a Drawer with a custom trigger button!</P>
       </Drawer.Body>
     </Drawer>
@@ -252,9 +254,10 @@ export const DrawerCallbackExample = () => (
       triggerAttributes={{ text: 'Open drawer' }}
       hideCloseButton
     >
+      {/* @ts-expect-error -- strictFunctionTypes */}
       {({ close }) => (
         <>
-          <Button text="Close by callback" on_click={close} />
+          <Button text="Close by callback" onClick={close} />
         </>
       )}
     </Drawer>
@@ -279,7 +282,9 @@ export const DrawerNoAnimationNoSpacing = () => (
         <Button bottom size="large" variant="secondary">
           Dolor sit
         </Button>
-        <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
+        <FormStatus state="information">
+          This is a lorem ipsum dolor
+        </FormStatus>
       </Drawer.Body>
     </Drawer>
   </ComponentBox>
@@ -290,7 +295,7 @@ export const DrawerScrollViewSetup = () => (
     {() => {
       const DrawerMock = () => {
         const scrollRef = React.useRef(null)
-        const innerRef = React.useRef(null)
+        const ref = React.useRef(null)
         const [errorMessage, setErrorMessage] = React.useState(null)
 
         const message = errorMessage
@@ -299,11 +304,11 @@ export const DrawerScrollViewSetup = () => (
 
         return (
           <Drawer
-            contentRef={innerRef}
+            contentRef={ref}
             scrollRef={scrollRef}
             onOpen={() => {
               const innerOverflowY = window.getComputedStyle(
-                innerRef.current
+                ref.current
               ).overflowY
 
               const contentElem = scrollRef.current.querySelector(
@@ -379,7 +384,7 @@ export const UpdateNavigationHeaderExample = () => {
                 <Button bottom size="large" variant="secondary">
                   Dolor sit
                 </Button>
-                <FormStatus state="info">
+                <FormStatus state="information">
                   This is a lorem ipsum dolor
                 </FormStatus>
                 <Tabs

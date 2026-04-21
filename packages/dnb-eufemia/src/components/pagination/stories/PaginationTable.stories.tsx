@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 import { Section, Space, Button, Table } from '../..'
@@ -23,7 +22,7 @@ for (let i = 1; i <= 300; i++) {
 }
 
 export const PaginationTable = () => (
-  <Wrapper className="dnb-core-style" spacing>
+  <Wrapper className="dnb-core-style" innerSpace={{ block: 'large' }}>
     <Space left>
       <H1 size="small">Infinity Table</H1>
       <P bottom>
@@ -46,8 +45,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
   const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
-
-  // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
   ] = React.useState(createPagination)
@@ -56,11 +53,8 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
-
-  // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
 
   const onToggleExpanded = (
@@ -70,21 +64,12 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
-
-      // update only the current item
       tableItems[index] = {
         ...item,
         expanded: !item.expanded,
       }
-
-      // define what page should update
-      // used to update the page inside the Pagination Component
       setLocalPage(pageNumber)
-
-      // force re-render of this component
       forceRerender(new Date().getTime())
-
-      // set new height
       if (element) {
         setHeight({ element, expanded: !item.expanded })
       }
@@ -92,14 +77,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       setTimeout(onExpanded, 10)
     }
   }
-  // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
   }
-
-  // This limits the items to perPageCount
   const content = (
     <InfinityPagination
       items={tableItems}
@@ -116,15 +98,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
-
-    // simulate server delay
+    console.log('onChange: with page', pageNumber)
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(
       () => {
         if (pageNumber === currentPage) {
-          // once we set current page, we force a re-render, and sync of data
-          // but only if we are on the same page
           forceRerender(new Date().getTime())
         } else {
           setLocalPage(pageNumber)
@@ -142,18 +120,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <Button
               size="small"
               icon="reset"
-              icon_position="left"
+              iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 clearTimeout(serverDelayTimeout)
 
                 resetInfinity()
                 resetContent()
-
-                // re-render our component to get back the default state
                 setOrderDirection('asc')
-
-                // re-render our component to get back the default state
                 forceRerender(new Date().getTime())
               }}
             >
@@ -171,8 +145,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
-                // 1. empty
+              onClick={() => {
                 resetContent()
 
                 setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
@@ -184,24 +157,21 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          current_page={currentPage}
-          page_count={maxPagesCount}
+          currentPage={currentPage}
+          pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>
   )
-}
-InfinityPaginationTable.propTypes = {
-  tableItems: PropTypes.array.isRequired,
 }
 
 const InfinityPagination = ({
@@ -242,24 +212,20 @@ const InfinityPagination = ({
           let element = e.currentTarget
           onToggleExpanded(item, {
             pageNumber: currentPage,
-            // element,
             onExpanded: () => {
               try {
-                // rather find the next tr
                 element = element.nextElementSibling
                 setHeight({ element, expanded: !item.expanded })
                 element.focus() // for better ally we set the focus to the new content
               } catch (e) {
-                //
+                console.log(e)
               }
             },
           })
         }
       },
     }
-
-    // we do this only to have a working useEffect, so we can call onMounted
-    const trRef = React.createRef<HTMLTableRowElement>()
+    const trRef = { current: null as HTMLTableRowElement | null }
     mountedItems.push({ ...item, element: trRef })
 
     return (
@@ -406,17 +372,12 @@ const setHeight = ({
     typeof window !== 'undefined' &&
     window.requestAnimationFrame
   ) {
-    // get tr element
     if (String(element.nodeName).toLowerCase() === 'td') {
       element = element.parentElement
     }
-
-    // get the new height
     const newHeight = expanded
       ? window.getComputedStyle(element)['max-height'] // maxHeight
       : element.scrollHeight
-
-    // make the animation
     window.requestAnimationFrame(() => {
       if (animation) {
         element.style.height = '1px'
@@ -434,8 +395,6 @@ const reorderDirection = (items, dir) =>
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1
   })
-
-// Page layout
 const Wrapper = styled(Section)`
   width: 100%;
   background: var(--color-white);

@@ -1,21 +1,24 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../../components/help-button/HelpButtonInline'
 import type { HeadingLevel } from '../../../../components/heading/Heading'
 import type { ComponentProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type FormMainHeadingProps = ComponentProps & {
+  /** The heading level to render (h2–h6). Defaults to `2`. */
   level?: HeadingLevel
+  /** Configuration for an inline help button shown next to the heading. */
   help?: HelpProps
   children?: React.ReactNode
 } & Omit<React.HTMLProps<HTMLElement>, 'size'>
 
-function MainHeading({ level, ...props }: Props) {
+function MainHeading({ level, ...props }: FormMainHeadingProps) {
   const { help, className, children, ...rest } = props
   const helpId = useId()
   const hasHelp = help?.title || help?.content
@@ -23,13 +26,9 @@ function MainHeading({ level, ...props }: Props) {
   return (
     <>
       <Heading
-        className={classnames(
-          'dnb-forms-main-heading',
-          'dnb-card--auto-indent',
-          className
-        )}
+        className={clsx('dnb-forms-main-heading', className)}
         level={level || 2}
-        skip_correction
+        skipCorrection
         size="large"
         {...rest}
       >
@@ -54,7 +53,9 @@ function MainHeading({ level, ...props }: Props) {
   )
 }
 
-MainHeading._supportsSpacingProps = true
-MainHeading._isHeadingElement = true
+withComponentMarkers(MainHeading, {
+  _supportsSpacingProps: true,
+  _isHeadingElement: true,
+})
 
 export default MainHeading

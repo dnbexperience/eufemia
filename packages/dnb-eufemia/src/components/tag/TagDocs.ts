@@ -1,15 +1,10 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TagEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
-    type: 'function',
+    doc: 'Will be called on a click event. Returns the native event.',
+    type: 'React.MouseEventHandler',
     status: 'optional',
-  },
-  onDelete: {
-    doc: 'Deprecated: use `onClick` with `variant="removable"` instead. Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.',
-    type: 'function',
-    status: 'deprecated',
   },
 }
 
@@ -25,18 +20,18 @@ export const TagProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the tag. Primary Icons can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.',
-    type: ['string', 'React.Node'],
+    doc: 'To be included in the tag. Primary Icons can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   hasLabel: {
-    doc: 'If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.',
+    doc: 'If a label is given, typically inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.',
     type: 'boolean',
     status: 'optional',
   },
   variant: {
     doc: 'Possible values are `default`, `clickable`, `addable`, or `removable`. Defaults to `default`.',
-    type: ['default', 'clickable', 'addable', 'removable'],
+    type: ['"default"', '"clickable"', '"addable"', '"removable"'],
     status: 'optional',
   },
   omitOnKeyUpDeleteEvent: {
@@ -45,7 +40,7 @@ export const TagProperties: PropertiesTableProps = {
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },
@@ -68,12 +63,12 @@ export const TagGroupProperties: PropertiesTableProps = {
     status: 'required',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`.',
+    doc: 'Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   className: {
-    doc: 'Custom className for the component root.',
+    doc: 'Custom `className` for the component root.',
     type: 'string',
     status: 'optional',
   },

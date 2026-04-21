@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DateFormatProperties: PropertiesTableProps = {
   value: {
@@ -8,7 +8,7 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   dateStyle: {
     doc: 'Defines the style used to format the date. Also affects duration formatting when using ISO 8601 duration strings. Defaults to `long`.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   hideCurrentYear: {
@@ -23,7 +23,7 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   timeStyle: {
     doc: 'Defines the style used to format the time. If provided, time is included in the output.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   dateTimeSeparator: {
@@ -32,13 +32,13 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   relativeTime: {
-    doc: 'If set to `true`, actual dates will be formatted as relative time (e.g., "2 hours ago"). ISO 8601 duration strings (e.g., "PT1H") are automatically detected and formatted without this prop. Defaults to `false`.',
+    doc: 'If set to `true`, actual dates will be formatted as relative time (e.g., "2 hours ago"). ISO 8601 duration strings (e.g., "PT1H") are automatically detected and formatted without this property. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   relativeTimeStyle: {
     doc: 'Defines the style used to format relative time. Defaults to `dateStyle` when not provided.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   relativeTimeReference: {

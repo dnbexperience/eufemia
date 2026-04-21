@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CheckboxProperties: PropertiesTableProps = {
   checked: {
@@ -8,27 +8,27 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'The `title` of the input - describing it a bit further for accessibility reasons.',
-    type: 'ReactNode',
+    type: 'string',
     status: 'optional',
   },
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
-    type: 'string',
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   size: {
-    doc: 'The size of the checkbox. For now there is "medium" (default) and "large".',
-    type: ['string', 'number'],
+    doc: 'The size of the checkbox. For now there is `medium` (default) and `large`.',
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   indeterminate: {
@@ -38,21 +38,21 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
+    type: ['"error"', '"information"'],
     status: 'optional',
   },
   statusProps: {
-    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)',
+    doc: 'Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/).',
     type: 'FormStatusProps',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -63,11 +63,11 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

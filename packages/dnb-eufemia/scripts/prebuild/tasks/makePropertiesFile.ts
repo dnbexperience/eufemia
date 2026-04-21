@@ -3,19 +3,72 @@
  *
  */
 
-import gulp from 'gulp'
-import rename from 'gulp-rename'
-import transform from 'gulp-transform'
+import fs, { promises } from 'fs'
+import path from 'path'
+import globby from 'globby'
 import prettier from 'prettier'
+import stylelint from 'stylelint'
 import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
 
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+
+const TOKEN_GROUP_SEPARATOR = '-'
+const TOKEN_CSS_PREFIX = '--'
+const CSS_VARIABLE_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
+const CSS_VARIABLE_DECLARATION_REGEX = /^\s*(--[a-z0-9-]+)\s*:/i
+
+function parseCSSVariables(content: string): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const lines = content.split('\n')
+  let currentProp = ''
+  let currentValue = ''
+  let collecting = false
+
+  for (const line of lines) {
+    const trimmed = line.trim()
+
+    if (trimmed.startsWith('--')) {
+      const colonIdx = trimmed.indexOf(':')
+      if (colonIdx !== -1) {
+        currentProp = trimmed.substring(0, colonIdx).trim()
+        currentValue = trimmed.substring(colonIdx + 1).trim()
+        collecting = true
+      }
+    } else if (collecting) {
+      currentValue += ' ' + trimmed
+    }
+
+    if (collecting && currentValue.includes(';')) {
+      variables[currentProp] = currentValue
+        .split(';')[0]
+        .replace(/\/\* .* \*\//g, '')
+        .trim()
+      collecting = false
+      currentProp = ''
+      currentValue = ''
+    }
+  }
+
+  return variables
+}
+const TOKEN_SETS = {
+  colors: {
+    fileName: 'color.tokens.json',
+    targetVariableSetId:
+      'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+  },
+}
+
 const ROOT_DIR = packpath.self()
 
 export default async function makePropertiesFile() {
   await runFactory()
+  await runDesignTokenFactory()
 
   log.succeed(
     '> PrePublish: "makePropertiesFile" creating properties file done'
@@ -23,18 +76,7 @@ export default async function makePropertiesFile() {
 }
 
 const transformModulesContent = async (content: string) => {
-  const variables = content
-    .split('\n')
-    .map((s) => s.trim())
-    .filter((s) => s.startsWith('--'))
-    .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
-      acc[k] = v
-        .split(';')[0]
-        .replace(/\/\* .* \*\//g, '')
-        .trim()
-      return acc
-    }, {})
+  const variables = parseCSSVariables(content)
 
   return (
     String(
@@ -54,18 +96,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
 }
 
 const transformModulesContentCSS = async (content: string) => {
-  const variables = content
-    .split('\n')
-    .map((s) => s.trim())
-    .filter((s) => s.startsWith('--'))
-    .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
-      acc[k] = v
-        .split(';')[0]
-        .replace(/\/\* .* \*\//g, '')
-        .trim()
-      return acc
-    }, {})
+  const variables = parseCSSVariables(content)
 
   // Convert --sb-* variables to Tailwind-compatible format
   const convertedVariables = convertVariablesToTailwindFormat(variables)
@@ -100,64 +131,625 @@ type RunFactoryOptions = {
   glob?: string
 }
 
-export const runFactory = ({
+export const runFactory = async ({
   returnResult = false,
   glob = './src/style/themes/*/properties-js.scss',
-}: RunFactoryOptions = {}) =>
-  new Promise<string | undefined>((resolve, reject) => {
-    log.start('> PrePublish: transforming style modules')
-    try {
-      const gulpTransform = transform as any
-      // Generate JS files
-      gulp
-        .src([glob], {
-          cwd: ROOT_DIR,
-        })
-        .pipe(gulpTransform('utf8', transformSass()))
-        .pipe(gulpTransform('utf8', transformModulesContent))
-        .pipe(
-          rename({
-            basename: 'properties',
-            extname: '.js',
-          })
-        )
-        .pipe(
-          returnResult
-            ? gulpTransform('utf8', (result: string) => resolve(result))
-            : gulp.dest('./src/style/themes/', {
-                overwrite: true,
-                cwd: ROOT_DIR,
-              })
-        )
-        .on('end', () => {
-          // Generate CSS files
-          gulp
-            .src([glob], {
-              cwd: ROOT_DIR,
-            })
-            .pipe(gulpTransform('utf8', transformSass()))
-            .pipe(gulpTransform('utf8', transformModulesContentCSS))
-            .pipe(
-              rename({
-                basename: 'properties-tailwind',
-                extname: '.css',
-              })
-            )
-            .pipe(
-              returnResult
-                ? gulpTransform('utf8', (result: string) =>
-                    resolve(result)
-                  )
-                : gulp.dest('./src/style/themes/', {
-                    overwrite: true,
-                    cwd: ROOT_DIR,
-                  })
-            )
-            .on('end', () => resolve(undefined))
-            .on('error', reject)
-        })
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
+}: RunFactoryOptions = {}): Promise<string | undefined> => {
+  log.start('> PrePublish: transforming style modules')
+
+  const sassTransform = transformSass()
+  const files = await globby([glob], { cwd: ROOT_DIR })
+
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const content = fs.readFileSync(absolutePath, 'utf-8')
+
+    // Transform SASS to CSS
+    const cssContent = sassTransform(content, { path: absolutePath })
+
+    // Generate JS properties file
+    const jsResult = await transformModulesContent(cssContent)
+    if (returnResult) {
+      return jsResult
     }
-  })
+
+    const parsed = path.parse(absolutePath)
+    const jsDestPath = path.resolve(parsed.dir, 'properties.js')
+    fs.writeFileSync(jsDestPath, jsResult)
+
+    // Generate CSS Tailwind properties file
+    const cssResult = await transformModulesContentCSS(cssContent)
+    if (returnResult) {
+      return cssResult
+    }
+
+    const cssDestPath = path.resolve(parsed.dir, 'properties-tailwind.css')
+    fs.writeFileSync(cssDestPath, cssResult)
+  }
+
+  return undefined
+}
+
+type FigmaAlias = {
+  targetVariableName: string
+  targetVariableSetId: string
+  targetVariableSetName: string
+}
+
+type FigmaValueBase = {
+  $type: string
+  $value: unknown
+  $extensions?: {
+    'com.figma.aliasData'?: FigmaAlias
+  }
+}
+
+type FigmaValueColor = {
+  $type: 'color'
+  $value: { alpha: number; hex: string }
+} & FigmaValueBase
+
+type FigmaValueString = {
+  $type: 'string'
+  $value: string
+} & FigmaValueBase
+
+type FigmaValueNumber = {
+  $type: 'number'
+  $value: number
+} & FigmaValueBase
+
+type FigmaValue = FigmaValueColor | FigmaValueNumber | FigmaValueString
+
+type FigmaGroup = {
+  $root?: FigmaValue
+} & FigmaExport
+
+type FigmaNode = FigmaValue | FigmaGroup
+
+type FigmaExport = {
+  [x: string]: FigmaNode
+}
+
+const foundationPrefixMap = {
+  ui: { css: 'dnb', figma: 'dnb' },
+  sbanken: { css: 'sbanken', figma: 'sbanken' },
+  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+}
+
+export const transformFigmaAlias = (alias: FigmaAlias) => {
+  const figmaVariableName = alias.targetVariableName
+
+  if (
+    alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
+  ) {
+    const path = figmaVariableName.split('/')
+
+    let newPrefix = undefined
+    Object.values(foundationPrefixMap).forEach((prefix) => {
+      // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
+      if (path[0] === prefix.figma) {
+        newPrefix = prefix.css
+      }
+    })
+
+    if (newPrefix === undefined) {
+      const errorMessage = `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
+    }
+    path[0] = newPrefix
+    return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
+  } else {
+    const errorMessage = `Unsupported variable set: ${alias.targetVariableSetName} for variable ${figmaVariableName}`
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+const hexAsRgb = (hex: string) => {
+  if (hex.length !== 7) {
+    throw new Error(`Can't parse hex string: ${hex}`)
+  }
+  return `${parseInt(hex.substring(1, 3), 16)} ${parseInt(
+    hex.substring(3, 5),
+    16
+  )} ${parseInt(hex.substring(5, 7), 16)}`
+}
+
+const compressHex = (hex: string) => {
+  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) {
+    return hex
+  }
+
+  const r1 = hex[1]
+  const r2 = hex[2]
+  const g1 = hex[3]
+  const g2 = hex[4]
+  const b1 = hex[5]
+  const b2 = hex[6]
+
+  if (
+    r1.toLowerCase() === r2.toLowerCase() &&
+    g1.toLowerCase() === g2.toLowerCase() &&
+    b1.toLowerCase() === b2.toLowerCase()
+  ) {
+    return `#${r1}${g1}${b1}`.toLowerCase()
+  }
+
+  return hex.toLowerCase()
+}
+
+const alphaAsPercent = (alpha: number) => {
+  const value = parseFloat((alpha * 100).toFixed(2))
+  return `${value}%`
+}
+
+export const transformFigmaValue = (value: FigmaValue) => {
+  if (value.$type === 'string' || value.$type === 'number') {
+    return undefined // Exclude numbers, font-family and font weight
+  }
+
+  const alias = value?.$extensions?.['com.figma.aliasData']
+
+  if (alias) {
+    return transformFigmaAlias(alias)
+  }
+  if (value.$type === 'color') {
+    const alpha = value.$value.alpha
+    const hex = value.$value.hex
+
+    return alpha === 1
+      ? compressHex(hex)
+      : `rgba(${hexAsRgb(hex)} / ${alphaAsPercent(alpha)})`
+  } else {
+    // @ts-expect-error: we are expecting a bad value
+    throw new Error(`Unsupported $type: ${value.$type}`)
+  }
+}
+/**
+ * Takes an array of figma groups and transforms them into the path part of the css variable
+ *
+ * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
+ */
+export const transformFigmaPath = (path: string[]) => {
+  const unsupportedCharacters = []
+
+  const cleanPath = path.filter(Boolean)
+
+  const transformedPath = cleanPath
+    .map((group) => {
+      unsupportedCharacters.push(...(group.match(/[^a-zA-Z-0-9]/g) ?? []))
+      return group.toLowerCase()
+    })
+    .join(TOKEN_GROUP_SEPARATOR)
+
+  if (unsupportedCharacters.length > 0) {
+    const errorMessage = `Unsupported characters [ '${unsupportedCharacters.join(
+      "', '"
+    )}' ] in variable: "${cleanPath.join('/')}"`
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+  return transformedPath
+}
+
+export const transformNamespace = (namespace?: string) =>
+  TOKEN_CSS_PREFIX + (namespace ? namespace + TOKEN_GROUP_SEPARATOR : '')
+
+export const extractReferencedCssVariables = (content: string) => {
+  const variables = new Set<string>()
+  let match: RegExpExecArray | null
+  const regex = new RegExp(CSS_VARIABLE_REFERENCE_REGEX)
+
+  while ((match = regex.exec(content)) !== null) {
+    const variableName = match[1]
+
+    if (variableName) {
+      variables.add(variableName)
+    }
+  }
+
+  return variables
+}
+
+const keepOnlyReferencedVariableDeclarations = (
+  content: string,
+  referencedVariables: Set<string>
+) => {
+  return content
+    .split('\n')
+    .filter((line) => {
+      const variableDeclarationMatch = line.match(
+        CSS_VARIABLE_DECLARATION_REGEX
+      )
+
+      if (!variableDeclarationMatch) {
+        return true
+      }
+
+      const variableName = variableDeclarationMatch[1]
+
+      return referencedVariables.has(variableName)
+    })
+    .join('\n')
+}
+
+/** Recursively generates CSS variables from a Figma export json */
+const generateCSSVariablesFromFigmaExport = (
+  value: FigmaNode | string | number,
+  /** string placed first in the css variable: `--namespace-color-blue-500` */
+  namespace?: string,
+  path: string[] = []
+) => {
+  try {
+    if (typeof value == 'string' || typeof value === 'number') {
+      return ''
+    }
+
+    if (typeof value.$type === 'string') {
+      const val = transformFigmaValue(value)
+      return val
+        ? `${transformNamespace(namespace)}${transformFigmaPath(
+            path
+          )}: ${val};\n`
+        : ''
+    } else {
+      let result = ''
+      for (const [key, val] of Object.entries(value)) {
+        const newPath = key === '$root' ? path : [...path, key]
+        result += generateCSSVariablesFromFigmaExport(
+          val,
+          namespace,
+          newPath
+        )
+      }
+      return result
+    }
+  } catch (e) {
+    const err = e as Error & {
+      recursionContext?: {
+        path: string[]
+        namespace: string
+        value: unknown
+      }
+    }
+    if (!err.recursionContext) {
+      err.recursionContext = {
+        path,
+        namespace,
+        value,
+      }
+    }
+    throw err
+  }
+}
+
+const makeDesignTokenTailwindCSS = async (
+  /** Root path to the generated tokens.scss file */
+  tokensScssPath: string,
+  /** Root path for the generated Tailwind CSS file */
+  outputPath: string,
+  /** prefix to strip from variable names (e.g. 'token') */
+  prefix: string
+) => {
+  try {
+    const content = await promises.readFile(tokensScssPath, 'utf-8')
+
+    // Extract complete CSS declarations by selector block (which may span multiple lines)
+    const prefixPattern = `--${prefix}-`
+    const declarationsBySelector = new Map<string, string[]>()
+    const lines = content.split('\n')
+    let currentDeclaration = ''
+    let collecting = false
+    let currentSelector: string | null = null
+
+    for (const line of lines) {
+      const trimmed = line.trim()
+
+      if (!collecting && trimmed.endsWith('{')) {
+        currentSelector = trimmed.slice(0, -1).trim()
+        continue
+      }
+
+      if (!collecting && trimmed === '}') {
+        currentSelector = null
+        continue
+      }
+
+      if (
+        !collecting &&
+        currentSelector &&
+        trimmed.startsWith(prefixPattern)
+      ) {
+        collecting = true
+        currentDeclaration = trimmed
+      } else if (collecting && currentSelector) {
+        currentDeclaration += '\n' + line
+      }
+
+      if (
+        collecting &&
+        currentSelector &&
+        currentDeclaration.includes(';')
+      ) {
+        // Strip the prefix from the variable name
+        const strippedDeclaration = currentDeclaration.replace(
+          new RegExp(`${prefixPattern}`),
+          '--'
+        )
+        const selectorDeclarations =
+          declarationsBySelector.get(currentSelector) ?? []
+        selectorDeclarations.push(`  ${strippedDeclaration.trim()}`)
+        declarationsBySelector.set(currentSelector, selectorDeclarations)
+        collecting = false
+        currentDeclaration = ''
+      }
+    }
+
+    const rootDeclarations = declarationsBySelector.get(':root') ?? []
+    const themeContent = rootDeclarations.join('\n')
+
+    const scopedSelectors = Array.from(declarationsBySelector.entries())
+      .filter(([selector]) => selector !== ':root')
+      .map(([selector, declarations]) => {
+        return `${selector} {\n${declarations.join('\n')}\n}`
+      })
+      .join('\n\n')
+
+    const tailwindContent = `/* This file is auto generated by makePropertiesFile.ts */
+
+/* stylelint-disable-next-line scss/at-rule-no-unknown */
+@theme {
+${themeContent}
+}
+${scopedSelectors ? `\n\n${scopedSelectors}` : ''}
+`
+
+    const prettierResult =
+      String(
+        await prettier.format(tailwindContent, {
+          filepath: 'file.css',
+          ...prettierrc,
+        })
+      ).trim() + '\n'
+
+    await promises.writeFile(outputPath, prettierResult)
+
+    log.info(`Generated Tailwind CSS file: ${outputPath}`)
+  } catch (e) {
+    log.fail(`Failed to generate Tailwind CSS file: ${outputPath}`)
+    throw e
+  }
+}
+
+const makeDesignTokenSCSS = async (
+  /** Root path to Figma JSON export file */
+  inputPath: string,
+  /** Root path for the generated SCSS file */
+  outputPath: string,
+  /** prefix that is added to the start of the css variable name */
+  namespace?: string,
+  /** selector receiving generated variables */
+  scopeSelector = ':root',
+  /** append generated content to existing file */
+  appendToFile = false,
+  /** force all foundation references to this prefix */
+  referencePrefixOverride?: string,
+  /** Optional filter function that transforms the source before generating */
+  filter: (json: FigmaExport) => FigmaNode = (json) => json,
+  options: {
+    referencedVariables?: Set<string>
+  } = {}
+) => {
+  try {
+    const json = filter(
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+    )
+
+    let scssContent = `${scopeSelector} {\n`
+    scssContent += generateCSSVariablesFromFigmaExport(json, namespace)
+
+    scssContent += '}\n'
+
+    if (options.referencedVariables) {
+      scssContent = keepOnlyReferencedVariableDeclarations(
+        scssContent,
+        options.referencedVariables
+      )
+    }
+
+    if (referencePrefixOverride) {
+      scssContent = scssContent.replace(
+        /var\(\s*--(?:dnb|sbanken|carnegie)-([a-z0-9-]+)\s*\)/gi,
+        `var(--${referencePrefixOverride}-$1)`
+      )
+    }
+
+    const formattedScssContent = String(
+      await prettier.format(scssContent, {
+        filepath: '*.scss',
+        ...prettierrc,
+      })
+    )
+
+    const outputScssContent = appendToFile
+      ? `\n${formattedScssContent}`
+      : `/* This file is auto generated by makePropertiesFile.ts */\n\n${formattedScssContent}`
+
+    const stylelintResult = await stylelint.lint({
+      code: outputScssContent,
+      fix: true,
+    })
+
+    if (appendToFile) {
+      await promises.appendFile(outputPath, stylelintResult.output)
+    } else {
+      await promises.writeFile(outputPath, stylelintResult.output)
+    }
+
+    log.info(`Generated SCSS file: ${outputPath}`)
+  } catch (e) {
+    log.fail(`Failed to generate SCSS file: ${outputPath}`)
+    throw e
+  }
+}
+
+const runDesignTokenFactory = async () => {
+  log.start('> PrePublish: transforming figma variables to SCSS')
+
+  const tokenFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    prefix: string
+    scopeSelector?: string
+    appendToFile?: boolean
+    referencePrefixOverride?: string
+  }> = [
+    {
+      theme: 'ui',
+      in: './src/style/themes/figma/dnb-light.tokens.json',
+      out: './src/style/themes/ui/tokens.scss',
+      prefix: 'token',
+      referencePrefixOverride: 'dnb',
+    },
+    {
+      theme: 'ui',
+      in: './src/style/themes/figma/dnb-dark.tokens.json',
+      out: './src/style/themes/ui/tokens-dark.scss',
+      prefix: 'token',
+      scopeSelector: '.eufemia-theme__color-scheme--dark',
+      referencePrefixOverride: 'dnb',
+    },
+
+    {
+      theme: 'sbanken',
+      in: './src/style/themes/figma/sbanken-light.tokens.json',
+      out: './src/style/themes/sbanken/tokens.scss',
+      prefix: 'token',
+      referencePrefixOverride: 'sbanken',
+    },
+    {
+      theme: 'sbanken',
+      in: './src/style/themes/figma/sbanken-dark.tokens.json',
+      out: './src/style/themes/sbanken/tokens-dark.scss',
+      prefix: 'token',
+      scopeSelector: '.eufemia-theme__color-scheme--dark',
+      referencePrefixOverride: 'sbanken',
+    },
+    {
+      theme: 'carnegie',
+      in: './src/style/themes/figma/dnbcarnegie-light.tokens.json',
+      out: './src/style/themes/carnegie/tokens.scss',
+      prefix: 'token',
+      referencePrefixOverride: 'carnegie',
+    },
+  ]
+
+  const foundationFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    prefix: string
+    filter: (json: FigmaExport) => FigmaNode
+  }> = [
+    {
+      theme: 'ui',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/ui/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.ui.figma],
+      prefix: foundationPrefixMap.ui.css,
+    },
+    {
+      theme: 'sbanken',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/sbanken/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.sbanken.figma],
+      prefix: foundationPrefixMap.sbanken.css,
+    },
+    {
+      theme: 'carnegie',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/carnegie/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.carnegie.figma],
+      prefix: foundationPrefixMap.carnegie.css,
+    },
+  ]
+
+  log.info(
+    `> PrePublish: "makePropertiesFile" Generating Figma sass files:`
+  )
+
+  for (const file of tokenFiles) {
+    await makeDesignTokenSCSS(
+      file.in,
+      file.out,
+      file.prefix,
+      file.scopeSelector,
+      file.appendToFile,
+      file.referencePrefixOverride
+    )
+  }
+
+  const referencedVariablesEntries: Array<[string, Set<string>]> =
+    await Promise.all(
+      tokenFiles.map(async (file) => {
+        const tokensContent = await promises.readFile(file.out, 'utf-8')
+        return [
+          file.theme,
+          extractReferencedCssVariables(tokensContent),
+        ] as [string, Set<string>]
+      })
+    )
+
+  const referencedVariablesByTheme = referencedVariablesEntries.reduce(
+    (acc, [theme, variables]) => {
+      const existingVariables = acc.get(theme) ?? new Set<string>()
+
+      for (const variable of Array.from(variables)) {
+        existingVariables.add(variable)
+      }
+
+      acc.set(theme, existingVariables)
+      return acc
+    },
+    new Map<string, Set<string>>()
+  )
+
+  await Promise.all(
+    foundationFiles.map(async (file) =>
+      makeDesignTokenSCSS(
+        file.in,
+        file.out,
+        file.prefix,
+        undefined,
+        false,
+        undefined,
+        file.filter,
+        {
+          referencedVariables: referencedVariablesByTheme.get(file.theme),
+        }
+      )
+    )
+  )
+
+  const uniqueTokenOutputs = Array.from(
+    new Set(tokenFiles.map((file) => file.out))
+  )
+
+  await Promise.all(
+    uniqueTokenOutputs.map(async (tokensOutPath) => {
+      const tailwindOutPath = tokensOutPath.replace(
+        /tokens(-dark)?\.scss$/,
+        'tokens$1-tailwind.css'
+      )
+
+      return makeDesignTokenTailwindCSS(
+        tokensOutPath,
+        tailwindOutPath,
+        'token'
+      )
+    })
+  )
+}

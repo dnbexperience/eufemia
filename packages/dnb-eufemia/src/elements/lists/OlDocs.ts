@@ -1,6 +1,6 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
-import { ElementPropertiesWithoutSkeleton } from './../ElementDocs'
+import { ElementPropertiesWithoutSkeleton } from '../ElementDocs'
 
 export const OlProperties: PropertiesTableProps = {
   inside: {

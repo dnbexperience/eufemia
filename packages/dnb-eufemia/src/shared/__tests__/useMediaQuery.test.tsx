@@ -13,10 +13,8 @@ import {
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
-import {
-  isMatchMediaSupported as _isMatchMediaSupported,
-  MediaQueryProps,
-} from '../MediaQueryUtils'
+import type { MediaQueryProps } from '../MediaQueryUtils'
+import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
 const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
 
@@ -184,7 +182,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(3)
     expect(resultA.current).toBe(true)
 
     jest
@@ -200,7 +198,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(3)
     expect(resultB.current).toBe(false)
   })
 })

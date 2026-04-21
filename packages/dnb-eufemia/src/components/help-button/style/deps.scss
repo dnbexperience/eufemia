@@ -3,6 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import './dnb-help-button.scss';
+@use '../../button/style/deps.scss' as *;
+@use './dnb-help-button.scss';

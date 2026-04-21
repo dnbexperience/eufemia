@@ -20,7 +20,7 @@ export const CreateBasicValueComponent = () => {
         const MyValue = ({ value, ...props }) => {
           return (
             <ValueBlock {...props}>
-              <NumberFormat currency>{value}</NumberFormat>
+              <NumberFormat.Currency>{value}</NumberFormat.Currency>
             </ValueBlock>
           )
         }
@@ -68,9 +68,9 @@ export const CreateBasicFieldComponent = () => {
               <Input
                 id={id}
                 value={value}
-                on_change={handleChange}
-                on_focus={handleFocus}
-                on_blur={handleBlur}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </FieldBlock>
           )
@@ -190,11 +190,10 @@ export const CreateComposedFieldComponent = () => {
                     max={new Date().getFullYear()}
                     step={1}
                     label="Birth year"
-                    label_direction="vertical"
                     value={parseFloat(String(value))}
-                    on_change={handleBirthYearChange}
-                    on_drag_start={handleFocus}
-                    on_drag_end={handleBlur}
+                    onChange={handleBirthYearChange}
+                    onDragStart={handleFocus}
+                    onDragEnd={handleBlur}
                     status={hasError}
                     tooltip
                   />
@@ -262,7 +261,7 @@ export const FeatureFields = () => {
         <Field.String label="Etternavn" value="Smith" />
         <Field.NationalIdentityNumber value="20058512345" />
         <Field.Email value="john@smith.email" />
-        <Field.PhoneNumber value="+47 98765432" />
+        <Field.PhoneNumber value="+4798765432" />
       </Form.Card>
     </ComponentBox>
   )
@@ -290,7 +289,7 @@ export const LayoutComponents = () => {
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
-          <Field.PhoneNumber value="+47 98765432" />
+          <Field.PhoneNumber value="+4798765432" />
         </Form.Card>
       </Flex.Stack>
     </ComponentBox>
@@ -311,7 +310,7 @@ export const VisibilityBasedOnData = () => {
           advanced: false,
           ssn: '123',
           email: '@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -341,7 +340,7 @@ export const VisibilityBasedOnData = () => {
 
                 <Field.NationalIdentityNumber value="20058512345" />
                 <Field.Email value="john@smith.email" />
-                <Field.PhoneNumber value="+47 98765432" />
+                <Field.PhoneNumber value="+4798765432" />
               </Form.Card>
             </Flex.Stack>
           </Form.Visibility>
@@ -364,7 +363,7 @@ export const UsingFormHandler = () => {
           lastName: 'Smith',
           ssn: '20058512345',
           email: 'john@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -403,7 +402,7 @@ export const Validation = () => {
           lastName: 'Smith',
           ssn: '123',
           email: '@smith.email',
-          phone: '+47 98765432',
+          phone: '+4798765432',
         }}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
@@ -432,7 +431,7 @@ export const UsingWizard = () => {
         function MyForm() {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
 
           return (
             <Form.Handler
@@ -442,7 +441,7 @@ export const UsingWizard = () => {
                 advanced: false,
                 ssn: '123',
                 email: '@smith.email',
-                phone: '+47 98765432',
+                phone: '+4798765432',
               }}
               onChange={(data) => console.log('onChange', data)}
               onPathChange={(path, value) =>

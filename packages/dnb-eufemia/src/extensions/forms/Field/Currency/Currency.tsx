@@ -1,14 +1,16 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
-import { CurrencyISO } from '../../constants/currencies'
+import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
-import NumberField, { Props as NumberFieldProps } from '../Number'
-import { PathStrict } from '../../types'
+import type { FieldNumberProps as NumberFieldProps } from '../Number'
+import NumberField from '../Number'
+import type { PathStrict } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = NumberFieldProps & {
+export type FieldCurrencyProps = NumberFieldProps & {
   /**
    * Will change the currency.
    * You can also set a path as the value, e.g. `/myCurrencyPath`.
@@ -16,7 +18,7 @@ export type Props = NumberFieldProps & {
   currency?: PathStrict | CurrencyISO
 }
 
-function Currency(props: Props) {
+function Currency(props: FieldCurrencyProps) {
   const sharedContext = useContext(SharedContext)
   const { getSourceValue } = useDataValue()
 
@@ -37,10 +39,13 @@ function Currency(props: Props) {
   return (
     <NumberField
       {...preparedProps}
-      className={classnames('dnb-forms-field-currency', props.className)}
+      className={clsx('dnb-forms-field-currency', props.className)}
     />
   )
 }
 
-Currency._supportsSpacingProps = true
+withComponentMarkers(Currency, {
+  _supportsSpacingProps: true,
+})
+
 export default Currency

@@ -1,23 +1,24 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import FieldBlock, {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, Path } from '../../types'
+import type { FieldProps, Path } from '../../types'
 import { getFormattedNumber } from '../../../../components/slider/SliderHelpers'
-import Slider, { SliderProps } from '../../../../components/Slider'
+import type { SliderProps } from '../../../../components/Slider'
+import Slider from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import DataContext, { ContextState } from '../../DataContext/Context'
+import type { ContextState } from '../../DataContext/Context'
+import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
   value: string
 }
 
 export type SliderValue = number | Array<number>
-export type Props = FieldProps<SliderValue> & {
+export type FieldSliderProps = FieldProps<SliderValue> & {
   /**
    * Define an array with JSON Pointers for multiple thumb buttons.
    */
@@ -41,8 +42,8 @@ export type Props = FieldProps<SliderValue> & {
   width?: FieldBlockWidth
 }
 
-function SliderComponent(props: Props) {
-  const dataContextRef = useRef<ContextState>()
+function SliderComponent(props: FieldSliderProps) {
+  const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext<ContextState>(DataContext)
   const {
     Slider: { addTitle: addTitleLabel, subtractTitle: subtractTitleLabel },
@@ -144,9 +145,9 @@ function SliderComponent(props: Props) {
     max,
     disabled,
     status: hasError ? 'error' : undefined,
-    on_change: handleLocalChange,
-    on_drag_start: handleFocus,
-    on_drag_end: handleBlur,
+    onChange: handleLocalChange,
+    onDragStart: handleFocus,
+    onDragEnd: handleBlur,
     vertical,
     reverse,
     hideButtons,
@@ -170,4 +171,4 @@ function SliderComponent(props: Props) {
 
 export default SliderComponent
 
-SliderComponent._supportsSpacingProps = true
+withComponentMarkers(SliderComponent, { _supportsSpacingProps: true })

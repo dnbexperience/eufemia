@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -13,7 +13,7 @@ type RatingOwnProps = {
   value?: number
   max?: number
   variant?: 'stars' | 'progressive'
-  element?: keyof JSX.IntrinsicElements
+  element?: keyof React.JSX.IntrinsicElements
   srLabel?: React.ReactNode
   skeleton?: SkeletonShow
 }
@@ -69,7 +69,7 @@ function Rating(props: RatingProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames(
+      className={clsx(
         'dnb-stat',
         'dnb-stat__rating',
         `dnb-stat__rating--${variant}`,
@@ -139,7 +139,7 @@ const STAR_PATH =
 function StarIcon({ variant }: { variant: 'base' | 'active' }) {
   return (
     <svg
-      className={classnames(
+      className={clsx(
         'dnb-stat__rating-icon',
         `dnb-stat__rating-icon--${variant}`
       )}

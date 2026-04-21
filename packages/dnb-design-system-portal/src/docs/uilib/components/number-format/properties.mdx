@@ -6,11 +6,53 @@ redirect_from:
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { NumberFormatProperties } from '@dnb/eufemia/src/components/number-format/NumberFormatDocs'
+import {
+  NumberFormatNumberProperties,
+  NumberFormatCurrencyProperties,
+  NumberFormatPercentProperties,
+  NumberFormatPhoneNumberProperties,
+  NumberFormatBankAccountNumberProperties,
+  NumberFormatNationalIdentityNumberProperties,
+  NumberFormatOrganizationProperties,
+} from '@dnb/eufemia/src/components/number-format/NumberFormatDocs'
 
 ## Properties
 
-<PropertiesTable props={NumberFormatProperties} />
+`NumberFormat` is only exposed as a namespace. Pick the variant you need – this keeps the bundle small because only the variants you import are included.
+
+### `NumberFormat.Number`
+
+<PropertiesTable props={NumberFormatNumberProperties} />
+
+### `NumberFormat.Currency`
+
+<PropertiesTable props={NumberFormatCurrencyProperties} />
+
+### `NumberFormat.Percent`
+
+<PropertiesTable props={NumberFormatPercentProperties} />
+
+### `NumberFormat.PhoneNumber`
+
+<PropertiesTable props={NumberFormatPhoneNumberProperties} />
+
+### `NumberFormat.BankAccountNumber`
+
+Norwegian bank account number (e.g. `2000 12 34567`).
+
+<PropertiesTable props={NumberFormatBankAccountNumberProperties} />
+
+### `NumberFormat.NationalIdentityNumber`
+
+Norwegian national identification number (e.g. `180892 12345`).
+
+<PropertiesTable props={NumberFormatNationalIdentityNumberProperties} />
+
+### `NumberFormat.OrganizationNumber`
+
+Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by digit.
+
+<PropertiesTable props={NumberFormatOrganizationProperties} />
 
 ## Translations
 

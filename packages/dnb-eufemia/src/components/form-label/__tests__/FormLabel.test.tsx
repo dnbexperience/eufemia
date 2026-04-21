@@ -98,24 +98,38 @@ describe('FormLabel component', () => {
     expect(element.getAttribute('for')).toBe('unique-id')
   })
 
-  /** @deprecated can be removed in v11 */
-  it('should inherit formElement label_direction', () => {
+  it('should default to vertical', () => {
+    render(<FormLabel />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-form-label--vertical'
+    )
+  })
+
+  it('should support horizontal via vertical={false}', () => {
+    render(<FormLabel vertical={false} />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--vertical'
+    )
+  })
+
+  it('should support horizontal via labelDirection', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'horizontal' }}>
         <FormLabel />
       </Provider>
     )
 
     const element = document.querySelector('.dnb-form-label')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
-    )
 
-    expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-label',
-      'dnb-form-label--vertical',
-    ])
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-form-label--vertical'
+    )
   })
 
   it('should inherit formElement labelDirection', () => {
@@ -175,11 +189,11 @@ describe('FormLabel component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLLabelElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <FormLabel innerRef={ref}>content</FormLabel>
+      ref = React.useRef<HTMLLabelElement | null>(null)
+      return <FormLabel ref={ref}>content</FormLabel>
     }
 
     render(<MockComponent />)
@@ -190,17 +204,17 @@ describe('FormLabel component', () => {
 
   describe('nested', () => {
     it('gets valid ref element', () => {
-      let refA: React.RefObject<HTMLInputElement>
-      let refB: React.RefObject<HTMLInputElement>
+      let refA: React.RefObject<HTMLElement>
+      let refB: React.RefObject<HTMLElement>
 
       function MockComponent() {
-        refA = React.useRef()
-        refB = React.useRef()
+        refA = React.useRef<HTMLElement | null>(null)
+        refB = React.useRef<HTMLElement | null>(null)
         return (
           <FormLabel
-            innerRef={refA}
+            ref={refA}
             text={
-              <FormLabel element="legend" innerRef={refB}>
+              <FormLabel element="legend" ref={refB}>
                 content
               </FormLabel>
             }
@@ -210,7 +224,7 @@ describe('FormLabel component', () => {
 
       render(<MockComponent />)
 
-      expect(refA.current).toBeUndefined()
+      expect(refA.current).toBeNull()
       expect(refB.current instanceof HTMLLegendElement).toBe(true)
       expect(refB.current.tagName).toBe('LEGEND')
     })
@@ -431,18 +445,32 @@ describe('FormLabel component', () => {
       expect(input).not.toHaveClass('hover')
     })
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<FormLabel ref={ref} forId="input" text="Label" />)
+
+    const element = document.querySelector('.dnb-form-label')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<FormLabel ref={refFn} forId="input" text="Label" />)
+
+    const element = document.querySelector('.dnb-form-label')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('FormLabel scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-form-label-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

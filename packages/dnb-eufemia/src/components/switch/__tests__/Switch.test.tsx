@@ -6,7 +6,8 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Switch, { SwitchProps } from '../Switch'
+import type { SwitchProps } from '../Switch'
+import Switch from '../Switch'
 import { Provider } from '../../../shared'
 
 const props: SwitchProps = {
@@ -132,7 +133,7 @@ describe('Switch component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Switch label="Label" />
       </Provider>
     )
@@ -149,12 +150,12 @@ describe('Switch component', () => {
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
       'id',
-      'name',
-      'type',
       'role',
       'aria-checked',
       'class',
+      'type',
       'value',
+      'name',
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-switch',
@@ -175,8 +176,8 @@ describe('Switch component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
-      return <Switch {...props} innerRef={ref} />
+      ref = React.useRef<HTMLInputElement | null>(null)
+      return <Switch {...props} ref={ref} />
     }
 
     render(<MockComponent />)
@@ -185,13 +186,13 @@ describe('Switch component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+    const ref: React.RefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem
     }
 
-    render(<Switch id="unique" innerRef={refFn} />)
+    render(<Switch id="unique" ref={refFn} />)
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-switch__input')
@@ -201,13 +202,6 @@ describe('Switch component', () => {
 describe('Switch scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-switch-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

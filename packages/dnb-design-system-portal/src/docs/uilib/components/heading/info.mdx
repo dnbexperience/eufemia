@@ -39,7 +39,7 @@ The first code example is without using context provider. To handle levels in ba
 - A **heading** will inherit the level from its previous sibling.
 - A **level provider** will create an isolated level context (`Heading.Level`).
 - A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
-- A heading can have a set of different [size](/uilib/elements/heading#headings) properties. More details below.
+- A heading can have a set of different [size](/uilib/elements/heading) properties. More details below.
 
 ### Defining heading styles / sizes
 
@@ -58,7 +58,7 @@ The correction will ensure that:
 
 You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
 
-You can also disable corrections by using the property `skip_correction={true}`.
+You can also disable corrections by using the property `skipCorrection={true}`.
 
 ### Heading level context provider / asynchronous
 
@@ -70,7 +70,7 @@ They are completely optional. But can help out to solve some kinds of challenges
 
 ### Skip auto correction and warnings
 
-First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
+First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
 
 ### Heading levels interceptor modification
 
@@ -100,7 +100,7 @@ Heading.setNextLevel(4, { overwriteContext: true })
 #### Heading and routers
 
 In order to reset the leveling during a page transition on using `react-router-dom` v5, you can make use of `withRouter`.
-In v6 or `@reach/router`, you just call it in the correct "page" component.
+In v6 or `@gatsbyjs/reach-router`, you just call it in the correct "page" component.
 You could additionally define "what is a page change" and what not, by using the `location: { pathname }` property you get inside these routing components.
 
 ### Basic heading elements

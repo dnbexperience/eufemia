@@ -1,18 +1,17 @@
-import React from 'react'
+import type React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type { formatOptionParams } from '../number-format/NumberUtils'
-import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
+import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
-export type ValueTypes = number | Array<number>
-export type NumberFormatTypes =
-  | formatOptionParams
+export type SliderValue = number | Array<number>
+export type SliderNumberFormat =
+  | NumberFormatOptionParams
   | ((value: number) => unknown)
-export type onChangeEventProps = {
-  value: ValueTypes
+export type SliderOnChangeParams = {
+  value: SliderValue
   rawValue: number
   number?: string | null
   event?: Event
@@ -23,11 +22,11 @@ export type SliderExtensions = Record<
   { instance: React.ElementType; [key: string]: unknown }
 >
 
-export type SliderProps = IncludeSnakeCase<{
+export type SliderProps = {
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
   label?: React.ReactNode
 
-  /** use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`. */
+  /** use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`. */
   labelDirection?: 'vertical' | 'horizontal'
 
   /** use `true` to make the label only readable by screen readers. */
@@ -36,14 +35,14 @@ export type SliderProps = IncludeSnakeCase<{
   /** text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message. */
   status?: string | boolean
 
-  /** defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`. */
-  statusState?: 'error' | 'info'
+  /** defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`. */
+  statusState?: 'error' | 'information'
 
   /** use an object to define additional FormStatus properties. */
   statusProps?: Record<string, unknown>
   statusNoAnimation?: boolean
 
-  /** the `status_id` used for the target [GlobalStatus](/uilib/components/global-status). */
+  /** the `statusId` used for the target [GlobalStatus](/uilib/components/global-status). */
   globalStatus?: GlobalStatusConfigObject
 
   /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */
@@ -65,13 +64,13 @@ export type SliderProps = IncludeSnakeCase<{
   max?: number
 
   /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs). */
-  value?: ValueTypes
+  value?: SliderValue
 
   /** the steps the slider takes on changing the value. Defaults to `null`. */
   step?: number
 
   /** makes it possible to display overlays with other functionality such as a marker on the slider marking a given value. */
-  extensions: SliderExtensions
+  extensions?: SliderExtensions
 
   /** show the slider vertically. Defaults to `false`. */
   vertical?: boolean
@@ -83,13 +82,13 @@ export type SliderProps = IncludeSnakeCase<{
   stretch?: boolean
 
   /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
-  numberFormat?: NumberFormatTypes
+  numberFormat?: SliderNumberFormat
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
-  tooltip: boolean
+  tooltip?: boolean
 
   /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
-  alwaysShowTooltip: boolean
+  alwaysShowTooltip?: boolean
 
   /** removes the helper buttons. Defaults to `false`. */
   hideButtons?: boolean
@@ -104,43 +103,43 @@ export type SliderProps = IncludeSnakeCase<{
   disabled?: boolean
   className?: string
 
-  /**  will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`. */
-  onChange?: (props: onChangeEventProps) => void
+  /** Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`. */
+  onChange?: (props: SliderOnChangeParams) => void
 
-  /** will be called once the user starts dragging. Returns `{ event }`. */
+  /** Will be called once the user starts dragging. Returns `{ event }`. */
   onDragStart?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  /** will be called once the user stops dragging. Returns `{ event }`. */
+  /** Will be called once the user stops dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  children?: React.ReactChild
-}>
+  children?: React.ReactNode
+}
 
 export type SliderAllProps = SliderProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
 
-export type ThumbStateEnums =
+export type SliderThumbState =
   | 'initial'
   | 'normal'
   | 'activated'
   | 'released'
 
-export type SliderContextTypes = {
+export type SliderContextValue = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
   shouldAnimate: boolean
-  thumbState: ThumbStateEnums
+  thumbState: SliderThumbState
   thumbIndex: React.RefObject<number>
   showStatus: boolean
   showButtons: boolean
   attributes: unknown
   allProps: SliderProps
-  value: ValueTypes
+  value: SliderValue
   values: Array<number>
-  setValue: (value: ValueTypes) => void
-  setThumbState: (thumbState: ThumbStateEnums) => void
+  setValue: (value: SliderValue) => void
+  setThumbState: (thumbState: SliderThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>

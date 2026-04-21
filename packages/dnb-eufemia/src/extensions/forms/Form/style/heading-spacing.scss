@@ -1,0 +1,12 @@
+@mixin headingSpacing {
+  &:has(
+    + .dnb-card,
+    + * + .dnb-card, /* e.g. one paragraph */
+    + * + * + .dnb-card, /* e.g. two paragraphs */
+    + .dnb-help-button__content + .dnb-section + .dnb-card
+  ) {
+    &:not([class*='space__bottom']) {
+      margin-bottom: var(--spacing-small);
+    }
+  }
+}

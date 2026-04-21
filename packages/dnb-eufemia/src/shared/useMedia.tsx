@@ -25,32 +25,32 @@ const makeLayoutEffect = () => {
   return typeof window === 'undefined'
     ? useEffect
     : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
-    ? () => null
-    : React.useLayoutEffect
+      ? () => null
+      : React.useLayoutEffect
 }
 
 export type UseMediaProps = {
   /**
    * Give a initial value, that is used during SSR as well.
-   * Default: null
+   * Default: `null`
    */
   initialValue?: Partial<UseMediaResult>
 
   /**
    * If set to true, no MediaQuery will be used.
-   * Default: false
+   * Default: `false`
    */
   disabled?: MediaQueryOptions['disabled']
 
   /**
    * Provide a custom breakpoint
-   * Default: defaultBreakpoints
+   * Default: `defaultBreakpoints`
    */
   breakpoints?: MediaQueryBreakpoints
 
   /**
    * Provide a custom query
-   * Default: defaultQueries
+   * Default: `defaultQueries`
    */
   queries?: Record<string, MediaQueryCondition>
 
@@ -61,7 +61,7 @@ export type UseMediaProps = {
 
   /**
    * Not documented as of now. For internal use only.
-   * Default: true
+   * Default: `true`
    */
   correctRange?: MediaQueryOptions['correctRange']
 }
@@ -125,18 +125,16 @@ export default function useMedia(
   const isDisabledRef = useRef(disabled)
 
   const removeListeners = useCallback(() => {
-    Object.entries(refs.current).forEach(
-      ([key, item]: [Keys, UseMediaItem]) => {
-        item?.event?.()
-        delete refs.current[key]
-      }
-    )
+    Object.entries(refs.current).forEach(([key, item]) => {
+      ;(item as UseMediaItem)?.event?.()
+      delete refs.current[key]
+    })
   }, [])
 
   const runQuery = useCallback(
     ({ when, name, key }: UseMediaQueryProps): UseMediaItem => {
       if (!isMatchMediaSupported()) {
-        return // do nothing
+        return undefined // do nothing
       }
 
       const mediaQueryList = makeMediaQueryList(

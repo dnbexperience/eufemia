@@ -1,10 +1,12 @@
 import React from 'react'
 
 // Components
-import Button, { ButtonProps } from '../Button'
-import Anchor, { AnchorAllProps } from '../Anchor'
+import type { ButtonProps } from '../Button'
+import Button from '../Button'
+import type { AnchorAllProps } from '../Anchor'
+import Anchor from '../Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
-import type { DataAttributeTypes } from '../../shared/types'
+import type { DataAttributes } from '../../shared/types'
 import type { IconIcon } from '../icon/Icon'
 
 // Elements
@@ -17,56 +19,55 @@ import homeIcon from '../../icons/home'
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import {
-  extendPropsWithContext,
-  filterProps,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
+import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbItemProps = {
   /**
    * Text displaying the title of the item's corresponding page
-   * Default: If variant='home', default is "Home". Otherwise it is required.
+   * Defaults to `Home` when variant is `home`, otherwise required.
    */
   text?: React.ReactNode
 
   /**
    * Icon displaying on the left side
-   * Default: HomeIcon / chevron_right
+   * Default: `HomeIcon / chevron_right`
    */
   icon?: IconIcon
 
   /**
    * Href should be the link to the item's corresponding page.
-   * Default: null
+   * Default: `null`
    */
   href?: string
 
   /**
    * Set a custom click event. In this case, you should not define the prop href.
-   * Default: null
+   * Default: `null`
    */
   onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
 
   /**
    * The component variant. Variant 'current' should correspond to the current page and 'home' to the root page.
-   * Default: null
+   * Default: `null`
    */
   variant?: 'home' | 'previous' | 'current'
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /** Internal */
   itemNo?: number
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
-  DataAttributeTypes
+  DataAttributes
 
-const defaultProps = {
+const defaultProps: Partial<BreadcrumbItemProps> = {
   text: null,
   href: null,
   icon: null,
@@ -90,6 +91,7 @@ const determineIcon = (variant: string, isSmallScreen: boolean) => {
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+  const breadcrumbItemContext = React.useContext(BreadcrumbItemContext)
   const {
     theme,
     translation: {
@@ -105,13 +107,15 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     onClick,
     variant,
     skeleton,
-    itemNo,
+    itemNo: itemNoProp,
     ...props
   } = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.BreadcrumbItem
   )
+
+  const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
 
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
@@ -153,8 +157,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             variant="tertiary"
             href={href}
             icon={iconToUse}
-            icon_position="left"
-            on_click={onClick}
+            iconPosition="left"
+            onClick={onClick}
             text={currentText}
             skeleton={skeleton}
             {...props}
@@ -179,11 +183,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           </>
         )
       ) : (
-        <span
-          className="dnb-breadcrumb__item__span"
-          // TODO: Consider deprecating passing down props to span in v11
-          {...filterProps(props, (key) => !key.includes('-'))}
-        >
+        <span className="dnb-breadcrumb__item__span">
           <IconPrimary
             icon={iconToUse}
             className="dnb-breadcrumb__item__span__icon"
@@ -195,6 +195,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   )
 }
 
-BreadcrumbItem._supportsSpacingProps = true
+withComponentMarkers(BreadcrumbItem, {
+  _supportsSpacingProps: true,
+})
 
 export default BreadcrumbItem

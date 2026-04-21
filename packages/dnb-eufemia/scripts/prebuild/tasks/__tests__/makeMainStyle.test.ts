@@ -31,6 +31,7 @@ if (isCI) {
     it('has to have valid core css', () => {
       global.console.error = jest.fn()
       const css = loadScss(null, { data: global.core[0] })
+      // @ts-expect-error - strictFunctionTypes
       expect(/^Error/.test(css)).toBe(false)
       expect(global.console.error).toHaveBeenCalled()
     })
@@ -43,13 +44,13 @@ if (isCI) {
   describe('makeMainStyle transforms "components" SASS to CSS', () => {
     beforeAll(async () => {
       global.components = await runFactory(
-        './src/style/themes/theme-ui/ui-theme-components.scss',
+        './src/style/themes/ui/ui-theme-components.scss',
         {
           returnResult: true,
         }
       )
       global.files = await runFactory(
-        './src/style/themes/theme-ui/ui-theme-components.scss',
+        './src/style/themes/ui/ui-theme-components.scss',
         {
           returnFiles: true,
         }
@@ -58,6 +59,7 @@ if (isCI) {
 
     it('has to have valid components css', () => {
       const css = loadScss(null, { data: global.components[0] })
+      // @ts-expect-error - strictFunctionTypes
       expect(/^Error/.test(css)).toBe(false)
     })
 
@@ -85,10 +87,10 @@ if (isCI) {
     it('includes correct files', () => {
       expect(global.files).toHaveLength(2)
       expect(global.files[0]).toContain(
-        '/style/themes/theme-ui/ui-theme-components.css'
+        '/style/themes/ui/ui-theme-components.css'
       )
       expect(global.files[1]).toContain(
-        '/style/themes/theme-ui/ui-theme-components.min.css'
+        '/style/themes/ui/ui-theme-components.min.css'
       )
     })
   })
@@ -105,6 +107,7 @@ if (isCI) {
 
     it('has to have valid elements css', () => {
       const css = loadScss(null, { data: global.elements[0] })
+      // @ts-expect-error - strictFunctionTypes
       expect(/^Error/.test(css)).toBe(false)
     })
   })
@@ -112,7 +115,7 @@ if (isCI) {
   describe('makeMainStyle transforms "theme" SASS to CSS', () => {
     beforeAll(async () => {
       global.theme = await runFactory(
-        './src/style/themes/theme-ui/ui-theme-basis.scss',
+        './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnResult: true,
         }
@@ -121,6 +124,7 @@ if (isCI) {
 
     it('has to have valid theme css', () => {
       const css = loadScss(null, { data: global.theme[0] })
+      // @ts-expect-error - strictFunctionTypes
       expect(/^Error/.test(css)).toBe(false)
     })
 
@@ -173,13 +177,13 @@ if (isCI) {
     beforeAll(async () => {
       const { runFactory } = await import('../makeLibStyles')
       global.css = await runFactory(
-        './src/style/themes/theme-ui/ui-theme-basis.scss',
+        './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnResult: true,
         }
       )
       global.files = await runFactory(
-        './src/style/themes/theme-ui/ui-theme-basis.scss',
+        './src/style/themes/ui/ui-theme-basis.scss',
         {
           returnFiles: true,
         }

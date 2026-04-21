@@ -1,8 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from 'react'
-import classnames from 'classnames'
-import ScrollView, {
-  ScrollViewAllProps,
-} from '../../fragments/scroll-view/ScrollView'
+import clsx from 'clsx'
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { ListContext } from './ListContext'
 import type { SkeletonShow } from '../Skeleton'
@@ -30,7 +29,7 @@ function ListScrollView(props: ListScrollViewProps) {
     skeleton,
     disabled,
     style,
-    innerRef,
+    ref,
     ...rest
   } = props
 
@@ -54,7 +53,7 @@ function ListScrollView(props: ListScrollViewProps) {
   const measureMaxHeight = useCallback(() => {
     if (!hasValidMaxVisibleListItems || style?.maxHeight) {
       setMeasuredMaxHeight(undefined)
-      return
+      return undefined
     }
 
     setOutlineCompensation(
@@ -72,17 +71,17 @@ function ListScrollView(props: ListScrollViewProps) {
   }, [hasValidMaxVisibleListItems, maxVisibleListItems, style?.maxHeight])
 
   useLayoutEffect(() => {
-    if (!innerRef) {
-      return
+    if (!ref) {
+      return undefined
     }
 
-    if (typeof innerRef === 'function') {
-      innerRef(localRef.current)
-      return
+    if (typeof ref === 'function') {
+      ref(localRef.current)
+      return undefined
     }
 
-    innerRef.current = localRef.current
-  }, [innerRef])
+    ref.current = localRef.current
+  }, [ref])
 
   useLayoutEffect(() => {
     measureMaxHeight()
@@ -90,7 +89,7 @@ function ListScrollView(props: ListScrollViewProps) {
 
   useLayoutEffect(() => {
     if (!hasValidMaxVisibleListItems || style?.maxHeight) {
-      return
+      return undefined
     }
 
     window.addEventListener('resize', measureMaxHeight)
@@ -116,7 +115,7 @@ function ListScrollView(props: ListScrollViewProps) {
 
   const scrollViewContent = (
     <ScrollView
-      className={classnames(
+      className={clsx(
         'dnb-list__card__scroll-view',
         'dnb-list--inset-outline',
         className
@@ -134,7 +133,7 @@ function ListScrollView(props: ListScrollViewProps) {
   const appliedDisabled = disabled ?? parentContext?.disabled
 
   return (
-    <ListContext.Provider
+    <ListContext
       value={{
         variant: parentContext?.variant ?? 'basic',
         separated: parentContext?.separated ?? false,
@@ -143,7 +142,7 @@ function ListScrollView(props: ListScrollViewProps) {
       }}
     >
       {scrollViewContent}
-    </ListContext.Provider>
+    </ListContext>
   )
 }
 

@@ -3,19 +3,11 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-
 .dnb-textarea {
-  --textarea-border-color: var(--sb-color-gray-dark-2);
-  --textarea-border-width: 0.0625rem;
-  --textarea-background-color: var(--color-white);
-  --textarea-color: var(--textarea-color--default);
-  --textarea-color--default: var(--color-black);
-  --textarea-color--active: var(--color-black);
-  --textarea-placeholder-color: var(--sb-color-gray-dark-3);
-  --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
+  --textarea-border-radius--focus: 1.5rem;
 
   &__textarea {
+    // prevents clipping through rounded corners that appear on focus
     background-color: transparent;
   }
 
@@ -25,38 +17,5 @@
 
   &__resize--medium &__shell::after {
     opacity: 0.1;
-  }
-
-  // hover
-  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    --textarea-border-color: var(--sb-color-violet);
-    --textarea-border-width: 0.125rem;
-  }
-
-  // focus
-  &__textarea:not([disabled]):not(#{&}--disabled):focus {
-    --textarea-color: var(--textarea-color--active);
-
-    ~ .dnb-textarea__state {
-      --textarea-border-color: var(--sb-color-violet);
-      --textarea-border-radius: 1.5rem;
-      @include focusRing(null, null, inset);
-    }
-  }
-
-  &--disabled {
-    --textarea-color: var(--sb-color-gray-dark-2);
-    --textarea-background-color: var(--sb-color-gray-light);
-    --textarea-border-color: var(--sb-color-gray-dark-2);
-  }
-
-  // with status_state = "error"
-  &__status--error &__textarea:not([disabled]):not(#{&}--disabled) {
-    --textarea-color--default: var(--sb-color-red);
-    --textarea-color--active: var(--color-black);
-
-    ~ .dnb-textarea__state {
-      --textarea-border-color: var(--sb-color-red);
-    }
   }
 }

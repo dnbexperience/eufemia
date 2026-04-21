@@ -1,17 +1,21 @@
 import React from 'react'
-import Selection, { Props as SelectionProps } from '../../Field/Selection'
-import {
+import type { AutocompleteOnTypeParams } from '../../../../components/autocomplete/Autocomplete'
+import type { FieldSelectionProps as SelectionProps } from '../../Field/Selection'
+import Selection from '../../Field/Selection'
+import type {
   Path,
   PathStrict,
   ReceiveAdditionalEventArgs,
   UseFieldProps,
 } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
-import {
+import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
   ResponseResolver,
+} from '../createContext'
+import {
   fetchData,
   handleCountryPath,
   isSupportedCountryCode,
@@ -26,6 +30,11 @@ export type SupportedCountries = (typeof supportedCountryCodes)[number]
 export const unsupportedCountryMessage =
   'Postal code verification is not supported for {countryCode}.'
 
+/**
+ * Mirrors the Bring Address API response format.
+ * Property names use snake_case to match the external API contract.
+ * @see https://developer.bring.com/api/address/
+ */
 export type AddressResolverData = {
   addresses: {
     street_name: string
@@ -36,7 +45,7 @@ export type AddressResolverData = {
 }
 export type AddressResolverPayload = Array<{
   item: AddressResolverData['addresses'][0]
-  selected_value: string
+  selectedValue: string
   selectedKey: string
   content: string[]
 }>
@@ -63,6 +72,7 @@ export const preResponseResolver: PreResponseResolver = ({ value }) => {
   if (!value) {
     return { addresses: [] }
   }
+  return undefined
 }
 
 export const responseResolver: ResponseResolver<
@@ -84,7 +94,7 @@ export const responseResolver: ResponseResolver<
 
     return {
       item,
-      selected_value: street,
+      selectedValue: street,
       selectedKey: street || item['address_id'],
       content: [street, city],
     } satisfies DrawerListDataArrayObjectStrict &
@@ -115,19 +125,21 @@ export function suggestions(
     }
   ) {
     if (!(typeof value === 'string')) {
-      return // stop here
+      return undefined // stop here
     }
 
     // Get country code from path or use given countryCode value
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
+      // @ts-expect-error - strictFunctionTypes
       additionalArgs,
+      // @ts-expect-error - strictFunctionTypes
       handler: suggestionsHandler,
     })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
-      return // stop here
+      return undefined // stop here
     }
 
     try {
@@ -150,7 +162,6 @@ export function suggestions(
       additionalArgs.hideIndicator()
     } catch (error) {
       additionalArgs.hideIndicator()
-      return error
     }
   }
 }
@@ -190,7 +201,9 @@ export function suggestionsElement(
           keepValue: true,
           openOnFocus: true,
           placeholder: suggestionPlaceholder,
-          onType,
+          onType: onType as unknown as (
+            event: AutocompleteOnTypeParams
+          ) => void,
           ...props?.autocompleteProps,
         }}
         onChange={onChange}

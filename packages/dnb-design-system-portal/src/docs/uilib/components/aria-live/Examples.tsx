@@ -119,8 +119,8 @@ export const AriaLiveAdditions = () => (
                     text="Add more content"
                     variant="secondary"
                     icon="add"
-                    icon_position="left"
-                    on_click={() => {
+                    iconPosition="left"
+                    onClick={() => {
                       update('/content', (content) => {
                         const c = content.length + 1
                         content.push(`Line ${c}`)
@@ -132,8 +132,8 @@ export const AriaLiveAdditions = () => (
                     text="Remove content"
                     variant="tertiary"
                     icon="subtract"
-                    icon_position="left"
-                    on_click={() => {
+                    iconPosition="left"
+                    onClick={() => {
                       update('/content', (content) => {
                         content.pop()
                         return [...content]

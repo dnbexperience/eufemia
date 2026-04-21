@@ -19,7 +19,9 @@ function generatePackages(convertFiles) {
     const includePaths = []
 
     const file = require.resolve(filePath)
-    const result = sass.renderSync({ file, includePaths })
+    const result = sass.compile(file, {
+      loadPaths: includePaths,
+    })
     const name = path.basename(filePath).replace('.scss', '')
     const dest = path.resolve(__dirname, `../public/${name}.css`)
 
@@ -32,8 +34,7 @@ exports.generatePackages = generatePackages
 if (require.main === module) {
   generatePackages([
     '@dnb/eufemia/src/style/dnb-ui-core.scss',
-    '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-basis.scss',
-    '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss',
+    '@dnb/eufemia/src/style/themes/ui/ui-theme-basis.scss',
   ])
 }
 
@@ -42,14 +43,6 @@ if (require.main === module) {
  * to re-generate the sass to css conversion each time a page gets visited.
  *
  * But because its so rarely touched, we rather keep it inside here as of now.
- *
- * exports.onCreateDevServer = ({ app }) => {
- *  runGeneratePackages({
- *    app,
- *    page: '/uilib/elements/elements-without-classes',
- *    packages: ['@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss'],
- *  })
- * }
  */
 function runGeneratePackages({ app, page, packages }) {
   // Run a Node.js Script on a specific page visit

@@ -1,10 +1,10 @@
-import React from 'react'
+import type React from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import type { SharedStateId } from '../../shared/helpers/useSharedState'
-import { ButtonProps } from '../Button'
+import type { ButtonProps } from '../Button'
 
-export type UploadAcceptedFileTypes = string[]
+export type UploadAcceptedFiles = string[]
 
 export type UploadAcceptedFileTypesWithFileMaxSize =
   UploadAcceptedFileTypeObject[]
@@ -21,32 +21,32 @@ export type UploadProps = {
   id?: SharedStateId
 
   /**
-   * defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
+   * defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.
    */
-  variant?: 'normal' | 'compact'
+  variant?: 'default' | 'compact'
 
   /**
    * list of accepted file types.
    */
   acceptedFileTypes:
-    | UploadAcceptedFileTypes
+    | UploadAcceptedFiles
     | UploadAcceptedFileTypesWithFileMaxSize
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
+   * Default: `null`
    */
   skeleton?: SkeletonShow
 
   /**
    * Defines the amount of files the user can select and upload
-   * Default: 100
+   * Default: `100`
    */
   filesAmountLimit?: number
 
   /**
    * Defines the max file size of each file in MB. Use either `0` or `false` to disable.
-   * Default: 5 MB
+   * Default: `5 MB`
    */
   fileMaxSize?: number | false
 
@@ -75,24 +75,24 @@ export type UploadProps = {
 
   /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
-   * Default: false
+   * Default: `false`
    */
   download?: boolean
 
   /**
    * Allows uploading of duplicate files.
-   * Default: false
+   * Default: `false`
    */
   allowDuplicates?: boolean
 
   /**
    * Disables file drag and drop, by removing the drop zone.
-   * Default: false
+   * Default: `false`
    */
   disableDragAndDrop?: boolean
 
   /**
-   * Custom icon used for the upload button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="information"`), other icons should be set as React elements. Defaults to the `folder` icon.
+   * Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.
    */
   buttonProps?: ButtonProps
 
@@ -112,7 +112,7 @@ export type UploadProps = {
   errorAmountLimit?: React.ReactNode
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
-  fileListAriaLabel?: string
+  listAriaLabel?: string
   children?: React.ReactNode
 }
 
@@ -121,7 +121,7 @@ export type UploadAllProps = UploadProps &
   LocaleProps &
   Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'title'>
 
-export type UploadContextProps = {
+export type UploadContextValue = {
   id?: string
   onInputUpload: (files: Array<UploadFileNative>) => void
 } & Partial<UploadAllProps>

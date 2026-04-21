@@ -35,22 +35,16 @@ export const ExperimentsSandbox = () => (
   <Center>
     <Wrapper>
       <Box>
-        <Provider
-          formElement={{
-            label_direction: 'vertical',
-          }}
-        >
-          <PhoneRow label="Phone number">
-            <Flex.Horizontal>
-              <Dropdown
-                title="Country code"
-                value={0}
-                data={['+47', '+48', '+49']}
-              />
-              <Input placeholder="Your phone number" />
-            </Flex.Horizontal>
-          </PhoneRow>
-        </Provider>
+        <PhoneRow label="Phone number">
+          <Flex.Horizontal>
+            <Dropdown
+              title="Country code"
+              value={0}
+              data={['+47', '+48', '+49']}
+            />
+            <Input placeholder="Your phone number" />
+          </Flex.Horizontal>
+        </PhoneRow>
       </Box>
       <Box>
         <Provider

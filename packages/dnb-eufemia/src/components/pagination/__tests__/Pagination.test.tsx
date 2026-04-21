@@ -6,11 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Pagination, {
-  createPagination,
-  Bar,
-  PaginationProps,
-} from '../Pagination'
+import type { PaginationProps } from '../Pagination'
+import Pagination, { createPagination, Bar } from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
@@ -20,8 +17,8 @@ const en = enGB['en-GB'].Pagination
 
 describe('Pagination bar', () => {
   const props: PaginationProps = {
-    page_count: 30,
-    current_page: 15,
+    pageCount: 30,
+    currentPage: 15,
   }
 
   it('has correct state at startup', () => {
@@ -49,7 +46,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
     rerender(
-      <Pagination {...props} current_page={1}>
+      <Pagination {...props} currentPage={1}>
         <div id="page-content">content</div>
       </Pagination>
     )
@@ -108,7 +105,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('14')
 
     rerender(
-      <Pagination {...props} current_page={5}>
+      <Pagination {...props} currentPage={5}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
@@ -121,7 +118,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('5')
 
     rerender(
-      <Pagination {...props} current_page={3}>
+      <Pagination {...props} currentPage={3}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
@@ -136,7 +133,7 @@ describe('Pagination bar', () => {
 
   it('accepts element in the function return', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
       </Pagination>
     )
@@ -147,7 +144,7 @@ describe('Pagination bar', () => {
 
   it('sets content with setContent', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
@@ -174,8 +171,8 @@ describe('Pagination bar', () => {
   it('should set correct class when paginationBarLayout is set to "horizontal"', () => {
     render(
       <Pagination
-        page_count={3}
-        startup_page={2}
+        pageCount={3}
+        startupPage={2}
         paginationBarLayout="horizontal"
       >
         {({ pageNumber, setContent }) => {
@@ -203,7 +200,7 @@ describe('Pagination bar', () => {
           <button id="button" onClick={onClickHandler}>
             {count}
           </button>
-          <Pagination page_count={3} startup_page={2}>
+          <Pagination pageCount={3} startupPage={2}>
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,
@@ -244,10 +241,10 @@ describe('Pagination bar', () => {
     ).toBe('{"pageNumber":3,"count":3}')
   })
 
-  it('has valid on_change callback', () => {
-    const on_change = jest.fn()
+  it('has valid onChange callback', () => {
+    const onChange = jest.fn()
 
-    render(<Pagination {...props} on_change={on_change} />)
+    render(<Pagination {...props} onChange={onChange} />)
 
     const nextButton = document
       .querySelector('div.dnb-pagination__bar')
@@ -255,12 +252,12 @@ describe('Pagination bar', () => {
       .querySelectorAll('.dnb-button')[1]
 
     fireEvent.click(nextButton)
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].pageNumber).toBe(16)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].pageNumber).toBe(16)
 
     fireEvent.click(nextButton)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[1][0].pageNumber).toBe(17)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].pageNumber).toBe(17)
   })
 })
 
@@ -275,9 +272,9 @@ describe('Infinity scroller', () => {
   })
 
   const props: PaginationProps = {
-    page_count: 5,
-    current_page: 3,
-    min_wait_time: 0,
+    pageCount: 5,
+    currentPage: 3,
+    minWaitTime: 0,
   }
 
   const PageItem = ({ children }) => (
@@ -288,15 +285,48 @@ describe('Infinity scroller', () => {
     await wait(20)
   }
 
+  it('should derive startupPage from currentPage set after mount', async () => {
+    const onStartup = jest.fn()
+
+    const MyComponent = () => {
+      const [currentPage, setCurrentPage] = React.useState(null)
+
+      React.useEffect(() => {
+        setCurrentPage(3)
+      }, [])
+
+      return (
+        <Pagination
+          mode="infinity"
+          currentPage={currentPage}
+          minWaitTime={0}
+          onStartup={({ pageNumber, setContent }) => {
+            setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+            onStartup({ pageNumber })
+          }}
+        />
+      )
+    }
+
+    render(<MyComponent />)
+
+    await waitForComponent()
+
+    expect(onStartup).toHaveBeenCalledTimes(1)
+    expect(onStartup).toHaveBeenCalledWith(
+      expect.objectContaining({ pageNumber: 3 })
+    )
+  })
+
   it('should load pages with intersection observer (after)', async () => {
     const action = ({ pageNumber, setContent }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const on_end = jest.fn()
-    const on_startup = jest.fn(action)
-    const on_change = jest.fn(action)
-    const on_load = jest.fn()
+    const onEnd = jest.fn()
+    const onStartup = jest.fn(action)
+    const onChange = jest.fn(action)
+    const onLoad = jest.fn()
     const observe = jest.fn()
     const disconnect = jest.fn()
 
@@ -318,10 +348,10 @@ describe('Infinity scroller', () => {
       <Pagination
         mode="infinity"
         {...props}
-        on_startup={on_startup}
-        on_change={on_change}
-        on_load={on_load}
-        on_end={on_end}
+        onStartup={onStartup}
+        onChange={onChange}
+        onLoad={onLoad}
+        onEnd={onEnd}
       />
     )
 
@@ -356,17 +386,17 @@ describe('Infinity scroller', () => {
 
     await intersect()
 
-    expect(on_startup).toHaveBeenCalledTimes(1)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_load).toHaveBeenCalledTimes(3)
-    expect(on_end).toHaveBeenCalledTimes(1)
+    expect(onStartup).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onLoad).toHaveBeenCalledTimes(3)
+    expect(onEnd).toHaveBeenCalledTimes(1)
   })
 
-  it('should handle startup_count properly', async () => {
+  it('should handle startupCount properly', async () => {
     let resetInfinityHandler
 
-    const on_startup = jest.fn()
-    const on_change = jest.fn()
+    const onStartup = jest.fn()
+    const onChange = jest.fn()
 
     let callObserver
     window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
@@ -423,16 +453,16 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
-          current_page={currentPage}
-          startup_count={2}
-          on_startup={(e) => {
+          minWaitTime={0}
+          currentPage={currentPage}
+          startupCount={2}
+          onStartup={(e) => {
             action(e)
-            on_startup(e)
+            onStartup(e)
           }}
-          on_change={(e) => {
+          onChange={(e) => {
             action(e)
-            on_change(e)
+            onChange(e)
           }}
         >
           {items}
@@ -495,7 +525,7 @@ describe('Infinity scroller', () => {
     ).toBe('page-30')
   })
 
-  it('should handle re-render with decreasing current_page and not show the loadbar', async () => {
+  it('should handle re-render with decreasing currentPage and not show the loadbar', async () => {
     const perPageCount = 10
 
     const tableItems = []
@@ -531,7 +561,7 @@ describe('Infinity scroller', () => {
       }, [])
 
       return (
-        <InfinityMarker min_wait_time={0} current_page={currentPage}>
+        <InfinityMarker minWaitTime={0} currentPage={currentPage}>
           {items}
         </InfinityMarker>
       )
@@ -560,9 +590,9 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const on_startup = jest.fn(action)
-    const on_change = jest.fn(action)
-    const on_load = jest.fn()
+    const onStartup = jest.fn(action)
+    const onChange = jest.fn(action)
+    const onLoad = jest.fn()
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
@@ -576,9 +606,9 @@ describe('Infinity scroller', () => {
       <Pagination
         mode="infinity"
         {...props}
-        on_startup={on_startup}
-        on_change={on_change}
-        on_load={on_load}
+        onStartup={onStartup}
+        onChange={onChange}
+        onLoad={onLoad}
       />
     )
 
@@ -603,9 +633,9 @@ describe('Infinity scroller', () => {
       document.querySelector('div.dnb-pagination__loadbar')
     ).not.toBeInTheDocument()
 
-    expect(on_startup).toHaveBeenCalledTimes(1)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_load).toHaveBeenCalledTimes(3)
+    expect(onStartup).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onLoad).toHaveBeenCalledTimes(3)
   })
 
   it('will pass children', () => {
@@ -629,7 +659,7 @@ describe('Infinity scroller', () => {
       '.dnb-pagination__bar__skip button'
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
 
     rerender(
       <Provider locale="en-GB">
@@ -637,7 +667,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(en.prev_title)
+    expect(element.textContent).toContain(en.prevTitle)
 
     rerender(
       <Provider locale="nb-NO">
@@ -645,7 +675,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
   })
 
   it('should support spacing props', () => {
@@ -683,13 +713,47 @@ describe('Infinity scroller', () => {
     )
   })
 
+  it('should support setContent from createPagination', async () => {
+    const { Pagination, setContent } = createPagination()
+
+    const PageItem = ({ children }) => (
+      <div className="page-item">{children}</div>
+    )
+
+    render(
+      <Pagination pageCount={3} currentPage={1}>
+        {({ pageNumber, setContent: internalSetContent }) => {
+          internalSetContent(
+            pageNumber,
+            <PageItem>page-{pageNumber}</PageItem>
+          )
+        }}
+      </Pagination>
+    )
+
+    await waitForComponent()
+
+    expect(document.querySelector('.page-item')?.textContent).toBe(
+      'page-1'
+    )
+
+    // External setContent via createPagination should also work
+    setContent(2, <PageItem>page-2-external</PageItem>)
+
+    await waitForComponent()
+
+    const items = document.querySelectorAll('.page-item')
+    const texts = Array.from(items).map((el) => el.textContent)
+    expect(texts).toContain('page-2-external')
+  })
+
   it('should support InfinityMarker from createPagination', async () => {
     let resetInfinityHandler
 
-    const on_startup = jest.fn()
-    const on_change = jest.fn()
-    const on_load = jest.fn()
-    const on_end = jest.fn()
+    const onStartup = jest.fn()
+    const onChange = jest.fn()
+    const onLoad = jest.fn()
+    const onEnd = jest.fn()
 
     const MyComponent = () => {
       const startupPage = 3
@@ -709,18 +773,18 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
-          current_page={currentPage}
-          on_startup={(e) => {
+          minWaitTime={0}
+          currentPage={currentPage}
+          onStartup={(e) => {
             action(e)
-            on_startup(e)
+            onStartup(e)
           }}
-          on_change={(e) => {
+          onChange={(e) => {
             action(e)
-            on_change(e)
+            onChange(e)
           }}
-          on_load={on_load}
-          on_end={on_end}
+          onLoad={onLoad}
+          onEnd={onEnd}
         >
           <div id="page-content">page-{currentPage}</div>
         </InfinityMarker>
@@ -755,10 +819,10 @@ describe('Infinity scroller', () => {
       'page-1'
     )
 
-    expect(on_startup).toHaveBeenCalledTimes(1)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_load).toHaveBeenCalledTimes(3)
-    expect(on_end).toHaveBeenCalledTimes(1)
+    expect(onStartup).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onLoad).toHaveBeenCalledTimes(3)
+    expect(onEnd).toHaveBeenCalledTimes(1)
 
     resetInfinityHandler()
 
@@ -768,10 +832,10 @@ describe('Infinity scroller', () => {
       'page-3'
     )
 
-    expect(on_startup).toHaveBeenCalledTimes(2)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_load).toHaveBeenCalledTimes(4)
-    expect(on_end).toHaveBeenCalledTimes(1)
+    expect(onStartup).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onLoad).toHaveBeenCalledTimes(4)
+    expect(onEnd).toHaveBeenCalledTimes(1)
   })
 
   it('should show pagination bar using Bar component', () => {
@@ -790,14 +854,14 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const on_startup = jest.fn(action)
+    const onStartup = jest.fn(action)
 
     render(
       <Pagination
         mode="infinity"
         {...props}
-        on_startup={on_startup}
-        use_load_button
+        onStartup={onStartup}
+        useLoadButton
         loadButton={{ text: 'Load please', iconPosition: 'right' }}
       />
     )
@@ -817,14 +881,14 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const on_startup = jest.fn(action)
+    const onStartup = jest.fn(action)
 
     render(
       <Pagination
         mode="infinity"
         {...props}
-        on_startup={on_startup}
-        use_load_button
+        onStartup={onStartup}
+        useLoadButton
         loadButton={() => (
           <button className="my-cool-button">The best load button</button>
         )}
@@ -845,8 +909,8 @@ describe('Infinity scroller', () => {
 describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
     const snapshotProps: PaginationProps = {
-      page_count: 4,
-      current_page: 2,
+      pageCount: 4,
+      currentPage: 2,
     }
 
     const result = render(<Pagination {...snapshotProps} />)
@@ -857,13 +921,30 @@ describe('Pagination ARIA', () => {
     const result = render(
       <Pagination
         mode="infinity"
-        page_count={5}
-        current_page={3}
-        min_wait_time={0}
+        pageCount={5}
+        currentPage={3}
+        minWaitTime={0}
       />
     )
     await wait(1)
     expect(await axeComponent(result)).toHaveNoViolations()
+  })
+})
+
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should render with default pageCount when prop is explicitly undefined', () => {
+    render(
+      <Pagination pageCount={undefined} currentPage={1}>
+        <div id="page-content">content</div>
+      </Pagination>
+    )
+
+    // Should render without errors even when pageCount is undefined
+    expect(document.querySelector('#page-content')).toBeInTheDocument()
   })
 })
 

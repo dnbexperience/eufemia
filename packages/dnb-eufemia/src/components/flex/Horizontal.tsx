@@ -1,10 +1,11 @@
 import React from 'react'
 import Container from './Container'
-import type { Props as FlexContainerProps } from './Container'
+import type { FlexContainerAllProps } from './Container'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<FlexContainerProps, 'direction'>
+export type HorizontalProps = Omit<FlexContainerAllProps, 'direction'>
 
-function Horizontal({ children, ...props }: Props) {
+function Horizontal({ children, ...props }: HorizontalProps) {
   return (
     <Container {...props} direction="horizontal">
       {children}
@@ -12,6 +13,8 @@ function Horizontal({ children, ...props }: Props) {
   )
 }
 
-Horizontal._supportsSpacingProps = true
+withComponentMarkers(Horizontal, {
+  _supportsSpacingProps: true,
+})
 
 export default Horizontal

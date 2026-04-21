@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   Checkbox,
   Switch,
@@ -7,21 +7,26 @@ import {
   Radio,
 } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import type { FieldBlockProps } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps } from '../../types'
+import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import type {
   CheckboxProps,
-  OnChangeParams,
-  OnClickParams,
+  CheckboxOnChangeParams,
+  CheckboxOnClickParams,
 } from '../../../../components/Checkbox'
-import type { ToggleButtonProps } from '../../../../components/ToggleButton'
-import { SwitchOnChangeParams } from '../../../../components/Switch'
+import type {
+  ToggleButtonProps,
+  ToggleButtonChangeEvent,
+} from '../../../../components/ToggleButton'
+import type { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -46,13 +51,16 @@ export type ToggleProps = {
   ) => void
 }
 
-export type Props = Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
+export type FieldToggleProps = Omit<
+  FieldProps<unknown>,
+  'layout' | 'layoutOptions'
+> &
   ToggleProps
 
-function Toggle(props: Props) {
+function Toggle(props: FieldToggleProps) {
   const translations = useTranslation().ToggleField
 
-  const preparedProps: Props = {
+  const preparedProps: FieldToggleProps = {
     ...props,
     errorMessages: props.errorMessages,
   }
@@ -85,7 +93,7 @@ function Toggle(props: Props) {
 
   const onClick = preparedProps?.onClick
   const handleClick = useCallback(
-    (args: OnClickParams) => {
+    (args: CheckboxOnClickParams) => {
       const preventDefault = () => {
         preventChangeRef.current = true
         args.preventDefault?.()
@@ -105,7 +113,7 @@ function Toggle(props: Props) {
     [onClick, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
-    (args: OnChangeParams) => {
+    (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
@@ -123,7 +131,7 @@ function Toggle(props: Props) {
     [handleChange, valueOn, valueOff]
   )
 
-  const cn = classnames('dnb-forms-field-toggle', className)
+  const cn = clsx('dnb-forms-field-toggle', className)
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -161,8 +169,8 @@ function Toggle(props: Props) {
             label={
               labelWithItemNo ??
               (isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no)
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no))
             }
             labelSrOnly={labelSrOnly}
             checked={isOn}
@@ -185,8 +193,8 @@ function Toggle(props: Props) {
             label={
               labelWithItemNo ??
               (isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no)
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no))
             }
             labelSrOnly={labelSrOnly}
             checked={isOn}
@@ -207,15 +215,15 @@ function Toggle(props: Props) {
             id={id}
             text={
               isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no)
             }
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />
@@ -230,7 +238,7 @@ function Toggle(props: Props) {
         >
           <ButtonRow bottom="x-small">
             <ToggleButton.Group>
-              <ToggleButtonGroupContext.Provider
+              <ToggleButtonGroupContext
                 value={{
                   value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
                   onChange: handleToggleChange,
@@ -251,7 +259,7 @@ function Toggle(props: Props) {
                   role="radio"
                   {...htmlAttributes}
                 />
-              </ToggleButtonGroupContext.Provider>
+              </ToggleButtonGroupContext>
             </ToggleButton.Group>
           </ButtonRow>
         </FieldBlock>
@@ -265,7 +273,7 @@ function Toggle(props: Props) {
         >
           <Radio.Group
             value={isOn ? 'on' : isOff ? 'off' : null}
-            on_change={handleToggleChange}
+            onChange={handleToggleChange}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
             size={size !== 'small' ? size : 'default'} // Radio does not support "small" size
@@ -293,15 +301,15 @@ function Toggle(props: Props) {
             variant="checkbox"
             text={
               isOn
-                ? textOn ?? translations.yes
-                : textOff ?? translations.no
+                ? (textOn ?? translations.yes)
+                : (textOff ?? translations.no)
             }
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />
@@ -310,5 +318,8 @@ function Toggle(props: Props) {
   }
 }
 
-Toggle._supportsSpacingProps = true
+withComponentMarkers(Toggle, {
+  _supportsSpacingProps: true,
+})
+
 export default Toggle

@@ -5,44 +5,16 @@
 
 @use '../anchor-mixins.scss';
 
-@mixin anchorHover() {
-  --anchor-background: var(--sb-color-green-dark);
-  color: var(--sb-color-text);
-
-  transition: none;
-  border-radius: 0.5em;
-}
-
-@mixin anchorActive() {
-  --anchor-background: var(--sb-color-green);
-  color: var(--sb-color-text);
-
-  transition: none;
-  border-radius: 0.5em;
-}
-
-@mixin anchorFocus() {
-  color: var(--sb-color-blue-dark);
-  background-color: var(--sb-color-blue-light-3);
-  border-radius: 0.25em;
-}
-
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
-    --anchor-background: transparent;
-    --anchor-color--contrast: var(--sb-color-text);
-    --anchor-color--disabled: var(--sb-color-gray-dark);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
     --anchor-icon-position: translateY(-0.125em);
 
     font-weight: var(--font-weight-medium);
-    color: var(--sb-color-gray-dark-3);
-    padding: 0.15625em 0;
-    border-radius: 0.5em;
 
-    @include anchor-mixins.anchorBackground(var(--anchor-background));
+    padding: 0.15625em 0;
 
     .dnb-icon--default {
       font-size: 1em;
@@ -50,16 +22,8 @@
 
     &:hover {
       @include anchor-mixins.notNoHover() {
-        @include anchorHover();
+        transition: none;
       }
-    }
-
-    &:active {
-      @include anchorActive();
-    }
-
-    &:focus-visible {
-      @include anchorFocus();
     }
   }
 
@@ -93,23 +57,6 @@
       }
     }
   }
-}
-
-.dnb-anchor--hover {
-  @include anchorHover();
-}
-
-.dnb-anchor--active {
-  @include anchorActive();
-}
-
-.dnb-anchor--focus {
-  @include anchor-mixins.anchorFocusStyle();
-  @include anchorFocus();
-}
-
-.dnb-anchor--no-radius {
-  @include anchor-mixins.resetBorderRadius();
 }
 
 .dnb-anchor--inline {

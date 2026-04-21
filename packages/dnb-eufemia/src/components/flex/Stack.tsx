@@ -1,11 +1,12 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Container from './Container'
-import type { Props as FlexContainerProps } from './Container'
+import type { FlexContainerAllProps } from './Container'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Props = FlexContainerProps
+export type StackProps = FlexContainerAllProps
 
-function Stack(props: Props) {
+function Stack(props: StackProps) {
   const {
     className,
     direction = 'vertical',
@@ -21,7 +22,7 @@ function Stack(props: Props) {
   return (
     <Container
       element="section"
-      className={classnames('dnb-flex-stack', className)}
+      className={clsx('dnb-flex-stack', className)}
       direction={direction}
       alignSelf={alignSelf}
       align={align}
@@ -33,6 +34,6 @@ function Stack(props: Props) {
   )
 }
 
-Stack._supportsSpacingProps = true
+withComponentMarkers(Stack, { _supportsSpacingProps: true })
 
 export default Stack

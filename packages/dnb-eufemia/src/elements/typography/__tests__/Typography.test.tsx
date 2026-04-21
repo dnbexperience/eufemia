@@ -5,9 +5,11 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import Typography, { TypographyProps } from '../Typography'
+import type { TypographyProps } from '../Typography'
+import Typography from '../Typography'
 import P from '../P'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 
 const props: TypographyProps = {
   size: 'medium',
@@ -273,6 +275,75 @@ describe('Typography element', () => {
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.style.maxWidth).toBe('')
+    })
+  })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return <Typography ref={ref}>content</Typography>
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLParagraphElement).toBe(true)
+    expect(ref.current.tagName).toBe('P')
+    expect(ref.current.classList).toContain('dnb-p')
+  })
+
+  it('gets valid ref element with custom element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return (
+        <Typography element="span" ref={ref}>
+          content
+        </Typography>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+    expect(ref.current.tagName).toBe('SPAN')
+  })
+
+  it('gets valid element when ref is function', () => {
+    let refElement: HTMLElement
+
+    function refFn(elem: HTMLElement) {
+      refElement = elem
+    }
+
+    render(<Typography ref={refFn}>content</Typography>)
+
+    expect(refElement instanceof HTMLParagraphElement).toBe(true)
+    expect(refElement.tagName).toBe('P')
+    expect(refElement.classList).toContain('dnb-p')
+  })
+
+  describe('surface', () => {
+    it('does not apply dark surface class by default', () => {
+      render(<Typography>Default text</Typography>)
+
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(false)
+    })
+
+    it('applies dark surface class from Theme.Context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <Typography>Context dark text</Typography>
+        </Theme.Context>
+      )
+
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
     })
   })
 })

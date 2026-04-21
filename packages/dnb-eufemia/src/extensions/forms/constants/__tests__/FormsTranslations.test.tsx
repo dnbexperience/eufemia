@@ -1,12 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form } from '../..'
-import {
-  Provider,
-  Translation,
-  useTranslation,
-  TranslationProps,
-} from '../../../../shared'
+import type { TranslationProps } from '../../../../shared'
+import { Provider, Translation, useTranslation } from '../../../../shared'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 
@@ -21,11 +17,11 @@ describe('Form.Handler', () => {
       const translations = {
         'nb-NO': {
           my: { string: 'Min streng 1' },
-          PhoneNumber: { label: 'Egendefinert 1' },
+          PhoneNumber: { numberLabel: 'Egendefinert 1' },
         },
         'en-GB': {
           my: { string: 'My string 1' },
-          PhoneNumber: { label: 'Custom 1' },
+          PhoneNumber: { numberLabel: 'Custom 1' },
         },
       }
 
@@ -52,7 +48,7 @@ describe('Form.Handler', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.label
+        translations['en-GB'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
@@ -62,7 +58,7 @@ describe('Form.Handler', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.label
+        translations['nb-NO'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -73,11 +69,11 @@ describe('Form.Handler', () => {
       const translations = {
         'nb-NO': {
           'my.string': 'Min streng 2',
-          'PhoneNumber.label': 'Egendefinert 2',
+          'PhoneNumber.numberLabel': 'Egendefinert 2',
         },
         'en-GB': {
           'my.string': 'My string 2',
-          'PhoneNumber.label': 'Custom 2',
+          'PhoneNumber.numberLabel': 'Custom 2',
         },
       }
 
@@ -90,7 +86,7 @@ describe('Form.Handler', () => {
       }
       const FormsHook = () => {
         const t = Form.useTranslation()
-        return t.PhoneNumber.label
+        return t.PhoneNumber.numberLabel
       }
 
       const MockComponent = (props) => {
@@ -119,12 +115,12 @@ describe('Form.Handler', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
 
       rerender(<MockComponent locale="nb-NO" />)
@@ -133,12 +129,12 @@ describe('Form.Handler', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
     })
   })
@@ -150,11 +146,11 @@ describe('Form.Section', () => {
       const translations = {
         'nb-NO': {
           my: { string: 'Min streng 1' },
-          PhoneNumber: { label: 'Egendefinert 1' },
+          PhoneNumber: { numberLabel: 'Egendefinert 1' },
         },
         'en-GB': {
           my: { string: 'My string 1' },
-          PhoneNumber: { label: 'Custom 1' },
+          PhoneNumber: { numberLabel: 'Custom 1' },
         },
       }
 
@@ -183,7 +179,7 @@ describe('Form.Section', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.label
+        translations['en-GB'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
@@ -193,7 +189,7 @@ describe('Form.Section', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.label
+        translations['nb-NO'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -202,18 +198,18 @@ describe('Form.Section', () => {
       const sectionTranslations = {
         'nb-NO': {
           my: { string: 'Min streng 1' },
-          PhoneNumber: { label: 'Egendefinert 1' },
+          PhoneNumber: { numberLabel: 'Egendefinert 1' },
         },
         'en-GB': {
           my: { string: 'My string 1' },
-          PhoneNumber: { label: 'Custom 1' },
+          PhoneNumber: { numberLabel: 'Custom 1' },
         },
       }
       const handlerTranslations = {
         'nb-NO': {}, // Skip overwriting of sectionTranslations when switching to nb-NO
         'en-GB': {
           my: { string: 'My string 2' },
-          PhoneNumber: { label: 'Custom 2' },
+          PhoneNumber: { numberLabel: 'Custom 2' },
         },
       }
 
@@ -244,7 +240,7 @@ describe('Form.Section', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        handlerTranslations['en-GB'].PhoneNumber.label
+        handlerTranslations['en-GB'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(
         handlerTranslations['en-GB'].my.string
@@ -256,7 +252,7 @@ describe('Form.Section', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        sectionTranslations['nb-NO'].PhoneNumber.label
+        sectionTranslations['nb-NO'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(
         sectionTranslations['nb-NO'].my.string
@@ -269,11 +265,11 @@ describe('Form.Section', () => {
       const translations = {
         'nb-NO': {
           'my.string': 'Min streng 2',
-          'PhoneNumber.label': 'Egendefinert 2',
+          'PhoneNumber.numberLabel': 'Egendefinert 2',
         },
         'en-GB': {
           'my.string': 'My string 2',
-          'PhoneNumber.label': 'Custom 2',
+          'PhoneNumber.numberLabel': 'Custom 2',
         },
       }
 
@@ -286,7 +282,7 @@ describe('Form.Section', () => {
       }
       const FormsHook = () => {
         const t = Form.useTranslation()
-        return t.PhoneNumber.label
+        return t.PhoneNumber.numberLabel
       }
 
       const MockComponent = (props) => {
@@ -317,12 +313,12 @@ describe('Form.Section', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
 
       rerender(<MockComponent locale="nb-NO" />)
@@ -331,12 +327,12 @@ describe('Form.Section', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
     })
 
@@ -344,18 +340,18 @@ describe('Form.Section', () => {
       const sectionTranslations = {
         'nb-NO': {
           'my.string': 'Min streng 2',
-          'PhoneNumber.label': 'Egendefinert 2',
+          'PhoneNumber.numberLabel': 'Egendefinert 2',
         },
         'en-GB': {
           'my.string': 'My string 2',
-          'PhoneNumber.label': 'Custom 2',
+          'PhoneNumber.numberLabel': 'Custom 2',
         },
       }
       const handlerTranslations = {
         'nb-NO': {}, // Skip overwriting of sectionTranslations when switching to nb-NO
         'en-GB': {
           'my.string': 'My string 2',
-          'PhoneNumber.label': 'Custom 2',
+          'PhoneNumber.numberLabel': 'Custom 2',
         },
       }
 
@@ -371,7 +367,7 @@ describe('Form.Section', () => {
       }
       const FormsHook = () => {
         const t = Form.useTranslation()
-        return t.PhoneNumber.label
+        return t.PhoneNumber.numberLabel
       }
 
       const MockComponent = (props) => {
@@ -402,7 +398,7 @@ describe('Form.Section', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        handlerTranslations['en-GB']['PhoneNumber.label']
+        handlerTranslations['en-GB']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(
         handlerTranslations['en-GB']['my.string']
@@ -411,7 +407,7 @@ describe('Form.Section', () => {
         handlerTranslations['en-GB']['my.string']
       )
       expect(output3).toHaveTextContent(
-        handlerTranslations['en-GB']['PhoneNumber.label']
+        handlerTranslations['en-GB']['PhoneNumber.numberLabel']
       )
 
       rerender(<MockComponent locale="nb-NO" />)
@@ -420,7 +416,7 @@ describe('Form.Section', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        sectionTranslations['nb-NO']['PhoneNumber.label']
+        sectionTranslations['nb-NO']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(
         sectionTranslations['nb-NO']['my.string']
@@ -429,7 +425,7 @@ describe('Form.Section', () => {
         sectionTranslations['nb-NO']['my.string']
       )
       expect(output3).toHaveTextContent(
-        sectionTranslations['nb-NO']['PhoneNumber.label']
+        sectionTranslations['nb-NO']['PhoneNumber.numberLabel']
       )
     })
   })
@@ -441,11 +437,11 @@ describe('Shared Provider', () => {
       const translations = {
         'nb-NO': {
           my: { string: 'Min streng 3' },
-          PhoneNumber: { label: 'Egendefinert 3' },
+          PhoneNumber: { numberLabel: 'Egendefinert 3' },
         },
         'en-GB': {
           my: { string: 'My string 3' },
-          PhoneNumber: { label: 'Custom 3' },
+          PhoneNumber: { numberLabel: 'Custom 3' },
         },
       }
 
@@ -474,7 +470,7 @@ describe('Shared Provider', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB'].PhoneNumber.label
+        translations['en-GB'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['en-GB'].my.string)
 
@@ -484,7 +480,7 @@ describe('Shared Provider', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO'].PhoneNumber.label
+        translations['nb-NO'].PhoneNumber.numberLabel
       )
       expect(output1).toHaveTextContent(translations['nb-NO'].my.string)
     })
@@ -495,11 +491,11 @@ describe('Shared Provider', () => {
       const translations = {
         'nb-NO': {
           'my.string': 'Min streng 4',
-          'PhoneNumber.label': 'Egendefinert 4',
+          'PhoneNumber.numberLabel': 'Egendefinert 4',
         },
         'en-GB': {
           'my.string': 'My string 4',
-          'PhoneNumber.label': 'Custom 4',
+          'PhoneNumber.numberLabel': 'Custom 4',
         },
       }
 
@@ -512,7 +508,7 @@ describe('Shared Provider', () => {
       }
       const FormsHook = () => {
         const t = Form.useTranslation()
-        return t.PhoneNumber.label
+        return t.PhoneNumber.numberLabel
       }
 
       const MockComponent = (props) => {
@@ -543,12 +539,12 @@ describe('Shared Provider', () => {
         gb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output2).toHaveTextContent(translations['en-GB']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['en-GB']['PhoneNumber.label']
+        translations['en-GB']['PhoneNumber.numberLabel']
       )
 
       rerender(<MockComponent locale="nb-NO" />)
@@ -557,12 +553,12 @@ describe('Shared Provider', () => {
         nb.PhoneNumber.countryCodeLabel
       )
       expect(phoneNumber).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
       expect(output1).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output2).toHaveTextContent(translations['nb-NO']['my.string'])
       expect(output3).toHaveTextContent(
-        translations['nb-NO']['PhoneNumber.label']
+        translations['nb-NO']['PhoneNumber.numberLabel']
       )
     })
   })

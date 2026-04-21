@@ -1,9 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
-import Toggle, { Props as ToggleAllProps } from '../Toggle/Toggle'
+import type { FieldToggleProps as ToggleAllProps } from '../Toggle/Toggle'
+import Toggle from '../Toggle/Toggle'
 import useDependencePaths from './useDependencePaths'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
-export type Props = Partial<Omit<ToggleAllProps, 'textOn' | 'textOff'>> & {
+export type FieldIndeterminateProps = Partial<
+  Omit<ToggleAllProps, 'textOn' | 'textOff'>
+> & {
   /**
    * An array of paths to the data object.
    */
@@ -13,12 +16,12 @@ export type Props = Partial<Omit<ToggleAllProps, 'textOn' | 'textOff'>> & {
    * When `checked`, the dependent checkboxes will always be set to "checked" when in indeterminate state.
    * When `unchecked`, the dependent checkboxes will be set to "unchecked" when in indeterminate state.
    * When "auto", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in.
-   * Default is `checked`.
+   * Default: `checked`.
    */
   propagateIndeterminateState?: 'checked' | 'unchecked' | 'auto'
 }
 
-export default function Indeterminate(props: Props) {
+export default function Indeterminate(props: FieldIndeterminateProps) {
   const {
     dependencePaths,
     propagateIndeterminateState = 'checked',

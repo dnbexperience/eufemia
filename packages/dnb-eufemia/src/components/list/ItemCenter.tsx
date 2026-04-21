@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import clsx from 'clsx'
+import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
+import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
@@ -29,7 +30,7 @@ function ItemCenter({
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__center',
         fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',
@@ -45,9 +46,9 @@ function ItemCenter({
 
   if (appliedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: appliedSkeleton }}>
+      <Context value={{ ...context, skeleton: appliedSkeleton }}>
         {content}
-      </Context.Provider>
+      </Context>
     )
   }
 

@@ -15,6 +15,8 @@ import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
+import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
+import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -98,7 +100,7 @@ export default [
     },
     settings: {
       react: {
-        version: '>=16.12',
+        version: 'detect',
       },
     },
     rules: {
@@ -140,6 +142,12 @@ export default [
       'no-restricted-syntax': [
         'error',
         'IfStatement > ExpressionStatement > AssignmentExpression',
+        {
+          selector:
+            'ChainExpression MemberExpression[optional=true][object.name="process"]',
+          message:
+            'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
+        },
       ],
       'import/export': 'off',
       'import/no-anonymous-default-export': [
@@ -162,9 +170,8 @@ export default [
           html: true,
         },
       ],
-      'react/prop-types': 'warn',
-      'react/require-default-props': 'warn',
-      'react/no-unused-prop-types': 'warn',
+      'react/prop-types': 'off',
+      'react/no-unused-prop-types': 'off',
       'react/no-unescaped-entities': [
         'error',
         {
@@ -281,7 +288,22 @@ export default [
     rules: {
       'import/named': 'off',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+
+      // Allow @ts-expect-error and @ts-ignore with a description.
+      // @ts-ignore is permitted because strictFunctionTypes errors may appear
+      // in some environments but not others (e.g. CI vs local), making
+      // @ts-expect-error fail with "unused directive" when the error is absent.
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        {
+          'ts-expect-error': 'allow-with-description',
+          'ts-ignore': 'allow-with-description',
+          minimumDescriptionLength: 3,
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-inferrable-types': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -293,8 +315,29 @@ export default [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'react/prop-types': 'off',
-      'react/require-default-props': 'off',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+        },
+      ],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+          custom: {
+            regex: 'Types$',
+            match: false,
+          },
+        },
+      ],
     },
   },
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
@@ -310,6 +353,46 @@ export default [
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-dom/test-utils',
+              message:
+                "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/src/**/__tests__/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-dom/test-utils',
+              message:
+                "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
+            },
+          ],
+          patterns: [
+            {
+              group: ['@dnb/eufemia/*'],
+              message: 'Do not use recursive module @dnb/eufemia!',
+            },
+            {
+              group: ['**/src/*'],
+              message:
+                'Do not import from src – but rather define correct relative paths!',
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -329,10 +412,76 @@ export default [
     files: ['**/*Docs.{ts,tsx}'],
     plugins: {
       'docs-types': docsTypesPlugin,
+      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',
       'docs-types/validate-supported-types': 'warn',
+      'docs-types/doc-trailing-period': 'warn',
+      'docs-types/defaultvalue-inner-quotes': 'warn',
+      'docs-types/doc-no-double-spaces': 'warn',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'variable',
+          modifiers: ['exported', 'const'],
+          format: ['PascalCase'],
+          filter: {
+            regex: 'Properties$|Events$|Data$|Designs?$|Item$|Object$',
+            match: true,
+          },
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'component-types': componentTypesPlugin,
+    },
+    rules: {
+      'component-types/require-component-prefix': [
+        'warn',
+        {
+          allowlist: [],
+        },
+      ],
+      'component-types/no-inline-type-exports': [
+        'warn',
+        {
+          threshold: 5,
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+      'src/extensions/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'naming-conventions': namingConventionsPlugin,
+    },
+    rules: {
+      'naming-conventions/no-bare-props-export': 'error',
     },
   },
 ]

@@ -1,150 +1,593 @@
-import React from 'react'
-import createTextMaskInputElement, {
-  type CreateTextMaskConfig,
-  type TextMaskInputController,
-} from './text-mask/createTextMaskInputElement'
+import React, {
+  cloneElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { useMaskito } from '@maskito/react'
+import {
+  maskitoTransform,
+  maskitoUpdateElement,
+  type MaskitoPostprocessor,
+  type MaskitoPreprocessor,
+  type MaskitoMask,
+  type MaskitoMaskExpression,
+  type MaskitoOptions,
+} from '@maskito/core'
+import {
+  maskitoCaretGuard,
+  maskitoNumberOptionsGenerator,
+} from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
-import { isNil } from './text-mask/utilities'
-import type { Mask, MaskFunction, Pipe } from './text-mask/types'
-
+import type { MaskParams } from './text-mask/types'
+import type { createNumberMask } from './hooks/useNumberMask'
 export type TextMaskMask =
-  | Mask
-  | MaskFunction
-  | boolean
-  | { mask?: Mask | MaskFunction; pipe?: Pipe }
-export type TextMaskInputElement = React.ReactElement
+  | RegExp
+  | Array<RegExp | string>
+  | false
+  | typeof createNumberMask
+export type TextMaskInputElement = React.ReactElement<any>
 export type TextMaskValue = string | number
-export interface TextMaskProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
+export type TextMaskProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value' | 'size'
+> & {
   mask: TextMaskMask
-  inputRef?: React.RefObject<HTMLInputElement>
+  inputRef?: React.Ref<HTMLInputElement> &
+    React.MutableRefObject<HTMLInputElement | null>
   inputElement?: TextMaskInputElement
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  guide?: boolean
   value?: TextMaskValue
-  pipe?: Pipe
-  placeholderChar?: string
-  keepCharPositions?: boolean
+  size?: number
   showMask?: boolean
+  // Advanced: allow parent to enhance Maskito options without TextMask importing extras
+  optionsEnhancer?: (opts: MaskitoOptions | null) => MaskitoOptions | null
+  // Optional: display-time ghost placeholder string for regex masks
+  ghostPlaceholder?: string
+  // Optional: strip display value (e.g., remove ghost chars) before bubbling
+  stripValue?: (displayValue: string) => string
+  allowOverflow?: boolean
+  overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
-export default class TextMask extends React.PureComponent<TextMaskProps> {
-  inputRef: React.RefObject<HTMLInputElement>
-  textMaskInputElement?: TextMaskInputController
-  inputMode?: InputModeNumber
+export default function TextMask(props: TextMaskProps): React.JSX.Element {
+  const {
+    inputElement,
+    inputRef,
+    mask: rawMask,
+    value,
+    showMask,
+    optionsEnhancer,
+    ghostPlaceholder,
+    stripValue,
+    allowOverflow,
+    overwriteMode,
+    ...rest
+  } = props
 
-  static defaultProps = {
-    inputElement: null,
-    inputRef: null,
-    onChange: null,
-    guide: null,
-    value: null,
-    pipe: null,
-    placeholderChar: null,
-    keepCharPositions: null,
-    showMask: null,
-  }
+  const localRef = useRef<HTMLInputElement>(null)
 
-  constructor(props: TextMaskProps) {
-    super(props)
+  const [inputMode] = useState(() => new InputModeNumber())
+  useEffect(() => () => inputMode.remove(), [inputMode])
 
-    this.inputRef = props.inputRef || React.createRef()
-  }
+  // Extract maskParams for dependency tracking
+  const maskParams =
+    typeof rawMask === 'object' &&
+    rawMask !== null &&
+    'maskParams' in rawMask
+      ? (rawMask.maskParams as MaskParams | undefined)
+      : undefined
 
-  componentDidMount() {
-    this.initTextMask()
-  }
+  const separatorTokens = useMemo(
+    () => getSeparatorTokens(rawMask),
+    [rawMask]
+  )
 
-  componentWillUnmount() {
-    this.inputMode?.remove()
-  }
-
-  initTextMask() {
-    const {
-      props,
-      props: { value, inputMode },
-    } = this
-
-    const inputElement = this.inputRef.current
-    this.textMaskInputElement = createTextMaskInputElement({
-      ...props,
-      inputElement,
-    } as unknown as CreateTextMaskConfig)
-    this.textMaskInputElement.update(value)
-
-    if (!inputMode && inputMode !== 'none') {
-      this.inputMode = new InputModeNumber()
+  const options = useMemo<MaskitoOptions | null>(() => {
+    // Numeric mask: detect our internal number mask object
+    if (
+      typeof rawMask === 'object' &&
+      rawMask !== null &&
+      'instanceOf' in rawMask &&
+      'maskParams' in rawMask &&
+      rawMask.instanceOf === 'createNumberMask' &&
+      rawMask.maskParams
+    ) {
+      const mp = rawMask.maskParams as MaskParams
+      return createMaskitoNumberOptions(mp)
     }
 
-    this.inputMode?.setElement(inputElement)
-  }
-
-  onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    this.textMaskInputElement.update()
-
-    if (typeof this.props.onChange === 'function') {
-      return this.props.onChange(event)
-    }
-  }
-
-  componentDidUpdate(prevProps: TextMaskProps) {
-    // Getting props affecting value
-    const { value, pipe, mask, guide, placeholderChar, showMask } =
-      this.props
-
-    // Сalculate that settings was changed:
-    // - `pipe` converting to string, to compare function content
-    // - `mask` converting to string, to compare values or function content
-    // - `keepCharPositions` excludes, because it affect only cursor position
-    const settings = { guide, placeholderChar, showMask }
-    const isPipeChanged =
-      typeof pipe === 'function' && typeof prevProps.pipe === 'function'
-        ? pipe.toString() !== prevProps.pipe.toString()
-        : (isNil(pipe) && !isNil(prevProps.pipe)) ||
-          (!isNil(pipe) && isNil(prevProps.pipe))
-    const isMaskChanged = mask.toString() !== prevProps.mask.toString()
-    // Cache Object.keys() result for performance
-    const settingsKeys = Object.keys(settings)
-    const isSettingChanged =
-      settingsKeys.some((prop) => settings[prop] !== prevProps[prop]) ||
-      isMaskChanged ||
-      isPipeChanged
-
-    // Сalculate that value was changed
-    const isValueChanged =
-      value !== this.inputRef.current!.value || prevProps.value !== value
-
-    // Check value and settings to prevent duplicating update() call
-    if (isValueChanged || isSettingChanged) {
-      this.initTextMask()
-    }
-  }
-
-  render(): JSX.Element {
-    const {
-      inputElement,
-      inputRef, // eslint-disable-line
-      mask, // eslint-disable-line
-      guide, // eslint-disable-line
-      pipe, // eslint-disable-line
-      placeholderChar, // eslint-disable-line
-      keepCharPositions, // eslint-disable-line
-      value, // eslint-disable-line
-      onChange, // eslint-disable-line
-      showMask, // eslint-disable-line
-
-      ...props
-    } = this.props
-
-    const params = {
-      onChange: this.onChange,
-      ...props,
+    const mask = normalizeMask(rawMask)
+    if (!mask) {
+      return null
     }
 
-    return inputElement ? (
-      React.cloneElement(inputElement, params)
-    ) : (
-      <input ref={this.inputRef} {...params} />
+    const overflowAwareMask = allowOverflow
+      ? withOverflowSupport(mask)
+      : mask
+
+    const preprocessors: MaskitoPreprocessor[] = Array.isArray(mask)
+      ? [
+          (({ elementState, data }, actionType) => {
+            // Handle backspace over separator tokens for array masks so the caret skips over the token without the user having to press backspace twice.
+            if (actionType === 'deleteBackward') {
+              const value = elementState.value
+              const [selectionStart, selectionEnd] = elementState.selection
+              const isSeparatorBeforeCaret = separatorTokens.includes(
+                value[selectionStart - 1]
+              )
+
+              if (isSeparatorBeforeCaret) {
+                const newCaretPosition = selectionStart - 1
+
+                const valueBeforeCaret = value.slice(0, selectionStart)
+                const valueAfterCaret = value.slice(selectionEnd)
+
+                return {
+                  elementState: {
+                    value: valueAfterCaret
+                      ? `${valueBeforeCaret}${valueAfterCaret}`
+                      : valueBeforeCaret.slice(0, -1),
+                    selection: [newCaretPosition, newCaretPosition],
+                  },
+                  data,
+                }
+              }
+
+              return { elementState, data }
+            }
+            return { elementState, data }
+          }) as MaskitoPreprocessor,
+        ]
+      : []
+
+    return {
+      mask: overflowAwareMask,
+      ...(preprocessors.length > 0 ? { preprocessors } : {}),
+      ...(overwriteMode != null ? { overwriteMode } : {}),
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- list individual maskParams properties instead of the object reference to avoid rebuilding the mask on every render when only the reference changes
+  }, [
+    rawMask,
+    allowOverflow,
+    overwriteMode,
+
+    // Include all properties that affect mask behavior
+    maskParams?.thousandsSeparatorSymbol,
+    maskParams?.decimalSymbol,
+    maskParams?.allowDecimal,
+    maskParams?.decimalLimit,
+  ])
+
+  const enhancedOptions = useMemo<MaskitoOptions | null>(() => {
+    return typeof optionsEnhancer === 'function'
+      ? optionsEnhancer(options)
+      : options
+  }, [options, optionsEnhancer])
+
+  const maskitoRef = useMaskito({ options: enhancedOptions })
+
+  const setRefs = useCallback(
+    (el: HTMLInputElement | null) => {
+      // Attach to Maskito
+      maskitoRef(el)
+      if (inputRef) {
+        if (typeof inputRef === 'object' && 'current' in inputRef) {
+          inputRef.current = el
+        } else if (typeof inputRef === 'function') {
+          inputRef(el)
+        }
+      }
+      localRef.current = el
+
+      // Keep InputModeNumber behavior (iOS soft keyboard handling)
+      if (el) {
+        inputMode.setElement(el)
+      }
+    },
+    [inputRef, maskitoRef, inputMode]
+  )
+
+  const params = useMemo(() => {
+    const baseProps: Record<string, unknown> = { ...rest }
+    // Conform controlled value before render so React renders formatted value
+    if (
+      enhancedOptions &&
+      typeof baseProps.value === 'string' &&
+      baseProps.value != null
+    ) {
+      const raw = String(baseProps.value)
+      const sel: readonly [number, number] = [raw.length, raw.length]
+      const { value: formatted } = maskitoTransform(
+        { value: raw, selection: sel },
+        enhancedOptions
+      )
+      baseProps.value = formatted
+    }
+
+    baseProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Conform programmatic value changes (e.g. tests firing change directly)
+      if (localRef.current && enhancedOptions) {
+        const element = localRef.current
+        const selection: readonly [number, number] = [
+          element.selectionStart ?? 0,
+          element.selectionEnd ?? 0,
+        ]
+        const elementState = {
+          value: e.target.value,
+          selection,
+        }
+        const validated = maskitoTransform(elementState, enhancedOptions)
+        maskitoUpdateElement(element, validated)
+      }
+      // Call original handler if given
+      if (typeof rest.onChange === 'function') {
+        if (typeof stripValue === 'function') {
+          const v = stripValue(e.target.value)
+          rest.onChange({
+            target: { value: v },
+          } as React.ChangeEvent<HTMLInputElement>)
+        } else {
+          rest.onChange(e)
+        }
+      }
+    }
+
+    return baseProps
+  }, [rest, enhancedOptions, stripValue])
+
+  // Conform initial value on mount/options change
+  useEffect(() => {
+    if (!localRef.current || !enhancedOptions) {
+      return
+    }
+
+    const el = localRef.current
+
+    // Always use the value prop - never use the formatted DOM value which could be in wrong locale format
+    const valueToTransform = value
+    if (valueToTransform === undefined || valueToTransform === null) {
+      return
+    }
+
+    // For numeric masks, strip existing prefix/suffix before transforming
+    const cleanValue = cleanNumericValue(String(valueToTransform), rawMask)
+
+    const selection: readonly [number, number] = [
+      el.selectionStart ?? cleanValue.length,
+      el.selectionEnd ?? cleanValue.length,
+    ]
+    const validated = maskitoTransform(
+      { value: cleanValue, selection },
+      enhancedOptions
     )
+
+    // Only update if the formatted value actually changed to preserve Maskito's caret positioning.
+    if (el.value !== validated.value) {
+      maskitoUpdateElement(el, validated)
+    }
+  }, [enhancedOptions, value, rawMask])
+
+  // Compute initial defaultValue for immediate render (before Maskito attaches)
+  const defaultValue = useMemo(() => {
+    const raw = typeof value === 'string' ? value : undefined
+
+    // Handle empty value with showMask for numeric masks
+    if (!raw && showMask) {
+      if (ghostPlaceholder) {
+        return ghostPlaceholder
+      }
+      // Check if this is a numeric mask with prefix/suffix
+      if (
+        typeof rawMask === 'object' &&
+        rawMask !== null &&
+        'maskParams' in rawMask
+      ) {
+        const mp = rawMask.maskParams as MaskParams
+        const prefix = mp.prefix ?? ''
+        const suffix = mp.suffix ?? ''
+
+        // Return prefix + suffix if showMask is true
+        if (prefix || suffix) {
+          return prefix + suffix
+        }
+      }
+      return undefined
+    }
+
+    if (!raw) {
+      return undefined
+    }
+    if (!options) {
+      return raw
+    }
+    // If we use numeric formatting (presence of postprocessors), format initial value.
+    const hasFormatting =
+      Array.isArray(options.postprocessors) &&
+      options.postprocessors.length > 0
+    if (!hasFormatting) {
+      return raw
+    }
+
+    // For numeric masks, extract the numeric part before formatting
+    const cleanValue = cleanNumericValue(raw, rawMask)
+
+    const { value: formatted } = maskitoTransform(
+      {
+        value: cleanValue,
+        selection: [cleanValue.length, cleanValue.length],
+      },
+      options
+    )
+    return formatted
+  }, [value, showMask, options, rawMask, ghostPlaceholder])
+
+  return inputElement ? (
+    cloneElement(inputElement, {
+      ...params,
+      defaultValue,
+      ref: setRefs,
+    })
+  ) : (
+    <input ref={setRefs} defaultValue={defaultValue} {...params} />
+  )
+}
+
+function withOverflowSupport(mask: MaskitoMask): MaskitoMask {
+  if (Array.isArray(mask)) {
+    const baseMask = [...mask]
+    return (state) => appendOverflowTokens(baseMask, state?.value ?? '')
+  }
+
+  if (typeof mask === 'function') {
+    return (state) => {
+      const resolved = mask(state)
+      if (!Array.isArray(resolved)) {
+        return resolved
+      }
+      return appendOverflowTokens(resolved, state?.value ?? '')
+    }
+  }
+
+  return mask
+}
+
+const ALL_CHARACTERS = /[\s\S]/
+
+function appendOverflowTokens(
+  maskExpression: MaskitoMaskExpression,
+  currentValue: string
+): MaskitoMaskExpression {
+  if (!Array.isArray(maskExpression)) {
+    return maskExpression
+  }
+
+  const userSlots = countUserSlots(maskExpression)
+  const userInputLength = countUserInputLength(
+    currentValue,
+    maskExpression
+  )
+  const overflow = Math.max(0, userInputLength - userSlots)
+  if (overflow <= 0) {
+    return maskExpression
+  }
+
+  return maskExpression.concat(
+    Array.from({ length: overflow }, () => ALL_CHARACTERS)
+  )
+}
+
+function countUserSlots(maskExpression: MaskitoMaskExpression) {
+  if (!Array.isArray(maskExpression)) {
+    return 0
+  }
+  return maskExpression.reduce((count, token) => {
+    return count + (typeof token === 'string' ? 0 : 1)
+  }, 0)
+}
+
+function getSeparatorTokens(maskExpression: TextMaskMask) {
+  if (!Array.isArray(maskExpression)) {
+    return []
+  }
+  return maskExpression.filter(
+    (token): token is string =>
+      typeof token === 'string' && token.length > 0
+  )
+}
+
+function countUserInputLength(
+  value: string,
+  maskExpression: MaskitoMaskExpression
+) {
+  if (typeof value !== 'string') {
+    return value == null ? 0 : String(value).length
+  }
+  if (!Array.isArray(maskExpression) || !maskExpression.length) {
+    return value.length
+  }
+
+  let strippedValue = value
+  for (const token of maskExpression) {
+    if (typeof token === 'string' && token.length > 0) {
+      const escaped = escapeRegExp(token)
+      strippedValue = strippedValue.replace(new RegExp(escaped, 'g'), '')
+    }
+  }
+
+  return strippedValue.length
+}
+
+function escapeRegExp(input: string) {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
+  // Handle combined object shape { mask }
+  if (
+    maskProp &&
+    typeof maskProp === 'object' &&
+    'mask' in maskProp &&
+    !Array.isArray(maskProp)
+  ) {
+    return normalizeMask((maskProp as { mask?: TextMaskMask }).mask)
+  }
+
+  // Support disabling mask with false
+  if (maskProp === false) {
+    return /^.*$/
+  }
+
+  // Array form: filter out caret traps from text-mask '[]'
+  if (Array.isArray(maskProp)) {
+    return (maskProp as Array<string | RegExp>).filter((t) => t !== '[]')
+  }
+
+  // RegExp passthrough
+  if (maskProp instanceof RegExp) {
+    return maskProp
+  }
+
+  // Fallback — permissive mask
+  return /^.*$/
+}
+
+function stripAffixes(
+  value: string,
+  prefix: string,
+  suffix: string
+): string {
+  let result = value
+
+  if (prefix && result.startsWith(prefix)) {
+    result = result.slice(prefix.length)
+  }
+
+  if (suffix && result.endsWith(suffix)) {
+    result = result.slice(0, -suffix.length)
+  } else if (suffix && suffix.includes(' ')) {
+    // Try to match partial suffix (e.g., ' kr' from ', kr')
+    const suffixParts = suffix.split(' ')
+    const lastPart = suffixParts[suffixParts.length - 1]
+    if (lastPart && result.endsWith(lastPart)) {
+      result = result.slice(0, -lastPart.length).trim()
+    }
+  }
+
+  return result
+}
+
+/**
+ * If the mask is a numeric mask (has maskParams), strip prefix/suffix from the value.
+ * Otherwise return the value unchanged.
+ */
+function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
+  if (
+    typeof rawMask === 'object' &&
+    rawMask !== null &&
+    'maskParams' in rawMask
+  ) {
+    const mp = rawMask.maskParams as MaskParams
+    return stripAffixes(value, mp.prefix ?? '', mp.suffix ?? '')
+  }
+
+  return value
+}
+
+function createMaskitoNumberOptions(mp: {
+  decimalSymbol?: string
+  thousandsSeparatorSymbol?: string
+  allowDecimal?: boolean
+  decimalLimit?: number
+  integerLimit?: number
+  allowNegative?: boolean
+  disallowLeadingZeroes?: boolean
+  prefix?: string
+  suffix?: string
+}): MaskitoOptions {
+  // Use Maskito number kit as base to format numbers and grouping
+  const decimal = mp.decimalSymbol ?? ','
+  const thousand = mp.thousandsSeparatorSymbol ?? ' '
+  const prefix = mp.prefix ?? ''
+  const suffix = mp.suffix ?? ''
+  const allowNegative = mp.allowNegative !== false
+  const min = allowNegative ? Number.MIN_SAFE_INTEGER - 1 : 0
+  // If allowDecimal is true but decimalLimit is not specified, use a default of 2
+  // Otherwise use decimalLimit if specified, or 0 if decimals are not allowed
+  const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
+  const maximumFractionDigits = Math.max(
+    0,
+    Number(mp.decimalLimit ?? defaultDecimalLimit)
+  )
+
+  // Check if suffix starts with a comma - this is a special pattern like ',- kr'
+  const suffixStartsWithComma = suffix && suffix.startsWith(',')
+  const postfixToUse = suffixStartsWithComma ? suffix.slice(1) : suffix
+
+  const base = maskitoNumberOptionsGenerator({
+    min,
+    max: Number.MAX_SAFE_INTEGER + 1,
+    thousandSeparator: thousand,
+    decimalSeparator: decimal,
+    maximumFractionDigits,
+    minimumFractionDigits: 0,
+    prefix,
+    postfix: postfixToUse,
+    decimalPseudoSeparators: ['.', ',', '·'],
+    minusSign: '-', // Define "-" (U+002D) because Maskito uses "−" (U+2212) by default, and would replace "-" (U+002D) with it.
+  })
+
+  const caretGuard = maskitoCaretGuard((value) => {
+    const left = prefix ? prefix.length : 0
+    const right = postfixToUse ? postfixToUse.length : 0
+    const max = Math.max(left, value.length - right)
+    return [left, max] as [number, number]
+  })
+
+  // Clear the value when only prefix/postfix remain (no numeric content)
+  const clearEmptyPostprocessor: MaskitoPostprocessor = (elementState) => {
+    const value = elementState.value
+    const withoutAffixes = stripAffixes(value, prefix, postfixToUse).trim()
+
+    if (withoutAffixes === '' || withoutAffixes === decimal) {
+      return {
+        ...elementState,
+        value: '',
+        selection: [0, 0],
+      }
+    }
+
+    return elementState
+  }
+
+  // If suffix starts with comma, add a postprocessor to insert it before the postfix
+  const postprocessors = suffixStartsWithComma
+    ? [
+        ...(base.postprocessors || []),
+        ((elementState) => {
+          // Always add the comma before the postfix for this suffix pattern
+          const prefixLen = prefix ? prefix.length : 0
+          const postfixLen = postfixToUse ? postfixToUse.length : 0
+          const valueWithoutAffixes = elementState.value.slice(
+            prefixLen,
+            elementState.value.length - postfixLen
+          )
+          const newValue =
+            prefix + valueWithoutAffixes + ',' + postfixToUse
+          return { ...elementState, value: newValue }
+        }) as MaskitoPostprocessor,
+        clearEmptyPostprocessor,
+      ]
+    : [...(base.postprocessors || []), clearEmptyPostprocessor]
+
+  const plugins = [...(base.plugins || []), caretGuard]
+
+  return {
+    ...base,
+    plugins,
+    postprocessors,
   }
 }

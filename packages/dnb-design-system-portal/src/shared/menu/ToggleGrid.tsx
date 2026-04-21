@@ -20,7 +20,7 @@ function setGridVisibility(visibility = true) {
 function isGridVisible() {
   return Boolean(
     typeof window !== 'undefined' &&
-      parseFloat(window.localStorage.getItem('showGrid'))
+    parseFloat(window.localStorage.getItem('showGrid'))
   )
 }
 
@@ -47,7 +47,7 @@ export default function ToggleGrid(
         id="switch-grid"
         label="Grid"
         checked={isGridVisible()}
-        on_change={handleChange}
+        onChange={handleChange}
       />
       <GridActivator />
     </span>

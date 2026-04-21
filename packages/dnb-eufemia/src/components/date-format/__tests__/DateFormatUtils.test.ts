@@ -1,3 +1,4 @@
+import type { DateFormatOptions } from '../DateFormatUtils'
 import {
   formatDate,
   formatDateRange,
@@ -8,13 +9,12 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
-  FormatDateOptions,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {
   describe('formatDate', () => {
     it('formats a date using locale options', () => {
-      const opts: FormatDateOptions = {
+      const opts: DateFormatOptions = {
         locale: 'en-GB',
         options: { dateStyle: 'short' },
       }
@@ -147,7 +147,7 @@ describe('DateFormatUtils', () => {
 
   describe('formatDateRange', () => {
     it('formats a date range using formatRange when available', () => {
-      const opts: FormatDateOptions = {
+      const opts: DateFormatOptions = {
         locale: 'en-GB',
         options: { dateStyle: 'long' },
       }
@@ -332,7 +332,6 @@ describe('DateFormatUtils', () => {
     it('falls back to manual formatting when 0 and no output from formatter', () => {
       // Force formatter to return empty string for zero
       intlRef.DurationFormat = class {
-        // eslint-disable-next-line class-methods-use-this
         format() {
           return ''
         }

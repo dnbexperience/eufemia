@@ -4,13 +4,13 @@
  */
 
 import React from 'react'
-import { SkeletonContextProps } from '../skeleton/SkeletonHelper'
-import { AccordionProps } from './Accordion'
-import { AccordionGroupProps } from './AccordionGroup'
+import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
+import type { AccordionProps } from './Accordion'
+import type { AccordionGroupProps } from './AccordionGroup'
 
-export type AccordionContextProps = AccordionProps &
-  SkeletonContextProps & {
-    allow_close_all?: boolean
+export type AccordionContextValue = AccordionProps &
+  SkeletonContextValue & {
+    allowCloseAll?: boolean
     expandBehavior?: AccordionGroupProps['expandBehavior']
     callOnChange?: (parameters: {
       id: string
@@ -22,6 +22,6 @@ export type AccordionContextProps = AccordionProps &
     }) => void
   }
 
-const AccordionContext = React.createContext<AccordionContextProps>({})
+const AccordionContext = React.createContext<AccordionContextValue>({})
 
 export default AccordionContext

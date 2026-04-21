@@ -1,15 +1,15 @@
 import React, { useCallback, useReducer, useRef } from 'react'
 import SectionContainerContext from './SectionContainerContext'
-import { ContainerMode } from './SectionContainer'
+import type { ContainerMode } from './SectionContainer'
 
-export type Props = {
+export type SectionContainerProviderProps = {
   validateInitially?: boolean
   containerMode?: ContainerMode
   disableEditing?: boolean
   children: React.ReactNode
 }
 
-function SectionContainerProvider(props: Props) {
+function SectionContainerProvider(props: SectionContainerProviderProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -23,8 +23,8 @@ function SectionContainerProvider(props: Props) {
     disableEditing === true
       ? 'view'
       : containerMode === 'auto'
-      ? 'view'
-      : containerMode
+        ? 'view'
+        : containerMode
   )
 
   const switchContainerMode = useCallback(
@@ -39,7 +39,7 @@ function SectionContainerProvider(props: Props) {
   )
 
   return (
-    <SectionContainerContext.Provider
+    <SectionContainerContext
       value={{
         validateInitially,
         containerMode:
@@ -51,7 +51,7 @@ function SectionContainerProvider(props: Props) {
       }}
     >
       {children}
-    </SectionContainerContext.Provider>
+    </SectionContainerContext>
   )
 }
 

@@ -13,9 +13,9 @@ describe('RemoveButton', () => {
   const handleRemove = jest.fn()
 
   const wrapper = ({ children }) => (
-    <IterateItemContext.Provider value={{ handleRemove }}>
+    <IterateItemContext value={{ handleRemove }}>
       {children}
-    </IterateItemContext.Provider>
+    </IterateItemContext>
   )
 
   afterEach(() => {
@@ -132,18 +132,18 @@ describe('RemoveButton', () => {
     const handleRemove = jest.fn()
 
     render(
-      <ArrayItemAreaContext.Provider
+      <ArrayItemAreaContext
         value={{
           handleRemoveItem,
         }}
       >
         <RemoveButton />
-      </ArrayItemAreaContext.Provider>,
+      </ArrayItemAreaContext>,
       {
         wrapper: ({ children }) => (
-          <IterateItemContext.Provider value={{ handleRemove }}>
+          <IterateItemContext value={{ handleRemove }}>
             {children}
-          </IterateItemContext.Provider>
+          </IterateItemContext>
         ),
       }
     )
@@ -159,20 +159,20 @@ describe('RemoveButton', () => {
     const handleRemove = jest.fn()
 
     render(
-      <ArrayItemAreaContext.Provider
+      <ArrayItemAreaContext
         value={{
           handleRemoveItem,
         }}
       >
         <RemoveButton />
-      </ArrayItemAreaContext.Provider>,
+      </ArrayItemAreaContext>,
       {
         wrapper: ({ children }) => (
-          <IterateItemContext.Provider
+          <IterateItemContext
             value={{ handleRemove, itemPath: '/itemPath' }}
           >
             {children}
-          </IterateItemContext.Provider>
+          </IterateItemContext>
         ),
       }
     )

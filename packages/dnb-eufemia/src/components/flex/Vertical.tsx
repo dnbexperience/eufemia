@@ -1,10 +1,11 @@
 import React from 'react'
 import Container from './Container'
-import type { Props as FlexContainerProps } from './Container'
+import type { FlexContainerAllProps } from './Container'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<FlexContainerProps, 'direction'>
+export type VerticalProps = Omit<FlexContainerAllProps, 'direction'>
 
-function Vertical({ children, ...props }: Props) {
+function Vertical({ children, ...props }: VerticalProps) {
   return (
     <Container {...props} direction="vertical">
       {children}
@@ -12,6 +13,8 @@ function Vertical({ children, ...props }: Props) {
   )
 }
 
-Vertical._supportsSpacingProps = true
+withComponentMarkers(Vertical, {
+  _supportsSpacingProps: true,
+})
 
 export default Vertical

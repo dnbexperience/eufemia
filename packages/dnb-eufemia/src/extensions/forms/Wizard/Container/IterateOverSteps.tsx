@@ -1,10 +1,8 @@
 import React, { useContext } from 'react'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
-import Step, {
-  Props as StepProps,
-  handleDeprecatedProps as handleDeprecatedStepProps,
-} from '../Step/Step'
+import type { WizardStepProps as StepProps } from '../Step/Step'
+import Step from '../Step/Step'
 import { useCollectStepsData } from './useCollectStepsData'
 
 export function IterateOverSteps({
@@ -33,13 +31,13 @@ export function IterateOverSteps({
   totalStepsRef.current = 0
 
   const childrenArray = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement<any>(child)) {
       let step = child
 
       if (child?.type !== Step && typeof child.type === 'function') {
-        step = child.type.apply(child.type, [
-          child.props,
-        ]) as React.ReactElement
+        step = (child.type as (props: unknown) => React.ReactElement)(
+          child.props
+        ) as React.ReactElement
 
         if (step?.type === Step) {
           child = step
@@ -48,7 +46,7 @@ export function IterateOverSteps({
 
       if (child?.type === Step) {
         const { title, inactive, keepInDOM, include, id, includeWhen } =
-          handleDeprecatedStepProps(child.props)
+          (child as React.ReactElement<any>).props || {}
 
         if (include === false) {
           return null
@@ -85,11 +83,16 @@ export function IterateOverSteps({
           prerenderFieldPropsRef.current['step-' + index] = {
             index,
             fn: () =>
-              React.cloneElement(child as React.ReactElement<StepProps>, {
-                key,
-                index,
-                prerenderFieldProps: true,
-              }),
+              React.createElement(
+                (child as React.ReactElement<StepProps>)
+                  .type as React.ComponentType<StepProps>,
+                {
+                  ...(child as React.ReactElement<StepProps>).props,
+                  key,
+                  index,
+                  prerenderFieldProps: true,
+                }
+              ),
           }
         }
 
@@ -111,9 +114,9 @@ export function IterateOverSteps({
   if (mapOverChildrenRef.current) {
     return childrenArray.map((child, index) => {
       return (
-        <WizardStepContext.Provider key={index} value={{ index }}>
+        <WizardStepContext key={index} value={{ index }}>
           {child}
-        </WizardStepContext.Provider>
+        </WizardStepContext>
       )
     })
   }

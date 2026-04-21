@@ -1,6 +1,7 @@
 import React from 'react'
-import { Ajv, FormError, JsonObject } from '../utils'
-import {
+import type { FormError, JsonObject } from '../utils'
+import type { AjvInstance } from '../utils/ajv'
+import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
@@ -14,9 +15,9 @@ import {
   Identifier,
   Schema,
 } from '../types'
-import { Props as ProviderProps } from './Provider'
-import { SnapshotName } from '../Form/Snapshot'
-import { SharedStateId } from '../../../shared/helpers/useSharedState'
+import type { DataContextProviderProps as ProviderProps } from './Provider'
+import type { SnapshotName } from '../Form/Snapshot'
+import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 
 export type SectionSchemaRegistration = {
   id: symbol
@@ -86,11 +87,6 @@ export type DataPathHandlerParameters<Data = unknown> = {
    * Used in the "filterData" given by the "useData" hook.
    */
   data: Data
-
-  /** @deprecated – can be removed in v11 */
-  internal: {
-    error: Error | undefined
-  }
 }
 export type FilterDataPathObject<Data> = Record<
   Path,
@@ -123,12 +119,12 @@ export type ValueInternalsRef = Record<
   { props: ValueProps | undefined }
 >
 
-export interface ContextState {
+export type ContextState = {
   id?: SharedStateId
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any
-  internalDataRef?: React.MutableRefObject<any>
+  internalDataRef?: React.RefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<Path, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
@@ -197,29 +193,27 @@ export interface ContextState {
   ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
-  isEmptyDataRef?: React.MutableRefObject<boolean>
-  addSetShowAllErrorsRef?: React.MutableRefObject<
+  isEmptyDataRef?: React.RefObject<boolean>
+  addSetShowAllErrorsRef?: React.RefObject<
     Array<(showAllErrors: boolean) => void>
   >
-  fieldDisplayValueRef?: React.MutableRefObject<
+  fieldDisplayValueRef?: React.RefObject<
     Record<Path, { type: 'field'; value?: React.ReactNode }>
   >
-  fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
-  valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>
+  fieldInternalsRef?: React.RefObject<FieldInternalsRef>
+  valueInternalsRef?: React.RefObject<ValueInternalsRef>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
-  mountedFieldsRef?: React.MutableRefObject<Map<Path, MountState>>
-  snapshotsRef?: React.MutableRefObject<
-    Map<SnapshotName, Map<Path, unknown>>
-  >
-  existingFieldsRef?: React.MutableRefObject<Map<Path, boolean>>
-  formElementRef?: React.MutableRefObject<HTMLFormElement>
-  fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
-  errorsRef?: React.MutableRefObject<Record<Path, Error>>
+  mountedFieldsRef?: React.RefObject<Map<Path, MountState>>
+  snapshotsRef?: React.RefObject<Map<SnapshotName, Map<Path, unknown>>>
+  existingFieldsRef?: React.RefObject<Map<Path, boolean>>
+  formElementRef?: React.RefObject<HTMLFormElement>
+  fieldErrorRef?: React.RefObject<Record<Path, Error>>
+  errorsRef?: React.RefObject<Record<Path, Error>>
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
   activeSubmitButtonId?: string
-  getAjvInstance?: () => Ajv
+  getAjvInstance?: () => AjvInstance
   contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: Schema
   path?: Path
@@ -229,13 +223,13 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean
-  hasElementRef?: React.MutableRefObject<boolean>
+  hasElementRef?: React.RefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (
     registration: SectionSchemaRegistration
   ) => () => void
-  sectionSchemaPathsRef?: React.MutableRefObject<Set<Path>>
+  sectionSchemaPathsRef?: React.RefObject<Set<Path>>
   props: ProviderProps<JsonObject>
 }
 

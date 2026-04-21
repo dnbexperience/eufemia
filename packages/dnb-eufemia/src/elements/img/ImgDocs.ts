@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ImgProperties: PropertiesTableProps = {
   skeleton: {
@@ -7,7 +7,7 @@ export const ImgProperties: PropertiesTableProps = {
     status: 'optional',
   },
   imgClass: {
-    doc: 'Custom className on the `<img>`-element',
+    doc: 'Custom `className` on the `<img>`-element.',
     type: 'string',
     status: 'optional',
   },
@@ -23,7 +23,7 @@ export const ImgProperties: PropertiesTableProps = {
   },
   loading: {
     doc: 'Can either be `eager` or `lazy`. Defaults to `eager`.',
-    type: 'string',
+    type: ['"eager"', '"lazy"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

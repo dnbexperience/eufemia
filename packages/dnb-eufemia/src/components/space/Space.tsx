@@ -4,19 +4,14 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
-  isTrue,
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import Context, { ContextProps } from '../../shared/Context'
-import { spacingPropTypes } from './SpacingHelper'
-import {
-  createSpacingClasses,
-  createSpacingProperties,
-  isInline,
-} from './SpacingUtils'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
+import { createSpacing, isInline } from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -29,53 +24,52 @@ import type {
 } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
-
-export { spacingPropTypes }
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SpaceProps = {
   /**
    * Defines the HTML element used.
-   * Default: div
+   * Default: `div`
    */
   element?: DynamicElement
 
   /**
    * If set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.
-   * Default: false
+   * Default: `false`
    */
   inline?: boolean
 
   /**
    * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.
-   * Default: false
+   * Default: `false`
    */
-  no_collapse?: boolean
+  noCollapse?: boolean
 
   /**
    * If set to `true`, then the space element will be 100% in width.
-   * Default: false
+   * Default: `false`
    */
   stretch?: boolean
 
   /**
    * If set to `true`, a loading skeleton will be shown.
-   * Default: false
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 
   /**
    * Send along a custom React Ref.
-   * Default: null
+   * Default: `null`
    */
-  innerRef?: React.RefObject<HTMLElement>
+  ref?: React.Ref<HTMLElement>
 } & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
-const defaultProps = {}
+const defaultProps: Partial<SpaceAllProps> = {}
 
-export default function Space(localProps: SpaceAllProps) {
+function SpaceInstance(localProps: SpaceAllProps) {
   const context = React.useContext<ContextProps & SpacingProps>(Context)
 
   // consume the space context
@@ -92,30 +86,33 @@ export default function Space(localProps: SpaceAllProps) {
   const {
     element = 'div',
     inline,
-    no_collapse,
+    noCollapse,
     top,
     right,
     bottom,
     left,
     style,
     space,
-    innerSpace, // eslint-disable-line
+    innerSpace,
     stretch,
     skeleton,
-    innerRef,
+    ref,
     className,
     children,
 
     ...attributes
   } = props
 
+  const spacing = createSpacing({ top, right, bottom, left, space })
+  const spacingInnerStyle = createSpacing(props).style
+
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-space',
-      isTrue(stretch) && 'dnb-space--stretch',
-      isTrue(inline) && 'dnb-space--inline',
+      stretch && 'dnb-space--stretch',
+      inline && 'dnb-space--inline',
       createSkeletonClass(null, skeleton), // do not send along context
-      createSpacingClasses({ top, right, bottom, left, space }),
+      ...spacing.className,
       className
     ),
     ...attributes,
@@ -123,42 +120,46 @@ export default function Space(localProps: SpaceAllProps) {
 
   const styleObj = {
     ...style,
-    ...createSpacingProperties(props),
+    ...spacingInnerStyle,
   } as React.CSSProperties
 
   skeletonDOMAttributes(params, skeleton) // do not send along context
 
   return (
-    <Element
+    <SpaceElement
       element={element}
-      no_collapse={no_collapse}
-      innerRef={innerRef}
+      noCollapse={noCollapse}
+      ref={ref}
       style={styleObj}
       {...params}
     >
       {children}
-    </Element>
+    </SpaceElement>
   )
 }
 
-Space._supportsSpacingProps = true
+function Space(props: SpaceAllProps) {
+  return <SpaceInstance {...props} />
+}
 
-function Element({
+withComponentMarkers(Space, { _supportsSpacingProps: true })
+
+export default Space
+
+function SpaceElement({
   element,
-  no_collapse,
+  noCollapse,
   children,
-  innerRef,
+  ref,
   ...props
 }: SpaceAllProps) {
   const ElementDynamic = element
 
-  if (element?.['_name'] === 'Section') {
-    props['innerRef'] = innerRef
-  } else {
+  if (typeof element === 'string') {
     // also used for code markup simulation
     validateDOMAttributes({}, props)
-    props['ref'] = innerRef
   }
+  props['ref'] = ref
 
   const component = (
     <ElementDynamic {...(props as DynamicElementParams)}>
@@ -166,14 +167,14 @@ function Element({
     </ElementDynamic>
   )
 
-  if (isTrue(no_collapse)) {
+  if (noCollapse) {
     const R =
       ElementDynamic === 'span' || isInline(element as string)
         ? 'span'
         : 'div'
     return (
       <R
-        className={classnames(
+        className={clsx(
           'dnb-space--no-collapse',
           isInline(element as string) && 'dnb-space--inline'
         )}

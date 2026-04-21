@@ -4,18 +4,15 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import {
-  isTrue,
-  findElementInChildren,
-} from '../../shared/component-helper'
+import clsx from 'clsx'
+import { findElementInChildren } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
 import ModalContext from '../modal/ModalContext'
 import { getContent } from '../modal/helpers'
-import { DrawerContentProps } from './types'
+import type { DrawerContentProps } from './types'
 import { checkMinMaxWidth } from './helpers'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
 import ModalHeader from '../modal/parts/ModalHeader'
@@ -33,12 +30,15 @@ export default function DrawerContent({
   fullscreen = 'auto',
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: min_width = null,
-  maxWidth: max_width = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   ...rest
-}: DrawerContentProps): JSX.Element {
+}: DrawerContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(
@@ -48,18 +48,17 @@ export default function DrawerContent({
     )
 
   const innerParams = {
-    className: classnames(
-      !isTrue(preventCoreStyle) && 'dnb-core-style',
-
+    className: clsx(
       'dnb-drawer',
-      isTrue(spacing) && 'dnb-drawer--spacing',
+      !preventCoreStyle && 'dnb-core-style',
+      spacing && 'dnb-drawer--spacing',
       alignContent && `dnb-drawer__align--${alignContent}`,
-      isTrue(fullscreen)
+      fullscreen === true
         ? `dnb-drawer--fullscreen`
         : fullscreen === 'auto' && `dnb-drawer--auto-fullscreen`,
-      isTrue(context?.hide) && `dnb-drawer--hide`,
-      isTrue(noAnimation) && `dnb-drawer--no-animation`,
-      isTrue(noAnimationOnMobile) && `dnb-drawer--no-animation-on-mobile`,
+      context?.hide && `dnb-drawer--hide`,
+      noAnimation && `dnb-drawer--no-animation`,
+      noAnimationOnMobile && `dnb-drawer--no-animation-on-mobile`,
 
       `dnb-drawer--${containerPlacement || 'right'}`,
       className
@@ -119,11 +118,11 @@ export default function DrawerContent({
           id={context?.contentId + '-content'}
           className="dnb-drawer__content"
         >
-          <DrawerContentContext.Provider
+          <DrawerContentContext
             value={{ navigationElement, headerElement }}
           >
             {content}
-          </DrawerContentContext.Provider>
+          </DrawerContentContext>
         </div>
       </div>
     </ScrollView>

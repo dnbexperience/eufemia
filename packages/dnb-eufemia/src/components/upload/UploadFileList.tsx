@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { UploadFile } from './types'
+import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
@@ -10,7 +10,7 @@ function UploadFileList() {
 
   const {
     id,
-    fileListAriaLabel,
+    listAriaLabel,
     deleteButton,
     download,
     allowDuplicates,
@@ -22,7 +22,7 @@ function UploadFileList() {
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
-  const filesRef = useRef(null)
+  const filesRef = useRef<UploadFile[] | null>(null)
 
   useEffect(() => {
     filesRef.current = files
@@ -83,7 +83,8 @@ function UploadFileList() {
       updateFiles(
         updateFile(uploadFile, {
           isLoading: false,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       )
     }
@@ -110,7 +111,7 @@ function UploadFileList() {
   }
 
   return (
-    <ul className="dnb-upload__file-list" aria-label={fileListAriaLabel}>
+    <ul className="dnb-upload__file-list" aria-label={listAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
         const onDeleteHandler = async () => {
           if (typeof onFileDelete === 'function') {

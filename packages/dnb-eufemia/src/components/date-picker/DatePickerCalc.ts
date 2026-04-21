@@ -3,7 +3,6 @@
  *
  */
 
-// date-fns
 import {
   subMonths,
   addMonths,
@@ -24,7 +23,6 @@ import {
   parse,
   startOfDay,
 } from 'date-fns'
-
 import { warn } from '../../shared/component-helper'
 
 type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
@@ -237,25 +235,12 @@ function isPreviewCalc(
   )
 }
 
-export function correctV1Format(date: string) {
-  // for backwards compatibility
-  // TODO: Remove this in next major version
-  if (/YYYY/.test(date) && /DD/.test(date)) {
-    warn(
-      'You are using "YYYY-MM-DD" as the dateFormat or returnFormat? Please use "yyyy-MM-dd" instead!'
-    )
-    date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
-  }
-
-  return date
-}
-
 function parseHumanDate(
   input: string,
   humanDateFormats = ['dd.MM.yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd']
 ) {
   for (const format of humanDateFormats) {
-    const parsed = parse(input, format, new Date())
+    const parsed = parse(input, normalizeDateFormat(format), new Date())
     if (isValid(parsed)) {
       return parsed
     }
@@ -266,7 +251,10 @@ function parseHumanDate(
 
 export function convertStringToDate(
   date: string | Date,
-  { dateFormat = null }: { dateFormat?: string | null } = {}
+  {
+    dateFormat = null,
+    strictDateFormat = false,
+  }: { dateFormat?: string | null; strictDateFormat?: boolean } = {}
 ): Date {
   if (!date) {
     return null
@@ -278,12 +266,13 @@ export function convertStringToDate(
     dateObject = parseISO(date)
 
     if (!isValid(dateObject)) {
-      dateObject = parseHumanDate(date)
+      dateObject = dateFormat
+        ? parseHumanDate(date, [dateFormat])
+        : parseHumanDate(date)
     }
 
-    // Check one more time if we can generate a valid date
-    if (dateFormat && !isValid(dateObject)) {
-      dateObject = parseHumanDate(date, [correctV1Format(dateFormat)])
+    if (!strictDateFormat && !isValid(dateObject)) {
+      dateObject = parseHumanDate(date)
     }
   } else {
     dateObject = toDate(date)
@@ -291,9 +280,15 @@ export function convertStringToDate(
 
   // rather return null than an invalid date
   if (!isValid(dateObject)) {
-    warn('convertStringToDate got invalid date:', date)
+    if (!strictDateFormat) {
+      warn('convertStringToDate got invalid date:', date)
+    }
     return null
   }
 
   return dateObject
+}
+
+function normalizeDateFormat(format: string) {
+  return format.replace(/mm/g, 'MM')
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form, Value, Tools, makeAjvInstance } from '../../'
-import { GenerateRef } from '../GenerateSchema'
+import type { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {
   it('should generate a schema', () => {
@@ -102,31 +102,33 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-r1e"
               name="myField"
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
+            "minLength": 2,
+            "path": "/nested/myString",
+            "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rs"
+                id="id-r1p"
                 name="nested/myString"
                 type="text"
               />,
             },
-            "minLength": 2,
-            "path": "/nested/myString",
             "required": true,
             "width": "large",
           },
@@ -150,42 +152,44 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-r1e"
               name="myString"
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "myString": {
-          "innerRef": {
+          "minLength": 2,
+          "path": "/myString",
+          "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-r1e"
               name="myString"
               type="text"
             />,
           },
-          "minLength": 2,
-          "path": "/myString",
           "required": true,
           "value": "local value",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
-              "current": null,
-            },
             "minLength": 2,
             "path": "/nested/myString",
+            "ref": {
+              "current": null,
+            },
             "required": true,
             "width": "large",
           },

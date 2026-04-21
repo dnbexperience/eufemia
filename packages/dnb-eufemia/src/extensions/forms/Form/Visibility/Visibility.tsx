@@ -1,11 +1,11 @@
-import React, { AriaAttributes, useCallback, useContext } from 'react'
+import type { AriaAttributes } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useMounted from '../../../../shared/helpers/useMounted'
-import HeightAnimation, {
-  HeightAnimationAllProps,
-} from '../../../../components/HeightAnimation'
+import type { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
+import HeightAnimation from '../../../../components/HeightAnimation'
 import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'
 import VisibilityContext from './VisibilityContext'
@@ -13,7 +13,8 @@ import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
-import { FilterData } from '../../DataContext'
+import type { FilterData } from '../../DataContext'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type VisibleWhen =
   | {
@@ -27,40 +28,17 @@ export type VisibleWhen =
   | {
       path: Path
       isValid: boolean
-      /**
-       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-       */
-      continuousValidation?: boolean
       validateContinuously?: boolean
     }
   | {
       itemPath: Path
       isValid: boolean
-      /**
-       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-       */
-      continuousValidation?: boolean
       validateContinuously?: boolean
     }
 
-  /**
-   * @deprecated Will be removed in v11!
-   */
-  | {
-      path: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
-    }
-  /**
-   * @deprecated  Will be removed in v11!
-   */
-  | {
-      itemPath: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
-    }
-
-export type Props = {
+export type FormVisibilityProps = {
+  /** A unique identifier for the component's wrapper element. */
+  id?: string
   visible?: boolean
   /** Given data context path must be defined to show children */
   pathDefined?: Path
@@ -91,11 +69,6 @@ export type Props = {
 
   /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean
-
-  /** @deprecated Use `visibleWhen` instead */
-  pathValue?: string
-  /** @deprecated Use `visibleWhen` instead */
-  whenValue?: unknown
 } & Pick<
   HeightAnimationAllProps,
   | 'onAnimationEnd'
@@ -105,8 +78,9 @@ export type Props = {
   | 'compensateForGap'
 >
 
-function Visibility(props: Props) {
+function Visibility(props: FormVisibilityProps) {
   const {
+    id,
     visible,
     pathDefined,
     pathUndefined,
@@ -114,8 +88,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,
@@ -146,8 +118,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,
@@ -155,7 +125,7 @@ function Visibility(props: Props) {
   })
   const open = check()
   const content = (
-    <VisibilityContext.Provider
+    <VisibilityContext
       value={{
         isVisible: open,
         keepInDOM,
@@ -163,7 +133,7 @@ function Visibility(props: Props) {
       }}
     >
       {children}
-    </VisibilityContext.Provider>
+    </VisibilityContext>
   )
   const mountedRef = useMounted()
 
@@ -191,6 +161,7 @@ function Visibility(props: Props) {
   if (animate) {
     return (
       <HeightAnimation
+        id={id}
         open={open}
         onAnimationEnd={onAnimationEnd}
         onOpen={onOpen}
@@ -210,14 +181,29 @@ function Visibility(props: Props) {
 
   if (keepInDOM) {
     return (
-      <span className="dnb-forms-visibility" hidden={!open}>
+      <span id={id} className="dnb-forms-visibility" hidden={!open}>
         <FieldProvider {...providerProps}>{content}</FieldProvider>
       </span>
+    )
+  }
+
+  if (id) {
+    return (
+      <>
+        {open ? (
+          <span id={id} className="dnb-forms-visibility">
+            {content}
+          </span>
+        ) : null}
+      </>
     )
   }
 
   return <>{open ? content : null}</>
 }
 
-Visibility._supportsSpacingProps = 'children'
+withComponentMarkers(Visibility, {
+  _supportsSpacingProps: 'children',
+})
+
 export default Visibility

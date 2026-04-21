@@ -1,62 +1,22 @@
-import { PropertiesTableProps } from '../../shared/types'
-import { toCamelCase } from '../../shared/component-helper'
+import type { PropertiesTableProps } from '../../shared/types'
 
-export const NumberFormatProperties: PropertiesTableProps = {
+const valueProp: PropertiesTableProps = {
   value: {
-    doc: 'A number.',
-    type: 'number',
-    status: 'required',
+    doc: 'A number or a string containing a number.',
+    type: ['number', 'string'],
+    status: 'optional',
   },
+}
+
+const localeProp: PropertiesTableProps = {
   locale: {
     doc: 'Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
-  compact: {
-    doc: 'Shortens any number or currency including an abbreviation. You can combine `compact` with `currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.',
-    type: ['boolean', 'string'],
-    status: 'optional',
-  },
-  currency: {
-    doc: 'Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.',
-    type: ['string', 'boolean'],
-    status: 'optional',
-  },
-  currency_display: {
-    doc: 'Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.',
-    type: 'string',
-    status: 'optional',
-  },
-  currency_position: {
-    doc: 'Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).',
-    type: 'string',
-    status: 'optional',
-  },
-  ban: {
-    doc: '**Bank Account Number**: use `true` to use the default Norwegian style (2000 12 34567) formatting.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  nin: {
-    doc: '**National Identification Number**: use `true` to use the default Norwegian style (180892 12345) formatting.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  org: {
-    doc: '**Organization Number**: use `true` to use the default Norwegian style (123 456 789) formatting. Screen readers get digit by digit.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  percent: {
-    doc: '**Percentage**: use `true` to enable percent formatting.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  phone: {
-    doc: 'Use `true` to use the default Norwegian style (22 22 22 22) of phone number formatting, regulated by the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16). More info by [Sprakradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato/#tlf) as well.',
-    type: 'boolean',
-    status: 'optional',
-  },
+}
+
+const decimalsAndFormattingProps: PropertiesTableProps = {
   decimals: {
     doc: 'Set a number to define the number of decimals. Like `decimals="0"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).',
     type: 'number',
@@ -64,52 +24,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   rounding: {
     doc: 'If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.',
-    type: ['omit', 'half-even', 'half-up'],
+    type: ['"omit"', '"half-even"', '"half-up"'],
     status: 'optional',
-  },
-  omit_rounding: {
-    doc: 'Use `rounding="omit"` instead.',
-    type: 'boolean',
-    status: 'deprecated',
   },
   signDisplay: {
     doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.',
-    type: ['auto', 'always', 'exceptZero', 'negative', 'never'],
-    status: 'optional',
-  },
-  prefix: {
-    doc: 'Add a string or React component before the number, including white space.',
-    type: 'React.Node',
-    status: 'optional',
-  },
-  suffix: {
-    doc: 'Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix="/mnd"` renders "123/mnd").',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  srLabel: {
-    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
-    type: 'string',
-    status: 'optional',
-  },
-  selectall: {
-    doc: 'Use `false` to disable the auto select all on the first click. Defaults to `true`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  always_selectall: {
-    doc: 'Use `true` to always auto select all on the first click. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  copy_selection: {
-    doc: 'Use `false` to disable the auto copy feature. Defaults to `true`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  clean_copy_value: {
-    doc: 'If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.',
-    type: 'boolean',
+    type: ['"auto"', '"always"', '"exceptZero"', '"negative"', '"never"'],
     status: 'optional',
   },
   clean: {
@@ -117,9 +37,48 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  link: {
-    doc: 'Use `tel` or `sms` to enable a clickable / touchable anchor link.',
-    type: 'string',
+}
+
+const affixProps: PropertiesTableProps = {
+  prefix: {
+    doc: 'Add a string or React component before the number, including white space.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix="/mnd"` renders "123/mnd").',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+}
+
+const interactionProps: PropertiesTableProps = {
+  selectAll: {
+    doc: 'Use `false` to disable the auto select all on the first click. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  alwaysSelectAll: {
+    doc: 'Use `true` to always auto select all on the first click. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  copySelection: {
+    doc: 'Use `false` to disable the auto copy feature. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  cleanCopyValue: {
+    doc: 'If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+}
+
+const presentationProps: PropertiesTableProps = {
+  srLabel: {
+    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   monospace: {
@@ -144,9 +103,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   tooltip: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
+}
+
+const spacingProps: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -154,10 +116,108 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
 }
 
-export const NumberFormatPropertiesCamelCase: PropertiesTableProps =
-  Object.fromEntries(
-    Object.entries(NumberFormatProperties).map(([k, v]) => [
-      toCamelCase(k),
-      v,
-    ])
-  )
+const currencyOnlyProps: PropertiesTableProps = {
+  currency: {
+    doc: 'Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.',
+    type: ['string', 'boolean'],
+    status: 'optional',
+  },
+  currencyDisplay: {
+    doc: 'Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.',
+    type: 'string',
+    status: 'optional',
+  },
+  currencyPosition: {
+    doc: 'Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).',
+    type: 'string',
+    status: 'optional',
+  },
+}
+
+const compactProp: PropertiesTableProps = {
+  compact: {
+    doc: 'Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.',
+    type: ['boolean', 'string'],
+    status: 'optional',
+  },
+}
+
+const linkProp: PropertiesTableProps = {
+  link: {
+    doc: 'Use `tel` (default) or `sms` to enable a clickable / touchable anchor link. Only available on `NumberFormat.PhoneNumber`.',
+    type: 'string',
+    status: 'optional',
+  },
+}
+
+const commonProps: PropertiesTableProps = {
+  ...valueProp,
+  ...localeProp,
+  ...decimalsAndFormattingProps,
+  ...affixProps,
+  ...interactionProps,
+  ...presentationProps,
+}
+
+export const NumberFormatNumberProperties: PropertiesTableProps = {
+  ...commonProps,
+  ...compactProp,
+  ...spacingProps,
+}
+
+export const NumberFormatCurrencyProperties: PropertiesTableProps = {
+  ...valueProp,
+  ...localeProp,
+  ...currencyOnlyProps,
+  ...compactProp,
+  ...decimalsAndFormattingProps,
+  ...affixProps,
+  ...interactionProps,
+  ...presentationProps,
+  ...spacingProps,
+}
+
+export const NumberFormatPercentProperties: PropertiesTableProps = {
+  ...commonProps,
+  ...spacingProps,
+}
+
+export const NumberFormatPhoneNumberProperties: PropertiesTableProps = {
+  ...commonProps,
+  ...linkProp,
+  ...spacingProps,
+}
+
+export const NumberFormatBankAccountNumberProperties: PropertiesTableProps =
+  {
+    ...commonProps,
+    ...spacingProps,
+  }
+
+export const NumberFormatNationalIdentityNumberProperties: PropertiesTableProps =
+  {
+    ...commonProps,
+    ...spacingProps,
+  }
+
+export const NumberFormatOrganizationProperties: PropertiesTableProps = {
+  ...commonProps,
+  ...spacingProps,
+}
+
+/**
+ * @deprecated Split per variant (`NumberFormat.Number`, `NumberFormat.Currency`, …).
+ * Kept for internal usage in Stat/Forms docs that aggregate all available props.
+ */
+export const NumberFormatProperties: PropertiesTableProps = {
+  ...valueProp,
+  ...localeProp,
+  ...compactProp,
+  ...currencyOnlyProps,
+  ...decimalsAndFormattingProps,
+  ...affixProps,
+  ...interactionProps,
+  ...presentationProps,
+  ...linkProp,
+  ...spacingProps,
+}

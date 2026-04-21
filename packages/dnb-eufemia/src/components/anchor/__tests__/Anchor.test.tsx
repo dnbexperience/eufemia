@@ -6,10 +6,12 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import Anchor, { AnchorAllProps } from '../Anchor'
+import type { AnchorAllProps } from '../Anchor'
+import Anchor from '../Anchor'
 import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'
 import locales from '../../../shared/locales'
+import Theme from '../../../shared/Theme'
 
 const nb = locales['nb-NO'].Anchor
 const en = locales['en-GB'].Anchor
@@ -444,9 +446,52 @@ describe('Anchor element', () => {
     expect(ref.current).toBe(element)
   })
 
+  it('should keep a stable ref across re-renders when no ref is provided', () => {
+    const refValues: Array<HTMLAnchorElement | null> = []
+
+    const Wrapper = () => {
+      const [, setState] = React.useState(0)
+
+      return (
+        <Anchor
+          href="/url"
+          ref={(el) => {
+            refValues.push(el)
+          }}
+          onClick={(e) => {
+            e.preventDefault()
+            setState((s) => s + 1)
+          }}
+        >
+          text
+        </Anchor>
+      )
+    }
+
+    const { container } = render(<Wrapper />)
+
+    const anchorElement = container.querySelector('.dnb-anchor')
+    expect(anchorElement).toBeInTheDocument()
+
+    // Trigger a re-render
+    fireEvent.click(anchorElement!)
+
+    // The ref should receive the same DOM element across renders
+    const nonNullRefs = refValues.filter(Boolean)
+    expect(nonNullRefs.length).toBeGreaterThanOrEqual(1)
+    expect(nonNullRefs.every((r) => r === anchorElement)).toBe(true)
+  })
+
+  it('should render correctly without a ref prop', () => {
+    const { container } = render(<Anchor href="/url">text</Anchor>)
+
+    const element = container.querySelector('.dnb-anchor')
+    expect(element).toBeInTheDocument()
+    expect(element?.tagName).toBe('A')
+  })
+
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLAnchorElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLAnchorElement> = React.createRef()
 
     const refFn = (elem: HTMLAnchorElement) => {
       ref.current = elem
@@ -512,9 +557,16 @@ describe('Anchor element', () => {
   })
 
   it('should support custom Link component with "to" prop', () => {
-    const Link = ({ children, to, ...rest }) => {
+    const Link = ({
+      children,
+      to,
+      ...rest
+    }: Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+      to: string | Record<string, string>
+      ref?: React.Ref<HTMLAnchorElement>
+    }) => {
       return (
-        <a {...rest} href={to}>
+        <a {...rest} href={String(to)}>
           {children}
         </a>
       )
@@ -602,6 +654,19 @@ describe('Anchor element', () => {
     expect(
       document.querySelector('.dnb-anchor__launch-icon')
     ).not.toBeInTheDocument()
+  })
+
+  describe('surface', () => {
+    it('should inherit surface from Theme context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <Anchor href="/url">text</Anchor>
+        </Theme.Context>
+      )
+
+      const anchor = document.querySelector('.dnb-anchor')
+      expect(anchor).toHaveClass('dnb-anchor--surface-dark')
+    })
   })
 
   describe('disabled', () => {

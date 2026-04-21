@@ -3,8 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import '../table-mixins.scss';
+@use '../table-mixins.scss' as table-mixins;
 
 .dnb-table {
   --table-th-background-color: var(--color-white);
@@ -118,7 +117,7 @@
   &:not(&--outline) > tbody {
     position: relative;
 
-    @include tableBorder() {
+    @include table-mixins.tableBorder() {
       border-bottom: var(--table-border);
     }
   }

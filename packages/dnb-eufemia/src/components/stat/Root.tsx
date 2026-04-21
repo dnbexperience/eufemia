@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
@@ -43,12 +43,12 @@ function Root(props: RootProps) {
   }
 
   return (
-    <StatRootContext.Provider value={{ inRoot: true, skeleton }}>
+    <StatRootContext value={{ inRoot: true, skeleton }}>
       <Space
         element="dl"
         id={id}
         style={style}
-        className={classnames(
+        className={clsx(
           'dnb-stat',
           'dnb-stat__root',
           `dnb-stat__root--${visualOrder}`,
@@ -58,7 +58,7 @@ function Root(props: RootProps) {
       >
         {children}
       </Space>
-    </StatRootContext.Provider>
+    </StatRootContext>
   )
 }
 
@@ -73,7 +73,7 @@ function hasOnlySupportedChildren(children: React.ReactNode): boolean {
 }
 
 function isSupportedChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement(child)) {
+  if (!React.isValidElement<Record<string, any>>(child)) {
     // allow null/boolean and whitespace-only text nodes
     if (typeof child === 'string') {
       return child.trim().length === 0
@@ -82,7 +82,9 @@ function isSupportedChild(child: React.ReactNode): boolean {
   }
 
   if (child.type === React.Fragment) {
-    return hasOnlySupportedChildren(child.props.children)
+    return hasOnlySupportedChildren(
+      (child as React.ReactElement<any>).props.children
+    )
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -96,12 +98,14 @@ function hasRequiredLabel(children: React.ReactNode): boolean {
 }
 
 function hasLabelChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement(child)) {
+  if (!React.isValidElement<Record<string, any>>(child)) {
     return false
   }
 
   if (child.type === React.Fragment) {
-    return hasRequiredLabel(child.props.children)
+    return hasRequiredLabel(
+      (child as React.ReactElement<any>).props.children
+    )
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -114,12 +118,14 @@ function flattenRoles(
   const roles: Array<'label' | 'content'> = []
 
   for (const child of React.Children.toArray(children)) {
-    if (!React.isValidElement(child)) {
+    if (!React.isValidElement<Record<string, any>>(child)) {
       continue
     }
 
     if (child.type === React.Fragment) {
-      roles.push(...flattenRoles(child.props.children))
+      roles.push(
+        ...flattenRoles((child as React.ReactElement<any>).props.children)
+      )
       continue
     }
 

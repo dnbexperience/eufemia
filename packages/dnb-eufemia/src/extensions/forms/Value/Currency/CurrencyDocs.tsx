@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { CurrencyProperties } from '../../Field/Currency/CurrencyDocs'
 import { NumberProperties } from '../Number/NumberDocs'
 

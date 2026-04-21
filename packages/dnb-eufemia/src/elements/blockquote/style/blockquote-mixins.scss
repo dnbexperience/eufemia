@@ -1,14 +1,15 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/anchor/style/anchor-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
 @mixin blockquoteStyle() {
-  --blockquote-padding-top: 2rem;
+  --blockquote-padding-top: 1.5rem;
   --blockquote-padding-left: 1.5rem;
-  --blockquote-padding-bottom: 3rem;
+  --blockquote-padding-bottom: 2rem;
 
   // quote
   --blockquote-quote-size: 3rem;
-  --blockquote-quote-padding: 6rem;
+  --blockquote-quote-padding: 5.5rem;
 
   // font
   --blockquote-cite-style: italic;
@@ -16,7 +17,7 @@
   display: inline-block;
   width: auto;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 1.5rem;
 
   font-size: var(--font-size-small);
@@ -24,23 +25,29 @@
 
   border-radius: 1rem;
 
+  color: var(--token-color-text-action-ondark);
+  background-color: var(--token-color-decorative-first-intense-static);
+
   // gfx icon
   position: relative;
-  &::before {
-    content: '';
+  .dnb-blockquote__quote-icon {
     position: absolute;
     top: var(--blockquote-padding-top);
     left: var(--blockquote-padding-left);
     width: var(--blockquote-quote-size);
     height: var(--blockquote-quote-size);
-
-    background-size: cover;
-
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0ibm9uZSI+ICA8cGF0aCBmaWxsPSIjQTVFMUQyIiBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0zNy41IDI3LjVhOSA5IDAgMSAwIDAtMTggOSA5IDAgMCAwIDAgMTh6Ii8+ICA8cGF0aCBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik00Ni41IDE4LjVhMjEgMjEgMCAwIDEtMjEgMjEiLz4gIDxwYXRoIGZpbGw9IiNBNUUxRDIiIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEzLjUgMjcuNWE5IDkgMCAxIDAgMC0xOCA5IDkgMCAwIDAgMCAxOHoiLz4gIDxwYXRoIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgMTguNWEyMSAyMSAwIDAgMS0yMSAyMSIvPjwvc3ZnPg==');
+    color: var(--blockquote-icon-color, currentcolor);
+    fill: currentcolor;
+    stroke: currentcolor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  // default
-  // stylelint-disable-next-line
+  .dnb-anchor {
+    font-size: inherit;
+  }
+
   &,
   &.dnb-blockquote--left {
     padding-left: var(--blockquote-quote-padding);
@@ -55,6 +62,7 @@
   }
 
   &.dnb-blockquote--no-background {
+    color: inherit;
     background-color: transparent;
   }
 
@@ -86,24 +94,5 @@
   .dnb-spacing & .dnb-h--medium,
   .dnb-spacing & .dnb-lead {
     margin: 0;
-  }
-
-  .dnb-anchor {
-    font-size: inherit;
-  }
-  .dnb-code {
-    color: var(--color-black-80);
-  }
-}
-
-@mixin blockquoteTag() {
-  blockquote {
-    @include blockquoteStyle();
-  }
-  .dnb-spacing blockquote {
-    @include ui-spacing.defaultSpacing();
-    p:last-child {
-      margin-bottom: 0;
-    }
   }
 }

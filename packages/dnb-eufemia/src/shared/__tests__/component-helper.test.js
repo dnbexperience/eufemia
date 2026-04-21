@@ -4,19 +4,15 @@
  */
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 
 import {
-  isTrue,
-  extendGracefully,
   extendDeep,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
-  toCamelCase,
-  toSnakeCase,
   toKebabCase,
   toCapitalized,
   checkIfHasScrollbar,
@@ -26,7 +22,6 @@ import {
   slugify,
   roundToNearest,
   findElementInChildren,
-  matchAll,
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
@@ -251,19 +246,19 @@ describe('"validateDOMAttributes" should', () => {
     expect(params).toEqual(res)
   })
 
-  it('has equal object after sending a json object as an prop.attributes', () => {
+  it('has equal object after sending an object as prop.attributes', () => {
     const attr = { foo: 'bar' }
-    const props = { attributes: JSON.stringify(attr) }
+    const props = { attributes: attr }
     const params = {}
     const res = validateDOMAttributes(props, params)
     expect(res).toEqual(attr)
   })
 
-  it('"disabled" property should be removed once its value is false', () => {
+  it('"disabled" property should be removed once its value is null', () => {
     const props = {}
     const res1 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: 'false' })
+      Object.assign({}, { disabled: null })
     )
     expect(res1).not.toHaveProperty('disabled')
     const res2 = validateDOMAttributes(
@@ -296,7 +291,7 @@ describe('"validateDOMAttributes" should', () => {
 
   it('function props should not be returned as long as they don\'t are "onClick"', () => {
     const props = {
-      on_click: () => {},
+      onClick: () => {},
     }
     const params = {
       onChange: () => {},
@@ -307,14 +302,23 @@ describe('"validateDOMAttributes" should', () => {
     expect(res).not.toHaveProperty('something')
   })
 
+  it('should preserve function ref props', () => {
+    const props = {}
+    const refFn = () => {}
+    const params = { ref: refFn }
+    const res = validateDOMAttributes(props, params)
+    expect(res).toHaveProperty('ref')
+    expect(res.ref).toBe(refFn)
+  })
+
   it('should prevent prototype pollution via attributes', () => {
     const props = {
-      attributes: JSON.stringify({
+      attributes: {
         __proto__: { polluted: 'value' },
         constructor: { polluted: 'value' },
         prototype: { polluted: 'value' },
         safeKey: 'safeValue',
-      }),
+      },
     }
     const params = {}
     const res = validateDOMAttributes(props, params)
@@ -361,51 +365,6 @@ describe('"processChildren" should', () => {
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
-  })
-})
-
-/** @deprecated Can be removed in v11 */
-describe('"extendGracefully" should', () => {
-  it('keep the object reference', () => {
-    const object1 = { key: null }
-    const object2 = { key: 'value' }
-    expect(extendGracefully(true, object1, object2)).toBe(object1)
-    expect(extendGracefully(true, object2, object1)).toBe(object2)
-    expect(extendGracefully(false, object2, object1)).not.toBe(object2)
-  })
-  it('extend an object and have correct object shape', () => {
-    expect(extendGracefully({ key: null }, { key: 'value' })).toEqual({
-      key: 'value',
-    })
-    expect(extendGracefully({ key: 'value' }, { key: null })).toEqual({
-      key: 'value',
-    })
-  })
-  it('extend an object recursively and have correct object shape', () => {
-    expect(
-      extendGracefully(
-        { key1: { key2: null } },
-        { key1: { key2: 'value' } }
-      )
-    ).toEqual({
-      key1: { key2: 'value' },
-    })
-    expect(
-      extendGracefully(
-        { key1: { key2: 'value' } },
-        { key1: { key2: null } }
-      )
-    ).toEqual({
-      key1: { key2: 'value' },
-    })
-    expect(
-      extendGracefully(
-        { key1: { key2: 'value' } },
-        { key1: { key2: null, foo: 'bar' } }
-      )
-    ).toEqual({
-      key1: { key2: 'value', foo: 'bar' },
-    })
   })
 })
 
@@ -460,64 +419,34 @@ describe('"extendDeep" should', () => {
   })
 })
 
-describe('"isTrue" should', () => {
-  it('return true if we provide true as boolean', () => {
-    expect(isTrue(true)).toBe(true)
-  })
-  it('return true if we provide true as string', () => {
-    expect(isTrue('true')).toBe(true)
-  })
-  it('return true if we provide 1 as number', () => {
-    expect(isTrue(1)).toBe(true)
-  })
-  it('return false if we provide a invalid value', () => {
-    expect(isTrue(0)).toBe(false)
-    expect(isTrue(null)).toBe(false)
-    expect(isTrue(undefined)).toBe(false)
-    expect(isTrue('something')).toBe(false)
-  })
-})
-
 describe('"dispatchCustomElementEvent" should', () => {
-  it('emit snake case and camel case events', () => {
-    const my_event = jest.fn()
+  it('emit camel case events', () => {
     const myEvent = jest.fn()
     const instance = {
       props: {
-        my_event,
         myEvent,
       },
     }
 
     const eventObject = {}
 
-    dispatchCustomElementEvent(instance, 'my_event', eventObject)
-    expect(my_event).toHaveBeenCalledTimes(1)
-    expect(myEvent).toHaveBeenCalledTimes(1)
-
-    // dispatchCustomElementEvent(instance, 'my_event', eventObject)
     dispatchCustomElementEvent(instance, 'myEvent', eventObject)
-    expect(my_event).toHaveBeenCalledTimes(2)
-    expect(myEvent).toHaveBeenCalledTimes(2)
+    expect(myEvent).toHaveBeenCalledTimes(1)
   })
 
   it('emit an event and return its event properties, including custom properties', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
     const instance = {
       props: {
-        my_event,
         myEvent,
       },
     }
 
-    const keyCode = 13
-    const event = new KeyboardEvent('keydown', { keyCode })
+    const event = new KeyboardEvent('keydown', { key: 'Enter' })
     const data = { foo: 'bar' }
     const eventObject = { event, data }
-    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    dispatchCustomElementEvent(instance, 'myEvent', eventObject)
 
-    expect(my_event).toHaveBeenCalledTimes(1)
     expect(myEvent).toHaveBeenCalledTimes(1)
 
     const eventResult = {
@@ -527,35 +456,7 @@ describe('"dispatchCustomElementEvent" should', () => {
       event,
       isTrusted: false,
     }
-    expect(my_event).toHaveBeenCalledWith(eventResult)
     expect(myEvent).toHaveBeenCalledWith(eventResult)
-  })
-
-  it('call an event and return dataset properties as well "data-*" attributes', () => {
-    const my_event = jest.fn()
-    const instance = {
-      props: {
-        my_event,
-      },
-    }
-    const buttonText = 'Button'
-    render(<button data-prop="value">{buttonText}</button>)
-
-    const currentTarget = screen.getByRole('button', {
-      name: buttonText,
-    })
-    const event = { currentTarget }
-    const attributes = {
-      'data-attr': 'value',
-    }
-    dispatchCustomElementEvent(instance, 'my_event', { event, attributes })
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].event.currentTarget.dataset).toEqual(
-      expect.objectContaining({
-        attr: 'value',
-        prop: 'value',
-      })
-    )
   })
 })
 
@@ -589,18 +490,6 @@ describe('"findElementInChildren" should', () => {
 describe('"toPascalCase" should', () => {
   it('transform a snake case event name to a React event case', () => {
     expect(toPascalCase('my_component')).toBe('MyComponent')
-  })
-})
-
-describe('"toCamelCase" should', () => {
-  it('transform a snake case event name to a React event case', () => {
-    expect(toCamelCase('my_event_is_long')).toBe('myEventIsLong')
-  })
-})
-
-describe('"toSnakeCase" should', () => {
-  it('transform a camel case event name to snake case', () => {
-    expect(toSnakeCase('MyEventIsLong')).toBe('my_event_is_long')
   })
 })
 
@@ -697,21 +586,6 @@ describe('"roundToNearest" should', () => {
   })
   it('round to 0 if too much under is given', () => {
     expect(roundToNearest(7, 16)).toEqual(0)
-  })
-})
-
-describe('"matchAll" should', () => {
-  it('match correct parts from a string', () => {
-    const content = `
-      color: var(--color-one);
-      background-color: var(--color-two);
-    `
-    expect(matchAll(content, /var\(([^)]*)\)/g)).toEqual(
-      expect.arrayContaining([
-        expect.arrayContaining(['var(--color-one)', '--color-one']),
-        expect.arrayContaining(['var(--color-two)', '--color-two']),
-      ])
-    )
   })
 })
 

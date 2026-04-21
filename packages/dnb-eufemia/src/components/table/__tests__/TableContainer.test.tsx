@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Table from '../Table'
-import TableContainer, { TableContainerAllProps } from '../TableContainer'
+import type { TableContainerAllProps } from '../TableContainer'
+import TableContainer from '../TableContainer'
 import { H2, P } from '../../../elements'
 
 describe('TableContainer', () => {
@@ -133,5 +134,14 @@ describe('TableContainer', () => {
     expect(Array.from(element.classList)).toContain(
       'dnb-space__top--large'
     )
+  })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<MockElement top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-table__container')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--padding-t-s')
   })
 })

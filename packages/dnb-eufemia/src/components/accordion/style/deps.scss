@@ -3,6 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../icon/style/deps.scss';
-@import './dnb-accordion.scss';
+@use '../../icon/style/deps.scss';
+@use './dnb-accordion.scss';

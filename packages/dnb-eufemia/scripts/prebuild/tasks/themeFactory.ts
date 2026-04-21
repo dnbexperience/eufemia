@@ -32,7 +32,7 @@ export const editAdvice = `
 $THEME_FALLBACK: 'ui';
 
 // Import shared styles
-@import '../../dnb-ui-<file>.scss';
+@use '../../dnb-ui-<file>.scss';
 `
 
 const insertBelowTitle =
@@ -46,7 +46,7 @@ export const insertBelowAdvice = `
 `
 
 const baseGlob = '**/src/style/themes/**/*.scss'
-const baseMatch = /\/themes\/theme-(.*)\//
+const baseMatch = /\/themes\/(.*)\//
 const processToNamesIgnoreList = [
   '!**/__tests__/',
   '!**/stories/',
@@ -79,7 +79,7 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@import './${name}-theme-forms.scss';`,
+    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -183,7 +183,7 @@ export async function runFactory({
     }
 
     await asyncForEach(themesWithRelatedFiles, async ({ name, files }) => {
-      const file = `${scssOutputPath}/theme-${name}/${name}-theme-${targetFile}.scss`
+      const file = `${scssOutputPath}/${name}/${name}-theme-${targetFile}.scss`
 
       let fileContent = ''
 
@@ -228,12 +228,14 @@ export async function runFactory({
     })
   } catch (e) {
     log.fail(`There was an error when creating ${scssOutputPath}!`)
+    // @ts-expect-error - strictFunctionTypes
     ErrorHandler(e)
   }
 
   if (returnResult) {
     return collectedOutput
   }
+  return undefined
 }
 
 /**
@@ -324,7 +326,7 @@ async function collectRelatedThemeFiles(themeSources: ThemeSources) {
     const files = list.reduce((acc, { source }) => {
       const path = packpath.self()
       acc.push(
-        `\n@import '${source.replace(
+        `\n@use '${source.replace(
           new RegExp(`${path}/src/`, 'g'),
           '../../../'
         )}';`

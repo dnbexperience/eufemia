@@ -1,4 +1,4 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../style/heading-spacing.scss' as headingCardSpacing;
 
 .dnb-forms-main-heading {
   // Reset inherited spacing
@@ -7,6 +7,8 @@
       margin: 0;
     }
   }
+
+  @include headingCardSpacing.headingSpacing();
 }
 
 .dnb-forms-main-heading + .dnb-help-button__content {

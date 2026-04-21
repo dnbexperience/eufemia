@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { StringProperties } from '../String/StringDocs'
 
 export const PasswordProperties: PropertiesTableProps = {
@@ -13,7 +13,7 @@ export const PasswordProperties: PropertiesTableProps = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  innerRef: {
+  ref: {
     doc: '`ElementRef` passed on to the password `input` element.',
     type: 'React.RefObject',
     status: 'optional',

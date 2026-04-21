@@ -1,12 +1,14 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
@@ -18,77 +20,76 @@ import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
-   * Aria label to describe the badge
-   * Default: null
+   * The label description of the badge. Only required when passing a number as the badge content.
    */
   label?: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: null
+   * Applies loading skeleton.
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 
   /**
    * The content to display the badge on top of.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The content of the component.
-   * Default: null
+   * Default: `null`
    */
   content?: string | number | React.ReactNode
 
   /**
    * The vertical positioning of the component.
-   * Default: null
+   * Default: `null`
    */
   vertical?: 'bottom' | 'top'
 
   /**
    * The horizontal positioning of the component.
-   * Default: null
+   * Default: `null`
    */
   horizontal?: 'left' | 'right'
 
   /**
    * The variant of the component.
-   * Default: "information".
+   * Default: `information`
    */
   variant?: 'information' | 'notification' | 'content'
 
   /**
    * Defines the status color of the `"information"` variant. Has no effect on other variants.
-   * Default: "default".
+   * Default: `default`
    */
   status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
   /**
    * Applies subtle style to `"information"` variant. Has no effect on other variants.
-   * Default: false.
+   * Default: `false`
    */
   subtle?: boolean
   /**
    * Removes the badge without removing children. Useful when Badge wraps content.
-   * Default: false
+   * Default: `false`
    */
   hideBadge?: boolean
 }
 
-type BadgeAndSpacingProps = BadgeProps &
+export type BadgeAllProps = BadgeProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
 
-type BadgeElemProps = BadgeAndSpacingProps & { context: ContextProps }
+type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
-export const defaultProps: BadgeAndSpacingProps = {
+export const defaultProps: BadgeAllProps = {
   label: null,
   className: null,
   skeleton: false,
@@ -102,7 +103,7 @@ export const defaultProps: BadgeAndSpacingProps = {
   hideBadge: false,
 }
 
-function Badge(localProps: BadgeAndSpacingProps) {
+function Badge(localProps: BadgeAllProps) {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -114,11 +115,10 @@ function Badge(localProps: BadgeAndSpacingProps) {
     { skeleton: context?.skeleton }
   )
   const { children, className } = allProps
-  const spacingClasses = createSpacingClasses(allProps)
 
   if (children) {
     return (
-      <BadgeRoot className={classnames(spacingClasses)}>
+      <BadgeRoot {...applySpacing(allProps, {})}>
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -129,7 +129,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     <BadgeElem
       context={context}
       {...allProps}
-      className={classnames(spacingClasses, className)}
+      {...applySpacing(allProps, { className })}
     />
   )
 }
@@ -137,12 +137,14 @@ function Badge(localProps: BadgeAndSpacingProps) {
 function BadgeRoot({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode
   className?: string
+  style?: React.CSSProperties
 }) {
   return (
-    <span className={classnames('dnb-badge__root', className)}>
+    <span className={clsx('dnb-badge__root', className)} style={style}>
       {children}
     </span>
   )
@@ -150,8 +152,8 @@ function BadgeRoot({
 
 /** Ensures props that only affect certain variants are reset to default */
 function propGuard(
-  fn: (props: BadgeElemProps) => JSX.Element | null
-): (props: BadgeElemProps) => JSX.Element | null {
+  fn: (props: BadgeElemProps) => React.JSX.Element | null
+): (props: BadgeElemProps) => React.JSX.Element | null {
   return (props) => {
     if (props.variant !== 'information') {
       return fn({
@@ -205,7 +207,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   return (
     <span
       role="status"
-      className={classnames(
+      className={clsx(
         'dnb-badge',
         variant !== 'content' && `dnb-badge--variant-${variant}`,
         horizontal && `dnb-badge--horizontal-${horizontal}`,
@@ -226,6 +228,8 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   )
 })
 
-Badge._supportsSpacingProps = true
+withComponentMarkers(Badge, {
+  _supportsSpacingProps: true,
+})
 
 export default Badge

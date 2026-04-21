@@ -6,18 +6,16 @@ import React, {
   useEffect,
   useContext,
 } from 'react'
-import pointer, { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer'
+import pointer from '../../utils/json-pointer'
+import type { z, FormError } from '../../utils'
+import type { AjvInstance } from '../../utils/ajv'
 import {
-  z,
-  Ajv,
-  makeAjvInstance,
-  ajvErrorsToFormErrors,
-  FormError,
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
-import {
+import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
@@ -39,15 +37,16 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import SharedContext, { ContextProps } from '../../../../shared/Context'
+import type { ContextProps } from '../../../../shared/Context'
+import SharedContext from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import { appendPath } from '../../hooks/usePath'
-import DataContext, {
+import type {
   ContextState,
   EventListenerCall,
   FieldInternalsRef,
@@ -60,6 +59,7 @@ import DataContext, {
   DataPathHandlerParameters,
   SectionSchemaRegistration,
 } from '../Context'
+import DataContext from '../Context'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -77,12 +77,12 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-  fieldStatusRef?: React.MutableRefObject<Record<Path, EventStateObject>>
+  fieldStatusRef?: React.RefObject<Record<Path, EventStateObject>>
   fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }
 
-export type Props<Data extends JsonObject> =
+export type DataContextProviderProps<Data extends JsonObject> =
   IsolationProviderProps<Data> & {
     /**
      * Unique ID to communicate with the hook Form.useData
@@ -111,15 +111,11 @@ export type Props<Data extends JsonObject> =
     /**
      * Custom Ajv instance, if you want to use your own
      */
-    ajvInstance?: Ajv
+    ajvInstance?: AjvInstance
     /**
      * Custom error messages for the whole data set
      */
     errorMessages?: GlobalErrorMessagesWithPaths
-    /**
-     * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
-     */
-    filterSubmitData?: FilterData
     /**
      * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
      */
@@ -212,7 +208,7 @@ export type Props<Data extends JsonObject> =
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>(
-  props: Props<Data>
+  props: DataContextProviderProps<Data>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -238,7 +234,6 @@ export default function Provider<Data extends JsonObject>(
     ajvInstance,
     transformIn,
     transformOut,
-    filterSubmitData,
     countryCode,
     locale,
     translations,
@@ -270,16 +265,13 @@ export default function Provider<Data extends JsonObject>(
   const translation = useTranslation().Field
 
   // - Ajv (lazy initialization)
-  const ajvRef = useRef<Ajv>()
-  const getAjvInstance = useCallback(
-    (instance = ajvInstance) => {
-      if (!ajvRef.current) {
-        ajvRef.current = makeAjvInstance(instance)
-      }
-      return ajvRef.current
-    },
-    [ajvInstance]
-  )
+  const ajvRef = useRef<AjvInstance>(undefined)
+  const getAjvInstance = useCallback(() => {
+    if (!ajvRef.current) {
+      ajvRef.current = ajvInstance
+    }
+    return ajvRef.current
+  }, [ajvInstance])
 
   // Warn if JSON Schema is provided but no custom ajvInstance prop was passed
   useEffect(() => {
@@ -303,7 +295,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
-  const errorsRef = useRef<Record<Path, FormError> | undefined>()
+  const errorsRef = useRef<Record<Path, FormError> | undefined>(undefined)
   const addSetShowAllErrorsRef = useRef<
     Array<(showAllErrors: boolean) => void>
   >([])
@@ -326,7 +318,7 @@ export default function Provider<Data extends JsonObject>(
 
       sectionSchemasRef.current.forEach(({ path, schema, validator }) => {
         if (!validator) {
-          return
+          return undefined
         }
 
         const normalizedPath = path || '/'
@@ -334,12 +326,12 @@ export default function Provider<Data extends JsonObject>(
           normalizedPath === '/'
             ? internalDataRef.current
             : pointer.has(internalDataRef.current, normalizedPath)
-            ? pointer.get(internalDataRef.current, normalizedPath)
-            : undefined
+              ? pointer.get(internalDataRef.current, normalizedPath)
+              : undefined
 
         const validationResult = validator(sectionData)
         if (validationResult === true) {
-          return
+          return undefined
         }
 
         let errors: Record<Path, FormError> = {}
@@ -353,7 +345,10 @@ export default function Provider<Data extends JsonObject>(
           const ajvValidator = validator as ValidateFunction
           const ajvErrors = ajvValidator.errors
           if (ajvErrors && ajvErrors.length) {
-            errors = ajvErrorsToFormErrors(ajvErrors, sectionData)
+            errors = getAjvInstance()?.ajvErrorsToFormErrors(
+              ajvErrors,
+              sectionData
+            )
           }
         }
 
@@ -395,8 +390,8 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Progress
-  const formStateRef = useRef<SubmitState>()
-  const activeSubmitButtonIdRef = useRef<string>()
+  const formStateRef = useRef<SubmitState>(undefined)
+  const activeSubmitButtonIdRef = useRef<string>(undefined)
   const keepPending = useRef(false)
   const setFormState = useCallback<ContextState['setFormState']>(
     (formState: SubmitState, options = {}) => {
@@ -457,7 +452,7 @@ export default function Provider<Data extends JsonObject>(
     validator: UnifiedValidator
   }
 
-  const ajvValidatorRef = useRef<UnifiedValidator>()
+  const ajvValidatorRef = useRef<UnifiedValidator>(undefined)
   const sectionSchemasRef = useRef<Map<symbol, SectionSchemaEntry>>(
     new Map()
   )
@@ -524,7 +519,7 @@ export default function Provider<Data extends JsonObject>(
           )
         } else {
           // These are AJV errors, use the existing conversion
-          errorsRef.current = ajvErrorsToFormErrors(
+          errorsRef.current = getAjvInstance()?.ajvErrorsToFormErrors(
             errors as ErrorObject<string, Record<string, unknown>>[],
             internalDataRef.current
           )
@@ -644,9 +639,6 @@ export default function Provider<Data extends JsonObject>(
         props,
         data: internalDataRef.current, // always use the internal data
         error,
-
-        /** @deprecated – can be removed in v11 */
-        internal: { error },
       }
     },
     []
@@ -737,7 +729,7 @@ export default function Provider<Data extends JsonObject>(
               ) => {
                 if (idx === parts.length - 1) {
                   wildcardPaths.push({ path: subPath, condition })
-                  return
+                  return undefined
                 }
                 const list = pointer.get(subData, subPath)
                 if (Array.isArray(list)) {
@@ -1038,7 +1030,7 @@ export default function Provider<Data extends JsonObject>(
       return () => {
         const entry = sectionSchemasRef.current.get(registration.id)
         if (!entry) {
-          return // stop here
+          return undefined // stop here
         }
 
         sectionSchemasRef.current.delete(registration.id)
@@ -1079,9 +1071,6 @@ export default function Provider<Data extends JsonObject>(
       if (id) {
         // Will ensure that Form.getData() gets the correct data
         extendSharedData(newData, { preventSyncOfSameInstance: true })
-        if (filterSubmitData) {
-          rerenderUseDataHook?.()
-        }
       }
 
       if (sessionStorageId && typeof window !== 'undefined') {
@@ -1094,10 +1083,8 @@ export default function Provider<Data extends JsonObject>(
     },
     [
       extendSharedData,
-      filterSubmitData,
       id,
       mutateDataHandler,
-      rerenderUseDataHook,
       sessionStorageId,
       storeInSession,
       transformIn,
@@ -1110,7 +1097,7 @@ export default function Provider<Data extends JsonObject>(
   const updateDataValue: ContextState['updateDataValue'] = useCallback(
     (path, value, { preventUpdate } = {}) => {
       if (!path) {
-        return
+        return undefined
       }
 
       const givenData = (
@@ -1118,8 +1105,8 @@ export default function Provider<Data extends JsonObject>(
           ? // When setting the root of the data, the whole data set should be the new value
             value
           : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
-            internalDataRef.current ??
-            (path.match(isArrayJsonPointer) ? [] : {})
+            (internalDataRef.current ??
+            (path.match(isArrayJsonPointer) ? [] : {}))
       ) as Data
 
       let newData: Data = null
@@ -1433,16 +1420,15 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
 
-        const submitRequestResult = await resolveStateResult(
-          () =>
-            onSubmitRequest?.({
-              getErrors: () =>
-                Object.keys(fieldErrorRef.current)
-                  .map((path) => {
-                    return getDataPathHandlerParameters(path)
-                  })
-                  .filter(({ error }) => error),
-            })
+        const submitRequestResult = await resolveStateResult(() =>
+          onSubmitRequest?.({
+            getErrors: () =>
+              Object.keys(fieldErrorRef.current)
+                .map((path) => {
+                  return getDataPathHandlerParameters(path)
+                })
+                .filter(({ error }) => error),
+          })
         )
 
         applySubmitState(submitRequestResult)
@@ -1483,18 +1469,10 @@ export default function Provider<Data extends JsonObject>(
       ? mutateDataHandler(data, transformOut)
       : data
 
-    // @deprecated – can be removed in v11 (use only mutatedData instead)
-    const filteredData = filterSubmitData
-      ? filterDataHandler(mutatedData, filterSubmitData)
-      : mutatedData
+    const filteredData = mutatedData
 
     return filteredData
-  }, [
-    filterDataHandler,
-    filterSubmitData,
-    mutateDataHandler,
-    transformOut,
-  ])
+  }, [mutateDataHandler, transformOut])
 
   const getSubmitParams = useCallback(() => {
     const reduceToVisibleFields: VisibleDataHandler<Data> = (
@@ -1572,7 +1550,7 @@ export default function Provider<Data extends JsonObject>(
           }
         }
         if (stop) {
-          return // stop here
+          return undefined // stop here
         }
 
         const data = getSubmitData()
@@ -1633,7 +1611,7 @@ export default function Provider<Data extends JsonObject>(
   )
 
   // Handle unresolved field states during async submit
-  const onSubmitContinueRef = useRef<() => void>(null)
+  const onSubmitContinueRef = useRef<(() => void) | null>(null)
   if (!hasFieldState('pending')) {
     onSubmitContinueRef.current?.()
     onSubmitContinueRef.current = null
@@ -1690,15 +1668,11 @@ export default function Provider<Data extends JsonObject>(
         },
         { preventSyncOfSameInstance: true }
       )
-      if (filterSubmitData) {
-        rerenderUseDataHook?.()
-      }
     }
   }, [
     clearData,
     extendAttachment,
     filterDataHandler,
-    filterSubmitData,
     hasErrors,
     hasFieldError,
     id,
@@ -1723,8 +1697,8 @@ export default function Provider<Data extends JsonObject>(
     typeof rest?.['disabled'] === 'boolean'
       ? rest?.['disabled']
       : formState === 'pending'
-      ? true
-      : undefined
+        ? true
+        : undefined
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
@@ -1767,10 +1741,12 @@ export default function Provider<Data extends JsonObject>(
     updateDataValue,
     setData,
     clearData,
-    visibleDataHandler,
-    filterDataHandler,
+    visibleDataHandler:
+      visibleDataHandler as ContextState['visibleDataHandler'],
+    filterDataHandler:
+      filterDataHandler as ContextState['filterDataHandler'],
     getSubmitData,
-    getSubmitParams,
+    getSubmitParams: getSubmitParams as ContextState['getSubmitParams'],
     addOnChangeHandler,
     scrollToTop,
     registerSectionSchema,
@@ -1810,7 +1786,7 @@ export default function Provider<Data extends JsonObject>(
     id,
     data: internalDataRef.current,
     internalDataRef,
-    props,
+    props: props as ContextState['props'],
     ...rest,
   }
 
@@ -1842,7 +1818,7 @@ export default function Provider<Data extends JsonObject>(
   ])
 
   return (
-    <DataContext.Provider value={contextValue}>
+    <DataContext value={contextValue}>
       <FieldPropsProvider
         FormStatus={formStatusConfig}
         formElement={disabled ? { disabled: true } : undefined}
@@ -1851,13 +1827,13 @@ export default function Provider<Data extends JsonObject>(
       >
         {children}
       </FieldPropsProvider>
-    </DataContext.Provider>
+    </DataContext>
   )
 }
 
 type FormStatusBufferProps = {
-  minimumAsyncBehaviorTime?: Props<JsonObject>['minimumAsyncBehaviorTime']
-  asyncSubmitTimeout?: Props<JsonObject>['asyncSubmitTimeout']
+  minimumAsyncBehaviorTime?: DataContextProviderProps<JsonObject>['minimumAsyncBehaviorTime']
+  asyncSubmitTimeout?: DataContextProviderProps<JsonObject>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void
@@ -1873,7 +1849,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   } = props || {}
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const stateRef = useRef<SubmitState>()
+  const stateRef = useRef<SubmitState>(undefined)
   const nowRef = useRef<number | null>(null)
   const timeoutRef = useRef<{
     complete?: NodeJS.Timeout | null
@@ -1893,7 +1869,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   }, [])
 
   const hadCompleteRef = useRef(false)
-  const activeElementRef = useRef<HTMLElement>(null)
+  const activeElementRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     // This offset is used to calculate the delay,
@@ -1909,7 +1885,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     if (stateRef.current && formState === 'error') {
       clear()
       setState(undefined)
-      return
+      return undefined
     }
 
     if (formState === 'abort') {
@@ -1920,7 +1896,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
         nowRef.current = 0
         setState(undefined)
       }, minimum)
-      return
+      return undefined
     }
 
     if (formState === 'complete') {

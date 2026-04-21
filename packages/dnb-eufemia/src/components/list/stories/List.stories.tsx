@@ -239,7 +239,7 @@ export function ListFooterWithButtons() {
         <List.Container>
           <List.Item.Basic title="Item with actions" icon={fish_medium}>
             <List.Cell.End>
-              <NumberFormat currency value={1234} />
+              <NumberFormat.Currency value={1234} />
             </List.Cell.End>
             <List.Cell.Footer>
               <Flex.Horizontal>
@@ -264,7 +264,7 @@ export function ListFooterWithButtons() {
           <List.Item.Accordion icon={fish_medium} title="Accordion title">
             <List.Item.Accordion.Header>
               <List.Cell.End>
-                <NumberFormat currency value={1234} />
+                <NumberFormat.Currency value={1234} />
               </List.Cell.End>
               <List.Cell.Footer>
                 <Button
@@ -505,7 +505,7 @@ export function ListBorders() {
                 title={agreement.agreementName}
               >
                 <List.Cell.End>
-                  <NumberFormat currency value={agreement.amount} />
+                  <NumberFormat.Currency value={agreement.amount} />
                 </List.Cell.End>
               </List.Item.Action>
             ))}
@@ -524,7 +524,7 @@ export function ListBorders() {
               title={agreement.agreementName}
             >
               <List.Cell.End>
-                <NumberFormat currency value={agreement.amount} />
+                <NumberFormat.Currency value={agreement.amount} />
               </List.Cell.End>
             </List.Item.Basic>
           ))}
@@ -542,7 +542,7 @@ export function ListBorders() {
               title={agreement.agreementName}
             >
               <List.Cell.End>
-                <NumberFormat currency value={agreement.amount} />
+                <NumberFormat.Currency value={agreement.amount} />
               </List.Cell.End>
             </List.Item.Action>
           ))}

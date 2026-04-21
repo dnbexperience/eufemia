@@ -116,7 +116,7 @@ The `fileHandler` is a handler function that supports both asynchronous and sync
 
 Return an array of [file item objects](/uilib/components/upload/properties/#fileitem) with the same or modified properties:
 
-- **Set a new `id`**: Typically from a server response after uploading (e.g., `id: data.server_generated_id`).
+- **Set a new `id`**: Typically from a server response after uploading (e.g., `id: data.serverGeneratedId`).
 - **Add `errorMessage`**: To indicate upload failure and display an error message next to the file.
 - **Modify other properties**: Such as `description`, `removeDeleteButton`, `removeLink`, etc.
 
@@ -138,7 +138,7 @@ async function virusCheck(newFiles) {
       .then((data) => {
         return {
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         }
       })
       .catch((error) => {

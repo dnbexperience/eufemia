@@ -1,18 +1,21 @@
 import React from 'react'
-import StringValue, { Props as StringValueProps } from '../String'
+import type { ValueStringProps as StringValueProps } from '../String'
+import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = StringValueProps
+export type ValueEmailProps = StringValueProps
 
-function Email(props: Props) {
+function Email(props: ValueEmailProps) {
   const translations = useTranslation().Email
 
-  const stringProps: Props = {
+  const stringProps: ValueEmailProps = {
     ...props,
     label: props.label ?? translations.label,
   }
   return <StringValue {...stringProps} />
 }
 
-Email._supportsSpacingProps = true
+withComponentMarkers(Email, { _supportsSpacingProps: true })
+
 export default Email

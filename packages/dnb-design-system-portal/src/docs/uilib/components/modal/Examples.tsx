@@ -8,27 +8,23 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import { Modal, P, Button, Input, HelpButton } from '@dnb/eufemia/src'
 
-export const ExampleCard = ({ children }) => (
-  <div
-    id="example-card"
-    style={{ padding: '2rem', backgroundColor: 'white' }}
-  >
-    {children}
-  </div>
-)
-
 export const ModalExampleStandard = () => (
-  <ComponentBox data-visual-test="modal-standard" scope={{ ExampleCard }}>
+  <ComponentBox data-visual-test="modal-standard">
     <Modal>
-      <ExampleCard>
+      <div
+        style={{
+          padding: '2rem',
+          backgroundColor: 'var(--token-color-background-neutral)',
+        }}
+      >
         <P>This is a Modal that you can use to make custom variations</P>
-      </ExampleCard>
+      </div>
     </Modal>
   </ComponentBox>
 )
 
 export const ModalExampleStateOnly = () => (
-  <ComponentBox scope={{ ExampleCard }}>
+  <ComponentBox>
     {() => {
       const Component = () => {
         const [modalIsActive, setModalState] = React.useState(false)
@@ -37,18 +33,23 @@ export const ModalExampleStateOnly = () => (
             <Button
               id="custom-triggerer"
               text="Custom trigger Button"
-              on_click={() => setModalState((s) => !s)}
+              onClick={() => setModalState((s) => !s)}
             />
             <Modal
               title="Modal Title"
-              omit_trigger_button
-              open_state={modalIsActive}
-              labelled_by="custom-triggerer"
-              on_close={() => setModalState(false)}
+              omitTriggerButton
+              open={modalIsActive}
+              labelledBy="custom-triggerer"
+              onClose={() => setModalState(false)}
             >
-              <ExampleCard>
+              <div
+                style={{
+                  padding: '2rem',
+                  backgroundColor: 'var(--token-color-background-neutral)',
+                }}
+              >
                 <P>This Modal was opened by a custom trigger button.</P>
-              </ExampleCard>
+              </div>
             </Modal>
           </>
         )
@@ -60,20 +61,25 @@ export const ModalExampleStateOnly = () => (
 )
 
 export const ModalExampleCloseByHandler = () => (
-  <ComponentBox scope={{ ExampleCard }}>
+  <ComponentBox>
     <Modal
       title="Auto close"
       triggerAttributes={{ text: 'Click me' }}
-      align_content="center"
-      max_width="40rem"
-      close_modal={(close) => {
+      alignContent="center"
+      maxWidth="40rem"
+      closeModal={(close) => {
         const timeout = setTimeout(close, 3e3)
         return () => clearTimeout(timeout)
       }}
     >
-      <ExampleCard>
+      <div
+        style={{
+          padding: '2rem',
+          backgroundColor: 'var(--token-color-background-neutral)',
+        }}
+      >
         <P>This Modal will close in 3 seconds.</P>
-      </ExampleCard>
+      </div>
     </Modal>
   </ComponentBox>
 )

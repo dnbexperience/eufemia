@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
-export const textareaProperties: PropertiesTableProps = {
+export const TextareaProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the Textarea.',
     type: 'string',
     status: 'optional',
   },
   align: {
-    doc: 'Defines the `text-align` of the Textarea. Defaults to `left`.',
-    type: 'string',
+    doc: 'Defines the `text-align` of the Textarea. Can be `left`, `center`, `right`, or `justify`. Defaults to `left`.',
+    type: ['"left"', '"center"', '"right"', '"justify"'],
     status: 'optional',
   },
   stretch: {
@@ -28,30 +28,30 @@ export const textareaProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'string',
+  labelDirection: {
+    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
-  autoresize: {
+  autoResize: {
     doc: 'Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.',
     type: 'boolean',
     status: 'optional',
   },
-  autoresize_max_rows: {
+  autoResizeMaxRows: {
     doc: 'Set a number to define how many rows the Textarea can auto grow.',
     type: 'number',
     status: 'optional',
@@ -63,20 +63,26 @@ export const textareaProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
-    type: 'string',
+    type: ['"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  status_state: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+  statusState: {
+    doc: 'Defines the state of the status. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -86,13 +92,13 @@ export const textareaProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  textarea_state: {
-    doc: 'To control the visual focus state as a prop, like `focus` or `blur`.',
+  textareaState: {
+    doc: 'To control the visual focus state as a property, like `focus` or `blur`.',
     type: 'string',
     status: 'optional',
   },
-  inner_ref: {
-    doc: 'By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a `React.Ref` we can get the internally used Textarea element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
@@ -108,23 +114,23 @@ export const textareaProperties: PropertiesTableProps = {
   },
 }
 
-export const textareaEvents: PropertiesTableProps = {
-  on_change: {
+export const TextareaEvents: PropertiesTableProps = {
+  onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
+  onFocus: {
     doc: 'Will be called on the focus set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_blur: {
+  onBlur: {
     doc: 'Will be called on blur set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_key_down: {
+  onKeyDown: {
     doc: 'Will be called during every keystroke. Returns `{ value, rows, event }`.',
     type: 'function',
     status: 'optional',

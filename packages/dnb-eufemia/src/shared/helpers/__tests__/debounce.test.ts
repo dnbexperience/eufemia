@@ -54,7 +54,7 @@ describe('debounce', () => {
 
     const debounced = debounce(
       // Needs to be a function (so we can use "this")
-      function () {
+      function (this: typeof instance) {
         expect(this).toBe(instance)
         expect(this.property).toBe(instance.property)
       },
@@ -208,7 +208,9 @@ describe('debounceAsync', () => {
     const onCancel = jest.fn()
     let wasCanceled = undefined
 
-    const debounced = debounceAsync(async function () {
+    const debounced = debounceAsync(async function (this: {
+      addCancelEvent: (fn: () => void) => () => boolean
+    }) {
       wasCanceled = this.addCancelEvent(onCancel)
     }, delay)
 

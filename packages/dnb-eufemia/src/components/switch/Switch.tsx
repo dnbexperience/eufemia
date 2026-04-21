@@ -1,5 +1,6 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { KeyboardEvent } from 'react'
 import React, {
-  KeyboardEvent,
   useCallback,
   useContext,
   useEffect,
@@ -7,7 +8,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
@@ -16,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -25,15 +26,11 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, {
-  FormStatusState,
-  FormStatusText,
-} from '../form-status/FormStatus'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import type { FormStatusBaseProps } from '../form-status/FormStatus'
+import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
-import { GlobalStatusConfigObject } from '../GlobalStatus'
-import { SkeletonShow } from '../Skeleton'
-import { SpacingProps } from '../space/types'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../../shared/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'
@@ -62,7 +59,7 @@ export type SwitchProps = {
    */
   labelSrOnly?: boolean
   /**
-   * <em>(required)</em> the `title` of the input - describing it a bit further for accessibility reasons.
+   * The `title` of the input - describing it a bit further for accessibility reasons.
    */
   title?: string
   /**
@@ -75,23 +72,6 @@ export type SwitchProps = {
    * The size of the switch. For now there is "medium" (default) and "large".
    */
   size?: SwitchSize
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: Record<string, unknown>
-  /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  globalStatus?: GlobalStatusConfigObject
-  statusNoAnimation?: boolean
   /**
    * Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.
    */
@@ -117,45 +97,24 @@ export type SwitchProps = {
    */
   onClick?: (args: SwitchOnClickParams) => void
   onChangeEnd?: SwitchOnChange
-  onStateUpdate?: SwitchOnChange
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  innerRef?:
-    | React.MutableRefObject<HTMLInputElement>
+  ref?:
+    | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
-} & Omit<
-  React.HTMLProps<HTMLElement>,
-  'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
-> &
-  SpacingProps &
-  DeprecatedSwitchProps
+} & FormStatusBaseProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'ref' | 'size' | 'onChange' | 'onClick' | 'label'
+  > &
+  SpacingProps
 
-// deprecated, can be removed in v11
-type DeprecatedSwitchProps = {
-  /**  @deprecated use `labelPosition` */
-  label_position?: SwitchLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
-  /**  @deprecated use `statusState` */
-  status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: Record<string, unknown>
-  /**  @deprecated use `onChange` */
-  on_change?: SwitchOnChange
-  /**  @deprecated use `onChangeEnd` */
-  on_change_end?: SwitchOnChange
-  /**  @deprecated use `onStateUpdate` */
-  on_state_update?: SwitchOnChange
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
-
-const defaultProps = {
+const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
-export default function Switch(props: SwitchProps) {
+function Switch(props: SwitchProps) {
   const context = useContext(Context)
 
   const allProps = extractPropsFromContext()
@@ -182,15 +141,15 @@ export default function Switch(props: SwitchProps) {
     onChange,
     onChangeEnd,
     onClick,
-    innerRef: innerRefProp,
+    ref: refProp,
     ...rest
   } = allProps
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
-  const isFn = typeof innerRefProp === 'function'
-  const refHook = useRef<HTMLInputElement>()
-  const innerRef = (!isFn && innerRefProp) || refHook
+  const isFn = typeof refProp === 'function'
+  const refHook = useRef<HTMLInputElement>(undefined)
+  const inputRef = (!isFn && refProp) || refHook
 
   const preventChangeRef = useRef(false)
   const isCheckedRef = useRef(checkedProp ?? false)
@@ -198,9 +157,9 @@ export default function Switch(props: SwitchProps) {
 
   useEffect(() => {
     if (isFn) {
-      innerRefProp?.(refHook.current)
+      refProp?.(refHook.current)
     }
-  }, [innerRefProp, isFn, refHook])
+  }, [refProp, isFn, refHook])
 
   useEffect(() => {
     if (checkedProp !== prevCheckedRef.current) {
@@ -230,9 +189,6 @@ export default function Switch(props: SwitchProps) {
       callOnChange({ checked: updatedChecked, event })
 
       if (onChangeEnd) {
-        if (event && event.persist) {
-          event.persist()
-        }
         setTimeout(
           () => onChangeEnd({ checked: updatedChecked, event }),
           500
@@ -240,11 +196,11 @@ export default function Switch(props: SwitchProps) {
       }
 
       // help firefox and safari to have a correct state after a click
-      if (innerRef.current) {
-        innerRef.current.focus()
+      if (inputRef.current) {
+        inputRef.current.focus()
       }
     },
-    [callOnChange, innerRef, onChangeEnd]
+    [callOnChange, inputRef, onChangeEnd]
   )
 
   const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
@@ -287,18 +243,17 @@ export default function Switch(props: SwitchProps) {
 
   const showStatus = useMemo(() => getStatusState(status), [status])
 
-  const mainParams = {
-    className: classnames(
+  const mainParams = applySpacing(props, {
+    className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
       status && `dnb-switch__status--${statusState}`,
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
-      createSpacingClasses(props),
       className
     ),
-  }
+  })
 
   const inputParams = {
     disabled,
@@ -338,6 +293,7 @@ export default function Switch(props: SwitchProps) {
           disabled={disabled}
           skeleton={skeleton}
           srOnly={labelSrOnly}
+          vertical={false}
         />
       ),
     [disabled, id, label, labelSrOnly, skeleton]
@@ -356,11 +312,11 @@ export default function Switch(props: SwitchProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            width_selector={id + ', ' + id + '-label'}
+            widthSelector={id + ', ' + id + '-label'}
             text={status}
             state={statusState}
             skeleton={skeleton}
-            no_animation={statusNoAnimation}
+            noAnimation={statusNoAnimation}
             {...statusProps}
           />
 
@@ -377,7 +333,7 @@ export default function Switch(props: SwitchProps) {
                 aria-checked={isCheckedRef.current}
                 className="dnb-switch__input"
                 value={isCheckedRef.current ? value || '' : ''}
-                ref={innerRef}
+                ref={inputRef}
                 {...inputParams}
                 onChange={onChangeHandler}
                 onClick={onClickHandler}
@@ -391,16 +347,12 @@ export default function Switch(props: SwitchProps) {
                 {...helperParams}
               />
               <span
-                className={classnames(
+                className={clsx(
                   'dnb-switch__button',
                   createSkeletonClass('shape', skeleton, context)
                 )}
                 aria-hidden
-              >
-                <span className="dnb-switch__focus">
-                  <span className="dnb-switch__focus__inner" />
-                </span>
-              </span>
+              />
             </span>
 
             {suffix && (
@@ -420,13 +372,17 @@ export default function Switch(props: SwitchProps) {
 
   function extractPropsFromContext() {
     return extendPropsWithContext(
-      convertSnakeCaseProps(props),
+      props,
       defaultProps,
       { skeleton: context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement),
       context.Switch
     )
   }
 }
+
+withComponentMarkers(Switch, {
+  _formElement: true,
+})
+
+export default Switch

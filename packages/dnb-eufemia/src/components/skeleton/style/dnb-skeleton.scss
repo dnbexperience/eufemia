@@ -5,8 +5,6 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-
 .dnb-skeleton {
   --skeleton-delay: 5s;
   --skeleton-duration: 1.5s;
@@ -188,7 +186,7 @@
   }
 }
 
-$fonts-path: '../../assets/fonts/dnb' !default;
+$fonts-path: '../../../../assets/fonts/dnb' !default;
 
 // Skeleton-Regular
 @font-face {

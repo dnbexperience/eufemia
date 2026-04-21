@@ -3,15 +3,21 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+
+  // Set design tokens for tooltip
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
 
   z-index: var(--tooltip-z-index);
   .dnb-popover--inside-modal & {
@@ -27,7 +33,7 @@
   text-align: center;
 
   border-radius: var(--tooltip-border-radius);
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 
   &--large {
     padding: 0.25rem 0;

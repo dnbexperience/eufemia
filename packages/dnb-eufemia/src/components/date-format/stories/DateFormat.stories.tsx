@@ -25,7 +25,7 @@ const LocaleChanger = () => {
         'sv-SE': 'Svenska',
         'da-DK': 'Dansk',
       }}
-      on_change={({ data: { value } }) => {
+      onChange={({ data: { value } }) => {
         setLocale(value)
       }}
     />

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const HeightAnimationProperties: PropertiesTableProps = {
   open: {
@@ -38,11 +38,11 @@ export const HeightAnimationProperties: PropertiesTableProps = {
   },
   element: {
     doc: 'Custom HTML element for the component. Defaults to `div` HTML Element.',
-    type: 'string',
+    type: ['string', 'React.ElementType'],
     status: 'optional',
   },
-  innerRef: {
-    doc: 'Send along a custom React Ref.',
+  ref: {
+    doc: 'Send along a custom `React.Ref`.',
     type: 'React.RefObject',
     status: 'optional',
   },

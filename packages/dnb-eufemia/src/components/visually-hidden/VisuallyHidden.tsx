@@ -1,21 +1,22 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Shared
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { DynamicElement } from '../../shared/types'
 
-export interface VisuallyHiddenProps {
+export type VisuallyHiddenProps = {
   /**
    * Hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user)
-   * Default: false
+   * Default: `false`
    */
   focusable?: boolean
 
   /**
    * Root element of the component
-   * Default: span
+   * Default: `span`
    */
   element?: DynamicElement
 }
@@ -23,7 +24,7 @@ export interface VisuallyHiddenProps {
 export type VisuallyHiddenAllProps = VisuallyHiddenProps &
   React.HTMLProps<HTMLSpanElement>
 
-export const defaultProps = {
+const defaultProps: Partial<VisuallyHiddenAllProps> = {
   focusable: false,
   element: 'span',
 }
@@ -40,7 +41,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
       context?.VisuallyHidden
     )
 
-  const visuallyHiddenClassNames = classnames(
+  const visuallyHiddenClassNames = clsx(
     'dnb-visually-hidden',
     focusable ? 'dnb-visually-hidden--focusable' : 'dnb-sr-only',
     className
@@ -57,6 +58,8 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   )
 }
 
-VisuallyHidden._supportsSpacingProps = false
+withComponentMarkers(VisuallyHidden, {
+  _supportsSpacingProps: false,
+})
 
 export default VisuallyHidden

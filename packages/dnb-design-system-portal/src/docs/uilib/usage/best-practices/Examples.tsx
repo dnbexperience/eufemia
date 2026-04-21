@@ -20,10 +20,10 @@ export const PhoneNumber = () => (
   <ComponentBox hideCode omitWrapper scope={{ Table }}>
     <Ul>
       <Li>
-        <NumberFormat phone value="99999999" />
+        <NumberFormat.PhoneNumber value="99999999" />
       </Li>
       <Li>
-        <NumberFormat phone value="+4799999999" />
+        <NumberFormat.PhoneNumber value="+4799999999" />
       </Li>
     </Ul>
   </ComponentBox>
@@ -33,7 +33,7 @@ export const BankAccountNumber = () => (
   <ComponentBox hideCode omitWrapper scope={{ Table }}>
     <Ul>
       <Li>
-        <NumberFormat ban value="12340001358" />
+        <NumberFormat.BankAccountNumber value="12340001358" />
       </Li>
     </Ul>
   </ComponentBox>
@@ -43,7 +43,7 @@ export const NationalIdentificationNumber = () => (
   <ComponentBox hideCode omitWrapper scope={{ Table }}>
     <Ul>
       <Li>
-        <NumberFormat nin value="18089212345" />
+        <NumberFormat.NationalIdentityNumber value="18089212345" />
       </Li>
     </Ul>
   </ComponentBox>
@@ -53,7 +53,7 @@ export const OrganizationNumber = () => (
   <ComponentBox hideCode omitWrapper scope={{ Table }}>
     <Ul>
       <Li>
-        <NumberFormat org value="123456789" />
+        <NumberFormat.OrganizationNumber value="123456789" />
       </Li>
     </Ul>
   </ComponentBox>
@@ -67,7 +67,6 @@ export const Numbers = () => (
           <Tr noWrap>
             <Th>Variation</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -77,53 +76,43 @@ export const Numbers = () => (
           <Tr noWrap>
             <Td>Default</Td>
             <Td>
-              <NumberFormat locale="nb-NO" value={1234567.89} />
+              <NumberFormat.Number locale="nb-NO" value={1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="en-NO" value={1234567.89} />
+              <NumberFormat.Number locale="en-GB" value={1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="en-GB" value={1234567.89} />
+              <NumberFormat.Number locale="sv-SE" value={1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="sv-SE" value={1234567.89} />
-            </Td>
-            <Td>
-              <NumberFormat locale="da-DK" value={1234567.89} />
+              <NumberFormat.Number locale="da-DK" value={1234567.89} />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>0 decimals</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="nb-NO"
                 value={1234567.89}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
-                value={1234567.89}
-                decimals={0}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="en-GB"
                 value={1234567.89}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="sv-SE"
                 value={1234567.89}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="da-DK"
                 value={1234567.89}
                 decimals={0}
@@ -133,35 +122,28 @@ export const Numbers = () => (
           <Tr noWrap>
             <Td>3 decimals</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="nb-NO"
                 value={1234567.89}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
-                value={1234567.89}
-                decimals={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="en-GB"
                 value={1234567.89}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="sv-SE"
                 value={1234567.89}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="da-DK"
                 value={1234567.89}
                 decimals={3}
@@ -171,53 +153,43 @@ export const Numbers = () => (
           <Tr noWrap>
             <Td>Negative value</Td>
             <Td>
-              <NumberFormat locale="nb-NO" value={-1234567.89} />
+              <NumberFormat.Number locale="nb-NO" value={-1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="en-NO" value={-1234567.89} />
+              <NumberFormat.Number locale="en-GB" value={-1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="en-GB" value={-1234567.89} />
+              <NumberFormat.Number locale="sv-SE" value={-1234567.89} />
             </Td>
             <Td>
-              <NumberFormat locale="sv-SE" value={-1234567.89} />
-            </Td>
-            <Td>
-              <NumberFormat locale="da-DK" value={-1234567.89} />
+              <NumberFormat.Number locale="da-DK" value={-1234567.89} />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>Sign display (except zero)</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="nb-NO"
                 signDisplay="exceptZero"
                 value={1234567.89}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
-                signDisplay="exceptZero"
-                value={1234567.89}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="en-GB"
                 signDisplay="exceptZero"
                 value={1234567.89}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="sv-SE"
                 signDisplay="exceptZero"
                 value={1234567.89}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="da-DK"
                 signDisplay="exceptZero"
                 value={1234567.89}
@@ -227,19 +199,24 @@ export const Numbers = () => (
           <Tr noWrap>
             <Td>Invalid input</Td>
             <Td>
-              <NumberFormat locale="nb-NO">invalid</NumberFormat>
+              <NumberFormat.Number locale="nb-NO">
+                invalid
+              </NumberFormat.Number>
             </Td>
             <Td>
-              <NumberFormat locale="en-NO">invalid</NumberFormat>
+              <NumberFormat.Number locale="en-GB">
+                invalid
+              </NumberFormat.Number>
             </Td>
             <Td>
-              <NumberFormat locale="en-GB">invalid</NumberFormat>
+              <NumberFormat.Number locale="sv-SE">
+                invalid
+              </NumberFormat.Number>
             </Td>
             <Td>
-              <NumberFormat locale="sv-SE">invalid</NumberFormat>
-            </Td>
-            <Td>
-              <NumberFormat locale="da-DK">invalid</NumberFormat>
+              <NumberFormat.Number locale="da-DK">
+                invalid
+              </NumberFormat.Number>
             </Td>
           </Tr>
         </tbody>
@@ -256,7 +233,6 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -266,41 +242,33 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Td>Short</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
+                compact
                 locale="nb-NO"
-                compact
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
+              <NumberFormat.Number
                 compact
-                decimals={1}
-                value={123456}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
                 locale="en-GB"
-                compact
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
+                compact
                 locale="sv-SE"
-                compact
                 decimals={1}
                 value={123456}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="da-DK"
+              <NumberFormat.Number
                 compact
+                locale="da-DK"
                 decimals={1}
                 value={123456}
               />
@@ -309,7 +277,7 @@ export const NumbersCompact = () => (
           <Tr noWrap>
             <Td>Long</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="nb-NO"
                 compact="long"
                 decimals={2}
@@ -317,15 +285,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
-                compact="long"
-                decimals={2}
-                value={1234567.89}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="en-GB"
                 compact="long"
                 decimals={2}
@@ -333,7 +293,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="sv-SE"
                 compact="long"
                 decimals={2}
@@ -341,7 +301,7 @@ export const NumbersCompact = () => (
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Number
                 locale="da-DK"
                 compact="long"
                 decimals={2}
@@ -363,7 +323,6 @@ export const Percentage = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -373,59 +332,44 @@ export const Percentage = () => (
           <Tr noWrap>
             <Td>Default</Td>
             <Td>
-              <NumberFormat locale="nb-NO" percent value={12.34} />
+              <NumberFormat.Percent locale="nb-NO" value={12.34} />
             </Td>
             <Td>
-              <NumberFormat locale="en-NO" percent value={12.34} />
+              <NumberFormat.Percent locale="en-GB" value={12.34} />
             </Td>
             <Td>
-              <NumberFormat locale="en-GB" percent value={12.34} />
+              <NumberFormat.Percent locale="sv-SE" value={12.34} />
             </Td>
             <Td>
-              <NumberFormat locale="sv-SE" percent value={12.34} />
-            </Td>
-            <Td>
-              <NumberFormat locale="da-DK" percent value={12.34} />
+              <NumberFormat.Percent locale="da-DK" value={12.34} />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>3 decimals</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Percent
                 locale="nb-NO"
-                percent
                 decimals={3}
                 value={3}
               />
             </Td>
             <Td>
-              <NumberFormat
-                locale="en-NO"
-                percent
-                decimals={3}
-                value={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Percent
                 locale="en-GB"
-                percent
                 decimals={3}
                 value={3}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Percent
                 locale="sv-SE"
-                percent
                 decimals={3}
                 value={3}
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Percent
                 locale="da-DK"
-                percent
                 decimals={3}
                 value={3}
               />
@@ -445,7 +389,6 @@ export const AmountAndCurrency = () => (
           <Tr noWrap>
             <Th>Variation</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -455,230 +398,171 @@ export const AmountAndCurrency = () => (
           <Tr noWrap>
             <Td>Default</Td>
             <Td>
-              <NumberFormat currency locale="nb-NO" value={-1358} />
+              <NumberFormat.Currency locale="nb-NO" value={-1358} />
             </Td>
             <Td>
-              <NumberFormat currency locale="en-NO" value={-1358} />
+              <NumberFormat.Currency locale="en-GB" value={-1358} />
             </Td>
             <Td>
-              <NumberFormat currency locale="en-GB" value={-1358} />
+              <NumberFormat.Currency locale="sv-SE" value={-1358} />
             </Td>
             <Td>
-              <NumberFormat currency locale="sv-SE" value={-1358} />
-            </Td>
-            <Td>
-              <NumberFormat currency locale="da-DK" value={-1358} />
+              <NumberFormat.Currency locale="da-DK" value={-1358} />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>Symbol display</Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="nb-NO"
                 value={-1358}
-                currency_display="symbol"
+                currencyDisplay="symbol"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
-                value={-1358}
-                currency_display="symbol"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="en-GB"
                 value={-1358}
-                currency_display="symbol"
+                currencyDisplay="symbol"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="sv-SE"
                 value={-1358}
-                currency_display="symbol"
+                currencyDisplay="symbol"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="da-DK"
                 value={-1358}
-                currency_display="symbol"
+                currencyDisplay="symbol"
               />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>Narrow symbol display</Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Currency
                 currency="EUR"
                 locale="nb-NO"
                 value={-1358}
-                currency_display="narrowSymbol"
+                currencyDisplay="narrowSymbol"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency="EUR"
-                locale="en-NO"
-                value={-1358}
-                currency_display="narrowSymbol"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
+              <NumberFormat.Currency
                 currency="EUR"
                 locale="en-GB"
                 value={-1358}
-                currency_display="narrowSymbol"
+                currencyDisplay="narrowSymbol"
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Currency
                 currency="EUR"
                 locale="sv-SE"
                 value={-1358}
-                currency_display="narrowSymbol"
+                currencyDisplay="narrowSymbol"
               />
             </Td>
             <Td>
-              <NumberFormat
+              <NumberFormat.Currency
                 currency="EUR"
                 locale="da-DK"
                 value={-1358}
-                currency_display="narrowSymbol"
+                currencyDisplay="narrowSymbol"
               />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>Name display</Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="nb-NO"
                 value={-1358}
-                currency_display="name"
+                currencyDisplay="name"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
-                value={-1358}
-                currency_display="name"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="en-GB"
                 value={-1358}
-                currency_display="name"
+                currencyDisplay="name"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="sv-SE"
                 value={-1358}
-                currency_display="name"
+                currencyDisplay="name"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="da-DK"
                 value={-1358}
-                currency_display="name"
+                currencyDisplay="name"
               />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>Code display</Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="nb-NO"
                 value={-1358}
-                currency_display="code"
+                currencyDisplay="code"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
-                value={-1358}
-                currency_display="code"
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="en-GB"
                 value={-1358}
-                currency_display="code"
+                currencyDisplay="code"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="sv-SE"
                 value={-1358}
-                currency_display="code"
+                currencyDisplay="code"
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="da-DK"
                 value={-1358}
-                currency_display="code"
+                currencyDisplay="code"
               />
             </Td>
           </Tr>
           <Tr noWrap>
             <Td>0 decimals</Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="nb-NO"
                 value={-1358}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
-                value={-1358}
-                decimals={0}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="en-GB"
                 value={-1358}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="sv-SE"
                 value={-1358}
                 decimals={0}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="da-DK"
                 value={-1358}
                 decimals={0}
@@ -688,40 +572,28 @@ export const AmountAndCurrency = () => (
           <Tr noWrap>
             <Td>3 decimals</Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="nb-NO"
                 value={-1358}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
-                locale="en-NO"
-                value={-1358}
-                decimals={3}
-              />
-            </Td>
-            <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="en-GB"
                 value={-1358}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="sv-SE"
                 value={-1358}
                 decimals={3}
               />
             </Td>
             <Td>
-              <NumberFormat
-                currency
+              <NumberFormat.Currency
                 locale="da-DK"
                 value={-1358}
                 decimals={3}
@@ -742,7 +614,6 @@ export const DateStyles = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -754,13 +625,6 @@ export const DateStyles = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="full"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="full"
               />
@@ -792,13 +656,6 @@ export const DateStyles = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="long"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="long"
               />
@@ -836,13 +693,6 @@ export const DateStyles = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="medium"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="medium"
@@ -868,13 +718,6 @@ export const DateStyles = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="short"
               />
@@ -915,7 +758,6 @@ export const DateAndTime = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -927,14 +769,6 @@ export const DateAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="full"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="full"
                 timeStyle="short"
@@ -977,14 +811,6 @@ export const DateAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="long"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="long"
@@ -1020,14 +846,6 @@ export const DateAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="medium"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="medium"
@@ -1056,14 +874,6 @@ export const DateAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="short"
-                timeStyle="short"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="short"
                 timeStyle="short"
@@ -1108,7 +918,6 @@ export const DateWithoutYear = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1120,14 +929,6 @@ export const DateWithoutYear = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="full"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="full"
                 hideYear
@@ -1170,14 +971,6 @@ export const DateWithoutYear = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="long"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="long"
@@ -1213,14 +1006,6 @@ export const DateWithoutYear = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30"
-                dateStyle="medium"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30"
                 dateStyle="medium"
@@ -1249,14 +1034,6 @@ export const DateWithoutYear = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30"
-                dateStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30"
                 dateStyle="short"
                 hideYear
@@ -1301,7 +1078,6 @@ export const DateWithoutYearAndTime = () => (
           <Tr noWrap>
             <Th>Style</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1313,15 +1089,6 @@ export const DateWithoutYearAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="full"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="full"
                 timeStyle="short"
@@ -1369,15 +1136,6 @@ export const DateWithoutYearAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="long"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="long"
@@ -1417,15 +1175,6 @@ export const DateWithoutYearAndTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                value="2026-01-30T09:12"
-                dateStyle="medium"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 value="2026-01-30T09:12"
                 dateStyle="medium"
@@ -1457,15 +1206,6 @@ export const DateWithoutYearAndTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                value="2026-01-30T09:12"
-                dateStyle="short"
-                timeStyle="short"
-                hideYear
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 value="2026-01-30T09:12"
                 dateStyle="short"
                 timeStyle="short"
@@ -1514,7 +1254,6 @@ export const RelativeTime = () => (
           <Tr noWrap>
             <Th>Description</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1526,16 +1265,6 @@ export const RelativeTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T11:59:30Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 relativeTime
                 relativeTimeReference={() =>
                   new Date('2026-02-06T12:00:00Z')
@@ -1588,16 +1317,6 @@ export const RelativeTime = () => (
             </Td>
             <Td>
               <DateFormat
-                locale="en-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T11:00:00Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
                 locale="en-GB"
                 relativeTime
                 relativeTimeReference={() =>
@@ -1632,16 +1351,6 @@ export const RelativeTime = () => (
             <Td>
               <DateFormat
                 locale="nb-NO"
-                relativeTime
-                relativeTimeReference={() =>
-                  new Date('2026-02-06T12:00:00Z')
-                }
-                value="2026-02-06T15:00:00Z"
-              />
-            </Td>
-            <Td>
-              <DateFormat
-                locale="en-NO"
                 relativeTime
                 relativeTimeReference={() =>
                   new Date('2026-02-06T12:00:00Z')
@@ -1694,7 +1403,6 @@ export const DurationStrings = () => (
           <Tr noWrap>
             <Th>Duration</Th>
             <Th>nb-NO</Th>
-            <Th>en-NO</Th>
             <Th>en-GB</Th>
             <Th>sv-SE</Th>
             <Th>da-DK</Th>
@@ -1705,9 +1413,6 @@ export const DurationStrings = () => (
             <Td>PT2H30M</Td>
             <Td>
               <DateFormat locale="nb-NO" value="PT2H30M" />
-            </Td>
-            <Td>
-              <DateFormat locale="en-NO" value="PT2H30M" />
             </Td>
             <Td>
               <DateFormat locale="en-GB" value="PT2H30M" />
@@ -1723,9 +1428,6 @@ export const DurationStrings = () => (
             <Td>P1DT2H30M</Td>
             <Td>
               <DateFormat locale="nb-NO" value="P1DT2H30M" />
-            </Td>
-            <Td>
-              <DateFormat locale="en-NO" value="P1DT2H30M" />
             </Td>
             <Td>
               <DateFormat locale="en-GB" value="P1DT2H30M" />

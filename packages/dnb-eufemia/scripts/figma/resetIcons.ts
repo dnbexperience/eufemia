@@ -32,8 +32,8 @@ export const runFigmaReset = async () => {
       await fs.unlink(pdfLockFile)
     }
   } catch (e) {
-    log.fail(e)
-    ErrorHandler(e)
+    log.fail(String(e))
+    ErrorHandler(String(e))
   }
 }
 

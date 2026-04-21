@@ -5,40 +5,16 @@
 
 import React from 'react'
 import Section from '../../section/Section'
-import ModalContext from '../ModalContext'
-import classnames from 'classnames'
-import { SectionProps } from '../../Section'
+import type { SectionAllProps } from '../../Section'
 
-export type ModalInnerProps = SectionProps
+export type ModalInnerProps = SectionAllProps
 
-export default class ModalInner extends React.PureComponent<
-  ModalInnerProps & React.HTMLProps<HTMLElement>
-> {
-  static contextType = ModalContext
+function ModalInner(
+  props: ModalInnerProps & React.HTMLProps<HTMLElement>
+) {
+  const { className = null, ref, ...restProps } = props
 
-  context!: React.ContextType<typeof ModalContext>
-
-  componentDidMount() {
-    const { backgroundColor = 'black-3' } = this.props
-    if (backgroundColor) {
-      this.context.setBackgroundColor(backgroundColor)
-    }
-  }
-
-  render() {
-    const {
-      className = null,
-      backgroundColor = 'black-3',
-      ref, // eslint-disable-line
-      ...props
-    } = this.props
-
-    return (
-      <Section
-        backgroundColor={backgroundColor}
-        className={classnames(className)}
-        {...props}
-      />
-    )
-  }
+  return <Section className={className} {...restProps} />
 }
+
+export default ModalInner

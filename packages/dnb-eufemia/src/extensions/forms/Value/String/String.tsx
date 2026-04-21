@@ -1,17 +1,18 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<string>
+export type ValueStringProps = ValueProps<string>
 
-function StringComponent(props: Props) {
+function StringComponent(props: ValueStringProps) {
   const { value, className, ...rest } = useValueProps(props)
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-string', className)}
+      className={clsx('dnb-forms-value-string', className)}
       {...rest}
     >
       {value}
@@ -19,5 +20,8 @@ function StringComponent(props: Props) {
   )
 }
 
-StringComponent._supportsSpacingProps = true
+withComponentMarkers(StringComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default StringComponent

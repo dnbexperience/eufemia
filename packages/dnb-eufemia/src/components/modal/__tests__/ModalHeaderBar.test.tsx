@@ -12,10 +12,9 @@ const defaultContext = {
   onKeyDownHandler: null,
   id: null,
   title: null,
-  hide_close_button: null,
-  close_button_attributes: null,
-  close_title: 'Close',
-  setBackgroundColor: null,
+  hideCloseButton: null,
+  closeButtonAttributes: null,
+  closeTitle: 'Close',
   onCloseClickHandler: jest.fn(),
   contentRef: null,
   scrollRef: null,
@@ -28,9 +27,7 @@ function renderWithContext(
   ui: React.ReactElement,
   context = defaultContext
 ) {
-  return render(
-    <ModalContext.Provider value={context}>{ui}</ModalContext.Provider>
-  )
+  return render(<ModalContext value={context}>{ui}</ModalContext>)
 }
 
 describe('ModalHeaderBar', () => {
@@ -122,9 +119,9 @@ describe('ModalHeaderBar', () => {
     scrollView.appendChild(wrapper)
 
     render(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar shadowClass="sticky-class" />
-      </ModalContext.Provider>,
+      </ModalContext>,
       { container: wrapper }
     )
 
@@ -159,18 +156,18 @@ describe('ModalHeaderBar', () => {
 
   it('should reconnect observer when children change', () => {
     const { rerender } = render(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar>First</ModalHeaderBar>
-      </ModalContext.Provider>
+      </ModalContext>
     )
 
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
     expect(disconnect).toHaveBeenCalledTimes(0)
 
     rerender(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar>Second</ModalHeaderBar>
-      </ModalContext.Provider>
+      </ModalContext>
     )
 
     expect(disconnect).toHaveBeenCalledTimes(1)

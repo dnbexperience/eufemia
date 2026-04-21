@@ -10,9 +10,9 @@ import userEvent from '@testing-library/user-event'
 import { Form, Tools } from '../../..'
 import ChildrenWithAge from '../ChildrenWithAge'
 import { translations } from '../ChildrenWithAgeTranslations'
-import { GenerateRef } from '../../../Tools/ListAllProps'
+import type { GenerateRef } from '../../../Tools/ListAllProps'
 import nbNO from '../../../constants/locales/nb-NO'
-import { format } from '../../../../../components/number-format/NumberUtils'
+import { formatNumber } from '../../../../../components/number-format/NumberUtils'
 
 describe('ChildrenWithAge', () => {
   const translationsNO = translations['nb-NO']
@@ -165,7 +165,7 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(format(9, { locale: 'nb-NO' }))
+      String(formatNumber(9, { locale: 'nb-NO' }))
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -219,7 +219,7 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(format(17, { locale: 'nb-NO' }))
+      String(formatNumber(17, { locale: 'nb-NO' }))
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -267,7 +267,7 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(format(1000000, { locale: 'nb-NO' }))
+      String(formatNumber(1000000, { locale: 'nb-NO' }))
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')
@@ -289,7 +289,7 @@ describe('ChildrenWithAge', () => {
 
     const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
       '{maximum}',
-      String(format(1000000, { locale: 'nb-NO' }))
+      String(formatNumber(1000000, { locale: 'nb-NO' }))
     )
     // Use regex to handle both regular and non-breaking spaces
     const expectedRegex = expectedText.replace(/\s/g, '\\s')

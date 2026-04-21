@@ -1,12 +1,16 @@
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  --popover-z-index: 1000;
+  --popover-z-index: var(--z-index-popover);
 }
 
 .dnb-popover {
   --inner-space: 0.75rem;
   --popover-border-radius: 0.5rem;
+  --popover-text-color: var(--token-color-text-neutral);
+  --popover-background-color: var(--token-color-background-neutral);
+  --popover-outline-color: var(--token-color-stroke-neutral-subtle);
+  --popover-color-icon: var(--token-color-icon-neutral);
 
   position: absolute;
   z-index: var(--popover-z-index);
@@ -27,7 +31,7 @@
   background-color: var(--popover-background-color);
   border-radius: var(--popover-border-radius);
 
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 
   &--show-outline#{&}::before {
     content: '';
@@ -81,7 +85,7 @@
     display: flex;
     flex-direction: column;
 
-    max-width: calc(var(--prose-max-width) - 64px);
+    max-width: calc(var(--prose-max-width) - 4rem);
     padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 2);
   }
   &--no-max-width &__content {
@@ -177,17 +181,14 @@
   }
 
   &__close.dnb-button {
+    --button-color-icon--default: var(--popover-color-icon);
+
     position: absolute;
     top: var(--inner-space);
     right: var(--inner-space);
-    color: inherit;
 
     // Make long pressing easier on touch devices
     user-select: none;
-
-    &:hover {
-      opacity: 0.7;
-    }
   }
 }
 

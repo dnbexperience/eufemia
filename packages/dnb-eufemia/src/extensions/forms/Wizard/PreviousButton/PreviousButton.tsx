@@ -1,22 +1,23 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
-import { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & ButtonProps
+export type WizardPreviousButtonProps = ComponentProps & ButtonProps
 
-function PreviousButton(props: Props) {
+function PreviousButton(props: WizardPreviousButtonProps) {
   const translations = useTranslation().WizardPreviousButton
 
   const {
     className,
     variant = 'tertiary',
-    icon_position = 'left',
+    iconPosition = 'left',
     icon = 'chevron_left',
     children = translations.text,
   } = props
@@ -24,10 +25,10 @@ function PreviousButton(props: Props) {
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
-    return null as JSX.Element
+    return null as React.JSX.Element
   }
 
-  const params: Props = {}
+  const params: WizardPreviousButtonProps = {}
   if (activeIndex === 0) {
     params.disabled = true
   }
@@ -35,10 +36,10 @@ function PreviousButton(props: Props) {
   return (
     <ButtonRow>
       <Button
-        className={classnames('dnb-forms-previous-button', className)}
+        className={clsx('dnb-forms-previous-button', className)}
         onClick={handlePrevious}
         variant={variant}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         icon={icon}
         {...params}
         {...props}
@@ -49,5 +50,8 @@ function PreviousButton(props: Props) {
   )
 }
 
-PreviousButton._supportsSpacingProps = true
+withComponentMarkers(PreviousButton, {
+  _supportsSpacingProps: true,
+})
+
 export default PreviousButton

@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import GlobalError, { GlobalErrorAllProps } from '../GlobalError'
+import type { GlobalErrorAllProps } from '../GlobalError'
+import GlobalError from '../GlobalError'
 import { render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
@@ -74,98 +75,6 @@ describe('GlobalError', () => {
     const elem = document.querySelector('.dnb-global-error__status')
     expect(elem.textContent).toMatchInlineSnapshot(`"Error code: "`)
     expect(elem.querySelector('code')).not.toBeInTheDocument()
-  })
-
-  // Deprecated – status is replaced with statusCode - can be removed in v11
-  describe('has to support deprecated status property', () => {
-    it('has default text for 404', () => {
-      render(<GlobalError status="404" />)
-
-      expect(
-        document.querySelector('.dnb-global-error__inner__content')
-          .textContent
-      ).toMatchInlineSnapshot(
-        `"Vi finner ikke siden du leter etter …Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?Feilmeldings-kode: 404"`
-      )
-    })
-
-    it('has default text for 500', () => {
-      render(<GlobalError status="500" />)
-
-      expect(
-        document.querySelector('.dnb-global-error__inner__content')
-          .textContent
-      ).toMatchInlineSnapshot(
-        `"Beklager, her skjedde det noe feil!Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.Feilmeldings-kode: 500"`
-      )
-    })
-
-    it('has default text for 404 in en-GB', () => {
-      render(<GlobalError status="404" locale="en-GB" />)
-
-      expect(
-        document.querySelector('.dnb-global-error__inner__content')
-          .textContent
-      ).toMatchInlineSnapshot(
-        `"We can't find the page you're looking for …Are you sure you have entered the correct address? Or have we messed with the links?Error code: 404"`
-      )
-    })
-
-    it('has default text for 500 in en-GB', () => {
-      render(
-        <Provider locale="en-GB">
-          <GlobalError status="500" />
-        </Provider>
-      )
-
-      expect(
-        document.querySelector('.dnb-global-error__inner__content')
-          .textContent
-      ).toMatchInlineSnapshot(
-        `"Sorry, a technical error occurred!The service is not working properly at the moment. Try again later.Error code: 500"`
-      )
-    })
-
-    it('should not render status code when status is empty', () => {
-      render(<GlobalError {...props} status="" />)
-
-      const elem = document.querySelector('.dnb-global-error__status')
-      expect(elem.textContent).toMatchInlineSnapshot(`"Error code: "`)
-      expect(elem.querySelector('code')).not.toBeInTheDocument()
-    })
-  })
-
-  // Deprecated – code is replaced with errorMessageCode - can be removed in v11
-  describe('has to support deprecated code property', () => {
-    it('should set custom status code', () => {
-      render(<GlobalError {...props} code="My text:" />)
-
-      const elem = document.querySelector('.dnb-global-error__status')
-      expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
-      expect(elem.querySelector('code').textContent).toBe('404')
-    })
-
-    it('should remove status code when set to empty', () => {
-      render(<GlobalError {...props} code="" />)
-
-      expect(
-        document.querySelector('.dnb-global-error__status')
-      ).not.toBeInTheDocument()
-    })
-
-    it('should prioritize code over errorMessageCode', () => {
-      render(
-        <GlobalError
-          {...props}
-          code="My text:"
-          errorMessageCode="Your text:"
-        />
-      )
-
-      const elem = document.querySelector('.dnb-global-error__status')
-      expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
-      expect(elem.querySelector('code').textContent).toBe('404')
-    })
   })
 
   it('should have title and text props as defined in the prop', () => {
@@ -242,9 +151,9 @@ describe('GlobalError', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-skeleton__root',
-      'dnb-space__top--large',
       'dnb-global-error',
       'dnb-global-error--404',
+      'dnb-space__top--large',
     ])
   })
 
@@ -289,13 +198,6 @@ describe('GlobalError', () => {
 describe('GlobalError scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-global-error-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

@@ -1,29 +1,29 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const EditContainerProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   titleWhenNew: {
     doc: 'The title for a new item.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
     doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
-    type: 'string',
+    type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
   toolbar: {
     doc: 'An alternative toolbar to be shown in the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   toolbarVariant: {
     doc: 'Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.',
-    type: 'string',
+    type: ['"minimumOneItem"', '"custom"'],
     status: 'optional',
   },
   open: {

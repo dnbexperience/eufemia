@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
     doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.',
-    type: 'string',
+    type: ['"dropdown"', '"autocomplete"', '"button"', '"radio"'],
     status: 'optional',
   },
   value: {
@@ -12,13 +12,13 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformSelection: {
-    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
+    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the properties of the Option component or data item. You can return a `React.ReactNode` that will be displayed in the selection.',
     type: 'function',
     status: 'optional',
   },
   optionsLayout: {
     doc: 'Layout for the list of options. Can be `horizontal` or `vertical`.',
-    type: 'string',
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   width: {
@@ -32,8 +32,8 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   groups: {
-    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
-    type: 'React.ReactNode[]',
+    doc: 'An array of group titles for the list items. Only the first group can be `undefined`.',
+    type: 'Array<React.ReactNode>',
     status: 'optional',
   },
   dataPath: {
@@ -42,18 +42,18 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autocompleteProps: {
-    doc: 'Forward any additional props (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
+    doc: 'Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
     type: 'object',
     status: 'optional',
   },
   dropdownProps: {
-    doc: 'Forward any additional props (camelCase) to the [Dropdown](/uilib/components/dropdown/) component.',
+    doc: 'Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component.',
     type: 'object',
     status: 'optional',
   },
   size: {
-    doc: 'The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size="2" then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
-    type: 'string',
+    doc: 'The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
+    type: ['"small"', '"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   children: {

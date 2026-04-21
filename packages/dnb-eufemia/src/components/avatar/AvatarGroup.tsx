@@ -1,9 +1,9 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
-import { createSpacingClasses } from '../space/SpacingHelper'
-import { AvatarSizes, AvatarVariants } from './Avatar'
+import { applySpacing } from '../space/SpacingUtils'
+import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
 import {
@@ -13,65 +13,67 @@ import {
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface AvatarGroupProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'> {
+export type AvatarGroupProps = {
   /**
    * Label to describe the avatar group
-   * Default: null
+   * Default: `null`
    */
   label: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
+   * Default: `null`
    */
   className?: string
 
   /**
    * Number of max displayed elements, including the "elements hidden text (+x)".
-   * Default: 4
+   * Default: `4`
    */
   maxElements?: number
 
   /**
    * The avatars to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the Avatars, and "elements hidden text (+x)".
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 
   /**
    * The variant of the Avatars.
-   * Default: primary.
+   * Default: `primary`
    */
   variant?: AvatarVariants
 
   /**
    * Skeleton should be applied when loading content
-   * Default: false
+   * Default: `false`
    */
   skeleton?: SkeletonShow
 
   /**
    * Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   backgroundColor?: string
 
   /**
    * Define a custom color to compliment the backgroundColor for the Avatars. Use a Eufemia color.
-   * Default: undefined
+   * Default: `undefined`
    */
   color?: string
-}
+} & Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'>
 
-export const defaultProps = {
+export type AvatarGroupAllProps = AvatarGroupProps & SpacingProps
+
+const defaultProps: Partial<AvatarGroupAllProps> = {
   label: null,
   className: null,
   maxElements: 4,
@@ -83,7 +85,11 @@ export const defaultProps = {
 
 export const AvatarGroupContext = React.createContext(null)
 
-const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
+export const AvatarGroupItemContext = React.createContext<{
+  zIndex?: number
+} | null>(null)
+
+const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
@@ -121,41 +127,25 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
 
     children = childrenProp
       .slice(0, total - numOfHiddenAvatars)
-      .map((child, i) => {
-        const appliedSize = child.props?.size ?? size
-        const appliedVariant = child.props?.variant ?? variant
-        const appliedColor = child.props?.color ?? color
-        const appliedBackgroundColor =
-          child.props?.backgroundColor ?? backgroundColor
-        return React.cloneElement(child, {
-          size: appliedSize,
-          variant: appliedVariant,
-          color: appliedColor,
-          backgroundColor: appliedBackgroundColor,
-          style: { ...child.props.style, zIndex: total - i },
-          key: i,
-        })
-      })
+      .map((child, i) => (
+        <AvatarGroupItemContext key={i} value={{ zIndex: total - i }}>
+          {child}
+        </AvatarGroupItemContext>
+      ))
   }
 
-  const spacingClasses = createSpacingClasses(props)
-  const {
-    skeleton, // eslint-disable-line
-    ...attributes
-  } = validateDOMAttributes({}, props)
+  const rootProps = applySpacing(props, {
+    className: clsx('dnb-avatar__group', className),
+  })
+
+  // validateDOMAttributes mutates props, so call it after applySpacing
+  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
-    <AvatarGroupContext.Provider
+    <AvatarGroupContext
       value={{ ...props, variant, size, color, backgroundColor }}
     >
-      <span
-        className={classnames(
-          'dnb-avatar__group',
-          spacingClasses,
-          className
-        )}
-        {...attributes}
-      >
+      <span {...rootProps} {...attributes}>
         <span className="dnb-sr-only">{label}</span>
 
         {children}
@@ -166,29 +156,29 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
           </ElementsHidden>
         ) : null}
       </span>
-    </AvatarGroupContext.Provider>
+    </AvatarGroupContext>
   )
 }
 
-export interface ElementsHiddenProps {
+export type AvatarElementsHiddenProps = {
   /**
    * The avatars to group.
-   * Default: null
+   * Default: `null`
    */
   children?: React.ReactNode
 
   /**
    * The size of the "elements hidden text (+x)".
-   * Default: medium.
+   * Default: `medium`
    */
   size?: AvatarSizes
 }
 
-function ElementsHidden(props: ElementsHiddenProps) {
+function ElementsHidden(props: AvatarElementsHiddenProps) {
   const { size, children } = props
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-avatar__group--elements-left',
         `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}
@@ -198,6 +188,8 @@ function ElementsHidden(props: ElementsHiddenProps) {
   )
 }
 
-AvatarGroup._supportsSpacingProps = true
+withComponentMarkers(AvatarGroup, {
+  _supportsSpacingProps: true,
+})
 
 export default AvatarGroup

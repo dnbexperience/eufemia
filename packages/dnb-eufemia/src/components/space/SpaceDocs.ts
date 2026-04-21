@@ -1,28 +1,28 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SpaceGlobalProperties: PropertiesTableProps = {
   space: {
-    doc: 'Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.',
+    doc: 'Has to be an object with either: `top`, `right`, `bottom`, `left`, `inline`, or `block`. Also supports media query breakpoints like `{small: "medium", medium: "large", large: "x-large"}` and shorthand directions `inline`/`block`. Use spacing values like: `small`, `1rem`, `1` or `16px`.',
     type: ['object'],
     status: 'optional',
   },
   top: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-top`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   right: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-right`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   bottom: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-bottom`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
   left: {
-    doc: 'Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.',
+    doc: 'Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-left`.',
     type: ['string', 'number', 'boolean'],
     status: 'optional',
   },
@@ -31,7 +31,7 @@ export const SpaceGlobalProperties: PropertiesTableProps = {
 export const SpaceProperties: PropertiesTableProps = {
   element: {
     doc: 'Defines the HTML element used. Defaults to `div`.',
-    type: 'React.Element',
+    type: ['string', 'React.Element'],
     status: 'optional',
   },
   stretch: {
@@ -49,7 +49,7 @@ export const SpaceProperties: PropertiesTableProps = {
     type: ['object', 'string', 'number', 'boolean'],
     status: 'optional',
   },
-  no_collapse: {
+  noCollapse: {
     doc: "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
     type: 'boolean',
     status: 'optional',

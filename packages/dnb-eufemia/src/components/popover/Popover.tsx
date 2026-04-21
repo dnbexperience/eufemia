@@ -3,7 +3,6 @@
  */
 
 import React, {
-  cloneElement,
   isValidElement,
   useCallback,
   useEffect,
@@ -11,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import PopoverCloseButton from './internal/PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
@@ -24,10 +23,11 @@ import type {
   PopoverTriggerRenderProps,
   PopoverContentRenderProps,
   PopoverRenderable,
-  TriggerAttributes,
+  PopoverTriggerAttributes,
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type * from './types'
 
 export default function Popover(props: PopoverProps) {
@@ -44,6 +44,7 @@ export default function Popover(props: PopoverProps) {
     onOpenChange,
     focusOnOpen = true,
     focusOnOpenElement,
+    onFocusComplete,
     restoreFocus = true,
     preventClose = false,
     hideCloseButton = false,
@@ -51,7 +52,6 @@ export default function Popover(props: PopoverProps) {
     contentClassName,
     className,
     baseClassName,
-    theme = 'light',
     disableFocusTrap = false,
     hideOutline = false,
     noInnerSpace = false,
@@ -95,13 +95,13 @@ export default function Popover(props: PopoverProps) {
     onOpenChange,
   })
 
-  const triggerRef = useRef<HTMLElement>(null)
-  const tooltipRef = useRef<HTMLSpanElement>(null)
-  const contentWrapperRef = useRef<HTMLSpanElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+  const tooltipRef = useRef<HTMLSpanElement | null>(null)
+  const contentWrapperRef = useRef<HTMLSpanElement | null>(null)
   const previousTargetElementRef =
-    useRef<PopoverResolvedTargetElement>(null)
-  const focusRestoreAnimationRef = useRef<number>(null)
-  const touchStartTargetRef = useRef<EventTarget>(null)
+    useRef<PopoverResolvedTargetElement | null>(null)
+  const focusRestoreAnimationRef = useRef<number | null>(null)
+  const touchStartTargetRef = useRef<EventTarget | null>(null)
   const touchMovedRef = useRef(false)
 
   const tooltipId = useId(idProp)
@@ -205,11 +205,11 @@ export default function Popover(props: PopoverProps) {
 
   const focusTrigger = useCallback(() => {
     if (!restoreFocus) {
-      return
+      return undefined
     }
     const element = getCurrentTriggerElement()
-    if (!element) {
-      return
+    if (!element || typeof element.focus !== 'function') {
+      return undefined
     }
 
     if (focusRestoreAnimationRef.current !== null) {
@@ -232,7 +232,7 @@ export default function Popover(props: PopoverProps) {
 
   const close = useCallback(() => {
     if (preventClose) {
-      return // stop here
+      return undefined // stop here
     }
     setOpenState(false)
     focusTrigger()
@@ -266,7 +266,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!focusOnOpen || !isOpen) {
-      return // stop here
+      return undefined // stop here
     }
 
     const timers: Array<ReturnType<typeof setTimeout>> = []
@@ -285,6 +285,7 @@ export default function Popover(props: PopoverProps) {
 
       setTimeout(() => {
         focusTarget?.focus({ preventScroll: true })
+        onFocusComplete?.()
       }, 10) // Ensure focus happens after any potential rendering
 
       return true
@@ -305,7 +306,7 @@ export default function Popover(props: PopoverProps) {
     }
 
     return () => timers.forEach(clearTimeout)
-  }, [focusOnOpen, isOpen, resolveFocusTarget])
+  }, [focusOnOpen, isOpen, resolveFocusTarget, onFocusComplete])
 
   const handleDocumentInteraction = useCallback(
     (
@@ -313,18 +314,20 @@ export default function Popover(props: PopoverProps) {
       overrideTarget?: EventTarget | null
     ) => {
       if (preventClose) {
-        return // stop here
+        return undefined // stop here
       }
       const target = overrideTarget ?? event.target
       if (!(target instanceof Node)) {
-        return // stop here
+        return undefined // stop here
       }
 
       const insideContent =
         !!tooltipRef.current && tooltipRef.current.contains(target)
       const triggerElement = getCurrentTriggerElement()
       const insideTrigger =
-        !!triggerElement && triggerElement.contains(target as Node)
+        !!triggerElement &&
+        typeof triggerElement.contains === 'function' &&
+        triggerElement.contains(target as Node)
 
       if (!insideContent && !insideTrigger) {
         toggle(false)
@@ -350,7 +353,7 @@ export default function Popover(props: PopoverProps) {
       touchStartTargetRef.current = null
 
       if (moved) {
-        return // stop here
+        return undefined // stop here
       }
 
       handleDocumentInteraction(event, target)
@@ -361,14 +364,16 @@ export default function Popover(props: PopoverProps) {
   const handleDocumentKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.defaultPrevented || preventClose) {
-        return // stop here
+        return undefined // stop here
       }
       if (event.key === 'Escape') {
         // Check both event.target and document.activeElement to handle different event propagation scenarios
         const target = (event.target ||
           document.activeElement) as HTMLElement
         const triggerElement = getCurrentTriggerElement()
-        const insideTrigger = triggerElement?.contains(target)
+        const insideTrigger =
+          typeof triggerElement?.contains === 'function' &&
+          triggerElement.contains(target)
         const insideContent = tooltipRef.current?.contains(target)
 
         if (insideContent || insideTrigger) {
@@ -384,7 +389,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!isOpen) {
-      return // stop here
+      return undefined // stop here
     }
 
     document.documentElement.addEventListener(
@@ -452,7 +457,7 @@ export default function Popover(props: PopoverProps) {
     ) => {
       userHandler?.(event)
       if (event.defaultPrevented) {
-        return // stop here
+        return undefined // stop here
       }
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
@@ -462,7 +467,7 @@ export default function Popover(props: PopoverProps) {
     [toggle]
   )
 
-  const mergedTriggerAttributes: TriggerAttributes =
+  const mergedTriggerAttributes: PopoverTriggerAttributes =
     triggerAttributes || {}
   const {
     onClick: triggerOnClick,
@@ -480,12 +485,14 @@ export default function Popover(props: PopoverProps) {
     (node: HTMLElement | null) => {
       triggerRef.current = node
       if (!triggerAttrRef) {
-        return
+        return undefined
       }
       if (typeof triggerAttrRef === 'function') {
         triggerAttrRef(node)
       } else if ('current' in triggerAttrRef) {
-        triggerAttrRef.current = node
+        const mutableTriggerAttrRef =
+          triggerAttrRef as React.RefObject<HTMLElement | null>
+        mutableTriggerAttrRef.current = node
       }
     },
     [triggerAttrRef]
@@ -498,7 +505,7 @@ export default function Popover(props: PopoverProps) {
   } = {
     ...restTriggerAttrs,
     ref: assignTriggerRef,
-    className: classnames(
+    className: clsx(
       'dnb-popover__trigger',
       triggerAttrClassName,
       triggerClassName
@@ -516,7 +523,7 @@ export default function Popover(props: PopoverProps) {
     onClick: (event) => {
       triggerOnClick?.(event)
       if (event.defaultPrevented) {
-        return
+        return undefined
       }
       runTriggerClick(event)
     },
@@ -538,8 +545,11 @@ export default function Popover(props: PopoverProps) {
   if (shouldRenderTrigger) {
     if (isRenderer(trigger)) {
       triggerMarkup = trigger(triggerRenderProps)
-    } else if (isValidElement(trigger)) {
-      triggerMarkup = cloneElement(trigger, triggerDomProps)
+    } else if (isValidElement<Record<string, unknown>>(trigger)) {
+      triggerMarkup = React.createElement(
+        trigger.type as React.ComponentType<any>,
+        { ...trigger.props, ...triggerDomProps }
+      )
     } else if (trigger) {
       warn(
         'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
@@ -577,24 +587,20 @@ export default function Popover(props: PopoverProps) {
       variant={closeButtonProps?.variant ?? 'tertiary'}
       icon={closeButtonProps?.icon ?? 'close'}
       {...closeButtonProps}
-      className={classnames(
-        'dnb-popover__close',
-        closeButtonProps?.className
-      )}
+      className={clsx('dnb-popover__close', closeButtonProps?.className)}
       title={closeButtonProps?.title || tr.closeButtonTitle}
       onClick={(event) => {
-        closeButtonProps?.onClick?.(event)
+        closeButtonProps?.onClick?.(event as any)
         if (event?.defaultPrevented) {
-          return
+          return undefined
         }
         toggle(false)
       }}
     />
   )
 
-  const popoverClassName = classnames(
+  const popoverClassName = clsx(
     baseClassNames,
-    theme && baseClassNames.map((name) => `${name}--theme-${theme}`),
     !hideOutline && baseClassNames.map((name) => `${name}--show-outline`),
     noInnerSpace &&
       baseClassNames.map((name) => `${name}--no-inner-space`),
@@ -618,7 +624,7 @@ export default function Popover(props: PopoverProps) {
       )}
 
       <span
-        className={classnames(
+        className={clsx(
           'dnb-popover__content',
           'dnb-no-focus',
           contentClassName
@@ -769,4 +775,4 @@ function resolveTargetNode(
 
 export { default as getRefElement } from '../../shared/internal/getRefElement'
 
-Popover._supportsSpacingProps = true
+withComponentMarkers(Popover, { _supportsSpacingProps: true })

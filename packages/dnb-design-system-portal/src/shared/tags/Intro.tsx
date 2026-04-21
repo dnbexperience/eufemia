@@ -60,7 +60,7 @@ type IntroFooterProps = {
 }
 
 export const IntroFooter = ({ href, text }: IntroFooterProps) => (
-  <Space top no_collapse className={footerStyle}>
+  <Space top noCollapse className={footerStyle}>
     <Global
       styles={css`
         .dnb-app-content {
@@ -68,13 +68,15 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
         }
       `}
     />
+    {/* @ts-expect-error -- strictFunctionTypes */}
     <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button
       href="/uilib/getting-started"
       variant="secondary"
       text="Cancel"
       icon="close"
-      icon_position="left"
+      iconPosition="left"
+      // @ts-expect-error -- strictFunctionTypes
       element={Link}
     />
   </Space>
@@ -82,7 +84,10 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
 
 export const Next = (props: React.ComponentProps<typeof Anchor>) => (
   <>
-    <div className="dnb-section dnb-section--spacing">
+    <div
+      className="dnb-section"
+      style={{ padding: 'var(--spacing-large) 0' }}
+    >
       <Anchor {...props} />
     </div>
   </>

@@ -6,15 +6,9 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
 /*
 * Tooltip component
 *
@@ -23,12 +17,16 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
  * Utilities
  */
 :root {
-  --tooltip-z-index: 1100;
+  --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
   z-index: var(--tooltip-z-index);
 }
 .dnb-popover--inside-modal .dnb-tooltip {
@@ -65,14 +63,10 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
  * NumberFormat Component
  *
  */
-/*
- * Utilities
- */
 .dnb-number-format {
   display: inline-block;
   position: relative;
   speak-as: numbers;
-  color: inherit;
   white-space: nowrap;
 }
 .dnb-number-format .dnb-sr-only::before {
@@ -84,7 +78,7 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 .dnb-number-format.dnb-anchor {
   cursor: pointer;
 }
-.dnb-number-format--selectall {
+.dnb-number-format--select-all {
   cursor: text;
 }
 .dnb-number-format__visible {
@@ -92,8 +86,8 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
   z-index: 2;
 }
 .dnb-number-format--selected .dnb-number-format__visible {
-  color: var(--color-black);
-  background-color: var(--color-mint-green);
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-action-pressed-subtle);
 }
 .dnb-number-format__selection {
   position: absolute;

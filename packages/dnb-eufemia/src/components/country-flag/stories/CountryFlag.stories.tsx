@@ -10,8 +10,6 @@ import CountryFlag from '../CountryFlag'
 export default {
   title: 'Eufemia/Components/CountryFlag',
 }
-
-// Import the flag icons styles
 import '../style/dnb-country-flag-icons.scss'
 import { H1, H2, H3, P } from '../../../elements'
 
@@ -26,32 +24,32 @@ export function CountryFlags() {
       />
       <Button
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         text="Button"
         variant="secondary"
       />
       <Button
         icon={<CountryFlag iso="NO" />}
-        icon_size="medium"
-        icon_position="left"
+        iconSize="medium"
+        iconPosition="left"
         size="large"
         text="Button"
         variant="secondary"
       />
       <Input
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         placeholder="Write something"
       />
       <Input
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         size="large"
         placeholder="Write something"
       />
       <Dropdown
         value="NO"
-        icon_position="left"
+        iconPosition="left"
         data={{
           NO: (
             <Dropdown.HorizontalItem>

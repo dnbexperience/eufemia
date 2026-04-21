@@ -10,11 +10,40 @@ import AutocompleteMethods from 'Docs/uilib/components/autocomplete/methods'
 
 <PropertiesTable props={AutocompleteEvents} />
 
-### The `on_change` vs `on_select` difference
+### The `onChange` vs `onSelect` difference
 
-The difference between `on_change` and `on_select` is:
+The difference between `onChange` and `onSelect` is:
 
-- `on_change` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
-- `on_select` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
+- `onChange` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
+- `onSelect` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
+
+### The `onSubmit` event
+
+The `onSubmit` event is called when the user presses **Enter** in the input field without having selected or navigated to an item in the list. This is useful for implementing custom behaviors such as:
+
+- Navigating to a dedicated search results page
+- Triggering an advanced search action
+
+```tsx
+<Autocomplete
+  data={myData}
+  onSubmit={({ value }) => {
+    navigateTo(`/search?q=${value}`)
+  }}
+/>
+```
+
+### The `onItemMouseEnter` event
+
+The `onItemMouseEnter` event is called when the user hovers over a dropdown item. This is useful for pre-fetching data or triggering actions before the user commits to a selection.
+
+```tsx
+<Autocomplete
+  data={myData}
+  onItemMouseEnter={({ item, data, event }) => {
+    prefetchData(data)
+  }}
+/>
+```
 
 <AutocompleteMethods />

@@ -14,10 +14,8 @@ import {
   ButtonTertiaryWrap,
   ButtonAnchor,
   ButtonCustomContent,
-  ButtonSignal,
-  ButtonSignalLarge,
   ButtonIcon,
-  ButtonHasDarkBackground,
+  ButtonOnDarkSurface,
   SvgInButton,
 } from 'Docs/uilib/components/button/Examples'
 
@@ -61,22 +59,6 @@ Tertiary button with long text and text `wrap` enabled.
 
 <ButtonDisabled />
 
-<VisibilityByTheme hidden="sbanken">
-
-### Signal button
-
-Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
-
-<ButtonSignal />
-
-### Large Signal button
-
-Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
-
-<ButtonSignalLarge />
-
-</VisibilityByTheme>
-
 ### Icon button
 
 When the button has no text an `aria-label` attribute is required for accessibility. And a `title` attribute is recommended for mouse hover.
@@ -91,6 +73,10 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 
 <ButtonCustomContent />
 
+### Button on dark surface
+
+<ButtonOnDarkSurface />
+
 ### Button with custom SVG
 
 **NB:** Ensure you add an `aria-label` on the SVG for accessibility reasons.
@@ -102,14 +88,3 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 <ButtonErrorState />
 
 </VisibleWhenVisualTest>
-
-<VisibilityByTheme visible="sbanken">
-
-### Button on dark background
-
-When placing the button on a dark background wrap the content of the dark section with `<Theme.Provider darkBackground>`
-to get the correct styles.
-
-<ButtonHasDarkBackground />
-
-</VisibilityByTheme>

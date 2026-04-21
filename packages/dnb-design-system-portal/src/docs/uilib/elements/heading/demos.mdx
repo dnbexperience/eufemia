@@ -11,6 +11,7 @@ import {
   HeadingProseMaxWidthExample,
   HeadingMarginCollapsingExample,
   HeadingRegressionTest,
+  HeadingDarkSurfaceExample,
 } from 'Docs/uilib/elements/heading/Examples'
 
 ## Demos
@@ -33,7 +34,7 @@ By using the `<small>` element, we decrease the size one level (default size is 
 
 ### Prose max width
 
-The `proseMaxWidth` prop allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
 
 <HeadingProseMaxWidthExample />
 
@@ -50,6 +51,12 @@ The `proseMaxWidth` prop allows you to limit the width of heading text based on 
 Only the largest margin takes effect.
 
 <HeadingMarginCollapsingExample />
+
+### Dark surface
+
+Headings automatically adapt their color when rendered on a dark surface:
+
+<HeadingDarkSurfaceExample />
 
 <VisibleWhenVisualTest>
   <HeadingRegressionTest />

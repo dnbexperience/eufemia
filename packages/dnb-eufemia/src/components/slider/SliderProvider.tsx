@@ -1,7 +1,6 @@
 import React from 'react'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
-  isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
   getStatusState,
@@ -17,55 +16,33 @@ import {
 } from './SliderHelpers'
 
 import type {
-  ValueTypes,
-  onChangeEventProps,
+  SliderValue,
+  SliderOnChangeParams,
   SliderAllProps,
-  SliderContextTypes,
-  ThumbStateEnums,
+  SliderContextValue,
+  SliderThumbState,
 } from './types'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
-const defaultProps = {
+const defaultProps: Partial<SliderAllProps> = {
   statusState: 'error',
   min: 0,
   max: 100,
   value: -1,
   multiThumbBehavior: 'swap',
+  labelDirection: 'vertical',
 }
 
-export const SliderContext = React.createContext<SliderContextTypes>(null)
+export const SliderContext = React.createContext<SliderContextValue>(null)
 
 export function SliderProvider(localProps: SliderAllProps) {
   const context = React.useContext(Context)
-  const allProps = convertSnakeCaseProps(
-    extendPropsWithContext(
-      localProps,
-      defaultProps,
-      { skeleton: context?.skeleton },
-      context?.getTranslation(localProps).Slider,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(
-        context?.FormRow,
-
-        /**
-         * Exclude some props
-         */
-        {
-          vertical: null,
-        }
-      ),
-      pickFormElementProps(
-        context?.formElement,
-
-        /**
-         * Exclude some props
-         */
-        {
-          vertical: null,
-        }
-      ),
-      context?.Slider
-    )
+  const allProps = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
+    context?.getTranslation(localProps).Slider,
+    context?.Slider
   )
 
   const [_id] = React.useState(makeUniqueId)
@@ -75,55 +52,53 @@ export function SliderProvider(localProps: SliderAllProps) {
 
   const {
     step,
-    label, // eslint-disable-line
-    labelDirection, // eslint-disable-line
-    labelSrOnly, // eslint-disable-line
-    status, // eslint-disable-line
-    statusState, // eslint-disable-line
-    statusProps, // eslint-disable-line
-    statusNoAnimation, // eslint-disable-line
-    globalStatus, // eslint-disable-line
-    stretch, // eslint-disable-line
-    suffix, // eslint-disable-line
-    thumbTitle: title, // eslint-disable-line
-    subtractTitle, // eslint-disable-line
-    addTitle, // eslint-disable-line
-    hideButtons, // eslint-disable-line
+    label,
+    labelDirection,
+    labelSrOnly,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    stretch,
+    suffix,
+    thumbTitle: title,
+    subtractTitle,
+    addTitle,
+    hideButtons,
     multiThumbBehavior,
     numberFormat,
-    tooltip, // eslint-disable-line
-    alwaysShowTooltip, // eslint-disable-line
+    tooltip,
+    alwaysShowTooltip,
     skeleton,
-    max, // eslint-disable-line
-    min, // eslint-disable-line
-    extensions, // eslint-disable-line
+    max,
+    min,
+    extensions,
     disabled,
-    className, // eslint-disable-line
-    id, // eslint-disable-line
+    className,
+    id,
     onChange,
-    onDragStart, // eslint-disable-line
-    onDragEnd, // eslint-disable-line
+    onDragStart,
+    onDragEnd,
     vertical: _vertical,
     reverse: _reverse,
     value: _value,
-    children: _children, // eslint-disable-line
+    children: _children,
 
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
   } = allProps
 
-  const [value, setValue] = React.useState<ValueTypes>(_value)
+  const [value, setValue] = React.useState<SliderValue>(_value)
   const [externValue, updateExternValue] =
-    React.useState<ValueTypes>(_value)
-  const realtimeValue = React.useRef<ValueTypes>(_value)
+    React.useState<SliderValue>(_value)
+  const realtimeValue = React.useRef<SliderValue>(_value)
   const [thumbState, setThumbState] =
-    React.useState<ThumbStateEnums>('initial')
+    React.useState<SliderThumbState>('initial')
   const thumbIndex = React.useRef<number>(-1)
   const [shouldAnimate, updateAnimateState] =
     React.useState<boolean>(false)
-  const [isVertical] = React.useState(isTrue(_vertical))
-  const [isReverse] = React.useState(
-    isVertical ? !isTrue(_reverse) : isTrue(_reverse)
-  )
+  const [isVertical] = React.useState(_vertical)
+  const [isReverse] = React.useState(isVertical ? !_reverse : _reverse)
   const isMulti = Array.isArray(value)
   const setThumbIndex = (index: number) => {
     if (!isNaN(index)) {
@@ -144,7 +119,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     return currentIndex
   }
 
-  const updateValue = (value: ValueTypes) => {
+  const updateValue = (value: SliderValue) => {
     setValue(value)
     realtimeValue.current = value
   }
@@ -153,12 +128,12 @@ export function SliderProvider(localProps: SliderAllProps) {
     event: MouseEvent | TouchEvent,
     rawValue: number
   ) => {
-    if (disabled || isTrue(skeleton)) {
+    if (disabled || skeleton) {
       return
     }
 
     let numberValue = roundValue(rawValue, { step, min, max })
-    let multiValues: ValueTypes = numberValue
+    let multiValues: SliderValue = numberValue
 
     if (numberValue >= min) {
       if (isMulti) {
@@ -200,7 +175,7 @@ export function SliderProvider(localProps: SliderAllProps) {
       }
 
       if (typeof onChange === 'function') {
-        const obj: onChangeEventProps = {
+        const obj: SliderOnChangeParams = {
           value: multiValues,
           rawValue,
           event,
@@ -236,9 +211,9 @@ export function SliderProvider(localProps: SliderAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_value, isMulti])
 
-  const trackRef = React.useRef<HTMLElement>()
+  const trackRef = React.useRef<HTMLElement>(undefined)
 
-  const animationTimeout = React.useRef<NodeJS.Timeout>()
+  const animationTimeout = React.useRef<NodeJS.Timeout>(undefined)
   const setShouldAnimate = (state: boolean) => {
     updateAnimateState(state)
     clearTimeout(animationTimeout.current)
@@ -251,11 +226,11 @@ export function SliderProvider(localProps: SliderAllProps) {
   }
 
   const showStatus = getStatusState(status)
-  const showButtons = !isMulti && !isTrue(hideButtons)
+  const showButtons = !isMulti && !hideButtons
   const values = (isMulti ? value : [value]) as Array<number>
 
   return (
-    <SliderContext.Provider
+    <SliderContext
       value={{
         isMulti,
         isReverse,
@@ -279,6 +254,6 @@ export function SliderProvider(localProps: SliderAllProps) {
       }}
     >
       {localProps.children}
-    </SliderContext.Provider>
+    </SliderContext>
   )
 }

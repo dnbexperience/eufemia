@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react'
-import useHandleStatus, { Props } from '../useHandleStatus'
+import type { UseHandleStatusProps } from '../useHandleStatus'
+import useHandleStatus from '../useHandleStatus'
 import useHasContentChanged from '../useHasContentChanged'
 import useReportError from '../useReportError'
 
@@ -32,7 +33,7 @@ describe('useHandleStatus', () => {
     const outerContext = { showAllErrors: true }
 
     const { result } = renderHook(
-      (props) => useHandleStatus(props as Props),
+      (props) => useHandleStatus(props as UseHandleStatusProps),
       {
         initialProps: {
           outerContext,
@@ -68,7 +69,7 @@ describe('useHandleStatus', () => {
     const outerContext = { showAllErrors: true }
 
     const { result } = renderHook(
-      (props) => useHandleStatus(props as Props),
+      (props) => useHandleStatus(props as UseHandleStatusProps),
       {
         initialProps: {
           outerContext,
@@ -105,7 +106,7 @@ describe('useHandleStatus', () => {
     const outerContextB = { showAllErrors: true }
 
     const { result, rerender } = renderHook(
-      (props) => useHandleStatus(props as Props),
+      (props) => useHandleStatus(props as UseHandleStatusProps),
       {
         initialProps: {
           outerContext: outerContextA,
@@ -175,7 +176,7 @@ describe('useHandleStatus', () => {
     const outerContext = { showAllErrors: true }
 
     const { result, rerender } = renderHook(
-      (props) => useHandleStatus(props as Props),
+      (props) => useHandleStatus(props as UseHandleStatusProps),
       {
         initialProps: {
           outerContext,

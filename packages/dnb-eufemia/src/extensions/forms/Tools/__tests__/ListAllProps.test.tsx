@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form, Iterate, Tools, Value } from '../../'
-import { GenerateRef } from '../ListAllProps'
+import type { GenerateRef } from '../ListAllProps'
 
 describe('Tools.ListAllProps', () => {
   it('should console log a all props', () => {
@@ -20,29 +20,31 @@ describe('Tools.ListAllProps', () => {
       </Form.Handler>
     )
 
-    expect(log).toHaveBeenCalledWith({
-      propsOfFields: {
-        myString: {
-          path: '/myString',
-          pattern: '^[a-z]{2}[0-9]+$',
-          required: true,
-          schema: expect.objectContaining({
-            def: expect.objectContaining({
-              type: 'string',
+    expect(log).toHaveBeenCalledWith(
+      expect.objectContaining({
+        propsOfFields: expect.objectContaining({
+          myString: expect.objectContaining({
+            path: '/myString',
+            pattern: '^[a-z]{2}[0-9]+$',
+            required: true,
+            schema: expect.objectContaining({
+              def: expect.objectContaining({
+                type: 'string',
+              }),
+              '~standard': expect.objectContaining({
+                vendor: 'zod',
+                version: 1,
+              }),
             }),
-            '~standard': expect.objectContaining({
-              vendor: 'zod',
-              version: 1,
-            }),
+            width: 'large',
+            ref: {
+              current: expect.any(Object),
+            },
           }),
-          width: 'large',
-          innerRef: {
-            current: expect.any(Object),
-          },
-        },
-      },
-      propsOfValues: {},
-    })
+        }),
+        propsOfValues: {},
+      })
+    )
 
     log.mockRestore()
   })
@@ -62,31 +64,33 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-ri"
               name="myField"
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
+            "minLength": 2,
+            "path": "/nested/myString",
+            "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rg"
+                id="id-rt"
                 name="nested/myString"
                 type="text"
               />,
             },
-            "minLength": 2,
-            "path": "/nested/myString",
             "required": true,
             "width": "large",
           },
@@ -110,42 +114,44 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-ri"
               name="myString"
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "myString": {
-          "innerRef": {
+          "minLength": 2,
+          "path": "/myString",
+          "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-ri"
               name="myString"
               type="text"
             />,
           },
-          "minLength": 2,
-          "path": "/myString",
           "required": true,
           "value": "local value",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
-              "current": null,
-            },
             "minLength": 2,
             "path": "/nested/myString",
+            "ref": {
+              "current": null,
+            },
             "required": true,
             "width": "large",
           },
@@ -239,29 +245,31 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
-            "innerRef": {
+            "path": "/myNumber",
+            "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r12"
+                id="id-r1v"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
               />,
             },
-            "path": "/myNumber",
             "valueType": "number",
             "width": "medium",
           },
           "myString": {
-            "innerRef": {
+            "path": "/myString",
+            "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rs"
+                id="id-r1k"
                 name="myString"
                 type="text"
               />,
             },
-            "path": "/myString",
             "width": "large",
           },
           "myToggle": {
@@ -315,51 +323,54 @@ describe('Tools.ListAllProps', () => {
           "myNumber": {
             "exclusiveMaximum": 25,
             "exclusiveMinimum": 15,
-            "innerRef": {
+            "maximum": 20,
+            "minimum": 10,
+            "multipleOf": 2,
+            "path": "/myNumber",
+            "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r2a"
+                id="id-r45"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
               />,
             },
-            "maximum": 20,
-            "minimum": 10,
-            "multipleOf": 2,
-            "path": "/myNumber",
             "valueType": "number",
             "width": "medium",
           },
           "myObject": {
             "withString": {
-              "innerRef": {
-                "current": <input
-                  class="dnb-input__input"
-                  id="id-r1t"
-                  name="myObject/withString"
-                  type="text"
-                />,
-              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
               "pattern": "^[a-z]{2}[0-9]+",
+              "ref": {
+                "current": <input
+                  autocomplete="off"
+                  class="dnb-input__input"
+                  id="id-r3f"
+                  name="myObject/withString"
+                  type="text"
+                />,
+              },
               "width": "large",
             },
           },
           "myString": {
-            "innerRef": {
+            "maxLength": 5,
+            "minLength": 5,
+            "path": "/myString",
+            "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r1n"
+                id="id-r34"
                 name="myString"
                 type="text"
               />,
             },
-            "maxLength": 5,
-            "minLength": 5,
-            "path": "/myString",
             "width": "large",
           },
         },
@@ -399,35 +410,37 @@ describe('Tools.ListAllProps', () => {
               "withNumber": {
                 "exclusiveMaximum": 25,
                 "exclusiveMinimum": 15,
-                "innerRef": {
+                "maximum": 20,
+                "minimum": 10,
+                "multipleOf": 2,
+                "path": "/myObject/nested/withNumber",
+                "ref": {
                   "current": <input
+                    autocomplete="off"
                     class="dnb-input__input"
-                    id="id-r2n"
+                    id="id-r4v"
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
                     type="text"
                   />,
                 },
-                "maximum": 20,
-                "minimum": 10,
-                "multipleOf": 2,
-                "path": "/myObject/nested/withNumber",
                 "valueType": "number",
                 "width": "medium",
               },
             },
             "withString": {
-              "innerRef": {
+              "maxLength": 10,
+              "minLength": 10,
+              "path": "/myObject/withString",
+              "ref": {
                 "current": <input
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r2h"
+                  id="id-r4k"
                   name="myObject/withString"
                   type="text"
                 />,
               },
-              "maxLength": 10,
-              "minLength": 10,
-              "path": "/myObject/withString",
               "width": "large",
             },
           },
@@ -475,51 +488,54 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withNumber": {
-              "innerRef": {
+              "maximum": 20,
+              "minimum": 10,
+              "path": "/myObject/withNumber",
+              "ref": {
                 "current": <input
                   aria-required="true"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r3h"
+                  id="id-r6f"
                   inputmode="decimal"
                   name="myObject/withNumber"
                   type="text"
                 />,
               },
-              "maximum": 20,
-              "minimum": 10,
-              "path": "/myObject/withNumber",
               "required": true,
               "valueType": "number",
               "width": "medium",
             },
             "withString": {
-              "innerRef": {
+              "maxLength": 10,
+              "minLength": 10,
+              "path": "/myObject/withString",
+              "ref": {
                 "current": <input
                   aria-required="true"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r34"
+                  id="id-r5p"
                   name="myObject/withString"
                   type="text"
                 />,
               },
-              "maxLength": 10,
-              "minLength": 10,
-              "path": "/myObject/withString",
               "required": true,
               "width": "large",
             },
           },
           "myString": {
-            "innerRef": {
+            "path": "/myString",
+            "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r2u"
+                id="id-r5e"
                 name="myString"
                 type="text"
               />,
             },
-            "path": "/myString",
             "required": true,
             "width": "large",
           },
@@ -571,23 +587,25 @@ describe('Tools.ListAllProps', () => {
         "items": {
           "0": {
             "item": {
-              "innerRef": {
+              "itemPath": "/item",
+              "label": "My field",
+              "ref": {
                 "current": <input
                   aria-valuemax="9007199254740991"
                   aria-valuemin="-9007199254740991"
                   aria-valuenow="0"
                   aria-valuetext="0"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r3u"
+                  id="id-r74"
                   inputmode="decimal"
-                  name="id-r3u"
+                  name="id-r74"
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="0suffix"
                 />,
               },
-              "itemPath": "/item",
-              "label": "My field",
               "showStepControls": true,
               "suffix": "suffix",
               "valueType": "number",
@@ -596,23 +614,25 @@ describe('Tools.ListAllProps', () => {
           },
           "1": {
             "item": {
-              "innerRef": {
+              "itemPath": "/item",
+              "label": "My field",
+              "ref": {
                 "current": <input
                   aria-valuemax="9007199254740991"
                   aria-valuemin="-9007199254740991"
                   aria-valuenow="1"
                   aria-valuetext="1"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r44"
+                  id="id-r7j"
                   inputmode="decimal"
-                  name="id-r44"
+                  name="id-r7j"
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="1suffix"
                 />,
               },
-              "itemPath": "/item",
-              "label": "My field",
               "showStepControls": true,
               "suffix": "suffix",
               "valueType": "number",

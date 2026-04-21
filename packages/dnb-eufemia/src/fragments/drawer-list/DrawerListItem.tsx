@@ -1,10 +1,10 @@
-import React, { forwardRef } from 'react'
-import classnames from 'classnames'
-import { DrawerListDataArrayObject } from './DrawerList'
+import React from 'react'
+import clsx from 'clsx'
+import type { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<
   React.HTMLProps<HTMLLIElement>,
-  'children'
+  'children' | 'onClick'
 > & {
   children: ItemContentChildren
   active?: boolean
@@ -14,37 +14,37 @@ export type DrawerListItemProps = Omit<
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
   value?: string
-  on_click?: ({
-    selected,
-    value,
-  }: {
+  onClick?: (params: {
     selected: boolean
     /**
      * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
      */
     value: string
+    [key: string]: unknown
   }) => void
 }
 
-export const DrawerListItem = forwardRef(function DrawerListItem(
-  props: DrawerListItemProps,
-  ref: React.ForwardedRef<HTMLLIElement>
+export function DrawerListItem(
+  props: DrawerListItemProps & {
+    ref?: React.Ref<HTMLLIElement>
+  }
 ) {
   const {
-    role = 'option', // eslint-disable-line
-    hash = '', // eslint-disable-line
-    children, // eslint-disable-line
-    className = null, // eslint-disable-line
-    on_click = null, // eslint-disable-line
-    selected, // eslint-disable-line
-    active = null, // eslint-disable-line
-    value = null, // eslint-disable-line
-    disabled, // eslint-disable-line
+    onClick,
+    role = 'option',
+    hash = '',
+    children,
+    className = null,
+    selected,
+    active = null,
+    value = null,
+    disabled,
+    ref,
     ...rest
   } = props
 
   const params = {
-    className: classnames(
+    className: clsx(
       className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
@@ -55,34 +55,45 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
     disabled,
     'aria-selected': !!selected,
     'aria-disabled': disabled,
+    onClick: () =>
+      onClick({
+        selected,
+        value,
+        ...rest,
+      }),
   }
+
   if (active) {
     params['aria-current'] = true
   }
 
-  if (on_click && !rest.onClick) {
-    rest.onClick = () =>
-      on_click({
-        selected,
-        value,
-        ...rest,
-      })
-  }
-
   return (
-    <li {...params} {...rest} ref={ref} key={'li' + hash}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <li
+      {...params}
+      {...rest}
+      ref={ref}
+      key={'li' + hash}
+      onClick={() =>
+        onClick({
+          selected,
+          value,
+          ...rest,
+        })
+      }
+    >
       <span className="dnb-drawer-list__option__inner">
         <ItemContent hash={hash}>{children}</ItemContent>
       </span>
     </li>
   )
-})
+}
 
 export type ItemContentChildren =
   | React.ReactNode
   | DrawerListDataArrayObject
 
-export interface ItemContentProps {
+export type ItemContentProps = {
   hash?: string
   children?: ItemContentChildren
 }
@@ -119,9 +130,9 @@ export function ItemContent({ hash = '', children }: ItemContentProps) {
   return (
     <>
       {renderedContent}
-      {isDataObject && children.suffix_value && (
+      {isDataObject && children.suffixValue && (
         <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
-          {children.suffix_value}
+          {children.suffixValue}
         </DrawerListOptionItem>
       )}
     </>
@@ -135,7 +146,7 @@ function DrawerListOptionItem({
 }) {
   return (
     <span
-      className={classnames(['dnb-drawer-list__option__item', className])}
+      className={clsx(['dnb-drawer-list__option__item', className])}
       {...props}
     >
       {children}
@@ -153,7 +164,7 @@ export function DrawerListHorizontalItem({
 }: DrawerListHorizontalItemProps) {
   return (
     <DrawerListOptionItem
-      className={classnames([
+      className={clsx([
         'dnb-drawer-list__option__item--horizontal',
         className,
       ])}

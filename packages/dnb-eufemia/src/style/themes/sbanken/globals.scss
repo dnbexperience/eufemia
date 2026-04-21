@@ -1,0 +1,37 @@
+/*
+ *  Global rules, a place to put rules, overrides and customizations that don't fit elsewhere.
+ */
+
+@use './theme-mapping.scss';
+
+:root {
+  // Focus Ring
+  --focus-ring-width: 0.1875rem;
+  --focus-ring-color: var(--sb-color-blue-dark);
+
+  // Scrollbar
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--sb-color-gray-light-2);
+  --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
+  --scrollbar-thumb-hover-color: var(--sb-color-purple);
+
+  // Skip Link
+  --skip-link-color: var(--sb-color-blue-dark);
+  --skip-link-color--hover: var(--sb-color-purple-alternative);
+  --skip-link-color--active: var(--sb-color-purple-alternative);
+  --skip-link-background: var(--sb-color-blue-light-3);
+  --skip-link-background--hover: var(--sb-color-green);
+  --skip-link-background--active: var(--sb-color-white);
+}
+
+// ::selection appearance helper
+.dnb-selection::selection,
+.dnb-selection ::selection,
+[class^='dnb-']::selection,
+[class^='dnb-'] ::selection {
+  // Chrome does not support CSS variables in ::selection, so we use a fallback
+  background-color: var(--sb-color-blue-light-2, #bfe3ff);
+  color: var(--sb-color-black, #000);
+  text-shadow: none;
+}

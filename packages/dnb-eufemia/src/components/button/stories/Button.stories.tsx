@@ -31,7 +31,6 @@ export const ButtonSandbox = () => (
         <Button
           right
           bottom
-          // icon="chevron_left" icon_position="left"
         >
           <IconPrimary>chevron_left</IconPrimary>
           Text <b>Bold</b>
@@ -99,7 +98,7 @@ export const ButtonSandbox = () => (
       </WrappedButton>
       <WrappedButton
         icon="chevron_left"
-        icon_position="left"
+        iconPosition="left"
         right
         bottom
         variant="secondary"
@@ -120,7 +119,7 @@ export const ButtonSandbox = () => (
       </WrappedButton>
       <WrappedButton
         icon="chevron_left"
-        icon_position="left"
+        iconPosition="left"
         right
         bottom
         variant="tertiary"
@@ -146,47 +145,47 @@ export const ButtonSandbox = () => (
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button
         text={<span>Button text in span</span>}
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button text="Button text" variant="tertiary" icon="chevron_right" />
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button text="Button text" variant="tertiary" icon="chevron_right" />
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
-        icon_size="medium"
+        iconSize="medium"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="large"
+        iconSize="large"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         disabled
       />
       <span className="dnb-p">text</span>
@@ -244,10 +243,10 @@ export const ButtonSandbox = () => (
         right
         disabled
       />
-      <Button icon="chevron_right" icon_size="medium" size="default" />
+      <Button icon="chevron_right" iconSize="medium" size="default" />
       <Button
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         size="default"
         status="error"
         left
@@ -256,16 +255,11 @@ export const ButtonSandbox = () => (
     <Box>
       <Button
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         size="default"
         status="Hello"
         disabled
-        // left
       />
-    </Box>
-    <Box>
-      <Button text="Signal" variant="signal" icon="add" />
-      <Button text="Signal" variant="signal" icon="add" disabled />
     </Box>
     <Box>
       <Button variant="tertiary" text="Button text" icon="add" />
@@ -273,7 +267,7 @@ export const ButtonSandbox = () => (
       <Button
         variant="tertiary"
         text="Button text"
-        icon_position="top"
+        iconPosition="top"
         icon="add"
       />
 
@@ -281,7 +275,7 @@ export const ButtonSandbox = () => (
         variant="tertiary"
         text="Button text"
         icon="add"
-        icon_position="left"
+        iconPosition="left"
       />
     </Box>
     <Box>
@@ -307,7 +301,7 @@ export const ButtonSandbox = () => (
   </Wrapper>
 )
 
-const Template = (props) => {
+const Template: any = (props) => {
   return (
     <>
       <Button icon="chevron_right" size="small" {...props} />
@@ -336,12 +330,6 @@ Tertiary.args = {
   variant: 'tertiary',
 }
 
-export const Signal = Template.bind({})
-Signal.args = {
-  text: 'Button',
-  variant: 'signal',
-}
-
 export const IconButton = Template.bind({})
 IconButton.args = {
   icon: 'bell',
@@ -361,11 +349,12 @@ export const GlobalStatusExample = () => {
 }
 
 export const TypeScriptElement = () => {
-  const ReactRouterDomLink: React.ForwardRefExoticComponent<
-    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> &
-      React.RefAttributes<HTMLAnchorElement>
+  const ReactRouterDomLink: React.ComponentType<
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+      ref?: React.Ref<HTMLAnchorElement>
+    }
   > = null // This is "simulating" { Link } from 'react-router-dom'
-  return <Button element={ReactRouterDomLink} />
+  return <Button element={ReactRouterDomLink as any} />
 }
 
 export const TertiaryError = () => {

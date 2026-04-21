@@ -3,23 +3,20 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import React, { useCallback, useEffect, useRef } from 'react'
+import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  isTrue,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
-import {
-  FormElementProps,
-  pickFormElementProps,
-} from '../../shared/helpers/filterValidProps'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'
 import type {
@@ -38,7 +35,7 @@ export type FormLabelProps = {
   label?: React.ReactNode
   vertical?: boolean
   srOnly?: boolean
-  innerRef?: React.RefObject<HTMLElement>
+  ref?: React.Ref<HTMLElement>
 
   /** Is not a part of HTMLLabelElement and not documented as of now */
   disabled?: boolean
@@ -47,32 +44,22 @@ export type FormLabelProps = {
    * For internal use only
    */
   labelDirection?: FormElementProps['labelDirection']
-
-  /** @deprecated use forId instead */
-  for_id?: string
-  /** @deprecated use srOnly instead */
-  sr_only?: boolean
-  /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
-  label_direction?: FormElementProps['label_direction']
 }
 
 export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
-export default function FormLabel(localProps: FormLabelAllProps) {
+function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = convertSnakeCaseProps(
-    extendPropsWithContext(
-      localProps,
-      null,
-      { skeleton: context?.skeleton },
-      pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-      pickFormElementProps(context?.formElement),
-      context?.FormLabel
-    )
+  const props = extendPropsWithContext(
+    localProps,
+    null,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
+    context?.FormLabel
   )
 
   const nestedContent = props?.text || props?.children
@@ -91,7 +78,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     size,
     skeleton,
     element: Element = nestedElement || 'label',
-    innerRef,
+    ref: refProp,
     className,
     children,
     ...attributes
@@ -101,37 +88,52 @@ export default function FormLabel(localProps: FormLabelAllProps) {
 
   const isInteractive = Boolean(
     !props.disabled &&
-      !srOnly &&
-      (typeof props.onClick === 'function' || forId)
+    !srOnly &&
+    (typeof props.onClick === 'function' || forId)
   )
 
-  const params = {
-    className: classnames(
-      'dnb-form-label',
-      (isTrue(vertical) || labelDirection === 'vertical') &&
-        `dnb-form-label--vertical`,
-      srOnly && 'dnb-sr-only',
-      size && `dnb-h--${size}`,
-      isInteractive && 'dnb-form-label--interactive',
-      createSkeletonClass('font', skeleton, context),
-      createSpacingClasses(
-        content ? { right: 'small', ...props } : omitSpacingProps(props)
+  const params = applySpacing(
+    content ? { right: 'small', ...props } : omitSpacingProps(props),
+    {
+      className: clsx(
+        'dnb-form-label',
+        (vertical ||
+          (vertical !== false && labelDirection !== 'horizontal')) &&
+          `dnb-form-label--vertical`,
+        srOnly && 'dnb-sr-only',
+        size && `dnb-h--${size}`,
+        isInteractive && 'dnb-form-label--interactive',
+        createSkeletonClass('font', skeleton, context),
+        className
       ),
-      className
-    ),
-    htmlFor: forId,
-    ...(attributes as DynamicElementParams),
-  }
+      htmlFor: forId,
+      ...(attributes as DynamicElementParams),
+    }
+  )
 
   const labelRef = useRef<HTMLLabelElement>(null)
-  const ref = innerRef || labelRef
+
+  const combinedRef = useCallback(
+    (node: HTMLLabelElement | null) => {
+      labelRef.current = node
+
+      if (typeof refProp === 'function') {
+        refProp(node)
+      } else if (refProp) {
+        ;(refProp as React.RefObject<HTMLLabelElement | null>).current =
+          node
+      }
+    },
+    [refProp]
+  )
+
   if (!nestedNode) {
-    params['ref'] = ref
+    params['ref'] = combinedRef
   }
 
   useEffect(() => {
     if (!forId) {
-      return
+      return undefined
     }
 
     const forElem = document.querySelector(`#${forId}`)
@@ -139,8 +141,8 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       forElem?.closest('.dnb-input__border--root') ||
       forElem?.closest('.dnb-input__border')
 
-    if (target && ref.current) {
-      const elem = ref.current
+    if (target && labelRef.current) {
+      const elem = labelRef.current
 
       const buttonEnter = () => {
         target.classList.add('no-hover')
@@ -214,7 +216,9 @@ export default function FormLabel(localProps: FormLabelAllProps) {
         }
       }
     }
-  }, [forId, ref])
+
+    return undefined
+  }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
@@ -222,5 +226,9 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   return <Element {...params}>{content}</Element>
 }
 
-FormLabel._formElement = true
-FormLabel._supportsSpacingProps = true
+withComponentMarkers(FormLabel, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
+
+export default FormLabel

@@ -1,9 +1,8 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useRef } from 'react'
-import classnames from 'classnames'
-import {
-  useHeightAnimation,
-  useHeightAnimationOptions,
-} from './useHeightAnimation'
+import clsx from 'clsx'
+import type { UseHeightAnimationOptions } from './useHeightAnimation'
+import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
@@ -11,44 +10,47 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 export type HeightAnimationProps = {
   /**
    * Whether the nested children content should be kept in the DOM or not.
-   * Default: false
+   * Default: `false`
    */
   keepInDOM?: boolean
 
   /**
    * Set to `true` to omit the usage of "overflow: hidden;"
-   * Default: false
+   * Default: `false`
    */
   showOverflow?: boolean
 
   /**
    * Defines the duration of the animation in milliseconds.
-   * Default: 400
+   * Default: `400`
    */
   duration?: number
 
   /**
    * Defines the delay of the animation in milliseconds.
-   * Default: 0
+   * Default: `0`
    */
   delay?: number
 
   /**
    * Define a custom HTML Element.
-   * Default: div
+   * Default: `div`
    */
   element?: DynamicElement
 
   /**
    * Send along a custom React Ref.
-   * Default: null
+   * Default: `null`
    */
-  innerRef?: React.RefObject<HTMLElement>
-} & useHeightAnimationOptions
+  ref?: React.RefObject<HTMLElement>
+} & UseHeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'onAnimationEnd'>
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'ref' | 'onAnimationEnd' | 'onAnimationStart'
+  >
 
 function HeightAnimation({
   open = true,
@@ -59,7 +61,7 @@ function HeightAnimation({
   duration,
   delay,
   className,
-  innerRef,
+  ref,
   children,
   compensateForGap,
   onInit = null,
@@ -68,8 +70,8 @@ function HeightAnimation({
   onAnimationEnd = null,
   ...rest
 }: HeightAnimationAllProps) {
-  const elementRef = useRef<HTMLElement>()
-  const targetRef = innerRef || elementRef
+  const elementRef = useRef<HTMLElement>(undefined)
+  const targetRef = ref || elementRef
 
   const {
     isInDOM,
@@ -101,9 +103,9 @@ function HeightAnimation({
 
   return (
     <Space
-      innerRef={targetRef}
+      ref={targetRef}
       element={element || 'div'}
-      className={classnames(
+      className={clsx(
         'dnb-height-animation',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
@@ -129,6 +131,8 @@ function HeightAnimation({
   )
 }
 
-HeightAnimation._supportsSpacingProps = 'children'
+withComponentMarkers(HeightAnimation, {
+  _supportsSpacingProps: 'children',
+})
 
 export default HeightAnimation

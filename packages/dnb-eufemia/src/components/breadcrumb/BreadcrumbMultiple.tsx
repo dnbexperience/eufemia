@@ -1,10 +1,12 @@
 import React from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Section from '../section/Section'
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import type { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItem from './BreadcrumbItem'
+import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 type BreadcrumbMultipleProps = {
-  isCollapsed: boolean
+  collapsed: boolean
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
   items:
@@ -13,21 +15,21 @@ type BreadcrumbMultipleProps = {
 }
 
 export const BreadcrumbMultiple = ({
-  isCollapsed,
+  collapsed,
   items,
   noAnimation,
   data,
 }: BreadcrumbMultipleProps) => {
   return (
     <HeightAnimation
-      open={!isCollapsed}
+      open={!collapsed}
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >
       <Section
         className="dnb-breadcrumb__list"
         element="ol"
-        style_type="transparent"
+        backgroundColor="transparent"
       >
         {data?.map((breadcrumbItem, i) => {
           return (
@@ -44,11 +46,13 @@ export const BreadcrumbMultiple = ({
           )
         })}
 
-        {React.Children.toArray(items)
+        {(Array.isArray(items) ? items : [items])
           .filter((item) => React.isValidElement(item))
-          .map((item: React.ReactElement<BreadcrumbItemProps>, i) =>
-            React.cloneElement(item, { key: i, itemNo: i })
-          )}
+          .map((item, i) => (
+            <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
+              {item}
+            </BreadcrumbItemContext>
+          ))}
       </Section>
     </HeightAnimation>
   )

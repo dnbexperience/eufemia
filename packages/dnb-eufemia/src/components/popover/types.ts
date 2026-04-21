@@ -16,7 +16,7 @@ export type PopoverTargetElementObject = {
 
 export type PopoverTargetElement =
   | React.ReactNode
-  | React.MutableRefObject<unknown>
+  | React.RefObject<unknown>
   | HTMLElement
   | PopoverTargetElementObject
 
@@ -51,9 +51,10 @@ type PopoverOverlayProps = Omit<
   'children' | 'content' | 'title'
 >
 
-export type TriggerAttributes = React.HTMLAttributes<HTMLElement> & {
-  ref?: React.MutableRefObject<HTMLElement> & React.Ref<HTMLElement>
-}
+export type PopoverTriggerAttributes =
+  React.HTMLAttributes<HTMLElement> & {
+    ref?: React.RefObject<HTMLElement> & React.Ref<HTMLElement>
+  }
 
 type PopoverPropsBase = {
   id?: string
@@ -66,30 +67,30 @@ type PopoverPropsBase = {
   /**
    * Hide the arrow element from the popover.
    * When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.
-   * @default false
+   * Default: `false`
    */
   hideArrow?: boolean
   alignOnTarget?: PopoverAlign
   /**
    * Horizontal offset in pixels to adjust the popover placement.
    * Positive values move the popover to the right, negative values move it to the left.
-   * @default 0
+   * Default: `0`
    */
   horizontalOffset?: number
   /**
    * Offset in pixels from the edge when the arrow is positioned at the edge.
    * When set, this value replaces the default edge spacing (8px) and arrow boundary (8px).
    * Useful for components like Tooltip that need the arrow closer to the edge.
-   * @default undefined (uses default 8px)
+   * Default: `undefined` (uses default 8px)
    */
   arrowEdgeOffset?: number
   fixedPosition?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   /**
    * Skip rendering the popover in a React Portal.
    * When `true`, the popover renders inline in the DOM tree instead of being portaled to document.body.
    * Useful for cases where you need the popover to be part of the same DOM hierarchy for styling or event handling.
-   * @default false
+   * Default: `false`
    */
   skipPortal?: boolean
   /**
@@ -111,7 +112,7 @@ type PopoverPropsBase = {
    * - `"initial"` (default): Flip placement only on initial open when there's limited space.
    * - `"scroll"`: Flip placement on initial open and during scroll events.
    * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
-   * @default "initial"
+   * Default: `initial`
    */
   autoAlignMode?: PopoverAutoAlignMode
 }
@@ -148,7 +149,7 @@ export type PopoverProps = PopoverOverlayProps & {
    * Useful for adding aria-* attributes, data-* attributes, or event handlers.
    * These are merged with the default trigger attributes.
    */
-  triggerAttributes?: TriggerAttributes
+  triggerAttributes?: PopoverTriggerAttributes
   /**
    * Additional class name(s) merged with the default trigger wrapper classes.
    * The default class `dnb-popover__trigger` is always included.
@@ -156,7 +157,7 @@ export type PopoverProps = PopoverOverlayProps & {
   triggerClassName?: string
   /**
    * Distance in pixels between the popover and its trigger element.
-   * @default 16
+   * Default: `16`
    */
   triggerOffset?: number
   /**
@@ -166,7 +167,7 @@ export type PopoverProps = PopoverOverlayProps & {
   open?: boolean
   /**
    * Uncontrolled initial open state. Use this for uncontrolled popovers.
-   * @default false
+   * Default: `false`
    */
   openInitially?: boolean
   /**
@@ -176,7 +177,7 @@ export type PopoverProps = PopoverOverlayProps & {
   onOpenChange?: (open: boolean) => void
   /**
    * If true, focus is moved into the popover content when it opens.
-   * @default true
+   * Default: `true`
    */
   focusOnOpen?: boolean
   /**
@@ -185,8 +186,12 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   focusOnOpenElement?: HTMLElement | null | (() => HTMLElement | null)
   /**
+   * Called after the popover has completed its initial focus sequence.
+   */
+  onFocusComplete?: () => void
+  /**
    * Moves focus back to the trigger element once the popover closes.
-   * @default true
+   * Default: `true`
    */
   restoreFocus?: boolean
   /**
@@ -196,7 +201,7 @@ export type PopoverProps = PopoverOverlayProps & {
   preventClose?: boolean
   /**
    * Convenience prop to remove the built-in close button.
-   * @default false
+   * Default: `false`
    */
   hideCloseButton?: boolean
   /**
@@ -213,7 +218,7 @@ export type PopoverProps = PopoverOverlayProps & {
   /**
    * Disable the max-width constraint on the popover content.
    * When set to `true`, removes the max-width limit, allowing the popover to expand to its natural width.
-   * @default false
+   * Default: `false`
    */
   noMaxWidth?: boolean
   /**
@@ -222,7 +227,7 @@ export type PopoverProps = PopoverOverlayProps & {
    * - Maintaining `aria-describedby` references for accessibility
    * - Ensuring screen readers can always find the associated element
    * - Preventing layout shifts when the popover appears/disappears
-   * @default false
+   * Default: `false`
    */
   keepInDOM?: boolean
   /**
@@ -230,7 +235,7 @@ export type PopoverProps = PopoverOverlayProps & {
    * - `"initial"` (default): Flip placement only on initial open when there's limited space.
    * - `"scroll"`: Flip placement on initial open and during scroll events.
    * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
-   * @default "initial"
+   * Default: `initial`
    */
   autoAlignMode?: PopoverAutoAlignMode
   /**
@@ -243,11 +248,6 @@ export type PopoverProps = PopoverOverlayProps & {
    * @private For internal use only.
    */
   baseClassName?: string
-  /**
-   * Visual theme for the popover surface.
-   * @private For internal use only.
-   */
-  theme?: 'light' | 'dark'
   /**
    * Disable rendering of the focus-trap button used to return focus to the trigger.
    * @private For internal use only.

@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
-import {
+import type {
   TranslationArguments,
   TranslationId,
   TranslationIdAsFunction,
-  formatMessage,
 } from './useTranslation'
-import SharedContext, {
+import { formatMessage } from './useTranslation'
+import type {
   TranslationCustomLocales,
   TranslationFlatToObject,
 } from './Context'
+import SharedContext from './Context'
 import renderWithFormatting from './renderWithFormatting'
 
 export type TranslationProps<T = TranslationCustomLocales> = {
@@ -22,7 +23,13 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
   ...params
 }: TranslationProps<T>) => {
   const { translation } = useContext(SharedContext)
-  const result = formatMessage(id || children, params, translation)
+  const result = formatMessage(
+    (id || children) as
+      | string
+      | TranslationIdAsFunction<TranslationCustomLocales>,
+    params,
+    translation
+  )
 
   if (typeof result !== 'string') {
     return <>{String(id)}</>
@@ -33,12 +40,12 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
 
 type TranslationFn = <T = TranslationCustomLocales>(
   props: TranslationProps<T>
-) => JSX.Element
+) => React.JSX.Element
 
 export type TranslationComponent = TranslationFn & {
   withTypes: <T = TranslationCustomLocales>() => (
     props: TranslationProps<T>
-  ) => JSX.Element
+  ) => React.JSX.Element
 }
 
 const Translation = TranslationImpl as unknown as TranslationComponent

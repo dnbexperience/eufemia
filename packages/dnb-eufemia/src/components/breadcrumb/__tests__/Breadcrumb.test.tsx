@@ -7,12 +7,13 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
+import type { BreadcrumbProps } from '../Breadcrumb'
+import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { BreadcrumbItemProps } from '../BreadcrumbItem'
-import { AnchorAllProps } from '../../Anchor'
+import type { BreadcrumbItemProps } from '../BreadcrumbItem'
+import type { AnchorAllProps } from '../../Anchor'
 import 'mock-match-media/jest-setup'
 import { setMedia } from 'mock-match-media'
 
@@ -67,30 +68,6 @@ describe('Breadcrumb', () => {
 
     expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
     expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
-  })
-
-  // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-  it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
-    const dataTestId = 'my-test-id'
-    render(
-      <Breadcrumb
-        data={[
-          {
-            text: 'Page 2',
-            'aria-label': 'Label',
-            'data-testid': dataTestId,
-          },
-        ]}
-      />
-    )
-
-    expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-    expect(screen.queryByTestId(dataTestId)).toHaveClass(
-      'dnb-breadcrumb__item__span'
-    )
-    expect(
-      document.querySelector('.dnb-breadcrumb__item__span')
-    ).toHaveAttribute('aria-label', 'Label')
   })
 
   it('renders a breadcrumb with multiple items by children', () => {
@@ -176,7 +153,7 @@ describe('Breadcrumb', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         variant="collapse"
-        isCollapsed={overrideCollapse}
+        collapsed={overrideCollapse}
         onClick={jest.fn()}
       />
     )
@@ -387,20 +364,25 @@ describe('Breadcrumb', () => {
     })
 
     it('will use given element', () => {
-      const CustomElement = React.forwardRef(
-        (props: AnchorAllProps, ref) => {
-          return (
-            <span
-              {...props}
-              ref={ref as React.RefObject<HTMLAnchorElement>}
-              className="custom-element"
-            />
-          )
-        }
-      )
+      const CustomElement = ({
+        ref,
+        ...props
+      }: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) => {
+        return (
+          <span
+            {...props}
+            ref={ref as React.RefObject<HTMLAnchorElement>}
+            className="custom-element"
+          />
+        )
+      }
 
       render(
-        <BreadcrumbItem element={CustomElement} text="Page" href="/" />
+        <BreadcrumbItem
+          element={CustomElement as React.ElementType}
+          text="Page"
+          href="/"
+        />
       )
 
       expect(
@@ -409,18 +391,26 @@ describe('Breadcrumb', () => {
     })
 
     it('renders breadcrumbitem as a link if the to prop is given and element is a router link', () => {
-      const MockLink = React.forwardRef(
-        (props: { to: string; children: React.ReactNode }, ref) => (
-          <a
-            href={props.to}
-            ref={ref as React.RefObject<HTMLAnchorElement>}
-          >
-            {props.children}
-          </a>
-        )
+      const MockLink = ({
+        ref,
+        ...props
+      }: {
+        to: string
+        children: React.ReactNode
+        ref?: React.Ref<HTMLAnchorElement>
+      }) => (
+        <a href={props.to} ref={ref as React.RefObject<HTMLAnchorElement>}>
+          {props.children}
+        </a>
       )
 
-      render(<BreadcrumbItem to={'/url'} element={MockLink} text="Page" />)
+      render(
+        <BreadcrumbItem
+          to={'/url'}
+          element={MockLink as React.ElementType}
+          text="Page"
+        />
+      )
 
       expect(screen.getByRole('link')).toHaveAttribute('href', '/url')
     })
@@ -479,26 +469,6 @@ describe('Breadcrumb', () => {
       expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
     })
 
-    // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-    it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
-      const dataTestId = 'my-test-id'
-      render(
-        <BreadcrumbItem
-          text="Home"
-          data-testid={dataTestId}
-          role="button"
-        />
-      )
-
-      expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-      expect(screen.queryByTestId(dataTestId)).toHaveClass(
-        'dnb-breadcrumb__item__span'
-      )
-      expect(
-        document.querySelector('.dnb-breadcrumb__item__span')
-      ).not.toHaveAttribute('role')
-    })
-
     describe('will set animation style', () => {
       render(
         <Breadcrumb
@@ -508,7 +478,7 @@ describe('Breadcrumb', () => {
             { href: '/page1/page2', text: 'Page 2' },
           ]}
           variant="collapse"
-          isCollapsed={false}
+          collapsed={false}
         />
       )
 
@@ -518,6 +488,46 @@ describe('Breadcrumb', () => {
         expect(items[item].getAttribute('style')).toBe(`--delay: ${item};`)
       })
     })
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Breadcrumb
+        ref={ref}
+        data={[{ href: '/' }, { href: '/page1', text: 'Page 1' }]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-breadcrumb')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Breadcrumb
+        ref={refFn}
+        data={[{ href: '/' }, { href: '/page1', text: 'Page 1' }]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-breadcrumb')
+    expect(refElement).toBe(element)
+  })
+
+  it('should apply spacing classes and innerSpace style on the root', () => {
+    render(<Breadcrumb top="large" innerSpace="small" />)
+
+    const element = document.querySelector('.dnb-breadcrumb')
+
+    expect(element.className).toContain('dnb-space__top--large')
+    expect(element.getAttribute('style')).toContain('--padding-t-s')
   })
 })
 
@@ -531,7 +541,7 @@ describe('Breadcrumb aria', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         variant="collapse"
-        isCollapsed={false}
+        collapsed={false}
       />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()

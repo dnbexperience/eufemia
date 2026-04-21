@@ -5,8 +5,9 @@
 
 import React from 'react'
 import type { DrawerListProviderProps } from './DrawerListProvider'
-import { ContextProps } from '../../shared/Context'
-import {
+import type { ContextProps } from '../../shared/Context'
+import type {
+  DrawerListData,
   DrawerListDataAll,
   DrawerListGroupTitles,
   DrawerListInternalData,
@@ -14,30 +15,30 @@ import {
 
 export type DrawerListContextState = Omit<
   DrawerListProviderProps,
-  'data' | 'wrapper_element' | 'children'
+  'data' | 'wrapperElement' | 'children'
 > & {
   data: DrawerListInternalData
   groups?: DrawerListGroupTitles
-  wrapper_element?: HTMLElement
+  wrapperElement?: HTMLElement
   /** used by Autocomplete */
-  original_data?: DrawerListInternalData
+  originalData?: DrawerListInternalData
   /** used by Autocomplete */
-  current_title?: string
+  currentTitle?: string
   isOpen?: boolean
   /** used internally */
-  _data?: any
+  _data?: DrawerListData
   /** used internally */
-  _value?: any
+  _value?: string | number
   /** used internally to have a backup to look up what we got in the first place (array vs object) */
-  raw_data?: DrawerListDataAll
+  rawData?: DrawerListDataAll
   /** the id of the current active-descendant for screen readers */
   ariaActiveDescendant?: string
 }
 
-export type DrawerListContextProps = ContextProps & {
+export type DrawerListContextValue = ContextProps & {
   drawerList?: DrawerListContextState
 }
 
-const DrawerListContext = React.createContext<DrawerListContextProps>({})
+const DrawerListContext = React.createContext<DrawerListContextValue>({})
 
 export default DrawerListContext

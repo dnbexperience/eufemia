@@ -53,7 +53,7 @@ export const SpaceSandbox = () => (
     <Box>
       <Provider
         space={{
-          no_collapse: true,
+          noCollapse: true,
         }}
       >
         <Collapsing bottom="small">
@@ -65,7 +65,7 @@ export const SpaceSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <Collapsing bottom="small" no_collapse={true}>
+      <Collapsing bottom="small" noCollapse={true}>
         <div>
           I have <code className="dnb-code">bottom="small"</code>
         </div>
@@ -554,7 +554,7 @@ const Label = styled.label`
 `
 
 const MagicBox = ({ label, ...rest }: { label?: string } = {}) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
@@ -585,7 +585,7 @@ const VisualSpace = ({
   children,
   ...rest
 }: { label?: string; children?: React.ReactNode } = {}) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)

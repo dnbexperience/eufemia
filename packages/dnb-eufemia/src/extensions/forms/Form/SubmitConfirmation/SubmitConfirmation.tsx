@@ -8,14 +8,15 @@ import React, {
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import SharedProvider from '../../../../shared/Provider'
-import { ContextProps } from '../../../../shared/Context'
+import type { ContextProps } from '../../../../shared/Context'
 import { HeightAnimation } from '../../../../components'
-import {
+import type {
   DialogContentProps,
   DialogProps,
 } from '../../../../components/dialog/types'
-import { EventStateObject } from '../../types'
+import type { EventStateObject } from '../../types'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ConfirmationState =
   | 'idle'
@@ -29,7 +30,7 @@ export type ConfirmParams = {
   submitState: EventStateObject | undefined
   connectWithDialog: Pick<
     DialogProps & DialogContentProps,
-    'openState' | 'onConfirm' | 'onDecline' | 'onClose'
+    'open' | 'onConfirm' | 'onDecline' | 'onClose'
   >
   setConfirmationState: (state: ConfirmationState) => void
   submitHandler: () => void | Promise<void>
@@ -64,11 +65,12 @@ function SubmitConfirmation(props: ConfirmProps) {
   } = useContext(DataContext)
 
   const confirmationStateRef = useRef<ConfirmationState>('idle')
-  const submitStateRef = useRef<EventStateObject>()
+  const submitStateRef = useRef<EventStateObject>(undefined)
   const preventSubmitRef = useRef<boolean>(undefined)
 
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
+      // @ts-expect-error - strictFunctionTypes
       getParamsRef.current()
     ))
   }, [preventSubmitWhen])
@@ -76,6 +78,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const setConfirmationState = useCallback(
     async (state: ConfirmationState) => {
       confirmationStateRef.current = state
+      // @ts-expect-error - strictFunctionTypes
       await onStateChange?.(getParamsRef.current())
 
       const setBuffered = (
@@ -118,7 +121,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     const confirmationState = confirmationStateRef.current
 
     const connectWithDialog = {
-      openState: confirmationState === 'readyToBeSubmitted',
+      open: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
       onClose: ({ triggeredBy }) => {
@@ -134,6 +137,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       setConfirmationState,
       submitHandler,
       cancelHandler,
+      // @ts-expect-error - strictFunctionTypes
       connectWithDialog,
       submitState: submitStateRef.current,
     } satisfies ConfirmParams
@@ -144,6 +148,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       submitStateRef.current = {
         ...submitState,
       } as EventStateObject
+      // @ts-expect-error - strictFunctionTypes
       onSubmitResult?.(getParamsRef.current())
     }
   }, [submitState, onSubmitResult])
@@ -213,6 +218,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       <SharedProvider {...sharedProviderParams}>
         <HeightAnimation>
+          {/* @ts-expect-error -- strictFunctionTypes */}
           {renderWithState?.(getParamsRef.current())}
         </HeightAnimation>
       </SharedProvider>
@@ -220,5 +226,8 @@ function SubmitConfirmation(props: ConfirmProps) {
   )
 }
 
-SubmitConfirmation._supportsSpacingProps = 'children'
+withComponentMarkers(SubmitConfirmation, {
+  _supportsSpacingProps: 'children',
+})
+
 export default SubmitConfirmation

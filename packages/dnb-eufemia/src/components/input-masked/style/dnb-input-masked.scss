@@ -3,13 +3,9 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-input-masked {
-  &--guide {
-    font-family: var(--font-family-monospace);
-  }
-
   // Used on iOS when faking the inputMode to be type of number during focus – this fix avoids a flickering
   input::placeholder {
     color: inherit;
@@ -28,64 +24,72 @@
   }
 }
 
-// MultiInputMask
-.dnb-multi-input-mask__fieldset {
-  @include fieldsetReset();
+.dnb-segmented-field__fieldset {
+  @include utilities.fieldsetReset();
 
   &--horizontal {
     display: inline-flex;
     flex-flow: row wrap;
     align-items: baseline;
-    // Adds the 1rem space between legend and input wrapper, as the `display: contents` in .dnb-multi-input-mask__legend makes the margins from .dnb-form-label not apply
     gap: 1rem;
   }
 }
 
-.dnb-multi-input-mask__input.dnb-input__input {
-  display: inline-block;
-  width: auto;
+.dnb-segmented-field__group {
+  display: inline-flex;
 
-  margin: 0;
-  padding: 0 0.125rem;
-
-  // reset vertical alignment
-  transform: translateY(0);
-
-  outline: none;
-
-  font-family: var(--font-family-monospace);
-  text-align: center;
-  border: none;
-  background: transparent;
-
-  overflow: visible;
-  white-space: nowrap;
-
-  &:first-of-type {
+  > .dnb-segmented-field__section.dnb-input__input:first-child {
     padding-left: 0.5rem;
   }
 
-  &:last-of-type {
+  > .dnb-segmented-field__section.dnb-input__input:nth-last-child(1) {
     padding-right: 0.5rem;
   }
 
-  .dnb-input--medium &,
-  .dnb-input--large & {
-    padding: 0 0.25rem;
+  > .dnb-segmented-field__delimiter
+    + .dnb-segmented-field__section.dnb-input__input {
+    padding-left: 0.0625rem;
   }
 }
 
-.dnb-multi-input-mask {
-  width: fit-content;
+.dnb-segmented-field {
+  &__delimiter {
+    display: flex;
+    user-select: none;
 
-  &:not(.dnb-input__status--error) {
-    .dnb-multi-input-mask__input,
-    .dnb-multi-input-mask__delimiter {
-      color: var(--color-black-55);
-
-      &--highlight {
-        color: var(--color-black);
-      }
+    padding: 0 0.25rem 0 0;
+    @include utilities.isFirefox() {
+      padding: 0 0.0625rem;
     }
+  }
+
+  .dnb-segmented-field__section,
+  .dnb-segmented-field__delimiter {
+    color: var(--input-color-placeholder); // placeholder color
+
+    &--highlight {
+      color: var(--input-color-text); // text color
+    }
+  }
+
+  .dnb-segmented-field__section {
+    width: fit-content;
+
+    margin: 0;
+    padding: 0 0.125rem;
+    .dnb-input--medium &,
+    .dnb-input--large & {
+      padding: 0 0.25rem;
+    }
+
+    overflow: hidden;
+    outline: none;
+
+    cursor: text;
+
+    white-space: nowrap;
+    font-family: var(--font-family-monospace);
+    border: none;
+    background: transparent;
   }
 }

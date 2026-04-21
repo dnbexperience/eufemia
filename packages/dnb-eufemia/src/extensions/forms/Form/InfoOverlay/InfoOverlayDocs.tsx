@@ -1,19 +1,19 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const InfoOverlaySuccessProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   description: {
     doc: 'The description of the component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   buttonText: {
     doc: 'The text of the button.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   buttonHref: {
@@ -28,7 +28,7 @@ export const InfoOverlaySuccessProperties: PropertiesTableProps = {
   },
   '[Section](/uilib/components/section/properties)': {
     doc: 'All Section properties.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
 }
@@ -36,27 +36,27 @@ export const InfoOverlaySuccessProperties: PropertiesTableProps = {
 export const InfoOverlayErrorProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   description: {
     doc: 'The description of the component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   cancelButton: {
     doc: 'The text of the cancel button.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   retryButton: {
     doc: 'The text of the retry button.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Section](/uilib/components/section/properties)': {
     doc: 'All Section properties.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
 }

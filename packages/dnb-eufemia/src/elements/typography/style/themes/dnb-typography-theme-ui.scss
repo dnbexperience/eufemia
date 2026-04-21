@@ -1,19 +1,5 @@
 @use '../typography-mixins.scss' as typography;
 
-@mixin typographyStyle() {
-  color: var(--theme-color-black-80, currentColor);
-}
-
-// Setting the default headings color
-@include typography.headingTags() {
-  color: var(--theme-color-black-80, currentColor);
-}
-
-// Headings
-@include typography.headingClasses() {
-  color: var(--theme-color-black-80, currentColor);
-}
-
 @include typography.typographySelectors() {
   --typography-h-xx-large-small-line-height: var(--line-height-large);
   --typography-h-x-large-line-height: var(--line-height-large);
@@ -26,21 +12,4 @@
   --typography-lead-small-line-height: var(--line-height-basis);
   --typography-h-medium-line-height: var(--line-height-lead);
   --typography-h-small-small-line-height: var(--line-height-small);
-}
-
-$useClasses: true !default;
-@if $useClasses {
-  .dnb-p {
-    @include typographyStyle();
-  }
-}
-
-@mixin typographyThemeTag() {
-  @include typography.headingTags() {
-    @include typographyStyle();
-  }
-
-  p {
-    @include typographyStyle();
-  }
 }

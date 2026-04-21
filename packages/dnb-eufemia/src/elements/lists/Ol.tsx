@@ -4,8 +4,10 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
-import E, { ElementProps } from '../Element'
+import clsx from 'clsx'
+import type { ElementProps } from '../Element'
+import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type OlProps = {
   /**
@@ -33,7 +35,7 @@ const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
     <E
       as="ol"
       {...props}
-      className={classnames(
+      className={clsx(
         props.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
@@ -44,6 +46,6 @@ const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
   )
 }
 
-Ol._supportsSpacingProps = true
+withComponentMarkers(Ol, { _supportsSpacingProps: true })
 
 export default Ol

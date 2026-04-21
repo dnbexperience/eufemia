@@ -8,13 +8,14 @@ import DialogContent from './DialogContent'
 import DialogBody from './parts/DialogBody'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
-import { DialogProps, DialogContentProps } from './types'
-import classnames from 'classnames'
+import type { DialogProps, DialogContentProps } from './types'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-const defaultProps = {
+const defaultProps: Partial<DialogProps & DialogContentProps> = {
   variant: 'information',
   spacing: true,
 }
@@ -30,7 +31,6 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
 
   const {
     id,
-    rootId,
     contentId,
     focusSelector,
     labelledBy,
@@ -57,7 +57,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     closeModal,
     preventClose,
     preventOverlayClose,
-    openState,
+    open,
     openDelay,
 
     trigger,
@@ -113,9 +113,8 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     noAnimation,
     noAnimationOnMobile,
     fullscreen: currentFullscreen,
-    openState,
+    open,
     directDomReturn,
-    rootId,
     onOpen,
     onClose,
     onClosePrevent,
@@ -147,7 +146,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     <Modal
       {...modalProps}
       dialogRole={variant === 'information' ? 'dialog' : 'alertdialog'}
-      contentClass={classnames('dnb-dialog__root', contentClass)}
+      contentClass={clsx('dnb-dialog__root', contentClass)}
     >
       <DialogContent {...dialogProps} />
     </Modal>
@@ -159,6 +158,8 @@ Dialog.Header = DialogHeader
 Dialog.Navigation = DialogNavigation
 Dialog.Action = DialogAction
 
-Dialog._supportsSpacingProps = true
+withComponentMarkers(Dialog, {
+  _supportsSpacingProps: true,
+})
 
 export default Dialog

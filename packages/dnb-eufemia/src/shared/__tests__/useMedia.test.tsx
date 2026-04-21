@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { render, waitFor, act, renderHook } from '@testing-library/react'
-import useMedia, { UseMediaProps } from '../useMedia'
+import type { UseMediaProps } from '../useMedia'
+import useMedia from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
@@ -438,7 +439,7 @@ describe('useMedia', () => {
         })
       )
 
-      expect(count).toBe(24)
+      expect(count).toBe(20)
     })
 
     it('will return correct key based on size', async () => {

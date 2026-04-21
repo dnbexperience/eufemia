@@ -2,6 +2,7 @@ import React from 'react'
 import ValueProviderContext from './ValueProviderContext'
 import type { Path, ValueProps } from '../../types'
 import useValueProvider from './useValueProvider'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ValueProviderProps = {
   children: React.ReactNode
@@ -15,11 +16,14 @@ function ValueProviderProvider(props: ValueProviderProps) {
   const providerValue = useValueProvider(restProps)
 
   return (
-    <ValueProviderContext.Provider value={providerValue}>
+    <ValueProviderContext value={providerValue}>
       {children}
-    </ValueProviderContext.Provider>
+    </ValueProviderContext>
   )
 }
 
-ValueProviderProvider._supportsSpacingProps = 'children'
+withComponentMarkers(ValueProviderProvider, {
+  _supportsSpacingProps: 'children',
+})
+
 export default ValueProviderProvider

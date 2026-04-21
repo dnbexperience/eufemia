@@ -1,12 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const PortalRootProperties: PropertiesTableProps = {
-  innerRef: {
+  ref: {
     doc: 'The ref of the element that will be used.',
-    type: [
-      'React.Ref<HTMLElement>',
-      'React.MutableRefObject<HTMLElement>',
-    ],
+    type: ['React.Ref<HTMLElement>', 'React.RefObject<HTMLElement>'],
     status: 'optional',
   },
   id: {
@@ -26,7 +23,7 @@ export const PortalRootProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'The content that will be placed in a React Portal.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

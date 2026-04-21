@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const WizardContainerProperties: PropertiesTableProps = {
   initialActiveIndex: {
-    doc: 'What step should show initially (defaults to 0 for the first one).',
+    doc: 'What step should show initially (defaults to `0` for the first one).',
     type: 'number',
     status: 'optional',
   },
   mode: {
     doc: 'How to show the wizard. Inherited from StepIndicator. Defaults to `strict`.',
-    type: 'string',
+    type: ['"static"', '"strict"', '"loose"'],
     status: 'optional',
   },
   omitScrollManagement: {
@@ -33,7 +33,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
   },
   validationMode: {
     doc: 'Determines if and how the validation will be bypassed.',
-    type: ['bypassOnNavigation'],
+    type: ['"bypassOnNavigation"'],
     status: 'optional',
   },
   expandedInitially: {
@@ -42,13 +42,13 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
   children: {
     doc: 'Contents (Step components).',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Space](/uilib/layout/space/properties)': {
@@ -56,21 +56,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  variant: {
-    doc: 'There is no variant in the current version. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
-    type: 'string',
-    status: 'deprecated',
-  },
-  sidebarId: {
-    doc: 'There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
-    type: 'string',
-    status: 'deprecated',
-  },
 }
 
 export const WizardContainerEvents: PropertiesTableProps = {
   onStepChange: {
-    doc: 'Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.',
+    doc: 'Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.',
     type: 'function',
     status: 'optional',
   },

@@ -1,11 +1,16 @@
 import React from 'react'
-import ValueBlock, { Props as ValueProps } from '../../ValueBlock'
+import type { ValueBlockProps as ValueProps } from '../../ValueBlock'
+import ValueBlock from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Omit<ValueProps, 'layout'>
+export type ValueCompositionProps = Omit<ValueProps, 'layout'>
 
-function CompositionValue(props: Props) {
+function CompositionValue(props: ValueCompositionProps) {
   return <ValueBlock composition {...props} />
 }
 
-CompositionValue._supportsSpacingProps = true
+withComponentMarkers(CompositionValue, {
+  _supportsSpacingProps: true,
+})
+
 export default CompositionValue

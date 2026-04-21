@@ -22,20 +22,10 @@ import {
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
-    <Accordion
-      expanded
-      remember_state
-      id="single-accordion"
-      title="Accordion title"
-    >
+    <Accordion expanded id="single-accordion" title="Accordion title">
       <P>Accordion content</P>
     </Accordion>
-    <Accordion.Provider
-      top
-      remember_state
-      icon="chevron_down"
-      icon_position="right"
-    >
+    <Accordion.Provider top icon="chevron_down" iconPosition="right">
       <Accordion id="single-provider-accordion" title="Accordion title">
         <P>Accordion content</P>
       </Accordion>
@@ -70,7 +60,7 @@ export const AccordionLargeContentExample = () => (
 
 export const AccordionCustomisationExample = () => (
   <ComponentBox data-visual-test="accordion-custom" scope={{ bell }}>
-    <Accordion group="unique-id" left_component={<Icon icon={bell} />}>
+    <Accordion group="unique-id" leftComponent={<Icon icon={bell} />}>
       <Accordion.Header>Accordion title</Accordion.Header>
       <Accordion.Content>
         <P>
@@ -94,7 +84,7 @@ export const AccordionCustomisationExample = () => (
 
 export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
-    <Accordion.Group expanded allow_close_all>
+    <Accordion.Group expanded allowCloseAll>
       <Accordion expanded={false}>
         <Accordion.Header>Accordion title</Accordion.Header>
         <Accordion.Content top>
@@ -131,7 +121,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
       >
         <P>content</P>
       </Accordion>
@@ -142,7 +132,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
         expanded
       >
         <P>content</P>
@@ -179,20 +169,14 @@ export const AccordionNestedExample = () => {
 
 export const AccordionDisabledExample = () => (
   <ComponentBox data-visual-test="accordion-disabled">
-    <Accordion
-      expanded
-      disabled
-      remember_state
-      title="Disabled (expanded)"
-    >
+    <Accordion expanded disabled title="Disabled (expanded)">
       <P>I am expanded, but disabled, so I can't be closed</P>
     </Accordion>
     <Accordion.Provider
       top
       disabled
-      remember_state
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
     >
       <Accordion title="Disabled (closed)">
         <P>You can't see this text because I am disabled and closed.</P>
@@ -213,7 +197,7 @@ export const AccordionDescriptionExample = () => (
     <Accordion
       top
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
       id="description-provider-accordion"
       title="Accordion title"
       description="Accordion description"
@@ -236,7 +220,7 @@ export const AccordionFilledExample = () => (
 
 export const AccordionInColumns = () => {
   return (
-    <ComponentBox background="white">
+    <ComponentBox background="plain">
       {() => {
         const items = [
           <Accordion key="one" variant="filled">
@@ -303,20 +287,20 @@ export const AccordionInColumns = () => {
 }
 
 export function AccordionCloseAllInGroup() {
-  const collapseAll = React.createRef<() => void>()
+  const collapseAll = React.useRef<(() => void) | null>(null)
 
   return (
     <>
       <Button
         bottom="large"
         variant="secondary"
-        onClick={() => collapseAll.current()}
+        onClick={() => collapseAll.current?.()}
       >
         Close All
       </Button>
       <Accordion.Group
         expanded
-        allow_close_all
+        allowCloseAll
         collapseAllHandleRef={collapseAll}
       >
         <Accordion>

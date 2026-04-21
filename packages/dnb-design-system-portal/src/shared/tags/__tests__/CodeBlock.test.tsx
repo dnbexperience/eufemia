@@ -10,12 +10,12 @@ jest.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
-  whiteBackgroundStyle: 'whiteBackgroundStyle',
+  plainBackgroundStyle: 'plainBackgroundStyle',
 }))
 
 // Mock prism theme
 jest.mock(
-  '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme',
+  '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme',
   () => ({
     plain: { color: '#000', backgroundColor: '#fff' },
     styles: [],
@@ -45,15 +45,46 @@ jest.mock('@dnb/eufemia/src/components', () => {
   return {
     Button: ({ text, onClick, ...rest }: any) =>
       React.createElement('button', { onClick, ...rest }, text),
-    Space: ({ children, innerRef, ...rest }: any) =>
-      React.createElement('div', { ref: innerRef, ...rest }, children),
+    Checkbox: ({ label, checked, onChange, ...rest }: any) =>
+      React.createElement(
+        'label',
+        null,
+        React.createElement('input', {
+          type: 'checkbox',
+          checked,
+          onChange: (event: any) =>
+            onChange?.({ checked: event.target.checked }),
+          ...rest,
+        }),
+        label
+      ),
+    Space: ({ children, ref, ...rest }: any) =>
+      React.createElement('div', { ref: ref, ...rest }, children),
+    ToggleButton: ({ children, checked, onChange, ...rest }: any) =>
+      React.createElement(
+        'button',
+        {
+          type: 'button',
+          'aria-pressed': checked,
+          onClick: () => onChange?.({ checked: !checked }),
+          ...rest,
+        },
+        children
+      ),
   }
 })
 
 // Mock makeUniqueId
-jest.mock('@dnb/eufemia/src/shared/component-helper', () => ({
-  makeUniqueId: () => 'test-id',
-}))
+jest.mock('@dnb/eufemia/src/shared/component-helper', () => {
+  const actual = jest.requireActual(
+    '@dnb/eufemia/src/shared/component-helper'
+  )
+
+  return {
+    ...actual,
+    makeUniqueId: () => 'test-id',
+  }
+})
 
 // Mock Context
 jest.mock('@dnb/eufemia/src/shared', () => {
@@ -110,9 +141,19 @@ jest.mock('react-live-ssr', () => {
 import CodeBlock from '../CodeBlock'
 
 describe('CodeBlock', () => {
+  const isTestOriginal = global.IS_TEST
+
+  beforeAll(() => {
+    global.IS_TEST = false
+  })
+
   beforeEach(() => {
     mockLiveEditorOnChange = undefined
     mockLiveProviderCode = undefined
+  })
+
+  afterAll(() => {
+    global.IS_TEST = isTestOriginal
   })
 
   it('should render non-live code blocks with syntax highlighting', () => {
@@ -229,5 +270,23 @@ describe('CodeBlock', () => {
     expect(
       container.querySelector('[data-testid="live-preview"]')
     ).toBeNull()
+  })
+
+  it('should only show dark surface checkbox when surface is opted in', () => {
+    const { queryByLabelText, rerender } = render(
+      <CodeBlock reactLive scope={{}} language="jsx">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    expect(queryByLabelText('Dark surface')).toBeNull()
+
+    rerender(
+      <CodeBlock reactLive scope={{}} language="jsx" surface="dark">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    expect(queryByLabelText('Dark surface')).toBeTruthy()
   })
 })
