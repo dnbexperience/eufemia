@@ -1139,7 +1139,6 @@ html:not([data-whatinput=touch]) .dnb-tag--removable.dnb-button:focus-visible:no
   --tag-icon-border-color: var(--token-color-stroke-action-pressed);
 }
 .dnb-tag--removable.dnb-button[disabled] {
-  --tag-icon-fill-color: var(--token-color-background-neutral);
   --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
   --tag-icon-border-color: var(--token-color-stroke-action-disabled);
 }
