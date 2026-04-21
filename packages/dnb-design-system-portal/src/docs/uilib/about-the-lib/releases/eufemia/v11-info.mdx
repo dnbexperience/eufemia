@@ -306,7 +306,7 @@ These renames only apply to specific components. Do not find-and-replace them ac
 | `input_icon` → `icon`            | Autocomplete                | Other components that already have `icon`    |
 | `visible` → `show`               | ProgressIndicator           | Other components with `visible` prop         |
 | `position` → `placement`         | Tooltip                     | Other components with `position` prop        |
-| `children` → `label`             | Checkbox, ProgressIndicator | —                                            |
+| `children` → `label`             | Checkbox, ProgressIndicator | On Checkbox, `children` is a silent failure  |
 | `as` → `element`                 | H (heading element)         | —                                            |
 | `accordion` → `mode="accordion"` | Table                       | Accordion component itself                   |
 | `size` → `span`                  | Flex.Item, Card             | Other components where `size` is still valid |
@@ -387,7 +387,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 12. Replace `isCollapsed` with `collapsed` — **only on** Breadcrumb.
 13. Replace `visible` with `show` — **only on** ProgressIndicator.
 14. Replace `position` with `placement` — **only on** Tooltip.
-15. Replace `children` with `label` — **only on** Checkbox, ProgressIndicator.
+15. Replace `children` with `label` — **only on** Checkbox, ProgressIndicator. On Checkbox, `children` no longer renders (silent failure — see [Silent failures](#silent-failures-typescript-wont-catch)). On ProgressIndicator, `children` still works as an alias but `label` is preferred.
 16. Replace `active` or `forceOpen` with `open` — **only on** Tooltip.
 17. Replace `as` with `element` — **only on** H (heading element).
 18. Replace `size` with `span` — **only on** Flex.Item, Card.
@@ -1489,7 +1489,7 @@ New props added:
 
 #### Properties
 
-- Replace `direction` in `<Dl>` with `layout`.
+- Replace `direction` in `<Dl>` with `layout`. Values `'vertical'` and `'horizontal'` are unchanged; a new `'grid'` value is also available.
 
 ### [Breadcrumb](/uilib/components/breadcrumb/)
 
