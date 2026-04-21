@@ -488,11 +488,11 @@ npx tsc --noEmit
 **Search for remaining snake_case** — catches props you missed:
 
 ```bash
-grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_button\|_text\|_sr_' \
+grep -rn 'on_\|status_\|label_\|icon_\|_class\b\|inner_ref\|_state\|_position\|_button\|_text\|_sr_\|_title\|_format\|_mask\|_currency\|_number\|_percent' \
   --include='*.tsx' --include='*.ts' src/
 ```
 
-> **Note:** This grep only catches snake_case patterns. Semantic renames like `opened` → `open`, `prerender` → `keepInDOM`, `clear` → `showClearButton`, and `expandBehaviour` → `expandBehavior` require manual review using the [Semantic renames](#semantic-renames-not-just-casing) table.
+> **Note:** This grep catches most snake_case patterns but is not exhaustive. Semantic renames like `opened` → `open`, `prerender` → `keepInDOM`, `clear` → `showClearButton`, and `expandBehaviour` → `expandBehavior` require manual review using the [Semantic renames](#semantic-renames-not-just-casing) table. Always run `npx tsc --noEmit` as the primary verification step.
 
 **Common TypeScript errors and what they mean:**
 
@@ -616,6 +616,28 @@ Search for old usage:
 
 ```bash
 grep -rn 'locales=' --include='*.tsx' --include='*.ts' src/
+```
+
+#### 6. Checkbox `children` silently ignored
+
+Checkbox no longer uses `children` for the label text. Because Checkbox's type extends `React.HTMLProps<HTMLInputElement>`, passing `children` still compiles — but the label won't render.
+
+**Compiles but broken:**
+
+```tsx
+<Checkbox>Accept terms</Checkbox>
+```
+
+**Correct:**
+
+```tsx
+<Checkbox label="Accept terms" />
+```
+
+Search for old usage:
+
+```bash
+grep -rn '<Checkbox[^>]*>' --include='*.tsx' --include='*.ts' src/ | grep -v 'label='
 ```
 
 ### Complete migration example
