@@ -379,8 +379,10 @@ const PaginationProvider = (props: any) => {
     ]
   )
 
-  // Handle the onEnd dispatch after hasEndedInfinity becomes true
-  useEffect(() => {
+  // Handle the onEnd dispatch after hasEndedInfinity becomes true.
+  // Use useIsomorphicLayoutEffect so the callback fires before paint,
+  // matching the class component's setState callback timing.
+  useIsomorphicLayoutEffect(() => {
     if (hasEndedInfinity && endInfinityDispatchRef.current) {
       endInfinityDispatchRef.current = false
       const pageNumber = currentPageInternalRef.current + 1
