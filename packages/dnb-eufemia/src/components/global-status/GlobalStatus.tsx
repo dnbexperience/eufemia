@@ -460,7 +460,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   const scrollToStatus = useCallback(
     async (isDone: ((elem: HTMLElement) => void) | null = null) => {
-      if (typeof window === 'undefined') {
+      if (
+        typeof window === 'undefined' ||
+        propsRef.current.autoScroll === false
+      ) {
         return // stop here
       }
       try {
