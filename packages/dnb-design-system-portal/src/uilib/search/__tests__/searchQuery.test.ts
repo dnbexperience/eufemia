@@ -37,6 +37,19 @@ describe('searchQuery', () => {
     ).toHaveLength(0)
   })
 
+  it('should remove release pages from Algolia records', () => {
+    expect(
+      transformer(
+        makeNode({
+          fields: {
+            slug: '/uilib/about-the-lib/releases/eufemia/v11-info/',
+          },
+          frontmatter: { title: 'v11' },
+        })
+      )
+    ).toHaveLength(0)
+  })
+
   it('should collect headings', () => {
     expect(
       transformer(
