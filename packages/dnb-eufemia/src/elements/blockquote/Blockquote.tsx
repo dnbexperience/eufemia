@@ -3,11 +3,11 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
-import { Context, Theme } from '../../shared'
+import { Theme } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type BlockquoteProps = SpacingProps &
@@ -31,8 +31,6 @@ function Blockquote({
   ref,
   ...props
 }: BlockquoteProps & { ref?: React.Ref<HTMLQuoteElement> }) {
-  const context = useContext(Context)
-
   return (
     <E
       as="blockquote"
@@ -60,13 +58,7 @@ function Blockquote({
         />
       </svg>
 
-      <Theme.Context
-        surface={
-          noBackground || context?.theme?.name === 'sbanken'
-            ? 'initial'
-            : 'dark'
-        }
-      >
+      <Theme.Context surface={noBackground ? 'initial' : 'dark'}>
         {children}
       </Theme.Context>
     </E>

@@ -3,13 +3,13 @@
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
 @mixin blockquoteStyle() {
-  --blockquote-padding-top: 2rem;
+  --blockquote-padding-top: 1.5rem;
   --blockquote-padding-left: 1.5rem;
-  --blockquote-padding-bottom: 3rem;
+  --blockquote-padding-bottom: 2rem;
 
   // quote
   --blockquote-quote-size: 3rem;
-  --blockquote-quote-padding: 6rem;
+  --blockquote-quote-padding: 5.5rem;
 
   // font
   --blockquote-cite-style: italic;
@@ -24,6 +24,9 @@
   line-height: var(--line-height-small);
 
   border-radius: 1rem;
+
+  color: var(--token-color-text-action-ondark);
+  background-color: var(--token-color-decorative-first-intense-static);
 
   // gfx icon
   position: relative;
