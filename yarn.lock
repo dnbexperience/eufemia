@@ -16741,6 +16741,8 @@ __metadata:
 "eufemia@workspace:.":
   version: 0.0.0-use.local
   resolution: "eufemia@workspace:."
+  dependencies:
+    prettier: "npm:3.8.1"
   languageName: unknown
   linkType: soft
 

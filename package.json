@@ -38,6 +38,9 @@
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
+  "devDependencies": {
+    "prettier": "3.8.1"
+  },
   "resolutions": {
     "lmdb": "3.5.1",
     "msgpackr": "1.11.8",
