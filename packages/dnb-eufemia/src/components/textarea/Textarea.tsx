@@ -294,7 +294,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     return ownProps.textareaState || 'virgin'
   })
 
-  // Sync value from props (getDerivedStateFromProps equivalent)
+  // Sync value from props
   if (
     propValue !== 'initval' &&
     propValue !== value &&

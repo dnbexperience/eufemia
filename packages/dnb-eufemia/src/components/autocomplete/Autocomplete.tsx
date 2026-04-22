@@ -523,9 +523,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   >(DrawerListContext)
   const drawerList = context.drawerList
 
-  // Filter out undefined values to mimic React class component defaultProps behavior.
-  // Without this, explicit undefined values (e.g. size={undefined}) would override
-  // defaults and prevent context values from being merged.
+  // Filter out undefined values so that explicit undefined (e.g. size={undefined})
+  // does not override defaults or prevent context values from being merged.
   const filteredOwnProps = Object.fromEntries(
     Object.entries(ownProps).filter(([, v]) => v !== undefined)
   )
@@ -1785,7 +1784,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const setFocusOnInput = useCallback(() => {
     // Suppress onInputFocusHandler during programmatic refocus
-    // to prevent double onFocus dispatch (matching class component behavior)
+    // to prevent double onFocus dispatch
     suppressFocusHandlerRef.current = true
     focusInput()
     suppressFocusHandlerRef.current = false
@@ -2155,8 +2154,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           // Note: closingFromChangeRef is set/reset synchronously here, before
           // onCloseHandler fires asynchronously after React re-renders.
           // This means onCloseHandler always sees `false` and calls setFocusOnInput.
-          // This matches the class component behavior where onCloseHandler always
-          // refocused the input, so the guard is intentionally ineffective.
+          // onCloseHandler always refocuses the input, so the guard
+          // is intentionally ineffective.
           closingFromChangeRef.current = true
           setHidden()
 
@@ -2167,7 +2166,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           closingFromChangeRef.current = false
           setSkipFocusDuringChange(false)
 
-          // Deferred refocus — matches class component's setState callback timing
+          // Deferred refocus after state commits
           _focusTimeout.current = setTimeout(() => {
             setFocusOnInput()
 
@@ -2208,7 +2207,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     ]
   )
 
-  // Handle prop-driven state updates (replaces getDerivedStateFromProps)
+  // Handle prop-driven state updates
   if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
     prevDisableHighlightingRef.current = props.disableHighlighting
     setDisableHighlighting(props.disableHighlighting)
@@ -2255,7 +2254,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     dataChangedRef.current = true
   }
 
-  // Forward inputRef (replaces componentDidMount inputRef handling)
+  // Forward inputRef
   useEffect(() => {
     if (inputRef && _refInput.current) {
       if (typeof inputRef === 'function') {
@@ -2274,13 +2273,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     }
   })
 
-  // Handle data changes (replaces getDerivedStateFromProps updateData + componentDidUpdate data check)
+  // Handle data changes
   useEffect(() => {
     if (dataChangedRef.current) {
       dataChangedRef.current = false
 
-      // Reset the dedup guard so updateData always runs here,
-      // matching the v11 class componentDidUpdate which had no guard.
+      // Reset the dedup guard so updateData always runs here.
       // Without this, updateData is skipped when it was already called
       // (e.g. from SelectCountry's onFocus handler) with the same data
       // reference, preventing the async setData callback chain from
@@ -2289,8 +2287,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       updateData(props.data)
       if (drawerList.open || hasFocus) {
-        // Match class componentDidUpdate: re-run filter after updating the
-        // search index so highlight and visibility are handled consistently.
+        // Re-run filter after updating the search index so highlight
+        // and visibility are handled consistently.
         setSearchIndex({ overwriteSearchIndex: true }, () => {
           runFilterWithSideEffects(inputValueRef.current)
         })
@@ -2299,7 +2297,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data])
 
-  // Handle value prop changes (replaces componentDidUpdate value check)
+  // Handle value prop changes
   useEffect(() => {
     if (props.value !== prevValueRef.current) {
       prevValueRef.current = props.value

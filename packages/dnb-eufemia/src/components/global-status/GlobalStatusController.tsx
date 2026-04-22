@@ -94,19 +94,19 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
   const removeOnUnmountRef = useRef(props.removeOnUnmount)
   removeOnUnmountRef.current = props.removeOnUnmount
 
-  // Initialize provider (constructor equivalent)
+  // Initialize provider
   if (!providerRef.current) {
     providerRef.current = initProvider(props.id)
     prevPropsRef.current = ownProps
   }
 
-  // getDerivedStateFromProps equivalent: update provider when props change
+  // Sync provider when props change
   if (prevPropsRef.current !== ownProps) {
     providerRef.current?.update(statusIdRef.current, props)
     prevPropsRef.current = ownProps
   }
 
-  // componentDidMount + componentWillUnmount
+  // Register on mount, remove on unmount
   useMountEffect(() => {
     const { statusId } = providerRef.current.add(props)
     statusIdRef.current = statusId
@@ -162,13 +162,12 @@ function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
     prevPropsRef.current = ownProps
   }
 
-  // getDerivedStateFromProps equivalent
+  // Sync provider when props change
   if (prevPropsRef.current !== ownProps) {
     providerRef.current?.update(props.statusId, props)
     prevPropsRef.current = ownProps
   }
 
-  // componentDidMount
   useMountEffect(() => {
     providerRef.current.remove(props.statusId, props)
   })

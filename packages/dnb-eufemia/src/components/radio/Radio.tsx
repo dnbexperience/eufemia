@@ -168,7 +168,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   }
   skipNextPropSync.current = false
 
-  // Helper functions matching class component methods
+  // Helper functions
   const isContextGroupOrSingle = useCallback(
     () => typeof groupContext.value !== 'undefined' && !ownProps.group,
     [groupContext.value, ownProps.group]

@@ -411,7 +411,7 @@ function TabsComponent(ownProps: TabsProps) {
     ownProps.selectedKey
   )
 
-  // getDerivedStateFromProps equivalent
+  // Sync state from props
   if (listenForPropChangesRef.current) {
     const dataSource = ownProps.data || ownProps.children
     let currentData = data

@@ -121,9 +121,8 @@ function RadioGroup(ownProps: RadioGroupProps) {
   // Track whether the internal state was just set by a change event
   const skipNextPropSync = useRef(false)
 
-  // Sync value state from props
-  // skipNextPropSync is always reset after each render opportunity,
-  // matching the class component's _listenForPropChanges pattern.
+  // Sync value state from props.
+  // skipNextPropSync is always reset after each render opportunity.
   if (ownProps.value !== prevPropsValue) {
     setPrevPropsValue(ownProps.value)
     if (!skipNextPropSync.current) {

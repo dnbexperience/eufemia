@@ -238,7 +238,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const combinedRef = useCombinedRef(ref, elementRef)
 
   // Generate an id only when explicitly provided or when status/tooltip
-  // needs one for aria linking – mirrors the original class component logic.
+  // needs one for aria linking.
   const generatedId = useId(restProps.id)
   const resolvedId =
     restProps.id || restProps.status || restProps.tooltip
