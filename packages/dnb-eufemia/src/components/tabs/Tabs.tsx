@@ -1375,7 +1375,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
 TabsComponent.displayName = 'Tabs'
 
-type TabsWithStatics = React.FC<TabsProps> & {
+type TabsWithStatics = ((props: TabsProps) => React.ReactNode) & {
   Content: typeof CustomContent
   ContentWrapper: typeof ContentWrapper
 }
