@@ -484,7 +484,9 @@ describe('Popover', () => {
   })
 
   it('moves focus to a custom element when focusOnOpenElement is provided', async () => {
-    const focusRef = React.createRef<HTMLButtonElement>()
+    const focusRef: React.RefObject<HTMLButtonElement | null> = {
+      current: null,
+    }
 
     render(
       <Popover
@@ -1450,7 +1452,9 @@ describe('Popover', () => {
   })
 
   it('applies contentClassName and exposes a contentRef', async () => {
-    const contentRef = React.createRef<HTMLSpanElement>()
+    const contentRef: React.RefObject<HTMLSpanElement | null> = {
+      current: null,
+    }
     renderWithTrigger({
       contentClassName: 'custom-content',
       contentRef,

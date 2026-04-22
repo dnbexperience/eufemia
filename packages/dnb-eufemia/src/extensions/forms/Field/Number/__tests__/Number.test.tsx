@@ -2910,7 +2910,7 @@ describe('Field.Number', () => {
   })
 
   it('gets valid element when using createRef', () => {
-    const ref = React.createRef<HTMLInputElement>()
+    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
 
     render(<Field.Number id="unique" ref={ref} />)
 

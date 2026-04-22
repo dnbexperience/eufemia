@@ -101,7 +101,9 @@ describe('Form.Section', () => {
   })
 
   it('should match snapshot', () => {
-    const generateRef = React.createRef<GeneratePropsRef>()
+    const generateRef: React.RefObject<GeneratePropsRef | null> = {
+      current: null,
+    }
     render(
       <Form.Handler>
         <Tools.ListAllProps generateRef={generateRef}>
@@ -170,7 +172,9 @@ describe('Form.Section', () => {
   })
 
   it('should match schema snapshot with prop change', () => {
-    const generateRef = React.createRef<GenerateSchemaRef>()
+    const generateRef: React.RefObject<GenerateSchemaRef | null> = {
+      current: null,
+    }
     render(
       <Form.Handler>
         <Tools.GenerateSchema generateRef={generateRef}>

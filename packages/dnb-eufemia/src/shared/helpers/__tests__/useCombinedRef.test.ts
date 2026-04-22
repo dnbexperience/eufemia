@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { createRef } from 'react'
+import type { RefObject } from 'react'
 import useCombinedRef from '../useCombinedRef'
 
 describe('useCombinedRef', () => {
@@ -14,7 +14,7 @@ describe('useCombinedRef', () => {
   })
 
   it('should assign to an object ref', () => {
-    const objectRef = createRef<HTMLDivElement>()
+    const objectRef: RefObject<HTMLDivElement | null> = { current: null }
     const { result } = renderHook(() => useCombinedRef(objectRef))
 
     const node = document.createElement('div')
@@ -25,7 +25,7 @@ describe('useCombinedRef', () => {
 
   it('should assign to multiple refs', () => {
     const callbackRef = jest.fn()
-    const objectRef = createRef<HTMLDivElement>()
+    const objectRef: RefObject<HTMLDivElement | null> = { current: null }
     const { result } = renderHook(() =>
       useCombinedRef(callbackRef, objectRef)
     )
@@ -51,7 +51,7 @@ describe('useCombinedRef', () => {
 
   it('should handle null unset', () => {
     const callbackRef = jest.fn()
-    const objectRef = createRef<HTMLDivElement>()
+    const objectRef: RefObject<HTMLDivElement | null> = { current: null }
     const { result } = renderHook(() =>
       useCombinedRef(callbackRef, objectRef)
     )

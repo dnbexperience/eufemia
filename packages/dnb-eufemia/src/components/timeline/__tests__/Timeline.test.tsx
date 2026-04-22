@@ -377,7 +377,7 @@ describe('Timeline', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLOListElement>()
+    const ref: React.RefObject<HTMLOListElement | null> = { current: null }
 
     render(
       <Timeline

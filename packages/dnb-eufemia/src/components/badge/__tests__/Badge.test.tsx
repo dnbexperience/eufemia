@@ -315,7 +315,7 @@ describe('Badge', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(<Badge ref={ref} content="1" />)
 

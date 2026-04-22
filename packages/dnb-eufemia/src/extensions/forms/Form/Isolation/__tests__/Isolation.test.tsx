@@ -537,7 +537,9 @@ describe('Form.Isolation', () => {
 
   it('should call onChange on data context when local data submit is called', async () => {
     const onChange = jest.fn()
-    const commitHandleRef = React.createRef<() => void>()
+    const commitHandleRef: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler onChange={onChange}>
@@ -665,7 +667,9 @@ describe('Form.Isolation', () => {
 
   it('should call onCommit event when commitHandleRef is called', async () => {
     const onCommit = jest.fn()
-    const commitHandleRef = React.createRef<() => void>()
+    const commitHandleRef: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -719,7 +723,9 @@ describe('Form.Isolation', () => {
 
   it('should support nested paths', async () => {
     const onChange = jest.fn()
-    const commitHandleRef = React.createRef<() => void>()
+    const commitHandleRef: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler
@@ -1663,7 +1669,9 @@ describe('Form.Isolation', () => {
   })
 
   it('should render error when commitHandleRef is called', async () => {
-    const commitHandleRef = React.createRef<() => void>()
+    const commitHandleRef: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>

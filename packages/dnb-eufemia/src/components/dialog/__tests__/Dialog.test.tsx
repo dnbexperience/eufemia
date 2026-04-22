@@ -108,8 +108,12 @@ describe('Dialog', () => {
   })
 
   it('will accept custom refs', () => {
-    const contentRef = React.createRef<HTMLElement>()
-    const scrollRef = React.createRef<HTMLElement>()
+    const contentRef: React.RefObject<HTMLElement | null> = {
+      current: null,
+    }
+    const scrollRef: React.RefObject<HTMLElement | null> = {
+      current: null,
+    }
 
     const MockComponent = () => {
       return (

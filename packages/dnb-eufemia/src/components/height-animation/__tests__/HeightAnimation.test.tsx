@@ -434,7 +434,7 @@ describe('HeightAnimation without initializeTestSetup()', () => {
   })
 
   it('gets valid element when using createRef', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(<HeightAnimation ref={ref}>content</HeightAnimation>)
 

@@ -5,7 +5,9 @@ import type { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {
   it('should generate a schema', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -56,7 +58,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "data" with local value', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const { rerender } = render(
       <Form.Handler data={{ myString: 'my string' }}>
@@ -88,7 +92,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfFields" with object that contains all props', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
@@ -199,7 +205,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfValues" with object that contains all props', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
@@ -254,7 +262,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with different types', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -292,7 +302,9 @@ describe('Tools.GenerateSchema', () => {
     `)
   })
 
-  const generateRef = React.createRef<GenerateRef>()
+  const generateRef: React.RefObject<GenerateRef | null> = {
+    current: null,
+  }
 
   it('should generate schema with various properties', () => {
     render(
@@ -353,7 +365,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with nested paths', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -406,7 +420,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with required', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -466,7 +482,9 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should validate with generated schema', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler

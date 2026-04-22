@@ -94,7 +94,7 @@ describe('VisuallyHidden', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(<VisuallyHidden ref={ref}>Hidden text</VisuallyHidden>)
 

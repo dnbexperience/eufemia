@@ -430,8 +430,9 @@ describe('DrawerList component', () => {
   })
 
   it('focused item remembered when reopening', async () => {
-    const contextRef: React.RefObject<DrawerListContextValue> =
-      React.createRef()
+    const contextRef: React.RefObject<DrawerListContextValue | null> = {
+      current: null,
+    }
 
     const ContextConsumer = () => {
       contextRef.current = React.useContext(DrawerListContext)
@@ -480,8 +481,9 @@ describe('DrawerList component', () => {
   })
 
   it('focused item set to selected item when opening', async () => {
-    const contextRef: React.RefObject<DrawerListContextValue> =
-      React.createRef()
+    const contextRef: React.RefObject<DrawerListContextValue | null> = {
+      current: null,
+    }
 
     const ContextConsumer = () => {
       contextRef.current = React.useContext(DrawerListContext)

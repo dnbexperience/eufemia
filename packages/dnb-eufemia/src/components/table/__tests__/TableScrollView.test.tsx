@@ -49,7 +49,7 @@ describe('Table.ScrollView', () => {
     })
     setResizeObserver({ init, observe })
 
-    const ref = React.createRef<HTMLDivElement>()
+    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
 
     render(
       <ScrollView ref={ref}>

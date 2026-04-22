@@ -434,7 +434,9 @@ describe('Anchor element', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLAnchorElement>()
+    const ref: React.RefObject<HTMLAnchorElement | null> = {
+      current: null,
+    }
 
     render(
       <Anchor ref={ref} to="/url">
@@ -491,7 +493,9 @@ describe('Anchor element', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLAnchorElement> = React.createRef()
+    const ref: React.RefObject<HTMLAnchorElement | null> = {
+      current: null,
+    }
 
     const refFn = (elem: HTMLAnchorElement) => {
       ref.current = elem
