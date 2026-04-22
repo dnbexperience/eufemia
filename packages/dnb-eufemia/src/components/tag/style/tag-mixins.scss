@@ -3,7 +3,7 @@
 *
 */
 
-@use '../../../../style/core/utilities.scss' as utilities;
+@use '../../../style/core/utilities.scss' as utilities;
 
 @mixin tagIcon($fillColor, $strokeColor, $borderColor) {
   --tag-icon-fill: #{$fillColor};

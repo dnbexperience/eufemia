@@ -5,15 +5,15 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 @use '../../button/style/themes/button-mixins.scss' as button-mixins;
-@use './themes/tag-mixins.scss' as tag-mixins;
+@use './tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
-  --tag-icon-color: var(--color-sea-green);
-  --tag-icon-border-color: var(--tag-icon-color);
+  --tag-icon-background-color: var(--token-color-background-action);
+  --tag-icon-border-color: var(--token-color-stroke-action);
 
   &.dnb-button {
     appearance: none;
-    background-color: var(--color-black-8);
+    background-color: var(--token-color-background-neutral-base);
 
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -35,33 +35,51 @@
 
   &--interactive {
     &.dnb-button {
-      color: var(--color-sea-green);
-      background-color: var(--color-pistachio);
+      color: var(--token-color-text-action);
+      background-color: var(--token-color-decorative-third-muted);
 
       @include utilities.fakeBorder(
-        var(--color-sea-green),
+        var(--token-color-stroke-action),
         0.0625rem,
         inset
       );
+
       @include button-mixins.buttonFocusVisible(
-        $focus-color: var(--color-emerald-green)
+        $color: var(--token-color-text-action-focus),
+        $background-color: var(
+            --token-color-background-action-focus-subtle
+          ),
+        $focus-color: var(--token-color-icon-action-focus)
       ) {
-        --tag-icon-color: var(--color-emerald-green);
+        --tag-icon-background-color: var(--token-color-icon-action-focus);
+        --tag-icon-border-color: var(--token-color-icon-action-focus);
       }
-      @include button-mixins.buttonHover() {
-        --tag-icon-color: var(--color-emerald-green);
+
+      @include button-mixins.buttonHover(
+        $color: var(--token-color-text-action-hover),
+        $border-color: var(--token-color-stroke-action-hover)
+      ) {
+        --tag-icon-background-color: var(--token-color-background-neutral);
       }
+
       @include button-mixins.buttonActive(
-        $background-color: var(--color-mint-green-50)
+        $color: var(--token-color-text-action-pressed),
+        $background-color: var(
+            --token-color-background-action-pressed-subtle
+          )
       ) {
-        --tag-icon-color: var(--color-sea-green);
+        --tag-icon-background-color: var(
+          --token-color-icon-action-pressed
+        );
       }
 
       &[disabled] {
-        color: var(--color-sea-green-30);
-        background-color: var(--color-white);
+        color: var(--token-color-component-button-text-action-disabled);
+        background-color: var(--token-color-background-action-disabled);
 
-        @include utilities.fakeBorder(var(--color-sea-green-30));
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-disabled)
+        );
       }
     }
   }
@@ -80,16 +98,63 @@
   }
 
   &--addable {
-    --tag-icon-fill-color: var(--tag-icon-color);
-    --tag-icon-stroke-color: var(--color-white);
+    --tag-icon-fill-color: var(--tag-icon-background-color);
+    --tag-icon-stroke-color: var(--token-color-icon-neutral-inverse);
     svg {
       transform: rotate(45deg);
+    }
+
+    &.dnb-button {
+      @include utilities.hover() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-hover);
+      }
+
+      @include utilities.focusVisible() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-focus);
+      }
+
+      @include utilities.active() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action-pressed);
+        --tag-icon-border-color: var(--token-color-stroke-action-pressed);
+      }
+
+      &[disabled] {
+        --tag-icon-fill-color: var(
+          --token-color-background-action-disabled
+        );
+        --tag-icon-border-color: var(--token-color-stroke-action-disabled);
+      }
     }
   }
 
   &--removable {
-    --tag-icon-fill-color: var(--color-white);
-    --tag-icon-stroke-color: var(--tag-icon-color);
+    --tag-icon-fill-color: var(--token-color-background-neutral);
+    --tag-icon-stroke-color: var(--token-color-stroke-action);
+
+    &.dnb-button {
+      @include utilities.hover() {
+        --tag-icon-fill: var(--token-color-background-action-hover);
+      }
+
+      @include utilities.focusVisible() {
+        --tag-icon-fill: var(--token-color-background-action-focus);
+        --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
+      }
+
+      @include utilities.active() {
+        --tag-icon-fill: var(--token-color-background-action-pressed);
+        --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
+        --tag-icon-border-color: var(--token-color-stroke-action-pressed);
+      }
+
+      &[disabled] {
+        --tag-icon-stroke-color: var(--token-color-stroke-action-disabled);
+        --tag-icon-border-color: var(--token-color-stroke-action-disabled);
+      }
+    }
   }
 
   // Default space between tags

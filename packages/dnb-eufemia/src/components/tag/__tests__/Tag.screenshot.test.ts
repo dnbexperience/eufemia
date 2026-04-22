@@ -8,8 +8,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tag', () => {
-  setupPageScreenshot({ url: '/uilib/components/tag/demos/' })
+describe.each(['ui', 'sbanken'])('Tag for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/tag/demos/' })
 
   it('have to match Tag default', async () => {
     const screenshot = await makeScreenshot({
