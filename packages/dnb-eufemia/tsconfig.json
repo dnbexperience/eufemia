@@ -8,7 +8,7 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "lib": ["es2022", "dom"],
+    "lib": ["es2023", "dom"],
     "types": ["node", "jest", "react", "react-dom"],
     "outDir": "./build",
     "rootDir": ".",

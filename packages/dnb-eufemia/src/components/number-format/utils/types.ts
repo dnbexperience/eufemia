@@ -1,19 +1,5 @@
 // TypeScript types shared across the NumberFormat utilities.
 
-// The TS es2022 lib does not include 'negative' in the signDisplay
-// registry (it was added in es2023). Augment it so we can use the
-// native Intl types without widening signDisplay to `string`.
-// TODO: Remove this augmentation when tsconfig lib includes es2023.
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Intl {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-    interface NumberFormatOptionsSignDisplayRegistry {
-      negative: never
-    }
-  }
-}
-
 /** A single part returned by `Intl.NumberFormat.formatToParts()`. */
 export type FormatPartItem = {
   type: string
