@@ -158,8 +158,12 @@ describe('"detectOutsideClick" should', () => {
     // Is there perhaps a better way to handle this?
     window.PointerEvent = undefined
 
-    const ignoreElementRef = React.createRef<HTMLDivElement>()
-    const wrapperElementRef = React.createRef<HTMLDivElement>()
+    const ignoreElementRef: React.RefObject<HTMLDivElement | null> = {
+      current: null,
+    }
+    const wrapperElementRef: React.RefObject<HTMLDivElement | null> = {
+      current: null,
+    }
     const onSuccess = jest.fn()
 
     const Component = () => {

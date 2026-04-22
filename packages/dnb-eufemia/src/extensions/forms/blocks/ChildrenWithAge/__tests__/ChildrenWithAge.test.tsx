@@ -413,7 +413,9 @@ describe('ChildrenWithAge', () => {
   })
 
   it('should render with correct props', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const data = {
       hasChildren: true,

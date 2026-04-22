@@ -1,4 +1,4 @@
-import React, { StrictMode, createRef, useContext, useEffect } from 'react'
+import React, { StrictMode, useContext, useEffect } from 'react'
 import {
   act,
   fireEvent,
@@ -919,7 +919,7 @@ describe('DataContext.Provider', () => {
     const UseContext = ({
       result,
     }: {
-      result: React.RefObject<ContextState>
+      result: React.RefObject<ContextState | null>
     }) => {
       result.current = useContext(DataContext.Context)
       return null
@@ -1326,7 +1326,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when "onChangeValidator" is async', async () => {
-      const result = createRef<ContextState>()
+      const result: React.RefObject<ContextState | null> = {
+        current: null,
+      }
       const onChangeValidator = async () => {
         return new Error('My error')
       }
@@ -1373,7 +1375,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when "onBlurValidator" is async', async () => {
-      const result = createRef<ContextState>()
+      const result: React.RefObject<ContextState | null> = {
+        current: null,
+      }
       const onBlurValidator = async () => {
         return new Error('My error')
       }
@@ -1420,7 +1424,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
-      const result = createRef<ContextState>()
+      const result: React.RefObject<ContextState | null> = {
+        current: null,
+      }
       const onSubmit = async () => null
 
       render(
@@ -1444,7 +1450,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
-      const result = createRef<ContextState>()
+      const result: React.RefObject<ContextState | null> = {
+        current: null,
+      }
       const onSubmit = async () => null
 
       render(

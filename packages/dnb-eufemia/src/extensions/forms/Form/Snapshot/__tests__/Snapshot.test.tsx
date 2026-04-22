@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { render, screen } from '@testing-library/react'
 import { Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
@@ -100,7 +100,7 @@ describe('Form.Snapshot', () => {
   })
 
   it('should handle sliced snapshots from outside of the form', async () => {
-    const pointerRef: React.RefObject<number> = createRef()
+    const pointerRef: React.RefObject<number | null> = { current: null }
     pointerRef.current = 0
 
     const MockHookFromOutside = () => {

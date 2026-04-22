@@ -159,7 +159,7 @@ describe('Grid.Container', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Grid.Container ref={ref}>

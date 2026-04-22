@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { act, render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useReachRouter from '../useReachRouter'
@@ -35,7 +35,9 @@ describe('useReachRouter', () => {
     })
   }
   const getHookMock = () => {
-    const forceUpdateRef: React.RefObject<() => void> = createRef()
+    const forceUpdateRef: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     const navigate = jest.fn((href) => {
       window.history.replaceState({}, '', href)

@@ -260,7 +260,9 @@ describe('Accordion group component', () => {
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
-    const collapseAll = React.createRef<() => void>()
+    const collapseAll: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Accordion.Group
@@ -422,7 +424,9 @@ describe('Accordion container component', () => {
   })
 
   it('will set minHeight', async () => {
-    const contentRef = React.createRef<HTMLElement>()
+    const contentRef: React.RefObject<HTMLElement | null> = {
+      current: null,
+    }
 
     render(<Container contentRef={contentRef} />)
 

@@ -306,7 +306,7 @@ describe('Section component', () => {
   })
 
   it('gets valid element when using createRef', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Section {...props} ref={ref}>

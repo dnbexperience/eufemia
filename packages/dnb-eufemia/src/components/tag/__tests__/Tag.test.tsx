@@ -552,7 +552,7 @@ describe('Tag', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Tag.Group label="tags">
