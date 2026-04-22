@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 
 // Icons
 import checkIcon from '../../icons/check'

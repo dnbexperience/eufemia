@@ -24,7 +24,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type {

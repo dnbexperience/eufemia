@@ -4,7 +4,7 @@ import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
 import FlexContainer from '../flex/Container'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 

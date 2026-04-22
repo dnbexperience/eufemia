@@ -3,8 +3,8 @@ import Context from '../../shared/Context'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
-import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
+import type { SkeletonMethods } from '../skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 

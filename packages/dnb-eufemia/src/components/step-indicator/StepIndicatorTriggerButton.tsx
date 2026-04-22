@@ -20,7 +20,7 @@ import StepIndicatorContext from './StepIndicatorContext'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 
 type StepIndicatorTriggerButtonProps = ButtonProps & {
   isNested?: boolean

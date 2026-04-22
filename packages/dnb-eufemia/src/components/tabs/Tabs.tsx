@@ -34,7 +34,7 @@ import type {
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import Button from '../button/Button'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'

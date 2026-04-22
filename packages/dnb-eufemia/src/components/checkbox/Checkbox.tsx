@@ -22,7 +22,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'

@@ -13,7 +13,7 @@ import {
 } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import useStatSkeleton from './useStatSkeleton'
-import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
+import type { SkeletonMethods } from '../skeleton/SkeletonHelpers'
 
 type TextOwnProps = {
   /** @internal Not documented – used by internal sub-components only. */

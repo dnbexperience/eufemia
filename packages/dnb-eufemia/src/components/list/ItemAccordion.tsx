@@ -20,7 +20,7 @@ import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import { warn } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 

@@ -34,7 +34,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 
 import type { InternalLocale } from '../../shared/Context'
 import Context from '../../shared/Context'

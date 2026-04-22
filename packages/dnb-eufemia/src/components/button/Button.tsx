@@ -21,7 +21,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'

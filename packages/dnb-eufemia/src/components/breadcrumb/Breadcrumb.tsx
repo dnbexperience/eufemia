@@ -8,7 +8,7 @@ import React, {
 import clsx from 'clsx'
 
 // Components
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import { applySpacing } from '../space/SpacingUtils'
 import type {
   SectionBackgroundColor,

@@ -4,7 +4,7 @@ import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import Hr from '../../elements/Hr'
 import { ListContext } from './ListContext'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 

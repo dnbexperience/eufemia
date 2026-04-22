@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
+import type { SkeletonContextValue } from '../skeleton/SkeletonHelpers'
 import type { HeadingProps } from './Heading'
 
 export type HeadingContextValue = {

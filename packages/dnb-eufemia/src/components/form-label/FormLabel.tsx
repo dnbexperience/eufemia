@@ -14,7 +14,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { omitSpacingProps } from '../flex/utils'

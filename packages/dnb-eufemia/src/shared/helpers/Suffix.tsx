@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../../components/skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
 const SuffixContext = React.createContext(null)

@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelpers'
 import P from '../../../elements/P'
 
 type CardTypeTextProps = {

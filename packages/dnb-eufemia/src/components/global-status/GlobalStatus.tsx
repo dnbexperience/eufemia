@@ -23,7 +23,7 @@ import type {
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import { applySpacing } from '../space/SpacingUtils'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {

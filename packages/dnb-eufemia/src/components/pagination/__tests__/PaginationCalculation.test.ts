@@ -3,7 +3,7 @@
  *
  */
 
-import { calculatePagination } from '../PaginationCalculation'
+import { calculatePagination } from '../PaginationCalc'
 
 describe('Pagination calculation helper', () => {
   it('should calculate pages 1', () => {

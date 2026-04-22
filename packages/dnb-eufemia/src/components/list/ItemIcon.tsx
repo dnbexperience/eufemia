@@ -4,7 +4,7 @@ import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
 import { ListContext } from './ListContext'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../Skeleton'
 
 export type ItemIconProps = Omit<FlexItemProps, 'children'> & {

@@ -22,7 +22,7 @@ import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import {
   pickFormElementProps,
   type FormElementProps,

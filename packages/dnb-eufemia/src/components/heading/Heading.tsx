@@ -11,7 +11,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import type { HeadingContextValue } from './HeadingContext'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import {
   correctInternalHeadingLevel,
   resetLevels,

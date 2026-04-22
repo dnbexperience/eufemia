@@ -14,7 +14,7 @@ import { applySpacing } from '../../components/space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../../components/skeleton/SkeletonHelper'
+} from '../../components/skeleton/SkeletonHelpers'
 
 import { formatCardNumber } from './components/CardNumber'
 import CardFigure from './components/CardFigure'

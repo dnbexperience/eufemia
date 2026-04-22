@@ -15,7 +15,7 @@ import { createSpacing, isInline } from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 
 import type {
   DynamicElement,

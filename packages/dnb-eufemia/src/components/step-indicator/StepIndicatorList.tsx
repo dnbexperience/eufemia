@@ -9,7 +9,7 @@ import Space from '../space/Space'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import StepIndicatorItem from './StepIndicatorItem'
 import StepIndicatorContext from './StepIndicatorContext'

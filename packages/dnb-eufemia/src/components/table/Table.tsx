@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { applySpacing } from '../space/SpacingUtils'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import {
   extendPropsWithContext,
   validateDOMAttributes,

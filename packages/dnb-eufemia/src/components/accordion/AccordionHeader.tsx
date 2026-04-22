@@ -18,7 +18,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 
 import type { HeadingLevel } from '../Heading'
 import type { IconIcon, IconSize } from '../Icon'

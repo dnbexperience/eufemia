@@ -27,7 +27,7 @@ import Tooltip from '../Tooltip'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
+} from '../skeleton/SkeletonHelpers'
 import { useTranslation } from '../../shared'
 import { convertJsxToString } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

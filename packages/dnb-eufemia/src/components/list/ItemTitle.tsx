@@ -5,7 +5,7 @@ import FlexItem from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
 import { ListContext } from './ListContext'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 

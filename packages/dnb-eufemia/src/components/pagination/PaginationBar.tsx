@@ -13,7 +13,7 @@ import {
 import {
   calculatePagination,
   getDotsAriaLabel,
-} from './PaginationCalculation'
+} from './PaginationCalc'
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'

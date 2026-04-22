@@ -24,7 +24,7 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
-import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
+import { skeletonDOMAttributes } from '../skeleton/SkeletonHelpers'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'

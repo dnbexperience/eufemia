@@ -23,7 +23,7 @@ import StepIndicatorContext from './StepIndicatorContext'
 import { stepIndicatorDefaultProps } from './defaults'
 import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 
 export type StepIndicatorStatusState = 'warning' | 'information' | 'error'
 export type StepIndicatorItemProps = Omit<

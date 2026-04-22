@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 // Components
 import { applySpacing } from '../space/SpacingUtils'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelpers'
 
 // Shared
 import type { ContextProps } from '../../shared/Context'
