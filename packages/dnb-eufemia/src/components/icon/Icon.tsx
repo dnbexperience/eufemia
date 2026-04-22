@@ -419,18 +419,23 @@ function prepareIconCore(
   let iconToRender = getIcon(props)
 
   if (iconToRender && typeof iconToRender === 'function') {
+    const iconProps: Record<string, unknown> = {}
+    if (color !== undefined) {
+      iconProps.color = color
+    }
+    if (size !== undefined) {
+      iconProps.size = size
+    }
+    if (width !== undefined) {
+      iconProps.width = width
+    }
+    if (height !== undefined) {
+      iconProps.height = height
+    }
+
     iconToRender = React.createElement(
       iconToRender,
-      validateDOMAttributes(
-        {},
-        {
-          color,
-          icon,
-          size,
-          width,
-          height,
-        }
-      )
+      validateDOMAttributes({}, iconProps)
     )
   }
 
