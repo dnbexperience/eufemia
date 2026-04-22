@@ -28,6 +28,7 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
+import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -206,16 +207,12 @@ function getResizeModifier() {
     if (typeof navigator !== 'undefined') {
       if (
         /Firefox|Edg/.test(navigator.userAgent) ||
-        (/Chrome/.test(navigator.userAgent) &&
-          /Win/.test(navigator.platform))
+        (/Chrome/.test(navigator.userAgent) && isWin())
       ) {
         return 'large'
       }
 
-      if (
-        /Safari|Chrome/.test(navigator.userAgent) &&
-        /Mac/.test(navigator.platform)
-      ) {
+      if (/Safari|Chrome/.test(navigator.userAgent) && isMac()) {
         return 'medium'
       }
     }
