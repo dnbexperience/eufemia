@@ -514,10 +514,12 @@ const PaginationProvider = (props: any) => {
     if (props.rerender) {
       const rerenderFn = ({
         current: store,
-      }: React.RefObject<{
-        pageNumber: number
-        content: React.ReactNode
-      } | null>) => {
+      }: {
+        current: {
+          pageNumber: number
+          content: React.ReactNode
+        } | null
+      }) => {
         if (store && store.pageNumber > 0) {
           clearTimeout(rerenderTimeoutRef.current)
           rerenderTimeoutRef.current = setTimeout(

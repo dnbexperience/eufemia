@@ -455,16 +455,28 @@ export const Bar = (props: PaginationProps) => (
 export const createPagination = (
   initProps: Record<string, unknown> = {}
 ): PaginationCreateReturn => {
-  const store = React.createRef<Record<string, unknown>>()
-  const rerender = React.createRef<
-    ((store: React.RefObject<Record<string, unknown>>) => void) | null
-  >()
-  const _setContent = React.createRef<
-    ((pageNumber: number, content: React.ReactNode) => void) | null
-  >()
-  const _resetContent = React.createRef<(() => void) | null>()
-  const _resetInfinity = React.createRef<(() => void) | null>()
-  const _endInfinity = React.createRef<(() => void) | null>()
+  const store: { current: Record<string, unknown> | null } = {
+    current: null,
+  }
+  const rerender: {
+    current:
+      | ((store: { current: Record<string, unknown> | null }) => void)
+      | null
+  } = { current: null }
+  const _setContent: {
+    current:
+      | ((pageNumber: number, content: React.ReactNode) => void)
+      | null
+  } = { current: null }
+  const _resetContent: { current: (() => void) | null } = {
+    current: null,
+  }
+  const _resetInfinity: { current: (() => void) | null } = {
+    current: null,
+  }
+  const _endInfinity: { current: (() => void) | null } = {
+    current: null,
+  }
 
   const setContent = (pageNumber: number, content: React.ReactNode) => {
     if (pageNumber > 0) {
