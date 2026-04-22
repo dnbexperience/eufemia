@@ -366,45 +366,37 @@ export const DialogSandbox = () => (
   </Wrapper>
 )
 
-class ModalRerenderExample extends React.PureComponent {
-  override state = {
-    title: 'Modal Title',
-    triggerText: 'Open Modal',
-  }
-  timeout: NodeJS.Timeout
+function ModalRerenderExample() {
+  const [title, setTitle] = React.useState('Modal Title')
+  const [triggerText, setTriggerText] = React.useState('Open Modal')
 
-  override componentDidMount() {
-    this.timeout = setTimeout(() => {
-      this.setState({ title: 'New Title' })
-      this.setState({ triggerText: 'New Open Modal' })
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTitle('New Title')
+      setTriggerText('New Open Modal')
     }, 1e3)
-  }
+    return () => clearTimeout(timeout)
+  }, [])
 
-  override componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
-  override render() {
-    return (
-      <Dialog
-        triggerAttributes={{
-          text: this.state.triggerText,
-        }}
-        title={this.state.title}
-      >
-        <Dialog.Body innerSpace={{ block: 'large' }}>
-          <DatePicker label="DatePicker" right />
-          <Dropdown
-            label="Dropdown"
-            data={dropdownData}
-            right
-            direction="top"
-          />
-          {/* <Switch label="Checked:" checked right /> */}
-        </Dialog.Body>
-      </Dialog>
-    )
-  }
+  return (
+    <Dialog
+      triggerAttributes={{
+        text: triggerText,
+      }}
+      title={title}
+    >
+      <Dialog.Body innerSpace={{ block: 'large' }}>
+        <DatePicker label="DatePicker" right />
+        <Dropdown
+          label="Dropdown"
+          data={dropdownData}
+          right
+          direction="top"
+        />
+        {/* <Switch label="Checked:" checked right /> */}
+      </Dialog.Body>
+    </Dialog>
+  )
 }
 
 const dropdownData = [
