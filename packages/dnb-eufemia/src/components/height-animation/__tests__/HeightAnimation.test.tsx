@@ -181,7 +181,7 @@ describe('HeightAnimation', () => {
       )
 
       const inner = document.querySelector(
-        '.dnb-height-animation > .compensateForGap'
+        '.dnb-height-animation > .dnb-height-animation__compensate-for-gap'
       )
       expect(inner).toBeInTheDocument()
     })
@@ -198,7 +198,9 @@ describe('HeightAnimation', () => {
       const main = document.querySelector('.dnb-height-animation')
       expect(main).toHaveStyle('margin-top: calc(2rem * -1);')
 
-      const inner = main.querySelector('.compensateForGap')
+      const inner = main.querySelector(
+        '.dnb-height-animation__compensate-for-gap'
+      )
       expect(inner).toHaveStyle('margin-top: 2rem;')
     })
   })
