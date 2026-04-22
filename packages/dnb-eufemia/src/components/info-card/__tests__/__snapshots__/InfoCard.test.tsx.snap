@@ -52,7 +52,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   margin-top: 0;
 }
 .dnb-info-card__icon {
-  color: var(--token-color-icon-info);
+  color: var(--token-color-icon-action);
 }
 .dnb-info-card__image {
   height: 4rem;
