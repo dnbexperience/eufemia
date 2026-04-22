@@ -5,7 +5,7 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 @use '../../button/style/themes/button-mixins.scss' as button-mixins;
-@use './themes/tag-mixins.scss' as tag-mixins;
+@use './tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
   --tag-icon-background-color: var(--token-color-background-action);
