@@ -16,17 +16,28 @@ expect.extend(toHaveNoViolations)
 export const wait = (t: number) => new Promise((r) => setTimeout(r, t))
 
 export const loadScss = (
-  file: string,
-  options: Partial<Options<'sync'>> = {}
+  file: string | null,
+  options: Partial<Options<'sync'>> & { data?: string } = {}
 ) => {
   try {
-    const importPath1 = path.dirname(file)
+    const { data, ...sassOptions } = options
     const importPath2 = path.resolve(__dirname, '../../style/core/')
 
-    const sassResult = sass.compile(file, {
+    if (data) {
+      const sassResult = sass.compileString(data, {
+        loadPaths: [importPath2],
+        sourceMap: false,
+        ...sassOptions,
+      })
+
+      return sassResult.css
+    }
+
+    const importPath1 = path.dirname(file!)
+    const sassResult = sass.compile(file!, {
       loadPaths: [importPath1, importPath2],
       sourceMap: false,
-      ...options,
+      ...sassOptions,
     })
 
     return sassResult.css

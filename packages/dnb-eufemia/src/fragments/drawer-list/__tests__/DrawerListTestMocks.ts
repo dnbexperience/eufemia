@@ -85,5 +85,3 @@ export async function testDirectionObserver() {
       ?.getAttribute('style')
   ).toBe('max-height: 28rem;') // is now minHeight
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))
