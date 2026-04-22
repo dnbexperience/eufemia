@@ -183,6 +183,7 @@ const textareaDefaultProps = {
   statusState: 'error',
   readOnly: false,
   labelDirection: 'vertical',
+  skeleton: false,
 }
 
 function hasValue(value: string | number | null | undefined) {

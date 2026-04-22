@@ -37,6 +37,7 @@ export type TermDefinitionAllProps = TermDefinitionProps &
 
 const defaultProps: Partial<TermDefinitionAllProps> = {
   placement: 'bottom',
+  skeleton: false,
 }
 
 export default function TermDefinition(

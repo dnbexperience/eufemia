@@ -838,6 +838,14 @@ The `darkMode` prop on the `Theme` component has been replaced with `colorScheme
 
 > **Note:** This is a silent failure — passing `darkMode` will not cause a TypeScript error but the prop will be ignored.
 
+### Context prop injection safety
+
+`extendPropsWithContext` now only merges context values for props that already exist on the component (either as declared props or in the component's default props). Previously, arbitrary context keys could leak into components and potentially reach DOM attributes. This is a safety improvement that prevents unintended prop injection.
+
+**What changed:** If you were using the `Provider` to inject custom (non-standard) properties into a component via its context key (e.g. `<Provider Accordion={{ myCustomProp: 'value' }}>`), those properties will no longer be applied unless the component declares them in its props interface and default props.
+
+**Who is affected:** This only affects code that relied on undocumented context key injection. Standard props (including `skeleton`, `disabled`, and all documented component props) continue to work as before.
+
 ## Components
 
 > Each component section below lists its changes. Behavioral changes and removals are called out separately where applicable. The bulk of per-component changes are snake_case → camelCase renames covered by the [automated migration](#automated-migration-snake_case-to-camelcase) section above.

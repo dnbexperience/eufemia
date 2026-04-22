@@ -125,7 +125,7 @@ export default function Icon(localProps: IconAllProps) {
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
     localProps,
-    {},
+    { skeleton: false },
     { skeleton: context?.skeleton },
     context.Icon
   )

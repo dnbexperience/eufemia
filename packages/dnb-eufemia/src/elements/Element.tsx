@@ -50,6 +50,7 @@ type Attributes = Record<string, unknown>
 
 export const defaultProps = {
   skeletonMethod: 'font',
+  skeleton: false,
 }
 
 function Element(localProps: ElementAllProps) {
