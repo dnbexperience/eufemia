@@ -36,7 +36,7 @@
   &__option {
     position: relative;
 
-    &.ignore-events {
+    &#{&}--ignore-events {
       pointer-events: none;
     }
 
@@ -57,7 +57,7 @@
       background-color: var(--token-color-decorative-first-muted);
     }
 
-    &__item.item-nr-1 {
+    &__item#{&}__item--nr-1 {
       font-weight: var(--font-weight-medium);
     }
 
@@ -178,7 +178,7 @@
     }
 
     // remove last bottom border
-    &.last-of-type:not(#{&}--focus) &__inner::before {
+    &#{&}--last-of-type:not(#{&}--focus) &__inner::before {
       content: none;
     }
   }
@@ -189,14 +189,22 @@
     right: 0.5rem;
   }
 
-  &--bottom &__option--focus.closest-to-top &__option__inner::before,
-  &--top &__option--focus.closest-to-top &__option__inner::before {
+  &--bottom
+    &__option--focus#{&}__option--closest-to-top
+    &__option__inner::before,
+  &--top
+    &__option--focus#{&}__option--closest-to-top
+    &__option__inner::before {
     border-top-left-radius: var(--drawer-list-options-border-radius);
     border-top-right-radius: var(--drawer-list-options-border-radius);
   }
 
-  &--bottom &__option--focus.closest-to-bottom &__option__inner::before,
-  &--top &__option--focus.closest-to-bottom &__option__inner::before {
+  &--bottom
+    &__option--focus#{&}__option--closest-to-bottom
+    &__option__inner::before,
+  &--top
+    &__option--focus#{&}__option--closest-to-bottom
+    &__option__inner::before {
     border-bottom-left-radius: var(--drawer-list-options-border-radius);
     border-bottom-right-radius: var(--drawer-list-options-border-radius);
   }
@@ -211,39 +219,53 @@
   }
 
   // group title arrow
-  &--bottom:has(#{&}__group-title.closest-to-top) &__arrow,
-  &--top:has(#{&}__group-title.closest-to-bottom) &__arrow {
+  &--bottom:has(#{&}__group-title#{&}__group-title--closest-to-top)
+    &__arrow,
+  &--top:has(#{&}__group-title#{&}__group-title--closest-to-bottom)
+    &__arrow {
     &::before {
       background-color: var(--drawer-list-group-title-bg);
     }
   }
 
   // hover and focus arrow
-  &--bottom:has(#{&}__option.closest-to-top:hover) &__arrow::before,
-  &--top:has(#{&}__option.closest-to-bottom:hover) &__arrow::before,
-  &--bottom:has(#{&}__option.closest-to-top#{&}__option--focus)
+  &--bottom:has(#{&}__option#{&}__option--closest-to-top:hover)
     &__arrow::before,
-  &--top:has(#{&}__option.closest-to-bottom#{&}__option--focus)
+  &--top:has(#{&}__option#{&}__option--closest-to-bottom:hover)
     &__arrow::before,
-  &--bottom &__option.closest-to-top:hover ~ &__arrow::before,
-  &--top &__option.closest-to-bottom:hover ~ &__arrow::before,
-  &--bottom &__option.closest-to-top#{&}__option--focus ~ &__arrow::before,
+  &--bottom:has(
+      #{&}__option#{&}__option--closest-to-top#{&}__option--focus
+    )
+    &__arrow::before,
+  &--top:has(
+      #{&}__option#{&}__option--closest-to-bottom#{&}__option--focus
+    )
+    &__arrow::before,
+  &--bottom &__option#{&}__option--closest-to-top:hover ~ &__arrow::before,
+  &--top &__option#{&}__option--closest-to-bottom:hover ~ &__arrow::before,
+  &--bottom
+    &__option#{&}__option--closest-to-top#{&}__option--focus
+    ~ &__arrow::before,
   &--top
-    &__option.closest-to-bottom#{&}__option--focus
+    &__option#{&}__option--closest-to-bottom#{&}__option--focus
     ~ &__arrow::before {
     background-color: var(--token-color-background-action-hover-subtle);
   }
 
   // selected arrow
-  &--bottom:has(#{&}__option.closest-to-top#{&}__option--selected)
+  &--bottom:has(
+      #{&}__option#{&}__option--closest-to-top#{&}__option--selected
+    )
     &__arrow::before,
-  &--top:has(#{&}__option.closest-to-bottom#{&}__option--selected)
+  &--top:has(
+      #{&}__option#{&}__option--closest-to-bottom#{&}__option--selected
+    )
     &__arrow::before,
   &--bottom
-    &__option.closest-to-top#{&}__option--selected
+    &__option#{&}__option--closest-to-top#{&}__option--selected
     ~ &__arrow::before,
   &--top
-    &__option.closest-to-bottom#{&}__option--selected
+    &__option#{&}__option--closest-to-bottom#{&}__option--selected
     ~ &__arrow::before {
     background-color: var(--token-color-background-selected);
   }

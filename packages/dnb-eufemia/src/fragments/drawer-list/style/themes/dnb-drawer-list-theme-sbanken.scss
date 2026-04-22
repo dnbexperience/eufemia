@@ -70,7 +70,7 @@
     background: var(--drawer-list-sb-list-option-background);
     z-index: 0;
 
-    &__item.item-nr-1 {
+    &__item#{&}__item--nr-1 {
       font-weight: var(--font-weight-medium);
     }
 
@@ -105,7 +105,7 @@
         --drawer-list-sb-outside-border
       ); // Compensate for transparent right border
 
-      &.last-item {
+      &.dnb-drawer-list__option--last {
         border-bottom-color: var(--drawer-list-sb-outside-border);
       }
 
@@ -140,11 +140,11 @@
       }
     }
 
-    &.first-item &__inner::before {
+    &#{&}--first &__inner::before {
       content: none;
     }
 
-    &.last-item {
+    &#{&}--last {
       border-radius: var(--drawer-list-options-border-radius);
     }
 
@@ -196,17 +196,17 @@
     }
 
     .dnb-drawer-list__option {
-      &.last-item {
+      &#{&}--last {
         border-radius: 0;
       }
 
-      &.first-item {
+      &#{&}--first {
         border-radius: var(--drawer-list-options-border-radius-reversed);
       }
     }
 
     .dnb-drawer-list__option--selected {
-      &.first-item {
+      &.dnb-drawer-list__option--first {
         border-top-color: var(--drawer-list-sb-outside-border);
       }
     }

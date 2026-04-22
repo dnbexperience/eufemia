@@ -686,7 +686,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       getElementGroup(
         activeElement
       )?.nextElementSibling?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option.first-of-type'
+        'li.dnb-drawer-list__option.dnb-drawer-list__option--first-of-type'
       )
 
     return getItemData(elem)
@@ -703,7 +703,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       getElementGroup(
         activeElement
       )?.previousElementSibling?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option.last-of-type'
+        'li.dnb-drawer-list__option.dnb-drawer-list__option--last-of-type'
       )
 
     return getItemData(elem)
@@ -711,14 +711,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const getFirstItem = useCallback(() => {
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option.first-item'
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--first'
     )
     return getItemData(elem)
   }, [getItemData])
 
   const getLastItem = useCallback(() => {
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option.last-item'
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--last'
     )
     return getItemData(elem)
   }, [getItemData])

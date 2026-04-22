@@ -109,7 +109,7 @@ export function ItemContent({ hash = '', children }: ItemContentProps) {
       renderedContent = content.map((contentItem, n) => (
         <DrawerListOptionItem
           key={hash + n}
-          className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
+          className={`dnb-drawer-list__option__item--nr-${n + 1}`}
         >
           {isDataObject && children.render
             ? children.render(contentItem, hash + n)

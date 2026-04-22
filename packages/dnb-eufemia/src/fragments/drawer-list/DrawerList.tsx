@@ -571,15 +571,19 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               hash,
               className: clsx(
                 // helper classes
-                j === 0 && i === 0 && 'first-item',
+                j === 0 && i === 0 && 'dnb-drawer-list__option--first',
                 j === renderData.length - 1 &&
                   i === data.length - 1 &&
-                  'last-item',
-                tagId === closestToTop && 'closest-to-top',
-                tagId === closestToBottom && 'closest-to-bottom',
-                i === 0 && 'first-of-type', // because of the triangle element
-                i === data.length - 1 && 'last-of-type', // because of the triangle element
-                (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
+                  'dnb-drawer-list__option--last',
+                tagId === closestToTop &&
+                  'dnb-drawer-list__option--closest-to-top',
+                tagId === closestToBottom &&
+                  'dnb-drawer-list__option--closest-to-bottom',
+                i === 0 && 'dnb-drawer-list__option--first-of-type', // because of the triangle element
+                i === data.length - 1 &&
+                  'dnb-drawer-list__option--last-of-type', // because of the triangle element
+                (ignoreEventsBoolean || ignoreEvents) &&
+                  'dnb-drawer-list__option--ignore-events',
                 className
               ),
               active: __id === activeItem,
@@ -626,8 +630,9 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               aria-labelledby={groupdId}
               className={clsx(
                 'dnb-drawer-list__group',
-                j === 0 && 'first-of-type',
-                j === renderData.length - 1 && 'last-of-type'
+                j === 0 && 'dnb-drawer-list__group--first-of-type',
+                j === renderData.length - 1 &&
+                  'dnb-drawer-list__group--last-of-type'
               )}
             >
               <li
@@ -636,8 +641,10 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
                 className={clsx(
                   'dnb-drawer-list__group-title',
                   hideTitle && 'dnb-sr-only',
-                  groupdId === closestToBottom && 'closest-to-bottom',
-                  groupdId === closestToTop && 'closest-to-top'
+                  groupdId === closestToBottom &&
+                    'dnb-drawer-list__group-title--closest-to-bottom',
+                  groupdId === closestToTop &&
+                    'dnb-drawer-list__group-title--closest-to-top'
                 )}
               >
                 {groupTitle}
