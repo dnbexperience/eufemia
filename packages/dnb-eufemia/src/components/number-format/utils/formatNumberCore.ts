@@ -22,7 +22,9 @@ function toIntlOptions({
   decimals: _decimals,
   ...rest
 }: InternalNumberFormatOptions): Intl.NumberFormatOptions {
-  return rest
+  // The custom `signDisplay` union includes 'negative' which is valid at
+  // runtime but not yet part of the ES2023 lib type.
+  return rest as Intl.NumberFormatOptions
 }
 
 /**
