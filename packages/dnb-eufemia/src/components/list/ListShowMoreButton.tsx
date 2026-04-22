@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react'
 import Button from '../button/Button'
 import type { ButtonProps } from '../button/Button'
-import { chevron_down, chevron_up } from '../../icons'
+import {
+  chevron_down as ChevronDown,
+  chevron_up as ChevronUp,
+} from '../../icons'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import useTranslation from '../../shared/useTranslation'
 
@@ -45,7 +48,7 @@ function ListShowMoreButton(props: ListShowMoreButtonProps) {
     <Button
       variant="tertiary"
       text={expanded ? resolvedShowLess : resolvedShowMore}
-      icon={expanded ? chevron_up : chevron_down}
+      icon={expanded ? ChevronUp : ChevronDown}
       iconPosition="right"
       onClick={handleClick}
       aria-expanded={expanded}

@@ -25,7 +25,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
-import { launch } from '../../icons'
+import { launch as LaunchIcon } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -353,7 +353,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       : 'button'
   if (Element === Anchor) {
     if (opensNewTab(props.target, props.href) && !usedIcon) {
-      usedIcon = launch
+      usedIcon = LaunchIcon
     }
   }
 
