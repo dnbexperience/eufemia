@@ -32,11 +32,11 @@ describe('makePropertiesFile', () => {
     const path = await import('path')
 
     global.ui = fs.readFileSync(
-      path.resolve('src/style/themes/ui/properties.js'),
+      path.resolve('src/style/themes/ui/properties.ts'),
       'utf-8'
     )
     global.sbanken = fs.readFileSync(
-      path.resolve('src/style/themes/sbanken/properties.js'),
+      path.resolve('src/style/themes/sbanken/properties.ts'),
       'utf-8'
     )
 

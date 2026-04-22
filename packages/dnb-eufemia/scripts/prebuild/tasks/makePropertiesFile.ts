@@ -154,7 +154,7 @@ export const runFactory = async ({
     }
 
     const parsed = path.parse(absolutePath)
-    const jsDestPath = path.resolve(parsed.dir, 'properties.js')
+    const jsDestPath = path.resolve(parsed.dir, 'properties.ts')
     fs.writeFileSync(jsDestPath, jsResult)
 
     // Generate CSS Tailwind properties file
