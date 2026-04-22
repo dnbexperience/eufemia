@@ -584,21 +584,19 @@ describe('ItemAction', () => {
   })
 
   describe('element and to', () => {
-    const MockLink = ({
-      to,
-      children,
-      ref,
-      ...rest
-    }: {
-      to: string
-      children: React.ReactNode
-      ref?: React.Ref<HTMLAnchorElement>
-      preventScrollReset?: boolean
-    }) => (
+    const MockLink = React.forwardRef<
+      HTMLAnchorElement,
+      {
+        to: string
+        children: React.ReactNode
+        preventScrollReset?: boolean
+      }
+    >(({ to, children, ...rest }, ref) => (
       <a href={to} ref={ref} {...rest}>
         {children}
       </a>
-    )
+    ))
+    MockLink.displayName = 'MockLink'
 
     it('renders with a custom router Link component via element and to', () => {
       render(
