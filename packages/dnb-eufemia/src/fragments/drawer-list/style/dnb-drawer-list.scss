@@ -303,6 +303,7 @@
     height: calc(var(--drawer-list-height) / 2);
 
     z-index: -1;
+    overflow: hidden;
 
     &::before {
       content: '';
