@@ -325,22 +325,22 @@ When replacing `FormRow`, be careful not to just rename the JSX tag. The context
 
 These snake_case props appear on many components and follow the same rename pattern everywhere. Apply these as global find-and-replace within Eufemia component JSX:
 
-| Old prop              | New prop            | Components that use it                                                                                                                                          |
-| --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `status_state`        | `statusState`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButton.Group |
-| `status_props`        | `statusProps`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
-| `status_no_animation` | `statusNoAnimation` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
-| `label_direction`     | `labelDirection`    | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, ProgressIndicator, Radio.Group, Slider, Textarea, ToggleButton, ToggleButton.Group           |
-| `label_sr_only`       | `labelSrOnly`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio.Group, Switch, Textarea, ToggleButton.Group                                             |
-| `label_position`      | `labelPosition`     | Checkbox, Radio, Switch                                                                                                                                         |
-| `icon_size`           | `iconSize`          | Autocomplete, Button, GlobalStatus, ProgressIndicator, ToggleButton                                                                                             |
-| `icon_position`       | `iconPosition`      | Autocomplete, Button, Dropdown, ToggleButton                                                                                                                    |
-| `no_animation`        | `noAnimation`       | Autocomplete, DatePicker, Dropdown, DrawerList, FormStatus, GlobalStatus, Modal/Dialog/Drawer, Skeleton, StepIndicator                                          |
-| `on_change`           | `onChange`          | Nearly all interactive components                                                                                                                               |
-| `on_focus`            | `onFocus`           | Autocomplete, Input, Textarea                                                                                                                                   |
-| `on_blur`             | `onBlur`            | Autocomplete, Input, Textarea                                                                                                                                   |
-| `on_click`            | `onClick`           | Button, StepIndicator, Tabs, Table.ClickableHead                                                                                                                |
-| `innerRef`            | `ref`               | All components that accepted `innerRef` (see [innerRef → ref](#innerref--ref) for the full list)                                                                |
+| Old prop                 | New prop            | Components that use it                                                                                                                                          |
+| ------------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `status_state`           | `statusState`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButton.Group |
+| `status_props`           | `statusProps`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
+| `status_no_animation`    | `statusNoAnimation` | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio, Radio.Group, Switch, Textarea, ToggleButton, ToggleButton.Group                        |
+| `label_direction`        | `labelDirection`    | Autocomplete, DatePicker, Dropdown, FormLabel, Input, InputMasked, ProgressIndicator, Radio.Group, Slider, Textarea, ToggleButton, ToggleButton.Group           |
+| `label_sr_only`          | `labelSrOnly`       | Autocomplete, Checkbox, DatePicker, Dropdown, Input, InputMasked, Radio.Group, Switch, Textarea, ToggleButton.Group                                             |
+| `label_position`         | `labelPosition`     | Checkbox, Radio, Switch                                                                                                                                         |
+| `icon_size`              | `iconSize`          | Autocomplete, Button, GlobalStatus, ProgressIndicator, ToggleButton                                                                                             |
+| `icon_position`          | `iconPosition`      | Autocomplete, Button, Dropdown, ToggleButton                                                                                                                    |
+| `no_animation`           | `noAnimation`       | Autocomplete, DatePicker, Dropdown, DrawerList, FormStatus, GlobalStatus, Modal/Dialog/Drawer, Skeleton, StepIndicator                                          |
+| `on_change`              | `onChange`          | Nearly all interactive components                                                                                                                               |
+| `on_focus`               | `onFocus`           | Autocomplete, Input, Textarea                                                                                                                                   |
+| `on_blur`                | `onBlur`            | Autocomplete, Input, Textarea                                                                                                                                   |
+| `on_click`               | `onClick`           | Button, StepIndicator, Tabs, Table.ClickableHead                                                                                                                |
+| `innerRef` / `inner_ref` | `ref`               | All components that accepted `innerRef` (see [innerRef → ref](#innerref--ref) for the full list)                                                                |
 
 **Status value renames** — apply to all components that accept `statusState` or `state`:
 
