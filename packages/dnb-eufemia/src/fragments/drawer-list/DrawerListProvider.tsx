@@ -156,7 +156,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     _refUl?: React.RefObject<HTMLUListElement>
     _refRoot?: React.RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
-    attributes?: Record<string, any>
+    attributes?: Record<string, unknown>
     children: React.ReactNode
   }
 
@@ -236,7 +236,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const _refTriangle = useRef<HTMLLIElement & HTMLSpanElement>(null)
 
   // Instance variables
-  const attributesRef = useRef<Record<string, any>>({})
+  const attributesRef = useRef<Record<string, unknown>>({})
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
   const scrollTimeoutRef = useRef<NodeJS.Timeout>(null)

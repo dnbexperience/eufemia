@@ -40,11 +40,12 @@ export function getSpaceValue(
   type: FlexStart | FlexEnd,
   element: React.ReactNode
 ): SpaceType | undefined {
-  if (!React.isValidElement<Record<string, any>>(element)) {
+  if (!React.isValidElement<Record<string, unknown>>(element)) {
     return undefined
   }
 
-  const elementProps = (element as React.ReactElement<any>).props || {}
+  const elementProps =
+    (element as React.ReactElement<Record<string, unknown>>).props || {}
 
   return (
     elementProps?.[type] ??
@@ -72,7 +73,7 @@ export function isHeadingElement(element: React.ReactNode): boolean {
  * @returns The spacing variant (true, false or "children") of the element, or undefined if it does not support spacing props.
  */
 export function getSpaceVariant(element: React.ReactNode) {
-  if (React.isValidElement<Record<string, any>>(element)) {
+  if (React.isValidElement<Record<string, unknown>>(element)) {
     if (element?.type === Fragment) {
       return 'children'
     }
@@ -200,7 +201,7 @@ function cloneIntrinsicElementWithSpacing(
     wrapInSpace?: boolean
   }
 ) {
-  if (!React.isValidElement<Record<string, any>>(element)) {
+  if (!React.isValidElement(element)) {
     return element
   }
 

@@ -73,7 +73,7 @@ function hasOnlySupportedChildren(children: React.ReactNode): boolean {
 }
 
 function isSupportedChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, any>>(child)) {
+  if (!React.isValidElement<Record<string, unknown>>(child)) {
     // allow null/boolean and whitespace-only text nodes
     if (typeof child === 'string') {
       return child.trim().length === 0
@@ -83,7 +83,8 @@ function isSupportedChild(child: React.ReactNode): boolean {
 
   if (child.type === React.Fragment) {
     return hasOnlySupportedChildren(
-      (child as React.ReactElement<any>).props.children
+      (child as React.ReactElement<{ children?: React.ReactNode }>).props
+        .children
     )
   }
 
@@ -98,13 +99,14 @@ function hasRequiredLabel(children: React.ReactNode): boolean {
 }
 
 function hasLabelChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, any>>(child)) {
+  if (!React.isValidElement<Record<string, unknown>>(child)) {
     return false
   }
 
   if (child.type === React.Fragment) {
     return hasRequiredLabel(
-      (child as React.ReactElement<any>).props.children
+      (child as React.ReactElement<{ children?: React.ReactNode }>).props
+        .children
     )
   }
 
@@ -118,13 +120,16 @@ function flattenRoles(
   const roles: Array<'label' | 'content'> = []
 
   for (const child of React.Children.toArray(children)) {
-    if (!React.isValidElement<Record<string, any>>(child)) {
+    if (!React.isValidElement<Record<string, unknown>>(child)) {
       continue
     }
 
     if (child.type === React.Fragment) {
       roles.push(
-        ...flattenRoles((child as React.ReactElement<any>).props.children)
+        ...flattenRoles(
+          (child as React.ReactElement<{ children?: React.ReactNode }>)
+            .props.children
+        )
       )
       continue
     }
