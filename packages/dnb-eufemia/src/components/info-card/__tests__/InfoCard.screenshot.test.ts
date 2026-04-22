@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('InfoCard', () => {
-  setupPageScreenshot({ url: '/uilib/components/info-card/demos/' })
+describe.each(['ui', 'sbanken'])('InfoCard for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/info-card/demos/',
+  })
 
   it('renders correct default component', async () => {
     const screenshot = await makeScreenshot({
