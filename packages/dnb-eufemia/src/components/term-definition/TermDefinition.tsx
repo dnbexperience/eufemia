@@ -29,6 +29,10 @@ export type TermDefinitionProps = {
    * Tooltip placement relative to the trigger.
    */
   placement?: 'top' | 'right' | 'bottom' | 'left'
+  /**
+   * If set to `true`, a skeleton version of the component will be shown.
+   */
+  skeleton?: boolean
 }
 
 export type TermDefinitionAllProps = TermDefinitionProps &
