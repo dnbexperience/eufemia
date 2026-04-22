@@ -8,7 +8,7 @@
 @use './themes/tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
-  --tag-icon-color: var(--token-color-background-action);
+  --tag-icon-background-color: var(--token-color-background-action);
   --tag-icon-border-color: var(--token-color-stroke-action);
 
   &.dnb-button {
@@ -51,7 +51,7 @@
           ),
         $focus-color: var(--token-color-icon-action-focus)
       ) {
-        --tag-icon-color: var(--token-color-icon-action-focus);
+        --tag-icon-background-color: var(--token-color-icon-action-focus);
         --tag-icon-border-color: var(--token-color-icon-action-focus);
       }
 
@@ -59,7 +59,7 @@
         $color: var(--token-color-text-action-hover),
         $border-color: var(--token-color-stroke-action-hover)
       ) {
-        --tag-icon-color: var(--token-color-background-neutral);
+        --tag-icon-background-color: var(--token-color-background-neutral);
       }
 
       @include button-mixins.buttonActive(
@@ -68,7 +68,9 @@
             --token-color-background-action-pressed-subtle
           )
       ) {
-        --tag-icon-color: var(--token-color-icon-action-pressed);
+        --tag-icon-background-color: var(
+          --token-color-icon-action-pressed
+        );
       }
 
       &[disabled] {
@@ -96,7 +98,7 @@
   }
 
   &--addable {
-    --tag-icon-fill-color: var(--tag-icon-color);
+    --tag-icon-fill-color: var(--tag-icon-background-color);
     --tag-icon-stroke-color: var(--token-color-icon-neutral-inverse);
     svg {
       transform: rotate(45deg);
