@@ -19,10 +19,11 @@ export type CurrencyDisplayValue =
 /** Internal format options passed to `Intl.NumberFormat`. */
 export type InternalNumberFormatOptions = Omit<
   Intl.NumberFormatOptions,
-  'currencyDisplay'
+  'currencyDisplay' | 'signDisplay'
 > & {
   decimals?: number
   currencyDisplay?: CurrencyDisplayValue
+  signDisplay?: 'auto' | 'always' | 'exceptZero' | 'negative' | 'never'
 }
 
 /** Return value of inline part-formatters (phone, BAN, NIN, etc.). */
