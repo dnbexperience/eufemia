@@ -497,7 +497,7 @@ export function mapOptions(
   {
     createOption,
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
-) {
+): React.ReactNode[] | null {
   return React.Children.map(
     // @ts-expect-error - strictFunctionTypes
     children,
