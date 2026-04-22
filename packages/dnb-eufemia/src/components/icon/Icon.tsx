@@ -420,17 +420,14 @@ function prepareIconCore(
 
   if (iconToRender && typeof iconToRender === 'function') {
     const iconProps: Record<string, unknown> = {}
-    if (color !== undefined) {
-      iconProps.color = color
+    if (iconParams.color !== undefined) {
+      iconProps.color = iconParams.color
     }
-    if (size !== undefined) {
-      iconProps.size = size
+    if (iconParams.width !== undefined) {
+      iconProps.width = iconParams.width
     }
-    if (width !== undefined) {
-      iconProps.width = width
-    }
-    if (height !== undefined) {
-      iconProps.height = height
+    if (iconParams.height !== undefined) {
+      iconProps.height = iconParams.height
     }
 
     iconToRender = React.createElement(
