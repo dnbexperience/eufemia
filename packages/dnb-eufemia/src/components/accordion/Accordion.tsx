@@ -224,7 +224,7 @@ function Accordion({
     }
   }, [])
 
-  // componentDidUpdate
+  // Sync expanded state from context
   useEffect(() => {
     if (context.flushRememberedState) {
       store.flush()

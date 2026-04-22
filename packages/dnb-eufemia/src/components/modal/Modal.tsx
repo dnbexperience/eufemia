@@ -367,7 +367,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     _id: _id.current,
   })
 
-  // Handle open prop changes (getDerivedStateFromProps equivalent)
+  // Handle open prop changes
   const prevOpenRef = useRef<typeof open>(undefined)
   if (open !== prevOpenRef.current) {
     if (open === true) {
@@ -384,7 +384,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     prevOpenRef.current = open
   }
 
-  // openBasedOnStateUpdate — mirrors class componentDidMount + componentDidUpdate with prevProps guard
+  // Open/close the modal when the open prop or parent props change
   const prevEffectOpenRef = useRef<typeof open>(undefined)
   const prevOwnPropsRef = useRef<ModalAllProps | undefined>(undefined)
   useEffect(() => {
@@ -392,7 +392,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       activeElementRef.current = document.activeElement
     }
 
-    // Detect if parent provided new props (equivalent to class `prevProps !== this.props`)
+    // Detect if parent provided new props
     const isNewProps =
       prevOwnPropsRef.current !== undefined &&
       prevOwnPropsRef.current !== ownProps
@@ -416,7 +416,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     }
   })
 
-  // Process side effects after render (equivalent to class setState callback)
+  // Process side effects after render
   useEffect(() => {
     if (pendingSideEffectsRef.current) {
       const { isModalActive, preventAutoFocus } =
