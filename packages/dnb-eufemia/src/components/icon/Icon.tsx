@@ -418,7 +418,7 @@ function prepareIconCore(
 
   let iconToRender = getIcon(props)
 
-  if (iconToRender && typeof iconToRender.defaultProps !== 'undefined') {
+  if (iconToRender && typeof iconToRender === 'function') {
     iconToRender = React.createElement(
       iconToRender,
       validateDOMAttributes(
