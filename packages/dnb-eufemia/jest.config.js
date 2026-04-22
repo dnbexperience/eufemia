@@ -21,9 +21,9 @@ const config = {
     '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',
   },
   moduleNameMapper: {
-    '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
-    '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
+    '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.ts',
+    '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.tsx',
   },
-  setupFilesAfterEnv: ['<rootDir>/src/core/jest/setupJest.js'],
+  setupFilesAfterEnv: ['<rootDir>/src/core/jest/setupJest.ts'],
 }
 module.exports = config

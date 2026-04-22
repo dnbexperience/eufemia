@@ -7,22 +7,37 @@ import { axe, toHaveNoViolations } from 'jest-axe'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
+import type { Options } from 'sass'
 
 export { axe, toHaveNoViolations }
 
 expect.extend(toHaveNoViolations)
 
-export const wait = (t) => new Promise((r) => setTimeout(r, t))
+export const wait = (t: number) => new Promise((r) => setTimeout(r, t))
 
-export const loadScss = (file, options = {}) => {
+export const loadScss = (
+  file: string | null,
+  options: Partial<Options<'sync'>> & { data?: string } = {}
+) => {
   try {
-    const importPath1 = path.dirname(file)
+    const { data, ...sassOptions } = options
     const importPath2 = path.resolve(__dirname, '../../style/core/')
 
-    const sassResult = sass.compile(file, {
+    if (data) {
+      const sassResult = sass.compileString(data, {
+        loadPaths: [importPath2],
+        sourceMap: false,
+        ...sassOptions,
+      })
+
+      return sassResult.css
+    }
+
+    const importPath1 = path.dirname(file!)
+    const sassResult = sass.compile(file!, {
       loadPaths: [importPath1, importPath2],
       sourceMap: false,
-      ...options,
+      ...sassOptions,
     })
 
     return sassResult.css
@@ -48,6 +63,8 @@ export const mockClipboard = () => {
   })
 
   const mockRange = new (class Range {
+    node: HTMLElement | undefined
+    startContainer: { parentNode: HTMLElement }
     constructor() {
       this.startContainer = {
         parentNode: document.createElement('div'),
@@ -56,7 +73,7 @@ export const mockClipboard = () => {
     getElement() {
       return this.node
     }
-    insertNode(elem) {
+    insertNode(elem: HTMLElement) {
       this.node = document.createElement('div')
       this.node.appendChild(elem)
       return this
@@ -80,7 +97,7 @@ export const mockClipboard = () => {
       ranges.push(range)
       rangeCount = ranges.length
     }
-    getRangeAt(index) {
+    getRangeAt(index: number) {
       return ranges[index]
     }
     removeAllRanges() {
@@ -98,12 +115,15 @@ export const mockClipboard = () => {
   })
 }
 
-export const loadImage = async (imagePath) =>
+export const loadImage = async (imagePath: string) =>
   await fs.readFile(path.resolve(imagePath))
 
-export const axeComponent = async (...components) => {
+export const axeComponent = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...components: any[]
+) => {
   const html = components
-    .map((Component) => {
+    .map((Component: { container?: HTMLElement }) => {
       // Support @testing-library/react
       if (Component?.container) {
         return Component.container.outerHTML
@@ -124,7 +144,7 @@ export function spyOnEufemiaWarn() {
   const originalConsoleLog = console.log
   const log = jest
     .spyOn(console, 'log')
-    .mockImplementation((...message) => {
+    .mockImplementation((...message: string[]) => {
       if (!message[0].includes('Eufemia')) {
         originalConsoleLog(...message)
       }
