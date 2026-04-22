@@ -31,8 +31,8 @@ import {
   getModalRoot,
   addToIndex,
   removeFromIndex,
-} from './helpers'
-import type { ModalStackEntry } from './helpers'
+} from './ModalHelpers'
+import type { ModalStackEntry } from './ModalHelpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
 

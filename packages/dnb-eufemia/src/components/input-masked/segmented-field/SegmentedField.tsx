@@ -9,7 +9,7 @@ import { applySpacing } from '../../space/SpacingUtils'
 import { useSegmentedFieldValues } from '../hooks/useSegmentedFieldValues'
 import SegmentedFieldSection from './SegmentedFieldSection'
 import { ensureTextNode, listAllSections } from './dom'
-import { joinValues } from './utils'
+import { joinValues } from './SegmentedFieldUtils'
 import type {
   SectionSelectionMode,
   SegmentedFieldProps,

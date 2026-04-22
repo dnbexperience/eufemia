@@ -24,7 +24,7 @@ import {
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import { getListOfModalRoots, getModalRoot } from './helpers'
+import { getListOfModalRoots, getModalRoot } from './ModalHelpers'
 import ModalInner from './parts/ModalInner'
 import type { ModalProps } from './types'
 

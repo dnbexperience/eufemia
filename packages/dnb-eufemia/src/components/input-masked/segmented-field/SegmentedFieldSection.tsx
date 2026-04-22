@@ -18,7 +18,7 @@ import {
   insertCharIntoSection,
   joinValues,
   removeChar,
-} from './utils'
+} from './SegmentedFieldUtils'
 import type {
   SegmentedFieldItem,
   SegmentedFieldSectionProps,
