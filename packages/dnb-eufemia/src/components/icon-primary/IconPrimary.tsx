@@ -5,8 +5,8 @@ import type { IconAllProps, IconProps } from '../icon/Icon'
 import { prerenderIcon, prepareIcon } from '../icon/Icon'
 
 // NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
-import * as primary_icons from '../../icons/dnb/primary_icons'
-import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium'
+import * as primaryIcons from '../../icons/dnb/primary_icons'
+import * as primaryIconsMedium from '../../icons/dnb/primary_icons_medium'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export * from '../icon/Icon'
@@ -14,7 +14,7 @@ export * from '../icon/Icon'
 export type IconPrimaryProps = IconProps
 export type IconPrimaryAllProps = IconAllProps
 
-const icons = { ...primary_icons, ...primary_icons_medium }
+const icons = { ...primaryIcons, ...primaryIconsMedium }
 
 export default function IconPrimary(localProps: IconAllProps) {
   const context = useContext(Context)

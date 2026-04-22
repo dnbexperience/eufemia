@@ -16,7 +16,7 @@ import {
 import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
-import { launch as launchIcon } from '../../icons'
+import { launch as LaunchIcon } from '../../icons'
 import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
@@ -166,7 +166,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const suffix =
     (iconPosition === 'right' && iconNode) ||
     (showLaunchIcon && (
-      <IconPrimary className="dnb-anchor__launch-icon" icon={launchIcon} />
+      <IconPrimary className="dnb-anchor__launch-icon" icon={LaunchIcon} />
     ))
 
   const prefix = iconPosition === 'left' && iconNode
