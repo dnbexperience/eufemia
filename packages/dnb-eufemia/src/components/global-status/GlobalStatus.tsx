@@ -850,7 +850,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
 GlobalStatusComponent.displayName = 'GlobalStatus'
 
-type GlobalStatusWithStatics = React.FC<GlobalStatusProps> & {
+type GlobalStatusWithStatics = ((
+  props: GlobalStatusProps
+) => React.ReactNode) & {
   create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
   // Typed loosely because Update is used both imperatively and as JSX
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
