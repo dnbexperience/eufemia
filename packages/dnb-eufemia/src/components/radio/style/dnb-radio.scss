@@ -34,7 +34,9 @@
   --radio-color-background--disabled: var(
     --token-color-background-neutral
   );
-  --radio-color-border--disabled: var(--token-color-icon-action-disabled);
+  --radio-color-border--disabled: var(
+    --token-color-stroke-action-disabled
+  );
 
   // Active state
   --radio-color-dot-on--active: var(
