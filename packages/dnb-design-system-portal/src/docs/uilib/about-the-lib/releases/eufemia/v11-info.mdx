@@ -100,6 +100,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - [TypeScript](#typescript)
 - [Theming](#theming)
 - [Props Type Exports](#props-type-exports)
+- [`createSpacingClasses` replaced with `applySpacing`](#createspacingclasses-replaced-with-applyspacing)
 - [New in v11](#new-in-v11)
 
 </AccordionComponent>
@@ -846,7 +847,7 @@ The `darkMode` prop on the `Theme` component has been replaced with `colorScheme
 
 ### labelDirection default changed to `vertical`
 
-The `labelDirection` prop now defaults to `vertical` instead of `horizontal` on all basis form components. This means labels are rendered above the input by default. If you relied on the horizontal default, explicitly set `labelDirection="horizontal"`.
+The `labelDirection` prop now defaults to `vertical` instead of `horizontal` on all base form components. This means labels are rendered above the input by default. If you relied on the horizontal default, explicitly set `labelDirection="horizontal"`.
 
 Affected components: `Input`, `InputMasked`, `Textarea`, `Autocomplete`, `Dropdown`, `DatePicker`, `Slider`, `ProgressIndicator`, `ToggleButton`, `ToggleButton.Group`, `Radio.Group`, `FormLabel`.
 
@@ -1896,7 +1897,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 #### Properties
 
-- Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
+- Replace `place_marker_before_content` with `placeMarkerBeforeContent`.
 - Replace `startup_page` with `startupPage`.
 - Replace `current_page` with `currentPage`.
 - Replace `page_count` with `pageCount`.
