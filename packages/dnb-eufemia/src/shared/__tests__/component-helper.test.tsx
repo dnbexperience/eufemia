@@ -29,15 +29,24 @@ import {
 import userEvent from '@testing-library/user-event'
 
 beforeAll(() => {
+  // @ts-expect-error mocking PointerEvent for touch detection
   window.PointerEvent = new CustomEvent('ontouchstart')
-  navigator.maxTouchPoints = 2 // mocking touch
+  Object.defineProperty(navigator, 'maxTouchPoints', {
+    value: 2,
+    writable: true,
+    configurable: true,
+  })
 
   jest.spyOn(global.console, 'log')
 })
 afterAll(() => {
   document.documentElement.removeAttribute('data-is-touch')
   window.PointerEvent = undefined
-  navigator.maxTouchPoints = 0
+  Object.defineProperty(navigator, 'maxTouchPoints', {
+    value: 0,
+    writable: true,
+    configurable: true,
+  })
 })
 
 describe('"isTouchDevice" should', () => {
@@ -113,7 +122,7 @@ describe('"detectOutsideClick" should', () => {
 
     const event = new CustomEvent('mousedown', {
       bubbles: true,
-    })
+    }) as CustomEvent & { pageX: number; pageY: number }
     event.pageX = 300 // over 200 clientWidth
     event.pageY = 0
 
@@ -149,12 +158,15 @@ describe('"detectOutsideClick" should', () => {
     // Is there perhaps a better way to handle this?
     window.PointerEvent = undefined
 
-    const ignoreElementRef = React.createRef()
-    const wrapperElementRef = React.createRef()
+    const ignoreElementRef = React.createRef<HTMLDivElement>()
+    const wrapperElementRef = React.createRef<HTMLDivElement>()
     const onSuccess = jest.fn()
 
     const Component = () => {
-      detectOutsideClick(ignoreElementRef, onSuccess)
+      detectOutsideClick(
+        ignoreElementRef as unknown as HTMLElement,
+        onSuccess
+      )
       return (
         <div ref={wrapperElementRef}>
           <div ref={ignoreElementRef} />
@@ -164,16 +176,16 @@ describe('"detectOutsideClick" should', () => {
 
     render(<Component />)
 
-    await userEvent.click(ignoreElementRef.current)
+    await userEvent.click(ignoreElementRef.current!)
     expect(onSuccess).toHaveBeenCalledTimes(0)
 
-    await userEvent.click(wrapperElementRef.current)
+    await userEvent.click(wrapperElementRef.current!)
     expect(onSuccess).toHaveBeenCalledTimes(1)
 
-    await userEvent.click(ignoreElementRef.current)
+    await userEvent.click(ignoreElementRef.current!)
     expect(onSuccess).toHaveBeenCalledTimes(1)
 
-    await userEvent.click(wrapperElementRef.current)
+    await userEvent.click(wrapperElementRef.current!)
     expect(onSuccess).toHaveBeenCalledTimes(2)
   })
 
@@ -184,6 +196,7 @@ describe('"detectOutsideClick" should', () => {
     const ignoreElementRef = undefined
 
     const MockComponent = () => {
+      // @ts-expect-error testing undefined ignoreElementRef
       detectOutsideClick(ignoreElementRef)
       return null
     }
@@ -338,7 +351,7 @@ describe('"validateDOMAttributes" should', () => {
     )
 
     // Verify that Object.prototype was not polluted
-    expect({}.polluted).toBeUndefined()
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
 
     // Verify that the result object itself was not polluted
     expect(res.polluted).toBeUndefined()
@@ -415,7 +428,7 @@ describe('"extendDeep" should', () => {
 
     extendDeep(target, source)
 
-    expect(target.pollute).toBeUndefined()
+    expect((target as Record<string, unknown>).pollute).toBeUndefined()
   })
 })
 
@@ -500,7 +513,7 @@ describe('"toKebabCase" should', () => {
 })
 
 describe('"toCapitalized" should', () => {
-  let replaceSpy
+  let replaceSpy: jest.SpyInstance
   beforeEach(() => {
     replaceSpy = jest.spyOn(String.prototype, 'replace')
   })
@@ -524,10 +537,8 @@ describe('"toCapitalized" should', () => {
     replaceSpy.mockImplementationOnce(() => 'First Word')
     expect(String.prototype.replace).toHaveBeenCalledTimes(0)
     expect(toCapitalized('first word')).toBe('First Word')
-    expect(
-      String(String.prototype.replace.mock.calls?.[0]?.[0])
-    ).not.toContain('?<=')
-    expect(String.prototype.replace).toHaveBeenCalledTimes(0)
+    expect(String(replaceSpy.mock.calls?.[0]?.[0])).not.toContain('?<=')
+    expect(replaceSpy).toHaveBeenCalledTimes(0)
   })
 })
 
