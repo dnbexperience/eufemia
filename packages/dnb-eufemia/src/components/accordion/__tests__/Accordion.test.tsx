@@ -310,17 +310,12 @@ describe('Accordion group component', () => {
 })
 
 describe('Accordion container component', () => {
-  type DidRenderProps = {
-    id: string
-  }
-  class DidRender extends React.PureComponent<DidRenderProps> {
-    override state = { mounted: false }
-    override componentDidMount() {
-      this.setState({ mounted: true })
-    }
-    override render() {
-      return <div id={this.props.id}>{String(this.state.mounted)}</div>
-    }
+  const DidRender = ({ id }: { id: string }) => {
+    const [mounted, setMounted] = React.useState(false)
+    React.useEffect(() => {
+      setMounted(true)
+    }, [])
+    return <div id={id}>{String(mounted)}</div>
   }
 
   const Increment = () => {
