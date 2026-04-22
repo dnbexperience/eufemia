@@ -326,7 +326,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     skeleton: _skeleton,
     tagName: _tagName,
     pageCount: _pageCount,
-    currentPage: _currentPage,
+    currentPage: _currentPageProp,
     startupPage: _startupPage,
     mode: _mode,
     hideProgressIndicator: _hideProgressIndicator,
