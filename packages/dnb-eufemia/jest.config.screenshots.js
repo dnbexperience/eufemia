@@ -23,7 +23,7 @@ module.exports = {
   testTimeout: 60e3,
   testRegex: 'screenshot.test.(js|ts|tsx)$',
   testEnvironment: './src/core/jest/jestPlaywrightEnvironment.js',
-  setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.js'],
+  setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.ts'],
   reporters: [
     'default',
     'jest-image-snapshot/src/outdated-snapshot-reporter.js',

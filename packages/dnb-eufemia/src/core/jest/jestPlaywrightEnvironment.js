@@ -1,6 +1,8 @@
 /**
  * Jest Setup for Screenshot testing
  *
+ * Note: This file must remain as .js because Jest loads testEnvironment
+ * files via Node's require() directly, bypassing the transform pipeline.
  */
 
 const PlaywrightEnvironment =
