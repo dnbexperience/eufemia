@@ -110,7 +110,10 @@
   &__sign {
     margin-inline-end: 0.2em;
   }
-  &__currency {
+  &__currency:has(~ .dnb-stat__amount) {
+    margin-inline-end: 0.2em;
+  }
+  &__amount ~ &__currency {
     margin-inline-start: 0.2em;
   }
   &__prefix,

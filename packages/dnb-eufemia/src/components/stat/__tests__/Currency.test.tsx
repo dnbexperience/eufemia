@@ -136,4 +136,28 @@ describe('Stat.Currency', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('renders currency with space after currency in en-GB locale', () => {
+    const { container } = render(
+      <Stat.Currency value={12345.67} currency="NOK" locale="en-GB" />
+    )
+
+    const content = container.querySelector('.dnb-stat__content')
+    const amount = container.querySelector('.dnb-stat__amount')
+    const currency = container.querySelector('.dnb-stat__currency')
+
+    // Check individual parts
+    expect(currency.textContent).toBe('NOK')
+    expect(amount.textContent).toBe('12,346')
+
+    // Check that currency is before amount
+    expect(content.innerHTML.indexOf('dnb-stat__currency')).toBeLessThan(
+      content.innerHTML.indexOf('dnb-stat__amount')
+    )
+
+    // Verify screen-reader text includes the currency and amount
+    const srOnly = container.querySelector('.dnb-sr-only')
+    expect(srOnly.getAttribute('data-text')).toContain('12,346')
+    expect(srOnly.getAttribute('data-text')).toContain('kroner')
+  })
 })

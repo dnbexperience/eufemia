@@ -46,12 +46,7 @@ export const RootAndLabel = () => (
 
       <Stat.Label top>Monthly change</Stat.Label>
       <Stat.Content direction="vertical">
-        <Stat.Currency
-          value={-1234}
-          signDisplay="always"
-          mainSize="x-large"
-          auxiliarySize="x-small"
-        />
+        <Stat.Currency value={-1234} locale="en-GB" />
         <Stat.Inline>
           <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
           <Stat.Info>(some additional information)</Stat.Info>
