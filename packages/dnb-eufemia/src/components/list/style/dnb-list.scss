@@ -11,6 +11,7 @@
     --item-outline-width: 0.0625rem;
     --item-outline-color: var(--token-color-stroke-neutral-subtle);
     --item-navigation-color: var(--token-color-icon-action);
+    --item-navigation-outline-color: var(--token-color-stroke-action);
     --item-navigation-outline-color--active: var(
       --token-color-stroke-action-pressed
     );
@@ -309,7 +310,7 @@
       // Handle action states
       &:not(.dnb-list__item--disabled):hover,
       &:not(.dnb-list__item--disabled):focus-visible {
-        --item-outline-color: var(--item-navigation-color);
+        --item-outline-color: var(--item-navigation-outline-color);
         --item-outline-width: 0.125rem;
         --item-outline-inset: 0;
         z-index: 2;
@@ -327,7 +328,7 @@
     &:not(.dnb-list__item--disabled):has(
         #{&}__accordion__header:focus-visible
       ) {
-      --item-outline-color: var(--item-navigation-color);
+      --item-outline-color: var(--item-navigation-outline-color);
       --item-outline-width: 0.125rem;
       --item-outline-inset: 0;
       z-index: 2;
@@ -380,6 +381,9 @@
       color: var(--token-color-text-action-disabled);
 
       --item-navigation-color: var(--token-color-icon-action-disabled);
+      --item-navigation-outline-color: var(
+        --token-color-stroke-action-disabled
+      );
       --item-navigation-outline-color--active: var(
         --token-color-stroke-action-disabled
       );
