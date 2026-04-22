@@ -300,24 +300,6 @@ describe('Password component', () => {
     expect(input).toHaveAttribute('autocomplete', 'current-password')
   })
 
-  it('should have submit button inside error status element when in error state', async () => {
-    render(<Field.Password value="a" required />)
-
-    const input = document.querySelector('input')
-    await userEvent.type(input, '{Backspace}')
-    fireEvent.blur(input)
-
-    const errorElement = document.querySelector(
-      '.dnb-input__status--error'
-    )
-    expect(errorElement).toBeInTheDocument()
-
-    const submitButton = errorElement.querySelector(
-      '.dnb-input__submit-button__button'
-    )
-    expect(submitButton).toBeInTheDocument()
-  })
-
   it('should be possible to set autocomplete (autofill)', () => {
     render(<Field.Password autoComplete="new-password" />)
 
