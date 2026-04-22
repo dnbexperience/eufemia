@@ -196,7 +196,6 @@ const formStatusDefaultProps = {
   iconSize: 'medium',
   size: 'default',
   state: 'error',
-  skeleton: false,
 }
 
 function getContent(props: FormStatusProps) {

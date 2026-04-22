@@ -4,19 +4,9 @@ import {
 } from '../extendPropsWithContext'
 
 describe('extendPropsWithContext', () => {
-  it('should not merge context keys that are not in props or defaults', () => {
+  it('should use context anyway', () => {
     const props = {}
     const defaultProps = {}
-    const context1 = { foo: 'bar' }
-
-    const result = extendPropsWithContext(props, defaultProps, context1)
-
-    expect(result).not.toHaveProperty('foo')
-  })
-
-  it('should merge context keys that exist in defaults', () => {
-    const props = {}
-    const defaultProps = { foo: 'default' }
     const context1 = { foo: 'bar' }
 
     const result = extendPropsWithContext(props, defaultProps, context1)
@@ -65,18 +55,8 @@ describe('extendPropsWithContext', () => {
     })
   })
 
-  it('should not merge context keys not in props when defaultProps is null', () => {
+  it('should not fail when defaultProps is null', () => {
     const props = {}
-    const defaultProps = null
-    const context1 = { foo: 'bar' }
-
-    const result = extendPropsWithContext(props, defaultProps, context1)
-
-    expect(result).not.toHaveProperty('foo')
-  })
-
-  it('should merge context keys that exist in props when defaultProps is null', () => {
-    const props = { foo: undefined }
     const defaultProps = null
     const context1 = { foo: 'bar' }
 

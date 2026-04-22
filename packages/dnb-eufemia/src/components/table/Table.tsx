@@ -96,7 +96,6 @@ export type TableAllProps = TableProps &
 const defaultProps: Partial<TableAllProps> = {
   size: 'large',
   variant: 'generic',
-  skeleton: false,
 }
 
 const Table = (componentProps: TableAllProps) => {

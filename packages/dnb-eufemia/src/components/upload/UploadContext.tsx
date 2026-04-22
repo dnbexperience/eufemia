@@ -6,7 +6,6 @@ export const defaultProps: Partial<UploadContextValue> = {
   filesAmountLimit: 100,
   download: false,
   variant: 'default',
-  skeleton: false,
 }
 
 export const UploadContext = createContext<UploadContextValue>(null)

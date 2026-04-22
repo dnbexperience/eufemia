@@ -67,10 +67,7 @@ export type SpaceProps = {
 export type SpaceAllProps = SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
-const defaultProps: Partial<SpaceAllProps> = {
-  skeleton: false,
-  space: undefined,
-}
+const defaultProps: Partial<SpaceAllProps> = {}
 
 function SpaceInstance(localProps: SpaceAllProps) {
   const context = React.useContext<ContextProps & SpacingProps>(Context)

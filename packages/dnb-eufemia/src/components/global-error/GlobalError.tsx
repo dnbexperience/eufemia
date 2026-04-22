@@ -91,7 +91,6 @@ export type GlobalErrorTranslation = {
 
 const defaultProps: Partial<GlobalErrorAllProps> = {
   statusCode: '404',
-  skeleton: false,
 }
 
 export default function GlobalError(localProps: GlobalErrorAllProps) {

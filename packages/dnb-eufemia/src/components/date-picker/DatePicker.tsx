@@ -367,7 +367,6 @@ const defaultProps: Partial<DatePickerAllProps> = {
   skipPortal: false,
   yearNavigation: false,
   labelDirection: 'vertical',
-  skeleton: false,
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {

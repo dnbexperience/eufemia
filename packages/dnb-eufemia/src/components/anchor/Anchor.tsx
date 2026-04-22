@@ -95,7 +95,6 @@ const defaultProps: AnchorProps = {
   noIcon: false,
   noLaunchIcon: false,
   disabled: false,
-  skeleton: false,
 }
 
 export function AnchorInstance(localProps: AnchorAllProps) {

@@ -112,7 +112,6 @@ export type SwitchProps = {
 
 const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
-  skeleton: false,
 }
 
 function Switch(props: SwitchProps) {

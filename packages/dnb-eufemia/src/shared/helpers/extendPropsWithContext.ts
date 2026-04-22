@@ -20,15 +20,15 @@ export function extendPropsWithContext<Props>(
   props = { ...defaults, ...props }
   return {
     ...props,
-    ...reduceContextHasValue(props, defaults, contexts, {
-      onlyMergeExistingProps: true,
-    }),
+    ...reduceContextHasValue(props, defaults, contexts),
   }
 }
 
 /**
- * Like extendPropsWithContext, but does not merge defaults into props.
- * The caller is responsible for pre-merging defaults.
+ * Like extendPropsWithContext, but only merges context values
+ * for props that already exist on the props object.
+ * This prevents unknown context keys from leaking into
+ * the component and potentially reaching DOM attributes.
  *
  * @deprecated Use extendPropsWithContext instead, which handles defaults.
  */
@@ -37,7 +37,12 @@ export function extendExistingPropsWithContext<Props>(
   defaults: DefaultsProps = {},
   ...contexts: Contexts
 ) {
-  return extendPropsWithContext(props, defaults, ...contexts)
+  return {
+    ...props,
+    ...reduceContextHasValue(props, defaults, contexts, {
+      onlyMergeExistingProps: true,
+    }),
+  }
 }
 
 export function reduceContext(contexts: Contexts) {

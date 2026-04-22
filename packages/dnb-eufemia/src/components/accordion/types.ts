@@ -31,5 +31,4 @@ export const accordionDefaultProps: Partial<
 > = {
   variant: 'outlined',
   iconSize: 'medium',
-  skeleton: false,
 }

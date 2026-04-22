@@ -109,7 +109,6 @@ export type CheckboxProps = {
 
 const defaultProps: CheckboxProps = {
   statusState: 'error',
-  skeleton: false,
 }
 
 function Checkbox(localProps: CheckboxProps) {

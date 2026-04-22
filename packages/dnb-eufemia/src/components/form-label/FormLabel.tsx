@@ -56,7 +56,7 @@ function FormLabel(localProps: FormLabelAllProps) {
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
     localProps,
-    { skeleton: false },
+    null,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
     context?.FormLabel
