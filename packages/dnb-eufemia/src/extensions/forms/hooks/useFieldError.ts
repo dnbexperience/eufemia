@@ -16,7 +16,7 @@ import type {
 } from '../types'
 import type { GetValueByPath } from './useDataValue'
 import type { FormsTranslation } from './useTranslation'
-import { convertJsxToString } from '../../../shared/component-helper'
+import { convertJsxToString } from '../../../shared/componentHelper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 

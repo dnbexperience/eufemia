@@ -13,7 +13,7 @@ import forms_nbNO from '../../constants/locales/nb-NO'
 import forms_enGB from '../../constants/locales/en-GB'
 import global_nbNO from '../../../../shared/locales/nb-NO'
 import global_enGB from '../../../../shared/locales/en-GB'
-import { extendDeep } from '../../../../shared/component-helper'
+import { extendDeep } from '../../../../shared/componentHelper'
 
 describe('Form.useTranslation', () => {
   it('should default to nb-NO if no locale is specified in context', () => {

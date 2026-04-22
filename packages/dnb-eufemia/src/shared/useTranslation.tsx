@@ -14,7 +14,7 @@ import type {
 } from './Context'
 import Context from './Context'
 import defaultLocales from './locales'
-import { isObject, warn } from './component-helper'
+import { isObject, warn } from './componentHelper'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (

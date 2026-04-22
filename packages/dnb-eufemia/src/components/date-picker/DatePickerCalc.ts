@@ -23,7 +23,7 @@ import {
   parse,
   startOfDay,
 } from 'date-fns'
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 
 type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
 

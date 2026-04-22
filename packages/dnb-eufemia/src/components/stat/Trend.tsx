@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
-import { convertJsxToString, warn } from '../../shared/component-helper'
+import { convertJsxToString, warn } from '../../shared/componentHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import { TextInternal as Text } from './Text'

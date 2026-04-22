@@ -15,7 +15,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 // Internal
 import TagGroup from './TagGroup'

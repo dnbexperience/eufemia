@@ -13,7 +13,7 @@ import chevron_down from '../../icons/chevron_down'
 import {
   validateDOMAttributes,
   combineDescribedBy,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import useId from '../../shared/helpers/useId'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'

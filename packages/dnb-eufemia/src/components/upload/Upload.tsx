@@ -9,7 +9,7 @@ import Context from '../../shared/Context'
 import {
   extendPropsWithContext,
   makeUniqueId,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import HeightAnimation from '../height-animation/HeightAnimation'

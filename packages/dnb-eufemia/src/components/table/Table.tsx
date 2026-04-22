@@ -7,7 +7,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'

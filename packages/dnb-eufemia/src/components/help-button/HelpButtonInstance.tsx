@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import {
   convertJsxToString,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import Context from '../../shared/Context'
 import { applySpacing } from '../space/SpacingUtils'
 import type { ButtonProps } from '../button/Button'

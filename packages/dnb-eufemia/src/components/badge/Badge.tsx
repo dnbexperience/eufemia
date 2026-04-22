@@ -15,7 +15,7 @@ import {
   warn,
   extendPropsWithContext,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {

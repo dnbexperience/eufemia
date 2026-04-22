@@ -8,7 +8,7 @@ import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'

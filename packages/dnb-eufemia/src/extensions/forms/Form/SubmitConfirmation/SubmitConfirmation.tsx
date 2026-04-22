@@ -15,7 +15,7 @@ import type {
   DialogProps,
 } from '../../../../components/dialog/types'
 import type { EventStateObject } from '../../types'
-import { removeUndefinedProps } from '../../../../shared/component-helper'
+import { removeUndefinedProps } from '../../../../shared/componentHelper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ConfirmationState =

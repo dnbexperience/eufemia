@@ -9,7 +9,7 @@ import {
   validateDOMAttributes,
   removeUndefinedProps,
   warn,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 

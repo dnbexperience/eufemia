@@ -6,7 +6,7 @@ import { applySpacing } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableContainerProps = {

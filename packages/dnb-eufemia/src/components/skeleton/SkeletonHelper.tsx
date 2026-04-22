@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { convertJsxToString } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/componentHelper'
 import type { SkeletonShow } from './Skeleton'
 import type { ContextProps } from '../../shared/Context'
 

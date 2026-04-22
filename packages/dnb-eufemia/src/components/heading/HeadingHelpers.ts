@@ -9,7 +9,7 @@ import type {
   HeadingLevelSizeResolutions,
 } from './Heading'
 import type { ThemeNames } from '../../shared'
-import { warn, convertJsxToString } from '../../shared/component-helper'
+import { warn, convertJsxToString } from '../../shared/componentHelper'
 import type { DynamicElement } from '../../shared/types'
 import type { HeadingCounter } from './HeadingCounter'
 

@@ -7,7 +7,7 @@ import type {
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/componentHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'

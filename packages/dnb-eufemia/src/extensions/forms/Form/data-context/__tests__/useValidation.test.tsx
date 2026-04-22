@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import { Field, Form } from '../../..'
 import { Button } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'

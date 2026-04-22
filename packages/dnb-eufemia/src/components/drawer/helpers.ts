@@ -1,4 +1,4 @@
-import { processChildren } from '../../shared/component-helper'
+import { processChildren } from '../../shared/componentHelper'
 
 export const checkMinMaxWidth = (
   min: number | string,

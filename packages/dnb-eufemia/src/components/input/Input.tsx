@@ -27,7 +27,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
   convertJsxToString,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import {

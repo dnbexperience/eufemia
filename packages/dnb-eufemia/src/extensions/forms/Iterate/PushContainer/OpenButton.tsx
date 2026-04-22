@@ -5,7 +5,7 @@ import Button from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 
 type Props = ButtonProps
 

@@ -20,7 +20,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
   warn,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 // Internal
 import AvatarGroup, {

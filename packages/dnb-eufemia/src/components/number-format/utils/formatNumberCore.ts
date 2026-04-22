@@ -3,7 +3,7 @@
  */
 
 import { LOCALE } from '../../../shared/defaults'
-import { warn, escapeRegexChars } from '../../../shared/component-helper'
+import { warn, escapeRegexChars } from '../../../shared/componentHelper'
 import { IS_MAC } from '../../../shared/helpers'
 import { ABSENT_VALUE_FORMAT, NUMBER_MINUS } from './constants'
 import { getFallbackCurrencyDisplay } from './currencyDisplay'

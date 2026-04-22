@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import styled from '@emotion/styled'
 import { Anchor, P, Table, Td, Th, Tr } from '@dnb/eufemia/src'
-import { extendDeep, warn } from '@dnb/eufemia/src/shared/component-helper'
+import { extendDeep, warn } from '@dnb/eufemia/src/shared/componentHelper'
 import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'

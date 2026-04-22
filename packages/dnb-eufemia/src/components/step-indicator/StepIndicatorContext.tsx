@@ -15,7 +15,7 @@ import React, {
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './defaults'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import type {
   StepIndicatorData,
   StepIndicatorDataItem,

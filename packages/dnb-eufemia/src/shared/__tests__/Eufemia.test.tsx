@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import IsolatedStyleScope from '../IsolatedStyleScope'
 import { getSha, getVersion } from '../build-info/BuildInfo'
 import * as EufemiaImport from '../Eufemia'
-import '../component-helper'
+import '../componentHelper'
 
 const { version, sha, buildDate, init } = EufemiaImport
 
@@ -33,8 +33,8 @@ describe('Eufemia', () => {
     delete window.__eufemiaSHAs
   })
 
-  describe('component-helper', () => {
-    it('should call init on component-helper', () => {
+  describe('componentHelper', () => {
+    it('should call init on componentHelper', () => {
       expect(init).toHaveBeenCalledTimes(1)
     })
   })

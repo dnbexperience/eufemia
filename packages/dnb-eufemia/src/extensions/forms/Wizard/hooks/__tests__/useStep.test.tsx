@@ -1,13 +1,13 @@
 import React from 'react'
 import { render, renderHook, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import useStep from '../useStep'
 import { Wizard } from '../../..'
 
-jest.mock('../../../../../shared/component-helper', () => {
+jest.mock('../../../../../shared/componentHelper', () => {
   const original = jest.requireActual(
-    '../../../../../shared/component-helper'
+    '../../../../../shared/componentHelper'
   )
   return {
     ...original,

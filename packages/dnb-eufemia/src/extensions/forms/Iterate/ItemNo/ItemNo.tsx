@@ -1,6 +1,6 @@
 import React, { isValidElement, useMemo } from 'react'
 import { useItem } from '../hooks'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 function ItemNo({ children }) {

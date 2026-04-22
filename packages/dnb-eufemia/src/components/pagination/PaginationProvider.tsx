@@ -13,7 +13,7 @@ import React, {
 } from 'react'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
-import { dispatchCustomElementEvent } from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/componentHelper'
 import {
   ContentObject,
   // , detectScrollDirection // NB: We do currently not use scroll direction handling

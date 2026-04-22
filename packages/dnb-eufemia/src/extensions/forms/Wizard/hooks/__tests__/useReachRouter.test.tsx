@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer } from 'react'
 import { act, render, renderHook } from '@testing-library/react'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import useReachRouter from '../useReachRouter'
 import useStep from '../useStep'
 import { Form, Wizard } from '../../..'

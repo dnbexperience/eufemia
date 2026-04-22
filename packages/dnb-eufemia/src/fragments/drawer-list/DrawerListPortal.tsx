@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import {
   warn,
   getClosestScrollViewElement,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import PortalRoot from '../../components/PortalRoot'
 
 export type DrawerListPortalProps = {

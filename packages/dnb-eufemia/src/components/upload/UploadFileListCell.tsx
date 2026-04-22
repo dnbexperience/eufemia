@@ -28,7 +28,7 @@ import {
 import type { UploadFile, UploadFileNative } from './types'
 
 // Shared
-import { getClosestParent } from '../../shared/component-helper'
+import { getClosestParent } from '../../shared/componentHelper'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'

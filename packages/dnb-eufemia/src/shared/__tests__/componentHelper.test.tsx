@@ -25,7 +25,7 @@ import {
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
-} from '../component-helper'
+} from '../componentHelper'
 import userEvent from '@testing-library/user-event'
 
 beforeAll(() => {

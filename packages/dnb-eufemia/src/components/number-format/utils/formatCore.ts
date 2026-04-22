@@ -4,7 +4,7 @@
  */
 
 import { LOCALE } from '../../../shared/defaults'
-import { warn } from '../../../shared/component-helper'
+import { warn } from '../../../shared/componentHelper'
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'

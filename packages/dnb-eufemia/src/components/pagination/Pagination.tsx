@@ -10,7 +10,7 @@ import {
   validateDOMAttributes,
   extendExistingPropsWithContext,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 
 import { PaginationIndicator } from './PaginationHelpers'

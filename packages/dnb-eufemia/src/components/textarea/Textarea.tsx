@@ -27,7 +27,7 @@ import {
   warn,
   dispatchCustomElementEvent,
   convertJsxToString,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'

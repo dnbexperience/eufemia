@@ -14,7 +14,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'

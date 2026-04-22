@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import globby from 'globby'
-import { toKebabCase } from '../shared/component-helper'
+import { toKebabCase } from '../shared/componentHelper'
 
 describe('Style Import References', () => {
   const ignoreList = new Set<string>(['icon-primary'])

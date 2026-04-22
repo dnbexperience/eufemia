@@ -13,7 +13,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import {

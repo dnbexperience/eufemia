@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { getClosestScrollViewElement } from '../../../shared/component-helper'
+import { getClosestScrollViewElement } from '../../../shared/componentHelper'
 import { useHeightAnimation } from '../../height-animation/useHeightAnimation'
 import { TableAccordionContext } from './TableAccordionContext'
 import type { TableAccordionContentRowProps } from './TableAccordionContent'

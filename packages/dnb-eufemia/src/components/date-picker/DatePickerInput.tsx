@@ -22,7 +22,7 @@ import SegmentedField, {
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
-import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import { warn, validateDOMAttributes } from '../../shared/componentHelper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 

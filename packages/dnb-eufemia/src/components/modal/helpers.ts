@@ -1,5 +1,5 @@
 import type React from 'react'
-import { warn, processChildren } from '../../shared/component-helper'
+import { warn, processChildren } from '../../shared/componentHelper'
 
 export type ModalStackEntry = {
   _id: string

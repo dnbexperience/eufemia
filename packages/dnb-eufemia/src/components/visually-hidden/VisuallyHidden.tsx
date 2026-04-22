@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 // Shared
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import type { DynamicElement } from '../../shared/types'
 
 export type VisuallyHiddenProps = {

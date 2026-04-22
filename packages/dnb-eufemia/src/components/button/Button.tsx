@@ -15,7 +15,7 @@ import {
   processChildren,
   getStatusState,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import useId from '../../shared/helpers/useId'
 import { applySpacing } from '../space/SpacingUtils'
 import {

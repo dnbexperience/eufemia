@@ -14,7 +14,7 @@ import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLay
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
-import type { DetectOutsideClickClass } from '../../shared/component-helper'
+import type { DetectOutsideClickClass } from '../../shared/componentHelper'
 import {
   warn,
   roundToNearest,
@@ -22,7 +22,7 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent,
   getClosestParent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import {
   getOffsetTop,
   getOffsetLeft,

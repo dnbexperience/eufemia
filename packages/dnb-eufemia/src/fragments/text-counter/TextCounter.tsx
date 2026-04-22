@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useRef } from 'react'
 import clsx from 'clsx'
-import { toPascalCase } from '../../shared/component-helper'
+import { toPascalCase } from '../../shared/componentHelper'
 import Context from '../../shared/Context'
 import AriaLive from '../../components/AriaLive'
 import Icon from '../../components/icon/Icon'

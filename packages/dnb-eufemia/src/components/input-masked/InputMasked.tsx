@@ -4,7 +4,7 @@
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import { inputDefaultProps } from '../input/Input'

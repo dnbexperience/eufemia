@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react'
-import { makeUniqueId } from '../../../shared/component-helper'
+import { makeUniqueId } from '../../../shared/componentHelper'
 import type { JsonObject } from '../utils/json-pointer'
 import pointer from '../utils/json-pointer'
 import type { SharedStateId } from '../../../shared/helpers/useSharedState'

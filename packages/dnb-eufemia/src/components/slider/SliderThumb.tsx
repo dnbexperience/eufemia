@@ -3,7 +3,7 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import { useSliderEvents } from './hooks/useSliderEvents'

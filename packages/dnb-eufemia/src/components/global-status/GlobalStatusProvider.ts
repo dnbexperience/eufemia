@@ -8,7 +8,7 @@ import {
   warn,
   convertJsxToString,
   slugify,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 type StatusProps = {
   statusId?: string

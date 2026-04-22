@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import WizardContext from '../Context/WizardContext'
 import { useTranslation } from '../../hooks'
 

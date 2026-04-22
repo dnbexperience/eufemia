@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
 import type { ArrayItemAreaProps } from '../Array/ArrayItemArea'

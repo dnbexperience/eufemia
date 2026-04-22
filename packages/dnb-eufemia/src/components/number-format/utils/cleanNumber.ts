@@ -3,7 +3,7 @@
  * https://en.wikipedia.org/wiki/Decimal_separator
  */
 
-import { escapeRegexChars } from '../../../shared/component-helper'
+import { escapeRegexChars } from '../../../shared/componentHelper'
 import { NUMBER_CHARS } from './constants'
 import type { NumberFormatValue } from './types'
 

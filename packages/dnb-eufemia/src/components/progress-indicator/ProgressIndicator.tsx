@@ -17,7 +17,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'

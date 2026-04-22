@@ -4,7 +4,7 @@ import type { Path, ValueProps } from '../../types'
 import { useValueProps } from '../../hooks'
 import useDataValue from '../../hooks/useDataValue'
 import Context from '../../DataContext/Context'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import type { Data } from '../../Field/Selection'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

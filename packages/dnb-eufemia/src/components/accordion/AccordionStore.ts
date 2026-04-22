@@ -1,4 +1,4 @@
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 import type { AccordionContextValue } from './AccordionContext'
 
 type AccordionStoreInstance = {

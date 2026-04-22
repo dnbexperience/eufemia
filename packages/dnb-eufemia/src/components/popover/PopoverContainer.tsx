@@ -13,7 +13,7 @@ import type {
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
-import { getClosestScrollViewElement } from '../../shared/component-helper'
+import { getClosestScrollViewElement } from '../../shared/componentHelper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 type PopoverContainerProps = {

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'

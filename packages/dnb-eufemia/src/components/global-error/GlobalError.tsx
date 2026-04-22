@@ -10,7 +10,7 @@ import Context from '../../shared/Context'
 import {
   processChildren,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import Anchor from '../anchor/Anchor'
 import type { SkeletonShow } from '../skeleton/Skeleton'

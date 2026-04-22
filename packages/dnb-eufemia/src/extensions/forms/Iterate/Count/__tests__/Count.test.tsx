@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import { Count, count, useCount } from '../Count'
 import { DataContext, Form } from '../../..'
 

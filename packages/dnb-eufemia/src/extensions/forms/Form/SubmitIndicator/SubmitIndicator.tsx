@@ -8,7 +8,7 @@ import {
   pickSpacingProps,
 } from '../../../../components/flex/utils'
 import useTranslation from '../../hooks/useTranslation'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

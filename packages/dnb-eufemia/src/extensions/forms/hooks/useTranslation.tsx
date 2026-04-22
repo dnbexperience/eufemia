@@ -6,7 +6,7 @@ import type {
 import SharedContext from '../../../shared/Context'
 import type { AdditionalReturnUtils } from '../../../shared/useTranslation'
 import sharedUseTranslation from '../../../shared/useTranslation'
-import { extendDeep, isObject } from '../../../shared/component-helper'
+import { extendDeep, isObject } from '../../../shared/componentHelper'
 import type { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { makeUniqueId } from '../../shared/component-helper'
+import { makeUniqueId } from '../../shared/componentHelper'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
 import Tooltip from '../tooltip/Tooltip'

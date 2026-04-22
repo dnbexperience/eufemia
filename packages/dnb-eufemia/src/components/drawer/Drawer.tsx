@@ -11,7 +11,7 @@ import DrawerNavigation from './parts/DrawerNavigation'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import type { DrawerProps, DrawerContentProps } from './types'
-import { removeUndefinedProps } from '../../shared/component-helper'
+import { removeUndefinedProps } from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps

@@ -1,6 +1,6 @@
 import React from 'react'
 import { act, render, renderHook } from '@testing-library/react'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import useQueryLocator from '../useQueryLocator'
 import useStep from '../useStep'
 import { Form, Wizard } from '../../..'

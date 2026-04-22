@@ -8,7 +8,7 @@ import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
 import type { ButtonProps } from '../button/Button'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const defaultProps: Partial<HelpButtonProps> = {

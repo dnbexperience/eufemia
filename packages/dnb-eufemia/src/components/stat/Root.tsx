@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 

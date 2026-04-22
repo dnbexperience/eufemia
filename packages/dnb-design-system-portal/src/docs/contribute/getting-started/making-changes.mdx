@@ -105,7 +105,7 @@ And use it as so:
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 
 import type { LocaleProps } from '../../shared/types'
 
@@ -140,7 +140,7 @@ The function `getTranslation` will along with the properties support both `local
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 
 export type ComponentProps = {
   myParam?: string
@@ -199,7 +199,7 @@ In order to support form element properties, such as `vertical` or `labelDirecti
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 const defaultProps = {
@@ -230,7 +230,7 @@ import clsx from 'clsx'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
@@ -272,7 +272,7 @@ It depends from case to case on how you would make skeleton support available. T
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,

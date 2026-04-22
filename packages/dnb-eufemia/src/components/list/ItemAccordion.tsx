@@ -21,7 +21,7 @@ import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 import Context from '../../shared/Context'
 
 export type ItemAccordionIconPosition = 'left' | 'right'

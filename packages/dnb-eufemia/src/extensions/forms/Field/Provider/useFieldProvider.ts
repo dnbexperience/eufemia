@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo, useRef } from 'react'
 import {
   assignPropsWithContext,
   extendDeep,
-} from '../../../../shared/component-helper'
+} from '../../../../shared/componentHelper'
 import FieldProviderContext from './FieldProviderContext'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'

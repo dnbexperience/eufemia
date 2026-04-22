@@ -9,7 +9,7 @@ import {
   getDecimalSeparator,
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/safeSetSelection'
 

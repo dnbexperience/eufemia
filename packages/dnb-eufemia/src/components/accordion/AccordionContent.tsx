@@ -11,7 +11,7 @@ import {
   validateDOMAttributes,
   processChildren,
   getClosestParent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { useMediaQuery } from '../../shared'
 import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'

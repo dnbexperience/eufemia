@@ -24,7 +24,7 @@ import type {
   ThemeColorScheme,
   ThemeSurface,
 } from '@dnb/eufemia/src/shared/Theme'
-import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
+import { makeUniqueId } from '@dnb/eufemia/src/shared/componentHelper'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {

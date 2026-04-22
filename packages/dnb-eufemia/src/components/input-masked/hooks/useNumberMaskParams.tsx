@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import { extendPropsWithContext } from '../../../shared/component-helper'
+import { extendPropsWithContext } from '../../../shared/componentHelper'
 import { getCurrencySymbol } from '../../number-format/NumberUtils'
 import InputMaskedContext from '../InputMaskedContext'
 

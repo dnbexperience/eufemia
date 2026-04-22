@@ -18,7 +18,7 @@ import {
   combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
 import type {

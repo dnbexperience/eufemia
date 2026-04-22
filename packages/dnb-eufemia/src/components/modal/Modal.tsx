@@ -21,7 +21,7 @@ import {
   removeUndefinedProps,
   processChildren,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'

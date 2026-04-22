@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 import {
   calculatePagination,

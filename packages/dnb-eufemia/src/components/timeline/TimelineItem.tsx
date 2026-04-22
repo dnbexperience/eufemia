@@ -15,7 +15,7 @@ import pinIcon from '../../icons/pin'
 // Shared
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import TimelineContext from './TimelineContext'
 

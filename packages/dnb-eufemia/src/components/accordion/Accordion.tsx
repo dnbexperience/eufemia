@@ -19,7 +19,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 
 import type { ButtonIconPosition } from '../Button'

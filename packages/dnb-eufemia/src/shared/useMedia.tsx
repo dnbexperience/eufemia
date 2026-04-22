@@ -18,7 +18,7 @@ import type {
   MediaQueryBreakpoints,
   MediaQueryOptions,
 } from './MediaQueryUtils'
-import { toPascalCase } from './component-helper'
+import { toPascalCase } from './componentHelper'
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85

@@ -21,7 +21,7 @@ import {
   getStatusState,
   combineDescribedBy,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'

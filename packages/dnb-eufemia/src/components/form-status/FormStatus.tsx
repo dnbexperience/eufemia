@@ -14,7 +14,7 @@ import {
   processChildren,
   extendPropsWithContext,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applySpacing } from '../space/SpacingUtils'
 import Icon from '../icon/Icon'

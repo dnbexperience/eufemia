@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { createSpacing, isInline } from './SpacingUtils'

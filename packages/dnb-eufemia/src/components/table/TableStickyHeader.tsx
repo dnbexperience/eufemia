@@ -1,5 +1,5 @@
 import React from 'react'
-import { getClosestParent, warn } from '../../shared/component-helper'
+import { getClosestParent, warn } from '../../shared/componentHelper'
 import { getOffsetTop } from '../../shared/helpers'
 
 export type TableStickyHeaderProps = {

@@ -26,7 +26,7 @@ import { Ul, Li } from '../../../elements'
 import {
   convertJsxToString,
   findElementInChildren,
-} from '../../../shared/component-helper'
+} from '../../../shared/componentHelper'
 import useId from '../../../shared/helpers/useId'
 import type {
   ComponentProps,

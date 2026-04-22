@@ -13,7 +13,7 @@ import React, {
   useState,
 } from 'react'
 import clsx from 'clsx'
-import { combineDescribedBy, warn } from '../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../shared/componentHelper'
 import { isTouch } from './TooltipHelpers'
 import Popover from '../popover/Popover'
 import getRefElement from '../../shared/internal/getRefElement'

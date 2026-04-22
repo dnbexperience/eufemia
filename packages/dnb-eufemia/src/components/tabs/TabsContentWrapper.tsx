@@ -4,7 +4,7 @@ import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
   validateDOMAttributes,
   combineLabelledBy,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {

@@ -13,7 +13,7 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {

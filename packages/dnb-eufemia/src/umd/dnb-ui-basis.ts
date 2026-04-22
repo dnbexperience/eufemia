@@ -3,4 +3,4 @@
  *
  */
 
-export { isTouchDevice } from '../shared/component-helper'
+export { isTouchDevice } from '../shared/componentHelper'

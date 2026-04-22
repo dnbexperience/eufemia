@@ -13,7 +13,7 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'

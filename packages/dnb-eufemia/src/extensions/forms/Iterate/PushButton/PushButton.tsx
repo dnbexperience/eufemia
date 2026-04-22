@@ -14,7 +14,7 @@ import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IteratePushButtonProps = ButtonProps & {

@@ -7,9 +7,9 @@ import userEvent from '@testing-library/user-event'
 import useStep from '../../hooks/useStep'
 import { Button } from '../../../../../components'
 
-jest.mock('../../../../../shared/component-helper', () => {
+jest.mock('../../../../../shared/componentHelper', () => {
   const original = jest.requireActual(
-    '../../../../../shared/component-helper'
+    '../../../../../shared/componentHelper'
   )
   return {
     ...original,

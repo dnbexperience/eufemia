@@ -23,7 +23,7 @@ import type { SpacingProps } from '../../shared/types'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type InfoCardProps = {

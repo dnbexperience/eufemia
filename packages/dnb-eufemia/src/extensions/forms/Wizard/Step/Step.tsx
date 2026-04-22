@@ -5,7 +5,7 @@ import type { FlexContainerAllProps as FlexContainerProps } from '../../../../co
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'

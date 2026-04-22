@@ -12,7 +12,7 @@ import {
   IS_IOS,
   warn,
 } from '../../shared/helpers'
-import { convertJsxToString } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/componentHelper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'

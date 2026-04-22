@@ -29,7 +29,7 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import { useTranslation } from '../../shared'
-import { convertJsxToString } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type DateFormatProps = SpacingProps & {

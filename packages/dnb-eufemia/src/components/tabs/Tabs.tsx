@@ -22,7 +22,7 @@ import {
   getClosestParent,
   filterProps,
   combineLabelledBy,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { applySpacing } from '../space/SpacingUtils'
 import type {

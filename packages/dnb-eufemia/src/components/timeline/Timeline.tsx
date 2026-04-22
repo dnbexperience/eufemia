@@ -16,7 +16,7 @@ import TimelineContext from './TimelineContext'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {

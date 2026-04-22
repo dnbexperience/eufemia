@@ -13,7 +13,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { applySpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'

@@ -6,7 +6,7 @@ import React from 'react'
 import {
   makeUniqueId,
   convertJsxToString,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import type {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,

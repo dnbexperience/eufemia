@@ -10,7 +10,7 @@ import type { SpacingProps } from '../../shared/types'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import clsx from 'clsx'
 import AccordionContext from './AccordionContext'

@@ -12,7 +12,7 @@ import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { Button, GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import type {
   JSONSchema,

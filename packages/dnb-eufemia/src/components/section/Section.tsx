@@ -6,7 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import type {
   DynamicElement,
   InnerSpaceType,

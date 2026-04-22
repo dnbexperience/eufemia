@@ -33,7 +33,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia, useTheme } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

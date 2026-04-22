@@ -7,7 +7,7 @@ import Button from '../button/Button'
 import { folder as FolderIcon } from '../../icons'
 
 // Shared
-import { makeUniqueId } from '../../shared/component-helper'
+import { makeUniqueId } from '../../shared/componentHelper'
 
 // Internal
 import { UploadContext } from './UploadContext'

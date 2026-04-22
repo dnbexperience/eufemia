@@ -5,7 +5,7 @@ import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'
 import type { SpacingProps } from '../../../../shared/types'
 import { FormStatus } from '../../../../components'
-import { combineLabelledBy } from '../../../../shared/component-helper'
+import { combineLabelledBy } from '../../../../shared/componentHelper'
 
 export type FormElementProps = Omit<
   React.HTMLProps<HTMLFormElement>,

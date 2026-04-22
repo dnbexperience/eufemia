@@ -4,7 +4,7 @@
 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { makeUniqueId } from '../../shared/component-helper'
+import { makeUniqueId } from '../../shared/componentHelper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'
 import { useTheme } from '../../shared'

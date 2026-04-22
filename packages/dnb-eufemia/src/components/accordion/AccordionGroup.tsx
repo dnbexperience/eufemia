@@ -11,7 +11,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 
 import Context from '../../shared/Context'

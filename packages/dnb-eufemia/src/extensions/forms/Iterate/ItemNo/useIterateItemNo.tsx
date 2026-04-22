@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useItem } from '../hooks'
 import { useTranslation } from '../../hooks'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/componentHelper'
 import { replaceItemNo } from './ItemNo'
 
 export function useIterateItemNo({

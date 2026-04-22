@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import opentype from 'opentype.js'
 import Fontmin from 'fontmin'
 import { asyncForEach } from './'
-import { makeUniqueId } from '../../src/shared/component-helper'
+import { makeUniqueId } from '../../src/shared/componentHelper'
 import ora from 'ora'
 
 const log = ora()

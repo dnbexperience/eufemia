@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import type { IconAllProps, IconProps } from '../icon/Icon'
 import { prerenderIcon, prepareIcon } from '../icon/Icon'
 

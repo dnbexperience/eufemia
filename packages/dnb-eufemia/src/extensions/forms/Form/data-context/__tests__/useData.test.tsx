@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../../shared/componentHelper'
 import { Button } from '../../../../../components'
 import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
 import type { FilterData } from '../../../DataContext/Context'

@@ -75,9 +75,9 @@ jest.mock('@dnb/eufemia/src/components', () => {
 })
 
 // Mock makeUniqueId
-jest.mock('@dnb/eufemia/src/shared/component-helper', () => {
+jest.mock('@dnb/eufemia/src/shared/componentHelper', () => {
   const actual = jest.requireActual(
-    '@dnb/eufemia/src/shared/component-helper'
+    '@dnb/eufemia/src/shared/componentHelper'
   )
 
   return {

@@ -14,7 +14,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { applySpacing } from '../space/SpacingUtils'

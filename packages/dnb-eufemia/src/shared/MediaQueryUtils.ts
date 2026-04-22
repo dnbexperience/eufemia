@@ -1,4 +1,4 @@
-import { toKebabCase } from './component-helper'
+import { toKebabCase } from './componentHelper'
 import { warn } from './helpers'
 
 export type MediaQuerySizes =

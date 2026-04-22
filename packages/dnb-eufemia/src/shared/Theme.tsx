@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
 import type { DynamicElement } from './types'
-import { extendPropsWithContext } from './component-helper'
+import { extendPropsWithContext } from './componentHelper'
 import withComponentMarkers from './helpers/withComponentMarkers'
 import useMediaQuery from './useMediaQuery'
 

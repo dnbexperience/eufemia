@@ -5,7 +5,7 @@ import {
   dispatchCustomElementEvent,
   getStatusState,
   extendPropsWithContext,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 import Context from '../../shared/Context'
 import {

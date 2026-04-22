@@ -12,7 +12,7 @@ import type { DialogProps, DialogContentProps } from './types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const defaultProps: Partial<DialogProps & DialogContentProps> = {

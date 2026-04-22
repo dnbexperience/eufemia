@@ -6,7 +6,7 @@
 import { createContext } from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
-import { extendDeep } from './component-helper'
+import { extendDeep } from './componentHelper'
 import pointer from '../extensions/forms/utils/json-pointer'
 
 // All TypeScript based Eufemia elements

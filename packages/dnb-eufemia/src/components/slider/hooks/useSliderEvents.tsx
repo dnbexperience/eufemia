@@ -2,7 +2,7 @@ import React from 'react'
 import {
   dispatchCustomElementEvent,
   warn,
-} from '../../../shared/component-helper'
+} from '../../../shared/componentHelper'
 import {
   calculatePercent,
   createMockDiv,

@@ -5,7 +5,7 @@
 
 import React, { useRef, useEffect } from 'react'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/componentHelper'
 import type { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {

@@ -2,7 +2,7 @@ import {
   warn,
   isChildOfElement,
   checkIfHasScrollbar,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 
 const isServer = () => typeof window === 'undefined'
 const detectOS = (ua?: string) => {

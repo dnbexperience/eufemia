@@ -13,7 +13,7 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import { convertJsxToString } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/componentHelper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'

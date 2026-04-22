@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import useDataContextSnapshot from './useDataContextSnapshot'
-import { isObject } from '../../../../shared/component-helper'
+import { isObject } from '../../../../shared/componentHelper'
 
 export default function useHasContentChanged({
   enabled = false,

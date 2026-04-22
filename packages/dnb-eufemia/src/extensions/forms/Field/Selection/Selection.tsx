@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import {
   convertJsxToString,
   makeUniqueId,
-} from '../../../../shared/component-helper'
+} from '../../../../shared/componentHelper'
 import {
   ToggleButton,
   Dropdown,

@@ -36,7 +36,7 @@ import {
   convertJsxToString,
   escapeRegexChars,
   getClosestParent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'

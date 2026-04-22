@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useId from '../useId'
-import * as helper from '../../component-helper'
+import * as helper from '../../componentHelper'
 
 describe('useId', () => {
   it('should return given id', () => {

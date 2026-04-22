@@ -6,7 +6,7 @@ import React, { useRef } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import GlobalStatusProvider from './GlobalStatusProvider'
-import { removeUndefinedProps } from '../../shared/component-helper'
+import { removeUndefinedProps } from '../../shared/componentHelper'
 import type {
   GlobalStatusAddProps,
   GlobalStatusInterceptorProps,

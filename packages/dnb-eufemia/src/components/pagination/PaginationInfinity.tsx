@@ -7,7 +7,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import {
   warn,
   dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 import Button from '../button/Button'

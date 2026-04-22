@@ -18,7 +18,7 @@ import {
   detectOutsideClick,
   isTouchDevice,
   removeUndefinedProps,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
 import { applySpacing } from '../space/SpacingUtils'
 import {

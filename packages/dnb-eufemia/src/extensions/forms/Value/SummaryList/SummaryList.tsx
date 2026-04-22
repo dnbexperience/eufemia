@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { removeUndefinedProps } from '../../../../shared/component-helper'
+import { removeUndefinedProps } from '../../../../shared/componentHelper'
 import SummaryListContext from './SummaryListContext'
 import type { DlAllProps } from '../../../../elements/Dl'
 import Dl from '../../../../elements/Dl'

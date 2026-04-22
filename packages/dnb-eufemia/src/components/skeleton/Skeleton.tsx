@@ -8,7 +8,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
 import { applySpacing } from '../space/SpacingUtils'

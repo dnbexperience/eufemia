@@ -5,7 +5,7 @@
 
 import clsx, { type ClassValue } from 'clsx'
 
-import { warn } from '../../shared/component-helper'
+import { warn } from '../../shared/componentHelper'
 
 import type {
   SpaceType,

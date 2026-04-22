@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { assignPropsWithContext } from '../../../../shared/component-helper'
+import { assignPropsWithContext } from '../../../../shared/componentHelper'
 import ValueProviderContext from './ValueProviderContext'
 import type { ValueProps } from '../../types'
 import type { ValueProviderProps } from './ValueProvider'

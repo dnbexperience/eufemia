@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import { Space } from '../../../../components'
-import { warn } from '../../../../shared/component-helper'
+import { warn } from '../../../../shared/componentHelper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
 import type { WizardContextState } from '../Context/WizardContext'

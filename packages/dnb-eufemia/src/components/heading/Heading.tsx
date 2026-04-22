@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/componentHelper'
 import '../../shared/helpers'
 import { applySpacing } from '../space/SpacingUtils'
 import type { HeadingContextValue } from './HeadingContext'

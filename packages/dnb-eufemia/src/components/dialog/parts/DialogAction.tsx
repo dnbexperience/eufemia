@@ -4,7 +4,7 @@ import Button from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
-import { dispatchCustomElementEvent } from '../../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../../shared/componentHelper'
 
 import type { SpacingProps } from '../../../shared/types'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'

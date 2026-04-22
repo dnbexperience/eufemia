@@ -9,7 +9,7 @@ import clsx from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
-} from '../../shared/component-helper'
+} from '../../shared/componentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,

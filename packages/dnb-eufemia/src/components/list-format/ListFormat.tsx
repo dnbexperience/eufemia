@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useMemo } from 'react'
 import { LOCALE } from '../../shared/defaults'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/componentHelper'
 import type { InternalLocale } from '../../shared/Context'
 import SharedContext from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
