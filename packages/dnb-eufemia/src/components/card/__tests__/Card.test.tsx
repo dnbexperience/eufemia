@@ -396,6 +396,38 @@ describe('Card', () => {
     expect(element).toHaveStyle('--outline-width--large: 2px')
   })
 
+  it('should support "outlineWidth" on nested cards', () => {
+    render(
+      <Card>
+        <Card outlineWidth="1rem">Content</Card>
+      </Card>
+    )
+
+    const innerCard = document.querySelectorAll('.dnb-card')[1]
+    expect(innerCard).toHaveStyle('--outline-width--small: 1rem')
+    expect(innerCard).toHaveStyle('--outline-width--medium: 1rem')
+    expect(innerCard).toHaveStyle('--outline-width--large: 1rem')
+  })
+
+  it('should use default outlineWidth on nested cards', () => {
+    render(
+      <Card>
+        <Card>Content</Card>
+      </Card>
+    )
+
+    const innerCard = document.querySelectorAll('.dnb-card')[1]
+    expect(innerCard).toHaveStyle(
+      '--outline-width--small: var(--card-outline-width)'
+    )
+    expect(innerCard).toHaveStyle(
+      '--outline-width--medium: var(--card-outline-width)'
+    )
+    expect(innerCard).toHaveStyle(
+      '--outline-width--large: var(--card-outline-width)'
+    )
+  })
+
   it('should support "dropShadow"', () => {
     render(<Card dropShadow>Content</Card>)
 
