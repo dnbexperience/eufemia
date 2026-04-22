@@ -158,7 +158,7 @@ function UploadInfoAcceptedFileTypesTable() {
     >
       <caption className="dnb-sr-only">{fileTypeTableCaption}</caption>
       <thead>
-        <Tr variant="odd" cellSpacing={0}>
+        <Tr variant="odd">
           <Th>{fileTypeDescription}</Th>
           <Th>{fileSizeDescription}</Th>
         </Tr>
