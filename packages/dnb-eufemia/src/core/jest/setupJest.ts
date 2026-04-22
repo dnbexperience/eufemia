@@ -17,7 +17,7 @@ beforeEach(() => {
 expect.extend({ toBeType })
 
 expect.extend({
-  async toNeverResolve(callable) {
+  async toNeverResolve(callable: () => void | Promise<void>) {
     try {
       await waitFor(callable)
       return {
