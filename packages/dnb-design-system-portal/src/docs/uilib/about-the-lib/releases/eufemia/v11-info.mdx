@@ -4,7 +4,7 @@ description: 'April 21, 2026'
 order: -11
 ---
 
-import { Accordion } from '@dnb/eufemia/src'
+import { Accordion as AccordionComponent } from '@dnb/eufemia/src'
 
 # v11
 
@@ -22,7 +22,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 2. **React 19 alignment** — `innerRef` → `ref`, `Context.Provider` → `Context`, and related updates.
 3. **Behavioral changes and removals** — API redesigns, removed features, and changed defaults. These require manual review.
 
-<Accordion title="Table of contents">
+<AccordionComponent title="Table of contents">
 
 - [Summary of changes](#summary-of-changes)
 - [v10 support timeline](#v10-support-timeline)
@@ -102,7 +102,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 - [Props Type Exports](#props-type-exports)
 - [New in v11](#new-in-v11)
 
-</Accordion>
+</AccordionComponent>
 
 ## Summary of changes
 
@@ -293,7 +293,7 @@ The event names changed semantically. A naive snake_case→camelCase conversion 
 
 Affected components: Autocomplete, Dropdown, DrawerList, DatePicker. The `_focus` variants only apply to Dropdown.
 
-Note: GlobalStatus still uses `onShow` / `onHide` — those are correct for that component and did not change semantically.
+Note: GlobalStatus has both `onOpen`/`onClose` and `onShow`/`onHide`, but they have distinct semantics: `onOpen` fires when GlobalStatus first appears, `onShow` fires on first appearance and on every content update, `onClose` fires when the component disappears (animation end), and `onHide` fires when the user triggers close. Do not rename `onShow`/`onHide` to `onOpen`/`onClose` on GlobalStatus — they are separate events.
 
 #### Component-specific props — don't apply globally
 
@@ -339,7 +339,7 @@ These snake_case props appear on many components and follow the same rename patt
 | `on_focus`            | `onFocus`           | Autocomplete, Input, Textarea                                                                                                                                   |
 | `on_blur`             | `onBlur`            | Autocomplete, Input, Textarea                                                                                                                                   |
 | `on_click`            | `onClick`           | Button, StepIndicator, Tabs, Table.ClickableHead                                                                                                                |
-| `inner_ref`           | `ref`               | All components that accepted `innerRef` (see [innerRef → ref](#innerref--ref) for the full list)                                                                |
+| `innerRef`            | `ref`               | All components that accepted `innerRef` (see [innerRef → ref](#innerref--ref) for the full list)                                                                |
 
 **Status value renames** — apply to all components that accept `statusState` or `state`:
 
@@ -381,7 +381,7 @@ These renames only exist as Eufemia prop/event names and won't collide with othe
 These renames use generic names that exist in non-Eufemia code. Scope your find-and-replace to JSX using the affected component:
 
 8. Replace `opened` with `open` — **only on** Autocomplete, Dropdown, DrawerList, DatePicker, Tooltip, Field.Date.
-9. Replace `on_show` with `onOpen` and `on_hide` with `onClose` — **only on** Autocomplete, Dropdown, DrawerList, DatePicker. _(Not just a casing change — the name changed semantically. GlobalStatus still uses `onShow`/`onHide`.)_
+9. Replace `on_show` with `onOpen` and `on_hide` with `onClose` — **only on** Autocomplete, Dropdown, DrawerList, DatePicker. _(Not just a casing change — the name changed semantically. GlobalStatus has both `onShow`/`onHide` and `onOpen`/`onClose` with different semantics — do not rename them.)_
 10. Replace `triangle_position` with `arrowPosition` — **only on** Autocomplete, Dropdown, DrawerList.
 11. Replace `clear` with `showClearButton` — **only on** Input, InputMasked.
 12. Replace `isCollapsed` with `collapsed` — **only on** Breadcrumb.
@@ -455,7 +455,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 
 `on_change`, `on_click`, `on_focus`, `on_blur`, `on_submit`, `on_key_down`, `on_type`, `on_select`, `on_clear`, `on_open`, `on_close`, `on_cancel`, `on_reset`, `on_complete`, `on_resize`, `on_end`, `on_load`, `on_startup`, `on_adjust`, `on_days_render`, `on_submit_focus`, `on_submit_blur`, `status_state`, `status_props`, `status_no_animation`, `label_direction`, `label_sr_only`, `label_position`, `icon_size`, `icon_position`, `no_animation`, `inner_ref`, `selected_key`, `default_value`, `prevent_selection`, `prevent_close`, `keep_open`, `independent_width`, `fixed_position`, `enable_body_lock`, `skip_portal`, `cache_hash`, `no_scroll_animation`, `min_height`, `max_height`, `input_element`, `submit_element`, `submit_button_title`, `submit_button_icon`, `submit_button_variant`, `clear_button_title`, `keep_placeholder`, `input_attributes`, `inner_element`.
 
-> **Note:** `on_state_update` is **not** in this list because it has been removed, not renamed. If you used `on_state_update`, replace it with `onChange` instead.
+> **Note:** `on_state_update` (and its camelCase form `onStateUpdate`) is **not** in this list because it has been removed, not renamed. If you used either form, replace it with `onChange` instead.
 
 **Must be scoped to specific components** — these names exist outside Eufemia or overlap across components with different meanings:
 
@@ -2712,7 +2712,6 @@ See also: [Form error messages](/uilib/extensions/forms/Form/error-messages/), [
 
 - Replace `continuousValidation` with `validateContinuously`.
 - Replace `validator` with `onChangeValidator`.
-- Replace `focusWhenOpen` with `focusOnOpen`.
 
 Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
