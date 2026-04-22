@@ -48,10 +48,15 @@ export default function PopoverCloseButton({
   const hasContent = Boolean(content)
   const isIconOnly = Boolean(hasIcon && !hasContent)
   const iconElement = React.isValidElement<{ className?: string }>(icon)
-    ? React.createElement(icon.type as React.ComponentType<any>, {
-        ...icon.props,
-        className: clsx(icon.props.className, 'dnb-button__icon'),
-      })
+    ? (() => {
+        const IconType = icon.type as React.ComponentType<any>
+        return (
+          <IconType
+            {...icon.props}
+            className={clsx(icon.props.className, 'dnb-button__icon')}
+          />
+        )
+      })()
     : null
   const resolvedAriaLabel =
     rest['aria-label'] ?? (typeof title === 'string' ? title : undefined)

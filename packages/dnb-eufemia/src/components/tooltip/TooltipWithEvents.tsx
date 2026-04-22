@@ -183,14 +183,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
    */
   const componentWrapper = useMemo(() => {
     if (isValidElement<Record<string, unknown>>(target)) {
-      return React.createElement(target.type as React.ComponentType<any>, {
-        ...target.props,
-        ref: cloneRef,
-        'aria-describedby': combineDescribedBy(
-          target.props['aria-describedby'],
-          describedById
-        ),
-      })
+      const TargetType = target.type as React.ComponentType<any>
+      return (
+        <TargetType
+          {...target.props}
+          ref={cloneRef}
+          aria-describedby={combineDescribedBy(
+            target.props['aria-describedby'],
+            describedById
+          )}
+        />
+      )
     }
 
     cloneRef.current = target as HTMLElement

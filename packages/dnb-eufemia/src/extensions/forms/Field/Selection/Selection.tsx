@@ -511,11 +511,8 @@ export function mapOptions(
           const nestedChildren = mapOptions(child.props.children, {
             createOption,
           })
-          return React.createElement(
-            child.type as React.ComponentType<any>,
-            child.props,
-            nestedChildren
-          )
+          const ChildType = child.type as React.ComponentType<any>
+          return <ChildType {...child.props}>{nestedChildren}</ChildType>
         }
       }
 

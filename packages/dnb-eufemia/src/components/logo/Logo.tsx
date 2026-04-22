@@ -194,10 +194,8 @@ function renderCustomSvg(
       }
     }
 
-    return React.createElement(SvgComponent.type, {
-      ...allowedProps,
-      ...svgParams,
-    })
+    const SvgType = SvgComponent.type
+    return <SvgType {...allowedProps} {...svgParams} />
   }
 
   return <SvgComponent {...svgParams} />

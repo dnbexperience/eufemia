@@ -546,9 +546,9 @@ export default function Popover(props: PopoverProps) {
     if (isRenderer(trigger)) {
       triggerMarkup = trigger(triggerRenderProps)
     } else if (isValidElement<Record<string, unknown>>(trigger)) {
-      triggerMarkup = React.createElement(
-        trigger.type as React.ComponentType<any>,
-        { ...trigger.props, ...triggerDomProps }
+      const TriggerType = trigger.type as React.ComponentType<any>
+      triggerMarkup = (
+        <TriggerType {...trigger.props} {...triggerDomProps} />
       )
     } else if (trigger) {
       warn(

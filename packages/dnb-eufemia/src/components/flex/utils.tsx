@@ -126,15 +126,16 @@ export function renderWithSpacing(
         const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
-          return React.createElement(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            child.type as React.ComponentType<any>,
-            { key: childKey || i, ...childProps },
-            wrapWithSpace({
-              element: element as React.ReactNode,
-              spaceProps,
-              wrapInSpace,
-            })
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const ChildType = child.type as React.ComponentType<any>
+          return (
+            <ChildType key={childKey || i} {...childProps}>
+              {wrapWithSpace({
+                element: element as React.ReactNode,
+                spaceProps,
+                wrapInSpace,
+              })}
+            </ChildType>
           )
         })
       }
@@ -158,17 +159,13 @@ function wrapWithSpace({
   const { wrapInSpace: _, key, ...props } = spaceProps
 
   if (resolvedVariant === true) {
-    return React.createElement(
-      (element as React.ReactElement).type as React.ComponentType<any>,
-      {
-        ...((element as React.ReactElement).props as Record<
-          string,
-          unknown
-        >),
-        key,
-        ...props,
-      }
-    )
+    const ElementType = (element as React.ReactElement)
+      .type as React.ComponentType<any>
+    const elementProps = (element as React.ReactElement).props as Record<
+      string,
+      unknown
+    >
+    return <ElementType {...elementProps} key={key} {...props} />
   }
 
   if (resolvedVariant === 'children') {
@@ -208,24 +205,26 @@ function cloneIntrinsicElementWithSpacing(
 
   const spacing = createSpacing(spaceProps)
 
-  return React.createElement(
-    (element as React.ReactElement).type as React.ComponentType<any>,
-    {
-      ...((element as React.ReactElement).props as Record<
-        string,
-        unknown
-      >),
-      key: spaceProps.key,
-      className: clsx(
+  const ElementType = (element as React.ReactElement)
+    .type as React.ComponentType<any>
+  const elemProps = (element as React.ReactElement).props as Record<
+    string,
+    unknown
+  >
+  return (
+    <ElementType
+      {...elemProps}
+      key={spaceProps.key}
+      className={clsx(
         elementProps?.className,
         ...spacing.className,
         className
-      ),
-      style: {
+      )}
+      style={{
         ...elementProps?.style,
         ...spacing.style,
         ...style,
-      },
-    }
+      }}
+    />
   )
 }
