@@ -41,9 +41,9 @@
   --color-background-neutral: var(--sbanken-greyscale-900);
   --color-background-neutral-static: var(--sbanken-greyscale-0);
   --color-background-neutral-subtle: var(--sbanken-greyscale-900);
-  --color-background-neutral-base: var(--sbanken-greyscale-900);
-  --color-background-neutral-bold: var(--sbanken-greyscale-800);
-  --color-background-neutral-alternative: var(--sbanken-greyscale-900);
+  --color-background-neutral-base: var(--sbanken-greyscale-800);
+  --color-background-neutral-bold: var(--sbanken-greyscale-700);
+  --color-background-neutral-alternative: var(--sbanken-greyscale-950);
   --color-background-info: var(--sbanken-green-400);
   --color-background-info-subtle: var(--sbanken-green-900);
   --color-background-positive: var(--sbanken-green-400);
@@ -81,6 +81,7 @@
   --color-text-warning-inverse: var(--sbanken-yellow-800);
   --color-text-positive: var(--sbanken-green-400);
   --color-text-positive-inverse: var(--sbanken-green-700);
+  --color-text-error: var(--sbanken-orange-700);
   --color-icon-action: var(--sbanken-green-300);
   --color-icon-action-hover: var(--sbanken-green-300);
   --color-icon-action-pressed: var(--sbanken-green-400);
@@ -262,11 +263,11 @@
   --color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-800
   );
-  --radius-radius-0: 0;
-  --radius-radius-xs: 0.125rem;
-  --radius-radius-sm: 0.25rem;
-  --radius-radius-md: 0.5rem;
-  --radius-radius-lg: 1rem;
-  --radius-radius-xl: 1.5rem;
-  --radius-radius-full: 9999px;
+  --radius-0: 0;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
 }

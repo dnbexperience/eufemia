@@ -84,6 +84,7 @@
   --color-text-warning-inverse: var(--carnegie-yellow-500);
   --color-text-positive: var(--carnegie-green-700);
   --color-text-positive-inverse: var(--carnegie-green-600);
+  --color-text-error: var(--carnegie-red-600);
   --color-icon-action: var(--carnegie-greyscale-1000);
   --color-icon-action-hover: var(--carnegie-greyscale-1000);
   --color-icon-action-pressed: var(--carnegie-greyscale-1000);
@@ -279,11 +280,11 @@
   --color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
   );
-  --radius-radius-0: 0;
-  --radius-radius-xs: 0;
-  --radius-radius-sm: 0.125rem;
-  --radius-radius-md: 0.125rem;
-  --radius-radius-lg: 0.25rem;
-  --radius-radius-xl: 1.5rem;
-  --radius-radius-full: 9999px;
+  --radius-0: 0;
+  --radius-xs: 0;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
 }

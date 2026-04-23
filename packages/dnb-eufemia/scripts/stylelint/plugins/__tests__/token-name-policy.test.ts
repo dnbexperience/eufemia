@@ -184,7 +184,7 @@ describe('token-name-policy stylelint rule', () => {
 
   it('allows valid radius token declarations in tokens files', async () => {
     const errors = await lintWithRule({
-      code: ':root { --token-radius-radius-sm: 0.25rem; }',
+      code: ':root { --token-radius-sm: 0.25rem; }',
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })
 

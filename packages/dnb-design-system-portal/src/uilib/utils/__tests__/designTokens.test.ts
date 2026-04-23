@@ -36,15 +36,15 @@ describe('design token docs data', () => {
   it('collects radius token entries from figma token data', () => {
     const result = buildThemeTokenEntries({
       radius: {
-        'radius-sm': {
+        sm: {
           $type: 'number',
           $value: 4,
         },
-        'radius-0': {
+        0: {
           $type: 'number',
           $value: 0,
         },
-        'radius-full': {
+        full: {
           $type: 'number',
           $value: 9999,
         },
@@ -53,17 +53,8 @@ describe('design token docs data', () => {
 
     expect(result).toEqual([
       {
-        name: '--token-radius-radius-sm',
-        path: ['radius', 'radius-sm'],
-        section: 'radius',
-        group: 'radius',
-        modifiers: [],
-        reference: '0.25rem',
-        foundationReference: null,
-      },
-      {
-        name: '--token-radius-radius-0',
-        path: ['radius', 'radius-0'],
+        name: '--token-radius-0',
+        path: ['radius', '0'],
         section: 'radius',
         group: 'radius',
         modifiers: [],
@@ -71,8 +62,17 @@ describe('design token docs data', () => {
         foundationReference: null,
       },
       {
-        name: '--token-radius-radius-full',
-        path: ['radius', 'radius-full'],
+        name: '--token-radius-sm',
+        path: ['radius', 'sm'],
+        section: 'radius',
+        group: 'radius',
+        modifiers: [],
+        reference: '0.25rem',
+        foundationReference: null,
+      },
+      {
+        name: '--token-radius-full',
+        path: ['radius', 'full'],
         section: 'radius',
         group: 'radius',
         modifiers: [],
