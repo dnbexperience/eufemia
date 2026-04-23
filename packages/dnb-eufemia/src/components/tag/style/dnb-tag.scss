@@ -51,8 +51,10 @@
           ),
         $focus-color: var(--token-color-icon-action-focus)
       ) {
-        --tag-icon-background-color: var(--token-color-icon-action-focus);
-        --tag-icon-border-color: var(--token-color-icon-action-focus);
+        --tag-icon-background-color: var(
+          --token-color-background-action-focus
+        );
+        --tag-icon-border-color: var(--token-color-stroke-action-focus);
       }
 
       @include button-mixins.buttonHover(
