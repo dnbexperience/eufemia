@@ -105,10 +105,10 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.NationalIdentityNumber
-        value="12345678901"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         required
+        validateInitially
       />
     </ComponentBox>
   )

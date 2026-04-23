@@ -104,10 +104,10 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.Email
-        value="my-m@il.com"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         required
+        validateInitially
       />
     </ComponentBox>
   )
