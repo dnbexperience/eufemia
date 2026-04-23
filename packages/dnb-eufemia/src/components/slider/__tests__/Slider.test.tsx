@@ -12,10 +12,7 @@ import * as PopoverModule from '../../popover/Popover'
 import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
 import { formatPercent } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
-import {
-  resetMouseSimulation,
-  simulateMouseMove,
-} from './simulateSlider'
+import { resetMouseSimulation, simulateMouseMove } from './simulateSlider'
 
 const props: SliderAllProps = {
   id: 'slider',
