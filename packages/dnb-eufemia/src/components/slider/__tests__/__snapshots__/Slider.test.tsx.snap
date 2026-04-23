@@ -1003,10 +1003,14 @@ legend.dnb-form-label {
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
-  --slider-line-before: black;
-  --slider-line-after: gray;
-  --slider-line-before--disabled: dimgray;
-  --slider-line-after--disabled: lightgray;
+  --slider-line-before: var(--token-color-background-action);
+  --slider-line-after: var(--token-color-background-neutral-base);
+  --slider-line-before--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --slider-line-after--disabled: var(
+    --token-color-background-neutral-base
+  );
   --slider-marker: var(--slider-line-before);
   --slider-marker-height: calc(var(--slider-thumb-size) * 0.75);
   --slider-marker-width: 0.125rem;
@@ -1179,6 +1183,12 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
 }
 .dnb-slider__state--disabled .dnb-slider__track, .dnb-slider__state--disabled .dnb-slider__thumb, .dnb-slider__state--disabled .dnb-slider__line {
   cursor: not-allowed;
+}
+.dnb-slider__state--disabled .dnb-slider__line {
+  background-color: var(--slider-line-before--disabled);
+}
+.dnb-slider__state--disabled .dnb-slider__line__after {
+  background-color: var(--slider-line-after--disabled);
 }
 .dnb-slider__state--animate .dnb-slider__thumb, .dnb-slider__state--animate .dnb-slider__line {
   transition: left 250ms var(--easing-default), top 250ms var(--easing-default), bottom 250ms var(--easing-default), right 250ms var(--easing-default), box-shadow 250ms var(--easing-default);
