@@ -165,6 +165,40 @@ describe('makePropertiesFile', () => {
         }
       })
     })
+
+    describe('@theme block', () => {
+      it('should place token declarations inside @theme', () => {
+        const themeMatch = global.uiTokensTailwind.match(
+          /@theme\s*\{([\s\S]*?)\n\}/
+        )
+        expect(themeMatch).toBeTruthy()
+        const themeBlock = themeMatch[1]
+        expect(themeBlock).toContain('--color-background-action:')
+        expect(themeBlock).toContain('--color-text-neutral:')
+        expect(themeBlock).toContain('--color-stroke-action:')
+        expect(themeBlock).toContain('--radius-md:')
+      })
+
+      it('should not include .eufemia-theme__color-scheme--light selector', () => {
+        expect(global.uiTokensTailwind).not.toContain(
+          '.eufemia-theme__color-scheme--light'
+        )
+      })
+
+      it('should not emit @theme for dark-mode tailwind files', () => {
+        expect(global.uiTokensDarkTailwind).not.toContain('@theme')
+        expect(global.sbankenTokensDarkTailwind).not.toContain('@theme')
+      })
+
+      it('should place dark-mode tokens under the scoped selector', () => {
+        expect(global.uiTokensDarkTailwind).toContain(
+          '.eufemia-theme__color-scheme--dark'
+        )
+        expect(global.uiTokensDarkTailwind).toContain(
+          '--color-background-action:'
+        )
+      })
+    })
   })
 
   describe('Figma file generation', () => {
