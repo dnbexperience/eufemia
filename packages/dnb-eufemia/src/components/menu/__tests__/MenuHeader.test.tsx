@@ -103,6 +103,7 @@ describe('MenuHeader', () => {
     const { container } = render(
       <ul role="menu">
         <Menu.Header text="Section" />
+        <li role="menuitem">Item</li>
       </ul>
     )
 
