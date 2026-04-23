@@ -112,7 +112,7 @@ function UploadFileList() {
 
   return (
     <ul className="dnb-upload__file-list" aria-label={listAriaLabel}>
-      {files.map((uploadFile: UploadFile, index: number) => {
+      {files.map((uploadFile: UploadFile) => {
         const onDeleteHandler = async () => {
           if (typeof onFileDelete === 'function') {
             if (isAsync(onFileDelete)) {
@@ -138,7 +138,7 @@ function UploadFileList() {
 
         return (
           <UploadFileListCell
-            key={index}
+            key={uploadFile.id}
             id={id}
             uploadFile={uploadFile}
             onDelete={onDeleteHandler}
