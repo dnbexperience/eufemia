@@ -140,8 +140,8 @@ const plugins = [
     options: {
       themes: {
         ui: { name: 'DNB' }, // universal identity
-        eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
+        eiendom: { name: 'DNB Eiendom' },
         carnegie: { name: 'DNB Carnegie (WIP)' },
       },
       themeMatchers: [
