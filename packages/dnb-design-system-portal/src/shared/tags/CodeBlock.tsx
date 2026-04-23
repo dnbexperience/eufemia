@@ -164,8 +164,6 @@ function LiveCode(props: LiveCodeProps) {
     props.surface
   )
 
-  console.log('colorScheme', colorScheme)
-
   const {
     scope: scopeProp,
     noInline,
