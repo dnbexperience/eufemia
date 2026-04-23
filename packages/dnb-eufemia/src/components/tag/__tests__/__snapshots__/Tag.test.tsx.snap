@@ -968,7 +968,6 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-tag {
-  --tag-icon-background-color: var(--token-color-background-action);
   --tag-icon-border-color: var(--token-color-stroke-action);
 }
 .dnb-tag.dnb-button {
@@ -1076,7 +1075,7 @@ html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disa
   stroke: var(--tag-icon-stroke);
 }
 .dnb-tag--addable {
-  --tag-icon-fill-color: var(--tag-icon-background-color);
+  --tag-icon-fill-color: var(--token-color-background-action);
   --tag-icon-stroke-color: var(--token-color-icon-neutral-inverse);
 }
 .dnb-tag--addable svg {
