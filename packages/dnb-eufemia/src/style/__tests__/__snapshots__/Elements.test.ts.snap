@@ -235,6 +235,7 @@ del .dnb-code {
  *
  */
 .dnb-hr {
+  --hr-color: var(--token-color-stroke-neutral-subtle);
   position: relative;
   padding: 0;
   width: 100%;
