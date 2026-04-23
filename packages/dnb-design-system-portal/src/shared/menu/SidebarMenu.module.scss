@@ -282,7 +282,7 @@
 	*/
   z-index: 1;
 
-  @include utilities.scrollY(auto);
+  @include utilities.scroll-y(auto);
 
   @include utilities.all-below(medium) {
     position: relative;

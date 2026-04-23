@@ -2,7 +2,7 @@
 
 .fieldsetReset {
   :global(fieldset) {
-    @include utilities.fieldsetReset();
+    @include utilities.fieldset-reset();
   }
 }
 
@@ -26,7 +26,7 @@
 }
 .showWhenMedium {
   // is green on 641 to 960
-  @include utilities.allBetween(small, medium) {
+  @include utilities.all-between(small, medium) {
     color: var(--color-success-green);
   }
 }

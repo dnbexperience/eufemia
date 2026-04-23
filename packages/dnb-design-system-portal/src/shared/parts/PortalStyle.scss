@@ -60,7 +60,7 @@ html[show-dev-grid] .dev-grid > .dnb-h--xx-large {
 }
 
 html[show-dev-grid] .dev-grid {
-  @include PortalMixins.gridStyle();
+  @include PortalMixins.grid-style();
 
   --grid-rgb: 220 220 220;
 

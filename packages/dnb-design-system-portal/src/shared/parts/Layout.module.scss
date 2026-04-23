@@ -42,7 +42,7 @@
     }
 
     .image-box {
-      @include PortalMixins.gridStyle();
+      @include PortalMixins.grid-style();
 
       --grid-rgb: 40 180 130;
       --grid-opacity: 0;
@@ -88,7 +88,7 @@
     }
 
     .typography-box {
-      @include PortalMixins.gridStyle();
+      @include PortalMixins.grid-style();
 
       --grid-rgb: 164 255 255;
 

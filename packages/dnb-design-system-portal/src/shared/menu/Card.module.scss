@@ -85,7 +85,7 @@
   }
 
   html[data-whatinput='keyboard'] &:focus {
-    @include utilities.focusRing();
+    @include utilities.focus-ring();
   }
 }
 
