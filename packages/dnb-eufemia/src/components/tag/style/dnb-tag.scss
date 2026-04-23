@@ -37,13 +37,13 @@
       color: var(--token-color-text-action);
       background-color: var(--token-color-decorative-third-muted);
 
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--token-color-stroke-action),
         0.0625rem,
         inset
       );
 
-      @include button-mixins.buttonFocusVisible(
+      @include button-mixins.button-focus-visible(
         $color: var(--token-color-text-action-focus),
         $background-color: var(
             --token-color-background-action-focus-subtle
@@ -53,12 +53,12 @@
         --tag-icon-border-color: var(--token-color-stroke-action-focus);
       }
 
-      @include button-mixins.buttonHover(
+      @include button-mixins.button-hover(
         $color: var(--token-color-text-action-hover),
         $border-color: var(--token-color-stroke-action-hover)
       );
 
-      @include button-mixins.buttonActive(
+      @include button-mixins.button-active(
         $color: var(--token-color-text-action-pressed),
         $background-color: var(
             --token-color-background-action-pressed-subtle
@@ -69,7 +69,7 @@
         color: var(--token-color-component-button-text-action-disabled);
         background-color: var(--token-color-background-action-disabled);
 
-        @include utilities.fakeBorder(
+        @include utilities.fake-border(
           var(--token-color-stroke-action-disabled)
         );
       }
@@ -81,7 +81,7 @@
     &.dnb-button {
       padding-right: 0.25rem;
 
-      @include tag-mixins.tagIcon(
+      @include tag-mixins.tag-icon(
         var(--tag-icon-fill-color),
         var(--tag-icon-stroke-color),
         var(--tag-icon-border-color)
@@ -102,7 +102,7 @@
         --tag-icon-stroke: var(--token-color-icon-action-hover);
       }
 
-      @include utilities.focusVisible() {
+      @include utilities.focus-visible() {
         --tag-icon-fill: var(--token-color-background-neutral);
         --tag-icon-stroke: var(--token-color-icon-action-focus);
       }
@@ -131,7 +131,7 @@
         --tag-icon-fill: var(--token-color-background-action-hover);
       }
 
-      @include utilities.focusVisible() {
+      @include utilities.focus-visible() {
         --tag-icon-fill: var(--token-color-background-action-focus);
         --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
       }

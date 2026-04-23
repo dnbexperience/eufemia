@@ -7,11 +7,11 @@
 @use './blockquote-mixins.scss';
 
 .dnb-blockquote {
-  @include blockquote-mixins.blockquoteStyle();
+  @include blockquote-mixins.blockquote-style();
 }
 
 .dnb-spacing .dnb-blockquote {
-  @include ui-spacing.defaultSpacing();
+  @include ui-spacing.default-spacing();
   p:last-child {
     margin-bottom: 0;
   }

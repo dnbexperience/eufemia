@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-@include utilities.allAbove(small) {
+@include utilities.all-above(small) {
   html {
     height: 100%;
   }

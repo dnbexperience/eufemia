@@ -15,7 +15,7 @@
   }
 
   &__title {
-    @include utilities.allBetween(small, medium) {
+    @include utilities.all-between(small, medium) {
       font-size: var(--sb-font-size-medium--plus) !important;
       line-height: var(--line-height-medium) !important;
     }

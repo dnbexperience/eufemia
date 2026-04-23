@@ -6,7 +6,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 @use '../../../button/style/themes/button-mixins.scss';
 
-@mixin centerBorder(
+@mixin center-border(
   $width: var(--timeline-icon-width--medium),
   $spacing: var(--timeline-border-spacing--icon-adjusted)
 ) {
@@ -49,7 +49,7 @@
         color: var(--color-black-80);
         background-color: var(--color-white);
 
-        @include utilities.fakeBorder(
+        @include utilities.fake-border(
           var(--color-black-80),
           0.0625rem,
           inset
@@ -64,7 +64,7 @@
     }
 
     &__content {
-      @include centerBorder(var(--timeline-icon-width--small));
+      @include center-border(var(--timeline-icon-width--small));
       border-left: 1px dashed var(--color-black-55);
     }
 
@@ -77,7 +77,7 @@
     }
 
     &--current &__content {
-      @include centerBorder(
+      @include center-border(
         var(--timeline-icon-width--medium),
         var(--timeline-border-spacing)
       );
@@ -109,7 +109,7 @@
       color: var(--color-black-55);
       background-color: var(--color-black-3);
 
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--color-black-3),
         0.0625rem,
         inset

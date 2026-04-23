@@ -52,8 +52,8 @@
   }
 
   &__header {
-    @include utilities.focusVisible() {
-      @include utilities.focusRing('always');
+    @include utilities.focus-visible() {
+      @include utilities.focus-ring('always');
       z-index: 1;
       border-radius: 0.125rem;
       background-color: var(--sb-color-blue-light-3);
@@ -70,8 +70,8 @@
 
     @include utilities.active() {
       background-color: var(--sb-color-white);
-      @include utilities.fakeBorder(null, null, inset);
-      // must be set after fakeBorder()
+      @include utilities.fake-border(null, null, inset);
+      // must be set after fake-border()
       --border-color: var(--sb-color-violet);
       border-left-width: var(--sb-accordion-frame-width--active);
       padding-left: calc(

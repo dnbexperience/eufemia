@@ -101,7 +101,7 @@
     }
   }
 
-  @include utilities.allBelow(medium) {
+  @include utilities.all-below(medium) {
     --breakout: var(--breakout--small, var(--breakout--fallback));
     --outset: var(--outset--small, var(--outset--fallback));
     --background-color--value: var(--background-color--small);
@@ -114,7 +114,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include utilities.allBetween(small, medium) {
+  @include utilities.all-between(small, medium) {
     --breakout: var(--breakout--medium, var(--breakout--fallback));
     --outset: var(--outset--medium, var(--outset--fallback));
     --background-color--value: var(--background-color--medium);
@@ -127,7 +127,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include utilities.allAbove(medium) {
+  @include utilities.all-above(medium) {
     --breakout: var(--breakout--large, var(--breakout--fallback));
     --outset: var(--outset--large, var(--outset--fallback));
     --background-color--value: var(--background-color--large);

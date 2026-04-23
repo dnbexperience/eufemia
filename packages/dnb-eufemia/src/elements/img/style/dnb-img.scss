@@ -6,5 +6,5 @@
 @use './img-mixins.scss';
 
 .dnb-img {
-  @include img-mixins.figureStyle();
+  @include img-mixins.figure-style();
 }

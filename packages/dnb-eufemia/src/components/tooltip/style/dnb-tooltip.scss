@@ -33,7 +33,7 @@
   text-align: center;
 
   border-radius: var(--tooltip-border-radius);
-  @include utilities.defaultDropShadow();
+  @include utilities.default-drop-shadow();
 
   &--large {
     padding: 0.25rem 0;

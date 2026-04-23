@@ -129,7 +129,7 @@
       animation-timing-function: var(--progress-indicator-timing);
       animation-iteration-count: infinite;
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         animation-duration: 0.01ms;
         animation-iteration-count: 1;
       }
@@ -169,7 +169,7 @@
     &--has-progress-value &__line.dark {
       transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }
@@ -218,7 +218,7 @@
     &__bar-transition {
       transition: transform 0.2s linear;
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }
@@ -228,7 +228,7 @@
       animation: progress-indicator-linear-bar-1 2.1s
         cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         animation-duration: 0.01ms;
         animation-iteration-count: 1;
       }
@@ -239,7 +239,7 @@
       animation: progress-indicator-linear-bar-2 2.1s
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         animation-duration: 0.01ms;
         animation-iteration-count: 1;
       }
@@ -269,7 +269,7 @@
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
   }
 
-  @include utilities.reducedMotion() {
+  @include utilities.reduced-motion() {
     animation-duration: 0.01ms !important;
   }
 

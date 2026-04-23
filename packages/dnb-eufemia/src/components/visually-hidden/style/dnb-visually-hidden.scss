@@ -8,7 +8,7 @@
 .dnb-visually-hidden {
   &--focusable {
     &:not(:focus, :focus-within) {
-      @include utilities.srOnly();
+      @include utilities.sr-only();
     }
   }
 }

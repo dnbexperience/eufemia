@@ -10,7 +10,7 @@
 
   background-color: var(--token-color-background-neutral);
 
-  @include table-mixins.tableOutline() {
+  @include table-mixins.table-outline() {
     z-index: 3; // over sticky-header
     border: var(--table-outline);
   }
@@ -39,7 +39,7 @@
       }
 
       position: relative; // because of bottom border
-      @include table-mixins.tableOutline() {
+      @include table-mixins.table-outline() {
         border-bottom: var(--table-border);
       }
 

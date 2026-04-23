@@ -33,7 +33,7 @@ html[data-dnb-modal-active] {
     height: 100%;
 
     &--auto-fullscreen {
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         height: auto;
       }
     }
@@ -105,7 +105,7 @@ html[data-dnb-modal-active] {
     animation-duration: 0ms !important;
   }
 
-  @include utilities.reducedMotion() {
+  @include utilities.reduced-motion() {
     &__overlay {
       animation-duration: 0.01ms !important;
     }

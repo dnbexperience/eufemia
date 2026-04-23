@@ -75,7 +75,7 @@
 
     transition: height 400ms var(--easing-default);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
   }
@@ -85,7 +85,7 @@
       calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
   }
@@ -103,13 +103,13 @@
   /* stylelint-enable */
 
   &--variant-responsive &__bar &__multiple {
-    @include utilities.allBelow(medium) {
+    @include utilities.all-below(medium) {
       display: none;
     }
   }
 
   &--variant-responsive &__toggle {
-    @include utilities.allAbove(medium) {
+    @include utilities.all-above(medium) {
       display: none;
     }
   }

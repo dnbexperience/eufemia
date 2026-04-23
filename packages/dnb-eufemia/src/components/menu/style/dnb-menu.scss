@@ -83,12 +83,12 @@
       text-align: start;
     }
 
-    // Use :focus + whatInput('keyboard') instead of focusVisible().
-    // focusVisible() relies on the browser's :focus-visible heuristic,
+    // Use :focus + what-input('keyboard') instead of focus-visible().
+    // focus-visible() relies on the browser's :focus-visible heuristic,
     // which doesn't reliably fire when .focus() is called programmatically.
     // We control data-whatinput via specificKeys() in MenuRoot, so
     // arrow/nav keys register as keyboard input — making this reliable.
-    @include utilities.whatInput('keyboard') {
+    @include utilities.what-input('keyboard') {
       &:focus:not([disabled]) {
         --menu-action-background-color: var(
           --token-color-background-action-focus-subtle
@@ -96,7 +96,7 @@
         --menu-action-text-color: var(--token-color-text-action-focus);
         --menu-action-icon-color: var(--token-color-icon-action-focus);
 
-        @include utilities.focusRing(
+        @include utilities.focus-ring(
           $whatinput: 'always',
           $color: var(--token-color-stroke-action-focus)
         );

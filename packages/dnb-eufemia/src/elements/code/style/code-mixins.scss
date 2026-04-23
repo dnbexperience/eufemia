@@ -1,7 +1,7 @@
 @use '../../../style/elements/ui-spacing.scss';
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
-@mixin codeStyle() {
+@mixin code-style() {
   $code-scale: 0.875;
   display: inline-block;
 
@@ -38,11 +38,11 @@
   }
 }
 
-@mixin preStyle() {
+@mixin pre-style() {
   display: block;
   overflow: auto;
 
-  @include space-mixins.spaceReset();
+  @include space-mixins.space-reset();
   padding: 1rem;
 
   border-radius: 0.5rem;
@@ -71,6 +71,6 @@
   }
 
   .dnb-spacing pre {
-    @include ui-spacing.defaultSpacing();
+    @include ui-spacing.default-spacing();
   }
 }

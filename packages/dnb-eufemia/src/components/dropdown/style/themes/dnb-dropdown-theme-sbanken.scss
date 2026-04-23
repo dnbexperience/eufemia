@@ -40,7 +40,7 @@
       @include utilities.active() {
         --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--active);
       }
-      @include utilities.focusVisible() {
+      @include utilities.focus-visible() {
         --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--focus);
       }
 

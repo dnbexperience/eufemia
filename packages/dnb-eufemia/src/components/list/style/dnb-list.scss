@@ -58,7 +58,7 @@
       'footer footer footer footer footer footer footer';
 
     // On small screens, use 2-row layout so end wraps to a new line
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
         'chevron-left end end end end end chevron-right'
         'footer footer footer footer footer footer footer';
@@ -71,7 +71,7 @@
     }
 
     // On x-small screens, use 3-row layout so end wraps to a new line
-    @include utilities.allBelow(x-small) {
+    @include utilities.all-below(x-small) {
       --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
         'chevron-left center center center center center chevron-right'
         'chevron-left end end end end end chevron-right'
@@ -106,7 +106,7 @@
     }
     &:has(#{&}__overline) &__center,
     &:has(#{&}__overline) &__end {
-      @include utilities.allAbove(small) {
+      @include utilities.all-above(small) {
         place-self: end;
       }
     }
@@ -116,7 +116,7 @@
     }
     &:has(#{&}__subline) &__center,
     &:has(#{&}__subline) &__end {
-      @include utilities.allAbove(small) {
+      @include utilities.all-above(small) {
         place-self: start;
       }
     }
@@ -136,7 +136,7 @@
     &:not(#{&}__accordion):has(#{&}__end),
     &__accordion__header:has(#{&}__center),
     &__accordion__header:has(#{&}__end) {
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         row-gap: var(--item-row-gap);
       }
     }
@@ -176,7 +176,7 @@
       z-index: 10; // above checkbox and radio click boundary
     }
     &__end &__subline {
-      @include utilities.allAbove(small) {
+      @include utilities.all-above(small) {
         place-self: end;
       }
     }
@@ -203,7 +203,7 @@
       justify-self: start;
       align-items: flex-end;
 
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         align-items: flex-start;
       }
     }
@@ -253,7 +253,7 @@
     }
     // So the __end is aligned with checkbox/radio label on small screens
     &:has(.dnb-form-label) &__end {
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         display: flex;
         margin-left: calc(var(--item-padding) * 2 + 0.5rem);
       }

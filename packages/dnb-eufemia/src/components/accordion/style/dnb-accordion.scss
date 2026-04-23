@@ -103,7 +103,7 @@
       --accordion-border-inset: var(--accordion-border-inset--active);
     }
 
-    @include utilities.focusVisible() {
+    @include utilities.focus-visible() {
       --accordion-color-text: var(--accordion-color-text--focus);
       --accordion-color-description: var(
         --accordion-color-description--focus
@@ -162,7 +162,7 @@
       ); // to ensure correct icon height
       transition: transform 400ms var(--accordion-easing);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }
@@ -260,7 +260,7 @@
       height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
 
@@ -274,7 +274,7 @@
   &-group--single-container {
     transition: min-height 1s var(--accordion-easing);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
   }
@@ -283,7 +283,7 @@
     position: static;
     max-width: 60rem;
 
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       &__header {
         width: 40%; // 40% / 60%
       }
@@ -295,7 +295,7 @@
         // Slower down the animation if single container is used
         transition: opacity 1s var(--accordion-easing);
 
-        @include utilities.reducedMotion() {
+        @include utilities.reduced-motion() {
           transition-duration: 0.01ms;
         }
 
@@ -313,7 +313,7 @@
     // }
   }
   &-group--single-container & > &__header &__header__icon {
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       transform: rotate(-90deg);
     }
   }
@@ -323,7 +323,7 @@
       &__children {
         max-width: 60rem;
 
-        @include utilities.allAbove(small) {
+        @include utilities.all-above(small) {
           position: relative;
           display: flex;
           flex-direction: column;

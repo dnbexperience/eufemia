@@ -46,7 +46,7 @@
     }
   }
 
-  @include utilities.reducedMotion() {
+  @include utilities.reduced-motion() {
     svg {
       animation-duration: 0.01ms !important;
     }
@@ -104,7 +104,7 @@
       transition: transform 400ms var(--easing-default) 40ms;
       transform: translate3d(0, -0.5rem, 0);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }

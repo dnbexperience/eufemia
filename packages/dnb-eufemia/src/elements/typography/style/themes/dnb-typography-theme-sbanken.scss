@@ -2,11 +2,11 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 // Headings
-@include typography.headingClasses() {
+@include typography.heading-classes() {
   font-variant-ligatures: none;
 }
 
-@include typography.typographySelectors() {
+@include typography.typography-selectors() {
   --typography-h-xx-large-weight: var(--font-weight-regular);
   --typography-h-x-large-weight: var(--font-weight-regular);
   --typography-h-large-small-font-size: var(--sb-font-size-medium--plus);
@@ -18,7 +18,7 @@
   --typography-h-medium-small-font-size: var(--font-size-medium);
   --typography-h-medium-weight: var(--font-weight-regular);
 
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     // xx-large
     --typography-h-xx-large-font-size: var(--font-size-x-large);
     --typography-h-xx-large-line-height: var(--line-height-x-large);

@@ -1,7 +1,7 @@
 @use '../../../style/elements/ui-spacing.scss';
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
-@mixin hrStyle() {
+@mixin hr-style() {
   position: relative;
   padding: 0;
   width: 100%; // when nested in a flex container, we need this.
@@ -9,7 +9,7 @@
 
   display: flow-root; // avoid margin collapsing on Safari
 
-  @include space-mixins.spaceReset();
+  @include space-mixins.space-reset();
 
   border: 0;
 

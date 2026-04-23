@@ -8,7 +8,7 @@
 .dnb-scroll-view {
   overflow-x: auto;
 
-  @include utilities.scrollY(auto);
+  @include utilities.scroll-y(auto);
 
   // Ensure the user still can scroll a ancestor scrollarea (body)
   overscroll-behavior: auto;
@@ -18,7 +18,7 @@
     &:focus {
       outline: none;
 
-      @include utilities.focusRing();
+      @include utilities.focus-ring();
     }
   }
 }

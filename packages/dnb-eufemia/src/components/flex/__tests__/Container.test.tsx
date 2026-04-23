@@ -1000,7 +1000,7 @@ describe('Flex.Container', () => {
 
       const element = document.querySelector('.dnb-flex-container')
 
-      expect(element.getAttribute('style')).toBe('--sizeCount: 12;')
+      expect(element.getAttribute('style')).toBe('--size-count: 12;')
 
       rerender(
         <Flex.Container sizeCount={6}>
@@ -1008,7 +1008,7 @@ describe('Flex.Container', () => {
         </Flex.Container>
       )
 
-      expect(element.getAttribute('style')).toBe('--sizeCount: 6;')
+      expect(element.getAttribute('style')).toBe('--size-count: 6;')
 
       rerender(
         <Flex.Container>

@@ -7,7 +7,7 @@
 @use '../../../style/elements/ui-spacing.scss';
 @use './typography-mixins.scss';
 
-@include typography-mixins.typographySelectors() {
+@include typography-mixins.typography-selectors() {
   --typography-h-default-font-weight: var(--font-weight-medium);
 
   // Heading xx-large
@@ -68,8 +68,8 @@
   --typography-h-x-small-font-family: var(--font-family-default);
 }
 
-@include typography-mixins.headingClasses() {
-  @include typography-mixins.headingDefaults();
+@include typography-mixins.heading-classes() {
+  @include typography-mixins.heading-defaults();
 }
 
 .dnb-small {
@@ -91,7 +91,7 @@ sub {
 
 // Paragraphs
 .dnb-p {
-  @include typography-mixins.paragraphDefaults();
+  @include typography-mixins.paragraph-defaults();
 }
 
 @include meta.load-css('dnb-t');
@@ -105,53 +105,53 @@ sub {
 }
 
 .dnb-h--xx-large {
-  @include typography-mixins.headingSizeXxLarge();
+  @include typography-mixins.heading-size-xx-large();
 }
 
 .dnb-h--x-large {
-  @include typography-mixins.headingSizeXLarge();
+  @include typography-mixins.heading-size-x-large();
 }
 
 .dnb-h--large {
-  @include typography-mixins.headingSizeLarge();
+  @include typography-mixins.heading-size-large();
 }
 
 .dnb-lead {
-  @include typography-mixins.typographyLead();
+  @include typography-mixins.typography-lead();
 }
 
 .dnb-h--medium {
-  @include typography-mixins.headingSizeMedium();
+  @include typography-mixins.heading-size-medium();
 }
 
 // The rest of the Headings are not defined by the Eufemia Typography
 .dnb-h--basis {
-  @include typography-mixins.headingSizeBasis();
+  @include typography-mixins.heading-size-basis();
 }
 
 .dnb-h--small {
-  @include typography-mixins.headingSizeSmall();
+  @include typography-mixins.heading-size-small();
 }
 
 .dnb-h--x-small {
-  @include typography-mixins.headingSizeXSmall();
+  @include typography-mixins.heading-size-x-small();
 }
 
 // Spacing
 .dnb-spacing {
   .dnb-h--xx-large,
   .dnb-core-style & .dnb-h--xx-large {
-    @include typography-mixins.headingSpacingXxLarge();
+    @include typography-mixins.heading-spacing-xx-large();
   }
 
   .dnb-h--x-large,
   .dnb-core-style & .dnb-h--x-large {
-    @include typography-mixins.headingSpacingXLarge();
+    @include typography-mixins.heading-spacing-x-large();
   }
 
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
-    @include typography-mixins.headingSpacingLarge();
+    @include typography-mixins.heading-spacing-large();
   }
 
   .dnb-lead,
@@ -164,11 +164,11 @@ sub {
   .dnb-core-style & .dnb-h--basis,
   .dnb-core-style & .dnb-h--small,
   .dnb-core-style & .dnb-h--x-small {
-    @include typography-mixins.headingSpacing();
+    @include typography-mixins.heading-spacing();
   }
 
   .dnb-p,
   .dnb-core-style & .dnb-p {
-    @include ui-spacing.defaultSpacing();
+    @include ui-spacing.default-spacing();
   }
 }

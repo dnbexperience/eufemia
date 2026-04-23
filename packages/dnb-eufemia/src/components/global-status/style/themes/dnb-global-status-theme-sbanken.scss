@@ -11,7 +11,7 @@
   }
 
   &__title {
-    @include utilities.allBelow('large') {
+    @include utilities.all-below('large') {
       padding-right: 2.5rem;
     }
   }

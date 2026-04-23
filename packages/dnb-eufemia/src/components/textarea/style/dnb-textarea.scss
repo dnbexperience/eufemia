@@ -5,7 +5,7 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
-@mixin textareaStyleCommon() {
+@mixin textarea-style-common() {
   cursor: auto;
   border: none;
   margin: 0;
@@ -100,7 +100,7 @@
 
     background-color: var(--textarea-color-background);
 
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--textarea-color-border),
       var(--textarea-border-width, var(--textarea-border-width--default)),
       var(--textarea-border-inset, inset)
@@ -133,11 +133,11 @@
     color: var(--textarea-color-text);
     background-color: var(--textarea-color-background);
 
-    @include textareaStyleCommon();
+    @include textarea-style-common();
 
-    @include utilities.scrollY(auto);
+    @include utilities.scroll-y(auto);
 
-    @include utilities.isFirefox() {
+    @include utilities.is-firefox() {
       overflow-x: clip !important;
     }
 
@@ -165,7 +165,7 @@
     // Limit the text block to two lines
     -webkit-line-clamp: var(--textarea-rows, 2);
 
-    @include textareaStyleCommon();
+    @include textarea-style-common();
 
     color: var(--textarea-color-placeholder);
     background-color: transparent;
@@ -247,7 +247,7 @@
     }
   }
 
-  @include utilities.formLabelWrap();
+  @include utilities.form-label-wrap();
 
   // make full width
   &--stretch {
@@ -279,7 +279,7 @@
   }
 
   .dnb-responsive-component & {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

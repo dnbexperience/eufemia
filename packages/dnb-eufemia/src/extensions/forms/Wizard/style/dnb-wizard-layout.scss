@@ -46,7 +46,7 @@
     }
   }
 
-  @include utilities.allBelow('medium') {
+  @include utilities.all-below('medium') {
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;

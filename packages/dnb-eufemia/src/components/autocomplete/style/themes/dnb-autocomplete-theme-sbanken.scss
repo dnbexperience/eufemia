@@ -12,7 +12,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--token-color-stroke-action-hover),
         0.125rem
       );
@@ -33,7 +33,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--token-color-stroke-error),
         0.125rem
       );

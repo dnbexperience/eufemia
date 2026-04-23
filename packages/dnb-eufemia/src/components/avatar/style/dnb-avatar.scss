@@ -125,7 +125,7 @@
     flex-direction: row;
 
     .dnb-avatar {
-      @include utilities.fakeBorder(var(--color-black-3), 0.125rem);
+      @include utilities.fake-border(var(--color-black-3), 0.125rem);
 
       &--size-small {
         margin-left: -0.5rem;

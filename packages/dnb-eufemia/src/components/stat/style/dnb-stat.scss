@@ -24,7 +24,7 @@
     word-break: keep-all;
   }
   &__content-item {
-    @include utilities.spaceReset();
+    @include utilities.space-reset();
 
     display: inline-flex;
     align-items: baseline;
@@ -52,7 +52,7 @@
 
     [class*='dnb-h--'],
     .dnb-spacing & [class*='dnb-h--'] {
-      @include utilities.spaceReset();
+      @include utilities.space-reset();
 
       font-size: inherit;
       font-weight: inherit;
@@ -60,7 +60,7 @@
   }
 
   &__root {
-    @include utilities.spaceReset();
+    @include utilities.space-reset();
 
     display: grid;
 

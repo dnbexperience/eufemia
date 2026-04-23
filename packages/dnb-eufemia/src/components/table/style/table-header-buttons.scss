@@ -1,7 +1,7 @@
 @use '../../button/style/themes/button-mixins.scss';
 @use '../../../style/core/utilities.scss' as utilities;
 
-@mixin tableFocusRing() {
+@mixin table-focus-ring() {
   &::before {
     content: '';
     position: absolute;
@@ -12,7 +12,7 @@
   }
 }
 
-@mixin buttonsInTable {
+@mixin buttons-in-table {
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
@@ -25,7 +25,7 @@
           opacity 200ms ease-out,
           transform 500ms ease-out;
 
-        @include utilities.reducedMotion() {
+        @include utilities.reduced-motion() {
           transition-duration: 0.01ms;
         }
 
@@ -90,7 +90,7 @@
       }
 
       @include utilities.focus() {
-        @include tableFocusRing();
+        @include table-focus-ring();
 
         // focus ring
         &::before {
@@ -116,13 +116,13 @@
       }
 
       @include utilities.active() {
-        @include button-mixins.buttonFocusRing(
+        @include button-mixins.button-focus-ring(
           'mouse'
         ); // also, make a mouse ring
-        @include button-mixins.buttonFocusRing(
+        @include button-mixins.button-focus-ring(
           'touch'
         ); // also, make a touch ring
-        @include tableFocusRing();
+        @include table-focus-ring();
 
         // focus ring
         &::before {

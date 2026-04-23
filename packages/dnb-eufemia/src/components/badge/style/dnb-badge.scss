@@ -53,7 +53,7 @@
       --badge-information-subtle-color,
       var(--badge-information-color)
     );
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--badge-information-subtle-border),
       null,
       inset

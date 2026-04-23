@@ -10,7 +10,7 @@
     --popover-background-color: var(--color-white);
     --popover-border-radius: 0.25rem;
 
-    @include utilities.sharpDropShadow();
+    @include utilities.sharp-drop-shadow();
   }
 
   &__container {
@@ -18,7 +18,7 @@
     background-color: var(--color-white);
 
     .dnb-date-picker--inline & {
-      @include utilities.sharpDropShadow();
+      @include utilities.sharp-drop-shadow();
     }
   }
 
@@ -177,7 +177,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
+      @include utilities.fake-border(var(--color-sea-green), 0.125rem);
     }
   }
 
@@ -194,7 +194,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
+      @include utilities.fake-border(var(--color-fire-red), 0.125rem);
     }
   }
 }

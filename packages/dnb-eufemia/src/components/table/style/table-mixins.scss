@@ -1,4 +1,4 @@
-@mixin tableBorderHelper($offset: -0.0625rem) {
+@mixin table-border-helper($offset: -0.0625rem) {
   content: '';
   position: absolute;
   top: 0;
@@ -10,9 +10,9 @@
   pointer-events: none;
 }
 
-@mixin tableBorder {
+@mixin table-border {
   &::after {
-    @include tableBorderHelper(-0.0625rem);
+    @include table-border-helper(-0.0625rem);
     @content;
   }
   &:last-child::after {
@@ -20,9 +20,9 @@
   }
 }
 
-@mixin tableOutline {
+@mixin table-outline {
   &::after {
-    @include tableBorderHelper(0);
+    @include table-border-helper(0);
     @content;
   }
 }

@@ -34,7 +34,7 @@
 
     padding: var(--spacing-large);
 
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       padding: 0 var(--spacing-x-small);
     }
 
@@ -55,14 +55,14 @@
       font-size: var(--font-size-medium);
     }
 
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       flex-direction: column;
       gap: 1rem;
     }
   }
 
   h1 {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       // margin-top: 0;
       font-size: var(--font-size-large);
     }

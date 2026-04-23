@@ -87,7 +87,7 @@
 
     &:focus {
       outline: none; // we show a Tooltip instead
-      @include utilities.focusRing();
+      @include utilities.focus-ring();
     }
 
     // Larger bounding area
@@ -203,7 +203,7 @@
   }
 
   &__thumb {
-    @include utilities.sharpDropShadow();
+    @include utilities.sharp-drop-shadow();
   }
 
   &__button-helper,
@@ -268,7 +268,7 @@
       right 250ms var(--easing-default),
       box-shadow 250ms var(--easing-default);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
   }
@@ -286,9 +286,9 @@
 
     transform: translate3d(0.0625rem, 0, 0);
 
-    @include utilities.focusVisible() {
+    @include utilities.focus-visible() {
       ~ .dnb-button {
-        @include utilities.focusStyle();
+        @include utilities.focus-style();
       }
     }
   }
@@ -329,7 +329,7 @@
   }
 
   .dnb-responsive-component & {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

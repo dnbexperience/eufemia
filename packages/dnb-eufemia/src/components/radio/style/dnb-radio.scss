@@ -115,7 +115,7 @@
   &__focus {
     display: none;
 
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       'keyboard',
       var(--radio-color-border--focus)
     );
@@ -284,7 +284,7 @@
     }
 
     fieldset {
-      @include utilities.fieldsetReset();
+      @include utilities.fieldset-reset();
     }
 
     &--column .dnb-radio {
@@ -454,7 +454,7 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__focus {
     display: block;
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--radio-color-border--error),
       var(--radio-focus-ring-width--error)
     );
@@ -462,7 +462,7 @@
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):hover
     ~ &__focus {
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--radio-color-border--hover),
       var(--radio-focus-ring-width--error)
     );

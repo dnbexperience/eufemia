@@ -10,7 +10,7 @@
   --drawer-list-option-border-width: 0.0625rem;
 
   &__list {
-    @include utilities.sharpDropShadow();
+    @include utilities.sharp-drop-shadow();
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -24,11 +24,11 @@
     );
 
     &:focus {
-      @include utilities.focusRing();
+      @include utilities.focus-ring();
     }
 
     &--focusring {
-      @include utilities.focusRing('mouse');
+      @include utilities.focus-ring('mouse');
     }
   }
 
@@ -92,7 +92,7 @@
         height: auto;
         background-color: transparent;
 
-        @include utilities.fakeBorder(
+        @include utilities.fake-border(
           var(--token-color-stroke-selected),
           var(--drawer-list-focus-border-width)
         );
@@ -149,7 +149,7 @@
     }
 
     // TODO: Use CSS Container Queries when available
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       &--selected &__suffix {
         z-index: 2; // over check icon
         background-color: inherit; // to "hide" the check icon
@@ -165,7 +165,7 @@
       &__inner::before {
       visibility: visible;
 
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--token-color-stroke-action-hover-inverse),
         var(--drawer-list-focus-border-width)
       );
@@ -207,7 +207,7 @@
   }
 
   &__arrow::before {
-    @include utilities.sharpDropShadow();
+    @include utilities.sharp-drop-shadow();
   }
 
   // group title arrow

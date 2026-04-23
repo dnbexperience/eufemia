@@ -128,11 +128,11 @@
 
     &--has-inner-element .dnb-input__placeholder,
     &--has-inner-element .dnb-input__input {
-      @include utilities.allAbove(small) {
+      @include utilities.all-above(small) {
         // same width of submit button
         padding-right: 0 !important; // use important so we avoid to have all sizes in addition
       }
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         // same width of submit button
         padding-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
       }
@@ -142,7 +142,7 @@
       white-space: nowrap;
       padding: 0 0.5rem;
 
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         display: none;
       }
     }
@@ -213,7 +213,7 @@
     margin-right: 1rem;
     line-height: var(--line-height-basis);
   }
-  @include utilities.formLabelWrap();
+  @include utilities.form-label-wrap();
 
   // make full width
   &--stretch {
@@ -263,7 +263,7 @@
   }
 
   .dnb-responsive-component & {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

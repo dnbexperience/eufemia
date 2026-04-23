@@ -5,7 +5,7 @@
 
 @use '../anchor-mixins.scss';
 
-@include anchor-mixins.notNoStyle() {
+@include anchor-mixins.not-no-style() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
     --anchor-background-gutter-left: 0.25rem;
@@ -21,13 +21,13 @@
     }
 
     &:hover {
-      @include anchor-mixins.notNoHover() {
+      @include anchor-mixins.not-no-hover() {
         transition: none;
       }
     }
   }
 
-  @include anchor-mixins.notInline() {
+  @include anchor-mixins.not-inline() {
     &.dnb-anchor {
       --anchor-icon-gutter: 0.125em;
       // non-breaking space character

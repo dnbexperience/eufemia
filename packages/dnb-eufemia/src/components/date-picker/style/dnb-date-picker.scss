@@ -58,7 +58,7 @@
       margin: 0;
 
       &.dnb-no-focus:focus {
-        @include utilities.focusRing();
+        @include utilities.focus-ring();
       }
     }
     &:not(#{&}--show-footer) .dnb-date-picker__calendar::after {
@@ -77,19 +77,19 @@
     padding: 0 0.0625rem;
 
     // Chrome fix
-    @include utilities.isChrome() {
+    @include utilities.is-chrome() {
       margin: 0 -4px;
     }
 
     // Safari Mobile fix
-    @include utilities.isSafariMobile() {
+    @include utilities.is-safari-mobile() {
       &:not(*:root) {
         margin: 0;
       }
     }
 
     // Safari Desktop fix
-    @include utilities.isSafariDesktop() {
+    @include utilities.is-safari-desktop() {
       &:not(*:root) {
         margin-right: -10px;
       }
@@ -168,7 +168,7 @@
     user-select: none;
 
     // Wrap already on "medium", because "small" is too narrow in range mode
-    @include utilities.allBelow(medium) {
+    @include utilities.all-below(medium) {
       flex-direction: column;
     }
   }
@@ -346,7 +346,7 @@
     line-height: var(--line-height-basis);
     margin-right: 0;
   }
-  @include utilities.formLabelWrap();
+  @include utilities.form-label-wrap();
 
   // make full width
   &--stretch {
@@ -375,7 +375,7 @@
   }
 
   .dnb-responsive-component & {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -397,7 +397,7 @@
 
   &__fieldset,
   .dnb-core-style &__fieldset {
-    @include utilities.fieldsetReset();
+    @include utilities.fieldset-reset();
   }
 
   &__portal {

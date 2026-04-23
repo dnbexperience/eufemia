@@ -5,7 +5,7 @@
 
 @use '../anchor-mixins.scss';
 
-@mixin anchorStyleUi() {
+@mixin anchor-style-ui() {
   // Align this icon to look the same as in v10
   &__launch-icon.dnb-icon.dnb-icon--default {
     font-size: 1em;
@@ -15,8 +15,8 @@
   }
 }
 
-@include anchor-mixins.notNoStyle() {
+@include anchor-mixins.not-no-style() {
   &.dnb-anchor {
-    @include anchorStyleUi();
+    @include anchor-style-ui();
   }
 }

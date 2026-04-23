@@ -1,4 +1,4 @@
-@mixin headingSpacing {
+@mixin heading-spacing {
   &:has(
     + .dnb-card,
     + * + .dnb-card, /* e.g. one paragraph */
