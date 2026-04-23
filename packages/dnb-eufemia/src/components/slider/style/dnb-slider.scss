@@ -251,6 +251,14 @@
     cursor: not-allowed;
   }
 
+  &__state--disabled &__line {
+    background-color: var(--slider-line-before--disabled);
+  }
+
+  &__state--disabled &__line__after {
+    background-color: var(--slider-line-after--disabled);
+  }
+
   &__state--animate &__thumb,
   &__state--animate &__line {
     transition:
