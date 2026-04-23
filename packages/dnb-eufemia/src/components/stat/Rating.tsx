@@ -89,7 +89,7 @@ function Rating(props: RatingProps) {
 
             return (
               <span
-                key={index}
+                key={`star-${index}`}
                 className="dnb-stat__rating-star"
                 style={
                   {
@@ -115,7 +115,7 @@ function Rating(props: RatingProps) {
 
             return (
               <span
-                key={index}
+                key={`step-${index}`}
                 className="dnb-stat__rating-progressive-step dnb-stat__rating-progressive-step--base"
                 style={
                   {

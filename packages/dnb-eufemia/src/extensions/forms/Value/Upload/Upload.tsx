@@ -42,14 +42,14 @@ function Upload(props: ValueUploadProps) {
 
   const list = useMemo(() => {
     const valueToUse =
-      value?.map((uploadFile, index) => {
+      value?.map((uploadFile) => {
         if (!uploadFile) {
           return undefined
         }
 
         return (
           <UploadFileItem
-            key={index}
+            key={uploadFile.id}
             uploadFile={uploadFile}
             download={download}
             displaySize={displaySize}

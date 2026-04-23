@@ -552,9 +552,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         {!hideDays && !onlyMonth && (
           <thead aria-hidden>
             <tr role="row" className="dnb-date-picker__labels">
-              {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
+              {getWeek(dayOffset(firstDayOfWeek)).map((day) => (
                 <th
-                  key={i}
+                  key={day.toISOString()}
                   role="columnheader"
                   scope="col"
                   className="dnb-date-picker__labels__day"

@@ -59,7 +59,7 @@ function StepIndicatorList() {
 
                 return (
                   <StepIndicatorItem
-                    key={i}
+                    key={`step-${i}`}
                     currentItemNum={i}
                     {...item}
                   />

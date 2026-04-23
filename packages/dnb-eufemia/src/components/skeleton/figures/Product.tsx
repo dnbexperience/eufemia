@@ -63,7 +63,7 @@ function SkeletonProduct({
 
       {rowsLength.map((p, i) => (
         <Space
-          key={i}
+          key={`row-${i}`}
           element="div"
           top="x-small"
           className={clsx('dnb-p', 'dnb-skeleton', 'dnb-skeleton--shape')}

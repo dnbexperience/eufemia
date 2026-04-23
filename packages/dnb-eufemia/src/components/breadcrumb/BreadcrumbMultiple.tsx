@@ -34,7 +34,7 @@ export const BreadcrumbMultiple = ({
         {data?.map((breadcrumbItem, i) => {
           return (
             <BreadcrumbItem
-              key={i}
+              key={`breadcrumb-${i}`}
               variant={
                 (i === 0 && 'home') ||
                 (i === data.length - 1 && 'current') ||
@@ -49,7 +49,10 @@ export const BreadcrumbMultiple = ({
         {(Array.isArray(items) ? items : [items])
           .filter((item) => React.isValidElement(item))
           .map((item, i) => (
-            <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
+            <BreadcrumbItemContext
+              key={`breadcrumb-${i}`}
+              value={{ itemNo: i }}
+            >
               {item}
             </BreadcrumbItemContext>
           ))}
