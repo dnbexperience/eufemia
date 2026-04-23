@@ -20,7 +20,7 @@ import { formatCardNumber } from './components/CardNumber'
 import CardFigure from './components/CardFigure'
 import type { CardData } from './components/CardFigure'
 
-import { ProductType, CardType, BankAxeptType } from './utils/Types'
+import { ProductType, CardType, BankAxeptType } from './utils/types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
 import type { CardDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
