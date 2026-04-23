@@ -24,7 +24,7 @@
   --menu-action-icon-color--disabled: var(
     --token-color-icon-action-disabled
   );
-  --menu-divider-color: var(--token-color-background-neutral-base);
+  --menu-divider-color: var(--token-color-stroke-neutral-subtle);
   --menu-content-padding: 0.25rem;
 
   // Menu width should fit its content. Override Popover's min-width.
