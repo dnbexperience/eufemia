@@ -97,11 +97,16 @@ const postcssIsolateStyle = (opts = {}) => {
         }
 
         // Special‐case :root
-        if (
-          rule.selectors.length === 1 &&
-          (rule.selectors[0].trim() === ':root' ||
-            (isCssModule && rule.selectors[0].trim() === ':global :root'))
-        ) {
+        const isRootSelector = (s) => {
+          const trimmed = s.trim()
+          return (
+            trimmed === ':root' ||
+            (isCssModule && trimmed === ':global :root')
+          )
+        }
+        const hasRoot = rule.selectors.some(isRootSelector)
+
+        if (hasRoot) {
           const scopes = [scopeWithFallback]
 
           if (Array.isArray(sharedHashes)) {
@@ -112,13 +117,20 @@ const postcssIsolateStyle = (opts = {}) => {
             }
           }
 
-          // in CSS-Module mode, wrap the entire list in one :global(...)
+          // Replace :root with scope hashes, keep other selectors as-is
+          const nonRootSelectors = rule.selectors.filter(
+            (s) => !isRootSelector(s)
+          )
+
+          let scopeSelectors
           if (isCssModule) {
             const classList = scopes.map((s) => `.${s}`).join(', ')
-            rule.selector = `:global(${classList})`
+            scopeSelectors = [`:global(${classList})`]
           } else {
-            rule.selector = scopes.map((s) => `.${s}`).join(', ')
+            scopeSelectors = scopes.map((s) => `.${s}`)
           }
+
+          rule.selectors = [...scopeSelectors, ...nonRootSelectors]
           return
         }
 
