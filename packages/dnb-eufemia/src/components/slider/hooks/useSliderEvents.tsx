@@ -3,11 +3,7 @@ import {
   dispatchCustomElementEvent,
   warn,
 } from '../../../shared/component-helper'
-import {
-  calculatePercent,
-  createMockDiv,
-  percentToValue,
-} from '../SliderHelpers'
+import { calculatePercent, percentToValue } from '../SliderHelpers'
 import { SliderContext } from '../SliderProvider'
 
 export function useSliderEvents() {
@@ -24,12 +20,22 @@ export function useSliderEvents() {
   } = React.useContext(SliderContext)
   const { min, max, onDragStart, onDragEnd } = allProps
 
-  const onTrackMouseDownHandler = (event: MouseEvent | TouchEvent) => {
+  const onTrackMouseDownHandler = (
+    event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent
+  ) => {
     onThumbMouseDownHandler(event)
 
-    const percent = calculatePercent(trackRef.current, event, isVertical)
+    const nativeEvent = 'nativeEvent' in event ? event.nativeEvent : event
+    const percent = calculatePercent(
+      trackRef.current,
+      nativeEvent as MouseEvent | TouchEvent,
+      isVertical
+    )
 
-    emitChange(event, percentToValue(percent, min, max, isReverse))
+    emitChange(
+      nativeEvent as MouseEvent | TouchEvent,
+      percentToValue(percent, min, max, isReverse)
+    )
     setShouldAnimate(true)
   }
 
@@ -98,15 +104,7 @@ export function useSliderEvents() {
   const onBodyMouseMoveHandler = (event: MouseEvent | TouchEvent) => {
     event.preventDefault() // ensures correct cursor in Safari (desktop)
 
-    let elem = trackRef.current
-
-    // we have to mock this for jsdom.
-    if (process.env.NODE_ENV === 'test') {
-      // @ts-expect-error - Test environment mock
-      elem = createMockDiv(event.detail)
-      // @ts-expect-error - Test environment event override
-      event = event.detail
-    }
+    const elem = trackRef.current
 
     if (elem) {
       const percent = calculatePercent(elem, event, isVertical)

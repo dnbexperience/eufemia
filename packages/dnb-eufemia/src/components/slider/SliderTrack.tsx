@@ -20,18 +20,14 @@ export function SliderMainTrack({
     }
   })
 
-  const trackParams = {
-    onTouchStart: onTrackMouseDownHandler,
-    onMouseDown: onTrackMouseDownHandler,
-  }
-
   return (
-    // @ts-expect-error - trackParams may have incompatible event handler types
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keyboard interaction is handled by the slider's button helpers
     <span
       id={id}
       ref={trackRef}
       className="dnb-slider__track"
-      {...trackParams}
+      onTouchStart={onTrackMouseDownHandler}
+      onMouseDown={onTrackMouseDownHandler}
     >
       {children}
     </span>

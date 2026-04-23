@@ -1,8 +1,12 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { DataContext, Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
+import {
+  resetMouseSimulation,
+  simulateMouseMove,
+} from '../../../../../components/slider/__tests__/simulateSlider'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -316,22 +320,4 @@ describe('Field.Slider', () => {
 
 const getButtonHelper = (): HTMLInputElement => {
   return document.querySelector('.dnb-slider__button-helper')
-}
-
-const resetMouseSimulation = () => {
-  const elem = document.querySelector('.dnb-slider__track')
-  if (elem) {
-    fireEvent.mouseUp(elem)
-  }
-}
-
-const simulateMouseMove = (props) => {
-  act(() => {
-    fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-    fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-    const mouseMove = new CustomEvent('mousemove', {
-      detail: props,
-    })
-    document.body.dispatchEvent(mouseMove)
-  })
 }

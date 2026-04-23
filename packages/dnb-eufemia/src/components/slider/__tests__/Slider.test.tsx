@@ -5,13 +5,17 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render, act } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
 
 import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
 import { formatPercent } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
+import {
+  resetMouseSimulation,
+  simulateMouseMove,
+} from './simulateSlider'
 
 const props: SliderAllProps = {
   id: 'slider',
@@ -527,21 +531,13 @@ describe('Slider component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    const changeObject = {
-      // We may use new MouseEvent('mousedown', in future
-      event: {
-        height: 10,
-        pageX: 80,
-        width: 100,
-      },
-      height: 10,
-      pageX: 80,
-      rawValue: 80,
-      value: 80,
-      number: null,
-      width: 100,
-    }
-    expect(onChange).toHaveBeenCalledWith(changeObject)
+    const changeEvent = onChange.mock.calls[0][0]
+    expect(changeEvent.rawValue).toBe(80)
+    expect(changeEvent.value).toBe(80)
+    expect(changeEvent.number).toBeNull()
+    expect(changeEvent.event).toBeInstanceOf(MouseEvent)
+    expect(changeEvent.event.pageX).toBe(80)
+    expect(changeEvent.event.pageY).toBe(0)
   })
 
   it('return valid value if numberFormat was given', () => {
@@ -558,21 +554,12 @@ describe('Slider component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    const changeObject = {
-      // We may use new MouseEvent('mousedown', in future
-      event: {
-        height: 10,
-        pageX: 80,
-        width: 100,
-      },
-      height: 10,
-      pageX: 80,
-      rawValue: 80,
-      value: 80,
-      number: '80,0 kr',
-      width: 100,
-    }
-    expect(onChange).toHaveBeenCalledWith(changeObject)
+    const changeEvent = onChange.mock.calls[0][0]
+    expect(changeEvent.rawValue).toBe(80)
+    expect(changeEvent.value).toBe(80)
+    expect(changeEvent.number).toBe('80,0 kr')
+    expect(changeEvent.event).toBeInstanceOf(MouseEvent)
+    expect(changeEvent.event.pageX).toBe(80)
 
     expect(
       document
@@ -676,35 +663,21 @@ describe('Slider component', () => {
 
       expect(parseFloat(getRangeElement(2).value)).toBe(80)
 
-      expect(onChange).toHaveBeenCalledWith({
-        event: {
-          height: 10,
-          pageX: 80,
-          width: 100,
-        },
-        height: 10,
-        pageX: 80,
-        rawValue: 80,
-        value: [20, 30, 80],
-        number: '80,0 kr',
-        width: 100,
-      })
+      const firstCall = onChange.mock.calls[0][0]
+      expect(firstCall.rawValue).toBe(80)
+      expect(firstCall.value).toEqual([20, 30, 80])
+      expect(firstCall.number).toBe('80,0 kr')
+      expect(firstCall.event).toBeInstanceOf(MouseEvent)
+      expect(firstCall.event.pageX).toBe(80)
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
-      expect(onChange).toHaveBeenCalledWith({
-        event: {
-          height: 10,
-          pageX: 10,
-          width: 100,
-        },
-        height: 10,
-        pageX: 10,
-        rawValue: 10,
-        value: [10, 30, 80],
-        number: '10,0 kr',
-        width: 100,
-      })
+      const secondCall = onChange.mock.calls[1][0]
+      expect(secondCall.rawValue).toBe(10)
+      expect(secondCall.value).toEqual([10, 30, 80])
+      expect(secondCall.number).toBe('10,0 kr')
+      expect(secondCall.event).toBeInstanceOf(MouseEvent)
+      expect(secondCall.event.pageX).toBe(10)
 
       fireEvent.mouseDown(getRangeElement(1))
 
@@ -969,22 +942,4 @@ describe('Slider scss', () => {
 
 const getButtonHelper = (): HTMLInputElement => {
   return document.querySelector('.dnb-slider__button-helper')
-}
-
-const resetMouseSimulation = () => {
-  const elem = document.querySelector('.dnb-slider__track')
-  if (elem) {
-    fireEvent.mouseUp(elem)
-  }
-}
-
-const simulateMouseMove = (props) => {
-  act(() => {
-    fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-    fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-    const mouseMove = new CustomEvent('mousemove', {
-      detail: props,
-    })
-    document.body.dispatchEvent(mouseMove)
-  })
 }
