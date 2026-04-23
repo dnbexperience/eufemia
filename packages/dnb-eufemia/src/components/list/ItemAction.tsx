@@ -140,11 +140,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
     return (
       <ItemContent
         className={actionClassName}
-        role="link"
-        tabIndex={isInactive ? -1 : 0}
-        aria-disabled={isInactive ? true : undefined}
-        onClick={handleLinkClick}
-        onKeyDown={handleLinkKeyDown}
         variant={variant}
         selected={selected}
         skeleton={skeleton}
@@ -152,22 +147,31 @@ function ItemAction<E extends React.ElementType = 'a'>(
         disabled={appliedDisabled}
         {...rest}
       >
-        <Anchor
-          noStyle
-          ref={anchorRef}
-          {...(href != null
-            ? { href: isInactive ? undefined : href }
-            : {})}
-          to={isInactive ? undefined : to}
-          element={element}
-          target={target}
-          rel={rel}
-          tabIndex={-1}
+        <div
+          className="dnb-list__item__action__inner"
+          role="link"
+          tabIndex={isInactive ? -1 : 0}
           aria-disabled={isInactive ? true : undefined}
-          {...elementProps}
+          onClick={handleLinkClick}
+          onKeyDown={handleLinkKeyDown}
         >
-          {content}
-        </Anchor>
+          <Anchor
+            noStyle
+            ref={anchorRef}
+            {...(href != null
+              ? { href: isInactive ? undefined : href }
+              : {})}
+            to={isInactive ? undefined : to}
+            element={element}
+            target={target}
+            rel={rel}
+            tabIndex={-1}
+            aria-disabled={isInactive ? true : undefined}
+            {...elementProps}
+          >
+            {content}
+          </Anchor>
+        </div>
       </ItemContent>
     )
   }
@@ -175,11 +179,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
   return (
     <ItemContent
       className={actionClassName}
-      role="button"
-      tabIndex={isInactive ? -1 : 0}
-      aria-disabled={isInactive ? true : undefined}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
       variant={variant}
       selected={selected}
       skeleton={skeleton}
@@ -187,7 +186,16 @@ function ItemAction<E extends React.ElementType = 'a'>(
       disabled={appliedDisabled}
       {...rest}
     >
-      {content}
+      <div
+        className="dnb-list__item__action__inner"
+        role="button"
+        tabIndex={isInactive ? -1 : 0}
+        aria-disabled={isInactive ? true : undefined}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+      >
+        {content}
+      </div>
     </ItemContent>
   )
 }

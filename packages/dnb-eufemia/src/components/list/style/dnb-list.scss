@@ -287,16 +287,37 @@
 
     &__action {
       cursor: pointer;
-      outline: none;
 
       .dnb-icon {
         color: var(--item-icon-color);
       }
 
+      &__inner {
+        display: grid;
+        grid-template:
+          var(--item-grid-template-areas) /
+          var(--item-grid-template-columns);
+        place-content: center;
+        align-items: center;
+        min-height: var(--item-height);
+        padding: calc(var(--item-padding)) 0;
+
+        cursor: pointer;
+        outline: none;
+      }
+
+      // Reset the item's own grid/padding since inner handles it
+      &,
+      &--href {
+        display: flex;
+        padding: 0;
+        min-height: 0;
+      }
+
       // When href is set, the anchor wraps the slots; make it the grid container
       // so slots use the same grid as the onClick version. Span all rows so on
       // small screens the anchor fills both rows and its grid can place end on row 2.
-      &--href a {
+      &--href &__inner a {
         display: grid;
         grid-template:
           var(--item-grid-template-areas) /
@@ -308,14 +329,20 @@
       }
 
       // Handle action states
-      &:not(.dnb-list__item--disabled):hover,
-      &:not(.dnb-list__item--disabled):focus-visible {
+      &:not(.dnb-list__item--disabled):has(
+          .dnb-list__item__action__inner:hover
+        ),
+      &:not(.dnb-list__item--disabled):has(
+          .dnb-list__item__action__inner:focus-visible
+        ) {
         --item-outline-color: var(--item-navigation-outline-color);
         --item-outline-width: 0.125rem;
         --item-outline-inset: 0;
         z-index: 2;
       }
-      &:not(.dnb-list__item--disabled):active {
+      &:not(.dnb-list__item--disabled):has(
+          .dnb-list__item__action__inner:active
+        ) {
         --item-outline-color: var(--item-navigation-outline-color--active);
         --item-icon-color: var(--item-navigation-icon-color--active);
         --item-outline-width: 0.0625rem;
