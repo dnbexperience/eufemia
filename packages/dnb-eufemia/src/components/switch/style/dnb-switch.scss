@@ -145,7 +145,7 @@
 
   &__input:checked ~ &__background {
     background-color: var(--token-color-background-selected);
-    border-color: var(--token-color-background-selected);
+    border-color: var(--token-color-stroke-selected);
   }
 
   &__input {
@@ -317,7 +317,7 @@
 
   &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__background {
     background-color: var(--token-color-background-action-disabled);
-    border-color: var(--token-color-background-action-disabled);
+    border-color: var(--token-color-stroke-action-disabled);
   }
   &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
     background-color: var(--token-color-background-neutral);
