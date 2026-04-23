@@ -33,6 +33,55 @@ describe('design token docs data', () => {
     ])
   })
 
+  it('collects radius token entries from figma token data', () => {
+    const result = buildThemeTokenEntries({
+      radius: {
+        'radius-sm': {
+          $type: 'number',
+          $value: 4,
+        },
+        'radius-0': {
+          $type: 'number',
+          $value: 0,
+        },
+        'radius-full': {
+          $type: 'number',
+          $value: 9999,
+        },
+      },
+    })
+
+    expect(result).toEqual([
+      {
+        name: '--token-radius-radius-sm',
+        path: ['radius', 'radius-sm'],
+        section: 'radius',
+        group: 'radius',
+        modifiers: [],
+        reference: '0.25rem',
+        foundationReference: null,
+      },
+      {
+        name: '--token-radius-radius-0',
+        path: ['radius', 'radius-0'],
+        section: 'radius',
+        group: 'radius',
+        modifiers: [],
+        reference: '0',
+        foundationReference: null,
+      },
+      {
+        name: '--token-radius-radius-full',
+        path: ['radius', 'radius-full'],
+        section: 'radius',
+        group: 'radius',
+        modifiers: [],
+        reference: '9999px',
+        foundationReference: null,
+      },
+    ])
+  })
+
   it('extracts known modifiers from a token path', () => {
     expect(
       extractTokenModifiers(['color', 'background', 'action'])

@@ -733,6 +733,13 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
   );
+  --token-radius-radius-0: 0;
+  --token-radius-radius-xs: 0;
+  --token-radius-radius-sm: 0.125rem;
+  --token-radius-radius-md: 0.125rem;
+  --token-radius-radius-lg: 0.25rem;
+  --token-radius-radius-xl: 1.5rem;
+  --token-radius-radius-full: 9999px;
 }
 "
 `;
@@ -1091,6 +1098,13 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-300
   );
+  --token-radius-radius-0: 0;
+  --token-radius-radius-xs: 0.125rem;
+  --token-radius-radius-sm: 0.25rem;
+  --token-radius-radius-md: 0.5rem;
+  --token-radius-radius-lg: 1rem;
+  --token-radius-radius-xl: 1.5rem;
+  --token-radius-radius-full: 9999px;
 }
 "
 `;
@@ -1390,6 +1404,13 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-800
   );
+  --token-radius-radius-0: 0;
+  --token-radius-radius-xs: 0.125rem;
+  --token-radius-radius-sm: 0.25rem;
+  --token-radius-radius-md: 0.5rem;
+  --token-radius-radius-lg: 1rem;
+  --token-radius-radius-xl: 1.5rem;
+  --token-radius-radius-full: 9999px;
 }
 "
 `;
@@ -1736,6 +1757,13 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-200
   );
+  --token-radius-radius-0: 0;
+  --token-radius-radius-xs: 0.125rem;
+  --token-radius-radius-sm: 0.25rem;
+  --token-radius-radius-md: 0.5rem;
+  --token-radius-radius-lg: 1rem;
+  --token-radius-radius-xl: 1.5rem;
+  --token-radius-radius-full: 9999px;
 }
 "
 `;
@@ -2023,6 +2051,13 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-700
   );
+  --token-radius-radius-0: 0;
+  --token-radius-radius-xs: 0.125rem;
+  --token-radius-radius-sm: 0.25rem;
+  --token-radius-radius-md: 0.5rem;
+  --token-radius-radius-lg: 1rem;
+  --token-radius-radius-xl: 1.5rem;
+  --token-radius-radius-full: 9999px;
 }
 "
 `;

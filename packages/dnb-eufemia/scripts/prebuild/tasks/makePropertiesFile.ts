@@ -62,6 +62,10 @@ const TOKEN_SETS = {
     targetVariableSetId:
       'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
   },
+  sizes: {
+    targetVariableSetId:
+      'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+  },
 }
 
 const ROOT_DIR = packpath.self()
@@ -217,8 +221,21 @@ const foundationPrefixMap = {
   carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
 }
 
-export const transformFigmaAlias = (alias: FigmaAlias) => {
+export const transformFigmaAlias = (
+  alias: FigmaAlias,
+  value?: FigmaValue
+) => {
   const figmaVariableName = alias.targetVariableName
+
+  if (alias.targetVariableSetId === TOKEN_SETS.sizes.targetVariableSetId) {
+    // Size aliases resolve to literal values instead of var() references
+    // because there is no size foundation SCSS file.
+    if (value) {
+      return transformNumberValue(value.$value as number)
+    }
+
+    return undefined
+  }
 
   if (
     alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
@@ -240,11 +257,10 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     }
     path[0] = newPrefix
     return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
-  } else {
-    const errorMessage = `Unsupported variable set: ${alias.targetVariableSetName} for variable ${figmaVariableName}`
-    log.fail(errorMessage)
-    throw new Error(errorMessage)
   }
+
+  // Unknown variable sets (e.g. typography for font tokens) are excluded.
+  return undefined
 }
 
 const hexAsRgb = (hex: string) => {
@@ -285,16 +301,37 @@ const alphaAsPercent = (alpha: number) => {
   return `${value}%`
 }
 
+const PILL_RADIUS_THRESHOLD = 9999
+
+const transformNumberValue = (value: number) => {
+  if (value === 0) {
+    return '0'
+  }
+
+  if (value >= PILL_RADIUS_THRESHOLD) {
+    return '9999px'
+  }
+
+  const rem = value / 16
+  const formatted = parseFloat(rem.toFixed(4))
+  return `${formatted}rem`
+}
+
 export const transformFigmaValue = (value: FigmaValue) => {
-  if (value.$type === 'string' || value.$type === 'number') {
-    return undefined // Exclude numbers, font-family and font weight
+  if (value.$type === 'string') {
+    return undefined // Exclude font-family and font weight
   }
 
   const alias = value?.$extensions?.['com.figma.aliasData']
 
   if (alias) {
-    return transformFigmaAlias(alias)
+    return transformFigmaAlias(alias, value)
   }
+
+  if (value.$type === 'number') {
+    return transformNumberValue(value.$value as number)
+  }
+
   if (value.$type === 'color') {
     const alpha = value.$value.alpha
     const hex = value.$value.hex

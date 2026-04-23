@@ -279,4 +279,11 @@
   --color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
   );
+  --radius-radius-0: 0;
+  --radius-radius-xs: 0;
+  --radius-radius-sm: 0.125rem;
+  --radius-radius-md: 0.125rem;
+  --radius-radius-lg: 0.25rem;
+  --radius-radius-xl: 1.5rem;
+  --radius-radius-full: 9999px;
 }

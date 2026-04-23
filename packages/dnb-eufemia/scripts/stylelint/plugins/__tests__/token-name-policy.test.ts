@@ -145,7 +145,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Expected "--token-" followed by one of: color'
+      'Expected "--token-" followed by one of: color, radius'
     )
   })
 
@@ -176,6 +176,15 @@ describe('token-name-policy stylelint rule', () => {
   it('allows valid 4th semantic segment for token color variables', async () => {
     const errors = await lintWithRule({
       code: ':root { --token-color-text-neutral: #123; }',
+      codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
+    })
+
+    expect(errors).toHaveLength(0)
+  })
+
+  it('allows valid radius token declarations in tokens files', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --token-radius-radius-sm: 0.25rem; }',
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })
 
