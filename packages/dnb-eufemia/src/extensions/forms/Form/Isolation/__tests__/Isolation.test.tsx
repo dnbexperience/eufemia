@@ -11,7 +11,7 @@ import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import { Field, Form, Iterate, makeAjvInstance, Wizard, z } from '../../..'
 import DataContext from '../../../DataContext/Context'
-import setData from '../../data-context/setData'
+import setData from '../../DataContext/setData'
 import useReportError from '../useReportError'
 
 import nbNO from '../../../constants/locales/nb-NO'
