@@ -18,6 +18,7 @@ import {
   NumberFormat,
   P,
   ProgressIndicator,
+  Span,
 } from '@dnb/eufemia/src'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 import { fish_medium } from '@dnb/eufemia/src/icons'
@@ -102,13 +103,16 @@ export const FooterWithButtons = () => {
 
         <List.Item.Action
           icon={fish_medium}
-          title="Action item with button"
+          title="Action item with footer"
         >
           <List.Cell.End>
             <Value.Currency value={5678} />
           </List.Cell.End>
           <List.Cell.Footer>
-            <Button variant="secondary" text="Open" />
+            <Span>
+              Do not put interactive elements (e.g. Button) inside a footer
+              when using List.Item.Action.
+            </Span>
           </List.Cell.Footer>
         </List.Item.Action>
 
@@ -126,7 +130,10 @@ export const FooterWithButtons = () => {
               background: 'var(--token-color-background-neutral-subtle)',
             }}
           >
-            <Button variant="tertiary" text="Next" icon="chevron_right" />
+            <P>
+              Do not put interactive elements (e.g. Button) inside a footer
+              when using List.Item.Accordion.
+            </P>
           </List.Cell.Footer>
 
           <List.Item.Accordion.Content innerSpace>
