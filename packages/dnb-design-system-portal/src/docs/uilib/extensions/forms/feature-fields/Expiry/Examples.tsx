@@ -84,10 +84,10 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.Expiry
-        value="0826"
         label="Label text"
         onChange={(expiry) => console.log('onChange', expiry)}
         required
+        validateInitially
       />
     </ComponentBox>
   )

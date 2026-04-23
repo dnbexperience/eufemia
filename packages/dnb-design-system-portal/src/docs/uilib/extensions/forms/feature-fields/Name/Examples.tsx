@@ -128,6 +128,7 @@ export const ValidationRequired = () => {
       <Field.Name.First
         onChange={(value) => console.log('onChange', value)}
         required
+        validateInitially
       />
     </ComponentBox>
   )

@@ -92,11 +92,11 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.Password
-        value="pass"
         onChange={(value) => console.log('onChange', value)}
         onHidePassword={(event) => console.log('onHidePassword', event)}
         onShowPassword={(event) => console.log('onShowPassword', event)}
         required
+        validateInitially
       />
     </ComponentBox>
   )
