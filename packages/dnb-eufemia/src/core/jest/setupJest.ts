@@ -50,7 +50,8 @@ export function bypassActWarning() {
       const msg = String(args[0] ?? '')
       if (
         /not wrapped in act/.test(msg) ||
-        /component suspended inside an `act` scope/.test(msg)
+        /component suspended inside an `act` scope/.test(msg) ||
+        /Not implemented: navigation/.test(msg)
       ) {
         return
       }

@@ -123,10 +123,15 @@ export const axeComponent = async (
   ...components: any[]
 ) => {
   const html = components
-    .map((Component: { container?: HTMLElement }) => {
+    .map((Component: { container?: HTMLElement } | HTMLElement) => {
       // Support @testing-library/react
-      if (Component?.container) {
-        return Component.container.outerHTML
+      if (Component instanceof HTMLElement) {
+        return Component.outerHTML
+      }
+
+      if ((Component as { container?: HTMLElement })?.container) {
+        return (Component as { container: HTMLElement }).container
+          .outerHTML
       }
 
       return null

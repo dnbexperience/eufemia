@@ -305,11 +305,23 @@
         grid-row: 1 / -1; // Center vertically
         text-decoration: none;
         color: inherit;
+        outline: none;
+      }
+
+      // Button wrapper spans the full grid, similar to the href anchor
+      &__button {
+        display: grid;
+        grid-template:
+          var(--item-grid-template-areas) /
+          var(--item-grid-template-columns);
+        grid-column: 1 / -1;
+        grid-row: 1 / -1;
+        outline: none;
       }
 
       // Handle action states
       &:not(.dnb-list__item--disabled):hover,
-      &:not(.dnb-list__item--disabled):focus-visible {
+      &:not(.dnb-list__item--disabled):has(:focus-visible) {
         --item-outline-color: var(--item-navigation-outline-color);
         --item-outline-width: 0.125rem;
         --item-outline-inset: 0;
