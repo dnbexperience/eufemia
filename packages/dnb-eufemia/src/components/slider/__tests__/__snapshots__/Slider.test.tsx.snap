@@ -1184,6 +1184,12 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
 .dnb-slider__state--disabled .dnb-slider__track, .dnb-slider__state--disabled .dnb-slider__thumb, .dnb-slider__state--disabled .dnb-slider__line {
   cursor: not-allowed;
 }
+.dnb-slider__state--disabled .dnb-slider__line {
+  background-color: var(--slider-line-before--disabled);
+}
+.dnb-slider__state--disabled .dnb-slider__line__after {
+  background-color: var(--slider-line-after--disabled);
+}
 .dnb-slider__state--animate .dnb-slider__thumb, .dnb-slider__state--animate .dnb-slider__line {
   transition: left 250ms var(--easing-default), top 250ms var(--easing-default), bottom 250ms var(--easing-default), right 250ms var(--easing-default), box-shadow 250ms var(--easing-default);
 }
