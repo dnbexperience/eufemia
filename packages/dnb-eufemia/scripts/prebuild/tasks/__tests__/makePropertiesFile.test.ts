@@ -209,14 +209,48 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--carnegie-coldgreen-600)')
       })
 
-      it('error on unsupported variable set', () => {
+      it('returns undefined for unsupported variable set', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
           targetVariableSetName: 'nonsense',
         }
 
-        expect(() => transformFigmaAlias(val)).toThrow()
+        expect(transformFigmaAlias(val)).toBeUndefined()
+      })
+
+      it('resolves size alias to literal value', () => {
+        const alias = {
+          targetVariableName: 'size/4',
+          targetVariableSetId:
+            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetName: 'size',
+        }
+
+        const value = {
+          $type: 'number' as const,
+          $value: 4,
+        }
+
+        const result = transformFigmaAlias(alias, value)
+        expect(result).toEqual('0.25rem')
+      })
+
+      it('resolves size alias with zero value', () => {
+        const alias = {
+          targetVariableName: 'size/0',
+          targetVariableSetId:
+            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetName: 'size',
+        }
+
+        const value = {
+          $type: 'number' as const,
+          $value: 0,
+        }
+
+        const result = transformFigmaAlias(alias, value)
+        expect(result).toEqual('0')
       })
 
       it('error on unsupported theme prefix set', () => {
@@ -325,20 +359,43 @@ describe('makePropertiesFile', () => {
         expect(() => transformFigmaValue(val)).toThrow()
       })
 
-      it('skip string and number', () => {
+      it('skip string', () => {
         expect(
           transformFigmaValue({
             $type: 'string',
             $value: 'Medium',
           })
         ).toBeUndefined()
+      })
+
+      it('converts number to rem', () => {
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 0,
+          })
+        ).toEqual('0')
 
         expect(
           transformFigmaValue({
             $type: 'number',
-            $value: 42,
+            $value: 4,
           })
-        ).toBeUndefined()
+        ).toEqual('0.25rem')
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 16,
+          })
+        ).toEqual('1rem')
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 9999,
+          })
+        ).toEqual('9999px')
       })
     })
 

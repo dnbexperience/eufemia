@@ -20,12 +20,7 @@ const isDev =
 
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
-type TokenType = 'color' | 'spacing'
 type DecorativeVariant = 'non-static' | 'static'
-const defaultVisibleTypes: TokenType[] = ['color']
-const TokenTypeContext = React.createContext<TokenType[]>(
-  defaultVisibleTypes
-)
 
 const renderInlineCodeList = (values: readonly string[]) => {
   return values.map((value, index) => (
@@ -76,6 +71,10 @@ const collator = new Intl.Collator('en', {
   numeric: true,
   sensitivity: 'base',
 })
+
+const cellVerticalMiddle: React.CSSProperties = {
+  verticalAlign: 'middle',
+}
 
 const swatchWrapperStyle: React.CSSProperties = {
   alignItems: 'center',
@@ -243,51 +242,10 @@ const getAvailableModifiers = (tokens: TokenRow[]): TokenModifier[] => {
   return tokenModifierOrder.filter((modifier) => available.has(modifier))
 }
 
-export function TokenTypeFilter({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const [visibleTypes, setVisibleTypes] = React.useState<TokenType[]>(
-    defaultVisibleTypes
-  )
-
-  return (
-    <TokenTypeContext.Provider value={visibleTypes}>
-      <Field.ArraySelection
-        label="Show token families"
-        value={visibleTypes}
-        onChange={(value) => {
-          setVisibleTypes((value as TokenType[]) || [])
-        }}
-        optionsLayout="horizontal"
-        variant="button"
-        size="medium"
-        emptyValue={[]}
-        bottom="medium"
-      >
-        <Field.Option value="color" title="Color" />
-        <Field.Option value="spacing" title="Spacing" disabled />
-      </Field.ArraySelection>
-
-      {visibleTypes.includes('color') ? (
-        children
-      ) : (
-        <MDXParagraph>
-          No token families are visible. `Spacing` will be enabled once
-          spacing tokens are part of the current token source.
-        </MDXParagraph>
-      )}
-    </TokenTypeContext.Provider>
-  )
-}
-
 export function TokenSectionOverview() {
-  const visibleTypes = React.useContext(TokenTypeContext)
-
-  if (!visibleTypes.includes('color')) {
-    return null
-  }
+  const colorSections = tokenSections.filter(
+    (section) => section.id !== 'radius'
+  )
 
   return (
     <Table>
@@ -299,12 +257,12 @@ export function TokenSectionOverview() {
         </Tr>
       </thead>
       <tbody>
-        {tokenSections.map((section) => {
+        {colorSections.map((section) => {
           return (
             <Tr key={section.id}>
               <Td>
                 <Anchor
-                  href={`/uilib/usage/customisation/theming/design-tokens/tokens/#${section.id}`}
+                  href={`/uilib/usage/customisation/theming/design-tokens/colors/#${section.id}`}
                 >
                   {section.title}
                 </Anchor>
@@ -376,7 +334,6 @@ export function TokenSectionTable({
 }: {
   section: TokenSectionId
 }) {
-  const visibleTypes = React.useContext(TokenTypeContext)
   const sectionData = tokenSections.find((item) => item.id === section)
   const sectionGroups = sectionData?.groups || []
   const sectionTokens = sectionData?.tokens || []
@@ -465,7 +422,7 @@ export function TokenSectionTable({
     visibleDecorativeVariants,
   ])
 
-  if (!sectionData || !visibleTypes.includes('color')) {
+  if (!sectionData) {
     return null
   }
 
@@ -666,4 +623,70 @@ export function TokenSectionTable({
 
 export function TokenExample({ name }: { name: string }) {
   return <MDXCode>{name}</MDXCode>
+}
+
+const radiusPreviewStyle: React.CSSProperties = {
+  backgroundColor: 'var(--color-black-8)',
+  border: '1px solid var(--color-black-20)',
+  display: 'inline-block',
+  height: '4rem',
+  width: '4rem',
+}
+
+const renderRadiusValue = (value: string) => {
+  return (
+    <span style={swatchWrapperStyle}>
+      <span
+        aria-hidden
+        style={{ ...radiusPreviewStyle, borderRadius: value }}
+      />
+      <MDXCode>{value}</MDXCode>
+    </span>
+  )
+}
+
+export function RadiusTokenTable() {
+  const sectionData = tokenSections.find((item) => item.id === 'radius')
+  const tokens = sectionData?.tokens || []
+
+  if (tokens.length === 0) {
+    return (
+      <MDXParagraph>
+        No radius tokens found in the token source.
+      </MDXParagraph>
+    )
+  }
+
+  return (
+    <Table>
+      <thead>
+        <Tr>
+          <Th noWrap>Token</Th>
+          <Th noWrap>DNB Light</Th>
+          {isDev && <Th noWrap>DNB Dark</Th>}
+          <Th noWrap>Sbanken Light</Th>
+          {isDev && <Th noWrap>Sbanken Dark</Th>}
+          <Th noWrap>Carnegie</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        {tokens.map((token) => (
+          <Tr key={token.name}>
+            <Td style={cellVerticalMiddle}>
+              <MDXCode>{token.name}</MDXCode>
+            </Td>
+            <Td>{renderRadiusValue(token.references.uiLight)}</Td>
+            {isDev && (
+              <Td>{renderRadiusValue(token.references.uiDark)}</Td>
+            )}
+            <Td>{renderRadiusValue(token.references.sbankenLight)}</Td>
+            {isDev && (
+              <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
+            )}
+            <Td>{renderRadiusValue(token.references.carnegie)}</Td>
+          </Tr>
+        ))}
+      </tbody>
+    </Table>
+  )
 }

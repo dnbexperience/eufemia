@@ -7,7 +7,7 @@ const DEFAULT_POLICY = {
   tokenPrefix: '--token-',
 
   // Validates the 2nd-segment in --token-<segment>-... to avoid naming drift.
-  allowedTokenCategories: ['color'],
+  allowedTokenCategories: ['color', 'radius'],
 
   // Validates the 3rd segment in --token-color-<segment>-...
   allowedTokenColorCategories: [
