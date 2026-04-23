@@ -409,7 +409,7 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     --token-color-stroke-action-pressed
   );
   --accordion-color-border--after-click: var(
-    --token-color-background-action
+    --token-color-stroke-action
   );
   --accordion-border-width--hover: 0.125rem;
   --accordion-border-width--active: 0.125rem;
