@@ -104,10 +104,14 @@
 
   font-size: var(--font-size-basis);
 
-  :global {
-    .dnb-icon:nth-of-type(1) {
-      color: var(--color-sea-green);
-    }
+  // :global {
+  //   .dnb-icon:nth-of-type(1) {
+  //     color: var(--color-sea-green);
+  //   }
+  // }
+  :global(svg path) {
+    stroke: none;
+    fill: var(--token-color-icon-neutral);
   }
 
   @include utilities.allBelow(small) {

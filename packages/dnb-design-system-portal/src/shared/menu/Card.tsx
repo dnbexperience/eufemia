@@ -89,7 +89,6 @@ const StyledLink = styled(Link)`
     --card-background-color: var(
       --token-color-background-action-focus-subtle
     );
-    /* color: var(--token-color-text-action-focus); */
   }
 `
 
