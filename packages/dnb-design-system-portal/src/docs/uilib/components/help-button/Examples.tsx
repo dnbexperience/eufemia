@@ -6,7 +6,16 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
-import { HelpButton, Input, Dl, Dt, Dd, Dialog } from '@dnb/eufemia/src'
+import {
+  HelpButton,
+  Input,
+  Dl,
+  Dt,
+  Dd,
+  Dialog,
+  TermDefinition,
+} from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">
@@ -21,6 +30,30 @@ export const HelpButtonSuffixExample = () => (
       placeholder="Input ..."
       suffix={<HelpButton title="Custom title">Text</HelpButton>}
     />
+  </ComponentBox>
+)
+
+export const HelpButtonFormHelpExample = () => (
+  <ComponentBox>
+    <Form.Handler>
+      <Form.Card>
+        <Form.SubHeading>My form</Form.SubHeading>
+        <Field.Email
+          help={{
+            title: 'Email help',
+            content: (
+              <>
+                Enter your{' '}
+                <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
+                  email
+                </TermDefinition>{' '}
+                address
+              </>
+            ),
+          }}
+        />
+      </Form.Card>
+    </Form.Handler>
   </ComponentBox>
 )
 
