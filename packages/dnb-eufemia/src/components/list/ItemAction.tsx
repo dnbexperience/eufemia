@@ -9,6 +9,7 @@ import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
+import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemActionIconPosition = 'left' | 'right'
@@ -59,6 +60,7 @@ function ItemAction<E extends React.ElementType = 'a'>(
     elementProps,
     target,
     rel,
+    role: _role,
     ...rest
   } = props
 
@@ -98,17 +100,17 @@ function ItemAction<E extends React.ElementType = 'a'>(
   const anchorRef = useRef<HTMLAnchorElement>(null)
 
   const handleLinkClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
       if (!isInactive) {
-        onClick?.(event)
+        onClick?.(event as React.MouseEvent<HTMLDivElement>)
       }
     },
     [onClick, isInactive]
   )
 
   const handleLinkKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (event.key === ' ') {
         event.preventDefault()
         if (!isInactive) {
           anchorRef.current?.click()
@@ -140,9 +142,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
     return (
       <ItemContent
         className={actionClassName}
-        role="link"
-        tabIndex={isInactive ? -1 : 0}
-        aria-disabled={isInactive ? true : undefined}
         onClick={handleLinkClick}
         onKeyDown={handleLinkKeyDown}
         variant={variant}
@@ -162,7 +161,7 @@ function ItemAction<E extends React.ElementType = 'a'>(
           element={element}
           target={target}
           rel={rel}
-          tabIndex={-1}
+          tabIndex={isInactive ? -1 : 0}
           aria-disabled={isInactive ? true : undefined}
           {...elementProps}
         >
@@ -175,11 +174,6 @@ function ItemAction<E extends React.ElementType = 'a'>(
   return (
     <ItemContent
       className={actionClassName}
-      role="button"
-      tabIndex={isInactive ? -1 : 0}
-      aria-disabled={isInactive ? true : undefined}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
       variant={variant}
       selected={selected}
       skeleton={skeleton}
@@ -187,12 +181,22 @@ function ItemAction<E extends React.ElementType = 'a'>(
       disabled={appliedDisabled}
       {...rest}
     >
-      {content}
+      <FlexItem
+        className="dnb-list__item__action__button"
+        role="button"
+        tabIndex={isInactive ? -1 : 0}
+        aria-disabled={isInactive ? true : undefined}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+      >
+        {content}
+      </FlexItem>
     </ItemContent>
   )
 }
 withComponentMarkers(ChevronIcon, { _supportsSpacingProps: true })
 
+// To pretend that this component supports spacing props, so it doesn't get wrapped by Flex
 withComponentMarkers(ItemAction, {
   _supportsSpacingProps: true,
 })
@@ -206,5 +210,3 @@ export function ChevronIcon() {
     </div>
   )
 }
-
-// To pretend that this component supports spacing props, so it doesn't get wrapped by Flex
