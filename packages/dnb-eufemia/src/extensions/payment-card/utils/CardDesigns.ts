@@ -1,5 +1,5 @@
 import properties from '../../../style/themes/ui/properties'
-import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './Types'
+import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './types'
 import {
   myFirstImg,
   youthImg,
