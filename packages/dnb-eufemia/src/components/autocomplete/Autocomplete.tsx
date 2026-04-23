@@ -2566,7 +2566,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                     <span
                       onClick={disabled ? null : setVisibleAndFocusOnInput}
-                      className="dnb-autocomplete__suffixValue"
+                      className="dnb-autocomplete__suffix-value"
                     >
                       {currentDataItem?.suffixValue}
                     </span>

@@ -350,7 +350,7 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
+        document.querySelector('.dnb-autocomplete__suffix-value')
       )
 
       expect(
@@ -368,7 +368,7 @@ describe('Autocomplete component', () => {
       ).not.toContain('dnb-autocomplete--open')
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
+        document.querySelector('.dnb-autocomplete__suffix-value')
       )
       expect(
         document.querySelector('.dnb-autocomplete').classList
