@@ -86,6 +86,14 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
+    it('should scope :root in a multi-selector rule and keep other selectors', async () => {
+      return await run(
+        ':root, .other-selector { --color: red; }',
+        '.test-scope, .other-selector { --color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
     it('should scope attribute selectors', async () => {
       return await run(
         '[data-test] { color: red; }',
@@ -929,6 +937,14 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':root { --color: red; }',
           ':global(.test-scope) { --color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope :root in a multi-selector rule and keep other selectors', async () => {
+        return await run(
+          ':root, .other-selector { --color: red; }',
+          ':global(.test-scope), .other-selector { --color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
