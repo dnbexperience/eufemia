@@ -24,7 +24,7 @@
     }
   }
 }
-@mixin closDrawerList($type: 'slide') {
+@mixin closeDrawerList($type: 'slide') {
   @if $type == 'scale' {
     animation: drawer-list-scale-out 150ms ease-out 1 forwards;
   } @else if $type == 'up' {
@@ -438,7 +438,7 @@
   }
 
   &:not(.dnb-drawer-list--open) &__list {
-    @include closDrawerList();
+    @include closeDrawerList();
   }
 }
 
