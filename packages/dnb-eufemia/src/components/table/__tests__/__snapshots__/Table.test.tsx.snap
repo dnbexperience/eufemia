@@ -800,7 +800,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   );
   --table-accordion-outline-color: var(--token-color-stroke-selected);
   --table-accordion-outline-width: var(--focus-ring-width);
-  --table-accordion-outline-background--active: var(
+  --table-accordion-background--active: var(
     --token-color-background-selected-subtle
   );
 }
@@ -939,7 +939,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-  background-color: var(--table-accordion-outline-background--active);
+  background-color: var(--table-accordion-background--active);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__button-icon .dnb-icon {

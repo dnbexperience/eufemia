@@ -37,7 +37,7 @@
   // Outline
   --table-accordion-outline-color: var(--token-color-stroke-selected);
   --table-accordion-outline-width: var(--focus-ring-width);
-  --table-accordion-outline-background--active: var(
+  --table-accordion-background--active: var(
     --token-color-background-selected-subtle
   );
 
@@ -188,7 +188,7 @@
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active &__td {
-    background-color: var(--table-accordion-outline-background--active);
+    background-color: var(--table-accordion-background--active);
 
     @include tableAccordionActiveColor();
   }
