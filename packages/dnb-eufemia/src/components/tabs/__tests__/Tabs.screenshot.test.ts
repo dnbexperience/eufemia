@@ -216,6 +216,13 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe.each(['ui'])('Tabs for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/tabs/demos/',
+  })
 
   it('have to match last scrollable tabs', async () => {
     const screenshot = await makeScreenshot({
