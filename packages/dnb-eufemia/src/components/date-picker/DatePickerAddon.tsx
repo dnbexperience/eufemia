@@ -119,10 +119,10 @@ function DatePickerAddon(props: DatePickerAddonProps) {
     () =>
       hasShortcuts && (
         <>
-          {shortcutsArray.map(({ title, ...shortcut }) => {
+          {shortcutsArray.map(({ title, ...shortcut }, i: number) => {
             return (
               <Button
-                key={title}
+                key={i}
                 text={title}
                 variant="secondary"
                 onClick={(event) => setDate({ shortcut, event })}
