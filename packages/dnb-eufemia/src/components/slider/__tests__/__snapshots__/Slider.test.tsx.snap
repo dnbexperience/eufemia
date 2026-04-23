@@ -1003,10 +1003,14 @@ legend.dnb-form-label {
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
-  --slider-line-before: black;
-  --slider-line-after: gray;
-  --slider-line-before--disabled: dimgray;
-  --slider-line-after--disabled: lightgray;
+  --slider-line-before: var(--token-color-background-action);
+  --slider-line-after: var(--token-color-background-neutral-base);
+  --slider-line-before--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --slider-line-after--disabled: var(
+    --token-color-background-neutral-base
+  );
   --slider-marker: var(--slider-line-before);
   --slider-marker-height: calc(var(--slider-thumb-size) * 0.75);
   --slider-marker-width: 0.125rem;
