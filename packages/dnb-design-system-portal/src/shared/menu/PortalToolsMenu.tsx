@@ -5,11 +5,16 @@ import { H2, P, Anchor } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
+import ToggleDarkMode from '../../core/ToggleDarkMode'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
+
+const isDev =
+  process.env.NODE_ENV === 'development' ||
+  process.env.GATSBY_IS_PREVIEW === 'true'
 
 type Props = {
   className?: string
@@ -58,12 +63,16 @@ export default function PortalToolsMenu({
     >
       <Drawer.Body innerSpace={{ block: 'large' }}>
         <Space>
-          <H2 skeleton={false} size="small">
-            Show everything behind skeletons
-          </H2>
+          <H2 size="small">Change Brand</H2>
           <Space top>
-            <PortalSkeleton top={false} enabled={skeleton} />
+            <ChangeStyleTheme />
           </Space>
+          <P size="small" top="x-small">
+            Read more about{' '}
+            <Anchor href="/uilib/usage/customisation/theming/">
+              theming
+            </Anchor>
+          </P>
         </Space>
 
         <Space top="large">
@@ -79,21 +88,26 @@ export default function PortalToolsMenu({
           </P>
         </Space>
 
-        <Space top="large">
-          <H2 size="small">Change Brand</H2>
-          <Space top>
-            <ChangeStyleTheme />
+        {isDev && (
+          <Space top="large">
+            <H2 size="small">Dark mode</H2>
+            <Space top>
+              <ToggleDarkMode />
+            </Space>
           </Space>
-          <P size="small" top="x-small">
-            Read more about{' '}
-            <Anchor href="/uilib/usage/customisation/theming/">
-              theming
-            </Anchor>
-          </P>
+        )}
+
+        <Space top="large">
+          <H2 skeleton={false} size="small">
+            Show everything behind skeletons
+          </H2>
+          <Space top>
+            <PortalSkeleton top={false} enabled={skeleton} />
+          </Space>
         </Space>
 
         <Space top="large">
-          <H2 size="small">Helper grid lines</H2>
+          <H2 size="small">Show grid</H2>
           <Space top>
             <ToggleGrid />
           </Space>

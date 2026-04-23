@@ -45,7 +45,7 @@ export default function ToggleGrid(
     <span {...props}>
       <Switch
         id="switch-grid"
-        label="Grid"
+        label="Toggle Grid"
         checked={isGridVisible()}
         onChange={handleChange}
       />
