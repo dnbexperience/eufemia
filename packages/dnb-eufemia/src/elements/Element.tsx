@@ -97,7 +97,7 @@ function Element(localProps: ElementAllProps) {
 
   const isFragment = Tag === React.Fragment
 
-  if (!isFragment && ref) {
+  if (!isFragment && typeof Tag !== 'function' && ref)) {
     ;(params as Record<string, unknown>).ref = ref
   }
 
