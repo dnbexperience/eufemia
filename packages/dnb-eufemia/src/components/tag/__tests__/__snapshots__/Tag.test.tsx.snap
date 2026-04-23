@@ -1034,7 +1034,7 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([di
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
   --tag-icon-background-color: var(
-    --token-color-icon-action-pressed
+    --token-color-background-action-pressed
   );
 }
 .dnb-tag--interactive.dnb-button[disabled] {
