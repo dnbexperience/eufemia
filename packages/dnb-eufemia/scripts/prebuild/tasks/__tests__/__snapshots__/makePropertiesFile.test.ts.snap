@@ -500,6 +500,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-text-warning-inverse: var(--carnegie-yellow-500);
   --token-color-text-positive: var(--carnegie-green-700);
   --token-color-text-positive-inverse: var(--carnegie-green-600);
+  --token-color-text-error: var(--carnegie-red-600);
   --token-color-icon-action: var(--carnegie-greyscale-1000);
   --token-color-icon-action-hover: var(--carnegie-greyscale-1000);
   --token-color-icon-action-pressed: var(--carnegie-greyscale-1000);
@@ -733,6 +734,13 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
   );
+  --token-radius-0: 0;
+  --token-radius-xs: 0;
+  --token-radius-sm: 0.125rem;
+  --token-radius-md: 0.125rem;
+  --token-radius-lg: 0.25rem;
+  --token-radius-xl: 1.5rem;
+  --token-radius-full: 9999px;
 }
 "
 `;
@@ -843,11 +851,11 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   );
   --token-color-background-neutral: var(--sbanken-greyscale-0);
   --token-color-background-neutral-static: var(--sbanken-greyscale-0);
-  --token-color-background-neutral-subtle: var(--sbanken-greyscale-100);
+  --token-color-background-neutral-subtle: var(--sbanken-greyscale-50);
   --token-color-background-neutral-base: var(--sbanken-greyscale-100);
   --token-color-background-neutral-bold: var(--sbanken-greyscale-300);
   --token-color-background-neutral-alternative: var(
-    --sbanken-greyscale-100
+    --sbanken-greyscale-200
   );
   --token-color-background-info: var(--sbanken-green-600);
   --token-color-background-info-subtle: var(--sbanken-green-50);
@@ -886,6 +894,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-text-warning-inverse: var(--sbanken-yellow-600);
   --token-color-text-positive: var(--sbanken-green-700);
   --token-color-text-positive-inverse: var(--sbanken-green-600);
+  --token-color-text-error: var(--sbanken-red-700);
   --token-color-icon-action: var(--sbanken-purple-700);
   --token-color-icon-action-hover: var(--sbanken-purple-700);
   --token-color-icon-action-pressed: var(--sbanken-purple-900);
@@ -1091,6 +1100,13 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-300
   );
+  --token-radius-0: 0;
+  --token-radius-xs: 0.125rem;
+  --token-radius-sm: 0.25rem;
+  --token-radius-md: 0.5rem;
+  --token-radius-lg: 1rem;
+  --token-radius-xl: 1.5rem;
+  --token-radius-full: 9999px;
 }
 "
 `;
@@ -1143,10 +1159,10 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --token-color-background-neutral: var(--sbanken-greyscale-900);
   --token-color-background-neutral-static: var(--sbanken-greyscale-0);
   --token-color-background-neutral-subtle: var(--sbanken-greyscale-900);
-  --token-color-background-neutral-base: var(--sbanken-greyscale-900);
-  --token-color-background-neutral-bold: var(--sbanken-greyscale-800);
+  --token-color-background-neutral-base: var(--sbanken-greyscale-800);
+  --token-color-background-neutral-bold: var(--sbanken-greyscale-700);
   --token-color-background-neutral-alternative: var(
-    --sbanken-greyscale-900
+    --sbanken-greyscale-950
   );
   --token-color-background-info: var(--sbanken-green-400);
   --token-color-background-info-subtle: var(--sbanken-green-900);
@@ -1185,6 +1201,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --token-color-text-warning-inverse: var(--sbanken-yellow-800);
   --token-color-text-positive: var(--sbanken-green-400);
   --token-color-text-positive-inverse: var(--sbanken-green-700);
+  --token-color-text-error: var(--sbanken-orange-700);
   --token-color-icon-action: var(--sbanken-green-300);
   --token-color-icon-action-hover: var(--sbanken-green-300);
   --token-color-icon-action-pressed: var(--sbanken-green-400);
@@ -1390,6 +1407,13 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-800
   );
+  --token-radius-0: 0;
+  --token-radius-xs: 0.125rem;
+  --token-radius-sm: 0.25rem;
+  --token-radius-md: 0.5rem;
+  --token-radius-lg: 1rem;
+  --token-radius-xl: 1.5rem;
+  --token-radius-full: 9999px;
 }
 "
 `;
@@ -1436,6 +1460,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 3`] = `
   --sbanken-blue-600: #005cff;
   --sbanken-greyscale-0: #fff;
   --sbanken-greyscale-25: #fcfcfd;
+  --sbanken-greyscale-50: #f9f9fd;
   --sbanken-greyscale-100: #f2f2f7;
   --sbanken-greyscale-200: #ebebf1;
   --sbanken-greyscale-300: #d9d9e4;
@@ -1537,6 +1562,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-text-warning-inverse: var(--dnb-yellow-500);
   --token-color-text-positive: var(--dnb-green-700);
   --token-color-text-positive-inverse: var(--dnb-green-600);
+  --token-color-text-error: var(--dnb-red-600);
   --token-color-icon-action: var(--dnb-coldgreen-600);
   --token-color-icon-action-hover: var(--dnb-coldgreen-600);
   --token-color-icon-action-pressed: var(--dnb-coldgreen-700);
@@ -1736,6 +1762,13 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-200
   );
+  --token-radius-0: 0;
+  --token-radius-xs: 0.125rem;
+  --token-radius-sm: 0.25rem;
+  --token-radius-md: 0.5rem;
+  --token-radius-lg: 1rem;
+  --token-radius-xl: 1.5rem;
+  --token-radius-full: 9999px;
 }
 "
 `;
@@ -1783,7 +1816,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --token-color-background-selected-subtle-ondark: var(--dnb-green-900);
   --token-color-background-neutral: var(--dnb-greyscale-950);
   --token-color-background-neutral-static: var(--dnb-greyscale-0);
-  --token-color-background-neutral-subtle: var(--dnb-greyscale-800);
+  --token-color-background-neutral-subtle: var(--dnb-greyscale-900);
   --token-color-background-neutral-base: var(--dnb-greyscale-800);
   --token-color-background-neutral-bold: var(--dnb-greyscale-700);
   --token-color-background-neutral-alternative: var(--dnb-greyscale-800);
@@ -1824,6 +1857,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --token-color-text-warning-inverse: var(--dnb-yellow-800);
   --token-color-text-positive: var(--dnb-green-600);
   --token-color-text-positive-inverse: var(--dnb-green-700);
+  --token-color-text-error: var(--dnb-red-600);
   --token-color-icon-action: var(--dnb-coldgreen-300);
   --token-color-icon-action-hover: var(--dnb-coldgreen-300);
   --token-color-icon-action-pressed: var(--dnb-coldgreen-400);
@@ -2023,6 +2057,13 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-700
   );
+  --token-radius-0: 0;
+  --token-radius-xs: 0.125rem;
+  --token-radius-sm: 0.25rem;
+  --token-radius-md: 0.5rem;
+  --token-radius-lg: 1rem;
+  --token-radius-xl: 1.5rem;
+  --token-radius-full: 9999px;
 }
 "
 `;
@@ -2055,6 +2096,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 3`] = `
   --dnb-greyscale-700: #48484a;
   --dnb-greyscale-800-60: rgba(51 51 51 / 60%);
   --dnb-greyscale-800: #333;
+  --dnb-greyscale-900: #2c2c2e;
   --dnb-greyscale-950: #1c1c1e;
   --dnb-greyscale-1000-30: rgba(0 0 0 / 30%);
   --dnb-greyscale-1000: #000;
