@@ -116,12 +116,12 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        value="+47888"
         numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
         required
+        validateInitially
       />
     </ComponentBox>
   )
