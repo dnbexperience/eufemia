@@ -178,7 +178,7 @@ export default function PropertiesTable({
 
   return (
     <Table.ScrollView>
-      <StyledTable>
+      <StyledTable outline border>
         <thead>
           <Tr>
             <Th>Property</Th>
