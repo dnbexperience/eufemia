@@ -52,5 +52,8 @@
 
   margin-bottom: 4vh;
 
-  color: var(--color-white);
+  :global(svg path) {
+    stroke: none;
+    fill: var(--token-color-icon-neutral);
+  }
 }
