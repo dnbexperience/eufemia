@@ -1,13 +1,15 @@
+@use '../../../../../style/core/utilities.scss' as utilities;
+
 .dnb-forms-field-upload {
   .dnb-help-button__content {
     .dnb-section {
+      --outset: 1; // Enable outset
       --outset-left: calc(var(--spacing-medium));
       --outset-right: calc(var(--spacing-medium));
 
-      margin-left: var(--upload-border-width);
-      margin-right: var(--upload-border-width);
-      &::before {
-        z-index: 0;
+      @include utilities.allBelow(small) {
+        --outset-left: calc(var(--spacing-small));
+        --outset-right: calc(var(--spacing-small));
       }
     }
   }
