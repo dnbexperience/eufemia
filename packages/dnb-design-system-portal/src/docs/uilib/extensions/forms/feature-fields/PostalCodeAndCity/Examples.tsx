@@ -129,7 +129,6 @@ export const ValidationRequired = () => {
         city={{
           required: true,
         }}
-        validateInitially
       />
     </ComponentBox>
   )
