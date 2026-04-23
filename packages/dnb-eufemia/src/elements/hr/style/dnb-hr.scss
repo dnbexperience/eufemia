@@ -7,6 +7,8 @@
 @use './hr-mixins.scss';
 
 .dnb-hr {
+  --hr-color: var(--token-color-stroke-neutral-subtle);
+
   @include hr-mixins.hrStyle();
 
   &--dashed::after {
