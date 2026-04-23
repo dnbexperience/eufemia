@@ -302,7 +302,7 @@ button .dnb-form-status__text {
 }
 .dnb-switch__input:checked ~ .dnb-switch__background {
   background-color: var(--token-color-background-selected);
-  border-color: var(--token-color-background-selected);
+  border-color: var(--token-color-stroke-selected);
 }
 .dnb-switch__input {
   opacity: 0;
@@ -443,7 +443,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
   background-color: var(--token-color-background-action-disabled);
-  border-color: var(--token-color-background-action-disabled);
+  border-color: var(--token-color-stroke-action-disabled);
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
   background-color: var(--token-color-background-neutral);
