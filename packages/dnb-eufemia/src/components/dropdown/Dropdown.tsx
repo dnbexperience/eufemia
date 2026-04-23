@@ -101,7 +101,7 @@ export type DropdownProps = {
    */
   ref?: React.Ref<HTMLElement>
   /**
-   * By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.useRef()`.
    */
   buttonRef?: React.Ref<HTMLElement>
   /**
