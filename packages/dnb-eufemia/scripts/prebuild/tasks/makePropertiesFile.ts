@@ -12,6 +12,7 @@ import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
+import { formatNumberValue as transformNumberValue } from '../../../src/style/themes/figma/tokenValueUtils'
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -299,22 +300,6 @@ const compressHex = (hex: string) => {
 const alphaAsPercent = (alpha: number) => {
   const value = parseFloat((alpha * 100).toFixed(2))
   return `${value}%`
-}
-
-const PILL_RADIUS_THRESHOLD = 9999
-
-const transformNumberValue = (value: number) => {
-  if (value === 0) {
-    return '0'
-  }
-
-  if (value >= PILL_RADIUS_THRESHOLD) {
-    return '9999px'
-  }
-
-  const rem = value / 16
-  const formatted = parseFloat(rem.toFixed(4))
-  return `${formatted}rem`
 }
 
 export const transformFigmaValue = (value: FigmaValue) => {

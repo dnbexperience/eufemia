@@ -3,6 +3,7 @@ import uiDarkTokens from '@dnb/eufemia/src/style/themes/figma/dnb-dark.tokens.js
 import sbankenLightTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-light.tokens.json'
 import sbankenDarkTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-dark.tokens.json'
 import uiLightTokens from '@dnb/eufemia/src/style/themes/figma/dnb-light.tokens.json'
+import { formatNumberValue } from '@dnb/eufemia/src/style/themes/figma/tokenValueUtils'
 
 export const tokenNamingPolicy = {
   prefix: '--token-',
@@ -187,22 +188,6 @@ const formatAlpha = (alpha: number) => {
 
 const formatRgbChannel = (channel: number) => {
   return Math.round(channel * 255)
-}
-
-const PILL_RADIUS_THRESHOLD = 9999
-
-const formatNumberValue = (value: number) => {
-  if (value === 0) {
-    return '0'
-  }
-
-  if (value >= PILL_RADIUS_THRESHOLD) {
-    return '9999px'
-  }
-
-  const rem = value / 16
-  const formatted = parseFloat(rem.toFixed(4))
-  return `${formatted}rem`
 }
 
 const readTokenReference = (node: FigmaTokenLeaf) => {
