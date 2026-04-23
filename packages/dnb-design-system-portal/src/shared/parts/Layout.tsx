@@ -170,12 +170,7 @@ const MainContent = ({ mainRef, ...props }) => (
 
 const Footer = () => {
   return (
-    <Section
-      element="footer"
-      surface="dark"
-      innerSpace
-      className={footerStyle}
-    >
+    <Section element="footer" innerSpace className={footerStyle}>
       <P size="small">
         Package release: {packageJson.releaseVersion} <br />
         Portal update: {packageJson.buildVersion}
