@@ -351,15 +351,17 @@ These snake_case props appear on many components and follow the same rename patt
 
 **CSS class renames** — apply wherever these CSS classes are referenced:
 
-| Old CSS class                     | New CSS class                   |
-| --------------------------------- | ------------------------------- |
-| `dnb-autocomplete--opened`        | `dnb-autocomplete--open`        |
-| `dnb-dropdown--opened`            | `dnb-dropdown--open`            |
-| `dnb-drawer-list--opened`         | `dnb-drawer-list--open`         |
-| `dnb-date-picker--opened`         | `dnb-date-picker--open`         |
-| `dnb-progress-indicator--visible` | `dnb-progress-indicator--show`  |
-| `dnb-anchor--contrast`            | `dnb-anchor--surface-dark`      |
-| `dnb-number-format--selectall`    | `dnb-number-format--select-all` |
+| Old CSS class                            | New CSS class                              |
+| ---------------------------------------- | ------------------------------------------ |
+| `dnb-autocomplete--opened`               | `dnb-autocomplete--open`                   |
+| `dnb-dropdown--opened`                   | `dnb-dropdown--open`                       |
+| `dnb-drawer-list--opened`                | `dnb-drawer-list--open`                    |
+| `dnb-date-picker--opened`                | `dnb-date-picker--open`                    |
+| `dnb-progress-indicator--visible`        | `dnb-progress-indicator--show`             |
+| `dnb-anchor--contrast`                   | `dnb-anchor--surface-dark`                 |
+| `dnb-number-format--selectall`           | `dnb-number-format--select-all`            |
+| `dnb-autocomplete__suffixValue`          | `dnb-autocomplete__suffix-value`           |
+| `dnb-height-animation__compensateForGap` | `dnb-height-animation__compensate-for-gap` |
 
 ### Step-by-step migration procedure
 
@@ -996,6 +998,7 @@ The following properties have been renamed from snake_case to camelCase:
 #### Styling
 
 - Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
+- Replace CSS class `dnb-autocomplete__suffixValue` with `dnb-autocomplete__suffix-value` (BEM kebab-case fix).
 
 #### TypeScript types
 
@@ -2862,6 +2865,10 @@ All SCSS mixins have been renamed to follow the **camelCase** naming convention.
 - Replace `headingSpacing_xx-large` with `headingSpacingXxLarge`.
 - Replace `headingSpacing_x-large` with `headingSpacingXLarge`.
 - Replace `headingSpacing_large` with `headingSpacingLarge`.
+
+### DrawerList (`fragments/drawer-list/style/dnb-drawer-list.scss`)
+
+- Replace `closDrawerList` with `closeDrawerList` (typo fix).
 
 ## SCSS: `@import` → `@use`
 
