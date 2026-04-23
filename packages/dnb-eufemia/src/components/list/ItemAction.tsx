@@ -114,11 +114,10 @@ function ItemAction<E extends React.ElementType = 'a'>(
         event.preventDefault()
         if (!isInactive) {
           anchorRef.current?.click()
-          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
         }
       }
     },
-    [onClick, isInactive]
+    [isInactive]
   )
 
   const actionClassName = clsx(
