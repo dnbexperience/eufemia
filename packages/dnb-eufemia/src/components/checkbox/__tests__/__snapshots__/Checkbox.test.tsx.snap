@@ -217,7 +217,7 @@ button .dnb-form-status__text {
   --checkbox-color-border-off: var(
     --token-color-stroke-action-alternative
   );
-  --checkbox-color-border-on: var(--token-color-background-selected);
+  --checkbox-color-border-on: var(--token-color-stroke-selected);
   --checkbox-color-gfx__indeterminate: var(
     --token-color-background-selected
   );
@@ -235,7 +235,7 @@ button .dnb-form-status__text {
     --token-color-background-neutral
   );
   --checkbox-color-border-on--disabled: var(
-    --token-color-background-action-disabled
+    --token-color-stroke-action-disabled
   );
   --checkbox-color-border-off--disabled: var(
     --token-color-stroke-action-disabled
