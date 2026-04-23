@@ -7,8 +7,10 @@
 
   .dnb-sidebar-menu {
     --is-inside-bg: var(--token-color-background-neutral-subtle);
-    --is-inside-active-path-color: var(--token-color-text-neutral-inverse);
-    --is-inside-active-path-bg: var(--token-color-background-selected);
+    --is-inside-active-path-color: var(--token-color-text-neutral);
+    --is-inside-active-path-bg: var(
+      --token-color-background-selected-subtle
+    );
     --is-inside-active-path-bg-l-3: var(
       --token-color-background-neutral-base
     );
@@ -235,17 +237,9 @@
       margin-right: 1rem;
     }
 
-    &.is-active &__expand-button {
-      /* stylelint-disable-next-line no-descending-specificity */
-      svg {
-        color: var(--token-color-icon-neutral-inverse);
-      }
-      &:hover {
-        svg {
-          color: var(--token-color-icon-action-hover);
-        }
-      }
-    }
+    // No styles need yet
+    // &.is-active &__expand-button {
+    // }
 
     &--accordion {
       &.dnb-sidebar-menu--expanded {
