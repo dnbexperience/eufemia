@@ -183,6 +183,7 @@ function LiveCode(props: LiveCodeProps) {
   } = props
 
   const scope = useMemo(() => scopeProp || {}, [scopeProp])
+  const inheritedDark = context.theme?.colorScheme === 'dark'
 
   const codeToUse = useMemo(() => {
     const code =
@@ -278,12 +279,20 @@ function LiveCode(props: LiveCodeProps) {
                 {(process.env.NODE_ENV === 'development' ||
                   process.env.GATSBY_IS_PREVIEW === 'true') && (
                   <Checkbox
-                    checked={colorScheme === 'dark'}
-                    onChange={({ checked }) =>
-                      setColorScheme(checked ? 'dark' : undefined)
+                    checked={
+                      colorScheme === (inheritedDark ? 'light' : 'dark')
                     }
+                    onChange={({ checked }) => {
+                      setColorScheme(
+                        checked
+                          ? inheritedDark
+                            ? 'light'
+                            : 'dark'
+                          : undefined
+                      )
+                    }}
                     size="medium"
-                    label="Dark mode"
+                    label={inheritedDark ? 'Light mode' : 'Dark mode'}
                   />
                 )}
 

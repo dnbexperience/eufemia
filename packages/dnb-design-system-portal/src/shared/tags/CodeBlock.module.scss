@@ -45,7 +45,7 @@
     --grid-background: var(--token-color-decorative-first-bold-static);
   }
 
-  :global(.eufemia-theme__color-scheme--dark) & {
+  :global(.eufemia-theme__color-scheme--dark) > & {
     --grid-opacity: 0.12;
     --grid-opacity-bold: 0.06;
   }
