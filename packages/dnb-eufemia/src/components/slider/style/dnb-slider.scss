@@ -10,10 +10,14 @@
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
-  --slider-line-before: black;
-  --slider-line-after: gray;
-  --slider-line-before--disabled: dimgray;
-  --slider-line-after--disabled: lightgray;
+  --slider-line-before: var(--token-color-background-action);
+  --slider-line-after: var(--token-color-background-neutral-base);
+  --slider-line-before--disabled: var(
+    --token-color-background-action-disabled
+  );
+  --slider-line-after--disabled: var(
+    --token-color-background-neutral-base
+  );
   --slider-marker: var(--slider-line-before);
   --slider-marker-height: calc(var(--slider-thumb-size) * 0.75);
   --slider-marker-width: 0.125rem;
@@ -245,6 +249,14 @@
   &__state--disabled &__thumb,
   &__state--disabled &__line {
     cursor: not-allowed;
+  }
+
+  &__state--disabled &__line {
+    background-color: var(--slider-line-before--disabled);
+  }
+
+  &__state--disabled &__line__after {
+    background-color: var(--slider-line-after--disabled);
   }
 
   &__state--animate &__thumb,
