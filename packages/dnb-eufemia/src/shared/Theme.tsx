@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useRef } from 'react'
 import clsx from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
@@ -11,6 +11,7 @@ import type { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
 import withComponentMarkers from './helpers/withComponentMarkers'
 import useMediaQuery from './useMediaQuery'
+import useIsomorphicLayoutEffect from './helpers/useIsomorphicLayoutEffect'
 
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
@@ -39,7 +40,7 @@ export type ThemeProps = {
 export type ThemeAllProps = ThemeProps & React.HTMLAttributes<HTMLElement>
 
 export default function Theme(themeProps: ThemeAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const {
     children,
@@ -60,10 +61,15 @@ export default function Theme(themeProps: ThemeAllProps) {
 
   const activeColorScheme =
     colorScheme === 'auto'
-      ? prefersDarkColorScheme
-        ? 'dark'
-        : 'light'
+      ? globalThis.__eufemiaColorScheme ||
+        (prefersDarkColorScheme ? 'dark' : 'light')
       : colorScheme
+
+  // Clean up after the first render so subsequent renders
+  // use the normal useMediaQuery path
+  useIsomorphicLayoutEffect(() => {
+    delete globalThis.__eufemiaColorScheme
+  }, [])
 
   const theme = extendPropsWithContext(
     {
@@ -107,16 +113,19 @@ export function ThemeWrapper({
   ...rest
 }) {
   const Wrapper = element === false ? React.Fragment : element || 'div'
-  const ref = React.useRef<HTMLElement>(null)
+  const ref = useRef<HTMLElement>(null)
+
+  useSyncBodyColorScheme(theme)
+  useSyncElementColorScheme(ref, theme)
+
+  const classNames = getThemeClasses(theme, className)
+  const { name, variant, size } = theme
 
   if (Wrapper === React.Fragment) {
     return children
   }
 
   rest['ref'] = ref
-
-  const classNames = getThemeClasses(theme, className)
-  const { name, variant, size } = theme
 
   return (
     <Wrapper
@@ -147,4 +156,47 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
     size && `eufemia-theme__size--${size}`
   )
+}
+
+/**
+ * Imperatively sync the color-scheme class on the Theme wrapper element.
+ * This is needed because legacy ReactDOM.hydrate() does not reconcile
+ * className mismatches — it keeps the server-rendered value.
+ */
+function useSyncElementColorScheme(
+  ref: React.RefObject<HTMLElement>,
+  theme: ThemeProps
+) {
+  const colorScheme = theme?.colorScheme
+
+  useIsomorphicLayoutEffect(() => {
+    const el = ref.current
+    if (!el || !colorScheme) {
+      return // stop here
+    }
+
+    el.classList.remove(
+      'eufemia-theme__color-scheme--light',
+      'eufemia-theme__color-scheme--dark'
+    )
+    el.classList.add(`eufemia-theme__color-scheme--${colorScheme}`)
+  }, [colorScheme])
+}
+
+function useSyncBodyColorScheme(theme: ThemeProps) {
+  const colorScheme = theme?.colorScheme
+
+  useIsomorphicLayoutEffect(() => {
+    if (typeof document === 'undefined' || !colorScheme) {
+      return // stop here
+    }
+
+    document.body.classList.remove(
+      'eufemia-theme__color-scheme--light',
+      'eufemia-theme__color-scheme--dark'
+    )
+    document.body.classList.add(
+      `eufemia-theme__color-scheme--${colorScheme}`
+    )
+  }, [colorScheme])
 }
