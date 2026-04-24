@@ -57,9 +57,6 @@
 
   .eufemia-theme {
     @include typographyBasis();
-
-    // Ensure themed body has a token color for background
-    background-color: var(--token-color-background-page-background);
   }
 
   @content;

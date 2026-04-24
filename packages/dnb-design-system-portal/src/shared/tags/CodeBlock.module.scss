@@ -8,6 +8,10 @@
       outline: inherit;
     }
   }
+
+  :global(.eufemia-theme) {
+    background-color: transparent;
+  }
 }
 
 .exampleBoxStyle {
