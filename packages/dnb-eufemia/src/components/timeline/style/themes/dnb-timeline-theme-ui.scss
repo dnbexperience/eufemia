@@ -4,7 +4,6 @@
 */
 
 @use '../../../../style/core/utilities.scss' as utilities;
-@use '../../../button/style/themes/button-mixins.scss';
 
 @mixin centerBorder(
   $width: var(--timeline-icon-width--medium),
