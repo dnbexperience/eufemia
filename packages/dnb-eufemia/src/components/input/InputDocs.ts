@@ -138,7 +138,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.',
     type: 'React.RefObject',
     status: 'optional',
   },

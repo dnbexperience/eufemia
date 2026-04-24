@@ -31,7 +31,7 @@ describe('ScrollView', () => {
   it('should set tabindex based on children when interactive is set to auto', () => {
     setResizeObserver()
 
-    const ref = React.createRef<HTMLDivElement>()
+    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
     const { rerender } = render(
       <ScrollView ref={ref} interactive="auto">
         overflow content
@@ -77,7 +77,7 @@ describe('ScrollView', () => {
     })
     setResizeObserver({ init, observe })
 
-    const ref = React.createRef<HTMLDivElement>()
+    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
     render(
       <ScrollView ref={ref} interactive="auto">
         overflow content

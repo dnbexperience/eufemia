@@ -15,7 +15,7 @@ import {
   sbankenMastercard,
 } from './CardDesigns'
 import type { CardDesign } from './CardDesigns'
-import { CardType, ProductType, BankAxeptType } from './Types'
+import { CardType, ProductType, BankAxeptType } from './types'
 
 export type CardProduct = {
   productCode: string

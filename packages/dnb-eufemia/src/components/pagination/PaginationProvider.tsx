@@ -24,7 +24,7 @@ import PaginationContext from './PaginationContext'
 const PaginationProvider = (props: any) => {
   const sharedContext = useContext(Context)
 
-  // ---- Derive state from props (replaces getDerivedStateFromProps) ----
+  // ---- Derive state from props ----
   const computeDerived = useCallback(() => {
     const state: Record<string, unknown> = {}
 
@@ -380,8 +380,7 @@ const PaginationProvider = (props: any) => {
   )
 
   // Handle the onEnd dispatch after hasEndedInfinity becomes true.
-  // Use useIsomorphicLayoutEffect so the callback fires before paint,
-  // matching the class component's setState callback timing.
+  // Use useIsomorphicLayoutEffect so the callback fires before paint.
   useIsomorphicLayoutEffect(() => {
     if (hasEndedInfinity && endInfinityDispatchRef.current) {
       endInfinityDispatchRef.current = false
@@ -417,8 +416,7 @@ const PaginationProvider = (props: any) => {
   ])
 
   // ---- Run pending callbacks after state commits ----
-  // Use useIsomorphicLayoutEffect so callbacks fire before paint,
-  // matching the class component's setState callback timing.
+  // Use useIsomorphicLayoutEffect so callbacks fire before paint.
   useIsomorphicLayoutEffect(() => {
     if (pendingCallOnPageUpdateRef.current) {
       pendingCallOnPageUpdateRef.current = false
@@ -456,8 +454,8 @@ const PaginationProvider = (props: any) => {
   }, [props.currentPage])
 
   // ---- Derive startupPage from currentPage when not yet set ----
-  // Mirrors v10 getDerivedStateFromProps: when startupPage is not a number
-  // (e.g. currentPage was initially null), re-derive once currentPage arrives.
+  // When startupPage is not a number (e.g. currentPage was initially null),
+  // re-derive once currentPage arrives.
   useIsomorphicLayoutEffect(() => {
     if (typeof startupPageRef.current !== 'number') {
       const derived =
@@ -530,9 +528,8 @@ const PaginationProvider = (props: any) => {
     }
   }, [props.rerender, setContent])
 
-  // ---- componentDidMount ----
-  // Use useIsomorphicLayoutEffect to populate initial content before paint,
-  // matching the class component's componentDidMount timing.
+  // ---- Initial setup ----
+  // Use useIsomorphicLayoutEffect to populate initial content before paint.
   useIsomorphicLayoutEffect(() => {
     const {
       setContentHandler,
@@ -605,8 +602,7 @@ const PaginationProvider = (props: any) => {
   // ---- Build context value ----
   // Note: props (full object) is intentionally in the dep array here.
   // The context value must reflect the latest props for consumers,
-  // and this matches the class component behavior where context was
-  // recreated every render.
+  // and it is recreated every render.
   const contextValue = useMemo(
     () => ({
       ...sharedContext,

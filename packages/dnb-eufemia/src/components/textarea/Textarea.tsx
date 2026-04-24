@@ -28,6 +28,7 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
+import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -173,7 +174,7 @@ export type TextareaProps = Omit<
      */
     locale?: InternalLocale
     /**
-     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
+     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
      */
     ref?: React.Ref<HTMLTextAreaElement> | null
   }
@@ -206,16 +207,12 @@ function getResizeModifier() {
     if (typeof navigator !== 'undefined') {
       if (
         /Firefox|Edg/.test(navigator.userAgent) ||
-        (/Chrome/.test(navigator.userAgent) &&
-          /Win/.test(navigator.platform))
+        (/Chrome/.test(navigator.userAgent) && isWin())
       ) {
         return 'large'
       }
 
-      if (
-        /Safari|Chrome/.test(navigator.userAgent) &&
-        /Mac/.test(navigator.platform)
-      ) {
+      if (/Safari|Chrome/.test(navigator.userAgent) && isMac()) {
         return 'medium'
       }
     }
@@ -297,7 +294,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     return ownProps.textareaState || 'virgin'
   })
 
-  // Sync value from props (getDerivedStateFromProps equivalent)
+  // Sync value from props
   if (
     propValue !== 'initval' &&
     propValue !== value &&

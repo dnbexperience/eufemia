@@ -138,7 +138,7 @@ function UploadFileList() {
 
         return (
           <UploadFileListCell
-            key={index}
+            key={uploadFile.id ?? uploadFile.file?.name ?? index}
             id={id}
             uploadFile={uploadFile}
             onDelete={onDeleteHandler}

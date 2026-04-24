@@ -445,7 +445,7 @@ const ContentTr = ({
   ...rest
 }: ContentTrProps & Partial<TableTrProps> = {}) => {
   const SuccessGreen = styled(P)`
-    color: var(--color-success-green);
+    color: var(--token-color-text-positive);
   `
 
   return (

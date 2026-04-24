@@ -116,7 +116,9 @@ export function useHeightAnimation(
           .getPropertyValue('row-gap')
       }
       elem.style.marginTop = `calc(${gap} * -1)`
-      const inner = elem.querySelector('.compensateForGap') as HTMLElement
+      const inner = elem.querySelector(
+        '.dnb-height-animation__compensate-for-gap'
+      ) as HTMLElement
       inner.style.marginTop = gap
     }
   }, [compensateForGap])

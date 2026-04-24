@@ -123,7 +123,9 @@ function HeightAnimation({
       {...rest}
     >
       {compensateForGap ? (
-        <div className="compensateForGap">{children}</div>
+        <div className="dnb-height-animation__compensate-for-gap">
+          {children}
+        </div>
       ) : (
         children
       )}

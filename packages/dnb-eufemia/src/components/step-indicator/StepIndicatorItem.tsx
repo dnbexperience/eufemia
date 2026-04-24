@@ -20,7 +20,7 @@ import FormStatus, {
   ErrorIcon,
 } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
-import { stepIndicatorDefaultProps } from './StepIndicatorProps'
+import { stepIndicatorDefaultProps } from './defaults'
 import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'

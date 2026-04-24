@@ -88,7 +88,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const valuesRef = useRef(values)
   valuesRef.current = values
 
-  // Sync value from props (replaces getDerivedStateFromProps)
+  // Sync value from props
   if (
     typeof ownProps.value !== 'undefined' &&
     ownProps.value !== prevPropsValue

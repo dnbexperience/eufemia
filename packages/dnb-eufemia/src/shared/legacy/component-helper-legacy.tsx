@@ -5,12 +5,7 @@
  */
 
 import type React from 'react'
-import {
-  warn,
-  PLATFORM_MAC,
-  PLATFORM_WIN,
-  PLATFORM_LINUX,
-} from '../helpers'
+import { warn, isMac, isWin, isLinux } from '../helpers'
 
 /**
  * Check if device is touch device or not
@@ -45,18 +40,11 @@ export function defineNavigator() {
           (window as Window & { IS_TEST?: boolean }).IS_TEST
         )
       ) {
-        const platform =
-          (
-            navigator as Navigator & {
-              userAgentData?: { platform?: string }
-            }
-          ).userAgentData?.platform || navigator.platform
-
-        if (platform.match(new RegExp(PLATFORM_MAC)) !== null) {
+        if (isMac()) {
           document.documentElement.setAttribute('data-os', 'mac')
-        } else if (platform.match(new RegExp(PLATFORM_WIN)) !== null) {
+        } else if (isWin()) {
           document.documentElement.setAttribute('data-os', 'win')
-        } else if (platform.match(new RegExp(PLATFORM_LINUX)) !== null) {
+        } else if (isLinux()) {
           document.documentElement.setAttribute('data-os', 'linux')
         }
       } else {

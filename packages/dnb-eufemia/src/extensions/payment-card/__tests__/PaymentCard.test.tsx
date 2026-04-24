@@ -31,7 +31,6 @@ const defaultProps: PaymentCardProps = {
   id: 'id',
   locale: 'nb-NO',
   skeleton: true,
-  class: 'class',
   className: 'className',
   children: 'children',
 }

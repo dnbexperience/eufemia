@@ -176,7 +176,9 @@ describe('useIsolatedStyleScope', () => {
 
   it('returns the custom ref element if provided', () => {
     let scopeElement = null
-    const customRef = React.createRef<HTMLDivElement>()
+    const customRef: React.RefObject<HTMLDivElement | null> = {
+      current: null,
+    }
 
     const MockComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()

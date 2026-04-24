@@ -80,24 +80,6 @@ export const roundValue = (
   return parseFloat(parseFloat(String(value)).toFixed(3))
 }
 
-export const createMockDiv = ({ width, height }) => {
-  const div = document.createElement('div')
-  Object.assign(div.style, {
-    width: `${width}px`,
-    height: `${height}px`,
-  })
-  // @ts-expect-error - Mocking getBoundingClientRect for testing
-  div.getBoundingClientRect = () => ({
-    width,
-    height,
-    top: 0,
-    left: 0,
-    right: width,
-    bottom: height,
-  })
-  return div
-}
-
 export const getUpdatedValues = (
   value: Array<number>,
   index: number,

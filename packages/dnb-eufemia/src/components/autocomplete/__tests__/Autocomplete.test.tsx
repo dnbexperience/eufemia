@@ -350,7 +350,7 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
+        document.querySelector('.dnb-autocomplete__suffix-value')
       )
 
       expect(
@@ -368,7 +368,7 @@ describe('Autocomplete component', () => {
       ).not.toContain('dnb-autocomplete--open')
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
+        document.querySelector('.dnb-autocomplete__suffix-value')
       )
       expect(
         document.querySelector('.dnb-autocomplete').classList
@@ -4018,7 +4018,7 @@ describe('Autocomplete component', () => {
   })
 
   it('gets valid element when inputRef is function', () => {
-    const ref: React.RefObject<HTMLInputElement> = React.createRef()
+    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem

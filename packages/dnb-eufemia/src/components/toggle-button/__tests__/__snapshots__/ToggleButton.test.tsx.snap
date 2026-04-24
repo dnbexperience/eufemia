@@ -1601,7 +1601,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-color-background--disabled: var(
     --token-color-background-neutral
   );
-  --radio-color-border--disabled: var(--token-color-icon-action-disabled);
+  --radio-color-border--disabled: var(
+    --token-color-stroke-action-disabled
+  );
   --radio-color-dot-on--active: var(
     --token-color-background-action-pressed
   );

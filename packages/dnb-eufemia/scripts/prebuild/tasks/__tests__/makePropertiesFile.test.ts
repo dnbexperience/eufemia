@@ -32,11 +32,11 @@ describe('makePropertiesFile', () => {
     const path = await import('path')
 
     global.ui = fs.readFileSync(
-      path.resolve('src/style/themes/ui/properties.js'),
+      path.resolve('src/style/themes/ui/properties.ts'),
       'utf-8'
     )
     global.sbanken = fs.readFileSync(
-      path.resolve('src/style/themes/sbanken/properties.js'),
+      path.resolve('src/style/themes/sbanken/properties.ts'),
       'utf-8'
     )
 
@@ -165,6 +165,40 @@ describe('makePropertiesFile', () => {
         }
       })
     })
+
+    describe('@theme block', () => {
+      it('should place token declarations inside @theme', () => {
+        const themeMatch = global.uiTokensTailwind.match(
+          /@theme\s*\{([\s\S]*?)\n\}/
+        )
+        expect(themeMatch).toBeTruthy()
+        const themeBlock = themeMatch[1]
+        expect(themeBlock).toContain('--color-background-action:')
+        expect(themeBlock).toContain('--color-text-neutral:')
+        expect(themeBlock).toContain('--color-stroke-action:')
+        expect(themeBlock).toContain('--radius-md:')
+      })
+
+      it('should not include .eufemia-theme__color-scheme--light selector', () => {
+        expect(global.uiTokensTailwind).not.toContain(
+          '.eufemia-theme__color-scheme--light'
+        )
+      })
+
+      it('should not emit @theme for dark-mode tailwind files', () => {
+        expect(global.uiTokensDarkTailwind).not.toContain('@theme')
+        expect(global.sbankenTokensDarkTailwind).not.toContain('@theme')
+      })
+
+      it('should place dark-mode tokens under the scoped selector', () => {
+        expect(global.uiTokensDarkTailwind).toContain(
+          '.eufemia-theme__color-scheme--dark'
+        )
+        expect(global.uiTokensDarkTailwind).toContain(
+          '--color-background-action:'
+        )
+      })
+    })
   })
 
   describe('Figma file generation', () => {
@@ -209,14 +243,48 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--carnegie-coldgreen-600)')
       })
 
-      it('error on unsupported variable set', () => {
+      it('returns undefined for unsupported variable set', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
           targetVariableSetName: 'nonsense',
         }
 
-        expect(() => transformFigmaAlias(val)).toThrow()
+        expect(transformFigmaAlias(val)).toBeUndefined()
+      })
+
+      it('resolves size alias to literal value', () => {
+        const alias = {
+          targetVariableName: 'size/4',
+          targetVariableSetId:
+            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetName: 'size',
+        }
+
+        const value = {
+          $type: 'number' as const,
+          $value: 4,
+        }
+
+        const result = transformFigmaAlias(alias, value)
+        expect(result).toEqual('0.25rem')
+      })
+
+      it('resolves size alias with zero value', () => {
+        const alias = {
+          targetVariableName: 'size/0',
+          targetVariableSetId:
+            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetName: 'size',
+        }
+
+        const value = {
+          $type: 'number' as const,
+          $value: 0,
+        }
+
+        const result = transformFigmaAlias(alias, value)
+        expect(result).toEqual('0')
       })
 
       it('error on unsupported theme prefix set', () => {
@@ -325,20 +393,43 @@ describe('makePropertiesFile', () => {
         expect(() => transformFigmaValue(val)).toThrow()
       })
 
-      it('skip string and number', () => {
+      it('skip string', () => {
         expect(
           transformFigmaValue({
             $type: 'string',
             $value: 'Medium',
           })
         ).toBeUndefined()
+      })
+
+      it('converts number to rem', () => {
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 0,
+          })
+        ).toEqual('0')
 
         expect(
           transformFigmaValue({
             $type: 'number',
-            $value: 42,
+            $value: 4,
           })
-        ).toBeUndefined()
+        ).toEqual('0.25rem')
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 16,
+          })
+        ).toEqual('1rem')
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 9999,
+          })
+        ).toEqual('9999px')
       })
     })
 

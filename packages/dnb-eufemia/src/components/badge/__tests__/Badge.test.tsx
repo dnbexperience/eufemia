@@ -315,7 +315,7 @@ describe('Badge', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(<Badge ref={ref} content="1" />)
 
@@ -346,13 +346,6 @@ describe('Badge aria', () => {
 describe('Badge scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('should match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-badge-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

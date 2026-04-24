@@ -155,12 +155,12 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.',
     type: 'React.RefObject',
     status: 'optional',
   },
   buttonRef: {
-    doc: 'By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.useRef(null)`.',
     type: 'React.RefObject',
     status: 'optional',
   },

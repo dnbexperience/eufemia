@@ -8,6 +8,8 @@
 .dnb-table__container {
   position: relative;
 
+  background-color: var(--token-color-background-neutral);
+
   @include table-mixins.tableOutline() {
     z-index: 3; // over sticky-header
     border: var(--table-outline);

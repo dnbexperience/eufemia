@@ -3,10 +3,11 @@ import uiDarkTokens from '@dnb/eufemia/src/style/themes/figma/dnb-dark.tokens.js
 import sbankenLightTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-light.tokens.json'
 import sbankenDarkTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-dark.tokens.json'
 import uiLightTokens from '@dnb/eufemia/src/style/themes/figma/dnb-light.tokens.json'
+import { formatNumberValue } from '@dnb/eufemia/src/style/themes/figma/tokenValueUtils'
 
 export const tokenNamingPolicy = {
   prefix: '--token-',
-  categories: ['color'],
+  categories: ['color', 'radius'],
   colorSections: ['background', 'text', 'icon', 'stroke', 'decorative'],
   componentSections: ['component-*'],
   givenLabels: [
@@ -31,6 +32,7 @@ export const tokenSectionOrder = [
   'stroke',
   'decorative',
   'component',
+  'radius',
 ] as const
 
 export type TokenSectionId = (typeof tokenSectionOrder)[number]
@@ -95,7 +97,7 @@ type FigmaExtensions = {
 
 type FigmaTokenLeaf = {
   $type: string
-  $value?: FigmaValue
+  $value?: FigmaValue | number
   $extensions?: FigmaExtensions
 }
 
@@ -151,6 +153,31 @@ const collator = new Intl.Collator('en', {
   sensitivity: 'base',
 })
 
+const radiusSizeOrder: Record<string, number> = {
+  '0': 0,
+  xs: 1,
+  sm: 2,
+  md: 3,
+  lg: 4,
+  xl: 5,
+  full: 6,
+}
+
+const compareTokens = (
+  a: { name: string; section: string },
+  b: { name: string; section: string }
+) => {
+  if (a.section === 'radius' && b.section === 'radius') {
+    const aSuffix = a.name.replace('--token-radius-', '')
+    const bSuffix = b.name.replace('--token-radius-', '')
+    const aOrder = radiusSizeOrder[aSuffix] ?? Infinity
+    const bOrder = radiusSizeOrder[bSuffix] ?? Infinity
+    return aOrder - bOrder
+  }
+
+  return collator.compare(a.name, b.name)
+}
+
 const isTokenLeaf = (node: FigmaTokenNode): node is FigmaTokenLeaf => {
   return typeof node === 'object' && node !== null && '$type' in node
 }
@@ -164,9 +191,16 @@ const formatRgbChannel = (channel: number) => {
 }
 
 const readTokenReference = (node: FigmaTokenLeaf) => {
-  const hex = node.$value?.hex
-  const alpha = node.$value?.alpha
-  const components = node.$value?.components
+  if (node.$type === 'number') {
+    return typeof node.$value === 'number'
+      ? formatNumberValue(node.$value)
+      : 'n/a'
+  }
+
+  const value = node.$value as FigmaValue | undefined
+  const hex = value?.hex
+  const alpha = value?.alpha
+  const components = value?.components
 
   if (
     Array.isArray(components) &&
@@ -234,7 +268,13 @@ export const buildThemeTokenEntries = (
     const nextPath = [...path, key]
 
     if (isTokenLeaf(value)) {
-      const section = nextPath[1] as TokenSectionId
+      const category = nextPath[0]
+      const section =
+        category === 'radius'
+          ? ('radius' as TokenSectionId)
+          : (nextPath[1] as TokenSectionId)
+      const group =
+        category === 'radius' ? 'radius' : nextPath[2] || 'general'
       const name = `${tokenNamingPolicy.prefix}${nextPath.join('-')}`
 
       return [
@@ -242,7 +282,7 @@ export const buildThemeTokenEntries = (
           name,
           path: nextPath,
           section,
-          group: nextPath[2] || 'general',
+          group,
           modifiers: extractTokenModifiers(nextPath),
           reference: readTokenReference(value),
           foundationReference: readFoundationReference(value),
@@ -313,7 +353,7 @@ export const buildTokenSections = (
   return tokenSectionOrder.map((sectionId) => {
     const tokens = Array.from(tokenMap.values())
       .filter((token) => token.section === sectionId)
-      .sort((a, b) => collator.compare(a.name, b.name))
+      .sort(compareTokens)
 
     const groupMap = new Map<string, TokenRow[]>()
 
@@ -333,9 +373,7 @@ export const buildTokenSections = (
         .map(([groupId, groupTokens]) => ({
           id: groupId,
           title: humanizeTokenSegment(groupId),
-          tokens: groupTokens.sort((a, b) =>
-            collator.compare(a.name, b.name)
-          ),
+          tokens: groupTokens.sort(compareTokens),
         })),
     }
   })

@@ -325,8 +325,8 @@ const PaginationInstance = React.memo(function PaginationInstance(
     disabled: _disabled,
     skeleton: _skeleton,
     tagName: _tagName,
-    pageCount: _page_count,
-    currentPage: _current_page,
+    pageCount: _pageCount,
+    currentPage: _currentPageProp,
     startupPage: _startupPage,
     mode: _mode,
     hideProgressIndicator: _hideProgressIndicator,
@@ -455,16 +455,25 @@ export const Bar = (props: PaginationProps) => (
 export const createPagination = (
   initProps: Record<string, unknown> = {}
 ): PaginationCreateReturn => {
-  const store = React.createRef<Record<string, unknown>>()
-  const rerender = React.createRef<
-    ((store: React.RefObject<Record<string, unknown>>) => void) | null
-  >()
-  const _setContent = React.createRef<
+  const store: React.RefObject<Record<string, unknown> | null> = {
+    current: null,
+  }
+  const rerender: React.RefObject<
+    | ((store: React.RefObject<Record<string, unknown> | null>) => void)
+    | null
+  > = { current: null }
+  const _setContent: React.RefObject<
     ((pageNumber: number, content: React.ReactNode) => void) | null
-  >()
-  const _resetContent = React.createRef<(() => void) | null>()
-  const _resetInfinity = React.createRef<(() => void) | null>()
-  const _endInfinity = React.createRef<(() => void) | null>()
+  > = { current: null }
+  const _resetContent: React.RefObject<(() => void) | null> = {
+    current: null,
+  }
+  const _resetInfinity: React.RefObject<(() => void) | null> = {
+    current: null,
+  }
+  const _endInfinity: React.RefObject<(() => void) | null> = {
+    current: null,
+  }
 
   const setContent = (pageNumber: number, content: React.ReactNode) => {
     if (pageNumber > 0) {

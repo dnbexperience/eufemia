@@ -25,7 +25,7 @@ import type {
   ProductType,
   BankAxeptType,
   CardType,
-} from '../utils/Types'
+} from '../utils/types'
 import type { CardDesign } from '../utils/CardDesigns'
 
 const BankLogo = ({ logoType }: { logoType: DNBType }) => {

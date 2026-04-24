@@ -185,7 +185,9 @@ describe('Button component', () => {
   })
 
   it('has set ref if ref was given', () => {
-    const ref = React.createRef<HTMLButtonElement>()
+    const ref: React.RefObject<HTMLButtonElement | null> = {
+      current: null,
+    }
     expect(ref.current).toBe(null)
     render(<Button ref={ref} />)
 

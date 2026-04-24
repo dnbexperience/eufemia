@@ -176,7 +176,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const propsRef = useRef(props)
   propsRef.current = props
 
-  // Mutable state stored in ref (mirrors this.state)
+  // Mutable state stored in ref
   const stateRef = useRef<DrawerListContextState>(null)
   if (!stateRef.current) {
     stateRef.current = {
@@ -191,11 +191,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   // Re-render trigger
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  // Callback queue for setState(..., callback) pattern
+  // Callback queue for deferred side effects
   const callbacksRef = useRef<(() => void)[]>([])
 
-  // Pending state updates — deferred to render time to match class component
-  // batching behavior where this.state is NOT updated between setState calls
+  // Pending state updates — deferred to render time so state is not
+  // updated between successive mergeState calls within the same cycle
   const pendingUpdatesRef = useRef<Partial<DrawerListContextState>[]>([])
 
   const mergeState = useCallback(
@@ -1458,7 +1458,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   // --- Lifecycle effects ---
 
-  // componentDidMount
   useMountEffect(() => {
     if (propsRef.current.open) {
       setVisible()
@@ -1476,7 +1475,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   })
 
-  // componentDidUpdate: open prop changes
+  // Sync visibility when the open prop changes
   useUpdateEffect(() => {
     if (props.open !== null) {
       if (props.open) {
@@ -1487,7 +1486,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   }, [props.open, setVisible, setHidden])
 
-  // componentDidUpdate: focus on data change and recalculate scroll observer
+  // Focus and recalculate scroll observer when data changes
   const prevDataRef = useRef(props.data)
   const prevDirectionRef = useRef(stateRef.current.direction)
   useEffect(() => {
@@ -1516,7 +1515,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   // --- Render ---
 
-  // API object for method chaining (replaces "return this" pattern from class component)
+  // API object for method chaining
   const selfRef = useRef<DrawerListProviderChainable>(null)
   selfRef.current = {
     setVisible,

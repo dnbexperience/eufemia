@@ -16,7 +16,7 @@ import StepIndicatorContext, {
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { StepIndicatorItemProps } from './StepIndicatorItem'
-import { stepIndicatorDefaultProps } from './StepIndicatorProps'
+import { stepIndicatorDefaultProps } from './defaults'
 import type {
   FormStatusState,
   FormStatusText,

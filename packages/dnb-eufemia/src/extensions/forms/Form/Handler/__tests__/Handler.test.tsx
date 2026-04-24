@@ -1434,7 +1434,9 @@ describe('Form.Handler TypeScript type validation', () => {
   })
 
   it('should support ref prop', () => {
-    const formRef = React.createRef<HTMLFormElement>()
+    const formRef: React.RefObject<HTMLFormElement | null> = {
+      current: null,
+    }
 
     render(<Form.Handler ref={formRef}>...</Form.Handler>)
 

@@ -76,9 +76,9 @@ export const ValidationRequired = () => {
     <ComponentBox>
       <Field.Date
         label="Label text"
-        value="2023-01-16"
         onChange={(value) => console.log('onChange', value)}
         required
+        validateInitially
       />
     </ComponentBox>
   )

@@ -17,8 +17,9 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in context', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState> =
-      React.createRef()
+    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+      current: null,
+    }
 
     const ContextConsumer = () => {
       contextRef.current = useContext(FieldBoundaryContext)
@@ -126,8 +127,9 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set showBoundaryErrorsRef to true when showErrors is true', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState> =
-      React.createRef()
+    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+      current: null,
+    }
 
     const ContextConsumer = () => {
       contextRef.current = useContext(FieldBoundaryContext)
@@ -147,8 +149,9 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in boundary context', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState> =
-      React.createRef()
+    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+      current: null,
+    }
 
     const ContextConsumer = () => {
       contextRef.current = useContext(FieldBoundaryContext)
@@ -200,8 +203,9 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in context with validateContinuously', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState> =
-      React.createRef()
+    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+      current: null,
+    }
 
     const Contexts = ({ children }) => {
       contextRef.current = useContext(FieldBoundaryContext)

@@ -324,7 +324,7 @@ describe('Password component', () => {
   })
 
   it('gets valid element when using createRef', () => {
-    const ref = React.createRef<HTMLInputElement>()
+    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
 
     render(<Field.Password ref={ref} />)
 

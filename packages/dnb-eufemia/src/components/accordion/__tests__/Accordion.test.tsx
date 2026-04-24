@@ -260,7 +260,9 @@ describe('Accordion group component', () => {
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
-    const collapseAll = React.createRef<() => void>()
+    const collapseAll: React.RefObject<(() => void) | null> = {
+      current: null,
+    }
 
     render(
       <Accordion.Group
@@ -310,17 +312,12 @@ describe('Accordion group component', () => {
 })
 
 describe('Accordion container component', () => {
-  type DidRenderProps = {
-    id: string
-  }
-  class DidRender extends React.PureComponent<DidRenderProps> {
-    override state = { mounted: false }
-    override componentDidMount() {
-      this.setState({ mounted: true })
-    }
-    override render() {
-      return <div id={this.props.id}>{String(this.state.mounted)}</div>
-    }
+  const DidRender = ({ id }: { id: string }) => {
+    const [mounted, setMounted] = React.useState(false)
+    React.useEffect(() => {
+      setMounted(true)
+    }, [])
+    return <div id={id}>{String(mounted)}</div>
   }
 
   const Increment = () => {
@@ -427,7 +424,9 @@ describe('Accordion container component', () => {
   })
 
   it('will set minHeight', async () => {
-    const contentRef = React.createRef<HTMLElement>()
+    const contentRef: React.RefObject<HTMLElement | null> = {
+      current: null,
+    }
 
     render(<Container contentRef={contentRef} />)
 

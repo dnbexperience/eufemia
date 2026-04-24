@@ -94,10 +94,10 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.DateOfBirth
-        value="2000-05-17"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         required
+        validateInitially
       />
     </ComponentBox>
   )

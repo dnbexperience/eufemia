@@ -6,6 +6,8 @@
  */
 
 .dnb-skeleton {
+  --skeleton-color: var(--token-color-background-neutral-base);
+  --skeleton-color--contrast: var(--token-color-background-neutral);
   --skeleton-delay: 5s;
   --skeleton-duration: 1.5s;
   --skeleton-iteration-count: 20;

@@ -240,6 +240,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   width: calc(var(--drawer-list-height) / 2);
   height: calc(var(--drawer-list-height) / 2);
   z-index: -1;
+  overflow: hidden;
 }
 .dnb-drawer-list__arrow::before {
   content: "";

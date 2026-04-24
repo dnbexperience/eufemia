@@ -447,7 +447,7 @@ describe('FormLabel component', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(<FormLabel ref={ref} forId="input" text="Label" />)
 

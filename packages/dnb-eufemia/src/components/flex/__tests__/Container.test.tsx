@@ -1121,7 +1121,7 @@ describe('Flex.Container', () => {
   })
 
   it('should forward ref', () => {
-    const ref = React.createRef<HTMLElement>()
+    const ref: React.RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Flex.Container ref={ref}>

@@ -7,20 +7,9 @@
 @use './table-mixins.scss' as table-mixins;
 @use './table-header-buttons.scss';
 
-.dnb-table,
-.dnb-table__container {
-  // table border
-  --table-border-width: 0.0625rem;
-  --table-border: var(--table-border-width) solid var(--table-border-color);
-
-  // table outline
-  --table-outline-width: 0.0625rem;
-  --table-outline: var(--table-outline-width) solid
-    var(--table-outline-color);
-  --table-outline-radius: 0.5rem;
-}
-
 .dnb-table {
+  --table-th-background-color: var(--token-color-background-neutral);
+
   display: table;
   table-layout: auto;
   width: 100%;
@@ -46,7 +35,7 @@
     padding: 0.5rem 0 0.5rem 1rem;
 
     font-size: var(--font-size-basis);
-    background-color: var(--color-white);
+    background-color: var(--token-color-background-neutral);
     text-align: left;
 
     @include table-mixins.tableBorder() {
@@ -121,6 +110,42 @@
     --table-outline-radius: var(--rounded-corner, 0.5rem);
   }
 
+  // Reset Table spacing
+  .dnb-spacing & {
+    p,
+    ul,
+    ol,
+    dl,
+    pre {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  &,
+  &__container {
+    --table-border-color: var(--token-color-stroke-neutral-subtle);
+    --table-outline-color: var(--token-color-stroke-neutral-subtle);
+
+    // table border
+    --table-border-width: 0.0625rem;
+    --table-border: var(--table-border-width) solid
+      var(--table-border-color);
+
+    // table outline
+    --table-outline-width: 0.0625rem;
+    --table-outline: var(--table-outline-width) solid
+      var(--table-outline-color);
+    --table-outline-radius: 0.5rem;
+
+    html[data-visual-test] & {
+      --table-border-color: blue;
+      --table-outline-color: red;
+      --table-accordion-border-color: green;
+    }
+  }
+
   @include table-header-buttons.buttonsInTable();
 }
 
@@ -131,15 +156,3 @@
 @include meta.load-css('table-sticky');
 @include meta.load-css('table-container');
 @include meta.load-css('table-accordion');
-
-// Reset Table spacing
-.dnb-spacing .dnb-table {
-  p,
-  ul,
-  ol,
-  dl,
-  pre {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}

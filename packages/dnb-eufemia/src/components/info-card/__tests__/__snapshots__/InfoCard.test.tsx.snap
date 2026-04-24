@@ -18,14 +18,14 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   position: relative;
   padding: 1rem;
   overflow: hidden;
-  background: var(--color-white);
+  background: var(--token-color-background-neutral);
 }
 .dnb-info-card::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border: 1px solid var(--color-black-8);
+  border: 1px solid var(--token-color-stroke-neutral-subtle);
 }
 .dnb-info-card, .dnb-info-card::after {
   border-radius: 0.25rem;
@@ -52,7 +52,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   margin-top: 0;
 }
 .dnb-info-card__icon {
-  color: var(--color-emerald-green);
+  color: var(--token-color-icon-action);
 }
 .dnb-info-card__image {
   height: 4rem;

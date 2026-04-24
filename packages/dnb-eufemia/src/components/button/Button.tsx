@@ -25,7 +25,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
-import { launch } from '../../icons'
+import { launch as LaunchIcon } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -172,7 +172,6 @@ export type ButtonProps = {
   disabled?: boolean
   ref?: React.Ref<HTMLElement>
   className?: string
-  class?: string
   children?: ButtonChildren
   /**
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
@@ -239,7 +238,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const combinedRef = useCombinedRef(ref, elementRef)
 
   // Generate an id only when explicitly provided or when status/tooltip
-  // needs one for aria linking – mirrors the original class component logic.
+  // needs one for aria linking.
   const generatedId = useId(restProps.id)
   const resolvedId =
     restProps.id || restProps.status || restProps.tooltip
@@ -353,7 +352,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       : 'button'
   if (Element === Anchor) {
     if (opensNewTab(props.target, props.href) && !usedIcon) {
-      usedIcon = launch
+      usedIcon = LaunchIcon
     }
   }
 

@@ -5,7 +5,7 @@ import pointer from '../utils/json-pointer'
 import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 import useDataContext from './useDataContext'
 import type { SnapshotId, SnapshotName } from '../Form/Snapshot'
-import useData from '../Form/data-context/useData'
+import useData from '../Form/DataContext/useData'
 
 export default function useSnapshot(id?: SharedStateId) {
   const internalSnapshotsRef = useRef<

@@ -50,7 +50,9 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should return "propsOfFields" with object that contains all props', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
@@ -161,7 +163,9 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should return "propsOfValues" with object that contains all props', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     const { rerender } = render(
       <Form.Handler data={{ nested: { myString: 'my string' } }}>
@@ -216,7 +220,9 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate list of all props with different types', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -283,7 +289,9 @@ describe('Tools.ListAllProps', () => {
     `)
   })
 
-  const generateRef = React.createRef<GenerateRef>()
+  const generateRef: React.RefObject<GenerateRef | null> = {
+    current: null,
+  }
 
   it('should generate props object with various properties', () => {
     render(
@@ -380,7 +388,9 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate props object with nested paths', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -451,7 +461,9 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate props object with required', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef: React.RefObject<GenerateRef | null> = {
+      current: null,
+    }
 
     render(
       <Form.Handler>
@@ -546,17 +558,15 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should filter out React elements', () => {
-    const generateRef = React.createRef<
-      GenerateRef<{
-        items: {
-          children: {
-            type: {
-              name: string
-            }
+    const generateRef: React.RefObject<GenerateRef<{
+      items: {
+        children: {
+          type: {
+            name: string
           }
         }
-      }>
-    >()
+      }
+    }> | null> = { current: null }
 
     render(
       <Form.Handler data={{ count: 2 }}>

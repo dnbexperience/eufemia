@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Badge scss should match default theme snapshot 1`] = `
-"/*
-* Badge theme
-*
-*/"
-`;
-
 exports[`Badge scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
@@ -42,8 +35,8 @@ exports[`Badge scss should match style dependencies css 1`] = `
   z-index: 2;
 }
 .dnb-badge--variant-notification {
-  color: var(--color-white);
-  background-color: var(--color-fire-red);
+  color: var(--token-color-text-neutral-ondark);
+  background-color: var(--token-color-background-error);
   padding: 0 0.25rem;
   min-width: 1.5rem;
   height: 1.5rem;

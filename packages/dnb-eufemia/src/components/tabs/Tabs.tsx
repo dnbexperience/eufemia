@@ -411,7 +411,7 @@ function TabsComponent(ownProps: TabsProps) {
     ownProps.selectedKey
   )
 
-  // getDerivedStateFromProps equivalent
+  // Sync state from props
   if (listenForPropChangesRef.current) {
     const dataSource = ownProps.data || ownProps.children
     let currentData = data
@@ -983,10 +983,6 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const onMouseDown = (event: React.MouseEvent) => {
-    event.preventDefault()
-  }
-
   const onKeyDownHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       try {
@@ -1065,14 +1061,12 @@ function TabsComponent(ownProps: TabsProps) {
     children,
     ...rest
   }: React.PropsWithChildren<Record<string, unknown>>) => {
-    const { className, class: _className } = ownProps as TabsProps & {
-      class?: string
-    }
+    const { className } = ownProps as TabsProps
     const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
     const params: Record<string, unknown> = applySpacing(ownProps, {
       ...attributes,
-      className: clsx('dnb-tabs', className, _className),
+      className: clsx('dnb-tabs', className),
     })
 
     validateDOMAttributes(ownProps, params)
@@ -1279,7 +1273,6 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               onMouseEnter={onMouseEnterHandler}
               onClick={onClickHandler}
               onKeyUp={onKeyDownHandler}
-              onMouseDown={onMouseDown}
               data-tab-key={key}
               {...itemParams}
             >
@@ -1375,7 +1368,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
 TabsComponent.displayName = 'Tabs'
 
-type TabsWithStatics = React.FC<TabsProps> & {
+type TabsWithStatics = ((props: TabsProps) => React.ReactNode) & {
   Content: typeof CustomContent
   ContentWrapper: typeof ContentWrapper
 }

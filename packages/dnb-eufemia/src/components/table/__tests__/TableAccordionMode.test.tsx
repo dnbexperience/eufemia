@@ -934,7 +934,9 @@ describe('Table using mode="accordion" prop', () => {
 
   describe('closeAllHandle', () => {
     it('should close all tr when called', () => {
-      const collapseAllHandleRef = React.createRef<() => void>()
+      const collapseAllHandleRef: React.RefObject<(() => void) | null> = {
+        current: null,
+      }
 
       render(
         <Table
