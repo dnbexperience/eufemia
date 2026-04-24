@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'PortalRoot is a React component that helps you make React Portals.'
-version: 12.0.0
-generatedAt: 2026-04-24T07:15:47.317Z
+version: 11.0.1
+generatedAt: 2026-04-24T10:40:50.745Z
 checksum: c3ffa8555896797627d79901830e764235e7eba0e0098d804983b0ffa8f0bd14
 ---
 

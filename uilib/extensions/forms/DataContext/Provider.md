@@ -1,8 +1,8 @@
 ---
 title: 'DataContext.Provider'
 description: '`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.'
-version: 12.0.0
-generatedAt: 2026-04-24T07:15:47.743Z
+version: 11.0.1
+generatedAt: 2026-04-24T10:40:51.163Z
 checksum: 61e924b9fa8bb71030f14c18e4a6163ee35991320cae7718a49de0be965841f5
 ---
 
