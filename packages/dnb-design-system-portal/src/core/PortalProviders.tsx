@@ -102,7 +102,11 @@ export const rootElement =
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
 
-  return <Theme {...theme}>{children}</Theme>
+  return (
+    <Theme {...theme} className="dnb-page-background">
+      {children}
+    </Theme>
+  )
 }
 
 // This ensures we actually will get skeletons enabled when defined in the url

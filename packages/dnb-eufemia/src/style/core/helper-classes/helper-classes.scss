@@ -69,3 +69,8 @@
   line-height: var(--line-height-basis);
   word-break: normal; // because of "kr" usage together with "stretch" on a input/textarea
 }
+
+.dnb-page-background {
+  // Ensure themed body has a token color for page backgrounds
+  background-color: var(--token-color-background-page-background);
+}
