@@ -14,7 +14,7 @@
   --upload-list-border: var(--token-color-stroke-neutral-subtle);
   --upload-icon--default: var(--token-color-icon-neutral);
   --upload-icon--warning: var(--token-color-icon-error);
-  --upload-highlight: lightyellow;
+  --upload-highlight: var(--token-color-background-warning-subtle);
   --upload-text--secondary: var(--token-color-text-neutral-alternative);
 
   position: relative;
