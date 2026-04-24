@@ -119,7 +119,10 @@ html[show-dev-grid] .dev-grid {
 }
 
 // Make the home => pages animation
-.dnb-page-background ul,
+.home-background ul {
+  view-transition-name: home;
+}
+
 #portal-sidebar-menu {
   view-transition-name: home;
 }
