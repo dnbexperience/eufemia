@@ -3,6 +3,44 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.1](https://github.com/dnbexperience/eufemia/compare/v11.0.0...v11.0.1) (2026-04-24)
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** add missing style.ts entry ([#7664](https://github.com/dnbexperience/eufemia/issues/7664)) ([08d6fdb](https://github.com/dnbexperience/eufemia/commit/08d6fdbd698320efa20c632bf4575be58b8467fa))
+* **Button, Tabs, PaymentCard:** remove legacy class prop ([#7657](https://github.com/dnbexperience/eufemia/issues/7657)) ([a805f45](https://github.com/dnbexperience/eufemia/commit/a805f45c6345831220543605f067c231ceb3174a))
+* **Card:** allow `outlineWidth` to work on nested Cards ([#7659](https://github.com/dnbexperience/eufemia/issues/7659)) ([2878f55](https://github.com/dnbexperience/eufemia/commit/2878f55761e5ade3e00b8f0e4126c0ad06e157f0)), closes [#7655](https://github.com/dnbexperience/eufemia/issues/7655)
+* **DrawerList:** use overflow hidden instead of clip-path for arrow --run-all ([#7668](https://github.com/dnbexperience/eufemia/issues/7668)) ([be20a28](https://github.com/dnbexperience/eufemia/commit/be20a28ae9863d081017ddc677b7e0c3daa8ca1d))
+* **Field.Upload:** align help background ([#7717](https://github.com/dnbexperience/eufemia/issues/7717)) ([9c7c1a6](https://github.com/dnbexperience/eufemia/commit/9c7c1a607e4e88a8c013b0819363d3219da5bc85))
+* **List:** improve a11y for `List.Item.Action` ([#7723](https://github.com/dnbexperience/eufemia/issues/7723)) ([b77992b](https://github.com/dnbexperience/eufemia/commit/b77992be2cf0b6acc2dac2ce703c746b59c82256))
+* **Stat:** add `en-GB` currency spacing ([#7660](https://github.com/dnbexperience/eufemia/issues/7660)) ([908fab1](https://github.com/dnbexperience/eufemia/commit/908fab1fc87d3fd1287d368d768c7cf2e7c8b2e1))
+* **StyleIsolation:** handle `:root` in multi-selector rules ([#7733](https://github.com/dnbexperience/eufemia/issues/7733)) ([444949c](https://github.com/dnbexperience/eufemia/commit/444949c19fe04c2e7928cdc087f9a529385b3916))
+* **Upload:** ensure valid `key` in list items ([#7718](https://github.com/dnbexperience/eufemia/issues/7718)) ([4d602fb](https://github.com/dnbexperience/eufemia/commit/4d602fb5706d57272ac78ba94bbff643600c4f1a))
+
+
+### :memo: Documentation
+
+* **Design Tokens:** add `radius` ([#7720](https://github.com/dnbexperience/eufemia/issues/7720)) ([68f65de](https://github.com/dnbexperience/eufemia/commit/68f65defc17f1cf16f9233b2099b715b49a6acf2))
+
+
+### :zap: Refactoring
+
+* **Badge:** use design tokens for notification ([#7590](https://github.com/dnbexperience/eufemia/issues/7590)) ([495e8af](https://github.com/dnbexperience/eufemia/commit/495e8af6837cbfe7a3e4061f917ec8ec0aa3774f))
+* **Field.Password:** use design tokens ([#7591](https://github.com/dnbexperience/eufemia/issues/7591)) ([b78415d](https://github.com/dnbexperience/eufemia/commit/b78415dc14489dcd1dc5b34b95a331b580053f77))
+* **HelpButtonInline:** use design tokens ([#7696](https://github.com/dnbexperience/eufemia/issues/7696)) ([053345b](https://github.com/dnbexperience/eufemia/commit/053345b6ea5b6824a7bf32dc0cd6ebf826fdaf4a))
+* **Hr:** use design tokens ([#7587](https://github.com/dnbexperience/eufemia/issues/7587)) ([1447c30](https://github.com/dnbexperience/eufemia/commit/1447c3035ac36737e1456304ae3469acf5d3fd25))
+* **InfoCard:** use design tokens ([#7593](https://github.com/dnbexperience/eufemia/issues/7593)) ([3233ad6](https://github.com/dnbexperience/eufemia/commit/3233ad6b7431dfd3848244091c0a7306c707900a))
+* replace React.FC type aliases with explicit function types ([#7665](https://github.com/dnbexperience/eufemia/issues/7665)) ([c163fc0](https://github.com/dnbexperience/eufemia/commit/c163fc028f782abafc699bb86d54dae65eef4bf6))
+* **Scrollbar:** use design tokens ([#7699](https://github.com/dnbexperience/eufemia/issues/7699)) ([4b59d22](https://github.com/dnbexperience/eufemia/commit/4b59d22d4afb4acee7f7e269001c03ba264dd5e3))
+* **Skeleton:** use design tokens ([#7701](https://github.com/dnbexperience/eufemia/issues/7701)) ([ff99369](https://github.com/dnbexperience/eufemia/commit/ff99369d0b07b2792c9f9156a6269113e717224a))
+* **Slider:** use design tokens ([#7738](https://github.com/dnbexperience/eufemia/issues/7738)) ([8b4a3df](https://github.com/dnbexperience/eufemia/commit/8b4a3dfc07cdd869b84358085a4bbe25fe4e0df1)), closes [#7599](https://github.com/dnbexperience/eufemia/issues/7599)
+* standardize icon import aliases to PascalCase ([#7666](https://github.com/dnbexperience/eufemia/issues/7666)) ([6d09ca1](https://github.com/dnbexperience/eufemia/commit/6d09ca1f7fbd64b6279d0b8a466dbcf86b98032a))
+* **Table:** use design tokens ([#7687](https://github.com/dnbexperience/eufemia/issues/7687)) ([12b6bed](https://github.com/dnbexperience/eufemia/commit/12b6bed9603ce3c269bf3d385137dc205ebe9106))
+* **Tabs:** use design tokens ([#7740](https://github.com/dnbexperience/eufemia/issues/7740)) ([ae32c52](https://github.com/dnbexperience/eufemia/commit/ae32c5206f319d5b676a397850dbc4e4ac85ac7e))
+* **Tag:** use design tokens ([#7644](https://github.com/dnbexperience/eufemia/issues/7644)) ([e88f179](https://github.com/dnbexperience/eufemia/commit/e88f17999f62663f23b95935e608cf35820614e2))
+* **Value.Block:** use design tokens ([#7589](https://github.com/dnbexperience/eufemia/issues/7589)) ([4e9baa9](https://github.com/dnbexperience/eufemia/commit/4e9baa9905be60a2ddd2fc61736d9e777fce8b88))
+
 ## [11.0.0](https://github.com/dnbexperience/eufemia/compare/v10.104.1...v11.0.0) (2026-04-21)
 
 
