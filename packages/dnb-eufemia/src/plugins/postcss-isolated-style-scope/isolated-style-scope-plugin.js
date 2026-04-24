@@ -106,6 +106,9 @@ const postcssIsolateStyle = (opts = {}) => {
         }
         const hasRoot = rule.selectors.some(isRootSelector)
 
+        // Track selectors that replaced :root (already are the scope class)
+        const rootReplacementSelectors = new Set()
+
         if (hasRoot) {
           const scopes = [scopeWithFallback]
 
@@ -117,11 +120,7 @@ const postcssIsolateStyle = (opts = {}) => {
             }
           }
 
-          // Replace :root with scope hashes, keep other selectors as-is
-          const nonRootSelectors = rule.selectors.filter(
-            (s) => !isRootSelector(s)
-          )
-
+          // Replace :root selectors with scope hashes
           let scopeSelectors
           if (isCssModule) {
             const classList = scopes.map((s) => `.${s}`).join(', ')
@@ -130,8 +129,19 @@ const postcssIsolateStyle = (opts = {}) => {
             scopeSelectors = scopes.map((s) => `.${s}`)
           }
 
-          rule.selectors = [...scopeSelectors, ...nonRootSelectors]
-          return
+          scopeSelectors.forEach((s) => rootReplacementSelectors.add(s))
+
+          // Remove :root selectors and replace with scope selectors
+          // Non-root selectors continue to the normal scoping logic below
+          rule.selectors = [
+            ...scopeSelectors,
+            ...rule.selectors.filter((s) => !isRootSelector(s)),
+          ]
+
+          // If there are no non-root selectors, we're done
+          if (rule.selectors.length === scopes.length) {
+            return
+          }
         }
 
         // Helper for transforming individual selectors
@@ -395,6 +405,12 @@ const postcssIsolateStyle = (opts = {}) => {
 
         const processedSelectors = []
         rule.selectors.forEach((selector) => {
+          // Skip selectors that replaced :root (already are the scope class)
+          if (rootReplacementSelectors.has(selector)) {
+            processedSelectors.push(selector)
+            return
+          }
+
           // If this rule is inside a :global block and selector is a global selector, skip scoping
           if (
             rule.parent &&
