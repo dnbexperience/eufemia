@@ -264,7 +264,7 @@ function HelpButtonInlineContentComponent(
 
   const focusParams = focusOnOpen
     ? {
-        'aria-label': convertJsxToString(title),
+        'aria-label': convertJsxToString(title) || undefined,
         className: 'dnb-no-focus',
         tabIndex: -1,
         onKeyDown,

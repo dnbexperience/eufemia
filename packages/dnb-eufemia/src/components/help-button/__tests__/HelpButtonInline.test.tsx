@@ -275,6 +275,45 @@ describe('HelpButtonInline', () => {
       ).toHaveAttribute('aria-label', 'Help title')
     })
 
+    it('should have aria-label when title is a React component', () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          focusOnOpen
+          help={{
+            open: true,
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-help-button__content .dnb-section')
+      ).not.toHaveAttribute('aria-label', 'Component title')
+    })
+
+    it('should set button aria-label when title is a React component', () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          help={{
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-label',
+        'Hjelpetekst'
+      )
+    })
+
     it('should have aria-label attribute', () => {
       render(
         <HelpButtonInline
