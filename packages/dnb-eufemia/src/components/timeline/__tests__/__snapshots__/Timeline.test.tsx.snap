@@ -108,7 +108,7 @@ exports[`Timeline scss should match style dependencies css 1`] = `
   padding: 0;
   color: var(--token-color-icon-neutral);
   background-color: var(--token-color-background-page-background);
-  --border-color: var(token-color-stroke-neutral);
+  --border-color: var(--token-color-stroke-neutral);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
