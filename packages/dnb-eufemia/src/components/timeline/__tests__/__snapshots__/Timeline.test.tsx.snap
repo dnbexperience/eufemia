@@ -8,14 +8,6 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* Timeline theme
-*
-*/
-/*
-* Button mixins
-*
-*/
 .dnb-timeline {
   --timeline-icon-height--small: 1.5rem;
   --timeline-icon-width--small: 1.5rem;

@@ -4,7 +4,6 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
-@use './modal-mixins.scss';
 
 :root {
   --modal-z-index: var(--z-index-modal);

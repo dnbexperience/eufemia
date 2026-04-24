@@ -5,7 +5,6 @@
 
 @use '../../../style/elements/ui-spacing.scss';
 @use '../../../style/core/utilities.scss' as utilities;
-@use '../../../components/space/style/space-mixins.scss';
 
 @mixin listDefaults() {
   color: var(--token-color-text-neutral, currentColor);

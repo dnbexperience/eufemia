@@ -969,14 +969,6 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 /*
-* Button mixins
-*
-*/
-/*
- * HelpButton component
- *
- */
-/*
  * HelpButton component
  *
  */
@@ -1072,92 +1064,6 @@ button.dnb-button::-moz-focus-inner {
  * Modal component
  *
  */
-/*
- * Modal component
- *
- */
-@keyframes show-modal {
-  from {
-    opacity: 0.1;
-    transform: translate3d(0, -1rem, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-modal {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 1rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes show-drawer {
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-drawer-left {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(-20rem, 0, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-top {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, -20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-bottom {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-right {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(20rem, 0, 0);
-    opacity: 0;
-  }
-}
-@keyframes show-modal-overlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes hide-modal-overlay {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
 :root {
   --modal-z-index: var(--z-index-modal);
   --modal-animation-duration: 300ms;
@@ -1270,6 +1176,92 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 * Drawer component
 *
 */
+/*
+ * Modal component
+ *
+ */
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-top {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, -20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes show-modal-overlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hide-modal-overlay {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 .dnb-drawer {
   --drawer-width: 40vw;
   --drawer-min-width: 384px;
