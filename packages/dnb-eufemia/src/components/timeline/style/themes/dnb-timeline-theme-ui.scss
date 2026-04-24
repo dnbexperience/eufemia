@@ -3,8 +3,6 @@
 *
 */
 
-@use '../../../../style/core/utilities.scss' as utilities;
-
 @mixin centerBorder(
   $width: var(--timeline-icon-width--medium),
   $spacing: var(--timeline-border-spacing--icon-adjusted)
