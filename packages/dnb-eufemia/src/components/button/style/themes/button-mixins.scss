@@ -4,21 +4,21 @@
 * Button mixins
 *
 */
-@mixin buttonHoverStyle($color, $background-color, $border-color) {
+@mixin button-hover-style($color, $background-color, $border-color) {
   color: $color;
   background-color: $background-color;
 
-  @include utilities.fakeBorder($border-color, 0.125rem /*2px*/);
+  @include utilities.fake-border($border-color, 0.125rem /*2px*/);
 }
 
-@mixin buttonHover(
+@mixin button-hover(
   $color: null,
   $background-color: null,
   $border-color: var(--color-emerald-green),
   $enable-touch: null
 ) {
   @include utilities.hover() {
-    @include buttonHoverStyle($color, $background-color, $border-color);
+    @include button-hover-style($color, $background-color, $border-color);
 
     @content;
   }
@@ -26,7 +26,7 @@
   @if $enable-touch == 'touch' {
     html[data-whatintent='touch'] & {
       @include utilities.active() {
-        @include buttonHoverStyle(
+        @include button-hover-style(
           $color,
           $background-color,
           $border-color
@@ -36,23 +36,23 @@
   }
 }
 
-@mixin buttonActive($color: null, $background-color: null) {
+@mixin button-active($color: null, $background-color: null) {
   @include utilities.active() {
     color: $color;
     background-color: $background-color;
 
     // no animation yet
-    @include utilities.fakeBorder(transparent);
+    @include utilities.fake-border(transparent);
 
     @content;
   }
 }
 
-@mixin buttonFocus(
+@mixin button-focus(
   $color: null,
   $background-color: null,
   $focus-color: null,
-  $extendShadow: null
+  $extend-shadow: null
 ) {
   @include utilities.focus() {
     html[data-whatinput='keyboard'] & {
@@ -60,32 +60,32 @@
       background-color: $background-color;
     }
 
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       null,
       $focus-color,
       inset,
-      $extendShadow: $extendShadow
+      $extend-shadow: $extend-shadow
     );
 
     @content;
   }
 }
 
-@mixin buttonFocusVisible(
+@mixin button-focus-visible(
   $color: null,
   $background-color: null,
   $focus-color: null,
-  $extendShadow: null
+  $extend-shadow: null
 ) {
-  @include utilities.focusVisible() {
+  @include utilities.focus-visible() {
     color: $color;
     background-color: $background-color;
 
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       always,
       $focus-color,
       inset,
-      $extendShadow: $extendShadow
+      $extend-shadow: $extend-shadow
     );
 
     @content;
@@ -93,10 +93,10 @@
 }
 
 // Used in tertiary button variant
-@mixin buttonFocusRing(
+@mixin button-focus-ring(
   $whatinput: null,
   $inset: null,
-  $extendShadow: null,
+  $extend-shadow: null,
   $left: -0.5rem,
   $right: -0.5rem
 ) {
@@ -114,16 +114,16 @@
     height: inherit;
     border-radius: inherit;
 
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       $whatinput,
       null,
       $inset,
-      $extendShadow: $extendShadow
+      $extend-shadow: $extend-shadow
     );
   }
 }
 
-@mixin drawUnderlineBorder() {
+@mixin draw-underline-border() {
   // underline border
   &::after {
     content: '';

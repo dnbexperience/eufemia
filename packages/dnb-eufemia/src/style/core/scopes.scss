@@ -6,7 +6,7 @@
 @use './reset.scss' as reset;
 @forward './reset.scss';
 
-@mixin typographyBasis() {
+@mixin typography-basis() {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small); // has to be 16px
@@ -15,8 +15,8 @@
   color: var(--token-color-text-neutral, #333);
 }
 
-@mixin coreDefault() {
-  @include typographyBasis();
+@mixin core-default() {
+  @include typography-basis();
 
   // The new DNB font needs font smoothing to be thinner on webkit and FF
   /* stylelint-disable-next-line */
@@ -45,9 +45,9 @@
   @content;
 }
 
-@mixin bodyDefault() {
+@mixin body-default() {
   @include reset.reset();
-  @include coreDefault();
+  @include core-default();
 
   @media print {
     // Use hard coded colors, because of theming and color swaps
@@ -56,13 +56,13 @@
   }
 
   .eufemia-theme {
-    @include typographyBasis();
+    @include typography-basis();
   }
 
   @content;
 }
 
-@mixin htmlDefault() {
+@mixin html-default() {
   html {
     &:not([data-visual-test]) {
       scroll-behavior: smooth;
@@ -82,5 +82,5 @@
   }
 
   // reset ePlatform css
-  @include reset.resetLegacyStyles();
+  @include reset.reset-legacy-styles();
 }

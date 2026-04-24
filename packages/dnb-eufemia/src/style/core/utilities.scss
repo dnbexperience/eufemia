@@ -8,11 +8,11 @@
 @use '../../components/space/style/space-mixins.scss' as space-mixins;
 @forward '../../components/space/style/space-mixins.scss';
 
-@mixin defaultDropShadow() {
+@mixin default-drop-shadow() {
   box-shadow: var(--shadow-default);
 }
 
-@mixin sharpDropShadow() {
+@mixin sharp-drop-shadow() {
   box-shadow: var(--shadow-sharp);
 }
 
@@ -42,9 +42,9 @@
   }
 }
 
-@mixin focusVisible() {
+@mixin focus-visible() {
   &:focus-visible {
-    @include whatInputNot('touch') {
+    @include what-input-not('touch') {
       &[disabled] {
         cursor: not-allowed;
       }
@@ -68,52 +68,52 @@
   }
 }
 
-@mixin reducedMotion() {
+@mixin reduced-motion() {
   @media (prefers-reduced-motion: reduce) {
     @content;
   }
 }
 
-@mixin whatInput($whatinput: null) {
+@mixin what-input($whatinput: null) {
   html[data-whatinput='#{$whatinput}'] & {
     @content;
   }
 }
-@mixin whatInputNot($whatinput: null) {
+@mixin what-input-not($whatinput: null) {
   html:not([data-whatinput='#{$whatinput}']) & {
     @content;
   }
 }
 
 // Uses design token. Should become standard. Should be integrated with --focus-ring- variables
-@mixin focusStyle(
-  $bgColor: var(--token-color-background-action-focus-subtle),
-  $textColor: var(--token-color-text-neutral-inverse),
-  $borderColor: var(--token-color-stroke-action-focus),
-  $borderWidth: 0.1875rem,
+@mixin focus-style(
+  $bg-color: var(--token-color-background-action-focus-subtle),
+  $text-color: var(--token-color-text-neutral-inverse),
+  $border-color: var(--token-color-stroke-action-focus),
+  $border-width: 0.1875rem,
   $inset: null,
-  $extendShadow: null,
+  $extend-shadow: null,
   $outline: none
 ) {
   outline: $outline;
-  background-color: $bgColor;
-  color: $textColor;
+  background-color: $bg-color;
+  color: $text-color;
 
-  @if $borderColor != null {
-    @include fakeBorder(
-      $borderColor,
-      $borderWidth,
+  @if $border-color != null {
+    @include fake-border(
+      $border-color,
+      $border-width,
       $inset,
-      $extendShadow: $extendShadow
+      $extend-shadow: $extend-shadow
     );
   }
 }
 
-@mixin focusRing(
+@mixin focus-ring(
   $whatinput: null,
   $color: null,
   $inset: null,
-  $extendShadow: null
+  $extend-shadow: null
 ) {
   outline: none;
 
@@ -125,31 +125,31 @@
   }
 
   @if $whatinput == 'always' {
-    @include focusStyle(
-      $bgColor: null,
-      $textColor: null,
-      $borderColor: $color,
-      $borderWidth: var(--focus-ring-width),
+    @include focus-style(
+      $bg-color: null,
+      $text-color: null,
+      $border-color: $color,
+      $border-width: var(--focus-ring-width),
       $inset: $inset,
-      $extendShadow: $extendShadow,
+      $extend-shadow: $extend-shadow,
       $outline: null
     );
   } @else {
-    @include whatInput($whatinput) {
-      @include focusStyle(
-        $bgColor: null,
-        $textColor: null,
-        $borderColor: $color,
-        $borderWidth: var(--focus-ring-width),
+    @include what-input($whatinput) {
+      @include focus-style(
+        $bg-color: null,
+        $text-color: null,
+        $border-color: $color,
+        $border-width: var(--focus-ring-width),
         $inset: $inset,
-        $extendShadow: $extendShadow,
+        $extend-shadow: $extend-shadow,
         $outline: null
       );
     }
   }
 }
 
-@mixin removeFocusRing($whatinput: null, $replace: none) {
+@mixin remove-focus-ring($whatinput: null, $replace: none) {
   outline: initial;
 
   @if $whatinput == null {
@@ -161,12 +161,12 @@
   }
 }
 
-@mixin fakeBorder(
+@mixin fake-border(
   $color: null,
   $width: null /* 1px */,
   $inset: null,
   $important: null,
-  $extendShadow: null
+  $extend-shadow: null
 ) {
   @if $width == null {
     $width: 0.0625rem;
@@ -180,7 +180,7 @@
   // but with important, we take care of that we actually can use use it
   box-shadow: (
       $inset 0 0 0 var(--border-width) var(--border-color),
-      $extendShadow
+      $extend-shadow
     )
     $important;
 
@@ -189,7 +189,7 @@
   }
 }
 
-@mixin dummySpacing() {
+@mixin dummy-spacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
   .dnb-dummy {
     display: flex;
@@ -201,7 +201,7 @@
   }
 }
 
-@mixin scrollbarAppearance() {
+@mixin scrollbar-appearance() {
   // NB: We have used "scrollbar-track-width: auto;" before,
   // first, it only effects Firefox.
   // But "thin" changes the behavior in Windows,
@@ -237,7 +237,7 @@
   }
 }
 
-@mixin scrollY($mode: scroll) {
+@mixin scroll-y($mode: scroll) {
   overflow-y: $mode;
   overscroll-behavior: contain;
 
@@ -249,10 +249,10 @@
     }
   }
 
-  @include scrollbarAppearance();
+  @include scrollbar-appearance();
 }
 
-@mixin scrollX($mode: scroll) {
+@mixin scroll-x($mode: scroll) {
   overflow-x: $mode;
 
   @media (prefers-reduced-motion: reduce) {
@@ -264,10 +264,10 @@
     scroll-behavior: smooth;
   }
 
-  @include scrollbarAppearance();
+  @include scrollbar-appearance();
 }
 
-@mixin hideScrollbar() {
+@mixin hide-scrollbar() {
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */
   &::-webkit-scrollbar {
@@ -277,14 +277,14 @@
 }
 
 // Firefox fix
-@mixin isFirefox() {
+@mixin is-firefox() {
   @supports (-moz-appearance: none) {
     @content;
   }
 }
 
 // Chrome fix
-@mixin isChrome() {
+@mixin is-chrome() {
   @supports (-webkit-appearance: none) and
     (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
     @content;
@@ -292,14 +292,14 @@
 }
 
 // Safari Mobile fix
-@mixin isSafariMobile() {
+@mixin is-safari-mobile() {
   @supports (-webkit-touch-callout: none) {
     @content;
   }
 }
 
 // Safari Desktop fix
-@mixin isSafariDesktop() {
+@mixin is-safari-desktop() {
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and
     (not (-webkit-touch-callout: none)) {
     @content;
@@ -326,37 +326,37 @@ $breakpoint-offset: 0;
 }
 
 // Example usage:
-// @include allAbove(medium){ styles go here.. }
+// @include all-above(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
-@mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+@mixin all-above($size, $offset: $breakpoint-offset, $list: $breakpoints) {
   @media screen and (min-width: (breakpoint-value($size, $list) + $offset + 0.00625)) {
     @content;
   }
 }
-@mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
+@mixin all-below($size, $offset: $breakpoint-offset, $list: $breakpoints) {
   @media screen and (max-width: (breakpoint-value($size, $list) + $offset)) {
     @content;
   }
 }
-@mixin allBetween(
-  $fromSize,
-  $toSize,
-  $fromOffset: $breakpoint-offset,
-  $toOffset: $breakpoint-offset
+@mixin all-between(
+  $from-size,
+  $to-size,
+  $from-offset: $breakpoint-offset,
+  $to-offset: $breakpoint-offset
 ) {
-  @include allBelow($toSize, $toOffset) {
-    @include allAbove($fromSize, $fromOffset) {
+  @include all-below($to-size, $to-offset) {
+    @include all-above($from-size, $from-offset) {
       @content;
     }
   }
 }
 
 // Vertical alignment helper
-@mixin alignmentHelper() {
+@mixin alignment-helper() {
   // Add a char to align the component
   &::before {
     content: '\2060'; // zero-width non-breaking space
-    @include alignmentHelperClass();
+    @include alignment-helper-class();
 
     // For supporting HTML v4 (limited-quirks)
     height: 100%;
@@ -364,7 +364,7 @@ $breakpoint-offset: 0;
     opacity: 0; // hide the element in case ISO-8859-1 encoding is used
   }
 }
-@mixin alignmentHelperClass() {
+@mixin alignment-helper-class() {
   display: inline-block;
   width: 0;
   height: 0;
@@ -375,7 +375,7 @@ $breakpoint-offset: 0;
 }
 
 // Screen reader only helper
-@mixin srOnly() {
+@mixin sr-only() {
   user-select: none !important;
   -webkit-touch-callout: none !important; // iOS
   pointer-events: none !important;
@@ -410,7 +410,7 @@ $breakpoint-offset: 0;
   @return $string;
 }
 
-@mixin formLabelWrap() {
+@mixin form-label-wrap() {
   @media screen and (max-width: 40em) {
     flex-wrap: wrap;
     & > .dnb-form-label {
@@ -420,8 +420,8 @@ $breakpoint-offset: 0;
   }
 }
 
-@mixin fieldsetReset() {
-  @include space-mixins.spaceReset();
+@mixin fieldset-reset() {
+  @include space-mixins.space-reset();
   padding: 0;
   border: none;
 }

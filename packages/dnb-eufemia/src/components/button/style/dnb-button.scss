@@ -111,7 +111,7 @@
       );
     }
 
-    @include utilities.focusVisible() {
+    @include utilities.focus-visible() {
       --button-color-bg: var(--token-color-background-action-focus-subtle);
       --button-color-border: var(--token-color-stroke-action-focus);
       --button-color-icon: var(--token-color-icon-action-focus);
@@ -141,7 +141,7 @@
   &--secondary,
   &--tertiary::before {
     // Template base
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--button-color-border, var(--button-color-border--default)),
       var(--button-border-width, var(--button-border-width--default)),
       var(--button-border-inset, var(--button-border-inset--default))

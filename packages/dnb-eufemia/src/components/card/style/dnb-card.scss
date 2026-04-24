@@ -42,7 +42,7 @@
     --drop-shadow--large: var(--drop-shadow-none);
   }
 
-  @include utilities.allAbove(small) {
+  @include utilities.all-above(small) {
     // These vars needs to be declared outside of the nested .dnb-section
     --nested-space-l: calc(var(--padding-left, 0px) * -1);
     --nested-space-r: calc(var(--padding-right, 0px) * -1);
@@ -57,7 +57,7 @@
   }
 
   &--responsive {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       &.dnb-section::before {
         left: var(--left);
 
@@ -84,7 +84,7 @@
 
   // Show only one border (combined) when stacked
   & + .dnb-card--responsive:not([class*='space__top']) {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       &::before {
         top: var(--outline-width);
       }
@@ -101,7 +101,7 @@
   .dnb-flex-container.dnb-flex-container--divider-space
     &
     + .dnb-card--responsive {
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       margin-top: 0;
 
       &::before {

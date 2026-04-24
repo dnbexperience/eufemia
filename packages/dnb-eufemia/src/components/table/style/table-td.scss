@@ -12,7 +12,7 @@
     tbody {
       .dnb-table__td,
       .dnb-table__th {
-        @include table-mixins.tableBorder() {
+        @include table-mixins.table-border() {
           border: var(--table-border);
           border-bottom: none;
         }
@@ -52,7 +52,7 @@
     .dnb-table__tr:first-child {
       .dnb-table__td,
       .dnb-table__th {
-        @include table-mixins.tableBorder() {
+        @include table-mixins.table-border() {
           border-top: var(--table-border);
         }
       }

@@ -4,7 +4,7 @@
   &__month {
     .dnb-forms-field-block__contents {
       width: 10.75rem;
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         width: 8rem;
       }
     }

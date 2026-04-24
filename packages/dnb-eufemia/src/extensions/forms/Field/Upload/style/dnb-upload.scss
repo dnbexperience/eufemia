@@ -7,7 +7,7 @@
       --outset-left: calc(var(--spacing-medium));
       --outset-right: calc(var(--spacing-medium));
 
-      @include utilities.allBelow(small) {
+      @include utilities.all-below(small) {
         --outset-left: calc(var(--spacing-small));
         --outset-right: calc(var(--spacing-small));
       }

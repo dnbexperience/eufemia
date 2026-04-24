@@ -6,12 +6,12 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use './table-mixins.scss' as table-mixins;
 
-@mixin tableAccordionActiveColor {
+@mixin table-accordion-active-color {
   .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--active);
   }
 }
-@mixin tableAccordionDisabledColor {
+@mixin table-accordion-disabled-color {
   .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--disabled);
   }
@@ -77,7 +77,7 @@
       color: var(--table-accordion-icon-color);
       transition: transform 500ms var(--easing-default);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }
@@ -122,7 +122,7 @@
     td::before {
       content: '';
       position: absolute;
-      z-index: 3; // ensure we are over the "tableBorder"
+      z-index: 3; // ensure we are over the "table-border"
 
       // A negative number will force the table to overflow and a scrollbar will show up
       inset: 0;
@@ -145,7 +145,7 @@
         border-color: var(--table-accordion-outline-color);
       }
 
-      @include tableAccordionActiveColor();
+      @include table-accordion-active-color();
     }
   }
 
@@ -164,7 +164,7 @@
       :hover
     ):focus {
     td::before {
-      @include utilities.whatInput(keyboard) {
+      @include utilities.what-input(keyboard) {
         border-color: var(--focus-ring-color);
         border-width: var(--focus-ring-width);
       }
@@ -190,7 +190,7 @@
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active &__td {
     background-color: var(--table-accordion-background--active);
 
-    @include tableAccordionActiveColor();
+    @include table-accordion-active-color();
   }
 
   &__tr--clickable#{&}__tr--expanded:not(
@@ -208,7 +208,7 @@
   &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
       :active
     ):not(:hover) {
-    @include utilities.whatInputNot('keyboard') {
+    @include utilities.what-input-not('keyboard') {
       background-color: var(--table-accordion-header-background);
 
       td::before {
@@ -219,7 +219,7 @@
   }
 
   &__tr--clickable#{&}__tr--disabled {
-    @include tableAccordionDisabledColor();
+    @include table-accordion-disabled-color();
   }
 
   &__tr__accordion-content {
@@ -228,7 +228,7 @@
       will-change: height;
       transition: height 400ms var(--easing-default);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
 
@@ -238,7 +238,7 @@
         transform: translateY(-10px);
         transition: transform 500ms var(--easing-default);
 
-        @include utilities.reducedMotion() {
+        @include utilities.reduced-motion() {
           transition-duration: 0.01ms;
         }
       }
@@ -260,7 +260,7 @@
       }
 
       + .dnb-table__tr--clickable .dnb-table__td {
-        @include table-mixins.tableBorder() {
+        @include table-mixins.table-border() {
           border-top: var(--table-accordion-border);
         }
       }

@@ -5,7 +5,7 @@
 @use 'sass:math';
 @use '../../../style/core/utilities.scss' as utilities;
 
-@mixin anchorDefaultStyle() {
+@mixin anchor-default-style() {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
 
@@ -37,14 +37,14 @@
 }
 
 // reset methods
-@mixin resetUnderlineStyle() {
+@mixin reset-underline-style() {
   &,
   .dnb-section &.dnb-anchor {
     text-decoration: none;
   }
 }
 
-@mixin resetBorderRadius() {
+@mixin reset-border-radius() {
   &,
   &:hover,
   &:active,
@@ -53,37 +53,37 @@
   }
 }
 
-@mixin resetAnimationStyle() {
+@mixin reset-animation-style() {
   transition: none;
 }
 
 // states
-@mixin anchorHoverStyle() {
+@mixin anchor-hover-style() {
   --anchor-color: var(--anchor-color--hover);
   --anchor-icon-color: var(--anchor-icon-color--hover);
 
-  @include anchorBackground(var(--anchor-bg--hover));
+  @include anchor-background(var(--anchor-bg--hover));
 
-  @include resetUnderlineStyle();
+  @include reset-underline-style();
 }
 
-@mixin anchorActiveStyle() {
+@mixin anchor-active-style() {
   --anchor-color: var(--anchor-color--active);
   --anchor-icon-color: var(--anchor-icon-color--active);
 
-  @include anchorBackground(var(--anchor-bg--active));
-  @include resetUnderlineStyle();
+  @include anchor-background(var(--anchor-bg--active));
+  @include reset-underline-style();
 }
 
-@mixin anchorFocusStyle() {
+@mixin anchor-focus-style() {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
   --focus-ring-width: 0.25rem;
 
-  @include resetAnimationStyle();
-  @include resetUnderlineStyle();
+  @include reset-animation-style();
+  @include reset-underline-style();
 
-  @include utilities.focusRing(
+  @include utilities.focus-ring(
     'always',
     var(--token-color-stroke-action-focus),
     null,
@@ -95,7 +95,7 @@
   @content;
 }
 
-@mixin anchorBackground($color) {
+@mixin anchor-background($color) {
   box-shadow: anchor-background-value($color);
 }
 
@@ -106,7 +106,7 @@
 }
 
 // other styles
-@mixin useAnchorDarkSurfaceStyle {
+@mixin use-anchor-dark-surface-style {
   // Text
   --anchor-color--default: var(--token-color-text-action-ondark);
   --anchor-color--hover: var(--token-color-text-action-ondark);
@@ -126,7 +126,7 @@
   );
 }
 
-@mixin anchorStyle() {
+@mixin anchor-style() {
   // Component variables
   --anchor-color: var(--anchor-color--default);
   --anchor-icon-color: var(--anchor-icon-color--default);
@@ -152,21 +152,21 @@
   // word-joiner character (zero-width non-breaking space) connects icon with word
   --anchor-icon-separator: '\2060';
   --anchor-icon-position: translateY(-0.175em);
-  @include anchorDefaultStyle();
+  @include anchor-default-style();
   color: var(--anchor-color);
   // have focus before :active, because of border-radius
   &:focus-visible {
-    @include anchorFocusStyle();
+    @include anchor-focus-style();
   }
 
   &:hover {
-    @include notNoHover() {
-      @include anchorHoverStyle();
+    @include not-no-hover() {
+      @include anchor-hover-style();
     }
   }
 
   &:active {
-    @include anchorActiveStyle();
+    @include anchor-active-style();
   }
 
   transition:
@@ -222,40 +222,40 @@
   }
 }
 
-@mixin notNoStyle() {
+@mixin not-no-style() {
   :where(:not(.dnb-anchor--no-style)) {
     @content;
   }
   :not(.dnb-anchor--no-style) {
-    @include whereFallback() {
+    @include where-fallback() {
       @content;
     }
   }
 }
 
-@mixin notNoHover() {
+@mixin not-no-hover() {
   &:where(:not(.dnb-anchor--no-hover)) {
     @content;
   }
   &:not(.dnb-anchor--no-hover) {
-    @include whereFallback() {
+    @include where-fallback() {
       @content;
     }
   }
 }
 
-@mixin notInline() {
+@mixin not-inline() {
   &:where(:not(.dnb-anchor--inline)) {
     @content;
   }
   &:not(.dnb-anchor--inline) {
-    @include whereFallback() {
+    @include where-fallback() {
       @content;
     }
   }
 }
 
-@mixin whereFallback() {
+@mixin where-fallback() {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
   @supports not (selector(*:where(*))) {
     @content;

@@ -5,7 +5,7 @@
 
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
-@mixin imageStyle() {
+@mixin image-style() {
   position: relative;
   z-index: 2;
 
@@ -33,11 +33,11 @@
   }
 }
 
-@mixin figureStyle() {
+@mixin figure-style() {
   display: inline-flex;
   flex-direction: column;
 
-  @include space-mixins.spaceReset();
+  @include space-mixins.space-reset();
   padding: 0;
 
   text-align: center; // works on Chrome – hides the alt text
@@ -49,7 +49,7 @@
   }
 
   img {
-    @include imageStyle();
+    @include image-style();
   }
 
   figcaption {

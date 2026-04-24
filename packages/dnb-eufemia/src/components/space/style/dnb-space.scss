@@ -9,7 +9,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use './space-mixins.scss';
 
-@mixin marginDirection($direction) {
+@mixin margin-direction($direction) {
   // Get the first letter for the custom property name (top -> t, left -> l, etc.)
   $short: string.slice($direction, 1, 1);
 
@@ -141,13 +141,13 @@
   &--xx-large,
   &--xx-large-x2 {
     &[style*='--margin-#{$short}-'] {
-      @include utilities.allBelow(medium) {
+      @include utilities.all-below(medium) {
         margin-#{$direction}: var(--margin-#{$short}-s);
       }
-      @include utilities.allBetween(small, medium) {
+      @include utilities.all-between(small, medium) {
         margin-#{$direction}: var(--margin-#{$short}-m);
       }
-      @include utilities.allAbove(medium) {
+      @include utilities.all-above(medium) {
         margin-#{$direction}: var(--margin-#{$short}-l);
       }
     }
@@ -164,16 +164,16 @@
   */
 .dnb-core-style .dnb-space {
   &__top {
-    @include marginDirection(top);
+    @include margin-direction(top);
   }
   &__right {
-    @include marginDirection(right);
+    @include margin-direction(right);
   }
   &__bottom {
-    @include marginDirection(bottom);
+    @include margin-direction(bottom);
   }
   &__left {
-    @include marginDirection(left);
+    @include margin-direction(left);
   }
 }
 
@@ -189,19 +189,19 @@
     display: inline-block;
   }
   &__top {
-    @include marginDirection(top);
+    @include margin-direction(top);
   }
   &__right {
-    @include marginDirection(right);
+    @include margin-direction(right);
   }
   &__bottom {
-    @include marginDirection(bottom);
+    @include margin-direction(bottom);
   }
   &__left {
-    @include marginDirection(left);
+    @include margin-direction(left);
   }
   &__reset {
-    @include utilities.spaceReset();
+    @include utilities.space-reset();
   }
 
   // innerSpace
@@ -218,19 +218,19 @@
     padding-left: var(--padding-left, 0);
   }
 
-  @include utilities.allBelow(medium) {
+  @include utilities.all-below(medium) {
     --padding-right: var(--padding-r-s);
     --padding-left: var(--padding-l-s);
     --padding-top: var(--padding-t-s);
     --padding-bottom: var(--padding-b-s);
   }
-  @include utilities.allBetween(small, medium) {
+  @include utilities.all-between(small, medium) {
     --padding-right: var(--padding-r-m);
     --padding-left: var(--padding-l-m);
     --padding-top: var(--padding-t-m);
     --padding-bottom: var(--padding-b-m);
   }
-  @include utilities.allAbove(medium) {
+  @include utilities.all-above(medium) {
     --padding-right: var(--padding-r-l);
     --padding-left: var(--padding-l-l);
     --padding-top: var(--padding-t-l);

@@ -31,7 +31,7 @@
   background-color: var(--popover-background-color);
   border-radius: var(--popover-border-radius);
 
-  @include utilities.defaultDropShadow();
+  @include utilities.default-drop-shadow();
 
   &--show-outline#{&}::before {
     content: '';

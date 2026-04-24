@@ -6,5 +6,5 @@
 @use './label-mixins.scss';
 
 .dnb-label {
-  @include label-mixins.labelStyle();
+  @include label-mixins.label-style();
 }

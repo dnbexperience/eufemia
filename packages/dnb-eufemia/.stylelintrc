@@ -6,12 +6,22 @@
   "plugins": [
     "stylelint-scss",
     "./scripts/stylelint/plugins/token-name-policy.cjs",
-    "./scripts/stylelint/plugins/no-unused-use.cjs"
+    "./scripts/stylelint/plugins/no-unused-use.cjs",
+    "./scripts/stylelint/plugins/dollar-variable-no-camel-case.cjs"
   ],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
     "scss/double-slash-comment-empty-line-before": null,
-    "scss/at-mixin-pattern": null,
+    "scss/at-mixin-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      { "message": "Mixin names should be kebab-case (scss/at-mixin-pattern)" }
+    ],
+    "scss/at-function-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Function names should be kebab-case (scss/at-function-pattern)"
+      }
+    ],
     "scss/operator-no-newline-after": null,
     "scss/at-if-no-null": null,
     "scss/dollar-variable-pattern": null,
@@ -42,6 +52,7 @@
         }
       }
     ],
-    "eufemia/no-unused-use": true
+    "eufemia/no-unused-use": true,
+    "eufemia/dollar-variable-no-camel-case": true
   }
 }

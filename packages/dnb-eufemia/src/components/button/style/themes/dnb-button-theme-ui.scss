@@ -29,7 +29,7 @@
 
   // simulate active state
   &--active {
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--color-emerald-green),
       0.125rem /*2px*/
     );

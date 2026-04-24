@@ -88,7 +88,7 @@
     &-stretch {
       width: 100%;
     }
-    @include utilities.allAbove(x-small) {
+    @include utilities.all-above(x-small) {
       &-small {
         max-width: var(--forms-value-width--small);
       }
@@ -134,10 +134,10 @@
       --column-gap: var(--spacing-large);
     }
 
-    @include utilities.allAbove(x-small) {
+    @include utilities.all-above(x-small) {
       align-items: flex-start;
     }
-    @include utilities.allBelow(x-small) {
+    @include utilities.all-below(x-small) {
       &:not(:has(.dnb-forms-value-block__label)) {
         --row-gap: var(--spacing-x-small);
         flex-flow: row wrap;

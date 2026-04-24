@@ -478,7 +478,7 @@ describe('style build', () => {
       expect(content).toContain(`@use './core/scopes.scss' as scopes;`)
       expect(content).toContain(`
 .dnb-core-style {
-  @include scopes.bodyDefault();
+  @include scopes.body-default();
 }`)
       expect(content).toContain(
         `@include meta.load-css('core/helper-classes/helper-classes');`

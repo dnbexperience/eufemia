@@ -13,7 +13,7 @@
   /* for wider screens */
   .dnb-app-content:not(.fullscreen-page) {
     .dnb-app-content > div:first-of-type {
-      @include utilities.allAbove(x-large) {
+      @include utilities.all-above(x-large) {
         max-width: map.get(utilities.$breakpoints, x-large);
       }
     }
@@ -42,7 +42,7 @@
     }
 
     .image-box {
-      @include PortalMixins.gridStyle();
+      @include PortalMixins.grid-style();
 
       --grid-rgb: 40 180 130;
       --grid-opacity: 0;
@@ -88,7 +88,7 @@
     }
 
     .typography-box {
-      @include PortalMixins.gridStyle();
+      @include PortalMixins.grid-style();
 
       --grid-rgb: 164 255 255;
 
@@ -195,7 +195,7 @@
   min-height: 90vh;
   padding: 0 32px;
 
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     padding: 0 16px;
   }
 }
@@ -240,7 +240,7 @@
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @include utilities.allBelow(medium) {
+  @include utilities.all-below(medium) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -253,7 +253,7 @@
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @include utilities.allBelow(medium) {
+  @include utilities.all-below(medium) {
     display: block;
   }
 }

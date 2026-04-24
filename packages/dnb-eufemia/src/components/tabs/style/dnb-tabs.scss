@@ -39,12 +39,12 @@
       flex: 0 1 auto;
 
       &:focus {
-        @include utilities.focusRing();
+        @include utilities.focus-ring();
         border-radius: 0.5rem;
       }
 
-      @include utilities.scrollX(auto);
-      @include utilities.hideScrollbar();
+      @include utilities.scroll-x(auto);
+      @include utilities.hide-scrollbar();
       // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
     }
 
@@ -199,7 +199,7 @@
       }
     }
 
-    @include utilities.dummySpacing();
+    @include utilities.dummy-spacing();
 
     & .dnb-dummy {
       margin-top: 0.25rem;
@@ -232,7 +232,7 @@
 
     /* stylelint-disable no-descending-specificity */
     &:focus {
-      @include button-mixins.buttonFocusRing();
+      @include button-mixins.button-focus-ring();
       overflow: visible;
 
       &::before {
@@ -316,7 +316,7 @@
 
     padding: 0 1rem 0 1.5rem;
 
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       padding: 0 1rem;
     }
 
@@ -397,7 +397,7 @@
 
       border-radius: 0.5rem;
 
-      @include utilities.focusRing();
+      @include utilities.focus-ring();
     }
   }
 

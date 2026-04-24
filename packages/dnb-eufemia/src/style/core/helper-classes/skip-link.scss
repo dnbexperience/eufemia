@@ -1,6 +1,6 @@
 @use '../utilities.scss' as utilities;
 
-@mixin skipLink() {
+@mixin skip-link() {
   position: fixed;
   z-index: 9999;
   top: 5%;
@@ -55,7 +55,7 @@
 
     background-color: var(--skip-link-background);
 
-    @include utilities.focusRing('mouse');
+    @include utilities.focus-ring('mouse');
   }
 
   &:hover::before {
@@ -67,7 +67,7 @@
 
   // focus
   &:focus:not(:active)::before {
-    @include utilities.focusRing();
+    @include utilities.focus-ring();
   }
 
   // focus
@@ -105,7 +105,7 @@
 }
 .dnb-skip-link--active,
 .dnb-skip-link:focus {
-  @include skipLink();
+  @include skip-link();
 }
 html[data-whatintent='touch'] .dnb-skip-link {
   display: none;

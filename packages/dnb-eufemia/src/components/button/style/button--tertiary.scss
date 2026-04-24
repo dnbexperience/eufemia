@@ -20,7 +20,7 @@
     .dnb-button__text {
       position: relative; // because of the underline
 
-      @include button-mixins.drawUnderlineBorder() {
+      @include button-mixins.draw-underline-border() {
         bottom: -0.0625rem;
         transition: color 250ms ease-in-out;
         [data-visual-test-wrapper] & {
@@ -31,7 +31,7 @@
       }
     }
 
-    @include utilities.focusVisible() {
+    @include utilities.focus-visible() {
       // underline
       .dnb-button__text::after {
         visibility: hidden;
@@ -46,7 +46,7 @@
     }
 
     @include utilities.active() {
-      @include utilities.removeFocusRing('keyboard');
+      @include utilities.remove-focus-ring('keyboard');
 
       // underline
       .dnb-button__text::after {

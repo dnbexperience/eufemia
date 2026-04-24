@@ -1,15 +1,15 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .buttonStyle {
-  @include utilities.allBelow(medium) {
+  @include utilities.all-below(medium) {
     display: none;
   }
 
   &:global(.hideWhenMediaLarge) {
-    @include utilities.allBelow(medium) {
+    @include utilities.all-below(medium) {
       display: block;
     }
-    @include utilities.allAbove(medium) {
+    @include utilities.all-above(medium) {
       display: none;
     }
   }

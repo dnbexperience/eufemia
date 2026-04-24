@@ -115,7 +115,7 @@
   &:not(&--outline) > tbody {
     position: relative;
 
-    @include table-mixins.tableBorder() {
+    @include table-mixins.table-border() {
       border-bottom: var(--table-border);
     }
   }

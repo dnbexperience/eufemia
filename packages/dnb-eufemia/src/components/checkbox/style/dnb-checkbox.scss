@@ -160,7 +160,7 @@
 
     --focus-ring-width: 0.25rem;
 
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       'keyboard',
       var(--token-color-stroke-action-focus)
     );

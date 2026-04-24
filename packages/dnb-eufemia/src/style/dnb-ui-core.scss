@@ -8,7 +8,7 @@
 @use './core/scopes.scss' as scopes;
 @use './core/z-index.scss';
 
-@include scopes.globalReset();
+@include scopes.global-reset();
 
 // Global reduced motion support for accessibility
 @media (prefers-reduced-motion: reduce) {
@@ -23,12 +23,12 @@
 }
 
 // make sure we have dynamic root font size
-@include scopes.htmlDefault();
+@include scopes.html-default();
 
 // global body style
 body,
 .dnb-core-style {
-  @include scopes.bodyDefault();
+  @include scopes.body-default();
 }
 
 @include meta.load-css('core/helper-classes/helper-classes');

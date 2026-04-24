@@ -8,7 +8,7 @@
 @use './core/scopes.scss' as scopes;
 
 // make sure we have dynamic root font size
-@include scopes.htmlDefault();
+@include scopes.html-default();
 
 // The only style we use on body is to reset the margin
 // the rest goes inside dnb-core-style
@@ -20,7 +20,7 @@ body {
 // we have this class helper to get the body styles inside the wrapper as well
 // without using the body
 .dnb-core-style {
-  @include scopes.bodyDefault();
+  @include scopes.body-default();
 }
 
 @include meta.load-css('core/helper-classes/helper-classes');

@@ -15,7 +15,7 @@
   outline: none;
 
   &:focus {
-    @include utilities.focusRing('keyboard');
+    @include utilities.focus-ring('keyboard');
   }
 }
 
@@ -23,12 +23,12 @@
   outline: none;
 
   &:focus {
-    @include utilities.focusRing('mouse');
+    @include utilities.focus-ring('mouse');
   }
 }
 
 .dnb-focus-ring {
-  @include utilities.fakeBorder(
+  @include utilities.fake-border(
     var(--focus-ring-color),
     var(--focus-ring-width),
     null,
@@ -37,29 +37,29 @@
 }
 
 .dnb-scrollbar-appearance {
-  @include utilities.scrollbarAppearance();
+  @include utilities.scrollbar-appearance();
 }
 
 @include meta.load-css('skip-link');
 
 .dnb-alignment-helper {
-  @include utilities.alignmentHelperClass();
-  @include utilities.alignmentHelper();
+  @include utilities.alignment-helper-class();
+  @include utilities.alignment-helper();
 }
 .dnb-alignment-helper--pseudo-element-only {
-  @include utilities.alignmentHelper();
+  @include utilities.alignment-helper();
 }
 
 .dnb-drop-shadow {
-  @include utilities.defaultDropShadow();
+  @include utilities.default-drop-shadow();
 }
 
 .dnb-sharp-drop-shadow {
-  @include utilities.sharpDropShadow();
+  @include utilities.sharp-drop-shadow();
 }
 
 .dnb-sr-only {
-  @include utilities.srOnly();
+  @include utilities.sr-only();
 }
 
 .dnb-suffix {

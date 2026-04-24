@@ -3,7 +3,7 @@
  *
  */
 
-@mixin globalReset() {
+@mixin global-reset() {
   /**
    * 1. Use the default cursor in all browsers (opinionated).
    * 2. Use the default user interface font in all browsers (opinionated).
@@ -44,7 +44,7 @@
   }
 }
 
-@mixin coreReset() {
+@mixin core-reset() {
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -70,7 +70,7 @@
 }
 
 @mixin reset() {
-  @include coreReset();
+  @include core-reset();
 
   /* Grouping content
    */
@@ -386,7 +386,7 @@
 }
 
 // reset ePlatform css
-@mixin resetLegacyStyles() {
+@mixin reset-legacy-styles() {
   html[xmlns='http://www.w3.org/1999/xhtml'] {
     .dnb-anchor--active {
       color: var(--color-mint-green) !important;

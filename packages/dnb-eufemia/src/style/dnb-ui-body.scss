@@ -4,12 +4,12 @@
  */
 
 @use './core/scopes.scss' as scopes;
-@include scopes.globalReset();
+@include scopes.global-reset();
 
 // make sure we have dynamic root font size
-@include scopes.htmlDefault();
+@include scopes.html-default();
 
 // global body style
 body {
-  @include scopes.bodyDefault();
+  @include scopes.body-default();
 }

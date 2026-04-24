@@ -4,7 +4,7 @@
  *
  */
 
-@mixin defaultSpacing() {
+@mixin default-spacing() {
   &:not([class*='dnb-space__top']) {
     margin-top: 0;
   }

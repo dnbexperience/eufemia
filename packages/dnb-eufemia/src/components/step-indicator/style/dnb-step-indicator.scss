@@ -38,7 +38,7 @@
       --button-icon-margin-top: 0.25rem;
       transition: transform 400ms var(--easing-default);
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
     }
@@ -129,7 +129,7 @@
       opacity: 1;
       transition: opacity 400ms ease-in-out;
 
-      @include utilities.reducedMotion() {
+      @include utilities.reduced-motion() {
         transition-duration: 0.01ms;
       }
 

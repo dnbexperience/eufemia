@@ -1,6 +1,6 @@
 @use '../typography-mixins.scss' as typography;
 
-@include typography.typographySelectors() {
+@include typography.typography-selectors() {
   --typography-h-xx-large-small-line-height: var(--line-height-large);
   --typography-h-x-large-line-height: var(--line-height-large);
   --typography-h-x-large-small-font-size: var(--font-size-x-large);

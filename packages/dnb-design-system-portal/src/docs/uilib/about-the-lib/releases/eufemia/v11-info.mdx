@@ -422,7 +422,7 @@ These renames use generic names that exist in non-Eufemia code. Scope your find-
 #### Phase 5: SCSS changes
 
 37. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your calls. See [SCSS: @import → @use](#scss-import--use).
-38. Rename all SCSS mixin references to camelCase. See [SCSS mixin renames](#scss-mixin-renames).
+38. Rename all SCSS mixin references to kebab-case. See [SCSS mixin renames](#scss-mixin-renames).
 39. Remove `extendFocusRing` and `componentReset` SCSS mixin calls — they have been deleted.
 
 #### Phase 6: TypeScript type updates
@@ -2842,29 +2842,56 @@ The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes 
 
 ## SCSS mixin renames
 
-All SCSS mixins have been renamed to follow the **camelCase** naming convention. If you `@use` Eufemia's SCSS source files directly and reference these mixins, update your `@include` calls:
+All SCSS mixins have been renamed to follow the **kebab-case** naming convention, consistent with CSS and Sass ecosystem conventions. If you `@use` Eufemia's SCSS source files directly and reference these mixins, update your `@include` calls:
 
 ### Utilities (`style/core/utilities.scss`)
 
-- Replace `focus-visible` with `focusVisible`.
-- Replace `IS_FF` with `isFirefox`.
-- Replace `IS_CHROME` with `isChrome`.
-- Replace `IS_SAFARI_MOBILE` with `isSafariMobile`.
-- Replace `IS_SAFARI_DESKTOP` with `isSafariDesktop`.
+- Replace `focus-visible` with `focus-visible` (unchanged).
+- Replace `IS_FF` with `is-firefox`.
+- Replace `IS_CHROME` with `is-chrome`.
+- Replace `IS_SAFARI_MOBILE` with `is-safari-mobile`.
+- Replace `IS_SAFARI_DESKTOP` with `is-safari-desktop`.
+- Replace `allAbove` with `all-above`.
+- Replace `allBelow` with `all-below`.
+- Replace `allBetween` with `all-between`.
+- Replace `focusRing` with `focus-ring`.
+- Replace `focusStyle` with `focus-style`.
+- Replace `focusVisible` with `focus-visible`.
+- Replace `fakeBorder` with `fake-border`.
+- Replace `removeFocusRing` with `remove-focus-ring`.
+- Replace `defaultDropShadow` with `default-drop-shadow`.
+- Replace `sharpDropShadow` with `sharp-drop-shadow`.
+- Replace `reducedMotion` with `reduced-motion`.
+- Replace `whatInput` with `what-input`.
+- Replace `whatInputNot` with `what-input-not`.
+- Replace `scrollbarAppearance` with `scrollbar-appearance`.
+- Replace `scrollX` with `scroll-x`.
+- Replace `scrollY` with `scroll-y`.
+- Replace `hideScrollbar` with `hide-scrollbar`.
+- Replace `dummySpacing` with `dummy-spacing`.
+- Replace `srOnly` with `sr-only`.
+- Replace `alignmentHelper` with `alignment-helper`.
+- Replace `alignmentHelperClass` with `alignment-helper-class`.
+- Replace `formLabelWrap` with `form-label-wrap`.
+- Replace `fieldsetReset` with `fieldset-reset`.
 
 ### Typography (`elements/typography/style/typography-mixins.scss`)
 
-- Replace `headingSize_xx-large` with `headingSizeXxLarge`.
-- Replace `headingSize_x-large` with `headingSizeXLarge`.
-- Replace `headingSize_large` with `headingSizeLarge`.
-- Replace `headingSize_medium` with `headingSizeMedium`.
-- Replace `headingSize_basis` with `headingSizeBasis`.
-- Replace `headingSize_small` with `headingSizeSmall`.
-- Replace `headingSize_x-small` with `headingSizeXSmall`.
-- Replace `typography_lead` with `typographyLead`.
-- Replace `headingSpacing_xx-large` with `headingSpacingXxLarge`.
-- Replace `headingSpacing_x-large` with `headingSpacingXLarge`.
-- Replace `headingSpacing_large` with `headingSpacingLarge`.
+- Replace `headingSize_xx-large` with `heading-size-xx-large`.
+- Replace `headingSize_x-large` with `heading-size-x-large`.
+- Replace `headingSize_large` with `heading-size-large`.
+- Replace `headingSize_medium` with `heading-size-medium`.
+- Replace `headingSize_basis` with `heading-size-basis`.
+- Replace `headingSize_small` with `heading-size-small`.
+- Replace `headingSize_x-small` with `heading-size-x-small`.
+- Replace `typography_lead` with `typography-lead`.
+- Replace `headingSpacing_xx-large` with `heading-spacing-xx-large`.
+- Replace `headingSpacing_x-large` with `heading-spacing-x-large`.
+- Replace `headingSpacing_large` with `heading-spacing-large`.
+
+### CSS custom properties
+
+- Replace `--sizeCount` with `--size-count` (Flex.Container).
 
 ### DrawerList (`fragments/drawer-list/style/dnb-drawer-list.scss`)
 
@@ -2895,7 +2922,7 @@ div {
 ```scss
 @use '@dnb/eufemia/style/core/utilities.scss' as utilities;
 
-@include utilities.allBelow(small) {
+@include utilities.all-below(small) {
   // ...
 }
 

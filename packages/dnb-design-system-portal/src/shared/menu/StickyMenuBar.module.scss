@@ -57,7 +57,7 @@
     God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
    */
-    @include utilities.allBelow(medium) {
+    @include utilities.all-below(medium) {
       #toggle-sidebar-menu {
         display: flex;
       }
@@ -66,12 +66,12 @@
         display: none;
       }
     }
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       #toggle-main-menu {
         display: none;
       }
     }
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       #toggle-main-menu-small-screen {
         display: none;
       }
@@ -88,7 +88,7 @@
   /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
 
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     padding: 0.5rem 5vw;
   }
 
@@ -111,7 +111,7 @@
     }
   }
 
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     display: none;
   }
 }
@@ -123,7 +123,7 @@
 }
 
 .sloganStyle {
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     display: none;
   }
 }

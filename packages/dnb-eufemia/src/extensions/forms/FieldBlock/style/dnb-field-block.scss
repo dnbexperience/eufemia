@@ -2,7 +2,7 @@
 @use '../../Field/style/field-sizes.scss';
 
 fieldset.dnb-forms-field-block {
-  @include utilities.fieldsetReset();
+  @include utilities.fieldset-reset();
 }
 
 .dnb-forms-field-block {
@@ -41,7 +41,7 @@ fieldset.dnb-forms-field-block {
         max-width: none;
       }
     }
-    @include utilities.allAbove(x-small) {
+    @include utilities.all-above(x-small) {
       &-custom {
         width: calc(var(--dnb-forms-field-block-width));
       }
@@ -111,12 +111,12 @@ fieldset.dnb-forms-field-block {
       margin-bottom: var(--label-margin);
     }
 
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       & > .dnb-form-label {
         margin-bottom: calc(var(--label-margin) + 0.5rem);
       }
     }
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       grid-template-columns:
         minmax(
           var(--dnb-forms-field-block-layout-width-min, min-content),
@@ -170,7 +170,7 @@ fieldset.dnb-forms-field-block {
     }
   }
   &__grid#{&}--layout-horizontal &__help {
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       .dnb-section {
         margin-top: 0.5rem;
         margin-bottom: 0;
@@ -190,7 +190,7 @@ fieldset.dnb-forms-field-block {
       max-width: var(--prose-max-width); // to enhance readability
     }
 
-    @include utilities.allBelow(xx-small) {
+    @include utilities.all-below(xx-small) {
       width: 90%;
     }
   }
@@ -210,7 +210,7 @@ fieldset.dnb-forms-field-block {
   }
 
   &--status-position-above &__grid#{&}--layout-horizontal {
-    @include utilities.allAbove(small) {
+    @include utilities.all-above(small) {
       grid-template-areas:
         'label status'
         '. contents'
@@ -244,7 +244,7 @@ fieldset.dnb-forms-field-block {
         --field-block-content-width: var(--forms-field-width--large);
       }
 
-      @include utilities.allAbove(x-small) {
+      @include utilities.all-above(x-small) {
         &-custom,
         &-small,
         &-medium,
@@ -253,7 +253,7 @@ fieldset.dnb-forms-field-block {
         }
       }
 
-      @include utilities.allAbove(small) {
+      @include utilities.all-above(small) {
         &-custom,
         &-small,
         &-medium,
@@ -282,14 +282,14 @@ fieldset.dnb-forms-field-block {
       flex: 1;
     }
 
-    @include utilities.allAbove(x-small) {
+    @include utilities.all-above(x-small) {
       align-items: flex-end; // To support fields with labels of different size
 
       &[class*='align-center'] {
         align-items: center; // To support fields without labels, but different heights
       }
     }
-    @include utilities.allBelow(x-small) {
+    @include utilities.all-below(x-small) {
       row-gap: var(--spacing-x-small);
       flex-flow: column;
     }
@@ -297,12 +297,12 @@ fieldset.dnb-forms-field-block {
 
   // Because we want to hide / show the indicator responsively,
   // we render both, but hide the one we don't want to show.
-  @include utilities.allBelow(x-small) {
+  @include utilities.all-below(x-small) {
     &__composition > &__grid > .dnb-forms-submit-indicator {
       display: none;
     }
   }
-  @include utilities.allAbove(x-small) {
+  @include utilities.all-above(x-small) {
     &__composition > &__grid > &__contents .dnb-forms-submit-indicator {
       display: none;
     }

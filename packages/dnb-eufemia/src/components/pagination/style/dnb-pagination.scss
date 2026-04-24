@@ -34,7 +34,7 @@
   &--center &__bar {
     justify-content: center;
 
-    @include utilities.allBelow(small) {
+    @include utilities.all-below(small) {
       justify-content: flex-start;
     }
   }
@@ -50,7 +50,7 @@
   }
 
   &--layout-horizontal &__bar__wrapper {
-    @include utilities.allAbove(large) {
+    @include utilities.all-above(large) {
       flex-flow: row-reverse wrap;
       justify-content: space-between;
       flex: 1;

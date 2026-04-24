@@ -7,7 +7,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use '../../../components/space/style/space-mixins.scss';
 
-@mixin listDefaults() {
+@mixin list-defaults() {
   color: var(--token-color-text-neutral, currentColor);
 
   & ul,
@@ -44,8 +44,8 @@
   }
 }
 
-@mixin ulStyle() {
-  @include utilities.spaceReset();
+@mixin ul-style() {
+  @include utilities.space-reset();
 
   padding: 0;
   &:not([class*='dnb-space__left']) {
@@ -55,7 +55,7 @@
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 
-  @include listDefaults();
+  @include list-defaults();
 
   & li {
     display: list-item;
@@ -68,10 +68,10 @@
   }
 }
 
-@mixin olStyle() {
-  @include ulStyle();
+@mixin ol-style() {
+  @include ul-style();
 
-  @include listDefaults();
+  @include list-defaults();
 
   & > li {
     list-style-type: decimal;
@@ -109,7 +109,7 @@
   }
 }
 
-@mixin dlStyle() {
+@mixin dl-style() {
   --column-gap: 1rem;
   --row-gap: 0.5rem;
 
@@ -148,7 +148,7 @@
   }
 
   // Inline
-  @include utilities.allAbove(small) {
+  @include utilities.all-above(small) {
     &__layout--horizontal {
       --dt-max-width: 40%;
       --dd-max-width: calc(60% - 1rem); // minus margin-right and the gap
@@ -222,8 +222,8 @@
   }
 }
 
-@mixin listSpacing() {
-  @include ui-spacing.defaultSpacing();
+@mixin list-spacing() {
+  @include ui-spacing.default-spacing();
   & > li {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -241,15 +241,15 @@
   }
 }
 
-@mixin dlSpacing() {
-  @include ui-spacing.defaultSpacing();
+@mixin dl-spacing() {
+  @include ui-spacing.default-spacing();
 }
 
 // Un-styled list helper
-@mixin unstyledList() {
+@mixin unstyled-list() {
   list-style-type: none;
 
-  @include utilities.spaceReset();
+  @include utilities.space-reset();
   &:not([class*='dnb-space__left']) {
     padding-left: 0;
   }

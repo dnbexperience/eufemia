@@ -2,15 +2,15 @@
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
-@mixin typographySelectors() {
-  @include headingClasses() {
+@mixin typography-selectors() {
+  @include heading-classes() {
     $selectors: &;
     @at-root {
-      @include headingTags() {
+      @include heading-tags() {
         // prettier-ignore
         $selectors: #{$selectors}, &;
         @at-root {
-          @include otherSelectors() {
+          @include other-selectors() {
             // prettier-ignore
             $selectors: #{$selectors}, &;
 
@@ -24,7 +24,7 @@
   }
 }
 
-@mixin headingTags() {
+@mixin heading-tags() {
   h1,
   h2,
   h3,
@@ -35,7 +35,7 @@
   }
 }
 
-@mixin headingClasses() {
+@mixin heading-classes() {
   .dnb-lead,
   .dnb-h--xx-large,
   .dnb-h--x-large,
@@ -57,7 +57,7 @@
   }
 }
 
-@mixin otherSelectors() {
+@mixin other-selectors() {
   p,
   b,
   small,
@@ -71,11 +71,11 @@
   }
 }
 
-@mixin headingStyle(
+@mixin heading-style(
   $size,
   $line,
-  $smallSize: null,
-  $smallLine: null,
+  $small-size: null,
+  $small-line: null,
   $weight: null
 ) {
   font-size: $size;
@@ -83,17 +83,17 @@
   font-weight: $weight;
 
   & > small {
-    font-size: $smallSize;
-    line-height: $smallLine;
+    font-size: $small-size;
+    line-height: $small-line;
   }
 
   @content;
 }
 
-@mixin headingDefaults() {
+@mixin heading-defaults() {
   padding: 0;
 
-  @include space-mixins.spaceReset();
+  @include space-mixins.space-reset();
 
   font-family: var(--font-family-heading);
   color: var(--token-color-text-neutral);
@@ -119,8 +119,8 @@
   }
 }
 
-@mixin headingSizeXxLarge() {
-  @include headingStyle(
+@mixin heading-size-xx-large() {
+  @include heading-style(
     var(--typography-h-xx-large-font-size),
     var(--typography-h-xx-large-line-height),
     var(--typography-h-xx-large-small-font-size),
@@ -134,8 +134,8 @@
   }
 }
 
-@mixin headingSizeXLarge() {
-  @include headingStyle(
+@mixin heading-size-x-large() {
+  @include heading-style(
     var(--typography-h-x-large-font-size),
     var(--typography-h-x-large-line-height),
     var(--typography-h-x-large-small-font-size),
@@ -149,8 +149,8 @@
   }
 }
 
-@mixin headingSizeLarge() {
-  @include headingStyle(
+@mixin heading-size-large() {
+  @include heading-style(
     var(--typography-h-large-font-size),
     var(--typography-h-large-line-height),
     var(--typography-h-large-small-font-size),
@@ -161,8 +161,8 @@
   }
 }
 
-@mixin typographyLead() {
-  @include headingStyle(
+@mixin typography-lead() {
+  @include heading-style(
     var(--typography-lead-font-size),
     var(--typography-lead-line-height),
     var(--typography-lead-small-font-size),
@@ -173,8 +173,8 @@
   }
 }
 
-@mixin headingSizeMedium() {
-  @include headingStyle(
+@mixin heading-size-medium() {
+  @include heading-style(
     var(--typography-h-medium-font-size),
     var(--typography-h-medium-line-height),
     var(--typography-h-medium-small-font-size),
@@ -185,8 +185,8 @@
   }
 }
 
-@mixin headingSizeBasis() {
-  @include headingStyle(
+@mixin heading-size-basis() {
+  @include heading-style(
     var(--typography-h-basis-font-size),
     var(--typography-h-basis-line-height),
     var(--typography-h-basis-small-font-size),
@@ -198,8 +198,8 @@
   }
 }
 
-@mixin headingSizeSmall() {
-  @include headingStyle(
+@mixin heading-size-small() {
+  @include heading-style(
     var(--typography-h-small-font-size),
     var(--typography-h-small-line-height),
     var(--typography-h-small-small-font-size),
@@ -211,8 +211,8 @@
   }
 }
 
-@mixin headingSizeXSmall() {
-  @include headingStyle(
+@mixin heading-size-x-small() {
+  @include heading-style(
     var(--typography-h-x-small-font-size),
     var(--typography-h-x-small-line-height),
     null,
@@ -224,7 +224,7 @@
   }
 }
 
-@mixin paragraphDefaults() {
+@mixin paragraph-defaults() {
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
 
@@ -243,7 +243,7 @@
   padding: 0;
 
   &--lead {
-    @include typographyLead();
+    @include typography-lead();
   }
   b,
   strong {
@@ -262,7 +262,7 @@
   }
 }
 
-@mixin headingSpacingXxLarge() {
+@mixin heading-spacing-xx-large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -272,7 +272,7 @@
   }
 }
 
-@mixin headingSpacingXLarge() {
+@mixin heading-spacing-x-large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -282,7 +282,7 @@
   }
 }
 
-@mixin headingSpacingLarge() {
+@mixin heading-spacing-large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -292,7 +292,7 @@
   }
 }
 
-@mixin headingSpacing() {
+@mixin heading-spacing() {
   &:not([class*='space__top']) {
     margin-top: 2rem;
   }

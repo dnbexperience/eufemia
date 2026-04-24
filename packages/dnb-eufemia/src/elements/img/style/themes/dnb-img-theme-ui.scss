@@ -1,4 +1,4 @@
-@mixin imgStyle() {
+@mixin img-style() {
   &[alt]::after {
     color: var(--token-color-text-neutral);
     background-color: var(--token-color-background-neutral-base);
@@ -6,7 +6,7 @@
 }
 
 .dnb-img {
-  @include imgStyle();
+  @include img-style();
 
   &__img--error {
     color: var(--token-color-text-neutral);

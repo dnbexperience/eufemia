@@ -1,8 +1,8 @@
-@mixin focusRing {
+@mixin focus-ring {
   box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
 }
 
-@mixin gridStyle {
+@mixin grid-style {
   --grid-rgb: 204 80 72;
   --grid-opacity: 0.3;
   --grid-opacity-bold: 0.65;

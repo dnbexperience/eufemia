@@ -29,7 +29,7 @@
     row-gap: var(--row-gap); // for when wrapped
   }
 
-  @include utilities.allAbove(small) {
+  @include utilities.all-above(small) {
     .dnb-forms-field-block--layout-horizontal .dnb-form-label {
       margin-bottom: 0;
     }

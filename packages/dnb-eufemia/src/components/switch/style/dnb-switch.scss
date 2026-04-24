@@ -180,7 +180,7 @@
   // Focus border
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include utilities.focusRing(
+    @include utilities.focus-ring(
       'keyboard',
       var(--token-color-stroke-action-focus)
     );
@@ -254,7 +254,7 @@
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
     background-color: var(--token-color-background-action-hover);
 
-    @include utilities.fakeBorder(
+    @include utilities.fake-border(
       var(--token-color-stroke-action-hover),
       0.0625rem
     );
@@ -290,7 +290,7 @@
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       background-color: var(--token-color-background-action-focus);
-      @include utilities.fakeBorder(
+      @include utilities.fake-border(
         var(--token-color-stroke-action-focus),
         0.0625rem
       );

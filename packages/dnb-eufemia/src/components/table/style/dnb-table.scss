@@ -38,7 +38,7 @@
     background-color: var(--token-color-background-neutral);
     text-align: left;
 
-    @include table-mixins.tableBorder() {
+    @include table-mixins.table-border() {
       top: calc(
         var(--table-border-width) * -1
       ); // so we are behind the border-bottom (end of table)
@@ -63,7 +63,7 @@
     &::after {
       border-radius: var(--table-outline-radius);
     }
-    @include table-mixins.tableOutline() {
+    @include table-mixins.table-outline() {
       z-index: 3;
       border: var(--table-outline);
     }
@@ -146,7 +146,7 @@
     }
   }
 
-  @include table-header-buttons.buttonsInTable();
+  @include table-header-buttons.buttons-in-table();
 }
 
 @include meta.load-css('table-th');

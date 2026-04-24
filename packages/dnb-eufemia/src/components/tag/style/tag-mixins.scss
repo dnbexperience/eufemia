@@ -5,28 +5,28 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
-@mixin tagIcon($fillColor, $strokeColor, $borderColor) {
-  --tag-icon-fill: #{$fillColor};
-  --tag-icon-stroke: #{$strokeColor};
+@mixin tag-icon($fill-color, $stroke-color, $border-color) {
+  --tag-icon-fill: #{$fill-color};
+  --tag-icon-stroke: #{$stroke-color};
 
-  @include utilities.focusVisible() {
-    --tag-icon-fill: #{$strokeColor};
-    --tag-icon-stroke: #{$fillColor};
+  @include utilities.focus-visible() {
+    --tag-icon-fill: #{$stroke-color};
+    --tag-icon-stroke: #{$fill-color};
   }
 
   @include utilities.hover() {
-    --tag-icon-fill: #{$strokeColor};
-    --tag-icon-stroke: #{$fillColor};
+    --tag-icon-fill: #{$stroke-color};
+    --tag-icon-stroke: #{$fill-color};
   }
 
   @include utilities.active() {
-    --tag-icon-fill: #{$strokeColor};
-    --tag-icon-stroke: #{$fillColor};
+    --tag-icon-fill: #{$stroke-color};
+    --tag-icon-stroke: #{$fill-color};
   }
 
   svg {
     border-radius: 50%;
-    outline: 0.0625rem solid $borderColor;
+    outline: 0.0625rem solid $border-color;
     outline-offset: -0.0625rem;
     .dnb-icon-close-circle-path {
       fill: var(--tag-icon-fill);

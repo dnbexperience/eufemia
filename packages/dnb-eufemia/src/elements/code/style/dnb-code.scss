@@ -7,15 +7,15 @@
 @use './code-mixins.scss';
 
 .dnb-code {
-  @include code-mixins.codeStyle();
+  @include code-mixins.code-style();
 }
 
 .dnb-pre {
-  @include code-mixins.preStyle();
+  @include code-mixins.pre-style();
 }
 
 .dnb-spacing .dnb-pre {
-  @include ui-spacing.defaultSpacing();
+  @include ui-spacing.default-spacing();
 }
 
 .dnb-skeleton {

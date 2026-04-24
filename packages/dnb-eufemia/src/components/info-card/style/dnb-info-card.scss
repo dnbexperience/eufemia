@@ -39,7 +39,7 @@
   }
 
   &--shadow {
-    @include utilities.defaultDropShadow();
+    @include utilities.default-drop-shadow();
   }
 
   &__content {

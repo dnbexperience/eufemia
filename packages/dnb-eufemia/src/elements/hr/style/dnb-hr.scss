@@ -7,9 +7,9 @@
 @use './hr-mixins.scss';
 
 .dnb-hr {
-  --hr-color: var(--token-color-stroke-neutral-subtle);
+--hr-color: var(--token-color-stroke-neutral-subtle);
 
-  @include hr-mixins.hrStyle();
+  @include hr-mixins.hr-style();
 
   &--dashed::after {
     background-image: linear-gradient(
@@ -31,6 +31,6 @@
   --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
 
   .dnb-spacing & {
-    @include ui-spacing.defaultSpacing();
+    @include ui-spacing.default-spacing();
   }
 }

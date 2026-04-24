@@ -2,7 +2,7 @@
 
 .fieldsetReset {
   :global(fieldset) {
-    @include utilities.fieldsetReset();
+    @include utilities.fieldset-reset();
   }
 }
 
@@ -20,19 +20,19 @@
 // 1. Show green when NO offset is given
 .showWhenLarge {
   // is green on 961 and more
-  @include utilities.allAbove(medium) {
+  @include utilities.all-above(medium) {
     color: var(--color-success-green);
   }
 }
 .showWhenMedium {
   // is green on 641 to 960
-  @include utilities.allBetween(small, medium) {
+  @include utilities.all-between(small, medium) {
     color: var(--color-success-green);
   }
 }
 .showWhenSmall {
   // is green on 640 and less
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     color: var(--color-success-green);
   }
 }
@@ -41,21 +41,21 @@
 .showWhenLargeOffset {
   // is grey on 1056
   // is green on 1057
-  @include utilities.allAbove(medium, 6em) {
+  @include utilities.all-above(medium, 6em) {
     color: var(--color-success-green);
   }
 }
 .showWhenMediumOffset {
   // is grey on 736 or 865
   // is green on 737 to 864
-  @include utilities.allBetween(small, medium, 6em, -6em) {
+  @include utilities.all-between(small, medium, 6em, -6em) {
     color: var(--color-success-green);
   }
 }
 .showWhenSmallOffset {
   // is grey on 545
   // is green on 544
-  @include utilities.allBelow(small, -6em) {
+  @include utilities.all-below(small, -6em) {
     color: var(--color-success-green);
   }
 }

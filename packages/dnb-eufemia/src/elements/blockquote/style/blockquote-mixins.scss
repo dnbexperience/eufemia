@@ -2,7 +2,7 @@
 @use '../../../components/anchor/style/anchor-mixins.scss';
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
 
-@mixin blockquoteStyle() {
+@mixin blockquote-style() {
   --blockquote-padding-top: 1.5rem;
   --blockquote-padding-left: 1.5rem;
   --blockquote-padding-bottom: 2rem;
@@ -17,7 +17,7 @@
   display: inline-block;
   width: auto;
 
-  @include space-mixins.spaceReset();
+  @include space-mixins.space-reset();
   padding: 1.5rem;
 
   font-size: var(--font-size-small);

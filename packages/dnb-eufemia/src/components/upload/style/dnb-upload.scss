@@ -25,7 +25,7 @@
 
   padding: var(--spacing-medium);
 
-  @include utilities.allBelow(small) {
+  @include utilities.all-below(small) {
     padding: var(--spacing-medium) var(--spacing-small);
   }
 
@@ -102,7 +102,7 @@
     transition-duration: 1.5s;
     transition-timing-function: var(--easing-default);
 
-    @include utilities.reducedMotion() {
+    @include utilities.reduced-motion() {
       transition-duration: 0.01ms;
     }
 

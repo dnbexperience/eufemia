@@ -7,24 +7,24 @@
 @use './lists-mixins.scss';
 
 .dnb-ul {
-  @include lists-mixins.ulStyle();
+  @include lists-mixins.ul-style();
 }
 .dnb-ol {
-  @include lists-mixins.olStyle();
+  @include lists-mixins.ol-style();
 }
 .dnb-dl {
-  @include lists-mixins.dlStyle();
+  @include lists-mixins.dl-style();
 }
 .dnb-spacing {
   .dnb-ul,
   .dnb-ol {
-    @include lists-mixins.listSpacing();
+    @include lists-mixins.list-spacing();
   }
   .dnb-dl {
-    @include lists-mixins.dlSpacing();
+    @include lists-mixins.dl-spacing();
   }
 }
 
 .dnb-unstyled-list {
-  @include lists-mixins.unstyledList();
+  @include lists-mixins.unstyled-list();
 }

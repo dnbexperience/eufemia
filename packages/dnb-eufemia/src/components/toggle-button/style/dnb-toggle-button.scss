@@ -130,7 +130,7 @@
     }
 
     fieldset {
-      @include utilities.fieldsetReset();
+      @include utilities.fieldset-reset();
     }
 
     &--column .dnb-toggle-button {
@@ -189,7 +189,7 @@
   }
 
   // default spacing for a single toggle button
-  @include utilities.allAbove(small) {
+  @include utilities.all-above(small) {
     .dnb-form-label + & {
       transform: translateY(-0.5rem);
     }
