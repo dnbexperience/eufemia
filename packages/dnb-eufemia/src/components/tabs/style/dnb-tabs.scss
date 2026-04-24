@@ -303,16 +303,11 @@
 
     &:not([disabled]).selected &__title {
       color: var(--tab-title-color--selected);
+      font-weight: var(--tab-title-font-weight--selected);
     }
 
     &:not([disabled]).selected:active &__title {
       color: var(--token-color-text-action-pressed);
-    }
-
-    // selected only
-    /* stylelint-disable-next-line no-duplicate-selectors */
-    &:not([disabled]).selected &__title {
-      font-weight: var(--tab-title-font-weight--selected);
     }
   }
 
