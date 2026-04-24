@@ -69,6 +69,8 @@ function FormLabel(localProps: FormLabelAllProps) {
     ? () => React.createElement(nestedNode, nestedContent['props'])
     : null
 
+  const defaultElement = nestedElement || (props.forId ? 'label' : 'span')
+
   const {
     forId,
     text,
@@ -77,7 +79,7 @@ function FormLabel(localProps: FormLabelAllProps) {
     labelDirection,
     size,
     skeleton,
-    element: Element = nestedElement || 'label',
+    element: Element = defaultElement,
     ref: refProp,
     className,
     children,
