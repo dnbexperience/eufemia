@@ -1482,8 +1482,6 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
@@ -2068,8 +2066,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   --autocomplete-height--small: 1.5rem;
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
-  --autocomplete-padding-horizontal: 1rem;
-  --autocomplete-focus-border-width: 0.125rem;
   --autocomplete-text-padding: 0.5rem;
   --autocomplete-border-radius: 0.25rem;
   display: inline-flex;
