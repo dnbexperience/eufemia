@@ -2237,6 +2237,76 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('clamps arrow at border-radius boundary when element has large border-radius', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowWidthDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerWidth'
+      )
+      Object.defineProperty(window, 'innerWidth', {
+        configurable: true,
+        value: 320,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 24,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 10, top: 120, width: 24, height: 40 })
+      )
+
+      setElementSize(220, 120)
+
+      const originalGetComputedStyle = window.getComputedStyle
+      jest.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+        const style = originalGetComputedStyle(el)
+        if (
+          el instanceof HTMLElement &&
+          el.classList.contains('dnb-popover')
+        ) {
+          return {
+            ...style,
+            borderRadius: '16px',
+          } as CSSStyleDeclaration
+        }
+        return style
+      })
+
+      render(
+        <Popover
+          open
+          noAnimation
+          placement="bottom"
+          arrowEdgeOffset={4}
+          targetElement={targetElement}
+        >
+          Clamped at border-radius
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const arrow = document.querySelector(
+          '.dnb-popover__arrow'
+        ) as HTMLElement
+        expect(arrow?.style.left).toBe('16px')
+      })
+
+      jest.restoreAllMocks()
+      if (windowWidthDescriptor) {
+        Object.defineProperty(window, 'innerWidth', windowWidthDescriptor)
+      }
+      targetElement.remove()
+    })
+
     it('flips to top placement when there is limited space below', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)

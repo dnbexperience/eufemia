@@ -679,6 +679,9 @@ function PopoverContainer(props: PopoverContainerProps) {
     const marginRight = computedElementStyle
       ? parseFloat(computedElementStyle.marginRight) || 0
       : 0
+    const borderRadius = computedElementStyle
+      ? parseFloat(computedElementStyle.borderRadius) || 0
+      : 0
 
     let actualLeft = nextLeft
 
@@ -706,7 +709,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     if (isVerticalPlacement) {
       const arrowWidth = 16
-      const arrowBoundary = arrowEdgeOffset ?? 8
+      const arrowBoundary = Math.max(arrowEdgeOffset ?? 8, borderRadius)
       const maxLeft = Math.max(0, elementWidth - arrowWidth)
       const arrowLeft = anchorX - actualLeft - arrowWidth / 2
 
@@ -741,7 +744,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       arrowStyle.left = nextArrowLeft
     } else {
       const arrowHeight = 16
-      const arrowBoundary = arrowEdgeOffset ?? 8
+      const arrowBoundary = Math.max(arrowEdgeOffset ?? 8, borderRadius)
       const maxTop = Math.max(0, elementHeight - arrowHeight)
       const arrowTop = anchorY - actualTop - arrowHeight / 2
 
