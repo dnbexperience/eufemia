@@ -182,8 +182,14 @@ describe('FormLabel component', () => {
     )
   })
 
-  it('should use label element by default', () => {
+  it('should use span element when forId is not provided', () => {
     render(<FormLabel>content</FormLabel>)
+
+    expect(document.querySelector('.dnb-form-label').tagName).toBe('SPAN')
+  })
+
+  it('should use label element when forId is provided', () => {
+    render(<FormLabel forId="input">content</FormLabel>)
 
     expect(document.querySelector('.dnb-form-label').tagName).toBe('LABEL')
   })
@@ -193,7 +199,11 @@ describe('FormLabel component', () => {
 
     function MockComponent() {
       ref = React.useRef<HTMLLabelElement | null>(null)
-      return <FormLabel ref={ref}>content</FormLabel>
+      return (
+        <FormLabel forId="input" ref={ref}>
+          content
+        </FormLabel>
+      )
     }
 
     render(<MockComponent />)
@@ -300,7 +310,7 @@ describe('FormLabel component', () => {
 
       rerender(<FormLabel />)
 
-      expect(label().tagName).toBe('LABEL')
+      expect(label().tagName).toBe('SPAN')
     })
   })
 
