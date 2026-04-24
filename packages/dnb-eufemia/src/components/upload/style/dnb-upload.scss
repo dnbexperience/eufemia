@@ -11,12 +11,11 @@
   --upload-border: var(--token-color-stroke-action);
   --upload-border--active: var(--token-color-stroke-action-pressed);
   --upload-border-width: 0.125rem;
-  --upload-list-border: black;
-  --upload-icon--default: black;
-  --upload-icon--warning: red;
+  --upload-list-border: var(--token-color-stroke-neutral-subtle);
+  --upload-icon--default: var(--token-color-icon-neutral);
+  --upload-icon--warning: var(--token-color-icon-error);
   --upload-highlight: lightyellow;
-  --upload-text--primary: black;
-  --upload-text--secondary: black;
+  --upload-text--secondary: var(--token-color-text-neutral-alternative);
 
   position: relative;
   display: flex;
