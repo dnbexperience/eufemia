@@ -63,7 +63,7 @@
   // For backwards compatibility with visual tests, we need to keep the grid in visual tests, but we want to remove the background color to avoid snapshot differences due to different background colors
   // In future we may rather remove the grid from visual tests and then we can remove this rule as well so we get a "local" background color in visual tests as well.
   :global(html[data-visual-test]) & {
-    --grid-background: transparent;
+    --grid-background: #fafafa;
   }
 }
 
