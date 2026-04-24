@@ -1155,7 +1155,7 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      document.querySelector('label.dnb-date-picker__header__title')
+      document.querySelector('span.dnb-date-picker__header__title')
         .textContent
     ).toBe('mai 2020')
     expect(getDatePickerRoot().classList).toContain(
@@ -1171,7 +1171,7 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      document.querySelector('label.dnb-date-picker__header__title')
+      document.querySelector('span.dnb-date-picker__header__title')
         .textContent
     ).toBe('april 2020')
     expect(getDatePickerRoot().classList).not.toContain(
@@ -1227,7 +1227,7 @@ describe('DatePicker component', () => {
     await userEvent.click(day)
 
     const [leftPickerTitle, rightPickerTitle] = Array.from(
-      document.querySelectorAll('label.dnb-date-picker__header__title')
+      document.querySelectorAll('span.dnb-date-picker__header__title')
     )
 
     expect(leftPickerTitle).toHaveTextContent('mai 2024')

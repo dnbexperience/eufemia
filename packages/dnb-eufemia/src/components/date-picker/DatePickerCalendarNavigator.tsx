@@ -125,7 +125,7 @@ export function DatePickerCalendarNav({
           onClick={onNav}
         />
       </div>
-      <label
+      <span
         id={`${id}--title`}
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
@@ -135,7 +135,7 @@ export function DatePickerCalendarNav({
         tabIndex={-1}
       >
         {formatDate(date, { locale, options: titleFormat })}
-      </label>
+      </span>
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
           type="next"
