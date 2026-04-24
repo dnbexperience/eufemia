@@ -88,7 +88,7 @@ const swatchBackdropStyle: React.CSSProperties = {
     'linear-gradient(45deg, #dfe3e6 25%, transparent 25%), linear-gradient(-45deg, #dfe3e6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #dfe3e6 75%), linear-gradient(-45deg, transparent 75%, #dfe3e6 75%)',
   backgroundPosition: '0 0, 0 0.25rem, 0.25rem -0.25rem, -0.25rem 0',
   backgroundSize: '0.5rem 0.5rem',
-  border: '1px solid var(--color-black-8)',
+  border: '1px solid var(--token-color-stroke-neutral-subtle)',
   borderRadius: '0.25rem',
   display: 'inline-flex',
   height: '1rem',
@@ -626,8 +626,8 @@ export function TokenExample({ name }: { name: string }) {
 }
 
 const radiusPreviewStyle: React.CSSProperties = {
-  backgroundColor: 'var(--color-black-8)',
-  border: '1px solid var(--color-black-20)',
+  backgroundColor: 'var(--token-color-background-neutral-subtle)',
+  border: '1px solid var(--token-color-stroke-neutral-subtle)',
   display: 'inline-block',
   height: '4rem',
   width: '4rem',
