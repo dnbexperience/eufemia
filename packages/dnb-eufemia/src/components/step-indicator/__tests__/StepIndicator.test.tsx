@@ -448,7 +448,7 @@ describe('StepIndicator in loose mode', () => {
     )
 
     expect(
-      document.querySelector('label.dnb-step-indicator__label').textContent
+      document.querySelector('span.dnb-step-indicator__label').textContent
     ).toContain('Steg 2 av 4:')
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
@@ -465,7 +465,7 @@ describe('StepIndicator in loose mode', () => {
       />
     )
     expect(
-      document.querySelector('label.dnb-step-indicator__label').textContent
+      document.querySelector('span.dnb-step-indicator__label').textContent
     ).toContain('Steg 2 av 4:')
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
@@ -665,6 +665,9 @@ describe('StepIndicator ARIA', () => {
 
     // Verify it has aria-hidden attribute
     expect(formLabel).toHaveAttribute('aria-hidden', 'true')
+
+    // Should render as a span, not a label, since it's not associated with a form field
+    expect(formLabel.tagName).toBe('SPAN')
   })
 
   it('should have aria-hidden on step item elements to avoid duplicate information', () => {
