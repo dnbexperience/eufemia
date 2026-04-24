@@ -7,17 +7,23 @@
 @use '../../button/style/themes/button-mixins.scss';
 
 .dnb-tabs {
-  --tablist-border-color--default: grey;
+  --tablist-border-color--default: var(
+    --token-color-stroke-neutral-subtle
+  );
+  --tab-title-font-color: var(--token-color-text-neutral-alternative);
   --tab-title-font-weight: var(--font-weight-regular);
   --tab-title-font-size: var(--font-size-basis);
-  --tab-title-font-color: dimgray;
-  --tab-title-background--hover: darkgrey;
-  --tab-title-color--hover: inherit;
-  --tab-title-border--hover: black;
+  --tab-title-background--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --tab-title-color--hover: var(--token-color-text-action-hover);
+  --tab-title-border--hover: var(--token-color-background-action-hover);
   --tab-title-background--disabled: inherit;
-  --tab-title-color--disabled: lightgrey;
-  --tab-title-border--active-selected: black;
-  --tab-title-color--active-selected: black;
+  --tab-title-color--disabled: var(--token-color-text-action-disabled);
+  --tab-title-border--active: var(--token-color-background-action-pressed);
+  --tab-title-color--active: var(--token-color-text-action-pressed);
+  --tab-title-border--selected: var(--token-color-background-selected);
+  --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 
   &__tabs {
@@ -170,10 +176,6 @@
       color: var(--tab-title-font-color);
       padding: 0.5rem 0 0.25rem;
 
-      @include utilities.hover() {
-        color: var(--tab-title-color--hover);
-      }
-
       .dnb-icon {
         font-size: var(--font-size-small); // has to be 16px
 
@@ -185,6 +187,10 @@
     // hover
     @include utilities.hover() {
       background-color: var(--tab-title-background--hover);
+
+      .dnb-tabs__button__title {
+        color: var(--tab-title-color--hover);
+      }
 
       &::after {
         height: 2px;
@@ -239,26 +245,70 @@
       }
     }
 
-    // active + selected
-    &:not([disabled]):active,
+    // active (pressed)
+    &:not([disabled]):active {
+      background-color: var(
+        --token-color-background-action-pressed-subtle
+      );
+
+      &::after {
+        height: 2px;
+        border-radius: 2px;
+        background-color: var(--tab-title-border--active);
+      }
+    }
+
+    html:not([data-whatintent='touch']) &:hover:not([disabled]):active {
+      background-color: var(
+        --token-color-background-action-pressed-subtle
+      );
+
+      &::after {
+        background-color: var(--tab-title-border--active);
+      }
+    }
+
+    &:not([disabled]):active &__title {
+      color: var(--tab-title-color--active);
+    }
+
+    // selected
     &:not([disabled]).selected {
       &::after {
         height: 2px;
         border-radius: 2px;
-        background-color: var(--tab-title-border--active-selected);
+        background-color: var(--tab-title-border--selected);
+      }
+
+      @include utilities.hover() {
+        background-color: var(
+          --token-color-background-action-hover-subtle
+        );
+
+        &::after {
+          background-color: var(--token-color-background-action-hover);
+        }
+
+        &:active {
+          background-color: var(
+            --token-color-background-action-pressed-subtle
+          );
+
+          &::after {
+            background-color: var(--token-color-background-action-pressed);
+          }
+        }
       }
     }
 
-    &:not([disabled]):active &__title,
     &:not([disabled]).selected &__title {
-      color: var(--tab-title-color--active-selected);
-    }
-
-    // selected only
-    &:not([disabled]).selected &__title {
+      color: var(--tab-title-color--selected);
       font-weight: var(--tab-title-font-weight--selected);
     }
-    /* stylelint-enable no-descending-specificity */
+
+    &:not([disabled]).selected:active &__title {
+      color: var(--token-color-text-action-pressed);
+    }
   }
 
   &__button__snap {
@@ -295,11 +345,9 @@
 
     &:last-of-type.focus {
       // add space so the focus ring is visible within our overflow
-      /* stylelint-disable */
       .dnb-tabs__button:focus {
         margin-right: 0.5rem;
       }
-      /* stylelint-enable */
     }
   }
 
@@ -320,14 +368,12 @@
     }
   }
 
-  /* stylelint-disable */
   html[data-visual-test] & &__cached,
   html[data-visual-test] & &__button,
   html[data-visual-test] & &__button__snap,
   html[data-visual-test] & &__scroll-nav-button {
     transition: none !important;
   }
-  /* stylelint-enable */
 
   // Make focus ring when keyboard is used to navigate
   &__content:focus {

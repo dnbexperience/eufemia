@@ -744,9 +744,7 @@ describe('Tabs scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
-    )
+    const css = loadScss(require.resolve('../style/dnb-tabs.scss'))
     expect(css).toMatchSnapshot()
   })
 })

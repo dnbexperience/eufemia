@@ -983,10 +983,6 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const onMouseDown = (event: React.MouseEvent) => {
-    event.preventDefault()
-  }
-
   const onKeyDownHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       try {
@@ -1277,7 +1273,6 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               onMouseEnter={onMouseEnterHandler}
               onClick={onClickHandler}
               onKeyUp={onKeyDownHandler}
-              onMouseDown={onMouseDown}
               data-tab-key={key}
               {...itemParams}
             >
