@@ -44,7 +44,29 @@ export default function MenuCard(props: MenuCardProps) {
 const StyledLi = styled.li`
   list-style-type: none;
   width: calc(33.333333% - 1rem);
-  margin: 0.5rem;
+
+  &:hover {
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 60em) {
+    width: calc(50% - 1rem);
+  }
+  @media screen and (min-width: 40em) {
+    margin: 0.5rem;
+  }
+  @media screen and (max-width: 40em) {
+    width: 100%;
+    text-align: center;
+
+    .dnb-card {
+      align-items: center;
+
+      > .dnb-flex-container--align-stretch > .dnb-button {
+        align-self: center;
+      }
+    }
+  }
 `
 
 const StyledLink = styled(Link)`
@@ -72,6 +94,8 @@ const StyledLink = styled(Link)`
 `
 
 const StyledCard = styled(Card)`
+  height: 100%;
+
   svg {
     align-self: center;
     stroke: var(--token-color-icon-neutral);
