@@ -1564,9 +1564,7 @@ describe('DrawerList scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss')
-    )
+    const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
     expect(css).toMatchSnapshot()
   })
 })

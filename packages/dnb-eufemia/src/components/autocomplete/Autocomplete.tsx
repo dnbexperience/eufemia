@@ -2000,7 +2000,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (event: FocusEvent<HTMLInputElement>) => {
       if (
         preventFiringBlurEvent.current ||
-        drawerList.hasFocusOnElement ||
+        drawerList._hasFocusOnElementRef?.current ||
         hasBlurRef.current
       ) {
         preventFiringBlurEvent.current = null
@@ -2050,7 +2050,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       return undefined
     },
     [
-      drawerList.hasFocusOnElement,
+      drawerList._hasFocusOnElementRef,
       keepValue,
       keepValueAndSelection,
       preventSelection,

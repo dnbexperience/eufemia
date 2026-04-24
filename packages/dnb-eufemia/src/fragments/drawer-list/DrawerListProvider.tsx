@@ -99,7 +99,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     | 'onResize'
   > &
   SpacingProps & {
-    hasFocusOnElement?: boolean
+    _hasFocusOnElementRef?: React.RefObject<boolean>
     setData?: (
       data: DrawerListData,
       cb?: (data: DrawerListInternalData) => void,
@@ -246,6 +246,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const _refTriangle = useRef<HTMLLIElement & HTMLSpanElement>(null)
 
   // Instance variables
+  const _hasFocusOnElementRef = useRef<boolean>(false)
   const attributesRef = useRef<Record<string, any>>({})
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
@@ -323,7 +324,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         const counts = Object.keys(itemSpotsRef.current)
         closestToBottom = findClosest(
           counts,
-          _refUl.current.scrollTop + _refUl.current.offsetHeight
+          _refUl.current.scrollTop + _refUl.current.offsetHeight - 1
         )
         closestToTop = findClosest(counts, _refUl.current.scrollTop)
         if (
@@ -733,9 +734,15 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     return getItemData(elem)
   }, [getItemData])
 
-  const getAnchorElem = useCallback((activeElement) => {
+  /**
+   * Returns the first anchor element within the given element, or null if none found.
+   *
+   * @param  {Element} element The element to begin with
+   * @return {Element} Found element or `null`
+   */
+  const getAnchorElem = useCallback((element) => {
     try {
-      return activeElement?.querySelector('a:first-of-type')
+      return element?.querySelector('a:first-of-type')
     } catch (e) {
       return null
     }
@@ -821,6 +828,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     ) => {
       mergeState({ activeItem }, () => {
         if (parseFloat(activeItem) === -1) {
+          // Keep focus on Autocomplete text input
           if (document.activeElement?.tagName !== 'INPUT') {
             _refUl.current?.focus({ preventScroll: true })
           }
@@ -927,7 +935,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
     outsideClickRef.current = detectOutsideClick(
       [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
-      () => setHiddenFnRef.current({ preventHideFocus: true }),
+      ({ event }) => {
+        setHiddenFnRef.current({
+          preventHideFocus:
+            event.type !== 'keydown' ||
+            (event as KeyboardEvent).key !== 'Tab',
+        })
+      },
       { includedKeys: ['Tab'] }
     )
 
@@ -1354,16 +1368,19 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         {
           if (activeItem > -1) {
             const activeElement = getActiveElement()
-            const hasFocusOnElement = Boolean(getAnchorElem(activeElement))
+            const activeElementHasAnchor = Boolean(
+              getAnchorElem(activeElement)
+            )
 
-            mergeState({ hasFocusOnElement })
+            _hasFocusOnElementRef.current = activeElementHasAnchor
 
-            if (hasFocusOnElement) {
+            if (activeElementHasAnchor) {
               e.stopPropagation()
 
               const currentActiveElement = getClosestParent(
                 'dnb-drawer-list__option',
-                document.activeElement
+                document.activeElement,
+                true
               )
 
               if (currentActiveElement !== activeElement) {
@@ -1379,6 +1396,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                       elem.removeEventListener('focus', focus)
                       activeElement.removeChild(after)
                       activeElement.removeChild(before)
+                      _hasFocusOnElementRef.current = false
                     }
                     elem.addEventListener('focus', focus)
                     return elem
@@ -1394,6 +1412,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                 const after = createTabElem()
                 const before = createTabElem()
 
+                // focus active element before Tab focus is handled by browser
                 activeElement.focus()
 
                 const insertElem = () => {
@@ -1500,6 +1519,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const prevDataRef = useRef(props.data)
   const prevDirectionRef = useRef(stateRef.current.direction)
   useEffect(() => {
+    _hasFocusOnElementRef.current = false
     if (stateRef.current.open) {
       if (
         props.data !== prevDataRef.current &&
@@ -1548,6 +1568,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         ...context,
         drawerList: {
           attributes: attributesRef.current,
+          _hasFocusOnElementRef,
           _refRoot,
           _refShell,
           _refUl,

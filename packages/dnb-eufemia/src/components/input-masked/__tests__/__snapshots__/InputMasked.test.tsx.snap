@@ -1016,7 +1016,8 @@ legend.dnb-form-label {
   --input-border-color__error: var(--token-color-stroke-error);
   --input-border-color__error--active: var(--token-color-stroke-error);
   --input-border-color__error--focus: var(--token-color-stroke-error);
-  --input-border-width: 0.0625rem;
+  --input-border-width: var(--input-border-width--default);
+  --input-border-width--default: 0.0625rem;
   --input-border-width--hover: 0.125rem;
   --input-border-width--active: 0.125rem;
   --input-border-width--focus: 0.125rem;
@@ -1149,7 +1150,7 @@ legend.dnb-form-label {
   display: flex;
   border-radius: var(--b-radius, var(--input-border-radius--default));
   --border-color: var(--b-color, var(--input-border-color));
-  --border-width: var(--b-width, var(--input-border-width));
+  --border-width: var(--b-width, var(--input-border-width, var(--input-border-width--default)));
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }

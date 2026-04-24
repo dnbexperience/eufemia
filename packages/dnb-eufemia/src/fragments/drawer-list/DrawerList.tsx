@@ -361,7 +361,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
     (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Tab':
-          if (!context.drawerList.hasFocusOnElement) {
+          if (!context.drawerList._hasFocusOnElementRef.current) {
             e.preventDefault()
             context.drawerList.setHidden()
           }

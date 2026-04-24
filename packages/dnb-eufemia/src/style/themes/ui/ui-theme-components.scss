@@ -15,7 +15,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 
 @use '../../../components/accordion/style/themes/dnb-accordion-theme-ui.scss';
 @use '../../../components/anchor/style/themes/dnb-anchor-theme-ui.scss';
-@use '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-ui.scss';
 @use '../../../components/button/style/themes/dnb-button-theme-ui.scss';
 @use '../../../components/card/style/themes/dnb-card-theme-ui.scss';
 @use '../../../components/icon/style/themes/dnb-icon-theme-ui.scss';
@@ -24,5 +23,4 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @use '../../../components/term-definition/style/themes/dnb-term-definition-theme-ui.scss';
 @use '../../../components/timeline/style/themes/dnb-timeline-theme-ui.scss';
 @use '../../../components/toggle-button/style/themes/dnb-toggle-button-theme-ui.scss';
-@use '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
 @use './ui-theme-forms.scss';

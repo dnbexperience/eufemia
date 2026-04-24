@@ -265,6 +265,21 @@
     }
   }
 
+  &--show-indicator &__input .dnb-input__icon {
+    color: transparent;
+  }
+
+  .dnb-form-label:hover ~ &__inner {
+    .dnb-input {
+      --input-border-width--default: 0.125rem;
+    }
+
+    .dnb-input__submit-button__button {
+      --button-color-bg--default: var(--button-color-bg--hover);
+      --button-color-icon--default: var(--button-color-icon--hover);
+    }
+  }
+
   .dnb-responsive-component & {
     @include utilities.allBelow(small) {
       display: flex;
@@ -285,5 +300,30 @@
   // Search highlight wrapper
   &__list .dnb-drawer-list__option__item > span {
     padding-right: 0.125em; // add one space because of the word split
+  }
+
+  &__root .dnb-drawer-list__option {
+    &__item:nth-of-type(1) {
+      font-weight: var(--font-weight-basis);
+    }
+
+    &:not(.dnb-drawer-list__option--selected):not([disabled]) {
+      .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+        color: var(--token-color-text-neutral-alternative);
+        @include utilities.allAbove(small) {
+          &.dnb-drawer-list__option__suffix {
+            color: var(--token-color-text-neutral);
+          }
+        }
+      }
+    }
+
+    &__item--highlight {
+      font-weight: var(--font-weight-bold);
+    }
+
+    &--selected .dnb-anchor {
+      --anchor-color--default: var(--token-color-text-neutral-inverse);
+    }
   }
 }
