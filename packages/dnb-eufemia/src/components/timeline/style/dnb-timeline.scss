@@ -3,6 +3,8 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-timeline {
   display: flex;
   flex-direction: column;
@@ -25,6 +27,16 @@
 
         height: auto;
         padding: 0;
+
+        color: var(--token-color-icon-neutral);
+        // No icon color token equivalent, figma sketch is using --token-color-background-page-background, as the icon fill should match the page background color
+        background-color: var(--token-color-background-page-background);
+
+        @include utilities.fakeBorder(
+          var(--color-black-80),
+          0.0625rem,
+          inset
+        );
       }
 
       &__title {
@@ -34,18 +46,48 @@
 
     &__content {
       padding-bottom: var(--spacing-small);
+      // No stroke token equivalent for this color, the figma sketch is using --token-color-text-neutral-alternative
+      border-left: 1px dashed var(--token-color-text-neutral-alternative);
 
       &__subtitle {
         cursor: text;
 
         font-size: var(--font-size-x-small);
         font-weight: var(--font-weight-basis);
-        color: var(--color-black-55);
+        color: var(--token-color-text-neutral-alternative);
       }
 
       &__info {
         padding-top: var(--spacing-x-small);
       }
+    }
+
+    &--completed &__content {
+      border-left: 1px solid var(--token-color-stroke-neutral);
+    }
+
+    &--completed &__label__title {
+      color: var(--token-color-text-neutral);
+    }
+
+    &--upcoming &__label__title {
+      color: var(--token-color-text-neutral-alternative);
+    }
+
+    &--upcoming:not(.dnb-skeleton) &__label__icon {
+      color: var(--token-color-text-neutral-alternative);
+      background-color: var(--token-color-background-neutral-subtle);
+
+      @include utilities.fakeBorder(
+        // Border color same as background color, no stroke equivalent for this color. Figma sketch has no border
+        var(--token-color-background-neutral-subtle),
+        0.0625rem,
+        inset
+      );
+    }
+
+    &:last-child &__content {
+      border-left: none;
     }
   }
 }
