@@ -101,3 +101,72 @@ Use `surface="initial"` to reset components back to their default behavior insid
   </Theme.Context>
 </Section>
 ```
+
+## Persisting the theme with `getTheme` and `setTheme`
+
+Eufemia provides `getTheme` and `setTheme` helpers that persist theme state (including `colorScheme`) to `localStorage` under the key `eufemia-theme`.
+
+```tsx
+import { getTheme, setTheme } from '@dnb/eufemia/shared/Theme'
+
+// Read the current persisted theme
+const theme = getTheme()
+// { name: 'ui', colorScheme: 'auto', ... }
+
+// Update one or more properties (merges with existing state)
+setTheme({ colorScheme: 'dark' })
+
+// With a callback
+setTheme({ name: 'sbanken' }, (updatedTheme) => {
+  console.log(updatedTheme)
+})
+```
+
+`getTheme` also supports a `?eufemia-theme=<name>` URL query parameter, which overrides the persisted theme name. This is useful for testing or previewing themes via a link.
+
+## Dark mode / Color scheme
+
+The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"auto"`, it follows the user's system preference.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme colorScheme="auto">
+    <App />
+  </Theme>
+)
+```
+
+### Preventing dark mode flash (FOUC)
+
+When using `colorScheme="auto"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
+
+To prevent this, Eufemia provides blocking scripts that run synchronously before the browser paints. They read the stored preference from `localStorage` and apply the correct CSS classes immediately.
+
+```tsx
+import {
+  ColorSchemeHeadScript,
+  ColorSchemeBodyFirstScript,
+  ColorSchemeBodyLastScript,
+} from '@dnb/eufemia/shared/ColorSchemeScript'
+```
+
+Place them in your HTML template as follows:
+
+```tsx
+<html>
+  <head>
+    <ColorSchemeHeadScript />
+  </head>
+  <body>
+    <ColorSchemeBodyFirstScript />
+    {/* your app content */}
+    <ColorSchemeBodyLastScript />
+  </body>
+</html>
+```
+
+- **`ColorSchemeHeadScript`** — Resolves the color scheme from `localStorage` (or falls back to the system preference) and stores it on `globalThis`. Place in `<head>`.
+- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>`. Place as the first child of `<body>`.
+- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme. Place as the last child of `<body>`.

@@ -13,8 +13,8 @@ import properties from '@dnb/eufemia/src/style/themes/ui/properties'
 import type { ReactNode, HTMLAttributes } from 'react'
 import {
   ColorSchemeHeadScript,
-  ColorSchemeBodyScript,
-  ColorSchemeContentScript,
+  ColorSchemeBodyFirstScript,
+  ColorSchemeBodyLastScript,
 } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 
 const mainColor = properties['--color-sea-green']
@@ -80,7 +80,7 @@ export default function HTML(props: HTMLProps) {
         <ColorSchemeHeadScript scopeHash={scopeHash} />
       </head>
       <body className="dnb-page-background" {...bodyAttributes}>
-        <ColorSchemeBodyScript />
+        <ColorSchemeBodyFirstScript />
         <noscript key="noscript" id="gatsby-noscript">
           Eufemia works best with JavaScript enabled.
         </noscript>
@@ -90,7 +90,7 @@ export default function HTML(props: HTMLProps) {
           id="___gatsby"
           dangerouslySetInnerHTML={{ __html: body }}
         />
-        <ColorSchemeContentScript />
+        <ColorSchemeBodyLastScript />
         {postBodyComponents}
       </body>
     </html>

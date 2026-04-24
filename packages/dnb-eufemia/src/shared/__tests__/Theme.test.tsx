@@ -2,7 +2,7 @@ import React from 'react'
 import { act, render } from '@testing-library/react'
 import Context from '../Context'
 import type { ThemeAllProps } from '../Theme'
-import Theme from '../Theme'
+import Theme, { getTheme, setTheme } from '../Theme'
 import {
   Autocomplete,
   Dialog,
@@ -567,6 +567,83 @@ describe('Portals', () => {
       expect(globalThis.__eufemiaColorScheme).toBeUndefined()
 
       window.matchMedia = matchMediaOriginal
+    })
+  })
+
+  describe('getTheme and setTheme', () => {
+    const STORAGE_KEY = 'eufemia-theme'
+
+    afterEach(() => {
+      window.localStorage.removeItem(STORAGE_KEY)
+    })
+
+    it('returns default theme when localStorage is empty', () => {
+      const result = getTheme()
+      expect(result).toEqual({ name: 'ui' })
+    })
+
+    it('returns custom default theme', () => {
+      const result = getTheme('sbanken')
+      expect(result).toEqual({ name: 'sbanken' })
+    })
+
+    it('reads persisted theme from localStorage', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ name: 'eiendom', colorScheme: 'dark' })
+      )
+
+      const result = getTheme()
+      expect(result.name).toBe('eiendom')
+      expect(result.colorScheme).toBe('dark')
+    })
+
+    it('supports URL query override for theme name', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      window.history.replaceState({}, '', '?eufemia-theme=sbanken')
+
+      const result = getTheme()
+      expect(result.name).toBe('sbanken')
+
+      window.history.replaceState({}, '', '/')
+    })
+
+    it('persists theme state to localStorage', () => {
+      setTheme({ name: 'eiendom', colorScheme: 'dark' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.name).toBe('eiendom')
+      expect(stored.colorScheme).toBe('dark')
+    })
+
+    it('merges with existing state', () => {
+      setTheme({ name: 'sbanken' })
+      setTheme({ colorScheme: 'dark' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.name).toBe('sbanken')
+      expect(stored.colorScheme).toBe('dark')
+    })
+
+    it('calls callback with merged theme', () => {
+      const callback = jest.fn()
+      setTheme({ name: 'eiendom' }, callback)
+
+      expect(callback).toHaveBeenCalledTimes(1)
+      expect(callback).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'eiendom' })
+      )
+    })
+
+    it('handles corrupt localStorage data gracefully', () => {
+      window.localStorage.setItem(STORAGE_KEY, 'not-json')
+
+      const result = getTheme()
+      expect(result).toEqual({ name: 'ui' })
     })
   })
 })

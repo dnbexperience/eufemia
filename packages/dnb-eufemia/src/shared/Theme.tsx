@@ -200,3 +200,54 @@ function useSyncBodyColorScheme(theme: ThemeProps) {
     )
   }, [colorScheme])
 }
+
+const STORAGE_KEY = 'eufemia-theme'
+
+export type ThemeState = ThemeProps & Record<string, unknown>
+
+/**
+ * Read the persisted theme state from localStorage.
+ * Supports a `?eufemia-theme=<name>` URL query override for the theme name.
+ */
+export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
+  if (typeof window === 'undefined') {
+    return { name: defaultTheme }
+  }
+
+  try {
+    const data = window.localStorage.getItem(STORAGE_KEY)
+    const theme = JSON.parse(data?.startsWith('{') ? data : '{}')
+
+    const regex = /.*eufemia-theme=([^&]*).*/
+    const query = window.location.search
+    const fromQuery =
+      (regex.test(query) && query?.replace(regex, '$1')) || null
+
+    const name = (fromQuery || theme?.name || defaultTheme) as ThemeNames
+
+    return { ...theme, name }
+  } catch {
+    return { name: defaultTheme }
+  }
+}
+
+/**
+ * Merge the given properties into the persisted theme state
+ * and write it back to localStorage.
+ */
+export function setTheme(
+  themeProps: Partial<ThemeState>,
+  callback?: (theme: ThemeState) => void
+): void {
+  if (typeof window === 'undefined') {
+    return // stop here
+  }
+
+  try {
+    const theme = { ...getTheme(), ...themeProps }
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
+    callback?.(theme)
+  } catch {
+    // ignore storage errors
+  }
+}
