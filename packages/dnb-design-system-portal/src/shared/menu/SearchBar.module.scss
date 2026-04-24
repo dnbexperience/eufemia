@@ -18,10 +18,6 @@
         }
       }
     }
-
-    .dnb-form-label {
-      color: var(--color-white); /* only for axe-core */
-    }
   }
 }
 
@@ -31,23 +27,6 @@
 
 .drawerClassStyle {
   :global {
-    .dnb-drawer-list__option__inner {
-      .dnb-drawer-list__option__item {
-        white-space: normal;
-        font-size: var(--font-size-small);
-
-        padding-bottom: 0.5rem;
-        overflow: visible; /* just to make sure we get anchors working properly */
-      }
-
-      .dnb-drawer-list__option__item:first-of-type {
-        color: var(--color-sea-green);
-        font-weight: var(--font-weight-basis);
-        font-size: var(--font-size-medium);
-        padding-bottom: 0.5rem;
-      }
-    }
-
     .search-logo {
       min-width: 4rem;
       height: 1rem;

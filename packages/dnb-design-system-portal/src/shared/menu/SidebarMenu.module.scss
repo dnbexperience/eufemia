@@ -159,9 +159,6 @@
         --token-color-background-action-pressed-subtle
       );
     }
-    // &.is-active.is-inside:first-of-type .dnb-anchor:active {
-    //   --anchor-bg--active: var(--token-color-background-action-pressed);
-    // }
 
     @keyframes show-mobile-menu {
       0% {
@@ -236,10 +233,6 @@
       align-self: center;
       margin-right: 1rem;
     }
-
-    // No styles need yet
-    // &.is-active &__expand-button {
-    // }
 
     &--accordion {
       &.dnb-sidebar-menu--expanded {
