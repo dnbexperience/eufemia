@@ -968,7 +968,6 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-tag {
-  --tag-icon-background-color: var(--token-color-background-action);
   --tag-icon-border-color: var(--token-color-stroke-action);
 }
 .dnb-tag.dnb-button {
@@ -1007,9 +1006,6 @@ html:not([data-whatinput=touch]) .dnb-tag--interactive.dnb-button:focus-visible:
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-background-color: var(
-    --token-color-background-action-focus
-  );
   --tag-icon-border-color: var(--token-color-stroke-action-focus);
 }
 html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover[disabled] {
@@ -1021,7 +1017,6 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([di
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-background-color: var(--token-color-background-neutral);
 }
 .dnb-tag--interactive.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active[disabled] {
   cursor: not-allowed;
@@ -1033,9 +1028,6 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([di
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  --tag-icon-background-color: var(
-    --token-color-icon-action-pressed
-  );
 }
 .dnb-tag--interactive.dnb-button[disabled] {
   color: var(--token-color-component-button-text-action-disabled);
@@ -1083,7 +1075,7 @@ html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disa
   stroke: var(--tag-icon-stroke);
 }
 .dnb-tag--addable {
-  --tag-icon-fill-color: var(--tag-icon-background-color);
+  --tag-icon-fill-color: var(--token-color-background-action);
   --tag-icon-stroke-color: var(--token-color-icon-neutral-inverse);
 }
 .dnb-tag--addable svg {
