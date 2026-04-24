@@ -16,9 +16,9 @@ export default function ToggleDarkMode(props) {
       value={colorScheme}
       disabled={disabled}
       onChange={({ value }) => {
-        const scheme = value as ThemeColorScheme
-        setTheme({ colorScheme: scheme })
-        updateColorScheme(scheme)
+        const colorScheme = value as ThemeColorScheme
+        setTheme({ colorScheme } as Parameters<typeof setTheme>[0])
+        updateColorScheme(colorScheme)
       }}
       {...rest}
     >
