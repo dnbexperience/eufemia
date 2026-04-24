@@ -51,6 +51,10 @@ describe('Tools.Log', () => {
 
     const element = document.querySelector('output')
     expect(element.textContent).toContain('My label')
+
+    // Should render as a span, not a label, since it's not associated with a form field
+    const formLabel = element.querySelector('.dnb-form-label')
+    expect(formLabel.tagName).toBe('SPAN')
   })
 
   it('should render a placeholder when given', () => {
