@@ -86,9 +86,6 @@ const StyledLink = styled(Link)`
   &:focus-visible .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-focus);
     --card-outline-width: 0.125rem;
-    --card-background-color: var(
-      --token-color-background-action-focus-subtle
-    );
   }
 `
 

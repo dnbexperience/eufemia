@@ -16,7 +16,6 @@
     );
     --dnb-sidebar-menu-text-color: var(--token-color-text-neutral);
     --dnb-sidebar-menu-hover-bg: transparent;
-    --dnb-sidebar-menu-focus-bg: var(--color-emerald-green);
     --level-offset: 3vw;
 
     @include utilities.allBelow(medium) {
@@ -150,7 +149,8 @@
     }
 
     .dnb-anchor:focus-visible:not(:active) {
-      background-color: var(--dnb-sidebar-menu-focus-bg);
+      color: var(--token-color-text-action-focus);
+      background-color: var(--token-color-background-action-focus-subtle);
       box-shadow: none;
     }
     /* stylelint-disable-next-line no-descending-specificity */
