@@ -107,11 +107,7 @@ function ThemeProvider({ children }) {
   const theme = useThemeHandler()
 
   return (
-    <Theme
-      colorScheme={isDev ? 'auto' : undefined}
-      {...theme}
-      className="dnb-page-background"
-    >
+    <Theme colorScheme={isDev ? 'auto' : undefined} {...theme}>
       {children}
     </Theme>
   )

@@ -11,8 +11,14 @@ import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pin
 // load properties
 import properties from '@dnb/eufemia/src/style/themes/ui/properties'
 import type { ReactNode, HTMLAttributes } from 'react'
+import {
+  ColorSchemeHeadScript,
+  ColorSchemeBodyScript,
+  ColorSchemeContentScript,
+} from '@dnb/eufemia/src/shared/ColorSchemeScript'
 
 const mainColor = properties['--color-sea-green']
+const scopeHash = 'eufemia-scope--portal'
 
 type HTMLProps = {
   htmlAttributes?: HTMLAttributes<HTMLHtmlElement>
@@ -71,8 +77,10 @@ export default function HTML(props: HTMLProps) {
         <meta name="msapplication-TileColor" content={mainColor} />
         <meta name="theme-color" content={mainColor} />
         {headComponents}
+        <ColorSchemeHeadScript scopeHash={scopeHash} />
       </head>
-      <body {...bodyAttributes}>
+      <body className="dnb-page-background" {...bodyAttributes}>
+        <ColorSchemeBodyScript />
         <noscript key="noscript" id="gatsby-noscript">
           Eufemia works best with JavaScript enabled.
         </noscript>
@@ -82,6 +90,7 @@ export default function HTML(props: HTMLProps) {
           id="___gatsby"
           dangerouslySetInnerHTML={{ __html: body }}
         />
+        <ColorSchemeContentScript />
         {postBodyComponents}
       </body>
     </html>
