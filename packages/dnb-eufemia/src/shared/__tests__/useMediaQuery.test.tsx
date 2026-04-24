@@ -147,20 +147,20 @@ describe('useMediaQuery', () => {
     }
 
     render(<Playground />)
-    expect(match1Handler).toHaveBeenCalledTimes(1)
-    expect(match2Handler).toHaveBeenCalledTimes(1)
+    expect(match1Handler).toHaveBeenCalledTimes(2)
+    expect(match2Handler).toHaveBeenCalledTimes(2)
     expect(match1Handler).toHaveBeenCalledWith(true)
     expect(match2Handler).toHaveBeenCalledWith(false)
 
     fireEvent.click(screen.getByRole('button'))
-    expect(match1Handler).toHaveBeenCalledTimes(3)
-    expect(match2Handler).toHaveBeenCalledTimes(3)
+    expect(match1Handler).toHaveBeenCalledTimes(4)
+    expect(match2Handler).toHaveBeenCalledTimes(4)
     expect(match1Handler).toHaveBeenCalledWith(false)
     expect(match2Handler).toHaveBeenCalledWith(true)
 
     fireEvent.click(screen.getByRole('button'))
-    expect(match1Handler).toHaveBeenCalledTimes(5)
-    expect(match2Handler).toHaveBeenCalledTimes(5)
+    expect(match1Handler).toHaveBeenCalledTimes(6)
+    expect(match2Handler).toHaveBeenCalledTimes(6)
     expect(match1Handler).toHaveBeenCalledWith(true)
     expect(match2Handler).toHaveBeenCalledWith(false)
   })
@@ -182,7 +182,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(3)
+    expect(window.matchMedia).toHaveBeenCalledTimes(6)
     expect(resultA.current).toBe(true)
 
     jest
@@ -198,7 +198,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(3)
+    expect(window.matchMedia).toHaveBeenCalledTimes(6)
     expect(resultB.current).toBe(false)
   })
 })
