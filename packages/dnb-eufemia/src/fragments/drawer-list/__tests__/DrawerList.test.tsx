@@ -1005,6 +1005,24 @@ describe('DrawerList component', () => {
     expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
+  it('should fire onOpen only once when mounted with open and preventClose', () => {
+    const onOpen = jest.fn()
+
+    render(
+      <DrawerList
+        open
+        preventClose
+        skipPortal
+        noAnimation
+        data={mockData}
+        value={2}
+        onOpen={onOpen}
+      />
+    )
+
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
   describe('height calculation', () => {
     it('has given max-height when maxHeight is set', () => {
       render(<DrawerList {...props} data={mockData} maxHeight={10} />)

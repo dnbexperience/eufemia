@@ -965,6 +965,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       return // stop
     }
 
+    // Mark state immediately to prevent duplicate onOpen calls
+    // before the next render applies the pending mergeState update
+    stateRef.current.open = true
+    stateRef.current.hidden = false
+
     clearTimeout(showTimeoutRef.current)
     clearTimeout(hideTimeoutRef.current)
 
