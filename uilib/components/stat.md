@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.411Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.448Z
 checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
@@ -95,12 +95,7 @@ render(
 
     <Stat.Label top>Monthly change</Stat.Label>
     <Stat.Content direction="vertical">
-      <Stat.Currency
-        value={-1234}
-        signDisplay="always"
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
+      <Stat.Currency value={-1234} locale="en-GB" />
       <Stat.Inline>
         <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
         <Stat.Info>(some additional information)</Stat.Info>

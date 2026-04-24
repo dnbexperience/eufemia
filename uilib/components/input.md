@@ -1,9 +1,9 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.133Z
-checksum: 39cb0c1c551994341f670366454953d1e38de0c9471995752375b2bd2fbc4d41
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.209Z
+checksum: 586895425dda6bc218565357fa56efb68214cf4323eae985f68cedbf626594c6
 ---
 
 # Input
@@ -486,7 +486,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/mo
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

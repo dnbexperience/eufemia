@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.453Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.483Z
 checksum: 279ae1c75d5d7f8776ede8b9c75e15fd4873dfff3474e45baf461935db6d2bff
 ---
 

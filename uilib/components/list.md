@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.178Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.251Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -324,12 +324,15 @@ render(
       </List.Cell.Footer>
     </List.Item.Basic>
 
-    <List.Item.Action icon={fish_medium} title="Action item with button">
+    <List.Item.Action icon={fish_medium} title="Action item with footer">
       <List.Cell.End>
         <Value.Currency value={5678} />
       </List.Cell.End>
       <List.Cell.Footer>
-        <Button variant="secondary" text="Open" />
+        <Span>
+          Do not put interactive elements (e.g. Button) inside a footer
+          when using List.Item.Action.
+        </Span>
       </List.Cell.Footer>
     </List.Item.Action>
 
@@ -344,7 +347,10 @@ render(
           background: 'var(--token-color-background-neutral-subtle)',
         }}
       >
-        <Button variant="tertiary" text="Next" icon="chevron_right" />
+        <P>
+          Do not put interactive elements (e.g. Button) inside a footer
+          when using List.Item.Accordion.
+        </P>
       </List.Cell.Footer>
 
       <List.Item.Accordion.Content innerSpace>

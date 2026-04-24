@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitConfirmation'
 description: '`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.953Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.894Z
 checksum: 7bf2130a8c9d87f05ba44fb9f83d48ee659850d6119e13e570398d54a7d4d582
 ---
 

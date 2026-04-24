@@ -148,32 +148,32 @@ formatCardNumber('************1337', 5) // returns * 1337
       "status": "required"
     },
     "bankLogo": {
-      "doc": "Discriminated union with `tag` property. `import { DNB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `DNB.Colored('HexValue')` or `DNB.Sbanken('HexValue')`.",
+      "doc": "Discriminated union with `tag` property. `import { DNB } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `DNB.Colored('HexValue')` or `DNB.Sbanken('HexValue')`.",
       "type": "DNB",
       "status": "required"
     },
     "visa": {
-      "doc": "Discriminated union with `tag` property. `import { Visa } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
+      "doc": "Discriminated union with `tag` property. `import { Visa } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
       "type": "Visa",
       "status": "required"
     },
     "mastercard": {
-      "doc": "Discriminated union with `tag` property. `import { Mastercard } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Mastercard.Default` or `Mastercard.Dark`.",
+      "doc": "Discriminated union with `tag` property. `import { Mastercard } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `Mastercard.Default` or `Mastercard.Dark`.",
       "type": "Mastercard",
       "status": "required"
     },
     "bankAxept": {
-      "doc": "Discriminated union with `tag` property. `import { BankAxept } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.",
+      "doc": "Discriminated union with `tag` property. `import { BankAxept } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.",
       "type": "BankAxept",
       "status": "required"
     },
     "saga": {
-      "doc": "Discriminated union with `tag` property. `import { Saga } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.",
+      "doc": "Discriminated union with `tag` property. `import { Saga } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.",
       "type": "Saga",
       "status": "required"
     },
     "privateBanking": {
-      "doc": "Discriminated union with `tag` property. `import { PB } from '@dnb/eufemia/extensions/payment-card/utils/Types'`. Can be `PB.Default` or `PB.None`.",
+      "doc": "Discriminated union with `tag` property. `import { PB } from '@dnb/eufemia/extensions/payment-card/utils/types'`. Can be `PB.Default` or `PB.None`.",
       "type": "PB",
       "status": "required"
     }

@@ -1,7 +1,7 @@
 ---
 title: 'HTML Elements'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.758Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.727Z
 checksum: 18e00ad06523acfe60001e6744349201af717bf0b58581da85eb2dc34ca5d85b
 ---
 

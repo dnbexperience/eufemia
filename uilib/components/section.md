@@ -1,9 +1,9 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.291Z
-checksum: ff487e363e83827b18c01d3bb4b0b0e01cbbeb8b07bdecff46f7994b6a20aeeb
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.352Z
+checksum: 53374fcb803db9b71917a510cd257d02fc6f5f5162662ae0c6b86b36cb0c880c
 ---
 
 # Section
@@ -423,7 +423,7 @@ render(
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

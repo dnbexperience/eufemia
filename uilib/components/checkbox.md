@@ -1,9 +1,9 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:08.965Z
-checksum: 2ff69f07c0b85adfd7100c6ec6337447041916f59c076582df0e1ca1e8ab823e
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.063Z
+checksum: bb164c6a3535a7ad04203332e51a918cfe8e20dd89520b0925d627f9db05e9f0
 ---
 
 # Checkbox
@@ -202,7 +202,7 @@ render(
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

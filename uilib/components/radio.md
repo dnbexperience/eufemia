@@ -1,9 +1,9 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.284Z
-checksum: a56b7ca587f391cddd2fcce06464c3f99fd2bb72cc857d2cdbe7fba13a99818d
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.345Z
+checksum: 5795f4aaf0b630532144f40f337f7e987269d7bb018d76733aa0070ace662f39
 ---
 
 # Radio
@@ -297,7 +297,7 @@ render(
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     }

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.837Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.792Z
 checksum: 08b47a27a802cced38a3971d50dcbb9035b6226995945a9197e08835876bad97
 ---
 

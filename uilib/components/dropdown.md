@@ -1,9 +1,9 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.032Z
-checksum: 5aa0c45299c91d0296454d2179924f025895af909351fa0941aedb28e3a37d20
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.122Z
+checksum: 1e3d4837783b622f108440442703c9b366fa7ad611927f646b6ea18919b836fa
 ---
 
 # Dropdown
@@ -889,12 +889,12 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },
     "buttonRef": {
-      "doc": "By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

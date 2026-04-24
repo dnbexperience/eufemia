@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.097Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.178Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
@@ -32,6 +32,32 @@ This button is used as the default [Modal trigger button](/uilib/components/moda
 
 ```tsx
 render(<HelpButton>Text</HelpButton>)
+```
+
+### Help button used in form help (inline)
+
+```tsx
+render(
+  <Form.Handler>
+    <Form.Card>
+      <Form.SubHeading>My form</Form.SubHeading>
+      <Field.Email
+        help={{
+          title: 'Email help',
+          content: (
+            <>
+              Enter your{' '}
+              <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
+                email
+              </TermDefinition>{' '}
+              address
+            </>
+          ),
+        }}
+      />
+    </Form.Card>
+  </Form.Handler>
+)
 ```
 
 ### Help button inside a suffix

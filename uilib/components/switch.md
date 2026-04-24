@@ -1,9 +1,9 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.431Z
-checksum: 7da6a0722dda16b6c09501804b556c96b19a5ad096984265b6d878791e09d219
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.464Z
+checksum: 763f8973f7a19b170b8031de6065f88bda0b6d874f7ddcb1ee8b6e6175abed22
 ---
 
 # Switch
@@ -175,7 +175,7 @@ render(<Switch checked disabled label="Disabled" />)
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

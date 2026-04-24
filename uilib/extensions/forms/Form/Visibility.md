@@ -1,8 +1,8 @@
 ---
 title: 'Form.Visibility'
 description: '`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.970Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.909Z
 checksum: 4124652588375b94b40a30fcb102910a53970d9a7800b7246035b0da7dd690a9
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:09.474Z
-checksum: 2a37277be9d5fbd57fb4d4a75cd6034ee1e76721b397343373fe7e5f5ead24f5
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:47.501Z
+checksum: 32198e15044283c4ef9d2668c493cb2ee237d97fa9fcc3a795d93a8860eff7cd
 ---
 
 # Textarea
@@ -346,7 +346,7 @@ render(
       "status": "optional"
     },
     "ref": {
-      "doc": "By providing a `React.Ref` we can get the internally used Textarea element (DOM), e.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "doc": "By providing a `React.Ref` we can get the internally used Textarea element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.",
       "type": "React.RefObject",
       "status": "optional"
     },

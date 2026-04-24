@@ -1,8 +1,8 @@
 ---
 title: 'Field.Email'
 description: '`Field.Email` is a wrapper component for the input of strings, with user experience tailored for email values.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:10.387Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:48.290Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -141,10 +141,10 @@ render(
 ```tsx
 render(
   <Field.Email
-    value="my-m@il.com"
     label="Label text"
     onChange={(value) => console.log('onChange', value)}
     required
+    validateInitially
   />
 )
 ```

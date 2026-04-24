@@ -1,8 +1,8 @@
 ---
 title: 'Field.OrganizationNumber'
 description: '`Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:10.392Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:48.294Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -168,10 +168,10 @@ render(
 ```tsx
 render(
   <Field.OrganizationNumber
-    value="123456789"
     label="Label text"
     onChange={(value) => console.log('onChange', value)}
     required
+    validateInitially
   />
 )
 ```

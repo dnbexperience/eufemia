@@ -1,8 +1,8 @@
 ---
 title: 'Getting Started'
 description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
-version: 11.0.0
-generatedAt: 2026-04-21T13:54:10.410Z
+version: 12.0.0
+generatedAt: 2026-04-24T07:15:48.310Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
