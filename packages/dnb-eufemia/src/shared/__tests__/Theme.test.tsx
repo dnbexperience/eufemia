@@ -364,8 +364,8 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-dialog__root',
-        'dnb-modal__content',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -386,9 +386,8 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-modal__content',
-        'dnb-modal__content--right',
-        'dnb-drawer__root',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -407,7 +406,8 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -426,7 +426,8 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -453,12 +454,13 @@ describe('Portals', () => {
 
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-tooltip__portal',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
       ])
     )
-    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(2)
   })
 })

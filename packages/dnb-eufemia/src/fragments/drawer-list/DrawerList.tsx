@@ -13,7 +13,6 @@ import {
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
-import { getThemeClasses } from '../../shared/Theme'
 import { applySpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
@@ -707,8 +706,8 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
         includeOwnerWidth={alignDrawer === 'right'}
         independentWidth={independentWidth}
         fixedPosition={fixedPosition}
-        className={getThemeClasses(context?.theme, portalClass)}
         skipPortal={skipPortal}
+        className={portalClass}
       >
         {mainList}
       </DrawerListPortal>

@@ -7,8 +7,6 @@ import clsx from 'clsx'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'
-import { useTheme } from '../../shared'
-import { getThemeClasses } from '../../shared/Theme'
 import PortalRoot from '../PortalRoot'
 import ModalContext from '../modal/ModalContext'
 import PopoverContainer from './PopoverContainer'
@@ -97,7 +95,6 @@ function PopoverPortal(props: PopoverPortalProps) {
 
   const [id] = useState(() => makeUniqueId())
   const modalContext = useContext(ModalContext)
-  const theme = useTheme()
 
   const { isActive: portalActive, shouldRenderPortal } =
     usePopoverPortalLifecycle({
@@ -118,7 +115,6 @@ function PopoverPortal(props: PopoverPortalProps) {
         className={clsx(
           baseClassNames.map((base) => `${base}__portal`),
           portalRootClass,
-          theme && getThemeClasses(theme),
           modalContext?.id &&
             baseClassNames.map((base) => `${base}--inside-modal`)
         )}
