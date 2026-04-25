@@ -185,5 +185,9 @@ const Table = (componentProps: TableAllProps) => {
 withComponentMarkers(Table, { _supportsSpacingProps: true })
 
 export default Table
+export { useTableKeyboardNavigation } from './useTableKeyboardNavigation'
+export { default as Th } from './TableTh'
+export { default as Td } from './TableTd'
+export { default as Tr } from './TableTr'
 
 Table.ScrollView = ScrollView
