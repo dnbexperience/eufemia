@@ -20,6 +20,16 @@ vi.mock('ora', () => {
   }
 })
 
+// postcss-preset-env v11 is ESM-only and incompatible with the test
+// module system. Provide a passthrough PostCSS plugin for tests.
+vi.mock('postcss-preset-env', () => {
+  const plugin = () => ({
+    postcssPlugin: 'postcss-preset-env',
+  })
+  plugin.postcss = true
+  return { default: plugin }
+})
+
 if (isCI) {
   vi.setConfig({ testTimeout: 50e3 })
 
