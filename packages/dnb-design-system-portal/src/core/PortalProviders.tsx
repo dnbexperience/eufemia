@@ -105,9 +105,13 @@ const isDev =
  */
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
+  const isCarnegie = theme?.name === 'carnegie'
 
   return (
-    <Theme colorScheme={isDev ? 'auto' : undefined} {...theme}>
+    <Theme
+      colorScheme={isCarnegie ? 'light' : isDev ? 'auto' : undefined}
+      {...theme}
+    >
       {children}
     </Theme>
   )

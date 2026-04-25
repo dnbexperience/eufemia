@@ -3,6 +3,7 @@ import { ToggleButton } from '@dnb/eufemia/src/components'
 import { getTheme, setTheme } from 'gatsby-plugin-eufemia-theme-handler'
 
 export default function ToggleDarkMode(props) {
+  const { disabled, ...rest } = props
   const [colorScheme, setColorScheme] = React.useState(
     () => getTheme().colorScheme || 'auto'
   )
@@ -11,11 +12,12 @@ export default function ToggleDarkMode(props) {
     <ToggleButton.Group
       label="Color scheme"
       value={colorScheme}
+      disabled={disabled}
       onChange={({ value }) => {
         setTheme({ colorScheme: value } as Parameters<typeof setTheme>[0])
         setColorScheme(value)
       }}
-      {...props}
+      {...rest}
     >
       <ToggleButton value="auto">Auto</ToggleButton>
       <ToggleButton value="dark">Dark</ToggleButton>
