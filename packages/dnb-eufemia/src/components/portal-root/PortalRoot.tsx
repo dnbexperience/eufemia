@@ -4,6 +4,8 @@ import clsx from 'clsx'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../shared/IsolatedStyleScope'
+import Context from '../../shared/Context'
+import { getThemeClasses } from '../../shared/Theme'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -67,6 +69,7 @@ function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { style: scopeStyle } = useContext(IsolatedStyleScopeContext) || {}
   const selectorContext = useContext(PortalRootContext)
+  const context = useContext(Context)
 
   const hasPropOverride =
     typeof insideSelectorProp !== 'undefined' ||
@@ -133,6 +136,7 @@ function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
         className={clsx(
           'dnb-core-style',
           'eufemia-portal-root',
+          getThemeClasses(context?.theme),
           className
         )}
         style={{ ...scopeStyle, ...style }}

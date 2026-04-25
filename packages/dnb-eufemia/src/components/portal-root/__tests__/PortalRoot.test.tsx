@@ -4,6 +4,7 @@ import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../../shared/IsolatedStyleScope'
+import Theme from '../../../shared/Theme'
 import { axeComponent } from '../../../core/jest/jestSetup'
 
 describe('PortalRoot', () => {
@@ -1066,5 +1067,71 @@ describe('PortalRoot aria', () => {
       </PortalRoot>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+})
+
+describe('PortalRoot theme', () => {
+  beforeEach(() => {
+    document.body.innerHTML = ''
+  })
+
+  it('should apply theme classes from Theme context', () => {
+    render(
+      <Theme name="ui">
+        <PortalRoot>
+          <div data-testid="content">Content</div>
+        </PortalRoot>
+      </Theme>
+    )
+
+    const portalElement = document.getElementById('eufemia-portal-root')
+    const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+    expect(innerDiv).toHaveClass('eufemia-theme')
+    expect(innerDiv).toHaveClass('eufemia-theme__ui')
+  })
+
+  it('should apply colorScheme dark class', () => {
+    render(
+      <Theme name="sbanken" colorScheme="dark">
+        <PortalRoot>
+          <div data-testid="content">Content</div>
+        </PortalRoot>
+      </Theme>
+    )
+
+    const portalElement = document.getElementById('eufemia-portal-root')
+    const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+    expect(innerDiv).toHaveClass('eufemia-theme__color-scheme--dark')
+    expect(innerDiv).toHaveClass('eufemia-theme__sbanken')
+  })
+
+  it('should apply colorScheme light class', () => {
+    render(
+      <Theme name="ui" colorScheme="light">
+        <PortalRoot>
+          <div data-testid="content">Content</div>
+        </PortalRoot>
+      </Theme>
+    )
+
+    const portalElement = document.getElementById('eufemia-portal-root')
+    const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+    expect(innerDiv).toHaveClass('eufemia-theme__color-scheme--light')
+  })
+
+  it('should not apply theme classes when no Theme context exists', () => {
+    render(
+      <PortalRoot>
+        <div data-testid="content">Content</div>
+      </PortalRoot>
+    )
+
+    const portalElement = document.getElementById('eufemia-portal-root')
+    const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+    expect(innerDiv).not.toHaveClass('eufemia-theme')
   })
 })
