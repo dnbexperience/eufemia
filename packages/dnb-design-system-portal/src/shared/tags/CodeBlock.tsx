@@ -40,8 +40,11 @@ import {
   LivePreview,
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
-// this theme is replaced my a css one
+// This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
+
+// Import other languages not included in the default bundle of prism-react-renderer
+import './prismLanguages'
 
 export type CodeSectionProps = {
   scope?: Record<string, unknown>
