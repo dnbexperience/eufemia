@@ -170,6 +170,7 @@ export default function SidebarLayout({
         triggerAttributes={{
           left: 'large',
           top: 'large',
+          bottom: 'large',
           text: 'Portal Tools',
           icon: 'chevron_right',
           iconPosition: 'right',

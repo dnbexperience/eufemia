@@ -82,8 +82,7 @@
       }
       > .dnb-sidebar-menu__item .dnb-anchor {
         margin-left: var(--level-icon-adjust);
-        margin-top: 1rem;
-        margin-bottom: 2rem;
+        padding-block: 2rem;
         padding-left: calc(var(--level-offset) + var(--level) * 2);
 
         font-weight: var(--font-weight-medium);
@@ -306,11 +305,10 @@
   }
 
   margin: 3.5rem 0 0;
+
   ul {
+    margin: 0;
     padding: 0;
-  }
-  > ul {
-    padding: 2rem 0 1rem;
   }
 
   background-color: var(--token-color-background-neutral);
