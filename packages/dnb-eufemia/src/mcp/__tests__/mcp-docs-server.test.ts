@@ -639,12 +639,12 @@ describe('MCP dependency configuration', () => {
       fs.readFileSync(packageJsonPath, 'utf8')
     )
 
-    expect(packageJson.dependencies).toBeDefined()
+    expect(packageJson.devDependencies).toBeDefined()
     expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
+      packageJson.devDependencies['@modelcontextprotocol/sdk']
     ).toBeDefined()
     expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
+      packageJson.devDependencies['@modelcontextprotocol/sdk']
     ).toBeTruthy()
   })
 

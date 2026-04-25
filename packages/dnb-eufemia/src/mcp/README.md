@@ -4,6 +4,18 @@ This MCP server exposes the packaged documentation from `@dnb/eufemia/docs` so A
 
 By default it looks for `/docs` inside the installed package. During local development you can point it at another location with `EUFEMIA_DOCS_ROOT`.
 
+## Installation
+
+The MCP server requires `@modelcontextprotocol/sdk` as a peer dependency. It is not included as a runtime dependency of `@dnb/eufemia` since it is only needed for AI/MCP tooling.
+
+Install it as a devDependency in your application:
+
+```bash
+npm install --save-dev @modelcontextprotocol/sdk
+# or
+yarn add --dev @modelcontextprotocol/sdk
+```
+
 ## Available Tools
 
 The server exposes these tools:
