@@ -1,11 +1,8 @@
 import React from 'react'
 import { Dropdown } from '@dnb/eufemia/src'
 import { Context } from '@dnb/eufemia/src/shared'
-import {
-  getThemes,
-  getTheme,
-  setTheme,
-} from 'gatsby-plugin-eufemia-theme-handler'
+import { getTheme } from '@dnb/eufemia/src/shared/Theme'
+import { getThemes, setTheme } from 'gatsby-plugin-eufemia-theme-handler'
 
 export default function ChangeStyleTheme({ label = null, ...rest } = {}) {
   const themes = getThemes()

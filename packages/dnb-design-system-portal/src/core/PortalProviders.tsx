@@ -92,6 +92,10 @@ export const rootElement =
     )
   }
 
+const isDev =
+  process.env.NODE_ENV === 'development' ||
+  process.env.GATSBY_IS_PREVIEW === 'true'
+
 /**
  * Because we do rewrite the import path many places from
  * "/src" to "/build" on CI, some parts miss out,
@@ -101,9 +105,13 @@ export const rootElement =
  */
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
+  const isCarnegie = theme?.name === 'carnegie'
 
   return (
-    <Theme {...theme} className="dnb-page-background">
+    <Theme
+      colorScheme={isCarnegie ? 'light' : isDev ? 'auto' : undefined}
+      {...theme}
+    >
       {children}
     </Theme>
   )

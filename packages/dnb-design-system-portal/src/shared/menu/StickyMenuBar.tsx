@@ -5,49 +5,30 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { useStaticQuery, graphql } from 'gatsby'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
-import { Icon, Button } from '@dnb/eufemia/src'
+import { Button } from '@dnb/eufemia/src'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
-import { Context } from '@dnb/eufemia/src/shared'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
-import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   headerStyle,
   centerWrapperStyle,
   toolsStyle,
-  sloganStyle,
   portalHeaderWrapperStyle,
   hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo'
 import FigmaLogo from '../../docs/contribute/assets/figma-logo'
-import type { IconSize } from '@dnb/eufemia/src/components/Icon'
 
 export default function StickyMenuBar({
   hideSidebarToggleButton = false,
   preventBarVisibility = false,
 } = {}) {
-  const context = React.useContext(Context)
   const { toggleMenu, isOpen } = React.useContext(SidebarMenuContext)
-  const {
-    site: {
-      siteMetadata: { name: slogan },
-    },
-  } = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          name
-        }
-      }
-    }
-  `)
 
   if (preventBarVisibility || hideSidebarToggleButton) {
     return null
@@ -67,21 +48,7 @@ export default function StickyMenuBar({
         <HomeButton id="toggle-main-menu-small-screen" size="default" />
 
         <span aria-hidden className={centerWrapperStyle}>
-          <Icon
-            icon={PortalLogo}
-            size={48 as IconSize}
-            right="x-small"
-            color="var(--color-black-80, #333)"
-          />
-          <span
-            className={clsx(
-              sloganStyle,
-              createSkeletonClass('font', context.skeleton),
-              'dnb-eufemia-logo'
-            )}
-          >
-            {slogan}
-          </span>
+          <PortalLogo />
         </span>
 
         <span className={toolsStyle}>

@@ -38,8 +38,8 @@
   display: flex;
   justify-content: center;
 
-  background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-black-border);
+  background-color: var(--token-color-background-neutral);
+  border-bottom: 1px solid var(--token-color-stroke-neutral-subtle);
 
   white-space: nowrap;
 
@@ -104,10 +104,9 @@
 
   font-size: var(--font-size-basis);
 
-  :global {
-    .dnb-icon:nth-of-type(1) {
-      color: var(--color-sea-green);
-    }
+  :global(svg path) {
+    stroke: none;
+    fill: var(--token-color-icon-neutral);
   }
 
   @include utilities.allBelow(small) {

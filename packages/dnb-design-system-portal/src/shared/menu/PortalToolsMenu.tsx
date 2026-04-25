@@ -30,7 +30,8 @@ export default function PortalToolsMenu({
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton } = React.useContext(Context)
+  const { skeleton, theme } = React.useContext(Context)
+  const isCarnegie = theme?.name === 'carnegie'
 
   return (
     <Drawer
@@ -92,7 +93,7 @@ export default function PortalToolsMenu({
           <Space top="large">
             <H2 size="small">Dark mode</H2>
             <Space top>
-              <ToggleDarkMode />
+              <ToggleDarkMode disabled={isCarnegie} />
             </Space>
           </Space>
         )}
