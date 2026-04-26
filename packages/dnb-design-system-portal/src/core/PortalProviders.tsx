@@ -109,7 +109,7 @@ function ThemeProvider({ children }) {
 
   return (
     <Theme
-      colorScheme={isCarnegie ? 'light' : isDev ? 'auto' : undefined}
+      colorScheme={isCarnegie ? 'light' : isDev ? 'system' : undefined}
       {...theme}
     >
       {children}

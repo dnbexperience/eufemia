@@ -96,7 +96,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets colorScheme="auto" as HTML class', () => {
+  it('sets colorScheme="system" as HTML class', () => {
     const matchMediaOriginal = window.matchMedia
     window.matchMedia = jest.fn().mockImplementation((query) => ({
       media: query,
@@ -105,7 +105,7 @@ describe('Theme', () => {
       removeEventListener: jest.fn(),
     }))
 
-    render(<Theme colorScheme="auto">content</Theme>)
+    render(<Theme colorScheme="system">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
@@ -116,7 +116,7 @@ describe('Theme', () => {
     window.matchMedia = matchMediaOriginal
   })
 
-  it('sets colorScheme="auto" and resolves dark mode via matchMedia', () => {
+  it('sets colorScheme="system" and resolves dark mode via matchMedia', () => {
     const matchMediaOriginal = window.matchMedia
     window.matchMedia = jest.fn().mockImplementation((query) => ({
       media: query,
@@ -125,7 +125,7 @@ describe('Theme', () => {
       removeEventListener: jest.fn(),
     }))
 
-    render(<Theme colorScheme="auto">content</Theme>)
+    render(<Theme colorScheme="system">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
@@ -136,7 +136,7 @@ describe('Theme', () => {
     window.matchMedia = matchMediaOriginal
   })
 
-  it('updates colorScheme="auto" when system preference changes', () => {
+  it('updates colorScheme="system" when system preference changes', () => {
     const matchMediaOriginal = window.matchMedia
     let listener: (event: { matches: boolean }) => void = null
     let matches = false
@@ -154,7 +154,7 @@ describe('Theme', () => {
       removeEventListener: jest.fn(),
     }))
 
-    render(<Theme colorScheme="auto">content</Theme>)
+    render(<Theme colorScheme="system">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
@@ -541,7 +541,7 @@ describe('Portals', () => {
         removeEventListener: jest.fn(),
       }))
 
-      render(<Theme colorScheme="auto">content</Theme>)
+      render(<Theme colorScheme="system">content</Theme>)
 
       const element = document.querySelector('.eufemia-theme')
       expect(
@@ -562,7 +562,7 @@ describe('Portals', () => {
         removeEventListener: jest.fn(),
       }))
 
-      render(<Theme colorScheme="auto">content</Theme>)
+      render(<Theme colorScheme="system">content</Theme>)
 
       expect(globalThis.__eufemiaColorScheme).toBeUndefined()
 

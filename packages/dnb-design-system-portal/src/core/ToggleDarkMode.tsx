@@ -7,7 +7,7 @@ import { setTheme } from 'gatsby-plugin-eufemia-theme-handler'
 export default function ToggleDarkMode(props) {
   const { disabled, ...rest } = props
   const [colorScheme, updateColorScheme] = React.useState(
-    () => getTheme().colorScheme || 'auto'
+    () => getTheme().colorScheme || 'system'
   )
 
   return (
@@ -22,7 +22,7 @@ export default function ToggleDarkMode(props) {
       }}
       {...rest}
     >
-      <ToggleButton value="auto">Auto</ToggleButton>
+      <ToggleButton value="system">System</ToggleButton>
       <ToggleButton value="dark">Dark</ToggleButton>
       <ToggleButton value="light">Light</ToggleButton>
     </ToggleButton.Group>

@@ -18,9 +18,9 @@ export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type ContrastMode = boolean
 /**
- * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
+ * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'system'` to follow the user's system preference. Defaults to `undefined`.
  */
-export type ThemeColorScheme = 'auto' | 'light' | 'dark'
+export type ThemeColorScheme = 'system' | 'light' | 'dark'
 /**
  * Adjusts component appearance based on background. Defaults to `undefined`.
  * Use `'initial'` to reset to the component's default behavior, ignoring any parent surface context.
@@ -56,11 +56,11 @@ export default function Theme(themeProps: ThemeAllProps) {
 
   const prefersDarkColorScheme = useMediaQuery({
     query: '(prefers-color-scheme: dark)',
-    disabled: colorScheme !== 'auto',
+    disabled: colorScheme !== 'system',
   })
 
   const activeColorScheme =
-    colorScheme === 'auto'
+    colorScheme === 'system'
       ? globalThis.__eufemiaColorScheme ||
         (prefersDarkColorScheme ? 'dark' : 'light')
       : colorScheme

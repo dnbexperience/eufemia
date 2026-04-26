@@ -36,7 +36,7 @@ const CLASS_PREFIX = 'eufemia-theme__color-scheme--'
  * Place this in <head>.
  */
 export function getHeadScript(scopeHash: string = getStyleScopeHash()) {
-  return `(function(){try{var t=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${scopeHash}');if(s){globalThis.${GLOBAL_KEY}=s}}catch(e){}})()`
+  return `(function(){try{var t=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'{}');var s=t.colorScheme;if(s==='system'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${scopeHash}');if(s){globalThis.${GLOBAL_KEY}=s}}catch(e){}})()`
 }
 
 /**

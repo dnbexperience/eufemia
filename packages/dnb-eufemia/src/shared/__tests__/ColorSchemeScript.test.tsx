@@ -95,7 +95,7 @@ describe('ColorSchemeScript', () => {
     it('head script resolves auto via matchMedia', () => {
       const storageMock = jest
         .spyOn(Storage.prototype, 'getItem')
-        .mockReturnValue(JSON.stringify({ colorScheme: 'auto' }))
+        .mockReturnValue(JSON.stringify({ colorScheme: 'system' }))
 
       const matchMediaOriginal = window.matchMedia
       window.matchMedia = jest.fn().mockReturnValue({ matches: true })

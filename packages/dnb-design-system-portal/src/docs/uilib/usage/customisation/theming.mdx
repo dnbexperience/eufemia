@@ -111,7 +111,7 @@ import { getTheme, setTheme } from '@dnb/eufemia/shared/Theme'
 
 // Read the current persisted theme
 const theme = getTheme()
-// { name: 'ui', colorScheme: 'auto', ... }
+// { name: 'ui', colorScheme: 'system', ... }
 
 // Update one or more properties (merges with existing state)
 setTheme({ colorScheme: 'dark' })
@@ -126,13 +126,13 @@ setTheme({ name: 'sbanken' }, (updatedTheme) => {
 
 ## Dark mode / Color scheme
 
-The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"auto"`, it follows the user's system preference.
+The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"system"`, it follows the user's system preference.
 
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'
 
 render(
-  <Theme colorScheme="auto">
+  <Theme colorScheme="system">
     <App />
   </Theme>
 )
@@ -140,7 +140,7 @@ render(
 
 ### Preventing dark mode flash (FOUC)
 
-When using `colorScheme="auto"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
+When using `colorScheme="system"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
 
 To prevent this, Eufemia provides blocking scripts that run synchronously before the browser paints. They read the stored preference from `localStorage` and apply the correct CSS classes immediately.
 
