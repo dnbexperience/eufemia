@@ -15,14 +15,18 @@ jest.mock('ora', () => {
   }))
 })
 
-// postcss-preset-env v11 is ESM-only and incompatible with Jest's
-// module system. Provide a passthrough PostCSS plugin for tests.
+// postcss-preset-env v11 is ESM-only. Mock the package with an
+// ESM-shaped default export so the prebuild task exercises the async
+// loader path used outside Jest as well.
 jest.mock('postcss-preset-env', () => {
   const plugin = () => ({
     postcssPlugin: 'postcss-preset-env',
   })
   plugin.postcss = true
-  return plugin
+  return {
+    __esModule: true,
+    default: plugin,
+  }
 })
 
 jest.setTimeout(30e3)
