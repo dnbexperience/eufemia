@@ -124,21 +124,7 @@ setTheme({ name: 'sbanken' }, (updatedTheme) => {
 
 `getTheme` also supports a `?eufemia-theme=<name>` URL query parameter, which overrides the persisted theme name. This is useful for testing or previewing themes via a link.
 
-## Dark mode / Color scheme
-
-The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"auto"`, it follows the user's system preference.
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-render(
-  <Theme colorScheme="auto">
-    <App />
-  </Theme>
-)
-```
-
-### Preventing dark mode flash (FOUC)
+## Preventing dark mode flash (FOUC)
 
 When using `colorScheme="auto"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
 

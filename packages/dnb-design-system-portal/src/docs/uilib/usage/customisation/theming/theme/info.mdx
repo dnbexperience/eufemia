@@ -87,6 +87,22 @@ render(
 )
 ```
 
+#### `colorScheme` property (Dark mode)
+
+The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"auto"`, it follows the user's system preference.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme colorScheme="auto">
+    <App />
+  </Theme>
+)
+```
+
+Read more about [Preventing dark mode flash (FOUC)](/uilib/usage/customisation/theming/#preventing-dark-mode-flash-fouc) for SSR considerations.
+
 #### `surface` property
 
 The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
