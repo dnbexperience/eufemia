@@ -58,7 +58,7 @@ export const runFactory = async (
     '../../../../assets/',
     '../../../assets/'
   )
-  const postcssTransform = transformPostcss(postcssConfig({ sass }))
+  const postcssTransform = transformPostcss(await postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
 
   const filePatterns = [
@@ -98,7 +98,7 @@ export const runFactory = async (
     // Branch 3 & 4: scoped styles (if enabled)
     if (enableBuildStyleScope()) {
       const scopedPostcssTransform = transformPostcss(
-        postcssConfig(
+        await postcssConfig(
           { sass },
           {
             plugins: [
