@@ -105,6 +105,30 @@ describe('ArraySelection', () => {
       expect(dialogContent).toHaveTextContent('Help content')
     })
 
+    it('renders help with convertible JSX title', () => {
+      render(
+        <Field.ArraySelection>
+          <Field.Option
+            value="option1"
+            help={{
+              title: <>Translatable title</>,
+              content: 'Help content',
+            }}
+          >
+            Option 1
+          </Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      expect(button).toHaveAttribute('aria-label', 'Translatable title')
+
+      fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+      const dialogContent = document.querySelector('.dnb-modal__content')
+      expect(dialogContent).toHaveTextContent('Help content')
+    })
+
     it('precede option title over children', async () => {
       render(
         <Field.ArraySelection>

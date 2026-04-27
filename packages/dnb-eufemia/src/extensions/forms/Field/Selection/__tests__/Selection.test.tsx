@@ -467,6 +467,30 @@ describe('variants', () => {
       expect(dialogContent).toHaveTextContent('Help content')
     })
 
+    it('renders help with convertible JSX title', () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option
+            value="foo"
+            help={{
+              title: <>Translatable title</>,
+              content: 'Help content',
+            }}
+          >
+            Foo
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      expect(button).toHaveAttribute('aria-label', 'Translatable title')
+
+      fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+      const dialogContent = document.querySelector('.dnb-modal__content')
+      expect(dialogContent).toHaveTextContent('Help content')
+    })
+
     it('should disable options', () => {
       render(
         <Field.Selection variant="radio" disabled>

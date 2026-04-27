@@ -473,11 +473,10 @@ function ModalComponent(ownProps: ModalAllProps) {
   }
 
   const headerTitle = rest.title || fallbackTitle
-  const title = (
+  const title =
     !usedTriggerAttributes?.text && headerTitle
       ? headerTitle || fallbackTitle
       : null
-  ) as string
 
   const TriggerButton = trigger
     ? (trigger as () => React.JSX.Element)
