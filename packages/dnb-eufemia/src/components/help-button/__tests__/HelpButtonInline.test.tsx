@@ -6,6 +6,8 @@ import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../HelpButtonInline'
 import Dialog from '../../dialog/Dialog'
+import Provider from '../../../shared/Provider'
+import Translation from '../../../shared/Translation'
 
 describe('HelpButtonInline', () => {
   let uniqueId = null
@@ -312,6 +314,64 @@ describe('HelpButtonInline', () => {
         'aria-label',
         'Hjelpetekst'
       )
+    })
+
+    it('should render tooltip with React component title', async () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          help={{
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      await userEvent.hover(button)
+
+      const tooltipContent = await waitFor(() => {
+        const ariaDescribedBy = button.getAttribute('aria-describedby')
+        expect(ariaDescribedBy).toBeTruthy()
+        const tooltip = document.querySelector(`#${ariaDescribedBy}`)
+        expect(tooltip).toBeInTheDocument()
+        return tooltip
+      })
+
+      expect(tooltipContent.textContent).toBe('Component title')
+    })
+
+    it('should render tooltip with Translation component title', async () => {
+      render(
+        <Provider
+          translations={{
+            'nb-NO': {
+              testlation: 'Hei',
+            },
+          }}
+        >
+          <HelpButtonInline
+            help={{
+              title: <Translation id="testlation" />,
+            }}
+          />
+        </Provider>
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      await userEvent.hover(button)
+
+      const tooltipContent = await waitFor(() => {
+        const ariaDescribedBy = button.getAttribute('aria-describedby')
+        expect(ariaDescribedBy).toBeTruthy()
+        const tooltip = document.querySelector(`#${ariaDescribedBy}`)
+        expect(tooltip).toBeInTheDocument()
+        return tooltip
+      })
+
+      expect(tooltipContent.textContent).toBe('Hei')
     })
 
     it('should have aria-label attribute', () => {

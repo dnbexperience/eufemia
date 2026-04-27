@@ -115,7 +115,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
     [isOpen, toggleOpen]
   )
 
-  const title = convertJsxToString(help?.title)
+  const titleString = convertJsxToString(help?.title)
 
   return (
     <>
@@ -123,7 +123,11 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
         bounding
         size={size ?? 'small'}
         icon={HelpButtonIcon}
-        title={!isOpen && !wasOpenRef.current ? title : undefined}
+        title={
+          !isOpen && !wasOpenRef.current
+            ? titleString || help?.title
+            : undefined
+        }
         {...rest}
         id={controlId}
         className={clsx(
@@ -137,7 +141,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
         selected={isOpen}
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
-        aria-label={title || undefined}
+        aria-label={titleString || undefined}
         onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         ref={buttonRef}
