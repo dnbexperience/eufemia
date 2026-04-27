@@ -6,6 +6,7 @@ import {
   isHeadingElement,
   getSpaceVariant,
   pickSpacingProps,
+  renderWithSpacing,
 } from '../../flex/utils'
 
 describe('isHeadingElement', () => {
@@ -92,5 +93,28 @@ describe('getSpaceVariant', () => {
     MockComponent._supportsSpacingProps = 'children'
 
     expect(getSpaceVariant(<MockComponent />)).toBe('children')
+  })
+})
+
+describe('renderWithSpacing', () => {
+  it('should preserve key from element when variant is children', () => {
+    const MockComponent = ({ children }) => <div>{children}</div>
+    MockComponent._supportsSpacingProps = 'children'
+
+    const spy = jest.spyOn(React, 'createElement')
+
+    renderWithSpacing(
+      <MockComponent key="test-key">
+        <span>child</span>
+      </MockComponent>,
+      {},
+      'children'
+    )
+
+    const call = spy.mock.calls.find(([type]) => type === MockComponent)
+    expect(call).toBeDefined()
+    expect(call[1].key).toBe('.$test-key')
+
+    spy.mockRestore()
   })
 })

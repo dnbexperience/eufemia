@@ -261,7 +261,7 @@ function wrapChildren(
       const childProps = childElement.props || {}
       return React.createElement(
         childElement.type as React.ComponentType<any>,
-        { key: childKey, ...childProps },
+        { ...childProps, key: childKey },
         <FlexContainer {...props}>
           {childElement.props.children}
         </FlexContainer>
