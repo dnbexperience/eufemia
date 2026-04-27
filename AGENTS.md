@@ -18,6 +18,7 @@
 - Use React Hooks over class components.
 - Use camelCase for functions and variables.
 - Use PascalCase for components and classes.
+- Use kebab-case for component directory names (e.g. `components/date-picker/`). The `extensions/forms/` directory is an exception — it uses PascalCase directories (e.g. `Field/Address/`, `Form/Section/`) because they map directly to compound component names (`Field.Address`, `Form.Section`).
 - Use kebab-case for CSS classes (prefixed with `dnb-`).
 - Write CSS in SCSS, using the documented rational property order.
 - Write CSS with recommended or correct units (e.g. `rem` as default).
