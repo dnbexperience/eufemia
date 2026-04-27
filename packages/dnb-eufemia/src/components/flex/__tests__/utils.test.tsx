@@ -107,11 +107,12 @@ describe('renderWithSpacing', () => {
       <MockComponent key="test-key">
         <span>child</span>
       </MockComponent>,
-      {},
-      'children'
+      {}
     )
 
-    const call = spy.mock.calls.find(([type]) => type === MockComponent)
+    const call = spy.mock.calls.find(
+      ([type]) => type === (MockComponent as any)
+    )
     expect(call).toBeDefined()
     expect(call[1].key).toBe('.$test-key')
 

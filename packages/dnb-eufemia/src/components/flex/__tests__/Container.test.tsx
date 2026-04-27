@@ -691,7 +691,9 @@ describe('Flex.Container', () => {
         </Flex.Vertical>
       )
 
-      const wrapperCall = spy.mock.calls.find(([type]) => type === Wrapper)
+      const wrapperCall = spy.mock.calls.find(
+        ([type]) => type === (Wrapper as any)
+      )
       expect(wrapperCall).toBeDefined()
       expect(wrapperCall[1].key).toBe('.$my-key')
 
