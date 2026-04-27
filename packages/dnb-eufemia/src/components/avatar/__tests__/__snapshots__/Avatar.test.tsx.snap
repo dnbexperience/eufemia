@@ -1,25 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Avatar scss should match default theme snapshot 1`] = `
-"/*
-* Avatar theme
-*
-*/
-.dnb-avatar {
-  --color: var(--color-pistachio);
-}
-.dnb-avatar--primary {
-  --background-color: var(--color-emerald-green);
-}
-.dnb-avatar--secondary {
-  --background-color: var(--color-sea-green);
-}
-.dnb-avatar--tertiary {
-  --background-color: var(--color-mint-green);
-  --color: var(--color-emerald-green);
-}"
-`;
-
 exports[`Avatar scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
@@ -33,6 +13,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
  * Utilities
  */
 .dnb-avatar {
+  --avatar-text-color: var(--token-color-text-neutral-inverse);
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
   --avatar-font-size--large: var(--font-size-x-large);
@@ -60,14 +41,18 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
   line-height: 1;
-  background-color: var(--background-color);
-  color: var(--color);
+  background-color: var(--avatar-background-color);
+  color: var(--avatar-text-color);
 }
-.dnb-avatar[style*="--background-color"] {
-  background-color: var(--background-color, var(--color-emerald-green));
+.dnb-avatar--primary {
+  --avatar-background-color: var(--token-color-decorative-first-bold);
 }
-.dnb-avatar[style*="--color"] {
-  color: var(--color, var(--color-pistachio));
+.dnb-avatar--secondary {
+  --avatar-background-color: var(--token-color-decorative-first-base);
+}
+.dnb-avatar--tertiary {
+  --avatar-background-color: var(--token-color-decorative-first-subtle);
+  --avatar-text-color: var(--token-color-text-neutral);
 }
 .dnb-avatar, .dnb-core-style .dnb-avatar {
   line-height: var(--line-height-large);
@@ -126,7 +111,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   flex-direction: row;
 }
 .dnb-avatar__group .dnb-avatar {
-  --border-color: var(--color-black-3);
+  --border-color: var(--token-color-icon-neutral-inverse);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -151,7 +136,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 .dnb-avatar__group--elements-left--size-small {
   font-size: var(--avatar-font-size-left--small);
