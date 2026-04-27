@@ -176,7 +176,9 @@ describe('withComponentMarkers', () => {
 
       expect(document.querySelector('fieldset')).not.toBeInTheDocument()
       expect(document.querySelector('legend')).not.toBeInTheDocument()
-      expect(document.querySelector('label')).toBeInTheDocument()
+      expect(
+        document.querySelector('span.dnb-form-label')
+      ).toBeInTheDocument()
     })
 
     it('should not render fieldset/legend when children are not marked', () => {
