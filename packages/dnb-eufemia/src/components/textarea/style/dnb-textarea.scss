@@ -180,7 +180,11 @@
   // However; the background color change does look not good because of the padding we have.
   &__textarea:autofill {
     box-shadow: 0 0 0 10em
-      var(--textarea-color-background, var(--color-white)) inset;
+      var(
+        --textarea-color-background,
+        var(--token-color-background-neutral)
+      )
+      inset;
   }
 
   &__align--right &__textarea,
@@ -293,7 +297,7 @@
   }
 
   html[data-visual-test] &__textarea {
-    caret-color: var(--color-white);
+    caret-color: var(--token-color-background-neutral);
   }
 
   &.dnb-skeleton &__inner {
