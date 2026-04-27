@@ -3,7 +3,7 @@ import { Table } from '@dnb/eufemia/src/components'
 
 export default function CardProductsTable() {
   return (
-    <div className="table-container">
+    <Table.ScrollView>
       <Table>
         <thead>
           <tr>
@@ -44,7 +44,7 @@ export default function CardProductsTable() {
           })}
         </tbody>
       </Table>
-    </div>
+    </Table.ScrollView>
   )
 }
 
