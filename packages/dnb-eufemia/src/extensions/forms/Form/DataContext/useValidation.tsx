@@ -4,8 +4,8 @@ import {
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import type { ContextState } from '../../DataContext/Context'
-import DataContext from '../../DataContext/Context'
+import type { ContextState } from '../../DataContext/DataContext'
+import DataContext from '../../DataContext/DataContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import type { EventStateObject, Path } from '../../types'
 import type { FormError } from '../../utils'

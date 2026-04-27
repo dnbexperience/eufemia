@@ -17,8 +17,8 @@ import type { Path } from '../../types'
 import type {
   FilterData,
   VisibleDataHandler,
-} from '../../DataContext/Context'
-import DataContext from '../../DataContext/Context'
+} from '../../DataContext/DataContext'
+import DataContext from '../../DataContext/DataContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 

@@ -10,7 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import { Field, Form, Iterate, makeAjvInstance, Wizard, z } from '../../..'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 import setData from '../../DataContext/setData'
 import useReportError from '../useReportError'
 

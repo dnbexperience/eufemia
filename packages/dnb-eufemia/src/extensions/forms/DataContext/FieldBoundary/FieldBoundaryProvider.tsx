@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import type { FieldBoundaryContextState } from './FieldBoundaryContext'
 import FieldBoundaryContext from './FieldBoundaryContext'
-import DataContext from '../Context'
+import DataContext from '../DataContext'
 import type { Path } from '../../types'
 
 export type FieldBoundaryProviderProps = {

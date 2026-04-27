@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import pointer from '../../utils/json-pointer'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useDataContextSnapshot from './useDataContextSnapshot'
 import { isObject } from '../../../../shared/component-helper'
 

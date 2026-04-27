@@ -13,7 +13,7 @@ import {
   z,
 } from '../../..'
 import { Div } from '../../../../../elements'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

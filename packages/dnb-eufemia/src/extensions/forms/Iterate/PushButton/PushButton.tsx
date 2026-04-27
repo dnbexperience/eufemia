@@ -11,7 +11,7 @@ import {
 import type { Path } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
 import { add } from '../../../../icons'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'

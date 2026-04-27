@@ -8,7 +8,7 @@ import {
 import type { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
-import DataContext from '../DataContext/Context'
+import DataContext from '../DataContext/DataContext'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 

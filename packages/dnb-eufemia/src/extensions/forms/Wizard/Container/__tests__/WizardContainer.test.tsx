@@ -6,7 +6,7 @@ import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { Translation } from '../../../../../shared'
 import type { OnSubmit, OnSubmitRequest } from '../../..'
 import { Field, Form, Iterate, Wizard, makeAjvInstance } from '../../..'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 import WizardContext from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'

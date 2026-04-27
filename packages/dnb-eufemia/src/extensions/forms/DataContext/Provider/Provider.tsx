@@ -58,8 +58,8 @@ import type {
   VisibleDataHandler,
   DataPathHandlerParameters,
   SectionSchemaRegistration,
-} from '../Context'
-import DataContext from '../Context'
+} from '../DataContext'
+import DataContext from '../DataContext'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'

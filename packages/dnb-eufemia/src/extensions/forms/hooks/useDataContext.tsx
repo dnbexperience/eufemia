@@ -4,8 +4,8 @@ import {
   createReferenceKey,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
-import type { ContextState } from '../DataContext/Context'
-import DataContext from '../DataContext/Context'
+import type { ContextState } from '../DataContext/DataContext'
+import DataContext from '../DataContext/DataContext'
 
 export default function useDataContext(id: SharedStateId = undefined): {
   dataContext?: ContextState

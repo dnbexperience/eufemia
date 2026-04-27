@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import useId from '../../../../shared/helpers/useId'
 import type { ContextState } from '../../DataContext'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import VisibilityContext from '../Visibility/VisibilityContext'

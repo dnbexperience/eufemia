@@ -1,8 +1,8 @@
 import { useCallback, useContext, useRef } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
 import pointer from '../utils/json-pointer'
-import type { FilterData } from '../DataContext/Context'
-import DataContext from '../DataContext/Context'
+import type { FilterData } from '../DataContext/DataContext'
+import DataContext from '../DataContext/DataContext'
 import type { JSONSchema } from '../types'
 
 export type GenerateSchemaReturn = {

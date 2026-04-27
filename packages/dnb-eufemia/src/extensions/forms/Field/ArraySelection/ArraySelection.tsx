@@ -13,7 +13,7 @@ import ToggleButtonGroupContext from '../../../../components/toggle-button/Toggl
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type { Data } from '../Selection'
 import { countOptions, mapOptions } from '../Selection'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useDataValue from '../../hooks/useDataValue'
 import type { FormError } from '../../utils'
 import type { CheckboxProps } from '../../../../components/Checkbox'

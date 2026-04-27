@@ -5,7 +5,7 @@ import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../Context'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardButtonsProps = ComponentProps & {

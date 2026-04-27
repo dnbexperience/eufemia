@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 import Provider from '../../../DataContext/Provider'
 import { GlobalStatus } from '../../../../../components'
 import type { Validator } from '../../..'

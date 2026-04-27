@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
 import { extendDeep } from '../../../../../shared/component-helper'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 import SectionContext from '../SectionContext'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import useDataValue from '../../../hooks/useDataValue'

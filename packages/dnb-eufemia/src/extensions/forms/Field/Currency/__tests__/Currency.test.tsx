@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 import { Field, Form } from '../../../'
 
 describe('Field.Currency', () => {

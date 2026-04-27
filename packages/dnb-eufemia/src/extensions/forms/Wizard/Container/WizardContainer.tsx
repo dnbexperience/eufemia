@@ -25,7 +25,7 @@ import type {
   InternalStepStatus,
   InternalStepStatuses,
 } from '../Context/types'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
 import type { SharedStateReturn } from '../../../../shared/helpers/useSharedState'

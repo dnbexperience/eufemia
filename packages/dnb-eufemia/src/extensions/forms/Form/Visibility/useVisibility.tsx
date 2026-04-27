@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import usePath from '../../hooks/usePath'
 import type { Path } from '../../types'
 import type { FormVisibilityProps } from './Visibility'

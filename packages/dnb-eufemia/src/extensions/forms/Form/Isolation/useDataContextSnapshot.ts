@@ -5,7 +5,7 @@ import {
   useReducer,
   useState,
 } from 'react'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import WizardContext from '../../Wizard/Context'
 import IsolationContext from './IsolationContext'
 import { createDataReference } from './IsolationDataReference'

@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import type { SectionContextState } from './SectionContext'
 import SectionContext from './SectionContext'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import Provider from '../../DataContext/Provider/Provider'
 import FieldPropsProvider from '../../Field/Provider'
 import SectionContainerProvider from './containers/SectionContainerProvider'

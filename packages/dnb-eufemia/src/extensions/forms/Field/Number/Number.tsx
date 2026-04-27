@@ -27,7 +27,7 @@ import type {
   ButtonSize,
 } from '../../../../components/Button'
 import { clamp } from '../../../../shared/helpers/clamp'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

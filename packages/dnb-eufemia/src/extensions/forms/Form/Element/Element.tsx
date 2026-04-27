@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react'
 import clsx from 'clsx'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'
 import type { SpacingProps } from '../../../../shared/types'

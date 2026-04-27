@@ -29,7 +29,7 @@ import IterateItemContext from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useDataValue from '../../hooks/useDataValue'
 import {
   useArrayLimit,

@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import SharedProvider from '../../../../shared/Provider'
 import type { ContextProps } from '../../../../shared/Context'

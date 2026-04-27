@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import type { FieldIndeterminateProps } from './Indeterminate'
 
 export default function useDependencePaths(

@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '../../hooks'
-import DataContext from '../../DataContext/Context'
+import DataContext from '../../DataContext/DataContext'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'

@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
-import type { ContextState } from '../Context'
-import Context from '../Context'
+import type { ContextState } from '../DataContext'
+import Context from '../DataContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type DataContextAtProps = ComponentProps & {

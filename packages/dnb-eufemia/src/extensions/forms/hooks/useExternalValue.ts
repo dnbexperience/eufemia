@@ -1,7 +1,7 @@
 import { useContext, useMemo } from 'react'
 import pointer from '../utils/json-pointer'
 import type { FieldProps, Path } from '../types'
-import DataContext from '../DataContext/Context'
+import DataContext from '../DataContext/DataContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 
 export type UseExternalValueProps<Value> = {

@@ -9,7 +9,7 @@ import type { FieldNameProps as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
 import type { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import type { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
-import DataContext from '../../../DataContext/Context'
+import DataContext from '../../../DataContext/DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
