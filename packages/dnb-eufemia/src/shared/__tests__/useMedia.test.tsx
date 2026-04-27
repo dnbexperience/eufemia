@@ -3,8 +3,8 @@
  *
  */
 
-import React from 'react'
-import { render, waitFor, act, renderHook } from '@testing-library/react'
+import React, { act } from 'react'
+import { render, waitFor, renderHook } from '@testing-library/react'
 import type { UseMediaProps } from '../useMedia'
 import useMedia from '../useMedia'
 import Provider from '../Provider'

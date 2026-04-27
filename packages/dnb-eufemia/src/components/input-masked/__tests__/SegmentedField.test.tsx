@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { act } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SegmentedField, {
   type SegmentedFieldItem,

@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, fireEvent, render, renderHook } from '@testing-library/react'
+import React, { act } from 'react'
+import { fireEvent, render, renderHook } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import useSubmit from '../useSubmit'
 

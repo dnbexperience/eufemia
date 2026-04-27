@@ -3,9 +3,9 @@
  *
  */
 
-import React from 'react'
+import React, { act } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render, act } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { DropdownAllProps } from '../Dropdown'
 import Dropdown from '../Dropdown'

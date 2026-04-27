@@ -3,7 +3,8 @@
  *
  */
 
-import { renderHook, act } from '@testing-library/react'
+import { act } from 'react'
+import { renderHook } from '@testing-library/react'
 import { useLocalValue } from '../useLocalValue'
 import { createWrapper } from './testHelpers'
 

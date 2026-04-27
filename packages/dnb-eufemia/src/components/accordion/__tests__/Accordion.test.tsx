@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { act } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
@@ -11,7 +11,7 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '../../../icons'
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import userEvent from '@testing-library/user-event'
 

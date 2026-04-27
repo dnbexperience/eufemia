@@ -1,5 +1,5 @@
-import React from 'react'
-import { renderHook, act } from '@testing-library/react'
+import React, { act } from 'react'
+import { renderHook } from '@testing-library/react'
 import useSnapshot from '../useSnapshot'
 import type { SnapshotId } from '../../Form/Snapshot'
 import type { ContextState } from '../../DataContext'
