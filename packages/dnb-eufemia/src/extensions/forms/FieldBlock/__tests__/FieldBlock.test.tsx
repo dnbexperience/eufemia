@@ -52,7 +52,7 @@ describe('FieldBlock', () => {
       </FieldBlock>
     )
 
-    const labelElement = () => document.querySelector('label')
+    const labelElement = () => document.querySelector('.dnb-form-label')
 
     expect(labelElement()).toHaveAttribute('disabled')
 
@@ -110,7 +110,7 @@ describe('FieldBlock', () => {
     )
 
     const element = document.querySelector('.dnb-forms-field-block')
-    const labelElement = element.querySelector('label')
+    const labelElement = element.querySelector('.dnb-form-label')
     const inputElement = element.querySelector('input')
 
     expect(labelElement.getAttribute('for')).toBe('unique')
@@ -122,10 +122,28 @@ describe('FieldBlock', () => {
   it('should render a "label"', () => {
     render(<FieldBlock label="A Label">content</FieldBlock>)
 
-    const labelElement = document.querySelector('label')
+    const labelElement = document.querySelector('.dnb-form-label')
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement).toHaveTextContent('A Label')
+  })
+
+  it('should render a label element when forId is given', () => {
+    render(
+      <FieldBlock label="A Label" forId="my-input">
+        <input id="my-input" />
+      </FieldBlock>
+    )
+
+    const labelElement = document.querySelector('.dnb-form-label')
+    expect(labelElement.tagName).toBe('LABEL')
+  })
+
+  it('should render a span element when forId is not given', () => {
+    render(<FieldBlock label="A Label">content</FieldBlock>)
+
+    const labelElement = document.querySelector('.dnb-form-label')
+    expect(labelElement.tagName).toBe('SPAN')
   })
 
   it('should set correct class when labelSrOnly is true', () => {
@@ -146,7 +164,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
@@ -166,7 +184,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toHaveTextContent('A Label Description')
       expect(labelElement.querySelector('br')).toBeInTheDocument()
@@ -182,7 +200,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toHaveTextContent('A Label Description')
       expect(labelElement.querySelector('br')).not.toBeInTheDocument()
@@ -195,7 +213,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toHaveTextContent('A Label Description')
       expect(labelElement.querySelector('br')).not.toBeInTheDocument()
@@ -208,7 +226,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
@@ -226,7 +244,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
@@ -244,7 +262,7 @@ describe('FieldBlock', () => {
         )
       ).toBeNull()
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
@@ -262,7 +280,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
@@ -283,7 +301,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
@@ -303,7 +321,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
@@ -322,7 +340,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
       expect(labelElement.textContent).toBe('A Label (suffix)')
     })
 
@@ -336,7 +354,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
       expect(labelElement.textContent).toBe(
         `My Label ${nb.Field.optionalLabelSuffix}`
       )
@@ -351,7 +369,7 @@ describe('FieldBlock', () => {
         </Form.Handler>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
@@ -366,7 +384,7 @@ describe('FieldBlock', () => {
         </FieldBlock>
       )
 
-      const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('.dnb-form-label')
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
@@ -398,7 +416,7 @@ describe('FieldBlock', () => {
 
     render(<MockComponent />)
 
-    const label = document.querySelector('label')
+    const label = document.querySelector('.dnb-form-label')
     const input = document.querySelector('input')
 
     await userEvent.type(input, 'foo')
@@ -458,7 +476,7 @@ describe('FieldBlock', () => {
     const labelElements = document.querySelectorAll('.dnb-form-label')
     expect(labelElements[0].tagName).toBe('LEGEND')
     expect(labelElements[1].tagName).toBe('LABEL')
-    expect(labelElements[2].tagName).toBe('LABEL')
+    expect(labelElements[2].tagName).toBe('SPAN')
     expect(labelElements[3].tagName).toBe('LABEL')
     expect(labelElements[4]).toBe(undefined)
   })
@@ -495,7 +513,7 @@ describe('FieldBlock', () => {
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
     expect(document.querySelector('legend')).not.toBeInTheDocument()
-    expect(document.querySelectorAll('label')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-label').tagName).toBe('SPAN')
   })
 
   it('should use fieldset/legend when _formElement is given', () => {
@@ -523,7 +541,7 @@ describe('FieldBlock', () => {
 
     expect(document.querySelector('fieldset')).not.toBeInTheDocument()
     expect(document.querySelector('legend')).not.toBeInTheDocument()
-    expect(document.querySelectorAll('label')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-label').tagName).toBe('SPAN')
   })
 
   it('hides the label help button when requested', () => {
