@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'

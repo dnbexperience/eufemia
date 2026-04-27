@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render, renderHook } from '@testing-library/react'
+import React, { act } from 'react'
+import { render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useQueryLocator from '../useQueryLocator'
 import useStep from '../useStep'

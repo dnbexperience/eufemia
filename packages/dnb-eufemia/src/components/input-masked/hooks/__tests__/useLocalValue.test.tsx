@@ -1,9 +1,10 @@
+import { act } from 'react'
 /**
  * useLocalValue Hook Test
  *
  */
 
-import { renderHook, act } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { useLocalValue } from '../useLocalValue'
 import { createWrapper } from './testHelpers'
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form } from '../../..'
 import setData from '../setData'

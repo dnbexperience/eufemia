@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../component-helper'
 import type { SharedStateId } from '../useSharedState'
 import {
@@ -7,7 +7,7 @@ import {
   createReferenceKey,
   useWeakSharedState,
 } from '../useSharedState'
-import { createContext } from 'react'
+import { act, createContext } from 'react'
 
 describe('useSharedState', () => {
   let identifier: SharedStateId

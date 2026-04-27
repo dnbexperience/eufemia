@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import Table from '../Table'
 import type { TableScrollViewAllProps } from '../TableScrollView'
 import ScrollView from '../TableScrollView'

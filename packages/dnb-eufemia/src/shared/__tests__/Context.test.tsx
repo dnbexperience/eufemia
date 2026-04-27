@@ -3,8 +3,8 @@
  *
  */
 
-import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import React, { act } from 'react'
+import { render, screen } from '@testing-library/react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 

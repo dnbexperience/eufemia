@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import Context from '../Context'
 import type { ThemeAllProps } from '../Theme'
 import Theme, { getTheme, setTheme } from '../Theme'
