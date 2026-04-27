@@ -359,7 +359,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   text-align: left;
 }
 .dnb-textarea__textarea:autofill {
-  box-shadow: 0 0 0 10em var(--textarea-color-background, var(--color-white)) inset;
+  box-shadow: 0 0 0 10em var(--textarea-color-background, var(--token-color-background-neutral)) inset;
 }
 .dnb-textarea__align--right .dnb-textarea__textarea, .dnb-textarea__align--right .dnb-textarea__placeholder {
   text-align: right;
@@ -450,7 +450,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   }
 }
 html[data-visual-test] .dnb-textarea__textarea {
-  caret-color: var(--color-white);
+  caret-color: var(--token-color-background-neutral);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
   border-radius: var(--textarea-border-radius, var(--textarea-border-radius--default));
