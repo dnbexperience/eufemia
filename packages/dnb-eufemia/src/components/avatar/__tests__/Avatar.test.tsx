@@ -664,10 +664,14 @@ describe('Avatar', () => {
       )
       expect(
         document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
-      ).toBe('--avatar-background-color: var(--color-fire-red); z-index: 2;')
+      ).toBe(
+        '--avatar-background-color: var(--color-fire-red); z-index: 2;'
+      )
       expect(
         document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
-      ).toBe('--avatar-background-color: var(--color-fire-red); z-index: 1;')
+      ).toBe(
+        '--avatar-background-color: var(--color-fire-red); z-index: 1;'
+      )
     })
 
     it('should weigh backgroundColor set in Avatar highest', () => {
@@ -679,10 +683,14 @@ describe('Avatar', () => {
       )
       expect(
         document.querySelectorAll('.dnb-avatar')[0].getAttribute('style')
-      ).toBe('--avatar-background-color: var(--color-fire-red); z-index: 2;')
+      ).toBe(
+        '--avatar-background-color: var(--color-fire-red); z-index: 2;'
+      )
       expect(
         document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
-      ).toBe('--avatar-background-color: var(--color-fire-red); z-index: 1;')
+      ).toBe(
+        '--avatar-background-color: var(--color-fire-red); z-index: 1;'
+      )
     })
 
     it('should support backgroundColor when single Avatar', () => {
