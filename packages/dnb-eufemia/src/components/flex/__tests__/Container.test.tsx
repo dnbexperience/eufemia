@@ -676,6 +676,30 @@ describe('Flex.Container', () => {
       ).toHaveLength(1)
     })
 
+    it('should preserve key from element when wrapping with _supportsSpacingProps=children', () => {
+      const { rerender, Wrapper, TestComponent } = getMocks()
+
+      Wrapper._supportsSpacingProps = 'children'
+
+      const spy = jest.spyOn(React, 'createElement')
+
+      rerender(
+        <Flex.Vertical>
+          <Wrapper key="my-key">
+            <TestComponent />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const wrapperCall = spy.mock.calls.find(
+        ([type]) => type === (Wrapper as any)
+      )
+      expect(wrapperCall).toBeDefined()
+      expect(wrapperCall[1].key).toBe('.$my-key')
+
+      spy.mockRestore()
+    })
+
     it('should with _supportsSpacingProps=children wrap the children inside the Wrapper', () => {
       const { rerender, Wrapper } = getMocks()
 
