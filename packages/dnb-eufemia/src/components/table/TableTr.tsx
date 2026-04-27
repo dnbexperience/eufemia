@@ -128,7 +128,7 @@ function useHandleTrVariant({ variant }) {
    * Handle odd/even
    */
   const countRef = tableContext?.trCountRef.current
-  const lastRenderAliasRef = React.useRef(undefined)
+  const lastRenderAliasRef = React.useRef(null)
   const hasIncrementedRef = React.useRef(false)
 
   const increment = React.useCallback(() => {

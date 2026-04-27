@@ -66,7 +66,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
       isOpen: help?.open ?? false,
     })
   const { isOpen, isUserIntent } = data || {}
-  const wasOpenRef = useRef(undefined)
+  const wasOpenRef = useRef(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   const toggleOpen = useCallback(() => {
