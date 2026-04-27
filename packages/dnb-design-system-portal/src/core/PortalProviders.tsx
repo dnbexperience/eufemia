@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import {
@@ -105,13 +105,9 @@ const isDev =
  */
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
-  const isCarnegie = theme?.name === 'carnegie'
 
   return (
-    <Theme
-      colorScheme={isCarnegie ? 'light' : isDev ? 'auto' : undefined}
-      {...theme}
-    >
+    <Theme colorScheme={isDev ? 'auto' : undefined} {...theme}>
       {children}
     </Theme>
   )
@@ -119,9 +115,9 @@ function ThemeProvider({ children }) {
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {
-  const { skeleton, update } = React.useContext(Context)
+  const { skeleton, update } = useContext(Context)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       typeof window !== 'undefined' &&
       window.location.search.includes('skeleton')

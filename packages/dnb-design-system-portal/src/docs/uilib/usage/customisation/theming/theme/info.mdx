@@ -158,7 +158,7 @@ Use `surface="initial"` to reset components back to their default behavior insid
 
 The `Theme` component accepts a `colorScheme` prop that controls dark and light mode.
 
-When set to `"auto"`, it follows the user's system color scheme preference unless overridden by a parent theme or application setting.
+When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'

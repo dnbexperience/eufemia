@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { Switch } from '@dnb/eufemia/src/components'
 
-export default function PortalSkeleton({ enabled, ...props }) {
-  const { update, skeleton } = React.useContext(Context)
+export default function PortalSkeleton({
+  enabled,
+  label = 'Toggle Portal Skeletons',
+  ...props
+}) {
+  const { update, skeleton } = useContext(Context)
 
   return (
     <Switch
-      top
-      label="Toggle Portal Skeletons"
+      label={label}
       checked={skeleton || enabled}
       onChange={({ checked }) => {
         setSkeletonEnabled(checked)
