@@ -24,6 +24,7 @@
   --checkbox-color-border-off: var(
     --token-color-stroke-action-alternative
   );
+  // No matching stroke token exists. The border uses --token-color-background-selected so it blends with the Checkbox background.
   --checkbox-color-border-on: var(--token-color-background-selected);
   --checkbox-color-gfx__indeterminate: var(
     --token-color-background-selected
@@ -43,6 +44,7 @@
   --checkbox-color-background-off--disabled: var(
     --token-color-background-neutral
   );
+  // No matching stroke token exists. The border uses --token-color-background-action-disabled so it blends with the Checkbox background.
   --checkbox-color-border-on--disabled: var(
     --token-color-background-action-disabled
   );
