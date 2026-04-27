@@ -1,10 +1,10 @@
 .dnb-forms-section {
   &-block {
-    --block-outline-color: var(--color-black-8);
+    --block-outline-color: var(--token-color-stroke-neutral-subtle);
     --block-outline-width: var(--card-outline-width);
 
     &--error:has(.dnb-form-status--error):not(#{&}--variant-basic) {
-      --block-outline-color: var(--color-fire-red);
+      --block-outline-color: var(--token-color-stroke-error);
       --block-outline-width: 0.0625rem;
     }
 
@@ -55,7 +55,7 @@
 
       &--filled.dnb-section {
         // Reset the background color to our own color instead of the card's outline color
-        --background-color: var(--color-lavender);
+        --background-color: var(--token-color-background-neutral-subtle);
       }
     }
   }
