@@ -314,6 +314,37 @@ describe('HelpButtonInline', () => {
       )
     })
 
+    it('should show tooltip when title is a React component', async () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          help={{
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      await userEvent.hover(button)
+
+      const ariaDescribedBy = await waitFor(() => {
+        const id = button.getAttribute('aria-describedby')
+        expect(id).toBeTruthy()
+        return id
+      })
+
+      const tooltipContent = await waitFor(() => {
+        const tooltip = document.querySelector(`#${ariaDescribedBy}`)
+        expect(tooltip).toBeInTheDocument()
+        return tooltip
+      })
+
+      expect(tooltipContent).toHaveTextContent('Component title')
+    })
+
     it('should have aria-label attribute', () => {
       render(
         <HelpButtonInline
