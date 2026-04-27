@@ -29,10 +29,10 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
   );
   --progress-indicator-linear-size: 0.5rem;
   --progress-indicator-linear-background-color: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-base
   );
   --progress-indicator-linear-bar-color: var(
-    --token-color-background-action
+    --token-color-decorative-first-bold
   );
   position: relative;
   display: inline-flex;
