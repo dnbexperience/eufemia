@@ -217,7 +217,7 @@ export const GlobalStatusUpdate = () => (
         const [isVisible, setVisibility] = React.useState(false)
 
         return (
-          <Context.Provider
+          <Context
             value={{
               errorA,
               errorB,
@@ -229,7 +229,7 @@ export const GlobalStatusUpdate = () => (
           >
             <UpdateDemoStatus />
             <UpdateDemoTools />
-          </Context.Provider>
+          </Context>
         )
       }
 
