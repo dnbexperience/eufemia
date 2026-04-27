@@ -82,7 +82,9 @@ Read more about the [surface](/uilib/usage/customisation/theming/theme/) propert
 
 ## Dark mode / Color scheme
 
-Use the `colorScheme` prop on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to control dark and light mode. When set to `"auto"`, it follows the user's system preference.
+Use the `colorScheme` prop on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to control dark and light mode.
+
+When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 
 Dark mode tokens are not included in the default theme import. You need to import them separately:
 

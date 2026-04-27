@@ -34,9 +34,10 @@ export function GridActivator() {
   return null
 }
 
-export default function ToggleGrid(
-  props: React.HTMLAttributes<HTMLSpanElement>
-) {
+export default function ToggleGrid({
+  label = 'Toggle Grid',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & { label?: string }) {
   const handleChange = () => {
     setGridVisibility(!isGridVisible())
   }
@@ -45,7 +46,7 @@ export default function ToggleGrid(
     <span {...props}>
       <Switch
         id="switch-grid"
-        label="Toggle Grid"
+        label={label}
         checked={isGridVisible()}
         onChange={handleChange}
       />

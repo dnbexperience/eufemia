@@ -188,7 +188,6 @@ function LiveCode(props: LiveCodeProps) {
   const scope = useMemo(() => scopeProp || {}, [scopeProp])
   const theme = context.theme || {}
   const inheritedDark = theme.colorScheme === 'dark'
-  const isCarnegie = theme.name === 'carnegie'
 
   const codeToUse = useMemo(() => {
     const code =
@@ -296,7 +295,6 @@ function LiveCode(props: LiveCodeProps) {
                           : undefined
                       )
                     }}
-                    disabled={isCarnegie}
                     size="medium"
                     label={inheritedDark ? 'Light mode' : 'Dark mode'}
                   />
