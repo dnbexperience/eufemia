@@ -145,6 +145,7 @@
 
   &__input:checked ~ &__background {
     background-color: var(--token-color-background-selected);
+    // No matching stroke token exists. The border uses --token-color-background-selected so it blends with the Switch background.
     border-color: var(--token-color-background-selected);
   }
 
@@ -317,6 +318,7 @@
 
   &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__background {
     background-color: var(--token-color-background-action-disabled);
+    // No matching stroke token exists. The border uses --token-color-background-action-disabled so it blends with the Switch background.
     border-color: var(--token-color-background-action-disabled);
   }
   &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
