@@ -475,10 +475,3 @@ html[data-visual-test] .dnb-textarea__textarea {
   --textarea-color-border: var(--token-color-stroke-error);
 }"
 `;
-
-exports[`Textarea scss have to match default theme snapshot 1`] = `
-"/*
-* Textarea theme
-*
-*/"
-`;
