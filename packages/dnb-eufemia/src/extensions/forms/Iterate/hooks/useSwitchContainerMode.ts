@@ -31,7 +31,7 @@ const globalCache: Record<
  * Therefore, it is imported and used in both e.g. the EditContainer and e.g. the PushButton.
  */
 export default function useSwitchContainerMode(path?: Path) {
-  const nextContainerModeRef = useRef(undefined)
+  const nextContainerModeRef = useRef(null)
   const { hasError } = useContext(FieldBoundaryContext) || {}
   const iterateItemContext = useContext(IterateItemContext)
 

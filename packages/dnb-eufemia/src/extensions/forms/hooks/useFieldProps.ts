@@ -126,7 +126,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   } = props
 
   const [salt, forceUpdate] = useReducer(() => ({}), {})
-  const isInternalRerenderRef = useRef(undefined)
+  const isInternalRerenderRef = useRef(null)
   useMemo(() => {
     /**
      * This is currently not used, but we keep it here for future use.
