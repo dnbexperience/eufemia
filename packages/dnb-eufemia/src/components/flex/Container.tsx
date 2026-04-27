@@ -257,10 +257,11 @@ function wrapChildren(
       child.type['_supportsSpacingProps'] === 'children'
     ) {
       const childElement = child as React.ReactElement<any>
-      const { key, ...childProps } = childElement.props || {}
+      const childKey = childElement.key
+      const childProps = childElement.props || {}
       return React.createElement(
         childElement.type as React.ComponentType<any>,
-        { key, ...childProps },
+        { key: childKey, ...childProps },
         <FlexContainer {...props}>
           {childElement.props.children}
         </FlexContainer>
