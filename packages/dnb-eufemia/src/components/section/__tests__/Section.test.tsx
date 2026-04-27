@@ -304,20 +304,6 @@ describe('Section component', () => {
     expect(ref.current.tagName).toBe('SECTION')
     expect(ref.current.classList).toContain('dnb-section')
   })
-
-  it('gets valid element when using createRef', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
-
-    render(
-      <Section {...props} ref={ref}>
-        content
-      </Section>
-    )
-
-    expect(ref.current instanceof HTMLElement).toBe(true)
-    expect(ref.current.tagName).toBe('SECTION')
-    expect(ref.current.classList).toContain('dnb-section')
-  })
 })
 
 describe('surface', () => {

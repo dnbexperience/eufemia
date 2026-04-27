@@ -434,16 +434,6 @@ describe('HeightAnimation without initializeTestSetup()', () => {
     expect(ref.current.tagName).toBe('DIV')
     expect(ref.current.classList).toContain('dnb-height-animation')
   })
-
-  it('gets valid element when using createRef', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
-
-    render(<HeightAnimation ref={ref}>content</HeightAnimation>)
-
-    expect(ref.current instanceof HTMLDivElement).toBe(true)
-    expect(ref.current.tagName).toBe('DIV')
-    expect(ref.current.classList).toContain('dnb-height-animation')
-  })
 })
 
 describe('HeightAnimation aria', () => {
