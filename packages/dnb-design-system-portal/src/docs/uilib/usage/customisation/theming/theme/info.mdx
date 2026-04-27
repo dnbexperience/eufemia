@@ -87,43 +87,6 @@ render(
 )
 ```
 
-#### `colorScheme` property (Dark mode)
-
-The `Theme` component accepts a `colorScheme` prop that controls dark and light mode. When set to `"auto"`, it follows the user's system preference.
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-render(
-  <Theme colorScheme="auto">
-    <App />
-  </Theme>
-)
-```
-
-Read more about [Preventing dark mode flash (FOUC)](/uilib/usage/customisation/theming/#preventing-dark-mode-flash-fouc) for SSR considerations.
-
-#### `surface` property
-
-The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
-
-- Use `dark` when the content is placed on a dark surface.
-- Use `light` for light surfaces.
-- Use `initial` to tell the components to use its default behavior.
-
-```tsx
-import { Theme } from '@dnb/eufemia/shared'
-
-render(
-  <Section surface="dark">
-    Children will use the dark surface behavior (ondark).
-    <Theme.Context surface="initial">
-      Children will use their default surface behavior
-    </Theme.Context>
-  </Section>
-)
-```
-
 ### Use your component as the wrapper element
 
 You can provide your component as the wrapper. This way no additional HTML Element will be created.
@@ -145,6 +108,122 @@ render(
   </Theme>
 )
 ```
+
+## `surface` property
+
+The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
+
+- Use `dark` when the content is placed on a dark surface.
+- Use `light` for light surfaces.
+- Use `initial` to tell the components to use its default behavior.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Section surface="dark">
+    Children will use the dark surface behavior (ondark).
+    <Theme.Context surface="initial">
+      Children will use their default surface behavior
+    </Theme.Context>
+  </Section>
+)
+```
+
+### How `surface` works
+
+The `surface` prop is passed through **React context**, not through a global CSS class. When you set `surface="dark"` on a `<Theme>`, `<Theme.Context>`, or on a supporting component like [Section](/uilib/components/section/), the value is stored in the Eufemia theme context. Individual components that support dark surfaces — such as [Button](/uilib/components/button/) or [Anchor](/uilib/components/anchor/) — read the surface value from context and apply their own component-level CSS class (e.g. `dnb-button--surface-dark`, `dnb-anchor--surface-dark`).
+
+Wrap an area with `<Theme.Context>` or `<Section>` to propagate the surface context to all supporting components inside:
+
+```jsx
+<Theme.Context surface="dark">
+  <Button>I adapt automatically</Button>
+  <Anchor href="/path">So do I</Anchor>
+</Theme.Context>
+```
+
+Use `surface="initial"` to reset components back to their default behavior inside a dark surface context:
+
+```jsx
+<Section surface="dark">
+  <Button>Dark surface button</Button>
+  <Theme.Context surface="initial">
+    <Button>Default surface button</Button>
+  </Theme.Context>
+</Section>
+```
+
+## The `colorScheme` property (Dark mode)
+
+The `Theme` component accepts a `colorScheme` prop that controls dark and light mode.
+
+When set to `"auto"`, it follows the user's system color scheme preference unless overridden by a parent theme or application setting.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme colorScheme="auto">
+    <App />
+  </Theme>
+)
+```
+
+## Persisting the theme with `getTheme` and `setTheme`
+
+Eufemia provides `getTheme` and `setTheme` helpers that persist theme state (including `colorScheme`) to `localStorage` under the key `eufemia-theme`.
+
+```tsx
+import { getTheme, setTheme } from '@dnb/eufemia/shared/Theme'
+
+// Read the current persisted theme
+const theme = getTheme()
+// { name: 'ui', colorScheme: 'auto', ... }
+
+// Update one or more properties (merges with existing state)
+setTheme({ colorScheme: 'dark' })
+
+// With a callback
+setTheme({ name: 'sbanken' }, (updatedTheme) => {
+  console.log(updatedTheme)
+})
+```
+
+`getTheme` also supports a `?eufemia-theme=<name>` URL query parameter, which overrides the persisted theme name. This is useful for testing or previewing themes via a link.
+
+### Preventing dark mode flash (FOUC)
+
+When using `colorScheme="system"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
+
+To prevent this, Eufemia provides blocking scripts that run synchronously before the browser paints. They read the stored preference from `localStorage` and apply the correct CSS classes immediately.
+
+```tsx
+import {
+  ColorSchemeHeadScript,
+  ColorSchemeBodyFirstScript,
+  ColorSchemeBodyLastScript,
+} from '@dnb/eufemia/shared/ColorSchemeScript'
+```
+
+Place them in your HTML template as follows:
+
+```tsx
+<html>
+  <head>
+    <ColorSchemeHeadScript />
+  </head>
+  <body>
+    <ColorSchemeBodyFirstScript />
+    {/* your app content */}
+    <ColorSchemeBodyLastScript />
+  </body>
+</html>
+```
+
+- **`ColorSchemeHeadScript`** — Resolves the color scheme from `localStorage` (or falls back to the system preference) and stores it on `globalThis`. Place in `<head>`.
+- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>`. Place as the first child of `<body>`.
+- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme. Place as the last child of `<body>`.
 
 ### Hide or show parts of your component (filter)
 
