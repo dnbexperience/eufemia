@@ -2759,13 +2759,13 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__day--start-date.dnb-date-picker__day--end-date::after {
   content: none;
 }
-.dnb-date-picker .rtl {
+.dnb-date-picker__calendar--rtl {
   direction: rtl;
 }
-.dnb-date-picker .rtl .dnb-date-picker__prev::before {
+.dnb-date-picker__calendar--rtl .dnb-date-picker__prev::before {
   transform: scaleX(-1);
 }
-.dnb-date-picker .rtl .dnb-date-picker__next::before {
+.dnb-date-picker__calendar--rtl .dnb-date-picker__next::before {
   transform: scaleX(-1);
 }
 .dnb-date-picker__inner > .dnb-form-status {

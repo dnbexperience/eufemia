@@ -496,7 +496,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   return (
     <div
-      className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
+      className={clsx(
+        'dnb-date-picker__calendar',
+        rtl && 'dnb-date-picker__calendar--rtl'
+      )}
       lang={locale}
     >
       {!hideNavigation && !onlyMonth && (

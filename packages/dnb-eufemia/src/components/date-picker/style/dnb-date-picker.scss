@@ -319,7 +319,7 @@
     }
   }
 
-  .rtl {
+  &__calendar--rtl {
     direction: rtl;
 
     .dnb-date-picker__prev::before {
