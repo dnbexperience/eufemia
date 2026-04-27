@@ -6,6 +6,8 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-avatar {
+  --color: var(--token-color-text-neutral-inverse);
+  --background-color: var(--token-color-decorative-first-bold);
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
   --avatar-font-size--large: var(--font-size-x-large);
@@ -39,11 +41,17 @@
   background-color: var(--background-color);
   color: var(--color);
 
-  &[style*='--background-color'] {
-    background-color: var(--background-color, var(--color-emerald-green));
+  &--primary {
+    --background-color: var(--token-color-decorative-first-bold);
   }
-  &[style*='--color'] {
-    color: var(--color, var(--color-pistachio));
+
+  &--secondary {
+    --background-color: var(--token-color-decorative-first-base);
+  }
+
+  &--tertiary {
+    --background-color: var(--token-color-decorative-first-subtle);
+    --color: var(--token-color-text-neutral);
   }
 
   // Safari needs a correct CSS specificity
@@ -125,7 +133,11 @@
     flex-direction: row;
 
     .dnb-avatar {
-      @include utilities.fakeBorder(var(--color-black-3), 0.125rem);
+      // No stroke token equivalent for this color, Figma sketches use --token-color-icon-neutral-inverse to create the border that separates avatars in a group.
+      @include utilities.fakeBorder(
+        var(--token-color-icon-neutral-inverse),
+        0.125rem
+      );
 
       &--size-small {
         margin-left: -0.5rem;
@@ -153,7 +165,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
 
       &--size-small {
         font-size: var(--avatar-font-size-left--small);
