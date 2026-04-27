@@ -15,6 +15,4 @@ $THEME_FALLBACK: 'ui';
  */
 
 @use '../../../extensions/forms/Field/Number/style/themes/dnb-number-theme-ui.scss';
-@use '../../../extensions/forms/FieldBlock/style/themes/dnb-field-block-theme-ui.scss';
 @use '../../../extensions/forms/Form/Section/style/themes/dnb-form-section-theme-ui.scss';
-@use '../../../extensions/forms/Wizard/style/themes/dnb-wizard-layout-theme-ui.scss';
