@@ -1,5 +1,4 @@
 import React, {
-  cloneElement,
   useCallback,
   useEffect,
   useMemo,
@@ -28,7 +27,6 @@ export type TextMaskMask =
   | Array<RegExp | string>
   | false
   | typeof createNumberMask
-export type TextMaskInputElement = React.ReactElement<any>
 export type TextMaskValue = string | number
 export type TextMaskProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -37,7 +35,6 @@ export type TextMaskProps = Omit<
   mask: TextMaskMask
   inputRef?: React.Ref<HTMLInputElement> &
     React.MutableRefObject<HTMLInputElement | null>
-  inputElement?: TextMaskInputElement
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: TextMaskValue
   size?: number
@@ -54,7 +51,6 @@ export type TextMaskProps = Omit<
 
 export default function TextMask(props: TextMaskProps): React.JSX.Element {
   const {
-    inputElement,
     inputRef,
     mask: rawMask,
     value,
@@ -325,15 +321,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     return formatted
   }, [value, showMask, options, rawMask, ghostPlaceholder])
 
-  return inputElement ? (
-    cloneElement(inputElement, {
-      ...params,
-      defaultValue,
-      ref: setRefs,
-    })
-  ) : (
-    <input ref={setRefs} defaultValue={defaultValue} {...params} />
-  )
+  return <input ref={setRefs} defaultValue={defaultValue} {...params} />
 }
 
 function withOverflowSupport(mask: MaskitoMask): MaskitoMask {

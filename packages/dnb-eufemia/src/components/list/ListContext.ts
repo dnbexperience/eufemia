@@ -12,3 +12,5 @@ export type ListContextValue = {
 export const ListContext = createContext<ListContextValue | undefined>(
   undefined
 )
+
+export const ListItemHiddenContext = createContext(false)

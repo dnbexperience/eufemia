@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
-import { ListContext } from './ListContext'
+import { ListContext, ListItemHiddenContext } from './ListContext'
 import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
 import FlexContainer from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -35,6 +35,7 @@ function ItemContent(props: ItemContentProps) {
   const appliedVariant = variant ?? inheritedVariant
   const appliedSkeleton = skeleton ?? inheritedSkeleton
   const appliedDisabled = disabled ?? inheritedDisabled
+  const itemHidden = useContext(ListItemHiddenContext)
 
   const content = (
     <FlexContainer
@@ -43,6 +44,7 @@ function ItemContent(props: ItemContentProps) {
       justify="space-between"
       wrap={false}
       gap={false}
+      hidden={itemHidden || undefined}
       className={clsx(
         'dnb-list__item',
         'dnb-t__size--basis',

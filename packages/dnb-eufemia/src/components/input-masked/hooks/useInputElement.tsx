@@ -33,11 +33,6 @@ export const useInputElement = () => {
     }
   }, [refProp, isFn, ref])
 
-  // Create the actual input element
-  const inputElementRef = React.useRef<React.JSX.Element>(
-    <input ref={ref as React.Ref<HTMLInputElement>} />
-  )
-
   return useCallback(
     (
       params: Record<string, unknown>,
@@ -49,7 +44,6 @@ export const useInputElement = () => {
       return (
         <TextMask
           inputRef={ref}
-          inputElement={inputElementRef.current}
           mask={mask || createNumberMask()}
           showMask={showMask}
           allowOverflow={allowOverflow}

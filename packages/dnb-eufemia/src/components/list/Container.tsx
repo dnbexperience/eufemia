@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
-import { ListContext } from './ListContext'
+import { ListContext, ListItemHiddenContext } from './ListContext'
 import type { StackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
@@ -59,25 +59,18 @@ function ListContainer(props: ListContainerProps) {
       return children
     }
 
-    const childArray = React.Children.toArray(children)
+    const childArray = Array.isArray(children)
+      ? children.flat()
+      : [children]
 
-    if (!shouldLimit) {
-      return childArray
-    }
-
-    return childArray.map((child, index) => {
-      if (index < visibleCount) {
-        return child
-      }
-
-      if (React.isValidElement<React.HTMLAttributes<HTMLElement>>(child)) {
-        return React.cloneElement(child, {
-          hidden: true,
-        })
-      }
-
-      return null
-    })
+    return childArray.map((child, index) => (
+      <ListItemHiddenContext
+        key={(child as React.ReactElement)?.key ?? index}
+        value={shouldLimit && index >= visibleCount}
+      >
+        {child}
+      </ListItemHiddenContext>
+    ))
   }, [children, hasVisibleCount, shouldLimit, visibleCount])
 
   const listContent = (
