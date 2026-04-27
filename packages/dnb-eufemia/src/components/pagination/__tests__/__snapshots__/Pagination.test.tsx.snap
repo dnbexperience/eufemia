@@ -972,11 +972,19 @@ button.dnb-button::-moz-focus-inner {
   --progress-indicator-circular-stroke-width: calc(
     var(--progress-indicator-circular-size) / 8
   );
-  --progress-indicator-circular-background-color: grey;
-  --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-circular-background-color: var(
+    --token-color-background-neutral-alternative
+  );
+  --progress-indicator-circular-bar-color: var(
+    --token-color-background-action
+  );
   --progress-indicator-linear-size: 0.5rem;
-  --progress-indicator-linear-background-color: grey;
-  --progress-indicator-linear-bar-color: var(--color-black);
+  --progress-indicator-linear-background-color: var(
+    --token-color-background-neutral-alternative
+  );
+  --progress-indicator-linear-bar-color: var(
+    --token-color-background-action
+  );
   position: relative;
   display: inline-flex;
   align-items: center;
