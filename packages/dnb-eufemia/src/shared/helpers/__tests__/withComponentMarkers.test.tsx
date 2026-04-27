@@ -113,7 +113,7 @@ describe('withComponentMarkers', () => {
 
   it('should work with React element type checking', () => {
     function MyComponent() {
-      return React.createElement('div')
+      return <div />
     }
 
     withComponentMarkers(MyComponent, {
@@ -121,7 +121,7 @@ describe('withComponentMarkers', () => {
       _supportsSpacingProps: true,
     })
 
-    const element = React.createElement(MyComponent)
+    const element = <MyComponent />
 
     // Simulates how FieldBlock and flex/utils read markers
     expect(element.type['_formElement']).toBe(true)
