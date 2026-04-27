@@ -465,7 +465,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     _id.current = usedTriggerAttributes.id
   }
 
-  let fallbackTitle: string
+  let fallbackTitle: React.ReactNode
   if (usedTriggerAttributes.title) {
     fallbackTitle = usedTriggerAttributes.title
   } else if (suffixContext) {

@@ -46,6 +46,27 @@ describe('Button component', () => {
     expect(button.getAttribute('aria-label')).toBe(title)
   })
 
+  it('should convert React element title to string', () => {
+    render(
+      <Button
+        {...props}
+        title={<span>Component title</span>}
+        href={null}
+      />
+    )
+    const button = document.querySelector('button')
+
+    expect(button.getAttribute('title')).toBe('Component title')
+  })
+
+  it('should convert React element title to aria-label for icon-only button', () => {
+    render(<Button icon="bell" title={<>Icon label</>} />)
+    const button = document.querySelector('button')
+
+    expect(button.getAttribute('title')).toBe('Icon label')
+    expect(button.getAttribute('aria-label')).toBe('Icon label')
+  })
+
   it('icon only has to have some extra classes', () => {
     render(<Button icon="question" />)
     const button = document.querySelector('button')

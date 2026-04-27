@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { screen, render, within, waitFor } from '@testing-library/react'
+import {
+  screen,
+  render,
+  within,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
@@ -431,6 +437,34 @@ describe('variants', () => {
         'aria-describedby',
         expect.stringContaining('-suffix')
       )
+    })
+
+    it('renders help with React component title', () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option
+            value="foo"
+            help={{
+              title: <CustomTitle />,
+              content: 'Help content',
+            }}
+          >
+            Foo
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      expect(button).toHaveAttribute('aria-label', 'Hjelpetekst')
+
+      fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+      const dialogContent = document.querySelector('.dnb-modal__content')
+      expect(dialogContent).toHaveTextContent('Help content')
     })
 
     it('should disable options', () => {

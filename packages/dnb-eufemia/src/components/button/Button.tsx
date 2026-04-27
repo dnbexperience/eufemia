@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
+  convertJsxToString,
   extendExistingPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
@@ -103,7 +104,7 @@ export type ButtonProps = {
   /**
    * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
    */
-  title?: string
+  title?: React.ReactNode
   /**
    * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only).
    */
@@ -185,7 +186,7 @@ export type ButtonProps = {
         Partial<
           React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
         >,
-        'onClick'
+        'onClick' | 'title'
       >
   > &
   SpacingProps
@@ -356,6 +357,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
     }
   }
 
+  const titleString = convertJsxToString(title) || undefined
+
   const params = applySpacing(props, {
     className: clsx(
       'dnb-button',
@@ -380,7 +383,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       props.href || props.to ? '' : null,
       Element === Anchor && 'dnb-anchor--no-style'
     ),
-    title,
+    title: titleString,
     id: resolvedId,
     disabled,
     ...attributes,
@@ -425,7 +428,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     params.type = params.type === '' ? undefined : 'button'
   }
   if (isIconOnly) {
-    params['aria-label'] = params['aria-label'] || title
+    params['aria-label'] = params['aria-label'] || titleString
   }
 
   skeletonDOMAttributes(params, skeleton, context)

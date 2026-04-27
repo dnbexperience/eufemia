@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -244,7 +243,7 @@ export function useCheckboxOrToggleOptions({
 
       const label = title ?? children
       const suffix = help ? (
-        <HelpButton size="small" title={convertJsxToString(help.title)}>
+        <HelpButton size="small" title={help.title}>
           {help.content}
         </HelpButton>
       ) : undefined
