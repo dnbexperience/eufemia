@@ -1,9 +1,4 @@
 .dnb-forms-field-block {
-  &__label__description {
-    color: var(--sb-color-gray-dark);
-    font-size: var(--font-size-small);
-  }
-
   &:not([class*='--label-height-']) {
     --label-margin: 0.5rem;
   }
