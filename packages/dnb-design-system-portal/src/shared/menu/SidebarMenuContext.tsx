@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 export const SidebarMenuContext = React.createContext({
   // just to have some default values (to avoid destructuring error later)
@@ -18,85 +18,83 @@ type Props = {
   children: React.ReactNode
 }
 
-export class SidebarMenuProvider extends React.PureComponent<Props> {
-  state = {
-    isOpen: false,
-    isClosing: false,
-  }
+export function SidebarMenuProvider({ children }: Props) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
 
-  timeout: NodeJS.Timeout
-  lastScrollPosition: number
+  const timeoutRef = useRef<NodeJS.Timeout>(null)
+  const lastScrollPositionRef = useRef<number>(0)
 
-  toggleMenu = () => {
-    clearTimeout(this.timeout)
-    // scroll to top on opening the menu, and back again
-    if (!this.state.isOpen && typeof window !== 'undefined') {
-      try {
-        this.lastScrollPosition = window.pageYOffset
-      } catch (e) {
-        console.error('Could not get scrollY', e)
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  const toggleMenu = useCallback(() => {
+    clearTimeout(timeoutRef.current)
+
+    setIsOpen((prevIsOpen) => {
+      // scroll to top on opening the menu, and back again
+      if (!prevIsOpen && typeof window !== 'undefined') {
+        try {
+          lastScrollPositionRef.current = window.pageYOffset
+        } catch (e) {
+          console.error('Could not get scrollY', e)
+        }
       }
-    }
-    this.timeout = setTimeout(
-      () => {
-        const isOpen = !this.state.isOpen
-        this.setState({
-          isOpen,
-          isClosing: false,
-        })
-        setTimeout(() => {
-          try {
-            if (!isOpen && typeof window !== 'undefined') {
-              const top = this.lastScrollPosition
-              window.scrollTo({
-                top,
-                behavior: 'smooth',
-              })
+
+      timeoutRef.current = setTimeout(
+        () => {
+          const nextIsOpen = !prevIsOpen
+
+          setIsOpen(nextIsOpen)
+          setIsClosing(false)
+
+          setTimeout(() => {
+            try {
+              if (!nextIsOpen && typeof window !== 'undefined') {
+                const top = lastScrollPositionRef.current
+                window.scrollTo({
+                  top,
+                  behavior: 'smooth',
+                })
+              }
+            } catch (e) {
+              console.error('Could not run scrollTo', e)
             }
-          } catch (e) {
-            console.error('Could not run scrollTo', e)
-          }
-        }, 100) // after animation is done
-      },
-      this.state.isOpen ? 260 : 10
-    )
-    if (this.state.isOpen) {
-      this.setState({
-        isClosing: true,
-      })
-    }
-  }
+          }, 100) // after animation is done
+        },
+        prevIsOpen ? 260 : 10
+      )
 
-  openMenu = () => {
-    this.setState({
-      isOpen: true,
+      if (prevIsOpen) {
+        setIsClosing(true)
+      }
+
+      return prevIsOpen
     })
-  }
+  }, [])
 
-  closeMenu = () => {
-    this.setState({
-      isOpen: false,
-    })
-  }
+  const openMenu = useCallback(() => {
+    setIsOpen(true)
+  }, [])
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
+  const closeMenu = useCallback(() => {
+    setIsOpen(false)
+  }, [])
 
-  render() {
-    const { children } = this.props
-
-    return (
-      <SidebarMenuContext
-        value={{
-          toggleMenu: this.toggleMenu,
-          openMenu: this.openMenu,
-          closeMenu: this.closeMenu,
-          ...this.state,
-        }}
-      >
-        {children}
-      </SidebarMenuContext>
-    )
-  }
+  return (
+    <SidebarMenuContext
+      value={{
+        toggleMenu,
+        openMenu,
+        closeMenu,
+        isOpen,
+        isClosing,
+      }}
+    >
+      {children}
+    </SidebarMenuContext>
+  )
 }
