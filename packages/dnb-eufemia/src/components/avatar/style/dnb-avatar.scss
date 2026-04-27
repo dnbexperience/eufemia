@@ -6,7 +6,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-avatar {
-  --color: var(--token-color-text-neutral-inverse);
+  --avatar-text-color: var(--token-color-text-neutral-inverse);
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
   --avatar-font-size--large: var(--font-size-x-large);
@@ -37,20 +37,20 @@
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
   line-height: 1;
-  background-color: var(--background-color);
-  color: var(--color);
+  background-color: var(--avatar-background-color);
+  color: var(--avatar-text-color);
 
   &--primary {
-    --background-color: var(--token-color-decorative-first-bold);
+    --avatar-background-color: var(--token-color-decorative-first-bold);
   }
 
   &--secondary {
-    --background-color: var(--token-color-decorative-first-base);
+    --avatar-background-color: var(--token-color-decorative-first-base);
   }
 
   &--tertiary {
-    --background-color: var(--token-color-decorative-first-subtle);
-    --color: var(--token-color-text-neutral);
+    --avatar-background-color: var(--token-color-decorative-first-subtle);
+    --avatar-text-color: var(--token-color-text-neutral);
   }
 
   // Safari needs a correct CSS specificity
