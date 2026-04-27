@@ -185,7 +185,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   background-color: var(--dnb-payment-bg-black-gold);
   color: var(--color-white);
 }
-.dnb-payment-card__card--design-saga .provider--separator {
+.dnb-payment-card__card--design-saga .dnb-payment-card__provider-separator {
   color: var(--dnb-payment-bg-gold);
 }
 .dnb-payment-card__card--design-saga-platinum, .dnb-payment-card__card--design-private {
@@ -247,7 +247,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   align-items: center;
   column-gap: 1rem;
 }
-.dnb-payment-card__card__providers .provider--separator {
+.dnb-payment-card__card__providers .dnb-payment-card__provider-separator {
   width: 1px;
   height: 26px;
   background-color: currentcolor;
@@ -372,7 +372,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 .dnb-payment-card--compact .dnb-payment-card__card__providers--multiple svg {
   vertical-align: top;
 }
-.dnb-payment-card--compact .dnb-payment-card__card__providers--multiple .provider--separator {
+.dnb-payment-card--compact .dnb-payment-card__card__providers--multiple .dnb-payment-card__provider-separator {
   width: 1px;
 }
 .dnb-payment-card--compact .dnb-payment-card__overlay__content {
