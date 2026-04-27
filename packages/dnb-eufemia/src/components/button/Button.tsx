@@ -103,6 +103,7 @@ export type ButtonProps = {
   type?: string
   /**
    * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
+   * Accepts `React.ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.
    */
   title?: React.ReactNode
   /**
