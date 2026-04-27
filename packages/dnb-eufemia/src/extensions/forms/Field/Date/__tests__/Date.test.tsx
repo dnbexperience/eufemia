@@ -4034,9 +4034,7 @@ describe('Field.Date', () => {
         .mockImplementation((props) => {
           capturedAlignPicker = props.alignPicker
           // Return a simple div to avoid rendering the full DatePicker
-          return React.createElement('div', {
-            'data-testid': 'date-picker-mock',
-          })
+          return <div data-testid="date-picker-mock" />
         })
 
       render(
@@ -4067,9 +4065,7 @@ describe('Field.Date', () => {
         .mockImplementation((props) => {
           capturedAlignPicker = props.alignPicker
           // Return a simple div to avoid rendering the full DatePicker
-          return React.createElement('div', {
-            'data-testid': 'date-picker-mock',
-          })
+          return <div data-testid="date-picker-mock" />
         })
 
       render(
@@ -4100,9 +4096,7 @@ describe('Field.Date', () => {
         .mockImplementation((props) => {
           capturedAlignPicker = props.alignPicker
           // Return a simple div to avoid rendering the full DatePicker
-          return React.createElement('div', {
-            'data-testid': 'date-picker-mock',
-          })
+          return <div data-testid="date-picker-mock" />
         })
 
       render(
@@ -4131,9 +4125,7 @@ describe('Field.Date', () => {
         .mockImplementation((props) => {
           capturedAlignPicker = props.alignPicker
           // Return a simple div to avoid rendering the full DatePicker
-          return React.createElement('div', {
-            'data-testid': 'date-picker-mock',
-          })
+          return <div data-testid="date-picker-mock" />
         })
 
       render(

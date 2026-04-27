@@ -4086,10 +4086,9 @@ describe('DatePicker component', () => {
     jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
-      return React.createElement('div', {
-        className: 'dnb-popover--active',
-        'data-testid': 'popover-mock',
-      })
+      return (
+        <div className="dnb-popover--active" data-testid="popover-mock" />
+      )
     })
 
     render(<DatePicker stretch showInput date="2023-01-16" />)
@@ -4120,10 +4119,9 @@ describe('DatePicker component', () => {
     jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
-      return React.createElement('div', {
-        className: 'dnb-popover--active',
-        'data-testid': 'popover-mock',
-      })
+      return (
+        <div className="dnb-popover--active" data-testid="popover-mock" />
+      )
     })
 
     render(<DatePicker showInput date="2023-01-16" />)
