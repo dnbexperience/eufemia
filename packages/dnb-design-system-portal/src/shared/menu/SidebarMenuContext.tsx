@@ -30,6 +30,7 @@ export function SidebarMenuProvider({ children }: Props) {
 
   const timeoutRef = useRef<NodeJS.Timeout>(null)
   const lastScrollPositionRef = useRef<number>(0)
+  const isOpenRef = useRef(false)
 
   useEffect(() => {
     return () => {
@@ -41,7 +42,7 @@ export function SidebarMenuProvider({ children }: Props) {
     clearTimeout(timeoutRef.current)
 
     // scroll to top on opening the menu, and back again
-    if (!isOpen && typeof window !== 'undefined') {
+    if (!isOpenRef.current && typeof window !== 'undefined') {
       try {
         lastScrollPositionRef.current = window.scrollY
       } catch (e) {
@@ -51,8 +52,9 @@ export function SidebarMenuProvider({ children }: Props) {
 
     timeoutRef.current = setTimeout(
       () => {
-        const nextIsOpen = !isOpen
+        const nextIsOpen = !isOpenRef.current
 
+        isOpenRef.current = nextIsOpen
         setIsOpen(nextIsOpen)
         setIsClosing(false)
 
@@ -70,19 +72,21 @@ export function SidebarMenuProvider({ children }: Props) {
           }
         }, 100) // after animation is done
       },
-      isOpen ? 260 : 10
+      isOpenRef.current ? 260 : 10
     )
 
-    if (isOpen) {
+    if (isOpenRef.current) {
       setIsClosing(true)
     }
-  }, [isOpen])
+  }, [])
 
   const openMenu = useCallback(() => {
+    isOpenRef.current = true
     setIsOpen(true)
   }, [])
 
   const closeMenu = useCallback(() => {
+    isOpenRef.current = false
     setIsOpen(false)
   }, [])
 
