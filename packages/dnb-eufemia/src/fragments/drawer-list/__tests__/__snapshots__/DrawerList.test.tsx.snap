@@ -15,12 +15,11 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
-  --drawer-list-options-border-radius: var(--token-radius-sm);
-  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-options-border-radius: var(--token-radius-md);
+  --drawer-list-option-border-width: 0.125rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
-  --drawer-list-option-border-width: 0.0625rem;
   --drawer-list-option-inner-background: var(
     --token-color-background-neutral
   );
@@ -89,6 +88,60 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: transform 200ms, opacity 160ms ease-out;
   box-shadow: var(--shadow-sharp);
   border-radius: var(--drawer-list-options-border-radius);
+}
+.dnb-drawer-list__options {
+  --drawer-list-option-color-text--default: var(
+    --token-color-text-neutral
+  );
+  --drawer-list-option-color-text--hover: var(
+    --token-color-text-action-hover
+  );
+  --drawer-list-option-color-text--active: var(
+    --token-color-text-action-pressed
+  );
+  --drawer-list-option-color-text--focus: var(
+    --token-color-text-action-hover
+  );
+  --drawer-list-option-color-text--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --drawer-list-option-color-bg--default: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --drawer-list-option-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --drawer-list-option-color-bg--focus: var(
+    --token-color-background-action-hover-subtle
+  );
+  --drawer-list-option-color-bg--disabled: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-color-border--default: var(
+    --drawer-list-option-color-bg
+  );
+  --drawer-list-option-color-border--focus: var(
+    --token-color-stroke-action-pressed
+  );
+  --drawer-list-arrow-color--default: var(
+    --drawer-list-option-color-bg--default
+  );
+  --drawer-list-arrow-color--hover: var(
+    --drawer-list-option-color-bg--hover
+  );
+  --drawer-list-arrow-color--active: var(
+    --drawer-list-option-color-bg--active
+  );
+  --drawer-list-arrow-color--focus: var(
+    --drawer-list-option-color-bg--focus
+  );
+  --drawer-list-arrow-color--group: var(--drawer-list-group-title-bg);
+  --drawer-list-arrow-color--selected: var(
+    --token-color-background-selected
+  );
 }
 .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
   margin: 0;
@@ -210,12 +263,13 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   cursor: pointer;
   margin: 0;
   padding: 0;
-  color: var(--token-color-text-neutral);
+  color: var(--drawer-list-option-color-text, var(--drawer-list-option-color-text--default));
   outline: none;
-  background-color: var(--drawer-list-list-background);
-}
-.dnb-drawer-list__option.ignore-events {
-  pointer-events: none;
+  background-color: var(--drawer-list-option-color-bg, var(--drawer-list-option-color-bg--default));
+  --border-color: var(--drawer-list-option-color-border, var(--drawer-list-option-color-border--default));
+  --border-width: var(--drawer-list-option-border-width);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
 .dnb-drawer-list__option__inner {
   position: relative;
@@ -227,7 +281,6 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   margin: 0;
   padding: 1rem;
   color: inherit;
-  background-color: var(--drawer-list-option-inner-background);
 }
 .dnb-drawer-list__option__inner > * {
   align-self: self-start;
@@ -241,8 +294,8 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   left: 0;
   right: 0;
   bottom: 0;
-  height: var(--drawer-list-option-border-width);
-  background-color: var(--token-color-decorative-first-muted);
+  height: 0.0625rem;
+  background-color: var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list__option__item {
   display: block;
@@ -268,30 +321,43 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-  background-color: var(--token-color-background-action-hover-subtle);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-action-hover);
-  background-color: var(--token-color-background-action-hover-subtle);
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--hover
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--hover
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--hover
+  );
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral);
+.dnb-drawer-list__option:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) {
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--active
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--active
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--active
+  );
+}
+.dnb-drawer-list__option--focus {
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--focus
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--focus
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--focus
+  );
 }
 .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-  z-index: 3;
-  top: var(--drawer-list-focus-border-width);
-  left: var(--drawer-list-focus-border-width);
-  right: var(--drawer-list-focus-border-width);
-  bottom: var(--drawer-list-focus-border-width);
-  height: auto;
   background-color: transparent;
-  --border-color: var(--token-color-stroke-selected);
-  --border-width: var(--drawer-list-focus-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
@@ -301,30 +367,37 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     align-self: center;
   }
 }
-.dnb-drawer-list__option--ignore {
+.dnb-drawer-list__option--ignore, .dnb-drawer-list__option.ignore-events {
   cursor: default;
   pointer-events: none;
 }
-.dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral);
-  background-color: var(--drawer-list-option-inner-background);
-}
-.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral-inverse);
-  background-color: var(--token-color-background-selected);
+.dnb-drawer-list__option--selected {
+  --drawer-list-option-color-text--default: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--hover: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--active: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--focus: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-bg--default: var(
+    --token-color-background-selected
+  );
+  --drawer-list-option-color-bg--hover: var(
+    --token-color-background-action-hover
+  );
+  --drawer-list-option-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --drawer-list-option-color-bg--focus: var(
+    --token-color-background-action-hover
+  );
 }
 .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option__inner {
-  color: inherit;
-  background-color: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
-  color: var(--token-color-text-neutral-inverse);
-  background-color: var(--token-color-background-action-hover);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
   color: inherit;
   background-color: inherit;
 }
@@ -351,38 +424,36 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
 html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   visibility: visible;
   --border-color: var(--token-color-stroke-action-hover-inverse);
-  --border-width: var(--drawer-list-focus-border-width);
+  --border-width: var(--drawer-list-option-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-action-hover);
-  background-color: var(--token-color-background-action-hover-subtle);
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
   content: none;
 }
 .dnb-drawer-list__option[disabled] {
-  --drawer-list-option-inner-background: var(
-    --drawer-list-option-disabled-background
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--disabled
   );
-  color: var(--drawer-list-option-disabled-color);
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--disabled
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--disabled
+  );
   cursor: not-allowed;
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top {
   border-top-left-radius: var(--drawer-list-options-border-radius);
   border-top-right-radius: var(--drawer-list-options-border-radius);
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom {
   border-bottom-left-radius: var(--drawer-list-options-border-radius);
   border-bottom-right-radius: var(--drawer-list-options-border-radius);
 }
-.dnb-drawer-list__status--error:not(.dnb-drawer-list--open) .dnb-drawer-list__icon {
-  color: var(--token-color-text-destructive);
-}
 .dnb-drawer-list__arrow {
   position: absolute;
-  top: calc(var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
+  top: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2);
   left: auto;
   right: 0;
   pointer-events: none;
@@ -400,7 +471,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
   width: calc(var(--drawer-list-height) / 2);
   height: calc(var(--drawer-list-height) / 2);
   transform: translateY(60%) rotate(45deg);
-  background-color: var(--drawer-list-list-background);
+  background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
   box-shadow: var(--shadow-sharp), 0 0 0 1px var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
@@ -409,20 +480,26 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow {
   top: auto;
-  bottom: calc(var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
+  bottom: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2 - 2px);
   transform: rotate(180deg);
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow::before {
   transform: translateY(65%) rotate(45deg);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__arrow::before {
-  background-color: var(--drawer-list-group-title-bg);
+.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top:hover) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom:hover) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__arrow::before {
-  background-color: var(--token-color-background-action-hover-subtle);
+.dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__arrow::before {
-  background-color: var(--token-color-background-selected);
+.dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
+}
+.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {
   position: absolute;
@@ -605,12 +682,11 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
-  --drawer-list-options-border-radius: var(--token-radius-sm);
-  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-options-border-radius: var(--token-radius-md);
+  --drawer-list-option-border-width: 0.125rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
-  --drawer-list-option-border-width: 0.0625rem;
   --drawer-list-option-inner-background: var(
     --token-color-background-neutral
   );
@@ -679,6 +755,60 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: transform 200ms, opacity 160ms ease-out;
   box-shadow: var(--shadow-sharp);
   border-radius: var(--drawer-list-options-border-radius);
+}
+.dnb-drawer-list__options {
+  --drawer-list-option-color-text--default: var(
+    --token-color-text-neutral
+  );
+  --drawer-list-option-color-text--hover: var(
+    --token-color-text-action-hover
+  );
+  --drawer-list-option-color-text--active: var(
+    --token-color-text-action-pressed
+  );
+  --drawer-list-option-color-text--focus: var(
+    --token-color-text-action-hover
+  );
+  --drawer-list-option-color-text--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --drawer-list-option-color-bg--default: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-color-bg--hover: var(
+    --token-color-background-action-hover-subtle
+  );
+  --drawer-list-option-color-bg--active: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --drawer-list-option-color-bg--focus: var(
+    --token-color-background-action-hover-subtle
+  );
+  --drawer-list-option-color-bg--disabled: var(
+    --token-color-background-neutral
+  );
+  --drawer-list-option-color-border--default: var(
+    --drawer-list-option-color-bg
+  );
+  --drawer-list-option-color-border--focus: var(
+    --token-color-stroke-action-pressed
+  );
+  --drawer-list-arrow-color--default: var(
+    --drawer-list-option-color-bg--default
+  );
+  --drawer-list-arrow-color--hover: var(
+    --drawer-list-option-color-bg--hover
+  );
+  --drawer-list-arrow-color--active: var(
+    --drawer-list-option-color-bg--active
+  );
+  --drawer-list-arrow-color--focus: var(
+    --drawer-list-option-color-bg--focus
+  );
+  --drawer-list-arrow-color--group: var(--drawer-list-group-title-bg);
+  --drawer-list-arrow-color--selected: var(
+    --token-color-background-selected
+  );
 }
 .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
   margin: 0;
@@ -800,12 +930,13 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   cursor: pointer;
   margin: 0;
   padding: 0;
-  color: var(--token-color-text-neutral);
+  color: var(--drawer-list-option-color-text, var(--drawer-list-option-color-text--default));
   outline: none;
-  background-color: var(--drawer-list-list-background);
-}
-.dnb-drawer-list__option.ignore-events {
-  pointer-events: none;
+  background-color: var(--drawer-list-option-color-bg, var(--drawer-list-option-color-bg--default));
+  --border-color: var(--drawer-list-option-color-border, var(--drawer-list-option-color-border--default));
+  --border-width: var(--drawer-list-option-border-width);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
 .dnb-drawer-list__option__inner {
   position: relative;
@@ -817,7 +948,6 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   margin: 0;
   padding: 1rem;
   color: inherit;
-  background-color: var(--drawer-list-option-inner-background);
 }
 .dnb-drawer-list__option__inner > * {
   align-self: self-start;
@@ -831,8 +961,8 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   left: 0;
   right: 0;
   bottom: 0;
-  height: var(--drawer-list-option-border-width);
-  background-color: var(--token-color-decorative-first-muted);
+  height: 0.0625rem;
+  background-color: var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list__option__item {
   display: block;
@@ -858,30 +988,43 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-  background-color: var(--token-color-background-action-hover-subtle);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-action-hover);
-  background-color: var(--token-color-background-action-hover-subtle);
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--hover
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--hover
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--hover
+  );
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral);
+.dnb-drawer-list__option:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) {
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--active
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--active
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--active
+  );
+}
+.dnb-drawer-list__option--focus {
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--focus
+  );
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--focus
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--focus
+  );
 }
 .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-  z-index: 3;
-  top: var(--drawer-list-focus-border-width);
-  left: var(--drawer-list-focus-border-width);
-  right: var(--drawer-list-focus-border-width);
-  bottom: var(--drawer-list-focus-border-width);
-  height: auto;
   background-color: transparent;
-  --border-color: var(--token-color-stroke-selected);
-  --border-width: var(--drawer-list-focus-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
@@ -891,30 +1034,37 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     align-self: center;
   }
 }
-.dnb-drawer-list__option--ignore {
+.dnb-drawer-list__option--ignore, .dnb-drawer-list__option.ignore-events {
   cursor: default;
   pointer-events: none;
 }
-.dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral);
-  background-color: var(--drawer-list-option-inner-background);
-}
-.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-neutral-inverse);
-  background-color: var(--token-color-background-selected);
+.dnb-drawer-list__option--selected {
+  --drawer-list-option-color-text--default: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--hover: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--active: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-text--focus: var(
+    --token-color-text-neutral-inverse
+  );
+  --drawer-list-option-color-bg--default: var(
+    --token-color-background-selected
+  );
+  --drawer-list-option-color-bg--hover: var(
+    --token-color-background-action-hover
+  );
+  --drawer-list-option-color-bg--active: var(
+    --token-color-background-action-pressed
+  );
+  --drawer-list-option-color-bg--focus: var(
+    --token-color-background-action-hover
+  );
 }
 .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option__inner {
-  color: inherit;
-  background-color: inherit;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
-  color: var(--token-color-text-neutral-inverse);
-  background-color: var(--token-color-background-action-hover);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
   color: inherit;
   background-color: inherit;
 }
@@ -941,38 +1091,36 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
 html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   visibility: visible;
   --border-color: var(--token-color-stroke-action-hover-inverse);
-  --border-width: var(--drawer-list-focus-border-width);
+  --border-width: var(--drawer-list-option-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
-  color: var(--token-color-text-action-hover);
-  background-color: var(--token-color-background-action-hover-subtle);
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
   content: none;
 }
 .dnb-drawer-list__option[disabled] {
-  --drawer-list-option-inner-background: var(
-    --drawer-list-option-disabled-background
+  --drawer-list-option-color-text: var(
+    --drawer-list-option-color-text--disabled
   );
-  color: var(--drawer-list-option-disabled-color);
+  --drawer-list-option-color-bg: var(
+    --drawer-list-option-color-bg--disabled
+  );
+  --drawer-list-option-color-border: var(
+    --drawer-list-option-color-border--disabled
+  );
   cursor: not-allowed;
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top {
   border-top-left-radius: var(--drawer-list-options-border-radius);
   border-top-right-radius: var(--drawer-list-options-border-radius);
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom {
   border-bottom-left-radius: var(--drawer-list-options-border-radius);
   border-bottom-right-radius: var(--drawer-list-options-border-radius);
 }
-.dnb-drawer-list__status--error:not(.dnb-drawer-list--open) .dnb-drawer-list__icon {
-  color: var(--token-color-text-destructive);
-}
 .dnb-drawer-list__arrow {
   position: absolute;
-  top: calc(var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
+  top: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2);
   left: auto;
   right: 0;
   pointer-events: none;
@@ -990,7 +1138,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
   width: calc(var(--drawer-list-height) / 2);
   height: calc(var(--drawer-list-height) / 2);
   transform: translateY(60%) rotate(45deg);
-  background-color: var(--drawer-list-list-background);
+  background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
   box-shadow: var(--shadow-sharp), 0 0 0 1px var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
@@ -999,20 +1147,26 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow {
   top: auto;
-  bottom: calc(var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
+  bottom: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2 - 2px);
   transform: rotate(180deg);
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow::before {
   transform: translateY(65%) rotate(45deg);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__arrow::before {
-  background-color: var(--drawer-list-group-title-bg);
+.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top:hover) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom:hover) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__arrow::before {
-  background-color: var(--token-color-background-action-hover-subtle);
+.dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
 }
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__arrow::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__arrow::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__arrow::before {
-  background-color: var(--token-color-background-selected);
+.dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
+}
+.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {
   position: absolute;
