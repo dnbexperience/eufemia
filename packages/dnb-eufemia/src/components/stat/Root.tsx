@@ -66,10 +66,15 @@ Root._supportsSpacingProps = true
 
 export default Root
 
+function toChildArray(children: React.ReactNode): React.ReactNode[] {
+  if (children == null) {
+    return []
+  }
+  return Array.isArray(children) ? children.flat() : [children]
+}
+
 function hasOnlySupportedChildren(children: React.ReactNode): boolean {
-  return React.Children.toArray(children).every((child) =>
-    isSupportedChild(child)
-  )
+  return toChildArray(children).every((child) => isSupportedChild(child))
 }
 
 function isSupportedChild(child: React.ReactNode): boolean {
@@ -92,9 +97,7 @@ function isSupportedChild(child: React.ReactNode): boolean {
 }
 
 function hasRequiredLabel(children: React.ReactNode): boolean {
-  return React.Children.toArray(children).some((child) =>
-    hasLabelChild(child)
-  )
+  return toChildArray(children).some((child) => hasLabelChild(child))
 }
 
 function hasLabelChild(child: React.ReactNode): boolean {
@@ -117,7 +120,7 @@ function flattenRoles(
 ): Array<'label' | 'content'> {
   const roles: Array<'label' | 'content'> = []
 
-  for (const child of React.Children.toArray(children)) {
+  for (const child of toChildArray(children)) {
     if (!React.isValidElement<Record<string, any>>(child)) {
       continue
     }

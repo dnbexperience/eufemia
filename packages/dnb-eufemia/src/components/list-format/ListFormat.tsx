@@ -80,7 +80,7 @@ function ListFormat(
     }
 
     return isListVariant
-      ? React.Children.map(valueToUse, (child: React.ReactNode, index) => {
+      ? valueToUse.map((child: React.ReactNode, index) => {
           return <Li key={index}>{child}</Li>
         })
       : valueToUse
@@ -178,21 +178,30 @@ export function listFormat(
 }
 
 function replaceRootFragment(children) {
-  if (children?.type === Fragment) {
-    return React.Children.toArray(children?.props?.children)
+  if (React.isValidElement(children) && children.type === Fragment) {
+    return toChildArray(children.props.children)
   }
+
   if (Array.isArray(children)) {
     const firstChild = children[0]
     if (
-      React.Children.count(children) === 1 &&
-      firstChild?.type === Fragment
+      children.length === 1 &&
+      React.isValidElement(firstChild) &&
+      firstChild.type === Fragment
     ) {
-      return React.Children.toArray(firstChild?.props?.children)
+      return toChildArray(firstChild.props.children)
     }
     return children
   }
 
   return children
+}
+
+function toChildArray(children: React.ReactNode): React.ReactNode[] {
+  if (children == null) {
+    return []
+  }
+  return Array.isArray(children) ? children.flat() : [children]
 }
 
 withComponentMarkers(ListFormat, {

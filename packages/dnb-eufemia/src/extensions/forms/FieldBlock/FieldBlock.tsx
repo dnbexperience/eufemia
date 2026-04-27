@@ -781,19 +781,30 @@ function isFragment(fragment: React.ReactNode) {
 }
 
 function fragmentHasChildren(fragment: React.ReactNode) {
-  return (
-    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.count(fragment.props.children) > 0
-  )
+  if (!React.isValidElement<{ children?: React.ReactNode }>(fragment)) {
+    return false
+  }
+  const { children } = fragment.props
+  if (children == null) {
+    return false
+  }
+  return Array.isArray(children) ? children.length > 0 : true
 }
 
 function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
-  const isUndefined = (child) => child === undefined
-
-  return (
-    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.toArray(fragment.props.children).every(isUndefined)
-  )
+  if (!React.isValidElement<{ children?: React.ReactNode }>(fragment)) {
+    return false
+  }
+  const { children } = fragment.props
+  if (children == null || typeof children === 'boolean') {
+    return true
+  }
+  if (Array.isArray(children)) {
+    return children.every(
+      (child) => child == null || typeof child === 'boolean'
+    )
+  }
+  return false
 }
 
 withComponentMarkers(FieldBlock, {

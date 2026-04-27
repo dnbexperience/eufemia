@@ -251,7 +251,9 @@ function wrapChildren(
   props: FlexContainerAllProps,
   children: React.ReactNode
 ) {
-  return React.Children.toArray(children).map((child) => {
+  const childArray = toChildArray(children)
+
+  return childArray.map((child) => {
     if (
       React.isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'
@@ -271,15 +273,23 @@ function wrapChildren(
   })
 }
 
-function replaceRootFragment(children) {
+function replaceRootFragment(children: React.ReactNode[]) {
   const firstChild = children[0]
   if (
-    React.Children.count(children) === 1 &&
-    firstChild?.type === Fragment
+    children.length === 1 &&
+    React.isValidElement(firstChild) &&
+    firstChild.type === Fragment
   ) {
-    return React.Children.toArray(firstChild?.props?.children)
+    return toChildArray(firstChild.props.children)
   }
   return children
+}
+
+function toChildArray(children: React.ReactNode): React.ReactNode[] {
+  if (children == null) {
+    return []
+  }
+  return Array.isArray(children) ? children.flat() : [children]
 }
 
 withComponentMarkers(FlexContainer, {
