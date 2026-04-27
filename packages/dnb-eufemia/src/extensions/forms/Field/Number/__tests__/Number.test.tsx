@@ -2908,14 +2908,4 @@ describe('Field.Number', () => {
     const input = document.querySelector(`#${id}`)
     expect(input.tagName).toBe('INPUT')
   })
-
-  it('gets valid element when using createRef', () => {
-    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
-
-    render(<Field.Number id="unique" ref={ref} />)
-
-    const input = document.querySelector('#unique')
-    expect(input).toBeTruthy()
-    expect(input.tagName).toBe('INPUT')
-  })
 })

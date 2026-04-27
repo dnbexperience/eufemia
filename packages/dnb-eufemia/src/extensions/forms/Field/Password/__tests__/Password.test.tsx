@@ -322,14 +322,4 @@ describe('Password component', () => {
     expect(input).toBeTruthy()
     expect(input.tagName).toBe('INPUT')
   })
-
-  it('gets valid element when using createRef', () => {
-    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
-
-    render(<Field.Password ref={ref} />)
-
-    const input = document.querySelector('.dnb-input__input')
-    expect(input).toBeTruthy()
-    expect(input.tagName).toBe('INPUT')
-  })
 })
