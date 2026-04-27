@@ -65,19 +65,7 @@ function ListContainer(props: ListContainerProps) {
       return childArray
     }
 
-    return childArray.map((child, index) => {
-      if (index < visibleCount) {
-        return child
-      }
-
-      if (React.isValidElement<React.HTMLAttributes<HTMLElement>>(child)) {
-        return React.cloneElement(child, {
-          hidden: true,
-        })
-      }
-
-      return null
-    })
+    return childArray.slice(0, visibleCount)
   }, [children, hasVisibleCount, shouldLimit, visibleCount])
 
   const listContent = (
