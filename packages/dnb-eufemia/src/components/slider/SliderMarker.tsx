@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { makeUniqueId } from '../../shared/component-helper'
+import React, { useMemo } from 'react'
+import useId from '../../shared/helpers/useId'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
 import Tooltip from '../tooltip/Tooltip'
@@ -12,9 +12,9 @@ type SliderMarkerProps = {
 export default function SliderMarker({ value, text }: SliderMarkerProps) {
   const { isReverse, isVertical, allProps } = useSliderProps()
   const { min, max, numberFormat } = allProps
+  const markerId = useId()
 
-  const getParams = useCallback(() => {
-    const markerId = `slider-marker-${makeUniqueId()}`
+  const params = useMemo(() => {
     const { number, aria } = getFormattedNumber(value, numberFormat || {})
 
     let percent = clamp(((value - min) * 100) / (max - min))
@@ -22,7 +22,7 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
       percent = 100 - percent
     }
 
-    const params = {
+    return {
       id: markerId,
       'aria-label': aria,
       tabIndex: 0,
@@ -33,15 +33,20 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
         <Tooltip targetSelector={`#${markerId}`}>{text || number}</Tooltip>
       ),
     }
-
-    return params
-  }, [isReverse, isVertical, max, min, numberFormat, text, value])
+  }, [
+    isReverse,
+    isVertical,
+    markerId,
+    max,
+    min,
+    numberFormat,
+    text,
+    value,
+  ])
 
   if (!value) {
     return null
   }
-
-  const params = getParams()
 
   return <mark className="dnb-slider__marker" {...params} />
 }

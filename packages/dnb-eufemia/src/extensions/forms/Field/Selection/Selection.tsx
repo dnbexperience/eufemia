@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react'
 import clsx from 'clsx'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import useId from '../../../../shared/helpers/useId'
 import {
   ToggleButton,
   Dropdown,
@@ -129,7 +129,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
 }
 
 function Selection(props: FieldSelectionProps) {
-  const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
+  const clearValue = `clear-option-${useId()}`
 
   const {
     id,
