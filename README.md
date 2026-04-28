@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <div align="center">
   <a href="https://eufemia.dnb.no/">
-    <img src="./logo.png" height="100" alt="Eufemia logo" />
+    <img src="./logo.svg" height="40" alt="Eufemia logo" />
   </a>
 <!-- markdownlint-enable MD033 MD041 -->
 
