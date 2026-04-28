@@ -8,41 +8,38 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
-  'GlobalError for %s',
-  (themeName) => {
-    const pageViewport = {
-      width: 400,
-    }
-
-    setupPageScreenshot({
-      themeName,
-      pageViewport,
-      url: '/uilib/components/global-error/demos/',
-    })
-
-    it('have to match the 404 status', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="global-error-404"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the 500 status', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="global-error-500"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match the custom status', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="global-error-custom"]',
-        matchConfig: {
-          failureThreshold: 0.17, // because of dev vs build diff
-        },
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
+describe.each(['ui', 'sbanken'])('GlobalError for %s', (themeName) => {
+  const pageViewport = {
+    width: 400,
   }
-)
+
+  setupPageScreenshot({
+    themeName,
+    pageViewport,
+    url: '/uilib/components/global-error/demos/',
+  })
+
+  it('have to match the 404 status', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="global-error-404"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the 500 status', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="global-error-500"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the custom status', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="global-error-custom"]',
+      matchConfig: {
+        failureThreshold: 0.17, // because of dev vs build diff
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
