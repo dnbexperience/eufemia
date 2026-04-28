@@ -130,7 +130,7 @@ export function renderWithSpacing(
           return React.createElement(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             child.type as React.ComponentType<any>,
-            { ...childProps, key: childKey || i },
+            { ...childProps, key: childKey ? `${childKey}-${i}` : i },
             wrapWithSpace({
               element: element as React.ReactNode,
               spaceProps,
