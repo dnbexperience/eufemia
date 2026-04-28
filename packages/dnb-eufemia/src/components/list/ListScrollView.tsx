@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
-import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { ListContext } from './ListContext'
 import type { SkeletonShow } from '../Skeleton'
 
@@ -35,7 +34,6 @@ function ListScrollView(props: ListScrollViewProps) {
   } = props
 
   const localRef = useRef<HTMLDivElement>(null)
-  const combinedRef = useCombinedRef(ref, localRef)
   const [measuredMaxHeight, setMeasuredMaxHeight] = useState<
     string | undefined
   >(undefined)
@@ -71,6 +69,19 @@ function ListScrollView(props: ListScrollViewProps) {
       measuredHeight ? `${measuredHeight}px` : undefined
     )
   }, [hasValidMaxVisibleListItems, maxVisibleListItems, style?.maxHeight])
+
+  useLayoutEffect(() => {
+    if (!ref) {
+      return undefined
+    }
+
+    if (typeof ref === 'function') {
+      ref(localRef.current)
+      return undefined
+    }
+
+    ref.current = localRef.current
+  }, [ref])
 
   useLayoutEffect(() => {
     measureMaxHeight()
@@ -110,7 +121,7 @@ function ListScrollView(props: ListScrollViewProps) {
         className
       )}
       interactive="auto"
-      ref={combinedRef}
+      ref={localRef}
       style={scrollViewStyle}
       {...rest}
     >
