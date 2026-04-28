@@ -28,9 +28,12 @@
   border: none;
   box-shadow: none;
 
-  --background-color: rgba(255 255 255 / 85%);
+  --skip-link-border-width--default: 0.0625rem;
+  --skip-link-border-width--hover: 0.125rem;
+  --skip-link-border-width--focus: 0.1875rem;
+  --skip-link-overlay-bg: rgba(255 255 255 / 85%);
   .eufemia-theme__color-scheme--dark & {
-    --background-color: rgba(20 20 20 / 85%);
+    --skip-link-overlay-bg: rgba(20 20 20 / 85%);
   }
 
   &::after {
@@ -42,8 +45,8 @@
     width: 150vw;
     height: 150vh;
 
-    background-color: var(--background-color);
-    box-shadow: 150vw 150vh 0 0 var(--background-color); // Use box-shadow to avoid a horizontal scrollbar
+    background-color: var(--skip-link-overlay-bg);
+    box-shadow: 150vw 150vh 0 0 var(--skip-link-overlay-bg); // Use box-shadow to avoid a horizontal scrollbar
   }
 
   &::before {
@@ -55,14 +58,17 @@
     border-radius: var(--token-radius-xl);
     background-color: var(--token-color-background-neutral);
 
-    @include utilities.fakeBorder(var(--token-color-stroke-action));
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action),
+      var(--skip-link-border-width--default)
+    );
   }
 
   &:hover::before {
     background-color: var(--token-color-background-action-hover-subtle);
     @include utilities.fakeBorder(
       var(--token-color-stroke-action-hover),
-      var(--focus-ring-width)
+      var(--skip-link-border-width--hover)
     );
   }
   &:active::before {
@@ -82,7 +88,7 @@
     @include utilities.whatInput('keyboard') {
       @include utilities.fakeBorder(
         var(--token-color-stroke-action-focus),
-        0.1875rem
+        var(--skip-link-border-width--focus)
       );
     }
   }
