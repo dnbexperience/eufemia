@@ -7,7 +7,7 @@ import Button from '../button/Button'
 import { folder as FolderIcon } from '../../icons'
 
 // Shared
-import { makeUniqueId } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 
 // Internal
 import { UploadContext } from './UploadContext'
@@ -41,7 +41,7 @@ const UploadFileInput = ({
 
   const openFileDialog = () => fileInput.current?.click()
 
-  const sharedId = id || makeUniqueId()
+  const sharedId = useId(id)
   const accept = getAcceptedFileTypes(acceptedFileTypes)
 
   const onChangeHandler = useCallback(
