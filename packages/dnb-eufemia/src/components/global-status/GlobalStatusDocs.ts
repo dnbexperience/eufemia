@@ -105,7 +105,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
 
 export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
   text: {
-    doc: 'The text appears as the status content. Beside plain text, you can send in a React component as well.',
+    doc: 'The text appears as the status content. Besides plain text, you can send in a React component as well.',
     type: 'string',
     status: 'required',
   },

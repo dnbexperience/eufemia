@@ -108,7 +108,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showSubmitButton: {
-    doc: 'Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
+    doc: 'Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

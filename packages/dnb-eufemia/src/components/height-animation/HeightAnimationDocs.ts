@@ -12,7 +12,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepInDOM: {
-    doc: 'Set to `true` ensure the nested children content will be kept in the DOM. Defaults to `false`.',
+    doc: 'Set to `true` to ensure the nested children content will be kept in the DOM. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
