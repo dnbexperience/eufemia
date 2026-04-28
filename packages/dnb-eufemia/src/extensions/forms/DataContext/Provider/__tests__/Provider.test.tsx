@@ -2590,6 +2590,65 @@ describe('DataContext.Provider', () => {
           })
         })
 
+        it('should keep GlobalStatus visible when globalStatusAutoClose is false', async () => {
+          jest.spyOn(window, 'scrollTo').mockImplementation()
+
+          render(
+            <>
+              <GlobalStatus id="my-status" />
+              <DataContext.Provider
+                globalStatusId="my-status"
+                globalStatusAutoClose={false}
+              >
+                <Field.String path="/myField" required />
+                <Field.String path="/otherField" required />
+                <Form.SubmitButton />
+              </DataContext.Provider>
+            </>
+          )
+
+          const [firstInput, secondInput] =
+            document.querySelectorAll('input')
+          const submitButton = document.querySelector('button')
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
+
+          fireEvent.click(submitButton)
+
+          await waitFor(() => {
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+
+          // Type in the first field - GlobalStatus should persist
+          await userEvent.type(firstInput, 'foo')
+          fireEvent.blur(firstInput)
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toHaveTextContent(nb.Field.errorSummaryTitle)
+
+          // Fix the second field as well - GlobalStatus should now auto-close
+          await userEvent.type(secondInput, 'bar')
+          fireEvent.blur(secondInput)
+
+          await waitFor(() => {
+            const heightAnimation = document.querySelector(
+              '.dnb-height-animation'
+            )
+            if (heightAnimation) {
+              simulateAnimationEnd(heightAnimation)
+            }
+
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toBeNull()
+          })
+        })
+
         it('should override GlobalStatus title when providing one', async () => {
           jest.spyOn(window, 'scrollTo').mockImplementation()
           const myTitle = 'Custom title for global status'

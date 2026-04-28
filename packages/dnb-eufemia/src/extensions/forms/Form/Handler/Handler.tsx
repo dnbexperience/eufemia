@@ -33,6 +33,7 @@ const allowedProviderContextProps: Array<
   'ajvInstance',
   'errorMessages',
   'globalStatusId',
+  'globalStatusAutoClose',
   'transformIn',
   'transformOut',
   'onChange',

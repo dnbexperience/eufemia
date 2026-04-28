@@ -93,6 +93,13 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     globalStatusId?: string
     /**
+     * Set to `false` to keep the GlobalStatus visible after a field value changes.
+     * By default, the GlobalStatus error summary disappears when the user starts editing a field.
+     * When set to `false`, GlobalStatus stays visible until all errors are resolved.
+     * Defaults to `true`.
+     */
+    globalStatusAutoClose?: boolean
+    /**
      * Source data, will be used instead of defaultData, and leading to updates if changed after mount
      */
     data?: Data
@@ -215,6 +222,7 @@ export default function Provider<Data extends JsonObject>(
   const {
     id,
     globalStatusId = 'main',
+    globalStatusAutoClose = true,
     defaultData,
     emptyData,
     data,
@@ -1172,7 +1180,9 @@ export default function Provider<Data extends JsonObject>(
         handlePathChangeUnvalidated(path, value)
       }
 
-      showAllErrorsRef.current = false
+      if (globalStatusAutoClose) {
+        showAllErrorsRef.current = false
+      }
 
       validateData()
 

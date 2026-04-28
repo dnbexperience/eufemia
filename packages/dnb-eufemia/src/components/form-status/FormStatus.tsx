@@ -433,7 +433,7 @@ function FormStatusComponent(
       fillCache()
 
       if (state === 'error') {
-        if (show) {
+        if (show && getContent(restOwnProps)) {
           globalStatusRef.current?.update(
             statusId,
             {
