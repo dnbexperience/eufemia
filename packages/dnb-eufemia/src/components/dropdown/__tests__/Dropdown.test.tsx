@@ -1559,9 +1559,9 @@ describe('Dropdown component', () => {
         .mockImplementation(() => height)
     }
 
-    window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
+    window.scrollTo = function resizeTo({ top = window.scrollY }) {
       Object.assign(this, {
-        pageYOffset: top,
+        scrollY: top,
       }).dispatchEvent(new this.Event('scroll'))
 
       // new setDirectionObserver implementation

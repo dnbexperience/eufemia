@@ -20,15 +20,13 @@ export const percentToValue = (
 }
 
 export const getOffset = (node: HTMLElement) => {
-  const { pageYOffset, pageXOffset } =
-    typeof window !== 'undefined'
-      ? window
-      : { pageYOffset: 0, pageXOffset: 0 }
+  const { scrollY, scrollX } =
+    typeof window !== 'undefined' ? window : { scrollY: 0, scrollX: 0 }
   const { left, top } = node.getBoundingClientRect()
 
   return {
-    top: top + pageYOffset,
-    left: left + pageXOffset,
+    top: top + scrollY,
+    left: left + scrollX,
   }
 }
 
