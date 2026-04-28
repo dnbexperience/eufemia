@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import {
@@ -92,6 +92,10 @@ export const rootElement =
     )
   }
 
+const isDev =
+  process.env.NODE_ENV === 'development' ||
+  process.env.GATSBY_IS_PREVIEW === 'true'
+
 /**
  * Because we do rewrite the import path many places from
  * "/src" to "/build" on CI, some parts miss out,
@@ -102,14 +106,18 @@ export const rootElement =
 function ThemeProvider({ children }) {
   const theme = useThemeHandler()
 
-  return <Theme {...theme}>{children}</Theme>
+  return (
+    <Theme colorScheme={isDev ? 'auto' : undefined} {...theme}>
+      {children}
+    </Theme>
+  )
 }
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {
-  const { skeleton, update } = React.useContext(Context)
+  const { skeleton, update } = useContext(Context)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       typeof window !== 'undefined' &&
       window.location.search.includes('skeleton')

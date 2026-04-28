@@ -1482,8 +1482,6 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
@@ -1775,11 +1773,19 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   --progress-indicator-circular-stroke-width: calc(
     var(--progress-indicator-circular-size) / 8
   );
-  --progress-indicator-circular-background-color: grey;
-  --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-circular-background-color: var(
+    --token-color-background-neutral-alternative
+  );
+  --progress-indicator-circular-bar-color: var(
+    --token-color-background-action
+  );
   --progress-indicator-linear-size: 0.5rem;
-  --progress-indicator-linear-background-color: grey;
-  --progress-indicator-linear-bar-color: var(--color-black);
+  --progress-indicator-linear-background-color: var(
+    --token-color-background-neutral-base
+  );
+  --progress-indicator-linear-bar-color: var(
+    --token-color-decorative-first-bold
+  );
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -2068,8 +2074,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   --autocomplete-height--small: 1.5rem;
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
-  --autocomplete-padding-horizontal: 1rem;
-  --autocomplete-focus-border-width: 0.125rem;
   --autocomplete-text-padding: 0.5rem;
   --autocomplete-border-radius: 0.25rem;
   display: inline-flex;

@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import React, { act } from 'react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import { isCI } from 'repo-utils'
 import { Form, Wizard } from '../../..'
 import { Button, Dialog } from '../../../../../components'

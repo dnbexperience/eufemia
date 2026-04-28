@@ -33,7 +33,6 @@ import {
   removeFromIndex,
 } from './helpers'
 import type { ModalStackEntry } from './helpers'
-import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
 
 declare global {
@@ -487,7 +486,6 @@ export default function ModalContent(props: ModalContentProps) {
         ? `dnb-modal__content--${containerPlacement || 'right'}`
         : null,
       `dnb-modal__vertical-alignment--${verticalAlignment}`,
-      getThemeClasses(context?.theme),
       contentClass
     ),
     onMouseDown: onContentMouseDownHandler,

@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import type { ScrollViewAllProps } from '../ScrollView'
 import ScrollView from '../ScrollView'
 import { setResizeObserver } from './shared-mocks/ResizeObserver'

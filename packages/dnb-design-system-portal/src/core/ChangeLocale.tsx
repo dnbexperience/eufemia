@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Context, {
   type InternalLocale,
 } from '@dnb/eufemia/src/shared/Context'
@@ -13,11 +13,16 @@ export const languageDisplayNames = {
   'en-US': { label: 'English (US)' },
 }
 
-export default function ChangeLocale({ listUSLocale = null, ...props }) {
-  const { locale, setLocale } = React.useContext(Context)
+export default function ChangeLocale({
+  label = 'Change components language',
+  listUSLocale = null,
+  ...props
+}) {
+  const { locale, setLocale } = useContext(Context)
 
   return (
     <Field.Selection
+      label={label}
       value={locale}
       onChange={(value) => {
         setLocale(value as InternalLocale)

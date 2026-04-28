@@ -53,7 +53,9 @@ function CardFigure({
           bankAxept={data.bankAxept}
           cardDesign={data.cardDesign}
         />
-        {multipleProviders && <div className="provider--separator" />}
+        {multipleProviders && (
+          <div className="dnb-payment-card__provider-separator" />
+        )}
         <TypeLogo cardType={data.cardType} cardDesign={data.cardDesign} />
       </div>
     )

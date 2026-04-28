@@ -465,7 +465,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     _id.current = usedTriggerAttributes.id
   }
 
-  let fallbackTitle: string
+  let fallbackTitle: React.ReactNode
   if (usedTriggerAttributes.title) {
     fallbackTitle = usedTriggerAttributes.title
   } else if (suffixContext) {
@@ -473,11 +473,10 @@ function ModalComponent(ownProps: ModalAllProps) {
   }
 
   const headerTitle = rest.title || fallbackTitle
-  const title = (
+  const title =
     !usedTriggerAttributes?.text && headerTitle
       ? headerTitle || fallbackTitle
       : null
-  ) as string
 
   const TriggerButton = trigger
     ? (trigger as () => React.JSX.Element)

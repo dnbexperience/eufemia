@@ -43,7 +43,7 @@ test.describe('Theme', () => {
   test('should load css file', async ({ page }) => {
     await page.click('#portal-tools')
     await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(3)')
+    await page.click('#change-theme-portal ul li:nth-child(2)')
 
     await page.waitForSelector('link[href^="/sbanken."]', {
       state: 'attached',
@@ -62,7 +62,7 @@ test.describe('Theme', () => {
   test('should set local storage', async ({ page }) => {
     await page.click('#portal-tools')
     await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(3)')
+    await page.click('#change-theme-portal ul li:nth-child(2)')
 
     const localStorageData = await page.evaluate(() => {
       return JSON.parse(
@@ -76,7 +76,7 @@ test.describe('Theme', () => {
   test('should switch back and forth', async ({ page }) => {
     await page.click('#portal-tools')
     await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(3)')
+    await page.click('#change-theme-portal ul li:nth-child(2)')
 
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:first-child')
@@ -97,7 +97,7 @@ test.describe('Theme', () => {
   test('should load css file after template', async ({ page }) => {
     await page.click('#portal-tools')
     await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(3)')
+    await page.click('#change-theme-portal ul li:nth-child(2)')
 
     const sbankenCssAfterTemplateExists = await page.$(
       '#eufemia-style-theme + link[href^="/sbanken."][rel="stylesheet"]'

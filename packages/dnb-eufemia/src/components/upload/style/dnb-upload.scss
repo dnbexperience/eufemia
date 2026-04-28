@@ -6,17 +6,16 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-upload {
-  --upload-background: white;
-  --upload-background--active: lightgray;
-  --upload-border: gray;
-  --upload-border--active: black;
+  --upload-background: var(--token-color-background-page-background);
+  --upload-background--active: var(--token-color-decorative-third-muted);
+  --upload-border: var(--token-color-stroke-action);
+  --upload-border--active: var(--token-color-stroke-action-pressed);
   --upload-border-width: 0.125rem;
-  --upload-list-border: black;
-  --upload-icon--default: black;
-  --upload-icon--warning: red;
-  --upload-highlight: lightyellow;
-  --upload-text--primary: black;
-  --upload-text--secondary: black;
+  --upload-list-border: var(--token-color-stroke-neutral-subtle);
+  --upload-icon--default: var(--token-color-icon-neutral);
+  --upload-icon--warning: var(--token-color-icon-error);
+  --upload-highlight: var(--token-color-background-warning-subtle);
+  --upload-text--secondary: var(--token-color-text-neutral-alternative);
 
   position: relative;
   display: flex;
@@ -176,7 +175,7 @@
     padding: 0;
     border-radius: 0;
     .dnb-upload__text {
-      color: var(--color-black-55);
+      color: var(--upload-text--secondary);
       font-size: var(--font-size-small);
     }
     .dnb-help-button__content {

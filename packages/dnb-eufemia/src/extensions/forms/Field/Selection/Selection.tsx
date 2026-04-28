@@ -1,9 +1,6 @@
 import React, { useMemo, useCallback } from 'react'
 import clsx from 'clsx'
-import {
-  convertJsxToString,
-  makeUniqueId,
-} from '../../../../shared/component-helper'
+import { makeUniqueId } from '../../../../shared/component-helper'
 import {
   ToggleButton,
   Dropdown,
@@ -432,7 +429,7 @@ function renderRadioItems({
 
     const label = title ?? children
     const suffix = help ? (
-      <HelpButton size="small" title={convertJsxToString(help.title)}>
+      <HelpButton size="small" title={help.title}>
         {help.content}
       </HelpButton>
     ) : undefined

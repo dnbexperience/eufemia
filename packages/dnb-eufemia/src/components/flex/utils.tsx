@@ -123,13 +123,14 @@ export function renderWithSpacing(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children
-        const { key: childKey, ...childProps } = child?.props || {}
+        const childKey = child?.key
+        const childProps = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
           return React.createElement(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             child.type as React.ComponentType<any>,
-            { key: childKey || i, ...childProps },
+            { ...childProps, key: childKey || i },
             wrapWithSpace({
               element: element as React.ReactNode,
               spaceProps,

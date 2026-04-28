@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render, waitFor, fireEvent } from '@testing-library/react'
+import React, { act } from 'react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -273,6 +273,76 @@ describe('HelpButtonInline', () => {
       expect(
         document.querySelector('.dnb-help-button__content .dnb-section')
       ).toHaveAttribute('aria-label', 'Help title')
+    })
+
+    it('should have aria-label when title is a React component', () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          focusOnOpen
+          help={{
+            open: true,
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-help-button__content .dnb-section')
+      ).not.toHaveAttribute('aria-label', 'Component title')
+    })
+
+    it('should set button aria-label when title is a React component', () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          help={{
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-label',
+        'Hjelpetekst'
+      )
+    })
+
+    it('should show tooltip when title is a React component', async () => {
+      function CustomTitle() {
+        return <>Component title</>
+      }
+
+      render(
+        <HelpButtonInline
+          help={{
+            title: <CustomTitle />,
+          }}
+        />
+      )
+
+      const button = document.querySelector('.dnb-help-button')
+      await userEvent.hover(button)
+
+      const ariaDescribedBy = await waitFor(() => {
+        const id = button.getAttribute('aria-describedby')
+        expect(id).toBeTruthy()
+        return id
+      })
+
+      const tooltipContent = await waitFor(() => {
+        const tooltip = document.querySelector(`#${ariaDescribedBy}`)
+        expect(tooltip).toBeInTheDocument()
+        return tooltip
+      })
+
+      expect(tooltipContent).toHaveTextContent('Component title')
     })
 
     it('should have aria-label attribute', () => {

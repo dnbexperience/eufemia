@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
-import { H2, P, Anchor } from '@dnb/eufemia/src'
+import { Drawer, Tooltip } from '@dnb/eufemia/src/components'
+import { Anchor, Flex } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
@@ -30,7 +30,7 @@ export default function PortalToolsMenu({
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton } = React.useContext(Context)
+  const { skeleton } = useContext(Context)
 
   return (
     <Drawer
@@ -62,56 +62,50 @@ export default function PortalToolsMenu({
       {...props}
     >
       <Drawer.Body innerSpace={{ block: 'large' }}>
-        <Space>
-          <H2 size="small">Change Brand</H2>
-          <Space top>
-            <ChangeStyleTheme />
-          </Space>
-          <P size="small" top="x-small">
-            Read more about{' '}
-            <Anchor href="/uilib/usage/customisation/theming/">
-              theming
-            </Anchor>
-          </P>
-        </Space>
+        <Flex.Stack gap="large">
+          <ChangeStyleTheme
+            labelDescription={
+              <>
+                Read more about{' '}
+                <Anchor href="/uilib/usage/customisation/theming/">
+                  theming
+                </Anchor>
+              </>
+            }
+          />
+          <ChangeLocale
+            labelDescription={
+              <>
+                Read more about{' '}
+                <Anchor href="/uilib/usage/customisation/localization/">
+                  localization
+                </Anchor>
+              </>
+            }
+          />
 
-        <Space top="large">
-          <H2 size="small">Change components language</H2>
-          <Space top>
-            <ChangeLocale />
-          </Space>
-          <P size="small" top="x-small">
-            Read more about{' '}
-            <Anchor href="/uilib/usage/customisation/localization/">
-              localization
-            </Anchor>
-          </P>
-        </Space>
+          {isDev && (
+            <ToggleDarkMode
+              label="Dark mode"
+              labelDescription={
+                <>
+                  Read more about{' '}
+                  <Anchor href="/uilib/usage/customisation/theming/">
+                    theming
+                  </Anchor>
+                </>
+              }
+            />
+          )}
 
-        {isDev && (
-          <Space top="large">
-            <H2 size="small">Dark mode</H2>
-            <Space top>
-              <ToggleDarkMode />
-            </Space>
-          </Space>
-        )}
+          <PortalSkeleton
+            enabled={skeleton}
+            label="Show everything behind skeletons"
+            skeleton={false}
+          />
 
-        <Space top="large">
-          <H2 skeleton={false} size="small">
-            Show everything behind skeletons
-          </H2>
-          <Space top>
-            <PortalSkeleton top={false} enabled={skeleton} />
-          </Space>
-        </Space>
-
-        <Space top="large">
-          <H2 size="small">Show grid</H2>
-          <Space top>
-            <ToggleGrid />
-          </Space>
-        </Space>
+          <ToggleGrid label="Show grid" />
+        </Flex.Stack>
       </Drawer.Body>
     </Drawer>
   )

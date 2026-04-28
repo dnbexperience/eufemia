@@ -419,17 +419,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 * Table component
 *
 */
-/*
- * Utilities
- */
-/*
-* Button mixins
-*
-*/
-/*
-* Table component
-*
-*/
 .dnb-table__th__horizontal {
   display: flex;
   align-items: flex-end;
@@ -447,17 +436,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   width: 100%;
 }
 
-/*
-* Table component
-*
-*/
-/*
- * Utilities
- */
-/*
-* Button mixins
-*
-*/
 /*
 * Table component
 *
@@ -607,17 +585,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   padding-bottom: 0;
 }
 
-/*
-* Table component
-*
-*/
-/*
- * Utilities
- */
-/*
-* Button mixins
-*
-*/
 /*
 * Table component
 *

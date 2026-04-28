@@ -86,10 +86,10 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should scope :root in a multi-selector rule and keep other selectors', async () => {
+    it('should scope :root in a multi-selector rule and scope other selectors', async () => {
       return await run(
         ':root, .other-selector { --color: red; }',
-        '.test-scope, .other-selector { --color: red; }',
+        '.test-scope, .test-scope .other-selector { --color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
@@ -941,10 +941,10 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('should scope :root in a multi-selector rule and keep other selectors', async () => {
+      it('should scope :root in a multi-selector rule and scope other selectors', async () => {
         return await run(
           ':root, .other-selector { --color: red; }',
-          ':global(.test-scope), .other-selector { --color: red; }',
+          ':global(.test-scope), :global(.test-scope) .other-selector { --color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })

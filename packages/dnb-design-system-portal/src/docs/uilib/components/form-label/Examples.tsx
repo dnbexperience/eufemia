@@ -25,7 +25,7 @@ export const Horizontal = () => (
 
 export const NoForId = () => (
   <ComponentBox>
-    <FormLabel>Without forId (select me)</FormLabel>
+    <FormLabel element="span">Without forId (select me)</FormLabel>
     <Checkbox label="Checkbox" />
   </ComponentBox>
 )

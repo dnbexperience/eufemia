@@ -18,14 +18,14 @@ const StyledTable = styled(Table)`
 
 const colors = {
   type: {
-    default: 'var(--color-success-green)',
-    primitive: 'var(--color-success-green)',
-    string: 'var(--color-fire-red)',
+    default: 'var(--token-color-text-positive)',
+    primitive: 'var(--token-color-text-positive)',
+    string: 'var(--token-color-text-error)',
   },
   value: {
-    default: 'var(--color-success-green)',
-    undefined: 'var(--color-black-55)',
-    string: 'var(--color-fire-red)',
+    default: 'var(--token-color-text-positive)',
+    undefined: 'var(--token-color-text-neutral-alternative)',
+    string: 'var(--token-color-text-error)',
   },
 }
 

@@ -25,7 +25,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
     log,
   } = props
 
-  let matches = useMemo(() => {
+  const matches = useMemo(() => {
     if (disabled) {
       return false // stop here
     }
@@ -40,9 +40,6 @@ export default function useMediaQuery(props: MediaQueryProps) {
       log,
     })
   )
-  if (mediaQueryList.current?.matches) {
-    matches = true
-  }
 
   const [match, matchUpdate] = useState(matches)
 
@@ -54,13 +51,16 @@ export default function useMediaQuery(props: MediaQueryProps) {
 
     if (typeof listenerRef.current === 'function') {
       listenerRef.current()
+    }
 
-      mediaQueryList.current = makeMediaQueryList(
-        { query, when, not },
-        context.breakpoints,
-        { disabled, correctRange, log }
-      )
-      matchUpdate(mediaQueryList.current?.matches)
+    mediaQueryList.current = makeMediaQueryList(
+      { query, when, not },
+      context.breakpoints,
+      { disabled, correctRange, log }
+    )
+
+    if (mediaQueryList.current) {
+      matchUpdate(mediaQueryList.current.matches)
     }
 
     listenerRef.current = createMediaQueryListener(

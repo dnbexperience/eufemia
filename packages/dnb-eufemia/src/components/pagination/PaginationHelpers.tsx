@@ -100,7 +100,7 @@ export function preparePageElement(
   Element,
   includeClassName = 'dnb-pagination__page'
 ) {
-  if (String(Element) === 'Symbol(react.fragment)') {
+  if (Element === React.Fragment) {
     return Element
   }
 

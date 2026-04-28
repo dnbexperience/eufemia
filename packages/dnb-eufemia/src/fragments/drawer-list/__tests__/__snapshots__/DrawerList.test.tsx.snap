@@ -16,7 +16,6 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
@@ -447,6 +446,14 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   box-shadow: var(--shadow-sharp);
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
 }
+.dnb-drawer-list__list::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+}
 .dnb-drawer-list__options {
   border: none;
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
@@ -595,7 +602,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
   color: var(--token-color-text-destructive);
 }
 .dnb-drawer-list__arrow::before {
-  box-shadow: var(--shadow-sharp);
+  box-shadow: var(--shadow-sharp), 0 0 0 1px var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__arrow::before, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__arrow::before {
   background-color: var(--drawer-list-group-title-bg);

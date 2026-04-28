@@ -3,9 +3,9 @@
  *
  */
 
-import React from 'react'
+import React, { act } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'

@@ -62,8 +62,7 @@ gatsby-qod {
   opacity: 0;
 }
 
-[data-visual-test].hide-page-content
-  div.eufemia-theme:not(.dnb-modal__content) {
+[data-visual-test].hide-page-content #___gatsby {
   /* NB: visibility: hidden; does not work here, because playwright does not find the selectors anymore */
   opacity: 0;
 }

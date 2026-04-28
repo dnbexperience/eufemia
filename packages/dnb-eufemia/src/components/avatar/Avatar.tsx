@@ -190,8 +190,8 @@ const Avatar = (localProps: AvatarAllProps) => {
   validateDOMAttributes(allProps, props)
 
   const style = {
-    '--background-color': getColor(backgroundColor),
-    '--color': getColor(color),
+    '--avatar-background-color': getColor(backgroundColor),
+    '--avatar-text-color': getColor(color),
     ...props?.style,
     ...(avatarGroupItemContext?.zIndex != null && {
       zIndex: avatarGroupItemContext.zIndex,

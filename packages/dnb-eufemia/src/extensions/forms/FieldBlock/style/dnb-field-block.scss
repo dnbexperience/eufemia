@@ -6,6 +6,11 @@ fieldset.dnb-forms-field-block {
 }
 
 .dnb-forms-field-block {
+  &__label__description {
+    color: var(--token-color-text-neutral-alternative);
+    font-size: var(--font-size-small);
+  }
+
   &__grid {
     display: grid;
 
@@ -37,9 +42,6 @@ fieldset.dnb-forms-field-block {
   &--width {
     &-stretch {
       flex-grow: 1;
-      label.dnb-form-label {
-        max-width: none;
-      }
     }
     @include utilities.allAbove(x-small) {
       &-custom {
@@ -69,6 +71,10 @@ fieldset.dnb-forms-field-block {
     align-items: center;
 
     margin-right: 0;
+
+    .dnb-forms-field-block--width-stretch & {
+      max-width: none;
+    }
 
     &__description {
       vertical-align: top;

@@ -7,7 +7,6 @@
 
 @use 'sass:string';
 @use '../../../style/core/utilities.scss' as utilities;
-@use './space-mixins.scss';
 
 @mixin marginDirection($direction) {
   // Get the first letter for the custom property name (top -> t, left -> l, etc.)

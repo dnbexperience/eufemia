@@ -17,7 +17,12 @@ export type FormSubmitButtonProps = {
   showIndicator?: boolean
 } & ComponentProps &
   Omit<ButtonProps, 'variant'> &
-  Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>> & {
+  Partial<
+    Omit<
+      React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
+      'title'
+    >
+  > & {
     variant?: 'send' | 'secondary'
   }
 

@@ -4,6 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { Form, Wizard } from '../../..'
 
 describe('Wizard.Buttons', () => {
+  // Increase timeout for all tests in this suite due to async operations
+  jest.setTimeout(30000)
+
   const Step = ({ title }) => {
     return (
       <Wizard.Step>

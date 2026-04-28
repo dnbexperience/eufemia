@@ -14,6 +14,15 @@
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+    }
   }
 
   // ul element
@@ -207,7 +216,9 @@
   }
 
   &__arrow::before {
-    @include utilities.sharpDropShadow();
+    box-shadow:
+      var(--shadow-sharp),
+      0 0 0 1px var(--token-color-stroke-neutral-subtle);
   }
 
   // group title arrow

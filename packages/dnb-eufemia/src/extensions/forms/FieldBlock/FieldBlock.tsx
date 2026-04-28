@@ -506,7 +506,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const labelProps: FormLabelAllProps = {
     id: `${id}-label`,
     className: 'dnb-forms-field-block__label',
-    element: enableFieldset ? 'legend' : 'label',
+    element: enableFieldset ? 'legend' : forId ? 'label' : 'span',
     forId: enableFieldset ? undefined : forId,
     srOnly: labelSrOnly,
     space: 0, // Use CSS for spacing, but we need to reset space for doing so

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { render, act, screen } from '@testing-library/react'
+import React, { act, useContext } from 'react'
+import { render, screen } from '@testing-library/react'
 import At from '../At'
 import Provider from '../../Provider'
 import Context from '../../Context'

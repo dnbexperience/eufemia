@@ -7,6 +7,9 @@ import '@testing-library/jest-dom'
 import { waitFor } from '@testing-library/react'
 import { toBeType } from 'jest-tobetype'
 
+// Tell React 18+ that this environment supports act()
+globalThis.IS_REACT_ACT_ENVIRONMENT = true
+
 // To cleanup axe test leftovers from a test run before the current one
 beforeEach(() => {
   if (typeof document !== 'undefined') {
@@ -50,6 +53,7 @@ export function bypassActWarning() {
       const msg = String(args[0] ?? '')
       if (
         /not wrapped in act/.test(msg) ||
+        /not configured to support act/.test(msg) ||
         /component suspended inside an `act` scope/.test(msg) ||
         /Not implemented: navigation/.test(msg)
       ) {

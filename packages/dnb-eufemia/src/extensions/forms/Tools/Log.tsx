@@ -27,7 +27,7 @@ function Log({
       {...props}
     >
       {label && (
-        <FormLabel bottom>
+        <FormLabel element="span" bottom>
           <b>{label}</b>
         </FormLabel>
       )}

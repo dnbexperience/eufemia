@@ -108,6 +108,7 @@ function StepIndicatorTriggerButton({
       <HeightAnimation animate={!noAnimation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <FormLabel
+            element="span"
             aria-describedby={id}
             aria-hidden // In order to not duplicate information for screen readers
             className="dnb-step-indicator__label"

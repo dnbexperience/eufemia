@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
@@ -674,6 +674,30 @@ describe('Flex.Container', () => {
       expect(
         document.querySelectorAll('.dnb-space__top--large')
       ).toHaveLength(1)
+    })
+
+    it('should preserve key from element when wrapping with _supportsSpacingProps=children', () => {
+      const { rerender, Wrapper, TestComponent } = getMocks()
+
+      Wrapper._supportsSpacingProps = 'children'
+
+      const spy = jest.spyOn(React, 'createElement')
+
+      rerender(
+        <Flex.Vertical>
+          <Wrapper key="my-key">
+            <TestComponent />
+          </Wrapper>
+        </Flex.Vertical>
+      )
+
+      const wrapperCall = spy.mock.calls.find(
+        ([type]) => type === (Wrapper as any)
+      )
+      expect(wrapperCall).toBeDefined()
+      expect(wrapperCall[1].key).toBe('.$my-key')
+
+      spy.mockRestore()
     })
 
     it('should with _supportsSpacingProps=children wrap the children inside the Wrapper', () => {

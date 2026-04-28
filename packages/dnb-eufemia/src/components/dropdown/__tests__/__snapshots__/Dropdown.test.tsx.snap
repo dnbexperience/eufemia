@@ -1020,8 +1020,6 @@ legend.dnb-form-label {
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
@@ -1319,8 +1317,6 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;

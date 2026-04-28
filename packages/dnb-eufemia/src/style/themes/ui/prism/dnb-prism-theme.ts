@@ -6,35 +6,35 @@
 const italic = 'italic' as const
 const prismTheme = {
   plain: {
-    color: 'var(--color-mint-green-12)',
-    backgroundColor: 'var(--color-black-80)',
+    color: 'var(--token-color-decorative-third-muted-static)',
+    backgroundColor: 'transparent',
   },
   styles: [
     {
       types: ['changed'],
       style: {
-        color: 'var(--color-accent-yellow-30)',
+        color: 'var(--token-color-background-warning)',
         fontStyle: italic,
       },
     },
     {
       types: ['deleted'],
       style: {
-        color: 'var(--color-fire-red)',
+        color: 'var(--token-color-icon-error)',
         fontStyle: italic,
       },
     },
     {
       types: ['inserted', 'attr-name'],
       style: {
-        color: 'var(--color-summer-green)',
+        color: 'var(--token-color-text-positive-inverse)',
         fontStyle: italic,
       },
     },
     {
       types: ['comment'],
       style: {
-        color: 'var(--color-accent-yellow-30)',
+        color: 'var(--token-color-background-warning)',
         fontStyle: italic,
         opacity: 0.8,
       },
@@ -42,80 +42,80 @@ const prismTheme = {
     {
       types: ['string', 'url'],
       style: {
-        color: 'var(--color-summer-green)',
+        color: 'var(--token-color-text-positive-inverse)',
       },
     },
     {
       types: ['variable'],
       style: {
-        color: 'var(--color-mint-green-50)',
+        color: 'var(--token-color-decorative-first-muted-static)',
       },
     },
     {
       types: ['number'],
       style: {
-        color: 'var(--color-mint-green-12)',
+        color: 'var(--token-color-decorative-third-muted-static)',
       },
     },
     {
       types: ['builtin', 'char', 'constant'],
       style: {
-        color: 'var(--color-lavender)',
+        color: 'var(--token-color-decorative-second-muted-static)',
       },
     },
     {
       types: ['function'],
       style: {
-        color: 'var(--color-sky-blue-medium)',
+        color: 'var(--token-color-decorative-second-subtle-static)',
       },
     },
     {
       types: ['punctuation'],
       style: {
-        color: 'var(--color-lavender)',
+        color: 'var(--token-color-decorative-second-muted-static)',
       },
     },
     {
       types: ['selector', 'doctype'],
       style: {
-        color: 'var(--color-sea-green-30)',
+        color: 'var(--token-color-decorative-first-base-static)',
         fontStyle: italic,
       },
     },
     {
       types: ['class-name'],
       style: {
-        color: 'var(--color-sky-blue)',
+        color: 'var(--token-color-decorative-second-subtle-static)',
       },
     },
     {
       types: ['operator', 'keyword', 'attr-value'],
       style: {
-        color: 'var(--color-mint-green)',
+        color: 'var(--token-color-decorative-first-subtle-static)',
       },
     },
     {
       types: ['tag'],
       style: {
-        color: 'var(--color-sky-blue)',
+        color: 'var(--token-color-decorative-second-subtle-static)',
       },
     },
     {
       types: ['boolean'],
       style: {
-        color: 'var(--color-success-green)',
+        color: 'var(--token-color-text-positive)',
       },
     },
     {
       types: ['property'],
       style: {
-        color: 'var(--color-mint-green)',
+        color: 'var(--token-color-decorative-first-subtle-static)',
       },
     },
     {
       types: ['namespace'],
       style: {
-        color: 'var(--color-indigo-light)',
+        color: 'var(--token-color-decorative-third-bold-static)',
       },
     },
   ],

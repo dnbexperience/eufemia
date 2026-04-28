@@ -1,6 +1,11 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 @use './PortalStyle.mixins.scss' as PortalMixins;
 
+// Ensure body fills the viewport so the background color covers the full screen
+[skip-isolation] body {
+  min-height: 100dvh;
+}
+
 [skip-isolation] body,
 [skip-isolation] body #___gatsby,
 [skip-isolation] body #gatsby-focus-wrapper {
@@ -11,11 +16,6 @@
   html {
     height: 100%;
   }
-}
-
-.home-background {
-  min-height: 100dvh;
-  background-color: var(--color-emerald-green);
 }
 
 [skip-isolation] #gatsby-noscript {
@@ -113,8 +113,16 @@ html[show-dev-grid] .dev-grid {
   line-height: calc(var(--line-height-basis) + 0.5rem); /* 2rem */
 }
 
+.dnb-page-background {
+  // Ensure themed body has a token color for page backgrounds
+  background-color: var(--token-color-background-neutral);
+}
+
 // Make the home => pages animation
-.home-background ul,
+.home-background ul {
+  view-transition-name: home;
+}
+
 #portal-sidebar-menu {
   view-transition-name: home;
 }

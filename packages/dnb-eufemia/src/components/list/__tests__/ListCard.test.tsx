@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render, waitFor } from '@testing-library/react'
+import React, { act } from 'react'
+import { render, waitFor } from '@testing-library/react'
 import List from '../List'
 import { List as RootList } from '../../../components'
 import { axeComponent } from '../../../core/jest/jestSetup'

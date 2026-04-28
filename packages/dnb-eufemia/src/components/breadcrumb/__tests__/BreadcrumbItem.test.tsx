@@ -1,5 +1,5 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import BreadcrumbItem from '../BreadcrumbItem'
 import { Theme } from '../../../shared'

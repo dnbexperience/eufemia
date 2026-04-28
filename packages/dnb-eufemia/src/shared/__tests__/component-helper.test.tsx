@@ -481,15 +481,13 @@ describe('"findElementInChildren" should', () => {
   it('find nested React elements', () => {
     const h1 = <h1>find this</h1>
     const Heading = () => h1
-    const children = React.createElement(
-      'div',
-      null,
-      React.createElement(Heading),
-      React.createElement(
-        'span',
-        null,
-        React.createElement('h2', null, 'and this')
-      )
+    const children = (
+      <div>
+        <Heading />
+        <span>
+          <h2>and this</h2>
+        </span>
+      </div>
     )
 
     const HeadingElement = findElementInChildren(children, (cur) => {

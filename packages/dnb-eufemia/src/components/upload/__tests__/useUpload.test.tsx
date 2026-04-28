@@ -1,6 +1,6 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import useUpload from './../useUpload'
-import React, { useEffect } from 'react'
+import React, { act, useEffect } from 'react'
 import { createMockFile } from './testHelpers'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import type { UploadFile } from '../types'

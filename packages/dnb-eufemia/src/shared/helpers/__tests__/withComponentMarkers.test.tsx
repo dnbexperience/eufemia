@@ -113,7 +113,7 @@ describe('withComponentMarkers', () => {
 
   it('should work with React element type checking', () => {
     function MyComponent() {
-      return React.createElement('div')
+      return <div />
     }
 
     withComponentMarkers(MyComponent, {
@@ -121,7 +121,7 @@ describe('withComponentMarkers', () => {
       _supportsSpacingProps: true,
     })
 
-    const element = React.createElement(MyComponent)
+    const element = <MyComponent />
 
     // Simulates how FieldBlock and flex/utils read markers
     expect(element.type['_formElement']).toBe(true)
@@ -176,7 +176,9 @@ describe('withComponentMarkers', () => {
 
       expect(document.querySelector('fieldset')).not.toBeInTheDocument()
       expect(document.querySelector('legend')).not.toBeInTheDocument()
-      expect(document.querySelector('label')).toBeInTheDocument()
+      expect(
+        document.querySelector('span.dnb-form-label')
+      ).toBeInTheDocument()
     })
 
     it('should not render fieldset/legend when children are not marked', () => {

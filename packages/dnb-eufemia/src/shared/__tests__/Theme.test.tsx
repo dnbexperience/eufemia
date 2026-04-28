@@ -1,8 +1,8 @@
-import React from 'react'
-import { act, render } from '@testing-library/react'
+import React, { act } from 'react'
+import { render } from '@testing-library/react'
 import Context from '../Context'
 import type { ThemeAllProps } from '../Theme'
-import Theme from '../Theme'
+import Theme, { getTheme, setTheme } from '../Theme'
 import {
   Autocomplete,
   Dialog,
@@ -361,16 +361,19 @@ describe('Portals', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(
+    const themeElement = document.querySelector('.eufemia-theme')
+    expect(Array.from(themeElement.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-dialog__root',
-        'dnb-modal__content',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
       ])
     )
+    expect(
+      themeElement.querySelector('.dnb-dialog__root.dnb-modal__content')
+    ).toBeInTheDocument()
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
@@ -383,17 +386,21 @@ describe('Portals', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(
+    const themeElement = document.querySelector('.eufemia-theme')
+    expect(Array.from(themeElement.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-modal__content',
-        'dnb-modal__content--right',
-        'dnb-drawer__root',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
       ])
     )
+    expect(
+      themeElement.querySelector(
+        '.dnb-modal__content.dnb-modal__content--right.dnb-drawer__root'
+      )
+    ).toBeInTheDocument()
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
@@ -404,15 +411,19 @@ describe('Portals', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(
+    const themeElement = document.querySelector('.eufemia-theme')
+    expect(Array.from(themeElement.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
       ])
     )
+    expect(
+      themeElement.querySelector('.dnb-drawer-list__portal__style')
+    ).toBeInTheDocument()
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
@@ -423,10 +434,37 @@ describe('Portals', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(
+    const themeElement = document.querySelector('.eufemia-theme')
+    expect(Array.from(themeElement.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-core-style',
+        'eufemia-portal-root',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(
+      themeElement.querySelector('.dnb-drawer-list__portal__style')
+    ).toBeInTheDocument()
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+  })
+
+  it('have correct theme classes in tooltip', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <button id="tooltip-target">Target</button>
+        <Tooltip open noAnimation targetSelector="#tooltip-target" />
+      </Theme>
+    )
+
+    const themeElement = document.querySelector('.eufemia-theme')
+    expect(themeElement).toBeInTheDocument()
+
+    expect(Array.from(themeElement.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-core-style',
+        'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -435,30 +473,177 @@ describe('Portals', () => {
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
-  it('have correct theme classes in tooltip', () => {
-    render(
-      <Theme name="eiendom" variant="soft" element={false}>
-        <button id="tooltip-target">Target</button>
-        <Tooltip
-          open
-          noAnimation
-          targetSelector="#tooltip-target"
-          portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
-        />
-      </Theme>
-    )
+  describe('body color scheme sync', () => {
+    afterEach(() => {
+      document.body.className = ''
+      delete globalThis.__eufemiaColorScheme
+    })
 
-    const element = document.querySelector('.eufemia-theme')
-    expect(element).toBeInTheDocument()
+    it('adds color-scheme class to body', () => {
+      render(<Theme colorScheme="dark">content</Theme>)
 
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tooltip__portal',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
-    )
-    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(true)
+    })
+
+    it('removes old class when color scheme changes', () => {
+      const { rerender } = render(
+        <Theme colorScheme="dark">content</Theme>
+      )
+
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(true)
+
+      rerender(<Theme colorScheme="light">content</Theme>)
+
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--light'
+        )
+      ).toBe(true)
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(false)
+    })
+
+    it('syncs element class imperatively', () => {
+      render(<Theme colorScheme="dark">content</Theme>)
+
+      const element = document.querySelector('.eufemia-theme')
+      expect(
+        element.classList.contains('eufemia-theme__color-scheme--dark')
+      ).toBe(true)
+    })
+  })
+
+  describe('globalThis.__eufemiaColorScheme', () => {
+    afterEach(() => {
+      delete globalThis.__eufemiaColorScheme
+      document.body.className = ''
+    })
+
+    it('uses globalThis value for initial color scheme', () => {
+      globalThis.__eufemiaColorScheme = 'dark'
+
+      const matchMediaOriginal = window.matchMedia
+      window.matchMedia = jest.fn().mockImplementation((query) => ({
+        media: query,
+        matches: true,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      }))
+
+      render(<Theme colorScheme="auto">content</Theme>)
+
+      const element = document.querySelector('.eufemia-theme')
+      expect(
+        element.classList.contains('eufemia-theme__color-scheme--dark')
+      ).toBe(true)
+
+      window.matchMedia = matchMediaOriginal
+    })
+
+    it('cleans up globalThis value after first render', () => {
+      globalThis.__eufemiaColorScheme = 'dark'
+
+      const matchMediaOriginal = window.matchMedia
+      window.matchMedia = jest.fn().mockImplementation((query) => ({
+        media: query,
+        matches: false,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      }))
+
+      render(<Theme colorScheme="auto">content</Theme>)
+
+      expect(globalThis.__eufemiaColorScheme).toBeUndefined()
+
+      window.matchMedia = matchMediaOriginal
+    })
+  })
+
+  describe('getTheme and setTheme', () => {
+    const STORAGE_KEY = 'eufemia-theme'
+
+    afterEach(() => {
+      window.localStorage.removeItem(STORAGE_KEY)
+    })
+
+    it('returns default theme when localStorage is empty', () => {
+      const result = getTheme()
+      expect(result).toEqual({ name: 'ui' })
+    })
+
+    it('returns custom default theme', () => {
+      const result = getTheme('sbanken')
+      expect(result).toEqual({ name: 'sbanken' })
+    })
+
+    it('reads persisted theme from localStorage', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ name: 'eiendom', colorScheme: 'dark' })
+      )
+
+      const result = getTheme()
+      expect(result.name).toBe('eiendom')
+      expect(result.colorScheme).toBe('dark')
+    })
+
+    it('supports URL query override for theme name', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      window.history.replaceState({}, '', '?eufemia-theme=sbanken')
+
+      const result = getTheme()
+      expect(result.name).toBe('sbanken')
+
+      window.history.replaceState({}, '', '/')
+    })
+
+    it('persists theme state to localStorage', () => {
+      setTheme({ name: 'eiendom', colorScheme: 'dark' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.name).toBe('eiendom')
+      expect(stored.colorScheme).toBe('dark')
+    })
+
+    it('merges with existing state', () => {
+      setTheme({ name: 'sbanken' })
+      setTheme({ colorScheme: 'dark' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.name).toBe('sbanken')
+      expect(stored.colorScheme).toBe('dark')
+    })
+
+    it('calls callback with merged theme', () => {
+      const callback = jest.fn()
+      setTheme({ name: 'eiendom' }, callback)
+
+      expect(callback).toHaveBeenCalledTimes(1)
+      expect(callback).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'eiendom' })
+      )
+    })
+
+    it('handles corrupt localStorage data gracefully', () => {
+      window.localStorage.setItem(STORAGE_KEY, 'not-json')
+
+      const result = getTheme()
+      expect(result).toEqual({ name: 'ui' })
+    })
   })
 })

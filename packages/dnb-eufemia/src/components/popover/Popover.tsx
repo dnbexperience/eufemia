@@ -14,7 +14,11 @@ import clsx from 'clsx'
 import PopoverCloseButton from './internal/PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
-import { combineDescribedBy, warn } from '../../shared/component-helper'
+import {
+  combineDescribedBy,
+  convertJsxToString,
+  warn,
+} from '../../shared/component-helper'
 import getRefElement from '../../shared/internal/getRefElement'
 import PopoverPortal from './PopoverPortal'
 import PopoverContainer from './PopoverContainer'
@@ -588,7 +592,9 @@ export default function Popover(props: PopoverProps) {
       icon={closeButtonProps?.icon ?? 'close'}
       {...closeButtonProps}
       className={clsx('dnb-popover__close', closeButtonProps?.className)}
-      title={closeButtonProps?.title || tr.closeButtonTitle}
+      title={
+        convertJsxToString(closeButtonProps?.title) || tr.closeButtonTitle
+      }
       onClick={(event) => {
         closeButtonProps?.onClick?.(event as any)
         if (event?.defaultPrevented) {

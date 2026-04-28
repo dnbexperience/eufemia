@@ -66,7 +66,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
       isOpen: help?.open ?? false,
     })
   const { isOpen, isUserIntent } = data || {}
-  const wasOpenRef = useRef(undefined)
+  const wasOpenRef = useRef(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   const toggleOpen = useCallback(() => {
@@ -115,7 +115,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
     [isOpen, toggleOpen]
   )
 
-  const title = convertJsxToString(help?.title)
+  const titleString = convertJsxToString(help?.title)
 
   return (
     <>
@@ -123,7 +123,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
         bounding
         size={size ?? 'small'}
         icon={HelpButtonIcon}
-        title={!isOpen && !wasOpenRef.current ? title : undefined}
+        title={!isOpen && !wasOpenRef.current ? help?.title : undefined}
         {...rest}
         id={controlId}
         className={clsx(
@@ -137,7 +137,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
         selected={isOpen}
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
-        aria-label={title || undefined}
+        aria-label={titleString || undefined}
         onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         ref={buttonRef}
@@ -264,7 +264,7 @@ function HelpButtonInlineContentComponent(
 
   const focusParams = focusOnOpen
     ? {
-        'aria-label': convertJsxToString(title),
+        'aria-label': convertJsxToString(title) || undefined,
         className: 'dnb-no-focus',
         tabIndex: -1,
         onKeyDown,

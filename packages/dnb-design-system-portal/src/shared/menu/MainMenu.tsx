@@ -14,7 +14,8 @@ import {
   DesignSystemSvg,
   DevelopmentSvg,
 } from './MainMenuGraphics'
-import { Logo, VisuallyHidden } from '@dnb/eufemia/src'
+import { VisuallyHidden } from '@dnb/eufemia/src'
+import PortalLogo from './graphics/logo'
 import packageJson from '../../../package.json'
 import { SearchBarInput } from './SearchBar'
 import {
@@ -93,10 +94,9 @@ function MainMenu() {
         <>
           <div className={contentWrapperStyle}>
             <figure className={logoFigureStyle}>
-              <Logo right height="48" color="white" />
+              <PortalLogo aria-hidden />
               <figcaption>
-                <VisuallyHidden>DNB</VisuallyHidden>
-                Eufemia
+                <VisuallyHidden>Eufemia</VisuallyHidden>
               </figcaption>
             </figure>
             <SearchBarInput />

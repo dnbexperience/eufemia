@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Upload scss should match default theme snapshot 1`] = `
-"/*
- * Upload theme
- *
- */
-.dnb-upload {
-  --upload-background: var(--color-white);
-  --upload-background--active: var(--color-pistachio);
-  --upload-border: var(--color-sea-green);
-  --upload-border--active: var(--color-emerald-green);
-  --upload-list-border: var(--color-black-8);
-  --upload-icon--default: var(--color-black-80);
-  --upload-icon--warning: var(--color-fire-red);
-  --upload-highlight: var(--color-sand-yellow);
-  --upload-text--primary: var(--color-black-55);
-  --upload-text--secondary: var(--color-black-55);
-}"
-`;
-
 exports[`Upload scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
@@ -987,17 +968,16 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-upload {
-  --upload-background: white;
-  --upload-background--active: lightgray;
-  --upload-border: gray;
-  --upload-border--active: black;
+  --upload-background: var(--token-color-background-page-background);
+  --upload-background--active: var(--token-color-decorative-third-muted);
+  --upload-border: var(--token-color-stroke-action);
+  --upload-border--active: var(--token-color-stroke-action-pressed);
   --upload-border-width: 0.125rem;
-  --upload-list-border: black;
-  --upload-icon--default: black;
-  --upload-icon--warning: red;
-  --upload-highlight: lightyellow;
-  --upload-text--primary: black;
-  --upload-text--secondary: black;
+  --upload-list-border: var(--token-color-stroke-neutral-subtle);
+  --upload-icon--default: var(--token-color-icon-neutral);
+  --upload-icon--warning: var(--token-color-icon-error);
+  --upload-highlight: var(--token-color-background-warning-subtle);
+  --upload-text--secondary: var(--token-color-text-neutral-alternative);
   position: relative;
   display: flex;
   flex-grow: 1;
@@ -1126,7 +1106,7 @@ button.dnb-button::-moz-focus-inner {
   border-radius: 0;
 }
 .dnb-upload--compact .dnb-upload__text {
-  color: var(--color-black-55);
+  color: var(--upload-text--secondary);
   font-size: var(--font-size-small);
 }
 .dnb-upload--compact .dnb-help-button__content .dnb-section {
