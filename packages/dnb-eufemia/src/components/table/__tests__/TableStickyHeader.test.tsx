@@ -202,6 +202,36 @@ describe('useStickyHeader', () => {
     )
   })
 
+  it('should recalculate table offset on scroll when layout changes dynamically', () => {
+    render(
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    const tableElement = document.querySelector('table')
+    const trElem = document.querySelector('tr')
+
+    setSizes()
+
+    // Initial scroll: offset = 320 - (160 - 64) = 224
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '224px'
+    )
+
+    // Simulate a banner appearing above the table, pushing it down by 80px
+    // (no resize event fired, only the table's offsetTop changes)
+    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(240)
+
+    // On the next scroll, the new offset should be picked up automatically
+    // offset = 320 - (240 - 64) = 144
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '144px'
+    )
+  })
+
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
     const { rerender } = render(
       <Table.ScrollView style={{ maxHeight: '4rem' }}>

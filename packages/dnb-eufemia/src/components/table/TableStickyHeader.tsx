@@ -101,6 +101,11 @@ export const useStickyHeader = ({
             offset = scrollViewElem.scrollTop
           } else {
             offset = window.scrollY
+
+            // Recalculate table position on each scroll to handle
+            // dynamic layout changes (e.g., banners appearing above the table)
+            tableOffset = getOffsetTop(tableElem)
+            totalOffset = tableOffset - offsetTopPx
           }
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset

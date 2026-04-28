@@ -1438,3 +1438,61 @@ export function Accodion() {
     </>
   )
 }
+
+export const StickyHeaderWithDynamicBanner = () => {
+  const [showBanner, setShowBanner] = React.useState(false)
+
+  return (
+    <div>
+      <Button
+        onClick={() => setShowBanner((prev) => !prev)}
+        variant="secondary"
+        style={{ marginBottom: '1rem' }}
+      >
+        {showBanner ? 'Hide' : 'Show'} error banner
+      </Button>
+
+      {showBanner && (
+        <div
+          style={{
+            padding: '1rem',
+            background: 'var(--color-fire-red)',
+            color: 'var(--color-white)',
+            marginBottom: '1rem',
+            borderRadius: '0.25rem',
+          }}
+        >
+          <P style={{ color: 'inherit' }}>
+            This is a global error message banner. It shifts the table down
+            and should not cause the sticky header to be offset
+            incorrectly.
+          </P>
+        </div>
+      )}
+
+      <Table sticky stickyOffset="0">
+        <caption className="dnb-sr-only">
+          Sticky header with dynamic banner
+        </caption>
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+            <Th>Column D</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 30 }, (_, i) => (
+            <Tr key={i}>
+              <Td>Row {i + 1}</Td>
+              <Td>Data B{i + 1}</Td>
+              <Td>Data C{i + 1}</Td>
+              <Td>Data D{i + 1}</Td>
+            </Tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  )
+}
