@@ -12,10 +12,6 @@ import { buttonStyle } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 
-const isDev =
-  process.env.NODE_ENV === 'development' ||
-  process.env.GATSBY_IS_PREVIEW === 'true'
-
 type Props = {
   className?: string
   tooltipPosition?: TooltipPlacement
@@ -84,19 +80,17 @@ export default function PortalToolsMenu({
             }
           />
 
-          {isDev && (
-            <ToggleDarkMode
-              label="Dark mode"
-              labelDescription={
-                <>
-                  Read more about{' '}
-                  <Anchor href="/uilib/usage/customisation/theming/">
-                    theming
-                  </Anchor>
-                </>
-              }
-            />
-          )}
+          <ToggleDarkMode
+            label="Dark mode"
+            labelDescription={
+              <>
+                Read more about{' '}
+                <Anchor href="/uilib/usage/customisation/theming/">
+                  theming
+                </Anchor>
+              </>
+            }
+          />
 
           <PortalSkeleton
             enabled={skeleton}
