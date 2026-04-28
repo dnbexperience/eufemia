@@ -1,9 +1,9 @@
 ---
 title: 'HeightAnimation'
 description: 'HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.848Z
-checksum: 4ef7e2ad7a39efcb26f2e4d72ae9279a96870c6e0a31df743c6266b00fcef963
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.702Z
+checksum: 39da8a96e4f14c41c77a7da973abf2ca17efe40351d6bf65e3c341d2607cc690
 ---
 
 # HeightAnimation
@@ -205,7 +205,7 @@ render(<Example />)
       "status": "optional"
     },
     "keepInDOM": {
-      "doc": "Set to `true` ensure the nested children content will be kept in the DOM. Defaults to `false`.",
+      "doc": "Set to `true` to ensure the nested children content will be kept in the DOM. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

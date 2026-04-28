@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:22.478Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.796Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -840,7 +840,7 @@ render(
       "status": "optional"
     },
     "acceptedFileTypes": {
-      "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+      "doc": "List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
       "type": ["Array<string>", "Array<AcceptedFileType>"],
       "status": "required"
     },

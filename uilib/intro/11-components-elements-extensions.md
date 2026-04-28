@@ -1,6 +1,6 @@
 ---
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:22.498Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.812Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -32,7 +32,7 @@ Elements are basicity ready to use styled HTML elements.
 
 ## [Extensions](/uilib/extensions)
 
-Eufemia extensions are reusable parts that do not fit naturally in to a component or element, but rather has the nature of being an extended solution of Eufemia.
+Eufemia extensions are reusable parts that do not fit naturally into a component or element, but rather have the nature of being an extended solution of Eufemia.
 
 ---
 

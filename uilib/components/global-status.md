@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.837Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.691Z
 checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 
@@ -654,7 +654,7 @@ const items = [
 {
   "props": {
     "text": {
-      "doc": "The text appears as the status content. Beside plain text, you can send in a React component as well.",
+      "doc": "The text appears as the status content. Besides plain text, you can send in a React component as well.",
       "type": "string",
       "status": "required"
     },

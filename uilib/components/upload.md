@@ -1,9 +1,9 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:21.206Z
-checksum: 9523ce46da27bd54ef5d194eafe700127af4e02410b7ba4cf30aa508a53b826f
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.071Z
+checksum: d3a8a00b18c6e6a9112ad2956a8c56788a7272b04874c248627d875ba23af2ab
 ---
 
 # Upload
@@ -862,7 +862,7 @@ render(<Component />)
       "status": "optional"
     },
     "acceptedFileTypes": {
-      "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+      "doc": "List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
       "type": ["Array<string>", "Array<AcceptedFileType>"],
       "status": "required"
     },

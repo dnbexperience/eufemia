@@ -1,6 +1,6 @@
 ---
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:22.541Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.844Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -21,9 +21,9 @@ render(
       <Tr>
         <Th noWrap>Token</Th>
         <Th noWrap>DNB Light</Th>
-        {isDev && <Th noWrap>DNB Dark</Th>}
+        <Th noWrap>DNB Dark</Th>
         <Th noWrap>Sbanken Light</Th>
-        {isDev && <Th noWrap>Sbanken Dark</Th>}
+        <Th noWrap>Sbanken Dark</Th>
         <Th noWrap>Carnegie</Th>
       </Tr>
     </thead>
@@ -34,11 +34,9 @@ render(
             <MDXCode>{token.name}</MDXCode>
           </Td>
           <Td>{renderRadiusValue(token.references.uiLight)}</Td>
-          {isDev && <Td>{renderRadiusValue(token.references.uiDark)}</Td>}
+          <Td>{renderRadiusValue(token.references.uiDark)}</Td>
           <Td>{renderRadiusValue(token.references.sbankenLight)}</Td>
-          {isDev && (
-            <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
-          )}
+          <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
           <Td>{renderRadiusValue(token.references.carnegie)}</Td>
         </Tr>
       ))}

@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
 description: 'Popover renders its own floating surface anchored to a trigger element. (For internal use only)'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.983Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.835Z
 checksum: 280c0cdc84655528d374cb911e58db65b02dc2b230f5741e9dee28ff08950843
 ---
 
@@ -24,8 +24,8 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 
 ## Relevant links
 
-- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover
-- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/popover
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/popover)
 
 ## Accessibility
 

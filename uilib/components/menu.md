@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.939Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.794Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 
@@ -28,8 +28,8 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 
 ## Relevant links
 
-- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/menu
-- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/menu
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/menu)
 
 ## Accessibility
 

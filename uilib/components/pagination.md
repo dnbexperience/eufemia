@@ -1,9 +1,9 @@
 ---
 title: 'Pagination'
 description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.976Z
-checksum: bf57c6127874858d056b0e3afec28851417747ddc0d2cfd2589c8a55fbc9e1a4
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.828Z
+checksum: 07a66f925b4762223c976ee4ee900c3db782d6d0b1b999811b43fb1bfef280f6
 ---
 
 # Pagination
@@ -191,7 +191,7 @@ Check out [demos for the Infinity Scroller](/uilib/components/pagination/infinit
 {
   "props": {
     "mode": {
-      "doc": "If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.",
+      "doc": "If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.",
       "type": ["\"pagination\"", "\"infinity\""],
       "status": "optional"
     },

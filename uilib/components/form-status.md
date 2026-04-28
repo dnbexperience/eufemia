@@ -1,9 +1,9 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.808Z
-checksum: 339756daf11a603393ed11f7e30ae9e070cb321ac008c0c634bd8356fdc424ac
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.661Z
+checksum: 1917a74e4d47bb4108acb0382b864fc14f65214e17d98302bb720f1ceb1d227c
 ---
 
 # FormStatus (Messageboxes)
@@ -233,12 +233,12 @@ render(
 {
   "props": {
     "text": {
-      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "doc": "The `text` appears as the status message. Besides plain text, you can send in a React component as well.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
-      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "doc": "The `text` appears as the status message. Besides plain text, you can send in a React component as well.",
       "type": "React.ReactNode",
       "status": "optional"
     },

@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.640Z
-checksum: 262b7994b69b1d4a959abc50f624520e3197ca13f4f8cb4d55294dd54bf4851d
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.494Z
+checksum: 76d269c424fdd431b910f35dc26bc8f29408b4edc3241452c3cc853a433b0122
 ---
 
 # Accordion
@@ -439,7 +439,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "keepInDOM": {
-      "doc": "If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.",
+      "doc": "If set to `true` the content will be present, even when the accordion is not expanded. Can be useful for assistive technology or SEO.",
       "type": "boolean",
       "status": "optional"
     },

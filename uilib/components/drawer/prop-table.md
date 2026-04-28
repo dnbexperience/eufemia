@@ -1,6 +1,6 @@
 ---
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.782Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.636Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -13,7 +13,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
       "status": "optional"
     },
     "title": {
-      "doc": "The drawer title. Displays on the very top of the content.",
+      "doc": "The drawer title. Displays at the very top of the content.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -82,7 +82,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
       "status": "optional"
     },
     "title": {
-      "doc": "The drawer title. Displays on the very top of the content.",
+      "doc": "The drawer title. Displays at the very top of the content.",
       "type": "React.ReactNode",
       "status": "optional"
     },

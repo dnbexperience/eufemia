@@ -1,9 +1,9 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.788Z
-checksum: 037e163811d3e77d0ac06aacd3d58d4f24912a819d75323a3698c3ea15b16351
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.642Z
+checksum: 6f1abe334bfebbe26f3aed43d2624d832a540128a849b817f176560158ff39ec
 ---
 
 # Drawer
@@ -477,7 +477,7 @@ render(<MockComponent />)
       "status": "optional"
     },
     "title": {
-      "doc": "The drawer title. Displays on the very top of the content.",
+      "doc": "The drawer title. Displays at the very top of the content.",
       "type": "React.ReactNode",
       "status": "optional"
     },

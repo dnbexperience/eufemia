@@ -1,7 +1,7 @@
 ---
 title: 'CSS classes'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:22.486Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.803Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -226,14 +226,13 @@ render(
 
 `dnb-selection`
 
-Applies the DNB selection colors to selected content.
+Applies custom `::selection` colors for better contrast and readability.
 
-Eufemia uses custom `::selection` colors to enhance contrast and work well with the many green colors.
-Every HTML class that starts with the prefix `dnb-` will be affected. In some circumstances, you can simply use the `.dnb-selection` class, which applies the styles below on `::selection`.
+This is automatically applied to every element whose class starts with `dnb-`. For other elements, you can add the `.dnb-selection` class manually to opt in.
 
 ```scss
-background-color: var(--color-mint-green);
-color: var(--color-black);
+background-color: var(--token-color-decorative-first-subtle);
+color: var(--token-color-text-neutral);
 text-shadow: none;
 ```
 

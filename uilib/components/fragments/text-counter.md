@@ -1,8 +1,8 @@
 ---
 title: 'TextCounter'
 description: 'The TextCounter is a component designed to provide real-time character count feedback in text input fields.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.812Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.664Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

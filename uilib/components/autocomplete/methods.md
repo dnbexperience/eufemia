@@ -1,6 +1,6 @@
 ---
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.666Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.519Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -161,7 +161,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "showSubmitButton": {
-      "doc": "Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.",
+      "doc": "Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

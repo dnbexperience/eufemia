@@ -1,9 +1,9 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:21.139Z
-checksum: 279ae1c75d5d7f8776ede8b9c75e15fd4873dfff3474e45baf461935db6d2bff
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.000Z
+checksum: 2046a9cbb12d10b529ad0c48201d630e5630828beda14e1d5cffd8c5d84e98dd
 ---
 
 # Tabs
@@ -513,7 +513,7 @@ render(
       "status": "optional"
     },
     "contentStyle": {
-      "doc": "To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
+      "doc": "To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
       "type": ["\"divider\"", "\"white\"", "\"transparent\""],
       "status": "optional"
     },

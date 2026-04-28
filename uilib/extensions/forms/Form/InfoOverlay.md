@@ -1,8 +1,8 @@
 ---
 title: 'Form.InfoOverlay'
 description: '`Form.InfoOverlay` is used to display an informational message that fully covers the available space.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:21.947Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.298Z
 checksum: e66e583890ad28aa30e87c4218c906a8825e5876be51320300e4609a73d39879
 ---
 

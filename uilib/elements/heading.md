@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:21.219Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:12.085Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

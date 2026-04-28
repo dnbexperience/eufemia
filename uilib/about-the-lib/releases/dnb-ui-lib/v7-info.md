@@ -1,8 +1,8 @@
 ---
 title: 'v7.0'
 description: 'June, 4. 2020'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.169Z
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:10.975Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -80,7 +80,7 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 ```
 
 - [Dropdown](/uilib/components/dropdown) now also works fine inside of a [Modal](/uilib/components/drawer/), taking the height of the Modal as the viewport reference.
-- **ESM** (mjs) [bundles](/uilib/usage/first-steps/bundles) to load directly in to modern browsers.
+- **ESM** (mjs) [bundles](/uilib/usage/first-steps/bundles) to load directly into modern browsers.
 
 ### Table (new features)
 

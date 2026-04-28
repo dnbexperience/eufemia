@@ -1,9 +1,9 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.0.2
-generatedAt: 2026-04-28T04:47:20.689Z
-checksum: 2fde28cdcf96476d1948f092de6474139e81c85f058d78f509863c15c4f56f4a
+version: 11.0.3
+generatedAt: 2026-04-28T21:06:11.540Z
+checksum: a3b1b46b14a1c9a576be4be363ce819b1520e88f5dc9ee520064df6ce22fe43d
 ---
 
 # Autocomplete
@@ -790,7 +790,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "showSubmitButton": {
-      "doc": "Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.",
+      "doc": "Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
