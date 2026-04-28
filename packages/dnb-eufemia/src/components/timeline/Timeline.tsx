@@ -48,10 +48,7 @@ export type TimelineAllProps = TimelineProps &
   }
 
 const defaultProps: Partial<TimelineAllProps> = {
-  className: null,
   skeleton: false,
-  data: null,
-  children: null,
 }
 
 const Timeline = (localProps: TimelineAllProps) => {

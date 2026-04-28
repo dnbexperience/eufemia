@@ -236,42 +236,19 @@ export type PaginationCreateReturn = {
 }
 
 const paginationDefaultProps: Partial<PaginationProps> = {
-  startupPage: null,
-  currentPage: null,
-  pageCount: null,
   mode: 'pagination',
   paginationBarLayout: 'vertical',
   useLoadButton: false,
-  items: null,
   hideProgressIndicator: false,
-  setContentHandler: null,
-  resetContentHandler: null,
   pageElement: undefined,
   fallbackElement: undefined,
   markerElement: undefined,
   indicatorElement: undefined,
   align: 'left',
-  buttonTitle: null,
-  prevTitle: null,
-  nextTitle: null,
-  morePages: null,
-  isLoadingText: null,
-  loadButton: null,
-  barSpace: null,
   startupCount: 1,
   parallelLoadCount: 1,
   placeMarkerBeforeContent: false,
   minWaitTime: 400,
-  disabled: null,
-  skeleton: null,
-
-  className: null,
-  children: null,
-
-  onChange: null,
-  onStartup: null,
-  onLoad: null,
-  onEnd: null,
 }
 
 export type PaginationComponent = ((

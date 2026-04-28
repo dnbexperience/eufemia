@@ -67,15 +67,6 @@ export type BreadcrumbItemProps = {
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
   DataAttributes
 
-const defaultProps: Partial<BreadcrumbItemProps> = {
-  text: null,
-  href: null,
-  icon: null,
-  onClick: null,
-  variant: null,
-  skeleton: null,
-}
-
 const determineIcon = (variant: string, isSmallScreen: boolean) => {
   switch (variant) {
     case 'home':
@@ -109,11 +100,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     skeleton,
     itemNo: itemNoProp,
     ...props
-  } = extendPropsWithContext(
-    localProps,
-    defaultProps,
-    context?.BreadcrumbItem
-  )
+  } = extendPropsWithContext(localProps, {}, context?.BreadcrumbItem)
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
 

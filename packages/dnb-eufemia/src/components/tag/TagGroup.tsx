@@ -42,9 +42,6 @@ export type TagGroupProps = {
 }
 
 const defaultProps: Partial<TagGroupProps> = {
-  label: null,
-  className: null,
-  children: null,
   skeleton: false,
 }
 
