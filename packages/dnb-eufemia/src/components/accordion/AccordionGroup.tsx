@@ -7,7 +7,6 @@ import React, { useContext, useEffect, useRef } from 'react'
 
 import clsx from 'clsx'
 import {
-  makeUniqueId,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -112,8 +111,10 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
+  const fallbackGroup = useId()
+
   if (!extendedProps?.group && props.singleContainer) {
-    extendedProps.group = makeUniqueId()
+    extendedProps.group = fallbackGroup
   }
 
   const contextForProvider = {

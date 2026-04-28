@@ -14,7 +14,6 @@ import React, {
 
 import clsx from 'clsx'
 import {
-  makeUniqueId,
   findElementInChildren,
   extendPropsWithContext,
   validateDOMAttributes,
@@ -453,10 +452,12 @@ const Group = ({
 
   const instanceIDs = useRef<string[]>([])
 
+  const fallbackGroup = useId()
+
   const group = props?.id
     ? props.id
     : !props.group
-      ? '#' + makeUniqueId()
+      ? '#' + fallbackGroup
       : undefined
 
   const store = useMemo(() => new Store({ group }), [group])
