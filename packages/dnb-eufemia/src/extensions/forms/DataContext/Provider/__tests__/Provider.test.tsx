@@ -2607,8 +2607,9 @@ describe('DataContext.Provider', () => {
             </>
           )
 
-          const [firstInput, secondInput] =
+          const [firstInput, secondInput] = Array.from(
             document.querySelectorAll('input')
+          )
           const submitButton = document.querySelector('button')
 
           expect(
