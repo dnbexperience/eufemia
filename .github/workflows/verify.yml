@@ -56,6 +56,11 @@ jobs:
           fi
 
           for sha in $COMMITS; do
+            SUBJECT=$(git log --format="%s" -1 "$sha")
+            if echo "$SUBJECT" | grep -qE '^[a-zA-Z]+(\(.+\))?!:'; then
+              echo "Commit $sha has a valid breaking change marker in the title: $SUBJECT"
+              continue
+            fi
             if git log --format="%B" -1 "$sha" | grep -qiE "^BREAKING[ -]CHANGE:"; then
               echo "::error::Commit $sha contains 'BREAKING CHANGE:' footer in its message:"
               git log --format="%H %s%n%b" -1 "$sha"
