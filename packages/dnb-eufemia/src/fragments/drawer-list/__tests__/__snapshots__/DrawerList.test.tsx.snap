@@ -90,6 +90,7 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   border-radius: var(--drawer-list-options-border-radius);
 }
 .dnb-drawer-list__options {
+  --drawer-list-list-border-width: 0.0625rem;
   --drawer-list-option-color-text--default: var(
     --token-color-text-neutral
   );
@@ -142,6 +143,15 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   --drawer-list-arrow-color--selected: var(
     --token-color-background-selected
   );
+  --drawer-list-arrow-color--selected--hover: var(
+    --token-color-background-action-hover
+  );
+  --drawer-list-arrow-color--selected--active: var(
+    --token-color-background-action-pressed
+  );
+  --drawer-list-arrow-color--selected--focus: var(
+    --token-color-background-action-hover
+  );
 }
 .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
   margin: 0;
@@ -162,7 +172,7 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
-  --border-color: var(--token-color-stroke-action-focus);
+  --border-color: var(--token-color-stroke-action);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -171,7 +181,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
   outline: none;
 }
 html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
-  --border-color: var(--token-color-stroke-action-focus);
+  --border-color: var(--token-color-stroke-action);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -182,7 +192,7 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--scroll .dnb-drawer-list__options {
   min-height: 2rem;
@@ -453,7 +463,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list__arrow {
   position: absolute;
-  top: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2);
+  top: calc(var(--drawer-list-height) / -2);
   left: auto;
   right: 0;
   pointer-events: none;
@@ -466,13 +476,13 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list__arrow::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: 72%;
   left: 0;
   width: calc(var(--drawer-list-height) / 2);
   height: calc(var(--drawer-list-height) / 2);
-  transform: translateY(60%) rotate(45deg);
+  transform: translateY(calc(var(--drawer-list-list-border-width) * 0.38)) rotate(45deg);
   background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
-  box-shadow: var(--shadow-sharp), 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
   left: 0;
@@ -480,14 +490,14 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow {
   top: auto;
-  bottom: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2 - 2px);
+  bottom: calc(var(--drawer-list-height) / -2);
   transform: rotate(180deg);
-}
-.dnb-drawer-list--top .dnb-drawer-list__arrow::before {
-  transform: translateY(65%) rotate(45deg);
 }
 .dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
 }
 .dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
@@ -495,11 +505,23 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
 }
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
-}
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--focus
+  );
+}
+.dnb-drawer-list--bottom:has(.closest-to-top:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--hover
+  );
+}
+.dnb-drawer-list--bottom:has(.closest-to-top:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--active
+  );
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {
   position: absolute;
@@ -757,6 +779,7 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   border-radius: var(--drawer-list-options-border-radius);
 }
 .dnb-drawer-list__options {
+  --drawer-list-list-border-width: 0.0625rem;
   --drawer-list-option-color-text--default: var(
     --token-color-text-neutral
   );
@@ -809,6 +832,15 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   --drawer-list-arrow-color--selected: var(
     --token-color-background-selected
   );
+  --drawer-list-arrow-color--selected--hover: var(
+    --token-color-background-action-hover
+  );
+  --drawer-list-arrow-color--selected--active: var(
+    --token-color-background-action-pressed
+  );
+  --drawer-list-arrow-color--selected--focus: var(
+    --token-color-background-action-hover
+  );
 }
 .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
   margin: 0;
@@ -829,7 +861,7 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
-  --border-color: var(--token-color-stroke-action-focus);
+  --border-color: var(--token-color-stroke-action);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -838,7 +870,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
   outline: none;
 }
 html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
-  --border-color: var(--token-color-stroke-action-focus);
+  --border-color: var(--token-color-stroke-action);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -849,7 +881,7 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--scroll .dnb-drawer-list__options {
   min-height: 2rem;
@@ -1120,7 +1152,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list__arrow {
   position: absolute;
-  top: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2);
+  top: calc(var(--drawer-list-height) / -2);
   left: auto;
   right: 0;
   pointer-events: none;
@@ -1133,13 +1165,13 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list__arrow::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: 72%;
   left: 0;
   width: calc(var(--drawer-list-height) / 2);
   height: calc(var(--drawer-list-height) / 2);
-  transform: translateY(60%) rotate(45deg);
+  transform: translateY(calc(var(--drawer-list-list-border-width) * 0.38)) rotate(45deg);
   background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
-  box-shadow: var(--shadow-sharp), 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
   left: 0;
@@ -1147,14 +1179,14 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list--top .dnb-drawer-list__arrow {
   top: auto;
-  bottom: calc(var(--drawer-list-option-border-width) - var(--drawer-list-height) / 2 - 2px);
+  bottom: calc(var(--drawer-list-height) / -2);
   transform: rotate(180deg);
-}
-.dnb-drawer-list--top .dnb-drawer-list__arrow::before {
-  transform: translateY(65%) rotate(45deg);
 }
 .dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
 }
 .dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
@@ -1162,11 +1194,23 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
 }
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
-}
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
   --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
+}
+.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--focus
+  );
+}
+.dnb-drawer-list--bottom:has(.closest-to-top:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--hover
+  );
+}
+.dnb-drawer-list--bottom:has(.closest-to-top:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
+  --drawer-list-arrow-color: var(
+    --drawer-list-arrow-color--selected--active
+  );
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {
   position: absolute;

@@ -149,6 +149,8 @@
 
   // ul element
   &__options {
+    --drawer-list-list-border-width: 0.0625rem;
+
     // text
     --drawer-list-option-color-text--default: var(
       --token-color-text-neutral
@@ -208,6 +210,15 @@
     --drawer-list-arrow-color--selected: var(
       --token-color-background-selected
     );
+    --drawer-list-arrow-color--selected--hover: var(
+      --token-color-background-action-hover
+    );
+    --drawer-list-arrow-color--selected--active: var(
+      --token-color-background-action-pressed
+    );
+    --drawer-list-arrow-color--selected--focus: var(
+      --token-color-background-action-hover
+    );
 
     @at-root .dnb-spacing & li.dnb-drawer-list__option {
       margin: 0;
@@ -227,11 +238,16 @@
     border-radius: var(--drawer-list-options-border-radius);
 
     &:focus {
-      @include utilities.focusRing();
+      @include utilities.focusRing(
+        $color: var(--token-color-stroke-action)
+      );
     }
 
     &--focusring {
-      @include utilities.focusRing('mouse');
+      @include utilities.focusRing(
+        'mouse',
+        var(--token-color-stroke-action)
+      );
     }
 
     &::before {
@@ -240,7 +256,8 @@
       inset: 0;
       z-index: -1;
       border-radius: inherit;
-      box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
+      box-shadow: 0 0 0 var(--drawer-list-list-border-width)
+        var(--token-color-stroke-neutral-subtle);
     }
   }
 
@@ -559,10 +576,7 @@
   // arrow
   &__arrow {
     position: absolute;
-    top: calc(
-      var(--drawer-list-option-border-width) - var(--drawer-list-height) /
-        2
-    );
+    top: calc(var(--drawer-list-height) / -2);
     left: auto;
     right: 0;
 
@@ -579,21 +593,23 @@
     &::before {
       content: '';
       position: absolute;
-      top: 0;
+      top: 72%;
       left: 0;
 
       width: calc(var(--drawer-list-height) / 2);
       height: calc(var(--drawer-list-height) / 2);
-      transform: translateY(60%) rotate(45deg);
+      transform: translateY(
+          calc(var(--drawer-list-list-border-width) * 0.38)
+        )
+        rotate(45deg);
 
       background-color: var(
         --drawer-list-arrow-color,
         var(--drawer-list-arrow-color--default)
       );
 
-      box-shadow:
-        var(--shadow-sharp),
-        0 0 0 1px var(--token-color-stroke-neutral-subtle);
+      box-shadow: 0 0 0 var(--drawer-list-list-border-width)
+        var(--token-color-stroke-neutral-subtle);
     }
   }
   &--arrow-position-left &__arrow {
@@ -602,14 +618,8 @@
   }
   &--top &__arrow {
     top: auto;
-    bottom: calc(
-      var(--drawer-list-option-border-width) - var(--drawer-list-height) /
-        2 - 2px
-    );
+    bottom: calc(var(--drawer-list-height) / -2);
     transform: rotate(180deg);
-    &::before {
-      transform: translateY(65%) rotate(45deg);
-    }
   }
 
   // group title arrow
@@ -617,6 +627,14 @@
   &--top:has(#{&}__group-title.closest-to-bottom) {
     .dnb-drawer-list__options {
       --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
+    }
+  }
+
+  // focus arrow
+  &--bottom:has(.closest-to-top.dnb-drawer-list__option--focus),
+  &--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) {
+    .dnb-drawer-list__options {
+      --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
     }
   }
 
@@ -636,19 +654,45 @@
     }
   }
 
-  // focus arrow
-  &--bottom:has(.closest-to-top.dnb-drawer-list__option--focus),
-  &--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) {
+  // selected arrow
+  &--bottom:has(.closest-to-top#{&}__option--selected),
+  &--top:has(.closest-to-bottom#{&}__option--selected) {
     .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
+      --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
     }
   }
 
-  // selected arrow
-  &--bottom:has(#{&}__option.closest-to-top#{&}__option--selected),
-  &--top:has(#{&}__option.closest-to-bottom#{&}__option--selected) {
+  // selected focus arrow
+  &--bottom:has(
+      .closest-to-top.dnb-drawer-list__option--focus#{&}__option--selected
+    ),
+  &--top:has(
+      .closest-to-bottom.dnb-drawer-list__option--focus#{&}__option--selected
+    ) {
     .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
+      --drawer-list-arrow-color: var(
+        --drawer-list-arrow-color--selected--focus
+      );
+    }
+  }
+
+  // selected hover arrow
+  &--bottom:has(.closest-to-top:hover#{&}__option--selected),
+  &--top:has(.closest-to-bottom:hover#{&}__option--selected) {
+    .dnb-drawer-list__options {
+      --drawer-list-arrow-color: var(
+        --drawer-list-arrow-color--selected--hover
+      );
+    }
+  }
+
+  // selected active arrow
+  &--bottom:has(.closest-to-top:active#{&}__option--selected),
+  &--top:has(.closest-to-bottom:active#{&}__option--selected) {
+    .dnb-drawer-list__options {
+      --drawer-list-arrow-color: var(
+        --drawer-list-arrow-color--selected--active
+      );
     }
   }
 

@@ -364,6 +364,12 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  --button-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --button-color-border--focus: var(--token-color-stroke-action-focus);
+  --button-color-icon--focus: var(--token-color-icon-action-focus);
+  --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
@@ -404,10 +410,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --button-color-bg: var(--token-color-background-action-focus-subtle);
-  --button-color-border: var(--token-color-stroke-action-focus);
-  --button-color-icon: var(--token-color-icon-action-focus);
-  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-bg: var(--button-color-bg--focus);
+  --button-color-border: var(--button-color-border--focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
@@ -1487,11 +1493,12 @@ html[data-visual-test] .dnb-input__input {
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-error-border-width: 0.125rem;
+  --dropdown-border-width--closed: 0.0625rem;
+  --dropdown-border-width--open: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: var(--token-radius-sm);
-  --dropdown-error-border-inset: ;
+  --dropdown-border-inset--open: inset;
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -1528,22 +1535,57 @@ html[data-visual-test] .dnb-input__input {
   z-index: 1;
   user-select: none;
   width: 100%;
-  --button-color-bg--disabled: var(
-    --token-color-background-neutral-subtle
-  );
-  --button-color-border--disabled: var(
-    --token-color-stroke-action-disabled
-  );
-  --button-color-text--disabled: var(
-    --token-color-text-neutral-alternative
-  );
-}
-.dnb-dropdown__trigger.dnb-button__status--error {
-  --button-color-border--default: var(--token-color-stroke-error);
 }
 .dnb-dropdown__trigger.dnb-button {
   padding: var(--dropdown-button-padding);
   border-radius: var(--dropdown-border-radius);
+}
+.dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
+  --button-color-bg--hover: var(--token-color-background-neutral);
+  --button-color-bg--active: var(--token-color-background-neutral);
+  --button-color-border--default: var(--token-color-stroke-error);
+  --button-color-border--hover: var(
+    --token-color-component-button-stroke-action-destructive
+  );
+  --button-color-icon--default: var(--token-color-icon-error);
+  --button-color-icon--hover: var(--token-color-icon-error);
+  --button-color-icon--active: var(--token-color-icon-error);
+  --button-color-icon--focus: var(--token-color-icon-error);
+  --button-color-text--default: var(--token-color-text-destructive);
+  --button-color-text--hover: var(--token-color-text-destructive);
+  --button-color-text--active: var(--token-color-text-destructive);
+  --button-color-text--focus: var(--token-color-text-destructive);
+}
+.dnb-dropdown__trigger.dnb-button--secondary, .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error.dnb-dropdown__trigger--open {
+  --button-color-bg--hover: var(--token-color-background-neutral);
+  --button-color-bg--active: var(--token-color-background-neutral);
+  --button-color-bg--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --button-color-border--default: var(--token-color-stroke-action);
+  --button-color-border--hover: var(
+    --token-color-stroke-action-hover
+  );
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --button-color-icon--default: var(--token-color-icon-action);
+  --button-color-icon--hover: var(--token-color-icon-action-hover);
+  --button-color-icon--active: var(
+    --token-color-icon-action-pressed
+  );
+  --button-color-text--default: var(--token-color-text-action);
+  --button-color-text--hover: var(--token-color-text-action-hover);
+  --button-color-text--active: var(
+    --token-color-text-action-pressed
+  );
+}
+.dnb-dropdown__trigger.dnb-button--secondary.dnb-dropdown__trigger--open {
+  --button-border-inset--default: var(--dropdown-border-inset--open);
+  --button-border-width--default: var(--dropdown-border-width--open);
+  --button-border-width--active: var(
+    --dropdown-border-width--closed
+  );
 }
 .dnb-dropdown--is-popup .dnb-dropdown__trigger.dnb-button {
   padding: 0;
@@ -1603,15 +1645,6 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown .dnb-button--tertiary {
   padding: 0;
 }
-.dnb-dropdown--open .dnb-dropdown__trigger:not([disabled]).dnb-button--secondary {
-  --button-border-inset--default: var(--dropdown-error-border-inset);
-  --border-width: var(--dropdown-error-border-width);
-}
-.dnb-dropdown--open .dnb-dropdown__trigger:not([disabled]).dnb-button--secondary:not(.dnb-button__status--error) {
-  --button-color-border--default: var(
-    --token-color-stroke-action-pressed
-  );
-}
 .dnb-dropdown__status--error .dnb-button--tertiary::before {
   content: "";
   position: absolute;
@@ -1640,10 +1673,7 @@ html[data-visual-test] .dnb-input__input {
   --button-tertiary-focus-right: 0;
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
-  --border-width: var(--dropdown-error-border-width);
-}
-.dnb-dropdown .dnb-button--secondary {
-  --button-color-bg--hover: var(--token-color-background-neutral);
+  --border-width: var(--dropdown-border-width--open);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;

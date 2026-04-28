@@ -74,6 +74,17 @@
   &--primary,
   &--secondary,
   &--tertiary {
+    // Background
+    --button-color-bg--focus: var(
+      --token-color-background-action-focus-subtle
+    );
+    // Border
+    --button-color-border--focus: var(--token-color-stroke-action-focus);
+    // Icon
+    --button-color-icon--focus: var(--token-color-icon-action-focus);
+    // Text
+    --button-color-text--focus: var(--token-color-text-action-focus);
+
     // Template base
     color: var(--button-color-text, var(--button-color-text--default));
     background-color: var(
@@ -113,10 +124,10 @@
     }
 
     @include utilities.focusVisible() {
-      --button-color-bg: var(--token-color-background-action-focus-subtle);
-      --button-color-border: var(--token-color-stroke-action-focus);
-      --button-color-icon: var(--token-color-icon-action-focus);
-      --button-color-text: var(--token-color-text-action-focus);
+      --button-color-bg: var(--button-color-bg--focus);
+      --button-color-border: var(--button-color-border--focus);
+      --button-color-icon: var(--button-color-icon--focus);
+      --button-color-text: var(--button-color-text--focus);
       --button-color-underline: var(--button-color-underline--focus);
       --button-border-inset: var(--button-border-inset--focus);
       --button-border-width: var(--button-border-width--focus);
