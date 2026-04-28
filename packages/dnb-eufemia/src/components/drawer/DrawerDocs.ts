@@ -7,7 +7,7 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'The drawer title. Displays on the very top of the content.',
+    doc: 'The drawer title. Displays at the very top of the content.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -78,7 +78,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     expandedSsr?: boolean
     /**
-     * If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.
+     * If set to `true` the content will be present, even when the accordion is not expanded. Can be useful for assistive technology or SEO.
      */
     keepInDOM?: boolean
     /**

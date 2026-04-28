@@ -35,7 +35,7 @@ export const SpaceProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stretch: {
-    doc: 'If set to `true`, then the space element will be 100% in width.',
+    doc: 'If set to `true`, then the space element will be 100% in `width`.',
     type: 'boolean',
     status: 'optional',
   },

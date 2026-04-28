@@ -93,7 +93,7 @@ export type FormStatusProps = {
    */
   show?: boolean
   /**
-   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * The `text` appears as the status message. Besides plain text, you can send in a React component as well.
    */
   text?: FormStatusText
   /**
@@ -146,7 +146,7 @@ export type FormStatusProps = {
   shellSpace?: SpaceTypeAll
   className?: string
   /**
-   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * The `text` appears as the status message. Besides plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren
 } & Omit<

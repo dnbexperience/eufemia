@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormStatusProperties: PropertiesTableProps = {
   text: {
-    doc: 'The `text` appears as the status message. Beside plain text, you can send in a React component as well.',
+    doc: 'The `text` appears as the status message. Besides plain text, you can send in a React component as well.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'The `text` appears as the status message. Beside plain text, you can send in a React component as well.',
+    doc: 'The `text` appears as the status message. Besides plain text, you can send in a React component as well.',
     type: 'React.ReactNode',
     status: 'optional',
   },
