@@ -182,9 +182,6 @@ describe('CopyOnClick', () => {
       .fn()
       .mockRejectedValue(new Error('Permission denied'))
 
-    // Ensure fallback does not succeed
-    document.execCommand = jest.fn(() => false)
-
     render(<CopyOnClick>Copy me</CopyOnClick>)
 
     await userEvent.click(document.querySelector('.dnb-copy-on-click'))

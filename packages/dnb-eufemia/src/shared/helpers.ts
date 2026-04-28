@@ -312,59 +312,17 @@ export async function copyToClipboard(string: string) {
     }
   }
 
-  const copyFallback = () => {
+  if (typeof navigator !== 'undefined' && navigator?.clipboard) {
     try {
-      // create the focusable element
-      const elem = document.createElement('textarea')
-      elem.value = String(string)
-      elem.contentEditable = 'true'
-      elem.readOnly = false
-      elem.style.position = 'fixed'
-      elem.style.top = '-1000px'
-      document.body.appendChild(elem)
-
-      elem.select()
-
-      // NB: copy only works as a result of a user action (e.g. click events)
-      const success = document.execCommand('copy')
-
-      // Cleanup
-      document.body.removeChild(elem)
-
+      await navigator.clipboard.writeText(String(string))
       resetSelection()
-
-      if (success) {
-        return true
-      }
+      return true
     } catch (e) {
       return e
     }
-
-    return `Could not copy! Unknown reason. ${string}`
   }
 
-  let success
-
-  // eslint-disable-next-line compat/compat
-  if (typeof navigator !== 'undefined' && navigator?.clipboard) {
-    try {
-      // eslint-disable-next-line compat/compat
-      await navigator.clipboard.writeText(String(string))
-      success = true
-      resetSelection()
-    } catch (e) {
-      success = e
-      const newTry = copyFallback()
-      if (newTry === true) {
-        success = newTry
-      }
-    }
-  } else {
-    // use the fallback as the primary, because we get
-    success = copyFallback()
-  }
-
-  return success
+  return false
 }
 
 /**
