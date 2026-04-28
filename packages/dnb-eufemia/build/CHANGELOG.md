@@ -3,6 +3,42 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.2](https://github.com/dnbexperience/eufemia/compare/v11.0.1...v11.0.2) (2026-04-28)
+
+
+### :memo: Documentation
+
+* add design tokens guide ([#7777](https://github.com/dnbexperience/eufemia/issues/7777)) ([938e4c9](https://github.com/dnbexperience/eufemia/commit/938e4c9a9bb660a91f415e904ebc7cb7b27c5045))
+* **Portal:** add missing syntax highlighting and support brand colors ([#7775](https://github.com/dnbexperience/eufemia/issues/7775)) ([453acba](https://github.com/dnbexperience/eufemia/commit/453acbaf33b85fbbca3cacb9bf1345d62184a4c0))
+
+
+### :bug: Bug Fixes
+
+* add missing `dnb-page-background` helper class ([#7757](https://github.com/dnbexperience/eufemia/issues/7757)) ([7d745ff](https://github.com/dnbexperience/eufemia/commit/7d745ff48e25db960ebc30aa2551ba514050f8dc))
+* **Button:** accept ReactNode title and convert to string internally ([#7756](https://github.com/dnbexperience/eufemia/issues/7756)) ([f438537](https://github.com/dnbexperience/eufemia/commit/f4385371194419197276c7aec061acd5d6852568))
+* **DatePicker:** use span instead of label for calendar header title ([#7747](https://github.com/dnbexperience/eufemia/issues/7747)) ([fe72486](https://github.com/dnbexperience/eufemia/commit/fe7248678978d0f84f84322bfd4020a2edd8dc03))
+* **Dropdown, Autocomplete, Dialog, Drawer, Popover:** remove theming classes into `PortalRoot` ([#7764](https://github.com/dnbexperience/eufemia/issues/7764)) ([491f6b6](https://github.com/dnbexperience/eufemia/commit/491f6b64f0f54b83816c3fe867a68cd008a1a658))
+* **Dropdown, Autocomplete:** add outline (border) to DrawerList ([#7759](https://github.com/dnbexperience/eufemia/issues/7759)) ([4e57341](https://github.com/dnbexperience/eufemia/commit/4e57341e3936ed81a932be673a0b919cb7c71f12))
+* **FieldBlock:** render label as span when not associated with a form field ([#7746](https://github.com/dnbexperience/eufemia/issues/7746)) ([80058a4](https://github.com/dnbexperience/eufemia/commit/80058a4a5275817b729db597000c4e24e964b72a))
+* **HelpButtonInline:** pass ReactNode title for tooltip rendering ([#7801](https://github.com/dnbexperience/eufemia/issues/7801)) ([8cb6f1d](https://github.com/dnbexperience/eufemia/commit/8cb6f1d290ceadc3977072169ccf691b5f0a3a7c)), closes [#7752](https://github.com/dnbexperience/eufemia/issues/7752)
+* **MCP:** make @modelcontextprotocol/sdk a devDependency — ⚠️ install it yourself to use the MCP server (beta) ([#7769](https://github.com/dnbexperience/eufemia/issues/7769)) ([28ca92c](https://github.com/dnbexperience/eufemia/commit/28ca92c4c9283296c52423d7e22aa621924e2a46))
+* **Popover:** clamp arrow at border-radius boundary to avoid rounded corner gap ([#7765](https://github.com/dnbexperience/eufemia/issues/7765)) ([7651a8e](https://github.com/dnbexperience/eufemia/commit/7651a8e9780b6c52d470c3b9da9f13005cad205b))
+* prevent useMediaQuery hydration mismatch ([#7773](https://github.com/dnbexperience/eufemia/issues/7773)) ([c7b0fc5](https://github.com/dnbexperience/eufemia/commit/c7b0fc5bc2f97dc71d39549db4b69584e6c341ba))
+* read key from element instead of props for React 19 compatibility ([#7793](https://github.com/dnbexperience/eufemia/issues/7793)) ([59bf60d](https://github.com/dnbexperience/eufemia/commit/59bf60df4fe4fb1e98871084ea142f6911ca130f))
+* scope :root sibling selectors in PostCSS isolation plugin ([#7772](https://github.com/dnbexperience/eufemia/issues/7772)) ([2f0ed8c](https://github.com/dnbexperience/eufemia/commit/2f0ed8cbfac11b69dd767a49497a3b3495ad026f))
+* **StepIndicator:** render trigger label as span instead of label element ([#7748](https://github.com/dnbexperience/eufemia/issues/7748)) ([045889e](https://github.com/dnbexperience/eufemia/commit/045889e5053e6328f70d966db772edecfb9342d4))
+* support React component titles in help button aria-label  ([#7755](https://github.com/dnbexperience/eufemia/issues/7755)) ([fa2043f](https://github.com/dnbexperience/eufemia/commit/fa2043f8cc9cd5359ab258ee57fb9ebfcb8d20ff))
+
+
+### :zap: Refactoring
+
+* **Avatar:** use design tokens ([#7794](https://github.com/dnbexperience/eufemia/issues/7794)) ([db1d8ba](https://github.com/dnbexperience/eufemia/commit/db1d8ba44d409c91923450e7c745dcd63e7b6623))
+* **Forms:** use design tokens ([#7802](https://github.com/dnbexperience/eufemia/issues/7802)) ([de88a6b](https://github.com/dnbexperience/eufemia/commit/de88a6b78df660f9155fd13278f40820bde8473b))
+* **Portal:** use design tokens and implement new Eufemia logo ([#7742](https://github.com/dnbexperience/eufemia/issues/7742)) ([cc2c1c8](https://github.com/dnbexperience/eufemia/commit/cc2c1c8b5e5a99d51c9d6c58c06cdee4ae691a9b))
+* **ProgressIndicator:** use design tokens ([#7797](https://github.com/dnbexperience/eufemia/issues/7797)) ([0fb42b7](https://github.com/dnbexperience/eufemia/commit/0fb42b7e1e0ce516fed91e66c476ac04cbfdeb63))
+* **Timeline:** use design tokens ([#7766](https://github.com/dnbexperience/eufemia/issues/7766)) ([6395264](https://github.com/dnbexperience/eufemia/commit/6395264d78efc8fb90e08f99ca7f5ac4c976238f))
+* **Upload:** use design tokens ([#7754](https://github.com/dnbexperience/eufemia/issues/7754)) ([d1d79b8](https://github.com/dnbexperience/eufemia/commit/d1d79b8ed019cec3c53b8ef2215981236dd8706d))
+
 ## [11.0.1](https://github.com/dnbexperience/eufemia/compare/v11.0.0...v11.0.1) (2026-04-24)
 
 
