@@ -1,11 +1,11 @@
 import React from 'react'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
-  makeUniqueId,
   dispatchCustomElementEvent,
   getStatusState,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 
 import Context from '../../shared/Context'
 import {
@@ -45,7 +45,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     context?.Slider
   )
 
-  const [_id] = React.useState(makeUniqueId)
+  const _id = useId(allProps.id)
   if (!allProps.id) {
     allProps.id = _id
   }

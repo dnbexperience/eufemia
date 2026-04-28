@@ -21,6 +21,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
+import useId from '../../shared/helpers/useId'
 
 import type { ButtonIconPosition } from '../Button'
 import type { HeadingLevel } from '../Heading'
@@ -173,7 +174,7 @@ function Accordion({
   const context = useContext(AccordionProviderContext)
 
   const group = props.group || context?.group
-  const id = useRef(props.id || makeUniqueId()).current
+  const id = useId(props.id)
 
   const store = new Store({ id: props.id, group })
 
