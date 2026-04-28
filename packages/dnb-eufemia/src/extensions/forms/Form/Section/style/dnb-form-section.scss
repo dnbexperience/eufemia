@@ -35,6 +35,7 @@
 
     &--variant-filled &__inner {
       --space: var(--spacing-small);
+      background-color: var(--token-color-background-neutral-alternative);
     }
 
     &--no-animation &__inner {

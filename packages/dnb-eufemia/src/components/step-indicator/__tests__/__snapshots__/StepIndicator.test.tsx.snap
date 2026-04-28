@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`StepIndicator scss should match default theme snapshot 1`] = `
-"/*
-* StepIndicator theme
-*
-*/"
-`;
-
 exports[`StepIndicator scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
@@ -967,11 +960,15 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 .dnb-step-indicator {
-  --step-indicator-trigger-background: var(--color-black-3);
-  --step-indicator-trigger-content-background: var(--color-white);
-  --step-indicator-check-bg: var(--color-pistachio);
-  --step-indicator-check-color: var(--color-success-green);
-  --step-indicator-current-border: var(--color-black-80);
+  --step-indicator-trigger-background: var(
+    --token-color-background-neutral-subtle
+  );
+  --step-indicator-trigger-content-background: var(
+    --token-color-background-neutral
+  );
+  --step-indicator-check-bg: var(--token-color-background-selected-subtle);
+  --step-indicator-check-color: var(--token-color-icon-positive);
+  --step-indicator-current-border: var(--token-color-stroke-neutral);
   --padding-top: 0;
   --padding-bottom: 0;
 }
@@ -1018,7 +1015,7 @@ button.dnb-button::-moz-focus-inner {
   left: 0.71875rem;
   width: 0.0625rem;
   height: 100%;
-  background-color: var(--color-black-20);
+  background-color: var(--token-color-stroke-neutral-subtle);
 }
 .dnb-step-indicator__item__bullet {
   display: flex;
@@ -1042,9 +1039,9 @@ button.dnb-button::-moz-focus-inner {
   border-color: var(--step-indicator-check-color);
 }
 .dnb-step-indicator__item__bullet--empty {
-  color: var(--color-black-20);
-  background-color: var(--color-white);
-  border-color: var(--color-black-20);
+  color: var(--token-color-icon-neutral);
+  background-color: var(--token-color-background-neutral);
+  border-color: var(--token-color-stroke-neutral-bold);
 }
 .dnb-step-indicator__item__bullet--current {
   border-width: 0.1875rem;
@@ -1052,7 +1049,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-step-indicator__item__bullet.dnb-skeleton {
   border-width: 0.0625rem;
-  border-color: var(--color-black-20);
+  border-color: var(--token-color-stroke-neutral-bold);
 }
 .dnb-step-indicator__item-content {
   display: flex;

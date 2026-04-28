@@ -14,13 +14,13 @@ import React, {
 
 import clsx from 'clsx'
 import {
-  makeUniqueId,
   findElementInChildren,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
+import useId from '../../shared/helpers/useId'
 
 import type { ButtonIconPosition } from '../Button'
 import type { HeadingLevel } from '../Heading'
@@ -78,7 +78,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     expandedSsr?: boolean
     /**
-     * If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.
+     * If set to `true` the content will be present, even when the accordion is not expanded. Can be useful for assistive technology or SEO.
      */
     keepInDOM?: boolean
     /**
@@ -173,7 +173,7 @@ function Accordion({
   const context = useContext(AccordionProviderContext)
 
   const group = props.group || context?.group
-  const id = useRef(props.id || makeUniqueId()).current
+  const id = useId(props.id)
 
   const store = new Store({ id: props.id, group })
 
@@ -452,10 +452,12 @@ const Group = ({
 
   const instanceIDs = useRef<string[]>([])
 
+  const fallbackGroup = useId()
+
   const group = props?.id
     ? props.id
     : !props.group
-      ? '#' + makeUniqueId()
+      ? '#' + fallbackGroup
       : undefined
 
   const store = useMemo(() => new Store({ group }), [group])

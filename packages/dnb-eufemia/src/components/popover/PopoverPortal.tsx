@@ -4,7 +4,7 @@
 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { makeUniqueId } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'
 import PortalRoot from '../PortalRoot'
@@ -93,7 +93,7 @@ function PopoverPortal(props: PopoverPortalProps) {
     targetRefreshKey,
   } = props
 
-  const [id] = useState(() => makeUniqueId())
+  const id = useId()
   const modalContext = useContext(ModalContext)
 
   const { isActive: portalActive, shouldRenderPortal } =

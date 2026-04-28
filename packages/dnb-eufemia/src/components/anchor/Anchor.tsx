@@ -9,10 +9,8 @@ import clsx from 'clsx'
 import type { ElementAllProps } from '../../elements/Element'
 import E from '../../elements/Element'
 import Context from '../../shared/Context'
-import {
-  makeUniqueId,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
@@ -137,7 +135,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   } = allProps
 
   const attributes = rest as ElementAllProps & { to: string | undefined }
-  const internalId = id || 'id' + makeUniqueId()
+  const internalId = useId(id)
   const as = element || 'a'
   const isDisabled = disabled
   const hasNoHover = noHover || isDisabled

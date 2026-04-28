@@ -112,6 +112,17 @@ describe('detectCountryCode', () => {
     })
   })
 
+  it('should recognize dashed code exactly without phone number digits', () => {
+    expect(detectCountryCode('+1684')).toEqual({
+      countryCode: '+1-684',
+      phoneNumber: '',
+    })
+    expect(detectCountryCode('+441481')).toEqual({
+      countryCode: '+44-1481',
+      phoneNumber: '',
+    })
+  })
+
   it('should return undefined for value without + prefix', () => {
     expect(detectCountryCode('4712345678')).toBeUndefined()
   })

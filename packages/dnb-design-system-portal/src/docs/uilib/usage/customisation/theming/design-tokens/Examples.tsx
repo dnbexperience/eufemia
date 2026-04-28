@@ -6,6 +6,7 @@ import { Td, Th, Tooltip, Tr } from '@dnb/eufemia/src'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import {
+  collator,
   tokenModifierOrder,
   tokenNamingPolicy,
   tokenSections,
@@ -13,10 +14,6 @@ import {
   type TokenRow,
   type TokenSectionId,
 } from '../../../../../../uilib/utils/designTokens'
-
-const isDev =
-  process.env.NODE_ENV === 'development' ||
-  process.env.GATSBY_IS_PREVIEW === 'true'
 
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
@@ -66,11 +63,6 @@ const decorativeGroupSortOrder: Record<string, number> = {
   second: 1,
   third: 2,
 }
-
-const collator = new Intl.Collator('en', {
-  numeric: true,
-  sensitivity: 'base',
-})
 
 const cellVerticalMiddle: React.CSSProperties = {
   verticalAlign: 'middle',
@@ -556,9 +548,9 @@ export function TokenSectionTable({
               )}
               <Th noWrap>Token</Th>
               <Th noWrap>DNB Light</Th>
-              {isDev && <Th noWrap>DNB Dark</Th>}
+              <Th noWrap>DNB Dark</Th>
               <Th noWrap>Sbanken Light</Th>
-              {isDev && <Th noWrap>Sbanken Dark</Th>}
+              <Th noWrap>Sbanken Dark</Th>
               <Th noWrap>Carnegie</Th>
             </Tr>
           </thead>
@@ -584,28 +576,24 @@ export function TokenSectionTable({
                     token.foundationReferences.uiLight
                   )}
                 </Td>
-                {isDev && (
-                  <Td>
-                    {renderColorValueWithTooltip(
-                      token.references.uiDark,
-                      token.foundationReferences.uiDark
-                    )}
-                  </Td>
-                )}
+                <Td>
+                  {renderColorValueWithTooltip(
+                    token.references.uiDark,
+                    token.foundationReferences.uiDark
+                  )}
+                </Td>
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.sbankenLight,
                     token.foundationReferences.sbankenLight
                   )}
                 </Td>
-                {isDev && (
-                  <Td>
-                    {renderColorValueWithTooltip(
-                      token.references.sbankenDark,
-                      token.foundationReferences.sbankenDark
-                    )}
-                  </Td>
-                )}
+                <Td>
+                  {renderColorValueWithTooltip(
+                    token.references.sbankenDark,
+                    token.foundationReferences.sbankenDark
+                  )}
+                </Td>
                 <Td>
                   {renderColorValueWithTooltip(
                     token.references.carnegie,
@@ -663,9 +651,9 @@ export function RadiusTokenTable() {
         <Tr>
           <Th noWrap>Token</Th>
           <Th noWrap>DNB Light</Th>
-          {isDev && <Th noWrap>DNB Dark</Th>}
+          <Th noWrap>DNB Dark</Th>
           <Th noWrap>Sbanken Light</Th>
-          {isDev && <Th noWrap>Sbanken Dark</Th>}
+          <Th noWrap>Sbanken Dark</Th>
           <Th noWrap>Carnegie</Th>
         </Tr>
       </thead>
@@ -676,13 +664,9 @@ export function RadiusTokenTable() {
               <MDXCode>{token.name}</MDXCode>
             </Td>
             <Td>{renderRadiusValue(token.references.uiLight)}</Td>
-            {isDev && (
-              <Td>{renderRadiusValue(token.references.uiDark)}</Td>
-            )}
+            <Td>{renderRadiusValue(token.references.uiDark)}</Td>
             <Td>{renderRadiusValue(token.references.sbankenLight)}</Td>
-            {isDev && (
-              <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
-            )}
+            <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
             <Td>{renderRadiusValue(token.references.carnegie)}</Td>
           </Tr>
         ))}

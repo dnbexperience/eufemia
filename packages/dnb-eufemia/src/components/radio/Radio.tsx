@@ -6,6 +6,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
@@ -434,21 +435,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const Element = element || 'input'
 
   // Forward ref to external ref
-  const combinedRef = useCallback(
-    (el: HTMLInputElement | null) => {
-      ;(
-        inputRef as React.MutableRefObject<HTMLInputElement | null>
-      ).current = el
-      if (typeof externalRef === 'function') {
-        externalRef(el)
-      } else if (externalRef) {
-        ;(
-          externalRef as React.MutableRefObject<HTMLInputElement | null>
-        ).current = el
-      }
-    },
-    [externalRef]
-  )
+  const combinedRef = useCombinedRef(externalRef, inputRef)
 
   return (
     <span {...mainParams}>

@@ -3,10 +3,7 @@
  */
 
 import React from 'react'
-import {
-  makeUniqueId,
-  convertJsxToString,
-} from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/component-helper'
 import type {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
@@ -329,7 +326,7 @@ export function prepareStartupState(
   const open = props.open !== null ? props.open : null
 
   const state: DrawerListContextState = {
-    id: props.id || makeUniqueId(),
+    id: props.id,
     open,
     data,
     originalData: data, // used to reset in case we reorder data etc.

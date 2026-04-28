@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const PaginationProperties: PropertiesTableProps = {
   mode: {
-    doc: 'If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
+    doc: 'If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
     type: ['"pagination"', '"infinity"'],
     status: 'optional',
   },

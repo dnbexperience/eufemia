@@ -84,6 +84,18 @@ export default function detectCountryCode(
 
   const digits = value.slice(1) // strip leading "+"
 
+  // Check if the digits exactly match a dashed code (e.g. "1684" → "1-684").
+  // This must run before the prefix loop below, because that loop requires
+  // remaining digits after the code and would fall back to a shorter match
+  // (e.g. matching "1" instead of "1-684"), incorrectly treating the
+  // extension digits as a phone number.
+  if (cdcFormatMap[digits] && cdcFormatMap[digits].includes('-')) {
+    return {
+      countryCode: `+${cdcFormatMap[digits]}`,
+      phoneNumber: '',
+    }
+  }
+
   for (const code of strippedCodes) {
     if (digits.startsWith(code) && digits.length > code.length) {
       return {

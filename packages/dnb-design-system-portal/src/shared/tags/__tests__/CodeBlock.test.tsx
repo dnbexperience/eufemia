@@ -74,18 +74,6 @@ jest.mock('@dnb/eufemia/src/components', () => {
   }
 })
 
-// Mock makeUniqueId
-jest.mock('@dnb/eufemia/src/shared/component-helper', () => {
-  const actual = jest.requireActual(
-    '@dnb/eufemia/src/shared/component-helper'
-  )
-
-  return {
-    ...actual,
-    makeUniqueId: () => 'test-id',
-  }
-})
-
 // Mock Context
 jest.mock('@dnb/eufemia/src/shared', () => {
   const React = require('react')

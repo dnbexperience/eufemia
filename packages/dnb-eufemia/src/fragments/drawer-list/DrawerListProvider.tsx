@@ -47,6 +47,7 @@ import {
   disableBodyScroll,
   enableBodyScroll,
 } from '../../components/modal/bodyScrollLock'
+import useId from '../../shared/helpers/useId'
 
 import type { SpacingProps } from '../../shared/types'
 import type {
@@ -167,6 +168,7 @@ const allDefaultProps = {
 
 function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const context = useContext(Context)
+  const id = useId(ownProps.id)
 
   // Apply defaults
   const props = useMemo(
@@ -184,7 +186,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       activeItem: undefined,
       selectedItem: undefined,
       ignoreEvents: false,
-      ...prepareStartupState(props),
+      ...prepareStartupState({ ...props, id }),
     }
   }
 

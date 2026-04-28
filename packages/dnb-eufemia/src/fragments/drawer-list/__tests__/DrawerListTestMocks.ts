@@ -25,9 +25,9 @@ export function mockImplementationForDirectionObserver() {
           .mockImplementation(() => height)
       }
     ;(window as unknown as { scrollTo: CustomScrollTo }).scrollTo =
-      function scrollTo({ top = window.pageYOffset }) {
+      function scrollTo({ top = window.scrollY }) {
         Object.assign(window, {
-          pageYOffset: top,
+          scrollY: top,
         })
         window.dispatchEvent(new Event('scroll'))
 

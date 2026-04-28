@@ -6,23 +6,4 @@
   // Focus Ring
   --focus-ring-width: 0.125rem;
   --focus-ring-color: var(--color-emerald-green);
-
-  // Skip Link
-  --skip-link-color: var(--color-sea-green);
-  --skip-link-color--hover: var(--color-sea-green);
-  --skip-link-color--active: var(--color-white);
-  --skip-link-background: var(--color-white);
-  --skip-link-background--hover: var(--color-mint-green-50);
-  --skip-link-background--active: var(--color-emerald-green);
-}
-
-// ::selection appearance helper
-.dnb-selection::selection,
-.dnb-selection ::selection,
-[class^='dnb-']::selection,
-[class^='dnb-'] ::selection {
-  // Chrome does not support CSS variables in ::selection, so we use a fallback
-  background-color: var(--color-mint-green, #a5e1d2);
-  color: var(--color-black, #000);
-  text-shadow: none;
 }

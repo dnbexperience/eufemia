@@ -18,6 +18,7 @@ import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithCont
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -232,29 +233,9 @@ const DropdownInstance = React.memo(function DropdownInstance({
   const attributesRef = useRef<Record<string, unknown>>({})
 
   // Combine internal and external refs
-  const setRootRef = useCallback(
-    (el: HTMLElement | null) => {
-      elRef.current = el
-      if (typeof externalRef === 'function') {
-        externalRef(el)
-      } else if (externalRef) {
-        externalRef.current = el
-      }
-    },
-    [externalRef]
-  )
+  const setRootRef = useCombinedRef(externalRef, elRef)
 
-  const setButtonRef = useCallback(
-    (el: HTMLElement | null) => {
-      buttonRef.current = el
-      if (typeof externalButtonRef === 'function') {
-        externalButtonRef(el)
-      } else if (externalButtonRef) {
-        externalButtonRef.current = el
-      }
-    },
-    [externalButtonRef]
-  )
+  const setButtonRef = useCombinedRef(externalButtonRef, buttonRef)
 
   // Strip undefined values so they fall through to defaults,
   // preserving the legacy React defaultProps behavior.

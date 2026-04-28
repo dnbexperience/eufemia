@@ -7,12 +7,12 @@ import React, { useContext, useEffect, useRef } from 'react'
 
 import clsx from 'clsx'
 import {
-  makeUniqueId,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
+import useId from '../../shared/helpers/useId'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -31,7 +31,7 @@ export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
 
 const AccordionGroup = (props: AccordionGroupProps) => {
   const context = useContext(Context)
-  const id = props.id || makeUniqueId()
+  const id = useId(props.id)
 
   const thisInstance = {
     _id: id,
@@ -111,8 +111,10 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
+  const fallbackGroup = useId()
+
   if (!extendedProps?.group && props.singleContainer) {
-    extendedProps.group = makeUniqueId()
+    extendedProps.group = fallbackGroup
   }
 
   const contextForProvider = {

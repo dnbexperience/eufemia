@@ -45,11 +45,17 @@
 
   &__container {
     width: min-content;
+    border-radius: 0.25rem;
+    background-color: var(--token-color-background-neutral);
 
     // Supports backwards compatibility with Nucleus and scenarios,
     // where both unscoped and scoped styles are imported together (both position and top).
     position: relative;
     top: auto;
+
+    .dnb-date-picker--inline & {
+      @include utilities.sharpDropShadow();
+    }
 
     table {
       position: relative;
@@ -184,13 +190,51 @@
       bottom: 0;
       width: calc(100% - 2rem);
       height: 1px;
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
   }
 
   &__header {
+    --gap: 0.25rem;
+
     min-height: 2.5rem;
     line-height: var(--line-height-basis);
     user-select: text;
+
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: var(--gap);
+
+    // border
+    &::after {
+      background-color: var(--token-color-stroke-neutral-subtle);
+    }
+
+    &--only-month-label {
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    &__row {
+      min-width: 60%;
+      display: flex;
+      flex: 1 1 auto;
+      align-items: center;
+      justify-content: space-between;
+
+      &--year {
+        min-width: calc(40% - var(--gap));
+      }
+    }
+
+    &__title {
+      text-transform: capitalize;
+      text-align: center;
+
+      font-size: var(--font-size-basis);
+      font-weight: var(--font-weight-medium);
+      color: var(--token-color-text-neutral);
+    }
   }
 
   &__addon,
@@ -198,7 +242,6 @@
     position: relative;
 
     display: flex;
-    justify-content: space-between;
     padding-bottom: 1rem;
 
     // border
@@ -208,6 +251,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
   }
 
@@ -236,6 +280,10 @@
     &__day {
       padding-top: 1.5rem;
       padding-bottom: 0.5rem;
+
+      text-transform: capitalize;
+      font-weight: var(--font-weight-medium);
+      color: var(--token-color-text-neutral);
     }
   }
 
@@ -257,6 +305,7 @@
     display: flex;
     flex-basis: calc(1 / 7 * 100%);
     justify-content: center;
+    text-align: center;
   }
 
   &__day {
@@ -317,6 +366,132 @@
     &--start-date#{&}--end-date::after {
       content: none;
     }
+
+    &--today .dnb-button {
+      font-weight: var(--font-weight-medium);
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        bottom: 0.1875rem;
+        height: 0.2188em;
+        width: 0.2188em;
+        pointer-events: none;
+
+        border-radius: 50%;
+        background-color: currentcolor;
+      }
+    }
+
+    &--preview .dnb-button,
+    &--inactive .dnb-button,
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:not(:hover) {
+      background-color: transparent;
+    }
+
+    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(
+        #{&}--end-date
+      ),
+    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(
+        #{&}--end-date
+      ) {
+      // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
+      background-color: var(--token-color-background-action-hover-subtle);
+    }
+
+    &--start-date:not(#{&}--inactive),
+    &--end-date:not(#{&}--inactive) {
+      &::after {
+        // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
+        background-color: var(
+          --token-color-background-action-hover-subtle
+        );
+      }
+
+      .dnb-button {
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action);
+      }
+    }
+    &--start-date:not(#{&}--inactive):not(#{&}--preview),
+    &--end-date:not(#{&}--inactive):not(#{&}--preview) {
+      .dnb-button {
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+
+    // Hover states for checked date buttons
+    html:not([data-whatintent='touch'])
+      &--start-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]),
+    html:not([data-whatintent='touch'])
+      &--end-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]) {
+      color: var(--token-color-text-action);
+      background-color: var(--token-color-background-neutral);
+
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-pressed),
+        0.125rem
+      );
+    }
+
+    // Active states for start and end date buttons
+    html:not([data-whatintent='touch'])
+      &--start-date#{&}--within-selection
+      .dnb-button:active:not([disabled]),
+    html:not([data-whatintent='touch'])
+      &--end-date#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      color: var(--token-color-text-action-pressed);
+      background-color: var(--token-color-background-action-hover-subtle);
+      box-shadow: none;
+      border: transparent;
+    }
+
+    html:not([data-whatintent='touch'])
+      &--start-date:not(#{&}--end-date)#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      border-radius: 50% 0 0 50%;
+    }
+
+    html:not([data-whatintent='touch'])
+      &--end-date:not(#{&}--start-date)#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      border-radius: 0 50% 50% 0;
+    }
+
+    &--disabled .dnb-button {
+      text-decoration: line-through;
+    }
+
+    &--inactive .dnb-button {
+      color: var(--token-color-text-neutral-alternative);
+    }
+
+    &--inactive .dnb-button,
+    &--disabled .dnb-button {
+      &[disabled] {
+        box-shadow: none;
+      }
+    }
+
+    html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
+      cursor: default;
+    }
+  }
+
+  &__header__nav {
+    .dnb-button:not(:hover):not(:focus-visible) {
+      box-shadow: none;
+    }
+    .dnb-button:hover:not(:active):not(:focus-visible) {
+      background-color: var(--token-color-background-neutral);
+    }
   }
 
   .rtl {
@@ -368,6 +543,7 @@
     }
   }
 
+  // stylelint-disable-next-line no-descending-specificity
   &:not(.dnb-date-picker--show-input)
     .dnb-input__submit-button
     .dnb-button {
@@ -410,6 +586,21 @@
     --popover-z-index: calc(var(--modal-z-index) + 10);
 
     line-height: var(--date-picker-input-height);
+
+    .dnb-popover {
+      --popover-background-color: var(--token-color-background-neutral);
+      --popover-border-radius: 0.25rem;
+
+      @include utilities.sharpDropShadow();
+    }
+  }
+
+  &--open .dnb-button--input-button.dnb-button--selected {
+    --button-color-bg--default: var(--button-color-bg--active);
+    --button-color-icon--default: var(--button-color-icon--active);
+    --button-input-separator-color--default: var(
+      --button-input-separator-color--active
+    );
   }
 }
 
