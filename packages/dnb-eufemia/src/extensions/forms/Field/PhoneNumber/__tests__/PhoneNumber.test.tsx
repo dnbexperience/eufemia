@@ -2316,6 +2316,96 @@ describe('Field.PhoneNumber', () => {
     })
   })
 
+  it('should not leak dashed country code digits into the number field when selecting a country like American Samoa', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.PhoneNumber
+        onChange={onChange}
+        onCountryCodeChange={jest.fn()}
+        noAnimation
+      />
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    expect(codeElement.value).toBe('NO (+47)')
+    expect(phoneElement.value).toBe('')
+
+    // Select American Samoa (+1-684) from the dropdown
+    fireEvent.focus(codeElement)
+    fireEvent.keyDown(codeElement, { key: 'Enter' })
+    fireEvent.change(codeElement, { target: { value: '+1-684' } })
+    fireEvent.click(firstItemElement())
+
+    // The number field should remain empty — "684" must not leak in
+    expect(codeElement.value).toBe('AS (+1-684)')
+    expect(phoneElement.value).toBe('')
+
+    // Type a phone number and verify the full value
+    await userEvent.type(phoneElement, '1234567')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+16841234567',
+      expect.objectContaining({
+        countryCode: '+1-684',
+        phoneNumber: '1234567',
+        iso: 'AS',
+      })
+    )
+
+    // Clear the number field — it should be possible to fully empty it
+    fireEvent.change(phoneElement, { target: { value: '' } })
+
+    expect(phoneElement.value).toBe('')
+  })
+
+  it('should not leak dashed country code digits into the number field when switching from another country', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.PhoneNumber value="+411234" onChange={onChange} noAnimation />
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    expect(codeElement.value).toBe('CH (+41)')
+    expect(phoneElement.value).toBe('1234')
+
+    // Switch to American Samoa (+1-684)
+    fireEvent.focus(codeElement)
+    fireEvent.keyDown(codeElement, { key: 'Enter' })
+    fireEvent.change(codeElement, { target: { value: '+1-684' } })
+    fireEvent.click(firstItemElement())
+
+    // The number field should keep the original phone number — "684" must not be prepended
+    expect(codeElement.value).toBe('AS (+1-684)')
+    expect(phoneElement.value).toBe('1234')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+16841234',
+      expect.objectContaining({
+        countryCode: '+1-684',
+        phoneNumber: '1234',
+        iso: 'AS',
+      })
+    )
+  })
+
   it('should not change country code on blur when value has non-default country code', async () => {
     const onChange = jest.fn()
 
