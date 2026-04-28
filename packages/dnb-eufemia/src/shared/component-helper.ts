@@ -25,7 +25,7 @@ export { getClosestParent, warn }
 init()
 
 // run component helper functions
-whatInput.specificKeys([9])
+whatInput.specificKeys(['Tab'])
 defineNavigator()
 
 /** @private */

@@ -743,7 +743,7 @@ function TabsComponent(ownProps: TabsProps) {
       getEventArgs({ event, focusKey: newFocusKey })
     )
 
-    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+    whatInput.specificKeys(['Tab', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'End', 'Home'])
   }
 
   // Focus tab button when focusKey changes
@@ -759,7 +759,7 @@ function TabsComponent(ownProps: TabsProps) {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
     saveLastUsedTab()
-    whatInput.specificKeys([9])
+    whatInput.specificKeys(['Tab'])
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newSelectedKey))) {
@@ -861,7 +861,7 @@ function TabsComponent(ownProps: TabsProps) {
 
     return () => {
       isMounted = false
-      whatInput.specificKeys([9])
+      whatInput.specificKeys(['Tab'])
       sharedStateRef.current = null
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', onResizeHandler)

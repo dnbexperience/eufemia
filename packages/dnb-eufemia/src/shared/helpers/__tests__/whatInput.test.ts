@@ -3,9 +3,9 @@ import whatInput from '../whatInput'
 const dispatchMouse = () =>
   window.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
 
-const dispatchKeyboard = (which = 9) =>
+const dispatchKeyboard = (key = 'Tab') =>
   window.dispatchEvent(
-    new KeyboardEvent('keydown', { which, bubbles: true })
+    new KeyboardEvent('keydown', { key, bubbles: true })
   )
 
 describe('whatInput', () => {
@@ -34,9 +34,9 @@ describe('whatInput', () => {
       'mouse'
     )
 
-    // Shift key (16) should be ignored
+    // Shift key should be ignored
     window.dispatchEvent(
-      new KeyboardEvent('keydown', { which: 16, bubbles: true })
+      new KeyboardEvent('keydown', { key: 'Shift', bubbles: true })
     )
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
       'mouse'
@@ -44,7 +44,7 @@ describe('whatInput', () => {
   })
 
   it('should respect specificKeys setting', () => {
-    whatInput.specificKeys([9])
+    whatInput.specificKeys(['Tab'])
 
     // Set to keyboard first so mouse transition is detected
     dispatchKeyboard()
@@ -53,15 +53,15 @@ describe('whatInput', () => {
       'mouse'
     )
 
-    // Key 65 ("a") should not trigger keyboard because only 9 is in specificKeys
+    // Key "a" should not trigger keyboard because only "Tab" is in specificKeys
     window.dispatchEvent(
-      new KeyboardEvent('keydown', { which: 65, bubbles: true })
+      new KeyboardEvent('keydown', { key: 'a', bubbles: true })
     )
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
       'mouse'
     )
 
-    // Tab (9) should trigger keyboard
+    // Tab should trigger keyboard
     dispatchKeyboard()
     expect(document.documentElement.getAttribute('data-whatinput')).toBe(
       'keyboard'
