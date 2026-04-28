@@ -530,7 +530,10 @@ const DropdownInstance = memo(function DropdownInstance({
   })
 
   const triggerParams = {
-    className: 'dnb-dropdown__trigger',
+    className: clsx(
+      'dnb-dropdown__trigger',
+      open && 'dnb-dropdown__trigger--open'
+    ),
     id,
     disabled,
     'aria-haspopup': handleAsMenu ? true : 'listbox',
