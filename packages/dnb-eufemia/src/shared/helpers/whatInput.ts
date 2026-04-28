@@ -18,12 +18,7 @@ let currentIntent: InputType = 'initial'
 let currentTimestamp = Date.now()
 
 /** Keys to ignore – modifier keys that accompany pointer interactions. */
-const ignoreMap = [
-  'Shift',
-  'Control',
-  'Alt',
-  'Meta',
-]
+const ignoreMap = ['Shift', 'Control', 'Alt', 'Meta']
 
 /** When non-empty only these keys trigger "keyboard" input detection. */
 let specificMap: string[] = []

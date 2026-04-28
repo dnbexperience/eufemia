@@ -153,7 +153,17 @@ export default function MenuRoot(props: MenuRootProps) {
   useIsomorphicLayoutEffect(() => {
     if (isOpen) {
       // Tab, Left/Up/Right/Down, PageUp/PageDown, End/Home.
-      whatInput.specificKeys(['Tab', 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'PageUp', 'PageDown', 'End', 'Home'])
+      whatInput.specificKeys([
+        'Tab',
+        'ArrowLeft',
+        'ArrowUp',
+        'ArrowRight',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'End',
+        'Home',
+      ])
     }
 
     return () => {

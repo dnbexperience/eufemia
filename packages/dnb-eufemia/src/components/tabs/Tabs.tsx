@@ -743,7 +743,15 @@ function TabsComponent(ownProps: TabsProps) {
       getEventArgs({ event, focusKey: newFocusKey })
     )
 
-    whatInput.specificKeys(['Tab', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'End', 'Home'])
+    whatInput.specificKeys([
+      'Tab',
+      'ArrowLeft',
+      'ArrowRight',
+      'PageUp',
+      'PageDown',
+      'End',
+      'Home',
+    ])
   }
 
   // Focus tab button when focusKey changes
