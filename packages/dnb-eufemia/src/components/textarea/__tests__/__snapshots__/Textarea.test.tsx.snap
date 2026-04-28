@@ -330,9 +330,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     overflow-x: clip !important;
   }
 }
-.dnb-textarea__textarea ::selection {
-  text-shadow: none;
-}
 .dnb-textarea__placeholder {
   pointer-events: none;
   position: absolute;

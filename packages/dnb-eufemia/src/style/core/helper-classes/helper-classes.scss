@@ -74,3 +74,13 @@
   // Ensure themed body has a token color for page backgrounds
   background-color: var(--token-color-background-page-background, white);
 }
+
+// ::selection appearance helper
+.dnb-selection::selection,
+.dnb-selection ::selection,
+[class^='dnb-']::selection,
+[class^='dnb-'] ::selection {
+  background-color: var(--token-color-decorative-first-subtle);
+  color: var(--token-color-text-neutral);
+  text-shadow: none;
+}

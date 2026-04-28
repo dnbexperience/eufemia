@@ -126,16 +126,6 @@
     font-family: var(--font-family-monospace); /* 1 */
   }
 
-  /*
-   * Restore the coloring and remove text shadow on text selections (opinionated).
-   */
-
-  ::selection {
-    background-color: #b3d4fc;
-    color: var(--color-black);
-    text-shadow: none;
-  }
-
   /* Embedded content
    */
 

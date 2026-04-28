@@ -9,14 +9,3 @@
   --focus-ring-width: 0.1875rem;
   --focus-ring-color: var(--sb-color-blue-dark);
 }
-
-// ::selection appearance helper
-.dnb-selection::selection,
-.dnb-selection ::selection,
-[class^='dnb-']::selection,
-[class^='dnb-'] ::selection {
-  // Chrome does not support CSS variables in ::selection, so we use a fallback
-  background-color: var(--sb-color-blue-light-2, #bfe3ff);
-  color: var(--sb-color-black, #000);
-  text-shadow: none;
-}
