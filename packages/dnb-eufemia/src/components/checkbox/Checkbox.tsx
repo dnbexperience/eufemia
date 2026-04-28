@@ -26,6 +26,7 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import type { SpacingProps } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
@@ -158,15 +159,8 @@ function Checkbox(localProps: CheckboxProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
 
-  const isFn = typeof refProp === 'function'
-  const refHook = useRef<HTMLInputElement>(undefined)
-  const ref = (!isFn && refProp) || refHook
-
-  useEffect(() => {
-    if (isFn) {
-      refProp?.(ref.current)
-    }
-  }, [refProp, isFn, ref])
+  const internalRef = useRef<HTMLInputElement>(undefined)
+  const ref = useCombinedRef(refProp, internalRef)
 
   const preventChangeRef = useRef(false)
   const isCheckedRef = useRef(checked ?? false)
@@ -181,8 +175,10 @@ function Checkbox(localProps: CheckboxProps) {
   }, [checked])
 
   useEffect(() => {
-    ref.current.indeterminate = indeterminate
-  }, [indeterminate, ref])
+    if (internalRef.current) {
+      internalRef.current.indeterminate = indeterminate
+    }
+  }, [indeterminate, internalRef])
 
   const callOnChange: CheckboxProps['onChange'] = useCallback(
     (args) => {
@@ -204,13 +200,13 @@ function Checkbox(localProps: CheckboxProps) {
       callOnChange({ checked: updatedCheck, event })
 
       // help firefox and safari to have a correct state after a click
-      if (ref.current) {
-        ref.current.focus({
+      if (internalRef.current) {
+        internalRef.current.focus({
           preventScroll: true,
         })
       }
     },
-    [callOnChange, ref]
+    [callOnChange, internalRef]
   )
 
   const onChangeHandler = useCallback(
