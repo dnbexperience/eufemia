@@ -121,6 +121,8 @@
   }
 
   &__list {
+    --drawer-list-list-border-width: 0.0625rem;
+
     position: absolute;
     z-index: 3;
     top: 0;
@@ -149,8 +151,6 @@
 
   // ul element
   &__options {
-    --drawer-list-list-border-width: 0.0625rem;
-
     // text
     --drawer-list-option-color-text--default: var(
       --token-color-text-neutral
@@ -722,24 +722,34 @@
 
   // size--default
   &--bottom &__list {
-    top: 0;
+    top: var(--drawer-list-list-border-width);
     bottom: auto;
   }
   &--top &__list {
     top: auto;
-    bottom: var(--drawer-list-height);
+    bottom: calc(
+      var(--drawer-list-height) + var(--drawer-list-list-border-width)
+    );
   }
   &__portal &--bottom &__list {
-    top: var(--drawer-list-height);
+    top: calc(
+      var(--drawer-list-height) + var(--drawer-list-list-border-width)
+    );
     bottom: auto;
   }
 
   // size--small
   &__portal &--small &__list {
-    top: var(--drawer-list-height--small);
+    top: calc(
+      var(--drawer-list-height--small) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--small#{&}--top &__list {
-    bottom: var(--drawer-list-height--small);
+    bottom: calc(
+      var(--drawer-list-height--small) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--small#{&}--is-popup#{&}--left &__list {
     left: -0.75rem;
@@ -750,10 +760,16 @@
 
   // size--medium
   &__portal &--medium &__list {
-    top: var(--drawer-list-height--medium);
+    top: calc(
+      var(--drawer-list-height--medium) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--medium#{&}--top &__list {
-    bottom: var(--drawer-list-height--medium);
+    bottom: calc(
+      var(--drawer-list-height--medium) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--medium#{&}--is-popup#{&}--left &__list {
     left: -0.25rem;
@@ -764,10 +780,16 @@
 
   // size--large
   &__portal &--large &__list {
-    top: var(--drawer-list-height--large);
+    top: calc(
+      var(--drawer-list-height--large) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--large#{&}--top &__list {
-    bottom: var(--drawer-list-height--large);
+    bottom: calc(
+      var(--drawer-list-height--large) +
+        var(--drawer-list-list-border-width)
+    );
   }
   &--large &__arrow {
     margin: 0 1.25rem;
@@ -796,7 +818,7 @@
   // fix top in portal mode in one style declaration
   &__portal &--top &__list {
     top: auto;
-    bottom: 0;
+    bottom: var(--drawer-list-list-border-width);
   }
 
   &:not(.dnb-drawer-list--open) &__list {
