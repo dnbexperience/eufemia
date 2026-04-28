@@ -227,15 +227,6 @@
       }
     }
 
-    &__nav {
-      .dnb-button:not(:hover):not(:focus-visible) {
-        box-shadow: none;
-      }
-      .dnb-button:hover:not(:active):not(:focus-visible) {
-        background-color: var(--token-color-background-neutral);
-      }
-    }
-
     &__title {
       text-transform: capitalize;
       text-align: center;
@@ -494,6 +485,15 @@
     }
   }
 
+  &__header__nav {
+    .dnb-button:not(:hover):not(:focus-visible) {
+      box-shadow: none;
+    }
+    .dnb-button:hover:not(:active):not(:focus-visible) {
+      background-color: var(--token-color-background-neutral);
+    }
+  }
+
   .rtl {
     direction: rtl;
 
@@ -543,6 +543,7 @@
     }
   }
 
+  // stylelint-disable-next-line no-descending-specificity
   &:not(.dnb-date-picker--show-input)
     .dnb-input__submit-button
     .dnb-button {
