@@ -18,16 +18,10 @@ let currentIntent: InputType = 'initial'
 let currentTimestamp = Date.now()
 
 /** Keys to ignore – modifier keys that accompany pointer interactions. */
-const ignoreMap = [
-  16, // shift
-  17, // control
-  18, // alt
-  91, // left ⌘ / Windows key
-  93, // right ⌘ / Windows menu
-]
+const ignoreMap = ['Shift', 'Control', 'Alt', 'Meta']
 
 /** When non-empty only these keys trigger "keyboard" input detection. */
-let specificMap: number[] = []
+let specificMap: string[] = []
 
 let isScrolling = false
 const mousePos = { x: 0, y: 0 }
@@ -112,7 +106,7 @@ function validateTouch(value: InputType): boolean {
 
 function setInput(event: Event) {
   const value = resolveInputType(event)
-  const eventKey = (event as KeyboardEvent).which
+  const eventKey = (event as KeyboardEvent).key
 
   if (value === 'keyboard' && eventKey) {
     const ignoreMatch =
@@ -192,10 +186,10 @@ function doUpdate(which: 'input' | 'intent') {
 
 /**
  * Set which specific keys should trigger "keyboard" input detection.
- * When set, only matching key codes count as keyboard input.
- * Pass e.g. `[9]` for Tab-only, or `[9, 37, 39]` for Tab + arrow keys.
+ * When set, only matching key names count as keyboard input.
+ * Pass e.g. `['Tab']` for Tab-only, or `['Tab', 'ArrowLeft', 'ArrowRight']` for Tab + arrow keys.
  */
-function specificKeys(arr: number[]) {
+function specificKeys(arr: string[]) {
   specificMap = arr
 }
 
