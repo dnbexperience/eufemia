@@ -593,6 +593,14 @@
       @include utilities.sharpDropShadow();
     }
   }
+
+  &--open .dnb-button--input-button.dnb-button--selected {
+    --button-color-bg--default: var(--button-color-bg--active);
+    --button-color-icon--default: var(--button-color-icon--active);
+    --button-input-separator-color--default: var(
+      --button-input-separator-color--active
+    );
+  }
 }
 
 @keyframes date-picker-slide-down {

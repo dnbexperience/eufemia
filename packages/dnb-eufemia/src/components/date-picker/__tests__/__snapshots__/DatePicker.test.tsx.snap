@@ -2956,6 +2956,13 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
   --popover-border-radius: 0.25rem;
   box-shadow: var(--shadow-sharp);
 }
+.dnb-date-picker--open .dnb-button--input-button.dnb-button--selected {
+  --button-color-bg--default: var(--button-color-bg--active);
+  --button-color-icon--default: var(--button-color-icon--active);
+  --button-input-separator-color--default: var(
+    --button-input-separator-color--active
+  );
+}
 
 @keyframes date-picker-slide-down {
   from {
