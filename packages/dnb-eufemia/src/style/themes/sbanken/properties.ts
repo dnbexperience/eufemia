@@ -149,8 +149,6 @@ export default {
   '--color-black-8': '#ebebeb',
   '--color-black-3': '#f8f8f8',
   '--color-white': '#fff',
-  '--color-black-border': '#cdcdcd',
-  '--color-black-background': '#fafafa',
   '--color-sea-green': '#007272',
   '--color-mint-green': '#a5e1d2',
   '--color-summer-green': '#28b482',
