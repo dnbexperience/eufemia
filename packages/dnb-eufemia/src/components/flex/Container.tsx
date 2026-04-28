@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../shared/helpers/toChildArray'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
 import { Hr } from '../../elements'
@@ -251,7 +252,7 @@ function wrapChildren(
   props: FlexContainerAllProps,
   children: React.ReactNode
 ) {
-  return React.Children.toArray(children).map((child) => {
+  return toChildArray(children).map((child) => {
     if (
       React.isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'
@@ -275,10 +276,10 @@ function wrapChildren(
 function replaceRootFragment(children) {
   const firstChild = children[0]
   if (
-    React.Children.count(children) === 1 &&
+    toChildArray(children).length === 1 &&
     firstChild?.type === Fragment
   ) {
-    return React.Children.toArray(firstChild?.props?.children)
+    return toChildArray(firstChild?.props?.children)
   }
   return children
 }

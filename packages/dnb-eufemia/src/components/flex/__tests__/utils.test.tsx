@@ -114,7 +114,7 @@ describe('renderWithSpacing', () => {
       ([type]) => type === (MockComponent as any)
     )
     expect(call).toBeDefined()
-    expect(call[1].key).toBe('.$test-key')
+    expect(call[1].key).toBe('test-key')
 
     spy.mockRestore()
   })

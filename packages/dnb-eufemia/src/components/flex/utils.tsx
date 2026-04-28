@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../shared/helpers/toChildArray'
 import type { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {
@@ -119,14 +120,14 @@ export function renderWithSpacing(
   }
 
   if (variant === 'children') {
-    return (React.Children.toArray(element) as React.ReactElement[]).map(
+    return (toChildArray(element) as React.ReactElement[]).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children
         const childKey = child?.key
         const childProps = child?.props || {}
 
-        return React.Children.toArray(children).map((element, i) => {
+        return toChildArray(children).map((element, i) => {
           return React.createElement(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             child.type as React.ComponentType<any>,

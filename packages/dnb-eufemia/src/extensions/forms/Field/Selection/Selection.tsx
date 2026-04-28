@@ -32,6 +32,7 @@ import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import toChildArray from '../../../../shared/helpers/toChildArray'
 
 type IOption = {
   title: string | React.ReactNode
@@ -273,7 +274,7 @@ function Selection(props: FieldSelectionProps) {
 
       const additionalFieldBlockProps: FieldBlockProps = {
         asFieldset:
-          hasRenderPropChildren || React.Children.count(items) > 1,
+          hasRenderPropChildren || toChildArray(items).length > 1,
         fieldsetRole: variant === 'radio' ? 'radiogroup' : 'group',
       }
       if (!size) {
@@ -472,7 +473,7 @@ function renderRadioItems({
 export function countOptions(children: React.ReactNode): number {
   let count = 0
 
-  React.Children.forEach(children, (child) => {
+  toChildArray(children).forEach((child) => {
     if (React.isValidElement(child)) {
       if (child.type === OptionField) {
         count++
@@ -495,9 +496,8 @@ export function mapOptions(
     createOption,
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
 ) {
-  return React.Children.map(
+  return toChildArray(children).map(
     // @ts-expect-error - strictFunctionTypes
-    children,
     (child: React.ReactElement<OptionProps>, i) => {
       if (React.isValidElement(child)) {
         if (child.type === OptionField) {
@@ -525,7 +525,7 @@ export function makeOptions<T = DrawerListProps['data']>(
   children: React.ReactNode,
   transformSelection?: FieldSelectionProps['transformSelection']
 ): T {
-  return React.Children.map(children, (child) => {
+  return toChildArray(children).map((child) => {
     if (child?.['props']?.children?.type === OptionField) {
       child = child['props'].children
     }

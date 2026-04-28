@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import toChildArray from '../../../shared/helpers/toChildArray'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -62,7 +63,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const [trIsHover, setHover] = React.useState(false)
   const [trHadClick, setHadClick] = React.useState(false)
 
-  let headerContent = React.Children.toArray(children)
+  let headerContent = toChildArray(children)
 
   const addContent = useCallback(
     (content) => {

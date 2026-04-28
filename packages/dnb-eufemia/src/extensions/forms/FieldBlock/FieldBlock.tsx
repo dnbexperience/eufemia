@@ -28,6 +28,7 @@ import {
   findElementInChildren,
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
+import toChildArray from '../../../shared/helpers/toChildArray'
 import type {
   ComponentProps,
   FieldProps,
@@ -783,7 +784,7 @@ function isFragment(fragment: React.ReactNode) {
 function fragmentHasChildren(fragment: React.ReactNode) {
   return (
     React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.count(fragment.props.children) > 0
+    toChildArray(fragment.props.children).length > 0
   )
 }
 
@@ -792,7 +793,7 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
 
   return (
     React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.toArray(fragment.props.children).every(isUndefined)
+    toChildArray(fragment.props.children).every(isUndefined)
   )
 }
 

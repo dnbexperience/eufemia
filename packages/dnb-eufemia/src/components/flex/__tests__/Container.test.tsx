@@ -695,7 +695,7 @@ describe('Flex.Container', () => {
         ([type]) => type === (Wrapper as any)
       )
       expect(wrapperCall).toBeDefined()
-      expect(wrapperCall[1].key).toBe('.$my-key')
+      expect(wrapperCall[1].key).toBe('my-key')
 
       spy.mockRestore()
     })

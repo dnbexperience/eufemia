@@ -1,5 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../../shared/helpers/toChildArray'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
@@ -92,7 +93,7 @@ const DialogAction = ({
   )
 
   if (children) {
-    childrenWithCloseFunc = React.Children.map(children, (child) => {
+    childrenWithCloseFunc = toChildArray(children).map((child, i) => {
       if (React.isValidElement<any>(child) && child.type === Button) {
         const childElement = child as React.ReactElement<any>
 
@@ -100,6 +101,7 @@ const DialogAction = ({
           childElement.type as React.ComponentType<any>,
           {
             ...(childElement.props || {}),
+            key: childElement.key ?? i,
             onClick: (event) => {
               dispatchCustomElementEvent(childElement.props, 'onClick', {
                 event,

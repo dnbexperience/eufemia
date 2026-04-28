@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../shared/helpers/toChildArray'
 import Popover from '../popover/Popover'
 import {
   MenuContext,
@@ -38,7 +39,7 @@ export default function MenuRoot(props: MenuRootProps) {
   let triggerChild: React.ReactElement | null = null
   const contentChildren: React.ReactNode[] = []
 
-  React.Children.forEach(children, (child) => {
+  toChildArray(children).forEach((child) => {
     if (
       !triggerChild &&
       React.isValidElement(child) &&

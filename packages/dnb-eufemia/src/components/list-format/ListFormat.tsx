@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useMemo } from 'react'
+import toChildArray from '../../shared/helpers/toChildArray'
 import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { InternalLocale } from '../../shared/Context'
@@ -80,7 +81,7 @@ function ListFormat(
     }
 
     return isListVariant
-      ? React.Children.map(valueToUse, (child: React.ReactNode, index) => {
+      ? toChildArray(valueToUse).map((child: React.ReactNode, index) => {
           return <Li key={index}>{child}</Li>
         })
       : valueToUse
@@ -179,15 +180,15 @@ export function listFormat(
 
 function replaceRootFragment(children) {
   if (children?.type === Fragment) {
-    return React.Children.toArray(children?.props?.children)
+    return toChildArray(children?.props?.children)
   }
   if (Array.isArray(children)) {
     const firstChild = children[0]
     if (
-      React.Children.count(children) === 1 &&
+      toChildArray(children).length === 1 &&
       firstChild?.type === Fragment
     ) {
-      return React.Children.toArray(firstChild?.props?.children)
+      return toChildArray(firstChild?.props?.children)
     }
     return children
   }

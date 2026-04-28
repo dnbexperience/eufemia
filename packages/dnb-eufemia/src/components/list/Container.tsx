@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../shared/helpers/toChildArray'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { StackProps as FlexProps } from '../flex/Stack'
@@ -59,7 +60,7 @@ function ListContainer(props: ListContainerProps) {
       return children
     }
 
-    const childArray = React.Children.toArray(children)
+    const childArray = toChildArray(children)
 
     if (!shouldLimit) {
       return childArray

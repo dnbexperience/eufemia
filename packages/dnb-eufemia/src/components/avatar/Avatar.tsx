@@ -1,5 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
+import toChildArray from '../../shared/helpers/toChildArray'
 
 // Components
 import { applySpacing } from '../space/SpacingUtils'
@@ -173,7 +174,7 @@ const Avatar = (localProps: AvatarAllProps) => {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
     children = <span aria-hidden>{firstLetterUpperCase}</span>
   } else if (
-    React.Children.count(childrenProp) === 1 &&
+    toChildArray(childrenProp).length === 1 &&
     isIconComponent(childrenProp)
   ) {
     children = iconAutoSize(childrenProp)

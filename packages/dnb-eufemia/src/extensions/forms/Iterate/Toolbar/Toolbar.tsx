@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import toChildArray from '../../../../shared/helpers/toChildArray'
 import clsx from 'clsx'
 import { Hr } from '../../../../elements'
 import { Flex, FormStatus, Space } from '../../../../components'
@@ -46,7 +47,7 @@ export default function Toolbar({
     children = children?.({ index, items, value })
   }
 
-  if (React.Children.count(children) === 0) {
+  if (toChildArray(children).length === 0) {
     return null
   }
 
