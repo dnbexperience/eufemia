@@ -110,6 +110,28 @@ describe('ScrollView', () => {
     expect(observe).toHaveBeenCalledWith(ref.current)
   })
 
+  it('should attach ResizeObserver when a callback ref is used', () => {
+    const observe = jest.fn()
+    const init = jest.fn()
+    setResizeObserver({ init, observe })
+
+    let refValue: HTMLDivElement | null = null
+    const callbackRef = (el: HTMLDivElement | null) => {
+      refValue = el
+    }
+
+    render(
+      <ScrollView ref={callbackRef} interactive="auto">
+        overflow content
+      </ScrollView>
+    )
+
+    expect(refValue).toBeInstanceOf(HTMLDivElement)
+    expect(init).toHaveBeenCalledTimes(1)
+    expect(observe).toHaveBeenCalledTimes(1)
+    expect(observe).toHaveBeenCalledWith(refValue)
+  })
+
   it('should include custom classes', () => {
     render(
       <ScrollView className="custom-class">overflow content</ScrollView>
