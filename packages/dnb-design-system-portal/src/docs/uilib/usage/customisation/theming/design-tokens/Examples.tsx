@@ -6,6 +6,7 @@ import { Td, Th, Tooltip, Tr } from '@dnb/eufemia/src'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import {
+  collator,
   tokenModifierOrder,
   tokenNamingPolicy,
   tokenSections,
@@ -66,11 +67,6 @@ const decorativeGroupSortOrder: Record<string, number> = {
   second: 1,
   third: 2,
 }
-
-const collator = new Intl.Collator('en', {
-  numeric: true,
-  sensitivity: 'base',
-})
 
 const cellVerticalMiddle: React.CSSProperties = {
   verticalAlign: 'middle',

@@ -148,7 +148,7 @@ const themeSources: Record<ThemeName, FigmaTokenGroup> = {
   carnegie: carnegieTokens as unknown as FigmaTokenGroup,
 }
 
-const collator = new Intl.Collator('en', {
+export const collator = new Intl.Collator('en', {
   numeric: true,
   sensitivity: 'base',
 })
