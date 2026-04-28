@@ -195,11 +195,13 @@ For any page (component, field, value, etc.):
 
 - [Colors](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/colors.md): Look into the documentation for more details.
 
+- [Guide](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide.md): Look into the documentation for more details.
+
 - [Radius](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/radius.md): Look into the documentation for more details.
 
 - [Design Tokens (WIP)](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens.md): How to use Eufemia semantic design tokens in your application.
 
-- [Theme](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
+- [Theme component](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
 
 - [Theming](https://eufemia.dnb.no/uilib/usage/customisation/theming.md): Look into the documentation for more details.
 
@@ -215,7 +217,7 @@ For any page (component, field, value, etc.):
 
 - [The Basics](https://eufemia.dnb.no/uilib/usage/first-steps/the-basics.md): Look into the documentation for more details.
 
-- [AI and Tools](https://eufemia.dnb.no/uilib/usage/first-steps/tools.md): Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.
+- [AI, MCP and Tools](https://eufemia.dnb.no/uilib/usage/first-steps/tools.md): Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.
 
 - [First Steps](https://eufemia.dnb.no/uilib/usage/first-steps.md): Look into the documentation for more details.
 
@@ -643,5 +645,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 11.0.1
-GeneratedAt: 2026-04-24T10:41:12.256Z
+Version: 11.0.2
+GeneratedAt: 2026-04-28T04:47:41.335Z

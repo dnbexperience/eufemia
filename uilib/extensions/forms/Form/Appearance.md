@@ -1,8 +1,8 @@
 ---
 title: 'Form.Appearance'
 description: '`Form.Appearance` is a provider for theming form fields.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.169Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:21.576Z
 checksum: 3cad5b648f2771011cc5342a029432a50f9c1e66c07d6d1debcad49dcc3e34ce
 ---
 

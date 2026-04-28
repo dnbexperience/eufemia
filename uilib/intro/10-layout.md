@@ -1,6 +1,6 @@
 ---
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.735Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.497Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,7 +18,12 @@ To get a good user experience and a professional looking result, perfect layouti
 
 Remember, everything should be in the **8px grid** (0.5rem) spacing - even it the designer sometimes are one or two pixels of, you now know what it should be.
 
-![UX layout spacing](../usage/assets/ux-layout-spacing.png)
+<InlineImg
+  src={UxLayoutSpacing}
+  caption="UX layout spacing"
+  width="auto"
+  className="blank x-10"
+/>
 
 You may have a [look at the layout docs](/uilib/usage/layout) as well as [the spacing helpers](/uilib/usage/layout/spacing) and the [Space](/uilib/layout/space) component.
 

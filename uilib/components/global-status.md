@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:50.585Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:20.837Z
 checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 
@@ -292,7 +292,7 @@ const UpdateDemo = () => {
   const [errorB, setErrorB] = React.useState(false)
   const [isVisible, setVisibility] = React.useState(false)
   return (
-    <Context.Provider
+    <Context
       value={{
         errorA,
         errorB,
@@ -304,7 +304,7 @@ const UpdateDemo = () => {
     >
       <UpdateDemoStatus />
       <UpdateDemoTools />
-    </Context.Provider>
+    </Context>
   )
 }
 const UpdateDemoStatus = () => {

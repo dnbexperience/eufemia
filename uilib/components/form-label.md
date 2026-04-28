@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:50.545Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:20.802Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 
@@ -49,7 +49,7 @@ DNB UX has chosen to not use colon on the end of form element labels. For consis
 ### Form-label without a `forId`
 
 ```tsx
-<FormLabel>Without forId (select me)</FormLabel>
+<FormLabel element="span">Without forId (select me)</FormLabel>
 <Checkbox label="Checkbox" />
 ```
 

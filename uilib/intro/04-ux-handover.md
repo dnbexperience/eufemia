@@ -1,6 +1,6 @@
 ---
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.730Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.492Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -19,28 +19,48 @@ Remember, everything should be in the **8px grid** (0.5rem) spacing - even it th
 1. Select an area by a single _click_.
 2. _Hover_ on the next areas to see the spacing between them.
 
-![What spacing is used](./assets/ux-handover-spacing.png)
+<InlineImg
+  src={UxHandoverSpacing}
+  caption="What spacing is used"
+  width="auto"
+  className="blank x-10"
+/>
 
 ## Components
 
 1. Select a component by a single _click_.
 2. Have a look at the _Pages_ pane on the left side.
 
-![What component is used](./assets/ux-handover-component.png)
+<InlineImg
+  src={UxHandoverComponent}
+  caption="What component is used"
+  width="auto"
+  className="blank x-10"
+/>
 
 ## Typography
 
 1. Select a text by a single _click_.
 2. Have a look at the _Properties_ pane on the right side.
 
-![What typography is used](./assets/ux-handover-typography.png)
+<InlineImg
+  src={UxHandoverTypography}
+  caption="What typography is used"
+  width="auto"
+  className="blank x-10"
+/>
 
 ## Color
 
 1. Select an area by a single _click_.
 2. Have a look at the _Properties_ pane on the right side. Only use the color name as the reference. Do not copy HEX codes.
 
-![What color is used](./assets/ux-handover-color.png)
+<InlineImg
+  src={UxHandoverColor}
+  caption="What color is used"
+  width="auto"
+  className="blank x-10"
+/>
 
 <IntroFooter
   href="/uilib/intro/05-eufemia-for-developers"

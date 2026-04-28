@@ -1,7 +1,7 @@
 ---
 title: 'CSS classes'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.725Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.486Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -140,6 +140,12 @@ render(
   </Wrapper>
 )
 ```
+
+## Page background
+
+`dnb-page-background`
+
+Sets the page background color using the `--token-color-background-page-background` design token. Use this class on a root element (such as `body` or a wrapper) to ensure a themed background color that adapts to light and dark modes.
 
 ## Drop shadow
 

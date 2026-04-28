@@ -1,0 +1,265 @@
+---
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.539Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+## Guide contents
+
+- [Guide contents](#guide-contents)
+- [Choosing the right token](#choosing-the-right-token)
+- [Token selection by role](#token-selection-by-role)
+- [Token selection by state](#token-selection-by-state)
+  - [Interaction states](#interaction-states)
+  - [Status states](#status-states)
+  - [Modifiers](#modifiers)
+- [Practical examples](#practical-examples)
+  - [Custom action card](#custom-action-card)
+  - [Status banner](#status-banner)
+  - [Input-like field](#input-like-field)
+- [Patterns learned from Eufemia components](#patterns-learned-from-eufemia-components)
+  - [Use local CSS variables to simplify state handling](#use-local-css-variables-to-simplify-state-handling)
+  - [Use semantic tokens, not component tokens](#use-semantic-tokens-not-component-tokens)
+  - [Focus uses the shared action-focus tokens](#focus-uses-the-shared-action-focus-tokens)
+  - [Use decorative tokens only for decoration](#use-decorative-tokens-only-for-decoration)
+  - [Dark surfaces use `ondark` tokens](#dark-surfaces-use-ondark-tokens)
+- [Decision checklist](#decision-checklist)
+- [Common mistakes](#common-mistakes)
+
+## Choosing the right token
+
+When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
+
+All Eufemia components already use design tokens. Their stylesheets are the best reference for how to apply tokens correctly. When you are unsure which token to use, inspect the Eufemia component that is closest to what you are building.
+
+## Token selection by role
+
+Every color in a component has a semantic role. Identify the role first, then pick the matching token section.
+
+| Role                 | Token section | Example                                      |
+| -------------------- | ------------- | -------------------------------------------- |
+| Readable text        | `text`        | `--token-color-text-neutral`                 |
+| Icon                 | `icon`        | `--token-color-icon-action`                  |
+| Background / fill    | `background`  | `--token-color-background-action`            |
+| Border / outline     | `stroke`      | `--token-color-stroke-action`                |
+| Focus ring           | `stroke`      | `--token-color-stroke-action-focus`          |
+| Branded / decorative | `decorative`  | `--token-color-decorative-first-bold-static` |
+
+## Token selection by state
+
+After the role, identify the interaction or status state. Tokens encode states as suffixes.
+
+### Interaction states
+
+| State    | Suffix example | When to use                         |
+| -------- | -------------- | ----------------------------------- |
+| Default  | (no suffix)    | Resting state                       |
+| Hover    | `-hover`       | Pointer over an interactive element |
+| Pressed  | `-pressed`     | Mouse down or touch active          |
+| Focus    | `-focus`       | Keyboard focus ring and background  |
+| Disabled | `-disabled`    | Non-interactive, visually muted     |
+| Selected | `-selected`    | Currently chosen item in a group    |
+
+### Status states
+
+| Status      | Suffix example | When to use                      |
+| ----------- | -------------- | -------------------------------- |
+| Error       | `-error`       | Validation failure               |
+| Destructive | `-destructive` | Dangerous or irreversible action |
+| Positive    | `-positive`    | Success or upward trend          |
+| Warning     | `-warning`     | Caution, needs attention         |
+| Information | `-info`        | Neutral informational notice     |
+
+### Modifiers
+
+| Modifier   | Meaning                                           |
+| ---------- | ------------------------------------------------- |
+| `-subtle`  | Lower-contrast variant, typically for backgrounds |
+| `-inverse` | For use on a filled action surface                |
+| `-ondark`  | For use on a dark surface                         |
+| `-static`  | Does not change with light/dark mode              |
+
+## Practical examples
+
+### Custom action card
+
+```scss
+.my-action-card {
+  background-color: var(--token-color-background-neutral);
+  color: var(--token-color-text-neutral);
+  box-shadow: inset 0 0 0 0.0625rem
+    var(--token-color-stroke-neutral-subtle);
+
+  &:hover {
+    box-shadow: 0 0 0 0.125rem var(--token-color-stroke-action-hover);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 var(--focus-ring-width)
+      var(--token-color-stroke-action-focus);
+    outline: none;
+  }
+
+  &--selected {
+    background-color: var(--token-color-background-selected-subtle);
+    box-shadow: inset 0 0 0 0.0625rem var(--token-color-stroke-selected);
+  }
+
+  &--disabled {
+    color: var(--token-color-text-action-disabled);
+    box-shadow: inset 0 0 0 0.0625rem
+      var(--token-color-stroke-action-disabled);
+  }
+}
+```
+
+### Status banner
+
+```scss
+.my-banner {
+  &--error {
+    background-color: var(--token-color-background-error-subtle);
+    color: var(--token-color-text-neutral);
+  }
+
+  &--warning {
+    background-color: var(--token-color-background-warning-subtle);
+    color: var(--token-color-text-neutral);
+  }
+
+  &--success {
+    background-color: var(--token-color-background-positive-subtle);
+    color: var(--token-color-text-neutral);
+  }
+}
+```
+
+### Input-like field
+
+```scss
+.my-field {
+  --field-border-color: var(--token-color-stroke-action);
+  --field-border-width: 0.0625rem;
+  --field-border-inset: inset;
+  --field-background: var(--token-color-background-neutral);
+  --field-text-color: var(--token-color-text-neutral);
+  --field-placeholder-color: var(--token-color-text-neutral-alternative);
+
+  color: var(--field-text-color);
+  background-color: var(--field-background);
+  box-shadow: var(--field-border-inset) 0 0 0 var(--field-border-width)
+    var(--field-border-color);
+
+  &::placeholder {
+    color: var(--field-placeholder-color);
+  }
+
+  &:hover {
+    --field-border-color: var(--token-color-stroke-action-hover);
+    --field-border-width: 0.125rem;
+    --field-border-inset: ;
+  }
+
+  &:focus {
+    --field-border-color: var(--token-color-stroke-action-pressed);
+    --field-border-width: 0.125rem;
+    --field-border-inset: ;
+  }
+
+  &--error {
+    --field-border-color: var(--token-color-stroke-error);
+  }
+
+  &[disabled] {
+    --field-border-color: var(--token-color-stroke-action-disabled);
+    --field-background: var(--token-color-background-neutral-subtle);
+    --field-placeholder-color: var(--token-color-text-action-disabled);
+  }
+}
+```
+
+## Patterns learned from Eufemia components
+
+Eufemia components already follow these patterns consistently. Use them as a reference when building your own.
+
+### Use local CSS variables to simplify state handling
+
+When multiple child elements need to react to the same state, define a local CSS variable on the parent and point it at the right token for each state. This is cleaner than repeating tokens across many selectors.
+
+Eufemia's Input component does this: it defines `--input-border-color`, `--input-background-color`, and `--input-color-text` at the component root and swaps token values for hover, focus, disabled, and error.
+
+Eufemia's Button component does the same with `--button-color-bg`, `--button-color-text`, and `--button-color-icon`, then each variant (primary, secondary, tertiary) reassigns those variables to different tokens.
+
+### Use semantic tokens, not component tokens
+
+The `--token-color-component-*` tokens are reserved for Eufemia's own components. Application code should use the semantic tokens from the `background`, `text`, `icon`, `stroke`, and `decorative` sections.
+
+Semantic tokens express shared design-system meanings such as "action text" or "neutral background". They adapt automatically across themes.
+
+### Focus uses the shared action-focus tokens
+
+For keyboard focus styling, use the action-focus family:
+
+- `--token-color-stroke-action-focus` for the focus ring
+- `--token-color-background-action-focus-subtle` for the focus background
+- `--token-color-text-action-focus` for text inside a focused element
+- `--token-color-icon-action-focus` for icons inside a focused element
+
+Every interactive Eufemia component — Button, Input, Tag, Menu, Tabs, List — uses these same tokens for focus. Your custom components should follow the same pattern.
+
+### Use decorative tokens only for decoration
+
+Decorative tokens are for branded or ornamental surfaces, not for UI states. If the color represents an error, a hover, or a selection, use the matching semantic token instead.
+
+### Dark surfaces use `ondark` tokens
+
+The `ondark` suffix identifies token variants designed for use on dark backgrounds. Eufemia components use these tokens automatically when `surface="dark"` is active — you do not need to select them yourself.
+
+When your component sits on a dark background, use the `ondark` suffixed tokens for text, icons, and strokes:
+
+```scss
+.my-component--dark {
+  color: var(--token-color-text-action-ondark);
+  border-color: var(--token-color-stroke-action-ondark);
+
+  .my-component__icon {
+    color: var(--token-color-icon-action-ondark);
+  }
+}
+```
+
+To detect the surface in React, use the `useTheme` hook:
+
+```tsx
+import { useTheme } from '@dnb/eufemia/shared'
+
+function MyComponent() {
+  const theme = useTheme()
+  const isDark = theme?.surface === 'dark'
+
+  return (
+    <div className={clsx('my-component', isDark && 'my-component--dark')}>
+      ...
+    </div>
+  )
+}
+```
+
+## Decision checklist
+
+When styling a custom component:
+
+1. What is the role of this color? (text, icon, background, stroke, decorative)
+1. What state is it in? (default, hover, focus, pressed, disabled, selected, error, etc.)
+1. Does an Eufemia component with similar behavior already exist? If yes, check which tokens it uses.
+1. Use the semantic token that matches both role and state.
+1. If multiple children share a state, introduce a local CSS variable.
+1. Never pick a token by matching hex values. Pick by semantic meaning.
+
+## Common mistakes
+
+- Picking a token because its current color value matches an old hardcoded color.
+- Using `--token-color-component-*` tokens in application code — these are internal to Eufemia components.
+- Using decorative tokens for UI states like error, hover, or disabled.
+- Hardcoding `ondark` tokens without checking the surface context.
+- Repeating the same token in many selectors instead of using a local CSS variable.

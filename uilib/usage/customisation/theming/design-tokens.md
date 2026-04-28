@@ -1,8 +1,8 @@
 ---
 title: 'Design Tokens (WIP)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.787Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.542Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -31,6 +31,8 @@ They follow the naming pattern `--token-color-{section}-{role}` and are the reco
 Design tokens are included when you import a Eufemia theme. No separate import is needed.
 
 Read more about how to use design tokens in your own styles, and how Eufemia components use them internally, in the [Theming](/uilib/usage/customisation/theming#design-tokens) section.
+
+For practical guidance on choosing the right tokens for your application components, see the [Guide](/uilib/usage/customisation/theming/design-tokens/guide).
 
 ## Common patterns
 
@@ -107,22 +109,7 @@ And the component internally moves that value to a token-based custom property, 
 
 The `ondark` suffix identifies token variants designed for use on dark backgrounds. Eufemia components use these tokens automatically when `surface="dark"` is active — you do not need to select them yourself.
 
-When building **custom components** that need to respond to dark surfaces, read the surface value from context with the `useTheme` hook and switch tokens accordingly:
-
-```tsx
-import { useTheme } from '@dnb/eufemia/shared'
-
-function MyComponent() {
-  const theme = useTheme()
-  const isDark = theme?.surface === 'dark'
-
-  return (
-    <div className={clsx('my-component', isDark && 'my-component--dark')}>
-      ...
-    </div>
-  )
-}
-```
+For practical guidance on using `ondark` tokens in your own components, see the [Guide](/uilib/usage/customisation/theming/design-tokens/guide#dark-surfaces-use-ondark-tokens).
 
 ## Tailwind CSS integration
 

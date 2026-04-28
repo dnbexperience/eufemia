@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:50.525Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:20.781Z
 checksum: 9b3d85ff383f644146403bec9af2546f8de522083d52c96efda7ea30b6719362
 ---
 
@@ -33,14 +33,12 @@ There are two variants of the Dialog component: `information` and `confirmation`
   width="auto"
   src={DialogInformExample}
   caption="Example of an informational Dialog"
-  className="mint-green-12"
 />
 <InlineImg
   height="230"
   width="auto"
   src={DialogConfirmExample}
   caption="Example of a confirmation Dialog"
-  className="mint-green-12"
 />
 
 The informational variant (`information`) is used for informational purposes, for example explaining a word or something on the page. It has to be triggered by the user to appear. Typical usage would be to read an explanation, then close it.

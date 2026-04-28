@@ -1,7 +1,7 @@
 ---
 title: 'Theming'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.789Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.544Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -67,39 +67,42 @@ Use the `var()` function to reference a token in your CSS:
 When writing custom component styles, you can use design tokens with the `var(--token-*)` syntax. For example:
 
 ```scss
-.my-component {
+.my-component__title--warning {
   color: var(--token-color-text-warning);
 }
 ```
 
 ### Dark surfaces
 
-Use `surface="dark"` to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
+Use `surface="dark"` on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
 
 For example, a button that normally uses `--token-color-background-action-hover` will switch to `--token-color-background-action-hover-ondark` when `surface="dark"` is active.
 
 Read more about `ondark` tokens and how to use them in custom components in the [Design Tokens](/uilib/usage/customisation/theming/design-tokens/info/#ondark-tokens) section.
 
-#### How `surface` works
+Read more about the [surface](/uilib/usage/customisation/theming/theme/) property.
 
-The `surface` prop is passed through **React context**, not through a global CSS class. When you set `surface="dark"` on a `<Theme>`, `<Theme.Context>`, or on a supporting component like [Section](/uilib/components/section/), the value is stored in the Eufemia theme context. Individual components that support dark surfaces — such as [Button](/uilib/components/button/) or [Anchor](/uilib/components/anchor/) — read the surface value from context and apply their own component-level CSS class (e.g. `dnb-button--surface-dark`, `dnb-anchor--surface-dark`).
+## Dark mode / Color scheme
 
-Wrap an area with `<Theme.Context>` or `<Section>` to propagate the surface context to all supporting components inside:
+Use the `colorScheme` prop on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to control dark and light mode.
 
-```jsx
-<Theme.Context surface="dark">
-  <Button>I adapt automatically</Button>
-  <Anchor href="/path">So do I</Anchor>
-</Theme.Context>
+When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
+
+Dark mode tokens are not included in the default theme import. You need to import them separately:
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+// Required: import dark mode tokens
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css' // If style isolation is used
+
+render(
+  <Theme colorScheme="auto">
+    <App />
+  </Theme>
+)
 ```
 
-Use `surface="initial"` to reset components back to their default behavior inside a dark surface context:
+When the `eufemia-theme__color-scheme--dark` class is active, the dark tokens override the same CSS custom property names with dark-appropriate values. For example, `--token-color-background-page-background` switches from `--dnb-greyscale-0` (white) to `--dnb-greyscale-1000` (dark).
 
-```jsx
-<Section surface="dark">
-  <Button>Dark surface button</Button>
-  <Theme.Context surface="initial">
-    <Button>Default surface button</Button>
-  </Theme.Context>
-</Section>
-```
+Read more about the [colorScheme](/uilib/usage/customisation/theming/theme/) property, including [preventing dark mode flash (FOUC)](/uilib/usage/customisation/theming/theme/#preventing-dark-mode-flash-fouc) for SSR considerations.

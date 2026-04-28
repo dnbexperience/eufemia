@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:50.611Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:20.862Z
 checksum: 9ab15f87276c87bf659491ebc7970a6033329a90d8cf417f7362df8c8a620fb2
 ---
 

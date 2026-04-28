@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
 description: 'Popover renders its own floating surface anchored to a trigger element. (For internal use only)'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:50.740Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:20.983Z
 checksum: 280c0cdc84655528d374cb911e58db65b02dc2b230f5741e9dee28ff08950843
 ---
 

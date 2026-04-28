@@ -1,8 +1,8 @@
 ---
-title: 'AI and Tools'
+title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.794Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.550Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,14 +14,14 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 If your AI coding agent supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
 
-But first, make sure you have installed `@dnb/eufemia` in your project:
+But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/sdk` in your project:
 
 ```bash
-npm install @dnb/eufemia
+npm install @dnb/eufemia @modelcontextprotocol/sdk
 # or
-yarn add @dnb/eufemia
+yarn add @dnb/eufemia @modelcontextprotocol/sdk
 # or
-pnpm add @dnb/eufemia
+pnpm add @dnb/eufemia @modelcontextprotocol/sdk
 ```
 
 Run the server from your project (where `@dnb/eufemia` is installed):

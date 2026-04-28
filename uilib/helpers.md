@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.728Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.489Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -37,6 +37,7 @@ You can use the internal Eufemia easing function.
 - [dnb-spacing](/uilib/helpers/classes#spacing): Sets a default spacing on all nested HTML elements.
 - [dnb-scrollbar-appearance](/uilib/helpers/classes#scrollbar-appearance): Defines the DNB scrollbar appearance.
 - [dnb-sr-only](/uilib/helpers/classes#screen-reader-sr-only): An element that is reachable by screen readers, but is visually hidden.
+- [dnb-page-background](/uilib/helpers/classes#page-background): Sets the themed page background color.
 - [dnb-drop-shadow](/uilib/helpers/classes#drop-shadow): Adds the default drop shadow to the component.
 - [dnb-sharp-drop-shadow](/uilib/helpers/classes#sharp-drop-shadow): Adds the sharp drop shadow to the component.
 - [dnb-responsive-component](/uilib/helpers/classes#responsive-component): Makes the component react to small sized screens.

@@ -1,6 +1,6 @@
 ---
-version: 11.0.1
-generatedAt: 2026-04-24T10:40:51.729Z
+version: 11.0.2
+generatedAt: 2026-04-28T04:47:22.491Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -53,7 +53,12 @@ And all form components includes the [FormStatus](/uilib/components/form-status)
 
 ---
 
-![How it not should be](./assets/dnb-screenshot-about-font-size.png)
+<InlineImg
+  src={FontSizeScreenshot}
+  caption="How it not should be"
+  width="auto"
+  className="blank x-10"
+/>
 
 ---
 
