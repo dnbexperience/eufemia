@@ -21,11 +21,13 @@ export class InteractionInvalidation {
   bypassElements: Array<TargetElement>
   bypassSelectors: Array<TargetSelector>
   _nodesToInvalidate: Array<HTMLElementNode>
+  _observer: MutationObserver | null
   options: InteractionInvalidationOptions
 
   constructor(options: InteractionInvalidationOptions = null) {
     this.bypassElements = []
     this.bypassSelectors = []
+    this._observer = null
     this.options = options || {}
     return this
   }
@@ -47,10 +49,15 @@ export class InteractionInvalidation {
   activate(targetElement: TargetElement | TargetSelector = null) {
     if (!this._nodesToInvalidate) {
       this._runInvalidation(targetElement)
+
+      if (!targetElement) {
+        this._observeNewElements()
+      }
     }
   }
 
   revert() {
+    this._disconnectObserver()
     this._revertInvalidation()
     this._nodesToInvalidate = null
   }
@@ -73,24 +80,7 @@ export class InteractionInvalidation {
         continue
       }
 
-      if (this.options.tabIndex !== false) {
-        const tabIndex = node.getAttribute('tabindex')
-        if (tabIndex !== null && typeof node.__tabIndex === 'undefined') {
-          node.__tabIndex = tabIndex
-        }
-        node.setAttribute('tabindex', '-1')
-      }
-
-      if (this.options.ariaHidden !== false) {
-        const ariaHidden = node.getAttribute('aria-hidden')
-        if (
-          ariaHidden !== null &&
-          typeof node.__ariaHidden === 'undefined'
-        ) {
-          node.__ariaHidden = ariaHidden
-        }
-        node.setAttribute('aria-hidden', 'true')
-      }
+      this._invalidateSingleNode(node)
     }
   }
 
@@ -210,5 +200,117 @@ export class InteractionInvalidation {
     }
 
     return undefined
+  }
+
+  _isNodeBypassed(node: HTMLElement): boolean {
+    if (this.bypassElements.includes(node)) {
+      return true
+    }
+
+    for (const bypassElement of this.bypassElements) {
+      if (bypassElement.contains(node)) {
+        return true
+      }
+    }
+
+    for (const selector of this.bypassSelectors) {
+      try {
+        const baseSelector = selector.replace(/\s+\*$/, '')
+        if (!baseSelector) {
+          continue
+        }
+
+        if (node.matches(baseSelector)) {
+          return true
+        }
+
+        if (node.closest(baseSelector)) {
+          return true
+        }
+      } catch (e) {
+        // Invalid selector, skip
+      }
+    }
+
+    return false
+  }
+
+  _invalidateSingleNode(node: HTMLElementNode) {
+    if (this.options.tabIndex !== false) {
+      const tabIndex = node.getAttribute('tabindex')
+      if (tabIndex !== null && typeof node.__tabIndex === 'undefined') {
+        node.__tabIndex = tabIndex
+      }
+      node.setAttribute('tabindex', '-1')
+    }
+
+    if (this.options.ariaHidden !== false) {
+      const ariaHidden = node.getAttribute('aria-hidden')
+      if (
+        ariaHidden !== null &&
+        typeof node.__ariaHidden === 'undefined'
+      ) {
+        node.__ariaHidden = ariaHidden
+      }
+      node.setAttribute('aria-hidden', 'true')
+    }
+  }
+
+  _observeNewElements() {
+    if (typeof MutationObserver === 'undefined') {
+      return // stop here
+    }
+
+    const skipTags = ['SCRIPT', 'STYLE', 'PATH']
+
+    this._observer = new MutationObserver((mutations) => {
+      if (!this._nodesToInvalidate) {
+        return // stop here
+      }
+
+      for (const mutation of mutations) {
+        for (const addedNode of Array.from(mutation.addedNodes)) {
+          if (addedNode.nodeType !== Node.ELEMENT_NODE) {
+            continue
+          }
+
+          const element = addedNode as HTMLElementNode
+
+          if (this._isNodeBypassed(element)) {
+            continue
+          }
+
+          if (!skipTags.includes(element.tagName)) {
+            this._invalidateSingleNode(element)
+            this._nodesToInvalidate.push(element)
+          }
+
+          const descendants = element.querySelectorAll(
+            '*'
+          ) as NodeListOf<HTMLElementNode>
+          for (const descendant of Array.from(descendants)) {
+            if (
+              !skipTags.includes(descendant.tagName) &&
+              !this._isNodeBypassed(descendant)
+            ) {
+              this._invalidateSingleNode(descendant)
+              this._nodesToInvalidate.push(descendant)
+            }
+          }
+        }
+      }
+    })
+
+    this._observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    })
+  }
+
+  _disconnectObserver() {
+    if (this._observer) {
+      this._observer.disconnect()
+      this._observer = null
+    }
   }
 }
