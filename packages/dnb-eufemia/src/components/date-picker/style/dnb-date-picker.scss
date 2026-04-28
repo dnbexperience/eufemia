@@ -46,7 +46,7 @@
   &__container {
     width: min-content;
     border-radius: 0.25rem;
-    background-color: var(--color-white);
+    background-color: var(--token-color-background-neutral);
 
     // Supports backwards compatibility with Nucleus and scenarios,
     // where both unscoped and scoped styles are imported together (both position and top).
@@ -190,7 +190,7 @@
       bottom: 0;
       width: calc(100% - 2rem);
       height: 1px;
-      background-color: var(--color-black-8);
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
   }
 
@@ -207,7 +207,7 @@
 
     // border
     &::after {
-      background-color: var(--color-black-8);
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
 
     &--only-month-label {
@@ -227,8 +227,13 @@
       }
     }
 
-    &__nav .dnb-button {
-      box-shadow: none;
+    &__nav {
+      .dnb-button:not(:hover):not(:focus-visible) {
+        box-shadow: none;
+      }
+      .dnb-button:hover:not(:active):not(:focus-visible) {
+        background-color: var(--token-color-background-neutral);
+      }
     }
 
     &__title {
@@ -237,7 +242,7 @@
 
       font-size: var(--font-size-basis);
       font-weight: var(--font-weight-medium);
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral);
     }
   }
 
@@ -255,7 +260,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: var(--color-black-8);
+      background-color: var(--token-color-stroke-neutral-subtle);
     }
   }
 
@@ -287,7 +292,7 @@
 
       text-transform: capitalize;
       font-weight: var(--font-weight-medium);
-      color: var(--color-black-80);
+      color: var(--token-color-text-neutral);
     }
   }
 
@@ -401,18 +406,22 @@
     &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(
         #{&}--end-date
       ) {
-      background-color: var(--color-mint-green-50);
+      // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
+      background-color: var(--token-color-background-action-hover-subtle);
     }
 
     &--start-date:not(#{&}--inactive),
     &--end-date:not(#{&}--inactive) {
       &::after {
-        background-color: var(--color-mint-green-50);
+        // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
+        background-color: var(
+          --token-color-background-action-hover-subtle
+        );
       }
 
       .dnb-button {
-        color: var(--color-mint-green-25);
-        background-color: var(--color-emerald-green);
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action);
       }
     }
     &--start-date:not(#{&}--inactive):not(#{&}--preview),
@@ -424,14 +433,45 @@
       }
     }
 
+    // Hover states for checked date buttons
     html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
     html:not([data-whatintent='touch'])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
-      color: var(--color-mint-green-25);
-      background-color: var(--color-emerald-green);
+      color: var(--token-color-text-action);
+      background-color: var(--token-color-background-neutral);
+
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-pressed),
+        0.125rem
+      );
+    }
+
+    // Active states for start and end date buttons
+    html:not([data-whatintent='touch'])
+      &--start-date#{&}--within-selection
+      .dnb-button:active:not([disabled]),
+    html:not([data-whatintent='touch'])
+      &--end-date#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      color: var(--token-color-text-action-pressed);
+      background-color: var(--token-color-background-action-hover-subtle);
+      box-shadow: none;
+      border: transparent;
+    }
+
+    html:not([data-whatintent='touch'])
+      &--start-date:not(#{&}--end-date)#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      border-radius: 50% 0 0 50%;
+    }
+
+    html:not([data-whatintent='touch'])
+      &--end-date:not(#{&}--start-date)#{&}--within-selection
+      .dnb-button:active:not([disabled]) {
+      border-radius: 0 50% 50% 0;
     }
 
     &--disabled .dnb-button {
@@ -439,7 +479,7 @@
     }
 
     &--inactive .dnb-button {
-      color: var(--color-black-55);
+      color: var(--token-color-text-neutral-alternative);
     }
 
     &--inactive .dnb-button,
@@ -547,37 +587,10 @@
     line-height: var(--date-picker-input-height);
 
     .dnb-popover {
-      --popover-background-color: var(--color-white);
+      --popover-background-color: var(--token-color-background-neutral);
       --popover-border-radius: 0.25rem;
 
       @include utilities.sharpDropShadow();
-    }
-  }
-
-  &--open .dnb-input,
-  &:not(#{&}__status--error)
-    .dnb-form-label:hover
-    ~ &__inner
-    .dnb-input:not([data-input-state='disabled']) {
-    .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
-    }
-  }
-
-  &--open .dnb-button--input-button.dnb-button--selected {
-    --button-color-bg--default: var(--button-color-bg--active);
-    --button-color-icon--default: var(--button-color-icon--active);
-    --button-input-separator-color--default: var(
-      --button-input-separator-color--active
-    );
-  }
-
-  &__status--error:not(#{&}--open)
-    .dnb-form-label:hover
-    ~ &__inner
-    .dnb-input:not([data-input-state='disabled']) {
-    .dnb-input__shell {
-      @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
     }
   }
 }
