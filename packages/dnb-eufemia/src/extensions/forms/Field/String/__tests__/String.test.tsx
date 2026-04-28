@@ -1675,6 +1675,11 @@ describe('Field.String', () => {
   it('should store "displayValue" in data context', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.String
@@ -1682,12 +1687,7 @@ describe('Field.String', () => {
           mask={[/\d/, /\d/, /\d/, ' ', 'kr']}
           defaultValue="123"
         />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1783,6 +1783,11 @@ describe('Field.String', () => {
   it('should store "displayValue" when inside iterate', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext)
+      return null
+    }
+
     render(
       <Form.Handler
         defaultData={{ myArray: [{ myValue: '123' }, { myValue: '456' }] }}
@@ -1795,12 +1800,7 @@ describe('Field.String', () => {
           />
         </Iterate.Array>
 
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 

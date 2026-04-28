@@ -3361,6 +3361,16 @@ describe('DataContext.Provider', () => {
         const handleSubmitRequest = jest.fn()
         const onSubmitRequest: OnSubmitRequest = jest.fn()
 
+        const SetFieldEventListener = () => {
+          const context = React.useContext(DataContext.Context)
+          context.setFieldEventListener?.(
+            '/',
+            'onSubmitRequest',
+            handleSubmitRequest
+          )
+          return null
+        }
+
         render(
           <DataContext.Provider onSubmitRequest={onSubmitRequest}>
             <Field.String
@@ -3372,17 +3382,7 @@ describe('DataContext.Provider', () => {
             <Field.String label="Bar" path="/bar" required />
             <Form.SubmitButton />
 
-            <DataContext.Consumer>
-              {(context) => {
-                context.setFieldEventListener?.(
-                  '/',
-                  'onSubmitRequest',
-                  handleSubmitRequest
-                )
-
-                return null
-              }}
-            </DataContext.Consumer>
+            <SetFieldEventListener />
           </DataContext.Provider>
         )
 
@@ -4169,6 +4169,11 @@ describe('DataContext.Provider', () => {
     it('should use a random number as the value of "showAllErrors" when setShowAllErrors with true is called', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       const MockComponent = () => {
         const { setShowAllErrors } = useContext(DataContext.Context)
 
@@ -4187,12 +4192,7 @@ describe('DataContext.Provider', () => {
               }}
             />
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </>
         )
       }
@@ -6247,14 +6247,14 @@ describe('DataContext.Provider', () => {
     it('should return undefined when no countryCode', async () => {
       let currentContext: ContextState = null
 
+      const ContextConsumer = () => {
+        currentContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler>
-          <DataContext.Consumer>
-            {(context) => {
-              currentContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -6264,15 +6264,15 @@ describe('DataContext.Provider', () => {
     it('should support countryCode given as a path', async () => {
       let currentContext: ContextState = null
 
+      const ContextConsumer = () => {
+        currentContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler countryCode="/countryCode">
           <Field.String path="/countryCode" defaultValue="SE" />
-          <DataContext.Consumer>
-            {(context) => {
-              currentContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -6289,18 +6289,18 @@ describe('DataContext.Provider', () => {
     it('should support countryCode given as a path with value in data context', async () => {
       let currentContext: ContextState = null
 
+      const ContextConsumer = () => {
+        currentContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler
           countryCode="/countryCode"
           defaultData={{ countryCode: 'SE' }}
         >
           <Field.String path="/countryCode" />
-          <DataContext.Consumer>
-            {(context) => {
-              currentContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 

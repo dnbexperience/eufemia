@@ -2944,6 +2944,11 @@ describe('PushContainer', () => {
     it('should add item to the correct array', async () => {
       let collectedData = null
 
+      const ContextConsumer = () => {
+        collectedData = React.useContext(DataContext).data
+        return null
+      }
+
       render(
         <Form.Handler
           data={{
@@ -2961,12 +2966,7 @@ describe('PushContainer', () => {
             </Iterate.PushContainer>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 

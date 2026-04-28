@@ -259,6 +259,11 @@ describe('PushButton', () => {
     it('should add item to the correct array', async () => {
       let collectedData = null
 
+      const ContextConsumer = () => {
+        collectedData = React.useContext(DataContext.Context).data
+        return null
+      }
+
       render(
         <Form.Handler
           data={{
@@ -274,12 +279,7 @@ describe('PushButton', () => {
             <Iterate.PushButton itemPath="/inner" pushValue="bar" />
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -324,6 +324,16 @@ describe('PushButton', () => {
       let outerData = null
       let pushContainerData = null
 
+      const OuterContextConsumer = () => {
+        outerData = React.useContext(DataContext.Context).data
+        return null
+      }
+
+      const PushContainerContextConsumer = () => {
+        pushContainerData = React.useContext(DataContext.Context).data
+        return null
+      }
+
       render(
         <Form.Handler>
           <Iterate.Array path="/outer">
@@ -341,20 +351,10 @@ describe('PushButton', () => {
 
             <Iterate.PushButton itemPath="/inner" pushValue="new value" />
 
-            <DataContext.Consumer>
-              {(context) => {
-                pushContainerData = context.data
-                return null
-              }}
-            </DataContext.Consumer>
+            <PushContainerContextConsumer />
           </Iterate.PushContainer>
 
-          <DataContext.Consumer>
-            {(context) => {
-              outerData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <OuterContextConsumer />
         </Form.Handler>
       )
 
@@ -392,6 +392,11 @@ describe('PushButton', () => {
 
     it('should stay in edit mode when pushing new item (with changed items beforehand)', async () => {
       let outerData = null
+
+      const OuterContextConsumer = () => {
+        outerData = React.useContext(DataContext.Context).data
+        return null
+      }
 
       let containerModeOfFirstItem = null
 
@@ -433,12 +438,7 @@ describe('PushButton', () => {
             content
           </Iterate.PushContainer>
 
-          <DataContext.Consumer>
-            {(context) => {
-              outerData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <OuterContextConsumer />
         </Form.Handler>
       )
 

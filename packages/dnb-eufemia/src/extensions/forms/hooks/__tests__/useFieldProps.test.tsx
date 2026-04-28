@@ -7038,31 +7038,34 @@ describe('useFieldProps', () => {
       let fieldBoundaryContextError = null
       let hasInvalidStepsState = null
 
+      const DataContextConsumer = () => {
+        dataContextError = React.useContext(Context).hasVisibleError
+        return null
+      }
+
+      const FieldBoundaryConsumer = () => {
+        fieldBoundaryContextError = React.useContext(
+          FieldBoundaryContext
+        ).hasVisibleError
+        return null
+      }
+
+      const WizardContextConsumer = () => {
+        hasInvalidStepsState =
+          React.useContext(WizardContext).hasInvalidStepsState
+        return null
+      }
+
       const MockComponent = () => {
         return (
           <Form.Handler>
             <FieldBoundaryProvider>
               <Wizard.Container>
-                <DataContext.Consumer>
-                  {(context) => {
-                    dataContextError = context.hasVisibleError
-                    return null
-                  }}
-                </DataContext.Consumer>
+                <DataContextConsumer />
 
-                <FieldBoundaryContext.Consumer>
-                  {(context) => {
-                    fieldBoundaryContextError = context.hasVisibleError
-                    return null
-                  }}
-                </FieldBoundaryContext.Consumer>
+                <FieldBoundaryConsumer />
 
-                <WizardContext.Consumer>
-                  {(context) => {
-                    hasInvalidStepsState = context.hasInvalidStepsState
-                    return null
-                  }}
-                </WizardContext.Consumer>
+                <WizardContextConsumer />
 
                 <Wizard.Step title="Step 1">
                   <Field.Selection

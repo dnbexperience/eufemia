@@ -844,15 +844,15 @@ describe('Field.SelectCurrency', () => {
   it('should store "displayValue" in data context', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext)
+      return null
+    }
+
     render(
       <Form.Handler locale="en-GB">
         <Field.SelectCurrency path="/currency" defaultValue="NOK" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 

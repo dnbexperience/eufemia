@@ -804,6 +804,11 @@ describe('variants', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -825,12 +830,7 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -1323,6 +1323,11 @@ describe('variants', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -1344,12 +1349,7 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -1860,6 +1860,11 @@ describe('variants', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -1881,12 +1886,7 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -2631,6 +2631,11 @@ describe('variants', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -2652,12 +2657,7 @@ describe('variants', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 

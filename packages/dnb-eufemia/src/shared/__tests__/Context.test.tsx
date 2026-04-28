@@ -53,21 +53,22 @@ describe('Context', () => {
     )
   }
 
+  const MagicContextInner = ({ children = null, ...props }) => {
+    const context = React.useContext(Context)
+    const title = context.getTranslation(props).HelpButton.title
+    return (
+      <>
+        <p>{title}</p>
+        <ChangeLocale />
+        {children}
+      </>
+    )
+  }
+
   const MagicContext = ({ children = null, ...props }) => {
     return (
       <Provider>
-        <Context.Consumer>
-          {(context) => {
-            const title = context.getTranslation(props).HelpButton.title
-            return (
-              <>
-                <p>{title}</p>
-                <ChangeLocale />
-                {children}
-              </>
-            )
-          }}
-        </Context.Consumer>
+        <MagicContextInner {...props}>{children}</MagicContextInner>
       </Provider>
     )
   }
@@ -127,14 +128,14 @@ describe('Context', () => {
   it('should support fallback "translation" for non-existent locale', () => {
     let translation = undefined
 
+    const TranslationConsumer = () => {
+      translation = React.useContext(Context).translation
+      return null
+    }
+
     render(
       <Provider locale="non-existent">
-        <Context.Consumer>
-          {(context) => {
-            translation = context.translation
-            return null
-          }}
-        </Context.Consumer>
+        <TranslationConsumer />
       </Provider>
     )
 
@@ -143,6 +144,24 @@ describe('Context', () => {
   })
 
   it('should preserve all translations when Provider supplies partial translations', () => {
+    const TranslationRenderer = () => {
+      const context = React.useContext(Context)
+      const translation = context.getTranslation({
+        locale: 'sv-SE',
+      })
+
+      return (
+        <>
+          <p data-testid="datepicker-month">
+            {translation.DatePicker.month}
+          </p>
+          <p data-testid="helpbutton-title">
+            {translation.HelpButton.title}
+          </p>
+        </>
+      )
+    }
+
     const { unmount } = render(
       <Provider
         locale="sv-SE"
@@ -155,24 +174,7 @@ describe('Context', () => {
           },
         }}
       >
-        <Context.Consumer>
-          {(context) => {
-            const translation = context.getTranslation({
-              locale: 'sv-SE',
-            })
-
-            return (
-              <>
-                <p data-testid="datepicker-month">
-                  {translation.DatePicker.month}
-                </p>
-                <p data-testid="helpbutton-title">
-                  {translation.HelpButton.title}
-                </p>
-              </>
-            )
-          }}
-        </Context.Consumer>
+        <TranslationRenderer />
       </Provider>
     )
 

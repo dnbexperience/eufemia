@@ -65,21 +65,16 @@ describe('flatten translations', () => {
 
 describe('context.getTranslation', () => {
   const MagicContext = (props) => {
+    const context = React.useContext(Context)
+    const title = context.getTranslation(props).HelpButton.title
+    const otherString =
+      context.getTranslation(props).HelpButton?.['other']?.string
     return (
-      <Context.Consumer>
-        {(context) => {
-          const title = context.getTranslation(props).HelpButton.title
-          const otherString =
-            context.getTranslation(props).HelpButton?.['other']?.string
-          return (
-            <>
-              <p className="locale">{context.locale}</p>
-              <p className="title">{title}</p>
-              <p className="other-string">{otherString}</p>
-            </>
-          )
-        }}
-      </Context.Consumer>
+      <>
+        <p className="locale">{context.locale}</p>
+        <p className="title">{title}</p>
+        <p className="other-string">{otherString}</p>
+      </>
     )
   }
 

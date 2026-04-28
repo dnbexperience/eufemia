@@ -521,6 +521,11 @@ describe('ArraySelection', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -541,12 +546,7 @@ describe('ArraySelection', () => {
             path="/mySelection"
             dataPath="/myList"
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -1043,6 +1043,11 @@ describe('ArraySelection', () => {
       it('should store "displayValue" in data context', async () => {
         let dataContext = null
 
+        const ContextConsumer = () => {
+          dataContext = React.useContext(DataContext.Context)
+          return null
+        }
+
         render(
           <Form.Handler
             defaultData={{
@@ -1063,12 +1068,7 @@ describe('ArraySelection', () => {
               path="/mySelection"
               dataPath="/myList"
             />
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </Form.Handler>
         )
 

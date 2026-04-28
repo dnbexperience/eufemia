@@ -16,21 +16,20 @@ describe('Suffix', () => {
     const modalContent = 'Modal Content'
     let moreInfo: string
 
-    render(
-      <Context.Consumer>
-        {(context) => {
-          moreInfo = context.translation.HelpButton.title
-          return (
-            <Input
-              label={inputLabel}
-              suffix={<HelpButton>{modalContent}</HelpButton>}
-            >
-              {inputValue}
-            </Input>
-          )
-        }}
-      </Context.Consumer>
-    )
+    const ContextConsumer = () => {
+      const context = React.useContext(Context)
+      moreInfo = context.translation.HelpButton.title
+      return (
+        <Input
+          label={inputLabel}
+          suffix={<HelpButton>{modalContent}</HelpButton>}
+        >
+          {inputValue}
+        </Input>
+      )
+    }
+
+    render(<ContextConsumer />)
 
     expect(
       document

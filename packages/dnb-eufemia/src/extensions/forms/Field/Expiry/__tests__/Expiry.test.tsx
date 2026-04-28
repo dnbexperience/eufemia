@@ -1160,15 +1160,15 @@ describe('Field.Expiry', () => {
   it('should store "displayValue" in data context', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Expiry defaultValue="0835" path="/myValue" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 

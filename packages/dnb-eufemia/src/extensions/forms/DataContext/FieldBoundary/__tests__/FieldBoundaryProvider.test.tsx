@@ -248,26 +248,30 @@ describe('FieldBoundaryProvider', () => {
       edit: null,
     }
 
+    const ViewBoundaryConsumer = () => {
+      showBoundaryErrors.view = React.useContext(
+        FieldBoundaryContext
+      )?.showBoundaryErrors
+      return null
+    }
+
+    const EditBoundaryConsumer = () => {
+      showBoundaryErrors.edit = React.useContext(
+        FieldBoundaryContext
+      )?.showBoundaryErrors
+      return null
+    }
+
     render(
       <Form.Section validateInitially>
         <Form.Section.ViewContainer>
           View Content
-          <FieldBoundaryContext.Consumer>
-            {(context) => {
-              showBoundaryErrors.view = context?.showBoundaryErrors
-              return null
-            }}
-          </FieldBoundaryContext.Consumer>
+          <ViewBoundaryConsumer />
         </Form.Section.ViewContainer>
 
         <Form.Section.EditContainer>
           <Field.String required validateInitially={false} />
-          <FieldBoundaryContext.Consumer>
-            {(context) => {
-              showBoundaryErrors.edit = context?.showBoundaryErrors
-              return null
-            }}
-          </FieldBoundaryContext.Consumer>
+          <EditBoundaryConsumer />
         </Form.Section.EditContainer>
       </Form.Section>
     )

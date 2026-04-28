@@ -86,22 +86,29 @@ describe('CancelButton', () => {
       return null
     }
 
+    const MockBoundaryInner = ({
+      children,
+    }: {
+      children: React.ReactNode
+    }) => {
+      const ctx = React.useContext(FieldBoundaryContext)
+      return (
+        <FieldBoundaryContext
+          value={{
+            ...ctx,
+            hasVisibleError: false,
+            setShowBoundaryErrors,
+          }}
+        >
+          {children}
+        </FieldBoundaryContext>
+      )
+    }
+
     const MockBoundary = ({ children }: { children: React.ReactNode }) => (
       <FieldBoundaryProvider>
         <SetErrorOnce />
-        <FieldBoundaryContext.Consumer>
-          {(ctx) => (
-            <FieldBoundaryContext
-              value={{
-                ...ctx,
-                hasVisibleError: false,
-                setShowBoundaryErrors,
-              }}
-            >
-              {children}
-            </FieldBoundaryContext>
-          )}
-        </FieldBoundaryContext.Consumer>
+        <MockBoundaryInner>{children}</MockBoundaryInner>
       </FieldBoundaryProvider>
     )
 

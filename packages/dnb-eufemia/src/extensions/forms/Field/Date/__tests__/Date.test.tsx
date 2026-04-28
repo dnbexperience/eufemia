@@ -1146,15 +1146,15 @@ describe('Field.Date', () => {
   it('should store "displayValue" in data context', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Date defaultValue="2023-10-01" path="/myValue" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1185,15 +1185,15 @@ describe('Field.Date', () => {
   it('should store "displayValue" in en-US locale', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler locale="en-US">
         <Field.Date defaultValue="2023-10-01" path="/myValue" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1452,15 +1452,15 @@ describe('Field.Date', () => {
     const onReset = jest.fn()
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Date path="/date" showInput onReset={onReset} />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1803,15 +1803,15 @@ describe('Field.Date', () => {
   it('should update Form data context when clicking reset', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Date path="/date" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1849,15 +1849,15 @@ describe('Field.Date', () => {
   it('should update Form data context when clicking reset with initial value', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Date path="/date" value="2024-10-15" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 
@@ -1904,15 +1904,15 @@ describe('Field.Date', () => {
   it('should update Form data context when clicking reset in range mode', async () => {
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     render(
       <Form.Handler>
         <Field.Date path="/date" value="2024-10-01|2024-10-31" range />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 

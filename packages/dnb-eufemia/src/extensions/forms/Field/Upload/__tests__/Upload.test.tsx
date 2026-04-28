@@ -1020,6 +1020,11 @@ describe('Field.Upload', () => {
     it('should keep files between steps', async () => {
       let dataContext: DataContext.ContextState = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler>
           <Wizard.Container>
@@ -1035,12 +1040,7 @@ describe('Field.Upload', () => {
             </Wizard.Step>
           </Wizard.Container>
 
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -2252,17 +2252,17 @@ describe('Field.Upload', () => {
 
     let dataContext = null
 
+    const ContextConsumer = () => {
+      dataContext = React.useContext(DataContext.Context)
+      return null
+    }
+
     // Don't rerender, but render again to make sure the files are not set
     unmount()
     render(
       <Form.Handler sessionStorageId="session-storage-id">
         <Field.Upload path="/myFiles" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
+        <ContextConsumer />
       </Form.Handler>
     )
 

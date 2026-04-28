@@ -462,6 +462,11 @@ describe('Iterate.Array', () => {
       const onChange = jest.fn()
       let collectedContext: ContextState = null
 
+      const ContextConsumer = () => {
+        collectedContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler onChange={onChange}>
           <Field.Number path="/count" defaultValue={2} />
@@ -472,12 +477,7 @@ describe('Iterate.Array', () => {
             </Iterate.Array>
           </section>
 
-          <DataContext.Context.Consumer>
-            {(context) => {
-              collectedContext = context
-              return null
-            }}
-          </DataContext.Context.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -1919,6 +1919,11 @@ describe('Iterate.Array', () => {
       const onSubmit = jest.fn()
       let collectedContext = null
 
+      const ContextConsumer = () => {
+        collectedContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler
           onSubmit={onSubmit}
@@ -1932,12 +1937,7 @@ describe('Iterate.Array', () => {
             </Iterate.Array>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -1968,6 +1968,11 @@ describe('Iterate.Array', () => {
       const onSubmit = jest.fn()
       let collectedContext = null
 
+      const ContextConsumer = () => {
+        collectedContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Iterate.Array
@@ -1979,12 +1984,7 @@ describe('Iterate.Array', () => {
             </Iterate.Array>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -2014,6 +2014,11 @@ describe('Iterate.Array', () => {
       const onSubmit = jest.fn()
       let collectedContext = null
 
+      const ContextConsumer = () => {
+        collectedContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler onSubmit={onSubmit}>
           <Iterate.Array path="/outer" defaultValue={[{}]}>
@@ -2025,12 +2030,7 @@ describe('Iterate.Array', () => {
             </Iterate.Array>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -2149,6 +2149,11 @@ describe('Iterate.Array', () => {
     it('should remove array item inside AnimatedContainer from data context when itemValue is undefined', async () => {
       let collectedContext = null
 
+      const ContextConsumer = () => {
+        collectedContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler
           defaultData={{
@@ -2178,12 +2183,7 @@ describe('Iterate.Array', () => {
             </Iterate.AnimatedContainer>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 

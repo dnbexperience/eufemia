@@ -76,24 +76,28 @@ describe('Provider', () => {
       )
     }
 
+    const MagicProviderInner = ({
+      children = null,
+      ...props
+    }: Partial<ProviderProps>) => {
+      const context = React.useContext(Context)
+      const title = context.translation.HelpButton.title
+      return (
+        <>
+          <p>{title}</p>
+          <ChangeLocale />
+          {children}
+        </>
+      )
+    }
+
     const MagicProvider = ({
       children = null,
       ...props
     }: Partial<ProviderProps>) => {
       return (
         <LocalProvider {...props}>
-          <Context.Consumer>
-            {(context) => {
-              const title = context.translation.HelpButton.title
-              return (
-                <>
-                  <p>{title}</p>
-                  <ChangeLocale />
-                  {children}
-                </>
-              )
-            }}
-          </Context.Consumer>
+          <MagicProviderInner {...props}>{children}</MagicProviderInner>
         </LocalProvider>
       )
     }

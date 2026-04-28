@@ -93,6 +93,11 @@ describe('Field.Slider', () => {
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler
           data={{ myValue: 400, minValue: 100, maxValue: 1000 }}
@@ -103,12 +108,7 @@ describe('Field.Slider', () => {
             max="/maxValue"
             numberFormat={{ currency: 'EUR' }}
           />
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 

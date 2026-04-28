@@ -342,14 +342,14 @@ describe('Form.useData', () => {
               </Field.ArraySelection>
             </Form.Visibility>
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </Form.Handler>
         )
+      }
+
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
       }
 
       render(<MockComponent />)
@@ -594,14 +594,14 @@ describe('Form.useData', () => {
               }}
             />
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </>
         )
+      }
+
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
       }
 
       render(
@@ -622,16 +622,16 @@ describe('Form.useData', () => {
     it('should set emptyValue when no value is given', () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler>
           <Field.String path="/foo" required emptyValue="empty" />
 
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -642,6 +642,11 @@ describe('Form.useData', () => {
     it('should prioritize defaultValue over emptyValue', () => {
       let dataContext = null
 
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
+      }
+
       render(
         <Form.Handler>
           <Field.String
@@ -651,12 +656,7 @@ describe('Form.useData', () => {
             defaultValue="foo"
           />
 
-          <DataContext.Consumer>
-            {(context) => {
-              dataContext = context
-              return null
-            }}
-          </DataContext.Consumer>
+          <ContextConsumer />
         </Form.Handler>
       )
 
@@ -684,14 +684,14 @@ describe('Form.useData', () => {
               }}
             />
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </>
         )
+      }
+
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
       }
 
       render(
@@ -735,14 +735,14 @@ describe('Form.useData', () => {
               }}
             />
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </>
         )
+      }
+
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
       }
 
       render(
@@ -811,14 +811,14 @@ describe('Form.useData', () => {
               </Field.ArraySelection>
             </Form.Visibility>
 
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
+            <ContextConsumer />
           </Form.Handler>
         )
+      }
+
+      const ContextConsumer = () => {
+        dataContext = React.useContext(DataContext.Context)
+        return null
       }
 
       render(<MockComponent />)

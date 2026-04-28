@@ -26,17 +26,17 @@ describe('Form.useSnapshot', () => {
   it('reverts to a snapshot', () => {
     let contextData: ContextState
 
+    const ContextConsumer = () => {
+      contextData = React.useContext(Context)
+      return null
+    }
+
     const { result } = renderHook(useSnapshot, {
       wrapper: ({ children }) => (
         <Provider>
           {children}
 
-          <Context.Consumer>
-            {(context) => {
-              contextData = context
-              return null
-            }}
-          </Context.Consumer>
+          <ContextConsumer />
         </Provider>
       ),
     })
@@ -59,17 +59,17 @@ describe('Form.useSnapshot', () => {
     let snapshotId: SnapshotId
     let contextData: ContextState
 
+    const ContextConsumer = () => {
+      contextData = React.useContext(Context)
+      return null
+    }
+
     const { result } = renderHook(useSnapshot, {
       wrapper: ({ children }) => (
         <Provider>
           {children}
 
-          <Context.Consumer>
-            {(context) => {
-              contextData = context
-              return null
-            }}
-          </Context.Consumer>
+          <ContextConsumer />
         </Provider>
       ),
     })
@@ -94,17 +94,17 @@ describe('Form.useSnapshot', () => {
     let snapshotId: SnapshotId
     let contextData: ContextState
 
+    const ContextConsumer = () => {
+      contextData = React.useContext(Context)
+      return null
+    }
+
     const { result } = renderHook(useSnapshot, {
       wrapper: ({ children }) => (
         <Provider>
           {children}
 
-          <Context.Consumer>
-            {(context) => {
-              contextData = context
-              return null
-            }}
-          </Context.Consumer>
+          <ContextConsumer />
         </Provider>
       ),
     })

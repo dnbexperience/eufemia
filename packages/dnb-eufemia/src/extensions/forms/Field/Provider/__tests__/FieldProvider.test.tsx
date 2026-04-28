@@ -18,14 +18,9 @@ describe('Field.Provider', () => {
     let collectedProps = null
 
     const Collector = (props) => {
-      return (
-        <FieldProviderContext.Consumer>
-          {({ extend }) => {
-            collectedProps = extend(props)
-            return null
-          }}
-        </FieldProviderContext.Consumer>
-      )
+      const { extend } = React.useContext(FieldProviderContext)
+      collectedProps = extend(props)
+      return null
     }
 
     render(
@@ -44,14 +39,9 @@ describe('Field.Provider', () => {
     let collectedProps = null
 
     const Collector = (props) => {
-      return (
-        <FieldProviderContext.Consumer>
-          {({ extend }) => {
-            collectedProps = extend(props)
-            return null
-          }}
-        </FieldProviderContext.Consumer>
-      )
+      const { extend } = React.useContext(FieldProviderContext)
+      collectedProps = extend(props)
+      return null
     }
 
     render(
@@ -70,14 +60,9 @@ describe('Field.Provider', () => {
     let collectedProps = null
 
     const Collector = (props) => {
-      return (
-        <FieldProviderContext.Consumer>
-          {({ extend }) => {
-            collectedProps = extend(props)
-            return null
-          }}
-        </FieldProviderContext.Consumer>
-      )
+      const { extend } = React.useContext(FieldProviderContext)
+      collectedProps = extend(props)
+      return null
     }
 
     render(
@@ -98,14 +83,9 @@ describe('Field.Provider', () => {
     let collectedProps = null
 
     const Collector = (props) => {
-      return (
-        <FieldProviderContext.Consumer>
-          {({ extend }) => {
-            collectedProps = extend(props)
-            return null
-          }}
-        </FieldProviderContext.Consumer>
-      )
+      const { extend } = React.useContext(FieldProviderContext)
+      collectedProps = extend(props)
+      return null
     }
 
     render(
