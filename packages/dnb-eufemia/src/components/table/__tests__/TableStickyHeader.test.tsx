@@ -23,7 +23,7 @@ describe('useStickyHeader', () => {
     if (scrollElement) {
       jest.spyOn(scrollElement, 'scrollTop', 'get').mockReturnValue(y)
     } else {
-      window.pageYOffset = y
+      window.scrollY = y
     }
 
     fireEvent.scroll(scrollElement || document)
