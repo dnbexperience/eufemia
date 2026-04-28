@@ -110,6 +110,33 @@ describe('ScrollView', () => {
     expect(observe).toHaveBeenCalledWith(ref.current)
   })
 
+  it('should not call ResizeObserver.observe when ref is null', () => {
+    const observe = jest.fn()
+    const init = jest.fn()
+    setResizeObserver({ init, observe })
+
+    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
+
+    const { rerender } = render(
+      <ScrollView ref={ref} interactive="auto">
+        overflow content
+      </ScrollView>
+    )
+
+    observe.mockClear()
+
+    // Simulate ref being null when the effect re-runs
+    ref.current = null
+
+    rerender(
+      <ScrollView ref={ref} interactive="auto">
+        new content
+      </ScrollView>
+    )
+
+    expect(observe).not.toHaveBeenCalled()
+  })
+
   it('should include custom classes', () => {
     render(
       <ScrollView className="custom-class">overflow content</ScrollView>

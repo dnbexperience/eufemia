@@ -89,6 +89,10 @@ function useInteractive({ interactive, children, ref }) {
 
   useLayoutEffect(() => {
     if (interactive === 'auto' && typeof ResizeObserver !== 'undefined') {
+      if (!ref.current) {
+        return // stop here
+      }
+
       // eslint-disable-next-line compat/compat
       const observer = new ResizeObserver(() => {
         setAsInteractive(hasScrollbar())
