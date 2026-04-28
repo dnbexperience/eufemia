@@ -6,11 +6,15 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-step-indicator {
-  --step-indicator-trigger-background: var(--color-black-3);
-  --step-indicator-trigger-content-background: var(--color-white);
-  --step-indicator-check-bg: var(--color-pistachio);
-  --step-indicator-check-color: var(--color-success-green);
-  --step-indicator-current-border: var(--color-black-80);
+  --step-indicator-trigger-background: var(
+    --token-color-background-neutral-subtle
+  );
+  --step-indicator-trigger-content-background: var(
+    --token-color-background-neutral
+  );
+  --step-indicator-check-bg: var(--token-color-background-selected-subtle);
+  --step-indicator-check-color: var(--token-color-icon-positive);
+  --step-indicator-current-border: var(--token-color-stroke-neutral);
   --padding-top: 0;
   --padding-bottom: 0;
 
@@ -64,7 +68,7 @@
         width: 0.0625rem;
         height: 100%;
 
-        background-color: var(--color-black-20);
+        background-color: var(--token-color-stroke-neutral-subtle);
       }
     }
 
@@ -81,7 +85,7 @@
       &--check,
       &--empty,
       &--current {
-        background-color: var(--step-indicator-check-bg);
+        background-color: var(--token-color-stroke-neutral-subtle);
         border-width: 0.0625rem;
         border-style: solid;
         border-color: transparent;
@@ -94,9 +98,9 @@
       }
 
       &--empty {
-        color: var(--color-black-20);
-        background-color: var(--color-white);
-        border-color: var(--color-black-20);
+        color: var(--token-color-icon-neutral);
+        background-color: var(--token-color-background-neutral);
+        border-color: var(--token-color-stroke-neutral-bold);
       }
 
       &--current {
@@ -105,7 +109,7 @@
       }
       &.dnb-skeleton {
         border-width: 0.0625rem;
-        border-color: var(--color-black-20);
+        border-color: var(--token-color-stroke-neutral-bold);
       }
     }
 
