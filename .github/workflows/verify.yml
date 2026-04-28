@@ -35,6 +35,34 @@ env:
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
 jobs:
+  check-pr-title:
+    name: Validate PR title
+    if: github.event_name == 'pull_request'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR title format
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
+            echo "PR title is valid: $PR_TITLE"
+          else
+            echo "::error::Invalid PR title: '$PR_TITLE'"
+            echo ""
+            echo "The PR title must follow Conventional Commits format:"
+            echo "  type(optional-scope): description"
+            echo ""
+            echo "Valid types: fix, feat, chore, docs, style, build, ci, refactor, perf, test"
+            echo "" 
+            echo "Examples:"
+            echo "  fix: correct button alignment"
+            echo "  feat(DatePicker): add new validation mode"
+            echo "  feat(Button)!: remove deprecated prop"
+            exit 1
+          fi
+
   check-breaking-changes:
     name: Check for breaking changes
 
