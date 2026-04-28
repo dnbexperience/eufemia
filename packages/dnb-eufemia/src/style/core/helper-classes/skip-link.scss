@@ -12,7 +12,7 @@
   white-space: nowrap;
 
   font-size: var(--font-size-basis);
-  color: var(--skip-link-color);
+  color: var(--token-color-text-action);
   text-decoration: none;
   text-align: center;
 
@@ -28,6 +28,14 @@
   border: none;
   box-shadow: none;
 
+  --skip-link-border-width--default: 0.0625rem;
+  --skip-link-border-width--hover: 0.125rem;
+  --skip-link-border-width--focus: 0.1875rem;
+  --skip-link-overlay-bg: rgba(255 255 255 / 85%);
+  .eufemia-theme__color-scheme--dark & {
+    --skip-link-overlay-bg: rgba(20 20 20 / 85%);
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -37,59 +45,55 @@
     width: 150vw;
     height: 150vh;
 
-    background-color: rgba(255 255 255 / 85%);
-
-    // we use box-shadow to avoid a horizontal scrollbar
-    box-shadow: 150vw 150vh 0 0 rgba(255 255 255 / 85%);
+    background-color: var(--skip-link-overlay-bg);
+    box-shadow: 150vw 150vh 0 0 var(--skip-link-overlay-bg); // Use box-shadow to avoid a horizontal scrollbar
   }
 
   &::before {
     content: '';
     position: absolute;
     z-index: -1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 1.5rem; // same as anchor
+    inset: 0;
 
-    background-color: var(--skip-link-background);
+    border-radius: var(--token-radius-xl);
+    background-color: var(--token-color-background-neutral);
 
-    @include utilities.focusRing('mouse');
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action),
+      var(--skip-link-border-width--default)
+    );
   }
 
   &:hover::before {
-    background-color: var(--skip-link-background--hover);
+    background-color: var(--token-color-background-action-hover-subtle);
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-hover),
+      var(--skip-link-border-width--hover)
+    );
   }
   &:active::before {
-    background-color: var(--skip-link-background--active);
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-pressed)
+    );
   }
 
-  // focus
-  &:focus:not(:active)::before {
-    @include utilities.focusRing();
+  // Focus styles
+  &:focus-visible {
+    color: var(--token-color-text-action-focus);
   }
-
-  // focus
+  &:focus-visible::before {
+    background-color: var(--token-color-background-action-focus-subtle);
+  }
+  &:focus-visible:not(:active)::before {
+    @include utilities.whatInput('keyboard') {
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-focus),
+        var(--skip-link-border-width--focus)
+      );
+    }
+  }
   &:focus {
     opacity: 1;
-  }
-
-  &:hover {
-    color: var(--skip-link-color--hover);
-    background-color: transparent;
-    box-shadow: none;
-  }
-
-  &:focus:not(:hover):not(:active) {
-    color: var(--skip-link-color);
-    background-color: transparent;
-    box-shadow: none;
-  }
-  // stylelint-disable-next-line
-  &:active {
-    color: var(--skip-link-color--active);
-    background-color: transparent;
   }
 }
 
