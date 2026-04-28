@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.3](https://github.com/dnbexperience/eufemia/compare/v11.0.2...v11.0.3) (2026-04-28)
+
+
+### :barber: Style Changes
+
+* **Portal:** enable dark mode ☀️🌑 ([#7808](https://github.com/dnbexperience/eufemia/issues/7808)) ([3a9ac2a](https://github.com/dnbexperience/eufemia/commit/3a9ac2a8892feb937ce1397ac685a21178e9ec96))
+
+
+### :bug: Bug Fixes
+
+* **PhoneNumber:** prevent dashed country code digits from leaking into number field ([#7828](https://github.com/dnbexperience/eufemia/issues/7828)) ([92552ca](https://github.com/dnbexperience/eufemia/commit/92552cac05bacd5070651c888e47ebc3d0139338))
+* **ScrollView:** support callback refs in useInteractive ([#7836](https://github.com/dnbexperience/eufemia/issues/7836)) ([28a989e](https://github.com/dnbexperience/eufemia/commit/28a989eed85596d252a5bd5870b1b59760342363))
+* **Table:** recalculate sticky header offset on scroll for dynamic layouts ([#7815](https://github.com/dnbexperience/eufemia/issues/7815)) ([5a4f31b](https://github.com/dnbexperience/eufemia/commit/5a4f31b59e54c712a0d4f7b5e02ab785c911e854))
+
+
+### :zap: Refactoring
+
+* **DatePicker:** use design tokens ([#7822](https://github.com/dnbexperience/eufemia/issues/7822)) ([574d037](https://github.com/dnbexperience/eufemia/commit/574d037363b7cff466440cb9e9b1ade57dbf454f))
+* **SkipLink:** use design tokens ([#7824](https://github.com/dnbexperience/eufemia/issues/7824)) ([28aebf3](https://github.com/dnbexperience/eufemia/commit/28aebf3e53106ef9c516306d908e372c1fa87118))
+* **StepIndicator:** use design tokens ([#7816](https://github.com/dnbexperience/eufemia/issues/7816)) ([51a3a91](https://github.com/dnbexperience/eufemia/commit/51a3a91de58b49192c4078433aea1ec0a4997826))
+* use design tokens for ::selection styles ([#7838](https://github.com/dnbexperience/eufemia/issues/7838)) ([b6c6cfc](https://github.com/dnbexperience/eufemia/commit/b6c6cfcec095a72bc23e799afc671fa9b2fba893))
+
 ## [11.0.2](https://github.com/dnbexperience/eufemia/compare/v11.0.1...v11.0.2) (2026-04-28)
 
 
