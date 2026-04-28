@@ -14,6 +14,7 @@ import { applySpacing } from '../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ScrollViewProps = {
@@ -61,14 +62,13 @@ function ScrollView(localProps: ScrollViewAllProps) {
   })
 
   const localRef = React.useRef<HTMLDivElement>(undefined)
-  mainParams.ref = refProp
-    ? (refProp as React.RefObject<HTMLDivElement>)
-    : localRef
+  const combinedRef = useCombinedRef(refProp, localRef)
+  mainParams.ref = combinedRef
 
   mainParams.tabIndex = useInteractive({
     interactive,
     children,
-    ref: mainParams.ref,
+    ref: localRef,
   })
 
   validateDOMAttributes(props, mainParams)
