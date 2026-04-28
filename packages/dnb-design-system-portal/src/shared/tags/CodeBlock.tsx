@@ -6,6 +6,7 @@
 import React, {
   useCallback,
   useContext,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -24,7 +25,7 @@ import type {
   ThemeColorScheme,
   ThemeSurface,
 } from '@dnb/eufemia/src/shared/Theme'
-import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
+
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
@@ -155,7 +156,7 @@ function prepareCode(code: string) {
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
   const editorElementRef = useRef<HTMLDivElement>(null)
-  const idRef = useRef(makeUniqueId())
+  const id = useId()
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
@@ -327,7 +328,7 @@ function LiveCode(props: LiveCodeProps) {
           >
             <LiveEditor
               prism={Prism}
-              id={idRef.current}
+              id={id}
               tabMode={tabMode}
               className="dnb-live-editor__editable dnb-pre"
             />
