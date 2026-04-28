@@ -1028,7 +1028,7 @@ button.dnb-button::-moz-focus-inner {
   border-radius: 50%;
 }
 .dnb-step-indicator__item__bullet--check, .dnb-step-indicator__item__bullet--empty, .dnb-step-indicator__item__bullet--current {
-  background-color: var(--token-color-stroke-neutral-subtle);
+  background-color: var(--step-indicator-check-bg);
   border-width: 0.0625rem;
   border-style: solid;
   border-color: transparent;
