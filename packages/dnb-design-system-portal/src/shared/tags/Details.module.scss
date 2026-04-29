@@ -1,12 +1,12 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss';
 
 .detailsBox {
-  --details-bg: var(--color-mint-green-12);
-  --details-border: var(--color-mint-green);
-  --details-border--strong: var(--color-emerald-green);
-  --details-summary-bg: var(--color-mint-green-25);
-  --details-summary-bg--open: var(--color-mint-green-50);
-  --details-text: var(--color-sea-green);
+  --details-bg: var(--token-color-background-info-subtle);
+  --details-border: var(--token-color-decorative-first-base);
+  --details-border--strong: var(--token-color-decorative-first-bold);
+  --details-summary-bg: var(--token-color-decorative-first-muted);
+  --details-summary-bg--open: var(--token-color-decorative-first-subtle);
+  --details-text: var(--token-color-text-action);
   --details-outset: 0.75rem;
 
   margin-bottom: 1.5rem;
@@ -78,7 +78,7 @@
     height: 1.5rem;
     width: 1.5rem;
     padding: 0.25rem;
-    background-color: var(--color-white);
+    background-color: var(--token-color-background-neutral);
     border-radius: 50%;
     box-shadow: 0 0 0 0.125rem var(--details-border);
     margin-right: -0.25rem;
