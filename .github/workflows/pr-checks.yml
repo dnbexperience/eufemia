@@ -1,0 +1,71 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-pr-title:
+    name: Validate PR title
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR title format
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
+            echo "PR title is valid: $PR_TITLE"
+          else
+            echo "::error::Invalid PR title: '$PR_TITLE'"
+            echo ""
+            echo "The PR title must follow Conventional Commits format:"
+            echo "  type(optional-scope): description"
+            echo ""
+            echo "Valid types: fix, feat, chore, docs, style, build, ci, refactor, perf, test"
+            echo ""
+            echo "Examples:"
+            echo "  fix: correct button alignment"
+            echo "  feat(DatePicker): add new validation mode"
+            echo "  feat(Button)!: remove deprecated prop"
+            exit 1
+          fi
+
+  check-breaking-changes:
+    name: Check for breaking changes
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Fail if any commit contains BREAKING CHANGE
+        run: |
+          COMMITS=$(git log --format="%H" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+
+          for sha in $COMMITS; do
+            SUBJECT=$(git log --format="%s" -1 "$sha")
+            if echo "$SUBJECT" | grep -qE '^[a-zA-Z]+(\(.+\))?!:'; then
+              echo "Commit $sha has a valid breaking change marker in the title: $SUBJECT"
+              continue
+            fi
+            if git log --format="%B" -1 "$sha" | grep -qiE "^BREAKING[ -]CHANGE:"; then
+              echo "::error::Commit $sha contains 'BREAKING CHANGE:' footer in its message:"
+              git log --format="%H %s%n%b" -1 "$sha"
+              exit 1
+            fi
+          done
+
+          echo "No breaking changes found."
