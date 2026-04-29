@@ -1,5 +1,5 @@
 import type { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatProperties } from '../number-format/NumberFormatDocs'
+import { NumberFormatNumberProperties } from '../number-format/NumberFormatDocs'
 import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const TrendProperties: PropertiesTableProps = {
@@ -18,7 +18,7 @@ export const TrendProperties: PropertiesTableProps = {
     type: ['"positive"', '"negative"', '"neutral"'],
     status: 'optional',
   },
-  srLabel: NumberFormatProperties.srLabel,
+  srLabel: NumberFormatNumberProperties.srLabel,
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

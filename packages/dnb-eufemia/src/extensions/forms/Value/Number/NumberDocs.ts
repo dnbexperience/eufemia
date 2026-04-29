@@ -1,8 +1,8 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
-import { NumberFormatProperties } from '../../../../components/number-format/NumberFormatDocs'
+import { NumberFormatNumberProperties } from '../../../../components/number-format/NumberFormatDocs'
 
 export const NumberProperties: PropertiesTableProps = {
-  value: NumberFormatProperties.value,
+  value: NumberFormatNumberProperties.value,
   minimum: {
     doc: 'Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',
@@ -18,5 +18,5 @@ export const NumberProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  ...NumberFormatProperties,
+  ...NumberFormatNumberProperties,
 }
