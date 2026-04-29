@@ -59,7 +59,7 @@ legend.dnb-form-label {
  * Utilities
  */
 .dnb-form-status {
-  --form-status-radius: 0.25rem;
+  --form-status-radius: var(--token-radius-sm);
   display: flex;
   opacity: 1;
 }
