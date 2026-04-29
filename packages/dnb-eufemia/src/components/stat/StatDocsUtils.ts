@@ -1,12 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatProperties } from '../number-format/NumberFormatDocs'
+import { NumberFormatNumberProperties } from '../number-format/NumberFormatDocs'
 
 export const pickNumberFormatProps = (
+  source: PropertiesTableProps,
   keys: string[]
 ): PropertiesTableProps => {
-  return Object.fromEntries(
-    keys.map((key) => [key, NumberFormatProperties[key]])
-  )
+  return Object.fromEntries(keys.map((key) => [key, source[key]]))
 }
 
 export const mainSizeProperty: PropertiesTableProps[string] = {
@@ -88,7 +87,7 @@ export const spacingProperties: PropertiesTableProps[string] = {
 }
 
 export const SharedValueProperties: PropertiesTableProps = {
-  ...pickNumberFormatProps([
+  ...pickNumberFormatProps(NumberFormatNumberProperties, [
     'value',
     'decimals',
     'rounding',

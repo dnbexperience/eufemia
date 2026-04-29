@@ -204,20 +204,3 @@ export const NumberFormatOrganizationProperties: PropertiesTableProps = {
   ...commonProps,
   ...spacingProps,
 }
-
-/**
- * @deprecated Split per variant (`NumberFormat.Number`, `NumberFormat.Currency`, …).
- * Kept for internal usage in Stat/Forms docs that aggregate all available props.
- */
-export const NumberFormatProperties: PropertiesTableProps = {
-  ...valueProp,
-  ...localeProp,
-  ...compactProp,
-  ...currencyOnlyProps,
-  ...decimalsAndFormattingProps,
-  ...affixProps,
-  ...interactionProps,
-  ...presentationProps,
-  ...linkProp,
-  ...spacingProps,
-}
