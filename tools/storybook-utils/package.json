@@ -7,8 +7,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "peerDependencies": {
-    "@emotion/react": "11.11.0",
-    "@emotion/styled": "11.11.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "clsx": "2.1.1",
     "react": "^19",
     "react-dom": "^19"
