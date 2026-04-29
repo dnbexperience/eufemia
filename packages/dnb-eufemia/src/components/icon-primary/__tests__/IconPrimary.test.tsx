@@ -45,6 +45,18 @@ describe('IconPrimary component', () => {
     expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 
+  it('should not remount the SVG element on rerender', () => {
+    const { rerender } = render(<IconPrimary {...props} />)
+
+    const svgBefore = document.querySelector('svg')
+    expect(svgBefore).toBeInTheDocument()
+
+    rerender(<IconPrimary {...props} />)
+
+    const svgAfter = document.querySelector('svg')
+    expect(svgAfter).toBe(svgBefore)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<IconPrimary {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
