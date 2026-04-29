@@ -14,7 +14,7 @@
   margin: 0.5rem;
 
   border-radius: 0.25rem;
-  box-shadow: 0 0 4px var(--color-black-20);
+  box-shadow: 0 0 4px var(--token-color-stroke-neutral-subtle);
 }
 
 .listItemInnerStyle {
@@ -46,7 +46,7 @@
 
     .dnb-icon {
       :hover {
-        color: var(--color-sea-green);
+        color: var(--token-color-icon-action);
       }
     }
   }
