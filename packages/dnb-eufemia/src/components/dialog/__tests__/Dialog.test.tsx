@@ -707,6 +707,19 @@ describe('scrollbarGutter', () => {
       'dnb-scroll-view--scrollbar-gutter-stable'
     )
   })
+
+  it('should not add scrollbar-gutter class when set to false', () => {
+    render(
+      <Dialog {...props} open scrollbarGutter={false}>
+        content
+      </Dialog>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
 })
 
 describe('Dialog scss', () => {

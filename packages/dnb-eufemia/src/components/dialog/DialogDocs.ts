@@ -107,8 +107,8 @@ export const DialogProperties: PropertiesTableProps = {
     status: 'optional',
   },
   scrollbarGutter: {
-    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. When set to `auto`, it enables `stable` for the `information` variant with spacing. Defaults to `auto`.',
-    type: ['"auto"', '"stable"'],
+    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.',
+    type: ['"stable"', 'false'],
     status: 'optional',
   },
   contentRef: {

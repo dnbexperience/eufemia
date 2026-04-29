@@ -45,7 +45,7 @@ export default function DialogContent({
   onDecline,
   declineText,
   confirmText,
-  scrollbarGutter = 'auto',
+  scrollbarGutter,
   ...rest
 }: DialogContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
@@ -119,12 +119,12 @@ export default function DialogContent({
       <ScrollView
         ref={context?.scrollRef}
         scrollbarGutter={
-          scrollbarGutter === 'stable' ||
-          (scrollbarGutter === 'auto' &&
-            variant === 'information' &&
-            spacing !== false)
-            ? 'stable'
-            : undefined
+          scrollbarGutter === false
+            ? undefined
+            : scrollbarGutter === 'stable' ||
+                (variant === 'information' && spacing !== false)
+              ? 'stable'
+              : undefined
         }
       >
         <div

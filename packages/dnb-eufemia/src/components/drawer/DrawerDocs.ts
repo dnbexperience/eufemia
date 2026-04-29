@@ -62,8 +62,8 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   scrollbarGutter: {
-    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. When set to `auto`, it enables `stable` when spacing is enabled. Defaults to `auto`.',
-    type: ['"auto"', '"stable"'],
+    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` when spacing is enabled. Set to `false` to disable.',
+    type: ['"stable"', 'false'],
     status: 'optional',
   },
 }
