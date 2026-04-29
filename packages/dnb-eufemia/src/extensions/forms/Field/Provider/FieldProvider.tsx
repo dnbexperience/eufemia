@@ -22,6 +22,13 @@ export type FieldProviderProps = FieldProps & {
    */
   translations?: DataContextProps<JsonObject>['translations']
 
+  /**
+   * Async function to load translations for a given locale.
+   * Called on mount and whenever the locale changes.
+   * The returned translations are merged with any existing translations.
+   */
+  translationsLoader?: DataContextProps<JsonObject>['translationsLoader']
+
   /** For internal use only */
   overwriteProps?: {
     [key: Path]: FieldProps

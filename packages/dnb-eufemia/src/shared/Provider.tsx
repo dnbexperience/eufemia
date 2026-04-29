@@ -3,11 +3,18 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import type { ContextProps, InternalLocale } from './Context'
 import Context, { prepareContext } from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
+import { warn } from './component-helper'
 
 export type ProviderProps = {
   /**
@@ -49,6 +56,48 @@ export default function Provider<Props>(
     },
     [update]
   )
+
+  const { translationsLoader, translations: propTranslations } = localProps
+
+  const effectiveLocale =
+    localContext?.__context__?.locale ||
+    localProps.locale ||
+    nestedContext.locale
+
+  useEffect(() => {
+    if (!translationsLoader) {
+      return undefined // stop here
+    }
+
+    let cancelled = false
+
+    translationsLoader(effectiveLocale)
+      .then((loaded) => {
+        if (!cancelled && loaded) {
+          const base = propTranslations || {}
+          const merged = mergeTranslations(
+            base as Record<string, unknown>,
+            loaded as Record<string, unknown>
+          )
+
+          setLocalContext((prev) => ({
+            __context__: {
+              ...prev?.__context__,
+              translations: merged,
+            },
+          }))
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          warn('Provider: translationsLoader failed:', error)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [translationsLoader, effectiveLocale])
 
   const value = useMemo(() => {
     const { children, ...rest } = localProps

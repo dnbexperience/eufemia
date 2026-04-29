@@ -945,6 +945,94 @@ or an object based structure:
 }
 ```
 
+### Load translations dynamically
+
+When you have many locales or large translation files, you can load them on demand using the `translationsLoader` prop. It accepts an async function that receives the current locale and returns a translations object. The loader is called on mount and whenever the locale changes.
+
+Components render with default translations immediately. When the loader resolves, translations are merged in and components re-render with the updated strings.
+
+The loader function can use any source — dynamic `import()` of `.ts`, `.js`, or `.json` files, `fetch()` calls, or any other async operation. As long as the function returns a translations object, it works.
+
+#### Using `Form.Handler`
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const translationsLoader = async (locale) => {
+  switch (locale) {
+    case 'en-GB':
+      return (await import('./locales/en-GB')).default
+    case 'sv-SE':
+      return (await import('./locales/sv-SE')).default
+    default:
+      return (await import('./locales/nb-NO')).default
+  }
+}
+
+render(
+  <Form.Handler translationsLoader={translationsLoader}>
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
+Each imported file should export a translations object with the locale key, matching the same structure as the `translations` prop:
+
+```ts
+// locales/nb-NO.ts
+export default {
+  'nb-NO': {
+    PhoneNumber: {
+      numberLabel: 'Dynamisk etikett',
+    },
+  },
+}
+```
+
+#### Using the shared `Provider`
+
+You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/):
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const translationsLoader = async (locale) => {
+  const response = await fetch(`/api/translations/${locale}`)
+  return response.json()
+}
+
+render(
+  <Provider translationsLoader={translationsLoader} locale="nb-NO">
+    Your app, including Eufemia Forms
+  </Provider>
+)
+```
+
+#### Combining with static translations
+
+The `translationsLoader` can be used alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const staticTranslations = {
+  'nb-NO': { PhoneNumber: { countryCodeLabel: 'Landskode' } },
+}
+
+const translationsLoader = async (locale) => {
+  return (await import(`./locales/${locale}`)).default
+}
+
+render(
+  <Form.Handler
+    translations={staticTranslations}
+    translationsLoader={translationsLoader}
+  >
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
 ### How to customize translations in a form
 
 You can customize the translations in a form by using the `translations` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/).

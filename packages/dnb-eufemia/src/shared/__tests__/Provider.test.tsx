@@ -12,11 +12,12 @@ import type {
   ContextProps,
   TranslationFlat,
   Translations,
+  TranslationsLoader,
 } from '../Context'
 import Context from '../Context'
 import type { ProviderProps } from '../Provider'
 import Provider from '../Provider'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import locales from '../../shared/locales'
 import Translation from '../Translation'
 import * as TranslationModule from '../Translation'
@@ -696,6 +697,248 @@ describe('Provider', () => {
       expect(spy).toHaveBeenCalledTimes(1)
 
       spy.mockRestore()
+    })
+  })
+
+  describe('translationsLoader', () => {
+    const DisplayTitle = () => {
+      const { translation } = React.useContext(Context)
+      return <span>{translation.HelpButton?.title}</span>
+    }
+
+    it('should call the loader on mount with the current locale', async () => {
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': { HelpButton: { title: 'Async NB' } },
+      })
+
+      render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      expect(loader).toHaveBeenCalledTimes(1)
+      expect(loader).toHaveBeenCalledWith('nb-NO')
+    })
+
+    it('should render loaded translations after async load completes', async () => {
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': { HelpButton: { title: 'Async NB' } },
+      })
+
+      const { container } = render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'Async NB'
+        )
+      })
+    })
+
+    it('should call the loader again when locale changes', async () => {
+      const loader = jest.fn((locale) => {
+        if (locale === 'en-GB') {
+          return Promise.resolve({
+            'en-GB': { HelpButton: { title: 'Async EN' } },
+          })
+        }
+        return Promise.resolve({
+          'nb-NO': { HelpButton: { title: 'Async NB' } },
+        })
+      })
+
+      const ChangeLocale = () => {
+        const { setLocale } = React.useContext(Context)
+        return <button onClick={() => setLocale('en-GB')}>Switch</button>
+      }
+
+      const { container } = render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+          <ChangeLocale />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'Async NB'
+        )
+      })
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'Async EN'
+        )
+      })
+
+      expect(loader).toHaveBeenCalledWith('nb-NO')
+      expect(loader).toHaveBeenCalledWith('en-GB')
+    })
+
+    it('should cancel stale loads when locale switches quickly', async () => {
+      let resolveFirst: (v: unknown) => void
+      let resolveSecond: (v: unknown) => void
+
+      const firstPromise = new Promise((r) => {
+        resolveFirst = r
+      })
+      const secondPromise = new Promise((r) => {
+        resolveSecond = r
+      })
+
+      let callCount = 0
+      const loader = jest.fn(() => {
+        callCount++
+        return callCount === 1 ? firstPromise : secondPromise
+      }) as unknown as TranslationsLoader & jest.Mock
+
+      const ChangeLocale = () => {
+        const { setLocale } = React.useContext(Context)
+        return <button onClick={() => setLocale('en-GB')}>Switch</button>
+      }
+
+      const { container } = render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+          <ChangeLocale />
+        </Provider>
+      )
+
+      // Switch locale before first load completes
+      fireEvent.click(document.querySelector('button'))
+
+      // Resolve second (current) first
+      resolveSecond({
+        'en-GB': { HelpButton: { title: 'Second' } },
+      })
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe('Second')
+      })
+
+      // Resolve first (stale) after — should be ignored
+      resolveFirst({
+        'nb-NO': { HelpButton: { title: 'Stale' } },
+      })
+
+      // Give time for any unwanted state update
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe('Second')
+      })
+    })
+
+    it('should merge loaded translations with static translations', async () => {
+      const staticTranslations = {
+        'nb-NO': {
+          HelpButton: { title: 'Static NB' },
+        },
+      }
+
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': {
+          Modal: { closeTitle: 'Async Close' },
+        },
+      })
+
+      const DisplayCloseTitle = () => {
+        const { translation } = React.useContext(Context)
+        return (
+          <>
+            <span id="help">{translation.HelpButton?.title}</span>
+            <span id="close">{translation.Modal?.closeTitle}</span>
+          </>
+        )
+      }
+
+      const { container } = render(
+        <Provider
+          translations={staticTranslations}
+          translationsLoader={loader}
+        >
+          <DisplayCloseTitle />
+        </Provider>
+      )
+
+      // Static translation should be present immediately
+      expect(container.querySelector('#help').textContent).toBe(
+        'Static NB'
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('#close').textContent).toBe(
+          'Async Close'
+        )
+      })
+    })
+
+    it('should handle loader errors gracefully', async () => {
+      const loader = jest
+        .fn()
+        .mockRejectedValue(new Error('Network error'))
+
+      const log = jest.spyOn(console, 'log').mockImplementation()
+
+      render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      // Wait for the async rejection to be handled
+      await waitFor(() => {
+        expect(log).toHaveBeenCalledWith(
+          expect.any(String),
+          expect.stringContaining('translationsLoader'),
+          expect.any(Error)
+        )
+      })
+
+      log.mockRestore()
+    })
+
+    it('should handle loader returning null', async () => {
+      const loader = jest.fn().mockResolvedValue(null)
+
+      const { container } = render(
+        <Provider translationsLoader={loader}>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      // Should still render with default translations
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBeTruthy()
+      })
+    })
+
+    it('should not break when no loader is provided', () => {
+      const { container } = render(
+        <Provider>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      expect(container.querySelector('span').textContent).toBeTruthy()
+    })
+
+    it('should use locale prop for the loader call', async () => {
+      const loader = jest.fn().mockResolvedValue({
+        'en-GB': { HelpButton: { title: 'Async EN' } },
+      })
+
+      render(
+        <Provider locale="en-GB" translationsLoader={loader}>
+          <DisplayTitle />
+        </Provider>
+      )
+
+      expect(loader).toHaveBeenCalledWith('en-GB')
     })
   })
 })

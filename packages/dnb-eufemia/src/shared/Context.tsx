@@ -179,6 +179,13 @@ export type ContextProps = ContextComponents & {
    */
   translations?: Translations | TranslationCustomLocales
 
+  /**
+   * Async function to load translations for a given locale.
+   * Called on mount and whenever the locale changes.
+   * The returned translations are merged with any existing translations.
+   */
+  translationsLoader?: TranslationsLoader
+
   // -- For internal use --
   __context__?: Record<string, unknown>
   updateTranslation?: (
@@ -202,6 +209,7 @@ export type InternalLocale =
 export type Translations =
   | Partial<Record<InternalLocale, Translation | TranslationFlat>>
   | Partial<Record<InternalLocale, FormsTranslation>>
+export type TranslationsLoader = (locale: string) => Promise<Translations>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationValues =

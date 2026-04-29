@@ -7,6 +7,7 @@ import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
 import { Form, Field, makeAjvInstance } from '../../..'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
+import type { ContextProps } from '../../../../../shared/Context'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 
@@ -1442,5 +1443,123 @@ describe('Form.Handler TypeScript type validation', () => {
 
     expect(formRef.current).toBeDefined()
     expect(formRef.current.tagName).toBe('FORM')
+  })
+
+  describe('translationsLoader', () => {
+    it('should load translations asynchronously', async () => {
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': { PhoneNumber: { numberLabel: 'Async etikett' } },
+      })
+
+      render(
+        <Form.Handler translationsLoader={loader}>
+          <Field.PhoneNumber />
+        </Form.Handler>
+      )
+
+      expect(loader).toHaveBeenCalledWith('nb-NO')
+
+      await waitFor(() => {
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-form-label')
+        )
+        expect(labels[1]).toHaveTextContent('Async etikett')
+      })
+    })
+
+    it('should make loaded translations available via Form.useTranslation', async () => {
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': { myCustomKey: 'Async verdi' },
+      }) as unknown as ContextProps['translationsLoader'] & jest.Mock
+
+      const DisplayCustomKey = () => {
+        const t = Form.useTranslation()
+        return (
+          <span>
+            {(t as unknown as Record<string, string>).myCustomKey}
+          </span>
+        )
+      }
+
+      const { container } = render(
+        <Form.Handler translationsLoader={loader}>
+          <DisplayCustomKey />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'Async verdi'
+        )
+      })
+    })
+
+    it('should reload when locale changes', async () => {
+      const loader = jest.fn((locale) => {
+        if (locale === 'en-GB') {
+          return Promise.resolve({
+            'en-GB': { PhoneNumber: { numberLabel: 'Async label' } },
+          })
+        }
+        return Promise.resolve({
+          'nb-NO': { PhoneNumber: { numberLabel: 'Async etikett' } },
+        })
+      })
+
+      const { rerender } = render(
+        <Form.Handler translationsLoader={loader}>
+          <Field.PhoneNumber />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-form-label')
+        )
+        expect(labels[1]).toHaveTextContent('Async etikett')
+      })
+
+      rerender(
+        <Form.Handler locale="en-GB" translationsLoader={loader}>
+          <Field.PhoneNumber />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-form-label')
+        )
+        expect(labels[1]).toHaveTextContent('Async label')
+      })
+    })
+
+    it('should work alongside static translations prop', async () => {
+      const staticTranslations = {
+        'nb-NO': {
+          PhoneNumber: { countryCodeLabel: 'Statisk landskode' },
+        },
+      }
+
+      const loader = jest.fn().mockResolvedValue({
+        'nb-NO': { PhoneNumber: { numberLabel: 'Async nummer' } },
+      })
+
+      render(
+        <Form.Handler
+          translations={staticTranslations}
+          translationsLoader={loader}
+        >
+          <Field.PhoneNumber />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-form-label')
+        )
+        expect(labels[0]).toHaveTextContent('Statisk landskode')
+        expect(labels[1]).toHaveTextContent('Async nummer')
+      })
+    })
   })
 })
