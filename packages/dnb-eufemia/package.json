@@ -103,9 +103,9 @@
   "types": "./index.d.ts",
   "dependencies": {
     "@babel/runtime-corejs3": "7.28.4",
-    "@maskito/core": "5.1.0",
-    "@maskito/kit": "5.1.0",
-    "@maskito/react": "5.1.0",
+    "@maskito/core": "5.2.2",
+    "@maskito/kit": "5.2.2",
+    "@maskito/react": "5.2.2",
     "@navikt/fnrvalidator": "2.1.5",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.18.0",
