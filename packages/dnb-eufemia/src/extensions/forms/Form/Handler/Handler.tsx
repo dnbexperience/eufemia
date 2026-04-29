@@ -49,6 +49,7 @@ const allowedProviderContextProps: Array<
   'countryCode',
   'translations',
   'translationsLoader',
+  'icu',
   'autoComplete',
   'disabled',
   'required',

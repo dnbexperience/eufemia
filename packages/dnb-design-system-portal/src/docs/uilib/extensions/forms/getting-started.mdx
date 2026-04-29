@@ -1112,6 +1112,43 @@ Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translat
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
 
+### ICU Message Format
+
+Forms translations support [ICU MessageFormat](/uilib/usage/customisation/localization/#icu-message-format) for pluralization, gender selection, and other locale-aware formatting. Enable it by passing the `icu` handler to `Form.Handler`:
+
+```tsx
+import { icu } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  'en-GB': {
+    MyForm: {
+      summary:
+        'You have {count, plural, =0 {no items} one {# item} other {# items}} in your cart.',
+    },
+  },
+  'nb-NO': {
+    MyForm: {
+      summary:
+        'Du har {count, plural, =0 {ingen varer} one {# vare} other {# varer}} i handlekurven.',
+    },
+  },
+}
+
+function MyForm() {
+  const { formatMessage } = Form.useTranslation()
+  return <>{formatMessage('MyForm.summary', { count: 3 })}</>
+}
+
+render(
+  <Form.Handler icu={icu} translations={translations} locale="en-GB">
+    <MyForm />
+  </Form.Handler>
+)
+```
+
+See the [ICU Message Format docs](/uilib/usage/customisation/localization/#icu-message-format) for the full list of supported formatters and syntax.
+
 ## Layout
 
 When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.

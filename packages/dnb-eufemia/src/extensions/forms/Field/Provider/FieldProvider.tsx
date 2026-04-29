@@ -29,6 +29,13 @@ export type FieldProviderProps = FieldProps & {
    */
   translationsLoader?: DataContextProps<JsonObject>['translationsLoader']
 
+  /**
+   * ICU MessageFormat handler for advanced message formatting.
+   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+   * pluralization, select, and other ICU features in translation strings.
+   */
+  icu?: DataContextProps<JsonObject>['icu']
+
   /** For internal use only */
   overwriteProps?: {
     [key: Path]: FieldProps

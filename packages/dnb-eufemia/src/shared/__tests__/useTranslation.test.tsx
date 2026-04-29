@@ -3,6 +3,7 @@ import { fireEvent, render, renderHook } from '@testing-library/react'
 import Translation from '../Translation'
 import useTranslation from '../useTranslation'
 import { LOCALE as defaultLocale } from '../defaults'
+import { icu } from '../icuFormatMessage'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -863,5 +864,558 @@ describe('useTranslation with an ID', () => {
         renderMessage: expect.any(Function),
       })
     )
+  })
+})
+
+describe('ICU MessageFormat support', () => {
+  describe('formatMessage with ICU syntax', () => {
+    it('should format plural messages', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            items:
+              'You have {count, plural, one {# item} other {# items}}.',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <>
+            <span data-testid="one">
+              {formatMessage('Custom.items', { count: 1 })}
+            </span>
+            <span data-testid="many">
+              {formatMessage('Custom.items', { count: 5 })}
+            </span>
+          </>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('[data-testid="one"]').textContent
+      ).toBe('You have 1 item.')
+      expect(
+        document.querySelector('[data-testid="many"]').textContent
+      ).toBe('You have 5 items.')
+    })
+
+    it('should format select messages', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            greeting:
+              '{gender, select, male {He} female {She} other {They}} liked this.',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <>
+            <span data-testid="male">
+              {formatMessage('Custom.greeting', { gender: 'male' })}
+            </span>
+            <span data-testid="other">
+              {formatMessage('Custom.greeting', { gender: 'unknown' })}
+            </span>
+          </>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('[data-testid="male"]').textContent
+      ).toBe('He liked this.')
+      expect(
+        document.querySelector('[data-testid="other"]').textContent
+      ).toBe('They liked this.')
+    })
+
+    it('should use locale-specific plural rules when switching locale', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            items: '{count, plural, one {# item} other {# items}}',
+          },
+        },
+        'nb-NO': {
+          Custom: {
+            items: '{count, plural, one {# element} other {# elementer}}',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span data-testid="result">
+            {formatMessage('Custom.items', { count: 1 })}
+          </span>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('[data-testid="result"]').textContent
+      ).toBe('1 item')
+
+      rerender(
+        <Provider icu={icu} locale="nb-NO" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('[data-testid="result"]').textContent
+      ).toBe('1 element')
+    })
+
+    it('should still support simple {placeholder} syntax', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            greeting: 'Hello {name}, welcome to {place}!',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.greeting', {
+              name: 'Alice',
+              place: 'Eufemia',
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe(
+        'Hello Alice, welcome to Eufemia!'
+      )
+    })
+
+    it('should format plural with =0 exact match', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            items:
+              '{count, plural, =0 {No items} one {# item} other {# items}}',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return <span>{formatMessage('Custom.items', { count: 0 })}</span>
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe('No items')
+    })
+  })
+
+  describe('Translation component with ICU syntax', () => {
+    it('should render plural messages via Translation component', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            items:
+              'You have {count, plural, one {# item} other {# items}}.',
+          },
+        },
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <Translation id="Custom.items" count={3} />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe('You have 3 items.')
+    })
+
+    it('should render select messages via Translation component', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            pronoun:
+              '{gender, select, male {He} female {She} other {They}}',
+          },
+        },
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <Translation id="Custom.pronoun" gender="female" />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe('She')
+    })
+  })
+
+  describe('number formatting with ICU', () => {
+    it('should format currency via number skeleton', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            balance: 'Balance: {amount, number, ::currency/NOK}',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>{formatMessage('Custom.balance', { amount: 1234 })}</span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      const text = document.body.textContent
+      expect(text).toMatch(/NOK|kr/)
+      expect(text).toContain('1,234')
+    })
+
+    it('should format compact numbers', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            followers: '{count, number, ::compact-short} followers',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>{formatMessage('Custom.followers', { count: 1500 })}</span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toMatch(/1\.?5K followers/i)
+    })
+  })
+
+  describe('date and time formatting with ICU', () => {
+    it('should format date with style', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            created: 'Created: {d, date, long}',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.created', {
+              d: new Date(2025, 0, 15),
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      const text = document.body.textContent
+      expect(text).toContain('January')
+      expect(text).toContain('2025')
+    })
+
+    it('should format time with style', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            event: 'Starts at {t, time, short}',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.event', {
+              t: new Date(2025, 0, 15, 14, 30),
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      const text = document.body.textContent
+      expect(text).toContain('14')
+      expect(text).toContain('30')
+    })
+  })
+})
+
+describe('Rich text tag rendering', () => {
+  describe('formatMessage with XML-like tags', () => {
+    it('should render a tag with a function handler', () => {
+      const translations = {
+        'nb-NO': {
+          Custom: {
+            info: 'Les mer i <link>dokumentasjonen</link>.',
+          },
+        },
+      }
+      type T = (typeof translations)['nb-NO']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.info', {
+              link: (chunks) => <a href="/docs">{chunks}</a>,
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      const anchor = document.querySelector('a')
+      expect(anchor).toBeTruthy()
+      expect(anchor.textContent).toBe('dokumentasjonen')
+      expect(anchor.getAttribute('href')).toBe('/docs')
+      expect(document.body.textContent).toBe('Les mer i dokumentasjonen.')
+    })
+
+    it('should render multiple tags', () => {
+      const translations = {
+        'nb-NO': {
+          Custom: {
+            info: '<bold>Viktig:</bold> Se <link>lenken</link> for detaljer.',
+          },
+        },
+      }
+      type T = (typeof translations)['nb-NO']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.info', {
+              bold: (chunks) => <strong>{chunks}</strong>,
+              link: (chunks) => <a href="/link">{chunks}</a>,
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.querySelector('strong').textContent).toBe('Viktig:')
+      expect(document.querySelector('a').textContent).toBe('lenken')
+      expect(document.body.textContent).toBe(
+        'Viktig: Se lenken for detaljer.'
+      )
+    })
+
+    it('should combine simple placeholders with tag handlers', () => {
+      const translations = {
+        'nb-NO': {
+          Custom: {
+            info: 'Hei {name}, les mer i <link>dokumentasjonen</link>.',
+          },
+        },
+      }
+      type T = (typeof translations)['nb-NO']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.info', {
+              name: 'Ola',
+              link: (chunks) => <a href="/docs">{chunks}</a>,
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe(
+        'Hei Ola, les mer i dokumentasjonen.'
+      )
+      expect(document.querySelector('a').textContent).toBe(
+        'dokumentasjonen'
+      )
+    })
+
+    it('should return plain string when no tags match', () => {
+      const translations = {
+        'nb-NO': {
+          Custom: {
+            info: 'Ingen tagger her.',
+          },
+        },
+      }
+      type T = (typeof translations)['nb-NO']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.info', {
+              link: (chunks) => <a>{chunks}</a>,
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe('Ingen tagger her.')
+      expect(document.querySelector('a')).toBeNull()
+    })
+  })
+
+  describe('Translation component with XML-like tags', () => {
+    it('should render tags via the Translation component', () => {
+      const translations = {
+        'nb-NO': {
+          Custom: {
+            info: 'Du kan lese mer i <link>dokumentasjonen</link>.',
+          },
+        },
+      }
+
+      render(
+        <Provider translations={translations}>
+          <Translation
+            id="Custom.info"
+            link={(chunks) => <a href="/docs">{chunks}</a>}
+          />
+        </Provider>
+      )
+
+      const anchor = document.querySelector('a')
+      expect(anchor).toBeTruthy()
+      expect(anchor.textContent).toBe('dokumentasjonen')
+      expect(document.body.textContent).toBe(
+        'Du kan lese mer i dokumentasjonen.'
+      )
+    })
+  })
+
+  describe('ICU with XML-like tags', () => {
+    it('should handle tags in ICU messages', () => {
+      const translations = {
+        'en-GB': {
+          Custom: {
+            items:
+              'You have {count, plural, one {# item} other {# items}}. <link>View cart</link>',
+          },
+        },
+      }
+      type T = (typeof translations)['en-GB']
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<T>()
+        return (
+          <span>
+            {formatMessage('Custom.items', {
+              count: 3,
+              link: (chunks) => <a href="/cart">{chunks}</a>,
+            })}
+          </span>
+        )
+      }
+
+      render(
+        <Provider icu={icu} locale="en-GB" translations={translations}>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(document.body.textContent).toBe('You have 3 items. View cart')
+      expect(document.querySelector('a').textContent).toBe('View cart')
+      expect(document.querySelector('a').getAttribute('href')).toBe(
+        '/cart'
+      )
+    })
   })
 })

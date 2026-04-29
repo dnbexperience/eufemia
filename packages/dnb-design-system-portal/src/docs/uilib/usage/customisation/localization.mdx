@@ -316,6 +316,434 @@ function DynamicExample({ refId }: { refId: string }) {
 }
 ```
 
+### Rich text (inline elements)
+
+Translation strings can contain XML-like tags that map to React components. Pass a function for each tag name — it receives the tag content and returns a React node:
+
+```tsx
+import { useTranslation, Provider } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    MyApp: {
+      info: 'You can read more in <link>the documentation</link>.',
+    },
+  },
+  'nb-NO': {
+    MyApp: {
+      info: 'Du kan lese mer i <link>dokumentasjonen</link>.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>
+      {formatMessage('MyApp.info', {
+        link: (chunks) => <Anchor href="/docs">{chunks}</Anchor>,
+      })}
+    </P>
+  )
+}
+
+render(
+  <Provider translations={translations} locale="en-GB">
+    <MyComponent />
+  </Provider>
+)
+```
+
+This also works with the `Translation` component:
+
+```tsx
+<Translation
+  id="MyApp.info"
+  link={(chunks) => <Anchor href="/docs">{chunks}</Anchor>}
+/>
+```
+
+You can use multiple tags and combine them with simple `{placeholder}` values:
+
+```tsx
+const translations = {
+  'en-GB': {
+    MyApp: {
+      welcome:
+        'Hello {name}, see <bold>important</bold> updates in <link>the changelog</link>.',
+    },
+  },
+}
+
+formatMessage('MyApp.welcome', {
+  name: 'Ola',
+  bold: (chunks) => <strong>{chunks}</strong>,
+  link: (chunks) => <Anchor href="/changelog">{chunks}</Anchor>,
+})
+```
+
+When [ICU Message Format](#icu-message-format) is enabled, tags work inside ICU messages as well:
+
+```tsx
+formatMessage('MyApp.items', {
+  count: 3,
+  link: (chunks) => <Anchor href="/cart">{chunks}</Anchor>,
+})
+// translation: 'You have {count, plural, one {# item} other {# items}}. <link>View cart</link>'
+```
+
+### ICU Message Format
+
+Eufemia supports [ICU MessageFormat](https://unicode-org.github.io/icu/userguide/format_parse/messages/) syntax in translation strings. This enables pluralization, gender selection, and other locale-aware formatting directly in your messages.
+
+ICU support is opt-in to keep your bundle size small. Enable it by importing the `icu` handler and passing it to the `Provider`:
+
+```tsx
+import { icu, Provider } from '@dnb/eufemia/shared'
+
+render(
+  <Provider icu={icu} locale="en-GB">
+    <App />
+  </Provider>
+)
+```
+
+Once enabled, ICU syntax is detected automatically. If a translation string contains ICU patterns like `{key, plural, ...}` or `{key, select, ...}`, it will be processed through the ICU formatter. Simple `{placeholder}` strings continue to work as before.
+
+#### How ICU syntax works
+
+An ICU message is a plain string. The simplest form is just literal text:
+
+```
+Hello everyone
+```
+
+To insert a dynamic value, wrap a key name in curly braces. The key is looked up in the values you pass and its value is placed into the output:
+
+```
+Hello {name}
+```
+
+To format a value based on its type, add a type after the key:
+
+```
+{key, type}
+```
+
+To further control the output, add a format or style:
+
+```
+{key, type, format}
+```
+
+For example, `{amount, number}` formats a number with locale-aware grouping, and `{d, date, long}` formats a date in the long style for the current locale.
+
+Some types like `plural` and `select` use a set of matches instead of a format string. Each match maps a value to an output message:
+
+```
+{count, plural, one {# item} other {# items}}
+```
+
+The `other` match is always required — it acts as the fallback when no other match applies. Inside a `plural` match, `#` is replaced with the formatted number.
+
+Messages can be nested — for example, combining `select` with `plural`:
+
+```
+{gender, select,
+  male {He has {count, plural, one {# item} other {# items}}}
+  female {She has {count, plural, one {# item} other {# items}}}
+  other {They have {count, plural, one {# item} other {# items}}}
+}
+```
+
+To escape curly braces or other ICU syntax characters, wrap them in single quotes:
+
+```
+This is not a placeholder: '{value}'
+```
+
+Two consecutive single quotes produce a literal single quote: `This isn''t a placeholder` → `This isn't a placeholder`. For human-readable strings, prefer curly quotes (`'`, U+2019) instead of the ASCII apostrophe.
+
+The following sections show each ICU feature in detail with Eufemia examples.
+
+#### Pluralization
+
+Use `plural` to vary text based on a count. The `#` token inside the message is replaced with the formatted number. The `other` category is always required.
+
+```tsx
+import { useTranslation, Provider, icu } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    Notifications: {
+      summary:
+        'You have {count, plural, =0 {no new notifications} one {# new notification} other {# new notifications}}.',
+    },
+  },
+  'nb-NO': {
+    Notifications: {
+      summary:
+        'Du har {count, plural, =0 {ingen nye varsler} one {# nytt varsel} other {# nye varsler}}.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function NotificationBanner() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Notifications.summary', { count: 3 })}</P>
+  // en-GB: "You have 3 new notifications."
+  // nb-NO: "Du har 3 nye varsler."
+}
+
+render(
+  <Provider icu={icu} translations={translations} locale="en-GB">
+    <NotificationBanner />
+  </Provider>
+)
+```
+
+Plural categories vary by locale. English uses `one` and `other`. Some languages (like Arabic) use `zero`, `one`, `two`, `few`, `many`, and `other`. Use exact matches like `=0` when you need specific wording for a particular number regardless of locale.
+
+#### Select
+
+Use `select` to choose between message variants based on a string value. This is commonly used for gendered text or category-based messages.
+
+```tsx
+const translations = {
+  'en-GB': {
+    Status: {
+      response:
+        '{gender, select, male {He} female {She} other {They}} responded to your request.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function StatusMessage() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Status.response', { gender: 'female' })}</P>
+  // Output: "She responded to your request."
+}
+```
+
+#### Selectordinal
+
+Use `selectordinal` for ordinal number formatting (1st, 2nd, 3rd, etc.):
+
+```tsx
+const translations = {
+  'en-GB': {
+    Ranking: {
+      position:
+        'You finished in {pos, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} place!',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function RankingMessage() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Ranking.position', { pos: 3 })}</P>
+  // Output: "You finished in 3rd place!"
+}
+```
+
+#### Number formatting
+
+Use `{value, number}` to format numbers with locale-aware grouping and decimal separators. You can add [ICU number skeletons](https://unicode-org.github.io/icu/userguide/format_parse/numbers/skeletons.html) for currency, percent, and compact notation.
+
+```tsx
+const translations = {
+  'en-GB': {
+    Account: {
+      // Basic number: "1,234.56"
+      total: 'Total: {amount, number}',
+
+      // Currency: "kr 1 234,00" (nb-NO) / "NOK 1,234.00" (en-GB)
+      balance: 'Balance: {amount, number, ::currency/NOK}',
+
+      // Percent: "25%"
+      progress: 'Progress: {pct, number, ::percent}',
+
+      // Compact: "1.5K"
+      followers: '{count, number, ::compact-short} followers',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function AccountInfo() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <>
+      <P>{formatMessage('Account.total', { amount: 1234.56 })}</P>
+      <P>{formatMessage('Account.balance', { amount: 1234 })}</P>
+      <P>{formatMessage('Account.progress', { pct: 0.25 })}</P>
+      <P>{formatMessage('Account.followers', { count: 1500 })}</P>
+    </>
+  )
+}
+```
+
+#### Date formatting
+
+Use `{value, date}` with an optional style — `short`, `medium`, `long`, or `full` — to format dates according to the locale:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Events: {
+      // Default: "15 Jan 2025"
+      created: 'Created: {d, date}',
+
+      // Short: "15/01/2025"
+      shortDate: '{d, date, short}',
+
+      // Medium: "15 Jan 2025"
+      mediumDate: '{d, date, medium}',
+
+      // Long: "15 January 2025"
+      longDate: '{d, date, long}',
+
+      // Full: "Wednesday, 15 January 2025"
+      fullDate: '{d, date, full}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function EventDate() {
+  const { formatMessage } = useTranslation<T>()
+  const d = new Date(2025, 0, 15)
+  return <P>{formatMessage('Events.longDate', { d })}</P>
+  // en-GB: "15 January 2025"
+}
+```
+
+#### Time formatting
+
+Use `{value, time}` with a style to format times:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Schedule: {
+      // Short: "14:30"
+      starts: 'Starts at {t, time, short}',
+
+      // Medium: "14:30:45"
+      precise: 'Logged at {t, time, medium}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function ScheduleInfo() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>
+      {formatMessage('Schedule.starts', {
+        t: new Date(2025, 0, 15, 14, 30),
+      })}
+    </P>
+  )
+  // en-GB: "Starts at 14:30"
+}
+```
+
+#### Pre-formatted values
+
+ICU does not cover all formatting needs — for example, bank account numbers or national identity numbers. For these, format the value before passing it in as a simple placeholder. You can use Eufemia's formatting utilities like `formatBankAccountNumber`:
+
+```tsx
+import { useTranslation } from '@dnb/eufemia/shared'
+import { formatBankAccountNumber } from '@dnb/eufemia/components/NumberFormat'
+
+const translations = {
+  'en-GB': {
+    Account: {
+      info: 'Your account number is {account}.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function AccountInfo({ accountNumber }: { accountNumber: string }) {
+  const { formatMessage } = useTranslation<T>()
+
+  // Use Eufemia's formatter for bank account numbers
+  const account = formatBankAccountNumber(accountNumber)
+
+  return <P>{formatMessage('Account.info', { account })}</P>
+  // Output: "Your account number is 2000 12 34567."
+}
+```
+
+Other formatting utilities like `formatNationalIdentityNumber`, `formatOrganizationNumber`, and `formatPhoneNumber` work the same way. See the [NumberFormat](/uilib/components/NumberFormat/) docs for the full list.
+
+#### Nested messages
+
+ICU messages can be nested — for example, combining `select` with `plural`:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Items: {
+      summary:
+        '{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function ItemSummary() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>{formatMessage('Items.summary', { gender: 'female', count: 3 })}</P>
+  )
+  // Output: "She has 3 items"
+}
+```
+
+#### With the Translation component
+
+ICU messages also work with the `<Translation />` component. Pass values as props:
+
+```tsx
+import { Translation, Provider, icu } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    Cart: {
+      items:
+        'You have {count, plural, =0 {an empty cart} one {# item} other {# items}} in your cart.',
+    },
+  },
+}
+
+render(
+  <Provider icu={icu} translations={translations} locale="en-GB">
+    <P>
+      <Translation id="Cart.items" count={5} />
+    </P>
+    {/* Output: "You have 5 items in your cart." */}
+  </Provider>
+)
+```
+
+For a full reference of ICU MessageFormat syntax, see the [FormatJS ICU syntax guide](https://formatjs.github.io/docs/core-concepts/icu-syntax) and the [ICU User Guide](https://unicode-org.github.io/icu/userguide/format_parse/messages/).
+
 ### Fallback for missing or partial translations
 
 The shared `useTranslation` hook will output missing keys when:
@@ -664,9 +1092,9 @@ type TranslationType = (typeof translations)[keyof typeof translations]
 
 render(
   <EufemiaProvider translations={translations} locale="en-GB">
-    <p>
+    <P>
       <Translation<TranslationType> id={(t) => t.info} />
-    </p>
+    </P>
   </EufemiaProvider>
 )
 ```

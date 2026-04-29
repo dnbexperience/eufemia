@@ -78,6 +78,12 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
     sharedProviderParams.translationsLoader = translationsLoader
   }
 
+  const icu = dataContextRef.current?.props?.icu ?? restProps?.icu
+
+  if (icu) {
+    sharedProviderParams.icu = icu
+  }
+
   const extend = useCallback(
     <T extends FieldProps>(fieldProps: T) => {
       // Extract props from data context to be used in fields

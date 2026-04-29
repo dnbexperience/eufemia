@@ -202,6 +202,12 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     translationsLoader?: ContextProps['translationsLoader']
     /**
+     * ICU MessageFormat handler for advanced message formatting.
+     * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+     * pluralization, select, and other ICU features in translation strings.
+     */
+    icu?: ContextProps['icu']
+    /**
      * Make all fields required
      */
     required?: boolean
@@ -244,6 +250,7 @@ export default function Provider<Data extends JsonObject>(
     locale,
     translations,
     translationsLoader,
+    icu,
     required,
     errorMessages,
     isolate,
@@ -1844,6 +1851,7 @@ export default function Provider<Data extends JsonObject>(
         translationsLoader={
           translationsLoader ? translationsLoader : undefined
         }
+        icu={icu ? icu : undefined}
       >
         {children}
       </FieldPropsProvider>

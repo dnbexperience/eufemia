@@ -15,6 +15,7 @@ import type {
 import Context from './Context'
 import defaultLocales from './locales'
 import { isObject, warn } from './component-helper'
+import type { ICUFormatMessage } from './icuFormatMessage'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
@@ -39,9 +40,9 @@ export default function useTranslation<
   messages?: UseTranslationMessages<T> | UseTranslationArgs<T>,
   args?: TranslationArguments
 ) {
-  const { locale, translation } = useContext(Context)
+  const { locale, translation, icu } = useContext(Context)
   const { translations: contextTranslations } = useContext(Context)
-  const { assignUtils } = useAdditionalUtils()
+  const { assignUtils } = useAdditionalUtils(icu)
 
   const { extMessages, fallbackLocale, baseOverride, warnLabel } =
     useMemo(() => {
@@ -89,7 +90,8 @@ export default function useTranslation<
         translation: (baseOverride || translation) as Translation,
         messages: extMessages as TranslationCustomLocales,
         locale: translationLocale,
-      })
+      }),
+      translationLocale
     ) as TranslationFlatToObject<T> & AdditionalReturnUtils
 
     // Inline fallback behavior (opt-in via object arg)
@@ -252,13 +254,22 @@ export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
   AdditionalReturnUtils
 
-export function useAdditionalUtils() {
+export function useAdditionalUtils(icu?: ICUFormatMessage) {
   const translationsRef =
     useRef<CombineWithExternalTranslationsReturn>(undefined)
+  const localeRef = useRef<string>('nb-NO')
+  const icuRef = useRef<ICUFormatMessage | undefined>(icu)
+  icuRef.current = icu
 
   const fM = useCallback(
     (id: TranslationId, args: TranslationArguments) => {
-      return formatMessage(id, args, translationsRef.current)
+      return formatMessage(
+        id,
+        args,
+        translationsRef.current,
+        localeRef.current,
+        icuRef.current
+      )
     },
     []
   )
@@ -268,8 +279,14 @@ export function useAdditionalUtils() {
   }, [])
 
   const assignUtils = useCallback(
-    (translations: CombineWithExternalTranslationsReturn) => {
+    (
+      translations: CombineWithExternalTranslationsReturn,
+      locale?: string
+    ) => {
       translationsRef.current = translations
+      if (locale) {
+        localeRef.current = locale
+      }
       Object.assign(translations, { formatMessage: fM, renderMessage: rM })
       return translations
     },
@@ -306,7 +323,9 @@ export function combineWithExternalTranslations({
 export function formatMessage(
   id: TranslationId | TranslationIdAsFunction,
   args?: TranslationArguments,
-  messages?: TranslationCustomLocales
+  messages?: TranslationCustomLocales,
+  locale?: string,
+  icu?: ICUFormatMessage
 ) {
   let str = undefined
 
@@ -337,9 +356,37 @@ export function formatMessage(
   }
 
   if (typeof str === 'string') {
+    if (args && icu && icu.isICU(str)) {
+      const result = icu.format(str, args, locale || 'nb-NO')
+
+      if (Array.isArray(result)) {
+        return (
+          <>
+            {result.map((part, i) => (
+              <Fragment key={i}>{part as React.ReactNode}</Fragment>
+            ))}
+          </>
+        )
+      }
+
+      return result
+    }
+
+    let hasTagHandlers = false
+
     for (const t in args) {
+      if (typeof args[t] === 'function' && str.includes(`<${t}>`)) {
+        hasTagHandlers = true
+        continue
+      }
+
+      const value = typeof args[t] === 'function' ? args[t]() : args[t]
       const regex = new RegExp(`{${t}}`, 'g')
-      str = str.replace(regex, args[t])
+      str = str.replace(regex, value)
+    }
+
+    if (hasTagHandlers) {
+      return renderTags(str, args)
     }
   }
 
@@ -365,4 +412,47 @@ export function renderMessage(
   }
 
   return text
+}
+
+function renderTags(
+  str: string,
+  args: Record<string, unknown>
+): React.ReactNode {
+  const TAG_RE = /<(\w+)>([\s\S]*?)<\/\1>/
+  const parts: React.ReactNode[] = []
+  let remaining = str
+  let match: RegExpExecArray | null
+
+  while ((match = TAG_RE.exec(remaining)) !== null) {
+    const [fullMatch, tagName, content] = match
+
+    if (match.index > 0) {
+      parts.push(remaining.slice(0, match.index))
+    }
+
+    const handler = args[tagName]
+    if (typeof handler === 'function') {
+      parts.push(handler(content))
+    } else {
+      parts.push(fullMatch)
+    }
+
+    remaining = remaining.slice(match.index + fullMatch.length)
+  }
+
+  if (remaining) {
+    parts.push(remaining)
+  }
+
+  if (parts.length === 1 && typeof parts[0] === 'string') {
+    return parts[0]
+  }
+
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Fragment key={i}>{part}</Fragment>
+      ))}
+    </>
+  )
 }
