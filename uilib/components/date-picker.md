@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.625Z
-checksum: 82e2c746109fb28a138a47a04a53958fa7e372d614a439d7eacd19d8ea662e4a
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.666Z
+checksum: 25039cac80cdfedb8658fbb8c024cef46bb745e93d9713305471dc308cb200a2
 ---
 
 # DatePicker
@@ -132,13 +132,11 @@ import { DatePicker } from '@dnb/eufemia'
 import { getOsloDate } from '@dnb/eufemia/components/date-format/DateFormatUtils'
 ```
 
-### Validation for `minDate`, `maxDate`, and invalid dates
-
-`Field.Date` has [built-in validation](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation]) for `minDate`, `maxDate`, and invalid dates. This is the preferred method of handling scenarios where the user has typed in an invalid date or a date outside of the set date limits. Automatically changing the user input, on the other hand, leads to worse UX and confusion, as the user might not understand why the date is changed for seemingly no reason. So it's best practice to tell the user what is wrong and let them correct it.
-
 ### Min & Max date
 
-If `minDate` or `maxDate` is given, the return object also contains information about whether the `startDate` or `endDate` is within the given limits. The reason is that the user can still enter an invalid date in the input.
+The `minDate` and `maxDate` props restrict which dates can be selected in the calendar view. Dates outside the given range will be disabled, both for single dates and ranges. However, the user can still type a date outside these limits directly in the input field — `minDate` and `maxDate` do **not** validate typed input.
+
+If `minDate` or `maxDate` is given, the return object also contains information about whether the date is within the given limits:
 
 ```js
 {
@@ -147,6 +145,12 @@ If `minDate` or `maxDate` is given, the return object also contains information 
   ...
 }
 ```
+
+### Validation for `minDate`, `maxDate`, and invalid dates
+
+If you need validation of typed input against `minDate` and `maxDate`, use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) instead. It has [built-in validation](/uilib/extensions/forms/feature-fields/Date/#date-limit-validation) for `minDate`, `maxDate`, and invalid dates, and will show the user an error message when the entered date is outside the allowed range.
+
+Automatically changing the user input leads to worse UX and confusion, as the user might not understand why the date changed. It's best practice to tell the user what is wrong and let them correct it.
 
 ### Validation during input changes
 
@@ -468,12 +472,12 @@ render(
       "status": "optional"
     },
     "minDate": {
-      "doc": "To limit a date range to a minimum `startDate`. Defaults to `null`.",
+      "doc": "To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
       "type": ["string", "Date"],
       "status": "optional"
     },
     "maxDate": {
-      "doc": "To limit a date range to a maximum `endDate`. Defaults to `null`.",
+      "doc": "To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
       "type": ["string", "Date"],
       "status": "optional"
     },

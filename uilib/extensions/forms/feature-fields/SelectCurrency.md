@@ -1,8 +1,8 @@
 ---
 title: 'Field.SelectCurrency'
 description: '`Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.793Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.963Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

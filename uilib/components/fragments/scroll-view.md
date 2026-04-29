@@ -1,8 +1,8 @@
 ---
 title: 'ScrollView'
 description: 'ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.663Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.708Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -24,6 +24,14 @@ It also is used in other floating components like [Dropdown](/uilib/components/d
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/fragments/scroll-view)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/fragments/scroll-view)
+
+### Scrollbar gutter
+
+Use `scrollbarGutter="stable"` to reserve space for the scrollbar, preventing horizontal layout shifts when content dynamically changes between overflowing and non-overflowing states.
+
+This uses the CSS `scrollbar-gutter: stable` property. On systems with overlay scrollbars (such as iOS or macOS default), it has no visible effect. On systems with classic scrollbars (such as Windows and Linux), it prevents content from shifting when a scrollbar appears or disappears.
+
+[Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) enable this automatically by default.
 
 ```tsx
 render(<ScrollView>scrollable content</ScrollView>)
@@ -69,6 +77,11 @@ render(
     "interactive": {
       "doc": "To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.",
       "type": ["boolean", "\"auto\""],
+      "status": "optional"
+    },
+    "scrollbarGutter": {
+      "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. Maps to the CSS `scrollbar-gutter` property. Defaults to `undefined`.",
+      "type": "\"stable\"",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

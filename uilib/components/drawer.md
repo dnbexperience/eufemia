@@ -1,9 +1,9 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.642Z
-checksum: 6f1abe334bfebbe26f3aed43d2624d832a540128a849b817f176560158ff39ec
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.684Z
+checksum: 81d2fd74236351b8fe0315805263344b8c22fd30effa05c50ee9683818ab648c
 ---
 
 # Drawer
@@ -529,6 +529,11 @@ render(<MockComponent />)
     "fullscreen": {
       "doc": "If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
       "type": ["boolean", "string"],
+      "status": "optional"
+    },
+    "scrollbarGutter": {
+      "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` when spacing is enabled. Set to `false` to disable.",
+      "type": ["\"stable\"", "false"],
       "status": "optional"
     }
   }

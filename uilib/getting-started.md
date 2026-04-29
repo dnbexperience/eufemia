@@ -1,8 +1,8 @@
 ---
 title: 'Getting Started'
 description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.802Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.976Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,7 +12,7 @@ Welcome to Eufemia — DNB's design system for building accessible, consistent d
 
 ## Start Here
 
-<Section backgroundColor="mint-green" innerSpace>
+<Section variant="information" innerSpace>
   <Button href="/uilib/intro" size="large" text="Quick Intro" />
 </Section>
 

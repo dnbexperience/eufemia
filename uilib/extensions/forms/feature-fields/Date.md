@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.784Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.949Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -276,12 +276,12 @@ render(
       "status": "optional"
     },
     "minDate": {
-      "doc": "To limit a date range to a minimum `startDate`. Defaults to `null`.",
+      "doc": "To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
       "type": ["string", "Date"],
       "status": "optional"
     },
     "maxDate": {
-      "doc": "To limit a date range to a maximum `endDate`. Defaults to `null`.",
+      "doc": "To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
       "type": ["string", "Date"],
       "status": "optional"
     },

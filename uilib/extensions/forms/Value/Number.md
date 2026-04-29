@@ -1,9 +1,9 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.627Z
-checksum: bc5e4c9a4b29f82936b0943d5ebcba984e284e5f405f36537f7036feb9305b43
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.784Z
+checksum: 0f307fc9ab46854e5268683f8f4217f9372ca167662cbb832362a6a5abb6e3a6
 ---
 
 # Value.Number
@@ -120,26 +120,6 @@ render(
       "type": "string",
       "status": "optional"
     },
-    "compact": {
-      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
-      "status": "optional"
-    },
-    "currency": {
-      "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.",
-      "type": ["string", "boolean"],
-      "status": "optional"
-    },
-    "currencyDisplay": {
-      "doc": "Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.",
-      "type": "string",
-      "status": "optional"
-    },
-    "currencyPosition": {
-      "doc": "Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).",
-      "type": "string",
-      "status": "optional"
-    },
     "decimals": {
       "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
       "type": "number",
@@ -226,9 +206,9 @@ render(
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "link": {
-      "doc": "Use `tel` (default) or `sms` to enable a clickable / touchable anchor link. Only available on `NumberFormat.PhoneNumber`.",
-      "type": "string",
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": ["boolean", "string"],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

@@ -1,9 +1,9 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.635Z
-checksum: 9b3d85ff383f644146403bec9af2546f8de522083d52c96efda7ea30b6719362
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.676Z
+checksum: f91afb853f928a3457a9c398609a83c641460bd09d60035d0979063b35d264b0
 ---
 
 # Dialog
@@ -628,6 +628,11 @@ render(<MockComponent />)
     "scrollRef": {
       "doc": "To get the scroll Element, pass in your own React ref.",
       "type": "React.RefObject",
+      "status": "optional"
+    },
+    "scrollbarGutter": {
+      "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.",
+      "type": ["\"stable\"", "false"],
       "status": "optional"
     },
     "contentRef": {

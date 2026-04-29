@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.691Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.738Z
 checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 

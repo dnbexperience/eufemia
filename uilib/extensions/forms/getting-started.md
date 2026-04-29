@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.799Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.970Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -733,6 +733,8 @@ Examples where this pattern is used:
 
 ### required
 
+Fields are optional by default. Eufemia Forms is designed for more than classical form submissions — it also covers data display, settings, wizards, and layout — so validation is opt-in.
+
 The `required` property is a boolean that indicates whether the field is required or not:
 
 ```tsx
@@ -748,7 +750,11 @@ The `required` property is a boolean that indicates whether the field is require
 </Form.Handler>
 ```
 
-When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`).
+When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`). Optional fields are labeled instead of required ones because, in a required form, most fields should be required — labeling the exceptions reduces visual noise and makes the form easier to scan.
+
+Using a consistent suffix convention across all forms helps users build a reliable mental model: "if there's no suffix, I need to fill this in." If a form has mostly optional fields and only a few required ones, consider whether the form could be simplified — for example, by moving optional fields to a separate step or section.
+
+It is possible to customize the suffix text with the `labelSuffix` property, if really needed:
 
 ```tsx
 <Form.Handler required>

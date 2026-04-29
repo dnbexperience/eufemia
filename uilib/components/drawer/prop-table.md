@@ -1,6 +1,6 @@
 ---
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:11.636Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:10.678Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -65,6 +65,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     "fullscreen": {
       "doc": "If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
       "type": ["boolean", "string"],
+      "status": "optional"
+    },
+    "scrollbarGutter": {
+      "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` when spacing is enabled. Set to `false` to disable.",
+      "type": ["\"stable\"", "false"],
       "status": "optional"
     }
   }
@@ -134,6 +139,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     "fullscreen": {
       "doc": "If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
       "type": ["boolean", "string"],
+      "status": "optional"
+    },
+    "scrollbarGutter": {
+      "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` when spacing is enabled. Set to `false` to disable.",
+      "type": ["\"stable\"", "false"],
       "status": "optional"
     }
   }

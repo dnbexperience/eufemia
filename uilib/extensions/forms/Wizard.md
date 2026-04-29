@@ -1,8 +1,8 @@
 ---
 title: 'Wizard'
 description: '`Wizard` is a set of components for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several wizard. It also includes components for navigating between wizard.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.755Z
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.909Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

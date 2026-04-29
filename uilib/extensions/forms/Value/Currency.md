@@ -1,9 +1,9 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.0.3
-generatedAt: 2026-04-28T21:06:12.604Z
-checksum: 4792a10bcf35b32951a5d0a293578ebd41a862c37db3203fa7689407f97df07d
+version: 11.0.4
+generatedAt: 2026-04-29T19:30:11.755Z
+checksum: 53e1414693ea679e7fe0f32285e0b77836ef75408a4785fdb6c31eb06e80eb7f
 ---
 
 # Value.Currency
@@ -120,11 +120,6 @@ render(
       ],
       "status": "optional"
     },
-    "currencyPosition": {
-      "doc": "Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).",
-      "type": "string",
-      "status": "optional"
-    },
     "minimum": {
       "doc": "Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.",
       "type": "number",
@@ -138,11 +133,6 @@ render(
     "locale": {
       "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
       "type": "string",
-      "status": "optional"
-    },
-    "compact": {
-      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
       "status": "optional"
     },
     "decimals": {
@@ -229,6 +219,11 @@ render(
     "tooltip": {
       "doc": "Provide a string or a React Element to be shown as the tooltip content.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": ["boolean", "string"],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
