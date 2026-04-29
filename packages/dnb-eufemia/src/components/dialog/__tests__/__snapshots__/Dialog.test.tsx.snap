@@ -121,7 +121,7 @@ p > .dnb-icon {
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: 1rem;
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -171,7 +171,7 @@ p > .dnb-icon {
  *
  */
 .dnb-form-status {
-  --form-status-radius: 0.25rem;
+  --form-status-radius: var(--token-radius-sm);
   display: flex;
   opacity: 1;
 }
@@ -345,7 +345,7 @@ button .dnb-form-status__text {
   --button-border-width--hover: 0.125rem;
   --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--control-button: 0.25rem;
+  --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: 1rem;
@@ -1268,7 +1268,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem;
   --dialog-spacing-minus: -2rem;
-  --dialog-radius: 0.5rem;
+  --dialog-radius: var(--token-radius-md);
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   --dialog-icon-positioning: -50%;
   --dialog-background-color: var(--token-color-background-neutral, white);

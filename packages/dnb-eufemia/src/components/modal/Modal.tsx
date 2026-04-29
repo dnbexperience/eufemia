@@ -41,7 +41,7 @@ export const ANIMATION_DURATION = 300
 
 export type ModalAllProps = ModalProps &
   SpacingProps &
-  Omit<ScrollViewAllProps, 'children'>
+  Omit<ScrollViewAllProps, 'children' | 'scrollbarGutter'>
 
 const modalDefaultProps: Partial<ModalAllProps> = {
   spacing: true,

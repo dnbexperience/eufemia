@@ -23,6 +23,12 @@ export type ScrollViewProps = {
    * Default: `false`
    */
   interactive?: boolean | 'auto'
+
+  /**
+   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. Maps to the CSS `scrollbar-gutter` property.
+   * Default: `undefined`
+   */
+  scrollbarGutter?: 'stable'
 }
 
 export type ScrollViewAllProps = ScrollViewProps &
@@ -47,6 +53,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
 
   const {
     interactive,
+    scrollbarGutter,
     children,
     className = null,
     ref: refProp,
@@ -58,7 +65,12 @@ function ScrollView(localProps: ScrollViewAllProps) {
     HTMLDivElement
   > = applySpacing(props, {
     ...(attributes as React.HTMLAttributes<unknown>),
-    className: clsx('dnb-scroll-view', className),
+    className: clsx(
+      'dnb-scroll-view',
+      scrollbarGutter === 'stable' &&
+        'dnb-scroll-view--scrollbar-gutter-stable',
+      className
+    ),
   })
 
   const localRef = React.useRef<HTMLDivElement>(undefined)

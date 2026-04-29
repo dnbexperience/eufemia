@@ -11,7 +11,7 @@
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: 1rem;
+  --tooltip-border-radius: var(--token-radius-lg);
 
   // Set design tokens for tooltip
   --popover-text-color: var(--token-color-text-neutral-inverse);

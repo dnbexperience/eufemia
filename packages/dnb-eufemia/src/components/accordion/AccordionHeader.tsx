@@ -301,12 +301,6 @@ export const AccordionHeader = ({
           removeParts.push(part)
         }
 
-        // if (cur.type === AccordionHeaderTitle) {
-        //   defaultParts.unshift(cur)
-        // } else {
-        //   defaultParts.push(cur)
-        // }
-
         defaultParts.push(cur)
       }
     })

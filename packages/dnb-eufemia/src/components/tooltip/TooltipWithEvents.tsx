@@ -175,7 +175,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
-  // const fallbackDescriptionId = `${internalId}-sr`
   const describedById = overlayOpen ? internalId : null
 
   /**

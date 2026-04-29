@@ -4,5 +4,5 @@
 */
 
 .dnb-dialog {
-  --dialog-radius: 0.125rem;
+  --dialog-radius: var(--token-radius-sm);
 }

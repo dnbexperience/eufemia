@@ -1,9 +1,9 @@
 import type { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatProperties } from '../number-format/NumberFormatDocs'
+import { NumberFormatCurrencyProperties } from '../number-format/NumberFormatDocs'
 import { SharedValueProperties } from './StatDocsUtils'
 
 export const CurrencyProperties: PropertiesTableProps = {
-  currencyDisplay: NumberFormatProperties.currencyDisplay,
-  currencyPosition: NumberFormatProperties.currencyPosition,
+  currencyDisplay: NumberFormatCurrencyProperties.currencyDisplay,
+  currencyPosition: NumberFormatCurrencyProperties.currencyPosition,
   ...SharedValueProperties,
 }

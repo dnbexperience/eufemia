@@ -109,7 +109,7 @@ p > .dnb-icon {
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: 1rem;
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -159,7 +159,7 @@ p > .dnb-icon {
  *
  */
 .dnb-form-status {
-  --form-status-radius: 0.25rem;
+  --form-status-radius: var(--token-radius-sm);
   display: flex;
   opacity: 1;
 }
@@ -333,7 +333,7 @@ button .dnb-form-status__text {
   --button-border-width--hover: 0.125rem;
   --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--control-button: 0.25rem;
+  --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: 1rem;
@@ -1062,7 +1062,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
@@ -1109,35 +1109,8 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
 }
 
 .dnb-button {
-  --button-background--focus: var(--sb-color-blue-light-3);
   --button-border-radius--control-button: 3rem;
   --button-padding--large: 1.5rem;
-  --button-primary-shadow: var(--sb-shadow-medium);
-  --button-primary-shadow--hover: var(--sb-shadow-medium);
-  --button-primary-color: var(--sb-color-white);
-  --button-primary-color--hover: var(--sb-color-purple-alternative);
-  --button-primary-color--disabled: var(--sb-color-gray-dark-2);
-  --button-primary-background--hover: var(--sb-color-green);
-  --button-primary-background--active: var(--sb-color-purple-alternative);
-  --button-primary-background--disabled: var(--sb-color-gray-light);
-  --button-primary-border--hover: transparent;
-  --button-secondary-color: var(--sb-color-purple-alternative);
-  --button-secondary-color--hover: var(--sb-color-purple-alternative);
-  --button-secondary-color--active: var(--sb-color-purple-alternative);
-  --button-secondary-color--disabled: var(--sb-color-gray-dark);
-  --button-secondary-background: var(--sb-color-white);
-  --button-secondary-background--hover: var(--sb-color-green);
-  --button-secondary-background--active: var(--sb-color-white);
-  --button-secondary-border: var(--button-secondary-border--default);
-  --button-secondary-border--default: var(--sb-color-purple-alternative);
-  --button-secondary-border--hover: var(
-    --button-secondary-border--default
-  );
-  --button-secondary-border--active: var(
-    --button-secondary-border--default
-  );
-  --button-secondary-border--disabled: var(--sb-color-gray-light);
-  --button-tertiary-border: var(--sb-color-violet);
   border: none;
 }
 .dnb-button--has-text.dnb-button--size-large {
@@ -1302,7 +1275,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {

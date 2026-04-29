@@ -4,7 +4,7 @@
 */
 
 .dnb-textarea {
-  --textarea-border-radius--focus: 1.5rem;
+  --textarea-border-radius--focus: var(--token-radius-xl);
 
   &__textarea {
     // prevents clipping through rounded corners that appear on focus

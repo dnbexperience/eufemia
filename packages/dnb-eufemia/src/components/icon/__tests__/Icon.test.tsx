@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
-import Icon from '../Icon'
+import Icon, { prerenderIcon } from '../Icon'
 import { question } from './test-files'
 
 const props: IconAllProps = {
@@ -258,6 +258,26 @@ describe('Icon component', () => {
 
     const img = document.querySelector('img')
     expect(img).toHaveAttribute('alt', 'Custom alt')
+  })
+
+  it('should return stable component reference from prerenderIcon for function icons', () => {
+    const ref1 = prerenderIcon({ icon: question })
+    const ref2 = prerenderIcon({ icon: question })
+
+    expect(ref1).toBe(ref2)
+    expect(ref1).toBe(question)
+  })
+
+  it('should not remount the SVG element on rerender', () => {
+    const { rerender } = render(<Icon icon={question} />)
+
+    const svgBefore = document.querySelector('svg')
+    expect(svgBefore).toBeInTheDocument()
+
+    rerender(<Icon icon={question} />)
+
+    const svgAfter = document.querySelector('svg')
+    expect(svgAfter).toBe(svgBefore)
   })
 })
 

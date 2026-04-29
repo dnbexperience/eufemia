@@ -1726,6 +1726,36 @@
           "com.figma.isOverride": true
         }
       },
+      "neutral-alternative-inverse": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ],
+          "alpha": 1,
+          "hex": "#CCCCCC"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:64695:9604",
+          "com.figma.hiddenFromPublishing": true,
+          "com.figma.scopes": [
+            "TEXT_FILL"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-text-neutral-alternative-inverse"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
+            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetName": "colors"
+          },
+          "com.figma.isOverride": true
+        }
+      },
       "neutral-inverse": {
         "$type": "color",
         "$value": {
@@ -2035,7 +2065,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-color-icon-error"
+            "WEB": "--token-color-text-error"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
@@ -2753,8 +2783,8 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:62150:1988",
           "com.figma.scopes": [
-            "FRAME_FILL",
-            "SHAPE_FILL"
+            "ALL_FILLS",
+            "STROKE"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-positive"

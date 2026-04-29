@@ -5,6 +5,7 @@ import {
   skeletonProperty,
   spacingProperties,
 } from './StatDocsUtils'
+import { NumberFormatNumberProperties } from '../number-format/NumberFormatDocs'
 
 export const TextProperties: PropertiesTableProps = {
   children: {
@@ -24,7 +25,7 @@ export const TextProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  ...pickNumberFormatProps(['srLabel']),
+  ...pickNumberFormatProps(NumberFormatNumberProperties, ['srLabel']),
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

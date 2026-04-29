@@ -106,6 +106,11 @@ export const DialogProperties: PropertiesTableProps = {
     type: 'React.RefObject',
     status: 'optional',
   },
+  scrollbarGutter: {
+    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.',
+    type: ['"stable"', 'false'],
+    status: 'optional',
+  },
   contentRef: {
     doc: 'To get the inner content Element, pass in your own React ref.',
     type: 'React.RefObject',

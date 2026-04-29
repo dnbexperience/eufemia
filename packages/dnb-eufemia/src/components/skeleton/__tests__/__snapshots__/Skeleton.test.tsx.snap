@@ -103,7 +103,7 @@ html[data-visual-test] .dnb-skeleton--font, html[data-visual-test] .dnb-skeleton
 }
 .dnb-skeleton__figure {
   position: relative;
-  border-radius: 0.25rem;
+  border-radius: var(--token-radius-sm);
 }
 .dnb-skeleton__figure--circle {
   width: 4rem;

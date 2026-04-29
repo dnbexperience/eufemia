@@ -120,12 +120,6 @@
   align-items: center;
 }
 
-.sloganStyle {
-  @include utilities.allBelow(small) {
-    display: none;
-  }
-}
-
 .hideSidebarToggleButtonStyle {
   #toggle-sidebar-menu {
     display: none;

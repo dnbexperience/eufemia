@@ -48,7 +48,7 @@
 
       text-align: center;
 
-      background-color: rgba(255 255 255 / 60%);
+      background-color: var(--token-color-background-neutral-subtle);
 
       figcaption {
         padding-top: 0.938rem; /* 15/16  because of the border */

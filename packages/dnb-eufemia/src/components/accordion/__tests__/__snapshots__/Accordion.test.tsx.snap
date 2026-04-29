@@ -110,7 +110,7 @@ p > .dnb-icon {
     --accordion-border-width--default,
     0.0625rem
   );
-  --accordion-border-radius: 0.5rem;
+  --accordion-border-radius: var(--token-radius-md);
   --accordion-easing: var(--easing-default);
   --accordion-border-inset: var(--accordion-border-inset--default, inset);
   --accordion-header-margin-vertical: 1.25rem;

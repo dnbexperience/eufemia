@@ -45,7 +45,7 @@
 
   &__container {
     width: min-content;
-    border-radius: 0.25rem;
+    border-radius: var(--token-radius-sm);
     background-color: var(--token-color-background-neutral);
 
     // Supports backwards compatibility with Nucleus and scenarios,
@@ -589,7 +589,7 @@
 
     .dnb-popover {
       --popover-background-color: var(--token-color-background-neutral);
-      --popover-border-radius: 0.25rem;
+      --popover-border-radius: var(--token-radius-sm);
 
       @include utilities.sharpDropShadow();
     }

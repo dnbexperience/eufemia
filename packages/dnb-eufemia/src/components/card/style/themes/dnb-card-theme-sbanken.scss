@@ -6,11 +6,11 @@
 .dnb-card {
   // Nested Cards
   & .dnb-card {
-    --rounded-corner: 1rem;
+    --rounded-corner: var(--token-radius-lg);
   }
 
   // Third level and deeper nested Cards
   & .dnb-card .dnb-card {
-    --rounded-corner: 0.5rem;
+    --rounded-corner: var(--token-radius-md);
   }
 }

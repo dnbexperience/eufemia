@@ -9,9 +9,10 @@ import {
   pickNumberFormatProps,
   spacingProperties,
 } from './StatDocsUtils'
+import { NumberFormatCurrencyProperties } from '../number-format/NumberFormatDocs'
 
 export const NumberProperties: PropertiesTableProps = {
-  ...pickNumberFormatProps([
+  ...pickNumberFormatProps(NumberFormatCurrencyProperties, [
     'value',
     'currency',
     'currencyDisplay',

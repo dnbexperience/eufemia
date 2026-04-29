@@ -6,7 +6,7 @@
 
 .dnb-popover {
   --inner-space: 0.75rem;
-  --popover-border-radius: 0.5rem;
+  --popover-border-radius: var(--token-radius-md);
   --popover-text-color: var(--token-color-text-neutral);
   --popover-background-color: var(--token-color-background-neutral);
   --popover-outline-color: var(--token-color-stroke-neutral-subtle);

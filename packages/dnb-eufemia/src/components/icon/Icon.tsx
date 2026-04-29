@@ -416,25 +416,7 @@ function prepareIconCore(
     })
   )
 
-  let iconToRender = getIcon(props)
-
-  if (iconToRender && typeof iconToRender === 'function') {
-    const iconProps: Record<string, unknown> = {}
-    if (iconParams.color !== undefined) {
-      iconProps.color = iconParams.color
-    }
-    if (iconParams.width !== undefined) {
-      iconProps.width = iconParams.width
-    }
-    if (iconParams.height !== undefined) {
-      iconProps.height = iconParams.height
-    }
-
-    iconToRender = React.createElement(
-      iconToRender,
-      validateDOMAttributes({}, iconProps)
-    )
-  }
+  const iconToRender = getIcon(props)
 
   return {
     ...props,
@@ -487,10 +469,7 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    return (props?: IconSVGProps) => {
-      const IconComponent = icon as React.ComponentType<IconSVGProps>
-      return <IconComponent {...props} />
-    }
+    return icon as React.ComponentType<IconSVGProps>
   }
 
   if (React.isValidElement(icon) || Array.isArray(icon)) {

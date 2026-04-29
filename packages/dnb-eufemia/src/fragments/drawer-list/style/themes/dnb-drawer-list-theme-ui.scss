@@ -6,7 +6,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-drawer-list {
-  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-options-border-radius: var(--token-radius-sm);
   --drawer-list-option-border-width: 0.0625rem;
 
   &__list {
@@ -14,15 +14,6 @@
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      border-radius: inherit;
-      box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
-    }
   }
 
   // ul element
@@ -38,6 +29,15 @@
 
     &--focusring {
       @include utilities.focusRing('mouse');
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
     }
   }
 

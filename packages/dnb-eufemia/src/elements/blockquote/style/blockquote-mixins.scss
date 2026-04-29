@@ -21,7 +21,7 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 
-  border-radius: 1rem;
+  border-radius: var(--token-radius-lg);
 
   color: var(--token-color-text-action-ondark);
   background-color: var(--token-color-decorative-first-intense-static);

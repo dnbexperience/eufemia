@@ -473,6 +473,9 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-text-neutral: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-onlight: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-alternative: var(--carnegie-greyscale-500);
+  --token-color-text-neutral-alternative-inverse: var(
+    --carnegie-greyscale-200
+  );
   --token-color-text-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-text-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-text-neutral-subtle: var(--carnegie-greyscale-200);
@@ -869,6 +872,9 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-text-neutral: var(--sbanken-purple-1000);
   --token-color-text-neutral-onlight: var(--sbanken-purple-1000);
   --token-color-text-neutral-alternative: var(--sbanken-greyscale-600);
+  --token-color-text-neutral-alternative-inverse: var(
+    --sbanken-greyscale-400
+  );
   --token-color-text-neutral-inverse: var(--sbanken-greyscale-0);
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
@@ -1176,6 +1182,9 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --token-color-text-neutral: var(--sbanken-greyscale-0);
   --token-color-text-neutral-onlight: var(--sbanken-greyscale-1000);
   --token-color-text-neutral-alternative: var(--sbanken-greyscale-500);
+  --token-color-text-neutral-alternative-inverse: var(
+    --sbanken-greyscale-600
+  );
   --token-color-text-neutral-inverse: var(--sbanken-purple-1000);
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
@@ -1539,6 +1548,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-text-neutral: var(--dnb-greyscale-800);
   --token-color-text-neutral-onlight: var(--dnb-greyscale-800);
   --token-color-text-neutral-alternative: var(--dnb-greyscale-500);
+  --token-color-text-neutral-alternative-inverse: var(--dnb-greyscale-200);
   --token-color-text-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-200);
@@ -1834,6 +1844,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --token-color-text-neutral: var(--dnb-greyscale-0);
   --token-color-text-neutral-onlight: var(--dnb-greyscale-800);
   --token-color-text-neutral-alternative: var(--dnb-greyscale-400);
+  --token-color-text-neutral-alternative-inverse: var(--dnb-greyscale-600);
   --token-color-text-neutral-inverse: var(--dnb-greyscale-800);
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-600);

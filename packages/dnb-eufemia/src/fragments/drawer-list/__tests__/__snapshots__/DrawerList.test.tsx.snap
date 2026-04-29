@@ -439,20 +439,12 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-drawer-list {
-  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-options-border-radius: var(--token-radius-sm);
   --drawer-list-option-border-width: 0.0625rem;
 }
 .dnb-drawer-list__list {
   box-shadow: var(--shadow-sharp);
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
-}
-.dnb-drawer-list__list::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list__options {
   border: none;
@@ -475,6 +467,14 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-drawer-list__options::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer-list__option {
   position: relative;

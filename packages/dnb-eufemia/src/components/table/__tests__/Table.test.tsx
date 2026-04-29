@@ -232,7 +232,7 @@ describe('Table scss', () => {
   it('should inherit card rounded corners when used inside Card', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toContain(
-      '.dnb-card .dnb-table {\n  --table-outline-radius: var(--rounded-corner, 0.5rem);'
+      '.dnb-card .dnb-table {\n  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));'
     )
   })
 
