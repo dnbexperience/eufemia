@@ -32,6 +32,7 @@ export default function DrawerContent({
   noAnimationOnMobile = false,
   minWidth: minWidthProp = null,
   maxWidth: maxWidthProp = null,
+  scrollbarGutter = 'auto',
   ...rest
 }: DrawerContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
@@ -97,7 +98,16 @@ export default function DrawerContent({
   )
 
   return (
-    <ScrollView {...innerParams} ref={context?.scrollRef}>
+    <ScrollView
+      {...innerParams}
+      ref={context?.scrollRef}
+      scrollbarGutter={
+        scrollbarGutter === 'stable' ||
+        (scrollbarGutter === 'auto' && spacing !== false)
+          ? 'stable'
+          : undefined
+      }
+    >
       {navigationElement ? (
         navigationElement
       ) : (

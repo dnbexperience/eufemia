@@ -45,6 +45,7 @@ export default function DialogContent({
   onDecline,
   declineText,
   confirmText,
+  scrollbarGutter = 'auto',
   ...rest
 }: DialogContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
@@ -115,7 +116,17 @@ export default function DialogContent({
 
   return (
     <div {...contentParams}>
-      <ScrollView ref={context?.scrollRef}>
+      <ScrollView
+        ref={context?.scrollRef}
+        scrollbarGutter={
+          scrollbarGutter === 'stable' ||
+          (scrollbarGutter === 'auto' &&
+            variant === 'information' &&
+            spacing !== false)
+            ? 'stable'
+            : undefined
+        }
+      >
         <div
           tabIndex={-1}
           className="dnb-dialog__inner dnb-no-focus"

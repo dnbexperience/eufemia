@@ -650,6 +650,65 @@ describe('Dialog aria', () => {
   })
 })
 
+describe('scrollbarGutter', () => {
+  it('should add scrollbar-gutter class by default for information variant', () => {
+    render(
+      <Dialog {...props} open>
+        content
+      </Dialog>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should not add scrollbar-gutter class for confirmation variant', () => {
+    render(
+      <Dialog {...props} open variant="confirmation">
+        content
+      </Dialog>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should not add scrollbar-gutter class when spacing is false', () => {
+    render(
+      <Dialog {...props} open spacing={false}>
+        content
+      </Dialog>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should always add scrollbar-gutter class when set to stable', () => {
+    render(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        scrollbarGutter="stable"
+      >
+        content
+      </Dialog>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+})
+
 describe('Dialog scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

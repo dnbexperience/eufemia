@@ -87,4 +87,9 @@ export type DrawerContentProps = {
    * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
    */
   noAnimationOnMobile?: boolean
-} & Omit<ScrollViewAllProps, 'children'>
+
+  /**
+   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. When set to `auto`, it enables `stable` when spacing is enabled. Defaults to `auto`.
+   */
+  scrollbarGutter?: 'auto' | 'stable'
+} & Omit<ScrollViewAllProps, 'children' | 'scrollbarGutter'>

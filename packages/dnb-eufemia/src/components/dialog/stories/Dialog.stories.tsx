@@ -29,7 +29,7 @@ import {
   cookie_medium,
   exclamation_triangle_medium as WarningIcon,
 } from '../../../icons'
-import { Form } from '../../../extensions/forms'
+import { Field, Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Dialog',
@@ -172,6 +172,44 @@ export const DialogConfirm = () => (
     </Box>
   </Wrapper>
 )
+
+export function ToggleScroll() {
+  const [tall, setTall] = useState(false)
+
+  return (
+    <Dialog
+      open
+      verticalAlignment="top"
+      triggerAttributes={{
+        text: 'Show dialog',
+      }}
+      title="Dialog title"
+    >
+      <Flex.Stack>
+        <Field.Boolean
+          variant="button"
+          label="Tall content"
+          value={tall}
+          onChange={(value) => setTall(value as boolean)}
+        />
+
+        <Flex.Horizontal justify="flex-end">
+          <Field.Email />
+        </Flex.Horizontal>
+
+        <div
+          style={{
+            minBlockSize: tall ? '100rem' : '25rem',
+            background: 'pink',
+            placeContent: 'center',
+          }}
+        >
+          Content
+        </div>
+      </Flex.Stack>
+    </Dialog>
+  )
+}
 
 export const DialogSandbox = () => (
   <Wrapper>
