@@ -21,7 +21,7 @@ function Log({
   return (
     <Section
       element="output"
-      backgroundColor="sand-yellow"
+      variant="warning"
       style={{ maxWidth: '80vw' }}
       innerSpace
       {...props}
