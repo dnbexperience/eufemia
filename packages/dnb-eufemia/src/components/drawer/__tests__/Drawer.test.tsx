@@ -614,6 +614,60 @@ describe('Drawer aria', () => {
   })
 })
 
+describe('scrollbarGutter', () => {
+  it('should add scrollbar-gutter class by default', () => {
+    render(
+      <Drawer {...props} open>
+        content
+      </Drawer>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should not add scrollbar-gutter class when spacing is false', () => {
+    render(
+      <Drawer {...props} open spacing={false}>
+        content
+      </Drawer>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should always add scrollbar-gutter class when set to stable', () => {
+    render(
+      <Drawer {...props} open spacing={false} scrollbarGutter="stable">
+        content
+      </Drawer>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+
+  it('should not add scrollbar-gutter class when set to false', () => {
+    render(
+      <Drawer {...props} open scrollbarGutter={false}>
+        content
+      </Drawer>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    expect(scrollView).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+})
+
 describe('Drawer scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

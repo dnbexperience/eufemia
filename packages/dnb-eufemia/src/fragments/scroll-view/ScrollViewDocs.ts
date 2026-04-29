@@ -6,6 +6,11 @@ export const ScrollViewProperties: PropertiesTableProps = {
     type: ['boolean', '"auto"'],
     status: 'optional',
   },
+  scrollbarGutter: {
+    doc: 'Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. Maps to the CSS `scrollbar-gutter` property. Defaults to `undefined`.',
+    type: '"stable"',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

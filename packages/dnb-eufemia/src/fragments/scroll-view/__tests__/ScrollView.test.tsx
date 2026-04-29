@@ -157,4 +157,22 @@ describe('ScrollView', () => {
   it('should have constant of _supportsSpacingProps', () => {
     expect(ScrollView['_supportsSpacingProps']).toBe(true)
   })
+
+  it('should add scrollbar-gutter class when scrollbarGutter is "stable"', () => {
+    render(
+      <ScrollView scrollbarGutter="stable">overflow content</ScrollView>
+    )
+
+    const element = document.querySelector('.dnb-scroll-view')
+    expect(element).toHaveClass('dnb-scroll-view--scrollbar-gutter-stable')
+  })
+
+  it('should not add scrollbar-gutter class when scrollbarGutter is not provided', () => {
+    render(<ScrollView>overflow content</ScrollView>)
+
+    const element = document.querySelector('.dnb-scroll-view')
+    expect(element).not.toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
 })

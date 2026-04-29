@@ -100,6 +100,11 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   description?: React.ReactNode
 
   /**
+   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.
+   */
+  scrollbarGutter?: 'stable' | false
+
+  /**
    * The content of the modal.
    */
   children?:
