@@ -22,7 +22,9 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
+          if echo "$PR_TITLE" | grep -qE '^release of '; then
+            echo "PR title is a release: $PR_TITLE"
+          elif echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
             echo "PR title is valid: $PR_TITLE"
           else
             echo "::error::Invalid PR title: '$PR_TITLE'"
