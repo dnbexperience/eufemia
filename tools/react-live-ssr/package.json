@@ -10,7 +10,7 @@
   "jsnext:main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "dependencies": {
-    "prism-react-renderer": "2.0.5",
+    "prism-react-renderer": "2.4.1",
     "sucrase": "3.35.1"
   },
   "volta": {
