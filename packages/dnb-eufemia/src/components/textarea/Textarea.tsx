@@ -20,7 +20,7 @@ import useId from '../../shared/helpers/useId'
 import {
   extendPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -564,9 +564,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   skeletonDOMAttributes(innerParams, skeleton, context)
 
-  validateDOMAttributes(ownProps, textareaParams)
-  validateDOMAttributes(null, innerParams)
-  validateDOMAttributes(null, shellParams)
+  const cleanedTextareaParams = cleanDOMAttributes(textareaParams)
+  const cleanedInnerParams = cleanDOMAttributes(innerParams)
+  const cleanedShellParams = cleanDOMAttributes(shellParams)
 
   if (TextareaElement && typeof TextareaElement === 'function') {
     TextareaElement = TextareaElement(textareaParams, textareaRef)
@@ -588,7 +588,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         />
       )}
 
-      <span {...innerParams}>
+      <span {...cleanedInnerParams}>
         <AlignmentHelper />
 
         <FormStatus
@@ -605,9 +605,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         />
 
         <span className="dnb-textarea__row">
-          <span {...shellParams}>
+          <span {...cleanedShellParams}>
             {(TextareaElement as React.ReactNode) || (
-              <textarea ref={combinedRef} {...textareaParams} />
+              <textarea ref={combinedRef} {...cleanedTextareaParams} />
             )}
 
             {!currentHasValue &&

@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import Context from '../shared/Context'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
 import { applySpacing } from '../components/space/SpacingUtils'
@@ -83,33 +83,36 @@ function Element(localProps: ElementAllProps) {
     createSkeletonClass(skeletonMethod, skeleton, context)
   )
 
-  // applySpacing must be called before validateDOMAttributes
-  // because the validator removes non-DOM attributes like spacing props
+  // applySpacing must be called before cleanDOMAttributes
+  // because the cleaner removes non-DOM attributes like spacing props
   const params = applySpacing(
     attributes,
     { ...attributes, className: internalClassName },
     typeof Tag === 'string' ? `dnb-${Tag}` : null
   )
 
-  validateDOMAttributes(null, params)
+  const cleanedParams = cleanDOMAttributes(params)
 
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonDOMAttributes(cleanedParams, skeleton, context)
 
   const isFragment = Tag === React.Fragment
 
   if (!isFragment && ref) {
-    ;(params as Record<string, unknown>).ref = ref
+    ;(cleanedParams as Record<string, unknown>).ref = ref
   }
 
   if (isFragment) {
     return (
       <>
-        {(params as Record<string, unknown>).children as React.ReactNode}
+        {
+          (cleanedParams as Record<string, unknown>)
+            .children as React.ReactNode
+        }
       </>
     )
   }
 
-  return <Tag {...params} />
+  return <Tag {...cleanedParams} />
 }
 
 export default Element

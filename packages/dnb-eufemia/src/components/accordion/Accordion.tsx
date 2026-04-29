@@ -16,7 +16,6 @@ import clsx from 'clsx'
 import {
   findElementInChildren,
   extendPropsWithContext,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -392,9 +391,6 @@ function Accordion({
   if (disabled) {
     mainParams.onClick = handleDisabledClick
   }
-
-  // to remove spacing props
-  validateDOMAttributes(props, restOfExtendedProps)
 
   const extendedPropsForContext = extendPropsWithContext(
     props,

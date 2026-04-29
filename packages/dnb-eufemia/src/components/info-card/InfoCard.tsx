@@ -22,7 +22,7 @@ import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -163,10 +163,8 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
 
-  validateDOMAttributes(allProps, props)
-
   const rootProps = applySpacing(allProps, {
-    ...props,
+    ...cleanDOMAttributes(props),
     className: clsx(
       'dnb-info-card',
       centered && 'dnb-info-card--centered',

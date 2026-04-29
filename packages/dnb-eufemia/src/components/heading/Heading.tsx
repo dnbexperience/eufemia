@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { cleanDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { applySpacing } from '../space/SpacingUtils'
 import type { HeadingContextValue } from './HeadingContext'
@@ -269,8 +269,6 @@ export default function Heading(props: HeadingAllProps) {
     }
   }
 
-  validateDOMAttributes(props, attributes)
-
   if (typeof context?.skeleton !== 'undefined') {
     skeleton = context.skeleton
   }
@@ -280,7 +278,7 @@ export default function Heading(props: HeadingAllProps) {
     | ((props: React.HTMLProps<HTMLElement>) => React.JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
   const elementProps = applySpacing(props, {
-    ...attributes,
+    ...cleanDOMAttributes(attributes),
     ref: _ref,
     className: clsx(
       'dnb-heading',

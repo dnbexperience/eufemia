@@ -8,7 +8,7 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   warn,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   getClosestParent,
 } from '../../shared/component-helper'
@@ -163,21 +163,17 @@ export default function AccordionContent(props: AccordionContentProps) {
     innerParams['aria-hidden'] = true
   }
 
-  // to remove spacing props
-  validateDOMAttributes(props, wrapperParams)
-  validateDOMAttributes(null, innerParams)
-
   const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation
-      {...wrapperParams}
+      {...cleanDOMAttributes(wrapperParams)}
       open={expanded}
       animate={animate}
       keepInDOM={keepInDOMContent}
       ref={elementRef}
     >
-      <section {...innerParams}>{content}</section>
+      <section {...cleanDOMAttributes(innerParams)}>{content}</section>
     </HeightAnimation>
   )
 }

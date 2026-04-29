@@ -6,7 +6,7 @@ import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
@@ -143,10 +143,8 @@ const Table = (componentProps: TableAllProps) => {
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
 
-  validateDOMAttributes(allProps, props)
-
   const tableProps = applySpacing(allProps, {
-    ...props,
+    ...cleanDOMAttributes(props),
     ref: elementRef,
     className: clsx(
       'dnb-table',

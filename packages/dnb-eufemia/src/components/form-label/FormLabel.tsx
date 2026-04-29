@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
 import {
@@ -221,9 +221,8 @@ function FormLabel(localProps: FormLabelAllProps) {
   }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)
-  validateDOMAttributes(localProps, params)
 
-  return <Element {...params}>{content}</Element>
+  return <Element {...cleanDOMAttributes(params)}>{content}</Element>
 }
 
 withComponentMarkers(FormLabel, {

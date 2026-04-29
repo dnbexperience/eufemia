@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
@@ -169,10 +169,8 @@ function Skeleton(props: SkeletonProps) {
     ...attributes,
   })
 
-  validateDOMAttributes(props, params)
-
   return (
-    <Space {...params}>
+    <Space {...cleanDOMAttributes(params)}>
       {figure ? (
         showSkeleton ? (
           typeof figure === 'function' ? (

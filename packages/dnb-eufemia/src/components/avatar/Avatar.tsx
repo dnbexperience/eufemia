@@ -17,7 +17,7 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
   warn,
 } from '../../shared/component-helper'
@@ -187,8 +187,6 @@ const Avatar = (localProps: AvatarAllProps) => {
     )
   }
 
-  validateDOMAttributes(allProps, props)
-
   const style = {
     '--avatar-background-color': getColor(backgroundColor),
     '--avatar-text-color': getColor(color),
@@ -199,7 +197,7 @@ const Avatar = (localProps: AvatarAllProps) => {
   } as React.CSSProperties
 
   const rootProps = applySpacing(allProps, {
-    ...props,
+    ...cleanDOMAttributes(props),
     className: clsx(
       'dnb-avatar',
       `dnb-avatar--${variant || 'primary'}`,

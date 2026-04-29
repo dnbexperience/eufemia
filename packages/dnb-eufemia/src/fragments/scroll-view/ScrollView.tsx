@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { applySpacing } from '../../components/space/SpacingUtils'
@@ -71,9 +71,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ref: localRef,
   })
 
-  validateDOMAttributes(props, mainParams)
-
-  return <div {...mainParams}>{children}</div>
+  return <div {...cleanDOMAttributes(mainParams)}>{children}</div>
 }
 
 function useInteractive({ interactive, children, ref }) {

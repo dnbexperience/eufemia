@@ -6,7 +6,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -526,7 +526,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    cleanDOMAttributes(attributes)
   )
 
   const mainParams = applySpacing(props, {
@@ -582,14 +582,14 @@ const DropdownInstance = React.memo(function DropdownInstance({
   }
 
   // also used for code markup simulation
-  validateDOMAttributes(null, mainParams)
-  validateDOMAttributes(ownProps, triggerParams)
+  const cleanedMainParams = cleanDOMAttributes(mainParams)
+  const cleanedTriggerParams = cleanDOMAttributes(triggerParams)
 
   // make it possible to grab the rest attributes and return it with all events
-  attributesRef.current = validateDOMAttributes(null, attributes)
+  attributesRef.current = cleanDOMAttributes(attributes)
 
   return (
-    <span ref={setRootRef} {...mainParams}>
+    <span ref={setRootRef} {...cleanedMainParams}>
       {label && (
         <FormLabel
           id={id + '-label'}
@@ -665,7 +665,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
                 }
                 role="combobox"
                 title={convertJsxToString(title) || undefined}
-                {...triggerParams}
+                {...cleanedTriggerParams}
               />
             )}
 

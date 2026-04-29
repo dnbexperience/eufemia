@@ -12,7 +12,7 @@ import {
   convertJsxToString,
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   getStatusState,
   dispatchCustomElementEvent,
@@ -434,12 +434,9 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, params)
-
   return (
     <>
-      <Element ref={combinedRef} {...params}>
+      <Element ref={combinedRef} {...cleanDOMAttributes(params)}>
         <ButtonContent
           {...restProps}
           icon={usedIcon}

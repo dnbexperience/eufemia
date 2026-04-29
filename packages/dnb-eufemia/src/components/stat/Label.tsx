@@ -7,7 +7,7 @@ import type {
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { cleanDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -62,8 +62,7 @@ function Label(props: LabelProps) {
     warn('Stat.Label should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(
-    props,
+  const attributes = cleanDOMAttributes(
     applySpacing(props, {
       ...rest,
       style,

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -86,18 +86,7 @@ export default function ContentWrapper({
     )
   }
 
-  validateDOMAttributes(
-    {
-      id,
-      children,
-      selectedKey,
-      contentStyle,
-      animate,
-      contentInnerSpace,
-      ...rest,
-    },
-    params
-  )
+  const cleanedParams = cleanDOMAttributes(params)
 
   let content: React.ReactNode = children as React.ReactNode
   if (typeof children === 'function') {
@@ -153,7 +142,7 @@ export default function ContentWrapper({
       )}
       duration={600}
       animate={animate === true}
-      {...params}
+      {...cleanedParams}
     >
       {content}
     </HeightAnimation>

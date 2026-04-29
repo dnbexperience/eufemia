@@ -31,7 +31,7 @@ import type { BreadcrumbItemProps } from './BreadcrumbItem'
 import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
@@ -245,8 +245,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     return variant
   }, [data, items, variant])
 
-  validateDOMAttributes(allProps, props)
-
   const innerSpace = spacing
     ? spacing === true
       ? 'small'
@@ -257,7 +255,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     useTheme()?.isSbanken && collapsedStyleType === 'information'
 
   const navProps = applySpacing(allProps, {
-    ...props,
+    ...cleanDOMAttributes(props),
     'aria-label': convertJsxToString(navText),
     className: clsx(
       'dnb-breadcrumb',

@@ -9,7 +9,7 @@ import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
 import {
   convertJsxToString,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import useStatSkeleton from './useStatSkeleton'
@@ -66,8 +66,7 @@ function TextInternal(props: TextInternalProps) {
     : textValue
   const ariaLabel = srLabel ? srText : rest['aria-label']
 
-  const attributes = validateDOMAttributes(
-    props,
+  const attributes = cleanDOMAttributes(
     applySpacing(props, {
       ...rest,
       'aria-label': ariaLabel,

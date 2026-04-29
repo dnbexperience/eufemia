@@ -21,7 +21,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -707,10 +707,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, inputParams)
-  validateDOMAttributes(null, shellParams)
-
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (
       InputElement as (
@@ -723,7 +719,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   }
 
   return (
-    <span {...mainParams}>
+    <span {...cleanDOMAttributes(mainParams)}>
       {label && (
         <FormLabel
           id={id + '-label'}
@@ -753,9 +749,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         />
 
         <span className="dnb-input__row">
-          <span {...shellParams}>
+          <span {...cleanDOMAttributes(shellParams)}>
             {(InputElement as React.ReactNode) || (
-              <input ref={combinedRef} {...inputParams} />
+              <input
+                ref={combinedRef}
+                {...cleanDOMAttributes(inputParams)}
+              />
             )}
 
             {innerElement && (
@@ -943,6 +942,7 @@ function InputSubmitButton({
 
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
+    attributes,
 
     ...rest
   } = props
@@ -953,6 +953,7 @@ function InputSubmitButton({
     'aria-label': title,
     disabled,
     ...rest,
+    ...(attributes as Record<string, unknown>),
   }
 
   skeletonDOMAttributes(
@@ -962,7 +963,7 @@ function InputSubmitButton({
   )
 
   // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
+  const cleanedParams = cleanDOMAttributes(params)
 
   return (
     <span
@@ -984,7 +985,7 @@ function InputSubmitButton({
         onFocus={onSubmitFocusHandler}
         onBlur={onSubmitBlurHandler}
         ref={combinedButtonRef}
-        {...(params as Record<string, unknown>)}
+        {...(cleanedParams as Record<string, unknown>)}
         {...(statusProps as Record<string, unknown>)}
       />
     </span>

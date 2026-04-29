@@ -7,7 +7,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { cleanDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { applySpacing } from '../space/SpacingUtils'
 import TooltipWithEvents from './TooltipWithEvents'
@@ -66,13 +66,15 @@ function Tooltip(localProps: TooltipAllProps) {
     ),
   }) as React.HTMLAttributes<HTMLElement>
 
-  // also used for code markup simulation
-  validateDOMAttributes(localProps, attributes)
+  const cleanedAttributes = cleanDOMAttributes(
+    attributes
+  ) as React.HTMLAttributes<HTMLElement>
+
   return (
     <TooltipContext value={{ isControlled, internalId, props }}>
       <TooltipWithEvents
         target={target}
-        attributes={attributes}
+        attributes={cleanedAttributes}
         {...props}
       >
         {children}

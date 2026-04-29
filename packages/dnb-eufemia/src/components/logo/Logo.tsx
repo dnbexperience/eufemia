@@ -6,7 +6,7 @@ import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -168,7 +168,7 @@ function Logo(localProps: LogoProps) {
     }
   }, [altText, color, height, width])
 
-  const remainingDOMProps = validateDOMAttributes(props, rootParams)
+  const remainingDOMProps = cleanDOMAttributes(rootParams)
 
   return (
     <span {...remainingDOMProps}>

@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -374,14 +374,12 @@ const PaginationInstance = React.memo(function PaginationInstance(
       ...attributes,
     })
 
-    validateDOMAttributes(props, mainParams)
-
     const content = items.find(
       ({ pageNumber }) => pageNumber === currentPageInternal
     )?.content
 
     return (
-      <div {...mainParams}>
+      <div {...cleanDOMAttributes(mainParams)}>
         <PaginationBar contentRef={contentRef} space={barSpace}>
           {children as React.ReactNode}
         </PaginationBar>

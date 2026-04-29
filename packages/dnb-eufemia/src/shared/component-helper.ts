@@ -19,6 +19,7 @@ export {
 } from './helpers/extendPropsWithContext'
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
+export { cleanDOMAttributes } from './helpers/cleanDOMAttributes'
 
 export { getClosestParent, warn }
 
@@ -34,7 +35,7 @@ const startsWithCamelCaseRegex = /(^[a-z]{1,}[A-Z]{1})/
 const notOnlyAZOrHyphenRegex = /[^a-z-]/i
 
 /**
- * @deprecated stop using this function as it only removes things that should be handled in the component any documented prop should be explicitly removed, and props should not have default value `null`
+ * @deprecated Use `cleanDOMAttributes` instead. This function mutates `params` in-place. The replacement is a pure function that returns a new object. If you need `props.attributes` merging, spread it explicitly: `cleanDOMAttributes({ ...params, ...props.attributes })`.
  * @description Removes invalid DOM attributes from `params`.
  * @param props properties from `props.attributes` are added to `params`
  * @param params object with DOM attributes

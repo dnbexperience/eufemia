@@ -6,7 +6,7 @@ import React, { useContext, useCallback } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   removeUndefinedProps,
   warn,
 } from '../../shared/component-helper'
@@ -542,13 +542,13 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   }
 
   // also used for code markup simulation
-  validateDOMAttributes(ownProps, mainParams)
-  validateDOMAttributes(null, listParams)
-  validateDOMAttributes(null, ulParams)
+  const cleanedMainParams = cleanDOMAttributes(mainParams)
+  const cleanedListParams = cleanDOMAttributes(listParams)
+  const cleanedUlParams = cleanDOMAttributes(ulParams)
 
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    cleanDOMAttributes(attributes)
   )
 
   const ignoreEventsBoolean = ignoreEvents
@@ -650,8 +650,8 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
       })
 
   const mainList = (
-    <span {...mainParams} ref={_refShell}>
-      <span {...listParams}>
+    <span {...cleanedMainParams} ref={_refShell}>
+      <span {...cleanedListParams}>
         {hidden === false && renderData.length > 0 ? (
           <>
             <DrawerList.Options
@@ -665,7 +665,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
                 direction +
                 maxHeight
               }
-              {...ulParams}
+              {...cleanedUlParams}
               showFocusRing={showFocusRing}
               triangleRef={_refTriangle}
             >

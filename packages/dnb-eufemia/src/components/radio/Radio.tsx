@@ -9,7 +9,7 @@ import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -417,9 +417,6 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, inputParams)
-
   const labelComp = label && (
     <FormLabel
       id={id + '-label'}
@@ -471,7 +468,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
                 aria-checked={isPlainGroup() ? undefined : checked}
                 disabled={disabled}
                 ref={combinedRef}
-                {...inputParams}
+                {...cleanDOMAttributes(inputParams)}
                 onChange={onChangeHandler}
                 onClick={onClickHandler}
                 onKeyDown={onKeyDownHandler}

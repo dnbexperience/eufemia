@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
@@ -156,8 +156,7 @@ function SpaceElement({
   const ElementDynamic = element
 
   if (typeof element === 'string') {
-    // also used for code markup simulation
-    validateDOMAttributes({}, props)
+    props = cleanDOMAttributes(props)
   }
   props['ref'] = ref
 

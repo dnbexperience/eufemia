@@ -14,7 +14,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
 
@@ -187,9 +187,6 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     return null
   }
 
-  // to remove spacing props, etc.
-  validateDOMAttributes(props, restProps)
-
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'
   const num = useNumberFormat(contentIsNum ? contentProp : 0)
@@ -220,7 +217,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
         skeletonClasses,
         className
       )}
-      {...restProps}
+      {...cleanDOMAttributes(restProps)}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
       {content}

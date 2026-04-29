@@ -7,7 +7,7 @@ import React, { useContext } from 'react'
 import clsx from 'clsx'
 import {
   findElementInChildren,
-  validateDOMAttributes,
+  cleanDOMAttributes,
 } from '../../shared/component-helper'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
@@ -111,10 +111,8 @@ export default function DialogContent({
     hideConfirm,
   }
 
-  validateDOMAttributes({}, contentParams)
-
   return (
-    <div {...contentParams}>
+    <div {...cleanDOMAttributes(contentParams)}>
       <ScrollView ref={context?.scrollRef}>
         <div
           tabIndex={-1}

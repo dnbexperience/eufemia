@@ -17,7 +17,7 @@ import Context from '../../shared/Context'
 import {
   warn,
   slugify,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   dispatchCustomElementEvent,
   getClosestParent,
   filterProps,
@@ -1073,11 +1073,9 @@ function TabsComponent(ownProps: TabsProps) {
     const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
     const params: Record<string, unknown> = applySpacing(ownProps, {
-      ...attributes,
+      ...cleanDOMAttributes(attributes),
       className: clsx('dnb-tabs', className),
     })
-
-    validateDOMAttributes(ownProps, params)
 
     delete params.contentInnerSpace
     delete params.tabsInnerSpace

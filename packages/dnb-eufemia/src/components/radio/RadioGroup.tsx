@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -220,9 +220,6 @@ function RadioGroup(ownProps: RadioGroupProps) {
     params['aria-labelledby'] = combineLabelledBy(params, legendId)
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
-
   const groupContext = {
     name: nameRef.current,
     value,
@@ -267,7 +264,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
               element="span"
               id={id}
               className="dnb-radio-group__shell"
-              {...params}
+              {...cleanDOMAttributes(params)}
             >
               {children as React.ReactNode}
 

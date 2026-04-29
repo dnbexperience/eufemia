@@ -29,7 +29,7 @@ import type { SpacingProps } from '../../shared/types'
 import {
   warn,
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
@@ -2337,7 +2337,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const isExpanded = Boolean(open) && hasValidData()
 
-  attributesRef.current = validateDOMAttributes(null, attributes)
+  attributesRef.current = cleanDOMAttributes(attributes)
   Object.assign(drawerList.attributes, attributesRef.current)
 
   const mainParams = applySpacing(props, {
@@ -2462,8 +2462,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       ? `${id}-inner`
       : null
 
-  validateDOMAttributes(null, mainParams)
-  validateDOMAttributes(null, shellParams)
+  const cleanedMainParams = cleanDOMAttributes(mainParams)
+  const cleanedShellParams = cleanDOMAttributes(shellParams)
 
   // VoiceOver support helper
   const voiceOverActiveItem = (() => {
@@ -2505,7 +2505,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   })()
 
   return (
-    <span {...mainParams}>
+    <span {...cleanedMainParams}>
       {label && (
         <FormLabel
           id={id + '-label'}
@@ -2537,7 +2537,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         />
 
         <span className="dnb-autocomplete__row">
-          <span {...shellParams}>
+          <span {...cleanedShellParams}>
             {CustomInput ? (
               React.createElement(
                 CustomInput as React.ElementType,

@@ -5,7 +5,7 @@
 
 import React, { useRef, useEffect } from 'react'
 import clsx from 'clsx'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { cleanDOMAttributes } from '../../shared/component-helper'
 import type { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {
@@ -52,7 +52,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     rest['aria-busy'] = true
   }
 
-  const remainingDOMAttributes = validateDOMAttributes(props, { ...rest })
+  const remainingDOMAttributes = cleanDOMAttributes({ ...rest })
 
   return (
     <span

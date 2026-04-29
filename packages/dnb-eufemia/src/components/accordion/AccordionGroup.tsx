@@ -8,7 +8,7 @@ import React, { useContext, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -104,12 +104,9 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     ),
   })
 
-  const params = {
+  const params = cleanDOMAttributes({
     ...restOfExtendedProps,
-  }
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
+  })
 
   const fallbackGroup = useId()
 

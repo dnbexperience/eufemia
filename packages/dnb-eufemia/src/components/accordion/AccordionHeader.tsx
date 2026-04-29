@@ -8,7 +8,7 @@ import React, { useContext, useState } from 'react'
 import type { SpacingProps } from '../../shared/types'
 
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -394,8 +394,6 @@ export const AccordionHeader = ({
 
   skeletonDOMAttributes(headerParams, skeleton, context)
 
-  validateDOMAttributes(props, headerParams)
-
   let Element = 'div'
 
   // Check if heading is set to true (use default heading element)
@@ -410,7 +408,11 @@ export const AccordionHeader = ({
     Element = element as string
   }
 
-  return <Element {...headerParams}>{partsToRender}</Element>
+  return (
+    <Element {...cleanDOMAttributes(headerParams)}>
+      {partsToRender}
+    </Element>
+  )
 }
 
 AccordionHeader.Container = AccordionHeaderContainer

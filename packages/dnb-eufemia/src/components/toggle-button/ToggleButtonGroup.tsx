@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -218,9 +218,6 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
-
   const setContext = useCallback(
     (
       contextArg:
@@ -295,7 +292,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
               element="span"
               id={id}
               className="dnb-toggle-button-group__shell"
-              {...params}
+              {...cleanDOMAttributes(params)}
             >
               <FormStatus
                 show={showStatus}

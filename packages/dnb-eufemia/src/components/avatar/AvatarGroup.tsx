@@ -7,7 +7,7 @@ import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -138,8 +138,7 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
     className: clsx('dnb-avatar__group', className),
   })
 
-  // validateDOMAttributes mutates props, so call it after applySpacing
-  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
+  const { skeleton, ...attributes } = cleanDOMAttributes(props)
 
   return (
     <AvatarGroupContext

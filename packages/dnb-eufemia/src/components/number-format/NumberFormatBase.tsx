@@ -11,7 +11,7 @@ import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import {
   warn,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   convertJsxToString,
   extendExistingPropsWithContext,
   extendDeep,
@@ -521,13 +521,12 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     displayParams.onContextMenu = onContextMenuHandler
   }
 
-  validateDOMAttributes(ownProps, attributes)
   skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   const Element = element as React.ElementType
 
   return (
-    <Element {...attributes}>
+    <Element {...cleanDOMAttributes(attributes)}>
       <span
         className={clsx(
           'dnb-number-format__visible',

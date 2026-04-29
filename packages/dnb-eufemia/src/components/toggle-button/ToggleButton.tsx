@@ -9,7 +9,7 @@ import useId from '../../shared/helpers/useId'
 import {
   warn,
   extendExistingPropsWithContext,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -318,9 +318,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     ),
   })
 
-  // to remove spacing props
-  validateDOMAttributes(ownProps, rest)
-
   const buttonParams: Record<string, unknown> = {
     id,
     disabled,
@@ -334,7 +331,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
     }`]: String(resolvedChecked || false),
     role,
-    ...rest,
+    ...cleanDOMAttributes(rest),
   }
 
   const componentParams: Record<string, unknown> = {

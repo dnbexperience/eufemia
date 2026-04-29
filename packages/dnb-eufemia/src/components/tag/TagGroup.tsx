@@ -6,7 +6,7 @@ import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -76,7 +76,7 @@ const TagGroup = (
   const spacingProps = applySpacing(props, {
     className: clsx('dnb-tag__group', className),
   })
-  const { skeleton, ...attributes } = validateDOMAttributes({}, {
+  const { skeleton, ...attributes } = cleanDOMAttributes({
     ...props,
     ...spacingProps,
   } as Record<string, unknown>)

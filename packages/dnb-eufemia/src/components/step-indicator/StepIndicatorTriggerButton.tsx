@@ -11,7 +11,7 @@ import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   combineDescribedBy,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -86,9 +86,6 @@ function StepIndicatorTriggerButton({
 
   skeletonDOMAttributes(triggerParams, skeleton)
 
-  // also used for code markup simulation
-  validateDOMAttributes(contextWithoutDataRest, triggerParams)
-
   return (
     <Section
       backgroundColor="var(--step-indicator-trigger-background)"
@@ -106,7 +103,11 @@ function StepIndicatorTriggerButton({
       aria-label={overviewTitle}
     >
       <HeightAnimation animate={!noAnimation}>
-        <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
+        <div
+          {...(cleanDOMAttributes(
+            triggerParams
+          ) as React.HTMLProps<HTMLDivElement>)}
+        >
           <FormLabel
             element="span"
             aria-describedby={id}

@@ -14,7 +14,7 @@ import type { TimelineItemProps } from './TimelineItem'
 import TimelineItem from './TimelineItem'
 import TimelineContext from './TimelineContext'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -75,10 +75,8 @@ const Timeline = (localProps: TimelineAllProps) => {
     ...props
   } = allProps
 
-  validateDOMAttributes(allProps, props)
-
   const olProps = applySpacing(allProps, {
-    ...props,
+    ...cleanDOMAttributes(props),
     className: clsx('dnb-timeline', 'dnb-space__reset', className),
   })
 

@@ -10,7 +10,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
@@ -273,7 +273,6 @@ function Switch(props: SwitchProps) {
   }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
-  validateDOMAttributes(props, inputParams)
 
   const helperParams = useMemo(
     () => ({
@@ -334,7 +333,7 @@ function Switch(props: SwitchProps) {
                 className="dnb-switch__input"
                 value={isCheckedRef.current ? value || '' : ''}
                 ref={inputRef}
-                {...inputParams}
+                {...cleanDOMAttributes(inputParams)}
                 onChange={onChangeHandler}
                 onClick={onClickHandler}
                 onKeyDown={onKeyDownHandler}

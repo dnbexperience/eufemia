@@ -10,7 +10,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
 import useId from '../../shared/helpers/useId'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   extendPropsWithContext,
   removeUndefinedProps,
@@ -532,22 +532,18 @@ function FormStatusComponent(
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restOwnProps, params)
-  validateDOMAttributes(null, textParams)
-
   return (
     <HeightAnimation
       element="span"
       open={isReadyToGetVisible()}
       animate={shouldAnimate}
       duration={600}
-      {...params}
+      {...cleanDOMAttributes(params)}
       ref={elementRef}
     >
       <span {...shellParams}>
         {iconToRender}
-        <span {...textParams}>
+        <span {...cleanDOMAttributes(textParams)}>
           {contentToRender || contentCacheRef.current}
         </span>
       </span>

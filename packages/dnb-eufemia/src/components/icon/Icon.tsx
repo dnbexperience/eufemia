@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import {
   warn,
-  validateDOMAttributes,
+  cleanDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -328,9 +328,9 @@ function prepareIconParams({
     params.height = parseFloat(String(height))
   }
 
-  validateDOMAttributes({}, params)
+  const cleanedParams = cleanDOMAttributes(params)
 
-  return { params, sizeAsString }
+  return { params: cleanedParams, sizeAsString }
 }
 
 function prepareIconCore(
@@ -376,7 +376,7 @@ function prepareIconCore(
 
   // some wrapper params
   // also used for code markup simulation
-  const wrapperParams = validateDOMAttributes(props, {
+  const wrapperParams = cleanDOMAttributes({
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
     'aria-label':
@@ -432,7 +432,7 @@ function prepareIconCore(
 
     iconToRender = React.createElement(
       iconToRender,
-      validateDOMAttributes({}, iconProps)
+      cleanDOMAttributes(iconProps)
     )
   }
 

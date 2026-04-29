@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import Context, { type Translation } from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
-  validateDOMAttributes,
+  cleanDOMAttributes,
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -176,9 +176,6 @@ function PaymentCard(props: PaymentCardProps) {
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
-
   return (
     <Provider locale={locale}>
       <PaymentCardContent
@@ -228,7 +225,7 @@ function PaymentCardContent({
   )
 
   return (
-    <figure {...params}>
+    <figure {...cleanDOMAttributes(params)}>
       <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
         {cardData.productName}
       </figcaption>
