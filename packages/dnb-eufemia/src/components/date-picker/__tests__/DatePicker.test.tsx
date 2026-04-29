@@ -2221,6 +2221,145 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('shows error status when typed date violates minDate', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        range={false}
+        minDate="2019-01-15"
+        startDate="2019-01-20"
+        showInput
+      />
+    )
+
+    const dayElem = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    // Type a day before minDate (01 < 15)
+    await typeInField(dayElem, '10')
+    await waitFor(() => expect(dayElem).toHaveValue('10'))
+
+    const formStatus = document.querySelector('.dnb-form-status')
+    expect(formStatus).toBeInTheDocument()
+    expect(formStatus.textContent).toContain('15.01.2019')
+
+    // Type a valid day (20 >= 15)
+    await typeInField(dayElem, '20')
+    await waitFor(() => expect(dayElem).toHaveValue('20'))
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
+  it('shows error status when typed date violates maxDate', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        range={false}
+        maxDate="2019-02-28"
+        startDate="2019-02-15"
+        showInput
+      />
+    )
+
+    const monthElem = document.querySelector(
+      '.dnb-date-picker__input--month'
+    ) as HTMLInputElement
+
+    // Type month 03 — date becomes 2019-03-15, which is after maxDate
+    await typeInField(monthElem, '03')
+    await waitFor(() => expect(monthElem).toHaveValue('03'))
+
+    const formStatus = document.querySelector('.dnb-form-status')
+    expect(formStatus).toBeInTheDocument()
+    expect(formStatus.textContent).toContain('28.02.2019')
+
+    // Type month back to 02 — now within range
+    await typeInField(monthElem, '02')
+    await waitFor(() => expect(monthElem).toHaveValue('02'))
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
+  it('does not show min/max error when consumer provides their own status', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        range={false}
+        maxDate="2019-02-28"
+        startDate="2019-02-15"
+        showInput
+        status="Custom error"
+      />
+    )
+
+    const monthElem = document.querySelector(
+      '.dnb-date-picker__input--month'
+    ) as HTMLInputElement
+
+    // Type month 03 — violates maxDate
+    await typeInField(monthElem, '03')
+    await waitFor(() => expect(monthElem).toHaveValue('03'))
+
+    // The FormStatus should show the consumer's error, not the min/max error
+    const formStatusElements =
+      document.querySelectorAll('.dnb-form-status')
+    const texts = Array.from(formStatusElements).map(
+      (el) => el.textContent
+    )
+    expect(texts.some((t) => t.includes('Custom error'))).toBe(true)
+    expect(texts.some((t) => t.includes('28.02.2019'))).toBe(false)
+  })
+
+  it('shows error status for range mode when typed date violates min/max', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        range={true}
+        minDate="2019-01-02"
+        maxDate="2019-02-04"
+        startDate="2019-01-02"
+        endDate="2019-02-04"
+        showInput
+      />
+    )
+
+    const startDayElem = document.querySelectorAll(
+      '.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const endDayElem = document.querySelectorAll(
+      '.dnb-date-picker__input--day'
+    )[1] as HTMLInputElement
+
+    // Type start day 01 — before minDate (02)
+    await typeInField(startDayElem, '01')
+    await waitFor(() => expect(startDayElem).toHaveValue('01'))
+
+    const formStatus = document.querySelector('.dnb-form-status')
+    expect(formStatus).toBeInTheDocument()
+    expect(formStatus.textContent).toContain('02.01.2019')
+
+    // Fix start day
+    await typeInField(startDayElem, '03')
+    await waitFor(() => expect(startDayElem).toHaveValue('03'))
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    // Type end day 05 — after maxDate (04)
+    await typeInField(endDayElem, '05')
+    await waitFor(() => expect(endDayElem).toHaveValue('05'))
+
+    const formStatusEnd = document.querySelector('.dnb-form-status')
+    expect(formStatusEnd).toBeInTheDocument()
+    expect(formStatusEnd.textContent).toContain('04.02.2019')
+  })
+
   it('has valid onType and onChange event calls', async () => {
     const onType = jest.fn()
     const onChange = jest.fn()

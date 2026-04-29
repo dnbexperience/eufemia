@@ -328,6 +328,8 @@ export type DatePickerProps = {
   onBlur?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
   /** @internal */
   _omitInputShellClass?: boolean
+  /** @internal Disable built-in min/max input validation (used by Field.Date which handles its own) */
+  _validateMinMaxInput?: boolean
 }
 
 export type DatePickerAllProps = DatePickerProps &

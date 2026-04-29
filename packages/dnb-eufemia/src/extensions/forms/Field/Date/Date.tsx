@@ -453,6 +453,7 @@ function DateComponent(props: DateProps): React.ReactElement {
         minDate={minDate}
         maxDate={maxDate}
         status={hasError ? 'error' : undefined}
+        _validateMinMaxInput={false}
         range={range}
         onReset={handleReset}
         onType={onType} // To support validation while typing (e.g. required)

@@ -6,13 +6,19 @@
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
 
 // date-fns
-import { isValid as isValidFn, parseISO } from 'date-fns'
+import {
+  isValid as isValidFn,
+  isBefore,
+  startOfDay,
+  parseISO,
+} from 'date-fns'
 
 import clsx from 'clsx'
 import SegmentedField, {
@@ -23,7 +29,7 @@ import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
-import { convertStringToDate } from './DatePickerCalc'
+import { convertStringToDate, isDisabled } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
 import type { FormStatusBaseProps } from '../FormStatus'
@@ -154,7 +160,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     getReturnObject,
     startDate,
     endDate,
-    props: { onType, label },
+    minDate: ctxMinDate,
+    maxDate: ctxMaxDate,
+    props: { onType, label, status: consumerStatus, _validateMinMaxInput },
   } = useContext(DatePickerContext)
 
   const { inputDates, updateInputDates } = useInputDates({
@@ -164,6 +172,58 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const translation = useTranslation().DatePicker
   const { locale } = useContext(Context)
+
+  const [minMaxStatus, setMinMaxStatus] = useState<string | null>(null)
+
+  const getMinMaxErrorMessage = useCallback(
+    (date: Date) => {
+      if (!isDisabled(date, ctxMinDate, ctxMaxDate)) {
+        return null
+      }
+
+      const formatOptions = { locale }
+
+      if (
+        ctxMinDate &&
+        isBefore(startOfDay(date), startOfDay(ctxMinDate))
+      ) {
+        return translation.errorMinDate?.replace(
+          '%s',
+          formatDate(ctxMinDate, formatOptions)
+        )
+      }
+
+      if (ctxMaxDate) {
+        return translation.errorMaxDate?.replace(
+          '%s',
+          formatDate(ctxMaxDate, formatOptions)
+        )
+      }
+
+      return null
+    },
+    [ctxMinDate, ctxMaxDate, locale, translation]
+  )
+
+  // Clear min/max error when dates change externally (e.g. calendar selection)
+  useEffect(() => {
+    if (!minMaxStatus) {
+      return // stop here
+    }
+
+    const startIsValid =
+      !startDate ||
+      !isValidFn(startDate) ||
+      !isDisabled(startDate, ctxMinDate, ctxMaxDate)
+    const endIsValid =
+      !endDate ||
+      !isValidFn(endDate) ||
+      !isDisabled(endDate, ctxMinDate, ctxMaxDate)
+
+    if (startIsValid && endIsValid) {
+      setMinMaxStatus(null)
+    }
+  }, [startDate, endDate, ctxMinDate, ctxMaxDate, minMaxStatus])
 
   const resolvedMaskOrder =
     maskOrder || (locale === 'en-US' ? 'mm/dd/yyyy' : defaultMaskOrder)
@@ -312,6 +372,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         const mode =
           focusMode.current === 'start' ? 'startDate' : 'endDate'
 
+        // Check min/max validation for pasted dates
+        setMinMaxStatus(getMinMaxErrorMessage(date))
+
         {
           // Update provider dates
           updateDates({
@@ -337,7 +400,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         warn(error)
       }
     },
-    [resolvedMaskOrder, updateDates, updateInputDates]
+    [
+      resolvedMaskOrder,
+      updateDates,
+      updateInputDates,
+      getMinMaxErrorMessage,
+    ]
   )
 
   const buildInputs = useCallback(
@@ -608,6 +676,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       isDateFullyFilledOutRef.current = fullyTyped
 
+      // Check min/max validation for fully typed valid dates
+      if (isValidDate) {
+        setMinMaxStatus(getMinMaxErrorMessage(dt))
+      } else if (!fullyTyped) {
+        setMinMaxStatus(null)
+      }
+
       // update the date
       if (isValidDate) {
         invalidDatesRef.current = {
@@ -656,6 +731,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       dateRefs,
       temporaryDates,
       updateInputDates,
+      getMinMaxErrorMessage,
     ]
   )
 
@@ -756,6 +832,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const scopeRef = useRef<HTMLSpanElement>(null)
 
+  // Show min/max validation error only when the consumer hasn't set their own
+  // status and hasn't opted out via _validateMinMaxInput={false}
+  const hasMinMaxError =
+    _validateMinMaxInput !== false &&
+    !consumerStatus &&
+    Boolean(minMaxStatus)
+  const inputFieldStatus = hasMinMaxError ? 'error' : status
+  const inputStatus = hasMinMaxError ? minMaxStatus : status
+
   const renderInputElement = useCallback(() => {
     return (
       <span
@@ -767,7 +852,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           id={`${id}-start`}
           _omitInputShellClass
           size={size}
-          status={!open ? status : null}
+          status={!open ? inputFieldStatus : null}
           statusState={statusState}
           inputs={buildInputs('start')}
           values={getValues('start')}
@@ -809,7 +894,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={`${id}-end`}
             _omitInputShellClass
             size={size}
-            status={!open ? status : null}
+            status={!open ? inputFieldStatus : null}
             statusState={statusState}
             inputs={buildInputs('end')}
             values={getValues('end')}
@@ -853,7 +938,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     disabled,
     skeleton,
     open,
-    status,
+    inputFieldStatus,
     statusState,
     attributes,
     isRange,
@@ -899,7 +984,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         disabled={disabled || skeleton}
         skeleton={skeleton}
         size={size}
-        status={!open ? status : null}
+        status={!open ? inputStatus : null}
         statusState={statusState}
         {...(statusProps as Record<string, unknown>)}
         submitElement={
@@ -912,7 +997,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             aria-label={ariaLabel}
             title={title}
             size={size}
-            status={status}
+            status={inputFieldStatus}
             statusState={statusState}
             type="button"
             icon="calendar"
