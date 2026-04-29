@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.4](https://github.com/dnbexperience/eufemia/compare/v11.0.3...v11.0.4) (2026-04-29)
+
+
+### :zap: Refactoring
+
+* add border radius tokens to components ([#7851](https://github.com/dnbexperience/eufemia/issues/7851)) ([00a0333](https://github.com/dnbexperience/eufemia/commit/00a033300a3aadc92b134fab275ea09858dda14d))
+
+
+### :bug: Bug Fixes
+
+* **Dialog, Drawer, ScrollView:** handle content movement when scrollbar appears and add `scrollbarGutter` property ([#7862](https://github.com/dnbexperience/eufemia/issues/7862)) ([430fac8](https://github.com/dnbexperience/eufemia/commit/430fac8a31dd1ac7b68f66f8712669737d427d89))
+* **Dropdown, Autocomplete:** improve outline (border) of DrawerList ([#7863](https://github.com/dnbexperience/eufemia/issues/7863)) ([c216d8b](https://github.com/dnbexperience/eufemia/commit/c216d8bc33cf98f57e8232a7cb7f16b2804a1c11)), closes [#7759](https://github.com/dnbexperience/eufemia/issues/7759) [#7854](https://github.com/dnbexperience/eufemia/issues/7854)
+* **Icon:** return stable reference from prerenderIcon for function icons ([#7847](https://github.com/dnbexperience/eufemia/issues/7847)) ([669407f](https://github.com/dnbexperience/eufemia/commit/669407fe3ec85a686de5750f9feef5a4ef170a5d))
+* **Tools.Log:** use variant prop instead of backgroundColor for dark mode support ([#7852](https://github.com/dnbexperience/eufemia/issues/7852)) ([d884843](https://github.com/dnbexperience/eufemia/commit/d88484319eb9638d58714c15df8a21ff9eff9232))
+
+
+### :memo: Documentation
+
+* **DatePicker:** clarify minDate/maxDate behavior and reference Field.Date for input validation ([#7866](https://github.com/dnbexperience/eufemia/issues/7866)) ([bcb1b21](https://github.com/dnbexperience/eufemia/commit/bcb1b21a8eba9be0eba71a83a4628307feb5022c))
+* enable dark/light mode switch in code examples ([#7843](https://github.com/dnbexperience/eufemia/issues/7843)) ([bb297b1](https://github.com/dnbexperience/eufemia/commit/bb297b1813d468315c2427f5a3fd4086081609b3))
+* **Forms:** add rationale for optional-by-default and optional label convention ([#7868](https://github.com/dnbexperience/eufemia/issues/7868)) ([dc5792f](https://github.com/dnbexperience/eufemia/commit/dc5792f83d1e804d80eb74cdcad22d733b8cb026))
+
 ## [11.0.3](https://github.com/dnbexperience/eufemia/compare/v11.0.2...v11.0.3) (2026-04-28)
 
 
