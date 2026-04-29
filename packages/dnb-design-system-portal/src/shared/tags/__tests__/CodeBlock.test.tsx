@@ -277,4 +277,41 @@ describe('CodeBlock', () => {
 
     expect(queryByLabelText('Dark surface')).toBeTruthy()
   })
+
+  it('should toggle color scheme class when clicking Dark mode checkbox', () => {
+    const { container } = render(
+      <CodeBlock reactLive scope={{}} language="jsx">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    const themeWrapper = container.querySelector('.eufemia-theme')
+    expect(themeWrapper).toBeTruthy()
+    expect(
+      themeWrapper.classList.contains('eufemia-theme__color-scheme--dark')
+    ).toBe(false)
+
+    const checkbox = container.querySelector(
+      'input[type="checkbox"]'
+    ) as HTMLInputElement
+    expect(checkbox).toBeTruthy()
+
+    // Enable dark mode
+    act(() => {
+      checkbox.click()
+    })
+
+    expect(
+      themeWrapper.classList.contains('eufemia-theme__color-scheme--dark')
+    ).toBe(true)
+
+    // Disable dark mode
+    act(() => {
+      checkbox.click()
+    })
+
+    expect(
+      themeWrapper.classList.contains('eufemia-theme__color-scheme--dark')
+    ).toBe(false)
+  })
 })
