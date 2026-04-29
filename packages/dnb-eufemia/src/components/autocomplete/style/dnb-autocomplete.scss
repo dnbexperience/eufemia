@@ -12,7 +12,7 @@
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
   --autocomplete-text-padding: 0.5rem;
-  --autocomplete-border-radius: 0.25rem;
+  --autocomplete-border-radius: var(--token-radius-sm);
 
   display: inline-flex;
   align-items: center;

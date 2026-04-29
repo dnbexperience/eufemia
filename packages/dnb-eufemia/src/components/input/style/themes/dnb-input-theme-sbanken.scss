@@ -5,9 +5,9 @@
 
 .dnb-input__border--tokens {
   // Border
-  --input-border-radius--default: 0.5rem;
-  --input-border-radius--active: 1.5rem;
-  --input-border-radius--focus: 1.5rem;
+  --input-border-radius--default: var(--token-radius-md);
+  --input-border-radius--active: var(--token-radius-xl);
+  --input-border-radius--focus: var(--token-radius-xl);
 }
 
 .dnb-input {

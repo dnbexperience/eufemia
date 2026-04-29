@@ -45,7 +45,7 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   padding: 1.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
-  border-radius: 1rem;
+  border-radius: var(--token-radius-lg);
   color: var(--token-color-text-action-ondark);
   background-color: var(--token-color-decorative-first-intense-static);
   position: relative;

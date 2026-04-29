@@ -81,7 +81,7 @@
         --button-tertiary-focus-overflow--icon-top
       );
       flex-direction: column;
-      border-radius: 0.5rem;
+      border-radius: var(--token-radius-md);
       vertical-align: middle;
 
       &.dnb-button--has-text {

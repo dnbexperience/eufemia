@@ -15,7 +15,7 @@
   --dropdown-error-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
-  --dropdown-border-radius: 0.25rem;
+  --dropdown-border-radius: var(--token-radius-sm);
   --dropdown-error-border-inset: ;
 
   display: inline-flex;

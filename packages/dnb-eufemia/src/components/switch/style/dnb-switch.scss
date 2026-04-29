@@ -135,7 +135,7 @@
 
     background-color: var(--token-color-background-neutral);
     border: 1px solid var(--token-color-stroke-action-alternative);
-    border-radius: 1.5rem;
+    border-radius: var(--token-radius-xl);
 
     .dnb-switch--large & {
       width: var(--switch-width--large);

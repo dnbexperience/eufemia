@@ -4,7 +4,7 @@
   &--variant-basic {
     --item-padding: 1rem;
     --item-height: 4rem;
-    --item-rounded-corner: 1.5rem;
+    --item-rounded-corner: var(--token-radius-xl);
     --item-row-gap: 0.5rem;
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;

@@ -28,7 +28,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   border: 1px solid var(--token-color-stroke-neutral-subtle);
 }
 .dnb-info-card, .dnb-info-card::after {
-  border-radius: 0.25rem;
+  border-radius: var(--token-radius-sm);
 }
 .dnb-info-card--centered {
   flex-direction: column;

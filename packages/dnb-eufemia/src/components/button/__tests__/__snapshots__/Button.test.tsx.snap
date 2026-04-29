@@ -109,7 +109,7 @@ p > .dnb-icon {
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: 1rem;
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -159,7 +159,7 @@ p > .dnb-icon {
  *
  */
 .dnb-form-status {
-  --form-status-radius: 0.25rem;
+  --form-status-radius: var(--token-radius-sm);
   display: flex;
   opacity: 1;
 }
@@ -333,7 +333,7 @@ button .dnb-form-status__text {
   --button-border-width--hover: 0.125rem;
   --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
-  --button-border-radius--control-button: 0.25rem;
+  --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
   --button-padding-icon: 1rem;
@@ -1062,7 +1062,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
@@ -1302,7 +1302,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {

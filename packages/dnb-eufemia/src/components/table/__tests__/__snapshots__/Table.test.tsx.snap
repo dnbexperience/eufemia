@@ -193,12 +193,12 @@ exports[`Table scss should match style dependencies css 1`] = `
   -webkit-text-fill-color: var(--skeleton-color);
 }
 .dnb-card--no-inner-space .dnb-table {
-  --table-outline-radius: var(--rounded-corner, 0.5rem);
+  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
   --table-outline-color: transparent;
   margin-bottom: 0;
 }
 .dnb-card .dnb-table {
-  --table-outline-radius: var(--rounded-corner, 0.5rem);
+  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
 }
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,

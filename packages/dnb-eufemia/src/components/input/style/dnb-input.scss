@@ -30,7 +30,7 @@
   --input-border-inset--focus: ;
   --input-border-inset--disabled: inset;
   --input-border-radius: var(--input-border-radius--default);
-  --input-border-radius--default: 0.25rem;
+  --input-border-radius--default: var(--token-radius-sm);
 }
 
 .dnb-input {

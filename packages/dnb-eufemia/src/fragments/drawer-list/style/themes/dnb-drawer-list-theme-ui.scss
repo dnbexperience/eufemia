@@ -6,7 +6,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-drawer-list {
-  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-options-border-radius: var(--token-radius-sm);
   --drawer-list-option-border-width: 0.0625rem;
 
   &__list {

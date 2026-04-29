@@ -8,13 +8,13 @@
 .dnb-checkbox {
   --checkbox-width--medium: 1.25rem;
   --checkbox-height--medium: 1.25rem;
-  --checkbox-border-radius: 0.25rem;
+  --checkbox-border-radius: var(--token-radius-sm);
   --checkbox-border-width: 0.0625rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
   --checkbox-gfx-size__indeterminate: 0.625rem;
   --checkbox-gfx-size__indeterminate--large: 1rem;
-  --checkbox-gfx-border-radius__indeterminate: 0.125rem;
+  --checkbox-gfx-border-radius__indeterminate: var(--token-radius-xs);
 
   // Normal state
   --checkbox-color-gfx-on: var(--token-color-icon-neutral-inverse);

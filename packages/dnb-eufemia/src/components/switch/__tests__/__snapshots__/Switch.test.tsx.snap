@@ -59,7 +59,7 @@ legend.dnb-form-label {
  * Utilities
  */
 .dnb-form-status {
-  --form-status-radius: 0.25rem;
+  --form-status-radius: var(--token-radius-sm);
   display: flex;
   opacity: 1;
 }
@@ -294,7 +294,7 @@ button .dnb-form-status__text {
   height: var(--switch-height--medium);
   background-color: var(--token-color-background-neutral);
   border: 1px solid var(--token-color-stroke-action-alternative);
-  border-radius: 1.5rem;
+  border-radius: var(--token-radius-xl);
 }
 .dnb-switch--large .dnb-switch__background {
   width: var(--switch-width--large);

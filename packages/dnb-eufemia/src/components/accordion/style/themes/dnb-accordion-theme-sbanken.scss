@@ -7,7 +7,7 @@
 
 .dnb-accordion {
   --accordion-border-width: 0;
-  --accordion-border-radius: 0;
+  --accordion-border-radius: var(--token-radius-0);
 
   // vertical spacing
   --accordion-header-margin-vertical: 1rem;
@@ -18,7 +18,7 @@
     1.5rem - var(--sb-accordion-frame-width)
   );
   --sb-accordion-header-border-radius--expanded: 0.125rem 0.125rem 0 0;
-  --sb-accordion-header-border-radius--hover: 0.125rem;
+  --sb-accordion-header-border-radius--hover: var(--token-radius-xs);
   --sb-accordion-header-border-radius--hover-expanded: 0.125rem 0.125rem 0
     0;
 
@@ -55,7 +55,7 @@
     @include utilities.focusVisible() {
       @include utilities.focusRing('always');
       z-index: 1;
-      border-radius: 0.125rem;
+      border-radius: var(--token-radius-xs);
       background-color: var(--sb-color-blue-light-3);
       color: var(--border-color);
 
