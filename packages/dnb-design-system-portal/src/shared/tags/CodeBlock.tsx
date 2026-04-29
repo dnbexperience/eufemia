@@ -281,25 +281,22 @@ function LiveCode(props: LiveCodeProps) {
                   </ToggleButton>
                 )}
 
-                {(process.env.NODE_ENV === 'development' ||
-                  process.env.GATSBY_IS_PREVIEW === 'true') && (
-                  <Checkbox
-                    checked={
-                      colorScheme === (inheritedDark ? 'light' : 'dark')
-                    }
-                    onChange={({ checked }) => {
-                      setColorScheme(
-                        checked
-                          ? inheritedDark
-                            ? 'light'
-                            : 'dark'
-                          : undefined
-                      )
-                    }}
-                    size="medium"
-                    label={inheritedDark ? 'Light mode' : 'Dark mode'}
-                  />
-                )}
+                <Checkbox
+                  checked={
+                    colorScheme === (inheritedDark ? 'light' : 'dark')
+                  }
+                  onChange={({ checked }) => {
+                    setColorScheme(
+                      checked
+                        ? inheritedDark
+                          ? 'light'
+                          : 'dark'
+                        : undefined
+                    )
+                  }}
+                  size="medium"
+                  label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                />
 
                 {surfaceProp === 'dark' && (
                   <Checkbox
