@@ -1419,3 +1419,195 @@ describe('Rich text tag rendering', () => {
     })
   })
 })
+
+describe('Error handling and warnings', () => {
+  let logSpy: jest.SpyInstance
+
+  beforeEach(() => {
+    logSpy = jest.spyOn(console, 'log').mockImplementation()
+  })
+
+  afterEach(() => {
+    logSpy.mockRestore()
+  })
+
+  it('should warn when a message id is not found', () => {
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation()
+      return <span>{formatMessage('Missing.key')}</span>
+    }
+
+    render(
+      <Provider>
+        <MockComponent />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('Missing.key')
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('Missing translation for "Missing.key"')
+    )
+  })
+
+  it('should not warn when a raw string without dots is used as id', () => {
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation()
+      return (
+        <span>{formatMessage('Hello {name}', { name: 'World' })}</span>
+      )
+    }
+
+    render(
+      <Provider>
+        <MockComponent />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('Hello World')
+    expect(logSpy).not.toHaveBeenCalled()
+  })
+
+  it('should warn about unreplaced placeholders', () => {
+    const translations = {
+      'nb-NO': {
+        Custom: {
+          msg: 'Hei {name}, du har {count} meldinger.',
+        },
+      },
+    }
+    type T = (typeof translations)['nb-NO']
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation<T>()
+      return <span>{formatMessage('Custom.msg', { name: 'Ola' })}</span>
+    }
+
+    render(
+      <Provider translations={translations}>
+        <MockComponent />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe(
+      'Hei Ola, du har {count} meldinger.'
+    )
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('{count}')
+    )
+  })
+
+  it('should not warn about {br} as unreplaced', () => {
+    const translations = {
+      'nb-NO': {
+        Custom: {
+          msg: 'Linje en{br}Linje to',
+        },
+      },
+    }
+    type T = (typeof translations)['nb-NO']
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation<T>()
+      return <span>{formatMessage('Custom.msg')}</span>
+    }
+
+    render(
+      <Provider translations={translations}>
+        <MockComponent />
+      </Provider>
+    )
+
+    expect(logSpy).not.toHaveBeenCalled()
+  })
+
+  it('should gracefully handle invalid ICU syntax', () => {
+    const translations = {
+      'en-GB': {
+        Custom: {
+          broken: '{count, plural, one {# item} other {# items}',
+        },
+      },
+    }
+    type T = (typeof translations)['en-GB']
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation<T>()
+      return <span>{formatMessage('Custom.broken', { count: 5 })}</span>
+    }
+
+    render(
+      <Provider icu={icu} locale="en-GB" translations={translations}>
+        <MockComponent />
+      </Provider>
+    )
+
+    // Should fall back to the id rather than crashing
+    expect(document.body.textContent).toBe('Custom.broken')
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('ICU formatting failed'),
+      expect.any(Error)
+    )
+  })
+
+  it('should gracefully handle missing ICU variable', () => {
+    const translations = {
+      'en-GB': {
+        Custom: {
+          items: 'You have {count, plural, one {# item} other {# items}}.',
+        },
+      },
+    }
+    type T = (typeof translations)['en-GB']
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation<T>()
+      // Intentionally missing "count" variable
+      return <span>{formatMessage('Custom.items', {})}</span>
+    }
+
+    render(
+      <Provider icu={icu} locale="en-GB" translations={translations}>
+        <MockComponent />
+      </Provider>
+    )
+
+    // Should fall back to the id rather than crashing
+    expect(document.body.textContent).toBe('Custom.items')
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('ICU formatting failed'),
+      expect.any(Error)
+    )
+  })
+
+  it('should call function args as simple replacements when no matching tags exist', () => {
+    const translations = {
+      'nb-NO': {
+        Custom: {
+          msg: 'Verdi: {getValue}',
+        },
+      },
+    }
+    type T = (typeof translations)['nb-NO']
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation<T>()
+      return (
+        <span>
+          {formatMessage('Custom.msg', { getValue: () => '42' })}
+        </span>
+      )
+    }
+
+    render(
+      <Provider translations={translations}>
+        <MockComponent />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('Verdi: 42')
+  })
+})

@@ -349,6 +349,11 @@ export function formatMessage(
       }
     }
     if (!found && typeof id === 'string') {
+      // Only warn when the id looks like a message path (e.g. "MyForm.title").
+      // Raw strings passed directly (e.g. already-resolved translations) are not missing keys.
+      if (id.includes('.')) {
+        warn(`formatMessage: Missing translation for "${id}".`)
+      }
       str = id
     }
   } else if (typeof id === 'function') {
@@ -357,19 +362,28 @@ export function formatMessage(
 
   if (typeof str === 'string') {
     if (args && icu && icu.isICU(str)) {
-      const result = icu.format(str, args, locale || 'nb-NO')
+      try {
+        const result = icu.format(str, args, locale || 'nb-NO')
 
-      if (Array.isArray(result)) {
-        return (
-          <>
-            {result.map((part, i) => (
-              <Fragment key={i}>{part as React.ReactNode}</Fragment>
-            ))}
-          </>
+        if (Array.isArray(result)) {
+          return (
+            <>
+              {result.map((part, i) => (
+                <Fragment key={i}>{part as React.ReactNode}</Fragment>
+              ))}
+            </>
+          )
+        }
+
+        return result
+      } catch (e) {
+        warn(
+          `formatMessage: ICU formatting failed for "${typeof id === 'string' ? id : '(function)'}":`,
+          e
         )
-      }
 
-      return result
+        return typeof id === 'string' ? id : str
+      }
     }
 
     let hasTagHandlers = false
@@ -383,6 +397,15 @@ export function formatMessage(
       const value = typeof args[t] === 'function' ? args[t]() : args[t]
       const regex = new RegExp(`{${t}}`, 'g')
       str = str.replace(regex, value)
+    }
+
+    // Warn about unreplaced placeholders (e.g. missing variables).
+    // Exclude {br} which is handled by renderWithFormatting.
+    const unreplaced = str.match(/\{(\w+)\}/g)?.filter((p) => p !== '{br}')
+    if (unreplaced?.length > 0) {
+      warn(
+        `formatMessage: Unreplaced placeholder(s) ${unreplaced.join(', ')} in "${typeof id === 'string' ? id : '(function)'}".`
+      )
     }
 
     if (hasTagHandlers) {

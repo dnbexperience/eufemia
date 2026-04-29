@@ -1279,3 +1279,18 @@ render(
   </Provider>
 )
 ```
+
+## Error handling
+
+`formatMessage` provides development warnings (`console.log`) to help catch translation bugs. These warnings are **silent in production** (`NODE_ENV=production`).
+
+| Scenario                       | Behavior                                                                                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Missing message id**         | Returns the raw id as fallback. Warns in development when the id contains a dot (e.g. `MyApp.key`).                                                                        |
+| **Missing variable**           | Leaves the `{placeholder}` in the output. Warns about unreplaced placeholders.                                                                                             |
+| **Invalid ICU syntax**         | Catches the parse error, returns the message id as fallback, and warns.                                                                                                    |
+| **Missing ICU variable**       | Catches the runtime error, returns the message id as fallback, and warns.                                                                                                  |
+| **Missing locale bundle**      | Falls back to the default locale (`nb-NO`) and warns.                                                                                                                      |
+| **Fallback locale**            | See [Fallback for missing or partial translations](#fallback-for-missing-or-partial-translations).                                                                         |
+| **`{br}` in messages**         | Not treated as a missing variable. Handled by `renderWithFormatting`.                                                                                                      |
+| **Function args without tags** | When a function is passed as a replacement value but no matching `<tag>` exists, the function is called without arguments and its return value is used as the replacement. |
