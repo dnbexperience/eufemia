@@ -41,6 +41,8 @@ export default {
       dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
       returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       firstDay: 'monday', // used in DatePickerCalendar to set the first day of the week
+      errorMinDate: 'Datoen kan ikke være før %s',
+      errorMaxDate: 'Datoen kan ikke være efter %s',
       submitButtonText: 'Ok',
       cancelButtonText: 'Annuller',
       resetButtonText: 'Gendan',
