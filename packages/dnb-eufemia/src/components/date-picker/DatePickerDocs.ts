@@ -34,12 +34,12 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minDate: {
-    doc: 'To limit a date range to a minimum `startDate`. Defaults to `null`.',
+    doc: 'To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
     type: dateType,
     status: 'optional',
   },
   maxDate: {
-    doc: 'To limit a date range to a maximum `endDate`. Defaults to `null`.',
+    doc: 'To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
     type: dateType,
     status: 'optional',
   },

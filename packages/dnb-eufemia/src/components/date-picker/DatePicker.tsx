@@ -112,11 +112,11 @@ export type DatePickerProps = {
    */
   endMonth?: DatePickerDateType
   /**
-   * To limit a date range to a minimum `startDate`. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Does not validate dates typed in the input field. Defaults to `null`.
    */
   minDate?: DatePickerDateType
   /**
-   * To limit a date range to a maximum `endDate`. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Does not validate dates typed in the input field. Defaults to `null`.
    */
   maxDate?: DatePickerDateType
   /**

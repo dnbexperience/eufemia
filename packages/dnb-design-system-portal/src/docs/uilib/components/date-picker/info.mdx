@@ -101,13 +101,11 @@ import { DatePicker } from '@dnb/eufemia'
 import { getOsloDate } from '@dnb/eufemia/components/date-format/DateFormatUtils'
 ```
 
-### Validation for `minDate`, `maxDate`, and invalid dates
-
-`Field.Date` has [built-in validation](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation]) for `minDate`, `maxDate`, and invalid dates. This is the preferred method of handling scenarios where the user has typed in an invalid date or a date outside of the set date limits. Automatically changing the user input, on the other hand, leads to worse UX and confusion, as the user might not understand why the date is changed for seemingly no reason. So it's best practice to tell the user what is wrong and let them correct it.
-
 ### Min & Max date
 
-If `minDate` or `maxDate` is given, the return object also contains information about whether the `startDate` or `endDate` is within the given limits. The reason is that the user can still enter an invalid date in the input.
+The `minDate` and `maxDate` props restrict which dates can be selected in the calendar view. Dates outside the given range will be disabled, both for single dates and ranges. However, the user can still type a date outside these limits directly in the input field — `minDate` and `maxDate` do **not** validate typed input.
+
+If `minDate` or `maxDate` is given, the return object also contains information about whether the date is within the given limits:
 
 ```js
 {
@@ -116,6 +114,12 @@ If `minDate` or `maxDate` is given, the return object also contains information 
   ...
 }
 ```
+
+### Validation for `minDate`, `maxDate`, and invalid dates
+
+If you need validation of typed input against `minDate` and `maxDate`, use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) instead. It has [built-in validation](/uilib/extensions/forms/feature-fields/Date/#date-limit-validation) for `minDate`, `maxDate`, and invalid dates, and will show the user an error message when the entered date is outside the allowed range.
+
+Automatically changing the user input leads to worse UX and confusion, as the user might not understand why the date changed. It's best practice to tell the user what is wrong and let them correct it.
 
 ### Validation during input changes
 
