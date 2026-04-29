@@ -138,7 +138,7 @@
 
   &__figure {
     position: relative;
-    border-radius: 0.25rem;
+    border-radius: var(--token-radius-sm);
 
     &--circle {
       width: 4rem;

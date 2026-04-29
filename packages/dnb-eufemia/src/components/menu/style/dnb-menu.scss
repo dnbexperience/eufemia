@@ -5,7 +5,7 @@
   --menu-action-padding-block: 0.75rem;
   --menu-action-gap: 1rem;
   --menu-action-min-height: 2.5rem;
-  --menu-action-border-radius: 0.25rem;
+  --menu-action-border-radius: var(--token-radius-sm);
   --menu-action-background-color: transparent;
   --menu-action-background-color--hover: var(
     --token-color-background-neutral-subtle

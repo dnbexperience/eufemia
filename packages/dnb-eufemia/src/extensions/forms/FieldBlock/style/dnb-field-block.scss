@@ -142,7 +142,7 @@ fieldset.dnb-forms-field-block {
       .dnb-help-button__content {
         // Align to how the FormStatus looks
         .dnb-section {
-          --rounded-corner: 0.25rem;
+          --rounded-corner: var(--token-radius-sm);
           align-self: flex-start; // Do not stretch the content
         }
       }

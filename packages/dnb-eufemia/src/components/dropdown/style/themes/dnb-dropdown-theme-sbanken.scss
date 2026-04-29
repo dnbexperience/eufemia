@@ -6,7 +6,7 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-dropdown {
-  --dropdown-border-radius: 0.5rem;
+  --dropdown-border-radius: var(--token-radius-md);
   --dropdown-height: 2.5rem;
   --dropdown-button-padding: 0 0.75rem 0 0.5rem;
   --dropdown-sb-icon-color--default: var(--token-color-icon-action);

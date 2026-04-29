@@ -128,7 +128,7 @@
     line-height: var(--line-height-basis);
     font-weight: var(--font-weight-medium);
 
-    border-radius: 0.5rem;
+    border-radius: var(--token-radius-md);
 
     &-content {
       display: inline-flex;

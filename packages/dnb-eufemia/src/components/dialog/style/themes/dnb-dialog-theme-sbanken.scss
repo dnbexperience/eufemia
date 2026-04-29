@@ -7,7 +7,7 @@
 
 .dnb-dialog {
   --dialog-icon-positioning: -0.5rem;
-  --dialog-radius: 0.25rem;
+  --dialog-radius: var(--token-radius-sm);
 
   &__icon {
     margin-top: calc(var(--dialog-icon-positioning) * -1);

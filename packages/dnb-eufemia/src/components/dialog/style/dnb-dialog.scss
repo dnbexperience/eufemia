@@ -14,7 +14,7 @@
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
-  --dialog-radius: 0.5rem;
+  --dialog-radius: var(--token-radius-md);
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   --dialog-icon-positioning: -50%;
   --dialog-background-color: var(--token-color-background-neutral, white);

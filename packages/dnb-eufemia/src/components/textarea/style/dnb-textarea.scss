@@ -24,7 +24,7 @@
     --token-color-text-neutral-alternative
   );
   --textarea-color-border: var(--token-color-stroke-action);
-  --textarea-border-radius--default: 0.25rem;
+  --textarea-border-radius--default: var(--token-radius-sm);
   --textarea-border-width: var(--textarea-border-width--default);
   --textarea-border-width--default: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
