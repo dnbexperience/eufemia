@@ -68,6 +68,7 @@
   --color-text-neutral: var(--sbanken-greyscale-0);
   --color-text-neutral-onlight: var(--sbanken-greyscale-1000);
   --color-text-neutral-alternative: var(--sbanken-greyscale-500);
+  --color-text-neutral-alternative-inverse: var(--sbanken-greyscale-600);
   --color-text-neutral-inverse: var(--sbanken-purple-1000);
   --color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --color-text-neutral-subtle: var(--sbanken-greyscale-600);
