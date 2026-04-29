@@ -139,6 +139,10 @@
     transition:
       transform 200ms,
       opacity 160ms ease-out;
+
+    &--no-animation {
+      transition: none;
+    }
   }
 
   // ul element

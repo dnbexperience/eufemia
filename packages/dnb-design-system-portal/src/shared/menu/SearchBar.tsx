@@ -92,6 +92,7 @@ export const SearchBarInput = () => {
       mode="async"
       showClearButton
       noScrollAnimation
+      noAnimation
       preventSelection
       disableFilter
       fixedPosition
