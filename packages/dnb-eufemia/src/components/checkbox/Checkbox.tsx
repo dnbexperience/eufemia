@@ -3,19 +3,12 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-} from 'react'
+import React, { useCallback, useEffect, useReducer, useRef } from 'react'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  extendPropsWithContext,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -23,12 +16,11 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import type { SpacingProps } from '../../shared/types'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
@@ -113,21 +105,12 @@ const defaultProps: CheckboxProps = {
 }
 
 function Checkbox(localProps: CheckboxProps) {
-  const context = useContext(Context)
-
-  const extractPropsFromContext = useCallback(() => {
-    return extendPropsWithContext(
-      localProps,
-      defaultProps,
-      context.Checkbox,
-      {
-        skeleton: context?.Checkbox,
-      },
-      pickFormElementProps(context?.formElement)
-    )
-  }, [context.Checkbox, context?.formElement, localProps])
-
-  const props = extractPropsFromContext()
+  const [props, context] = useComponentDefaults(
+    localProps,
+    defaultProps,
+    'Checkbox',
+    { formElement: true }
+  )
 
   const {
     value,

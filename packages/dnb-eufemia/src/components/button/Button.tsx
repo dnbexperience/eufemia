@@ -3,27 +3,24 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import clsx from 'clsx'
-import Context from '../../shared/Context'
 import {
   warn,
   convertJsxToString,
-  extendExistingPropsWithContext,
-  removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import useId from '../../shared/helpers/useId'
 import { applySpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch as LaunchIcon } from '../../icons'
@@ -235,7 +232,6 @@ function getContent(props: ButtonProps) {
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 function Button({ ref, ...restProps }: ButtonProps) {
-  const context = useContext(Context)
   const elementRef = useRef<HTMLElement | null>(null)
   const combinedRef = useCombinedRef(ref, elementRef)
 
@@ -251,15 +247,15 @@ function Button({ ref, ...restProps }: ButtonProps) {
     null
   )
 
-  const props = extendExistingPropsWithContext(
-    {
-      ...buttonDefaultProps,
-      ...removeUndefinedProps({ ...restProps }),
-    },
+  const [props, context] = useComponentDefaults(
+    restProps,
     buttonDefaultProps,
-    { skeleton: context?.skeleton },
-    pickFormElementProps(context?.formElement),
-    context.Button
+    'Button',
+    {
+      onlyExisting: true,
+      removeUndefined: true,
+      formElement: true,
+    }
   )
 
   const {

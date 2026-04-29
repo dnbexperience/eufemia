@@ -5,7 +5,6 @@ import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
-import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
@@ -13,10 +12,8 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { TimelineItemProps } from './TimelineItem'
 import TimelineItem from './TimelineItem'
 import TimelineContext from './TimelineContext'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {
@@ -55,17 +52,10 @@ const defaultProps: Partial<TimelineAllProps> = {
 }
 
 const Timeline = (localProps: TimelineAllProps) => {
-  // Every component should have a context
-  const context = React.useContext(Context)
-
-  // Extract additional props from global context
-  const allProps = extendPropsWithContext(
+  const [allProps] = useComponentDefaults(
     localProps,
     defaultProps,
-    context?.Timeline,
-    {
-      skeleton: context?.skeleton,
-    }
+    'Timeline'
   )
   const {
     className,

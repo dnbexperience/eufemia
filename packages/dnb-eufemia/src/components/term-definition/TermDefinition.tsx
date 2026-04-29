@@ -2,15 +2,14 @@
  * Web TermDefinition Component
  */
 
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
 import { applySpacing, removeSpaceProps } from '../space/SpacingUtils'
-import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 
 export type TermDefinitionProps = {
   /**
@@ -42,13 +41,10 @@ const defaultProps: Partial<TermDefinitionAllProps> = {
 export default function TermDefinition(
   localProps: TermDefinitionAllProps
 ) {
-  const context = useContext(Context)
-
-  const allProps = extendPropsWithContext(
+  const [allProps] = useComponentDefaults(
     localProps,
     defaultProps,
-    { skeleton: context?.skeleton },
-    context?.TermDefinition
+    'TermDefinition'
   )
 
   const { children, content, className, placement, ...rest } = allProps

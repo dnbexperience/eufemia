@@ -5,11 +5,8 @@ import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 
 // Shared
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
-import Context from '../../shared/Context'
+import { validateDOMAttributes } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -53,17 +50,12 @@ const TagGroup = (
     SpacingProps &
     Omit<React.HTMLProps<HTMLElement>, 'label'>
 ) => {
-  // Every component should have a context
-  const context = React.useContext(Context)
-  // Extract additional props from global context
   const {
     label,
     className,
     children: childrenProp,
     ...props
-  } = extendPropsWithContext(localProps, defaultProps, context?.TagGroup, {
-    skeleton: context?.skeleton,
-  })
+  } = useComponentDefaults(localProps, defaultProps, 'TagGroup')[0]
 
   let children = childrenProp
 

@@ -6,19 +6,15 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import { applySpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { omitSpacingProps } from '../flex/utils'
-import Context from '../../shared/Context'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import type {
   DynamicElement,
   DynamicElementParams,
@@ -51,15 +47,11 @@ export type FormLabelAllProps = FormLabelProps &
   SpacingProps
 
 function FormLabel(localProps: FormLabelAllProps) {
-  const context = React.useContext(Context)
-
-  // use only the props from context, who are available here anyway
-  const props = extendPropsWithContext(
+  const [props, context] = useComponentDefaults(
     localProps,
     null,
-    { skeleton: context?.skeleton },
-    pickFormElementProps(context?.formElement),
-    context?.FormLabel
+    'FormLabel',
+    { formElement: true }
   )
 
   const nestedContent = props?.text || props?.children

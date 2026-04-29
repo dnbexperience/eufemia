@@ -8,14 +8,10 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
 import type { ContextProps } from '../../shared/Context'
-import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import {
-  warn,
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
@@ -104,15 +100,10 @@ export const defaultProps: BadgeAllProps = {
 }
 
 function Badge(localProps: BadgeAllProps) {
-  // Every component should have a context
-  const context = React.useContext(Context)
-
-  // Extract additional props from global context
-  const allProps = extendPropsWithContext(
+  const [allProps, context] = useComponentDefaults(
     localProps,
     defaultProps,
-    context?.Badge,
-    { skeleton: context?.skeleton }
+    'Badge'
   )
   const { children, className } = allProps
 

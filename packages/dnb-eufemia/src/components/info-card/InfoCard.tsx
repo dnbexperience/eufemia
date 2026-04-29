@@ -17,13 +17,10 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 // Shared
 import { applySpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type InfoCardProps = {
@@ -125,16 +122,10 @@ export const defaultProps = {
 }
 
 const InfoCard = (localProps: InfoCardAllProps) => {
-  // Every component should have a context
-  const context = React.useContext(Context)
-
-  const allProps = extendPropsWithContext(
+  const [allProps] = useComponentDefaults(
     localProps,
     defaultProps,
-    {
-      skeleton: context?.skeleton,
-    },
-    context?.InfoCard
+    'InfoCard'
   )
 
   // Extract additional props from global context

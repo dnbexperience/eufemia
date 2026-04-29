@@ -3,8 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 // Shared
-import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 import type { DynamicElement } from '../../shared/types'
 
 export type VisuallyHiddenProps = {
@@ -30,16 +29,8 @@ const defaultProps: Partial<VisuallyHiddenAllProps> = {
 }
 
 const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
-  // Every component should have a context
-  const context = React.useContext(Context)
-
-  // Extract additional props from global context
-  const { element, children, className, focusable, ...props } =
-    extendPropsWithContext(
-      localProps,
-      defaultProps,
-      context?.VisuallyHidden
-    )
+  const [{ element, children, className, focusable, ...props }] =
+    useComponentDefaults(localProps, defaultProps, 'VisuallyHidden')
 
   const visuallyHiddenClassNames = clsx(
     'dnb-visually-hidden',

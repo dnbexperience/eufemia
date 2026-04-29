@@ -13,14 +13,10 @@ import type { ImgProps } from '../../elements/img/Img'
 import Img from '../../elements/img/Img'
 
 // Shared
-import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-  warn,
-} from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { useComponentDefaults } from '../../shared/useComponentDefaults'
 
 // Internal
 import AvatarGroup, {
@@ -119,18 +115,14 @@ const defaultProps: Partial<AvatarAllProps> = {
 }
 
 const Avatar = (localProps: AvatarAllProps) => {
-  // Every component should have a context
-  const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
   const avatarGroupItemContext = React.useContext(AvatarGroupItemContext)
 
-  // Extract additional props from global context
-  const allProps = extendPropsWithContext(
+  const [allProps, context] = useComponentDefaults(
     localProps,
     defaultProps,
-    context?.Avatar,
-    { skeleton: context?.skeleton },
-    avatarGroupContext
+    'Avatar',
+    { additionalContexts: [avatarGroupContext] }
   )
 
   const {
