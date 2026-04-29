@@ -45,7 +45,7 @@ exports[`Badge scss should match style dependencies css 1`] = `
 .dnb-badge--variant-information {
   --badge-information-color: var(--token-color-text-neutral);
   padding: 0.125rem 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   background-color: var(--badge-information-bg);
   color: var(--badge-information-color, inherit);
 }
