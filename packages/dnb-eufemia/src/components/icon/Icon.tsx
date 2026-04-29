@@ -446,14 +446,25 @@ function prepareIconCore(
 }
 
 function usePrepareIcon(props: IconAllProps, context: ContextProps) {
-  const { icon, size, width, height } = props
-
-  const cachedCalcSize = calcSize({
+  const {
     icon,
     size,
     width,
     height,
-  })
+    border,
+    color,
+    inheritColor,
+    modifier,
+    alt,
+    title,
+    skeleton,
+    className,
+  } = props
+
+  const cachedCalcSize = useMemo(
+    () => calcSize({ icon, size, width, height }),
+    [icon, size, width, height]
+  )
 
   const label = useMemo(
     () => (icon ? getIconNameFromComponent(icon) : null),
@@ -466,7 +477,26 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
         ...cachedCalcSize,
         label,
       }),
-    [props, context, cachedCalcSize, label]
+    // Use primitive values as dependencies instead of object references
+    // to prevent infinite re-render loops when a parent component
+    // (e.g. react-hot-toast) re-renders frequently with new prop objects
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      icon,
+      size,
+      width,
+      height,
+      border,
+      color,
+      inheritColor,
+      modifier,
+      alt,
+      title,
+      skeleton,
+      className,
+      cachedCalcSize,
+      label,
+    ]
   )
 }
 

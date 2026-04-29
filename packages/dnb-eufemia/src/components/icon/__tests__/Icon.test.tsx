@@ -3,9 +3,9 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
 import Icon from '../Icon'
 import { question } from './test-files'
@@ -258,6 +258,46 @@ describe('Icon component', () => {
 
     const img = document.querySelector('img')
     expect(img).toHaveAttribute('alt', 'Custom alt')
+  })
+
+  it('should not re-render excessively when parent re-renders rapidly', () => {
+    const renderCount = jest.fn()
+
+    function IconSpy() {
+      renderCount()
+      return <Icon icon={question} />
+    }
+
+    function RapidUpdater() {
+      const [count, setCount] = useState(0)
+
+      React.useEffect(() => {
+        // Simulate rapid parent re-renders like react-hot-toast timers
+        for (let i = 1; i <= 10; i++) {
+          setTimeout(() => setCount(i), i)
+        }
+      }, [])
+
+      return (
+        <div data-count={count}>
+          <IconSpy />
+        </div>
+      )
+    }
+
+    jest.useFakeTimers()
+    render(<RapidUpdater />)
+
+    act(() => {
+      jest.advanceTimersByTime(20)
+    })
+
+    jest.useRealTimers()
+
+    // Initial render + at most 10 from timer updates.
+    // Without the memoization fix, this could runaway into hundreds
+    // of renders causing an infinite loop.
+    expect(renderCount.mock.calls.length).toBeLessThanOrEqual(12)
   })
 })
 
