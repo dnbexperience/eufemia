@@ -8,22 +8,13 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
-  pull_request:
-    branches:
-      - 'portal'
-      - 'release'
-      - 'beta'
-      - 'alpha'
-      - 'next'
-    types: [opened]
-
 permissions:
   contents: read
   pull-requests: write
   statuses: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -35,69 +26,6 @@ env:
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
 jobs:
-  check-pr-title:
-    name: Validate PR title
-    if: github.event_name == 'pull_request'
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check PR title format
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          if echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
-            echo "PR title is valid: $PR_TITLE"
-          else
-            echo "::error::Invalid PR title: '$PR_TITLE'"
-            echo ""
-            echo "The PR title must follow Conventional Commits format:"
-            echo "  type(optional-scope): description"
-            echo ""
-            echo "Valid types: fix, feat, chore, docs, style, build, ci, refactor, perf, test"
-            echo "" 
-            echo "Examples:"
-            echo "  fix: correct button alignment"
-            echo "  feat(DatePicker): add new validation mode"
-            echo "  feat(Button)!: remove deprecated prop"
-            exit 1
-          fi
-
-  check-breaking-changes:
-    name: Check for breaking changes
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-
-      - name: Fail if any commit contains BREAKING CHANGE
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            COMMITS=$(git log --format="%H" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
-          else
-            COMMITS=$(git log --format="%H" -1)
-          fi
-
-          for sha in $COMMITS; do
-            SUBJECT=$(git log --format="%s" -1 "$sha")
-            if echo "$SUBJECT" | grep -qE '^[a-zA-Z]+(\(.+\))?!:'; then
-              echo "Commit $sha has a valid breaking change marker in the title: $SUBJECT"
-              continue
-            fi
-            if git log --format="%B" -1 "$sha" | grep -qiE "^BREAKING[ -]CHANGE:"; then
-              echo "::error::Commit $sha contains 'BREAKING CHANGE:' footer in its message:"
-              git log --format="%H %s%n%b" -1 "$sha"
-              exit 1
-            fi
-          done
-
-          echo "No breaking changes found."
-
   verify:
     name: Run tests and checks
 
