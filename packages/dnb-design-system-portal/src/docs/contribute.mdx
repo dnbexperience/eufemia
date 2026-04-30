@@ -45,7 +45,16 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
   className="dnb-section dnb-section--info"
   style={{ padding: 'var(--spacing-large) 0' }}
 >
-  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '1rem' }}>
+  <ul
+    style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      margin: 0,
+      marginBottom: '1rem',
+      padding: 0,
+    }}
+  >
     <Card
       url="/contribute/rules"
       about="Code of conduct and Development principles"
@@ -64,7 +73,7 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
       title="Getting started"
       icon={GettingStarted}
     />
-  </div>
+  </ul>
   <h3>Or go directly to</h3>
   <div
     style={{
@@ -80,8 +89,6 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
       variant="secondary"
       text="Style guides"
       icon="chevron_right"
-      right
-      top
     />
     <Button
       href="/contribute/deploy"
@@ -89,8 +96,6 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
       variant="secondary"
       text="Deployment"
       icon="chevron_right"
-      right
-      top
     />
     <Button
       href="/contribute/faq"
@@ -98,8 +103,6 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
       variant="secondary"
       text="FAQ"
       icon="chevron_right"
-      right
-      top
     />
     <Button
       href="/contribute/contact"
@@ -107,7 +110,6 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
       variant="secondary"
       text="Contact"
       icon="chevron_right"
-      top
     />
   </div>
 </div>
