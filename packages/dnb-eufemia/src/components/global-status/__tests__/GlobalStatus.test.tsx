@@ -1095,6 +1095,36 @@ describe('GlobalStatus component', () => {
     expect(element).not.toHaveClass('dnb-global-status--error')
   })
 
+  it('should use error state from provider when no state prop is given', () => {
+    render(
+      <>
+        <GlobalStatus
+          id="provider-state-test"
+          autoScroll={false}
+          noAnimation
+        />
+        <GlobalStatus.Add
+          id="provider-state-test"
+          statusId="provider-state-1"
+          state="error"
+          text="Error from provider"
+        />
+      </>
+    )
+
+    const element = document.querySelector(
+      '#provider-state-test .dnb-global-status'
+    )
+    const section = document.querySelector(
+      '#provider-state-test .dnb-section'
+    )
+
+    expect(element).toHaveClass('dnb-global-status--error')
+    expect(element).not.toHaveClass('dnb-global-status--undefined')
+    expect(section).toHaveClass('dnb-section--error')
+    expect(section).not.toHaveClass('dnb-section--default')
+  })
+
   it('should reflect dynamic locale changes from Provider context', () => {
     const { rerender } = render(
       <Provider locale="en-GB">

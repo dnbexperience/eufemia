@@ -358,7 +358,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     ])
     setProviderGlobalStatus(derivedGlobalStatus)
   }
-  if (ownProps.state !== derivedGlobalStatus?.state) {
+  if (
+    'state' in ownProps &&
+    ownProps.state !== derivedGlobalStatus?.state
+  ) {
     derivedGlobalStatus = {
       ...derivedGlobalStatus,
       state: ownProps.state,
