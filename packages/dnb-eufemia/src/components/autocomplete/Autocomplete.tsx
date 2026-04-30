@@ -43,6 +43,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { applySpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { formComponentDefaults } from '../../shared/formComponentDefaults'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
 import AriaLive from '../aria-live/AriaLive'
@@ -370,7 +371,7 @@ export type AutocompleteAllProps = AutocompleteProps &
 const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   mode: AutocompleteMode
 } = {
-  id: null,
+  ...formComponentDefaults,
   mode: 'sync',
   title: 'Option Menu',
   placeholder: null,
@@ -387,19 +388,10 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   iconSize: null,
   iconPosition: 'left',
   arrowPosition: null,
-  label: null,
-  labelDirection: 'vertical',
-  labelSrOnly: null,
   keepValue: null,
   keepSelection: null,
   keepValueAndSelection: null,
   showClearButton: null,
-  status: null,
-  statusState: 'error',
-  statusProps: null,
-  statusNoAnimation: null,
-  globalStatus: null,
-  suffix: null,
   disableFilter: false,
   disableReorder: false,
   scrollable: true,
@@ -427,9 +419,6 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   preventClose: false,
   keepOpen: false,
   open: null,
-  disabled: null,
-  stretch: null,
-  skeleton: null,
   portalClass: null,
   drawerClass: null,
   pageOffset: null,

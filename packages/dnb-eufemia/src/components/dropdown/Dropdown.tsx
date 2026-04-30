@@ -22,6 +22,7 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { formComponentDefaults } from '../../shared/formComponentDefaults'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
@@ -164,24 +165,15 @@ export type DropdownAllProps = DropdownProps &
   >
 
 const dropdownDefaultProps: Partial<DropdownAllProps> = {
-  id: null,
+  ...formComponentDefaults,
   title: 'Option Menu',
   variant: 'secondary',
   icon: null,
   iconSize: null,
   iconPosition: null,
   arrowPosition: null,
-  label: null,
-  labelDirection: 'vertical',
-  labelSrOnly: null,
-  status: null,
-  statusState: 'error',
-  statusProps: null,
-  statusNoAnimation: null,
-  globalStatus: null,
   ref: null,
   buttonRef: null,
-  suffix: null,
   scrollable: true,
   focusable: false,
   maxHeight: null,
@@ -202,9 +194,6 @@ const dropdownDefaultProps: Partial<DropdownAllProps> = {
   preventClose: false,
   keepOpen: false,
   open: false,
-  disabled: null,
-  stretch: null,
-  skeleton: null,
 
   className: null,
   children: null,

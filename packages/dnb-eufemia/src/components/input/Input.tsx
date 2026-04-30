@@ -16,6 +16,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import { formComponentDefaults } from '../../shared/formComponentDefaults'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
 import {
@@ -278,29 +279,17 @@ export type InputSubmitButtonProps = Omit<
   }
 
 export const inputDefaultProps: Partial<InputProps> = {
+  ...formComponentDefaults,
   type: 'text',
   size: null,
   value: 'initval',
-  id: null,
-  label: null,
-  labelDirection: 'vertical',
-  labelSrOnly: null,
-  status: null,
-  globalStatus: null,
-  statusState: 'error',
-  statusProps: null,
-  statusNoAnimation: null,
   inputState: null,
   autocomplete: 'off',
   placeholder: null,
   showClearButton: null,
   keepPlaceholder: null,
-  suffix: null,
   align: null,
   selectAll: null,
-  stretch: null,
-  disabled: null,
-  skeleton: null,
   inputClassName: null,
   inputAttributes: null,
   inputElement: null,
