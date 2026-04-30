@@ -31,12 +31,12 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
     --token-color-background-action-hover-subtle
   );
   --tab-title-color--hover: var(--token-color-text-action-hover);
-  --tab-title-border--hover: var(--token-color-background-action-hover);
+  --tab-title-border--hover: var(--token-color-stroke-action-hover);
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: var(--token-color-text-action-disabled);
-  --tab-title-border--active: var(--token-color-background-action-pressed);
+  --tab-title-border--active: var(--token-color-stroke-action-pressed);
   --tab-title-color--active: var(--token-color-text-action-pressed);
-  --tab-title-border--selected: var(--token-color-background-selected);
+  --tab-title-border--selected: var(--token-color-stroke-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 }
@@ -314,13 +314,13 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
   background-color: var(--token-color-background-action-hover-subtle);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
-  background-color: var(--token-color-background-action-hover);
+  background-color: var(--token-color-stroke-action-hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
   background-color: var(--token-color-background-action-pressed-subtle);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
-  background-color: var(--token-color-background-action-pressed);
+  background-color: var(--token-color-stroke-action-pressed);
 }
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
@@ -429,12 +429,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     --token-color-background-action-hover-subtle
   );
   --tab-title-color--hover: var(--token-color-text-action-hover);
-  --tab-title-border--hover: var(--token-color-background-action-hover);
+  --tab-title-border--hover: var(--token-color-stroke-action-hover);
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: var(--token-color-text-action-disabled);
-  --tab-title-border--active: var(--token-color-background-action-pressed);
+  --tab-title-border--active: var(--token-color-stroke-action-pressed);
   --tab-title-color--active: var(--token-color-text-action-pressed);
-  --tab-title-border--selected: var(--token-color-background-selected);
+  --tab-title-border--selected: var(--token-color-stroke-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 }
@@ -712,13 +712,13 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
   background-color: var(--token-color-background-action-hover-subtle);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
-  background-color: var(--token-color-background-action-hover);
+  background-color: var(--token-color-stroke-action-hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
   background-color: var(--token-color-background-action-pressed-subtle);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
-  background-color: var(--token-color-background-action-pressed);
+  background-color: var(--token-color-stroke-action-pressed);
 }
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
