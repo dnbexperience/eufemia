@@ -129,6 +129,11 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  suffix: {
+    doc: 'Content rendered after the anchor link inside the list item. Can be used to add e.g. a help button next to the anchor label.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
 }
 
 export const GlobalStatusControllerProperties: PropertiesTableProps = {

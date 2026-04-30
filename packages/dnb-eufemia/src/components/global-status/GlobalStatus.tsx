@@ -54,6 +54,7 @@ export type GlobalStatusItem =
       statusAnchorLabel?: React.ReactNode
       statusAnchorText?: string
       statusAnchorUrl?: string | boolean
+      suffix?: React.ReactNode
       [key: string]: unknown
     }
 export type GlobalStatusState =
@@ -762,6 +763,8 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             {anchorText}
           </a>
         )}
+
+        {item.suffix}
       </li>
     )
   }

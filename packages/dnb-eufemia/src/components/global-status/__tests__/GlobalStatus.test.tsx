@@ -1245,6 +1245,60 @@ describe('GlobalStatus scss', () => {
     expect(messageContent.firstElementChild).toHaveClass('dnb-ul')
   })
 
+  it('should render suffix after the anchor link', () => {
+    render(
+      <GlobalStatus
+        title="Custom Title"
+        items={[
+          {
+            text: 'List item',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'eksempel',
+            suffix: <button>Help</button>,
+          },
+        ]}
+        show={true}
+        autoScroll={false}
+      />
+    )
+
+    const listItem = document.querySelector('.dnb-ul li')
+    const anchor = listItem.querySelector('.dnb-anchor')
+    const helpButton = listItem.querySelector('button')
+
+    expect(anchor).toBeInTheDocument()
+    expect(helpButton).toBeInTheDocument()
+    expect(helpButton.textContent).toBe('Help')
+    expect(
+      anchor.compareDocumentPosition(helpButton) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('should render suffix without an anchor link', () => {
+    render(
+      <GlobalStatus
+        title="Custom Title"
+        items={[
+          {
+            text: 'List item',
+            suffix: <span className="my-suffix">Extra content</span>,
+          },
+        ]}
+        show={true}
+        autoScroll={false}
+      />
+    )
+
+    const listItem = document.querySelector('.dnb-ul li')
+    const anchor = listItem.querySelector('.dnb-anchor')
+    const suffix = listItem.querySelector('.my-suffix')
+
+    expect(anchor).not.toBeInTheDocument()
+    expect(suffix).toBeInTheDocument()
+    expect(suffix.textContent).toBe('Extra content')
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
