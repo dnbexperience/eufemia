@@ -8,6 +8,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import type { ContextProps, InternalLocale } from './Context'
@@ -59,6 +60,9 @@ export default function Provider<Props>(
 
   const { translationsLoader, translations: propTranslations } = localProps
 
+  const propTranslationsRef = useRef(propTranslations)
+  propTranslationsRef.current = propTranslations
+
   const effectiveLocale =
     localContext?.__context__?.locale ||
     localProps.locale ||
@@ -74,7 +78,7 @@ export default function Provider<Props>(
     translationsLoader(effectiveLocale)
       .then((loaded) => {
         if (!cancelled && loaded) {
-          const base = propTranslations || {}
+          const base = propTranslationsRef.current || {}
           const merged = mergeTranslations(
             base as Record<string, unknown>,
             loaded as Record<string, unknown>
