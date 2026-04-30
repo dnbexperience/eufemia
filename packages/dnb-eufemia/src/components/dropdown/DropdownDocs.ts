@@ -1,4 +1,14 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelDocProperty,
+  labelDirectionDocProperty,
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const DropdownEvents: PropertiesTableProps = {
   onChange: {
@@ -109,41 +119,17 @@ export const DropdownProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
+  status: statusDocProperty,
   statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
     type: ['"error"', '"information"'],
     status: 'optional',
   },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
-  label: {
-    doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  labelDirection: {
-    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
-    type: ['"horizontal"', '"vertical"'],
-    status: 'optional',
-  },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
+  label: labelDocProperty,
+  labelDirection: labelDirectionDocProperty,
+  labelSrOnly: labelSrOnlyDocProperty,
   suffix: {
     doc: 'Text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component.',
     type: 'React.ReactNode',
@@ -164,19 +150,11 @@ export const DropdownProperties: PropertiesTableProps = {
     type: 'React.RefObject',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
     doc: 'All DrawerList properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }

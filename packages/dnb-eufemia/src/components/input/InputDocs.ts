@@ -1,4 +1,14 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelDocProperty,
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  statusStateDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const InputProperties: PropertiesTableProps = {
   value: {
@@ -11,41 +21,17 @@ export const InputProperties: PropertiesTableProps = {
     type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
-  label: {
-    doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  label: labelDocProperty,
+  labelSrOnly: labelSrOnlyDocProperty,
   labelDirection: {
     doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
     type: 'string',
     status: 'optional',
   },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
-  statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
-    status: 'optional',
-  },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  status: statusDocProperty,
+  statusState: statusStateDocProperty,
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
   placeholder: {
     doc: 'The placeholder which shows up once the input value is empty.',
     type: 'React.ReactNode',
@@ -117,11 +103,7 @@ export const InputProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   inputAttributes: {
     doc: 'Provide the Input element with any attributes by using an Object `inputAttributes={{size:\'2\'}}` or a JSON Object `inputAttributes=\'{"size":"2"}\'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.',
     type: 'object',
@@ -152,11 +134,7 @@ export const InputProperties: PropertiesTableProps = {
     type: ['string', 'React.Element'],
     status: 'internal',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const InputEvents: PropertiesTableProps = {

@@ -1,4 +1,14 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelDocProperty,
+  labelDirectionDocProperty,
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const TextareaProperties: PropertiesTableProps = {
   value: {
@@ -26,26 +36,14 @@ export const TextareaProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  label: {
-    doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  labelDirection: {
-    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
-    type: ['"horizontal"', '"vertical"'],
-    status: 'optional',
-  },
+  label: labelDocProperty,
+  labelDirection: labelDirectionDocProperty,
   suffix: {
     doc: 'Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  labelSrOnly: labelSrOnlyDocProperty,
   autoResize: {
     doc: 'Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.',
     type: 'boolean',
@@ -66,11 +64,7 @@ export const TextareaProperties: PropertiesTableProps = {
     type: ['"small"', '"medium"', '"large"'],
     status: 'optional',
   },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
+  status: statusDocProperty,
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
     type: [
@@ -82,16 +76,8 @@ export const TextareaProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
   textareaState: {
     doc: 'To control the visual focus state as a property, like `focus` or `blur`.',
     type: 'string',
@@ -102,16 +88,8 @@ export const TextareaProperties: PropertiesTableProps = {
     type: 'React.RefObject',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const TextareaEvents: PropertiesTableProps = {

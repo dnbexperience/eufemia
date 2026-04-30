@@ -1,4 +1,14 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelDirectionDocProperty,
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  statusStateDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 const dateType = ['string', 'Date']
 
@@ -208,21 +218,13 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  labelDirection: {
-    doc: ' Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
-    type: ['"vertical"', '"horizontal"'],
-    status: 'optional',
-  },
+  labelDirection: labelDirectionDocProperty,
   suffix: {
     doc: 'Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  labelSrOnly: labelSrOnlyDocProperty,
   shortcuts: {
     doc: 'Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.',
     type: 'object',
@@ -238,51 +240,27 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
-  statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
-    status: 'optional',
-  },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
+  status: statusDocProperty,
+  statusState: statusStateDocProperty,
+  statusProps: statusPropsDocProperty,
   disableAutofocus: {
     doc: 'Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  globalStatus: globalStatusDocProperty,
   tooltip: {
     doc: 'Provide a short Tooltip content that shows up on the picker button.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   size: {
     doc: 'The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.',
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const DatePickerEvents: PropertiesTableProps = {

@@ -1,4 +1,10 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const SwitchProperties: PropertiesTableProps = {
   checked: {
@@ -21,21 +27,13 @@ export const SwitchProperties: PropertiesTableProps = {
     type: ['"left"', '"right"'],
     status: 'optional',
   },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  labelSrOnly: labelSrOnlyDocProperty,
   size: {
     doc: 'The size of the switch. For now there is `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
+  status: statusDocProperty,
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
     type: [
@@ -62,21 +60,13 @@ export const SwitchProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   ref: {
     doc: 'By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.',
     type: 'React.RefObject',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const SwitchEvents: PropertiesTableProps = {

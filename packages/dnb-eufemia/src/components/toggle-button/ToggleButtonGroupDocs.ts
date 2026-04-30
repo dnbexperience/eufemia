@@ -1,4 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  statusStateDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  labelSrOnlyDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const ToggleButtonGroupProperties: PropertiesTableProps = {
   value: {
@@ -31,21 +39,9 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
-  statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
-    status: 'optional',
-  },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  statusState: statusStateDocProperty,
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
     type: 'string',
@@ -56,11 +52,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  labelSrOnly: labelSrOnlyDocProperty,
   vertical: {
     doc: 'Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.',
     type: 'boolean',
@@ -71,16 +63,8 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const ToggleButtonGroupEvents: PropertiesTableProps = {

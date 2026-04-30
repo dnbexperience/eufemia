@@ -1,4 +1,10 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const ButtonProperties: PropertiesTableProps = {
   type: {
@@ -96,11 +102,7 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   tooltip: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
     type: ['string', 'React.ReactNode'],
@@ -116,21 +118,9 @@ export const ButtonProperties: PropertiesTableProps = {
     type: ['"error"', '"information"'],
     status: 'optional',
   },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const ButtonEvents: PropertiesTableProps = {

@@ -1,5 +1,13 @@
 import type { PropertiesTableProps } from '../../shared/types'
 import { ButtonProperties } from '../button/ButtonDocs'
+import {
+  statusDocProperty,
+  statusStateDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const ToggleButtonProperties: PropertiesTableProps = {
   value: {
@@ -44,41 +52,17 @@ export const ToggleButtonProperties: PropertiesTableProps = {
   },
   tooltip: ButtonProperties.tooltip,
   size: ButtonProperties.size,
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
-  statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
-    status: 'optional',
-  },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  status: statusDocProperty,
+  statusState: statusStateDocProperty,
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
   suffix: {
     doc: 'Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const ToggleButtonEvents: PropertiesTableProps = {

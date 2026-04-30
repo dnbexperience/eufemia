@@ -1,4 +1,15 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import {
+  labelDocProperty,
+  labelDirectionDocProperty,
+  labelSrOnlyDocProperty,
+  statusDocProperty,
+  statusStateDocProperty,
+  statusPropsDocProperty,
+  globalStatusDocProperty,
+  skeletonDocProperty,
+  spacingDocProperty,
+} from '../../shared/sharedDocsProperties'
 
 export const SliderProperties: PropertiesTableProps = {
   value: {
@@ -76,61 +87,25 @@ export const SliderProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  label: {
-    doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  labelDirection: {
-    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
-    type: ['"horizontal"', '"vertical"'],
-    status: 'optional',
-  },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
-    status: 'optional',
-  },
-  statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
-    status: 'optional',
-  },
-  statusProps: {
-    doc: 'Use an object to define additional FormStatus properties.',
-    type: 'object',
-    status: 'optional',
-  },
-  globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'object',
-    status: 'optional',
-  },
+  label: labelDocProperty,
+  labelDirection: labelDirectionDocProperty,
+  labelSrOnly: labelSrOnlyDocProperty,
+  status: statusDocProperty,
+  statusState: statusStateDocProperty,
+  statusProps: statusPropsDocProperty,
+  globalStatus: globalStatusDocProperty,
   suffix: {
     doc: 'Text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
-    type: 'boolean',
-    status: 'optional',
-  },
+  skeleton: skeletonDocProperty,
   extensions: {
     doc: 'Makes it possible to display overlays with other functionality such as a marker on the slider marking a given value.',
     type: 'object',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
+  '[Space](/uilib/layout/space/properties)': spacingDocProperty,
 }
 
 export const SliderEvents: PropertiesTableProps = {
