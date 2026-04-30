@@ -328,7 +328,6 @@ button .dnb-form-status__text {
 }
 .dnb-checkbox__focus {
   display: none;
-  --focus-ring-width: 0.25rem;
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {

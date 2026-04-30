@@ -339,7 +339,7 @@ button .dnb-form-status__text {
   --button-border-width: var(--button-border-width--default);
   --button-border-width--default: 0.0625rem;
   --button-border-width--hover: 0.125rem;
-  --button-border-width--focus: 0.1875rem;
+  --button-border-width--focus: var(--focus-ring-width);
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
@@ -1604,7 +1604,6 @@ html[data-visual-test] .dnb-input__input {
 }
 .dnb-checkbox__focus {
   display: none;
-  --focus-ring-width: 0.25rem;
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
@@ -1875,17 +1874,14 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
 * Radio component
 *
 */
-:root {
-  --radio-width--medium: 1.5rem;
-  --radio-height--medium: 1.5rem;
-}
-
 .dnb-radio {
   --radio-dot--medium: 0.75rem;
   --radio-dot--large: 1.125rem;
+  --radio-width--medium: 1.5rem;
+  --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.09375rem;
+  --radio-border-width: 0.0625rem;
   --radio-color-dot-on: var(--token-color-background-selected);
   --radio-color-background-on: var(
     --token-color-background-selected-subtle
@@ -1903,6 +1899,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-color-border--disabled: var(
     --token-color-stroke-action-disabled
   );
+  --radio-border-width-on--active: 0.125rem;
   --radio-color-dot-on--active: var(
     --token-color-background-action-pressed
   );
@@ -1928,7 +1925,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
     --token-color-background-error-subtle
   );
   --radio-color-border--error: var(--token-color-stroke-error);
-  --radio-focus-ring-width--error: var(--focus-ring-width);
+  --radio-focus-ring-width--error: var(--radio-border-width);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
   display: inline-flex;
@@ -1948,8 +1945,8 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
-  width: var(--radio-width--medium);
-  height: var(--radio-height--medium);
+  width: calc(var(--radio-width--medium) + var(--radio-scale, 0px));
+  height: calc(var(--radio-height--medium) + var(--radio-scale, 0px));
 }
 .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
   position: absolute;
@@ -1963,19 +1960,19 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-radio__focus {
-  --border-color: var(--radio-color-border--focus);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-radio__focus, .dnb-radio__button {
-  width: calc(var(--radio-width--medium) - 0.25rem);
-  height: calc(var(--radio-height--medium) - 0.25rem);
+  width: calc(var(--radio-width--medium) - 0.25rem + var(--radio-scale, 0px));
+  height: calc(var(--radio-height--medium) - 0.25rem + var(--radio-scale, 0px));
   border-radius: 50%;
 }
 .dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-  width: var(--radio-width--large);
-  height: var(--radio-height--large);
+  width: calc(var(--radio-width--large) + var(--radio-scale, 0px));
+  height: calc(var(--radio-height--large) + var(--radio-scale, 0px));
 }
 .dnb-radio__dot {
   width: var(--radio-dot--medium);
@@ -2168,14 +2165,20 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__dot, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--active);
 }
+.dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__button {
+  border-width: var(--radio-border-width-on--active);
+}
 .dnb-radio {
   /** Hover state **/
 }
 .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
+  --radio-scale: 0.125rem;
+}
+.dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
   background-color: var(--radio-color-background--hover);
   border-color: var(--radio-color-border--hover);
 }
-.dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__dot {
+.dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot, .dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--hover);
 }
 .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__button, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__button {
@@ -2188,7 +2191,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   /** Focus state **/
 }
 html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
-  border-width: var(--radio-border-width--focus);
   border: none;
 }
 .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
@@ -2204,25 +2206,12 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
   /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
-  border: none;
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
-  display: block;
-  --border-color: var(--radio-color-border--error);
-  --border-width: var(--radio-focus-ring-width--error);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-radio__focus {
-  --border-color: var(--radio-color-border--hover);
-  --border-width: var(--radio-focus-ring-width--error);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+  border-color: var(--radio-color-border--error);
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__button {
   background-color: var(--radio-color-background--error);
 }
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot, .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked=true] ~ .dnb-radio__dot {
+.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--error);
 }
 
@@ -2429,7 +2418,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;

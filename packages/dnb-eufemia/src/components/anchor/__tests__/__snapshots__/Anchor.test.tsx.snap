@@ -202,7 +202,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  --focus-ring-width: 0.25rem;
   transition: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
@@ -341,7 +340,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     --anchor-color: var(--token-color-text-action-focus);
     --anchor-icon-color: var(--token-color-icon-action-focus);
-    --focus-ring-width: 0.25rem;
     transition: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
@@ -462,7 +460,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 .dnb-anchor--focus {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  --focus-ring-width: 0.25rem;
   transition: none;
 }
 .dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
