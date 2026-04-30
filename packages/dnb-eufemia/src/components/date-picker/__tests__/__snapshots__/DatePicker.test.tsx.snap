@@ -2821,7 +2821,6 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
   line-height: var(--date-picker-input-height);
 }
 .dnb-date-picker__portal .dnb-popover {
-  --popover-background-color: var(--token-color-background-neutral);
   --popover-border-radius: var(--token-radius-sm);
   box-shadow: var(--shadow-sharp);
 }
