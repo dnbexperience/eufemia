@@ -13,6 +13,7 @@ import React, {
 } from 'react'
 import type { ContextProps, InternalLocale } from './Context'
 import Context, { prepareContext } from './Context'
+import { LOCALE } from './defaults'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
 import { warn } from './component-helper'
@@ -63,19 +64,24 @@ export default function Provider<Props>(
   const propTranslationsRef = useRef(propTranslations)
   propTranslationsRef.current = propTranslations
 
+  const translationsLoaderRef = useRef(translationsLoader)
+  translationsLoaderRef.current = translationsLoader
+
   const effectiveLocale =
     localContext?.__context__?.locale ||
     localProps.locale ||
-    nestedContext.locale
+    nestedContext.locale ||
+    LOCALE
 
   useEffect(() => {
-    if (!translationsLoader) {
+    const loader = translationsLoaderRef.current
+    if (!loader) {
       return undefined // stop here
     }
 
     let cancelled = false
 
-    translationsLoader(effectiveLocale)
+    loader(effectiveLocale)
       .then((loaded) => {
         if (!cancelled && loaded) {
           const base = propTranslationsRef.current || {}
@@ -101,7 +107,7 @@ export default function Provider<Props>(
     return () => {
       cancelled = true
     }
-  }, [translationsLoader, effectiveLocale])
+  }, [effectiveLocale])
 
   const value = useMemo(() => {
     const { children, ...rest } = localProps

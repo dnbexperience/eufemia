@@ -209,7 +209,9 @@ export type InternalLocale =
 export type Translations =
   | Partial<Record<InternalLocale, Translation | TranslationFlat>>
   | Partial<Record<InternalLocale, FormsTranslation>>
-export type TranslationsLoader = (locale: string) => Promise<Translations>
+export type TranslationsLoader = (
+  locale: InternalLocale
+) => Promise<Translations>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationValues =
