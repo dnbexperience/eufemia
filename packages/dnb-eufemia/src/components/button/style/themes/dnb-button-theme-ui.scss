@@ -27,14 +27,6 @@
     }
   }
 
-  // simulate active state
-  &--active {
-    @include utilities.fakeBorder(
-      var(--color-emerald-green),
-      0.125rem /*2px*/
-    );
-  }
-
   &--tertiary {
     @include utilities.active() {
       // underline

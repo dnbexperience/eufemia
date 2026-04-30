@@ -1336,12 +1336,6 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   box-shadow: none;
   border: none;
 }
-.dnb-button--active {
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
 .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
