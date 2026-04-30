@@ -14,7 +14,7 @@ const ChangeStylesOfSkipLink = styled.div`
   }
 `
 
-export default function SkipLinkExample() {
+export function SkipLinkExample() {
   const onClick = (e: React.MouseEvent) => {
     const element = document.querySelector(
       'a.dnb-skip-link'
@@ -36,5 +36,25 @@ export default function SkipLinkExample() {
         Show Skip-Link
       </a>
     </ChangeStylesOfSkipLink>
+  )
+}
+
+export function FocusExample() {
+  return (
+    <button
+      type="button"
+      style={{
+        display: 'inline-block',
+        padding: '0.5rem 1.5rem',
+        border:
+          'var(--focus-ring-width) solid var(--token-color-stroke-action-focus)',
+        backgroundColor:
+          'var(--token-color-background-action-focus-subtle)',
+        color: 'var(--token-color-text-action-focus)',
+        borderRadius: 'var(--token-radius-full)',
+      }}
+    >
+      Focus example
+    </button>
   )
 }

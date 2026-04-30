@@ -29,7 +29,7 @@
 
 .dnb-focus-ring {
   @include utilities.fakeBorder(
-    var(--focus-ring-color),
+    var(--token-color-stroke-action-focus),
     var(--focus-ring-width),
     null,
     !important

@@ -10,6 +10,7 @@
   }
 
   &__button {
+    --focus-ring-color: var(--sb-color-blue-light-2);
     --button-color-bg--default: var(--sb-color-white);
     --button-color-bg--hover: var(--sb-color-violet-light-3);
     --button-color-bg--active: var(--sb-color-violet);
@@ -41,7 +42,7 @@
   /* stylelint-disable no-descending-specificity */
   &__status--error &__button:not([disabled]) {
     .dnb-radio {
-      --radio-color-dot-on: transparent;
+      --radio-color-dot-on: var(--sb-color-red);
       --radio-color-background--error: var(--sb-color-white);
     }
   }
