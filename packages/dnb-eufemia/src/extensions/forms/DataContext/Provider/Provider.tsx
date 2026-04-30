@@ -303,9 +303,7 @@ export default function Provider<Data extends JsonObject>(
   const showGlobalStatusRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors ? Date.now() : showAllErrors
-    if (showAllErrors) {
-      showGlobalStatusRef.current = true
-    }
+    showGlobalStatusRef.current = showAllErrors
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
