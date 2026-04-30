@@ -56,16 +56,3 @@ export const labelSrOnlyDocProperty: PropertiesTableProps[string] = {
   type: 'boolean',
   status: 'optional',
 }
-
-export const formStatusDocProperties: PropertiesTableProps = {
-  status: statusDocProperty,
-  statusState: statusStateDocProperty,
-  statusProps: statusPropsDocProperty,
-  globalStatus: globalStatusDocProperty,
-}
-
-export const formLabelDocProperties: PropertiesTableProps = {
-  label: labelDocProperty,
-  labelDirection: labelDirectionDocProperty,
-  labelSrOnly: labelSrOnlyDocProperty,
-}
