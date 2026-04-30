@@ -17,11 +17,14 @@
     --token-color-background-action-hover-subtle
   );
   --tab-title-color--hover: var(--token-color-text-action-hover);
+  // Stroke tokens exist but have different values in some themes. Background tokens are used because the tab indicator is rendered as a pseudo-element with background-color.
   --tab-title-border--hover: var(--token-color-background-action-hover);
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: var(--token-color-text-action-disabled);
+  // Stroke tokens exist but have different values in some themes. Background tokens are used because the tab indicator is rendered as a pseudo-element with background-color.
   --tab-title-border--active: var(--token-color-background-action-pressed);
   --tab-title-color--active: var(--token-color-text-action-pressed);
+  // Stroke tokens exist but have different values in some themes. Background tokens are used because the tab indicator is rendered as a pseudo-element with background-color.
   --tab-title-border--selected: var(--token-color-background-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
@@ -286,6 +289,7 @@
         );
 
         &::after {
+          // Background token is used for the tab indicator pseudo-element. See --tab-title-border--hover comment.
           background-color: var(--token-color-background-action-hover);
         }
 
@@ -295,6 +299,7 @@
           );
 
           &::after {
+            // Background token is used for the tab indicator pseudo-element. See --tab-title-border--active comment.
             background-color: var(--token-color-background-action-pressed);
           }
         }
