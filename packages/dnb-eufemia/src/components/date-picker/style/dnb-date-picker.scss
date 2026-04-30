@@ -588,7 +588,7 @@
     line-height: var(--date-picker-input-height);
 
     .dnb-popover {
-      --popover-background-color: var(--token-color-background-neutral);
+      // Calendar container shall have --token-radius-sm border radius
       --popover-border-radius: var(--token-radius-sm);
 
       @include utilities.sharpDropShadow();
