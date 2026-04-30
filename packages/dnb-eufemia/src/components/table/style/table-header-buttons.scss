@@ -126,6 +126,9 @@
 
         // focus ring
         &::before {
+          --border-color: currentcolor;
+          --border-width: 0.125rem;
+
           right: -0.5rem;
         }
       }

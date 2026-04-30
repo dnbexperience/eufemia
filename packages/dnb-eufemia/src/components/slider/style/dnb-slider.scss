@@ -86,7 +86,6 @@
     background-color: var(--slider-marker);
 
     &:focus {
-      outline: none; // we show a Tooltip instead
       @include utilities.focusRing();
     }
 

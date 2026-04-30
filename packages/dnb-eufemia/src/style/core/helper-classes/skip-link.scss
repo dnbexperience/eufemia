@@ -30,7 +30,7 @@
 
   --skip-link-border-width--default: 0.0625rem;
   --skip-link-border-width--hover: 0.125rem;
-  --skip-link-border-width--focus: 0.1875rem;
+  --skip-link-border-width--focus: var(--focus-ring-width);
   --skip-link-overlay-bg: rgba(255 255 255 / 85%);
   .eufemia-theme__color-scheme--dark & {
     --skip-link-overlay-bg: rgba(20 20 20 / 85%);

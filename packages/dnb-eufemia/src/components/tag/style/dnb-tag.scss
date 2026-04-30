@@ -43,14 +43,20 @@
         inset
       );
 
-      @include button-mixins.buttonFocusVisible(
-        $color: var(--token-color-text-action-focus),
-        $background-color: var(
-            --token-color-background-action-focus-subtle
-          ),
-        $focus-color: var(--token-color-icon-action-focus)
-      ) {
+      @include utilities.focusVisible() {
         --tag-icon-border-color: var(--token-color-stroke-action-focus);
+
+        outline: none;
+        color: var(--token-color-text-action-focus);
+        background-color: var(
+          --token-color-background-action-focus-subtle
+        );
+
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-focus),
+          0.125rem,
+          inset
+        );
       }
 
       @include button-mixins.buttonHover(

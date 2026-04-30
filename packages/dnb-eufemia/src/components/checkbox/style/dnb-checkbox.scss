@@ -160,12 +160,7 @@
   &__focus {
     display: none;
 
-    --focus-ring-width: 0.25rem;
-
-    @include utilities.focusRing(
-      'keyboard',
-      var(--token-color-stroke-action-focus)
-    );
+    @include utilities.focusRing();
   }
 
   &__focus,

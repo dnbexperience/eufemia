@@ -42,7 +42,7 @@
   /* stylelint-disable no-descending-specificity */
   &__status--error &__button:not([disabled]) {
     .dnb-radio {
-      --radio-color-dot-on: transparent;
+      --radio-color-dot-on: var(--sb-color-red);
       --radio-color-background--error: var(--sb-color-white);
     }
   }

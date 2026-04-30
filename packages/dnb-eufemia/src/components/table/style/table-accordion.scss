@@ -36,7 +36,7 @@
 
   // Outline
   --table-accordion-outline-color: var(--token-color-stroke-selected);
-  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-width: 0.125rem;
   --table-accordion-background--active: var(
     --token-color-background-selected-subtle
   );
@@ -166,7 +166,7 @@
     td::before {
       @include utilities.whatInput(keyboard) {
         border-color: var(--token-color-stroke-action-focus);
-        border-width: var(--focus-ring-width);
+        border-width: 0.125rem;
       }
     }
     td:first-of-type::before {

@@ -1,9 +1,25 @@
 ---
-title: 'Focus'
+title: 'Focus / Skip Link'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
 ---
 
-import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.tsx'
+import * as Examples from 'Docs/uilib/usage/accessibility/Examples'
+
+## Focus styling tokens
+
+For keyboard focus styling, use the action-focus family:
+
+- `--token-color-stroke-action-focus` for the focus ring
+- `--token-color-background-action-focus-subtle` for the focus background
+- `--token-color-text-action-focus` for text inside a focused element
+- `--token-color-icon-action-focus` for icons inside a focused element
+- `--focus-ring-width` for the focus ring width (shared across all themes)
+
+Every interactive Eufemia component — Button, Input, Tag, Menu, Tabs, List — uses these same tokens for focus. Your custom components should follow the same pattern.
+
+Here is an example of how it should look when implemented:
+
+<Examples.FocusExample />
 
 # Focus Management
 
@@ -80,7 +96,7 @@ applyPageFocus('MyCustomName', (element) => {
 
 Our solution is CSS-only and should work for all kinds of application setups. Demo example below:
 
-<SkipLinkExample />
+<Examples.SkipLinkExample />
 
 1. Place an anchor with an HTML class `.dnb-skip-link` as the very **first HTML element** tag:
 

@@ -85,12 +85,11 @@
   }
 }
 
-// Uses design token. Should become standard. Should be integrated with --focus-ring- variables
 @mixin focusStyle(
   $bgColor: var(--token-color-background-action-focus-subtle),
   $textColor: var(--token-color-text-neutral-inverse),
   $borderColor: var(--token-color-stroke-action-focus),
-  $borderWidth: 0.1875rem,
+  $borderWidth: var(--focus-ring-width),
   $inset: null,
   $extendShadow: null,
   $outline: none
@@ -112,6 +111,7 @@
 @mixin focusRing(
   $whatinput: null,
   $color: null,
+  $borderWidth: null,
   $inset: null,
   $extendShadow: null
 ) {
@@ -120,12 +120,11 @@
   @if $whatinput == null {
     $whatinput: 'keyboard';
   }
-  @if $color == null and $whatinput == 'keyboard' {
+  @if $color == null {
     $color: var(--token-color-stroke-action-focus);
   }
-  @if $color == null {
-    $color: var(--token-color-stroke-action);
-  }
+  @if $borderWidth == null {
+    $borderWidth: var(--focus-ring-width);
   }
 
   @if $whatinput == 'always' {
@@ -133,7 +132,7 @@
       $bgColor: null,
       $textColor: null,
       $borderColor: $color,
-      $borderWidth: var(--focus-ring-width),
+      $borderWidth: $borderWidth,
       $inset: $inset,
       $extendShadow: $extendShadow,
       $outline: null
@@ -144,7 +143,7 @@
         $bgColor: null,
         $textColor: null,
         $borderColor: $color,
-        $borderWidth: var(--focus-ring-width),
+        $borderWidth: $borderWidth,
         $inset: $inset,
         $extendShadow: $extendShadow,
         $outline: null

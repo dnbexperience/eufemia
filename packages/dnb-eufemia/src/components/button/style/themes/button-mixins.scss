@@ -48,27 +48,6 @@
   }
 }
 
-@mixin buttonFocusVisible(
-  $color: null,
-  $background-color: null,
-  $focus-color: null,
-  $extendShadow: null
-) {
-  @include utilities.focusVisible() {
-    color: $color;
-    background-color: $background-color;
-
-    @include utilities.focusRing(
-      always,
-      $focus-color,
-      inset,
-      $extendShadow: $extendShadow
-    );
-
-    @content;
-  }
-}
-
 // Used in tertiary button variant
 @mixin buttonFocusRing(
   $whatinput: null,
@@ -93,6 +72,7 @@
 
     @include utilities.focusRing(
       $whatinput,
+      null,
       null,
       $inset,
       $extendShadow: $extendShadow

@@ -131,7 +131,7 @@ if (isCI) {
         new RegExp('--color-sea-green:\\s?#007272;')
       )
       expect(global.theme[0]).toMatch(
-        new RegExp('color:\\s?var\\(--color-emerald-green\\);')
+        new RegExp('color:\\s?var\\(--token-color-text-neutral\\);')
       )
       expect(global.theme[0]).not.toMatch(new RegExp('color:\\s?#007272;'))
       expect(global.theme[0]).not.toContain('fuchsia')
