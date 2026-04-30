@@ -10,6 +10,7 @@
   }
 
   &__button {
+    --focus-ring-color: var(--sb-color-blue-light-2);
     --button-color-bg--default: var(--sb-color-white);
     --button-color-bg--hover: var(--sb-color-violet-light-3);
     --button-color-bg--active: var(--sb-color-violet);

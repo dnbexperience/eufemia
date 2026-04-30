@@ -120,8 +120,12 @@
   @if $whatinput == null {
     $whatinput: 'keyboard';
   }
+  @if $color == null and $whatinput == 'keyboard' {
+    $color: var(--token-color-stroke-action-focus);
+  }
   @if $color == null {
-    $color: var(--focus-ring-color);
+    $color: var(--token-color-stroke-action);
+  }
   }
 
   @if $whatinput == 'always' {

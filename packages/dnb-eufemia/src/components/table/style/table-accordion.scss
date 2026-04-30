@@ -165,7 +165,7 @@
     ):focus {
     td::before {
       @include utilities.whatInput(keyboard) {
-        border-color: var(--focus-ring-color);
+        border-color: var(--token-color-stroke-action-focus);
         border-width: var(--focus-ring-width);
       }
     }
