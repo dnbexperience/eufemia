@@ -17,12 +17,12 @@
     --token-color-background-action-hover-subtle
   );
   --tab-title-color--hover: var(--token-color-text-action-hover);
-  --tab-title-border--hover: var(--token-color-background-action-hover);
+  --tab-title-border--hover: var(--token-color-stroke-action-hover);
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: var(--token-color-text-action-disabled);
-  --tab-title-border--active: var(--token-color-background-action-pressed);
+  --tab-title-border--active: var(--token-color-stroke-action-pressed);
   --tab-title-color--active: var(--token-color-text-action-pressed);
-  --tab-title-border--selected: var(--token-color-background-selected);
+  --tab-title-border--selected: var(--token-color-stroke-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 
@@ -273,7 +273,7 @@
         );
 
         &::after {
-          background-color: var(--token-color-background-action-hover);
+          background-color: var(--token-color-stroke-action-hover);
         }
 
         &:active {
@@ -282,7 +282,7 @@
           );
 
           &::after {
-            background-color: var(--token-color-background-action-pressed);
+            background-color: var(--token-color-stroke-action-pressed);
           }
         }
       }
