@@ -940,5 +940,162 @@ describe('Provider', () => {
 
       expect(loader).toHaveBeenCalledWith('en-GB')
     })
+
+    it('should cascade parent static translations to child before loader resolves', async () => {
+      const childLoader = jest.fn().mockResolvedValue({
+        'nb-NO': { Modal: { closeTitle: 'Child Async Close' } },
+      })
+
+      const DisplayBoth = () => {
+        const { translation } = React.useContext(Context)
+        return (
+          <>
+            <span id="help">{translation.HelpButton?.title}</span>
+            <span id="close">{translation.Modal?.closeTitle}</span>
+          </>
+        )
+      }
+
+      const { container } = render(
+        <Provider
+          translations={{
+            'nb-NO': { HelpButton: { title: 'Parent Static' } },
+          }}
+        >
+          <Provider translationsLoader={childLoader}>
+            <DisplayBoth />
+          </Provider>
+        </Provider>
+      )
+
+      // Parent static translation cascades to child immediately
+      expect(container.querySelector('#help').textContent).toBe(
+        'Parent Static'
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('#close').textContent).toBe(
+          'Child Async Close'
+        )
+      })
+    })
+
+    it('should let child loader override parent static translations', async () => {
+      const childLoader = jest.fn().mockResolvedValue({
+        'nb-NO': { HelpButton: { title: 'Child Override' } },
+      })
+
+      const { container } = render(
+        <Provider
+          translations={{
+            'nb-NO': { HelpButton: { title: 'Parent Static' } },
+          }}
+        >
+          <Provider translationsLoader={childLoader}>
+            <DisplayTitle />
+          </Provider>
+        </Provider>
+      )
+
+      // Before async load, parent value is used
+      expect(container.querySelector('span').textContent).toBe(
+        'Parent Static'
+      )
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'Child Override'
+        )
+      })
+    })
+
+    it('should handle both parent and child having independent loaders', async () => {
+      const parentLoader = jest.fn().mockResolvedValue({
+        'nb-NO': { HelpButton: { title: 'Parent Async' } },
+      })
+
+      const childLoader = jest.fn().mockResolvedValue({
+        'nb-NO': { Modal: { closeTitle: 'Child Async' } },
+      })
+
+      const DisplayChildTranslation = () => {
+        const { translation } = React.useContext(Context)
+        return <span id="close">{translation.Modal?.closeTitle}</span>
+      }
+
+      const { container } = render(
+        <Provider translationsLoader={parentLoader}>
+          <Provider translationsLoader={childLoader}>
+            <DisplayChildTranslation />
+          </Provider>
+        </Provider>
+      )
+
+      expect(parentLoader).toHaveBeenCalledWith('nb-NO')
+      expect(childLoader).toHaveBeenCalledWith('nb-NO')
+
+      await waitFor(() => {
+        expect(container.querySelector('#close').textContent).toBe(
+          'Child Async'
+        )
+      })
+    })
+
+    it('should handle race condition when parent locale changes during child load', async () => {
+      let resolveChildFirst: (v: unknown) => void
+      let resolveChildSecond: (v: unknown) => void
+
+      let childCallCount = 0
+      const childLoader = jest.fn(() => {
+        childCallCount++
+        if (childCallCount === 1) {
+          return new Promise((r) => {
+            resolveChildFirst = r
+          })
+        }
+        return new Promise((r) => {
+          resolveChildSecond = r
+        })
+      }) as unknown as TranslationsLoader & jest.Mock
+
+      const ChangeLocale = () => {
+        const { setLocale } = React.useContext(Context)
+        return <button onClick={() => setLocale('en-GB')}>Switch</button>
+      }
+
+      const { container } = render(
+        <Provider>
+          <Provider translationsLoader={childLoader}>
+            <DisplayTitle />
+            <ChangeLocale />
+          </Provider>
+        </Provider>
+      )
+
+      // Switch locale before child's first load completes
+      fireEvent.click(document.querySelector('button'))
+
+      // Resolve the second (current locale) load
+      resolveChildSecond({
+        'en-GB': { HelpButton: { title: 'EN Result' } },
+      })
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'EN Result'
+        )
+      })
+
+      // Resolve the first (stale) load — should be ignored
+      resolveChildFirst({
+        'nb-NO': { HelpButton: { title: 'Stale NB' } },
+      })
+
+      await waitFor(() => {
+        expect(container.querySelector('span').textContent).toBe(
+          'EN Result'
+        )
+      })
+    })
   })
 })
