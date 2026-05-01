@@ -6,8 +6,23 @@ import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'
 import type { Translation } from '@dnb/eufemia/src/shared/Context'
-import { translationsWithoutEnUS } from '../../core/PortalProviders'
+import { mergeTranslations } from '@dnb/eufemia/src/shared'
+import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
+import daDK_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
 import { languageDisplayNames } from '../../core/ChangeLocale'
+
+const additionalTranslations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries,
+  daDK,
+  daDK_forms,
+  daDK_forms_countries
+)
 
 const StyledTable = styled(Table)`
   td {
@@ -27,7 +42,7 @@ export default function TranslationsTable({
       source ||
       Object.assign(
         extendDeep({}, globalTranslations, formsTranslations),
-        translationsWithoutEnUS
+        additionalTranslations
       )
     )
   }, [source])
