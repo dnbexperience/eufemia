@@ -2515,12 +2515,11 @@ describe('DataContext.Provider', () => {
             nb.StringField.errorMinLength.replace('{minLength}', '5')
           )
 
+          // GlobalStatus should remain visible since there are still errors
           await waitFor(() => {
-            simulateAnimationEnd()
-
             expect(
               document.querySelector('.dnb-global-status__title')
-            ).toBeNull()
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
           })
         })
 
@@ -2581,8 +2580,64 @@ describe('DataContext.Provider', () => {
             nb.StringField.errorMinLength.replace('{minLength}', '5')
           )
 
+          // GlobalStatus should remain visible since there are still errors
           await waitFor(() => {
-            simulateAnimationEnd()
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+        })
+
+        it('should keep GlobalStatus visible until all errors are resolved', async () => {
+          jest.spyOn(window, 'scrollTo').mockImplementation()
+
+          render(
+            <>
+              <GlobalStatus id="my-status" />
+              <DataContext.Provider globalStatusId="my-status">
+                <Field.String path="/myField" required />
+                <Field.String path="/otherField" required />
+                <Form.SubmitButton />
+              </DataContext.Provider>
+            </>
+          )
+
+          const [firstInput, secondInput] = Array.from(
+            document.querySelectorAll('input')
+          )
+          const submitButton = document.querySelector('button')
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
+
+          fireEvent.click(submitButton)
+
+          await waitFor(() => {
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+
+          // Type in the first field - GlobalStatus should persist
+          await userEvent.type(firstInput, 'foo')
+          fireEvent.blur(firstInput)
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toHaveTextContent(nb.Field.errorSummaryTitle)
+
+          // Fix the second field as well - GlobalStatus should now close
+          await userEvent.type(secondInput, 'bar')
+          fireEvent.blur(secondInput)
+
+          await waitFor(() => {
+            const heightAnimation = document.querySelector(
+              '.dnb-height-animation'
+            )
+            if (heightAnimation) {
+              simulateAnimationEnd(heightAnimation)
+            }
 
             expect(
               document.querySelector('.dnb-global-status__title')

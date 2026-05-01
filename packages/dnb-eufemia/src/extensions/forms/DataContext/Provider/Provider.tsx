@@ -307,8 +307,10 @@ export default function Provider<Data extends JsonObject>(
     Array<(showAllErrors: boolean) => void>
   >([])
   const showAllErrorsRef = useRef<number | boolean>(false)
+  const showGlobalStatusRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors ? Date.now() : showAllErrors
+    showGlobalStatusRef.current = showAllErrors
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
@@ -1183,6 +1185,10 @@ export default function Provider<Data extends JsonObject>(
 
       validateData()
 
+      if (showGlobalStatusRef.current && !hasErrors()) {
+        showGlobalStatusRef.current = false
+      }
+
       const data = internalDataRef.current as Data
       const options = { filterData }
       const transformedData = transformOut
@@ -1206,6 +1212,7 @@ export default function Provider<Data extends JsonObject>(
     [
       filterData,
       handlePathChangeUnvalidated,
+      hasErrors,
       mutateDataHandler,
       onChange,
       transformOut,
@@ -1802,14 +1809,17 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const show = Boolean(showAllErrorsRef.current)
+  const showGlobalStatus = show || showGlobalStatusRef.current
   const resolvedLocale = locale || sharedLocale
   const customErrorSummaryTitle =
     translations?.[resolvedLocale]?.Field?.errorSummaryTitle
   const formStatusConfig = useMemo(() => {
-    const status = show ? GlobalStatusProvider.get(globalStatusId) : null
+    const status = showGlobalStatus
+      ? GlobalStatusProvider.get(globalStatusId)
+      : null
     return {
       globalStatus: {
-        show,
+        show: showGlobalStatus,
         id: globalStatusId,
         title:
           status?.stack[0]?.title ??
@@ -1819,7 +1829,7 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [
     globalStatusId,
-    show,
+    showGlobalStatus,
     customErrorSummaryTitle,
     translation.errorSummaryTitle,
   ])
