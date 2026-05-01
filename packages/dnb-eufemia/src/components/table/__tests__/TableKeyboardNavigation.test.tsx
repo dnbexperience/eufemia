@@ -466,7 +466,7 @@ describe('useTableKeyboardNavigation', () => {
       expect(document.activeElement).toBe(cellBelow)
     })
 
-    it('should skip ArrowLeft/ArrowRight for elements with role="spinbutton"', () => {
+    it('should allow ArrowLeft/ArrowRight for elements with role="spinbutton"', () => {
       render(
         <TableWithKeyboardNavigation>
           <tbody>
@@ -488,17 +488,15 @@ describe('useTableKeyboardNavigation', () => {
       const spinbutton = document.querySelector(
         '[data-testid="spinbutton"]'
       ) as HTMLElement
+      const otherCell = document.querySelectorAll('td')[1]
 
       spinbutton.focus()
 
       fireEvent.keyDown(spinbutton, { key: 'ArrowRight' })
-      expect(document.activeElement).toBe(spinbutton)
-
-      fireEvent.keyDown(spinbutton, { key: 'ArrowLeft' })
-      expect(document.activeElement).toBe(spinbutton)
+      expect(document.activeElement).toBe(otherCell)
     })
 
-    it('should allow ArrowUp/ArrowDown for elements with role="spinbutton"', () => {
+    it('should skip ArrowUp/ArrowDown for elements with role="spinbutton"', () => {
       render(
         <TableWithKeyboardNavigation>
           <tbody>
@@ -522,12 +520,14 @@ describe('useTableKeyboardNavigation', () => {
       const spinbutton = document.querySelector(
         '[data-testid="spinbutton"]'
       ) as HTMLElement
-      const cellBelow = document.querySelectorAll('td')[1]
 
       spinbutton.focus()
 
       fireEvent.keyDown(spinbutton, { key: 'ArrowDown' })
-      expect(document.activeElement).toBe(cellBelow)
+      expect(document.activeElement).toBe(spinbutton)
+
+      fireEvent.keyDown(spinbutton, { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(spinbutton)
     })
   })
 

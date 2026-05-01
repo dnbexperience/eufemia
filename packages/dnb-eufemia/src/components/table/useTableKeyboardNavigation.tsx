@@ -57,16 +57,24 @@ function setupTabindex(table: HTMLTableElement) {
 }
 
 function setupFocusCleanup(table: HTMLTableElement) {
-  table.addEventListener('focusout', (event) => {
+  const handler = (event: FocusEvent) => {
     const target = event.target as HTMLElement
     if (target.classList.contains('dnb-table__cell--focus')) {
       target.classList.remove('dnb-no-focus', 'dnb-table__cell--focus')
     }
-  })
+  }
+
+  table.addEventListener('focusout', handler)
+
+  return () => {
+    table.removeEventListener('focusout', handler)
+  }
 }
 
-const HORIZONTAL_NAV_SELECTOR =
-  'input[type="range"], [role="slider"], [role="spinbutton"]'
+const HORIZONTAL_NAV_SELECTOR = 'input[type="range"], [role="slider"]'
+
+const VERTICAL_NAV_SELECTOR =
+  'input[type="number"], [role="spinbutton"], select, [role="listbox"]'
 
 function isTextInput(
   element: HTMLElement
@@ -93,6 +101,10 @@ function isTextInput(
 
 function shouldSkipHorizontalNav(target: HTMLElement): boolean {
   return target.closest(HORIZONTAL_NAV_SELECTOR) !== null
+}
+
+function shouldSkipVerticalNav(target: HTMLElement): boolean {
+  return target.closest(VERTICAL_NAV_SELECTOR) !== null
 }
 
 function isAtInputBoundary(
@@ -128,6 +140,11 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
     return // stop here
   }
 
+  // Elements like spinbuttons/number inputs use up/down internally
+  if (!isHorizontal && shouldSkipVerticalNav(target)) {
+    return // stop here
+  }
+
   // Text inputs/textareas: only navigate when cursor is at the boundary
   if (isHorizontal && isTextInput(target)) {
     const direction = key === 'ArrowLeft' ? 'left' : 'right'
@@ -160,8 +177,9 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
       break
   }
 
+  const currentCell = grid[position.row]?.[position.col]
   const nextCell = grid[row]?.[col]
-  if (nextCell) {
+  if (nextCell && nextCell !== currentCell) {
     event.preventDefault()
     focusCell(nextCell)
   }
@@ -223,12 +241,13 @@ export function useTableKeyboardNavigation({
     }
 
     setupTabindex(table)
-    setupFocusCleanup(table)
+    const cleanupFocus = setupFocusCleanup(table)
 
     wrapper.addEventListener('keydown', handler)
 
     return () => {
       wrapper.removeEventListener('keydown', handler)
+      cleanupFocus()
     }
   }, [enabled, handler])
 
