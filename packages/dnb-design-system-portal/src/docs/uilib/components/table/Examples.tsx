@@ -1098,13 +1098,9 @@ export const KeyboardNavigation = () => (
                     <Field.String label="Name" labelSrOnly value="Ola" />
                   </Td>
                   <Td>
-                    <Field.String
-                      label="Email"
-                      labelSrOnly
-                      value="ola@example.no"
-                    />
+                    <Field.Email labelSrOnly value="ola@example.no" />
                   </Td>
-                  <Td>
+                  <Td verticalAlign="middle">
                     <Button
                       variant="tertiary"
                       icon={trashIcon}
@@ -1122,14 +1118,40 @@ export const KeyboardNavigation = () => (
                     />
                   </Td>
                   <Td>
-                    <Field.String
-                      label="Email"
+                    <Field.Email
                       labelSrOnly
                       value="kari@example.no"
                       multiline
                     />
                   </Td>
+                  <Td verticalAlign="middle">
+                    <Button
+                      variant="tertiary"
+                      icon={trashIcon}
+                      tooltip="Delete row"
+                    />
+                  </Td>
+                </tr>
+                <tr>
                   <Td>
+                    <Field.Number
+                      label="Quantity"
+                      labelSrOnly
+                      showStepControls
+                      width="small"
+                      value={1}
+                    />
+                  </Td>
+                  <Td>
+                    <Field.Number
+                      label="Quantity"
+                      labelSrOnly
+                      showStepControls
+                      width="small"
+                      value={2}
+                    />
+                  </Td>
+                  <Td verticalAlign="middle">
                     <Button
                       variant="tertiary"
                       icon={trashIcon}
