@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Input scss has to match style dependencies css 1`] = `
+exports[`Input scss > has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -1461,7 +1461,7 @@ html[data-visual-test] .dnb-input__input {
 }"
 `;
 
-exports[`Input scss have to match default theme snapshot 1`] = `
+exports[`Input scss > have to match default theme snapshot 1`] = `
 "/*
 * Input theme
 *

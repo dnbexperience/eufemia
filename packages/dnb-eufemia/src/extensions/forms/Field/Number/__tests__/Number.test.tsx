@@ -1387,7 +1387,9 @@ describe('Field.Number', () => {
       })
 
       it('throw type error when invalid value is given', () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         const invalidValue = 'foo' as null
         render(
@@ -1412,7 +1414,9 @@ describe('Field.Number', () => {
       // Silence console.error noise during these tests while still allowing per-test spies
       let consoleErrorSpy: jest.SpyInstance
       beforeEach(() => {
-        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+        consoleErrorSpy = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
       })
       afterEach(() => {
         consoleErrorSpy?.mockRestore()
@@ -1528,7 +1532,9 @@ describe('Field.Number', () => {
       })
 
       it('throw type error when invalid value is given', () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         render(
           <Form.Handler
@@ -1561,7 +1567,7 @@ describe('Field.Number', () => {
         beforeEach(() => {
           consoleErrorSpy = jest
             .spyOn(console, 'error')
-            .mockImplementation()
+            .mockImplementation(() => {})
         })
         afterEach(() => {
           consoleErrorSpy?.mockRestore()

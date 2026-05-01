@@ -23,6 +23,9 @@ describe('useQueryLocator', () => {
   const output = () => {
     return document.querySelector('output')
   }
+  let pushStateSpy: ReturnType<typeof jest.fn>
+  let addEventListenerSpy: ReturnType<typeof jest.fn>
+
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
   ) => {
@@ -31,16 +34,19 @@ describe('useQueryLocator', () => {
     const realReplaceState = window.history.replaceState.bind(
       window.history
     )
-    window.history.pushState = jest.fn((data, unused, url) => {
+    pushStateSpy = jest.fn(function (data, unused, url) {
       realReplaceState(data, unused, url)
     })
+    window.history.pushState = pushStateSpy
 
     popstateListener = jest.fn()
-    window.addEventListener = jest.fn((name, listener) => {
+    addEventListenerSpy = jest.fn(function (name, listener) {
       if (name === 'popstate') {
         popstateListener.mockImplementation(listener as any)
       }
     })
+    window.addEventListener =
+      addEventListenerSpy as typeof window.addEventListener
   }
   const visitStep = (index) => {
     const url = new URL(window.location.href)
@@ -252,8 +258,8 @@ describe('useQueryLocator', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    window.history.pushState = jest.fn(() => {
-      throw new TypeError('URL is not a constructor')
+    window.history.pushState = jest.fn(function () {
+      throw new Error('URL is not valid')
     })
 
     render(
@@ -270,7 +276,7 @@ describe('useQueryLocator', () => {
     await userEvent.click(nextButton())
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'URL is not a constructor'
+      'URL is not valid'
     )
   })
 

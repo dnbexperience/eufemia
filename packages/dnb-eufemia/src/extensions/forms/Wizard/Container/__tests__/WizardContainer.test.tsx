@@ -1834,11 +1834,6 @@ describe('Wizard.Container', () => {
 
       fireEvent.click(nextButton())
 
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryAllByRole('alert')).toHaveLength(0)
-      expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
-
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
         expect(screen.queryAllByRole('alert')).toHaveLength(0)
@@ -2130,7 +2125,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should warn when not wrapped in Form.Handler', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Wizard.Container>

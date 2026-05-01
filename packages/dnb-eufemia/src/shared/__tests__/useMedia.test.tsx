@@ -1005,6 +1005,7 @@ describe('useMedia without window.matchMedia', () => {
     Object.defineProperty(window, 'matchMedia', {
       value: undefined,
       writable: true,
+      configurable: true,
     })
   })
 

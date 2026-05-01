@@ -125,7 +125,7 @@ describe('NumberFormat component', () => {
   })
 
   it('have support valid locale with invalid value', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <NumberFormatBase locale="en-GB" decimals={2}>
@@ -143,7 +143,7 @@ describe('NumberFormat component', () => {
   })
 
   it('have support invalid locale with invalid value', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <NumberFormatBase locale="else" decimals={2}>

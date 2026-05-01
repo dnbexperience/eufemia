@@ -108,7 +108,7 @@ describe('renderWithFormatting', () => {
   })
 
   it('does not produce React key warnings for generated fragments', () => {
-    const spy = jest.spyOn(console, 'error').mockImplementation()
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const text = [
       'A{br}B{br}C ',

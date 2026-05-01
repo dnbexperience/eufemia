@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Logo component should set correct DNB SVG 1`] = `
+exports[`Logo component > should set correct DNB SVG 1`] = `
 <svg
   fill="var(--color-sea-green)"
   viewBox="0 0 116 80"
@@ -20,7 +20,7 @@ exports[`Logo component should set correct DNB SVG 1`] = `
 </svg>
 `;
 
-exports[`Logo component should set correct Sbanken brand SVG 1`] = `
+exports[`Logo component > should set correct Sbanken brand SVG 1`] = `
 <svg
   fill="#18172a"
   viewBox="0 0 1601 533"
@@ -34,7 +34,7 @@ exports[`Logo component should set correct Sbanken brand SVG 1`] = `
 </svg>
 `;
 
-exports[`Logo component should set correct Sbanken brand SVG in compact variant 1`] = `
+exports[`Logo component > should set correct Sbanken brand SVG in compact variant 1`] = `
 <svg
   fill="#18172a"
   viewBox="0 0 281 401"
@@ -48,7 +48,7 @@ exports[`Logo component should set correct Sbanken brand SVG in compact variant 
 </svg>
 `;
 
-exports[`Logo scss should match style dependencies css 1`] = `
+exports[`Logo scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *

@@ -857,13 +857,18 @@ describe('Field.Expiry', () => {
       await userEvent.keyboard('{Backspace}')
       await userEvent.click(document.body)
 
-      const formStatusText = document.querySelector(
-        '.dnb-form-status__text'
-      )
+      await waitFor(() => {
+        expect(inputWrapper.classList).toContain(
+          'dnb-input__status--error'
+        )
 
-      expect(inputWrapper.classList).toContain('dnb-input__status--error')
-      expect(formStatusText).toBeInTheDocument()
-      expect(formStatusText).toHaveTextContent(no.errorRequired)
+        const formStatusText = document.querySelector(
+          '.dnb-form-status__text'
+        )
+
+        expect(formStatusText).toBeInTheDocument()
+        expect(formStatusText).toHaveTextContent(no.errorRequired)
+      })
 
       await userEvent.click(input)
       await userEvent.keyboard('12')
@@ -871,7 +876,9 @@ describe('Field.Expiry', () => {
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
       )
-      expect(formStatusText).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
     })
 
     it('should validate month and year', async () => {
@@ -910,9 +917,11 @@ describe('Field.Expiry', () => {
       await userEvent.keyboard('1325')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
 
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorMonth.replace(/\{month\}/, '13')
@@ -921,16 +930,23 @@ describe('Field.Expiry', () => {
       await userEvent.click(monthInput)
       await userEvent.keyboard('99')
       await userEvent.click(document.body)
-      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '99')
-      )
+
+      await waitFor(() => {
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          no.errorMonth.replace(/\{month\}/, '99')
+        )
+      })
 
       await userEvent.click(monthInput)
       await userEvent.keyboard('0025')
       await userEvent.click(document.body)
-      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '00')
-      )
+
+      await waitFor(() => {
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          no.errorMonth.replace(/\{month\}/, '00')
+        )
+      })
+
       await userEvent.click(monthInput)
     })
 
@@ -1068,9 +1084,11 @@ describe('Field.Expiry', () => {
       await userEvent.keyboard('092')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
 
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorYear.replace(/\{year\}/, '2å')
@@ -1080,9 +1098,11 @@ describe('Field.Expiry', () => {
       await userEvent.keyboard('25')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should not display error if a valid value is cleared/removed', async () => {
@@ -1120,9 +1140,11 @@ describe('Field.Expiry', () => {
       expect(monthInput).toHaveValue('mm')
       expect(yearInput).toHaveValue('åå')
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
     })
 
     it('should display month and year messages based on locale', async () => {

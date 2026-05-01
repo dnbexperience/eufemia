@@ -5,7 +5,7 @@ import { Form } from '../../../'
 
 describe('useVerifyChildren', () => {
   it('should not warn when no children are provided', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const TestComponent = () => {
       const { verifyChild } = useVerifyChildren({
@@ -23,7 +23,7 @@ describe('useVerifyChildren', () => {
   })
 
   it('should warn if verifyChild is not called enough times for children', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const TestComponent = () => {
       const { verifyChild } = useVerifyChildren({
@@ -53,7 +53,7 @@ describe('useVerifyChildren', () => {
   })
 
   it('should show warning with messageInfo', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
     const props = { foo: 'bar' }
 
     const TestComponent = () => {
@@ -85,7 +85,7 @@ describe('useVerifyChildren', () => {
   })
 
   it('should ignore specified types', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const IgnoredComponent = () => <>Ignored</>
 
@@ -114,7 +114,7 @@ describe('useVerifyChildren', () => {
   })
 
   it('should ignore Form.Visibility', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const TestComponent = () => {
       const { verifyChild } = useVerifyChildren({
@@ -141,7 +141,7 @@ describe('useVerifyChildren', () => {
   })
 
   it('should ignore React.Fragment', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const TestComponent = () => {
       const { verifyChild } = useVerifyChildren({

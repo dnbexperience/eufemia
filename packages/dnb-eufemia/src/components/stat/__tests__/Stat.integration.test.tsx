@@ -530,8 +530,8 @@ describe('Stat integration', () => {
     expect(await axeComponent(component)).toHaveNoViolations()
   })
 
-  it('propagates skeleton from Content to non-Stat children like IconPrimary', () => {
-    const IconPrimary = require('../../icon/IconPrimary').default
+  it('propagates skeleton from Content to non-Stat children like IconPrimary', async () => {
+    const IconPrimary = (await import('../../icon/IconPrimary')).default
 
     render(
       <Stat.Content skeleton>
@@ -544,8 +544,8 @@ describe('Stat integration', () => {
     expect(icon.classList).toContain('dnb-skeleton')
   })
 
-  it('propagates skeleton from Root through Content to non-Stat children', () => {
-    const IconPrimary = require('../../icon/IconPrimary').default
+  it('propagates skeleton from Root through Content to non-Stat children', async () => {
+    const IconPrimary = (await import('../../icon/IconPrimary')).default
 
     render(
       <Stat.Root skeleton>

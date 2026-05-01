@@ -55,7 +55,7 @@ describe('Form.Section', () => {
   })
 
   it('should throw then "path" without slash was given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       render(<MySection path="withoutSlash" />)
@@ -2320,7 +2320,9 @@ describe('Form.Section', () => {
     })
 
     it('should fallback to translations keys when locale to section is missing', () => {
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       const globalTranslations = {
         'sv-SE': { something: { foo: 'bar' } },

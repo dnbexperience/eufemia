@@ -20,9 +20,13 @@ describe('runCssVersionMismatchWarning', () => {
 
     process.env.NODE_ENV = 'development'
     originalGetComputedStyle = window.getComputedStyle
-    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
-    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation()
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+    consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
+    consoleWarnSpy = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {})
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
   })
 
   afterEach(() => {

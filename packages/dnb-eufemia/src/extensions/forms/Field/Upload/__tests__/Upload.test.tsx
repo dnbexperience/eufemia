@@ -1,5 +1,11 @@
 import React, { useContext } from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+  act,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import { makeUniqueId } from '../../../../../shared/component-helper'
@@ -1775,28 +1781,36 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [files[0]],
-        },
+      await act(async () => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[0]],
+          },
+        })
       })
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [files[1], files[3], files[4]],
-        },
+      await act(async () => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[1], files[3], files[4]],
+          },
+        })
       })
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [files[2]],
-        },
+      await act(async () => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[2]],
+          },
+        })
       })
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [files[5]],
-        },
+      await act(async () => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[5]],
+          },
+        })
       })
 
       await waitFor(() => {

@@ -302,8 +302,8 @@ describe('ajvErrorsToOneFormError', () => {
     expect(formError).toBeInstanceOf(FormError)
     expect(formError.message).toBe('Multiple errors')
     expect(formError.errors).toEqual([
-      new Error('StringField.errorMinLength'),
-      new Error('StringField.errorMaxLength'),
+      expect.objectContaining({ message: 'StringField.errorMinLength' }),
+      expect.objectContaining({ message: 'StringField.errorMaxLength' }),
     ])
   })
 })
@@ -338,8 +338,12 @@ describe('ajvErrorsToFormErrors', () => {
     ]
     const formErrors = ajvErrorsToFormErrors(ajvErrors)
     expect(formErrors).toEqual({
-      '/path1': new Error('StringField.errorMinLength'),
-      '/path2': new Error('StringField.errorMaxLength'),
+      '/path1': expect.objectContaining({
+        message: 'StringField.errorMinLength',
+      }),
+      '/path2': expect.objectContaining({
+        message: 'StringField.errorMaxLength',
+      }),
     })
   })
 })

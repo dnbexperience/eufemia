@@ -106,7 +106,7 @@ describe('Value.Composition', () => {
 
   describe('should validate with ARIA rules', () => {
     it('when used without SummaryList', async () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
+      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
       const Comp = render(
         <>

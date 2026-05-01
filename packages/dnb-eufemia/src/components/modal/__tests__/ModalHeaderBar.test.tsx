@@ -40,18 +40,14 @@ describe('ModalHeaderBar', () => {
     observe.mockClear()
     disconnect.mockClear()
 
-    window.IntersectionObserver = jest
-      .fn()
-      .mockImplementation(
-        (
-          cb: IntersectionObserverCallback,
-          options: IntersectionObserverInit
-        ) => {
-          observerCallback = cb
-          observerOptions = options
-          return { observe, disconnect }
-        }
-      )
+    window.IntersectionObserver = jest.fn().mockImplementation(function (
+      cb: IntersectionObserverCallback,
+      options: IntersectionObserverInit
+    ) {
+      observerCallback = cb
+      observerOptions = options
+      return { observe, disconnect }
+    })
   })
 
   afterEach(() => {

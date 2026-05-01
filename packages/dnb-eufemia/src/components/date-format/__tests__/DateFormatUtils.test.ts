@@ -28,7 +28,12 @@ describe('DateFormatUtils', () => {
     })
 
     it('formats dates using Intl.DateTimeFormat', () => {
-      const spy = jest.spyOn(Intl, 'DateTimeFormat')
+      const OriginalDateTimeFormat = Intl.DateTimeFormat
+      const spy = jest
+        .spyOn(Intl, 'DateTimeFormat')
+        .mockImplementation(function (...args) {
+          return new OriginalDateTimeFormat(...args)
+        } as typeof Intl.DateTimeFormat)
 
       formatDate('2024-10-05', {
         locale: 'en-GB',

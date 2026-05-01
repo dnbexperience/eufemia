@@ -84,7 +84,7 @@ describe('useTranslation without an ID', () => {
   })
 
   it('should extend translation inside locale key', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation()
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const extendedLocale = {
       'nb-NO': {
@@ -603,7 +603,7 @@ describe('useTranslation with an ID', () => {
   describe('fallback functionality', () => {
     let consoleSpy: jest.SpyInstance
     beforeAll(() => {
-      consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+      consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
     })
     afterEach(() => {
       consoleSpy.mockClear()

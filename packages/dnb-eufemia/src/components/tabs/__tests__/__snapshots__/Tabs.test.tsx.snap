@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Tabs scss has to match style dependencies css 1`] = `
+exports[`Tabs scss > has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -398,7 +398,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
 }"
 `;
 
-exports[`Tabs scss have to match default theme snapshot 1`] = `
+exports[`Tabs scss > have to match default theme snapshot 1`] = `
 "/*
  * Tabs component
  *

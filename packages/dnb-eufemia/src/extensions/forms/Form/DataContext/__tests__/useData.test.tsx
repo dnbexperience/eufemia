@@ -38,7 +38,7 @@ describe('Form.useData', () => {
   })
 
   it('should throw when used without a valid id', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       renderHook(() => useData())

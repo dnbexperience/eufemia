@@ -5,7 +5,7 @@ import useSubmit from '../useSubmit'
 
 describe('Form.useSubmit', () => {
   it('should throw when used outside Form.Handler', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderHookFn = () => {
       renderHook(() => useSubmit())

@@ -1,15 +1,15 @@
 /**
  * @jest-environment node
  */
+// @vitest-environment node
 
 describe('useIsomorphicLayoutEffect SSR', () => {
-  it('should use useEffect during SSR', () => {
+  it('should use useEffect during SSR', async () => {
     expect(typeof window).toBe('undefined')
 
-    const {
-      useIsomorphicLayoutEffect: ssrVersion,
-    } = require('../useIsomorphicLayoutEffect')
-    const { useEffect: reactUseEffect } = require('react')
+    const { useIsomorphicLayoutEffect: ssrVersion } =
+      await import('../useIsomorphicLayoutEffect')
+    const { useEffect: reactUseEffect } = await import('react')
 
     expect(ssrVersion).toBe(reactUseEffect)
   })

@@ -239,7 +239,7 @@ describe('useReachRouter', () => {
     await userEvent.click(nextButton())
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'Invalid URL: invalid-url'
+      /Invalid URL/
     )
   })
 

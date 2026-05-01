@@ -32,7 +32,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should console log a schema', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Form.Handler>

@@ -382,7 +382,9 @@ describe('ChildrenWithAge', () => {
   })
 
   it('should fallback to translations keys when locale has no ChildrenWithAge translations', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+    const consoleSpy = jest
+      .spyOn(console, 'log')
+      .mockImplementation(() => {})
 
     const translations = {
       'nn-NO': {},

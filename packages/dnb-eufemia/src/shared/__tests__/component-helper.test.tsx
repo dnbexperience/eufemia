@@ -194,7 +194,7 @@ describe('"detectOutsideClick" should', () => {
   })
 
   it('should not throw an error when "ignoreElementRef" is undefined', async () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     window.PointerEvent = undefined
     const ignoreElementRef = undefined
