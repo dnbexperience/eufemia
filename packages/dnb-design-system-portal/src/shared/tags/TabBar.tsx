@@ -74,11 +74,16 @@ export default function TabBar({
         .filter(
           ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
-        .map(({ key, ...rest }) => {
+        .map(({ key, ...rest }, index) => {
           const search = cleanFullscreen(location.search)
+          // First tab links to the parent path instead of a sub-page
+          const tabPath =
+            index === 0
+              ? ''
+              : key.replace(rootPath, '').replace(/(\/+)$/, '')
           key = [
             rootPath,
-            key.replace(rootPath, '').replace(/(\/+)$/, ''),
+            tabPath,
             search,
             wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
             location.hash,

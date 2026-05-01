@@ -25,10 +25,17 @@ type ComponentEntry = {
 }
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+/**
+ * The URL slug prefix for pages that get LLM markdown copies.
+ * Used by the prerender pipeline and metadata generator to
+ * determine which pages should have markdown alternate links.
+ */
+export const LLM_DOCS_SLUG_PREFIX = 'uilib'
+
 export function getPortalPaths(store: any) {
   const { program } = store.getState()
   const siteDir = program.directory
-  const docsRoot = path.join(siteDir, 'src', 'docs', 'uilib')
+  const docsRoot = path.join(siteDir, 'src', 'docs', LLM_DOCS_SLUG_PREFIX)
   const metadataRoot = path.join(siteDir, 'public')
   return { siteDir, docsRoot, metadataRoot }
 }
@@ -298,7 +305,7 @@ export function toWorkspacePath(abs: string, siteDir: string) {
 export function toSlugAndDir(rel: string) {
   const noExt = rel.replace(/\.[^/.]+$/, '')
   const slug = `/${path.posix.join(
-    'uilib',
+    LLM_DOCS_SLUG_PREFIX,
     noExt.split(path.sep).join('/')
   )}/`
   const dirForExtras = path.posix.join(slug).replace(/^\//, '')
@@ -510,7 +517,7 @@ export function makeChecksum({
 
       for (const k of keys) {
         const v = obj[k]
-        out[k] = Array.isArray(v) ? [...v] : v ?? null
+        out[k] = Array.isArray(v) ? [...v] : (v ?? null)
       }
       return out
     }
@@ -713,10 +720,10 @@ export function buildLlmsText(
     g === 'components'
       ? 'Components'
       : g === 'extensions'
-      ? 'Extensions'
-      : g === 'elements'
-      ? 'Elements'
-      : 'Unlisted'
+        ? 'Extensions'
+        : g === 'elements'
+          ? 'Elements'
+          : 'Unlisted'
 
   const printed = new Set<string>()
   const pushEntry = (meta: any) => {
@@ -724,8 +731,8 @@ export function buildLlmsText(
     const prefix = slug.includes('/extensions/forms/Value/')
       ? 'Value'
       : slug.includes('/extensions/forms/feature-fields/')
-      ? 'Field'
-      : null
+        ? 'Field'
+        : null
     const hasPrefix =
       prefix && typeof meta?.name === 'string'
         ? meta.name.startsWith(`${prefix}.`)
@@ -871,12 +878,10 @@ export async function extractTsDocs(dir: string) {
 
 async function evaluateTsModule(file: string) {
   const { default: babel } = await import('@babel/core')
-  const { default: transformTS } = await import(
-    '@babel/plugin-transform-typescript'
-  )
-  const { default: transformCJS } = await import(
-    '@babel/plugin-transform-modules-commonjs'
-  )
+  const { default: transformTS } =
+    await import('@babel/plugin-transform-typescript')
+  const { default: transformCJS } =
+    await import('@babel/plugin-transform-modules-commonjs')
   const vm = await import('node:vm')
   const moduleApi = await import('node:module')
   const localRequire = (moduleApi as any).createRequire(file)

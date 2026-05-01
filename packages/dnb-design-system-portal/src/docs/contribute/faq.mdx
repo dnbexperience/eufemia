@@ -56,28 +56,9 @@ This disables `--bail` and runs all screenshot tests, so you can see all visual 
 
 The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
 
-## How can I make faster builds?
+### What does `build:gatsby:mini` do?
 
-This is only meant for "setup-testing" purposes! To make faster local builds, you can:
-
-- Inside `gatsby-config.js`, rename all sourcing from `/docs` to `/docs_dummy`.
-
-Run `yarn workspace dnb-design-system-portal build:visual-test`.
-
-You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
-
-### What are `build:mini` scripts
-
-When running `build:mini` scripts, the build will be faster and the output will be smaller. It's used for the CI/CD pipeline to build the package for the Sandbox or documentation preview.
-
-For the Portal, `build:mini` (`BUILD_MINI=1`) also skips some Gatsby plugins and processing steps to speed up the build. This currently includes:
-
-- `gatsby-plugin-eufemia-llm-metadata`
-- `gatsby-plugin-manifest`
-- `gatsby-plugin-meta-redirect`
-- `gatsby-plugin-offline`
-- `gatsby-plugin-algolia`
-- Image processing (`gatsby-plugin-sharp`, `gatsby-remark-images`)
+When running `build:gatsby:mini`, the Gatsby build will be faster and the output will be smaller. It was used for the CI/CD pipeline to build the package for the Sandbox or documentation preview. The default build now uses Vite (`yarn build`).
 
 ## Dependency issues
 

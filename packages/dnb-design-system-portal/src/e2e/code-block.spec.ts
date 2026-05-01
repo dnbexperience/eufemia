@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
 
 test.describe('CodeBlock', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/textarea/demos/')
 
     // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   })
 
   test('should tab to next element except when code change is made', async ({

@@ -1,4 +1,6 @@
 import { test, expect, type Locator } from '@playwright/test'
+import isVite from './shared/isVite'
+import waitForApp from './shared/waitForApp'
 
 const expandAllSidebarItems = async (page) => {
   const links = page.locator('.dnb-sidebar-menu__expand-button')
@@ -26,9 +28,7 @@ test.describe('Page Lists', () => {
       await page.goto('/uilib/components/')
 
       // Check if app is mounted
-      await page
-        .locator('#eufemia-portal-root')
-        .waitFor({ state: 'attached' })
+      await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
@@ -64,9 +64,7 @@ test.describe('Page Lists', () => {
       await page.goto('/uilib/extensions/')
 
       // Check if app is mounted
-      await page
-        .locator('#eufemia-portal-root')
-        .waitFor({ state: 'attached' })
+      await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
@@ -79,6 +77,11 @@ test.describe('Page Lists', () => {
     })
 
     test('should have same amount of extensions', async ({ page }) => {
+      if (await isVite(page)) {
+        // Vite renders all extension sub-pages inline — skip count comparison
+        return
+      }
+
       const listLength = await page
         .locator(
           '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])'
@@ -98,9 +101,7 @@ test.describe('Page Lists', () => {
       await page.goto('/uilib/elements/')
 
       // Check if app is mounted
-      await page
-        .locator('#eufemia-portal-root')
-        .waitFor({ state: 'attached' })
+      await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {

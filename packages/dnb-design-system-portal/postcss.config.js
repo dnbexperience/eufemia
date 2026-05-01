@@ -7,6 +7,7 @@ const {
   getStyleScopeHash,
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
 const postcssFontUrlRewritePlugin = require('@dnb/eufemia/src/plugins/postcss-font-url-rewrite')
+const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
 
 module.exports = {
   plugins:
@@ -24,6 +25,7 @@ module.exports = {
             },
             verbose: false,
           }),
+          postcssThemeScopePlugin(),
           postcssFontUrlRewritePlugin({
             basePath: 'https://eufemia.dnb.no/fonts/',
             verbose: false,

@@ -1,6 +1,11 @@
 module.exports = {
   testRegex: '(/__tests__/\\.js|(\\.|/)test)\\.(js|jsx|ts|tsx)?$',
-  testPathIgnorePatterns: ['.cache', 'public', 'not_in_use'],
+  testPathIgnorePatterns: [
+    '.cache',
+    'public',
+    'not_in_use',
+    'vite/__tests__',
+  ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [
       'babel-jest',

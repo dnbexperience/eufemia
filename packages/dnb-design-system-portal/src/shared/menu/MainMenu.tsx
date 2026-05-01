@@ -16,7 +16,7 @@ import {
 } from './MainMenuGraphics'
 import { VisuallyHidden } from '@dnb/eufemia/src'
 import PortalLogo from './graphics/logo'
-import packageJson from '../../../package.json'
+import { changelogVersion } from '../buildInfo'
 import { SearchBarInput } from './SearchBar'
 import {
   navStyle,
@@ -111,7 +111,7 @@ function MainMenu() {
                       className={lastUpdatedStyle}
                       title="Last Change log update"
                     >
-                      Updated: {packageJson.changelogVersion}
+                      Updated: {changelogVersion}
                     </span>
                   </>
                 }

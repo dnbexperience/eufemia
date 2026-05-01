@@ -6,7 +6,7 @@
 import React, { useCallback } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
 import type { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
-import { type GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
+import { Link as RouterLink, type LinkProps } from 'react-router-dom'
 import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &
@@ -15,12 +15,7 @@ export type AnchorProps = Props &
     HTMLAnchorElement
   >
 
-function PortalLink<TState>({
-  href,
-  onClick = null,
-  ref,
-  ...props
-}: AnchorProps) {
+function PortalLink({ href, onClick = null, ref, ...props }: AnchorProps) {
   const clickHandler = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       startPageTransition()
@@ -32,12 +27,10 @@ function PortalLink<TState>({
   )
 
   return (
-    <GatsbyLink
+    <RouterLink
       to={href}
-      ref={
-        ref as React.Ref<GatsbyLink<TState>> & React.Ref<HTMLAnchorElement>
-      }
-      {...(props as Omit<GatsbyLinkProps<TState>, 'ref' | 'onClick'>)}
+      ref={ref as React.Ref<HTMLAnchorElement>}
+      {...(props as Omit<LinkProps, 'ref' | 'onClick' | 'to'>)}
       onClick={clickHandler}
     />
   )
@@ -55,6 +48,7 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
   }
 
   const isAbsoluteUrl = href?.startsWith('http')
+  const isHash = href?.startsWith('#')
 
   if (isAbsoluteUrl) {
     rest.target = '_blank'
@@ -63,7 +57,9 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
     href = `/${href}`
   }
 
-  const element = (isAbsoluteUrl ? 'a' : PortalLink) as Props['element']
+  const element = (
+    isAbsoluteUrl || isHash ? 'a' : PortalLink
+  ) as Props['element']
 
   return <EufemiaAnchor href={href} element={element} {...rest} />
 }

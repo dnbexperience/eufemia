@@ -12,7 +12,8 @@ const properties = {
 
 export const GetPropValue = (prop) => {
   const theme = useTheme()
-  const p = properties[theme.name][prop]
+  const themeProps = properties[theme.name] || properties.ui
+  const p = themeProps[prop]
   if (p && p.startsWith('var(')) {
     return GetPropValue(p.substring(4, p.indexOf(')')))
   }

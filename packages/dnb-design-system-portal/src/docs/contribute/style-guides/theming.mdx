@@ -84,12 +84,10 @@ and run `yarn build`. All the related component theme file will then be created 
 
 ### Run the Portal with a different theme
 
-What theme gets imported is handled in the Gatsby Plugin [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler).
+Theme switching in the Portal is handled by the Vite theme handler shim (`vite/client/shims/theme-handler.ts`), which manages theme CSS via the `data-dnb-theme` attribute on `<html>`.
 
 - In the Portal Tools you can switch to a different theme (runtime).
-- You can also define a different theme in the url itself `path/?eufemia-theme=eiendom` (runtime).
-- Change the theme `defaultTheme` name in the plugin options inside `gatsby-config` (build-time).
-- Create a new `/packages/dnb-design-system-portal/.env` file that includes e.g. `GATSBY_EUFEMIA_THEME=eiendom` (build-time).
+- You can also define a different theme in the URL itself `path/?eufemia-theme=eiendom` (runtime).
 
 ### Show theme tag in Portal
 
