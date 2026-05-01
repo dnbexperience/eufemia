@@ -71,7 +71,7 @@ const translations = mergeTranslations(
 In React based apps, use the shared Eufemia provider:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const myLocale = 'en-GB'
 
@@ -85,7 +85,7 @@ render(
 For component based locale, you can also make use of the `lang` attribute – if really needed:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider locale="en-GB">
@@ -101,7 +101,7 @@ render(
 You can easily enhance or change translated strings progressively:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider
@@ -123,8 +123,7 @@ You can even change the locale during runtime. Find more info in the [Provider d
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
-import Provider from '@dnb/eufemia/shared/Provider'
-import Context from '@dnb/eufemia/shared/Context'
+import { Provider, Context } from '@dnb/eufemia/shared'
 
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
@@ -153,7 +152,7 @@ render(
 You can provide your own translations by using the shared [Provider](/uilib/usage/customisation/provider). Translation strings with several levels of depth can be given as a flat object with dot-notation, or as a nested object (cascaded).
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const nbNO = { myString: 'Min egendefinerte streng' }
 const enGB = {
@@ -358,7 +357,7 @@ Components render with default translations immediately. When the loader resolve
 The loader function can use any source — dynamic `import()` of `.ts`, `.js`, or `.json` files, `fetch()` calls, or any other async operation. As long as the function returns a translations object, it works.
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const translationsLoader = async (locale) => {
   switch (locale) {
@@ -381,7 +380,7 @@ render(
 You can combine `translationsLoader` with the static `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const staticTranslations = {
   'nb-NO': { Modal: { closeTitle: 'Lukk' } },
@@ -405,10 +404,105 @@ render(
 
 The `translationsLoader` is also available on [Form.Handler](/uilib/extensions/forms/Form/Handler/) for form-scoped translations. Read more in the [Forms getting started guide](/uilib/extensions/forms/getting-started/#load-translations-dynamically).
 
+### Async translations with translationsLoader
+
+Use the `translationsLoader` prop to load translations asynchronously, for example from a CDN or a lazy import. The loader receives the current locale and should return a translations object.
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const translationsLoader = async (locale) => {
+  const response = await fetch(`/translations/${locale}.json`)
+  return response.json()
+}
+
+render(
+  <Provider translationsLoader={translationsLoader}>
+    <MyApp />
+  </Provider>
+)
+```
+
+Because the consumer owns the loader function, you can handle loading state, errors, and retries directly inside it:
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+function App() {
+  const [translationsLoading, setTranslationsLoading] =
+    React.useState(true)
+
+  const translationsLoader = React.useCallback(async (locale) => {
+    setTranslationsLoading(true)
+
+    try {
+      const translations = await import(`../translations/${locale}.json`)
+      return translations.default
+    } catch (error) {
+      console.error('Failed to load translations', error)
+      return null
+    } finally {
+      setTranslationsLoading(false)
+    }
+  }, [])
+
+  return (
+    <Provider
+      translationsLoader={translationsLoader}
+      skeleton={translationsLoading}
+    >
+      <MyApp />
+    </Provider>
+  )
+}
+```
+
+You can also return fallback translations when an error occurs, so the UI still renders meaningful content in the correct language:
+
+```tsx
+import { Provider, useTranslation } from '@dnb/eufemia/shared'
+
+const fallbackTranslations = {
+  'nb-NO': {
+    errorMessage: 'Kunne ikke laste oversettelser',
+  },
+  'en-GB': {
+    errorMessage: 'Could not load translations',
+  },
+}
+
+const translationsLoader = async (locale) => {
+  try {
+    const response = await fetch(`/api/translations/${locale}`)
+    return response.json()
+  } catch (error) {
+    return fallbackTranslations
+  }
+}
+
+type FallbackTranslation =
+  (typeof fallbackTranslations)[keyof typeof fallbackTranslations]
+
+function ErrorBanner() {
+  const { errorMessage } = useTranslation<FallbackTranslation>()
+  if (errorMessage) {
+    return <FormStatus state="error" text={errorMessage} />
+  }
+  return null
+}
+
+render(
+  <Provider translationsLoader={translationsLoader}>
+    <ErrorBanner />
+    <MyApp />
+  </Provider>
+)
+```
+
 ## TypeScript support
 
 ```tsx
-import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+import { Provider, Locales } from '@dnb/eufemia/shared'
 
 const nbNO = {
   myString: 'Min egendefinerte streng',
@@ -442,7 +536,7 @@ Like, having the Eufemia components strings inside a JSON object/file `en.json`:
 and use it like this:
 
 ```jsx
-import EufemiaProvider from '@dnb/eufemia/shared/Provider'
+import { Provider as EufemiaProvider } from '@dnb/eufemia/shared'
 import nb from './nb.json' // Has to be an JavaScript object
 
 render(
@@ -721,7 +815,7 @@ export default {
 And add the file, like so:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 import myTranslations from './locales/nn-NO'
 
 render(
@@ -734,8 +828,7 @@ render(
 ### Add or update the locales during runtime
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
-import Context from '@dnb/eufemia/shared/Context'
+import { Provider, Context } from '@dnb/eufemia/shared'
 
 import myTranslations from './locales/nn-NO'
 
