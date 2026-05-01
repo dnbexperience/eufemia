@@ -16,6 +16,12 @@ export type TableTdProps = {
   spacing?: 'horizontal'
 
   /**
+   * Vertical alignment of the cell content.
+   * Default: `undefined`
+   */
+  verticalAlign?: 'top' | 'middle' | 'bottom'
+
+  /**
    * The content of the component.
    * Default: `null`
    */
@@ -26,8 +32,14 @@ export default function Td(
   componentProps: TableTdProps &
     React.TdHTMLAttributes<HTMLTableCellElement>
 ) {
-  const { className, children, noSpacing, spacing, ...props } =
-    componentProps
+  const {
+    className,
+    children,
+    noSpacing,
+    spacing,
+    verticalAlign,
+    ...props
+  } = componentProps
 
   return (
     <td
@@ -37,6 +49,7 @@ export default function Td(
         'dnb-table__td',
         noSpacing && 'dnb-table__td--no-spacing',
         spacing && `dnb-table__td--spacing-${spacing}`,
+        verticalAlign && `dnb-table__td--vertical-align-${verticalAlign}`,
         className
       )}
       {...props}

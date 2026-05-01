@@ -123,6 +123,57 @@ describe('TableTd', () => {
     )
   })
 
+  it('should set verticalAlign="middle" class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd verticalAlign="middle">td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--vertical-align-middle'
+    )
+  })
+
+  it('should set verticalAlign="top" class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd verticalAlign="top">td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--vertical-align-top'
+    )
+  })
+
+  it('should set verticalAlign="bottom" class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd verticalAlign="bottom">td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--vertical-align-bottom'
+    )
+  })
+
   it('should have Td.AccordionContent', () => {
     expect(TableTd.AccordionContent).toBe(TableAccordionContentSingle)
   })

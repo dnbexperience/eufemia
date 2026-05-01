@@ -202,6 +202,12 @@ export const TdProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
+  verticalAlign: {
+    doc: 'Vertical alignment of the cell content.',
+    type: ['"top"', '"middle"', '"bottom"'],
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',

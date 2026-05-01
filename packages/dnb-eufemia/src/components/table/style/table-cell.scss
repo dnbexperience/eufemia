@@ -13,5 +13,17 @@
     border-spacing: 0;
 
     word-break: keep-all;
+
+    &.dnb-table__td--vertical-align-top {
+      vertical-align: top;
+    }
+
+    &.dnb-table__td--vertical-align-middle {
+      vertical-align: middle;
+    }
+
+    &.dnb-table__td--vertical-align-bottom {
+      vertical-align: bottom;
+    }
   }
 }
