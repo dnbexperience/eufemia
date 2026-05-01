@@ -2,7 +2,7 @@
 
 exports[`Logo component should set correct DNB SVG 1`] = `
 <svg
-  fill="var(--color-sea-green)"
+  fill="#007272"
   viewBox="0 0 116 80"
 >
   <title>
