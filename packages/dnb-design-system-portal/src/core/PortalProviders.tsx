@@ -115,21 +115,16 @@ function EufemiaProvider({ children }: { children: React.ReactNode }) {
   const [translationError, setTranslationError] = useState<string | null>(
     null
   )
-  const [isLoadingTranslation, setIsLoadingTranslation] = useState(false)
-
   const translationsLoader: TranslationsLoader = useCallback(
     async (locale) => {
       try {
         setTranslationError(null)
-        setIsLoadingTranslation(true)
         return await loadTranslations(locale)
       } catch (error) {
         setTranslationError(
           `Failed to load translations for locale "${locale}"`
         )
         return null
-      } finally {
-        setIsLoadingTranslation(false)
       }
     },
     []
@@ -137,7 +132,7 @@ function EufemiaProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <Provider
-      skeleton={getSkeletonEnabled() || isLoadingTranslation}
+      skeleton={getSkeletonEnabled()}
       locale={getLang()}
       translationsLoader={translationsLoader}
     >
