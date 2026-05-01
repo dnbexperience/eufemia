@@ -614,7 +614,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 
 .dnb-table thead th.dnb-table__cell--focus:focus, .dnb-table tbody td.dnb-table__cell--focus:focus, .dnb-table__th.dnb-table__cell--focus:focus, .dnb-table__td.dnb-table__cell--focus:focus {
   outline: none;
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
