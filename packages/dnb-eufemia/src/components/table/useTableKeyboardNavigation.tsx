@@ -12,9 +12,13 @@ export type UseTableKeyboardNavigationOptions = {
 }
 
 function getCells(table: HTMLTableElement) {
-  const rows = Array.from(table.querySelectorAll('tr'))
+  const rows = Array.from(table.querySelectorAll('tr')).filter(
+    (row) => row.closest('table') === table
+  )
   return rows.map((row) =>
-    Array.from(row.querySelectorAll<HTMLTableCellElement>('td, th'))
+    Array.from(
+      row.querySelectorAll<HTMLTableCellElement>('td, th')
+    ).filter((cell) => cell.closest('tr') === row)
   )
 }
 
