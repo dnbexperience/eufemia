@@ -609,6 +609,18 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   word-break: keep-all;
 }
 
+.dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__td.dnb-table__td--vertical-align-top {
+  vertical-align: top;
+}
+
+.dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__td.dnb-table__td--vertical-align-middle {
+  vertical-align: middle;
+}
+
+.dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__td.dnb-table__td--vertical-align-bottom {
+  vertical-align: bottom;
+}
+
 /*
 * Table component
 *
