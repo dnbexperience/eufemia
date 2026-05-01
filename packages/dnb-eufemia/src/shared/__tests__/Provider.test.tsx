@@ -20,6 +20,7 @@ import Provider from '../Provider'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import locales from '../../shared/locales'
 import Translation from '../Translation'
+import useTranslation from '../useTranslation'
 import * as TranslationModule from '../Translation'
 import { Form } from '../../extensions/forms'
 
@@ -914,6 +915,46 @@ describe('Provider', () => {
       // Should still render with default translations
       await waitFor(() => {
         expect(container.querySelector('span').textContent).toBeTruthy()
+      })
+    })
+
+    it('should support consumer error handling inside the loader', async () => {
+      const onError = jest.fn()
+
+      const errorTranslations = {
+        'nb-NO': {
+          errorMessage: 'Kunne ikke laste oversettelser',
+        },
+      }
+
+      type ErrorTranslation =
+        (typeof errorTranslations)[keyof typeof errorTranslations]
+
+      const loader = jest.fn(async () => {
+        try {
+          throw new Error('Network error')
+        } catch (error) {
+          onError(error)
+          return errorTranslations
+        }
+      })
+
+      const DisplayError = () => {
+        const { errorMessage } = useTranslation<ErrorTranslation>()
+        return <>{errorMessage}</>
+      }
+
+      const { container } = render(
+        <Provider translationsLoader={loader}>
+          <DisplayError />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(onError).toHaveBeenCalledWith(expect.any(Error))
+        expect(container.textContent).toBe(
+          'Kunne ikke laste oversettelser'
+        )
       })
     })
 
