@@ -35,7 +35,7 @@ export function HeadComponents({
   const formattedTitle = title ? formatTitle(title) : 'Eufemia'
   const siteUrl = 'https://eufemia.dnb.no'
   const fullUrl = pathname ? `${siteUrl}${pathname}` : siteUrl
-  const ogImage = `${siteUrl}/dnb/android-chrome-512x512.png`
+  const ogImage = `${siteUrl}/dnb/og-image.png`
   const defaultDescription =
     'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
 
@@ -57,8 +57,8 @@ export function HeadComponents({
       />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:image:width" content="512" />
-      <meta property="og:image:height" content="512" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="Eufemia Design System" />
 
       {pathname === '/' ? (
