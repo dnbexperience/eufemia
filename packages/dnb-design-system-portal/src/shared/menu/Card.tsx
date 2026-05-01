@@ -85,7 +85,7 @@ const StyledLink = styled(Link)`
   }
   &:focus-visible .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-focus);
-    --card-outline-width: 0.125rem;
+    --card-outline-width: var(--focus-ring-width);
   }
 `
 
