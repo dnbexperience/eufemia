@@ -3,11 +3,20 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { ContextProps, InternalLocale } from './Context'
 import Context, { prepareContext } from './Context'
+import { LOCALE } from './defaults'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
+import { warn } from './component-helper'
 
 export type ProviderProps = {
   /**
@@ -49,6 +58,56 @@ export default function Provider<Props>(
     },
     [update]
   )
+
+  const { translationsLoader, translations: propTranslations } = localProps
+
+  const propTranslationsRef = useRef(propTranslations)
+  propTranslationsRef.current = propTranslations
+
+  const translationsLoaderRef = useRef(translationsLoader)
+  translationsLoaderRef.current = translationsLoader
+
+  const effectiveLocale =
+    localContext?.__context__?.locale ||
+    localProps.locale ||
+    nestedContext.locale ||
+    LOCALE
+
+  useEffect(() => {
+    const loader = translationsLoaderRef.current
+    if (!loader) {
+      return undefined // stop here
+    }
+
+    let cancelled = false
+
+    loader(effectiveLocale)
+      .then((loaded) => {
+        if (!cancelled && loaded) {
+          const base = propTranslationsRef.current || {}
+          const merged = mergeTranslations(
+            base as Record<string, unknown>,
+            loaded as Record<string, unknown>
+          )
+
+          setLocalContext((prev) => ({
+            __context__: {
+              ...prev?.__context__,
+              translations: merged,
+            },
+          }))
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          warn('Provider: translationsLoader failed:', error)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [effectiveLocale])
 
   const value = useMemo(() => {
     const { children, ...rest } = localProps

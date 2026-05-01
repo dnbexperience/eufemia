@@ -81,6 +81,16 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  translations: {
+    doc: 'Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/uilib/usage/customisation/localization).',
+    type: 'object',
+    status: 'optional',
+  },
+  translationsLoader: {
+    doc: 'Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).',
+    type: 'function',
+    status: 'optional',
+  },
   countryCode: {
     doc: 'Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.',
     type: ['ISO 3166-1 alpha-2', 'Path/JSON Pointer'],

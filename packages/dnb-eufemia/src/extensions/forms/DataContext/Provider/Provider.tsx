@@ -196,6 +196,12 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     translations?: ContextProps['translations']
     /**
+     * Async function to load translations for a given locale.
+     * Called on mount and whenever the locale changes.
+     * The returned translations are merged with any existing translations.
+     */
+    translationsLoader?: ContextProps['translationsLoader']
+    /**
      * Make all fields required
      */
     required?: boolean
@@ -237,6 +243,7 @@ export default function Provider<Data extends JsonObject>(
     countryCode,
     locale,
     translations,
+    translationsLoader,
     required,
     errorMessages,
     isolate,
@@ -1824,6 +1831,9 @@ export default function Provider<Data extends JsonObject>(
         formElement={disabled ? { disabled: true } : undefined}
         locale={locale ? locale : undefined}
         translations={translations ? translations : undefined}
+        translationsLoader={
+          translationsLoader ? translationsLoader : undefined
+        }
       >
         {children}
       </FieldPropsProvider>
