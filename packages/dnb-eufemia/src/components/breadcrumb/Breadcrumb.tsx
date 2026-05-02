@@ -35,7 +35,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
-import { useMedia, useTheme } from '../../shared'
+import { useMedia } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbProps = {
@@ -253,9 +253,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       : spacing
     : undefined
 
-  const overrideSbankenSectionColor =
-    useTheme()?.isSbanken && collapsedStyleType === 'information'
-
   const navProps = applySpacing(allProps, {
     ...props,
     'aria-label': convertJsxToString(navText),
@@ -312,15 +309,8 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       {(currentVariant === 'collapse' ||
         currentVariant === 'responsive') && (
         <Section
-          variant={
-            overrideSbankenSectionColor ? undefined : collapsedStyleType
-          }
+          variant={collapsedStyleType}
           className="dnb-breadcrumb__collapse"
-          backgroundColor={
-            overrideSbankenSectionColor
-              ? 'var(--sb-color-gray-light-2)'
-              : undefined
-          }
         >
           <BreadcrumbMultiple
             data={data}
