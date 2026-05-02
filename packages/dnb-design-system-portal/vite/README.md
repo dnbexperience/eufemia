@@ -7,10 +7,10 @@ Fast development server for the Eufemia documentation portal, replacing Gatsby's
 ```bash
 yarn start              # Vite dev server (default)
 yarn start:gatsby       # Gatsby dev server (legacy)
-yarn build:vite         # Production build (prerender all routes)
-yarn build:vite:algolia # Push search index to Algolia
+yarn build              # Production build (prerender all routes)
+yarn build:algolia      # Push search index to Algolia
 yarn preview            # Preview the production build locally
-yarn test:e2e:vite      # Run e2e tests against a Vite preview server
+yarn test:e2e:portal    # Run e2e tests against a Vite preview server
 ```
 
 ## Directory Structure

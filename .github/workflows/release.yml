@@ -74,6 +74,14 @@ jobs:
           github.ref == 'refs/heads/portal')
         run: yarn workspace dnb-design-system-portal build:ci
 
+      - name: Push Algolia search index
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/portal')
+        run: yarn workspace dnb-design-system-portal build:algolia
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
