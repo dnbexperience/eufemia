@@ -126,6 +126,9 @@ function ArraySelection(props: FieldArraySelectionProps) {
     fieldBlockProps.labelHeight = 'small'
   }
   if (width) {
+    if (width === 'stretch') {
+      fieldBlockProps.width = width
+    }
     fieldBlockProps.contentWidth = width
   }
 
