@@ -62,10 +62,10 @@ describe('"isTouchDevice" should', () => {
 
 describe('"defineNavigator" should', () => {
   it('add "os" as an attribute to the HTML tag', () => {
-    window.IS_TEST = true
+    globalThis.IS_TEST = true
     defineNavigator()
     expect(document.documentElement.getAttribute('data-os')).toBe('other')
-    window.IS_TEST = false
+    globalThis.IS_TEST = false
   })
 })
 
