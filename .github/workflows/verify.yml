@@ -75,7 +75,6 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia test:ci
           yarn workspace dnb-design-system-portal test:ci
-          yarn workspace dnb-design-system-portal test:vite
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
 

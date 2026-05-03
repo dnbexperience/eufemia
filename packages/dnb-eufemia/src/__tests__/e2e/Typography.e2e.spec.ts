@@ -16,8 +16,8 @@ test.describe('Typography for UI', () => {
       '/quickguide-designer/fonts/?data-visual-test&eufemia-theme=ui'
     )
 
-    // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
+    // Check if app is mounted (Vite uses #root, Gatsby uses #eufemia-portal-root)
+    await page.waitForSelector('#root, #eufemia-portal-root', {
       state: 'attached',
     })
   })
@@ -103,8 +103,8 @@ test.describe('Typography for Sbanken', () => {
       '/quickguide-designer/fonts/?data-visual-test&eufemia-theme=sbanken'
     )
 
-    // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
+    // Check if app is mounted (Vite uses #root, Gatsby uses #eufemia-portal-root)
+    await page.waitForSelector('#root, #eufemia-portal-root', {
       state: 'attached',
     })
   })
