@@ -124,6 +124,7 @@ async function main() {
     docsRoot,
     outputRoot,
     metadataBySlug,
+    skipFormat: true,
   })
 
   await writeLlmsText({
