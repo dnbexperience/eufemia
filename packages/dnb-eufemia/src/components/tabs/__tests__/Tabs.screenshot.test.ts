@@ -110,6 +110,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 2rem 4rem 2rem',
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -166,6 +167,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 3rem 4rem 3rem',
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -197,6 +199,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 3rem 4rem 3rem',
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -211,6 +214,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__scroll-nav-button:first-child',
       simulate: 'click',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -232,6 +236,7 @@ describe.each(['ui'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
       simulate: 'click',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

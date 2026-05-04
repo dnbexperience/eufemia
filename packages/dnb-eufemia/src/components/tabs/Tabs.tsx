@@ -570,7 +570,7 @@ function TabsComponent(ownProps: TabsProps) {
         return // stop here
       }
 
-      if ((window as Window & { IS_TEST?: boolean }).IS_TEST) {
+      if (globalThis.IS_TEST) {
         behavior = 'auto'
       }
 
@@ -618,15 +618,13 @@ function TabsComponent(ownProps: TabsProps) {
 
             if (behavior === 'auto') {
               tablistRef.current.style.scrollBehavior = 'auto'
-            }
-
-            tablistRef.current.scrollTo({
-              left,
-              behavior,
-            })
-
-            if (behavior === 'auto') {
+              tablistRef.current.scrollLeft = left
               tablistRef.current.style.scrollBehavior = ''
+            } else {
+              tablistRef.current.scrollTo({
+                left,
+                behavior,
+              })
             }
 
             setIsFirst(isFirstItem)
@@ -637,8 +635,13 @@ function TabsComponent(ownProps: TabsProps) {
         }
       }
 
-      // Delay so Chrome/Safari makes the transition / animation smooth
-      window.requestAnimationFrame(delay)
+      if (globalThis.IS_TEST) {
+        // Run synchronously in tests to avoid rAF timing flakiness
+        delay()
+      } else {
+        // Delay so Chrome/Safari makes the transition / animation smooth
+        window.requestAnimationFrame(delay)
+      }
     },
     []
   )
