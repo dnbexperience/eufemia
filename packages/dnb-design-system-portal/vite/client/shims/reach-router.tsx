@@ -9,16 +9,16 @@ import {
   useLocation as useRRLocation,
   Link as RRLink,
 } from 'react-router-dom'
-import { navigate as gatsbyNavigate } from 'gatsby'
+import { navigate as portalNavigate } from './portal-query'
 import React from 'react'
 
 export function useLocation() {
   return useRRLocation()
 }
 
-// Re-use the gatsby shim's navigate so it goes through React Router
+// Re-use the portal-query navigate so it goes through React Router
 export function navigate(to: string, options?: { replace?: boolean }) {
-  gatsbyNavigate(to, options)
+  portalNavigate(to, options)
 }
 
 export const Link = RRLink

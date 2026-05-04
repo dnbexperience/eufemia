@@ -10,7 +10,7 @@ import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
-import { navigate } from 'gatsby'
+import { navigate } from 'portal-query'
 
 export const defaultTabsValue = [
   { title: 'Info', key: '/info' },
@@ -117,7 +117,7 @@ export default function TabBar({
       )}
       <Tabs
         id="tab-bar"
-        // @ts-expect-error -- strictFunctionTypes
+        // @ts-expect-error -- navigate expects string, TabsSelectedKey includes number
         onOpenTabNavigationFn={navigate}
         tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}

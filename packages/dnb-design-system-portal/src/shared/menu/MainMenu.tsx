@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'portal-query'
 import Card from './Card'
 import {
   UilibSvg,

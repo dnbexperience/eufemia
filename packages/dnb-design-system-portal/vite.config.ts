@@ -286,15 +286,14 @@ export default defineConfig({
     ],
 
     alias: {
-      // Gatsby import shims
-      gatsby: path.resolve(__dirname, 'vite/client/shims/gatsby.tsx'),
+      // Portal data query layer (useStaticQuery, graphql, navigate)
+      'portal-query': path.resolve(
+        __dirname,
+        'vite/client/shims/portal-query.tsx'
+      ),
       'gatsby-plugin-eufemia-theme-handler': path.resolve(
         __dirname,
         'vite/client/shims/theme-handler.ts'
-      ),
-      '@gatsbyjs/reach-router': path.resolve(
-        __dirname,
-        'vite/client/shims/reach-router.tsx'
       ),
 
       // Match Gatsby's Docs alias

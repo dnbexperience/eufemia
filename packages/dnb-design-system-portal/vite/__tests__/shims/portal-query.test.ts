@@ -44,7 +44,7 @@ vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
 }))
 
-import { graphql, useStaticQuery } from '../../client/shims/gatsby'
+import { graphql, useStaticQuery } from '../../client/shims/portal-query'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyResult = any
@@ -52,7 +52,7 @@ type AnyResult = any
 // eslint-disable-next-line react-hooks/rules-of-hooks -- not a real hook, just a shim under test
 const runQuery = (q: string): AnyResult => useStaticQuery(q)
 
-describe('gatsby shim', () => {
+describe('portal-query', () => {
   describe('graphql', () => {
     it('joins template literal strings', () => {
       const result = graphql`

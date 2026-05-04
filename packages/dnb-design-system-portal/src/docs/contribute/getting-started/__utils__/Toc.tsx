@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'portal-query'
 import TableOfContents from '../../../../shared/parts/TableOfContents'
 
 const Toc = () => {

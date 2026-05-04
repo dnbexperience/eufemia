@@ -1,28 +1,12 @@
 /**
- * Shims for Gatsby-specific imports so portal source code works under Vite.
+ * Portal data query layer.
  *
- * Replaces: import { Link, graphql, useStaticQuery, navigate } from 'gatsby'
+ * Provides useStaticQuery and graphql for querying MDX page data,
+ * plus navigate for imperative routing outside React components.
  */
 
-import React from 'react'
-import {
-  Link as RouterLink,
-  useNavigate,
-  type LinkProps as RouterLinkProps,
-} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { allMdxNodes } from 'virtual:portal-pages'
-
-// Re-export Link as a wrapper around react-router-dom's Link
-type GatsbyLinkProps = Omit<RouterLinkProps, 'to'> & {
-  to: string
-  activeClassName?: string
-}
-export const Link = React.forwardRef<HTMLAnchorElement, GatsbyLinkProps>(
-  ({ to, activeClassName, ...rest }, ref) => {
-    return <RouterLink ref={ref} to={to} {...rest} />
-  }
-)
-Link.displayName = 'Link'
 
 // graphql tag — preserves the query string so useStaticQuery can
 // extract content path filters from it.
@@ -34,7 +18,8 @@ export function graphql(strings: TemplateStringsArray) {
 // Gatsby's GraphQL layer filters (e.g. title != null, draft != true) –
 // replicate the most common filters here so portal code that relies on
 // them (SidebarMenu, ListComponents) doesn't crash on missing titles.
-export function useStaticQuery(query: unknown) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useStaticQuery(query: unknown): any {
   const queryStr = typeof query === 'string' ? query : ''
 
   const siteData = {
@@ -222,6 +207,6 @@ export function navigate(to: string, options?: { replace?: boolean }) {
  * Hook to capture navigate function from react-router context.
  * Must be called once inside the Router.
  */
-export function useGatsbyNavigateSetup() {
+export function useNavigateSetup() {
   _navigate = useNavigate()
 }

@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 
 export default function ListEufemiaVersions(props) {

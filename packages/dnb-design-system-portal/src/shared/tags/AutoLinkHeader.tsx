@@ -5,7 +5,7 @@ import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { useLocation } from '@gatsbyjs/reach-router'
+import { useLocation } from 'react-router-dom'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {
@@ -16,7 +16,7 @@ type AutoLinkHeaderProps = {
     title,
     hash,
   }: {
-    location?: Location
+    location?: { pathname: string; search: string; hash: string }
     title?: string | React.ReactNode
     hash?: string
   }) => void

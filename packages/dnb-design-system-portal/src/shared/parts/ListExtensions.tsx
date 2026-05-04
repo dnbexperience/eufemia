@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from './ListSummaryFromEdges'
 
 export default function ListExtensions(props) {

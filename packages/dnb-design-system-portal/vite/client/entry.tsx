@@ -31,8 +31,7 @@ import {
 } from '../../src/core/PortalProviders'
 import tags from '../../src/shared/tags'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
-// @ts-expect-error -- resolved via Vite alias to ./shims/gatsby.tsx
-import { useGatsbyNavigateSetup } from 'gatsby'
+import { useNavigateSetup } from 'portal-query'
 import PortalLayout from '../../src/core/PortalLayout'
 
 // Import all Eufemia theme styles (core + all themes)
@@ -105,7 +104,7 @@ function SkeletonEnabled({ children }: { children: React.ReactNode }) {
 
 function PageWrapper() {
   const location = useLocation()
-  useGatsbyNavigateSetup()
+  useNavigateSetup()
   useCatchLinks()
   usePrefetchOnHover()
   useScrollPosition()

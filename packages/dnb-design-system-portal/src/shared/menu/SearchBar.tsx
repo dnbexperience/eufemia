@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
-import { navigate } from 'gatsby'
+import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
   autocompleteStyle,
