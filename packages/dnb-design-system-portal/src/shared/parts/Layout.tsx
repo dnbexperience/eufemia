@@ -176,7 +176,7 @@ const Footer = () => {
         Portal update: {packageJson.buildVersion}
       </P>
 
-      <Logo height="40" color="white" />
+      <Logo height="40" />
 
       <Anchor to="/license">Copyright (c) 2018-present DNB.no</Anchor>
     </Section>
