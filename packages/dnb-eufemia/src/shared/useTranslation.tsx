@@ -16,6 +16,7 @@ import Context from './Context'
 import defaultLocales from './locales'
 import { isObject, warn } from './component-helper'
 import type { ICUFormatMessage } from './icuFormatMessage'
+import { LOCALE } from './defaults'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
@@ -257,7 +258,7 @@ export type CombineWithExternalTranslationsReturn = Translation &
 export function useAdditionalUtils(messageFormatter?: ICUFormatMessage) {
   const translationsRef =
     useRef<CombineWithExternalTranslationsReturn>(undefined)
-  const localeRef = useRef<string>('nb-NO')
+  const localeRef = useRef<string>(LOCALE)
   const messageFormatterRef = useRef<ICUFormatMessage | undefined>(
     messageFormatter
   )
@@ -367,11 +368,7 @@ export function formatMessage(
   if (typeof str === 'string') {
     if (args && messageFormatter && messageFormatter.isICU(str)) {
       try {
-        const result = messageFormatter.format(
-          str,
-          args,
-          locale || 'nb-NO'
-        )
+        const result = messageFormatter.format(str, args, locale || LOCALE)
 
         if (Array.isArray(result)) {
           return (
