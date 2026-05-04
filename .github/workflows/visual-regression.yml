@@ -43,6 +43,7 @@ env:
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
   RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
+  PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
   visual-regression:

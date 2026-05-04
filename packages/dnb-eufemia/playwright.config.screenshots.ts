@@ -1,6 +1,17 @@
 import { defineConfig } from '@playwright/test'
 import { isCI } from 'repo-utils'
 
+const configuredScreenshotWorkers =
+  process.env.PLAYWRIGHT_SCREENSHOT_WORKERS
+
+const screenshotWorkers = configuredScreenshotWorkers
+  ? /^\d+%$/.test(configuredScreenshotWorkers)
+    ? configuredScreenshotWorkers
+    : Number(configuredScreenshotWorkers)
+  : isCI
+    ? 1
+    : '50%'
+
 export default defineConfig({
   testDir: './src/',
   testMatch: '*screenshot.test.{ts,tsx}',
@@ -9,7 +20,7 @@ export default defineConfig({
   fullyParallel: false,
 
   retries: isCI ? 5 : 0,
-  workers: isCI ? 1 : '50%',
+  workers: screenshotWorkers,
 
   reporter: [['list'], ['./src/core/playwright/screenshotReporter.ts']],
 
