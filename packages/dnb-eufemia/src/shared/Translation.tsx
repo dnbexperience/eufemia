@@ -22,14 +22,21 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
   children,
   ...params
 }: TranslationProps<T>) => {
-  const { translation } = useContext(SharedContext)
+  const { translation, locale, messageFormatter } =
+    useContext(SharedContext)
   const result = formatMessage(
     (id || children) as
       | string
       | TranslationIdAsFunction<TranslationCustomLocales>,
     params,
-    translation
+    translation,
+    locale,
+    messageFormatter
   )
+
+  if (React.isValidElement(result) || Array.isArray(result)) {
+    return <>{result}</>
+  }
 
   if (typeof result !== 'string') {
     return <>{String(id)}</>

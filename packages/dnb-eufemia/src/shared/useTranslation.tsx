@@ -15,6 +15,8 @@ import type {
 import Context from './Context'
 import defaultLocales from './locales'
 import { isObject, warn } from './component-helper'
+import type { ICUFormatMessage } from './icuFormatMessage'
+import { LOCALE } from './defaults'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
@@ -39,9 +41,9 @@ export default function useTranslation<
   messages?: UseTranslationMessages<T> | UseTranslationArgs<T>,
   args?: TranslationArguments
 ) {
-  const { locale, translation } = useContext(Context)
+  const { locale, translation, messageFormatter } = useContext(Context)
   const { translations: contextTranslations } = useContext(Context)
-  const { assignUtils } = useAdditionalUtils()
+  const { assignUtils } = useAdditionalUtils(messageFormatter)
 
   const { extMessages, fallbackLocale, baseOverride, warnLabel } =
     useMemo(() => {
@@ -89,7 +91,8 @@ export default function useTranslation<
         translation: (baseOverride || translation) as Translation,
         messages: extMessages as TranslationCustomLocales,
         locale: translationLocale,
-      })
+      }),
+      translationLocale
     ) as TranslationFlatToObject<T> & AdditionalReturnUtils
 
     // Inline fallback behavior (opt-in via object arg)
@@ -252,13 +255,24 @@ export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
   AdditionalReturnUtils
 
-export function useAdditionalUtils() {
+export function useAdditionalUtils(messageFormatter?: ICUFormatMessage) {
   const translationsRef =
     useRef<CombineWithExternalTranslationsReturn>(undefined)
+  const localeRef = useRef<string>(LOCALE)
+  const messageFormatterRef = useRef<ICUFormatMessage | undefined>(
+    messageFormatter
+  )
+  messageFormatterRef.current = messageFormatter
 
   const fM = useCallback(
     (id: TranslationId, args: TranslationArguments) => {
-      return formatMessage(id, args, translationsRef.current)
+      return formatMessage(
+        id,
+        args,
+        translationsRef.current,
+        localeRef.current,
+        messageFormatterRef.current
+      )
     },
     []
   )
@@ -268,8 +282,14 @@ export function useAdditionalUtils() {
   }, [])
 
   const assignUtils = useCallback(
-    (translations: CombineWithExternalTranslationsReturn) => {
+    (
+      translations: CombineWithExternalTranslationsReturn,
+      locale?: string
+    ) => {
       translationsRef.current = translations
+      if (locale) {
+        localeRef.current = locale
+      }
       Object.assign(translations, { formatMessage: fM, renderMessage: rM })
       return translations
     },
@@ -306,7 +326,9 @@ export function combineWithExternalTranslations({
 export function formatMessage(
   id: TranslationId | TranslationIdAsFunction,
   args?: TranslationArguments,
-  messages?: TranslationCustomLocales
+  messages?: TranslationCustomLocales,
+  locale?: string,
+  messageFormatter?: ICUFormatMessage
 ) {
   let str = undefined
 
@@ -330,6 +352,13 @@ export function formatMessage(
       }
     }
     if (!found && typeof id === 'string') {
+      // Only warn when the id looks like a message path (e.g. "MyForm.title").
+      // Raw strings passed directly (e.g. already-resolved translations) are not missing keys.
+      if (id.includes('.')) {
+        warn(
+          `formatMessage: Could not resolve translation key "${id}". It may be missing or incorrectly formatted.`
+        )
+      }
       str = id
     }
   } else if (typeof id === 'function') {
@@ -337,9 +366,55 @@ export function formatMessage(
   }
 
   if (typeof str === 'string') {
+    if (args && messageFormatter && messageFormatter.isICU(str)) {
+      try {
+        const result = messageFormatter.format(str, args, locale || LOCALE)
+
+        if (Array.isArray(result)) {
+          return (
+            <>
+              {result.map((part, i) => (
+                <Fragment key={i}>{part as React.ReactNode}</Fragment>
+              ))}
+            </>
+          )
+        }
+
+        return result
+      } catch (e) {
+        warn(
+          `formatMessage: ICU formatting failed for "${typeof id === 'string' ? id : '(function)'}":`,
+          e
+        )
+
+        return typeof id === 'string' ? id : str
+      }
+    }
+
+    let hasTagHandlers = false
+
     for (const t in args) {
+      if (typeof args[t] === 'function' && str.includes(`<${t}>`)) {
+        hasTagHandlers = true
+        continue
+      }
+
+      const value = typeof args[t] === 'function' ? args[t]() : args[t]
       const regex = new RegExp(`{${t}}`, 'g')
-      str = str.replace(regex, args[t])
+      str = str.replace(regex, value)
+    }
+
+    // Warn about unreplaced placeholders (e.g. missing variables).
+    // Exclude {br} which is handled by renderWithFormatting.
+    const unreplaced = str.match(/\{(\w+)\}/g)?.filter((p) => p !== '{br}')
+    if (unreplaced?.length > 0) {
+      warn(
+        `formatMessage: Unreplaced placeholder(s) ${unreplaced.join(', ')} in "${typeof id === 'string' ? id : '(function)'}".`
+      )
+    }
+
+    if (hasTagHandlers) {
+      return renderTags(str, args)
     }
   }
 
@@ -365,4 +440,47 @@ export function renderMessage(
   }
 
   return text
+}
+
+function renderTags(
+  str: string,
+  args: Record<string, unknown>
+): React.ReactNode {
+  const TAG_RE = /<(\w+)>([\s\S]*?)<\/\1>/
+  const parts: React.ReactNode[] = []
+  let remaining = str
+  let match: RegExpExecArray | null
+
+  while ((match = TAG_RE.exec(remaining)) !== null) {
+    const [fullMatch, tagName, content] = match
+
+    if (match.index > 0) {
+      parts.push(remaining.slice(0, match.index))
+    }
+
+    const handler = args[tagName]
+    if (typeof handler === 'function') {
+      parts.push(handler(content))
+    } else {
+      parts.push(fullMatch)
+    }
+
+    remaining = remaining.slice(match.index + fullMatch.length)
+  }
+
+  if (remaining) {
+    parts.push(remaining)
+  }
+
+  if (parts.length === 1 && typeof parts[0] === 'string') {
+    return parts[0]
+  }
+
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Fragment key={i}>{part}</Fragment>
+      ))}
+    </>
+  )
 }

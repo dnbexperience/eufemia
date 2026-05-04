@@ -8,6 +8,7 @@ import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
 import pointer from '../extensions/forms/utils/json-pointer'
+import type { ICUFormatMessage } from './icuFormatMessage'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -185,6 +186,13 @@ export type ContextProps = ContextComponents & {
    * The returned translations are merged with any existing translations.
    */
   translationsLoader?: TranslationsLoader
+
+  /**
+   * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
+   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+   * pluralization, select, and other ICU features in translation strings.
+   */
+  messageFormatter?: ICUFormatMessage
 
   // -- For internal use --
   __context__?: Record<string, unknown>

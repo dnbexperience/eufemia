@@ -78,6 +78,14 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
     sharedProviderParams.translationsLoader = translationsLoader
   }
 
+  const messageFormatter =
+    dataContextRef.current?.props?.messageFormatter ??
+    restProps?.messageFormatter
+
+  if (messageFormatter) {
+    sharedProviderParams.messageFormatter = messageFormatter
+  }
+
   const extend = useCallback(
     <T extends FieldProps>(fieldProps: T) => {
       // Extract props from data context to be used in fields
