@@ -14,6 +14,88 @@ import type {
   TestResult,
 } from '@playwright/test/reporter'
 
+export type FailedTestEntry = {
+  testFilePath: string
+  relativeTestFilePath: string
+  fullName: string
+  title: string
+  message: string
+  expectedImagePath: string | null
+  actualImagePath: string | null
+  diffImagePath: string | null
+  dataVisualTestId: string | null
+  lineNumber: number | null
+}
+
+function countAttachedImages({
+  expectedImagePath,
+  actualImagePath,
+  diffImagePath,
+}: Pick<
+  FailedTestEntry,
+  'expectedImagePath' | 'actualImagePath' | 'diffImagePath'
+>) {
+  return [expectedImagePath, actualImagePath, diffImagePath].filter(
+    Boolean
+  ).length
+}
+
+export function getFailedTestKey({
+  testFilePath,
+  fullName,
+}: Pick<FailedTestEntry, 'testFilePath' | 'fullName'>) {
+  return `${testFilePath}::${fullName}`
+}
+
+export function selectFailedTestAttempt({
+  previous,
+  next,
+}: {
+  previous: FailedTestEntry
+  next: FailedTestEntry
+}) {
+  const previousAttachmentCount = countAttachedImages(previous)
+  const nextAttachmentCount = countAttachedImages(next)
+
+  if (nextAttachmentCount > previousAttachmentCount) {
+    return next
+  }
+
+  if (nextAttachmentCount === previousAttachmentCount) {
+    return next
+  }
+
+  return previous
+}
+
+export function resolveExpectedImagePath({
+  expectedImagePath,
+  actualImagePath,
+  diffImagePath,
+}: {
+  expectedImagePath: string | null
+  actualImagePath: string | null
+  diffImagePath: string | null
+}): string | null {
+  const artifactImagePath = actualImagePath || diffImagePath
+
+  if (artifactImagePath) {
+    const artifactExpectedImagePath = artifactImagePath.replace(
+      /-(actual|diff)\.png$/,
+      '-expected.png'
+    )
+
+    if (
+      artifactExpectedImagePath !== artifactImagePath &&
+      fs.existsSync(artifactExpectedImagePath)
+    ) {
+      return artifactExpectedImagePath
+    }
+  }
+
+  return expectedImagePath
+}
+
 function extractTestMetadata(
   testFilePath: string,
   title: string
@@ -43,18 +125,7 @@ function extractTestMetadata(
 }
 
 class ScreenshotReporter implements Reporter {
-  private failedTests: Array<{
-    testFilePath: string
-    relativeTestFilePath: string
-    fullName: string
-    title: string
-    message: string
-    expectedImagePath: string | null
-    actualImagePath: string | null
-    diffImagePath: string | null
-    dataVisualTestId: string | null
-    lineNumber: number | null
-  }> = []
+  private failedTests = new Map<string, FailedTestEntry>()
 
   onTestEnd(test: TestCase, result: TestResult) {
     if (result.status !== 'failed') {
@@ -84,13 +155,19 @@ class ScreenshotReporter implements Reporter {
       }
     }
 
+    expectedImagePath = resolveExpectedImagePath({
+      expectedImagePath,
+      actualImagePath,
+      diffImagePath,
+    })
+
     // Extract error message
     const message = result.errors
       .map((e) => e.message || '')
       .join('\n')
       .replace(/\n/g, '<br />')
 
-    this.failedTests.push({
+    const failedTestEntry = {
       testFilePath,
       relativeTestFilePath,
       fullName: test.titlePath().join(' › '),
@@ -101,13 +178,28 @@ class ScreenshotReporter implements Reporter {
       diffImagePath,
       dataVisualTestId,
       lineNumber,
-    })
+    }
+
+    const failedTestKey = getFailedTestKey(failedTestEntry)
+    const previousFailedTest = this.failedTests.get(failedTestKey)
+
+    this.failedTests.set(
+      failedTestKey,
+      previousFailedTest
+        ? selectFailedTestAttempt({
+            previous: previousFailedTest,
+            next: failedTestEntry,
+          })
+        : failedTestEntry
+    )
   }
 
   onEnd(result: FullResult) {
-    if (this.failedTests.length === 0) {
+    if (this.failedTests.size === 0) {
       return // stop here
     }
+
+    const failedTests = Array.from(this.failedTests.values())
 
     const cwd = process.cwd()
     const reportDir = path.join(cwd, 'jest-visual-diff-report')
@@ -121,13 +213,13 @@ class ScreenshotReporter implements Reporter {
     }
 
     console.log(
-      `\n\n${cliColors.bold}${cliColors.yellow}The report file and diffs images (${this.failedTests.length}): \n\n${cliColors.reset}`
+      `\n\n${cliColors.bold}${cliColors.yellow}The report file and diffs images (${failedTests.length}): \n\n${cliColors.reset}`
     )
     console.log(
       `🔖 ${cliColors.dim}file://${htmlFilePath}\n${cliColors.reset}`
     )
 
-    const liElementHtml = this.failedTests
+    const liElementHtml = failedTests
       .map(
         (
           {
@@ -287,7 +379,7 @@ class ScreenshotReporter implements Reporter {
 
     <body>
       <ol class="dnb-ul">
-        <li>Failed Tests: <b>${this.failedTests.length}</b></li>
+        <li>Failed Tests: <b>${failedTests.length}</b></li>
         ${liElementHtml}
       </ol>
 
