@@ -1062,12 +1062,14 @@ legend.dnb-form-label {
   display: inline-flex;
   flex-direction: column;
   width: auto;
+  color: inherit;
 }
 .dnb-input__shell {
   position: relative;
   background-color: var(--input-background-color);
   display: flex;
   align-items: center;
+  color: inherit;
   border: none;
 }
 .dnb-input__row {
@@ -1417,6 +1419,10 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   top: 0;
   bottom: 0;
   margin: auto;
+  color: var(--token-color-icon-action);
+}
+.dnb-input__status--error .dnb-input__icon {
+  color: var(--token-color-icon-error);
 }
 .dnb-input--icon-position-right .dnb-input__icon {
   order: 1;
@@ -1436,7 +1442,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 html[data-visual-test] .dnb-input__input {
-  caret-color: var(--color-white);
+  caret-color: var(--token-color-background-neutral);
 }
 .dnb-input[data-input-state=focus] .dnb-input__placeholder {
   display: none;
@@ -1465,17 +1471,5 @@ exports[`Input scss > have to match default theme snapshot 1`] = `
 "/*
 * Input theme
 *
-*/
-.dnb-input__inner {
-  color: inherit;
-}
-.dnb-input__shell {
-  color: inherit;
-}
-.dnb-input__icon {
-  color: var(--color-sea-green);
-}
-.dnb-input__status--error .dnb-input__icon {
-  color: var(--color-fire-red);
-}"
+*/"
 `;
