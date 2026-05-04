@@ -1,184 +1,189 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/autocomplete/demos/',
-    pageViewport: {
-      height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
-    },
-  })
-
-  // Run this test as one of the first because it's scroll-sensitive
-  // Browser scroll position affects the list height
-  it('have to match autocomplete with search result', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-drawer-search"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--open',
-      style: {
-        height: '30rem',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Autocomplete for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/autocomplete/demos/',
+      pageViewport: {
+        height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
       },
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/autocomplete/demos/',
-  })
-
-  it('have to match different sizes', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-sizes"]',
+    // Run this test as one of the first because it's scroll-sensitive
+    // Browser scroll position affects the list height
+    test('have to match autocomplete with search result', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-drawer-search"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
+        simulate: 'click',
+        waitAfterSimulateSelector:
+          '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--open',
+        style: {
+          height: '30rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
+}
 
-  it('have to match custom input width', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-input-width"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Autocomplete for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/autocomplete/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match autocomplete with drawer-button', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-drawer-button"] .dnb-autocomplete__inner',
+    test('have to match different sizes', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-sizes"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the closed autocomplete', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
+    test('have to match custom input width', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-input-width"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match autocomplete with suffix value', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-suffix"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete--open',
-      simulate: 'click',
-      style: {
-        height: '25rem',
+    test('have to match autocomplete with drawer-button', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-drawer-button"] .dnb-autocomplete__inner',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match the closed autocomplete', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match autocomplete with suffix value', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-suffix"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
+        waitAfterSimulateSelector:
+          '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete--open',
+        simulate: 'click',
+        style: {
+          height: '25rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match autocomplete with groups', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-groups"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
+        waitAfterSimulateSelector:
+          '[data-visual-test="autocomplete-groups"] .dnb-autocomplete--open',
+        simulate: 'click',
+        style: {
+          height: '29rem',
+        },
+        simulateAfter: { keypress: 'Escape' },
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match the status with status_state information', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-status-information"] .dnb-autocomplete__inner',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match the status with status_state error', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+  })
+}
+
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Autocomplete for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/autocomplete/demos/',
+      pageViewport: {
+        width: 700,
       },
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match autocomplete with groups', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-groups"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-groups"] .dnb-autocomplete--open',
-      simulate: 'click',
-      style: {
-        height: '29rem',
-      },
-      simulateAfter: { keypress: 'Escape' },
+    test('have to match small screen autocomplete with suffix value', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-suffix"]',
+        style: {
+          height: '4rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
+}
 
-  it('have to match the status with status_state information', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-status-information"] .dnb-autocomplete__inner',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Autocomplete for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/autocomplete/visual-tests/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the status with status_state error', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
+    test('have to match disabled state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-disabled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/autocomplete/demos/',
-    pageViewport: {
-      width: 700,
-    },
-  })
-
-  it('have to match small screen autocomplete with suffix value', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-suffix"]',
-      style: {
-        height: '4rem',
-      },
+    test('have to match disabled options', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-disabled-options"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
+        waitAfterSimulateSelector:
+          '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete--open',
+        simulate: 'click',
+        style: {
+          height: '25rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/autocomplete/visual-tests/',
-  })
-
-  it('have to match disabled state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-disabled"]',
+    test('have to match autocomplete opened list', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-opened"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
+        waitAfterSimulateSelector:
+          '[data-visual-test="autocomplete-opened"] .dnb-autocomplete--open',
+        simulate: 'click',
+        style: {
+          height: '40rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match disabled options', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-disabled-options"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete--open',
-      simulate: 'click',
-      style: {
-        height: '25rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match autocomplete opened list', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-opened"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-opened"] .dnb-autocomplete--open',
-      simulate: 'click',
-      style: {
-        height: '40rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+}

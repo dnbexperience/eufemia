@@ -1,14 +1,13 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
-
-describe('Iterate.EditContainer', () => {
+test.describe('Iterate.EditContainer', () => {
   const url = '/uilib/extensions/forms/Iterate/EditContainer/demos/'
 
-  it('have to match edit container with error', async () => {
+  test('have to match edit container with error', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="edit-container-error"]',
@@ -19,6 +18,6 @@ describe('Iterate.EditContainer', () => {
         '[data-visual-test="edit-container-error"] .dnb-form-status',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

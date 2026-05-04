@@ -1,14 +1,11 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('CopyOnClick', () => {
+test.describe('CopyOnClick', () => {
   setupPageScreenshot({
     url: '/uilib/components/copy-on-click/demos/',
   })
@@ -19,7 +16,7 @@ describe('CopyOnClick', () => {
     'max-width': '30rem',
   }
 
-  it('have to match tooltip', async () => {
+  test('have to match tooltip', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-default"]',
       style,
@@ -28,11 +25,11 @@ describe('CopyOnClick', () => {
       waitAfterSimulateSelector: '.dnb-tooltip--active',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
 
-describe('CopyOnClick in drawer', () => {
+test.describe('CopyOnClick in drawer', () => {
   const pageViewport = {
     width: 200,
     height: 200,
@@ -42,7 +39,7 @@ describe('CopyOnClick in drawer', () => {
     pageViewport,
   })
 
-  it('have to match tooltip', async () => {
+  test('have to match tooltip', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-inside-drawer"]',
       simulate: 'click',
@@ -51,6 +48,6 @@ describe('CopyOnClick in drawer', () => {
       waitAfterSimulateSelector: '.dnb-tooltip--active',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,43 +1,41 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
-  'Typography for %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+  test.describe(`Typography for ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/typography/',
     })
 
-    it('have to match all the typography variants', async () => {
+    test('have to match all the typography variants', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
-  }
-)
-
-describe.each(['sbanken'])('Typography mobile for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/typography/',
-    pageViewport: {
-      width: 400,
-    },
   })
+}
 
-  it('have to match all the typography variants', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="typography-variants"]',
+for (const themeName of ['sbanken']) {
+  test.describe(`Typography mobile for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/typography/',
+      pageViewport: {
+        width: 400,
+      },
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match all the typography variants', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="typography-variants"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

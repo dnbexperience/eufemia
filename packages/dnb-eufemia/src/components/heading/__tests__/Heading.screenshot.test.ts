@@ -1,71 +1,69 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
-  'Heading for %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken', 'eiendom']) {
+  test.describe(`Heading for ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/heading/demos/',
     })
 
-    it('have to match default headings', async () => {
+    test('have to match default headings', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match headings with context usage', async () => {
+    test('have to match headings with context usage', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-context"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match headings with manual mixin', async () => {
+    test('have to match headings with manual mixin', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-mixin"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
-  }
-)
-
-describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/heading/demos/',
-    pageViewport: {
-      width: 400,
-    },
   })
+}
 
-  it('have to match default headings', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="heading-default"]',
+for (const themeName of ['sbanken']) {
+  test.describe(`Heading mobile for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/heading/demos/',
+      pageViewport: {
+        width: 400,
+      },
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match headings with context usage', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="heading-context"]',
+    test('have to match default headings', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-default"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match headings with manual mixin', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="heading-mixin"]',
+    test('have to match headings with context usage', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-context"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match headings with manual mixin', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-mixin"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

@@ -1,33 +1,30 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Field.SelectCurrency', () => {
+test.describe('Field.SelectCurrency', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/feature-fields/SelectCurrency/demos/',
   })
 
-  it('match vertical layout', async () => {
+  test('match vertical layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-currency-vertical-layout"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('match horizontal layout', async () => {
+  test('match horizontal layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-currency-horizontal-layout"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('match when opened', async () => {
+  test('match when opened', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-currency-opened"]',
       simulateSelector:
@@ -47,6 +44,6 @@ describe('Field.SelectCurrency', () => {
         })
       },
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

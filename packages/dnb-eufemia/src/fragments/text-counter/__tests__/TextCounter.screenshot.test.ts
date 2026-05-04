@@ -1,37 +1,36 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('TextCounter for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/fragments/text-counter/demos/',
-  })
-
-  it('have to character counter downwards', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-down"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`TextCounter for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/fragments/text-counter/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to character counter upwards', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-up"]',
+    test('have to character counter downwards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-down"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to character counter exceeded', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="text-counter-exceeded"]',
+    test('have to character counter upwards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-up"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to character counter exceeded', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="text-counter-exceeded"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

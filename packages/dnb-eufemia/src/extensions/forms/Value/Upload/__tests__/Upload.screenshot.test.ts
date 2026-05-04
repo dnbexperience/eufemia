@@ -1,68 +1,70 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Value.Upload', () => {
+test.describe('Value.Upload', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Value/Upload/demos/',
   })
 
-  it('have to match default upload value', async () => {
+  test('have to match default upload value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match upload displaying size', async () => {
+  test('have to match upload displaying size', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-size"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match list upload inline', async () => {
+  test('have to match list upload inline', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-inline"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match label and value', async () => {
+  test('have to match label and value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-label-and-value"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match label and value with on file click', async () => {
+  test('have to match label and value with on file click', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="upload-value-label-and-value-on-file-click"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match list', async () => {
+  test('have to match list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-lists"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match list with on file click', async () => {
+  test('have to match list with on file click', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-lists-on-file-click"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match files as non-clickable', async () => {
+  test('have to match files as non-clickable', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="upload-value-display-file-as-non-clickable"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

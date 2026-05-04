@@ -1,33 +1,30 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Field.SelectCountry', () => {
+test.describe('Field.SelectCountry', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/feature-fields/SelectCountry/demos/',
   })
 
-  it('matches vertical layout', async () => {
+  test('matches vertical layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-country-vertical-layout"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('matches horizontal layout', async () => {
+  test('matches horizontal layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-country-horizontal-layout"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('matches when opened', async () => {
+  test('matches when opened', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-country-opened"]',
       simulateSelector:
@@ -39,6 +36,6 @@ describe('Field.SelectCountry', () => {
         height: '30rem',
       },
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

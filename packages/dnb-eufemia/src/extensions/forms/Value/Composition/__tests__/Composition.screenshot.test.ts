@@ -1,59 +1,61 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Value.Composition', () => {
+test.describe('Value.Composition', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Value/Composition/demos/',
   })
 
-  it('have to match forms-value-composition-default', async () => {
+  test('have to match forms-value-composition-default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match forms-value-composition-summary-list', async () => {
+  test('have to match forms-value-composition-summary-list', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match forms-value-composition-summary-list-combined', async () => {
+  test('have to match forms-value-composition-summary-list-combined', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list-combined"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match forms-value-composition-help', async () => {
+  test('have to match forms-value-composition-help', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-help"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match forms-value-composition-wrapping', async () => {
+  test('have to match forms-value-composition-wrapping', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-wrapping"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match forms-value-composition-summary-list-grid', async () => {
+  test('have to match forms-value-composition-summary-list-grid', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list-grid"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  describe('small', () => {
+  test.describe('small', () => {
     setupPageScreenshot({
       url: '/uilib/extensions/forms/Value/Composition/demos/',
       pageViewport: {
@@ -61,24 +63,24 @@ describe('Value.Composition', () => {
       },
     })
 
-    it('have to match forms-value-composition-summary-list', async () => {
+    test('have to match forms-value-composition-summary-list', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match forms-value-composition-summary-list-grid', async () => {
+    test('have to match forms-value-composition-summary-list-grid', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list-grid"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
   })
 
-  describe('x-small', () => {
+  test.describe('x-small', () => {
     setupPageScreenshot({
       url: '/uilib/extensions/forms/Value/Composition/demos/',
       pageViewport: {
@@ -86,12 +88,12 @@ describe('Value.Composition', () => {
       },
     })
 
-    it('have to match forms-value-composition-summary-list-grid', async () => {
+    test('have to match forms-value-composition-summary-list-grid', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list-grid"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
   })
 })

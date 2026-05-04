@@ -1,19 +1,16 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('Icon', () => {
+test.describe('Icon', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos/',
   })
 
-  it('have to match default icons setup', async () => {
+  test('have to match default icons setup', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -22,10 +19,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match inherited sized icons', async () => {
+  test('have to match inherited sized icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -34,10 +31,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-inherit-sized"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match icons with border', async () => {
+  test('have to match icons with border', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -46,10 +43,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-border"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match icons with colors', async () => {
+  test('have to match icons with colors', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -58,10 +55,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-colors"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match icons with sizes', async () => {
+  test('have to match icons with sizes', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -70,17 +67,17 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-sizes"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
 
 // eslint-disable-next-line jest/no-identical-title
-describe('Icon', () => {
+test.describe('Icon', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/visual-tests/',
   })
 
-  it('have to match responsive icons', async () => {
+  test('have to match responsive icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -89,17 +86,17 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-medium"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match text alignment', async () => {
+  test('have to match text alignment', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="icon-alignment"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match all primary icons', async () => {
+  test('have to match all primary icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -108,10 +105,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-all-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match all secondary icons', async () => {
+  test('have to match all secondary icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -120,10 +117,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-all-secondary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match all primary icons with color', async () => {
+  test('have to match all primary icons with color', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -133,10 +130,10 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-all-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match all secondary icons with color', async () => {
+  test('have to match all secondary icons with color', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -146,6 +143,6 @@ describe('Icon', () => {
       },
       selector: '[data-visual-test="icon-all-secondary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

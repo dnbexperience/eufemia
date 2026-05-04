@@ -1,9 +1,13 @@
-import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('EditButton', () => {
+test.describe('EditButton', () => {
   const url = '/uilib/extensions/forms/Wizard/EditButton/demos/'
 
-  it('have to match button with hr', async () => {
+  test('have to match button with hr', async () => {
     const screenshot = await makeScreenshot({
       url,
       wrapperStyle: {
@@ -13,6 +17,6 @@ describe('EditButton', () => {
       },
       selector: '[data-visual-test="wizard-edit-button"] .dnb-forms-step',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,45 +1,41 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('GlobalError for %s', (themeName) => {
-  const pageViewport = {
-    width: 400,
-  }
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`GlobalError for ${themeName}`, () => {
+    const pageViewport = {
+      width: 400,
+    }
 
-  setupPageScreenshot({
-    themeName,
-    pageViewport,
-    url: '/uilib/components/global-error/demos/',
-  })
-
-  it('have to match the 404 status', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="global-error-404"]',
+    setupPageScreenshot({
+      themeName,
+      pageViewport,
+      url: '/uilib/components/global-error/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the 500 status', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="global-error-500"]',
+    test('have to match the 404 status', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="global-error-404"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the custom status', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="global-error-custom"]',
-      matchConfig: {
-        failureThreshold: 0.17, // because of dev vs build diff
-      },
+    test('have to match the 500 status', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="global-error-500"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match the custom status', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="global-error-custom"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

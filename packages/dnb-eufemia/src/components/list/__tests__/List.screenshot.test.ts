@@ -1,164 +1,165 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('List for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/list/demos',
-  })
-
-  it('have to match slots list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-slots"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`List for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/list/demos',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match action list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-action"]',
+    test('have to match slots list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-slots"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match action list in hover state', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-action"]',
-      simulate: 'hover',
+    test('have to match action list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-action"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match action list with href', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-action-href"]',
+    test('have to match action list in hover state', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-action"]',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match action list with href in hover state', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-action-href"]',
-      simulate: 'hover',
+    test('have to match action list with href', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-action-href"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match accordion list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-accordion"]',
+    test('have to match action list with href in hover state', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-action-href"]',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match pending list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-pending"]',
+    test('have to match accordion list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-accordion"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match footer list with buttons', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-footer"]',
+    test('have to match pending list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-pending"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list overline', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-overline"]',
+    test('have to match footer list with buttons', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-footer"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list subline', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-subline"]',
+    test('have to match list overline', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-overline"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list inside card', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-card"]',
+    test('have to match list subline', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-subline"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list inside card without scroll view', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="list-card-no-scroll-view"]',
+    test('have to match list inside card', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-card"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe.each(['ui'])('List for %s on small viewport', (themeName) => {
-  const smallViewport = { width: 400, height: 600 }
-
-  setupPageScreenshot({
-    themeName,
-    pageViewport: smallViewport,
-    url: '/uilib/components/list/demos',
-  })
-
-  it('have to match separated list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-separated"]',
+    test('have to match list inside card without scroll view', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="list-card-no-scroll-view"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
+}
 
-  it('have to match avatar list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-avatar"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+for (const themeName of ['ui']) {
+  test.describe(`List for ${themeName} on small viewport`, () => {
+    const smallViewport = { width: 400, height: 600 }
 
-  it('have to match form elements list', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-form-elements"]',
+    setupPageScreenshot({
+      themeName,
+      pageViewport: smallViewport,
+      url: '/uilib/components/list/demos',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list overline', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-overline"]',
+    test('have to match separated list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-separated"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match list subline', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-subline"]',
+    test('have to match avatar list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-avatar"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match form elements list', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-form-elements"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match list overline', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-overline"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match list subline', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="list-subline"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

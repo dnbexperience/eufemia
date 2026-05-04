@@ -1,51 +1,50 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('String field for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/extensions/forms/base-fields/String/demos/',
-  })
-
-  it('have to match widths', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="string-widths"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`String field for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/extensions/forms/base-fields/String/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match multiple errors', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="multiple-errors"]',
+    test('have to match widths', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="string-widths"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('matches horizontal layout', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="string-horizontal-layout"]',
+    test('have to match multiple errors', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="multiple-errors"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('matches status messages', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="string-status"]',
+    test('matches horizontal layout', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="string-horizontal-layout"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('matches with label description', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="string-label-description"]',
+    test('matches status messages', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="string-status"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('matches with label description', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="string-label-description"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

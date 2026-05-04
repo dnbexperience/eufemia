@@ -1,44 +1,41 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('VisuallyHidden', () => {
+test.describe('VisuallyHidden', () => {
   setupPageScreenshot({ url: '/uilib/components/visually-hidden/demos/' })
 
-  it('have to match VisuallyHidden default', async () => {
+  test('have to match VisuallyHidden default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match VisuallyHidden use case', async () => {
+  test('have to match VisuallyHidden use case', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-use-case"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match VisuallyHidden element element', async () => {
+  test('have to match VisuallyHidden element element', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-element"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match VisuallyHidden focusable', async () => {
+  test('have to match VisuallyHidden focusable', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-focusable"]',
       simulateSelector:
         '[data-visual-test="visually-hidden-focusable"] .dnb-visually-hidden',
       simulate: 'focus',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

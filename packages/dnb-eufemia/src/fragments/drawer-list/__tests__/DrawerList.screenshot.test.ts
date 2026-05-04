@@ -1,58 +1,58 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/fragments/drawer-list/demos/',
-  })
-
-  it('have to match the default drawer-list', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '14rem',
-      },
-      selector: '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`DrawerList for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/fragments/drawer-list/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the disabled option', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '14rem',
-      },
-      selector: '[data-visual-test="drawer-list-disabled"]',
+    test('have to match the default drawer-list', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '14rem',
+        },
+        selector:
+          '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the inline style example', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '14rem',
-        'padding-top': '3rem',
-      },
-      selector: '[data-visual-test="drawer-list-inline-style"]',
+    test('have to match the disabled option', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '14rem',
+        },
+        selector: '[data-visual-test="drawer-list-disabled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the groups example', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '14rem',
-        'padding-top': '3rem',
-      },
-      selector: '[data-visual-test="drawer-list-groups"]',
+    test('have to match the inline style example', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '14rem',
+          'padding-top': '3rem',
+        },
+        selector: '[data-visual-test="drawer-list-inline-style"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match the groups example', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '14rem',
+          'padding-top': '3rem',
+        },
+        selector: '[data-visual-test="drawer-list-groups"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

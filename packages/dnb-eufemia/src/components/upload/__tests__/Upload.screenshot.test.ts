@@ -1,163 +1,162 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/upload/demos/',
-  })
-
-  it('have to match the default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-basic"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Upload for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/upload/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the compact variant', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-basic-compact-variant"]',
+    test('have to match the default', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-basic"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the compact variant file list', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-compact-variant-files-list"]',
+    test('have to match the compact variant', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-basic-compact-variant"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the compact variant without labels', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="upload-basic-compact-variant-without-labels"]',
+    test('have to match the compact variant file list', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-compact-variant-files-list"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the files amount message', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-files-amount-message"]',
+    test('have to match the compact variant without labels', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="upload-basic-compact-variant-without-labels"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to hide upload button when files amount limit is met', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-files-amount-limit"]',
+    test('have to match the files amount message', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-files-amount-message"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the loading state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-is-loading"] .dnb-upload',
+    test('have to hide upload button when files amount limit is met', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-files-amount-limit"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match file list', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-file-list"]',
+    test('have to match the loading state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-is-loading"] .dnb-upload',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match file max size based on file type table', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="upload-file-max-size-based-on-file-format"]',
+    test('have to match file list', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-file-list"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match disabled file max size', async () => {
-    const screenshot = await makeScreenshot({
-      style: { height: '14rem' },
-      selector: '[data-visual-test="upload-disabled-file-max-size"]',
+    test('have to match file max size based on file type table', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="upload-file-max-size-based-on-file-format"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when not providing title and text', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-no-title-no-text"]',
+    test('have to match disabled file max size', async () => {
+      const screenshot = await makeScreenshot({
+        style: { height: '14rem' },
+        selector: '[data-visual-test="upload-disabled-file-max-size"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match anchor looks when displaying a button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-on-file-click"]',
+    test('have to match when not providing title and text', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-no-title-no-text"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match focus when displaying a button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-on-file-click"]',
-      simulate: 'focus',
-      simulateSelector:
-        '[data-visual-test="upload-on-file-click"] .dnb-upload__file-cell:nth-child(1) button',
+    test('have to match anchor looks when displaying a button', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-on-file-click"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when displaying text', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-file-empty-size"]',
+    test('have to match focus when displaying a button', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-on-file-click"]',
+        simulate: 'focus',
+        simulateSelector:
+          '[data-visual-test="upload-on-file-click"] .dnb-upload__file-cell:nth-child(1) button',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when disabling drag and drop', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
+    test('have to match when displaying text', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-file-empty-size"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when file item has description', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-description"]',
+    test('have to match when disabling drag and drop', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match anchor focus', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-description"]',
-      simulate: 'focus',
-      simulateSelector:
-        '[data-visual-test="upload-description"] .dnb-upload__file-cell:nth-child(3) a',
+    test('have to match when file item has description', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-description"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when file item does not have delete button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-remove-delete-button"]',
+    test('have to match anchor focus', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-description"]',
+        simulate: 'focus',
+        simulateSelector:
+          '[data-visual-test="upload-description"] .dnb-upload__file-cell:nth-child(3) a',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match when disabled', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="upload-disabled"]',
+    test('have to match when file item does not have delete button', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-remove-delete-button"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe('Upload', () => {
+    test('have to match when disabled', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="upload-disabled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+  })
+}
+
+test.describe('Upload', () => {
   setupPageScreenshot({
     url: '/uilib/components/upload/demos/',
     pageViewport: {
@@ -165,10 +164,10 @@ describe('Upload', () => {
     },
   })
 
-  it('have to match small screens', async () => {
+  test('have to match small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-basic"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
