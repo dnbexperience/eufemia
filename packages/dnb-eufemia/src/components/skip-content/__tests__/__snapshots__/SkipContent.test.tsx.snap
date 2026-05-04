@@ -336,7 +336,7 @@ button .dnb-form-status__text {
   --button-border-width--default: 0.0625rem;
   --button-border-width--hover: 0.125rem;
   --button-border-width--focus: var(--focus-ring-width);
-  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius: var(--token-radius-xl);
   --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
