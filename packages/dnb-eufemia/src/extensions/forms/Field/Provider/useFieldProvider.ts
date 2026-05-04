@@ -78,10 +78,12 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
     sharedProviderParams.translationsLoader = translationsLoader
   }
 
-  const icu = dataContextRef.current?.props?.icu ?? restProps?.icu
+  const messageFormatter =
+    dataContextRef.current?.props?.messageFormatter ??
+    restProps?.messageFormatter
 
-  if (icu) {
-    sharedProviderParams.icu = icu
+  if (messageFormatter) {
+    sharedProviderParams.messageFormatter = messageFormatter
   }
 
   const extend = useCallback(

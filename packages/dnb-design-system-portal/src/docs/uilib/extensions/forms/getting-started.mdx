@@ -1114,7 +1114,7 @@ When creating [your own field](/uilib/extensions/forms/create-component/#localiz
 
 ### ICU Message Format
 
-Forms translations support [ICU MessageFormat](/uilib/usage/customisation/localization/#icu-message-format) for pluralization, gender selection, and other locale-aware formatting. Enable it by passing the `icu` handler to `Form.Handler`:
+Forms translations support [ICU MessageFormat](/uilib/usage/customisation/localization/#icu-message-format) for pluralization, gender selection, and other locale-aware formatting. Enable it by passing the `icu` message formatter to `Form.Handler`:
 
 ```tsx
 import { icu } from '@dnb/eufemia/shared'
@@ -1141,7 +1141,11 @@ function MyForm() {
 }
 
 render(
-  <Form.Handler icu={icu} translations={translations} locale="en-GB">
+  <Form.Handler
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
     <MyForm />
   </Form.Handler>
 )

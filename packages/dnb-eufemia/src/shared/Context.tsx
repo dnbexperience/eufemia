@@ -188,11 +188,11 @@ export type ContextProps = ContextComponents & {
   translationsLoader?: TranslationsLoader
 
   /**
-   * ICU MessageFormat handler for advanced message formatting.
-   * Import and pass `icu` from `@dnb/eufemia/shared/icu` to enable
+   * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
+   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
    * pluralization, select, and other ICU features in translation strings.
    */
-  icu?: ICUFormatMessage
+  messageFormatter?: ICUFormatMessage
 
   // -- For internal use --
   __context__?: Record<string, unknown>

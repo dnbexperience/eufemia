@@ -398,13 +398,13 @@ formatMessage('MyApp.items', {
 
 Eufemia supports [ICU MessageFormat](https://unicode-org.github.io/icu/userguide/format_parse/messages/) syntax in translation strings. This enables pluralization, gender selection, and other locale-aware formatting directly in your messages.
 
-ICU support is opt-in to keep your bundle size small. Enable it by importing the `icu` handler and passing it to the `Provider`:
+ICU support is opt-in to keep your bundle size small. Enable it by importing the `icu` message formatter and passing it to the `Provider`:
 
 ```tsx
 import { icu, Provider } from '@dnb/eufemia/shared'
 
 render(
-  <Provider icu={icu} locale="en-GB">
+  <Provider messageFormatter={icu} locale="en-GB">
     <App />
   </Provider>
 )
@@ -500,7 +500,11 @@ function NotificationBanner() {
 }
 
 render(
-  <Provider icu={icu} translations={translations} locale="en-GB">
+  <Provider
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
     <NotificationBanner />
   </Provider>
 )
@@ -733,7 +737,11 @@ const translations = {
 }
 
 render(
-  <Provider icu={icu} translations={translations} locale="en-GB">
+  <Provider
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
     <P>
       <Translation id="Cart.items" count={5} />
     </P>

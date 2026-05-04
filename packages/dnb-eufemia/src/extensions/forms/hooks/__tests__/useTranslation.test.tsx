@@ -568,7 +568,11 @@ describe('Form.useTranslation with ICU', () => {
     }
 
     render(
-      <FormHandler icu={icu} locale="en-GB" translations={translations}>
+      <FormHandler
+        messageFormatter={icu}
+        locale="en-GB"
+        translations={translations}
+      >
         <MockComponent />
       </FormHandler>
     )
@@ -581,7 +585,7 @@ describe('Form.useTranslation with ICU', () => {
     )
   })
 
-  it('should not format ICU when icu prop is not provided', () => {
+  it('should not format ICU when messageFormatter prop is not provided', () => {
     const translations = {
       'en-GB': {
         MyForm: {
@@ -601,7 +605,7 @@ describe('Form.useTranslation with ICU', () => {
       </FormHandler>
     )
 
-    // Without icu, ICU syntax is not parsed — placeholder replacement falls through
+    // Without messageFormatter, ICU syntax is not parsed — placeholder replacement falls through
     expect(document.body.textContent).not.toBe('You have 5 items.')
   })
 })

@@ -22,7 +22,8 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
   children,
   ...params
 }: TranslationProps<T>) => {
-  const { translation, locale, icu } = useContext(SharedContext)
+  const { translation, locale, messageFormatter } =
+    useContext(SharedContext)
   const result = formatMessage(
     (id || children) as
       | string
@@ -30,7 +31,7 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
     params,
     translation,
     locale,
-    icu
+    messageFormatter
   )
 
   if (React.isValidElement(result) || Array.isArray(result)) {

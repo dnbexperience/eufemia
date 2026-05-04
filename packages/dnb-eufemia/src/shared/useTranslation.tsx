@@ -40,9 +40,9 @@ export default function useTranslation<
   messages?: UseTranslationMessages<T> | UseTranslationArgs<T>,
   args?: TranslationArguments
 ) {
-  const { locale, translation, icu } = useContext(Context)
+  const { locale, translation, messageFormatter } = useContext(Context)
   const { translations: contextTranslations } = useContext(Context)
-  const { assignUtils } = useAdditionalUtils(icu)
+  const { assignUtils } = useAdditionalUtils(messageFormatter)
 
   const { extMessages, fallbackLocale, baseOverride, warnLabel } =
     useMemo(() => {
@@ -254,12 +254,14 @@ export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
   AdditionalReturnUtils
 
-export function useAdditionalUtils(icu?: ICUFormatMessage) {
+export function useAdditionalUtils(messageFormatter?: ICUFormatMessage) {
   const translationsRef =
     useRef<CombineWithExternalTranslationsReturn>(undefined)
   const localeRef = useRef<string>('nb-NO')
-  const icuRef = useRef<ICUFormatMessage | undefined>(icu)
-  icuRef.current = icu
+  const messageFormatterRef = useRef<ICUFormatMessage | undefined>(
+    messageFormatter
+  )
+  messageFormatterRef.current = messageFormatter
 
   const fM = useCallback(
     (id: TranslationId, args: TranslationArguments) => {
@@ -268,7 +270,7 @@ export function useAdditionalUtils(icu?: ICUFormatMessage) {
         args,
         translationsRef.current,
         localeRef.current,
-        icuRef.current
+        messageFormatterRef.current
       )
     },
     []
@@ -325,7 +327,7 @@ export function formatMessage(
   args?: TranslationArguments,
   messages?: TranslationCustomLocales,
   locale?: string,
-  icu?: ICUFormatMessage
+  messageFormatter?: ICUFormatMessage
 ) {
   let str = undefined
 
@@ -363,9 +365,13 @@ export function formatMessage(
   }
 
   if (typeof str === 'string') {
-    if (args && icu && icu.isICU(str)) {
+    if (args && messageFormatter && messageFormatter.isICU(str)) {
       try {
-        const result = icu.format(str, args, locale || 'nb-NO')
+        const result = messageFormatter.format(
+          str,
+          args,
+          locale || 'nb-NO'
+        )
 
         if (Array.isArray(result)) {
           return (

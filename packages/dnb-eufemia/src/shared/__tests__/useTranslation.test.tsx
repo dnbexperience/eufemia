@@ -895,7 +895,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -934,7 +938,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -972,7 +980,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       const { rerender } = render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -982,7 +994,11 @@ describe('ICU MessageFormat support', () => {
       ).toBe('1 item')
 
       rerender(
-        <Provider icu={icu} locale="nb-NO" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="nb-NO"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1015,7 +1031,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1042,7 +1062,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1063,7 +1087,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <Translation id="Custom.items" count={3} />
         </Provider>
       )
@@ -1082,7 +1110,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <Translation id="Custom.pronoun" gender="female" />
         </Provider>
       )
@@ -1110,7 +1142,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1138,7 +1174,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1170,7 +1210,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1202,7 +1246,11 @@ describe('ICU MessageFormat support', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1406,7 +1454,11 @@ describe('Rich text tag rendering', () => {
       }
 
       render(
-        <Provider icu={icu} locale="en-GB" translations={translations}>
+        <Provider
+          messageFormatter={icu}
+          locale="en-GB"
+          translations={translations}
+        >
           <MockComponent />
         </Provider>
       )
@@ -1540,7 +1592,11 @@ describe('Error handling and warnings', () => {
     }
 
     render(
-      <Provider icu={icu} locale="en-GB" translations={translations}>
+      <Provider
+        messageFormatter={icu}
+        locale="en-GB"
+        translations={translations}
+      >
         <MockComponent />
       </Provider>
     )
@@ -1571,7 +1627,11 @@ describe('Error handling and warnings', () => {
     }
 
     render(
-      <Provider icu={icu} locale="en-GB" translations={translations}>
+      <Provider
+        messageFormatter={icu}
+        locale="en-GB"
+        translations={translations}
+      >
         <MockComponent />
       </Provider>
     )
