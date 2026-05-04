@@ -4,8 +4,7 @@
 # testing
 /coverage
 /__diff_output__
-.jest-image-snapshot-touched-files
-jest.config.screenshots.js
+playwright.config.screenshots.ts
 /reports
 __tests__
 

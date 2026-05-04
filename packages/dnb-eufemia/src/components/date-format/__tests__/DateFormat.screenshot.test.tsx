@@ -1,29 +1,28 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('DateFormat', () => {
+test.describe('DateFormat', () => {
   setupPageScreenshot({
     url: '/uilib/components/date-format/demos',
   })
 
-  it('have to match date styles', async () => {
+  test('have to match date styles', async ({ page }) => {
     const screenshot = await makeScreenshot({
+      page,
       selector: '[data-visual-test="date-format-date-styles"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match date when inline', async () => {
+  test('have to match date when inline', async ({ page }) => {
     const screenshot = await makeScreenshot({
+      page,
       selector: '[data-visual-test="date-format-date-inline"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

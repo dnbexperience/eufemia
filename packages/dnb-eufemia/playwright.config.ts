@@ -6,7 +6,7 @@ export default defineConfig({
   globalTimeout: 600000,
   reporter: 'list',
   testDir: './src/',
-  testMatch: '*__tests__/**/*.spec.ts',
+  testMatch: '*__tests__/**/*.screenshot.test.ts',
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.

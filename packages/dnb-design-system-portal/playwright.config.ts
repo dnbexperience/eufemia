@@ -2,8 +2,8 @@ import { defineConfig } from '@playwright/test'
 import { isCI } from 'repo-utils'
 
 export default defineConfig({
-  timeout: 30000,
-  globalTimeout: 600000,
+  timeout: 30_000,
+  globalTimeout: 600_000,
   retries: 3,
   reporter: 'list',
   testDir: './src/e2e',

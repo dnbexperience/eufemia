@@ -377,11 +377,7 @@ export async function runScreenshotsTests() {
     return
   }
 
-  runCommand(context.packageRoot, [
-    ...commandTokens,
-    '--runTestsByPath',
-    ...selection.tests,
-  ])
+  runCommand(context.packageRoot, [...commandTokens, ...selection.tests])
 }
 
 export async function runScreenshotsCli() {

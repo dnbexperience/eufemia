@@ -4,6 +4,12 @@ html {
   scroll-behavior: auto !important;
 }
 
+/* Force scrollbar to always be visible so viewport width
+   stays consistent across tests sharing a page */
+html {
+  overflow-y: scroll !important;
+}
+
 .sticky-menu,
 #portal-sidebar-menu {
   display: none !important;
