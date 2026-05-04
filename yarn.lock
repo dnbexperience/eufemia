@@ -2859,6 +2859,7 @@ __metadata:
     jest-playwright-preset: "npm:4.0.0"
     jest-raw-loader: "npm:1.0.1"
     jest-tobetype: "npm:1.2.3"
+    jsdom: "npm:29.1.1"
     lebab: "npm:3.2.7"
     lightningcss: "npm:1.32.0"
     lockfile-lint: "npm:4.14.1"
