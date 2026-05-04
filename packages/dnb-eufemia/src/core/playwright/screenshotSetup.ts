@@ -438,13 +438,14 @@ export const makeScreenshot = async ({
       })
     styleCleanup = pendingStyleCleanup
 
-    const screenshotElement = await handleWrapper({
-      page,
-      selector,
-      wrapperStyle,
-      addWrapper,
-      element,
-    })
+    const { element: screenshotElement, screenshotTargetSelector } =
+      await handleWrapper({
+        page,
+        selector,
+        wrapperStyle,
+        addWrapper,
+        element,
+      })
     wrapperWasAdded = addWrapper
 
     if (executeBeforeSimulate) {
@@ -486,6 +487,7 @@ export const makeScreenshot = async ({
     const screenshot = await takeScreenshot({
       page,
       screenshotElement,
+      screenshotTargetSelector,
       screenshotSelector,
       selector,
     })
@@ -783,17 +785,23 @@ async function handleMeasureOfElement({
 async function takeScreenshot({
   page,
   screenshotElement,
+  screenshotTargetSelector,
   screenshotSelector,
   selector,
 }: {
   page: Page
   screenshotElement: ElementHandle<Element>
+  screenshotTargetSelector?: string
   screenshotSelector?: string
   selector?: string
 }) {
-  if (screenshotSelector) {
-    await page.waitForSelector(screenshotSelector, { state: 'visible' })
-    screenshotElement = await page.$(screenshotSelector)
+  const targetSelector =
+    screenshotSelector || screenshotTargetSelector || selector
+
+  if (targetSelector) {
+    await page.waitForSelector(targetSelector, { state: 'visible' })
+
+    return await page.locator(targetSelector).first().screenshot()
   }
 
   // If the element was detached (e.g., by a React re-render),
@@ -1107,10 +1115,17 @@ async function handleWrapper({
     )
 
     await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
-    return await page.$(`[data-visual-test-id="${wrapperId}"]`)
+
+    return {
+      element: await page.$(`[data-visual-test-id="${wrapperId}"]`),
+      screenshotTargetSelector: `[data-visual-test-id="${wrapperId}"]`,
+    }
   }
 
-  return element
+  return {
+    element,
+    screenshotTargetSelector: selector,
+  }
 }
 
 async function getElementBox({
