@@ -503,14 +503,14 @@ describe('Wizard.Container', () => {
 
     it('should support the Translation component for titles', async () => {
       const Step1 = () => (
-        <Wizard.Step title={<Translation id="wizard.step1" />}>
+        <Wizard.Step title={<Translation id="Modal.dialogTitle" />}>
           <output>Step 1</output>
           <Wizard.Buttons />
         </Wizard.Step>
       )
 
       const Step2 = () => (
-        <Wizard.Step title={<Translation id="wizard.step2" />}>
+        <Wizard.Step title={<Translation id="HelpButton.title" />}>
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
@@ -547,8 +547,8 @@ describe('Wizard.Container', () => {
         </React.StrictMode>
       )
 
-      expect(screen.getAllByText('wizard.step1')).toHaveLength(2)
-      expect(screen.getByText('wizard.step2')).toBeInTheDocument()
+      expect(screen.getAllByText('Separat Vindu')).toHaveLength(2)
+      expect(screen.getByText('Hjelpetekst')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelectorAll('output')).toHaveLength(1)
