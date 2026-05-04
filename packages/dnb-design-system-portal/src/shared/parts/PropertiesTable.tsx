@@ -15,6 +15,10 @@ const StyledTable = styled(Table)`
   td:not(.description):not(.type) {
     white-space: nowrap;
   }
+
+  > tbody::after {
+    border-bottom: none;
+  }
 `
 
 const colors = {
@@ -200,7 +204,7 @@ export default function PropertiesTable({
 
   return (
     <Table.ScrollView>
-      <StyledTable outline border>
+      <StyledTable>
         <thead>
           <Tr>
             <Th
