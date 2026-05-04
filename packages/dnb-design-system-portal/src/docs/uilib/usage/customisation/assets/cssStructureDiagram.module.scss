@@ -1,0 +1,38 @@
+.diagram {
+  // Text labels and arrow connectors
+  path[fill='#333'] {
+    fill: currentColor;
+  }
+
+  // Vertical sidebar bars
+  rect[fill='#333'] {
+    fill: var(--token-color-text-neutral);
+  }
+
+  // White text on header and bars adapts in dark mode.
+  // Also matches clipPath fills, which don't affect rendering.
+  [fill='#fff'] {
+    fill: var(--token-color-text-neutral-inverse);
+  }
+
+  // Decorative green boxes and circles
+  [fill='#A5E1D2'],
+  [fill='#D2F0E9'] {
+    fill: var(--token-color-decorative-first-muted);
+  }
+
+  // Header bar
+  [fill='#14555A'] {
+    fill: var(--token-color-background-action);
+  }
+
+  // Outer border
+  [stroke='#F2F4EC'] {
+    stroke: var(--token-color-stroke-neutral-subtle);
+  }
+
+  // Theme indicator bar
+  rect[fill='#F2F4EC'] {
+    fill: var(--token-color-background-neutral-subtle);
+  }
+}
