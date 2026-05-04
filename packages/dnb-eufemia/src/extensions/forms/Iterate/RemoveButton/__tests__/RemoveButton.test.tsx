@@ -32,7 +32,7 @@ describe('RemoveButton', () => {
   })
 
   it('should throw an error if value is not an array', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
     const invalidValue = 'invalid value'
 
     expect(() => {

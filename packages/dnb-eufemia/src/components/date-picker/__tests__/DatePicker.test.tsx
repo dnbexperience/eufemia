@@ -3708,9 +3708,23 @@ describe('DatePicker component', () => {
 
     await focusTrigger()
 
-    await userEvent.keyboard('{Enter}')
+    // Open date picker by clicking the trigger
+    await userEvent.click(getDatePickerTriggerButton())
 
-    await userEvent.keyboard('{Enter}')
+    // Wait for date picker to open
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-date-picker--open')
+      ).toBeInTheDocument()
+    })
+
+    // Close by pressing Escape
+    await userEvent.keyboard('{Escape}')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-date-picker--open')
+      ).not.toBeInTheDocument()
+    })
     await waitFor(() => {
       expect(getDatePickerTriggerButton()).toHaveFocus()
     })

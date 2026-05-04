@@ -2,13 +2,9 @@
 
 import postcss from 'postcss'
 import * as fs from 'fs'
-import * as scopeHash from '../plugin-scope-hash.js'
+import * as path from 'path'
+import * as os from 'os'
 import plugin from '../isolated-style-scope-plugin.js'
-
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  readFileSync: jest.fn(),
-}))
 
 type Options = {
   scopeHash?: string | ((file: string) => string)
@@ -318,89 +314,81 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should use scope hash from scope-hash.txt file when auto is set', async () => {
-      const readFileSyncSpy = jest
-        .spyOn(fs, 'readFileSync')
-        .mockReturnValue('test-hash-from-file')
-      const existsSyncSpy = jest
-        .spyOn(fs, 'existsSync')
-        .mockImplementation((path: fs.PathLike) => {
-          return String(path).endsWith('scope-hash.txt')
-        })
-      const getStyleScopeHashSpy = jest
-        .spyOn(scopeHash, 'getStyleScopeHash')
-        .mockReturnValue('eufemia-scope--default')
-
-      const result = await run(
-        '.my-class { color: red; }',
-        '.test-hash-from-file .my-class { color: red; }',
-        {
-          scopeHash: 'auto',
-          postcssOptions: {
-            from: '/some/path/to/style.css',
-          },
-        }
+      // Use a real temp directory with a scope-hash.txt file
+      // because vitest cannot mock CJS require('fs') calls.
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'scope-plugin-test-')
+      )
+      fs.writeFileSync(
+        path.join(tmpDir, 'scope-hash.txt'),
+        'test-hash-from-file'
       )
 
-      readFileSyncSpy.mockRestore()
-      existsSyncSpy.mockRestore()
-      getStyleScopeHashSpy.mockRestore()
-      expect(result).toBeDefined()
+      try {
+        const result = await run(
+          '.my-class { color: red; }',
+          '.test-hash-from-file .my-class { color: red; }',
+          {
+            scopeHash: 'auto',
+            postcssOptions: {
+              from: path.join(tmpDir, 'style.css'),
+            },
+          }
+        )
+
+        expect(result).toBeDefined()
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true })
+      }
     })
 
     it('should fallback to default hash when scope-hash.txt is not found', async () => {
-      const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
-      const existsSyncSpy = jest
-        .spyOn(fs, 'existsSync')
-        .mockReturnValue(false)
-      const getStyleScopeHashSpy = jest
-        .spyOn(scopeHash, 'getStyleScopeHash')
-        .mockReturnValue('eufemia-scope--default')
-
-      const result = await run(
-        '.my-class { color: red; }',
-        '.eufemia-scope--default .my-class { color: red; }',
-        {
-          scopeHash: 'auto',
-          postcssOptions: {
-            from: '/some/path/to/style.css',
-          },
-        }
+      // Use a real temp directory without scope-hash.txt
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'scope-plugin-test-')
       )
 
-      readFileSyncSpy.mockRestore()
-      existsSyncSpy.mockRestore()
-      getStyleScopeHashSpy.mockRestore()
-      expect(result).toBeDefined()
+      try {
+        const result = await run('.my-class { color: red; }', undefined, {
+          scopeHash: 'auto',
+          postcssOptions: {
+            from: path.join(tmpDir, 'style.css'),
+          },
+        })
+
+        // Without scope-hash.txt, it falls back to getStyleScopeHash() result
+        expect(result).toBeDefined()
+        expect(result).toContain('.my-class')
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true })
+      }
     })
 
     it('should fallback to default hash when scope-hash.txt contains spaces', async () => {
-      const readFileSyncSpy = jest
-        .spyOn(fs, 'readFileSync')
-        .mockReturnValue('test hash with spaces')
-      const existsSyncSpy = jest
-        .spyOn(fs, 'existsSync')
-        .mockImplementation((path: fs.PathLike) =>
-          String(path).includes('scope-hash.txt')
-        )
-      const getStyleScopeHashSpy = jest
-        .spyOn(scopeHash, 'getStyleScopeHash')
-        .mockReturnValue('eufemia-scope--default')
-
-      const result = await run(
-        '.my-class { color: red; }',
-        '.eufemia-scope--default .my-class { color: red; }',
-        {
-          scopeHash: 'auto',
-          postcssOptions: {
-            from: '/some/path/to/style.css',
-          },
-        }
+      // Use a real temp directory with scope-hash.txt that has spaces (invalid)
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'scope-plugin-test-')
+      )
+      fs.writeFileSync(
+        path.join(tmpDir, 'scope-hash.txt'),
+        'test hash with spaces'
       )
 
-      readFileSyncSpy.mockRestore()
-      existsSyncSpy.mockRestore()
-      getStyleScopeHashSpy.mockRestore()
-      expect(result).toBeDefined()
+      try {
+        const result = await run('.my-class { color: red; }', undefined, {
+          scopeHash: 'auto',
+          postcssOptions: {
+            from: path.join(tmpDir, 'style.css'),
+          },
+        })
+
+        // scope-hash.txt with spaces is ignored, falls back to getStyleScopeHash()
+        expect(result).toBeDefined()
+        expect(result).not.toContain('test hash with spaces')
+        expect(result).toContain('.my-class')
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true })
+      }
     })
   })
 

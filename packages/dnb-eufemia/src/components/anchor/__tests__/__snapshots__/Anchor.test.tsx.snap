@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Anchor scss should match style dependencies css 1`] = `
+exports[`Anchor scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -499,7 +499,7 @@ a.dnb-button {
 }"
 `;
 
-exports[`Anchor scss should match theme css for sbanken 1`] = `
+exports[`Anchor scss > should match theme css for sbanken 1`] = `
 "/*
  * Anchor theme
  *
@@ -653,7 +653,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 }"
 `;
 
-exports[`Anchor scss should match theme css for ui 1`] = `
+exports[`Anchor scss > should match theme css for ui 1`] = `
 "/*
  * Anchor theme
  *

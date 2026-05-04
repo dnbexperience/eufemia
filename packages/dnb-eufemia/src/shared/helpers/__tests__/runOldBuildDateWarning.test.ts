@@ -7,7 +7,7 @@ describe('runOldBuildDateWarning', () => {
 
   beforeEach(() => {
     process.env.NODE_ENV = 'development'
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
   })
 
   afterEach(() => {

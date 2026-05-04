@@ -1,10 +1,9 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import ArrayItemArea from '../ArrayItemArea'
 import RemoveButton from '../../RemoveButton'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
-import { wait } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, Form, Iterate } from '../../..'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 
@@ -190,10 +189,10 @@ describe('ArrayItemArea', () => {
 
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
-    await wait(1)
-
-    expect(block).toHaveClass('dnb-height-animation--is-visible')
-    expect(block).not.toHaveClass('dnb-height-animation--hidden')
+    await waitFor(() => {
+      expect(block).toHaveClass('dnb-height-animation--is-visible')
+      expect(block).not.toHaveClass('dnb-height-animation--hidden')
+    })
   })
 
   it('should have inner element of section', () => {

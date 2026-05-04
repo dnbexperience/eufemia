@@ -263,12 +263,14 @@ describe('Pagination bar', () => {
 
 describe('Infinity scroller', () => {
   beforeEach(() => {
-    window.IntersectionObserver = jest.fn().mockImplementation(() => {
-      return {
-        observe: jest.fn(),
-        disconnect: jest.fn(),
-      }
-    })
+    window.IntersectionObserver = jest
+      .fn()
+      .mockImplementation(function () {
+        return {
+          observe: jest.fn(),
+          disconnect: jest.fn(),
+        }
+      })
   })
 
   const props: PaginationProps = {
@@ -331,13 +333,15 @@ describe('Infinity scroller', () => {
     const disconnect = jest.fn()
 
     let callObserver
-    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
-      callObserver = cb
-      return {
-        observe,
-        disconnect,
-      }
-    })
+    window.IntersectionObserver = jest
+      .fn()
+      .mockImplementation(function (cb) {
+        callObserver = cb
+        return {
+          observe,
+          disconnect,
+        }
+      })
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])
@@ -399,13 +403,15 @@ describe('Infinity scroller', () => {
     const onChange = jest.fn()
 
     let callObserver
-    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
-      callObserver = cb
-      return {
-        observe: jest.fn(),
-        disconnect: jest.fn(),
-      }
-    })
+    window.IntersectionObserver = jest
+      .fn()
+      .mockImplementation(function (cb) {
+        callObserver = cb
+        return {
+          observe: jest.fn(),
+          disconnect: jest.fn(),
+        }
+      })
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])

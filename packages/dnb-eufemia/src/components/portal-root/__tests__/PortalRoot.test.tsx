@@ -69,20 +69,24 @@ describe('PortalRoot', () => {
   })
 
   it('should not create portal element when window is undefined', () => {
-    // Store the original window and temporarily set it to undefined
-    const tempWindow = global.window
-    global.window = undefined as any
-
-    const { container } = render(
-      <PortalRoot>
-        <div>Content</div>
-      </PortalRoot>
+    // In vitest, setting global.window = undefined crashes react-dom,
+    // so we test getOrCreatePortalElement directly with document mocked.
+    const originalDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      'document'
     )
+    Object.defineProperty(globalThis, 'document', {
+      value: undefined,
+      configurable: true,
+      writable: true,
+    })
 
-    expect(container).toBeEmptyDOMElement()
+    const result = getOrCreatePortalElement({ id: 'eufemia-portal-root' })
+    expect(result).toBeNull()
 
-    // Restore window for this test
-    global.window = tempWindow
+    if (originalDescriptor) {
+      Object.defineProperty(globalThis, 'document', originalDescriptor)
+    }
   })
 
   it('should reuse existing portal element', () => {

@@ -7,7 +7,7 @@ import MenuList from '../MenuList'
 import MenuAction from '../MenuAction'
 
 jest.mock('../../popover/Popover', () => {
-  return jest.requireActual('./testHelpers').MockPopover
+  return { default: jest.requireActual('./testHelpers').MockPopover }
 })
 
 describe('MenuRoot', () => {

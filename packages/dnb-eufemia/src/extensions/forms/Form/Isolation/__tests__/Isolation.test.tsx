@@ -3359,11 +3359,18 @@ describe('Form.Isolation', () => {
         isolated: undefined,
       })
 
-      // Wait for the step switch to happen
-      await new Promise((resolve) => requestAnimationFrame(resolve))
-      await userEvent.type(inputField(), 'Tony')
+      // Wait for the step switch to complete and state to settle
+      await waitFor(() => {
+        expect(inputField()).toBeInTheDocument()
+        expect(inputField()).toHaveValue('')
+      })
 
-      expect(inputField()).toHaveValue('Tony')
+      // Use fireEvent instead of userEvent.type to avoid re-render interruptions
+      fireEvent.change(inputField(), { target: { value: 'Tony' } })
+
+      await waitFor(() => {
+        expect(inputField()).toHaveValue('Tony')
+      })
       expect(outerDataContext).toBeUndefined()
       expect(innerDataContext).toEqual({
         isolated: 'Tony',

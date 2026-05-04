@@ -239,13 +239,14 @@ describe('DateFormat', () => {
           await waitFor(() => {
             const tooltipId = timeElem?.getAttribute('aria-describedby')
             expect(tooltipId).toBeTruthy()
+
+            const tooltipElem = document.body.querySelector(
+              '#' + tooltipId
+            )
+
+            expect(tooltipElem).toHaveTextContent('2025')
+            expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
           })
-
-          const tooltipId = timeElem?.getAttribute('aria-describedby')
-          const tooltipElem = document.body.querySelector('#' + tooltipId)
-
-          expect(tooltipElem).toHaveTextContent('2025')
-          expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
         } finally {
           if (useFakeNow) {
             jest.useRealTimers()
@@ -771,6 +772,10 @@ describe('DateFormat', () => {
     })
 
     it('should render a tooltip with absolute date and show on hover', async () => {
+      // Restore setTimeout spy to prevent @testing-library/dom waitFor
+      // from trying to advance fake timers (vitest detects spy as fake timer)
+      jest.restoreAllMocks()
+
       render(<DateFormat value="2025-08-01" relativeTime />)
 
       const timeElem = document.querySelector('.dnb-date-format')
@@ -792,9 +797,11 @@ describe('DateFormat', () => {
         '#' + tooltipId
       ).parentElement
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
-      )
+      await waitFor(() => {
+        expect(Array.from(tooltipElem.classList)).toEqual(
+          expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+        )
+      })
 
       fireEvent.mouseLeave(timeElem)
 
@@ -807,6 +814,10 @@ describe('DateFormat', () => {
     })
 
     it('tooltip content should match the full absolute formatted date', async () => {
+      // Restore setTimeout spy to prevent @testing-library/dom waitFor
+      // from trying to advance fake timers (vitest detects spy as fake timer)
+      jest.restoreAllMocks()
+
       render(
         <DateFormat
           value="2025-08-01T14:30:00"

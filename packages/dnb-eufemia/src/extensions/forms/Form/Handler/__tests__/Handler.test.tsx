@@ -1137,7 +1137,9 @@ describe('Form.Handler', () => {
   describe('schema types', () => {
     let log: jest.SpyInstance
     beforeEach(() => {
-      log = jest.spyOn(global.console, 'error').mockImplementation()
+      log = jest
+        .spyOn(global.console, 'error')
+        .mockImplementation(() => {})
     })
     afterEach(() => {
       log.mockRestore()
@@ -1334,7 +1336,9 @@ describe('Form.Handler', () => {
     })
 
     it('should warn when no form element is found', () => {
-      const log = jest.spyOn(global.console, 'log').mockImplementation()
+      const log = jest
+        .spyOn(global.console, 'log')
+        .mockImplementation(() => {})
 
       render(<Form.Handler decoupleForm>content</Form.Handler>)
 

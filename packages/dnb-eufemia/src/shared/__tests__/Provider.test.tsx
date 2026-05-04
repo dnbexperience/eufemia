@@ -883,7 +883,7 @@ describe('Provider', () => {
         .fn()
         .mockRejectedValue(new Error('Network error'))
 
-      const log = jest.spyOn(console, 'log').mockImplementation()
+      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
       render(
         <Provider translationsLoader={loader}>

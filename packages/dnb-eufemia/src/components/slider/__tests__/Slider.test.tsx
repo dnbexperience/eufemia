@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
 
@@ -274,10 +274,10 @@ describe('Slider component', () => {
 
       fireEvent.mouseLeave(thumbElem)
 
-      await wait(300)
-
-      expect(tooltipElement.classList).toContain('dnb-tooltip')
-      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      await waitFor(() => {
+        expect(tooltipElement.classList).toContain('dnb-tooltip')
+        expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      })
     })
 
     it('shows Tooltip on focus', async () => {
@@ -305,10 +305,10 @@ describe('Slider component', () => {
 
       fireEvent.blur(inputElem)
 
-      await wait(300)
-
-      expect(tooltipElement.classList).toContain('dnb-tooltip')
-      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      await waitFor(() => {
+        expect(tooltipElement.classList).toContain('dnb-tooltip')
+        expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      })
     })
 
     it('shows Tooltip on hover with custom formatting', async () => {
@@ -347,10 +347,10 @@ describe('Slider component', () => {
 
       fireEvent.mouseLeave(thumbElem)
 
-      await wait(300)
-
-      expect(tooltipElement.classList).toContain('dnb-tooltip')
-      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      await waitFor(() => {
+        expect(tooltipElement.classList).toContain('dnb-tooltip')
+        expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
+      })
     })
 
     it('text can be selected without disappearing', async () => {
@@ -490,11 +490,11 @@ describe('Slider component', () => {
 
       fireEvent.mouseEnter(markerElement)
 
-      await wait(300)
-
-      const tooltipElement = getTooltipElements(0)
-      expect(tooltipElement).toHaveClass('dnb-tooltip--active')
-      expect(tooltipElement).toHaveTextContent('30')
+      await waitFor(() => {
+        const tooltipElement = getTooltipElements(0)
+        expect(tooltipElement).toHaveClass('dnb-tooltip--active')
+        expect(tooltipElement).toHaveTextContent('30')
+      })
     })
 
     it('shows Tooltip with  text', async () => {
@@ -512,10 +512,10 @@ describe('Slider component', () => {
 
       fireEvent.mouseEnter(markerElement)
 
-      await wait(300)
-
-      const tooltipElement = getTooltipElements(0)
-      expect(tooltipElement).toHaveTextContent(marker.text)
+      await waitFor(() => {
+        const tooltipElement = getTooltipElements(0)
+        expect(tooltipElement).toHaveTextContent(marker.text)
+      })
     })
   })
 

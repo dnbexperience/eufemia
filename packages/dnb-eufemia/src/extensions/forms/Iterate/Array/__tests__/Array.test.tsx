@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { act, useContext, useEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
@@ -1731,7 +1731,7 @@ describe('Iterate.Array', () => {
 
   describe('should render without flex', () => {
     it('when "withoutFlex" is true', () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
+      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
       const { container } = render(
         <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
@@ -1901,13 +1901,17 @@ describe('Iterate.Array', () => {
 
       const staleSecondItemChange = changeItemValue[1]
 
-      changeItemValue[0]('first')
+      act(() => {
+        changeItemValue[0]('first')
+      })
 
       await waitFor(() => {
         expect(latestData?.items?.[0]?.name).toBe('first')
       })
 
-      staleSecondItemChange('second')
+      act(() => {
+        staleSecondItemChange('second')
+      })
 
       await waitFor(() => {
         expect(latestData?.items?.[0]?.name).toBe('first')

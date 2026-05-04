@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Pagination scss has to match style dependencies css 1`] = `
+exports[`Pagination scss > has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -1395,7 +1395,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }"
 `;
 
-exports[`Pagination scss have to match default theme snapshot 1`] = `
+exports[`Pagination scss > have to match default theme snapshot 1`] = `
 "/*
 * Pagination theme
 *

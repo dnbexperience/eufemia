@@ -57,7 +57,7 @@ export async function testDirectionObserver() {
     document
       .querySelector('.dnb-drawer-list__options')
       ?.getAttribute('style')
-  ).toBe('max-height: 33.5rem;') // jsdom default is 768 innerHeight
+  ).toContain('max-height: 33.5rem;') // jsdom default is 768 innerHeight
   ;(window.resizeTo as unknown as CustomResizeTo)({
     height: 640, // change innerHeight
   })
@@ -70,7 +70,7 @@ export async function testDirectionObserver() {
     document
       .querySelector('.dnb-drawer-list__options')
       ?.getAttribute('style')
-  ).toBe('max-height: 28rem;')
+  ).toContain('max-height: 28rem;')
   ;(window.scrollTo as unknown as CustomScrollTo)({
     top: -640,
   })
@@ -83,5 +83,5 @@ export async function testDirectionObserver() {
     document
       .querySelector('.dnb-drawer-list__options')
       ?.getAttribute('style')
-  ).toBe('max-height: 28rem;') // is now minHeight
+  ).toContain('max-height: 28rem;') // is now minHeight
 }

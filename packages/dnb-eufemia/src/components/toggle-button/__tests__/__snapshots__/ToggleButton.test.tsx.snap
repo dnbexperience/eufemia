@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ToggleButton scss should match default theme snapshot 1`] = `
+exports[`ToggleButton scss > should match default theme snapshot 1`] = `
 "/*
 * ToggleButton theme
 *
@@ -159,7 +159,7 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 }"
 `;
 
-exports[`ToggleButton scss should match style dependencies css 1`] = `
+exports[`ToggleButton scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *

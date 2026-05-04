@@ -1,67 +1,73 @@
 import path from 'path'
-import * as fs from 'fs'
+import fs from 'fs'
+import os from 'os'
 import {
   findPathToScopeHash,
   getScopeHashFromFile,
 } from '../plugin-utils.js'
 
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  readFileSync: jest.fn(),
-}))
-
 describe('findPathToScopeHash', () => {
+  let tmpDir: string
+
   beforeEach(() => {
-    jest.spyOn(fs, 'existsSync').mockImplementation((filePath) => {
-      // Check if the path ends with scope-hash.txt and is in the expected directory
-      const pathStr = String(filePath)
-      return (
-        pathStr.endsWith('scope-hash.txt') &&
-        (pathStr.includes('/a/b/c/d/') || pathStr.includes('a/b/c/d/'))
-      )
-    })
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scope-hash-test-'))
   })
-  afterEach(() => jest.restoreAllMocks())
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+  })
 
   it('should find scope-hash.txt in a parent directory', () => {
-    expect(findPathToScopeHash('/a/b/c/d/style.css')).toEqual(
-      path.join('/', 'a', 'b', 'c', 'd')
+    const nestedDir = path.join(tmpDir, 'a', 'b')
+    fs.mkdirSync(nestedDir, { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'a', 'scope-hash.txt'), 'hash')
+
+    expect(findPathToScopeHash(path.join(nestedDir, 'style.css'))).toEqual(
+      path.join(tmpDir, 'a')
     )
   })
 
   it('should return null if no scope-hash.txt is found', () => {
-    jest.spyOn(fs, 'existsSync').mockReturnValue(false)
-    expect(findPathToScopeHash('/foo/bar/style.css')).toBeNull()
+    const nestedDir = path.join(tmpDir, 'x', 'y')
+    fs.mkdirSync(nestedDir, { recursive: true })
+
+    expect(
+      findPathToScopeHash(path.join(nestedDir, 'style.css'))
+    ).toBeNull()
   })
 })
 
 describe('getScopeHashFromFile', () => {
+  let tmpDir: string
+
   beforeEach(() => {
-    jest.spyOn(fs, 'readFileSync').mockReturnValue('test-hash-123')
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scope-hash-test-'))
   })
-  afterEach(() => jest.restoreAllMocks())
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+  })
 
   it('should read scope-hash.txt from the given directory', () => {
-    const result = getScopeHashFromFile('/path/to/scope/dir')
+    fs.writeFileSync(path.join(tmpDir, 'scope-hash.txt'), 'test-hash-123')
+    const result = getScopeHashFromFile(tmpDir)
     expect(result).toBe('test-hash-123')
-    expect(fs.readFileSync).toHaveBeenCalledWith(
-      path.join('/path/to/scope/dir', 'scope-hash.txt'),
-      'utf-8'
-    )
   })
 
   it('should handle different directory paths', () => {
-    const result = getScopeHashFromFile('./relative/path')
+    const subDir = path.join(tmpDir, 'sub')
+    fs.mkdirSync(subDir, { recursive: true })
+    fs.writeFileSync(path.join(subDir, 'scope-hash.txt'), 'test-hash-123')
+    const result = getScopeHashFromFile(subDir)
     expect(result).toBe('test-hash-123')
-    expect(fs.readFileSync).toHaveBeenCalledWith(
-      path.join('./relative/path', 'scope-hash.txt'),
-      'utf-8'
-    )
   })
 
   it('should return the exact content from the file', () => {
-    jest.spyOn(fs, 'readFileSync').mockReturnValue('another-hash-456')
-    const result = getScopeHashFromFile('/some/dir')
+    fs.writeFileSync(
+      path.join(tmpDir, 'scope-hash.txt'),
+      'another-hash-456'
+    )
+    const result = getScopeHashFromFile(tmpDir)
     expect(result).toBe('another-hash-456')
   })
 })

@@ -120,10 +120,12 @@ describe('postalCode', () => {
         dispatchEvent: jest.fn(),
       }
 
-      globalThis.AbortController = jest.fn(() => ({
-        signal: mockSignal,
-        abort: mockAbort,
-      }))
+      globalThis.AbortController = jest.fn(function () {
+        return {
+          signal: mockSignal,
+          abort: mockAbort,
+        }
+      })
 
       // With delay so we can abort
       globalThis.fetch = createFetchMock(null, async () => {

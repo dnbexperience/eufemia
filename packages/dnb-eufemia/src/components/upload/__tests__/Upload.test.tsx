@@ -2160,9 +2160,11 @@ describe('Upload', () => {
         fireEvent.click(deleteButton)
       })
 
-      expect(
-        screen.queryByText('My remove file message error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          screen.queryByText('My remove file message error')
+        ).toBeInTheDocument()
+      })
     })
   })
 

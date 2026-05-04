@@ -6,7 +6,7 @@
 import { axe, toHaveNoViolations } from 'jest-axe'
 import fs from 'fs-extra'
 import path from 'path'
-import sass from 'sass'
+import * as sass from 'sass'
 import type { Options } from 'sass'
 
 export { axe, toHaveNoViolations }

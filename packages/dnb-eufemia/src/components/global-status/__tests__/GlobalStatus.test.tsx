@@ -422,18 +422,22 @@ describe('GlobalStatus component', () => {
     await wait(1)
     blurInput('input#autocomplete-3')
 
-    expect(
-      document.querySelector('.dnb-form-status__text')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+    })
 
     await refresh()
 
-    expect(
-      document.querySelector('.dnb-global-status__message p')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-form-status__text')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__message p')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+    })
 
     expect(
       document.querySelector('.dnb-global-status__shell')
@@ -574,7 +578,9 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(scrollTo).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalled()
+    })
   })
 
   it('should close when esc key is pressed', async () => {
@@ -700,9 +706,11 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(
-      document.querySelector('.dnb-global-status__shell')
-    ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
+    })
   })
 
   it('should be hidden after all messages are removed', async () => {
@@ -749,13 +757,19 @@ describe('GlobalStatus component', () => {
       document.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
 
-    expect(
-      document.querySelector('.dnb-global-status__shell')
-    ).toHaveTextContent('En feil har skjedd')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toHaveTextContent('En feil har skjedd')
+    })
 
     simulateAnimationEnd()
 
-    expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toBeNull()
+    })
   })
 
   it('should generate itemId form React Element', async () => {
@@ -1282,7 +1296,7 @@ describe('GlobalStatus scss', () => {
 })
 
 const refresh = async () => {
-  await wait(1)
+  await wait(10)
 }
 
 const keydown = (key: string) => {

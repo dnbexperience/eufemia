@@ -139,7 +139,9 @@ describe('font-url-rewrite-plugin', () => {
   })
 
   it('should handle verbose logging', async () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation()
+    const consoleSpy = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {})
     const input = `
       @font-face {
         font-family: 'TestFont';
