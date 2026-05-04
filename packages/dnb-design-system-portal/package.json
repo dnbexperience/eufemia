@@ -76,7 +76,7 @@
     "@dnb/browserslist-config": "1.2.0",
     "@emotion/cache": "11.14.0",
     "@mdx-js/rollup": "3.1.1",
-    "@playwright/test": "1.49.1",
+    "@playwright/test": "1.59.1",
     "@testing-library/react": "16.3.2",
     "@types/json-schema": "7.0.12",
     "@types/react": "19.2.14",
