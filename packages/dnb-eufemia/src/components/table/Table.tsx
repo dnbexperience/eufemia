@@ -155,6 +155,7 @@ const Table = (componentProps: TableAllProps) => {
       sticky && 'dnb-table--sticky',
       fixed && 'dnb-table--fixed',
       border && 'dnb-table--border',
+      border === false && 'dnb-table--no-border',
       outline && 'dnb-table--outline',
       mode === 'accordion' && 'dnb-table--accordion',
       mode === 'navigation' && 'dnb-table--navigation',

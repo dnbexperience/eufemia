@@ -112,7 +112,7 @@
   /* stylelint-enable */
 
   // bottom border
-  &:not(&--outline) > tbody {
+  &:not(&--outline):not(&--no-border) > tbody {
     position: relative;
 
     @include table-mixins.tableBorder() {
