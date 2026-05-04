@@ -129,6 +129,28 @@ function isAtInputBoundary(
   return selectionEnd === value.length
 }
 
+function isTextareaAtVerticalBoundary(
+  textarea: HTMLTextAreaElement,
+  direction: 'up' | 'down'
+): boolean {
+  const { selectionStart, selectionEnd, value } = textarea
+
+  // If there's a selection range, let the textarea handle it
+  if (selectionStart !== selectionEnd) {
+    return false
+  }
+
+  if (direction === 'up') {
+    // At top boundary if no newline before cursor
+    const textBeforeCursor = value.substring(0, selectionStart)
+    return !textBeforeCursor.includes('\n')
+  }
+
+  // At bottom boundary if no newline after cursor
+  const textAfterCursor = value.substring(selectionStart)
+  return !textAfterCursor.includes('\n')
+}
+
 function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
   const { key } = event
 
@@ -147,6 +169,14 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
   // Elements like spinbuttons/number inputs use up/down internally
   if (!isHorizontal && shouldSkipVerticalNav(target)) {
     return // stop here
+  }
+
+  // Textareas: only navigate vertically when cursor is at the top/bottom line
+  if (!isHorizontal && target instanceof HTMLTextAreaElement) {
+    const direction = key === 'ArrowUp' ? 'up' : 'down'
+    if (!isTextareaAtVerticalBoundary(target, direction)) {
+      return // stop here
+    }
   }
 
   // Text inputs/textareas: only navigate when cursor is at the boundary
