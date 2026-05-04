@@ -2,25 +2,3 @@
 * Input theme
 *
 */
-
-.dnb-input {
-  &__inner {
-    color: inherit;
-  }
-
-  &__shell {
-    color: inherit;
-  }
-
-  // Icon
-  &__icon {
-    color: var(
-      --color-sea-green
-    ); // TODO: need design token for figma "Search" component
-  }
-  &__status--error &__icon {
-    color: var(
-      --color-fire-red
-    ); // TODO: need design token for figma "Search" component
-  }
-}

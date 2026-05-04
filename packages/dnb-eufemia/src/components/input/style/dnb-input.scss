@@ -74,6 +74,8 @@
     flex-direction: column;
 
     width: auto;
+
+    color: inherit;
   }
 
   &__shell {
@@ -83,6 +85,7 @@
     display: flex;
     align-items: center;
 
+    color: inherit;
     border: none;
   }
 
@@ -557,6 +560,12 @@
     top: 0;
     bottom: 0;
     margin: auto;
+
+    color: var(--token-color-icon-action);
+  }
+
+  &__status--error &__icon {
+    color: var(--token-color-icon-error);
   }
 
   &--icon-position-right &__icon {
@@ -584,7 +593,7 @@
   }
 
   html[data-visual-test] &__input {
-    caret-color: var(--color-white);
+    caret-color: var(--token-color-background-neutral);
   }
 
   &[data-input-state='focus'] &__placeholder {
