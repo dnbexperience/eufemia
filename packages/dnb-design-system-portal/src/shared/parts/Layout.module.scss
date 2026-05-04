@@ -112,7 +112,7 @@
     :checked + .radio-label {
       position: relative;
       z-index: 1;
-      border-color: var(--color-sea-green);
+      border-color: var(--token-color-stroke-action);
     }
 
     .markdown-body::before {
@@ -141,7 +141,8 @@
       }
       a:hover img {
         border-radius: 0.25rem; /* 4/16 */
-        box-shadow: 0 0 0 0.125rem var(--color-mint-green-50);
+        box-shadow: 0 0 0 0.125rem
+          var(--token-color-stroke-action-focus-subtle);
       }
     }
 
@@ -167,7 +168,7 @@
       font-style: italic;
       text-align: center;
 
-      border-top: solid 1px #c4c4c4;
+      border-top: solid 1px var(--token-color-stroke-neutral-subtle);
 
       p {
         margin: 0;
