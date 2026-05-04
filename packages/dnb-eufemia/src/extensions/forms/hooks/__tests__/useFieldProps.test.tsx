@@ -970,7 +970,7 @@ describe('useFieldProps', () => {
     })
 
     it('should bypass schema type error when empty string or null is given', async () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
+      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'number',
@@ -1022,7 +1022,7 @@ describe('useFieldProps', () => {
     })
 
     it('should show schema type error initially', async () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
+      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'number',
@@ -4141,10 +4141,12 @@ describe('useFieldProps', () => {
 
         await userEvent.type(input, '234')
 
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          'onChangeValidator error'
-        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'onChangeValidator error'
+          )
+        })
 
         window.requestAnimationFrame = original
       })

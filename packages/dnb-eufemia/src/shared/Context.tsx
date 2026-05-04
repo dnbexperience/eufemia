@@ -8,6 +8,7 @@ import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
 import pointer from '../extensions/forms/utils/json-pointer'
+import type { ICUFormatMessage } from './icuFormatMessage'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -179,6 +180,20 @@ export type ContextProps = ContextComponents & {
    */
   translations?: Translations | TranslationCustomLocales
 
+  /**
+   * Async function to load translations for a given locale.
+   * Called on mount and whenever the locale changes.
+   * The returned translations are merged with any existing translations.
+   */
+  translationsLoader?: TranslationsLoader
+
+  /**
+   * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
+   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+   * pluralization, select, and other ICU features in translation strings.
+   */
+  messageFormatter?: ICUFormatMessage
+
   // -- For internal use --
   __context__?: Record<string, unknown>
   updateTranslation?: (
@@ -202,6 +217,9 @@ export type InternalLocale =
 export type Translations =
   | Partial<Record<InternalLocale, Translation | TranslationFlat>>
   | Partial<Record<InternalLocale, FormsTranslation>>
+export type TranslationsLoader = (
+  locale: InternalLocale
+) => Promise<Translations>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
 export type TranslationValues =

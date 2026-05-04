@@ -1405,6 +1405,19 @@ describe('ArraySelection', () => {
       )
     })
 
+    it('should apply width-stretch class to field block when width is stretch', () => {
+      render(
+        <Field.ArraySelection width="stretch">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const fieldBlock = document.querySelector('.dnb-forms-field-block')
+      expect(fieldBlock.classList).toContain(
+        'dnb-forms-field-block--width-stretch'
+      )
+    })
+
     it('should support custom width', () => {
       render(
         <Field.ArraySelection width="4rem">

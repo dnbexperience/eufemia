@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm-react-markdown'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { useHandleSortState } from '@dnb/eufemia/src/components/table/useHandleSortState'
 import type { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { basicComponents } from '../tags'
 
@@ -92,17 +93,38 @@ export default function PropertiesTable({
   pick?: string[]
   showDefaultValue: boolean
 }) {
-  const tableRows = Object.entries(props || {}).map(([key, props]) => {
-    if (!props) {
-      return null
+  const { sortState, sortHandler, activeSortName } = useHandleSortState(
+    {
+      property: {
+        direction: 'off',
+      },
+    },
+    {
+      direction: 'off',
+      modes: ['asc', 'desc', 'off'],
     }
-    const { type, defaultValue, doc, status } = props
+  )
+
+  const entries = Object.entries(props || {}).filter(([key, props]) => {
+    if (!props) {
+      return false
+    }
     if (pick && !pick.includes(key)) {
-      return null
+      return false
     }
     if (omit && omit.includes(key)) {
-      return null
+      return false
     }
+    return true
+  })
+
+  if (activeSortName === 'property') {
+    const direction = sortState.property.reversed ? -1 : 1
+    entries.sort(([a], [b]) => direction * a.localeCompare(b))
+  }
+
+  const tableRows = entries.map(([key, props]) => {
+    const { type, defaultValue, doc, status } = props
 
     return (
       <Tr key={key}>
@@ -181,7 +203,18 @@ export default function PropertiesTable({
       <StyledTable outline border>
         <thead>
           <Tr>
-            <Th>Property</Th>
+            <Th
+              noWrap
+              sortable
+              active={sortState.property.active}
+              reversed={sortState.property.reversed}
+            >
+              <Th.SortButton
+                text="Property"
+                title="Sort by property name"
+                onClick={sortHandler.property}
+              />
+            </Th>
             <Th>Type</Th>
             {showDefaultValue && <Th>Default value</Th>}
             <Th className="description">Description</Th>

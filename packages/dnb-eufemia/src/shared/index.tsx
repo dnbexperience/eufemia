@@ -17,5 +17,7 @@ export { default as useSharedContext } from './useSharedContext'
 export { default as Translation } from './Translation'
 export { default as renderWithFormatting } from './renderWithFormatting'
 export * from './Translation'
+export { icu } from './icuFormatMessage'
 
 export type { ThemeNames } from './Theme'
+export type { ICUFormatMessage } from './icuFormatMessage'

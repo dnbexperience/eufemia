@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Button scss has to match style dependencies css 1`] = `
+exports[`Button scss > has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -331,8 +331,8 @@ button .dnb-form-status__text {
   --button-border-width: var(--button-border-width--default);
   --button-border-width--default: 0.0625rem;
   --button-border-width--hover: 0.125rem;
-  --button-border-width--focus: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-width--focus: var(--focus-ring-width);
+  --button-border-radius: var(--token-radius-xl);
   --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
@@ -952,7 +952,7 @@ button.dnb-button::-moz-focus-inner {
 }"
 `;
 
-exports[`Button scss has to match theme css for sbanken 1`] = `
+exports[`Button scss > has to match theme css for sbanken 1`] = `
 "/*
 * Button theme
 *
@@ -1165,7 +1165,7 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 }"
 `;
 
-exports[`Button scss has to match theme css for ui 1`] = `
+exports[`Button scss > has to match theme css for ui 1`] = `
 "/*
 * Button theme
 *
@@ -1335,12 +1335,6 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]) {
   box-shadow: none;
   border: none;
-}
-.dnb-button--active {
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;

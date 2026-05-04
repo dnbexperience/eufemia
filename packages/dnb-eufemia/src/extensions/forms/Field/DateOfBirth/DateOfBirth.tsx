@@ -435,7 +435,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         variant="autocomplete"
         labelDescription={monthLabel}
         labelSize={labelSize}
-        width="stretch"
+        width="10.75rem"
         placeholder=""
         autocompleteProps={{
           openOnFocus: true,

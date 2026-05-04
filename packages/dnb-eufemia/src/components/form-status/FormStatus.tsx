@@ -433,7 +433,11 @@ function FormStatusComponent(
       fillCache()
 
       if (state === 'error') {
-        if (show) {
+        const content = getContent(restOwnProps)
+
+        if (!content) {
+          globalStatusRef.current?.remove(statusId)
+        } else if (show) {
           globalStatusRef.current?.update(
             statusId,
             {
@@ -451,8 +455,6 @@ function FormStatusComponent(
               preventRestack: true, // because of the internal "close"
             }
           )
-        } else if (!getContent(restOwnProps)) {
-          globalStatusRef.current?.remove(statusId)
         }
       }
 

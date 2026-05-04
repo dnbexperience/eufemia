@@ -5,7 +5,7 @@ import { MenuContext } from '../MenuContext'
 import { createMockContext } from './testHelpers'
 
 jest.mock('../../popover/Popover', () => {
-  return jest.requireActual('./testHelpers').MockPopover
+  return { default: jest.requireActual('./testHelpers').MockPopover }
 })
 
 describe('MenuAccordion', () => {

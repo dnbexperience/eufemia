@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Upload scss should match style dependencies css 1`] = `
+exports[`Upload scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -339,8 +339,8 @@ button .dnb-form-status__text {
   --button-border-width: var(--button-border-width--default);
   --button-border-width--default: 0.0625rem;
   --button-border-width--hover: 0.125rem;
-  --button-border-width--focus: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-width--focus: var(--focus-ring-width);
+  --button-border-radius: var(--token-radius-xl);
   --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;

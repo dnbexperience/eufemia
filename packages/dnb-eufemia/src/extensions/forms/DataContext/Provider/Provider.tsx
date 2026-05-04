@@ -196,6 +196,18 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     translations?: ContextProps['translations']
     /**
+     * Async function to load translations for a given locale.
+     * Called on mount and whenever the locale changes.
+     * The returned translations are merged with any existing translations.
+     */
+    translationsLoader?: ContextProps['translationsLoader']
+    /**
+     * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
+     * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+     * pluralization, select, and other ICU features in translation strings.
+     */
+    messageFormatter?: ContextProps['messageFormatter']
+    /**
      * Make all fields required
      */
     required?: boolean
@@ -237,6 +249,8 @@ export default function Provider<Data extends JsonObject>(
     countryCode,
     locale,
     translations,
+    translationsLoader,
+    messageFormatter,
     required,
     errorMessages,
     isolate,
@@ -300,8 +314,10 @@ export default function Provider<Data extends JsonObject>(
     Array<(showAllErrors: boolean) => void>
   >([])
   const showAllErrorsRef = useRef<number | boolean>(false)
+  const showGlobalStatusRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors ? Date.now() : showAllErrors
+    showGlobalStatusRef.current = showAllErrors
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
@@ -1176,6 +1192,10 @@ export default function Provider<Data extends JsonObject>(
 
       validateData()
 
+      if (showGlobalStatusRef.current && !hasErrors()) {
+        showGlobalStatusRef.current = false
+      }
+
       const data = internalDataRef.current as Data
       const options = { filterData }
       const transformedData = transformOut
@@ -1199,6 +1219,7 @@ export default function Provider<Data extends JsonObject>(
     [
       filterData,
       handlePathChangeUnvalidated,
+      hasErrors,
       mutateDataHandler,
       onChange,
       transformOut,
@@ -1795,14 +1816,17 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const show = Boolean(showAllErrorsRef.current)
+  const showGlobalStatus = show || showGlobalStatusRef.current
   const resolvedLocale = locale || sharedLocale
   const customErrorSummaryTitle =
     translations?.[resolvedLocale]?.Field?.errorSummaryTitle
   const formStatusConfig = useMemo(() => {
-    const status = show ? GlobalStatusProvider.get(globalStatusId) : null
+    const status = showGlobalStatus
+      ? GlobalStatusProvider.get(globalStatusId)
+      : null
     return {
       globalStatus: {
-        show,
+        show: showGlobalStatus,
         id: globalStatusId,
         title:
           status?.stack[0]?.title ??
@@ -1812,7 +1836,7 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [
     globalStatusId,
-    show,
+    showGlobalStatus,
     customErrorSummaryTitle,
     translation.errorSummaryTitle,
   ])
@@ -1824,6 +1848,10 @@ export default function Provider<Data extends JsonObject>(
         formElement={disabled ? { disabled: true } : undefined}
         locale={locale ? locale : undefined}
         translations={translations ? translations : undefined}
+        translationsLoader={
+          translationsLoader ? translationsLoader : undefined
+        }
+        messageFormatter={messageFormatter ? messageFormatter : undefined}
       >
         {children}
       </FieldPropsProvider>

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table scss should match default theme snapshot 1`] = `
+exports[`Table scss > should match default theme snapshot 1`] = `
 "/*
 * Table theme
 *
@@ -74,10 +74,10 @@ exports[`Table scss should match default theme snapshot 1`] = `
 .dnb-table {
   /* stylelint-enable */
 }
-.dnb-table:not(.dnb-table--outline) > tbody {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody {
   position: relative;
 }
-.dnb-table:not(.dnb-table--outline) > tbody::after {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody::after {
   content: "";
   position: absolute;
   top: 0;
@@ -88,12 +88,12 @@ exports[`Table scss should match default theme snapshot 1`] = `
   pointer-events: none;
   border-bottom: var(--table-border);
 }
-.dnb-table:not(.dnb-table--outline) > tbody:last-child::after {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody:last-child::after {
   right: 0;
 }"
 `;
 
-exports[`Table scss should match style dependencies css 1`] = `
+exports[`Table scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -324,7 +324,7 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
   outline: none;
 }
 html[data-whatinput=mouse] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -342,7 +342,7 @@ html[data-whatinput=mouse] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   outline: none;
 }
 html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -356,6 +356,8 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   right: 0.5rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  --border-color: currentcolor;
+  --border-width: 0.125rem;
   right: -0.5rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
@@ -598,6 +600,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
+ * Utilities
+ */
+/*
 * Table component
 *
 */
@@ -605,6 +610,26 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   position: relative;
   border-spacing: 0;
   word-break: keep-all;
+}
+
+.dnb-table thead th.dnb-table__cell--focus:focus, .dnb-table tbody td.dnb-table__cell--focus:focus, .dnb-table__th.dnb-table__cell--focus:focus, .dnb-table__td.dnb-table__cell--focus:focus {
+  outline: none;
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+
+.dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__td.dnb-table__td--vertical-align-top {
+  vertical-align: top;
+}
+
+.dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__td.dnb-table__td--vertical-align-middle {
+  vertical-align: middle;
+}
+
+.dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__td.dnb-table__td--vertical-align-bottom {
+  vertical-align: bottom;
 }
 
 /*
@@ -766,7 +791,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
     --token-color-icon-action-disabled
   );
   --table-accordion-outline-color: var(--token-color-stroke-selected);
-  --table-accordion-outline-width: var(--focus-ring-width);
+  --table-accordion-outline-width: 0.125rem;
   --table-accordion-background--active: var(
     --token-color-background-selected-subtle
   );
@@ -887,8 +912,8 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
-  border-color: var(--focus-ring-color);
-  border-width: var(--focus-ring-width);
+  border-color: var(--token-color-stroke-action-focus);
+  border-width: 0.125rem;
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import type { TabsProps } from '../Tabs'
 import Tabs from '../Tabs'
 import Input from '../../input/Input'
@@ -709,6 +709,22 @@ describe('A single Tab component', () => {
         return style
       })
 
+    let triggerResize: ResizeObserverCallback
+    globalThis.ResizeObserver = class {
+      constructor(callback: ResizeObserverCallback) {
+        triggerResize = callback
+      }
+      observe() {
+        /* noop */
+      }
+      unobserve() {
+        /* noop */
+      }
+      disconnect() {
+        /* noop */
+      }
+    } as unknown as typeof ResizeObserver
+
     render(
       <Tabs {...props} data={tablistData}>
         {contentWrapperData}
@@ -727,13 +743,16 @@ describe('A single Tab component', () => {
       configurable: true,
     })
 
-    fireEvent(window, new Event('resize'))
+    act(() => {
+      triggerResize([] as unknown as ResizeObserverEntry[], null)
+    })
 
     expect(document.querySelector('.dnb-tabs__tabs')).not.toHaveClass(
       'dnb-tabs--has-scrollbar'
     )
 
     jest.restoreAllMocks()
+    delete (globalThis as Record<string, unknown>).ResizeObserver
   })
 })
 

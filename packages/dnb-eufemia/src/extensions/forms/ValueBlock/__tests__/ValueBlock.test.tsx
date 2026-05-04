@@ -526,7 +526,7 @@ describe('ValueBlock', () => {
   })
 
   it('should warn when ValueBlocks are siblings without being in a SummaryList', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <>

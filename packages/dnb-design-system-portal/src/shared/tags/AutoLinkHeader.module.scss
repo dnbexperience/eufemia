@@ -23,13 +23,13 @@
         0%,
         100% {
           visibility: visible;
-          color: var(--color-sea-green);
+          color: var(--token-color-text-action);
           background-color: transparent;
         }
 
         35% {
-          color: var(--color-white);
-          background-color: var(--color-sea-green);
+          color: var(--token-color-text-neutral-inverse);
+          background-color: var(--token-color-background-action);
         }
 
         // stylelint-disable-next-line
@@ -63,8 +63,8 @@
       }
 
       35% {
-        color: var(--color-white);
-        background-color: var(--color-sea-green);
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action);
       }
     }
 

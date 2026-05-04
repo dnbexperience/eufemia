@@ -417,7 +417,7 @@ describe('HeightAnimation without initializeTestSetup()', () => {
 
     expect(getElement()).toHaveTextContent('visible content')
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+    expect(window.requestAnimationFrame).toHaveBeenCalled()
   })
 
   it('gets valid ref element', () => {

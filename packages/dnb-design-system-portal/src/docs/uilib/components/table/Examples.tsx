@@ -38,12 +38,15 @@ import {
   Section,
   Stat,
 } from '@dnb/eufemia/src/components'
-import Table from '@dnb/eufemia/src/components/table/Table'
-import Th from '@dnb/eufemia/src/components/table/TableTh'
-import Td from '@dnb/eufemia/src/components/table/TableTd'
-import Tr from '@dnb/eufemia/src/components/table/TableTr'
 import TableContainer from '@dnb/eufemia/src/components/table/TableContainer'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
+import Table, {
+  Th,
+  Td,
+  Tr,
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/src/components/Table'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 
 function useCopyWithNotice() {
@@ -1067,6 +1070,116 @@ export const AccordionRow = () => {
     </ComponentBox>
   )
 }
+
+export const KeyboardNavigation = () => (
+  <ComponentBox scope={{ useTableKeyboardNavigation, trashIcon, Field }}>
+    {() => {
+      const KeyboardNavigationTable = () => {
+        const navRef = useTableKeyboardNavigation()
+
+        return (
+          <div ref={navRef}>
+            <Table>
+              <caption className="dnb-sr-only">
+                Keyboard navigable table
+              </caption>
+
+              <thead>
+                <tr>
+                  <Th>Name</Th>
+                  <Th>Email</Th>
+                  <Th>Action</Th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <Td>
+                    <Field.String label="Name" labelSrOnly value="Ola" />
+                  </Td>
+                  <Td>
+                    <Field.Email labelSrOnly value="ola@example.no" />
+                  </Td>
+                  <Td verticalAlign="middle">
+                    <Button
+                      variant="tertiary"
+                      icon={trashIcon}
+                      tooltip="Delete row"
+                    />
+                  </Td>
+                </tr>
+                <tr>
+                  <Td>
+                    <Field.String
+                      label="Name"
+                      labelSrOnly
+                      value="Kari"
+                      multiline
+                    />
+                  </Td>
+                  <Td>
+                    <Field.Email
+                      labelSrOnly
+                      value="kari@example.no"
+                      multiline
+                    />
+                  </Td>
+                  <Td verticalAlign="middle">
+                    <Button
+                      variant="tertiary"
+                      icon={trashIcon}
+                      tooltip="Delete row"
+                    />
+                  </Td>
+                </tr>
+                <tr>
+                  <Td>
+                    <Field.Number
+                      label="Quantity"
+                      labelSrOnly
+                      showStepControls
+                      width="small"
+                      value={1}
+                    />
+                  </Td>
+                  <Td>
+                    <Field.Number
+                      label="Quantity"
+                      labelSrOnly
+                      showStepControls
+                      width="small"
+                      value={2}
+                    />
+                  </Td>
+                  <Td verticalAlign="middle">
+                    <Button
+                      variant="tertiary"
+                      icon={trashIcon}
+                      tooltip="Delete row"
+                    />
+                  </Td>
+                </tr>
+                <tr>
+                  <Td>Kari</Td>
+                  <Td>kari@example.no</Td>
+                  <Td>
+                    <Button
+                      variant="tertiary"
+                      icon={trashIcon}
+                      tooltip="Delete row"
+                    />
+                  </Td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+        )
+      }
+
+      return <KeyboardNavigationTable />
+    }}
+  </ComponentBox>
+)
 
 export const Navigation = () => (
   <ComponentBox hideCode data-visual-test="table-navigation">

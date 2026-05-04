@@ -13,29 +13,6 @@ const StyledTable = styled(TableElement)`
   }
 `
 
-export function OmitTableProperties({ children }) {
-  const omitProperties = globalThis.omitTableProperties || []
-
-  return recursiveMap(children, (child: React.ReactNode) => {
-    if (React.isValidElement(child) && child.type === 'tr') {
-      const firstTd = getFirstChild(child as ChildWithChildren)
-
-      if (React.isValidElement(firstTd) && firstTd.type === 'td') {
-        const tdContent = getFirstChild(firstTd as ChildWithChildren)
-        const name = React.isValidElement(tdContent)
-          ? getFirstChild(tdContent as ChildWithChildren)
-          : tdContent
-
-        if (omitProperties.includes(String(name))) {
-          return null
-        }
-      }
-    }
-
-    return child
-  })
-}
-
 export default function Table({ children }) {
   // make sure we get the table children
   children =
@@ -89,13 +66,6 @@ export default function Table({ children }) {
 type ChildWithChildren = React.ReactElement<{
   children?: React.ReactNode
 }>
-
-function getFirstChild(
-  children: ChildWithChildren
-): React.ReactNode | undefined {
-  const c = children.props?.children
-  return Array.isArray(c) ? c[0] : c
-}
 
 function getChildren(children: ChildWithChildren) {
   return recursiveMap(children.props.children, (child) => child)

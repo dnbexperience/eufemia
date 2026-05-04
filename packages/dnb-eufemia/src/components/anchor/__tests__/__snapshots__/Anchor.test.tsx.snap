@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Anchor scss should match style dependencies css 1`] = `
+exports[`Anchor scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -202,7 +202,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  --focus-ring-width: 0.25rem;
   transition: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
@@ -341,7 +340,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     --anchor-color: var(--token-color-text-action-focus);
     --anchor-icon-color: var(--token-color-icon-action-focus);
-    --focus-ring-width: 0.25rem;
     transition: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
@@ -462,7 +460,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 .dnb-anchor--focus {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  --focus-ring-width: 0.25rem;
   transition: none;
 }
 .dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
@@ -502,7 +499,7 @@ a.dnb-button {
 }"
 `;
 
-exports[`Anchor scss should match theme css for sbanken 1`] = `
+exports[`Anchor scss > should match theme css for sbanken 1`] = `
 "/*
  * Anchor theme
  *
@@ -656,7 +653,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 }"
 `;
 
-exports[`Anchor scss should match theme css for ui 1`] = `
+exports[`Anchor scss > should match theme css for ui 1`] = `
 "/*
  * Anchor theme
  *

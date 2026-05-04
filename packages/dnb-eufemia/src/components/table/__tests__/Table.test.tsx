@@ -132,6 +132,30 @@ describe('Table', () => {
     )
   })
 
+  it('should set the no-border class when border is false', () => {
+    render(
+      <Table border={false}>
+        <BasicTable />
+      </Table>
+    )
+
+    const classList = Array.from(screen.queryByRole('table').classList)
+    expect(classList).toContain('dnb-table--no-border')
+    expect(classList).not.toContain('dnb-table--border')
+  })
+
+  it('should not set border classes when border is undefined', () => {
+    render(
+      <Table>
+        <BasicTable />
+      </Table>
+    )
+
+    const classList = Array.from(screen.queryByRole('table').classList)
+    expect(classList).not.toContain('dnb-table--no-border')
+    expect(classList).not.toContain('dnb-table--border')
+  })
+
   it('should set the outline class', () => {
     render(
       <Table outline>

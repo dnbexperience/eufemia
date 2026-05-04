@@ -322,7 +322,8 @@ export function getRelativeTimeNextUpdateMs(
   const msUntilFlip = (v - (Math.round(v) - 0.5)) * unitMs
   const min = unit === 'seconds' ? 500 : 1000
 
-  return Math.max(min, Math.floor(msUntilFlip) + 50)
+  // Cap to max 32-bit signed int to avoid setTimeout overflow
+  return Math.min(Math.max(min, Math.floor(msUntilFlip) + 50), 2147483647)
 }
 
 const UNIT_THRESHOLDS: ReadonlyArray<

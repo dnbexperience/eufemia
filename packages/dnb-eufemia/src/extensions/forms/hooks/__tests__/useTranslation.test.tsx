@@ -14,6 +14,8 @@ import forms_enGB from '../../constants/locales/en-GB'
 import global_nbNO from '../../../../shared/locales/nb-NO'
 import global_enGB from '../../../../shared/locales/en-GB'
 import { extendDeep } from '../../../../shared/component-helper'
+import { icu } from '../../../../shared/icuFormatMessage'
+import FormHandler from '../../Form/Handler'
 
 describe('Form.useTranslation', () => {
   it('should default to nb-NO if no locale is specified in context', () => {
@@ -538,5 +540,72 @@ describe('Form.useTranslation', () => {
 
       expect(result.current.Email).toMatchObject(extendedLocale.Email)
     })
+  })
+})
+
+describe('Form.useTranslation with ICU', () => {
+  it('should format plural messages when icu is enabled', () => {
+    const translations = {
+      'en-GB': {
+        MyForm: {
+          items: 'You have {count, plural, one {# item} other {# items}}.',
+        },
+      },
+    }
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation()
+      return (
+        <>
+          <span id="one">
+            {formatMessage('MyForm.items', { count: 1 })}
+          </span>
+          <span id="many">
+            {formatMessage('MyForm.items', { count: 5 })}
+          </span>
+        </>
+      )
+    }
+
+    render(
+      <FormHandler
+        messageFormatter={icu}
+        locale="en-GB"
+        translations={translations}
+      >
+        <MockComponent />
+      </FormHandler>
+    )
+
+    expect(document.querySelector('[id="one"]').textContent).toBe(
+      'You have 1 item.'
+    )
+    expect(document.querySelector('[id="many"]').textContent).toBe(
+      'You have 5 items.'
+    )
+  })
+
+  it('should not format ICU when messageFormatter prop is not provided', () => {
+    const translations = {
+      'en-GB': {
+        MyForm: {
+          items: 'You have {count, plural, one {# item} other {# items}}.',
+        },
+      },
+    }
+
+    const MockComponent = () => {
+      const { formatMessage } = useTranslation()
+      return <span>{formatMessage('MyForm.items', { count: 5 })}</span>
+    }
+
+    render(
+      <FormHandler locale="en-GB" translations={translations}>
+        <MockComponent />
+      </FormHandler>
+    )
+
+    // Without messageFormatter, ICU syntax is not parsed — placeholder replacement falls through
+    expect(document.body.textContent).not.toBe('You have 5 items.')
   })
 })

@@ -345,10 +345,10 @@ describe('Popover', () => {
 
     fireEvent.mouseDown(document.documentElement)
 
-    await waitFor(() =>
+    await waitFor(() => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
-    )
-    expect(popoverElement).not.toHaveClass('dnb-popover--active')
+      expect(popoverElement).not.toHaveClass('dnb-popover--active')
+    })
   })
 
   it('renders optional title and focuses content when opened', async () => {
@@ -3572,7 +3572,9 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is truthy but not a valid React element or render function', () => {
-      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleLogSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       render(
         <Popover trigger="invalid trigger" content={contentText}>
@@ -3589,7 +3591,9 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is an object but not a valid React element', () => {
-      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleLogSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       render(
         <Popover
@@ -3609,7 +3613,9 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is a number', () => {
-      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleLogSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       render(
         <Popover
@@ -3629,7 +3635,9 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is undefined and no targetElement/targetSelector is provided', () => {
-      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleLogSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       render(<Popover content={contentText}>{contentText}</Popover>)
 
@@ -3642,7 +3650,9 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is null and no targetElement/targetSelector is provided', () => {
-      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
+      const consoleLogSpy = jest
+        .spyOn(console, 'log')
+        .mockImplementation(() => {})
 
       render(
         <Popover trigger={null} content={contentText}>

@@ -109,8 +109,8 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         width: '80rem',
         padding: '0 2rem 4rem 2rem',
       },
-      waitAfterSimulate: 100, // ensure the buttons are "hidden", so give time for a slow CI
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -121,7 +121,6 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
       simulate: 'focus',
-      waitAfterSimulate: 100, // ensure the buttons are "hidden", so give time for a slow CI
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -168,6 +167,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 3rem 4rem 3rem',
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -199,6 +199,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
         padding: '0 3rem 4rem 3rem',
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -213,6 +214,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__scroll-nav-button:first-child',
       simulate: 'click',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -234,6 +236,7 @@ describe.each(['ui'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
       simulate: 'click',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

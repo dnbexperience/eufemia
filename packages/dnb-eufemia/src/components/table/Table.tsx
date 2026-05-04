@@ -155,6 +155,7 @@ const Table = (componentProps: TableAllProps) => {
       sticky && 'dnb-table--sticky',
       fixed && 'dnb-table--fixed',
       border && 'dnb-table--border',
+      border === false && 'dnb-table--no-border',
       outline && 'dnb-table--outline',
       mode === 'accordion' && 'dnb-table--accordion',
       mode === 'navigation' && 'dnb-table--navigation',
@@ -185,5 +186,9 @@ const Table = (componentProps: TableAllProps) => {
 withComponentMarkers(Table, { _supportsSpacingProps: true })
 
 export default Table
+export { useTableKeyboardNavigation } from './useTableKeyboardNavigation'
+export { default as Th } from './TableTh'
+export { default as Td } from './TableTd'
+export { default as Tr } from './TableTr'
 
 Table.ScrollView = ScrollView

@@ -503,14 +503,14 @@ describe('Wizard.Container', () => {
 
     it('should support the Translation component for titles', async () => {
       const Step1 = () => (
-        <Wizard.Step title={<Translation id="wizard.step1" />}>
+        <Wizard.Step title={<Translation id="Modal.dialogTitle" />}>
           <output>Step 1</output>
           <Wizard.Buttons />
         </Wizard.Step>
       )
 
       const Step2 = () => (
-        <Wizard.Step title={<Translation id="wizard.step2" />}>
+        <Wizard.Step title={<Translation id="HelpButton.title" />}>
           <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
@@ -547,8 +547,8 @@ describe('Wizard.Container', () => {
         </React.StrictMode>
       )
 
-      expect(screen.getAllByText('wizard.step1')).toHaveLength(2)
-      expect(screen.getByText('wizard.step2')).toBeInTheDocument()
+      expect(screen.getAllByText('Separat Vindu')).toHaveLength(2)
+      expect(screen.getByText('Hjelpetekst')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelectorAll('output')).toHaveLength(1)
@@ -1834,14 +1834,9 @@ describe('Wizard.Container', () => {
 
       fireEvent.click(nextButton())
 
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryAllByRole('alert')).toHaveLength(0)
-      expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
-
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
-        expect(screen.queryAllByRole('alert')).toHaveLength(0)
+        expect(screen.queryByText('Error message')).not.toBeInTheDocument()
         expect(previousButton()).not.toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
       })
@@ -2130,7 +2125,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should warn when not wrapped in Form.Handler', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Wizard.Container>

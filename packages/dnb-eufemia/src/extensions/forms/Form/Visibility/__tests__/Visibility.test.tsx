@@ -339,7 +339,9 @@ describe('Visibility', () => {
       })
 
       it('should render with itemPath', async () => {
-        const log = jest.spyOn(console, 'warn').mockImplementation()
+        const log = jest
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {})
 
         render(
           <Form.Handler>

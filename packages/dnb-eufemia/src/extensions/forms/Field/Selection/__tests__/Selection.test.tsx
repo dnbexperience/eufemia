@@ -3166,6 +3166,32 @@ describe('Selection width', () => {
     )
   })
 
+  it('should apply width-stretch class to field block when width is stretch', () => {
+    render(
+      <Field.Selection width="stretch">
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const fieldBlock = document.querySelector('.dnb-forms-field-block')
+    expect(fieldBlock.classList).toContain(
+      'dnb-forms-field-block--width-stretch'
+    )
+  })
+
+  it('should apply width-stretch class to field block for radio variant', () => {
+    render(
+      <Field.Selection variant="radio" width="stretch">
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const fieldBlock = document.querySelector('.dnb-forms-field-block')
+    expect(fieldBlock.classList).toContain(
+      'dnb-forms-field-block--width-stretch'
+    )
+  })
+
   it('should support custom width', () => {
     render(
       <Field.Selection width="4rem">

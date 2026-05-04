@@ -48,6 +48,8 @@ const allowedProviderContextProps: Array<
   'locale',
   'countryCode',
   'translations',
+  'translationsLoader',
+  'messageFormatter',
   'autoComplete',
   'disabled',
   'required',

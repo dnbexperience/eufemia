@@ -22,6 +22,20 @@ export type FieldProviderProps = FieldProps & {
    */
   translations?: DataContextProps<JsonObject>['translations']
 
+  /**
+   * Async function to load translations for a given locale.
+   * Called on mount and whenever the locale changes.
+   * The returned translations are merged with any existing translations.
+   */
+  translationsLoader?: DataContextProps<JsonObject>['translationsLoader']
+
+  /**
+   * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
+   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
+   * pluralization, select, and other ICU features in translation strings.
+   */
+  messageFormatter?: DataContextProps<JsonObject>['messageFormatter']
+
   /** For internal use only */
   overwriteProps?: {
     [key: Path]: FieldProps

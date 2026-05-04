@@ -706,11 +706,10 @@ describe('Autocomplete component', () => {
       target: { value: 'bb' },
     })
 
-    await wait(2)
-
-    const nodes = document.querySelectorAll('.dnb-sr-only')
-
-    expect(nodes[nodes.length - 1].textContent).toBe('1 alternativer')
+    await waitFor(() => {
+      const nodes = document.querySelectorAll('.dnb-sr-only')
+      expect(nodes[nodes.length - 1].textContent).toBe('1 alternativer')
+    })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
@@ -720,11 +719,12 @@ describe('Autocomplete component', () => {
       target: { value: 'cc' },
     })
 
-    await wait(2)
-
-    const nodes1 = document.querySelectorAll('.dnb-sr-only')
-    expect(nodes1[nodes1.length - 1].textContent).toBe('2 alternativer')
     const content = (mockData[2] as DrawerListDataArrayObject).content
+
+    await waitFor(() => {
+      const nodes1 = document.querySelectorAll('.dnb-sr-only')
+      expect(nodes1[nodes1.length - 1].textContent).toBe('2 alternativer')
+    })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
@@ -734,10 +734,10 @@ describe('Autocomplete component', () => {
       target: { value: 'c' },
     })
 
-    await wait(2)
-
-    const nodes2 = document.querySelectorAll('.dnb-sr-only')
-    expect(nodes2[nodes2.length - 1].textContent).toBe('3 alternativer')
+    await waitFor(() => {
+      const nodes2 = document.querySelectorAll('.dnb-sr-only')
+      expect(nodes2[nodes2.length - 1].textContent).toBe('3 alternativer')
+    })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
@@ -747,12 +747,12 @@ describe('Autocomplete component', () => {
       target: { value: 'invalid' },
     })
 
-    await wait(2)
-
-    const nodes3 = document.querySelectorAll('.dnb-sr-only')
-    expect(nodes3[nodes3.length - 1].textContent).toBe(
-      'Ingen alternativer'
-    )
+    await waitFor(() => {
+      const nodes3 = document.querySelectorAll('.dnb-sr-only')
+      expect(nodes3[nodes3.length - 1].textContent).toBe(
+        'Ingen alternativer'
+      )
+    })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
@@ -2201,11 +2201,10 @@ describe('Autocomplete component', () => {
 
       expect(inputElement.value).toBe('cc')
 
-      await wait(1) // because the implementation has a delay here of 1ms
+      await waitFor(() => {
+        expect(inputElement.value).toBe('')
+      })
 
-      expect(inputElement.value).toBe('')
-
-      expect(inputElement.value).toBe('')
       expect(focusElement()).not.toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
       expect(onChange).toHaveBeenCalledTimes(0)
@@ -2234,9 +2233,9 @@ describe('Autocomplete component', () => {
 
       expect(inputElement.value).toBe('cc')
 
-      await wait(1) // because the implementation has a delay here of 1ms
-
-      expect(inputElement.value).toBe('CC cc')
+      await waitFor(() => {
+        expect(inputElement.value).toBe('CC cc')
+      })
 
       expect(onChange).toHaveBeenNthCalledWith(
         1,
@@ -2256,9 +2255,9 @@ describe('Autocomplete component', () => {
 
       expect(inputElement.value).toBe('CC cc invalid')
 
-      await wait(1) // because the implementation has a delay here of 1ms
-
-      expect(inputElement.value).toBe('CC cc')
+      await waitFor(() => {
+        expect(inputElement.value).toBe('CC cc')
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenNthCalledWith(

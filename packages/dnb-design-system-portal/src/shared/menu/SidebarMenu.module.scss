@@ -200,7 +200,7 @@
 
       white-space: nowrap;
 
-      background-color: var(--dnb-sidebar-menu-text-color);
+      background-color: currentcolor;
       border-radius: 0.75em;
 
       transform: translateX(calc(-100% - 0.5rem));
@@ -210,7 +210,7 @@
           content: 'Sbanken';
           font-family: var(--font-family-heading);
           font-weight: normal;
-          color: var(--color-white);
+          color: var(--token-color-icon-neutral-inverse);
           width: 0.7em;
           height: 1.5rem;
           overflow: hidden;

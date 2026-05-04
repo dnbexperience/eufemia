@@ -3988,7 +3988,7 @@ describe('Field.Date', () => {
     describe('with validateUnchanged', () => {
       it('should show error message when blurring without any changes', async () => {
         // Because of the invalid date
-        const log = jest.spyOn(console, 'log').mockImplementation()
+        const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
         render(
           <Form.Handler ajvInstance={makeAjvInstance()}>

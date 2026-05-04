@@ -1,7 +1,17 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useId from '../useId'
-import * as helper from '../../component-helper'
+
+const mockMakeUniqueId = jest.fn(() => 'random')
+
+jest.mock('../../component-helper', async () => {
+  const actual = await jest.requireActual('../../component-helper')
+  return {
+    ...actual,
+    makeUniqueId: (...args: Parameters<typeof mockMakeUniqueId>) =>
+      mockMakeUniqueId(...args),
+  }
+})
 
 describe('useId', () => {
   it('should return given id', () => {
@@ -16,8 +26,7 @@ describe('useId', () => {
   })
 
   it('should return id from makeUniqueId', () => {
-    jest.spyOn(React, 'useId').mockImplementation(undefined)
-    jest.spyOn(helper, 'makeUniqueId').mockImplementation(() => 'random')
+    jest.spyOn(React, 'useId').mockImplementation(() => undefined)
     const { result } = renderHook(() => useId())
     expect(result.current).toBe('random')
   })

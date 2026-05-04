@@ -262,7 +262,7 @@ describe('Field.Currency', () => {
   })
 
   it('should handle unsupported currency', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Field.Currency

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DrawerList scss has to match style dependencies css 1`] = `
+exports[`DrawerList scss > has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -430,7 +430,7 @@ html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-
 }"
 `;
 
-exports[`DrawerList scss have to match default theme snapshot 1`] = `
+exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 "/*
 * ScrollView theme
 *
@@ -454,7 +454,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -463,7 +463,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
   outline: none;
 }
 html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
-  --border-color: var(--focus-ring-color);
+  --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;

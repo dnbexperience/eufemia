@@ -181,10 +181,7 @@
   // Focus border
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include utilities.focusRing(
-      'keyboard',
-      var(--token-color-stroke-action-focus)
-    );
+    @include utilities.focusRing();
   }
 
   // label

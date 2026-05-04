@@ -11,6 +11,7 @@
 
 .dnb-button {
   // global
+  // Sbanken Field.Number with step controls has a larger border radius than regular Sbanken inputs 🤷 so a token would not be correct in this situation
   --button-border-radius--control-button: 3rem;
   --button-padding--large: 1.5rem;
 

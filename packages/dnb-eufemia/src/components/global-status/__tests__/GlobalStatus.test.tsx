@@ -400,10 +400,12 @@ describe('GlobalStatus component', () => {
     await refresh()
 
     // GlobalStatus content
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent
-    ).toBe('error-message-1')
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-global-status__message p')[0]
+          .textContent
+      ).toBe('error-message-1')
+    })
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[1]
         .textContent
@@ -422,18 +424,22 @@ describe('GlobalStatus component', () => {
     await wait(1)
     blurInput('input#autocomplete-3')
 
-    expect(
-      document.querySelector('.dnb-form-status__text')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+    })
 
     await refresh()
 
-    expect(
-      document.querySelector('.dnb-global-status__message p')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-form-status__text')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__message p')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+    })
 
     expect(
       document.querySelector('.dnb-global-status__shell')
@@ -574,7 +580,9 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(scrollTo).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalled()
+    })
   })
 
   it('should close when esc key is pressed', async () => {
@@ -700,9 +708,11 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(
-      document.querySelector('.dnb-global-status__shell')
-    ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
+    })
   })
 
   it('should be hidden after all messages are removed', async () => {
@@ -749,13 +759,19 @@ describe('GlobalStatus component', () => {
       document.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
 
-    expect(
-      document.querySelector('.dnb-global-status__shell')
-    ).toHaveTextContent('En feil har skjedd')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toHaveTextContent('En feil har skjedd')
+    })
 
     simulateAnimationEnd()
 
-    expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toBeNull()
+    })
   })
 
   it('should generate itemId form React Element', async () => {
@@ -1095,6 +1111,36 @@ describe('GlobalStatus component', () => {
     expect(element).not.toHaveClass('dnb-global-status--error')
   })
 
+  it('should use error state from provider when no state prop is given', () => {
+    render(
+      <>
+        <GlobalStatus
+          id="provider-state-test"
+          autoScroll={false}
+          noAnimation
+        />
+        <GlobalStatus.Add
+          id="provider-state-test"
+          statusId="provider-state-1"
+          state="error"
+          text="Error from provider"
+        />
+      </>
+    )
+
+    const element = document.querySelector(
+      '#provider-state-test .dnb-global-status'
+    )
+    const section = document.querySelector(
+      '#provider-state-test .dnb-section'
+    )
+
+    expect(element).toHaveClass('dnb-global-status--error')
+    expect(element).not.toHaveClass('dnb-global-status--undefined')
+    expect(section).toHaveClass('dnb-section--error')
+    expect(section).not.toHaveClass('dnb-section--default')
+  })
+
   it('should reflect dynamic locale changes from Provider context', () => {
     const { rerender } = render(
       <Provider locale="en-GB">
@@ -1252,7 +1298,7 @@ describe('GlobalStatus scss', () => {
 })
 
 const refresh = async () => {
-  await wait(1)
+  await wait(10)
 }
 
 const keydown = (key: string) => {

@@ -96,8 +96,8 @@ describe('List.Card', () => {
     expect(element.textContent).toContain('My Title')
   })
 
-  it('supports spacing props', () => {
-    const { default: ListCard } = require('../ListCard')
+  it('supports spacing props', async () => {
+    const { default: ListCard } = await import('../ListCard')
 
     expect(ListCard._supportsSpacingProps).toBe(true)
   })
@@ -343,8 +343,8 @@ describe('List.ScrollView', () => {
     expect(element.style.marginBottom).toBe('')
   })
 
-  it('supports spacing props', () => {
-    const { default: ListScrollView } = require('../ListScrollView')
+  it('supports spacing props', async () => {
+    const { default: ListScrollView } = await import('../ListScrollView')
 
     expect(ListScrollView._supportsSpacingProps).toBe(true)
   })

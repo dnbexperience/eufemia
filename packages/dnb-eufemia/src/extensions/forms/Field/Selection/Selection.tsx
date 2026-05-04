@@ -280,6 +280,9 @@ function Selection(props: FieldSelectionProps) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
       if (width) {
+        if (width === 'stretch') {
+          additionalFieldBlockProps.width = width
+        }
         additionalFieldBlockProps.contentWidth = width
       }
 
@@ -342,6 +345,7 @@ function Selection(props: FieldSelectionProps) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
+        width: width === 'stretch' ? width : undefined,
         contentWidth: width ?? 'large',
       }
 

@@ -122,29 +122,21 @@ export default function TabBar({
             <Wrapper className={tabsWrapperStyle}>
               <TabsList>
                 <Tabs />
-                {wasFullscreen ? (
-                  <Button
-                    onClick={quitFullscreen}
-                    href={quitFullscreenPath}
-                    // @ts-expect-error -- strictFunctionTypes
-                    element={Link}
-                    variant="secondary"
-                    title="Quit Fullscreen"
-                    icon="close"
-                    className="fullscreen"
-                  />
-                ) : (
-                  <Button
-                    onClick={openFullscreen}
-                    href={fullscreenPath}
-                    // @ts-expect-error -- strictFunctionTypes
-                    element={Link}
-                    variant="secondary"
-                    title="Fullscreen"
-                    icon={fullscreenIcon}
-                    className="fullscreen"
-                  />
-                )}
+                <Button
+                  onClick={wasFullscreen ? quitFullscreen : openFullscreen}
+                  href={
+                    wasFullscreen ? quitFullscreenPath : fullscreenPath
+                  }
+                  // @ts-expect-error -- strictFunctionTypes
+                  element={Link}
+                  variant="tertiary"
+                  title={wasFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+                  aria-label={
+                    wasFullscreen ? 'Quit Fullscreen' : 'Fullscreen'
+                  }
+                  icon={wasFullscreen ? 'close' : fullscreenIcon}
+                  className="fullscreen"
+                />
               </TabsList>
               {children}
               <Content />

@@ -59,7 +59,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should throw error when nested', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       render(
@@ -357,7 +357,7 @@ describe('DataContext.Provider', () => {
 
     describe('onChange', () => {
       it('should call "onChange" validated when async and unvalidated when sync', async () => {
-        const log = jest.spyOn(console, 'log').mockImplementation()
+        const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
         const onChangeSync = jest.fn(() => null)
         const onChangeAsync = jest.fn(async () => null)
@@ -2259,7 +2259,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should throw when both data and sessionStorageId is provided', () => {
-      const log = jest.spyOn(global.console, 'error').mockImplementation()
+      const log = jest
+        .spyOn(global.console, 'error')
+        .mockImplementation(() => {})
 
       expect(() => {
         render(
@@ -2515,12 +2517,11 @@ describe('DataContext.Provider', () => {
             nb.StringField.errorMinLength.replace('{minLength}', '5')
           )
 
+          // GlobalStatus should remain visible since there are still errors
           await waitFor(() => {
-            simulateAnimationEnd()
-
             expect(
               document.querySelector('.dnb-global-status__title')
-            ).toBeNull()
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
           })
         })
 
@@ -2581,8 +2582,64 @@ describe('DataContext.Provider', () => {
             nb.StringField.errorMinLength.replace('{minLength}', '5')
           )
 
+          // GlobalStatus should remain visible since there are still errors
           await waitFor(() => {
-            simulateAnimationEnd()
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+        })
+
+        it('should keep GlobalStatus visible until all errors are resolved', async () => {
+          jest.spyOn(window, 'scrollTo').mockImplementation()
+
+          render(
+            <>
+              <GlobalStatus id="my-status" />
+              <DataContext.Provider globalStatusId="my-status">
+                <Field.String path="/myField" required />
+                <Field.String path="/otherField" required />
+                <Form.SubmitButton />
+              </DataContext.Provider>
+            </>
+          )
+
+          const [firstInput, secondInput] = Array.from(
+            document.querySelectorAll('input')
+          )
+          const submitButton = document.querySelector('button')
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
+
+          fireEvent.click(submitButton)
+
+          await waitFor(() => {
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+
+          // Type in the first field - GlobalStatus should persist
+          await userEvent.type(firstInput, 'foo')
+          fireEvent.blur(firstInput)
+
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toHaveTextContent(nb.Field.errorSummaryTitle)
+
+          // Fix the second field as well - GlobalStatus should now close
+          await userEvent.type(secondInput, 'bar')
+          fireEvent.blur(secondInput)
+
+          await waitFor(() => {
+            const heightAnimation = document.querySelector(
+              '.dnb-height-animation'
+            )
+            if (heightAnimation) {
+              simulateAnimationEnd(heightAnimation)
+            }
 
             expect(
               document.querySelector('.dnb-global-status__title')
@@ -2623,7 +2680,9 @@ describe('DataContext.Provider', () => {
 
     describe('schema validation', () => {
       it('should show provider schema type error with path', async () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         const schema: JSONSchema = {
           type: 'object',
@@ -2865,7 +2924,9 @@ describe('DataContext.Provider', () => {
       })
 
       it('should log an error when path changes and the field is required', () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         const schema: JSONSchema = {
           type: 'object',
@@ -3108,7 +3169,9 @@ describe('DataContext.Provider', () => {
 
     describe('onSubmitRequest', () => {
       it('should call "onSubmitRequest" on invalid submit', () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         const onSubmitRequest = jest.fn()
 
@@ -3152,7 +3215,9 @@ describe('DataContext.Provider', () => {
       })
 
       it('should get called on invalid submit, set by a schema', () => {
-        const log = jest.spyOn(console, 'error').mockImplementation()
+        const log = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {})
 
         const onSubmitRequest = jest.fn()
 
@@ -3675,7 +3740,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
+      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'object',
@@ -3742,7 +3807,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate correctly based on changes in provided schema', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
+      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema1: JSONSchema = {
         type: 'object',

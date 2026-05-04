@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Checkbox scss should match style dependencies css 1`] = `
+exports[`Checkbox scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -328,7 +328,6 @@ button .dnb-form-status__text {
 }
 .dnb-checkbox__focus {
   display: none;
-  --focus-ring-width: 0.25rem;
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {

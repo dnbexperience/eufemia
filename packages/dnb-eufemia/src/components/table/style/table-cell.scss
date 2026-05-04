@@ -3,6 +3,8 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-table {
   & thead th,
   & tbody td,
@@ -13,5 +15,21 @@
     border-spacing: 0;
 
     word-break: keep-all;
+
+    &.dnb-table__cell--focus:focus {
+      @include utilities.focusRing('always', $inset: inset);
+    }
+
+    &.dnb-table__td--vertical-align-top {
+      vertical-align: top;
+    }
+
+    &.dnb-table__td--vertical-align-middle {
+      vertical-align: middle;
+    }
+
+    &.dnb-table__td--vertical-align-bottom {
+      vertical-align: bottom;
+    }
   }
 }

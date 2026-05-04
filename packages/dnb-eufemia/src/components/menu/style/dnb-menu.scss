@@ -96,10 +96,7 @@
         --menu-action-text-color: var(--token-color-text-action-focus);
         --menu-action-icon-color: var(--token-color-icon-action-focus);
 
-        @include utilities.focusRing(
-          $whatinput: 'always',
-          $color: var(--token-color-stroke-action-focus)
-        );
+        @include utilities.focusRing('always');
       }
     }
 

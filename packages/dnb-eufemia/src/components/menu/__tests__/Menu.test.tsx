@@ -4,7 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import Menu from '../Menu'
 
 jest.mock('../../popover/Popover', () => {
-  return jest.requireActual('./testHelpers').MockPopover
+  return { default: jest.requireActual('./testHelpers').MockPopover }
 })
 
 describe('Menu integration', () => {

@@ -8,8 +8,12 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
   CarnegieDefault,
+  DnbDefault,
+  EiendomDefault,
   SbankenDefault,
   SbankenCompact,
+  SbankenHorizontal,
+  logoColors,
 } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
@@ -301,6 +305,134 @@ describe('Logo component', () => {
     it('should validate with ARIA rules', async () => {
       const Comp = render(<Logo aria-label="DNB Logo" />)
       expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
+  describe('Logo SVG fill colors', () => {
+    it('should use correct fill in light mode for DnbDefault', () => {
+      render(<Logo svg={DnbDefault} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.dnb.light)
+    })
+
+    it('should use correct fill in dark mode for DnbDefault', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={DnbDefault} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.dnb.dark)
+    })
+
+    it('should use correct fill in light mode for EiendomDefault', () => {
+      render(<Logo svg={EiendomDefault} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.eiendom.light)
+    })
+
+    it('should use correct fill in dark mode for EiendomDefault', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={EiendomDefault} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.eiendom.dark)
+    })
+
+    it('should use correct fill in light mode for SbankenDefault', () => {
+      render(<Logo svg={SbankenDefault} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.light)
+    })
+
+    it('should use correct fill in dark mode for SbankenDefault', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={SbankenDefault} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.dark)
+    })
+
+    it('should use correct fill in light mode for SbankenCompact', () => {
+      render(<Logo svg={SbankenCompact} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.light)
+    })
+
+    it('should use correct fill in dark mode for SbankenCompact', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={SbankenCompact} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.dark)
+    })
+
+    it('should use correct fill in light mode for SbankenHorizontal', () => {
+      render(<Logo svg={SbankenHorizontal} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.light)
+    })
+
+    it('should use correct fill in dark mode for SbankenHorizontal', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={SbankenHorizontal} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.sbanken.dark)
+    })
+
+    it('should use correct fill in light mode for CarnegieDefault', () => {
+      render(<Logo svg={CarnegieDefault} />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.carnegie.light)
+    })
+
+    it('should use correct fill in dark mode for CarnegieDefault', () => {
+      render(
+        <Theme colorScheme="dark">
+          <Logo svg={CarnegieDefault} />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', logoColors.carnegie.dark)
+    })
+
+    it('should allow overriding fill via the fill prop', () => {
+      render(<SbankenDefault fill="tomato" />)
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', 'tomato')
+    })
+
+    it('should allow overriding fill in dark mode via the fill prop', () => {
+      render(
+        <Theme colorScheme="dark">
+          <SbankenDefault fill="tomato" />
+        </Theme>
+      )
+
+      const svg = document.querySelector('svg')
+      expect(svg).toHaveAttribute('fill', 'tomato')
     })
   })
 })

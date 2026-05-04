@@ -570,7 +570,7 @@ function TabsComponent(ownProps: TabsProps) {
         return // stop here
       }
 
-      if ((window as Window & { IS_TEST?: boolean }).IS_TEST) {
+      if (globalThis.IS_TEST) {
         behavior = 'auto'
       }
 
@@ -618,15 +618,13 @@ function TabsComponent(ownProps: TabsProps) {
 
             if (behavior === 'auto') {
               tablistRef.current.style.scrollBehavior = 'auto'
-            }
-
-            tablistRef.current.scrollTo({
-              left,
-              behavior,
-            })
-
-            if (behavior === 'auto') {
+              tablistRef.current.scrollLeft = left
               tablistRef.current.style.scrollBehavior = ''
+            } else {
+              tablistRef.current.scrollTo({
+                left,
+                behavior,
+              })
             }
 
             setIsFirst(isFirstItem)
@@ -637,8 +635,13 @@ function TabsComponent(ownProps: TabsProps) {
         }
       }
 
-      // Delay so Chrome/Safari makes the transition / animation smooth
-      window.requestAnimationFrame(delay)
+      if (globalThis.IS_TEST) {
+        // Run synchronously in tests to avoid rAF timing flakiness
+        delay()
+      } else {
+        // Delay so Chrome/Safari makes the transition / animation smooth
+        window.requestAnimationFrame(delay)
+      }
     },
     []
   )
@@ -805,15 +808,32 @@ function TabsComponent(ownProps: TabsProps) {
   }
 
   // Scroll on open tab (handleVerticalScroll)
-  useUpdateEffect(() => {
+  // Use layout effect so scroll position settles before paint,
+  // avoiding flicker and screenshot flakiness.
+  const hasHandledVerticalScroll = useRef(false)
+  useIsomorphicLayoutEffect(() => {
+    if (!hasHandledVerticalScroll.current) {
+      hasHandledVerticalScroll.current = true
+      return
+    }
     handleVerticalScroll()
   }, [selectedKey])
 
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
     setHasScrollbar(scrollbarVisible)
+    hasScrollbarRef.current = scrollbarVisible
 
     if (scrollbarVisible) {
+      // Set button visibility state synchronously from data to avoid
+      // the extra render cycle that rAF-based scrollToTab causes.
+      const data = dataRef.current
+      const key = selectedKeyRef.current
+      if (data.length > 0) {
+        setIsFirst(key === data[0].key)
+        setIsLast(key === data[data.length - 1].key)
+      }
+
       scrollToTab({ type: 'selected' })
     }
   }, [scrollToTab])
@@ -839,12 +859,22 @@ function TabsComponent(ownProps: TabsProps) {
         const hasLP = lastPositionRef.current > -1
 
         setHasScrollbar(scrollbarVisible)
+        hasScrollbarRef.current = scrollbarVisible
 
         if (hasLP) {
           setLeftPosition(lastPositionRef.current)
         }
 
         if (scrollbarVisible) {
+          // Set button visibility state synchronously from data to avoid
+          // the extra render cycle that rAF-based scrollToTab causes.
+          const data = dataRef.current
+          const key = selectedKeyRef.current
+          if (data.length > 0) {
+            setIsFirst(key === data[0].key)
+            setIsLast(key === data[data.length - 1].key)
+          }
+
           scrollToTab({
             type: 'selected',
             behavior: hasLP ? 'smooth' : 'auto',
@@ -863,16 +893,19 @@ function TabsComponent(ownProps: TabsProps) {
       window.addEventListener('load', init)
     }
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', onResizeHandler)
+    let resizeObserver: ResizeObserver | undefined
+    if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
+      // eslint-disable-next-line compat/compat
+      resizeObserver = new ResizeObserver(onResizeHandler)
+      resizeObserver.observe(tabsRef.current)
     }
 
     return () => {
       isMounted = false
       whatInput.specificKeys(['Tab'])
       sharedStateRef.current = null
+      resizeObserver?.disconnect()
       if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', onResizeHandler)
         window.removeEventListener('load', init)
       }
     }
@@ -882,8 +915,14 @@ function TabsComponent(ownProps: TabsProps) {
   }, [])
 
   // Update shared state when props change selectedKey or data
-  // Only fires for prop-driven changes, matching original componentDidUpdate behavior
-  useUpdateEffect(() => {
+  // Only fires for prop-driven changes, matching original componentDidUpdate behavior.
+  // Uses layout effect so scroll button state settles before paint.
+  const hasHandledPropChange = useRef(false)
+  useIsomorphicLayoutEffect(() => {
+    if (!hasHandledPropChange.current) {
+      hasHandledPropChange.current = true
+      return
+    }
     if (sharedStateRef.current && propChangeRef.current) {
       propChangeRef.current = false
       onResizeHandler()

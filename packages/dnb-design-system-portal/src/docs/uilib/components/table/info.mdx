@@ -6,6 +6,14 @@ showTabs: true
 
 ```tsx
 import { Table } from '@dnb/eufemia'
+
+// Or with sub-components and hooks:
+import Table, {
+  Th,
+  Td,
+  Tr,
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
 ```
 
 ## Description
@@ -156,3 +164,40 @@ export const YourComponent = () => {
 ```
 
 </Details>
+
+### Keyboard navigation
+
+Use the `useTableKeyboardNavigation` hook to enable arrow-key navigation between table cells. When a cell contains a focusable element (such as an input, button, or link), that element receives focus. Otherwise, the cell itself is focused.
+
+```jsx
+import Table, {
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
+
+function MyTable() {
+  const navRef = useTableKeyboardNavigation()
+
+  return (
+    <div ref={navRef}>
+      <Table>
+        <tbody>
+          <tr>
+            <Table.Td>
+              <input />
+            </Table.Td>
+            <Table.Td>
+              <input />
+            </Table.Td>
+          </tr>
+        </tbody>
+      </Table>
+    </div>
+  )
+}
+```
+
+The hook accepts an optional options object:
+
+| Option    | Type      | Default | Description                           |
+| --------- | --------- | ------- | ------------------------------------- |
+| `enabled` | `boolean` | `true`  | Whether keyboard navigation is active |
