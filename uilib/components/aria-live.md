@@ -1,8 +1,8 @@
 ---
 title: 'AriaLive'
 description: 'AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:10.550Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.017Z
 checksum: 37d6f9de1d851f832bada8ac3d611762cc0b7718429f09afd06e1cb9d7c5e34b
 ---
 

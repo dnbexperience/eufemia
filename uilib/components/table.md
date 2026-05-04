@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.078Z
-checksum: 68f8e02147f98794cf06c70347a55fc29d18ff65cd316683babfce12973ce294
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.536Z
+checksum: 6e9fa27ebec057122167cb73d33f263ff724cf849dbc2372dd27f14d233cfb63
 ---
 
 # Table
@@ -12,6 +12,14 @@ checksum: 68f8e02147f98794cf06c70347a55fc29d18ff65cd316683babfce12973ce294
 
 ```tsx
 import { Table } from '@dnb/eufemia'
+
+// Or with sub-components and hooks:
+import Table, {
+  Th,
+  Td,
+  Tr,
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
 ```
 
 ## Description
@@ -162,6 +170,43 @@ export const YourComponent = () => {
 ```
 
 </Details>
+
+### Keyboard navigation
+
+Use the `useTableKeyboardNavigation` hook to enable arrow-key navigation between table cells. When a cell contains a focusable element (such as an input, button, or link), that element receives focus. Otherwise, the cell itself is focused.
+
+```jsx
+import Table, {
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
+
+function MyTable() {
+  const navRef = useTableKeyboardNavigation()
+
+  return (
+    <div ref={navRef}>
+      <Table>
+        <tbody>
+          <tr>
+            <Table.Td>
+              <input />
+            </Table.Td>
+            <Table.Td>
+              <input />
+            </Table.Td>
+          </tr>
+        </tbody>
+      </Table>
+    </div>
+  )
+}
+```
+
+The hook accepts an optional options object:
+
+| Option    | Type      | Default | Description                           |
+| --------- | --------- | ------- | ------------------------------------- |
+| `enabled` | `boolean` | `true`  | Whether keyboard navigation is active |
 
 ## Demos
 
@@ -768,6 +813,114 @@ return (
     {/* ... your table code */}
   </Table>
 )
+```
+
+### Table with keyboard navigation
+
+Use the `useTableKeyboardNavigation` hook to navigate between cells with arrow keys. Focusable elements inside cells (inputs, buttons) receive focus automatically.
+
+```jsx
+import Table, {
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
+```
+
+```tsx
+const KeyboardNavigationTable = () => {
+  const navRef = useTableKeyboardNavigation()
+  return (
+    <div ref={navRef}>
+      <Table>
+        <caption className="dnb-sr-only">Keyboard navigable table</caption>
+
+        <thead>
+          <tr>
+            <Th>Name</Th>
+            <Th>Email</Th>
+            <Th>Action</Th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <Td>
+              <Field.String label="Name" labelSrOnly value="Ola" />
+            </Td>
+            <Td>
+              <Field.Email labelSrOnly value="ola@example.no" />
+            </Td>
+            <Td verticalAlign="middle">
+              <Button
+                variant="tertiary"
+                icon={trashIcon}
+                tooltip="Delete row"
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Td>
+              <Field.String
+                label="Name"
+                labelSrOnly
+                value="Kari"
+                multiline
+              />
+            </Td>
+            <Td>
+              <Field.Email labelSrOnly value="kari@example.no" multiline />
+            </Td>
+            <Td verticalAlign="middle">
+              <Button
+                variant="tertiary"
+                icon={trashIcon}
+                tooltip="Delete row"
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Td>
+              <Field.Number
+                label="Quantity"
+                labelSrOnly
+                showStepControls
+                width="small"
+                value={1}
+              />
+            </Td>
+            <Td>
+              <Field.Number
+                label="Quantity"
+                labelSrOnly
+                showStepControls
+                width="small"
+                value={2}
+              />
+            </Td>
+            <Td verticalAlign="middle">
+              <Button
+                variant="tertiary"
+                icon={trashIcon}
+                tooltip="Delete row"
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Td>Kari</Td>
+            <Td>kari@example.no</Td>
+            <Td>
+              <Button
+                variant="tertiary"
+                icon={trashIcon}
+                tooltip="Delete row"
+              />
+            </Td>
+          </tr>
+        </tbody>
+      </Table>
+    </div>
+  )
+}
+render(<KeyboardNavigationTable />)
 ```
 
 ### Table with navigation
@@ -2044,6 +2197,12 @@ render(
     "spacing": {
       "doc": "Set to `horizontal` for padding on left and right side.",
       "type": "\"horizontal\"",
+      "defaultValue": "undefined",
+      "status": "optional"
+    },
+    "verticalAlign": {
+      "doc": "Vertical alignment of the cell content.",
+      "type": ["\"top\"", "\"middle\"", "\"bottom\""],
       "defaultValue": "undefined",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.970Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.410Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -1094,6 +1094,94 @@ or an object based structure:
 }
 ```
 
+### Load translations dynamically
+
+When you have many locales or large translation files, you can load them on demand using the `translationsLoader` prop. It accepts an async function that receives the current locale and returns a translations object. The loader is called on mount and whenever the locale changes.
+
+Components render with default translations immediately. When the loader resolves, translations are merged in and components re-render with the updated strings.
+
+The loader function can use any source — dynamic `import()` of `.ts`, `.js`, or `.json` files, `fetch()` calls, or any other async operation. As long as the function returns a translations object, it works.
+
+#### Using `Form.Handler`
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const translationsLoader = async (locale) => {
+  switch (locale) {
+    case 'en-GB':
+      return (await import('./locales/en-GB')).default
+    case 'sv-SE':
+      return (await import('./locales/sv-SE')).default
+    default:
+      return (await import('./locales/nb-NO')).default
+  }
+}
+
+render(
+  <Form.Handler translationsLoader={translationsLoader}>
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
+Each imported file should export a translations object with the locale key, matching the same structure as the `translations` prop:
+
+```ts
+// locales/nb-NO.ts
+export default {
+  'nb-NO': {
+    PhoneNumber: {
+      numberLabel: 'Dynamisk etikett',
+    },
+  },
+}
+```
+
+#### Using the shared `Provider`
+
+You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/):
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const translationsLoader = async (locale) => {
+  const response = await fetch(`/api/translations/${locale}`)
+  return response.json()
+}
+
+render(
+  <Provider translationsLoader={translationsLoader} locale="nb-NO">
+    Your app, including Eufemia Forms
+  </Provider>
+)
+```
+
+#### Combining with static translations
+
+The `translationsLoader` can be used alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const staticTranslations = {
+  'nb-NO': { PhoneNumber: { countryCodeLabel: 'Landskode' } },
+}
+
+const translationsLoader = async (locale) => {
+  return (await import(`./locales/${locale}`)).default
+}
+
+render(
+  <Form.Handler
+    translations={staticTranslations}
+    translationsLoader={translationsLoader}
+  >
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
 ### How to customize translations in a form
 
 You can customize the translations in a form by using the `translations` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
@@ -1172,6 +1260,47 @@ render(
 Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
+
+### ICU Message Format
+
+Forms translations support [ICU MessageFormat](/uilib/usage/customisation/localization/#icu-message-format) for pluralization, gender selection, and other locale-aware formatting. Enable it by passing the `icu` message formatter to `Form.Handler`:
+
+```tsx
+import { icu } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  'en-GB': {
+    MyForm: {
+      summary:
+        'You have {count, plural, =0 {no items} one {# item} other {# items}} in your cart.',
+    },
+  },
+  'nb-NO': {
+    MyForm: {
+      summary:
+        'Du har {count, plural, =0 {ingen varer} one {# vare} other {# varer}} i handlekurven.',
+    },
+  },
+}
+
+function MyForm() {
+  const { formatMessage } = Form.useTranslation()
+  return <>{formatMessage('MyForm.summary', { count: 3 })}</>
+}
+
+render(
+  <Form.Handler
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
+    <MyForm />
+  </Form.Handler>
+)
+```
+
+See the [ICU Message Format docs](/uilib/usage/customisation/localization/#icu-message-format) for the full list of supported formatters and syntax.
 
 ## Layout
 

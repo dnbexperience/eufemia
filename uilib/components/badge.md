@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:10.598Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.066Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 

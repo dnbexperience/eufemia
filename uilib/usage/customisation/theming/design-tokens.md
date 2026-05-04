@@ -1,16 +1,16 @@
 ---
-title: 'Design Tokens (WIP)'
+title: 'Design Tokens (beta)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:12.049Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.483Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Design Tokens (WIP)
+# Design Tokens (beta)
 
 ---
 
-**NB:** Do not use the `--token-*` CSS custom properties in your code until this page is marked as ready for consumption. The token API is still being finalized and may change without warning until then.
+**Beta:** The `--token-*` CSS custom properties are in beta. We encourage you to start using them and welcome your feedback. The token API may still change, but we will communicate any breaking changes.
 
 ---
 
@@ -28,7 +28,7 @@ They follow the naming pattern `--token-color-{section}-{role}` and are the reco
 
 ## Getting started
 
-Design tokens are included when you import a Eufemia theme. No separate import is needed.
+Design tokens are included when you import a Eufemia theme. No separate import is needed, except if you need [dark mode support](/uilib/usage/customisation/theming#dark-mode--color-scheme).
 
 Read more about how to use design tokens in your own styles, and how Eufemia components use them internally, in the [Theming](/uilib/usage/customisation/theming#design-tokens) section.
 

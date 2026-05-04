@@ -107,7 +107,7 @@ For any page (component, field, value, etc.):
 
 - [Typography](https://eufemia.dnb.no/uilib/intro/07-typography.md): Look into the documentation for more details.
 
-- [Color usage](https://eufemia.dnb.no/uilib/intro/08-color-usage.md): Look into the documentation for more details.
+- [Color usage (deprecated)](https://eufemia.dnb.no/uilib/intro/08-color-usage.md): Look into the documentation for more details.
 
 - [Icons](https://eufemia.dnb.no/uilib/intro/09-icons.md): Look into the documentation for more details.
 
@@ -159,7 +159,7 @@ For any page (component, field, value, etc.):
 
 - [Checklist](https://eufemia.dnb.no/uilib/usage/accessibility/checklist.md): Accessibility checklist to help you remember the most important tasks you have to follow during front end development.
 
-- [Focus](https://eufemia.dnb.no/uilib/usage/accessibility/focus.md): Accessibility helpers to handle focus management and Skip Link usage.
+- [Focus / Skip Link](https://eufemia.dnb.no/uilib/usage/accessibility/focus.md): Accessibility helpers to handle focus management and Skip Link usage.
 
 - [Icons](https://eufemia.dnb.no/uilib/usage/accessibility/icons.md): Look into the documentation for more details.
 
@@ -179,7 +179,7 @@ For any page (component, field, value, etc.):
 
 - [Best Practices](https://eufemia.dnb.no/uilib/usage/best-practices.md): Look into the documentation for more details.
 
-- [Colors](https://eufemia.dnb.no/uilib/usage/customisation/colors.md): Look into the documentation for more details.
+- [Colors (deprecated)](https://eufemia.dnb.no/uilib/usage/customisation/colors.md): Look into the documentation for more details.
 
 - [Component Properties](https://eufemia.dnb.no/uilib/usage/customisation/component-properties.md): Look into the documentation for more details.
 
@@ -199,7 +199,7 @@ For any page (component, field, value, etc.):
 
 - [Radius](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/radius.md): Look into the documentation for more details.
 
-- [Design Tokens (WIP)](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens.md): How to use Eufemia semantic design tokens in your application.
+- [Design Tokens (beta)](https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens.md): How to use Eufemia semantic design tokens in your application.
 
 - [Theme component](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
 
@@ -645,5 +645,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 11.0.4
-GeneratedAt: 2026-04-29T19:30:33.676Z
+Version: 11.1.0
+GeneratedAt: 2026-05-04T18:06:43.247Z

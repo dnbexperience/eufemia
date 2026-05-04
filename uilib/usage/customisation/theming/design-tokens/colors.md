@@ -1,12 +1,12 @@
 ---
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:12.045Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.480Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 ---
 
-**NB:** Do not use the `--token-*` CSS custom properties in your code until this page is marked as ready for consumption. The token API is still being finalized and may change without warning until then.
+**Beta:** The `--token-*` CSS custom properties are in beta. We encourage you to start using them and welcome your feedback. The token API may still change, but we will communicate any breaking changes.
 
 ---
 

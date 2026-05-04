@@ -1,8 +1,8 @@
 ---
 title: 'Form.useTranslation'
 description: '`Form.useTranslation` is a hook that returns the translations for the current locale.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.566Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.018Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -203,6 +203,31 @@ render(
 - Empty explicit locale: returns pointer strings (e.g. `MyNamespace.label`) derived from `fallbackLocale="nb-NO"`.
 - Partial explicit locale: merges missing keys as pointer strings, preserving existing ones.
 - Non-existent current locale (no explicit entry in your translations): the hook preserves defaults (no pointers).
+
+## Dynamically loaded translations
+
+`Form.useTranslation` works with translations loaded asynchronously via the `translationsLoader` prop on [Form.Handler](/uilib/extensions/forms/Form/Handler/) or the shared [Provider](/uilib/usage/customisation/provider/). Components render with default translations first, and re-render when the loaded translations are available.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const translationsLoader = async (locale) => {
+  return import(`./locales/${locale}.json`)
+}
+
+const MyComponent = () => {
+  const t = Form.useTranslation()
+  return <>{t.Field.errorRequired}</>
+}
+
+render(
+  <Form.Handler translationsLoader={translationsLoader}>
+    <MyComponent />
+  </Form.Handler>
+)
+```
+
+Read more about dynamic loading in the [getting started guide](/uilib/extensions/forms/getting-started/#load-translations-dynamically).
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'

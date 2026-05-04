@@ -1,8 +1,8 @@
 ---
 title: 'Button'
 description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:10.617Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.085Z
 checksum: d8f0f51afe07b8fae7fa261acd1a32b428c621f23c5a6b1be8084bb4486da300
 ---
 

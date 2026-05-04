@@ -1,9 +1,9 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.415Z
-checksum: 08b47a27a802cced38a3971d50dcbb9035b6226995945a9197e08835876bad97
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.871Z
+checksum: 8c30fcf9db0046ff78ccbc19b00d0a8a4deeeb526e37286460980ebe062f8e21
 ---
 
 # Form.Isolation
@@ -679,6 +679,16 @@ render(
     "locale": {
       "doc": "Locale (language) to use for all nested Eufemia components.",
       "type": "string",
+      "status": "optional"
+    },
+    "translations": {
+      "doc": "Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ \"nb-NO\": { MyKey: \"value\" } }`. See [Localization](/uilib/usage/customisation/localization).",
+      "type": "object",
+      "status": "optional"
+    },
+    "translationsLoader": {
+      "doc": "Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).",
+      "type": "function",
       "status": "optional"
     },
     "countryCode": {

@@ -1,8 +1,8 @@
 ---
 title: 'Card'
 description: '`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:10.625Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.092Z
 checksum: 9a5e6f7bdcbc3ec26452e956e5fd3bd75aee4a284a0656977fecbc1eba8fa020
 ---
 

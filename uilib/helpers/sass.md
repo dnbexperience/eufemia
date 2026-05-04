@@ -1,7 +1,7 @@
 ---
 title: 'SASS mixins'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.979Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.419Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -51,10 +51,10 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 
 /** Eufemia Border helpers */
 @include utilities.focusRing(
-  /* $whatinput: 'keyboard', $color: var(--color-emerald-green), $inset: inset */
+  /* $whatinput: 'keyboard', $color: var(--token-color-stroke-action-focus), $borderWidth: var(--focus-ring-width), $inset: inset */
 );
 @include utilities.fakeBorder(
-  /* $color: var(--color-emerald-green), $width: 0.0625rem, $inset: inset */
+  /* $color: null, $width: 0.0625rem, $inset: inset */
 );
 
 /** Scroll behavior */

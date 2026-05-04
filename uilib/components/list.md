@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:10.835Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.303Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 

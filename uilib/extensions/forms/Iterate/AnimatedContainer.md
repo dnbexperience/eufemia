@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.AnimatedContainer'
 description: '`Iterate.AnimatedContainer` can be used to animate items when they are added or removed.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.576Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.029Z
 checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 

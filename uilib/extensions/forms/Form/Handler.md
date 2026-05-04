@@ -1,9 +1,9 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.394Z
-checksum: 1ac98330205a7ae97f4ee743b54856303bbab085122cf014b4b7bde7f9c46aa9
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.852Z
+checksum: adde9d9b5451327df41e0ca0f0c278288337a85881bae513fbf9c5a3d266859e
 ---
 
 # Form.Handler
@@ -1082,6 +1082,16 @@ render(<MyForm />)
     "locale": {
       "doc": "Locale (language) to use for all nested Eufemia components.",
       "type": "string",
+      "status": "optional"
+    },
+    "translations": {
+      "doc": "Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ \"nb-NO\": { MyKey: \"value\" } }`. See [Localization](/uilib/usage/customisation/localization).",
+      "type": "object",
+      "status": "optional"
+    },
+    "translationsLoader": {
+      "doc": "Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).",
+      "type": "function",
       "status": "optional"
     },
     "countryCode": {

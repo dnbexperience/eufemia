@@ -1,7 +1,7 @@
 ---
 title: 'CSS classes'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.977Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.417Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -74,7 +74,19 @@ render(
 
 A default Skip Link style for adding a link at the top of each page that goes directly to the main content area.
 
-<SkipLinkExample />
+```tsx
+render(
+  <ChangeStylesOfSkipLink>
+    <a
+      className="dnb-skip-link--active"
+      onClick={onClick}
+      href="#dnb-app-content"
+    >
+      Show Skip-Link
+    </a>
+  </ChangeStylesOfSkipLink>
+)
+```
 
 ```html
 <body>

@@ -1,9 +1,9 @@
 ---
 title: 'DataContext.Provider'
 description: '`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.358Z
-checksum: 61e924b9fa8bb71030f14c18e4a6163ee35991320cae7718a49de0be965841f5
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.816Z
+checksum: 4e01b67cf74fc2e0291f1a54a58983de792be25025c8d5dc17bbad73de94bea3
 ---
 
 # DataContext.Provider
@@ -255,6 +255,16 @@ render(
     "locale": {
       "doc": "Locale (language) to use for all nested Eufemia components.",
       "type": "string",
+      "status": "optional"
+    },
+    "translations": {
+      "doc": "Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ \"nb-NO\": { MyKey: \"value\" } }`. See [Localization](/uilib/usage/customisation/localization).",
+      "type": "object",
+      "status": "optional"
+    },
+    "translationsLoader": {
+      "doc": "Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).",
+      "type": "function",
       "status": "optional"
     },
     "countryCode": {

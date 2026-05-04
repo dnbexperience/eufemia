@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[46758],{46758:function(e,s,a){a.r(s);const d=a(83679).A["en-GB"];s.default={"en-US":{...d,DatePicker:{...d.DatePicker,maskOrder:"mm/dd/yyyy",maskPlaceholder:"mm/dd/yyyy",firstDay:"sunday"}}}}}]);
+//# sourceMappingURL=46758-fca407e66121b6b3f456.js.map

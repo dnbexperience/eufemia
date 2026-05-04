@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.Toolbar'
 description: '`Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:11.477Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:21.931Z
 checksum: 8af6c2d4fe5ded7f43282ba1dcfe31676d145ccaf3fd1d16a15e3a49e2df732e
 ---
 

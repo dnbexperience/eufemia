@@ -1,7 +1,7 @@
 ---
 title: 'Locale / Translation'
-version: 11.0.4
-generatedAt: 2026-04-29T19:30:12.040Z
+version: 11.1.0
+generatedAt: 2026-05-04T18:06:22.460Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -70,7 +70,7 @@ const translations = mergeTranslations(
 In React based apps, use the shared Eufemia provider:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const myLocale = 'en-GB'
 
@@ -84,7 +84,7 @@ render(
 For component based locale, you can also make use of the `lang` attribute – if really needed:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider locale="en-GB">
@@ -100,7 +100,7 @@ render(
 You can easily enhance or change translated strings progressively:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 render(
   <Provider
@@ -122,8 +122,7 @@ You can even change the locale during runtime. Find more info in the [Provider d
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
-import Provider from '@dnb/eufemia/shared/Provider'
-import Context from '@dnb/eufemia/shared/Context'
+import { Provider, Context } from '@dnb/eufemia/shared'
 
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
@@ -152,7 +151,7 @@ render(
 You can provide your own translations by using the shared [Provider](/uilib/usage/customisation/provider). Translation strings with several levels of depth can be given as a flat object with dot-notation, or as a nested object (cascaded).
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 
 const nbNO = { myString: 'Min egendefinerte streng' }
 const enGB = {
@@ -316,6 +315,442 @@ function DynamicExample({ refId }: { refId: string }) {
 }
 ```
 
+### Rich text (inline elements)
+
+Translation strings can contain XML-like tags that map to React components. Pass a function for each tag name — it receives the tag content and returns a React node:
+
+```tsx
+import { useTranslation, Provider } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    MyApp: {
+      info: 'You can read more in <link>the documentation</link>.',
+    },
+  },
+  'nb-NO': {
+    MyApp: {
+      info: 'Du kan lese mer i <link>dokumentasjonen</link>.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>
+      {formatMessage('MyApp.info', {
+        link: (chunks) => <Anchor href="/docs">{chunks}</Anchor>,
+      })}
+    </P>
+  )
+}
+
+render(
+  <Provider translations={translations} locale="en-GB">
+    <MyComponent />
+  </Provider>
+)
+```
+
+This also works with the `Translation` component:
+
+```tsx
+<Translation
+  id="MyApp.info"
+  link={(chunks) => <Anchor href="/docs">{chunks}</Anchor>}
+/>
+```
+
+You can use multiple tags and combine them with simple `{placeholder}` values:
+
+```tsx
+const translations = {
+  'en-GB': {
+    MyApp: {
+      welcome:
+        'Hello {name}, see <bold>important</bold> updates in <link>the changelog</link>.',
+    },
+  },
+}
+
+formatMessage('MyApp.welcome', {
+  name: 'Ola',
+  bold: (chunks) => <strong>{chunks}</strong>,
+  link: (chunks) => <Anchor href="/changelog">{chunks}</Anchor>,
+})
+```
+
+When [ICU Message Format](#icu-message-format) is enabled, tags work inside ICU messages as well:
+
+```tsx
+formatMessage('MyApp.items', {
+  count: 3,
+  link: (chunks) => <Anchor href="/cart">{chunks}</Anchor>,
+})
+// translation: 'You have {count, plural, one {# item} other {# items}}. <link>View cart</link>'
+```
+
+### ICU Message Format
+
+Eufemia supports [ICU MessageFormat](https://unicode-org.github.io/icu/userguide/format_parse/messages/) syntax in translation strings. This enables pluralization, gender selection, and other locale-aware formatting directly in your messages.
+
+ICU support is opt-in to keep your bundle size small. Enable it by importing the `icu` message formatter and passing it to the `Provider`:
+
+```tsx
+import { icu, Provider } from '@dnb/eufemia/shared'
+
+render(
+  <Provider messageFormatter={icu} locale="en-GB">
+    <App />
+  </Provider>
+)
+```
+
+Once enabled, ICU syntax is detected automatically. If a translation string contains ICU patterns like `{key, plural, ...}` or `{key, select, ...}`, it will be processed through the ICU formatter. Simple `{placeholder}` strings continue to work as before.
+
+#### How ICU syntax works
+
+An ICU message is a plain string. The simplest form is just literal text:
+
+```
+Hello everyone
+```
+
+To insert a dynamic value, wrap a key name in curly braces. The key is looked up in the values you pass and its value is placed into the output:
+
+```
+Hello {name}
+```
+
+To format a value based on its type, add a type after the key:
+
+```
+{key, type}
+```
+
+To further control the output, add a format or style:
+
+```
+{key, type, format}
+```
+
+For example, `{amount, number}` formats a number with locale-aware grouping, and `{d, date, long}` formats a date in the long style for the current locale.
+
+Some types like `plural` and `select` use a set of matches instead of a format string. Each match maps a value to an output message:
+
+```
+{count, plural, one {# item} other {# items}}
+```
+
+The `other` match is always required — it acts as the fallback when no other match applies. Inside a `plural` match, `#` is replaced with the formatted number.
+
+Messages can be nested — for example, combining `select` with `plural`:
+
+```
+{gender, select,
+  male {He has {count, plural, one {# item} other {# items}}}
+  female {She has {count, plural, one {# item} other {# items}}}
+  other {They have {count, plural, one {# item} other {# items}}}
+}
+```
+
+To escape curly braces or other ICU syntax characters, wrap them in single quotes:
+
+```
+This is not a placeholder: '{value}'
+```
+
+Two consecutive single quotes produce a literal single quote: `This isn''t a placeholder` → `This isn't a placeholder`. For human-readable strings, prefer curly quotes (`'`, U+2019) instead of the ASCII apostrophe.
+
+The following sections show each ICU feature in detail with Eufemia examples.
+
+#### Pluralization
+
+Use `plural` to vary text based on a count. The `#` token inside the message is replaced with the formatted number. The `other` category is always required.
+
+```tsx
+import { useTranslation, Provider, icu } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    Notifications: {
+      summary:
+        'You have {count, plural, =0 {no new notifications} one {# new notification} other {# new notifications}}.',
+    },
+  },
+  'nb-NO': {
+    Notifications: {
+      summary:
+        'Du har {count, plural, =0 {ingen nye varsler} one {# nytt varsel} other {# nye varsler}}.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function NotificationBanner() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Notifications.summary', { count: 3 })}</P>
+  // en-GB: "You have 3 new notifications."
+  // nb-NO: "Du har 3 nye varsler."
+}
+
+render(
+  <Provider
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
+    <NotificationBanner />
+  </Provider>
+)
+```
+
+Plural categories vary by locale. English uses `one` and `other`. Some languages (like Arabic) use `zero`, `one`, `two`, `few`, `many`, and `other`. Use exact matches like `=0` when you need specific wording for a particular number regardless of locale.
+
+#### Select
+
+Use `select` to choose between message variants based on a string value. This is commonly used for gendered text or category-based messages.
+
+```tsx
+const translations = {
+  'en-GB': {
+    Status: {
+      response:
+        '{gender, select, male {He} female {She} other {They}} responded to your request.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function StatusMessage() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Status.response', { gender: 'female' })}</P>
+  // Output: "She responded to your request."
+}
+```
+
+#### Selectordinal
+
+Use `selectordinal` for ordinal number formatting (1st, 2nd, 3rd, etc.):
+
+```tsx
+const translations = {
+  'en-GB': {
+    Ranking: {
+      position:
+        'You finished in {pos, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} place!',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function RankingMessage() {
+  const { formatMessage } = useTranslation<T>()
+  return <P>{formatMessage('Ranking.position', { pos: 3 })}</P>
+  // Output: "You finished in 3rd place!"
+}
+```
+
+#### Number formatting
+
+Use `{value, number}` to format numbers with locale-aware grouping and decimal separators. You can add [ICU number skeletons](https://unicode-org.github.io/icu/userguide/format_parse/numbers/skeletons.html) for currency, percent, and compact notation.
+
+```tsx
+const translations = {
+  'en-GB': {
+    Account: {
+      // Basic number: "1,234.56"
+      total: 'Total: {amount, number}',
+
+      // Currency: "kr 1 234,00" (nb-NO) / "NOK 1,234.00" (en-GB)
+      balance: 'Balance: {amount, number, ::currency/NOK}',
+
+      // Percent: "25%"
+      progress: 'Progress: {pct, number, ::percent}',
+
+      // Compact: "1.5K"
+      followers: '{count, number, ::compact-short} followers',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function AccountInfo() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <>
+      <P>{formatMessage('Account.total', { amount: 1234.56 })}</P>
+      <P>{formatMessage('Account.balance', { amount: 1234 })}</P>
+      <P>{formatMessage('Account.progress', { pct: 0.25 })}</P>
+      <P>{formatMessage('Account.followers', { count: 1500 })}</P>
+    </>
+  )
+}
+```
+
+#### Date formatting
+
+Use `{value, date}` with an optional style — `short`, `medium`, `long`, or `full` — to format dates according to the locale:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Events: {
+      // Default: "15 Jan 2025"
+      created: 'Created: {d, date}',
+
+      // Short: "15/01/2025"
+      shortDate: '{d, date, short}',
+
+      // Medium: "15 Jan 2025"
+      mediumDate: '{d, date, medium}',
+
+      // Long: "15 January 2025"
+      longDate: '{d, date, long}',
+
+      // Full: "Wednesday, 15 January 2025"
+      fullDate: '{d, date, full}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function EventDate() {
+  const { formatMessage } = useTranslation<T>()
+  const d = new Date(2025, 0, 15)
+  return <P>{formatMessage('Events.longDate', { d })}</P>
+  // en-GB: "15 January 2025"
+}
+```
+
+#### Time formatting
+
+Use `{value, time}` with a style to format times:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Schedule: {
+      // Short: "14:30"
+      starts: 'Starts at {t, time, short}',
+
+      // Medium: "14:30:45"
+      precise: 'Logged at {t, time, medium}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function ScheduleInfo() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>
+      {formatMessage('Schedule.starts', {
+        t: new Date(2025, 0, 15, 14, 30),
+      })}
+    </P>
+  )
+  // en-GB: "Starts at 14:30"
+}
+```
+
+#### Pre-formatted values
+
+ICU does not cover all formatting needs — for example, bank account numbers or national identity numbers. For these, format the value before passing it in as a simple placeholder. You can use Eufemia's formatting utilities like `formatBankAccountNumber`:
+
+```tsx
+import { useTranslation } from '@dnb/eufemia/shared'
+import { formatBankAccountNumber } from '@dnb/eufemia/components/NumberFormat'
+
+const translations = {
+  'en-GB': {
+    Account: {
+      info: 'Your account number is {account}.',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function AccountInfo({ accountNumber }: { accountNumber: string }) {
+  const { formatMessage } = useTranslation<T>()
+
+  // Use Eufemia's formatter for bank account numbers
+  const account = formatBankAccountNumber(accountNumber)
+
+  return <P>{formatMessage('Account.info', { account })}</P>
+  // Output: "Your account number is 2000 12 34567."
+}
+```
+
+Other formatting utilities like `formatNationalIdentityNumber`, `formatOrganizationNumber`, and `formatPhoneNumber` work the same way. See the [NumberFormat](/uilib/components/NumberFormat/) docs for the full list.
+
+#### Nested messages
+
+ICU messages can be nested — for example, combining `select` with `plural`:
+
+```tsx
+const translations = {
+  'en-GB': {
+    Items: {
+      summary:
+        '{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}} other {They have {count, plural, one {# item} other {# items}}}}',
+    },
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function ItemSummary() {
+  const { formatMessage } = useTranslation<T>()
+  return (
+    <P>{formatMessage('Items.summary', { gender: 'female', count: 3 })}</P>
+  )
+  // Output: "She has 3 items"
+}
+```
+
+#### With the Translation component
+
+ICU messages also work with the `<Translation />` component. Pass values as props:
+
+```tsx
+import { Translation, Provider, icu } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    Cart: {
+      items:
+        'You have {count, plural, =0 {an empty cart} one {# item} other {# items}} in your cart.',
+    },
+  },
+}
+
+render(
+  <Provider
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
+    <P>
+      <Translation id="Cart.items" count={5} />
+    </P>
+    {/* Output: "You have 5 items in your cart." */}
+  </Provider>
+)
+```
+
+For a full reference of ICU MessageFormat syntax, see the [FormatJS ICU syntax guide](https://formatjs.github.io/docs/core-concepts/icu-syntax) and the [ICU User Guide](https://unicode-org.github.io/icu/userguide/format_parse/messages/).
+
 ### Fallback for missing or partial translations
 
 The shared `useTranslation` hook will output missing keys when:
@@ -348,10 +783,161 @@ render(
 )
 ```
 
+## Load translations dynamically
+
+When you have many locales or large translation files, you can load them on demand using the `translationsLoader` prop on the [Provider](/uilib/usage/customisation/provider/). It accepts an async function that receives the current locale and returns a translations object. The loader is called on mount and whenever the locale changes.
+
+Components render with default translations immediately. When the loader resolves, translations are merged in and components re-render with the updated strings.
+
+The loader function can use any source — dynamic `import()` of `.ts`, `.js`, or `.json` files, `fetch()` calls, or any other async operation. As long as the function returns a translations object, it works.
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const translationsLoader = async (locale) => {
+  switch (locale) {
+    case 'en-GB':
+      return (await import('./locales/en-GB')).default
+    case 'sv-SE':
+      return (await import('./locales/sv-SE')).default
+    default:
+      return (await import('./locales/nb-NO')).default
+  }
+}
+
+render(
+  <Provider translationsLoader={translationsLoader} locale="en-GB">
+    <MyApp>Eufemia components</MyApp>
+  </Provider>
+)
+```
+
+You can combine `translationsLoader` with the static `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const staticTranslations = {
+  'nb-NO': { Modal: { closeTitle: 'Lukk' } },
+}
+
+const translationsLoader = async (locale) => {
+  const response = await fetch(`/api/translations/${locale}`)
+  return response.json()
+}
+
+render(
+  <Provider
+    translations={staticTranslations}
+    translationsLoader={translationsLoader}
+    locale="nb-NO"
+  >
+    <MyApp>Eufemia components</MyApp>
+  </Provider>
+)
+```
+
+The `translationsLoader` is also available on [Form.Handler](/uilib/extensions/forms/Form/Handler/) for form-scoped translations. Read more in the [Forms getting started guide](/uilib/extensions/forms/getting-started/#load-translations-dynamically).
+
+### Async translations with translationsLoader
+
+Use the `translationsLoader` prop to load translations asynchronously, for example from a CDN or a lazy import. The loader receives the current locale and should return a translations object.
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+const translationsLoader = async (locale) => {
+  const response = await fetch(`/translations/${locale}.json`)
+  return response.json()
+}
+
+render(
+  <Provider translationsLoader={translationsLoader}>
+    <MyApp />
+  </Provider>
+)
+```
+
+Because the consumer owns the loader function, you can handle loading state, errors, and retries directly inside it:
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+
+function App() {
+  const [translationsLoading, setTranslationsLoading] =
+    React.useState(true)
+
+  const translationsLoader = React.useCallback(async (locale) => {
+    setTranslationsLoading(true)
+
+    try {
+      const translations = await import(`../translations/${locale}.json`)
+      return translations.default
+    } catch (error) {
+      console.error('Failed to load translations', error)
+      return null
+    } finally {
+      setTranslationsLoading(false)
+    }
+  }, [])
+
+  return (
+    <Provider
+      translationsLoader={translationsLoader}
+      skeleton={translationsLoading}
+    >
+      <MyApp />
+    </Provider>
+  )
+}
+```
+
+You can also return fallback translations when an error occurs, so the UI still renders meaningful content in the correct language:
+
+```tsx
+import { Provider, useTranslation } from '@dnb/eufemia/shared'
+
+const fallbackTranslations = {
+  'nb-NO': {
+    errorMessage: 'Kunne ikke laste oversettelser',
+  },
+  'en-GB': {
+    errorMessage: 'Could not load translations',
+  },
+}
+
+const translationsLoader = async (locale) => {
+  try {
+    const response = await fetch(`/api/translations/${locale}`)
+    return response.json()
+  } catch (error) {
+    return fallbackTranslations
+  }
+}
+
+type FallbackTranslation =
+  (typeof fallbackTranslations)[keyof typeof fallbackTranslations]
+
+function ErrorBanner() {
+  const { errorMessage } = useTranslation<FallbackTranslation>()
+  if (errorMessage) {
+    return <FormStatus state="error" text={errorMessage} />
+  }
+  return null
+}
+
+render(
+  <Provider translationsLoader={translationsLoader}>
+    <ErrorBanner />
+    <MyApp />
+  </Provider>
+)
+```
+
 ## TypeScript support
 
 ```tsx
-import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+import { Provider, Locales } from '@dnb/eufemia/shared'
 
 const nbNO = {
   myString: 'Min egendefinerte streng',
@@ -385,7 +971,7 @@ Like, having the Eufemia components strings inside a JSON object/file `en.json`:
 and use it like this:
 
 ```jsx
-import EufemiaProvider from '@dnb/eufemia/shared/Provider'
+import { Provider as EufemiaProvider } from '@dnb/eufemia/shared'
 import nb from './nb.json' // Has to be an JavaScript object
 
 render(
@@ -513,9 +1099,9 @@ type TranslationType = (typeof translations)[keyof typeof translations]
 
 render(
   <EufemiaProvider translations={translations} locale="en-GB">
-    <p>
+    <P>
       <Translation<TranslationType> id={(t) => t.info} />
-    </p>
+    </P>
   </EufemiaProvider>
 )
 ```
@@ -664,7 +1250,7 @@ export default {
 And add the file, like so:
 
 ```jsx
-import Provider from '@dnb/eufemia/shared/Provider'
+import { Provider } from '@dnb/eufemia/shared'
 import myTranslations from './locales/nn-NO'
 
 render(
@@ -677,8 +1263,7 @@ render(
 ### Add or update the locales during runtime
 
 ```tsx
-import Provider from '@dnb/eufemia/shared/Provider'
-import Context from '@dnb/eufemia/shared/Context'
+import { Provider, Context } from '@dnb/eufemia/shared'
 
 import myTranslations from './locales/nn-NO'
 
@@ -701,3 +1286,18 @@ render(
   </Provider>
 )
 ```
+
+## Error handling
+
+`formatMessage` provides development warnings (`console.log`) to help catch translation bugs. These warnings are **silent in production** (`NODE_ENV=production`).
+
+| Scenario                       | Behavior                                                                                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Missing message id**         | Returns the raw id as fallback. Warns in development when the id contains a dot (e.g. `MyApp.key`).                                                                        |
+| **Missing variable**           | Leaves the `{placeholder}` in the output. Warns about unreplaced placeholders.                                                                                             |
+| **Invalid ICU syntax**         | Catches the parse error, returns the message id as fallback, and warns.                                                                                                    |
+| **Missing ICU variable**       | Catches the runtime error, returns the message id as fallback, and warns.                                                                                                  |
+| **Missing locale bundle**      | Falls back to the default locale (`nb-NO`) and warns.                                                                                                                      |
+| **Fallback locale**            | See [Fallback for missing or partial translations](#fallback-for-missing-or-partial-translations).                                                                         |
+| **`{br}` in messages**         | Not treated as a missing variable. Handled by `renderWithFormatting`.                                                                                                      |
+| **Function args without tags** | When a function is passed as a replacement value but no matching `<tag>` exists, the function is called without arguments and its return value is used as the replacement. |
