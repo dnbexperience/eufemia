@@ -638,6 +638,192 @@ describe('useTableKeyboardNavigation', () => {
       expect(document.activeElement).toBe(prevCell)
     })
 
+    it('should not navigate ArrowUp when cursor is not on first line of textarea', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>Cell above</Td>
+            </tr>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+
+      textarea.focus()
+      textarea.value = 'line one\nline two\nline three'
+      // Cursor on the second line
+      textarea.setSelectionRange(12, 12)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(textarea)
+    })
+
+    it('should navigate ArrowUp when cursor is on first line of textarea', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>Cell above</Td>
+            </tr>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+      const cellAbove = document.querySelectorAll('td')[0]
+
+      textarea.focus()
+      textarea.value = 'line one\nline two'
+      // Cursor on the first line
+      textarea.setSelectionRange(4, 4)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(cellAbove)
+    })
+
+    it('should not navigate ArrowDown when cursor is not on last line of textarea', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+            <tr>
+              <Td>Cell below</Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+
+      textarea.focus()
+      textarea.value = 'line one\nline two\nline three'
+      // Cursor on the first line
+      textarea.setSelectionRange(4, 4)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowDown' })
+      expect(document.activeElement).toBe(textarea)
+    })
+
+    it('should navigate ArrowDown when cursor is on last line of textarea', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+            <tr>
+              <Td>Cell below</Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+      const cellBelow = document.querySelectorAll('td')[1]
+
+      textarea.focus()
+      textarea.value = 'line one\nline two'
+      // Cursor on the last line
+      textarea.setSelectionRange(14, 14)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowDown' })
+      expect(document.activeElement).toBe(cellBelow)
+    })
+
+    it('should not navigate vertically when textarea has a selection spanning lines', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>Cell above</Td>
+            </tr>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+
+      textarea.focus()
+      textarea.value = 'line one\nline two'
+      // Selection spanning both lines
+      textarea.setSelectionRange(4, 12)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(textarea)
+    })
+
+    it('should navigate ArrowUp/ArrowDown for single-line textarea', () => {
+      render(
+        <TableWithKeyboardNavigation>
+          <tbody>
+            <tr>
+              <Td>Cell above</Td>
+            </tr>
+            <tr>
+              <Td>
+                <textarea data-testid="textarea" />
+              </Td>
+            </tr>
+            <tr>
+              <Td>Cell below</Td>
+            </tr>
+          </tbody>
+        </TableWithKeyboardNavigation>
+      )
+
+      const textarea = document.querySelector(
+        '[data-testid="textarea"]'
+      ) as HTMLTextAreaElement
+      const cellAbove = document.querySelectorAll('td')[0]
+      const cellBelow = document.querySelectorAll('td')[2]
+
+      textarea.focus()
+      textarea.value = 'single line'
+      textarea.setSelectionRange(5, 5)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(cellAbove)
+
+      textarea.focus()
+      textarea.setSelectionRange(5, 5)
+
+      fireEvent.keyDown(textarea, { key: 'ArrowDown' })
+      expect(document.activeElement).toBe(cellBelow)
+    })
+
     it('should respect boundary for tel input type', () => {
       render(
         <TableWithKeyboardNavigation>
