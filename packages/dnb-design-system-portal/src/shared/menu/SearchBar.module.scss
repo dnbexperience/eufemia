@@ -33,6 +33,10 @@
       margin: 1rem;
 
       filter: grayscale(1);
+
+      .eufemia-theme__color-scheme--dark & {
+        filter: grayscale(1) invert(1);
+      }
     }
   }
 }
