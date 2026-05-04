@@ -45,7 +45,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build
-        run: yarn workspace dnb-design-system-portal build:mini
+        run: yarn workspace dnb-design-system-portal build
         env:
           GATSBY_IS_PREVIEW: 'true'
 

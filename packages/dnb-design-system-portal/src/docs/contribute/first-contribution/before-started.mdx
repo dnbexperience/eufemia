@@ -164,7 +164,7 @@ Add new pages to the storybook by adding a new directory `/stories` and a new fi
 
 ### Eufemia portal
 
-The portal is handled by [Gatsby](https://www.gatsbyjs.com/), a framework for building pre-rendered SSR websites.
+The portal is powered by [Vite](https://vite.dev/) with a custom static site generation pipeline for pre-rendered SSR.
 
 Run the Portal locally:
 
@@ -176,31 +176,18 @@ This will start the Portal. You can view the portal website by visiting [localho
 
 Content changes to both Markdown (MDX) files and styles (SCSS) and code changes will be reflected immediately.
 
-For a faster startup-time, you can decide what pages you need by using the environment variable `filter` e.g.:
-
-```bash
-$ filter=button yarn start
-# - or –
-$ filter=button,/input/ yarn start # with comma
-$ filter="button /input/" yarn start # with space (needs to be quoted)
-```
-
-And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://localhost:8000/uilib/components/button/)
-
 #### Local build
 
 In case you have to create a local static build of the portal website (for various reasons), you can do so by:
 
 ```bash
-# In the `dnb-design-system-portal` directory, run:
-$ yarn build
+$ yarn workspace dnb-design-system-portal build
 ```
 
 The build will be exported to the `/public` directory. You can now also run a local static server to view it at the given port [localhost:8000](http://localhost:8000/):
 
 ```bash
-# In the `dnb-design-system-portal` directory, run:
-$ yarn serve
+$ yarn workspace dnb-design-system-portal serve
 ```
 
 ## What happens in the build steps
@@ -210,7 +197,7 @@ During the build, various things will happen. First, a prebuild step before the 
 ### During prebuild
 
 ```bash
-$ yarn build
+$ yarn workspace @dnb/eufemia build
 ```
 
 - Assets are getting generated

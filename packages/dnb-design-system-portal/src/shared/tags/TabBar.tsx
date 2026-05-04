@@ -10,7 +10,7 @@ import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
-import { navigate } from 'gatsby'
+import { navigate } from 'portal-query'
 
 export const defaultTabsValue = [
   { title: 'Info', key: '/info' },
@@ -74,11 +74,16 @@ export default function TabBar({
         .filter(
           ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
-        .map(({ key, ...rest }) => {
+        .map(({ key, ...rest }, index) => {
           const search = cleanFullscreen(location.search)
+          // First tab links to the parent path instead of a sub-page
+          const tabPath =
+            index === 0
+              ? ''
+              : key.replace(rootPath, '').replace(/(\/+)$/, '')
           key = [
             rootPath,
-            key.replace(rootPath, '').replace(/(\/+)$/, ''),
+            tabPath,
             search,
             wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
             location.hash,
@@ -112,7 +117,7 @@ export default function TabBar({
       )}
       <Tabs
         id="tab-bar"
-        // @ts-expect-error -- strictFunctionTypes
+        // @ts-expect-error -- navigate expects string, TabsSelectedKey includes number
         onOpenTabNavigationFn={navigate}
         tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}

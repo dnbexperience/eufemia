@@ -56,28 +56,9 @@ This disables `--bail` and runs all screenshot tests, so you can see all visual 
 
 The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
 
-## How can I make faster builds?
-
-This is only meant for "setup-testing" purposes! To make faster local builds, you can:
-
-- Inside `gatsby-config.js`, rename all sourcing from `/docs` to `/docs_dummy`.
-
-Run `yarn workspace dnb-design-system-portal build:visual-test`.
-
-You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
-
-### What are `build:mini` scripts
+### What dies `build:mini` do?
 
 When running `build:mini` scripts, the build will be faster and the output will be smaller. It's used for the CI/CD pipeline to build the package for the Sandbox or documentation preview.
-
-For the Portal, `build:mini` (`BUILD_MINI=1`) also skips some Gatsby plugins and processing steps to speed up the build. This currently includes:
-
-- `gatsby-plugin-eufemia-llm-metadata`
-- `gatsby-plugin-manifest`
-- `gatsby-plugin-meta-redirect`
-- `gatsby-plugin-offline`
-- `gatsby-plugin-algolia`
-- Image processing (`gatsby-plugin-sharp`, `gatsby-remark-images`)
 
 ## Dependency issues
 
@@ -92,33 +73,3 @@ For the Portal, `build:mini` (`BUILD_MINI=1`) also skips some Gatsby plugins and
 ### Babel
 
 - Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they do not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
-
-### Yarn PnP
-
-Eufemia uses yarn with `node_modules`.
-
-When switching over to Yarn PnP, there are some issues:
-
-- Storybook:
-  ```bash
-  ERROR in eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss (eufemia/.yarn/__virtual__/css-loader-virtual-37c5c374e4/0/cache/css-loader-npm-5.2.7-e1e8b8d16f-fb0742b30a.zip/node_modules/css-loader/dist/cjs.js!eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js!eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss)
-  Module build failed (from eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js):
-  SassError: File to import not found or unreadable: eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/style/components/imports.scss.
-          on line 6 of ../../.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss
-  >> @import '../../../style/components/imports.scss';
-  ```
-- Gatsby
-  ```bash
-  gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
-  ```
-
-## MDX v1 > v2/v3
-
-In MDX v1 the Portal used an MDX template (`./templates/mdx.js`) with the `createPage` API. This is currently not the case anymore.
-Instead, the "PortalLayout" is used to wrap `.mdx` pages inside the `wrapPageElement` API.
-This is due to the `JavaScript heap out of memory` error when using templates.
-
-## I get a Gatsby 404 Not Found error on the pages I work on
-
-- Try cleaning the cache: `yarn workspace dnb-design-system-portal gatsby clean`
-- Try running `yarn build` again

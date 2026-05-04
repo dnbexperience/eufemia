@@ -7,7 +7,7 @@ import React from 'react'
 import Anchor from '../tags/Anchor'
 import clsx from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
-import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
+import { releaseVersion, buildVersion } from '../buildInfo'
 import {
   SidebarMenuProvider,
   SidebarMenuContext,
@@ -71,7 +71,11 @@ function Layout(props: LayoutProps) {
       const elem = mainRef.current
       elem.setAttribute('tabindex', '-1')
       elem.focus()
-      elem.removeAttribute('tabindex') // don't keep tabindex around, Chrome fucks up the selection / focus feature
+      elem.addEventListener(
+        'blur',
+        () => elem.removeAttribute('tabindex'),
+        { once: true }
+      )
     } catch (e) {
       console.error('Failed to set focus on skip link target:', e)
     }
@@ -85,7 +89,7 @@ function Layout(props: LayoutProps) {
     )
   }
 
-  const fs = fullscreen || isFullscreen()
+  const fs = fullscreen || isFullscreen() || globalThis.IS_TEST
 
   return (
     <div className={clsx(portalStyle, fs && fullscreenStyle)}>
@@ -172,8 +176,8 @@ const Footer = () => {
   return (
     <Section element="footer" innerSpace className={footerStyle}>
       <P size="small">
-        Package release: {packageJson.releaseVersion} <br />
-        Portal update: {packageJson.buildVersion}
+        Package release: {releaseVersion} <br />
+        Portal update: {buildVersion}
       </P>
 
       <Logo height="40" />

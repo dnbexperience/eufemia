@@ -42,7 +42,6 @@ function setUp() {
     window.addEventListener('pointerdown', setInput, true)
     window.addEventListener('pointermove', setIntent, passiveCapture)
   } else {
-    window.addEventListener('mousedown', setInput, true)
     window.addEventListener('mousemove', setIntent, passiveCapture)
 
     if ('ontouchstart' in window) {
@@ -51,6 +50,7 @@ function setUp() {
     }
   }
 
+  window.addEventListener('mousedown', setInput, true)
   window.addEventListener('wheel', setIntent, passiveCapture)
   window.addEventListener('keydown', setInput, true)
   window.addEventListener('keyup', setInput, true)

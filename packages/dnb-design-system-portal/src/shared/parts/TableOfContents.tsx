@@ -23,7 +23,8 @@ const TableOfContents = ({ edges }: TableOfContentsProps) => {
     .sort((edgeA, edgeB) =>
       edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1
     )
-    .map(({ node }) => node.tableOfContents.items)
+    .map(({ node }) => node.tableOfContents?.items)
+    .filter(Boolean)
     .reduce<Array<TableOfContents>>((allContent, currentContent) => {
       currentContent.forEach((content) => allContent.push(content))
       return allContent

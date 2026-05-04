@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
@@ -11,12 +12,10 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Grid', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/?data-visual-test')
+    await page.goto('/uilib/components/')
 
     // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   })
 
   test('click on grid switch should enable the grid', async ({ page }) => {

@@ -202,7 +202,7 @@ const transformToJsx = (content, file): PromiseLike<string> => {
 
           // Add type annotation to the props parameter before formatting
           const typed = res.replace(
-            /\(props\) =>/,
+            /\(?props\)? =>/,
             `(props?: IconSVGProps) =>`
           )
 

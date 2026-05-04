@@ -174,7 +174,7 @@ jobs:
 
       - name: Build portal
         if: env.RUN_VISUAL_TEST == 'true'
-        run: yarn workspace dnb-design-system-portal build:visual-test
+        run: yarn workspace dnb-design-system-portal build
 
       - name: Run visual tests
         if: env.RUN_VISUAL_TEST == 'true'

@@ -69,7 +69,7 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build:visual-test
+        run: yarn workspace dnb-design-system-portal build
 
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update

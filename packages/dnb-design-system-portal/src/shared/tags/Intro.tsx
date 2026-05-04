@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Global, css } from '@emotion/react'
-import { navigate } from 'gatsby'
+import { navigate } from 'portal-query'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
 import { startPageTransition } from './Transition'

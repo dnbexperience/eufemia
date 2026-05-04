@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { navigate, useLocation } from '@gatsbyjs/reach-router'
+import { useLocation } from 'react-router-dom'
+import { navigate } from 'portal-query'
 import { P } from '@dnb/eufemia/src'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
 

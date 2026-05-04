@@ -144,8 +144,7 @@ const setOverflowHiddenAndroid = () => {
           bodyElement.style[x] = bodyStyle[x] || ''
         })
 
-        const scrollBehavior =
-          window.getComputedStyle(htmlElement).scrollBehavior
+        const scrollBehavior = htmlElement.style.scrollBehavior
         htmlElement.style.scrollBehavior = 'auto'
         htmlElement.scrollTop = scrollTop
         htmlElement.style.scrollBehavior = scrollBehavior

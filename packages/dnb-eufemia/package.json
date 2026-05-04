@@ -217,6 +217,7 @@
     "jest-playwright-preset": "4.0.0",
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",
+    "jsdom": "29.1.1",
     "lebab": "3.2.7",
     "lightningcss": "1.32.0",
     "lockfile-lint": "4.14.1",

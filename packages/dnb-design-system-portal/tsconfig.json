@@ -19,7 +19,8 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "Pages/*": ["./src/docs/*"]
+      "Pages/*": ["./src/docs/*"],
+      "portal-query": ["./vite/client/shims/portal-query.tsx"]
     }
   },
   "exclude": ["node_modules", ".cache", "public"]

@@ -585,8 +585,8 @@ describe('EditContainer and ViewContainer', () => {
         ).toHaveFocus()
         await waitFor(() => {
           expect(editBlock).toHaveStyle('height: auto;')
+          expect(firstElement).toHaveFocus()
         })
-        expect(firstElement).toHaveFocus()
       }
 
       await userEvent.click(button)
@@ -616,9 +616,9 @@ describe('EditContainer and ViewContainer', () => {
         ).toHaveFocus()
         await waitFor(() => {
           expect(editBlock).toHaveStyle('height: auto;')
+          // First element is no longer required to collapse height here
+          expect(secondElement).toHaveFocus()
         })
-        // First element is no longer required to collapse height here
-        expect(secondElement).toHaveFocus()
         expect(containerMode).toEqual([
           'edit',
           'edit',

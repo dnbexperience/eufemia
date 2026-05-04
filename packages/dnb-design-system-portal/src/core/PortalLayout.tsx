@@ -4,7 +4,7 @@
 
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
-import { graphql, useStaticQuery } from 'gatsby'
+import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar, { defaultTabsValue } from '../shared/tags/TabBar'
 import { Link } from '../shared/tags/Anchor'
