@@ -66,12 +66,6 @@ export type TimelineItemAllProps = TimelineItemProps &
   Omit<React.AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
 const defaultProps: Partial<TimelineItemAllProps> = {
-  icon: null,
-  iconAlt: null,
-  title: null,
-  subtitle: null,
-  infoMessage: null,
-  state: null,
   skeleton: false,
 }
 

@@ -37,19 +37,11 @@ export type ScrollViewAllProps = ScrollViewProps &
     ref?: React.Ref<unknown>
   }
 
-const defaultProps: Partial<ScrollViewAllProps> = {
-  children: null,
-}
-
 function ScrollView(localProps: ScrollViewAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = extendPropsWithContext(
-    localProps,
-    defaultProps,
-    context.ScrollView
-  )
+  const props = extendPropsWithContext(localProps, {}, context.ScrollView)
 
   const {
     interactive,

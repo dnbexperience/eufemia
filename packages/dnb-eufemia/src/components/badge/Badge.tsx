@@ -90,13 +90,7 @@ export type BadgeAllProps = BadgeProps &
 type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
 export const defaultProps: BadgeAllProps = {
-  label: null,
-  className: null,
   skeleton: false,
-  children: null,
-  content: null,
-  vertical: null,
-  horizontal: null,
   variant: 'information',
   status: 'default',
   subtle: false,
