@@ -400,10 +400,12 @@ describe('GlobalStatus component', () => {
     await refresh()
 
     // GlobalStatus content
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent
-    ).toBe('error-message-1')
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-global-status__message p')[0]
+          .textContent
+      ).toBe('error-message-1')
+    })
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[1]
         .textContent
