@@ -3,6 +3,7 @@ import IntlMessageFormat from 'intl-messageformat'
 const ICU_PATTERN =
   /\{[^}]+,\s*(?:plural|select|selectordinal|number|date|time)\b/
 
+const MAX_CACHE_SIZE = 1000
 const cache = new Map<string, IntlMessageFormat>()
 
 export type ICUFormatMessage = {
@@ -17,7 +18,7 @@ export type ICUFormatMessage = {
 /**
  * ICU MessageFormat support for Eufemia translations.
  *
- * Pass this to the `icu` prop on `Provider` to enable
+ * Pass this to the `messageFormatter` prop on `Provider` to enable
  * pluralization, select, selectordinal, and inline number/date/time
  * formatting in your translation strings.
  *
@@ -25,7 +26,7 @@ export type ICUFormatMessage = {
  * import Provider from '\@dnb/eufemia/shared/Provider'
  * import { icu } from '\@dnb/eufemia/shared'
  *
- * <Provider icu={icu}>
+ * <Provider messageFormatter={icu}>
  *   <App />
  * </Provider>
  */
@@ -44,6 +45,12 @@ export const icu: ICUFormatMessage = {
     let formatter = cache.get(cacheKey)
     if (!formatter) {
       formatter = new IntlMessageFormat(message, locale)
+
+      if (cache.size >= MAX_CACHE_SIZE) {
+        // Delete the oldest entry (Map preserves insertion order)
+        cache.delete(cache.keys().next().value)
+      }
+
       cache.set(cacheKey, formatter)
     }
 
