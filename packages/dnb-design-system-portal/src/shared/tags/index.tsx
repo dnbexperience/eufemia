@@ -25,7 +25,6 @@ import Details from './Details'
 import Summary from './Summary'
 
 export const basicComponents = {
-  // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
   h2: (props) => <Header level="2" {...props} />,
   h3: (props) => <Header level="3" {...props} />,

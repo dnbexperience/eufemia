@@ -109,22 +109,6 @@
       }
     }
 
-    :checked + .radio-label {
-      position: relative;
-      z-index: 1;
-      border-color: var(--color-sea-green);
-    }
-
-    .markdown-body::before {
-      display: table;
-      content: '';
-    }
-    .markdown-body::after {
-      display: table;
-      clear: both;
-      content: '';
-    }
-
     .gatsby-resp-image-wrapper {
       margin-left: 0 !important; /* align the img to the left */
       a {
