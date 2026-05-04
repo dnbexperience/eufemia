@@ -835,14 +835,12 @@ describe('DateFormat', () => {
       await waitFor(() => {
         const tooltipId = timeElem.getAttribute('aria-describedby')
         expect(tooltipId).toBeTruthy()
+
+        const tooltipElem = document.body.querySelector('#' + tooltipId)
+        expect(tooltipElem).toHaveTextContent(
+          'fredag 1. august 2025 kl. 14:30'
+        )
       })
-
-      const tooltipId = timeElem.getAttribute('aria-describedby')
-      const tooltipElem = document.body.querySelector('#' + tooltipId)
-
-      expect(tooltipElem).toHaveTextContent(
-        'fredag 1. august 2025 kl. 14:30'
-      )
     })
 
     it('should respect locale for relative time', () => {
