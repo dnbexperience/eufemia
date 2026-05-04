@@ -3,6 +3,35 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.1.0](https://github.com/dnbexperience/eufemia/compare/v11.0.4...v11.1.0) (2026-05-04)
+
+
+### :zap: Refactoring
+
+* **Breadcrumb:** ensure Sbanken dark mode compatibility ([#7891](https://github.com/dnbexperience/eufemia/issues/7891)) ([a3893ab](https://github.com/dnbexperience/eufemia/commit/a3893ab2b96d46d8c5f7b3dce8c33d3a19acf5d2))
+* **Logo:** support dark mode ([#7889](https://github.com/dnbexperience/eufemia/issues/7889)) ([8c27fe0](https://github.com/dnbexperience/eufemia/commit/8c27fe04ce8247e04813ab73859ffd2d72b9853d))
+* **Portal:** use `translationsLoader` for dynamic locale loading ([#7885](https://github.com/dnbexperience/eufemia/issues/7885)) ([ef2982b](https://github.com/dnbexperience/eufemia/commit/ef2982b5194cfe9d4ed78aa93485058da635271b))
+
+
+### :sparkles: Features
+
+* add opt-in ICU MessageFormat support for translations ([#7894](https://github.com/dnbexperience/eufemia/issues/7894)) ([b87d879](https://github.com/dnbexperience/eufemia/commit/b87d879a0c0a75ac55e0472294605d3184f40065))
+* add shared focus-ring variable for border width `--focus-ring-width` ([#7878](https://github.com/dnbexperience/eufemia/issues/7878)) ([29bd01c](https://github.com/dnbexperience/eufemia/commit/29bd01c35ab5aeeced0f4657e7322a8e09bf8cee))
+* deprecate --color-* CSS custom properties and color documentation in favor of design tokens ([#7888](https://github.com/dnbexperience/eufemia/issues/7888)) ([c1301fb](https://github.com/dnbexperience/eufemia/commit/c1301fb675b12fa95af6d91410b2c67b57692162))
+* **Provider:** add `translationsLoader` for async dynamic translations ([#7870](https://github.com/dnbexperience/eufemia/issues/7870)) ([7cd5d04](https://github.com/dnbexperience/eufemia/commit/7cd5d0494b04164f2db0b933219e1e8f82980e40))
+* release tokens (beta) and dark mode support ([#7871](https://github.com/dnbexperience/eufemia/issues/7871)) ([0055476](https://github.com/dnbexperience/eufemia/commit/00554769fd3655a15a98aead44e3e56c9728ac92))
+* **Table:** add useTableKeyboardNavigation "plugin" hook ([#7779](https://github.com/dnbexperience/eufemia/issues/7779)) ([9337295](https://github.com/dnbexperience/eufemia/commit/9337295be135b48ba04d99f2350196781d31bd45))
+* **Table:** add verticalAlign prop to `Td` ([#7884](https://github.com/dnbexperience/eufemia/issues/7884)) ([bb102bd](https://github.com/dnbexperience/eufemia/commit/bb102bdc4ec4e33213b4a1b06babd1f3654d203d)), closes [#7870](https://github.com/dnbexperience/eufemia/issues/7870)
+
+
+### :bug: Bug Fixes
+
+* **Field.Selection, Field.ArraySelection:** pass `width` to FieldBlock to prevent label truncation ([#7876](https://github.com/dnbexperience/eufemia/issues/7876)) ([fa1d666](https://github.com/dnbexperience/eufemia/commit/fa1d6666a058777219c253b4b2dc99fb6322df1c))
+* **Forms:** keep GlobalStatus visible until all errors are resolved ([#7877](https://github.com/dnbexperience/eufemia/issues/7877)) ([7d8fe2d](https://github.com/dnbexperience/eufemia/commit/7d8fe2d78c69a6ce2be131a75d64f42f1a5685c7))
+* **GlobalStatus:** preserve provider state when state prop is not given ([#7880](https://github.com/dnbexperience/eufemia/issues/7880)) ([50442b4](https://github.com/dnbexperience/eufemia/commit/50442b4db735686e40a8e470c9621c653e546e8c))
+* **Table:** hide table bottom border when `border` is explicitly false ([#7908](https://github.com/dnbexperience/eufemia/issues/7908)) ([22aac70](https://github.com/dnbexperience/eufemia/commit/22aac70b118842927dec27913ee54ec065e075c6))
+* **Tabs:** improve tabs scroll buttons handling ([#7892](https://github.com/dnbexperience/eufemia/issues/7892)) ([4f41d45](https://github.com/dnbexperience/eufemia/commit/4f41d4530c7358a35040b37ab0df1b182af54b30))
+
 ## [11.0.4](https://github.com/dnbexperience/eufemia/compare/v11.0.3...v11.0.4) (2026-04-29)
 
 
