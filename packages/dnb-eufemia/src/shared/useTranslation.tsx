@@ -352,7 +352,9 @@ export function formatMessage(
       // Only warn when the id looks like a message path (e.g. "MyForm.title").
       // Raw strings passed directly (e.g. already-resolved translations) are not missing keys.
       if (id.includes('.')) {
-        warn(`formatMessage: Missing translation for "${id}".`)
+        warn(
+          `formatMessage: Could not resolve translation key "${id}". It may be missing or incorrectly formatted.`
+        )
       }
       str = id
     }

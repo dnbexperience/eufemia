@@ -1446,7 +1446,9 @@ describe('Error handling and warnings', () => {
     expect(document.body.textContent).toBe('Missing.key')
     expect(logSpy).toHaveBeenCalledWith(
       expect.anything(),
-      expect.stringContaining('Missing translation for "Missing.key"')
+      expect.stringContaining(
+        'Could not resolve translation key "Missing.key"'
+      )
     )
   })
 
