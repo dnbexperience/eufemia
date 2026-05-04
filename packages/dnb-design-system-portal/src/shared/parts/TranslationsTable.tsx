@@ -137,7 +137,7 @@ export default function TranslationsTable({
         docs.
       </P>
       <Table.ScrollView>
-        <StyledTable>
+        <StyledTable border={false}>
           <thead>
             <Tr>
               <Th>Key</Th>

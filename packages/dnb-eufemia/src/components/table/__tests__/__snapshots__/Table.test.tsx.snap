@@ -74,10 +74,10 @@ exports[`Table scss > should match default theme snapshot 1`] = `
 .dnb-table {
   /* stylelint-enable */
 }
-.dnb-table:not(.dnb-table--outline) > tbody {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody {
   position: relative;
 }
-.dnb-table:not(.dnb-table--outline) > tbody::after {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody::after {
   content: "";
   position: absolute;
   top: 0;
@@ -88,7 +88,7 @@ exports[`Table scss > should match default theme snapshot 1`] = `
   pointer-events: none;
   border-bottom: var(--table-border);
 }
-.dnb-table:not(.dnb-table--outline) > tbody:last-child::after {
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody:last-child::after {
   right: 0;
 }"
 `;
