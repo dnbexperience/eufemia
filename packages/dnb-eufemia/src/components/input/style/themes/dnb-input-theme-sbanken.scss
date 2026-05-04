@@ -3,13 +3,6 @@
 *
 */
 
-.dnb-input__border--tokens {
-  // Border
-  --input-border-radius--default: var(--token-radius-md);
-  --input-border-radius--active: var(--token-radius-xl);
-  --input-border-radius--focus: var(--token-radius-xl);
-}
-
 .dnb-input {
   --input-height: 2.5rem;
 
