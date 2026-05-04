@@ -67,13 +67,6 @@ type ChildWithChildren = React.ReactElement<{
   children?: React.ReactNode
 }>
 
-function getFirstChild(
-  children: ChildWithChildren
-): React.ReactNode | undefined {
-  const c = children.props?.children
-  return Array.isArray(c) ? c[0] : c
-}
-
 function getChildren(children: ChildWithChildren) {
   return recursiveMap(children.props.children, (child) => child)
 }
