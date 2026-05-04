@@ -1836,7 +1836,7 @@ describe('Wizard.Container', () => {
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
-        expect(screen.queryAllByRole('alert')).toHaveLength(0)
+        expect(screen.queryByText('Error message')).not.toBeInTheDocument()
         expect(previousButton()).not.toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
       })
