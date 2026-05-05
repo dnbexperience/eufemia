@@ -384,8 +384,15 @@ export default function useFieldError<Value>({
                 message
               )
             }
-          } else if (message.includes('.')) {
+          } else if (message.includes('.') && !message.includes(' ')) {
             message = formatMessage(message, error.messageValues)
+          } else if (error.messageValues) {
+            message = Object.entries(error.messageValues).reduce(
+              (msg, [key, value]) => {
+                return msg.replace(`{${key}}`, value)
+              },
+              message
+            )
           }
 
           if (React.isValidElement(message)) {

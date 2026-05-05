@@ -1474,6 +1474,22 @@ describe('Field.String', () => {
         ).toBe('At least 4.')
       })
 
+      it('should replace placeholders in pre-resolved error messages with spaces', () => {
+        render(
+          <Field.String
+            error={
+              new FormError('Must be at most {maxLength} characters.', {
+                messageValues: { maxLength: '10' },
+              })
+            }
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('Must be at most 10 characters.')
+      })
+
       it('should provide error message to the onBlurValidator', async () => {
         let collectCustomMessage = null
         const customMessage = 'Your custom error message'
