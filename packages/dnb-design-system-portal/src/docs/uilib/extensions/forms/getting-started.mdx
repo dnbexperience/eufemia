@@ -991,47 +991,11 @@ export default {
 
 #### Using the shared `Provider`
 
-You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/):
-
-```tsx
-import { Provider } from '@dnb/eufemia/shared'
-
-const translationsLoader = async (locale) => {
-  const response = await fetch(`/api/translations/${locale}`)
-  return response.json()
-}
-
-render(
-  <Provider translationsLoader={translationsLoader} locale="nb-NO">
-    Your app, including Eufemia Forms
-  </Provider>
-)
-```
+You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/). The shared [Localization](/uilib/usage/customisation/localization/#load-translations-dynamically) guide has the provider example and additional loading patterns.
 
 #### Combining with static translations
 
-The `translationsLoader` can be used alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const staticTranslations = {
-  'nb-NO': { PhoneNumber: { countryCodeLabel: 'Landskode' } },
-}
-
-const translationsLoader = async (locale) => {
-  return (await import(`./locales/${locale}`)).default
-}
-
-render(
-  <Form.Handler
-    translations={staticTranslations}
-    translationsLoader={translationsLoader}
-  >
-    <Field.PhoneNumber />
-  </Form.Handler>
-)
-```
+`Form.Handler` supports using `translationsLoader` alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top. See the shared [Localization](/uilib/usage/customisation/localization/#load-translations-dynamically) guide for the equivalent shared `Provider` example and additional loading patterns.
 
 ### How to customize translations in a form
 
@@ -1058,57 +1022,11 @@ render(
 
 #### Consume the translations
 
-You can consume both the internal or your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook:
+You can consume both the internal and your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook.
 
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+The dedicated [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) page shows examples for typed custom translations, `formatMessage`, `renderMessage`, `<Translation />`, and missing-key fallbacks.
 
-const myTranslations = {
-  'nb-NO': { myString: 'Min egendefinerte streng' },
-  'en-GB': {
-    // Cascaded translations
-    Nested: {
-      stringWithArgs: 'My custom string with an argument: {myKey}',
-    },
-
-    // Flat translations
-    'Nested.stringWithLinebreaks':
-      'My custom string with a {br}line-break',
-  },
-}
-
-const MyComponent = () => {
-  const t = Form.useTranslation<typeof myTranslations>()
-
-  // Internal translations
-  const existingString = t.Field.errorRequired
-
-  // Your translations
-  const myString = t.myString
-
-  // Use the "formatMessage" function to handle strings with arguments
-  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
-    myKey: 'myValue',
-  })
-  // You can also get the string with a key (dot-notation)
-  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
-    myKey: 'myValue',
-  })
-
-  // Render line-breaks
-  const jsxOutput = t.renderMessage(t.Nested.stringWithLinebreaks)
-
-  return <>MyComponent</>
-}
-
-render(
-  <Form.Handler translations={myTranslations}>
-    <MyComponent />
-  </Form.Handler>
-)
-```
-
-Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
+Here is also a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use translations in a form.
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
 
