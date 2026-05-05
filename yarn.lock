@@ -19333,14 +19333,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-image-snapshot-reporter@workspace:tools/jest-image-snapshot-reporter":
-  version: 0.0.0-use.local
-  resolution: "jest-image-snapshot-reporter@workspace:tools/jest-image-snapshot-reporter"
-  dependencies:
-    ansi-html-community: "npm:0.0.8"
-  languageName: unknown
-  linkType: soft
-
 "jest-leak-detector@npm:30.0.5":
   version: 30.0.5
   resolution: "jest-leak-detector@npm:30.0.5"

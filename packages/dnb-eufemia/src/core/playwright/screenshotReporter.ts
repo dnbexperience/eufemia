@@ -2,7 +2,6 @@
  * Playwright Reporter for Screenshot Tests
  *
  * Generates an HTML report with visual diffs for failed screenshot tests.
- * Replaces the old jest-image-snapshot-reporter.
  */
 
 import fs from 'fs'
