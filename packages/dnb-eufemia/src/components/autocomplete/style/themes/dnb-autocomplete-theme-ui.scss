@@ -13,8 +13,7 @@
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
       @include utilities.fakeBorder(
-        var(--token-color-stroke-action-hover),
-        0.125rem
+        var(--token-color-stroke-action-hover)
       );
     }
 
@@ -28,11 +27,6 @@
 
   &--show-indicator &__input .dnb-input__icon {
     color: transparent;
-  }
-
-  &__shell,
-  &__input {
-    border-radius: var(--autocomplete-border-radius);
   }
 
   &__status--error:not(#{&}--open)
