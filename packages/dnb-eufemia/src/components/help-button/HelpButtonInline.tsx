@@ -302,7 +302,11 @@ function HelpButtonInlineContentComponent(
         {...rest}
       >
         <Flex.Vertical gap="x-small">
-          {title && <P weight="medium">{title}</P>}
+          {title && (
+            <P weight="medium" element="div">
+              {title}
+            </P>
+          )}
           {content && <P element="div">{content}</P>}
         </Flex.Vertical>
         {children}
