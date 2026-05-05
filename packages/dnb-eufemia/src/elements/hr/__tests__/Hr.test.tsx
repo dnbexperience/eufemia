@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 import Hr from '../Hr'
