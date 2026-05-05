@@ -207,7 +207,7 @@ button .dnb-form-status__text {
     --token-color-text-neutral-alternative
   );
   --textarea-color-border: var(--token-color-stroke-action);
-  --textarea-border-radius--default: var(--token-radius-sm);
+  --textarea-border-radius: var(--token-radius-sm);
   --textarea-border-width: var(--textarea-border-width--default);
   --textarea-border-width--default: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
@@ -268,7 +268,7 @@ button .dnb-form-status__text {
   --border-width: var(--textarea-border-width, var(--textarea-border-width--default));
   box-shadow: var(--textarea-border-inset, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-  border-radius: var(--textarea-border-radius, var(--textarea-border-radius--default));
+  border-radius: var(--textarea-border-radius);
 }
 .dnb-textarea__row {
   display: inline-flex;
@@ -450,7 +450,7 @@ html[data-visual-test] .dnb-textarea__textarea {
   caret-color: var(--token-color-background-neutral);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
-  border-radius: var(--textarea-border-radius, var(--textarea-border-radius--default));
+  border-radius: var(--textarea-border-radius);
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
   visibility: hidden;
@@ -461,7 +461,6 @@ html[data-visual-test] .dnb-textarea__textarea {
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-action-pressed);
-  --textarea-border-radius: var(--textarea-border-radius--focus);
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --textarea-color-border: var(
