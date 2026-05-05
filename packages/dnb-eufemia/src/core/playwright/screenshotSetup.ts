@@ -10,11 +10,8 @@ import fs from 'fs/promises'
 import ora from 'ora'
 import { isCI } from 'repo-utils'
 import { makeUniqueId } from '../../shared/component-helper'
-<<<<<<< HEAD
-=======
 import { getPageResetStrategy } from './pageResetStrategy'
 import { clearBrowserStorages } from './storageReset'
->>>>>>> 92fc08933fc (Handle secure storage errors on retry reset)
 import {
   test as base,
   expect,
@@ -213,6 +210,40 @@ async function hardResetPage({
   })
 
   await applyPageSettings(page, pageViewport, headers)
+  await applyTestConfiguration(page)
+  await addTestStylesheet(page)
+  await waitForVisualStability(page)
+
+  currentRootClassName = null
+  needsHardReset = false
+}
+
+async function navigateToFreshPage({
+  page,
+  url,
+  themeName,
+  pageViewport,
+  headers,
+  fullscreen,
+}: {
+  page: Page
+  url: string
+  themeName?: string
+  pageViewport?: { width?: number; height?: number }
+  headers?: Record<string, string>
+  fullscreen?: boolean
+}) {
+  await clearBrowserStorage(page)
+
+  await navigateToPage({
+    page,
+    url,
+    themeName,
+    pageViewport,
+    headers,
+    fullscreen,
+  })
+
   await applyTestConfiguration(page)
   await addTestStylesheet(page)
   await waitForVisualStability(page)
@@ -577,17 +608,33 @@ async function makePageReady({
   if (url) {
     const targetUrl = createUrl(url, fullscreen, themeName)
 
-    if (currentRetry > 0 || needsHardReset) {
-      if (targetUrl === currentNavigatedUrl) {
-        await hardResetPage({
-          page,
-          pageViewport,
-          headers,
-        })
-      } else {
-        await clearBrowserStorage(page)
-        needsHardReset = false
-      }
+    const resetStrategy = getPageResetStrategy({
+      currentRetry,
+      needsHardReset,
+      targetUrl,
+      currentNavigatedUrl,
+    })
+
+    if (resetStrategy === 'reload') {
+      await hardResetPage({
+        page,
+        pageViewport,
+        headers,
+      })
+    }
+
+    if (resetStrategy === 'navigate') {
+      await navigateToFreshPage({
+        page,
+        url,
+        themeName,
+        pageViewport,
+        headers,
+        fullscreen,
+      })
+
+      currentNavigatedUrl = targetUrl
+      return
     }
 
     if (targetUrl !== currentNavigatedUrl) {
