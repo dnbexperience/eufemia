@@ -94,7 +94,7 @@ export const config = {
 // Cache the test stylesheet content once at module load to avoid
 // reading from disk on every single test.
 const testStylesheetContent = fs.readFile(
-  path.resolve(__dirname, '../jest/jestSetupScreenshots.css'),
+  path.resolve(__dirname, './screenshotTestStyles.css'),
   'utf-8'
 )
 
