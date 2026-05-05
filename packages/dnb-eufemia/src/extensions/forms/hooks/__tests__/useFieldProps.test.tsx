@@ -1423,6 +1423,48 @@ describe('useFieldProps', () => {
         })
       })
 
+      it('should not warn when error already contains a localized sentence with a period', () => {
+        const log = spyOnEufemiaWarn()
+
+        const { result } = renderHook(() =>
+          useFieldProps({
+            error: new FormError(nb.Field.errorRequired),
+          })
+        )
+
+        expect(getError(result.current.error).message).toBe(
+          nb.Field.errorRequired
+        )
+        expect(log).not.toHaveBeenCalledWith(
+          expect.stringContaining('Could not resolve translation key')
+        )
+
+        log.mockRestore()
+      })
+
+      it('should interpolate placeholders when error already contains a localized template', () => {
+        const log = spyOnEufemiaWarn()
+
+        const { result } = renderHook(() =>
+          useFieldProps({
+            error: new FormError(nb.StringField.errorMinLength, {
+              messageValues: {
+                minLength: '6',
+              },
+            }),
+          })
+        )
+
+        expect(getError(result.current.error).message).toBe(
+          nb.StringField.errorMinLength.replace('{minLength}', '6')
+        )
+        expect(log).not.toHaveBeenCalledWith(
+          expect.stringContaining('Could not resolve translation key')
+        )
+
+        log.mockRestore()
+      })
+
       it('should render error message given as JSX', () => {
         const wrapper = ({ children }) => (
           <FieldBlock>{children}</FieldBlock>
