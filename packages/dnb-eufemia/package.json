@@ -87,7 +87,7 @@
     "test:screenshots:watch": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 jest --config=./jest.config.screenshots.js --watchAll --detectOpenHandles",
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",
-    "test:update": "vitest run --update",
+    "test:update": "vitest run --update=true",
     "test:watch": "vitest",
     "verify:generated-entries:ci": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/verifyGeneratedEntriesCommitted"
   },
