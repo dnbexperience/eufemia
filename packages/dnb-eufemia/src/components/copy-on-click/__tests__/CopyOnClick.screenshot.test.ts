@@ -22,7 +22,6 @@ test.describe('CopyOnClick', () => {
       style,
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
-      waitAfterSimulateSelector: '.dnb-tooltip--active',
       recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchSnapshot()
@@ -45,7 +44,6 @@ test.describe('CopyOnClick in drawer', () => {
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-      waitAfterSimulateSelector: '.dnb-tooltip--active',
       recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchSnapshot()

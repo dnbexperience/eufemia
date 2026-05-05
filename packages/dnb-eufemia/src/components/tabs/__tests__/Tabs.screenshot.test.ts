@@ -109,7 +109,6 @@ for (const themeName of ['ui', 'sbanken']) {
           padding: '0 2rem 4rem 2rem',
         },
         addWrapper: false,
-        waitAfterSimulate: 100, // ensure the buttons are "hidden", so give time for a slow CI
         selector: '[data-visual-test="tabs-tablist-scrollable"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -121,7 +120,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
         simulate: 'focus',
-        waitAfterSimulate: 100, // ensure the buttons are "hidden", so give time for a slow CI
       })
       expect(screenshot).toMatchSnapshot()
     })

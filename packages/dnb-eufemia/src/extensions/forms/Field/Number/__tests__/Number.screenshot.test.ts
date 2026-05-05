@@ -51,7 +51,6 @@ for (const themeName of ['ui', 'sbanken']) {
           simulateSelector:
             '[data-visual-test="number-input-step-controls"] .dnb-input',
           simulate: 'focusclick',
-          waitAfterSimulate: 250,
         })
         expect(screenshot).toMatchSnapshot()
       })

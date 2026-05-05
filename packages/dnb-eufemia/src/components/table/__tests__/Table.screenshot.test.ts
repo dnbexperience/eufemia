@@ -217,7 +217,6 @@ for (const themeName of ['ui', 'sbanken']) {
               width: '30rem',
             },
             selector,
-            waitAfterSimulate: 100, // same delay as the resize dispatch
             executeBeforeSimulate: () => {
               const element = document.querySelector(
                 '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'

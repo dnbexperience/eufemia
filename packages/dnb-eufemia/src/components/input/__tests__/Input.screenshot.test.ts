@@ -85,7 +85,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'click',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -95,7 +94,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'focus', // should be tested first
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -106,7 +104,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         selector: '[data-visual-test="input-search"]',
         simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
         simulate: 'focus',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -149,7 +146,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
         simulate: 'click',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -159,7 +155,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
         simulate: 'focus',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })

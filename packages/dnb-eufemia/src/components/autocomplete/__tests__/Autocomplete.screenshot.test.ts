@@ -23,8 +23,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
         simulate: 'click',
-        waitAfterSimulateSelector:
-          '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--open',
         style: {
           height: '30rem',
         },
@@ -76,8 +74,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="autocomplete-suffix"]',
         simulateSelector:
           '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
-        waitAfterSimulateSelector:
-          '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete--open',
         simulate: 'click',
         style: {
           height: '25rem',
@@ -91,8 +87,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="autocomplete-groups"]',
         simulateSelector:
           '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
-        waitAfterSimulateSelector:
-          '[data-visual-test="autocomplete-groups"] .dnb-autocomplete--open',
         simulate: 'click',
         style: {
           height: '29rem',
@@ -161,8 +155,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="autocomplete-disabled-options"]',
         simulateSelector:
           '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
-        waitAfterSimulateSelector:
-          '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete--open',
         simulate: 'click',
         style: {
           height: '25rem',
@@ -176,8 +168,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="autocomplete-opened"]',
         simulateSelector:
           '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-        waitAfterSimulateSelector:
-          '[data-visual-test="autocomplete-opened"] .dnb-autocomplete--open',
         simulate: 'click',
         style: {
           height: '40rem',

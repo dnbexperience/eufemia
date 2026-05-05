@@ -389,7 +389,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="anchor-blank"]',
         simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
         simulate: 'hover',
-        waitAfterSimulate: 200,
       })
       expect(screenshot).toMatchSnapshot()
     })

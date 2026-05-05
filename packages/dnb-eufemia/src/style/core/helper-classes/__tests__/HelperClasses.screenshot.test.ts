@@ -64,7 +64,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector: '[data-visual-test="skip-link"]',
         simulateSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
         simulate: 'focus',
-        waitAfterSimulate: 300,
         screenshotSelector:
           '[data-visual-test="skip-link"] .dnb-skip-link',
       })

@@ -75,7 +75,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         simulate: 'click',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -88,7 +87,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         simulate: 'focus', // should be tested first
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -125,7 +123,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         simulate: 'click',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -138,7 +135,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         simulate: 'focus', // should be tested first
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
-        waitAfterSimulate: 250,
       })
       expect(screenshot).toMatchSnapshot()
     })

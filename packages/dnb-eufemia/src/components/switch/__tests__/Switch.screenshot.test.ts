@@ -53,7 +53,6 @@ for (const themeName of ['ui', 'sbanken']) {
             selector: 'body',
           },
         ],
-        waitAfterSimulate: 300,
       })
       expect(screenshot).toMatchSnapshot()
     })

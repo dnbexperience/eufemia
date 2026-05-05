@@ -199,7 +199,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           simulate: 'click',
           simulateSelector:
             '[data-visual-test="dialog-scroll-content"] button:first-of-type',
-          waitAfterSimulateSelector: '.dnb-scroll-view',
           simulateAfter: { keypress: 'Escape' },
           screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
           rootClassName: 'hide-page-content',
@@ -213,7 +212,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           simulate: 'click',
           simulateSelector:
             '[data-visual-test="dialog-scroll-content"] button:first-of-type',
-          waitAfterSimulateSelector: '.dnb-scroll-view',
           simulateAfter: { keypress: 'Escape' },
           screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
           rootClassName: ['hide-page-content', 'scroll-to-bottom'],
@@ -239,7 +237,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           simulate: 'click',
           simulateSelector:
             '[data-visual-test="dialog-scroll-content-info"] button:first-of-type',
-          waitAfterSimulateSelector: '.dnb-scroll-view',
           simulateAfter: { keypress: 'Escape' },
           screenshotSelector: '.dnb-modal__content',
           rootClassName: 'hide-page-content',
@@ -253,7 +250,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           simulate: 'click',
           simulateSelector:
             '[data-visual-test="dialog-scroll-content-info"] button:first-of-type',
-          waitAfterSimulateSelector: '.dnb-scroll-view',
           simulateAfter: { keypress: 'Escape' },
           screenshotSelector: '.dnb-modal__content',
           rootClassName: ['hide-page-content', 'scroll-to-bottom-info'],

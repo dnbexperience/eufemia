@@ -134,7 +134,6 @@ test.describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="large-content-drawer"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
         rootClassName: ['hide-page-content'],
@@ -148,7 +147,6 @@ test.describe('Drawer', () => {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="update-navigation-header-example"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
         rootClassName: ['hide-page-content'],

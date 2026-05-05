@@ -184,7 +184,6 @@ for (const themeName of ['ui']) {
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="popover-placement-top"] button',
-        waitAfterSimulateSelector: '.dnb-popover--active',
         selector: '[data-visual-test="popover-placement-top"]',
       })
       expect(screenshot).toMatchSnapshot()

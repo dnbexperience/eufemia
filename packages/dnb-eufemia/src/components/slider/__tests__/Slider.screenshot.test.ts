@@ -34,7 +34,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'hover',
-        waitAfterSimulateSelector: '.dnb-tooltip--active',
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -48,7 +47,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'focusclick',
-        waitAfterSimulateSelector: '.dnb-tooltip--active',
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -62,7 +60,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'active',
-        waitAfterSimulateSelector: '.dnb-tooltip--active',
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -92,7 +89,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="slider-marker"] .dnb-slider__marker',
         simulate: 'hover',
-        waitAfterSimulateSelector: '.dnb-tooltip--active',
       })
       expect(screenshot).toMatchSnapshot()
     })

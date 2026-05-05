@@ -73,7 +73,6 @@ test.describe('Iterate.Array', () => {
       selector: '[data-visual-test="view-and-edit-container"]',
       screenshotSelector:
         '[data-visual-test="view-and-edit-container"] .dnb-forms-section-edit-block',
-      waitAfterSimulate: 100,
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="view-and-edit-container"] button',

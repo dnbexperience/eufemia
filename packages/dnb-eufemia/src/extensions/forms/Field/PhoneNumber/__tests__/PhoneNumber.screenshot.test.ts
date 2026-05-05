@@ -85,8 +85,6 @@ test.describe('PhoneNumber', () => {
       simulateSelector:
         '[data-visual-test="phone-number-label"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
-      waitAfterSimulateSelector:
-        '[data-visual-test="phone-number-label"] .dnb-autocomplete--open',
       style: {
         height: '30rem',
       },
