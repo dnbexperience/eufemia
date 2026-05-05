@@ -3,6 +3,36 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.1.1](https://github.com/dnbexperience/eufemia/compare/v11.1.0...v11.1.1) (2026-05-05)
+
+
+### :memo: Documentation
+
+* **Forms:** cleanup of deduplicate translation examples ([#7916](https://github.com/dnbexperience/eufemia/issues/7916)) ([dba9829](https://github.com/dnbexperience/eufemia/commit/dba98290aa96c25c1a90a026f1fd14c7103405f8))
+
+
+### :zap: Refactoring
+
+* **Anchor:** add border radius token ([#7928](https://github.com/dnbexperience/eufemia/issues/7928)) ([fa0ede0](https://github.com/dnbexperience/eufemia/commit/fa0ede07799b2264228377656672121dd2809f54))
+* **Autocomplete:** add border radius tokens ([#7932](https://github.com/dnbexperience/eufemia/issues/7932)) ([364faaa](https://github.com/dnbexperience/eufemia/commit/364faaa61312247b9995a7bf1b50b3464bc3ecff))
+* **Badge:** add border radius tokens ([#7924](https://github.com/dnbexperience/eufemia/issues/7924)) ([18cf1b7](https://github.com/dnbexperience/eufemia/commit/18cf1b736e0cc0e459ef11ad97d898b5f1b7cadd))
+* **Dropdown:** use border radius tokens ([#7927](https://github.com/dnbexperience/eufemia/issues/7927)) ([2608893](https://github.com/dnbexperience/eufemia/commit/26088931a457b6670843462575b9fa879f030a66))
+* **Input:** add icon color tokens ([#7913](https://github.com/dnbexperience/eufemia/issues/7913)) ([ea2d47b](https://github.com/dnbexperience/eufemia/commit/ea2d47b2f856b69d2dcee4bdc284f5240c03c4db))
+* **Input:** use correct border radius tokens for Sbanken theme ([#7909](https://github.com/dnbexperience/eufemia/issues/7909)) ([f859b15](https://github.com/dnbexperience/eufemia/commit/f859b154f262cbef59747f4590c3adb46f0b5f03))
+* **Menu:** adjust hover (action) border radius ([#7936](https://github.com/dnbexperience/eufemia/issues/7936)) ([85a3ad0](https://github.com/dnbexperience/eufemia/commit/85a3ad0c210381de7a5c224d8036545f04d1e736))
+* **Tabs:** add border radius tokens ([#7939](https://github.com/dnbexperience/eufemia/issues/7939)) ([82d926d](https://github.com/dnbexperience/eufemia/commit/82d926d386c18ea7d2315f60cd50b102d95e824b))
+* **Textarea:** add border radius token ([#7922](https://github.com/dnbexperience/eufemia/issues/7922)) ([d8c58dd](https://github.com/dnbexperience/eufemia/commit/d8c58dd0f14dbb9591630dfc2e489517bad32e57))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** render help content in div instead of p to support block-level elements ([#7930](https://github.com/dnbexperience/eufemia/issues/7930)) ([50911b2](https://github.com/dnbexperience/eufemia/commit/50911b2b4c0901eb9a9adb97ffe9ddcaba18d904))
+* **Heading, Ul, Ol, Dl, FormLabel, Hr:** ensure surface="dark" support ([#7925](https://github.com/dnbexperience/eufemia/issues/7925)) ([118841d](https://github.com/dnbexperience/eufemia/commit/118841d292c421b2da55a95a229dd9b8573900eb))
+* improve localized validation interpolation in useFieldError ([#7931](https://github.com/dnbexperience/eufemia/issues/7931)) ([2d5d081](https://github.com/dnbexperience/eufemia/commit/2d5d08174538baaa1723ebe675d62fd135cca447))
+* **InputMasked:** disable spellcheck to prevent false positives on currency suffix ([#7935](https://github.com/dnbexperience/eufemia/issues/7935)) ([04aa51a](https://github.com/dnbexperience/eufemia/commit/04aa51a60eee0794dc5674cc76c58732974b83aa))
+* **Modal:** preserve triggerAttributes onClick in Modal trigger button ([#7938](https://github.com/dnbexperience/eufemia/issues/7938)) ([786942a](https://github.com/dnbexperience/eufemia/commit/786942af8eb8fe2d34b50a65406916afb457b0a0))
+* **NumberFormat.Currency:** support explicit currencies ([#7929](https://github.com/dnbexperience/eufemia/issues/7929)) ([f0b0a57](https://github.com/dnbexperience/eufemia/commit/f0b0a57b849302b9a4f78dbebcd461d3a2db96c9))
+
 ## [11.1.0](https://github.com/dnbexperience/eufemia/compare/v11.0.4...v11.1.0) (2026-05-04)
 
 
