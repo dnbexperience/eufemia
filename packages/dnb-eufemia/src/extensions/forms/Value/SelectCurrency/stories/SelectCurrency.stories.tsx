@@ -1,4 +1,3 @@
-import React from 'react'
 import { Field, Form, Value } from '../../..'
 import { Flex } from '../../../../../components'
 

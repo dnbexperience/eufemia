@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'

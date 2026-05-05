@@ -1,10 +1,5 @@
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-} from 'react'
+import { Fragment, useCallback, useContext, useMemo, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type {
   Translation,
   TranslationLocale,
@@ -374,7 +369,7 @@ export function formatMessage(
           return (
             <>
               {result.map((part, i) => (
-                <Fragment key={i}>{part as React.ReactNode}</Fragment>
+                <Fragment key={i}>{part as ReactNode}</Fragment>
               ))}
             </>
           )
@@ -422,8 +417,8 @@ export function formatMessage(
 }
 
 export function renderMessage(
-  text: string | Array<React.ReactNode>
-): string | React.ReactNode {
+  text: string | Array<ReactNode>
+): string | ReactNode {
   let element = text
 
   if (typeof text === 'string') {
@@ -445,9 +440,9 @@ export function renderMessage(
 function renderTags(
   str: string,
   args: Record<string, unknown>
-): React.ReactNode {
+): ReactNode {
   const TAG_RE = /<(\w+)>([\s\S]*?)<\/\1>/
-  const parts: React.ReactNode[] = []
+  const parts: ReactNode[] = []
   let remaining = str
   let match: RegExpExecArray | null
 

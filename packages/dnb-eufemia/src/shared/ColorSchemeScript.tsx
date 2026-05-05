@@ -22,7 +22,6 @@
  *   </body>
  */
 
-import React from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 const STORAGE_KEY = 'eufemia-theme'

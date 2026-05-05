@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import type { PaginationProps } from './Pagination'
 import Pagination from './Pagination'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

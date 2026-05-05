@@ -1,4 +1,16 @@
-import React, { useCallback, useEffect } from 'react'
+import {
+  Children,
+  isValidElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import type {
+  ReactElement,
+  SyntheticEvent,
+  TableHTMLAttributes,
+} from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -31,7 +43,7 @@ export type TableAccordionHeadProps = {
   /** The row number */
   count: number
 } & TableTrProps &
-  React.TableHTMLAttributes<HTMLTableRowElement>
+  TableHTMLAttributes<HTMLTableRowElement>
 
 export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
@@ -45,9 +57,9 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     count,
     ...props
   } = allProps
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
 
-  const [trIsOpen, setOpen] = React.useState(() => {
+  const [trIsOpen, setOpen] = useState(() => {
     if (typeof expanded === 'boolean') {
       return expanded
     } else if (typeof location !== 'undefined') {
@@ -59,10 +71,10 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
     return false
   })
-  const [trIsHover, setHover] = React.useState(false)
-  const [trHadClick, setHadClick] = React.useState(false)
+  const [trIsHover, setHover] = useState(false)
+  const [trHadClick, setHadClick] = useState(false)
 
-  let headerContent = React.Children.toArray(children)
+  let headerContent = Children.toArray(children)
 
   const addContent = useCallback(
     (content) => {
@@ -81,7 +93,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   }, [])
 
   const toggleOpenFn = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       const doc = document as DocumentWithViewTransition
       if (
         typeof doc !== 'undefined' &&
@@ -104,7 +116,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   )
 
   const toggleOpenTr = useCallback(
-    (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
+    (event: SyntheticEvent, allowInteractiveElement?: boolean) => {
       onClickTr(event, allowInteractiveElement, toggleOpenFn)
     },
     [toggleOpenFn]
@@ -115,7 +127,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   }, [])
 
   const onKeyDownHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       toggleOpenTr(event, true)
     },
     [toggleOpenTr]
@@ -125,14 +137,14 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
    * Handle Accordion Content
    */
   const accordionContent = headerContent.filter((element) => {
-    return isAccordionElement(element as React.ReactElement)
-  }) as React.ReactElement<
+    return isAccordionElement(element as ReactElement)
+  }) as ReactElement<
     TableAccordionContentSingleProps | TableAccordionContentRowProps
   >[]
 
   const hasAccordionContent =
     accordionContent.length !== 0 &&
-    accordionContent.every((element) => React.isValidElement(element))
+    accordionContent.every((element) => isValidElement(element))
 
   useEffect(() => {
     if (
@@ -146,12 +158,12 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     }
   }, [count, tableContext?.collapseTrCallbacks, hasAccordionContent])
 
-  const tableContextAllProps = React.useContext(TableContext)?.allProps
+  const tableContextAllProps = useContext(TableContext)?.allProps
 
   if (hasAccordionContent) {
     // Remove the AccordionContent, and use it outside of the tr
     headerContent = headerContent.filter((element) => {
-      return !isAccordionElement(element as React.ReactElement)
+      return !isAccordionElement(element as ReactElement)
     })
 
     addContent(
@@ -176,7 +188,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   const countTds = hasAccordionContent
     ? headerContent.filter((element) => {
-        const el = element as React.ReactElement
+        const el = element as ReactElement
         return el.type === Td || el.type === TableClickableButtonTd // TODO: We may need to include this in future --> || component.type === Td.MainCell
       }).length
     : null
@@ -213,6 +225,6 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   )
 }
 
-const isAccordionElement = (element: React.ReactElement) =>
+const isAccordionElement = (element: ReactElement) =>
   element.type === TableAccordionContentSingle ||
   element.type === TableAccordionContentRow

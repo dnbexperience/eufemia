@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import Ingress from '@dnb/eufemia/src/elements/Ingress'

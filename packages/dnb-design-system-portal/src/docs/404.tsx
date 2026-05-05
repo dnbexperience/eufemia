@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { GlobalError } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import Layout from '../shared/parts/Layout'

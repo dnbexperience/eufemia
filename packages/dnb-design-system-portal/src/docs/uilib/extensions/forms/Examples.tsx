@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Input, Slider, Flex, NumberFormat } from '@dnb/eufemia/src'
 import {
@@ -41,7 +41,7 @@ export const CreateBasicFieldComponent = () => {
     >
       {() => {
         const MyField = (props) => {
-          const fromInput = React.useCallback(({ value }) => value, [])
+          const fromInput = useCallback(({ value }) => value, [])
 
           const preparedProps = {
             label: 'What is the secret of this field?',
@@ -164,7 +164,7 @@ export const CreateComposedFieldComponent = () => {
             path: '/birthYear',
           })
 
-          const handleBirthYearChange = React.useCallback(
+          const handleBirthYearChange = useCallback(
             (sliderData) => {
               handleChange(sliderData.value)
             },

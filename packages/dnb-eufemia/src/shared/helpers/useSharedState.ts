@@ -1,5 +1,5 @@
-import type React from 'react'
 import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
+import type { Context } from 'react'
 import useMounted from './useMounted'
 import useMountEffect from './useMountEffect'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from './useIsomorphicLayoutEffect'
@@ -8,7 +8,7 @@ export type SharedStateId =
   | string
   | (() => void)
   | Promise<() => void>
-  | React.Context<any>
+  | Context<any>
   | Record<string, unknown>
 
 /**

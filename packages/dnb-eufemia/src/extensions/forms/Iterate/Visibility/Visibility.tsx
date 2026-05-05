@@ -1,4 +1,3 @@
-import React from 'react'
 import type { FormVisibilityProps } from '../../Form/Visibility/Visibility'
 import Visibility from '../../Form/Visibility/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'

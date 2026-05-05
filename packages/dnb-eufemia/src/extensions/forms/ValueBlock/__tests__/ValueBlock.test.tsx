@@ -1,4 +1,3 @@
-import React from 'react'
 import { axeComponent } from '../../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'

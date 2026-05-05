@@ -1,9 +1,9 @@
+import { useContext } from 'react'
 /**
  * Web Modal Component
  *
  */
 
-import React from 'react'
 import clsx from 'clsx'
 import { extendExistingPropsWithContext } from '../../../shared/component-helper'
 import Button from '../../button/Button'
@@ -18,7 +18,7 @@ export type CloseButtonProps = {
 } & Partial<ButtonProps>
 
 function CloseButton(props: CloseButtonProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const {

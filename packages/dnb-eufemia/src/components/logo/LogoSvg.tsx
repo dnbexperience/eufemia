@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ComponentType, ReactNode, SVGProps } from 'react'
 import type { ThemeNames } from '../../shared'
 import useTheme from '../../shared/useTheme'
 
@@ -11,8 +11,8 @@ export type LogoType =
   | 'sbankenHorizontal'
   | 'carnegie'
 
-export type LogoSvgComponent = React.ComponentType<
-  React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
+export type LogoSvgComponent = ComponentType<
+  SVGProps<SVGSVGElement> & { alt?: ReactNode }
 > & {
   brand: ThemeNames
   alt: string

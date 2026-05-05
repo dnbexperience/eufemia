@@ -3,7 +3,7 @@
  *
  */
 
-import React, { act } from 'react'
+import { act, useContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
@@ -20,7 +20,7 @@ describe('Context', () => {
 
   const ChangeLocale = () => {
     const { setLocale, update, setCurrentLocale, updateCurrent, locale } =
-      React.useContext(Context)
+      useContext(Context)
 
     expect(typeof update).toBe('function')
     expect(typeof setLocale).toBe('function')

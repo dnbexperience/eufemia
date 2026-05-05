@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { render } from '@testing-library/react'
 import Input from '../../../components/input/Input'
 import HelpButton from '../../../components/help-button/HelpButton'

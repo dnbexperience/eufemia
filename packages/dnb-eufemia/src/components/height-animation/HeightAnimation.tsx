@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 import clsx from 'clsx'
 import type { UseHeightAnimationOptions } from './useHeightAnimation'
 import { useHeightAnimation } from './useHeightAnimation'
@@ -42,13 +43,13 @@ export type HeightAnimationProps = {
    * Send along a custom React Ref.
    * Default: `null`
    */
-  ref?: React.RefObject<HTMLElement>
+  ref?: RefObject<HTMLElement>
 } & UseHeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     'ref' | 'onAnimationEnd' | 'onAnimationStart'
   >
 

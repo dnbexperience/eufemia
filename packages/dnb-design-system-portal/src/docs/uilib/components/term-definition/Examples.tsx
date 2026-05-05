@@ -1,4 +1,3 @@
-import React from 'react'
 import { H2, Lead, P, TermDefinition } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../shared/tags/ComponentBox'

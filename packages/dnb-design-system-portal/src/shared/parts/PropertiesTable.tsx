@@ -1,3 +1,4 @@
+import type { CSSProperties, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm-react-markdown'
 import styled from '@emotion/styled'
@@ -39,8 +40,8 @@ export const FormattedCode = ({
 }: {
   variant?: 'prop' | 'type' | 'value'
   strikethrough?: boolean
-  style?: React.CSSProperties
-  children?: React.ReactNode
+  style?: CSSProperties
+  children?: ReactNode
 }) => {
   if (strikethrough) {
     style.textDecoration = 'line-through'
@@ -260,7 +261,7 @@ function sortablePropertyName(name: string): string {
   return match ? match[1] : name
 }
 
-export function formatIfMarkdown(name: string): React.ReactNode | string {
+export function formatIfMarkdown(name: string): ReactNode | string {
   if (name.includes('](')) {
     return (
       // @ts-expect-error -- strictFunctionTypes

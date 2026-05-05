@@ -1,9 +1,9 @@
+import { createContext } from 'react'
 /**
  * Web Heading Context
  *
  */
 
-import React from 'react'
 import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
 import type { HeadingProps } from './Heading'
 
@@ -11,7 +11,7 @@ export type HeadingContextValue = {
   heading?: HeadingProps
 } & SkeletonContextValue
 
-const HeadingContext = React.createContext<HeadingContextValue>({
+const HeadingContext = createContext<HeadingContextValue>({
   heading: null,
 })
 

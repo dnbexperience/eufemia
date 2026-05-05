@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

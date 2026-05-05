@@ -2,7 +2,8 @@
  * Web RadioGroup Component
  */
 
-import React, { useContext, useRef, useState, useCallback } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type { CSSProperties, ReactNode, SyntheticEvent } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -35,18 +36,18 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type RadioGroupLabelPosition = 'left' | 'right'
 export type RadioGroupSize = 'default' | 'medium' | 'large'
-export type RadioGroupSuffix = string | React.ReactNode
+export type RadioGroupSuffix = string | ReactNode
 export type RadioGroupLayoutDirection = 'column' | 'row'
 export type RadioGroupAttributes = string | Record<string, unknown>
-export type RadioGroupChildren = string | React.ReactNode
+export type RadioGroupChildren = string | ReactNode
 
 export type RadioGroupChangeEvent = {
   value: string
-  event: React.SyntheticEvent
+  event: SyntheticEvent
 }
 
 export type RadioGroupProps = {
-  label?: React.ReactNode
+  label?: ReactNode
   labelDirection?: 'vertical' | 'horizontal'
   labelSrOnly?: boolean
   labelPosition?: RadioGroupLabelPosition
@@ -66,7 +67,7 @@ export type RadioGroupProps = {
   layoutDirection?: RadioGroupLayoutDirection
   value?: string
   attributes?: RadioGroupAttributes
-  style?: React.CSSProperties
+  style?: CSSProperties
   className?: string
   children?: RadioGroupChildren
   onChange?: (event: RadioGroupChangeEvent) => void
@@ -137,7 +138,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
       event,
     }: {
       value: string
-      event: React.SyntheticEvent
+      event: SyntheticEvent
     }) => {
       skipNextPropSync.current = true
       setValue(newValue)
@@ -269,7 +270,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
               className="dnb-radio-group__shell"
               {...params}
             >
-              {children as React.ReactNode}
+              {children as ReactNode}
 
               {suffix && (
                 <Suffix
@@ -277,7 +278,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
                   id={id + '-suffix'} // used for "aria-describedby"
                   context={props}
                 >
-                  {suffix as React.ReactNode}
+                  {suffix as ReactNode}
                 </Suffix>
               )}
 

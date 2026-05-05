@@ -1,4 +1,17 @@
-import React, { useCallback, useContext } from 'react'
+import {
+  Children,
+  createElement,
+  isValidElement,
+  useCallback,
+  useContext,
+} from 'react'
+import type {
+  ComponentType,
+  HTMLAttributes,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
@@ -10,7 +23,7 @@ import type { SpacingProps } from '../../../shared/types'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 type ExtendedMouseEvent = {
-  event: React.MouseEvent<HTMLElement>
+  event: MouseEvent<HTMLElement>
   close: () => void
 }
 
@@ -18,12 +31,12 @@ export type DialogActionProps = {
   /**
    * For dialog actions, give a custom text for the decline button.
    */
-  declineText?: React.ReactNode
+  declineText?: ReactNode
 
   /**
    * For dialog actions, give a custom text for the confirm button.
    */
-  confirmText?: React.ReactNode
+  confirmText?: ReactNode
 
   /**
    * For variant confirmation, handle the confirm action click.
@@ -48,12 +61,12 @@ export type DialogActionProps = {
   /**
    * Pass in custom confirm/decline buttons for action handling. Every child of type Button will be provided with a `close` function attribute.
    */
-  children?: React.ReactElement | Array<React.ReactElement>
+  children?: ReactElement | Array<ReactElement>
 }
 
 export type DialogActionAllProps = DialogActionProps &
   SpacingProps &
-  Omit<React.HTMLAttributes<HTMLElement>, 'children'>
+  Omit<HTMLAttributes<HTMLElement>, 'children'>
 
 const fallbackCloseAction = ({ close }: ExtendedMouseEvent) => close()
 
@@ -70,7 +83,7 @@ const DialogAction = ({
 }: DialogActionAllProps) => {
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
-  let childrenWithCloseFunc: React.ReactNode
+  let childrenWithCloseFunc: ReactNode
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -92,12 +105,12 @@ const DialogAction = ({
   )
 
   if (children) {
-    childrenWithCloseFunc = React.Children.map(children, (child) => {
-      if (React.isValidElement<any>(child) && child.type === Button) {
-        const childElement = child as React.ReactElement<any>
+    childrenWithCloseFunc = Children.map(children, (child) => {
+      if (isValidElement<any>(child) && child.type === Button) {
+        const childElement = child as ReactElement<any>
 
-        return React.createElement(
-          childElement.type as React.ComponentType<any>,
+        return createElement(
+          childElement.type as ComponentType<any>,
           {
             ...(childElement.props || {}),
             onClick: (event) => {

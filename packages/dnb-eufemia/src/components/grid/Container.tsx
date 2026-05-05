@@ -1,4 +1,3 @@
-import React from 'react'
 import clsx from 'clsx'
 import type { SpaceAllProps } from '../space/Space'
 import Space from '../space/Space'

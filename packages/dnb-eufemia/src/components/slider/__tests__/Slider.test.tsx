@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
@@ -586,7 +586,7 @@ describe('Slider component', () => {
 
   describe('multi thumb', () => {
     const SliderWithStateUpdate = (props: SliderAllProps) => {
-      const [value, setValue] = React.useState(props.value)
+      const [value, setValue] = useState(props.value)
       const onChangeHandler = (event: SliderOnChangeParams) => {
         setValue(event.value)
         if (props.onChange) {
@@ -614,8 +614,8 @@ describe('Slider component', () => {
 
     it('will not need on external prop changes', () => {
       const WrongUsage = () => {
-        const [min, setMinVal] = React.useState(0) //eslint-disable-line
-        const [max, setMaxVal] = React.useState(200) //eslint-disable-line
+        const [min, setMinVal] = useState(0) //eslint-disable-line
+        const [max, setMaxVal] = useState(200) //eslint-disable-line
 
         return (
           <Slider

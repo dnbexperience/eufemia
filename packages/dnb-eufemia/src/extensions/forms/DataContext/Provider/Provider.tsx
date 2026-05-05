@@ -1,11 +1,12 @@
-import React, {
-  useRef,
-  useMemo,
+import {
   useCallback,
-  useReducer,
-  useEffect,
   useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
 } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import type { z, FormError } from '../../utils'
@@ -77,7 +78,7 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-  fieldStatusRef?: React.RefObject<Record<Path, EventStateObject>>
+  fieldStatusRef?: RefObject<Record<Path, EventStateObject>>
   fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }
@@ -214,7 +215,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
     /**
      * The children of the context provider
      */
-    children: React.ReactNode
+    children: ReactNode
   }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, MouseEvent, ReactNode } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -27,7 +28,7 @@ export type TagProps = {
    * The content of the tag element, can be a string or a React Element.
    * Default: `null`
    */
-  text?: string | React.ReactNode
+  text?: string | ReactNode
 
   /**
    * To be included in the tag. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.
@@ -62,13 +63,13 @@ export type TagProps = {
    * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop
    * Default: `null`
    */
-  children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
+  children?: string | ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
    * Handle the click event on 'tag' element
    * Default: `null`
    */
-  onClick?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
+  onClick?: (args: { event: MouseEvent<HTMLButtonElement> }) => void
 
   /**
    * Handle the delete event on 'tag' element
@@ -96,11 +97,11 @@ const defaultProps: Partial<TagProps> = {
 const Tag = (
   localProps: TagProps &
     SpacingProps &
-    Omit<React.HTMLProps<HTMLElement>, 'onClick'>
+    Omit<HTMLProps<HTMLElement>, 'onClick'>
 ) => {
   // Every component should have a context
-  const context = React.useContext(Context)
-  const tagGroupContext = React.useContext(TagGroupContext)
+  const context = useContext(Context)
+  const tagGroupContext = useContext(TagGroupContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(

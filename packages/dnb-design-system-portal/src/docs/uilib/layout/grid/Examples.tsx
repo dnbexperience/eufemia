@@ -1,13 +1,13 @@
-import React from 'react'
+import type { CSSProperties } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Grid } from '@dnb/eufemia/src'
 import { TestElement } from '@dnb/eufemia/src/extensions/forms'
 
 export const colors = [
-  { background: '#babeee' } as React.CSSProperties,
-  { background: '#dfe0ee' } as React.CSSProperties,
-  { background: '#90d2c3' } as React.CSSProperties,
-  { background: '#ecf4be' } as React.CSSProperties,
+  { background: '#babeee' } as CSSProperties,
+  { background: '#dfe0ee' } as CSSProperties,
+  { background: '#90d2c3' } as CSSProperties,
+  { background: '#ecf4be' } as CSSProperties,
 ]
 
 export const ResponsiveGridContainer = () => {

@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
+import type { RefObject, SyntheticEvent } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
@@ -88,7 +89,7 @@ export default function ModalContent(props: ModalContentProps) {
   const mountedRef = useRef(0)
   const lastFocusTimeRef = useRef(0)
   const triggeredByRef = useRef<ModalTriggeredBy>(undefined)
-  const triggeredByEventRef = useRef<React.SyntheticEvent>(undefined)
+  const triggeredByEventRef = useRef<SyntheticEvent>(undefined)
 
   // Stable identity for the modal stack
   const selfRef = useRef<ModalStackEntry>(null)
@@ -106,10 +107,7 @@ export default function ModalContent(props: ModalContentProps) {
   selfRef.current._contentRef = contentRef
 
   const setModalContentState = useCallback(
-    (
-      event: React.SyntheticEvent,
-      { triggeredBy }: ModalCloseHandlerParams
-    ) => {
+    (event: SyntheticEvent, { triggeredBy }: ModalCloseHandlerParams) => {
       triggeredByRef.current = triggeredBy
       triggeredByEventRef.current = event
     },
@@ -119,7 +117,7 @@ export default function ModalContent(props: ModalContentProps) {
   // Sync modalContentCloseRef
   useEffect(() => {
     if (modalContentCloseRef) {
-      const mutableRef = modalContentCloseRef as React.RefObject<any>
+      const mutableRef = modalContentCloseRef as RefObject<any>
       mutableRef.current = setModalContentState
     }
   }, [modalContentCloseRef, setModalContentState])
@@ -243,7 +241,7 @@ export default function ModalContent(props: ModalContentProps) {
 
   const closeModalContent = useCallback(
     (
-      event: React.SyntheticEvent,
+      event: SyntheticEvent,
       {
         triggeredBy,
         ...params
@@ -258,14 +256,14 @@ export default function ModalContent(props: ModalContentProps) {
   )
 
   const onCloseClickHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       closeModalContent(event, { triggeredBy: 'button' })
     },
     [closeModalContent]
   )
 
   const onContentMouseDownHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       overlayClickRef.current =
         event.target === event.currentTarget
           ? (event.target as HTMLElement)
@@ -275,7 +273,7 @@ export default function ModalContent(props: ModalContentProps) {
   )
 
   const onContentClickHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       if (overlayClickRef.current !== event.target) {
         return // stop here
       }
@@ -298,7 +296,7 @@ export default function ModalContent(props: ModalContentProps) {
 
       if (mostCurrent === selfRef.current) {
         event.preventDefault()
-        closeModalContent(event as unknown as React.SyntheticEvent, {
+        closeModalContent(event as unknown as SyntheticEvent, {
           triggeredBy: 'keyboard',
         })
       }

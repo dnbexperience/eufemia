@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 

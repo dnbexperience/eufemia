@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { render } from '@testing-library/react'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import BreadcrumbItem from '../BreadcrumbItem'

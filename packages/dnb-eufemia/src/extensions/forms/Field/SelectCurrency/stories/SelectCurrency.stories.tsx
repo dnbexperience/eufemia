@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
 import type {
@@ -11,8 +11,8 @@ export default {
 }
 
 export function SelectCurrency() {
-  const [state, update] = React.useState<CurrencyISO>('NOK')
-  React.useEffect(() => {
+  const [state, update] = useState<CurrencyISO>('NOK')
+  useEffect(() => {
     update('CHF')
   }, [])
   return (

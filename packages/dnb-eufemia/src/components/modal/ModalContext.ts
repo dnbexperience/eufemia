@@ -1,11 +1,10 @@
+import { createContext } from 'react'
 /**
  * Web ModalContext Context
  *
  */
 
-import React from 'react'
-
-const ModalContext = React.createContext({
+const ModalContext = createContext({
   preventClick: null,
   onKeyDownHandler: null,
   id: null,

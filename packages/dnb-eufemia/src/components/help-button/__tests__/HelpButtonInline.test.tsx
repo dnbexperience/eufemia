@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'

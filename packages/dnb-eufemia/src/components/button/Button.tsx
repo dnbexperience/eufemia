@@ -3,7 +3,16 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState } from 'react'
+import { isValidElement, useContext, useRef, useState } from 'react'
+import type {
+  AnchorHTMLAttributes,
+  ComponentType,
+  HTMLAttributes,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  Ref,
+} from 'react'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
@@ -39,7 +48,7 @@ import type {
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { AnchorProps } from '../Anchor'
 
-export type ButtonText = string | React.ReactNode
+export type ButtonText = string | ReactNode
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
@@ -53,20 +62,14 @@ export type ButtonIconPositionAll =
   | 'left'
   | 'right'
   | ButtonIconPositionTertiary
-export type ButtonTooltip =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type ButtonTooltip = string | (() => ReactNode) | ReactNode
 export type ButtonTo = string | ReactRouterLink['to']
 export type ButtonSkeleton = SkeletonShow
-export type ButtonChildren =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type ButtonChildren = string | (() => ReactNode) | ReactNode
 
 // Local type for react-router-dom link with only the necessary props.
 type ReactRouterLink = Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  AnchorHTMLAttributes<HTMLAnchorElement>,
   'href'
 > & {
   to:
@@ -80,16 +83,14 @@ type ReactRouterLink = Omit<
 
 export type ButtonElement =
   | DynamicElement<HTMLButtonElement | HTMLAnchorElement | AnchorProps>
-  | React.ComponentType<
-      ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
-    >
-  | React.ReactNode
+  | ComponentType<ReactRouterLink & { ref?: Ref<HTMLAnchorElement> }>
+  | ReactNode
 export type ButtonClickEvent = {
-  event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
 }
 export type ButtonOnClick =
   | ((args: ButtonClickEvent) => void)
-  | React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+  | MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   | ((...args: unknown[]) => void)
 
 export type ButtonProps = {
@@ -103,9 +104,9 @@ export type ButtonProps = {
   type?: string
   /**
    * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
-   * Accepts `React.ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.
+   * Accepts `ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.
    */
-  title?: React.ReactNode
+  title?: ReactNode
   /**
    * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only).
    */
@@ -154,7 +155,7 @@ export type ButtonProps = {
   /**
    * If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.
    */
-  customContent?: React.ReactNode
+  customContent?: ReactNode
   /**
    * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
    */
@@ -172,7 +173,7 @@ export type ButtonProps = {
    */
   skeleton?: ButtonSkeleton
   disabled?: boolean
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
   className?: string
   children?: ButtonChildren
   /**
@@ -184,9 +185,7 @@ export type ButtonProps = {
   Partial<
     DataAttributes &
       Omit<
-        Partial<
-          React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
-        >,
+        Partial<HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>,
         'onClick' | 'title'
       >
   > &
@@ -247,9 +246,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       ? generatedId
       : undefined
 
-  const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
-    null
-  )
+  const [afterContent, setAfterContent] = useState<ReactNode | null>(null)
 
   const props = extendExistingPropsWithContext(
     {
@@ -392,12 +389,12 @@ function Button({ ref, ...restProps }: ButtonProps) {
   })
 
   const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     const result = dispatchCustomElementEvent(props, 'onClick', {
       event,
     })
-    if (result && React.isValidElement(result)) {
+    if (result && isValidElement(result)) {
       setAfterContent(result)
     }
   }

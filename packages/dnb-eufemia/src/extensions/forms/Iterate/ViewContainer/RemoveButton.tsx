@@ -1,4 +1,3 @@
-import React from 'react'
 import type { IterateRemoveButtonProps as RemoveButtonProps } from '../RemoveButton'
 import RemoveButton from '../RemoveButton'
 import useTranslation from '../../hooks/useTranslation'

@@ -2,7 +2,17 @@
  * Web Pagination Component
  */
 
-import React, { useContext, useRef } from 'react'
+import { memo, useContext, useRef } from 'react'
+import type {
+  ComponentType,
+  HTMLAttributes,
+  HTMLProps,
+  JSX,
+  ReactNode,
+  Ref,
+  RefObject,
+  SyntheticEvent,
+} from 'react'
 import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
@@ -34,7 +44,7 @@ export type PaginationLayout = 'vertical' | 'horizontal'
 export type PaginationItems = string | unknown[]
 export type PaginationSetContentHandler =
   | string
-  | ((fn: (pageNumber: number, content: React.ReactNode) => void) => void)
+  | ((fn: (pageNumber: number, content: ReactNode) => void) => void)
 export type PaginationResetContentHandler =
   | string
   | ((fn: () => void) => void)
@@ -46,23 +56,20 @@ export type PaginationEndInfinityHandler =
   | ((fn: () => void) => void)
 export type PaginationPageElement =
   | Record<string, unknown>
-  | React.ReactNode
-  | React.ComponentType
+  | ReactNode
+  | ComponentType
   | string
 export type PaginationFallbackElement =
   | Record<string, unknown>
-  | React.ReactNode
-  | React.ComponentType
+  | ReactNode
+  | ComponentType
   | string
 export type PaginationMarkerElement =
   | Record<string, unknown>
-  | React.ReactNode
-  | React.ComponentType
+  | ReactNode
+  | ComponentType
   | string
-export type PaginationIndicatorElement =
-  | React.ReactNode
-  | React.ComponentType
-  | string
+export type PaginationIndicatorElement = ReactNode | ComponentType | string
 export type PaginationChildrenArgs = {
   pageNumber: number
   setContent: (...args: unknown[]) => void
@@ -70,10 +77,10 @@ export type PaginationChildrenArgs = {
   [key: string]: unknown
 }
 export type PaginationChildren =
-  | React.ReactNode
+  | ReactNode
   | ((props: PaginationChildrenArgs) => unknown)
 export type PaginationLoadButtonProps =
-  | (() => React.ReactNode)
+  | (() => ReactNode)
   | {
       /**
        * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
@@ -89,7 +96,7 @@ export type PaginationEvent = {
   pageNumber: number
   setContent: (...args: unknown[]) => void
   endInfinity: () => void
-  event?: React.SyntheticEvent
+  event?: SyntheticEvent
   [key: string]: unknown
 }
 
@@ -221,15 +228,15 @@ export type PaginationProps = {
   onLoad?: (event: PaginationEvent) => void
   onEnd?: (event: PaginationEvent) => void
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'ref' | 'children' | 'onChange' | 'onLoad'
 > &
   SpacingProps
 
 export type PaginationCreateReturn = {
-  Pagination: (props?: Record<string, unknown>) => React.JSX.Element
-  InfinityMarker: (props?: Record<string, unknown>) => React.JSX.Element
-  setContent: (pageNumber: number, content: React.ReactNode) => void
+  Pagination: (props?: Record<string, unknown>) => JSX.Element
+  InfinityMarker: (props?: Record<string, unknown>) => JSX.Element
+  setContent: (pageNumber: number, content: ReactNode) => void
   resetContent: () => void
   resetInfinity: () => void
   endInfinity: () => void
@@ -253,7 +260,7 @@ const paginationDefaultProps: Partial<PaginationProps> = {
 
 export type PaginationComponent = ((
   props: PaginationProps
-) => React.JSX.Element) & {
+) => JSX.Element) & {
   Bar: typeof PaginationBar
   Content: typeof PaginationContent
 } & ComponentMarkers
@@ -279,7 +286,7 @@ const Pagination = PaginationFunc as PaginationComponent
 
 export default Pagination
 
-const PaginationInstance = React.memo(function PaginationInstance(
+const PaginationInstance = memo(function PaginationInstance(
   ownProps: PaginationProps
 ) {
   const ctx = useContext(PaginationContext)
@@ -360,7 +367,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     return (
       <div {...mainParams}>
         <PaginationBar contentRef={contentRef} space={barSpace}>
-          {children as React.ReactNode}
+          {children as ReactNode}
         </PaginationBar>
         {items.length > 0 && (
           <PaginationContent ref={contentRef}>
@@ -403,9 +410,9 @@ function PaginationContent({
   ref,
   ...props
 }: {
-  children?: React.ReactNode
-  ref?: React.Ref<HTMLDivElement>
-} & React.HTMLAttributes<HTMLDivElement>) {
+  children?: ReactNode
+  ref?: Ref<HTMLDivElement>
+} & HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className="dnb-pagination__content dnb-no-focus"
@@ -432,27 +439,26 @@ export const Bar = (props: PaginationProps) => (
 export const createPagination = (
   initProps: Record<string, unknown> = {}
 ): PaginationCreateReturn => {
-  const store: React.RefObject<Record<string, unknown> | null> = {
+  const store: RefObject<Record<string, unknown> | null> = {
     current: null,
   }
-  const rerender: React.RefObject<
-    | ((store: React.RefObject<Record<string, unknown> | null>) => void)
-    | null
+  const rerender: RefObject<
+    ((store: RefObject<Record<string, unknown> | null>) => void) | null
   > = { current: null }
-  const _setContent: React.RefObject<
-    ((pageNumber: number, content: React.ReactNode) => void) | null
+  const _setContent: RefObject<
+    ((pageNumber: number, content: ReactNode) => void) | null
   > = { current: null }
-  const _resetContent: React.RefObject<(() => void) | null> = {
+  const _resetContent: RefObject<(() => void) | null> = {
     current: null,
   }
-  const _resetInfinity: React.RefObject<(() => void) | null> = {
+  const _resetInfinity: RefObject<(() => void) | null> = {
     current: null,
   }
-  const _endInfinity: React.RefObject<(() => void) | null> = {
+  const _endInfinity: RefObject<(() => void) | null> = {
     current: null,
   }
 
-  const setContent = (pageNumber: number, content: React.ReactNode) => {
+  const setContent = (pageNumber: number, content: ReactNode) => {
     if (pageNumber > 0) {
       store.current = { ...store.current, ...{ pageNumber, content } }
       rerender.current && rerender.current(store)

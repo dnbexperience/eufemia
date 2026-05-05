@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { Field, Form, FormError, Tools } from '../../..'
 import { Button, Flex, ToggleButton } from '../../../../../components'
 import { Provider } from '../..'
@@ -168,7 +168,7 @@ export function OnStatusChange() {
 }
 
 export const UpdateLocaleInProviderForAllFields = () => {
-  const [locale, setLocale] = React.useState('nb-NO')
+  const [locale, setLocale] = useState('nb-NO')
   return (
     <Form.Handler>
       <ToggleButton.Group

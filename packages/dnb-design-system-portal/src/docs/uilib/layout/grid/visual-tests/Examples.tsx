@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { Global, css } from '@emotion/react'
 import { useMedia } from '@dnb/eufemia/src/shared'
 import { Button, Grid } from '@dnb/eufemia/src'
@@ -137,7 +137,7 @@ export function PageLayoutExample() {
           }
 
           function useMinimizeSidebar() {
-            const [minimizedSidebar, setMinimize] = React.useState(false)
+            const [minimizedSidebar, setMinimize] = useState(false)
             const clickHandler = () => {
               setMinimize((s) => !s)
             }

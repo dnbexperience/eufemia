@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
 import SummaryListContext from './SummaryListContext'
@@ -13,7 +13,7 @@ export type ValueSummaryListProps = Omit<
   DlAllProps,
   'label' | 'labelSrOnly' | 'children'
 > & {
-  children: React.ReactNode
+  children: ReactNode
   transformLabel?: ValueProps['transformLabel']
   inheritVisibility?: ValueProps['inheritVisibility']
   inheritLabel?: ValueProps['inheritLabel']

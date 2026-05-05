@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { ReactNode } from 'react'
 import useId from '../../shared/helpers/useId'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
@@ -6,7 +7,7 @@ import Tooltip from '../tooltip/Tooltip'
 
 type SliderMarkerProps = {
   value: number
-  text: React.ReactNode
+  text: ReactNode
 }
 
 export default function SliderMarker({ value, text }: SliderMarkerProps) {

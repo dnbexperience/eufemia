@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import Table from '../Table'
 import type { TableScrollViewAllProps } from '../TableScrollView'
@@ -49,7 +50,7 @@ describe('Table.ScrollView', () => {
     })
     setResizeObserver({ init, observe })
 
-    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
+    const ref: RefObject<HTMLDivElement | null> = { current: null }
 
     render(
       <ScrollView ref={ref}>

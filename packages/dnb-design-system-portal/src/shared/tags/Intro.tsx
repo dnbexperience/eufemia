@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useRef } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { Global, css } from '@emotion/react'
 import { navigate } from 'portal-query'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
@@ -12,12 +13,12 @@ import { startPageTransition } from './Transition'
 import { Link } from './Anchor'
 
 type IntroProps = {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 const Intro = ({ children }: IntroProps) => {
-  const ref = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
     const onKeyDownHandler = (e: KeyboardEvent) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return
@@ -82,7 +83,7 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
   </Space>
 )
 
-export const Next = (props: React.ComponentProps<typeof Anchor>) => (
+export const Next = (props: ComponentProps<typeof Anchor>) => (
   <>
     <div
       className="dnb-section"

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 import clsx from 'clsx'
 import type { TypographySize, TypographyProps } from './Typography'
 import Typography, { TypographyContext } from './Typography'

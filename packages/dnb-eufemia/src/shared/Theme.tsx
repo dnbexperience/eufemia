@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext, useRef } from 'react'
+import { Fragment, useContext, useRef } from 'react'
+import type { HTMLAttributes, RefObject } from 'react'
 import clsx from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
@@ -37,7 +38,7 @@ export type ThemeProps = {
   element?: DynamicElement | false
 }
 
-export type ThemeAllProps = ThemeProps & React.HTMLAttributes<HTMLElement>
+export type ThemeAllProps = ThemeProps & HTMLAttributes<HTMLElement>
 
 export default function Theme(themeProps: ThemeAllProps) {
   const context = useContext(Context)
@@ -112,7 +113,7 @@ export function ThemeWrapper({
   className = null,
   ...rest
 }) {
-  const Wrapper = element === false ? React.Fragment : element || 'div'
+  const Wrapper = element === false ? Fragment : element || 'div'
   const ref = useRef<HTMLElement>(null)
 
   useSyncBodyColorScheme(theme)
@@ -121,7 +122,7 @@ export function ThemeWrapper({
   const classNames = getThemeClasses(theme, className)
   const { name, variant, size } = theme
 
-  if (Wrapper === React.Fragment) {
+  if (Wrapper === Fragment) {
     return children
   }
 
@@ -164,7 +165,7 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
  * className mismatches — it keeps the server-rendered value.
  */
 function useSyncElementColorScheme(
-  ref: React.RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement>,
   theme: ThemeProps
 ) {
   const colorScheme = theme?.colorScheme

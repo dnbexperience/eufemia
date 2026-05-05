@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { FocusEvent, RefObject } from 'react'
 import { flushSync } from 'react-dom'
 import clsx from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
@@ -246,7 +247,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   )
 
   const focusFirstSection = useCallback(
-    (event?: React.FocusEvent<HTMLDivElement>) => {
+    (event?: FocusEvent<HTMLDivElement>) => {
       const firstId = inputs[0]?.id
 
       if (disabled || !firstId) {
@@ -290,9 +291,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
               }
               groupDelimiter={delimiter}
               disabled={Boolean(disabled)}
-              valuesRef={
-                valuesRef as React.RefObject<Record<string, string>>
-              }
+              valuesRef={valuesRef as RefObject<Record<string, string>>}
               inputs={inputs.map(({ id, mask }) => ({
                 id: String(id),
                 mask,

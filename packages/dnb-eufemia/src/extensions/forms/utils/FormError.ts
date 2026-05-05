@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import type { ErrorObject } from 'ajv/dist/2020.js'
 import type { FormsTranslationFlat } from '../hooks/useTranslation'
 
@@ -22,7 +23,7 @@ type FormErrorOptions = {
    * For internal use only.
    * A formatted (JSX) message to be used internally later on.
    */
-  formattedMessage?: string | React.ReactElement
+  formattedMessage?: string | ReactElement
 }
 
 /**
@@ -35,7 +36,7 @@ export class FormError extends Error {
   formattedMessage?: FormErrorOptions['formattedMessage']
 
   constructor(
-    message: FormsTranslationFlat | string | React.ReactElement,
+    message: FormsTranslationFlat | string | ReactElement,
     options?: FormErrorOptions
   ) {
     super(message as string)

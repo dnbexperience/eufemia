@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { DetailedHTMLProps, ElementType, HTMLAttributes } from 'react'
 import type { GetTranslationProps } from './Context'
 export * from '../components/space/types'
 
@@ -29,8 +29,8 @@ export type DataAttributes = {
  */
 export type DynamicElement<
   E = HTMLElement,
-  P = React.DetailedHTMLProps<React.HTMLAttributes<E>, E>,
-> = React.ElementType<P> | string
+  P = DetailedHTMLProps<HTMLAttributes<E>, E>,
+> = ElementType<P> | string
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
 

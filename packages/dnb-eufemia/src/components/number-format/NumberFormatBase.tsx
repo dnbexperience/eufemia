@@ -2,7 +2,21 @@
  * Web NumberFormat Component
  */
 
-import React, { useContext, useRef, useState, useCallback } from 'react'
+import {
+  createElement,
+  isValidElement,
+  memo,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react'
+import type {
+  CSSProperties,
+  ElementType,
+  HTMLProps,
+  ReactNode,
+} from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import clsx from 'clsx'
@@ -40,8 +54,8 @@ import type { SkeletonShow } from '../Skeleton'
 // TypeScript types
 export type { NumberFormatOptions } from './utils'
 export type { NumberFormatValue } from './utils'
-export type NumberFormatPrefix = React.ReactNode | (() => React.ReactNode)
-export type NumberFormatSuffix = React.ReactNode | (() => React.ReactNode)
+export type NumberFormatPrefix = ReactNode | (() => ReactNode)
+export type NumberFormatSuffix = ReactNode | (() => ReactNode)
 export type NumberFormatCurrency = string | boolean
 export type NumberFormatCurrencyPosition =
   | 'auto'
@@ -56,13 +70,8 @@ export type NumberFormatSignDisplay =
   | 'never'
 export type NumberFormatDecimals = number
 export type NumberFormatElement = string
-export type NumberFormatTooltip =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
-export type NumberFormatChildren =
-  | React.ReactNode
-  | (() => React.ReactNode)
+export type NumberFormatTooltip = string | (() => ReactNode) | ReactNode
+export type NumberFormatChildren = ReactNode | (() => ReactNode)
 export type NumberFormatProps = {
   id?: string
   /** The numeric or string value to format. */
@@ -108,7 +117,7 @@ export type NumberFormatProps = {
   /** If `true`, strips trailing zeroes from decimal values. */
   clean?: boolean
   /** Screen-reader-only label for the formatted value for accessibility. */
-  srLabel?: React.ReactNode
+  srLabel?: ReactNode
   /** HTML element to render as. Defaults to `span`. */
   element?: NumberFormatElement
   /** Tooltip content shown on hover over the formatted value. */
@@ -117,7 +126,7 @@ export type NumberFormatProps = {
   skeleton?: SkeletonShow
   className?: string
   children?: NumberFormatChildren
-  style?: React.CSSProperties
+  style?: CSSProperties
   lang?: string
 }
 /**
@@ -145,7 +154,7 @@ export type NumberFormatInternalProps = {
 
 export type NumberFormatAllProps = NumberFormatProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     'prefix' | 'label' | 'placeholder' | 'children'
   > &
   SpacingProps &
@@ -183,18 +192,18 @@ const numberFormatDefaultProps: Partial<NumberFormatAllProps> = {
 
 let hasiOSFix = false
 
-function runFix(comp: unknown, className: string): React.ReactNode {
+function runFix(comp: unknown, className: string): ReactNode {
   if (typeof comp === 'function') {
     comp = comp()
   }
-  if (React.isValidElement(comp)) {
+  if (isValidElement(comp)) {
     const elemProps = comp.props as Record<string, unknown>
-    return React.createElement(comp.type as React.ElementType, {
+    return createElement(comp.type as ElementType, {
       ...elemProps,
       className: clsx(elemProps.className as string, className),
     })
   }
-  return <span className={className}>{comp as React.ReactNode}</span>
+  return <span className={className}>{comp as ReactNode}</span>
 }
 
 function NumberFormat(ownProps: NumberFormatAllProps) {
@@ -462,7 +471,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const result = formatter(value, formatOptions)
   const { cleanedValue, locale: lang } = result
   let { aria } = result
-  let display: React.ReactNode = result.number
+  let display: ReactNode = result.number
   cleanedValueRef.current = cleanedValue
 
   if (prefix) {
@@ -524,7 +533,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   validateDOMAttributes(ownProps, attributes)
   skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
-  const Element = element as React.ElementType
+  const Element = element as ElementType
 
   return (
     <Element {...attributes}>
@@ -568,7 +577,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         <Tooltip
           id={generatedId + '-tooltip'}
           targetElement={elRef}
-          tooltip={tooltip as React.ReactNode}
+          tooltip={tooltip as ReactNode}
         />
       )}
 
@@ -587,7 +596,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   )
 }
 
-const MemoizedNumberFormat = React.memo(NumberFormat)
+const MemoizedNumberFormat = memo(NumberFormat)
 
 withComponentMarkers(MemoizedNumberFormat, { _supportsSpacingProps: true })
 

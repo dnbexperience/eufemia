@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Fragment } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { ListFormat, P, Badge, Anchor } from '@dnb/eufemia/src'
@@ -17,7 +17,7 @@ export const UsingListFormatFunction = () => {
     >
       {listFormat(
         [
-          <React.Fragment key="a">A</React.Fragment>,
+          <Fragment key="a">A</Fragment>,
           <>
             <b>B</b>
           </>,
@@ -50,7 +50,7 @@ export const WithValue = () => {
     <ComponentBox data-visual-test="list-format-default">
       <ListFormat
         value={[
-          <React.Fragment key="a">A</React.Fragment>,
+          <Fragment key="a">A</Fragment>,
           <>
             <b>B</b>
           </>,
@@ -78,7 +78,7 @@ export const WithChildren = () => {
   return (
     <ComponentBox>
       <ListFormat>
-        <React.Fragment key="a">A</React.Fragment>
+        <Fragment key="a">A</Fragment>
         <>
           <b>B</b>
         </>
@@ -107,7 +107,7 @@ export const WithCustomFormat = () => {
       <Provider locale="en-GB">
         <ListFormat
           value={[
-            <React.Fragment key="a">A</React.Fragment>,
+            <Fragment key="a">A</Fragment>,
             <>
               <b>B</b>
             </>,

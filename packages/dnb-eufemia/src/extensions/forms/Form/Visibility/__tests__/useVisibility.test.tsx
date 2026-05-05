@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, renderHook } from '@testing-library/react'
 import { Provider } from '../../../DataContext'
 import useVisibility from '../useVisibility'

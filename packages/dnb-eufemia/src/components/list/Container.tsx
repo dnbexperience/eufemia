@@ -1,4 +1,11 @@
-import React, { useContext, useMemo } from 'react'
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useContext,
+  useMemo,
+} from 'react'
+import type { HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
@@ -59,7 +66,7 @@ function ListContainer(props: ListContainerProps) {
       return children
     }
 
-    const childArray = React.Children.toArray(children)
+    const childArray = Children.toArray(children)
 
     if (!shouldLimit) {
       return childArray
@@ -70,8 +77,8 @@ function ListContainer(props: ListContainerProps) {
         return child
       }
 
-      if (React.isValidElement<React.HTMLAttributes<HTMLElement>>(child)) {
-        return React.cloneElement(child, {
+      if (isValidElement<HTMLAttributes<HTMLElement>>(child)) {
+        return cloneElement(child, {
           hidden: true,
         })
       }

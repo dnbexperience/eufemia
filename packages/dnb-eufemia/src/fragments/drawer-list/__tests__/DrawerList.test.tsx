@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { Fragment, useContext } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import {
   act,
@@ -64,7 +65,7 @@ const mockData: DrawerListDataArray = [
     content: <>Custom content {'123'}</>,
   },
   <>Custom content {'123'}</>,
-  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
+  [<Fragment key="key1">Custom content {'123'}</Fragment>],
 ]
 
 describe('DrawerList component', () => {
@@ -430,12 +431,12 @@ describe('DrawerList component', () => {
   })
 
   it('focused item remembered when reopening', async () => {
-    const contextRef: React.RefObject<DrawerListContextValue | null> = {
+    const contextRef: RefObject<DrawerListContextValue | null> = {
       current: null,
     }
 
     const ContextConsumer = () => {
-      contextRef.current = React.useContext(DrawerListContext)
+      contextRef.current = useContext(DrawerListContext)
       return null
     }
 
@@ -481,12 +482,12 @@ describe('DrawerList component', () => {
   })
 
   it('focused item set to selected item when opening', async () => {
-    const contextRef: React.RefObject<DrawerListContextValue | null> = {
+    const contextRef: RefObject<DrawerListContextValue | null> = {
       current: null,
     }
 
     const ContextConsumer = () => {
-      contextRef.current = React.useContext(DrawerListContext)
+      contextRef.current = useContext(DrawerListContext)
       return null
     }
 

@@ -1,4 +1,18 @@
-import React, { useContext, useMemo, useReducer, useRef } from 'react'
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
+import type {
+  HTMLProps,
+  JSX,
+  PropsWithChildren,
+  ReactNode,
+  Ref,
+  RefObject,
+} from 'react'
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import IsolatedStyleScope, {
@@ -27,23 +41,23 @@ type SelectorOptions = {
 
 export type PortalRootProps = {
   ref?:
-    | React.Ref<HTMLElement>
-    | React.RefObject<HTMLElement>
+    | Ref<HTMLElement>
+    | RefObject<HTMLElement>
     | ((instance: HTMLElement) => void)
 } & SelectorOptions &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'id'>
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'id'>
 
 type PortalRootContextValue = SelectorOptions
 
-const PortalRootContext =
-  React.createContext<PortalRootContextValue | null>(null)
+const PortalRootContext = createContext<PortalRootContextValue | null>(
+  null
+)
 
-export type PortalRootProviderProps =
-  React.PropsWithChildren<SelectorOptions>
+export type PortalRootProviderProps = PropsWithChildren<SelectorOptions>
 
 export function PortalRootProvider(
   props: PortalRootProviderProps
-): React.JSX.Element | null {
+): JSX.Element | null {
   const { id, insideSelector, beforeSelector, children } = props
 
   const value = useMemo(
@@ -54,7 +68,7 @@ export function PortalRootProvider(
   return <PortalRootContext value={value}>{children}</PortalRootContext>
 }
 
-function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
+function PortalRootInstance(props: PortalRootProps = {}): ReactNode {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
@@ -115,7 +129,7 @@ function PortalRootInstance(props: PortalRootProps = {}): React.ReactNode {
       if (typeof refProp === 'function') {
         refProp(localRef.current)
       } else {
-        const ref = refProp as React.RefObject<HTMLElement | null>
+        const ref = refProp as RefObject<HTMLElement | null>
         ref.current = localRef.current
       }
     }

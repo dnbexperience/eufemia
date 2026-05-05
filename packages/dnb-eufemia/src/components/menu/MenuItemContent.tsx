@@ -1,11 +1,11 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import IconPrimary from '../IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 
 export type MenuItemContentProps = {
   icon?: IconIcon
-  text?: React.ReactNode
-  children?: React.ReactNode
+  text?: ReactNode
+  children?: ReactNode
 }
 
 export default function MenuItemContent({

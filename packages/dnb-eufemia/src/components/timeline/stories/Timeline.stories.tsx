@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import Section from '../../Section'
 import Timeline from '../Timeline'
 import Input from '../../Input'
@@ -9,7 +9,7 @@ export default {
 }
 
 export const TimelineTest = () => {
-  const [value, setValue] = React.useState('123')
+  const [value, setValue] = useState('123')
   return (
     <>
       <Section>

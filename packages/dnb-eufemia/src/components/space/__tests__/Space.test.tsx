@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { SpaceAllProps } from '../Space'
@@ -26,10 +27,10 @@ describe('Space component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent(props) {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return <Space {...props} ref={ref} />
     }
 

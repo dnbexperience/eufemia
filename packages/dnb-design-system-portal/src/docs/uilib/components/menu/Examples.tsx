@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Menu } from '@dnb/eufemia/src'
 import {

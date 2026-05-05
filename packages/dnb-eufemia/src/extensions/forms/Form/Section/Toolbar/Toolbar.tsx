@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '../../../hooks'
 import ToolbarContext from './ToolbarContext'

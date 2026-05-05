@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'

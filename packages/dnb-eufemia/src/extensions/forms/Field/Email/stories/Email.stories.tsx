@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Field } from '../../..'
 
 export default {
@@ -6,8 +6,8 @@ export default {
 }
 
 export function Email() {
-  const [state, update] = React.useState(' me@mail ')
-  React.useEffect(() => {
+  const [state, update] = useState(' me@mail ')
+  useEffect(() => {
     update(' me@mail.com ')
   }, [])
 

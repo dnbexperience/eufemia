@@ -11,7 +11,7 @@ import {
   ToggleButton,
   Upload,
 } from '@dnb/eufemia/src'
-import React from 'react'
+import { useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
@@ -41,7 +41,7 @@ export const UploadPrefilledFileList = () => (
           console.log('files', files)
         }
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('fileName.png', 123, 'image/png'),
@@ -134,7 +134,7 @@ export const UploadFilesAmountMessage = () => (
           'upload-files-amount-message'
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             { file: createMockFile('fileName1.png', 123, 'image/png') },
             { file: createMockFile('fileName2.png', 321, 'image/png') },
@@ -178,7 +178,7 @@ export const UploadFilesAmountLimit = () => (
           'upload-files-amount-limit'
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             { file: createMockFile('fileName1.png', 123, 'image/png') },
             { file: createMockFile('fileName2.png', 321, 'image/png') },
@@ -235,9 +235,9 @@ export const UploadRemoveFile = () => (
         )
 
         function Preview({ files }) {
-          const [images, setImages] = React.useState([])
+          const [images, setImages] = useState([])
 
-          React.useEffect(() => {
+          useEffect(() => {
             files.map(({ file }) => {
               let reader = new FileReader()
 
@@ -285,7 +285,7 @@ export const UploadIsLoading = () => (
       const Component = () => {
         const { files, setFiles } = Upload.useUpload('upload-is-loading')
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('fileName.png', 123, 'image/png'),
@@ -480,7 +480,7 @@ export const UploadOnFileClick = () => (
       const Component = () => {
         const { setFiles } = Upload.useUpload('upload-on-file-click')
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
@@ -533,7 +533,7 @@ export const UploadClearFiles = () => (
           'upload-clear-files'
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
@@ -577,7 +577,7 @@ export const UploadFileEmptySize = () => (
       const Component = () => {
         const { setFiles } = Upload.useUpload('upload-file-size-empty')
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 0, 'image/png'),
@@ -626,7 +626,7 @@ export const UploadDescription = () => (
       const Component = () => {
         const { setFiles } = Upload.useUpload('upload-description')
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 0, 'image/png'),
@@ -696,7 +696,7 @@ export const UploadRemoveDeleteButton = () => (
           'upload-remove-delete-button'
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 0, 'image/png'),
@@ -760,7 +760,7 @@ export const UploadCompactVariantFiles = () => (
           'upload-compact-variant-files'
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           setFiles([
             {
               file: createMockFile('1501870.jpg', 0, 'image/png'),

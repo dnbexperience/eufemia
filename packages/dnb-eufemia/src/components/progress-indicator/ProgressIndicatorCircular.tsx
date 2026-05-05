@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 import type * as CSS from 'csstype'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
@@ -196,10 +197,10 @@ function Circle({
   className,
   ref,
   ...rest
-}: React.HTMLProps<SVGSVGElement> & {
+}: HTMLProps<SVGSVGElement> & {
   customColor?: CSS.Property.BackgroundColor
   customWidth?: CSS.Property.StrokeWidth
-  ref?: React.RefObject<SVGSVGElement>
+  ref?: RefObject<SVGSVGElement>
 }) {
   const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (

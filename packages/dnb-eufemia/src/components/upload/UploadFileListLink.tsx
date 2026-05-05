@@ -1,4 +1,3 @@
-import React from 'react'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'

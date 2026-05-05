@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { FormError, JsonObject } from '../utils'
 import type { AjvInstance } from '../utils/ajv'
 import type {
@@ -78,8 +79,8 @@ export type DataPathHandler<Data = unknown> = (
 export type DataPathHandlerParameters<Data = unknown> = {
   path: Path
   value: unknown
-  displayValue: undefined | React.ReactNode | Array<React.ReactNode>
-  label: React.ReactNode
+  displayValue: undefined | ReactNode | Array<ReactNode>
+  label: ReactNode
   props: FieldProps
   error: Error | undefined
 
@@ -124,7 +125,7 @@ export type ContextState = {
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any
-  internalDataRef?: React.RefObject<any>
+  internalDataRef?: RefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<Path, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
@@ -193,22 +194,22 @@ export type ContextState = {
   ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
-  isEmptyDataRef?: React.RefObject<boolean>
-  addSetShowAllErrorsRef?: React.RefObject<
+  isEmptyDataRef?: RefObject<boolean>
+  addSetShowAllErrorsRef?: RefObject<
     Array<(showAllErrors: boolean) => void>
   >
-  fieldDisplayValueRef?: React.RefObject<
-    Record<Path, { type: 'field'; value?: React.ReactNode }>
+  fieldDisplayValueRef?: RefObject<
+    Record<Path, { type: 'field'; value?: ReactNode }>
   >
-  fieldInternalsRef?: React.RefObject<FieldInternalsRef>
-  valueInternalsRef?: React.RefObject<ValueInternalsRef>
-  fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
-  mountedFieldsRef?: React.RefObject<Map<Path, MountState>>
-  snapshotsRef?: React.RefObject<Map<SnapshotName, Map<Path, unknown>>>
-  existingFieldsRef?: React.RefObject<Map<Path, boolean>>
-  formElementRef?: React.RefObject<HTMLFormElement>
-  fieldErrorRef?: React.RefObject<Record<Path, Error>>
-  errorsRef?: React.RefObject<Record<Path, Error>>
+  fieldInternalsRef?: RefObject<FieldInternalsRef>
+  valueInternalsRef?: RefObject<ValueInternalsRef>
+  fieldConnectionsRef?: RefObject<Record<Path, FieldConnections>>
+  mountedFieldsRef?: RefObject<Map<Path, MountState>>
+  snapshotsRef?: RefObject<Map<SnapshotName, Map<Path, unknown>>>
+  existingFieldsRef?: RefObject<Map<Path, boolean>>
+  formElementRef?: RefObject<HTMLFormElement>
+  fieldErrorRef?: RefObject<Record<Path, Error>>
+  errorsRef?: RefObject<Record<Path, Error>>
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
@@ -223,13 +224,13 @@ export type ContextState = {
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean
-  hasElementRef?: React.RefObject<boolean>
+  hasElementRef?: RefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (
     registration: SectionSchemaRegistration
   ) => () => void
-  sectionSchemaPathsRef?: React.RefObject<Set<Path>>
+  sectionSchemaPathsRef?: RefObject<Set<Path>>
   props: ProviderProps<JsonObject>
 }
 
@@ -264,6 +265,6 @@ export const defaultContextState: ContextState = {
   props: null,
 }
 
-const Context = React.createContext<ContextState>(defaultContextState)
+const Context = createContext<ContextState>(defaultContextState)
 
 export default Context

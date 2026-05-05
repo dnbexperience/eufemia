@@ -1,4 +1,3 @@
-import React from 'react'
 import type { Preview } from '@storybook/react-vite'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 

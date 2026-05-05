@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { HelpButton, Input, Flex, FormLabel, Lead } from '@dnb/eufemia/src'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'

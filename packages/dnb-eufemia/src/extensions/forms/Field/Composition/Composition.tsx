@@ -1,4 +1,3 @@
-import React from 'react'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'

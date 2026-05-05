@@ -1,6 +1,5 @@
-import React from 'react'
-
-const Pluss = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const Pluss = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="65"
     height="27"

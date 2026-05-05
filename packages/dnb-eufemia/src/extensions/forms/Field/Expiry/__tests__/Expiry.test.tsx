@@ -1,4 +1,3 @@
-import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import {
   act,

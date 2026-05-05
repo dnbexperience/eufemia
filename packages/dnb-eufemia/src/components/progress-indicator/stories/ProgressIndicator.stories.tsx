@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Button, ProgressIndicator } from '../..'
@@ -47,8 +47,8 @@ export const ProgressIndicatorLabel = () => (
 )
 
 const ProgressIndicatorCircular = () => {
-  const [show, setShow] = React.useState(true)
-  React.useEffect(() => {
+  const [show, setShow] = useState(true)
+  useEffect(() => {
     const timer = setInterval(() => setShow(!show), 3400)
     return () => clearInterval(timer)
   })

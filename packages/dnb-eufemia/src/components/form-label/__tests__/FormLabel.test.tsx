@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
@@ -215,10 +216,10 @@ describe('FormLabel component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLLabelElement>
+    let ref: RefObject<HTMLLabelElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLLabelElement | null>(null)
+      ref = useRef<HTMLLabelElement | null>(null)
       return <FormLabel ref={ref}>content</FormLabel>
     }
 
@@ -230,12 +231,12 @@ describe('FormLabel component', () => {
 
   describe('nested', () => {
     it('gets valid ref element', () => {
-      let refA: React.RefObject<HTMLElement>
-      let refB: React.RefObject<HTMLElement>
+      let refA: RefObject<HTMLElement>
+      let refB: RefObject<HTMLElement>
 
       function MockComponent() {
-        refA = React.useRef<HTMLElement | null>(null)
-        refB = React.useRef<HTMLElement | null>(null)
+        refA = useRef<HTMLElement | null>(null)
+        refB = useRef<HTMLElement | null>(null)
         return (
           <FormLabel
             ref={refA}
@@ -473,7 +474,7 @@ describe('FormLabel component', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(<FormLabel ref={ref} forId="input" text="Label" />)
 

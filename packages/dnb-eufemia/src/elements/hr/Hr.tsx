@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLAttributes } from 'react'
 import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
 import clsx from 'clsx'
@@ -11,7 +12,7 @@ import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type HrProps = SpacingProps &
-  React.HTMLAttributes<HTMLHRElement> & {
+  HTMLAttributes<HTMLHRElement> & {
     /**
      * To make the hr full width.
      */

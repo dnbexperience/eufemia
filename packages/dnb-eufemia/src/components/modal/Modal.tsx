@@ -3,12 +3,19 @@
  *
  */
 
-import React, {
+import {
+  memo,
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
+} from 'react'
+import type {
+  JSX,
+  MemoExoticComponent,
+  MouseEvent,
+  ReactNode,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
@@ -465,7 +472,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     _id.current = usedTriggerAttributes.id
   }
 
-  let fallbackTitle: React.ReactNode
+  let fallbackTitle: ReactNode
   if (usedTriggerAttributes.title) {
     fallbackTitle = usedTriggerAttributes.title
   } else if (suffixContext) {
@@ -479,7 +486,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       : null
 
   const TriggerButton = trigger
-    ? (trigger as () => React.JSX.Element)
+    ? (trigger as () => JSX.Element)
     : HelpButtonInstance
 
   return (
@@ -490,7 +497,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...applySpacing(rest as SpacingProps, {
             id: _id.current,
             title,
-            onClick: (event: React.MouseEvent) => {
+            onClick: (event: MouseEvent) => {
               triggerAttributes?.onClick?.(event)
               toggleOpenClose(event.nativeEvent)
             },
@@ -527,7 +534,7 @@ function ModalComponent(ownProps: ModalAllProps) {
   )
 }
 
-const Modal = React.memo(ModalComponent) as React.MemoExoticComponent<
+const Modal = memo(ModalComponent) as MemoExoticComponent<
   typeof ModalComponent
 > & {
   Bar: typeof ModalHeaderBar

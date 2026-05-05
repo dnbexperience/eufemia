@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FilterData } from '../../../DataContext'
@@ -820,7 +820,7 @@ describe('Visibility', () => {
       const MockForm = () => {
         const { filterData } = Form.useData('my-form')
 
-        const Output = React.useCallback(() => {
+        const Output = useCallback(() => {
           result = filterData(filterDataHandler)
           return null
         }, [filterData])

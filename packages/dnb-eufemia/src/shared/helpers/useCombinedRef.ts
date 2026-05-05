@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { MutableRefObject, Ref, RefCallback } from 'react'
 
 /**
  * Combines multiple React refs into a single callback ref.
@@ -7,15 +8,15 @@ import { useCallback } from 'react'
  * while also forwarding a ref from props.
  */
 export default function useCombinedRef<T>(
-  ...refs: Array<React.Ref<T> | undefined>
-): React.RefCallback<T> {
+  ...refs: Array<Ref<T> | undefined>
+): RefCallback<T> {
   return useCallback(
     (instance: T | null) => {
       for (const ref of refs) {
         if (typeof ref === 'function') {
           ref(instance)
         } else if (ref) {
-          ;(ref as React.MutableRefObject<T | null>).current = instance
+          ;(ref as MutableRefObject<T | null>).current = instance
         }
       }
     },

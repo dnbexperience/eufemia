@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode, useContext, useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'jest-matchmedia-mock'
@@ -367,7 +367,7 @@ describe('Wizard.Container', () => {
       }
 
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Wizard.Container onStepChange={onStepChange}>
               <Step1 />
@@ -375,7 +375,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -450,7 +450,7 @@ describe('Wizard.Container', () => {
       }
 
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Wizard.Container onStepChange={onStepChange}>
               <Step1 />
@@ -458,7 +458,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(output()).toHaveTextContent('Step 1')
@@ -533,7 +533,7 @@ describe('Wizard.Container', () => {
       }
 
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Wizard.Container
               expandedInitially
@@ -544,7 +544,7 @@ describe('Wizard.Container', () => {
               <Summary />
             </Wizard.Container>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(screen.getAllByText('Separat Vindu')).toHaveLength(2)
@@ -2259,10 +2259,10 @@ describe('Wizard.Container', () => {
     let clearPendingState: (() => void) | null = null
 
     const AsyncField = () => {
-      const dataContext = React.useContext(DataContext)
+      const dataContext = useContext(DataContext)
       const identifier = '/async-field'
 
-      React.useEffect(() => {
+      useEffect(() => {
         if (!dataContext?.setFieldInternals) {
           return undefined
         }
@@ -2271,7 +2271,7 @@ describe('Wizard.Container', () => {
         })
       }, [dataContext])
 
-      React.useEffect(() => {
+      useEffect(() => {
         if (!dataContext?.setFieldEventListener) {
           return undefined
         }

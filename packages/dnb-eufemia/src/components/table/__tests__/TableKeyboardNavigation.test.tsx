@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Table from '../Table'
 import Td from '../TableTd'
@@ -10,7 +10,7 @@ function TableWithKeyboardNavigation({
   children,
 }: {
   enabled?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }) {
   const navRef = useTableKeyboardNavigation({ enabled })
   return (

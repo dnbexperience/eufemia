@@ -4,7 +4,8 @@
  */
 
 import { fireEvent, render } from '@testing-library/react'
-import React from 'react'
+import { StrictMode, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { RadioProps } from '../Radio'
 import Radio from '../Radio'
@@ -45,8 +46,8 @@ describe('Radio component', () => {
 
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
-      const [checked, setChecked] = React.useState(true)
-      const [random, setRandom] = React.useState(null)
+      const [checked, setChecked] = useState(true)
+      const [random, setRandom] = useState(null)
 
       return (
         <>
@@ -96,9 +97,9 @@ describe('Radio component', () => {
 
     TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      <React.StrictMode>
+      <StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </StrictMode>
     )
   })
 
@@ -182,10 +183,10 @@ describe('Radio ARIA', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef(null)
+      ref = useRef(null)
       return <Radio {...props} ref={ref} />
     }
 

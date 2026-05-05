@@ -1,12 +1,19 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { KeyboardEvent } from 'react'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useReducer,
   useRef,
+} from 'react'
+import type {
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import {
@@ -39,9 +46,9 @@ export type SwitchOnChangeParams = {
   checked: boolean
   event: MouseEvent | TouchEvent | KeyboardEvent
 }
-export type SwitchOnClickParams = React.MouseEvent<HTMLInputElement> & {
+export type SwitchOnClickParams = MouseEvent<HTMLInputElement> & {
   checked: boolean
-  event: React.MouseEvent<HTMLInputElement>
+  event: MouseEvent<HTMLInputElement>
 }
 export type SwitchOnChange = (args: SwitchOnChangeParams) => void
 
@@ -49,7 +56,7 @@ export type SwitchProps = {
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
@@ -75,7 +82,7 @@ export type SwitchProps = {
   /**
    * Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.
    */
-  suffix?: React.ReactNode
+  suffix?: ReactNode
   value?: string
   attributes?: SwitchAttributes
   readOnly?: boolean
@@ -84,7 +91,7 @@ export type SwitchProps = {
    */
   skeleton?: SkeletonShow
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Will be called on state changes made by the user. Returns a boolean `{ checked, event }`.
    */
@@ -100,12 +107,10 @@ export type SwitchProps = {
   /**
    * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
    */
-  ref?:
-    | React.RefObject<HTMLInputElement>
-    | ((elem: HTMLInputElement) => void)
+  ref?: RefObject<HTMLInputElement> | ((elem: HTMLInputElement) => void)
 } & FormStatusBaseProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     'ref' | 'size' | 'onChange' | 'onClick' | 'label'
   > &
   SpacingProps
@@ -203,32 +208,31 @@ function Switch(props: SwitchProps) {
     [callOnChange, inputRef, onChangeEnd]
   )
 
-  const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
-    useCallback(
-      (event) => {
-        const preventDefault = () => {
-          event.preventDefault()
+  const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const preventDefault = () => {
+        event.preventDefault()
 
-          if (event.target['checked'] !== isCheckedRef.current) {
-            preventChangeRef.current = true
-            isCheckedRef.current = !isCheckedRef.current
-            forceUpdate()
-          }
+        if (event.target['checked'] !== isCheckedRef.current) {
+          preventChangeRef.current = true
+          isCheckedRef.current = !isCheckedRef.current
+          forceUpdate()
         }
+      }
 
-        if (readOnly) {
-          return preventDefault()
-        }
+      if (readOnly) {
+        return preventDefault()
+      }
 
-        onClick?.({
-          checked: isCheckedRef.current,
-          preventDefault,
-          event,
-          ...event,
-        })
-      },
-      [onClick, readOnly]
-    )
+      onClick?.({
+        checked: isCheckedRef.current,
+        preventDefault,
+        event,
+        ...event,
+      })
+    },
+    [onClick, readOnly]
+  )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent) => {
@@ -277,8 +281,7 @@ function Switch(props: SwitchProps) {
 
   const helperParams = useMemo(
     () => ({
-      onMouseDown: (e: React.MouseEvent<HTMLSpanElement>) =>
-        e.preventDefault(),
+      onMouseDown: (e: MouseEvent<HTMLSpanElement>) => e.preventDefault(),
     }),
     []
   )

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { NumberFormatProps } from '../number-format/NumberFormatBase'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
@@ -23,7 +24,7 @@ type AmountOwnProps = Omit<
   'children' | 'currencyDisplay' | 'currencyPosition' | 'element'
 > & {
   children?: string | number
-  element?: keyof React.JSX.IntrinsicElements
+  element?: keyof JSX.IntrinsicElements
   currencyDisplay?: NumberFormatProps['currencyDisplay']
   currencyPosition?: NumberFormatProps['currencyPosition']
   /**
@@ -61,7 +62,7 @@ type AmountOwnProps = Omit<
 }
 
 export type AmountProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof AmountOwnProps | 'ref'
 > &
   AmountOwnProps &
@@ -75,7 +76,7 @@ const renderAffix = (
     resolved = resolved()
   }
 
-  return <span className={className}>{resolved as React.ReactNode}</span>
+  return <span className={className}>{resolved as ReactNode}</span>
 }
 
 function AmountBase(props: AmountProps) {
@@ -110,8 +111,7 @@ function AmountBase(props: AmountProps) {
     ...rest
   } = props
   const { context } = useStatSkeleton(skeleton)
-  const { useBasisSize, defaultMainWeight } =
-    React.useContext(StatValueContext)
+  const { useBasisSize, defaultMainWeight } = useContext(StatValueContext)
   const resolvedLocale =
     locale ?? (context?.NumberFormat?.locale as string) ?? context?.locale
 

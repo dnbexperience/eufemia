@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Badge, Avatar, Grid, Flex, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'

@@ -1,9 +1,17 @@
-import React, {
+import {
+  Children,
+  isValidElement,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  KeyboardEvent,
+  ReactElement,
+  ReactNode,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
@@ -35,13 +43,13 @@ export default function MenuRoot(props: MenuRootProps) {
   } = props
 
   // Scan children for trigger (Menu.Button or Menu.Action) and content
-  let triggerChild: React.ReactElement | null = null
-  const contentChildren: React.ReactNode[] = []
+  let triggerChild: ReactElement | null = null
+  const contentChildren: ReactNode[] = []
 
-  React.Children.forEach(children, (child) => {
+  Children.forEach(children, (child) => {
     if (
       !triggerChild &&
-      React.isValidElement(child) &&
+      isValidElement(child) &&
       (child.type === MenuButton || child.type === MenuAction)
     ) {
       triggerChild = child
@@ -55,7 +63,7 @@ export default function MenuRoot(props: MenuRootProps) {
 
   const activeIndexRef = useRef(-1)
   const [activeIndex, setActiveIndexState] = useState(-1)
-  const itemRefsRef = useRef<Array<React.RefObject<HTMLElement>>>([])
+  const itemRefsRef = useRef<Array<RefObject<HTMLElement>>>([])
   const nextIndexRef = useRef(0)
   const menuRef = useRef<HTMLUListElement>(null)
 
@@ -100,7 +108,7 @@ export default function MenuRoot(props: MenuRootProps) {
     setActiveIndexState(index)
   }, [])
 
-  const registerItem = useCallback((ref: React.RefObject<HTMLElement>) => {
+  const registerItem = useCallback((ref: RefObject<HTMLElement>) => {
     const index = nextIndexRef.current
     nextIndexRef.current += 1
     itemRefsRef.current[index] = ref
@@ -109,7 +117,7 @@ export default function MenuRoot(props: MenuRootProps) {
 
   const unregisterItem = useCallback((index: number) => {
     itemRefsRef.current[index] =
-      undefined as unknown as React.RefObject<HTMLElement>
+      undefined as unknown as RefObject<HTMLElement>
   }, [])
 
   const contextValue: MenuContextValue = useMemo(
@@ -200,7 +208,7 @@ export default function MenuRoot(props: MenuRootProps) {
   // Handle ArrowDown/ArrowUp/ArrowRight on trigger to open menu or move focus into it.
   // ArrowRight is used by nested menus (sub-menu trigger items).
   const handleTriggerKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent<HTMLElement>) => {
       if (
         event.key === 'ArrowDown' ||
         event.key === 'ArrowUp' ||

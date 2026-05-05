@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import type { JSONSchema } from '../../..'
 import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
@@ -17,7 +17,7 @@ const existingData = {
 const Component = () => {
   const { data, update } = Form.useData('update-id', existingData)
 
-  const increment = React.useCallback(() => {
+  const increment = useCallback(() => {
     update('/count', (count) => {
       return count + 1
     })

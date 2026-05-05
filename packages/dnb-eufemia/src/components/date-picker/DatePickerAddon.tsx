@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
+import type { HTMLProps, MouseEvent, ReactNode } from 'react'
 import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
@@ -16,12 +17,12 @@ export type DatePickerShortcut = {
   closeOnSelect?: boolean
 }
 
-export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
+export type DatePickerAddonProps = HTMLProps<HTMLElement> & {
   /**
    * Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.
    */
   shortcuts?: Array<DatePickerShortcut> | string
-  renderElement?: React.ReactNode
+  renderElement?: ReactNode
 }
 
 function DatePickerAddon(props: DatePickerAddonProps) {
@@ -52,7 +53,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
     }: {
       startDate?: Date
       endDate?: Date
-      event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+      event?: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     } = {}) => {
       updateDates({ startDate, endDate })
 
@@ -71,7 +72,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       event,
     }: {
       shortcut: DatePickerShortcut
-      event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+      event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
       const usedStartDate = shortcut.date || shortcut.startDate
       const usedEndDate = shortcut.endDate

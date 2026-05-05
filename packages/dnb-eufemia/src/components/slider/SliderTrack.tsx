@@ -1,4 +1,4 @@
-import React from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp } from './SliderHelpers'
@@ -7,7 +7,7 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 export function SliderMainTrack({
   children,
 }: {
-  children: React.ReactNode | React.ReactNode[]
+  children: ReactNode | ReactNode[]
 }) {
   const { allProps, trackRef, animationTimeout } = useSliderProps()
   const { id } = allProps
@@ -71,7 +71,7 @@ export function SliderTrackBefore() {
     trackObj[isVertical ? 1 : 0][1],
   ]
 
-  const style: React.CSSProperties = {}
+  const style: CSSProperties = {}
   style[units[isReverse ? 1 : 0]] = `${lowerPercent}%`
   style[units[isReverse ? 0 : 1]] = `${upperPercent}%`
 

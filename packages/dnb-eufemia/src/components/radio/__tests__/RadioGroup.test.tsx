@@ -4,7 +4,6 @@
  */
 
 import { fireEvent, render } from '@testing-library/react'
-import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'

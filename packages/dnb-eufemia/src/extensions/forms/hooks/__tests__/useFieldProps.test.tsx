@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode } from 'react'
 import {
   act,
   fireEvent,
@@ -681,9 +681,9 @@ describe('useFieldProps', () => {
         {
           wrapper: ({ children }) => {
             return (
-              <React.StrictMode>
+              <StrictMode>
                 <Provider>{children}</Provider>
-              </React.StrictMode>
+              </StrictMode>
             )
           },
         }
@@ -702,9 +702,9 @@ describe('useFieldProps', () => {
         () => useFieldProps({ path: '/foo', defaultValue }),
         {
           wrapper: (props) => (
-            <React.StrictMode>
+            <StrictMode>
               <Provider data={{ foo: givenValue }} {...props} />
-            </React.StrictMode>
+            </StrictMode>
           ),
         }
       )
@@ -7381,12 +7381,12 @@ describe('useFieldProps', () => {
 
     it('for the "path" prop', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Field.String path="/myPath" />
             <Field.String path="/myPath" />
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledWith(
@@ -7406,12 +7406,12 @@ describe('useFieldProps', () => {
       }
 
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <MockComponent />
             <MockComponent />
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7422,12 +7422,12 @@ describe('useFieldProps', () => {
       process.env.NODE_ENV = 'production'
 
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Field.String path="/myPath" />
             <Field.String path="/myPath" />
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7436,14 +7436,14 @@ describe('useFieldProps', () => {
 
     it('for the "itemPath" prop', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Iterate.Array value={['foo', 'bar']}>
               <Field.String itemPath="/myPath" defaultValue="foo" />
               <Field.String itemPath="/myPath" defaultValue="bar" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledWith(
@@ -7455,7 +7455,7 @@ describe('useFieldProps', () => {
 
     it('for the "itemPath" prop distributed in several Iterate.Array', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Iterate.Array value={['foo']}>
               <Field.String itemPath="/myPath" defaultValue="foo" />
@@ -7464,7 +7464,7 @@ describe('useFieldProps', () => {
               <Field.String itemPath="/myPath" defaultValue="bar" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledWith(
@@ -7476,13 +7476,13 @@ describe('useFieldProps', () => {
 
     it('should not warn when path is used in iterate', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler>
             <Iterate.Array value={['foo']}>
               <Field.String path="/myPath" />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledTimes(0)
@@ -7490,7 +7490,7 @@ describe('useFieldProps', () => {
 
     it('should not warn when path uses ../ to reference a parent section', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler
             data={{
               section: {
@@ -7506,7 +7506,7 @@ describe('useFieldProps', () => {
               </Form.Section>
             </Form.Section>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       expect(log).toHaveBeenCalledTimes(0)

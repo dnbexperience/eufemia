@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { AriaLiveAllProps } from './types'
@@ -37,7 +37,7 @@ const priorityConfig: {
 }
 
 export default function useAriaLive(props: AriaLiveAllProps) {
-  const [announcement, setAnnouncement] = useState<React.ReactNode>('')
+  const [announcement, setAnnouncement] = useState<ReactNode>('')
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const {

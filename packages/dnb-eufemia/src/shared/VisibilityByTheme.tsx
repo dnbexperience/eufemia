@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { JSX, ReactNode } from 'react'
 import useTheme from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 
@@ -19,7 +19,7 @@ type VisibilityByThemeProps = {
   /**
    * Any kind of a React Node that should render on a match.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
 type ThemeItem = ThemeNames | ThemeProps
@@ -45,7 +45,7 @@ export default function VisibilityByTheme({
     }
   }
 
-  return children as React.JSX.Element
+  return children as JSX.Element
 
   function match(theme: ThemeProps) {
     return (themeItem: ThemeItem) => {

@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import clsx from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -47,16 +48,16 @@ export function scrollToAnimation() {
 type LayoutProps = {
   fullscreen?: boolean
   hideSidebar?: boolean
-  children: React.ReactNode
+  children: ReactNode
   location: Location
 }
 
 function Layout(props: LayoutProps) {
-  const mainRef = React.useRef<HTMLElement>(undefined)
+  const mainRef = useRef<HTMLElement>(undefined)
 
   const { fullscreen, location, hideSidebar, children } = props
 
-  React.useEffect(() => {
+  useEffect(() => {
     // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
@@ -132,14 +133,14 @@ function Layout(props: LayoutProps) {
 
 type ContentProps = {
   fullscreen: boolean
-} & React.HTMLProps<HTMLDivElement>
+} & HTMLProps<HTMLDivElement>
 
 const Content = ({
   fullscreen = false,
   className = null,
   children,
 }: ContentProps) => {
-  const { isOpen, isClosing } = React.useContext(SidebarMenuContext)
+  const { isOpen, isClosing } = useContext(SidebarMenuContext)
 
   if (isOpen || isClosing) {
     return null

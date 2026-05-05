@@ -1,4 +1,10 @@
-import React from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   dispatchCustomElementEvent,
@@ -32,10 +38,10 @@ const defaultProps: Partial<SliderAllProps> = {
   labelDirection: 'vertical',
 }
 
-export const SliderContext = React.createContext<SliderContextValue>(null)
+export const SliderContext = createContext<SliderContextValue>(null)
 
 export function SliderProvider(localProps: SliderAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
@@ -88,17 +94,14 @@ export function SliderProvider(localProps: SliderAllProps) {
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
   } = allProps
 
-  const [value, setValue] = React.useState<SliderValue>(_value)
-  const [externValue, updateExternValue] =
-    React.useState<SliderValue>(_value)
-  const realtimeValue = React.useRef<SliderValue>(_value)
-  const [thumbState, setThumbState] =
-    React.useState<SliderThumbState>('initial')
-  const thumbIndex = React.useRef<number>(-1)
-  const [shouldAnimate, updateAnimateState] =
-    React.useState<boolean>(false)
-  const [isVertical] = React.useState(_vertical)
-  const [isReverse] = React.useState(isVertical ? !_reverse : _reverse)
+  const [value, setValue] = useState<SliderValue>(_value)
+  const [externValue, updateExternValue] = useState<SliderValue>(_value)
+  const realtimeValue = useRef<SliderValue>(_value)
+  const [thumbState, setThumbState] = useState<SliderThumbState>('initial')
+  const thumbIndex = useRef<number>(-1)
+  const [shouldAnimate, updateAnimateState] = useState<boolean>(false)
+  const [isVertical] = useState(_vertical)
+  const [isReverse] = useState(isVertical ? !_reverse : _reverse)
   const isMulti = Array.isArray(value)
   const setThumbIndex = (index: number) => {
     if (!isNaN(index)) {
@@ -193,7 +196,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMulti) {
       const hasChanged = (_value as Array<number>).some((val, i) => {
         return val !== externValue[i]
@@ -211,9 +214,9 @@ export function SliderProvider(localProps: SliderAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_value, isMulti])
 
-  const trackRef = React.useRef<HTMLElement>(undefined)
+  const trackRef = useRef<HTMLElement>(undefined)
 
-  const animationTimeout = React.useRef<NodeJS.Timeout>(undefined)
+  const animationTimeout = useRef<NodeJS.Timeout>(undefined)
   const setShouldAnimate = (state: boolean) => {
     updateAnimateState(state)
     clearTimeout(animationTimeout.current)

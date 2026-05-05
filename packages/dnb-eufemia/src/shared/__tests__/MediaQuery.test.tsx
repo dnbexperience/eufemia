@@ -3,7 +3,7 @@
  *
  */
 
-import React, { act } from 'react'
+import { act, useState } from 'react'
 import { render, screen } from '@testing-library/react'
 
 import MatchMediaMock from 'jest-matchmedia-mock'
@@ -185,7 +185,7 @@ describe('MediaQuery', () => {
     )
 
     const Playground = () => {
-      const [query, updateQuery] = React.useState({
+      const [query, updateQuery] = useState({
         screen: true,
         not: true,
         min: '0',

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'

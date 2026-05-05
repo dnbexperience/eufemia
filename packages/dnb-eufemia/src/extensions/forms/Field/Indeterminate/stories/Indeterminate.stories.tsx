@@ -1,4 +1,3 @@
-import React from 'react'
 import Field, { Form } from '../../../Forms'
 
 export default {

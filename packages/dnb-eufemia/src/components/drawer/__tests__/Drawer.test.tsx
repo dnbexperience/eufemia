@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
 import Button from '../../button/Button'
@@ -95,7 +95,7 @@ describe('Drawer', () => {
               <h1>title</h1>
               <Button id="close-me" text="close" onClick={close} />
             </>
-          )) as (...args: unknown[]) => React.ReactNode
+          )) as (...args: unknown[]) => ReactNode
         }
       </Drawer>
     )
@@ -128,7 +128,7 @@ describe('Drawer', () => {
               </Drawer.Header>
               <Drawer.Body>Drawer.Body</Drawer.Body>
             </>
-          )) as (...args: unknown[]) => React.ReactNode
+          )) as (...args: unknown[]) => ReactNode
         }
       </Drawer>
     )
@@ -460,10 +460,10 @@ describe('Drawer', () => {
   })
 
   it('will accept custom refs', () => {
-    const contentRef: React.RefObject<HTMLElement | null> = {
+    const contentRef: RefObject<HTMLElement | null> = {
       current: null,
     }
-    const scrollRef: React.RefObject<HTMLElement | null> = {
+    const scrollRef: RefObject<HTMLElement | null> = {
       current: null,
     }
 
@@ -500,7 +500,7 @@ describe('Drawer', () => {
         {
           (({ close }) => (
             <Button id="close-button" text="close" onClick={close} />
-          )) as (...args: unknown[]) => React.ReactNode
+          )) as (...args: unknown[]) => ReactNode
         }
       </Drawer>
     )

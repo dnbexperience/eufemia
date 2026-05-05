@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { Fragment, act, useContext } from 'react'
+import type { ReactNode, Ref } from 'react'
 import { render } from '@testing-library/react'
 import Context from '../Context'
 import type { ThemeAllProps } from '../Theme'
@@ -179,7 +180,7 @@ describe('Theme', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
-      receivedTheme = React.useContext(Context)?.theme
+      receivedTheme = useContext(Context)?.theme
 
       return null
     }
@@ -201,7 +202,7 @@ describe('Theme', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
-      receivedTheme = React.useContext(Context)?.theme
+      receivedTheme = useContext(Context)?.theme
 
       return null
     }
@@ -225,7 +226,7 @@ describe('Theme', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
-      receivedTheme = React.useContext(Context)?.theme
+      receivedTheme = useContext(Context)?.theme
 
       return null
     }
@@ -263,7 +264,7 @@ describe('Theme', () => {
     let receivedTheme = null
 
     const ThemeConsumer = () => {
-      receivedTheme = React.useContext(Context)?.theme
+      receivedTheme = useContext(Context)?.theme
 
       return null
     }
@@ -306,8 +307,8 @@ describe('Theme', () => {
       ref,
       ...rest
     }: {
-      children?: React.ReactNode
-      ref?: React.Ref<HTMLElement>
+      children?: ReactNode
+      ref?: Ref<HTMLElement>
     }) => (
       <section {...rest} ref={ref}>
         {children}
@@ -339,7 +340,7 @@ describe('Theme', () => {
       document.querySelector('.eufemia-theme')
     ).not.toBeInTheDocument()
 
-    rerender(<Theme element={React.Fragment}>content</Theme>)
+    rerender(<Theme element={Fragment}>content</Theme>)
 
     expect(
       document.querySelector('.eufemia-theme')

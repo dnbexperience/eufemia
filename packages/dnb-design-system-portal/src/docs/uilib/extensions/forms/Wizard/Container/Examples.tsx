@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../../Form/SubmitIndicator/Examples'
@@ -126,7 +126,7 @@ export const AsyncWizardContainer = () => {
     <ComponentBox scope={{ createRequest, debounceAsync }}>
       {() => {
         const MyForm = () => {
-          const onStepChange = React.useCallback(async (index, mode) => {
+          const onStepChange = useCallback(async (index, mode) => {
             console.log('onStepChange', index)
 
             if (mode === 'next') {
@@ -142,7 +142,7 @@ export const AsyncWizardContainer = () => {
             return { info: `Info message: ${index}` }
           }, [])
 
-          const onSubmit = React.useCallback(async (data) => {
+          const onSubmit = useCallback(async (data) => {
             console.log('onSubmit', data)
 
             try {
@@ -156,7 +156,7 @@ export const AsyncWizardContainer = () => {
             return { warning: 'Warning message' }
           }, [])
 
-          const validator = React.useCallback(async (value) => {
+          const validator = useCallback(async (value) => {
             try {
               const request = createRequest()
               await request(1000) // Simulate a request

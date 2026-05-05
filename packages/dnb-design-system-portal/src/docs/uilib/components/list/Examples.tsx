@@ -2,7 +2,6 @@
  * List component examples
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Anchor,

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -485,7 +486,7 @@ function UploadComponent(props: FieldUploadProps) {
 }
 
 function LabelWithHelpButton(props: {
-  label: React.ReactNode
+  label: ReactNode
   id: string
   help?: HelpProps
 }) {

@@ -6,7 +6,7 @@
  * @returns event handler function
  */
 
-import React from 'react'
+import { useContext, useRef } from 'react'
 import { cleanNumber } from '../../number-format/NumberUtils'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import { safeSetSelection } from '../text-mask/safeSetSelection'
@@ -24,12 +24,12 @@ export const useCallEvent = ({
 }: {
   setLocalValue: (v: string) => void
 }) => {
-  const maskParamsRef = React.useRef<ReturnType<
-    typeof useMaskParams
-  > | null>(null)
+  const maskParamsRef = useRef<ReturnType<typeof useMaskParams> | null>(
+    null
+  )
   maskParamsRef.current = useMaskParams()
 
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
   const isNumberMask = useNumberMask()
 
   // Source: https://en.wikipedia.org/wiki/Decimal_separator

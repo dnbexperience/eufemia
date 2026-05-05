@@ -1,9 +1,15 @@
-import React, {
+import {
   createContext,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useState,
+} from 'react'
+import type {
+  KeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  ReactNode,
 } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
@@ -43,7 +49,7 @@ export type ItemAccordionProps = {
   onChange?: (args: { expanded: boolean }) => void
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
-  title?: React.ReactNode
+  title?: ReactNode
   id?: string
 } & Omit<ItemContentProps, 'title'>
 
@@ -55,9 +61,9 @@ const ItemAccordionContext = createContext<{
   chevronPosition?: ItemAccordionIconPosition
   accordionId: string
   icon?: IconIcon
-  title?: React.ReactNode
+  title?: ReactNode
   handleToggle: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: ReactMouseEvent<HTMLDivElement, MouseEvent>
   ) => void
 }>(undefined)
 
@@ -86,8 +92,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   const appliedDisabled = disabled ?? inheritedDisabled
   const childArray = Array.isArray(children) ? children : [children]
   const hasExplicitHeader = childArray.some(
-    (child) =>
-      React.isValidElement(child) && child.type === AccordionHeader
+    (child) => isValidElement(child) && child.type === AccordionHeader
   )
 
   useEffect(() => {
@@ -95,7 +100,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   }, [open])
 
   const handleToggle = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!pending) {
         setOpen((prev) => {
           const next = !prev
@@ -144,7 +149,7 @@ function ItemAccordion(props: ItemAccordionProps) {
 ItemAccordion._supportsSpacingProps = true
 
 export type AccordionHeaderProps = {
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onClick?: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void
 } & ItemContentProps
 
 function AccordionHeader(props: AccordionHeaderProps) {
@@ -157,7 +162,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     accordionContext?.pending || accordionContext?.disabled
 
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!isInactive && accordionContext) {
         accordionContext.handleToggle(event)
       }
@@ -166,11 +171,11 @@ function AccordionHeader(props: AccordionHeaderProps) {
   )
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
+    (event: KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         handleClick(
-          event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>
+          event as unknown as ReactMouseEvent<HTMLDivElement, MouseEvent>
         )
       }
     },

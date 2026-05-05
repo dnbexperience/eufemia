@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode, Ref } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ItemAction from '../ItemAction'
@@ -598,8 +598,8 @@ describe('ItemAction', () => {
       ...rest
     }: {
       to: string
-      children: React.ReactNode
-      ref?: React.Ref<HTMLAnchorElement>
+      children: ReactNode
+      ref?: Ref<HTMLAnchorElement>
       preventScrollReset?: boolean
     }) {
       return (

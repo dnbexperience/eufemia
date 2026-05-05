@@ -1,4 +1,5 @@
-import React from 'react'
+import { StrictMode } from 'react'
+import type { RefObject } from 'react'
 import {
   fireEvent,
   render,
@@ -415,7 +416,7 @@ describe('ChildrenWithAge', () => {
   })
 
   it('should render with correct props', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -498,7 +499,7 @@ describe('ChildrenWithAge', () => {
     }
 
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Form.Handler
           defaultData={defaultData}
           onSubmit={(data, { reduceToVisibleFields }) => {
@@ -507,7 +508,7 @@ describe('ChildrenWithAge', () => {
         >
           <ChildrenWithAge />
         </Form.Handler>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     const [, noButton] = Array.from(document.querySelectorAll('button'))

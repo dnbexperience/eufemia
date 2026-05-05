@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act, useRef } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
@@ -87,10 +88,10 @@ describe('Flex.Item', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return (
         <Flex.Container>
           <Flex.Item ref={ref} element="section">

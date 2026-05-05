@@ -1,4 +1,5 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { ComponentProps } from 'react'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
@@ -7,7 +8,7 @@ import { close } from '../../../../../icons'
 import useContainerDataStore from './useContainerDataStore'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 
-type Props = React.ComponentProps<typeof Button> & {
+type Props = ComponentProps<typeof Button> & {
   showConfirmDialog?: boolean
 }
 
@@ -56,7 +57,7 @@ export default function CancelButton({
     ]
   )
 
-  const triggerAttributes: React.ComponentProps<typeof Button> = {
+  const triggerAttributes: ComponentProps<typeof Button> = {
     variant: 'tertiary',
     icon: close,
     iconPosition: 'left',

@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import { useContext } from 'react'
+import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -22,7 +23,7 @@ export type BadgeProps = {
   /**
    * The label description of the badge. Only required when passing a number as the badge content.
    */
-  label?: React.ReactNode
+  label?: ReactNode
 
   /**
    * Custom className on the component root
@@ -40,13 +41,13 @@ export type BadgeProps = {
    * The content to display the badge on top of.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * The content of the component.
    * Default: `null`
    */
-  content?: string | number | React.ReactNode
+  content?: string | number | ReactNode
 
   /**
    * The vertical positioning of the component.
@@ -85,7 +86,7 @@ export type BadgeProps = {
 
 export type BadgeAllProps = BadgeProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
+  Omit<HTMLProps<HTMLElement>, 'content' | 'label'>
 
 type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
@@ -99,7 +100,7 @@ export const defaultProps: BadgeAllProps = {
 
 function Badge(localProps: BadgeAllProps) {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -133,9 +134,9 @@ function BadgeRoot({
   className,
   style,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
 }) {
   return (
     <span className={clsx('dnb-badge__root', className)} style={style}>
@@ -146,8 +147,8 @@ function BadgeRoot({
 
 /** Ensures props that only affect certain variants are reset to default */
 function propGuard(
-  fn: (props: BadgeElemProps) => React.JSX.Element | null
-): (props: BadgeElemProps) => React.JSX.Element | null {
+  fn: (props: BadgeElemProps) => JSX.Element | null
+): (props: BadgeElemProps) => JSX.Element | null {
   return (props) => {
     if (props.variant !== 'information') {
       return fn({

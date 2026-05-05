@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { ReactNode } from 'react'
 import { renderHook } from '@testing-library/react'
 import useSharedContext from '../useSharedContext'
 import Provider from '../Provider'
@@ -170,7 +170,7 @@ describe('useSharedContext', () => {
     type SharedData = { sharedCount: number }
 
     it('should allow multiple hooks to access the same context', () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => (
+      const wrapper = ({ children }: { children: ReactNode }) => (
         <Provider value={{ sharedCount: 42 } as SharedData}>
           {children}
         </Provider>

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import type { VisuallyHiddenAllProps } from '../VisuallyHidden'
 import VisuallyHidden from '../VisuallyHidden'
@@ -94,7 +94,7 @@ describe('VisuallyHidden', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(<VisuallyHidden ref={ref}>Hidden text</VisuallyHidden>)
 

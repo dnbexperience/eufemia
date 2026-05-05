@@ -4,7 +4,8 @@
  */
 
 import clsx from 'clsx'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 import Section from '../section/Section'
@@ -58,7 +59,7 @@ function StepIndicatorTriggerButton({
       createSkeletonClass('font', skeleton)
     ),
     'aria-live': 'polite',
-  } as Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
+  } as Omit<HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
 
   const buttonParams = {
     ...rest,
@@ -106,7 +107,7 @@ function StepIndicatorTriggerButton({
       aria-label={overviewTitle}
     >
       <HeightAnimation animate={!noAnimation}>
-        <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
+        <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
           <FormLabel
             element="span"
             aria-describedby={id}

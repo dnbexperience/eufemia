@@ -1,4 +1,5 @@
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ReactElement } from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Section from '../section/Section'
 import type { BreadcrumbItemProps } from './BreadcrumbItem'
@@ -10,8 +11,8 @@ type BreadcrumbMultipleProps = {
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
   items:
-    | React.ReactElement<BreadcrumbItemProps>
-    | Array<React.ReactElement<BreadcrumbItemProps>>
+    | ReactElement<BreadcrumbItemProps>
+    | Array<ReactElement<BreadcrumbItemProps>>
 }
 
 export const BreadcrumbMultiple = ({
@@ -47,7 +48,7 @@ export const BreadcrumbMultiple = ({
         })}
 
         {(Array.isArray(items) ? items : [items])
-          .filter((item) => React.isValidElement(item))
+          .filter((item) => isValidElement(item))
           .map((item, i) => (
             <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
               {item}

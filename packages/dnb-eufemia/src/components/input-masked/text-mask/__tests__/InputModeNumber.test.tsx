@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import type { InputHTMLAttributes } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../../shared/helpers'
 import InputModeNumber from '../InputModeNumber'
 
 let instance: InputModeNumber = null
-const MockComponent = (
-  props: React.InputHTMLAttributes<HTMLInputElement>
-) => {
+const MockComponent = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const elementRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {

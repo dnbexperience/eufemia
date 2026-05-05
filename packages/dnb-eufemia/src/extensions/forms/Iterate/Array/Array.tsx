@@ -1,11 +1,12 @@
-import React, {
-  useMemo,
-  useRef,
-  useEffect,
-  useReducer,
-  useContext,
+import {
   useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
 } from 'react'
+import type { RefObject } from 'react'
 import * as z from 'zod'
 import clsx from 'clsx'
 import pointer from '../../utils/json-pointer'
@@ -238,9 +239,7 @@ function ArrayComponent(props: IterateArrayProps) {
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
   const hadPushRef = useRef<boolean>(undefined)
-  const elementRefs = useRef<
-    Record<string, React.RefObject<HTMLDivElement>>
-  >({})
+  const elementRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({})
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 

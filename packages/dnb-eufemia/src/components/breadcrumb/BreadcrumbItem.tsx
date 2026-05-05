@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext, useState } from 'react'
+import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 
 // Components
 import type { ButtonProps } from '../Button'
@@ -30,7 +31,7 @@ export type BreadcrumbItemProps = {
    * Text displaying the title of the item's corresponding page
    * Defaults to `Home` when variant is `home`, otherwise required.
    */
-  text?: React.ReactNode
+  text?: ReactNode
 
   /**
    * Icon displaying on the left side
@@ -48,7 +49,7 @@ export type BreadcrumbItemProps = {
    * Set a custom click event. In this case, you should not define the prop href.
    * Default: `null`
    */
-  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
 
   /**
    * The component variant. Variant 'current' should correspond to the current page and 'home' to the root page.
@@ -81,8 +82,8 @@ const determineIcon = (variant: string, isSmallScreen: boolean) => {
 
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
-  const breadcrumbItemContext = React.useContext(BreadcrumbItemContext)
+  const context = useContext(Context)
+  const breadcrumbItemContext = useContext(BreadcrumbItemContext)
   const {
     theme,
     translation: {
@@ -109,8 +110,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     when: { max: 'medium' },
   })
 
-  const [currentIcon, setCurrentIcon] =
-    React.useState<IconIcon>('chevron_left')
+  const [currentIcon, setCurrentIcon] = useState<IconIcon>('chevron_left')
 
   useLayoutEffect(() => {
     if (!icon) {
@@ -125,7 +125,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =
     (href || onClick || props.to) && variant !== 'current'
-  const style = { '--delay': String(itemNo) } as React.CSSProperties
+  const style = { '--delay': String(itemNo) } as CSSProperties
 
   const iconToUse =
     variant === 'home' || currentIcon === 'home-icon'

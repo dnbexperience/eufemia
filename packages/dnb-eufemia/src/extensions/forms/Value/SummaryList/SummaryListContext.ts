@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { DlProps } from '../../../../elements/Dl'
 
 export type SummaryListContextProps = {
@@ -7,7 +7,7 @@ export type SummaryListContextProps = {
   verifyChild?: () => void
 }
 
-const SummaryListContext = React.createContext<
+const SummaryListContext = createContext<
   SummaryListContextProps | undefined
 >(undefined)
 

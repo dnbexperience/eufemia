@@ -1,3 +1,4 @@
+import type { CSSProperties, HTMLProps, ReactNode, RefObject } from 'react'
 import type { SpacingProps } from '../../shared/types'
 
 export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left'
@@ -24,7 +25,7 @@ export type TooltipProps = {
   arrow?: TooltipArrow
   align?: TooltipAlign
   fixedPosition?: boolean
-  contentRef?: React.RefObject<HTMLSpanElement>
+  contentRef?: RefObject<HTMLSpanElement>
   /**
    * Skip rendering the tooltip in a React Portal.
    * When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body.
@@ -41,11 +42,11 @@ export type TooltipProps = {
    */
   portalRootClass?: string
   targetSelector?: string
-  targetElement?: React.ReactNode | React.RefObject<unknown> | HTMLElement
-  tooltip?: React.ReactNode
+  targetElement?: ReactNode | RefObject<unknown> | HTMLElement
+  tooltip?: ReactNode
   className?: string
-  children?: React.ReactNode
-  style?: React.CSSProperties
+  children?: ReactNode
+  style?: CSSProperties
   /**
    * Whether to omit the aria-describedby attribute.
    */
@@ -70,4 +71,4 @@ export type TooltipProps = {
 
 export type TooltipAllProps = TooltipProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, keyof TooltipProps>
+  Omit<HTMLProps<HTMLElement>, keyof TooltipProps>

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import type { ModalHeaderBarProps } from '../../modal/parts/ModalHeaderBar'
 import ModalHeaderBar from '../../modal/parts/ModalHeaderBar'
@@ -8,8 +9,8 @@ export default function DrawerNavigation({
   className,
   ref,
   ...props
-}: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
-  const contentContext = React.useContext(DrawerContentContext)
+}: ModalHeaderBarProps & Omit<HTMLProps<HTMLElement>, 'children'>) {
+  const contentContext = useContext(DrawerContentContext)
   if (contentContext?.navigationElement) {
     return null
   }

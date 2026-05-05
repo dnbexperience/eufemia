@@ -1,4 +1,5 @@
-import React from 'react'
+import { Children, Fragment, isValidElement } from 'react'
+import type { HTMLProps, ReactElement, ReactNode } from 'react'
 import clsx from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
@@ -12,7 +13,7 @@ type RootOwnProps = {
 }
 
 export type RootProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof RootOwnProps | 'ref'
 > &
   RootOwnProps &
@@ -66,14 +67,14 @@ Root._supportsSpacingProps = true
 
 export default Root
 
-function hasOnlySupportedChildren(children: React.ReactNode): boolean {
-  return React.Children.toArray(children).every((child) =>
+function hasOnlySupportedChildren(children: ReactNode): boolean {
+  return Children.toArray(children).every((child) =>
     isSupportedChild(child)
   )
 }
 
-function isSupportedChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, any>>(child)) {
+function isSupportedChild(child: ReactNode): boolean {
+  if (!isValidElement<Record<string, any>>(child)) {
     // allow null/boolean and whitespace-only text nodes
     if (typeof child === 'string') {
       return child.trim().length === 0
@@ -81,9 +82,9 @@ function isSupportedChild(child: React.ReactNode): boolean {
     return true
   }
 
-  if (child.type === React.Fragment) {
+  if (child.type === Fragment) {
     return hasOnlySupportedChildren(
-      (child as React.ReactElement<any>).props.children
+      (child as ReactElement<any>).props.children
     )
   }
 
@@ -91,40 +92,34 @@ function isSupportedChild(child: React.ReactNode): boolean {
   return role === 'label' || role === 'content'
 }
 
-function hasRequiredLabel(children: React.ReactNode): boolean {
-  return React.Children.toArray(children).some((child) =>
-    hasLabelChild(child)
-  )
+function hasRequiredLabel(children: ReactNode): boolean {
+  return Children.toArray(children).some((child) => hasLabelChild(child))
 }
 
-function hasLabelChild(child: React.ReactNode): boolean {
-  if (!React.isValidElement<Record<string, any>>(child)) {
+function hasLabelChild(child: ReactNode): boolean {
+  if (!isValidElement<Record<string, any>>(child)) {
     return false
   }
 
-  if (child.type === React.Fragment) {
-    return hasRequiredLabel(
-      (child as React.ReactElement<any>).props.children
-    )
+  if (child.type === Fragment) {
+    return hasRequiredLabel((child as ReactElement<any>).props.children)
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
   return role === 'label'
 }
 
-function flattenRoles(
-  children: React.ReactNode
-): Array<'label' | 'content'> {
+function flattenRoles(children: ReactNode): Array<'label' | 'content'> {
   const roles: Array<'label' | 'content'> = []
 
-  for (const child of React.Children.toArray(children)) {
-    if (!React.isValidElement<Record<string, any>>(child)) {
+  for (const child of Children.toArray(children)) {
+    if (!isValidElement<Record<string, any>>(child)) {
       continue
     }
 
-    if (child.type === React.Fragment) {
+    if (child.type === Fragment) {
       roles.push(
-        ...flattenRoles((child as React.ReactElement<any>).props.children)
+        ...flattenRoles((child as ReactElement<any>).props.children)
       )
       continue
     }
@@ -138,7 +133,7 @@ function flattenRoles(
   return roles
 }
 
-function hasValidLabelContentOrder(children: React.ReactNode): boolean {
+function hasValidLabelContentOrder(children: ReactNode): boolean {
   const roles = flattenRoles(children)
   let hasSeenLabel = false
 

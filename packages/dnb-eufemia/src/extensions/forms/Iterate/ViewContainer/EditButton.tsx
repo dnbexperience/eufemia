@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'

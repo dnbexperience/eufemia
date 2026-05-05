@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { AllHTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -37,17 +38,17 @@ export type TimelineItemProps = {
   /**
    * Text displaying the title of the timeline item.
    */
-  title: React.ReactNode
+  title: ReactNode
 
   /**
    * Text displaying the subtitle of the timeline item.
    */
-  subtitle?: React.ReactNode | React.ReactNode[]
+  subtitle?: ReactNode | ReactNode[]
 
   /**
    * Text displaying info message of the timeline item.
    */
-  infoMessage?: React.ReactNode
+  infoMessage?: ReactNode
 
   /**
    * The component state. State 'completed', 'current' or 'upcoming'.
@@ -63,7 +64,7 @@ export type TimelineItemProps = {
 }
 
 export type TimelineItemAllProps = TimelineItemProps &
-  Omit<React.AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
+  Omit<AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
 const defaultProps: Partial<TimelineItemAllProps> = {
   skeleton: false,
@@ -71,8 +72,8 @@ const defaultProps: Partial<TimelineItemAllProps> = {
 
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
-  const timelineContext = React.useContext(TimelineContext)
+  const context = useContext(Context)
+  const timelineContext = useContext(TimelineContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -234,7 +235,7 @@ const TimelineItemContent = ({
 }
 
 type TimelineItemSubtitleProps = {
-  subtitle: React.ReactNode
+  subtitle: ReactNode
 }
 
 const TimelineItemSubtitle = ({ subtitle }: TimelineItemSubtitleProps) => (

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
@@ -10,11 +10,11 @@ export type TableScrollViewProps = {
   /**
    * The content of the component.
    */
-  children: React.ReactElement<HTMLTableElement>
+  children: ReactElement<HTMLTableElement>
 }
 
 export type TableScrollViewAllProps = TableScrollViewProps &
-  Omit<React.TableHTMLAttributes<HTMLDivElement>, 'children'> &
+  Omit<TableHTMLAttributes<HTMLDivElement>, 'children'> &
   SpacingProps &
   ScrollViewAllProps
 

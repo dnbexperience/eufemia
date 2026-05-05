@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react'
+import { useContext, useEffect } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { JSONSchema } from '../../..'
@@ -20,7 +21,7 @@ describe('Form.Section', () => {
     children,
     ...props
   }: SectionProps<{ lastName: FieldNameProps }> & {
-    children?: React.ReactNode
+    children?: ReactNode
   }) => {
     return (
       <Form.Section {...props}>
@@ -37,7 +38,7 @@ describe('Form.Section', () => {
   }: SectionProps<{
     innerSection: { lastName: FieldNameProps }
   }> & {
-    children?: React.ReactNode
+    children?: ReactNode
   }) => {
     return (
       <Form.Section {...props}>
@@ -101,7 +102,7 @@ describe('Form.Section', () => {
   })
 
   it('should match snapshot', () => {
-    const generateRef: React.RefObject<GeneratePropsRef | null> = {
+    const generateRef: RefObject<GeneratePropsRef | null> = {
       current: null,
     }
     render(
@@ -172,7 +173,7 @@ describe('Form.Section', () => {
   })
 
   it('should match schema snapshot with prop change', () => {
-    const generateRef: React.RefObject<GenerateSchemaRef | null> = {
+    const generateRef: RefObject<GenerateSchemaRef | null> = {
       current: null,
     }
     render(
@@ -1215,12 +1216,11 @@ describe('Form.Section', () => {
       onUpdate: jest.Mock
       schemaPathsTracker?: jest.Mock
     }) => {
-      const { errors, sectionSchemaPathsRef } =
-        React.useContext(DataContext)
-      React.useEffect(() => {
+      const { errors, sectionSchemaPathsRef } = useContext(DataContext)
+      useEffect(() => {
         onUpdate(errors)
       }, [errors, onUpdate])
-      React.useEffect(() => {
+      useEffect(() => {
         if (schemaPathsTracker && sectionSchemaPathsRef?.current) {
           schemaPathsTracker(Array.from(sectionSchemaPathsRef.current))
         }
@@ -2130,7 +2130,7 @@ describe('Form.Section', () => {
       children,
       ...props
     }: SectionProps & {
-      children?: React.ReactNode
+      children?: ReactNode
     }) => {
       return (
         <Form.Section {...props}>

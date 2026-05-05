@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import styled from '@emotion/styled'
@@ -236,7 +236,7 @@ export const Textarea = () => (
 )
 
 export const ElementsAndSkeleton = () => {
-  const [showSkeleton, setSkeletonState] = React.useState(false)
+  const [showSkeleton, setSkeletonState] = useState(false)
 
   return (
     <Box>

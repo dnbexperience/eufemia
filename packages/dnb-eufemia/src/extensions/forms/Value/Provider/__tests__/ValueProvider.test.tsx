@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, waitFor } from '@testing-library/react'
 import { Field, Form, Value } from '../../..'
 import userEvent from '@testing-library/user-event'

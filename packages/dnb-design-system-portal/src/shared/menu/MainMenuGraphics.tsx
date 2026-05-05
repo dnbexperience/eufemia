@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export const BrandSvg = (props) => (
   <svg
     width="48"

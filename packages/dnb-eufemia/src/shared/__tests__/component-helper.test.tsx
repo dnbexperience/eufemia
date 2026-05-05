@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 
 import {
@@ -158,10 +158,10 @@ describe('"detectOutsideClick" should', () => {
     // Is there perhaps a better way to handle this?
     window.PointerEvent = undefined
 
-    const ignoreElementRef: React.RefObject<HTMLDivElement | null> = {
+    const ignoreElementRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
-    const wrapperElementRef: React.RefObject<HTMLDivElement | null> = {
+    const wrapperElementRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
     const onSuccess = jest.fn()

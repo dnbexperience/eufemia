@@ -1,7 +1,6 @@
 import type { UploadFileLinkProps } from '../UploadFileListLink'
 import UploadFileLink from '../UploadFileListLink'
 import { fireEvent, render, screen } from '@testing-library/react'
-import React from 'react'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 

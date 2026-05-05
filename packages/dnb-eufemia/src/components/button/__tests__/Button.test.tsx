@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
@@ -206,7 +206,7 @@ describe('Button component', () => {
   })
 
   it('has set ref if ref was given', () => {
-    const ref: React.RefObject<HTMLButtonElement | null> = {
+    const ref: RefObject<HTMLButtonElement | null> = {
       current: null,
     }
     expect(ref.current).toBe(null)

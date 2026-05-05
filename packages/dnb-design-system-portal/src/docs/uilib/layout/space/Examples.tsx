@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
@@ -380,12 +380,12 @@ const Label = styled.label`
 `
 
 const MagicBox = (props) => {
-  const ref = React.useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
 
-  const [spaceInRem, setValue] = React.useState('')
-  const [title, setTitle] = React.useState(null)
+  const [spaceInRem, setValue] = useState('')
+  const [title, setTitle] = useState(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const elem = ref.current
     const run = () => {
       try {
@@ -422,18 +422,18 @@ const MagicBox = (props) => {
 }
 
 const VisualSpace = ({ children, ...rest }) => {
-  const ref = React.useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const initValue = {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   }
-  const [margin, setMargin] = React.useState(initValue)
-  const [padding, setPadding] = React.useState(initValue)
-  const [title, setTitle] = React.useState(null)
+  const [margin, setMargin] = useState(initValue)
+  const [padding, setPadding] = useState(initValue)
+  const [title, setTitle] = useState(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const elem = ref.current
     const run = () => {
       try {

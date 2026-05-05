@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useLayoutEffect } from 'react'
+import { useContext, useLayoutEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { H3, P } from '../../..'
@@ -28,7 +28,7 @@ const CustomStyle = styled.div`
 `
 
 const ChangeLocale = () => {
-  const { setLocale, locale } = React.useContext(Context)
+  const { setLocale, locale } = useContext(Context)
 
   return (
     <ToggleButton.Group

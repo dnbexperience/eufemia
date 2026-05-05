@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function StructureDiagram(props) {
   return (
     <svg

@@ -2,7 +2,13 @@
  * Web Logo Component
  */
 
-import React, { useContext, useMemo } from 'react'
+import { createElement, isValidElement, useContext, useMemo } from 'react'
+import type {
+  ComponentType,
+  HTMLProps,
+  ReactElement,
+  SVGProps,
+} from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -24,8 +30,8 @@ export type LogoWidth = string
 export type LogoHeight = string
 
 export type SvgComponent =
-  | React.ComponentType<React.SVGProps<SVGSVGElement>>
-  | React.ReactElement<React.SVGProps<SVGSVGElement>>
+  | ComponentType<SVGProps<SVGSVGElement>>
+  | ReactElement<SVGProps<SVGSVGElement>>
 
 export type CustomLogoSvg = LogoSvgComponent | SvgComponent
 export type Svg =
@@ -59,7 +65,7 @@ export type LogoProps = {
    */
   svg?: Svg
 } & SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'>
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'size'>
 
 const defaultProps: Partial<LogoProps> = {
   inheritSize: false,
@@ -179,12 +185,12 @@ function Logo(localProps: LogoProps) {
 
 function renderCustomSvg(
   SvgComponent:
-    | React.ComponentType<React.SVGProps<SVGSVGElement>>
-    | React.ReactElement<React.SVGProps<SVGSVGElement>>,
-  svgParams: React.SVGProps<SVGSVGElement> & { alt: string },
+    | ComponentType<SVGProps<SVGSVGElement>>
+    | ReactElement<SVGProps<SVGSVGElement>>,
+  svgParams: SVGProps<SVGSVGElement> & { alt: string },
   theme: UseThemeReturn
 ) {
-  if (React.isValidElement(SvgComponent)) {
+  if (isValidElement(SvgComponent)) {
     const allowedProps: Record<string, unknown> = {}
     if (theme) {
       for (const key in SvgComponent.props) {
@@ -194,7 +200,7 @@ function renderCustomSvg(
       }
     }
 
-    return React.createElement(SvgComponent.type, {
+    return createElement(SvgComponent.type, {
       ...allowedProps,
       ...svgParams,
     })

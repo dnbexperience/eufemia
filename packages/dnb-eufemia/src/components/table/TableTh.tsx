@@ -1,10 +1,10 @@
-import React from 'react'
+import type { ReactNode, ThHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 
 export type TableThChildren =
-  | React.ReactNode
+  | ReactNode
   | ReturnType<typeof TableSortButton>
   | ReturnType<typeof TableHelpButton>
 
@@ -48,8 +48,7 @@ export type TableThProps = {
 }
 
 export default function Th(
-  componentProps: TableThProps &
-    React.ThHTMLAttributes<HTMLTableCellElement>
+  componentProps: TableThProps & ThHTMLAttributes<HTMLTableCellElement>
 ) {
   const {
     className,
@@ -97,7 +96,7 @@ export default function Th(
 function Horizontal({
   className = null,
   ...rest
-}: React.ThHTMLAttributes<HTMLDivElement>) {
+}: ThHTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...rest}

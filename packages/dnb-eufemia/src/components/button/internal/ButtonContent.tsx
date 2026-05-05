@@ -1,18 +1,19 @@
-import React from 'react'
+import { Fragment } from 'react'
+import type { ReactNode } from 'react'
 import AlignmentHelper from '../../../shared/AlignmentHelper'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import type { IconIcon, IconSize } from '../../icon/Icon'
 
 type ButtonContentProps = {
-  title?: React.ReactNode
-  content?: React.ReactNode
-  customContent?: React.ReactNode
-  icon?: IconIcon | React.ReactNode | (() => React.ReactNode)
+  title?: ReactNode
+  content?: ReactNode
+  customContent?: ReactNode
+  icon?: IconIcon | ReactNode | (() => ReactNode)
   iconSize?: IconSize | string | number
   bounding?: boolean
   skeleton?: boolean
   isIconOnly?: boolean
-  iconElement?: React.ReactNode
+  iconElement?: ReactNode
 }
 
 export default function ButtonContent({
@@ -33,9 +34,7 @@ export default function ButtonContent({
       )}
 
       {customContent && (
-        <React.Fragment key="button-custom-content">
-          {customContent}
-        </React.Fragment>
+        <Fragment key="button-custom-content">{customContent}</Fragment>
       )}
 
       {content && (

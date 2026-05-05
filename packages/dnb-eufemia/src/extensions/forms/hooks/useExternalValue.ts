@@ -1,4 +1,5 @@
 import { useContext, useMemo } from 'react'
+import type { RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
@@ -8,7 +9,7 @@ export type UseExternalValueProps<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
-  transformers?: React.RefObject<{
+  transformers?: RefObject<{
     fromExternal: FieldProps<Value>['fromExternal']
   }>
   emptyValue?: FieldProps<Value>['emptyValue']

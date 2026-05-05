@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import type { TypographyProps } from '../Typography'
 import Typography from '../Typography'
@@ -279,10 +280,10 @@ describe('Typography element', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return <Typography ref={ref}>content</Typography>
     }
 
@@ -294,10 +295,10 @@ describe('Typography element', () => {
   })
 
   it('gets valid ref element with custom element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return (
         <Typography element="span" ref={ref}>
           content

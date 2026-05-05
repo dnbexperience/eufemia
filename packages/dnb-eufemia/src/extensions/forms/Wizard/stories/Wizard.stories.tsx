@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { StrictMode, useCallback } from 'react'
 import { P } from '../../../../elements'
 import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
@@ -378,7 +378,7 @@ export const AsyncWizard = () => {
     }
   }
   return (
-    <React.StrictMode>
+    <StrictMode>
       <Form.Handler>
         <Wizard.Container onStepChange={onStepChange}>
           <Step1 />
@@ -386,6 +386,6 @@ export const AsyncWizard = () => {
           <Summary />
         </Wizard.Container>
       </Form.Handler>
-    </React.StrictMode>
+    </StrictMode>
   )
 }

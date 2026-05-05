@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { isValidElement, useMemo } from 'react'
 import { useItem } from '../hooks'
 import { useTranslation } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
@@ -38,7 +38,7 @@ export function useIterateItemNo({
         return content + ' ' + labelSuffixText
       }
 
-      if (React.isValidElement(content)) {
+      if (isValidElement(content)) {
         return (
           <>
             {content}

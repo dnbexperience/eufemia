@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'

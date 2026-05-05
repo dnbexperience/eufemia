@@ -1,12 +1,13 @@
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import clsx from 'clsx'
 import { Img as Image } from '@dnb/eufemia/src'
 
 type ImgProps = {
   className?: string
   alt?: string
-  src?: string | React.ReactNode
-  children?: React.ReactNode
+  src?: string | ReactNode
+  children?: ReactNode
   size?: string
   width?: string | number
   height?: string | number
@@ -30,10 +31,10 @@ const Img = ({
   }
   const props = { width, height }
 
-  let finalSrc: string | React.ReactNode = src || children
+  let finalSrc: string | ReactNode = src || children
 
-  if (React.isValidElement(src)) {
-    const Svg = src.type as React.ComponentType<{
+  if (isValidElement(src)) {
+    const Svg = src.type as ComponentType<{
       alt?: string
       width?: string | number
       height?: string | number

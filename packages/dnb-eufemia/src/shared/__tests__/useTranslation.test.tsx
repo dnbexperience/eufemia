@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment, useContext } from 'react'
 import { fireEvent, render, renderHook } from '@testing-library/react'
 import Translation from '../Translation'
 import useTranslation from '../useTranslation'
@@ -439,7 +439,7 @@ describe('useTranslation with an ID', () => {
     }
 
     const ChangeLocale = (props) => {
-      const { setLocale } = React.useContext(Context)
+      const { setLocale } = useContext(Context)
 
       return (
         <div {...props}>
@@ -570,14 +570,14 @@ describe('useTranslation with an ID', () => {
       const { result } = renderHook(useTranslation)
 
       expect(result.current.renderMessage('Hello{br}World')).toEqual([
-        <React.Fragment key="0">
+        <Fragment key="0">
           Hello
           <br />
-        </React.Fragment>,
-        <React.Fragment key="1">
+        </Fragment>,
+        <Fragment key="1">
           World
           <br />
-        </React.Fragment>,
+        </Fragment>,
       ])
     })
 
@@ -585,18 +585,18 @@ describe('useTranslation with an ID', () => {
       const { result } = renderHook(useTranslation)
 
       expect(result.current.renderMessage('A{br}B{br}C')).toEqual([
-        <React.Fragment key="0">
+        <Fragment key="0">
           A
           <br />
-        </React.Fragment>,
-        <React.Fragment key="1">
+        </Fragment>,
+        <Fragment key="1">
           B
           <br />
-        </React.Fragment>,
-        <React.Fragment key="2">
+        </Fragment>,
+        <Fragment key="2">
           C
           <br />
-        </React.Fragment>,
+        </Fragment>,
       ])
     })
   })

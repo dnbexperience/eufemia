@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { ButtonProps } from '../../../../components/button/Button'

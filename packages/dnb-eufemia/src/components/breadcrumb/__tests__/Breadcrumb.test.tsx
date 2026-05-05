@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ElementType, ReactNode, Ref, RefObject } from 'react'
 import {
   fireEvent,
   render,
@@ -367,11 +367,11 @@ describe('Breadcrumb', () => {
       const CustomElement = ({
         ref,
         ...props
-      }: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) => {
+      }: AnchorAllProps & { ref?: Ref<HTMLAnchorElement> }) => {
         return (
           <span
             {...props}
-            ref={ref as React.RefObject<HTMLAnchorElement>}
+            ref={ref as RefObject<HTMLAnchorElement>}
             className="custom-element"
           />
         )
@@ -379,7 +379,7 @@ describe('Breadcrumb', () => {
 
       render(
         <BreadcrumbItem
-          element={CustomElement as React.ElementType}
+          element={CustomElement as ElementType}
           text="Page"
           href="/"
         />
@@ -396,10 +396,10 @@ describe('Breadcrumb', () => {
         ...props
       }: {
         to: string
-        children: React.ReactNode
-        ref?: React.Ref<HTMLAnchorElement>
+        children: ReactNode
+        ref?: Ref<HTMLAnchorElement>
       }) => (
-        <a href={props.to} ref={ref as React.RefObject<HTMLAnchorElement>}>
+        <a href={props.to} ref={ref as RefObject<HTMLAnchorElement>}>
           {props.children}
         </a>
       )
@@ -407,7 +407,7 @@ describe('Breadcrumb', () => {
       render(
         <BreadcrumbItem
           to={'/url'}
-          element={MockLink as React.ElementType}
+          element={MockLink as ElementType}
           text="Page"
         />
       )
@@ -491,7 +491,7 @@ describe('Breadcrumb', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Breadcrumb

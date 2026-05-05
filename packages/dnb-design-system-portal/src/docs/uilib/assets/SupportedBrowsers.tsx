@@ -1,4 +1,3 @@
-import React from 'react'
 import config from '@dnb/browserslist-config'
 import supportedBrowsers from '@dnb/browserslist-config/supportedBrowsers.mjs'
 import {

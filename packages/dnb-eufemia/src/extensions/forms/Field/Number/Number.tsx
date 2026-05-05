@@ -1,10 +1,5 @@
-import React, {
-  useContext,
-  useMemo,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import type { KeyboardEvent, RefObject } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import type { NumberFormatOptionParams } from '../../../../components/number-format/NumberUtils'
@@ -33,7 +28,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** Ref to the underlying input element. */
-  ref?: React.RefObject<HTMLInputElement>
+  ref?: RefObject<HTMLInputElement>
   /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
   /** Formats the value as a currency. Pass `true` for locale default or a currency code string. */
@@ -369,9 +364,9 @@ function NumberComponent(props: FieldNumberProps) {
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       const { event } = e as unknown as {
-        event: React.KeyboardEvent<HTMLInputElement>
+        event: KeyboardEvent<HTMLInputElement>
       }
       if (dataContext?.props?.isolate && event.key === 'Enter') {
         handleSubmit() // So we commit the data to the outer context

@@ -1,6 +1,5 @@
-import React from 'react'
-
-const DNBLogoSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const DNBLogoSVG = (props: SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

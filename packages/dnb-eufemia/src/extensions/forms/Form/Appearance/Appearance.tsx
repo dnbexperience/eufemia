@@ -1,10 +1,10 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import Provider from '../../../../shared/Provider'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FormAppearanceProps = {
   size?: 'medium' | 'large'
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function FormAppearance({ children, size, ...rest }: FormAppearanceProps) {

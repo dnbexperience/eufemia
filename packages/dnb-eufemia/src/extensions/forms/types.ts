@@ -1,4 +1,4 @@
-import type { AriaAttributes } from 'react'
+import type { AriaAttributes, ReactElement, ReactNode } from 'react'
 import type { SpacingProps } from '../../shared/types'
 import type {
   ContextState,
@@ -55,7 +55,7 @@ export type ValidatorReturnSync<Value> =
   | Error
   | FormError
   | string
-  | React.ReactElement
+  | ReactElement
   | undefined
   | void
   | Array<Validator<Value>>
@@ -161,7 +161,7 @@ export type GlobalErrorMessagesWithPaths =
  */
 export type DotNotationErrorMessages = Record<
   `${string}` | `${string}.${string}`,
-  string | React.ReactElement
+  string | ReactElement
 >
 /**
  * { 'nb-NO': { 'Field.errorRequired': 'Dette feltet er påkrevd' } }
@@ -322,13 +322,13 @@ export type MessageTypes<Value> =
   | UseFieldProps<Value>['warning']
   | UseFieldProps<Value>['error']
 
-export type StatusMessage = React.ReactNode | Array<React.ReactNode>
+export type StatusMessage = ReactNode | Array<ReactNode>
 export type StatusError =
   | string
-  | React.ReactElement
+  | ReactElement
   | Error
   | FormError
-  | Array<string | React.ReactElement | Error | FormError>
+  | Array<string | ReactElement | Error | FormError>
 export type FieldStatus = {
   info?: StatusMessage
   warning?: StatusMessage
@@ -337,19 +337,19 @@ export type FieldStatus = {
 
 export type InfoProp<Value> = MessageProp<
   Value,
-  React.ReactNode | Array<React.ReactNode>
+  ReactNode | Array<ReactNode>
 >
 export type WarningProp<Value> = MessageProp<
   Value,
-  React.ReactNode | Array<React.ReactNode>
+  ReactNode | Array<ReactNode>
 >
 export type ErrorProp<Value> = MessageProp<
   Value,
   | string
-  | React.ReactElement
+  | ReactElement
   | Error
   | FormError
-  | Array<string | React.ReactElement | Error | FormError>
+  | Array<string | ReactElement | Error | FormError>
 >
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -377,7 +377,7 @@ interface UseFieldPropsInterface<
   /**
    * Text showing in place of the value if no value is given
    */
-  placeholder?: React.ReactNode
+  placeholder?: ReactNode
 
   /**
    * NB: Undocumented for now.
@@ -546,7 +546,7 @@ interface ValuePropsInterface<
   /**
    * Field label to show above the data value.
    */
-  label?: React.ReactNode
+  label?: ReactNode
 
   /** Use `true` to make the label only readable by screen readers. */
   labelSrOnly?: boolean
@@ -569,7 +569,7 @@ interface ValuePropsInterface<
   /**
    * Text showing in place of the value if no value is given.
    */
-  placeholder?: React.ReactNode
+  placeholder?: ReactNode
 
   /**
    * For showing the value inline (not as a block element)
@@ -588,9 +588,9 @@ interface ValuePropsInterface<
    * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.
    */
   transformLabel?: (
-    label: React.ReactNode,
-    convertJsxToString: (label: React.ReactNode) => string
-  ) => React.ReactNode
+    label: ReactNode,
+    convertJsxToString: (label: ReactNode) => string
+  ) => ReactNode
 
   /**
    * Transforms the `value` before it's displayed in the field (e.g. input).
@@ -630,11 +630,11 @@ type EventStateObjectError = Error | null | undefined
 /**
  * Provide a warning that shows in the FormStatus of a field.
  */
-type EventStateObjectWarning = React.ReactNode
+type EventStateObjectWarning = ReactNode
 /**
  * Provide an info that shows in the FormStatus of a field.
  */
-type EventStateObjectInfo = React.ReactNode
+type EventStateObjectInfo = ReactNode
 
 /**
  * Provide a status that will enforce the form to stay in pending state

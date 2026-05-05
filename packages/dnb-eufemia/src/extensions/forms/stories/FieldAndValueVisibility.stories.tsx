@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useReducer } from 'react'
 import { Field, Form, Value, Wizard } from '..'
 import { Flex } from '../../../components'
 
@@ -8,7 +8,7 @@ export default {
 
 const LogVisibleData = () => {
   const { data, reduceToVisibleFields } = Form.useData()
-  React.useEffect(() => {
+  useEffect(() => {
     console.log(
       'visibleData',
       reduceToVisibleFields(data, {
@@ -21,7 +21,7 @@ const LogVisibleData = () => {
 }
 
 export const ValueVisibility = () => {
-  const [count, increment] = React.useReducer((state) => state + 1, 1)
+  const [count, increment] = useReducer((state) => state + 1, 1)
 
   return (
     <Form.Handler>
@@ -73,7 +73,7 @@ export const ValueVisibility = () => {
 }
 
 export const ValueVisibilityInWizard = () => {
-  const [count, increment] = React.useReducer((state) => state + 1, 1)
+  const [count, increment] = useReducer((state) => state + 1, 1)
   return (
     <Form.Handler>
       <LogVisibleData />

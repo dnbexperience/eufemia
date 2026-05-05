@@ -25,7 +25,19 @@ export default [
     },
     rules: {
       ...workspacesRecommended.rules,
-      'no-restricted-imports': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message:
+                'Use named imports from "react" instead of the default React namespace import. E.g., import { useState } from "react" or import type { ReactNode } from "react".',
+            },
+          ],
+        },
+      ],
     },
   },
 ]

@@ -4,7 +4,6 @@
  */
 
 import type { ReactNode } from 'react'
-import React from 'react'
 import InputMaskedContext from '../../InputMaskedContext'
 import type { ContextProps } from '../../../../shared/Context'
 import type { InputMaskedProps } from '../../InputMasked'

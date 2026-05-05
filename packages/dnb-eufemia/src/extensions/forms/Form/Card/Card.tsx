@@ -1,4 +1,3 @@
-import React from 'react'
 import type { CardProps } from '../../../../components/card/Card'
 import CardInstance from '../../../../components/card/Card'
 

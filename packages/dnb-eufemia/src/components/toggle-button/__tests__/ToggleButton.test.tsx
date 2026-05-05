@@ -9,7 +9,7 @@ import {
   cleanup,
   waitFor,
 } from '@testing-library/react'
-import React from 'react'
+import { StrictMode, useState } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { ToggleButtonProps } from '../ToggleButton'
 import ToggleButton from '../ToggleButton'
@@ -113,8 +113,8 @@ describe('ToggleButton component', () => {
 
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
-      const [checked, setChecked] = React.useState(true)
-      const [random, setRandom] = React.useState(null)
+      const [checked, setChecked] = useState(true)
+      const [random, setRandom] = useState(null)
 
       return (
         <>
@@ -208,9 +208,9 @@ describe('ToggleButton component', () => {
 
     TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      <React.StrictMode>
+      <StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </StrictMode>
     )
   })
 

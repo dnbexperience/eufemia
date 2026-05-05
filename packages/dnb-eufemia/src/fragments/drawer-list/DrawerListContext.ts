@@ -1,9 +1,9 @@
+import { createContext } from 'react'
 /**
  * Web DrawerList Context
  *
  */
 
-import React from 'react'
 import type { DrawerListProviderProps } from './DrawerListProvider'
 import type { ContextProps } from '../../shared/Context'
 import type {
@@ -39,6 +39,6 @@ export type DrawerListContextValue = ContextProps & {
   drawerList?: DrawerListContextState
 }
 
-const DrawerListContext = React.createContext<DrawerListContextValue>({})
+const DrawerListContext = createContext<DrawerListContextValue>({})
 
 export default DrawerListContext

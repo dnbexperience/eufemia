@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
+import type { JSX } from 'react'
 import StringValue from '../String'
 import type { Path, ValueProps } from '../../types'
 import { useValueProps } from '../../hooks'
@@ -25,7 +26,7 @@ function Selection(props: ValueSelectionProps) {
 
       if (!list) {
         list = fieldProp?.children as Array<
-          Omit<React.JSX.Element, 'props'> & { props: Data[number] }
+          Omit<JSX.Element, 'props'> & { props: Data[number] }
         >
       }
 

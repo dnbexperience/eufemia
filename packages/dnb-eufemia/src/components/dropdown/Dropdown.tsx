@@ -3,7 +3,21 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useCallback } from 'react'
+import {
+  createElement,
+  memo,
+  useCallback,
+  useContext,
+  useRef,
+} from 'react'
+import type {
+  ElementType,
+  HTMLProps,
+  KeyboardEvent,
+  ReactNode,
+  Ref,
+  SyntheticEvent,
+} from 'react'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
@@ -56,13 +70,13 @@ export type DropdownData = DrawerListData
 export type DropdownOpenEvent = DrawerListEvent
 
 export type DropdownCloseEvent = Omit<DrawerListEvent, 'ulElement'> & {
-  event?: React.SyntheticEvent
+  event?: SyntheticEvent
 }
-type DropdownTitle = string | React.ReactNode
+type DropdownTitle = string | ReactNode
 type DropdownAlign = 'left' | 'right'
 type DropdownTriggerElement =
-  | ((props: Record<string, unknown>) => React.ReactNode)
-  | React.ReactNode
+  | ((props: Record<string, unknown>) => ReactNode)
+  | ReactNode
 
 export type DropdownProps = {
   /**
@@ -88,7 +102,7 @@ export type DropdownProps = {
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
@@ -100,11 +114,11 @@ export type DropdownProps = {
   /**
    * By providing a React.Ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
    */
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
   /**
    * By providing a React.Ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.useRef(null)`.
    */
-  buttonRef?: React.Ref<HTMLElement>
+  buttonRef?: Ref<HTMLElement>
   /**
    * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.
    */
@@ -147,7 +161,7 @@ export type DropdownAllProps = DropdownProps &
   DrawerListProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     | 'ref'
     | 'size'
     | 'label'
@@ -183,13 +197,13 @@ const dropdownDefaultProps: Partial<DropdownAllProps> = {
   open: false,
 }
 
-const DropdownInstance = React.memo(function DropdownInstance({
+const DropdownInstance = memo(function DropdownInstance({
   externalRef,
   externalButtonRef,
   ...ownProps
 }: DropdownAllProps & {
-  externalRef?: React.Ref<HTMLElement>
-  externalButtonRef?: React.Ref<HTMLElement>
+  externalRef?: Ref<HTMLElement>
+  externalButtonRef?: Ref<HTMLElement>
 }) {
   const context = useContext(DrawerListContext)
 
@@ -297,7 +311,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   ])
 
   const onTriggerKeyDownHandler = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    (e: KeyboardEvent<HTMLButtonElement>) => {
       switch (e.key) {
         case 'Enter':
         case ' ':
@@ -373,7 +387,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     )
   }, [])
 
-  const getTitle = (title: string | React.ReactNode = null) => {
+  const getTitle = (title: string | ReactNode = null) => {
     const { data } = context.drawerList
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
@@ -589,10 +603,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
         <span className="dnb-dropdown__row">
           <span className="dnb-dropdown__shell">
             {CustomTrigger ? (
-              React.createElement(
-                CustomTrigger as React.ElementType,
-                triggerParams
-              )
+              createElement(CustomTrigger as ElementType, triggerParams)
             ) : (
               <Button
                 variant={variant}

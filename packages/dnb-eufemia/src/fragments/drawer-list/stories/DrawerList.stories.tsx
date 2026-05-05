@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -29,8 +29,8 @@ const CustomStyle = styled.div`
 
 const ref = { current: null as HTMLInputElement | null }
 const MagicOpen = (props) => {
-  const [open, setOpen] = React.useState(false)
-  const [selected, setSelected] = React.useState('C')
+  const [open, setOpen] = useState(false)
+  const [selected, setSelected] = useState('C')
 
   const list = [
     { value: 'A' },
@@ -92,7 +92,7 @@ const MagicOpen = (props) => {
 }
 
 const DrawerListWithState = (props) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <>

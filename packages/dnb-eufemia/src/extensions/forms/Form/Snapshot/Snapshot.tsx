@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type { SnapshotContextState } from './SnapshotContext'
 import SnapshotContext from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
@@ -11,7 +12,7 @@ export type SnapshotName = string
 
 export type SnapshotProps = {
   name: SnapshotName
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function SnapshotProvider(props: SnapshotProps) {

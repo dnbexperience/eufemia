@@ -1,4 +1,4 @@
-import React, { act, useContext } from 'react'
+import { act, useContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import At from '../At'
 import Provider from '../../Provider'

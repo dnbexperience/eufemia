@@ -2,7 +2,8 @@
  * Web GlobalStatus Component
  */
 
-import React, { useRef } from 'react'
+import { memo, useRef } from 'react'
+import type { MemoExoticComponent } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import GlobalStatusProvider from './GlobalStatusProvider'
@@ -126,9 +127,9 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
   return null
 }
 
-const MemoizedGlobalStatusController = React.memo(
+const MemoizedGlobalStatusController = memo(
   GlobalStatusController
-) as React.MemoExoticComponent<typeof GlobalStatusController> & {
+) as MemoExoticComponent<typeof GlobalStatusController> & {
   Remove: typeof MemoizedGlobalStatusRemove
   Update: typeof MemoizedGlobalStatusController
 }
@@ -175,7 +176,7 @@ function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
   return null
 }
 
-const MemoizedGlobalStatusRemove = React.memo(GlobalStatusRemove)
+const MemoizedGlobalStatusRemove = memo(GlobalStatusRemove)
 
 MemoizedGlobalStatusController.Remove = MemoizedGlobalStatusRemove
 MemoizedGlobalStatusController.Update = MemoizedGlobalStatusController

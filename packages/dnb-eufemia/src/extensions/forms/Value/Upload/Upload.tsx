@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'

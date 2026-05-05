@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import VippsWalletButton from '@dnb/eufemia/src/extensions/vipps-wallet-button/VippsWalletButton'
 import '@dnb/eufemia/src/extensions/vipps-wallet-button/style/dnb-vipps-wallet-button.scss'

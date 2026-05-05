@@ -1,10 +1,5 @@
-import React, {
-  useMemo,
-  useContext,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
@@ -44,12 +39,12 @@ export type FieldPhoneNumberProps = Omit<
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
   countryCodePlaceholder?: string
-  countryCodeLabel?: React.ReactNode | false
-  numberLabel?: React.ReactNode | false
+  countryCodeLabel?: ReactNode | false
+  numberLabel?: ReactNode | false
   numberMask?: InputMaskedProps['mask']
   pattern?: StringFieldProps['pattern']
   width?: 'large' | 'stretch'
-  inputRef?: React.RefObject<HTMLInputElement>
+  inputRef?: RefObject<HTMLInputElement>
   omitCountryCodeField?: boolean
   onCountryCodeChange?: (value: string | undefined) => void
   onNumberChange?: (value: string | undefined) => void

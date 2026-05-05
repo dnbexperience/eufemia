@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { AllHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
@@ -28,7 +29,7 @@ export type UlProps = {
 }
 
 export type UlAllProps = UlProps &
-  React.AllHTMLAttributes<HTMLUListElement> &
+  AllHTMLAttributes<HTMLUListElement> &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {

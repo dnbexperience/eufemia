@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useRef } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { IconPrimary, Anchor, H1, P } from '../../..'
 
@@ -12,8 +12,8 @@ export default {
 }
 
 export const AnchorSandbox = () => {
-  const ref = React.useRef<HTMLAnchorElement | null>(null)
-  React.useEffect(() => {
+  const ref = useRef<HTMLAnchorElement | null>(null)
+  useEffect(() => {
     console.log('ref', ref.current)
   }, [])
   return (

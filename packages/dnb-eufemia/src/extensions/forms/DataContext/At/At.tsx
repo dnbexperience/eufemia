@@ -1,4 +1,5 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { ReactNode } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
 import type { ContextState } from '../Context'
@@ -9,7 +10,7 @@ export type DataContextAtProps = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */
   path?: string
   iterate?: boolean
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function At(props: DataContextAtProps) {

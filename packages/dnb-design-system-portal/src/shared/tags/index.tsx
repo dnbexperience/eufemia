@@ -2,7 +2,6 @@
  * All inline tags for Markdown
  */
 
-import React from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input, CopyOnClick } from '@dnb/eufemia/src/components'
 import {

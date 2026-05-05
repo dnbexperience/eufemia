@@ -1,4 +1,3 @@
-import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'

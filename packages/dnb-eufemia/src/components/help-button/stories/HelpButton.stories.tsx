@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { HelpButton, Dialog, Drawer, Button, Section, Input } from '../..'

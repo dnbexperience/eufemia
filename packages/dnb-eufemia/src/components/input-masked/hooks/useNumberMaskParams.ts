@@ -4,7 +4,7 @@
  * @returns object of number mask parameter
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import { extendPropsWithContext } from '../../../shared/component-helper'
 import { getCurrencySymbol } from '../../number-format/NumberUtils'
 import InputMaskedContext from '../InputMaskedContext'
@@ -23,7 +23,7 @@ import {
 import { useTranslation } from './useTranslation'
 
 export const useNumberMaskParams = () => {
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
   const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {

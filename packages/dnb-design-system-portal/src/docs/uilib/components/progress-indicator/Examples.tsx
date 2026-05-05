@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
@@ -87,7 +87,7 @@ export const ProgressIndicatorCircularRandomExample = () => (
   <ComponentBox>
     {() => {
       const ChangeValue = () => {
-        const [value, setValue] = React.useState(50)
+        const [value, setValue] = useState(50)
         return (
           <Flex.Horizontal align="center">
             <ProgressIndicator
@@ -120,10 +120,8 @@ export const ProgressIndicatorCircularRandomTransitionExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [progress, setProgressIndicator] = React.useState(
-          random(1, 100)
-        )
-        React.useEffect(() => {
+        const [progress, setProgressIndicator] = useState(random(1, 100))
+        useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
             1e3
@@ -149,8 +147,8 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [show, setShow] = React.useState(true)
-        React.useEffect(() => {
+        const [show, setShow] = useState(true)
+        useEffect(() => {
           const timer = setInterval(
             () => setShow(!show),
             random(2400, 4200)
@@ -239,7 +237,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
   <ComponentBox>
     {() => {
       const ChangeValue = () => {
-        const [value, setValue] = React.useState(50)
+        const [value, setValue] = useState(50)
         return (
           <Flex.Horizontal align="center">
             <ProgressIndicator
@@ -270,10 +268,8 @@ export const ProgressIndicatorLinearRandomTransitionExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [progress, setProgressIndicator] = React.useState(
-          random(1, 100)
-        )
-        React.useEffect(() => {
+        const [progress, setProgressIndicator] = useState(random(1, 100))
+        useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
             1e3
@@ -293,8 +289,8 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [show, setShow] = React.useState(true)
-        React.useEffect(() => {
+        const [show, setShow] = useState(true)
+        useEffect(() => {
           const timer = setInterval(
             () => setShow(!show),
             random(2400, 4200)
@@ -367,9 +363,9 @@ export const ProgressIndicatorCountdownExample = () => (
     {() => {
       const ChangeValue = () => {
         const max = 60
-        const [current, setCurrent] = React.useState(10)
+        const [current, setCurrent] = useState(10)
 
-        React.useEffect(() => {
+        useEffect(() => {
           const timer = setInterval(() => {
             setCurrent(current === 0 ? max - 1 : current - 1)
           }, 1000)

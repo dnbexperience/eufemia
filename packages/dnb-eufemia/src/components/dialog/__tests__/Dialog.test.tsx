@@ -1,4 +1,5 @@
-import React from 'react'
+import { useState } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
@@ -96,7 +97,7 @@ describe('Dialog', () => {
         {
           (({ close }) => (
             <Button id="close-me" text="close" onClick={close} />
-          )) as (props: ModalContentProps) => React.ReactNode
+          )) as (props: ModalContentProps) => ReactNode
         }
       </Dialog>
     )
@@ -108,10 +109,10 @@ describe('Dialog', () => {
   })
 
   it('will accept custom refs', () => {
-    const contentRef: React.RefObject<HTMLElement | null> = {
+    const contentRef: RefObject<HTMLElement | null> = {
       current: null,
     }
-    const scrollRef: React.RefObject<HTMLElement | null> = {
+    const scrollRef: RefObject<HTMLElement | null> = {
       current: null,
     }
 
@@ -539,7 +540,7 @@ describe('Dialog', () => {
         {
           (({ close }) => (
             <Button id="close-button" text="close" onClick={close} />
-          )) as (props: ModalContentProps) => React.ReactNode
+          )) as (props: ModalContentProps) => ReactNode
         }
       </Dialog>
     )
@@ -592,7 +593,7 @@ describe('Dialog', () => {
 
   it('sets focus inside modal when opened after form submission, not on submit button', async () => {
     const TestComponent = () => {
-      const [isOpen, setIsOpen] = React.useState(false)
+      const [isOpen, setIsOpen] = useState(false)
 
       return (
         <Form.Handler

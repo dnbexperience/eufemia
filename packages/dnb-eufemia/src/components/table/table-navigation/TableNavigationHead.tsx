@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import type { SyntheticEvent, TableHTMLAttributes } from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -12,20 +13,20 @@ import {
 import type { TableTrProps } from '../TableTr'
 
 export type TableNavigationHeadProps = TableTrProps &
-  React.TableHTMLAttributes<HTMLTableRowElement>
+  TableHTMLAttributes<HTMLTableRowElement>
 
 export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const { children, onClick, ...props } = allProps
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
 
   const content = Array.isArray(children) ? [...children] : [children]
 
   const hasOnClick = typeof onClick === 'function'
 
-  const tableContextAllProps = React.useContext(TableContext)?.allProps
+  const tableContextAllProps = useContext(TableContext)?.allProps
 
   const onClickHandler = useCallback(
-    (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
+    (event: SyntheticEvent, allowInteractiveElement?: boolean) => {
       onClickTr(event, allowInteractiveElement, onClick)
     },
     [onClick]

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Count, count, useCount } from '../Count'

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { TagProps } from '../Tag'
 import Tag from '../Tag'
@@ -552,7 +552,7 @@ describe('Tag', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Tag.Group label="tags">

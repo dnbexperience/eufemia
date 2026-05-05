@@ -4,7 +4,7 @@
  */
 
 import styled from '@emotion/styled'
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   formatCurrency,
@@ -85,7 +85,7 @@ export const SliderExampleHorizontalSync = () => (
   <ComponentBox scope={{ formatCurrency }}>
     {() => {
       const Component = () => {
-        const [value, setValue] = React.useState(70)
+        const [value, setValue] = useState(70)
         return (
           <>
             <Slider

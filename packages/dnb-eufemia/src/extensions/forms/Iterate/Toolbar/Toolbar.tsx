@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { Children, useContext, useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Hr } from '../../../../elements'
 import { Flex, FormStatus, Space } from '../../../../components'
@@ -16,7 +17,7 @@ export type ToolbarParams = {
   value: unknown
 }
 export type IterateToolbarProps = Omit<SpaceAllProps, 'children'> & {
-  children?: React.ReactNode | ((params: ToolbarParams) => React.ReactNode)
+  children?: ReactNode | ((params: ToolbarParams) => ReactNode)
 }
 
 export default function Toolbar({
@@ -46,7 +47,7 @@ export default function Toolbar({
     children = children?.({ index, items, value })
   }
 
-  if (React.Children.count(children) === 0) {
+  if (Children.count(children) === 0) {
     return null
   }
 

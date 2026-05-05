@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Anchor, Blockquote, Code } from '@dnb/eufemia/src'
 

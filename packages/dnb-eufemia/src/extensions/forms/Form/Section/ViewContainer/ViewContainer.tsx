@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { isValidElement, useContext, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
@@ -12,7 +13,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type FormSectionViewContainerProps = {
-  title?: React.ReactNode
+  title?: ReactNode
   onEdit?: () => void
 }
 
@@ -28,7 +29,7 @@ function ViewContainer(props: FormSectionViewContainerAllProps) {
 
   const childArray = Array.isArray(children) ? children : [children]
   const hasToolbar = childArray.some(
-    (child) => React.isValidElement(child) && child.type === Toolbar
+    (child) => isValidElement(child) && child.type === Toolbar
   )
 
   const showDefaultToolbar = !disableEditing && !hasToolbar

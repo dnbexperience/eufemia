@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode, RefObject } from 'react'
 import ModalContent from './ModalContent'
 import type { ModalContentProps } from './types'
 import PortalRoot from '../PortalRoot'
@@ -20,12 +20,10 @@ export type ModalRootProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?:
-    | React.ReactNode
-    | ((props: ModalContentProps) => React.ReactNode)
+  children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /** For internal use only */
-  modalContentCloseRef?: React.RefObject<any>
+  modalContentCloseRef?: RefObject<any>
 } & ModalContentProps
 
 export default function ModalRoot({

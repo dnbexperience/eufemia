@@ -1,4 +1,3 @@
-import React from 'react'
 import Lead from '../Lead'
 import { render } from '@testing-library/react'
 

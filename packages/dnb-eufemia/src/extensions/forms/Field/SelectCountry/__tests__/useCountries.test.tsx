@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useCountries from '../useCountries'
 import listOfCountries from '../../../constants/countries'

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
@@ -15,8 +15,8 @@ export type FormMainHeadingProps = ComponentProps & {
   level?: HeadingLevel
   /** Configuration for an inline help button shown next to the heading. */
   help?: HelpProps
-  children?: React.ReactNode
-} & Omit<React.HTMLProps<HTMLElement>, 'size'>
+  children?: ReactNode
+} & Omit<HTMLProps<HTMLElement>, 'size'>
 
 function MainHeading({ level, ...props }: FormMainHeadingProps) {
   const { help, className, children, ...rest } = props

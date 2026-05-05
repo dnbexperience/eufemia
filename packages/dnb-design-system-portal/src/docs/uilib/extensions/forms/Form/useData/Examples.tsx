@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback, useEffect } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex } from '@dnb/eufemia/src'
 import {
@@ -39,7 +39,7 @@ export function Update() {
         const Component = () => {
           const { data, update } = Form.useData('update-id', existingData)
 
-          const increment = React.useCallback(() => {
+          const increment = useCallback(() => {
             update('/count', (count) => {
               return count + 1
             })
@@ -76,7 +76,7 @@ export function WithoutFormHandler() {
             existingData
           )
 
-          const increment = React.useCallback(() => {
+          const increment = useCallback(() => {
             update('/count', (count) => {
               return count + 1
             })
@@ -190,7 +190,7 @@ export const VisibleData = () => {
           const { data, reduceToVisibleFields } = Form.useData()
 
           // Use useEffect to ensure we get the latest data
-          React.useEffect(() => {
+          useEffect(() => {
             console.log(
               'Result of reduceToVisibleFields:\n',
               reduceToVisibleFields(data, {

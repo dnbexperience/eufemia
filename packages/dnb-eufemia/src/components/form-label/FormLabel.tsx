@@ -4,7 +4,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useCallback, useEffect, useRef } from 'react'
+import {
+  createElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react'
+import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
@@ -28,14 +35,14 @@ import type {
 export type FormLabelProps = {
   forId?: string
   element?: DynamicElement<HTMLLabelElement>
-  text?: React.ReactNode
+  text?: ReactNode
   size?: 'basis' | 'medium' | 'large'
   id?: string
   skeleton?: boolean
-  label?: React.ReactNode
+  label?: ReactNode
   vertical?: boolean
   srOnly?: boolean
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
 
   /** Is not a part of HTMLLabelElement and not documented as of now */
   disabled?: boolean
@@ -47,11 +54,11 @@ export type FormLabelProps = {
 }
 
 export type FormLabelAllProps = FormLabelProps &
-  React.HTMLAttributes<HTMLLabelElement> &
+  HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
 function FormLabel(localProps: FormLabelAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
@@ -66,7 +73,7 @@ function FormLabel(localProps: FormLabelAllProps) {
   const nestedNode =
     nestedContent?.['type'] === FormLabel ? nestedContent?.['type'] : null
   const nestedElement = nestedNode
-    ? () => React.createElement(nestedNode, nestedContent['props'])
+    ? () => createElement(nestedNode, nestedContent['props'])
     : null
 
   const {
@@ -122,8 +129,7 @@ function FormLabel(localProps: FormLabelAllProps) {
       if (typeof refProp === 'function') {
         refProp(node)
       } else if (refProp) {
-        ;(refProp as React.RefObject<HTMLLabelElement | null>).current =
-          node
+        ;(refProp as RefObject<HTMLLabelElement | null>).current = node
       }
     },
     [refProp]

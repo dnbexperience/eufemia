@@ -2,13 +2,32 @@
  * Web Input Component
  */
 
-import React, {
+import {
+  isValidElement,
+  memo,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  useMemo,
+} from 'react'
+import type {
+  ChangeEvent,
+  ChangeEventHandler,
+  ComponentProps,
+  ComponentType,
+  FocusEvent,
+  FocusEventHandler,
+  HTMLProps,
+  JSX,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEvent,
+  ReactNode,
+  Ref,
+  RefObject,
+  SyntheticEvent,
 } from 'react'
 import clsx from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -53,7 +72,7 @@ import type { SpacingProps } from '../../shared/types'
 
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number
 export type InputValue = string | number
-export type InputSuffix = React.ReactNode
+export type InputSuffix = ReactNode
 export type InputAlign = 'left' | 'center' | 'right'
 export type InputInputAttributes = string | Record<string, unknown>
 export type InputElementRenderProps = {
@@ -64,45 +83,41 @@ export type InputElementRenderProps = {
   disabled: boolean
   name: string
   value: string | number | null
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  onKeyDown: React.KeyboardEventHandler<HTMLInputElement>
-  onFocus: React.FocusEventHandler<HTMLInputElement>
-  onBlur: React.FocusEventHandler<HTMLInputElement>
+  onChange: ChangeEventHandler<HTMLInputElement>
+  onKeyDown: KeyboardEventHandler<HTMLInputElement>
+  onFocus: FocusEventHandler<HTMLInputElement>
+  onBlur: FocusEventHandler<HTMLInputElement>
   [key: string]: unknown
 }
 export type InputElement =
-  | React.ComponentType
-  | React.ReactNode
+  | ComponentType
+  | ReactNode
   | ((
       params: InputElementRenderProps,
-      ref: React.RefObject<HTMLInputElement | null>
-    ) => React.ReactNode)
-export type InputSubmitElement = React.ComponentType | React.ReactNode
-export type InputSubmitButtonIcon = string | React.ReactNode
-export type InputChildren = React.ReactNode
+      ref: RefObject<HTMLInputElement | null>
+    ) => ReactNode)
+export type InputSubmitElement = ComponentType | ReactNode
+export type InputSubmitButtonIcon = string | ReactNode
+export type InputChildren = ReactNode
 
-export type InputEvent<E = React.SyntheticEvent> = {
+export type InputEvent<E = SyntheticEvent> = {
   value: string
   event: E
 }
 
 export type InputChangeEvent = InputEvent<
-  React.ChangeEvent<HTMLInputElement> | React.MouseEvent
+  ChangeEvent<HTMLInputElement> | MouseEvent
 >
-export type InputFocusEvent = InputEvent<
-  React.FocusEvent<HTMLInputElement>
->
-export type InputKeyDownEvent = InputEvent<
-  React.KeyboardEvent<HTMLInputElement>
->
+export type InputFocusEvent = InputEvent<FocusEvent<HTMLInputElement>>
+export type InputKeyDownEvent = InputEvent<KeyboardEvent<HTMLInputElement>>
 export type InputClearEvent = {
   value: string
   previousValue: string | number | null
-  event: React.MouseEvent
+  event: MouseEvent
 }
 
 export type InputProps = Omit<
-  React.HTMLProps<HTMLInputElement>,
+  HTMLProps<HTMLInputElement>,
   | 'ref'
   | 'children'
   | 'onChange'
@@ -132,7 +147,7 @@ export type InputProps = Omit<
     /**
      * Prepends the Form Label component. If no ID is provided, a random ID is created.
      */
-    label?: React.ReactNode
+    label?: ReactNode
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
@@ -157,7 +172,7 @@ export type InputProps = Omit<
     /**
      * The placeholder which shows up once the input value is empty.
      */
-    placeholder?: React.ReactNode
+    placeholder?: ReactNode
     /**
      * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
      */
@@ -219,12 +234,12 @@ export type InputProps = Omit<
     /**
      * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
      */
-    ref?: React.Ref<HTMLInputElement>
+    ref?: Ref<HTMLInputElement>
     readOnly?: boolean
     /**
      * By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
      */
-    innerElement?: React.ReactNode
+    innerElement?: ReactNode
     /**
      * Accepts a React element which will show up like the "submit button" would do on `type="search"`.
      */
@@ -238,13 +253,13 @@ export type InputProps = Omit<
     onSubmit?: (event: InputEvent) => void
     onFocus?: (event: InputFocusEvent) => void
     onBlur?: (event: InputFocusEvent) => void
-    onSubmitFocus?: (event: InputEvent<React.FocusEvent>) => void
-    onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
+    onSubmitFocus?: (event: InputEvent<FocusEvent>) => void
+    onSubmitBlur?: (event: InputEvent<FocusEvent>) => void
     onClear?: (event: InputClearEvent) => void
   }
 
 export type InputSubmitButtonProps = Omit<
-  React.HTMLProps<HTMLButtonElement>,
+  HTMLProps<HTMLButtonElement>,
   'ref' | 'size' | 'onSubmit'
 > &
   FormStatusBaseProps & {
@@ -273,8 +288,8 @@ export type InputSubmitButtonProps = Omit<
      */
     iconSize?: IconSize
     onSubmit?: (event: InputEvent) => void
-    onSubmitFocus?: (event: InputEvent<React.FocusEvent>) => void
-    onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
+    onSubmitFocus?: (event: InputEvent<FocusEvent>) => void
+    onSubmitBlur?: (event: InputEvent<FocusEvent>) => void
   }
 
 export const inputDefaultProps: Partial<InputProps> = {
@@ -396,7 +411,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   })
 
   const onFocusHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
+    (event: FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       setInputState('focus')
 
@@ -421,7 +436,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 
   const onBlurHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
+    (event: FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       const result = dispatchCustomElementEvent(props, 'onBlur', {
         value: eventValue,
@@ -441,7 +456,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 
   const onChangeHandler = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       const result = dispatchCustomElementEvent(props, 'onChange', {
         value: eventValue,
@@ -462,7 +477,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       const eventValue = (event.target as HTMLInputElement).value
       dispatchCustomElementEvent(props, 'onKeyDown', {
         value: eventValue,
@@ -480,7 +495,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 
   const clearValueHandler = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       const previousValue = value
       const clearedValue = ''
       setValue(clearedValue)
@@ -672,8 +687,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     InputElement = (
       InputElement as (
         params: InputElementRenderProps,
-        ref: React.RefObject<HTMLInputElement | null>
-      ) => React.ReactNode
+        ref: RefObject<HTMLInputElement | null>
+      ) => ReactNode
     )({ ...inputParams, value }, inputRef)
   } else if (!InputElement && _inputElement) {
     InputElement = _inputElement
@@ -711,7 +726,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
         <span className="dnb-input__row">
           <span {...shellParams}>
-            {(InputElement as React.ReactNode) || (
+            {(InputElement as ReactNode) || (
               <input ref={combinedRef} {...inputParams} />
             )}
 
@@ -833,8 +848,8 @@ function InputSubmitButton({
 }: InputSubmitButtonProps & {
   value?: string
   attributes?: Record<string, unknown>
-  tooltip?: React.ReactNode
-  ref?: React.Ref<HTMLElement>
+  tooltip?: ReactNode
+  ref?: Ref<HTMLElement>
 }) {
   const context = useContext(Context)
   const buttonRef = useRef<HTMLElement | null>(null)
@@ -848,7 +863,7 @@ function InputSubmitButton({
   }
 
   const onSubmitFocusHandler = useCallback(
-    (event: React.FocusEvent) => {
+    (event: FocusEvent) => {
       const submitValue = props.value
       setFocusState('focus')
       dispatchCustomElementEvent(props, 'onSubmitFocus', {
@@ -861,7 +876,7 @@ function InputSubmitButton({
   )
 
   const onSubmitBlurHandler = useCallback(
-    (event: React.FocusEvent) => {
+    (event: FocusEvent) => {
       const submitValue = props.value
       setFocusState('dirty')
       dispatchCustomElementEvent(props, 'onSubmitBlur', {
@@ -874,7 +889,7 @@ function InputSubmitButton({
   )
 
   const onSubmitHandler = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       const submitValue = props.value
       dispatchCustomElementEvent(props, 'onSubmit', {
         value: submitValue,
@@ -950,10 +965,10 @@ function InputSubmitButton({
 
 export { InputSubmitButton as SubmitButton }
 
-type InputIconProps = React.ComponentProps<typeof IconPrimary>
+type InputIconProps = ComponentProps<typeof IconPrimary>
 
 // We memoize by type, in case we send in a ProgressIndicator (Autocomplete)
-const InputIcon = React.memo(
+const InputIcon = memo(
   (props: InputIconProps) => <IconPrimary {...props} />,
   ({ icon: prev }: InputIconProps, { icon: next }: InputIconProps) => {
     // Memoize string icons when they are the same
@@ -963,7 +978,7 @@ const InputIcon = React.memo(
 
     // Check if it's a ProgressIndicator (React element)
     const isProgressIndicator = (icon: unknown) => {
-      if (!React.isValidElement(icon)) {
+      if (!isValidElement(icon)) {
         return false // stop here
       }
 
@@ -983,12 +998,12 @@ const InputIcon = React.memo(
 )
 InputIcon.displayName = 'InputIcon'
 
-type InputComponentType = ((props: InputProps) => React.JSX.Element) & {
+type InputComponentType = ((props: InputProps) => JSX.Element) & {
   getValue: typeof getValue
   hasValue: typeof hasValue
 } & ComponentMarkers
 
-const MemoizedInputComponent = React.memo(InputComponent)
+const MemoizedInputComponent = memo(InputComponent)
 
 const Input: InputComponentType = Object.assign(
   function Input(props: InputProps) {

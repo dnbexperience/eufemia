@@ -1,9 +1,9 @@
+import { useContext } from 'react'
 /**
  * Web HelpButton Component
  *
  */
 
-import React from 'react'
 import clsx from 'clsx'
 import {
   convertJsxToString,
@@ -20,7 +20,7 @@ const defaultProps: Partial<ButtonProps> = {
 }
 
 export default function HelpButtonInstance(localProps: ButtonProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(

@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { Form, Field } from '../../..'

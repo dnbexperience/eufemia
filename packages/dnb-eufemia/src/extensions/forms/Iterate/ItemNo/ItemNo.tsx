@@ -1,4 +1,5 @@
-import React, { isValidElement, useMemo } from 'react'
+import { Fragment, createElement, isValidElement, useMemo } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import { useItem } from '../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -14,10 +15,7 @@ function ItemNo({ children }) {
   return <>{processedChildren}</>
 }
 
-export function replaceItemNo(
-  node: React.ReactNode,
-  index: number
-): React.ReactNode {
+export function replaceItemNo(node: ReactNode, index: number): ReactNode {
   if (node == null || node === false) {
     return node
   }
@@ -29,22 +27,18 @@ export function replaceItemNo(
 
   if (Array.isArray(node)) {
     return node.map((n, i) => (
-      <React.Fragment key={i}>{replaceItemNo(n, index)}</React.Fragment>
+      <Fragment key={i}>{replaceItemNo(n, index)}</Fragment>
     ))
   }
 
-  if (isValidElement<{ children?: React.ReactNode }>(node)) {
+  if (isValidElement<{ children?: ReactNode }>(node)) {
     // Recursively process children while preserving element and props
     const { children: childProps, ...rest } = node.props || {}
     const nextChildren = replaceItemNo(childProps, index)
     // Only clone if children changed (optional optimization)
     return nextChildren === childProps
       ? node
-      : React.createElement(
-          node.type as React.ComponentType<any>,
-          rest,
-          nextChildren
-        )
+      : createElement(node.type as ComponentType<any>, rest, nextChildren)
   }
 
   // Fallback: try to convert to string if possible

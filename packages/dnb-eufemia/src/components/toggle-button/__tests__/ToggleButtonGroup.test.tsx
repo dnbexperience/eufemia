@@ -4,7 +4,7 @@
  */
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
-import React from 'react'
+import { useState } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -307,7 +307,7 @@ describe('ToggleButton group component', () => {
 
   it('can be changed from props', () => {
     const GroupOf = () => {
-      const [values, setValues] = React.useState(['second'])
+      const [values, setValues] = useState(['second'])
 
       const selectAll = () => setValues(['first', 'second'])
       const deselectAll = () => setValues([])

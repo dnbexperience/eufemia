@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer, useRef } from 'react'
+import { useCallback, useContext, useReducer, useRef } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
 import type { CardProps } from '../../../../components/card/Card'

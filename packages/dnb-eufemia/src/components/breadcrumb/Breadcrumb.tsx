@@ -1,9 +1,18 @@
-import React, {
+import {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useReducer,
   useRef,
+} from 'react'
+import type {
+  HTMLAttributes,
+  HTMLProps,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  Ref,
 } from 'react'
 import clsx from 'clsx'
 
@@ -62,8 +71,8 @@ export type BreadcrumbProps = {
    * Default: `null`
    */
   children?:
-    | React.ReactElement<BreadcrumbItemProps>
-    | Array<React.ReactElement<BreadcrumbItemProps>>
+    | ReactElement<BreadcrumbItemProps>
+    | Array<ReactElement<BreadcrumbItemProps>>
 
   /**
    * The variant of the component.
@@ -75,7 +84,7 @@ export type BreadcrumbProps = {
    * Handle the click event on 'single'/'collapse'
    * Default: `null`
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLButtonElement>
 
   /**
    * For variant 'single', use href (or onClick) to set href when clicking "Back"
@@ -87,25 +96,25 @@ export type BreadcrumbProps = {
    * Every <nav> on a page needs an unique aria-label text
    * Default: `Page hierarchy`
    */
-  navText?: React.ReactNode
+  navText?: ReactNode
 
   /**
    * Add custom 'Back' text for variant 'single'
    * Default: `'Back' or defined by Context translation`
    */
-  goBackText?: React.ReactNode
+  goBackText?: ReactNode
 
   /**
    * Add custom 'Home' text
    * Default: `'Home' or defined by Context translation`
    */
-  homeText?: React.ReactNode
+  homeText?: ReactNode
 
   /**
    * Add custom 'Back to...' text, for variant collapse
    * Default 'Back to...' or defined by Context translation
    */
-  backToText?: React.ReactNode
+  backToText?: ReactNode
 
   /**
    * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
@@ -145,12 +154,12 @@ export type BreadcrumbProps = {
    * Send along a custom React Ref.
    * Default: `null`
    */
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
 }
 
 export type BreadcrumbAllProps = BreadcrumbProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, keyof BreadcrumbProps>
+  Omit<HTMLProps<HTMLElement>, keyof BreadcrumbProps>
 
 const defaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
@@ -166,7 +175,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
 
 const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -265,7 +274,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   })
 
   return (
-    <nav {...(navProps as React.HTMLAttributes<HTMLElement>)}>
+    <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
       <Section
         className="dnb-breadcrumb__bar"
         backgroundColor={backgroundColor || 'transparent'}

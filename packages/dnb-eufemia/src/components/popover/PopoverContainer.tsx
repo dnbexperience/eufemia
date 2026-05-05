@@ -2,7 +2,14 @@
  * Web Popover Component
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
+} from 'react'
 import clsx from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import type {
@@ -20,7 +27,7 @@ type PopoverContainerProps = {
   baseClassNames?: string[]
   active?: boolean
   showDelay?: number
-  attributes?: React.HTMLAttributes<HTMLElement>
+  attributes?: HTMLAttributes<HTMLElement>
   arrowPosition?: PopoverArrow
   placement?: PopoverPlacement
   alignOnTarget?: PopoverAlign
@@ -30,8 +37,8 @@ type PopoverContainerProps = {
   fixedPosition?: boolean
   noAnimation?: boolean
   skipPortal?: boolean
-  contentRef?: React.RefObject<HTMLSpanElement>
-  children?: React.ReactNode
+  contentRef?: RefObject<HTMLSpanElement>
+  children?: ReactNode
   targetElement?: PopoverResolvedTargetElement
   triggerOffset?: number
   keepInDOM?: boolean
@@ -75,10 +82,8 @@ function PopoverContainer(props: PopoverContainerProps) {
     targetRefreshKey,
   } = props
 
-  const [style, setStyle] = useState<React.CSSProperties | null>(null)
-  const [arrowStyle, setArrowStyle] = useState<React.CSSProperties | null>(
-    null
-  )
+  const [style, setStyle] = useState<CSSProperties | null>(null)
+  const [arrowStyle, setArrowStyle] = useState<CSSProperties | null>(null)
   const [resolvedPlacement, setResolvedPlacement] =
     useState<PopoverPlacement>(placement)
   const [wasActive, setWasActive] = useState(active)
@@ -397,8 +402,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       : scrollX + horizontalRect.left
     const left = skipPortal ? widthBased : widthBased - offsetLeft.current
 
-    const computedStyle: React.CSSProperties = {}
-    const arrowStyle: React.CSSProperties = { top: null, left: null }
+    const computedStyle: CSSProperties = {}
+    const arrowStyle: CSSProperties = { top: null, left: null }
     const viewportMargin = 16
     const shouldReuseResolved =
       autoAlignMode === 'initial' && autoAlignInitialUsedRef.current
@@ -804,7 +809,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     resolvedPlacement,
   ])
 
-  const handlePropagation = useCallback((event: React.SyntheticEvent) => {
+  const handlePropagation = useCallback((event: SyntheticEvent) => {
     event.stopPropagation()
   }, [])
 
@@ -817,7 +822,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     Boolean(style) &&
     typeof style.left !== 'undefined' &&
     typeof style.top !== 'undefined'
-  const containerStyle: React.CSSProperties =
+  const containerStyle: CSSProperties =
     !hasPlacement &&
     (active || isActive) &&
     typeof mergedStyle.visibility === 'undefined'

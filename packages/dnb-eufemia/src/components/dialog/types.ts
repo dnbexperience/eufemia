@@ -7,13 +7,13 @@ import type {
   ModalContentMinWidth,
   ModalContentMaxWidth,
 } from '../modal/types'
-import type React from 'react'
+import type { ReactNode } from 'react'
 
 export type DialogProps = ModalAllProps & {
   /**
    * The dialog title. Displays on the very top of the content.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 }
 
 export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
@@ -45,19 +45,17 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: React.ReactNode
+  navContent?: ReactNode
 
   /**
    * The content which will appear in the header of the dialog.
    */
-  headerContent?: React.ReactNode
+  headerContent?: ReactNode
 
   /**
    * The content which will appear when triggering the dialog.
    */
-  modalContent?:
-    | React.ReactNode
-    | ((props: DialogContentProps) => React.ReactNode)
+  modalContent?: ReactNode | ((props: DialogContentProps) => ReactNode)
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
@@ -97,7 +95,7 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   /**
    * A description will be positioned below the title, but before the content.
    */
-  description?: React.ReactNode
+  description?: ReactNode
 
   /**
    * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.
@@ -107,7 +105,5 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   /**
    * The content of the modal.
    */
-  children?:
-    | React.ReactNode
-    | ((props: DialogContentProps) => React.ReactNode)
+  children?: ReactNode | ((props: DialogContentProps) => ReactNode)
 }

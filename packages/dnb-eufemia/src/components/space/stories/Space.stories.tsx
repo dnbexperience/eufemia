@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/react'
@@ -554,12 +555,12 @@ const Label = styled.label`
 `
 
 const MagicBox = ({ label, ...rest }: { label?: string } = {}) => {
-  const ref = React.useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
 
-  const [spaceInRem, setLabel] = React.useState(label)
-  const [title, setTitle] = React.useState(null)
+  const [spaceInRem, setLabel] = useState(label)
+  const [title, setTitle] = useState(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!label) {
       const spaceInPixels = window
         .getComputedStyle(ref.current.parentElement)
@@ -584,13 +585,13 @@ const VisualSpace = ({
   label,
   children,
   ...rest
-}: { label?: string; children?: React.ReactNode } = {}) => {
-  const ref = React.useRef<HTMLDivElement>(null)
+}: { label?: string; children?: ReactNode } = {}) => {
+  const ref = useRef<HTMLDivElement>(null)
 
-  const [spaceInRem, setLabel] = React.useState(label)
-  const [title, setTitle] = React.useState(null)
+  const [spaceInRem, setLabel] = useState(label)
+  const [title, setTitle] = useState(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!label) {
       const spaceInPixels = window
         .getComputedStyle(ref.current.children[0])

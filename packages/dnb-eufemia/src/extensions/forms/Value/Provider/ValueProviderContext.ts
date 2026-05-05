@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { ValueProps } from '../../types'
 
 export type ValueProviderContextProps = {
@@ -8,9 +8,8 @@ export type ValueProviderContextProps = {
 }
 
 const extend: ValueProviderContextProps['extend'] = (props) => props
-const ValueProviderContext =
-  React.createContext<ValueProviderContextProps>({
-    extend,
-  })
+const ValueProviderContext = createContext<ValueProviderContextProps>({
+  extend,
+})
 
 export default ValueProviderContext

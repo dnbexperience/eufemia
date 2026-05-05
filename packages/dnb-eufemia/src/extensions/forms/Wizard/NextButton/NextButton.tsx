@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { JSX } from 'react'
 import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { ButtonProps } from '../../../../components/button/Button'
@@ -25,7 +26,7 @@ function NextButton(props: WizardNextButtonProps) {
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
-    return null as React.JSX.Element
+    return null as JSX.Element
   }
 
   return (

@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
+import type { HTMLProps, RefObject, SyntheticEvent } from 'react'
 import clsx from 'clsx'
 import DataContext from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
@@ -8,11 +9,11 @@ import { FormStatus } from '../../../../components'
 import { combineLabelledBy } from '../../../../shared/component-helper'
 
 export type FormElementProps = Omit<
-  React.HTMLProps<HTMLFormElement>,
+  HTMLProps<HTMLFormElement>,
   'ref' | 'autoComplete'
 > &
   SpacingProps & {
-    ref?: React.RefObject<HTMLFormElement>
+    ref?: RefObject<HTMLFormElement>
     /**
      * Set to `false` to allow the browser's native form submission.
      */
@@ -51,11 +52,11 @@ function FormElementInstance(props: FormElementProps) {
     dataContext.hasElementRef = hasElementRef
   }
   const mutableHasElementRef =
-    dataContext.hasElementRef as React.RefObject<boolean>
+    dataContext.hasElementRef as RefObject<boolean>
   mutableHasElementRef.current = true
 
   const onSubmitHandler = useCallback(
-    (event: React.SyntheticEvent<HTMLElement>) => {
+    (event: SyntheticEvent<HTMLElement>) => {
       if (preventDefaultOnSubmit) {
         event?.preventDefault()
       }
@@ -77,7 +78,7 @@ function FormElementInstance(props: FormElementProps) {
       }
 
       if (typeof onSubmit === 'function') {
-        ;(onSubmit as (event: React.SyntheticEvent) => void)(event)
+        ;(onSubmit as (event: SyntheticEvent) => void)(event)
       }
     },
     [dataContext, onSubmit, preventDefaultOnSubmit]

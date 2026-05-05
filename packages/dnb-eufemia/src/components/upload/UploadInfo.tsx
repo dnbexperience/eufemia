@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { defaultProps, UploadContext } from './UploadContext'
 import Lead from '../../elements/Lead'
 import P from '../../elements/P'
@@ -18,7 +18,7 @@ const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {
-  const context = React.useContext(UploadContext)
+  const context = useContext(UploadContext)
 
   const {
     title,
@@ -106,7 +106,7 @@ const UploadInfo = () => {
 }
 
 function UploadInfoAcceptedFileTypesTable() {
-  const context = React.useContext(UploadContext)
+  const context = useContext(UploadContext)
 
   const {
     acceptedFileTypes,

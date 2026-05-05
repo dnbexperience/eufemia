@@ -3,7 +3,8 @@
  *
  */
 
-import React, { act } from 'react'
+import { act, useEffect, useState } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
@@ -260,7 +261,7 @@ describe('Accordion group component', () => {
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
-    const collapseAll: React.RefObject<(() => void) | null> = {
+    const collapseAll: RefObject<(() => void) | null> = {
       current: null,
     }
 
@@ -313,15 +314,15 @@ describe('Accordion group component', () => {
 
 describe('Accordion container component', () => {
   const DidRender = ({ id }: { id: string }) => {
-    const [mounted, setMounted] = React.useState(false)
-    React.useEffect(() => {
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
       setMounted(true)
     }, [])
     return <div id={id}>{String(mounted)}</div>
   }
 
   const Increment = () => {
-    const [count, setCount] = React.useState(1)
+    const [count, setCount] = useState(1)
     return (
       <button id="increment" onClick={() => setCount((s) => s + 1)}>
         {count}
@@ -424,7 +425,7 @@ describe('Accordion container component', () => {
   })
 
   it('will set minHeight', async () => {
-    const contentRef: React.RefObject<HTMLElement | null> = {
+    const contentRef: RefObject<HTMLElement | null> = {
       current: null,
     }
 

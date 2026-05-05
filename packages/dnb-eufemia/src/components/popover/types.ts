@@ -1,4 +1,12 @@
-import type React from 'react'
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  HTMLProps,
+  ReactNode,
+  Ref,
+  RefCallback,
+  RefObject,
+} from 'react'
 import type { ButtonProps } from '../button/Button'
 
 export type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left'
@@ -15,8 +23,8 @@ export type PopoverTargetElementObject = {
 }
 
 export type PopoverTargetElement =
-  | React.ReactNode
-  | React.RefObject<unknown>
+  | ReactNode
+  | RefObject<unknown>
   | HTMLElement
   | PopoverTargetElementObject
 
@@ -25,14 +33,13 @@ export type PopoverResolvedTargetElement =
   | null
   | PopoverTargetElementObject
 
-export type PopoverTriggerRenderProps =
-  React.HTMLAttributes<HTMLElement> & {
-    ref: React.RefCallback<HTMLElement>
-    active: boolean
-    open: () => void
-    close: () => void
-    toggle: (next?: boolean) => void
-  }
+export type PopoverTriggerRenderProps = HTMLAttributes<HTMLElement> & {
+  ref: RefCallback<HTMLElement>
+  active: boolean
+  open: () => void
+  close: () => void
+  toggle: (next?: boolean) => void
+}
 
 export type PopoverContentRenderProps = {
   active: boolean
@@ -42,19 +49,16 @@ export type PopoverContentRenderProps = {
   id: string
 }
 
-export type PopoverRenderable<T> =
-  | React.ReactNode
-  | ((context: T) => React.ReactNode)
+export type PopoverRenderable<T> = ReactNode | ((context: T) => ReactNode)
 
 type PopoverOverlayProps = Omit<
   PopoverAllProps,
   'children' | 'content' | 'title'
 >
 
-export type PopoverTriggerAttributes =
-  React.HTMLAttributes<HTMLElement> & {
-    ref?: React.RefObject<HTMLElement> & React.Ref<HTMLElement>
-  }
+export type PopoverTriggerAttributes = HTMLAttributes<HTMLElement> & {
+  ref?: RefObject<HTMLElement> & Ref<HTMLElement>
+}
 
 type PopoverPropsBase = {
   id?: string
@@ -85,7 +89,7 @@ type PopoverPropsBase = {
    */
   arrowEdgeOffset?: number
   fixedPosition?: boolean
-  contentRef?: React.RefObject<HTMLSpanElement>
+  contentRef?: RefObject<HTMLSpanElement>
   /**
    * Skip rendering the popover in a React Portal.
    * When `true`, the popover renders inline in the DOM tree instead of being portaled to document.body.
@@ -104,8 +108,8 @@ type PopoverPropsBase = {
   targetSelector?: string
   targetElement?: PopoverTargetElement
   className?: string
-  children?: React.ReactNode
-  style?: React.CSSProperties
+  children?: ReactNode
+  style?: CSSProperties
   omitDescribedBy?: boolean
   /**
    * Control when the popover automatically flips its placement to fit within the viewport.
@@ -118,7 +122,7 @@ type PopoverPropsBase = {
 }
 
 export type PopoverAllProps = PopoverPropsBase &
-  Omit<React.HTMLProps<HTMLElement>, keyof PopoverPropsBase>
+  Omit<HTMLProps<HTMLElement>, keyof PopoverPropsBase>
 
 export type PopoverProps = PopoverOverlayProps & {
   /**
@@ -137,7 +141,7 @@ export type PopoverProps = PopoverOverlayProps & {
    * Optional heading shown above the body content.
    * Matches the typography style used in TermDefinition component.
    */
-  title?: React.ReactNode
+  title?: ReactNode
   /**
    * Custom trigger element or render function. Required unless you point Popover
    * at an existing element using `targetElement` or `targetSelector`.

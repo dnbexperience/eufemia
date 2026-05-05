@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import MenuRoot from '../MenuRoot'

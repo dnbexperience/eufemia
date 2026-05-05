@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'

@@ -3,12 +3,25 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, {
+import {
+  memo,
   useCallback,
   useContext,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  CSSProperties,
+  ChangeEvent,
+  FocusEvent,
+  HTMLProps,
+  KeyboardEvent,
+  ReactNode,
+  Ref,
+  RefObject,
+  SyntheticEvent,
+  TextareaHTMLAttributes,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -45,40 +58,39 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import type { TextCounterProps } from '../../fragments/TextCounter'
 
-export type TextareaSuffix = string | React.ReactNode
+export type TextareaSuffix = string | ReactNode
 export type TextareaAlign = 'left' | 'center' | 'right' | 'justify'
 export type TextareaAutoresizeMaxRows = string | number
 export type TextareaRows = number | string
 export type TextareaCols = number | string
 export type TextareaElement =
   | ((
-      params: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-      ref: React.RefObject<HTMLTextAreaElement | null>
-    ) => React.ReactNode)
-  | React.ReactNode
-export type TextareaChildren = React.ReactNode | (() => React.ReactNode)
+      params: TextareaHTMLAttributes<HTMLTextAreaElement>,
+      ref: RefObject<HTMLTextAreaElement | null>
+    ) => ReactNode)
+  | ReactNode
+export type TextareaChildren = ReactNode | (() => ReactNode)
 export type TextareaSize = 'small' | 'medium' | 'large'
 
-export type TextareaEvent<E = React.SyntheticEvent<HTMLTextAreaElement>> =
-  {
-    value: string
-    event: E
-  }
+export type TextareaEvent<E = SyntheticEvent<HTMLTextAreaElement>> = {
+  value: string
+  event: E
+}
 
 export type TextareaChangeEvent = TextareaEvent<
-  React.ChangeEvent<HTMLTextAreaElement>
+  ChangeEvent<HTMLTextAreaElement>
 > & {
   rows: number
 }
 
 export type TextareaKeyDownEvent = TextareaEvent<
-  React.KeyboardEvent<HTMLTextAreaElement>
+  KeyboardEvent<HTMLTextAreaElement>
 > & {
   rows: number
 }
 
 export type TextareaProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   | 'children'
   | 'label'
   | 'size'
@@ -100,7 +112,7 @@ export type TextareaProps = Omit<
     /**
      * Prepends the Form Label component. If no ID is provided, a random ID is created.
      */
-    label?: React.ReactNode
+    label?: ReactNode
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
@@ -124,7 +136,7 @@ export type TextareaProps = Omit<
     /**
      * The placeholder which shows up once the Textarea value is empty.
      */
-    placeholder?: React.ReactNode
+    placeholder?: ReactNode
     /**
      * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
      */
@@ -163,10 +175,10 @@ export type TextareaProps = Omit<
     children?: TextareaChildren
     onChange?: (event: TextareaChangeEvent) => void
     onFocus?: (
-      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+      event: TextareaEvent<FocusEvent<HTMLTextAreaElement>>
     ) => void
     onBlur?: (
-      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+      event: TextareaEvent<FocusEvent<HTMLTextAreaElement>>
     ) => void
     onKeyDown?: (event: TextareaKeyDownEvent) => void
     /**
@@ -176,7 +188,7 @@ export type TextareaProps = Omit<
     /**
      * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
      */
-    ref?: React.Ref<HTMLTextAreaElement> | null
+    ref?: Ref<HTMLTextAreaElement> | null
   }
 
 const textareaDefaultProps = {
@@ -376,7 +388,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   )
 
   const onFocusHandler = useCallback(
-    (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    (event: FocusEvent<HTMLTextAreaElement>) => {
       const { value } = textareaRef.current
       setValue(value)
       setTextareaState('focus')
@@ -387,7 +399,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   )
 
   const onBlurHandler = useCallback(
-    (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    (event: FocusEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
       setValue(value)
       setTextareaState(hasValue(value) ? 'dirty' : 'initial')
@@ -398,7 +410,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   )
 
   const onChangeHandler = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
 
       if (autoResize) {
@@ -424,7 +436,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    (event: KeyboardEvent<HTMLTextAreaElement>) => {
       const rows = getRows()
       const { value } = event.target as HTMLTextAreaElement
       dispatchCustomElementEvent(props, 'onKeyDown', {
@@ -482,7 +494,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   let TextareaElement: TextareaElement = props.textareaElement
 
-  const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  const textareaParams: TextareaHTMLAttributes<HTMLTextAreaElement> & {
     'aria-describedby'?: string
     [key: string]: unknown
   } = {
@@ -499,7 +511,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...(attributes as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
+    ...(attributes as unknown as TextareaHTMLAttributes<HTMLTextAreaElement>),
     ...(typeof size === 'number' ? { size } : {}),
     onChange: onChangeHandler,
     onFocus: onFocusHandler,
@@ -606,7 +618,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         <span className="dnb-textarea__row">
           <span {...shellParams}>
-            {(TextareaElement as React.ReactNode) || (
+            {(TextareaElement as ReactNode) || (
               <textarea ref={combinedRef} {...textareaParams} />
             )}
 
@@ -618,7 +630,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
                     'dnb-textarea__placeholder',
                     align ? `dnb-textarea__align--${align}` : null
                   )}
-                  style={placeholderStyle as React.CSSProperties}
+                  style={placeholderStyle as CSSProperties}
                   aria-hidden
                 >
                   {placeholder}
@@ -634,7 +646,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
               id={id + '-suffix'}
               context={props}
             >
-              {suffix as React.ReactNode}
+              {suffix as ReactNode}
             </Suffix>
           )}
         </span>
@@ -658,7 +670,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
 TextareaComponent.displayName = 'Textarea'
 
-const MemoizedTextarea = React.memo(TextareaComponent)
+const MemoizedTextarea = memo(TextareaComponent)
 
 withComponentMarkers(MemoizedTextarea, {
   _formElement: true,

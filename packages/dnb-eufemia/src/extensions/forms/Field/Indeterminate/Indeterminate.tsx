@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { FieldToggleProps as ToggleAllProps } from '../Toggle/Toggle'
 import Toggle from '../Toggle/Toggle'
 import useDependencePaths from './useDependencePaths'

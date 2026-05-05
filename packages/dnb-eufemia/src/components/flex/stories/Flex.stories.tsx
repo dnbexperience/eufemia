@@ -3,6 +3,7 @@
  *
  */
 
+import type { ReactNode } from 'react'
 import { P } from '../../../elements'
 import { Field, Form, TestElement } from '../../../extensions/forms'
 import type { SpaceProps } from '../../Space'
@@ -15,7 +16,7 @@ export default {
 }
 
 const Wrapper = Flex.withChildren(
-  ({ children }: { children?: React.ReactNode }) => {
+  ({ children }: { children?: ReactNode }) => {
     return <div className="wrapper">{children}</div>
   }
 )

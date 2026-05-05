@@ -1,4 +1,9 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { FormEvent, SyntheticEvent } from 'react'
+import type {
+  MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
+} from 'react'
 import {
   dispatchCustomElementEvent,
   warn,
@@ -17,11 +22,11 @@ export function useSliderEvents() {
     setThumbState,
     setThumbIndex,
     allProps,
-  } = React.useContext(SliderContext)
+  } = useContext(SliderContext)
   const { min, max, onDragStart, onDragEnd } = allProps
 
   const onTrackMouseDownHandler = (
-    event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent
+    event: MouseEvent | TouchEvent | ReactMouseEvent | ReactTouchEvent
   ) => {
     onThumbMouseDownHandler(event)
 
@@ -40,7 +45,7 @@ export function useSliderEvents() {
   }
 
   const onThumbMouseDownHandler = (
-    event: MouseEvent | TouchEvent | React.SyntheticEvent
+    event: MouseEvent | TouchEvent | SyntheticEvent
   ) => {
     const target = event.target as HTMLButtonElement
 
@@ -114,9 +119,7 @@ export function useSliderEvents() {
     setShouldAnimate(false)
   }
 
-  const onHelperChangeHandler = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const onHelperChangeHandler = (event: FormEvent<HTMLInputElement>) => {
     const emitEvent = event as unknown
     const currentValue = parseFloat(event.currentTarget.value)
     const currentIndex = parseFloat(event.currentTarget.dataset.index)
@@ -146,9 +149,7 @@ export function useSliderEvents() {
     }
   }
 
-  const onHelperFocusHandler = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const onHelperFocusHandler = (event: FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement
     setThumbIndex(parseFloat(target.dataset.index))
   }

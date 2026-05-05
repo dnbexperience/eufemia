@@ -1,4 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
+import type { RefObject } from 'react'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
@@ -76,7 +77,7 @@ export default function useValidation(
 
 type UseConnectionsSharedState = {
   fieldConnectionsRef: ContextState['fieldConnectionsRef']
-  fieldStatusRef: React.RefObject<Record<Path, EventStateObject>>
+  fieldStatusRef: RefObject<Record<Path, EventStateObject>>
 }
 
 function useConnections(id: SharedStateId = undefined) {

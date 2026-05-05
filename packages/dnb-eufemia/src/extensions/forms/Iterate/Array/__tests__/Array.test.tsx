@@ -1,4 +1,4 @@
-import React, { act, useContext, useEffect } from 'react'
+import { act, StrictMode, useContext, useEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
@@ -614,7 +614,7 @@ describe('Iterate.Array', () => {
 
     it('should support React.StrictMode when using "countPathTransform"', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <Form.Handler data={{ count: 2 }}>
             <Iterate.Array
               path="/items"
@@ -626,7 +626,7 @@ describe('Iterate.Array', () => {
               <Field.Number itemPath="/item" defaultValue={2} />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
+        </StrictMode>
       )
 
       const inputs = document.querySelectorAll('input')
@@ -1315,13 +1315,13 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={['']}>
                 <Field.String itemPath="/" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -1342,13 +1342,13 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={['foo']}>
                 <Field.String itemPath="/" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -1369,13 +1369,13 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={[null]}>
                 <Field.String itemPath="/" defaultValue="foo" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -1396,13 +1396,13 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={[null]}>
                 <Field.String itemPath="/" defaultValue="foo" />
               </Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -1423,11 +1423,11 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList">content</Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -1444,11 +1444,11 @@ describe('Iterate.Array', () => {
         const onSubmit = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList">content</Iterate.Array>
             </Form.Handler>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         const form = document.querySelector('form')
@@ -2246,7 +2246,7 @@ describe('Iterate.Array', () => {
     let elementRef = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
 
       useEffect(() => {
         elementRef = context.elementRef.current
@@ -2269,7 +2269,7 @@ describe('Iterate.Array', () => {
     let contextToTest = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
 
       useEffect(() => {
         contextToTest = context

@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import Blockquote from '../Blockquote'

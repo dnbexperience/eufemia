@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import {
   screen,
@@ -325,7 +325,7 @@ describe('variants', () => {
 
     it('supports render prop children with current value', async () => {
       function Component() {
-        const [value, setValue] = React.useState('foo')
+        const [value, setValue] = useState('foo')
 
         return (
           <Field.Selection

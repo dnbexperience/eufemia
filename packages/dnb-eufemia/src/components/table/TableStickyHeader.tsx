@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useRef } from 'react'
 import { getClosestParent, warn } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
 
@@ -20,9 +20,9 @@ export const useStickyHeader = ({
   sticky,
   stickyOffset,
 }: TableStickyHeaderProps) => {
-  const elementRef = React.useRef<HTMLTableElement>(undefined)
+  const elementRef = useRef<HTMLTableElement>(undefined)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (sticky) {
       let isSticky = false
       let thHeight = 0

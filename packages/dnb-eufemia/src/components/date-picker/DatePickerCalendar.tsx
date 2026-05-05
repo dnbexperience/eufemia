@@ -3,12 +3,13 @@
  *
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import type {
+  ElementRef,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -68,7 +69,7 @@ export type DatePickerCalendarNavigationEvent = {
 }
 
 export type DatePickerCalendarProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
   id?: string
@@ -85,13 +86,13 @@ export type DatePickerCalendarProps = Omit<
   hideNextMonthWeek?: boolean
   onSelect?: (
     event: DatePickerChangeEvent<
-      | React.MouseEvent<HTMLSpanElement>
-      | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
+      | MouseEvent<HTMLSpanElement>
+      | KeyboardEvent<HTMLTableElement | HTMLButtonElement>
     >
   ) => void
   onKeyDown?: (
-    event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
-    tableRef: React.RefObject<HTMLTableElement>,
+    event: KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
+    tableRef: RefObject<HTMLTableElement>,
     nr: number
   ) => void
   /**
@@ -168,7 +169,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onlyMonth,
   } = props
 
-  const tableRef = useRef<React.ElementRef<'table'> | null>(null)
+  const tableRef = useRef<ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})
   const cache = useRef<Record<string, DatePickerCalendarDay[][]>>({})
   const currentDatesRef = useRef({
@@ -199,8 +200,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const callOnSelect = useCallback(
     (
       event: DatePickerChangeEvent<
-        | React.MouseEvent<HTMLSpanElement>
-        | React.KeyboardEvent<HTMLTableElement>
+        MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
       > &
         DatePickerDates
     ) => {
@@ -313,7 +313,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLTableElement>) => {
+    (event: KeyboardEvent<HTMLTableElement>) => {
       const pressedKey = event.code
 
       // call onKeyDown prop if given
@@ -610,7 +610,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     tabIndex: -1,
                     ...(dateType && { id: `${id}--button-${dateType}` }),
                     ...(isSelectedDate && { ['aria-selected']: true }),
-                  } as React.HTMLProps<HTMLTableCellElement>
+                  } as HTMLProps<HTMLTableCellElement>
 
                   // cell + button params
                   const paramsButton = {
@@ -702,7 +702,7 @@ type SelectRangeEvent = Pick<
   'setHasClickedCalendarDay'
 > & {
   day: DayObject
-  event?: React.MouseEvent<HTMLButtonElement>
+  event?: MouseEvent<HTMLButtonElement>
   startDate?: Date
   endDate?: Date
   resetDate?: boolean

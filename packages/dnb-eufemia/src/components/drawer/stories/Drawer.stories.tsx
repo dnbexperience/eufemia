@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { ReactNode } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Global, css } from '@emotion/react'
 
@@ -376,7 +376,7 @@ function CloseByCallback() {
       {
         (({ close }) => (
           <Button text="Close by callback" onClick={close} />
-        )) as (...args: unknown[]) => React.ReactNode
+        )) as (...args: unknown[]) => ReactNode
       }
     </Drawer>
   )
@@ -461,8 +461,8 @@ export const DrawerPerformance = () => (
   </div>
 )
 
-const LargeListOfTrs = (): Array<React.ReactNode> => {
-  const list: Array<React.ReactNode> = []
+const LargeListOfTrs = (): Array<ReactNode> => {
+  const list: Array<ReactNode> = []
 
   for (let i = 0, l = 10000; i < l; ++i) {
     list.push(

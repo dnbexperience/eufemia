@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import type { ProgressIndicatorLinearAllProps } from './types'

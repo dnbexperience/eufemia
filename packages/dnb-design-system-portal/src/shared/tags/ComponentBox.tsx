@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+// eslint-disable-next-line no-restricted-imports -- React namespace needed for react-live scope
+import * as React from 'react'
 import CodeBlock, { type CodeSectionProps } from './CodeBlock'
 import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
@@ -48,6 +49,15 @@ function ComponentBox(props: CodeSectionProps) {
         Wizard,
         styled,
         React,
+        Fragment: React.Fragment,
+        useState: React.useState,
+        useEffect: React.useEffect,
+        useRef: React.useRef,
+        useCallback: React.useCallback,
+        useMemo: React.useMemo,
+        useContext: React.useContext,
+        useLayoutEffect: React.useLayoutEffect,
+        createContext: React.createContext,
         Iterate,
         FormError,
         Tools,

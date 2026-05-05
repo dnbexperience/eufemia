@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -43,7 +43,7 @@ const WidthLimit = styled(Flex.Vertical)`
 `
 
 export const SkeletonSandbox = () => {
-  const [showSkeleton, setSkeletonState] = React.useState(true)
+  const [showSkeleton, setSkeletonState] = useState(true)
 
   return (
     <Provider>

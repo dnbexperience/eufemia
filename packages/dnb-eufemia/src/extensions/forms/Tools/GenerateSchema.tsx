@@ -1,4 +1,5 @@
 import { useCallback, useContext, useRef } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
 import pointer from '../utils/json-pointer'
 import type { FilterData } from '../DataContext/Context'
@@ -13,9 +14,9 @@ export type GenerateSchemaReturn = {
 }
 export type GenerateSchemaProps = {
   log?: boolean
-  generateRef?: React.RefObject<() => GenerateSchemaReturn>
+  generateRef?: RefObject<() => GenerateSchemaReturn>
   filterData?: FilterData
-  children: React.ReactNode
+  children: ReactNode
 }
 export type GenerateRef = GenerateSchemaProps['generateRef']['current']
 
@@ -174,7 +175,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     }
 
     if (generateRef) {
-      const mutableGenerateRef = generateRef as React.RefObject<
+      const mutableGenerateRef = generateRef as RefObject<
         () => GenerateSchemaReturn
       >
       mutableGenerateRef.current = generate

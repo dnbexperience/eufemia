@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { Fragment, act } from 'react'
 import { render } from '@testing-library/react'
 import { useVerifyChildren, countChildren } from '../useVerifyChildren'
 import { Form } from '../../../'
@@ -140,14 +140,14 @@ describe('useVerifyChildren', () => {
     log.mockRestore()
   })
 
-  it('should ignore React.Fragment', () => {
+  it('should ignore Fragment', () => {
     const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 
     const TestComponent = () => {
       const { verifyChild } = useVerifyChildren({
         children: (
           <>
-            <React.Fragment>Child</React.Fragment>
+            <Fragment>Child</Fragment>
             <span>Child</span>
           </>
         ),
@@ -185,9 +185,9 @@ describe('countChildren', () => {
     const children = (
       <>
         <span>Child 1</span>
-        <React.Fragment>
+        <Fragment>
           <span>Child 2</span>
-        </React.Fragment>
+        </Fragment>
         <span>Child 3</span>
       </>
     )

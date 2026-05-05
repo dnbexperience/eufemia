@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useContext, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -41,7 +41,7 @@ const ScrollbarInner = styled.div`
 `
 
 const ChangeLocale = () => {
-  const { setLocale, locale } = React.useContext(Context)
+  const { setLocale, locale } = useContext(Context)
 
   return (
     <Dropdown
@@ -330,9 +330,9 @@ export const DatePickerSandbox = () => (
 )
 
 const CustomDate = () => {
-  const [startDate, setStartDate] = React.useState('2019-02-15')
-  const [endDate, setEndDate] = React.useState('2019-03-15')
-  const [errorStatus, setErrorStatus] = React.useState('')
+  const [startDate, setStartDate] = useState('2019-02-15')
+  const [endDate, setEndDate] = useState('2019-03-15')
+  const [errorStatus, setErrorStatus] = useState('')
 
   return (
     <Section innerSpace={{ block: 'large' }}>

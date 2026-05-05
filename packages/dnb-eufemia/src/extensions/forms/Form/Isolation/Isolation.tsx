@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useContext,
   useMemo,
@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
@@ -87,7 +88,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
   /**
    * A ref (function) that you can call in order to commit the data programmatically to the outer context.
    */
-  commitHandleRef?: React.RefObject<() => void>
+  commitHandleRef?: RefObject<() => void>
 }
 
 function IsolationProvider<Data extends JsonObject>(
@@ -337,17 +338,15 @@ function IsolationDataContextBridge({
   commitHandleRef,
   children,
 }: {
-  dataContextRef: React.RefObject<ContextState | null>
-  commitHandleRef?: React.RefObject<() => void>
-  children: React.ReactNode
+  dataContextRef: RefObject<ContextState | null>
+  commitHandleRef?: RefObject<() => void>
+  children: ReactNode
 }) {
   const dataContext = useContext(DataContext)
   dataContextRef.current = dataContext
 
   if (commitHandleRef) {
-    const mutableCommitHandleRef = commitHandleRef as React.RefObject<
-      () => void
-    >
+    const mutableCommitHandleRef = commitHandleRef as RefObject<() => void>
     mutableCommitHandleRef.current = dataContext?.handleSubmit
   }
 

@@ -1,4 +1,11 @@
-import React from 'react'
+import { Children, createElement, isValidElement, useContext } from 'react'
+import type {
+  CSSProperties,
+  ComponentType,
+  HTMLProps,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -35,7 +42,7 @@ export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
 
 export type AvatarImgProps = ImgProps
 
-export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
+export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: `null`
@@ -58,7 +65,7 @@ export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
    * The content of the component. Can be used instead of prop "data".
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * The size of the component.
@@ -120,9 +127,9 @@ const defaultProps: Partial<AvatarAllProps> = {
 
 const Avatar = (localProps: AvatarAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
-  const avatarGroupContext = React.useContext(AvatarGroupContext)
-  const avatarGroupItemContext = React.useContext(AvatarGroupItemContext)
+  const context = useContext(Context)
+  const avatarGroupContext = useContext(AvatarGroupContext)
+  const avatarGroupItemContext = useContext(AvatarGroupItemContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -173,7 +180,7 @@ const Avatar = (localProps: AvatarAllProps) => {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
     children = <span aria-hidden>{firstLetterUpperCase}</span>
   } else if (
-    React.Children.count(childrenProp) === 1 &&
+    Children.count(childrenProp) === 1 &&
     isIconComponent(childrenProp)
   ) {
     children = iconAutoSize(childrenProp)
@@ -196,7 +203,7 @@ const Avatar = (localProps: AvatarAllProps) => {
     ...(avatarGroupItemContext?.zIndex != null && {
       zIndex: avatarGroupItemContext.zIndex,
     }),
-  } as React.CSSProperties
+  } as CSSProperties
 
   const rootProps = applySpacing(allProps, {
     ...props,
@@ -232,21 +239,21 @@ export default Avatar
 
 function isIconComponent(
   element: unknown
-): element is React.ReactElement<IconAllProps> {
+): element is ReactElement<IconAllProps> {
   return (
-    React.isValidElement(element) &&
+    isValidElement(element) &&
     (element.type === Icon || element.type === IconPrimary)
   )
 }
 
 function iconAutoSize(
-  icon: React.ReactElement<IconAllProps>
-): React.ReactElement<IconAllProps> {
+  icon: ReactElement<IconAllProps>
+): ReactElement<IconAllProps> {
   if (!icon.props.size) {
-    return React.createElement(
-      icon.type as React.ComponentType<IconAllProps>,
-      { ...icon.props, size: 'auto' }
-    )
+    return createElement(icon.type as ComponentType<IconAllProps>, {
+      ...icon.props,
+      size: 'auto',
+    })
   }
 
   return icon

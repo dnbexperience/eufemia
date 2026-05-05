@@ -1,4 +1,11 @@
-import React, { useContext, useMemo } from 'react'
+import { isValidElement, useContext, useMemo } from 'react'
+import type {
+  ComponentType,
+  HTMLProps,
+  JSX,
+  ReactElement,
+  SVGProps,
+} from 'react'
 import clsx from 'clsx'
 import {
   warn,
@@ -40,18 +47,14 @@ export type DefaultIconSizes = typeof DefaultIconSizes
 export type ValidIconType = (typeof ValidIconType)[number]
 export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
 
-export type IconSVGProps = React.SVGProps<SVGSVGElement> & {
+export type IconSVGProps = SVGProps<SVGSVGElement> & {
   title?: string
 }
 
-export type IconFunction = (props?: IconSVGProps) => React.JSX.Element
+export type IconFunction = (props?: IconSVGProps) => JSX.Element
 
 /** For internal usage */
-type IconType =
-  | string
-  | React.ReactElement<SVGElement>
-  | IconFunction
-  | false
+type IconType = string | ReactElement<SVGElement> | IconFunction | false
 
 /** For external usage */
 export type IconIcon = IconType | FormStatusIcon | IconFunction
@@ -117,7 +120,7 @@ export type IconProps = {
 
 export type IconAllProps = IconProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>
+  Omit<HTMLProps<HTMLElement>, 'size' | 'children'>
 
 export default function Icon(localProps: IconAllProps) {
   const context = useContext(Context)
@@ -159,7 +162,7 @@ export default function Icon(localProps: IconAllProps) {
 }
 
 export function getIconNameFromComponent(icon: IconProps['icon']): string {
-  if (React.isValidElement(icon) && icon?.type) {
+  if (isValidElement(icon) && icon?.type) {
     icon = icon?.type as IconType
   }
   const name = typeof icon === 'function' ? icon.name : String(icon)
@@ -204,7 +207,7 @@ export function calcSize(props: IconProps) {
       const iconFn =
         typeof icon === 'function'
           ? icon
-          : React.isValidElement(icon) && typeof icon.type === 'function'
+          : isValidElement(icon) && typeof icon.type === 'function'
             ? (icon.type as IconFunction)
             : null
 
@@ -469,10 +472,10 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    return icon as React.ComponentType<IconSVGProps>
+    return icon as ComponentType<IconSVGProps>
   }
 
-  if (React.isValidElement(icon) || Array.isArray(icon)) {
+  if (isValidElement(icon) || Array.isArray(icon)) {
     return () => icon
   }
 

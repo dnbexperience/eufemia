@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import clsx from 'clsx'
 import Button, { type ButtonProps } from '../../components/button/Button'
 import useTranslation from '../../shared/useTranslation'

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { AllHTMLAttributes, ReactElement, Ref } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -37,14 +38,14 @@ export type TimelineProps = {
    * Default: `null`
    */
   children?:
-    | React.ReactElement<TimelineItemProps>[]
-    | React.ReactElement<TimelineItemProps>
+    | ReactElement<TimelineItemProps>[]
+    | ReactElement<TimelineItemProps>
 }
 
 export type TimelineAllProps = TimelineProps &
-  Omit<React.AllHTMLAttributes<HTMLOListElement>, 'type' | 'data'> &
+  Omit<AllHTMLAttributes<HTMLOListElement>, 'type' | 'data'> &
   SpacingProps & {
-    ref?: React.Ref<HTMLOListElement>
+    ref?: Ref<HTMLOListElement>
   }
 
 const defaultProps: Partial<TimelineAllProps> = {
@@ -53,7 +54,7 @@ const defaultProps: Partial<TimelineAllProps> = {
 
 const Timeline = (localProps: TimelineAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(

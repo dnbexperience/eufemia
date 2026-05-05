@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { RefObject } from 'react'
 import type { Path } from '../types'
 import type { ContainerMode } from './Array/types'
 
@@ -19,8 +20,8 @@ export type IterateItemContextState = {
   containerMode?: ContainerMode
   previousContainerMode?: ContainerMode
   initialContainerMode?: ContainerMode
-  containerRef?: React.RefObject<HTMLDivElement>
-  elementRef?: React.RefObject<HTMLDivElement>
+  containerRef?: RefObject<HTMLDivElement>
+  elementRef?: RefObject<HTMLDivElement>
   modeOptions?: ModeOptions
   switchContainerMode?: (
     mode: ContainerMode,
@@ -33,7 +34,7 @@ export type IterateItemContextState = {
   fulfillRemove?: () => void
 }
 
-const IterateItemContext = React.createContext<
+const IterateItemContext = createContext<
   IterateItemContextState | undefined
 >(undefined)
 

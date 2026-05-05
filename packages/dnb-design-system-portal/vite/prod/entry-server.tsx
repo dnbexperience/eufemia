@@ -6,7 +6,8 @@
  * pages only load the JS they actually need.
  */
 
-import React, { Component } from 'react'
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
   createStaticHandler,
@@ -162,7 +163,7 @@ function SSRPageWrapper() {
  * The client-side JS will render the content on hydration.
  */
 class SSRErrorBoundary extends Component<
-  { children: React.ReactNode },
+  { children: ReactNode },
   { hasError: boolean }
 > {
   state = { hasError: false }

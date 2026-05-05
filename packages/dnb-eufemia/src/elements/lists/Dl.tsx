@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { AllHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
@@ -19,7 +20,7 @@ export type DlProps = {
 }
 
 export type DlAllProps = DlProps &
-  React.AllHTMLAttributes<HTMLDListElement> &
+  AllHTMLAttributes<HTMLDListElement> &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Dl = ({ layout, ...props }: DlAllProps) => {
@@ -40,7 +41,7 @@ Dl.Item = ({
   className,
   children,
   ...props
-}: React.AllHTMLAttributes<HTMLSpanElement> & SpacingProps) => {
+}: AllHTMLAttributes<HTMLSpanElement> & SpacingProps) => {
   return (
     <>
       {children}

@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -82,8 +83,8 @@ export type UploadFileListCellProps = {
   /**
    * Text
    */
-  loadingText: React.ReactNode
-  deleteButtonText: React.ReactNode
+  loadingText: ReactNode
+  deleteButtonText: ReactNode
 }
 
 const UploadFileListCell = ({
@@ -214,14 +215,14 @@ export default UploadFileListCell
 
 function useExistsHighlight(id: string, file: File) {
   const { internalFiles } = useUpload(id)
-  const [exists, updateExists] = React.useState(false)
-  const timerRef = React.useRef<NodeJS.Timer>(undefined)
+  const [exists, updateExists] = useState(false)
+  const timerRef = useRef<NodeJS.Timer>(undefined)
 
   const clearTimers = () => {
     clearTimeout(timerRef.current)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const exists = internalFiles.some(({ exists, file: f }) => {
       return exists && isFileEqual(file, f)
     })

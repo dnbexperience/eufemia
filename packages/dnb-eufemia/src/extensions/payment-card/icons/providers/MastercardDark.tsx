@@ -1,6 +1,5 @@
-import React from 'react'
-
-const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const MastercardDarkSVG = (props: SVGProps<SVGSVGElement>) => (
   <div style={{ color: '#CCCCCC' }}>
     <svg
       width="66"

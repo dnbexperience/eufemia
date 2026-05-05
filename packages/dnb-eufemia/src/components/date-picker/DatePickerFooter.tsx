@@ -3,20 +3,21 @@
  *
  */
 
-import React, { useContext, useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import type { HTMLProps, MouseEvent } from 'react'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
 import type { DatePickerDates } from './hooks/useDates'
 
-type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
+type DatePickerFooterEvent = MouseEvent<HTMLButtonElement> &
   DatePickerDates & {
-    event: React.MouseEvent<HTMLButtonElement>
+    event: MouseEvent<HTMLButtonElement>
   }
 
 export type DatePickerFooterProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'onSubmit' | 'onCancel' | 'onReset'
 > & {
   isRange: boolean

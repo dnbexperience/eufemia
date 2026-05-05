@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { Path } from '../../types'
 import type { SectionProps } from '.'
 
@@ -10,8 +10,8 @@ export type SectionContextState = {
   >
 }
 
-const SectionContext = React.createContext<
-  SectionContextState | undefined
->(undefined)
+const SectionContext = createContext<SectionContextState | undefined>(
+  undefined
+)
 
 export default SectionContext

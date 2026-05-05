@@ -1,4 +1,5 @@
-import { useRef, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
+import type { RefObject } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import {
   FormError,
@@ -67,16 +68,16 @@ export type UseFieldValidationParams<Value> = {
   dataContextSchema: unknown
 
   // Shared refs
-  valueRef: React.RefObject<Value>
-  changedRef: React.RefObject<boolean>
-  transformers: React.RefObject<TransformerFns<Value>>
-  schemaValidatorRef: React.RefObject<
+  valueRef: RefObject<Value>
+  changedRef: RefObject<boolean>
+  transformers: RefObject<TransformerFns<Value>>
+  schemaValidatorRef: RefObject<
     ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >
-  asyncProcessRef: React.RefObject<AsyncProcesses | null>
-  validatedValueRef: React.RefObject<Value>
-  changeEventResultRef: React.RefObject<unknown>
-  localErrorInitiatorRef: React.RefObject<ErrorInitiator>
+  asyncProcessRef: RefObject<AsyncProcesses | null>
+  validatedValueRef: RefObject<Value>
+  changeEventResultRef: RefObject<unknown>
+  localErrorInitiatorRef: RefObject<ErrorInitiator>
 
   // Error methods (from useFieldError)
   error: FieldPropsGeneric<Value>['error']
@@ -97,7 +98,7 @@ export type UseFieldValidationParams<Value> = {
 
   // From useFieldProps orchestrator
   forceUpdate: () => void
-  revealErrorRef: React.RefObject<boolean | null>
+  revealErrorRef: RefObject<boolean | null>
 }
 
 export default function useFieldValidation<Value>({

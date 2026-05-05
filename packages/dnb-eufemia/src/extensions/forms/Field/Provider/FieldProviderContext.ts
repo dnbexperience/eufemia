@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { UseFieldProps } from '../../types'
 
 export type FieldProviderContextProps = {
@@ -8,9 +8,8 @@ export type FieldProviderContextProps = {
 }
 
 const extend: FieldProviderContextProps['extend'] = (props) => props
-const FieldProviderContext =
-  React.createContext<FieldProviderContextProps>({
-    extend,
-  })
+const FieldProviderContext = createContext<FieldProviderContextProps>({
+  extend,
+})
 
 export default FieldProviderContext

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'

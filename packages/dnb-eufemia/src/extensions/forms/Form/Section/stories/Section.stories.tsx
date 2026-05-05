@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import type { JSONSchema, SectionProps } from '../../..'
 import { Field, Form, Tools, Value, makeAjvInstance, z } from '../../..'
 import { Flex, Table } from '../../../../../components'

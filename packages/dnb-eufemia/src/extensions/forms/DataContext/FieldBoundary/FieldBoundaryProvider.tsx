@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useReducer, useRef } from 'react'
+import { useCallback, useContext, useReducer, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type { FieldBoundaryContextState } from './FieldBoundaryContext'
 import FieldBoundaryContext from './FieldBoundaryContext'
 import DataContext from '../Context'
@@ -7,7 +8,7 @@ import type { Path } from '../../types'
 export type FieldBoundaryProviderProps = {
   showErrors?: boolean
   onPathError?: (path: Path, error: Error) => void
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function FieldBoundaryProvider(

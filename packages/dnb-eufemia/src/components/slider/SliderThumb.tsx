@@ -1,4 +1,5 @@
-import React from 'react'
+import { useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import {
   combineDescribedBy,
   combineLabelledBy,
@@ -62,7 +63,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const style = {
     zIndex: index === currentIndex ? 4 : 3,
     [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
-  } as React.CSSProperties
+  } as CSSProperties
 
   const {
     onThumbMouseDownHandler,
@@ -91,8 +92,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   }
 
   const thumbParams = attributes as Record<string, unknown>
-  const elemRef = React.useRef<HTMLElement>(undefined)
-  const [forceActive, setForceActive] = React.useState(false)
+  const elemRef = useRef<HTMLElement>(undefined)
+  const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
   return (

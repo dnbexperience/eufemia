@@ -2,7 +2,8 @@
  * MDX Template
  */
 
-import React from 'react'
+import { useMemo } from 'react'
+import type { ReactNode } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
@@ -30,7 +31,7 @@ type PortalLayoutNode = {
 export type PortalLayoutProps = {
   location: Location
   pageContext: { frontmatter: Frontmatter; fullscreen?: boolean }
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function PortalLayout(props: PortalLayoutProps) {
@@ -93,7 +94,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
   const mdx =
-    React.useMemo(() => {
+    useMemo(() => {
       return data.allMdx.edges.find(({ node }) => {
         return slug === node.fields.slug
       })

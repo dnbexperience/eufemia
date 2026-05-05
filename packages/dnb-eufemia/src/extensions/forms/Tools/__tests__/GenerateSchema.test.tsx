@@ -1,11 +1,11 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form, Value, Tools, makeAjvInstance } from '../../'
 import type { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {
   it('should generate a schema', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -58,7 +58,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "data" with local value', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -92,7 +92,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfFields" with object that contains all props', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -205,7 +205,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should return "propsOfValues" with object that contains all props', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -262,7 +262,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with different types', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -302,7 +302,7 @@ describe('Tools.GenerateSchema', () => {
     `)
   })
 
-  const generateRef: React.RefObject<GenerateRef | null> = {
+  const generateRef: RefObject<GenerateRef | null> = {
     current: null,
   }
 
@@ -365,7 +365,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with nested paths', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -420,7 +420,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should generate schema with required', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -482,7 +482,7 @@ describe('Tools.GenerateSchema', () => {
   })
 
   it('should validate with generated schema', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 

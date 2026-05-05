@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Flex } from '../../../../../components'
@@ -75,7 +75,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -114,7 +114,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -160,7 +160,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -205,7 +205,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
       }
@@ -257,7 +257,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
       }
@@ -333,7 +333,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
       }
@@ -409,7 +409,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode = context.containerMode
         return null
       }
@@ -454,7 +454,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -501,7 +501,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode = context.containerMode
 
         return null
@@ -540,7 +540,7 @@ describe('EditContainer and ViewContainer', () => {
       const containerMode = []
 
       const ContextConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         containerMode.push(context.containerMode)
 
         return null
@@ -883,7 +883,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -1331,7 +1331,7 @@ describe('EditContainer and ViewContainer', () => {
     const containerMode = {}
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 
       return null
@@ -1358,7 +1358,7 @@ describe('EditContainer and ViewContainer', () => {
     const containerMode = {}
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 
       return null
@@ -1407,7 +1407,7 @@ describe('EditContainer and ViewContainer', () => {
     const containerMode = {}
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode[context.index] = context.containerMode
 
       return null

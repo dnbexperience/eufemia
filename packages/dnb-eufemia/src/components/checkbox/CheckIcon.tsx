@@ -1,5 +1,3 @@
-import React from 'react'
-
 export type CheckIconProps = {
   size: 'default' | 'medium' | 'large'
 }

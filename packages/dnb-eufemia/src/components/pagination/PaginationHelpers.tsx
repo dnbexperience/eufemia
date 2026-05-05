@@ -1,15 +1,16 @@
 /**
  * Web Pagination Helpers
  */
-import React from 'react'
+import { Fragment, isValidElement, useContext } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
 export type PaginationIndicatorElement =
   | Record<string, unknown>
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
   | string
 
 export type PaginationIndicatorProps = {
@@ -20,7 +21,7 @@ export const PaginationIndicator = ({
   indicatorElement = 'div',
   ...props
 }: PaginationIndicatorProps) => {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const Element = preparePageElement(indicatorElement)
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
@@ -37,7 +38,7 @@ export const PaginationIndicator = ({
 }
 
 export class ContentObject {
-  content: React.ReactNode | null
+  content: ReactNode | null
   pageNumber: number
   hasContent: boolean
   onInsert?: (obj: ContentObject) => void
@@ -60,7 +61,7 @@ export class ContentObject {
     }
   }
 
-  insert(content: React.ReactNode) {
+  insert(content: ReactNode) {
     this.hasContent = true
     this.content = content
     if (typeof this.onInsert === 'function') {
@@ -69,7 +70,7 @@ export class ContentObject {
     return this
   }
 
-  update(content: React.ReactNode) {
+  update(content: ReactNode) {
     this.hasContent = true
     this.content = content
     if (typeof this.onUpdate === 'function') {
@@ -86,7 +87,7 @@ export function isTrElement(Element) {
     isTr = true
   } else if (
     Element &&
-    (typeof Element === 'object' || React.isValidElement(Element))
+    (typeof Element === 'object' || isValidElement(Element))
   ) {
     if ((Element.__emotion_base || Element.target) === 'tr') {
       isTr = true
@@ -100,7 +101,7 @@ export function preparePageElement(
   Element,
   includeClassName = 'dnb-pagination__page'
 ) {
-  if (Element === React.Fragment) {
+  if (Element === Fragment) {
     return Element
   }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useFieldProvider from '../useFieldProvider'
 import FieldProviderContext from '../FieldProviderContext'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import TextMask from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'

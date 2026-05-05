@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { GetTranslationProps } from '../../shared/Context'
 import Context from '../../shared/Context'
@@ -34,22 +35,22 @@ export type GlobalErrorProps = {
   /**
    * Will overwrite the default title.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * Will overwrite the default text.
    */
-  text?: React.ReactNode
+  text?: ReactNode
 
   /**
    * Will overwrite the default error message code.
    */
-  errorMessageCode?: React.ReactNode
+  errorMessageCode?: ReactNode
 
   /**
    * Will overwrite the default additional help text.
    */
-  help?: React.ReactNode
+  help?: ReactNode
 
   /**
    * Provide an array with objects `{ text: 'Text', url: 'https://...' }` to display a list of anchor links.
@@ -69,7 +70,7 @@ export type GlobalErrorProps = {
 }
 
 export type GlobalErrorAllProps = GlobalErrorProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref'> &
+  Omit<HTMLProps<HTMLElement>, 'ref'> &
   SpacingProps &
   GetTranslationProps
 
@@ -77,12 +78,12 @@ export type GlobalErrorTranslationContent = {
   /**
    * Defining a `title` will overwrite the default provided by the `statusCode` translation.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * Defining a `text` will overwrite the default provided by the `statusCode` translation.
    */
-  text?: React.ReactNode
+  text?: ReactNode
 }
 export type GlobalErrorTranslation = {
   404?: GlobalErrorTranslationContent
@@ -95,7 +96,7 @@ const defaultProps: Partial<GlobalErrorAllProps> = {
 
 export default function GlobalError(localProps: GlobalErrorAllProps) {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const translation = context.getTranslation(localProps)
     .GlobalError as GlobalErrorTranslation
@@ -127,7 +128,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   // Security: Always render text as children to prevent XSS attacks.
   // If formatting is needed, pass ReactNode instead of HTML strings.
-  const textParams: React.HTMLAttributes<HTMLElement> = {
+  const textParams: HTMLAttributes<HTMLElement> = {
     children: text,
   }
 
