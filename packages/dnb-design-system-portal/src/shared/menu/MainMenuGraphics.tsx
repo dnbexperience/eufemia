@@ -11,6 +11,7 @@ export const BrandSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -64,6 +65,7 @@ export const QuickguideDesignerSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -123,6 +125,7 @@ export const DesignSystemSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -170,6 +173,7 @@ export const IconsSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -205,6 +209,7 @@ export const UilibSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -259,6 +264,7 @@ export const DevelopmentSvg = (props) => (
     height="48"
     viewBox="0 0 48 48"
     fill="none"
+    stroke="currentColor"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
