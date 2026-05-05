@@ -26,7 +26,7 @@ export function withFormatter<
 ) {
   function NumberFormatVariant(props: ThisVariantProps) {
     return (
-      <NumberFormatBase {...props} {...forcedProps} __format={formatter} />
+      <NumberFormatBase {...forcedProps} {...props} __format={formatter} />
     )
   }
 

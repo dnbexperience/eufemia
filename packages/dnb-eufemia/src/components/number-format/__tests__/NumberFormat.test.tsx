@@ -103,6 +103,26 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('keeps an explicit currency on NumberFormat.Currency', () => {
+    const expected = formatCurrency(12345, { currency: 'EUR' })
+    const { aria } = formatCurrency(12345, {
+      currency: 'EUR',
+      returnAria: true,
+    }) as NumberFormatReturnValue
+
+    render(
+      <NumberFormat.Currency currency="EUR">12345</NumberFormat.Currency>
+    )
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      expected
+    )
+
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe(aria)
+  })
+
   it('have to match currency in en locale', () => {
     const { rerender } = render(
       <Component value={-value} currency locale="en" />
