@@ -1,7 +1,7 @@
 ---
 title: 'HTML Elements'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.802Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.837Z
 checksum: 18e00ad06523acfe60001e6744349201af717bf0b58581da85eb2dc34ca5d85b
 ---
 
@@ -45,16 +45,16 @@ render(
 
 They work seamlessly with Styled Components (emotion) as well:
 
+
 ```tsx
 const StyledLink = styled(Link)`
-  color: var(--color-fire-red);
-`
-render(
-  <StyledLink href="/" target="_blank">
-    Styled Link
-  </StyledLink>
-)
+        color: var(--color-fire-red);
+      `;
+render(<StyledLink href="/" target="_blank">
+          Styled Link
+        </StyledLink>);
 ```
+
 
 ## Unstyled HTML Elements
 
@@ -69,51 +69,49 @@ import { Span, Div } from '@dnb/eufemia'
 
 ### Example usage of span
 
+
 ```tsx
 const Box = styled.div`
-  display: grid;
-  place-items: center;
-  width: 12rem;
-  height: 4rem;
-  padding: 0 1rem;
-  background-color: var(--color-white);
-`
+        display: grid;
+        place-items: center;
+        width: 12rem;
+        height: 4rem;
+        padding: 0 1rem;
+        background-color: var(--color-white);
+      `;
 const StyledButton = styled.button`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  &:hover {
-    color: var(--color-fire-red);
-  }
-  &:active {
-    opacity: 0.6;
-  }
-`
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        &:hover {
+          color: var(--color-fire-red);
+        }
+        &:active {
+          opacity: 0.6;
+        }
+      `;
 const CustomImage = () => {
-  const [state, setState] = React.useState(false)
-  return (
-    <Skeleton show={state}>
-      <Box>
-        <StyledButton className="dnb-button dnb-button--reset">
-          <Span>Text</Span>
-          <IconPrimary icon="chevron_right" />
-        </StyledButton>
-      </Box>
-      <br />
-      <Skeleton.Exclude>
-        <ToggleButton
-          checked={state}
-          onChange={({ checked }) => setState(checked)}
-          top="large"
-        >
-          Toggle
-        </ToggleButton>
-      </Skeleton.Exclude>
-    </Skeleton>
-  )
-}
-render(<CustomImage />)
+  const [state, setState] = React.useState(false);
+  return <Skeleton show={state}>
+            <Box>
+              <StyledButton className="dnb-button dnb-button--reset">
+                <Span>Text</Span>
+                <IconPrimary icon="chevron_right" />
+              </StyledButton>
+            </Box>
+            <br />
+            <Skeleton.Exclude>
+              <ToggleButton checked={state} onChange={({
+        checked
+      }) => setState(checked)} top="large">
+                Toggle
+              </ToggleButton>
+            </Skeleton.Exclude>
+          </Skeleton>;
+};
+render(<CustomImage />);
 ```
+
 
 ---
 

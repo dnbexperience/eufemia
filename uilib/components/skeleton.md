@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.403Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.501Z
 checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 
@@ -74,89 +74,88 @@ If you use the skeleton as a provider, the [Space](/uilib/layout/space) componen
 
 But the Skeleton component also supports a set of ready-to-use figures. Use it like `figure="article"`.
 
+
 ```tsx
-render(
-  <Div id="your-app">
-    <Skeleton show={true}>
-      <Input>I'm hidden behind the skeleton</Input>
-      <Input>I'm hidden behind the skeleton</Input>
-    </Skeleton>
-  </Div>
-)
+render(<Div id="your-app">
+      <Skeleton show={true}>
+        <Input>I'm hidden behind the skeleton</Input>
+        <Input>I'm hidden behind the skeleton</Input>
+      </Skeleton>
+    </Div>)
 ```
+
 
 ## Global Provider
 
 You can also use the global [Eufemia Provider](/uilib/usage/customisation/provider) to enable the underlying skeletons. You can even have multiple providers wrapped.
 
+
 ```tsx
-render(
-  <Provider locale="nb-NO">
-    <Div id="your-app">
-      <Provider skeleton={true}>
-        <Input>I'm hidden behind the skeleton</Input>
-        <Input>I'm hidden behind the skeleton</Input>
-      </Provider>
-    </Div>
-  </Provider>
-)
+render(<Provider locale="nb-NO">
+      <Div id="your-app">
+        <Provider skeleton={true}>
+          <Input>I'm hidden behind the skeleton</Input>
+          <Input>I'm hidden behind the skeleton</Input>
+        </Provider>
+      </Div>
+    </Provider>)
 ```
+
 
 ## Exclude a part
 
 You can easily exclude a part from being transformed to a skeleton by using `Skeleton.Exclude`.
 
-```tsx
-render(
-  <Skeleton show={true}>
-    <Input>I'm hidden behind the skeleton</Input>
 
-    <Skeleton.Exclude>
-      <Input>I'm NOT hidden</Input>
-    </Skeleton.Exclude>
-  </Skeleton>
-)
+```tsx
+render(<Skeleton show={true}>
+      <Input>I'm hidden behind the skeleton</Input>
+
+      <Skeleton.Exclude>
+        <Input>I'm NOT hidden</Input>
+      </Skeleton.Exclude>
+    </Skeleton>)
 ```
+
 
 ## Suspense
 
 You can take advantage of an async component by using the React Suspense with a skeleton fallback.
 
+
 ```tsx
-render(
-  <Suspense
-    fallback={
-      <Skeleton show={true}>
-        <Div id="user-data" />
-      </Skeleton>
-    }
-  >
-    <Div id="user-data" />
-  </Suspense>
-)
+render(<Suspense fallback={<Skeleton show={true}>
+          <Div id="user-data" />
+        </Skeleton>}>
+      <Div id="user-data" />
+    </Suspense>)
 ```
+
 
 ## Create a custom skeleton
 
 In order to create the same skeletons as the build-ins, you can make use of a couple of helper tools.
 
+
 ```tsx
-function Component({ skeleton = false, ...params } = {}) {
-  const context = React.useContext(Context)
+function Component({
+  skeleton = false,
+  ...params
+} = {}) {
+  const context = React.useContext(Context);
 
   // Handle accessibility features
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonDOMAttributes(params, skeleton, context);
 
   // Handle CSS classes – use either "shape" or "font"
-  const className = createSkeletonClass('font', skeleton, context)
-  return (
-    <div {...params} id="my-component" className={className}>
-      Hello World
-    </div>
-  )
+  const className = createSkeletonClass('font', skeleton, context);
+  return <div {...params} id="my-component" className={className}>
+            Hello World
+          </div>;
 }
-render(<Component />)
+render(<Component />);
 ```
+
 
 ## Demos
 
@@ -164,72 +163,72 @@ render(<Component />)
 
 ## Input with Skeleton
 
+
 ```tsx
 render(<Input label="Input" skeleton />)
 ```
 
+
 ## Toggle skeleton on/off
+
 
 ```tsx
 const UserData = () => {
-  const [state, setState] = React.useState(true)
-  return (
-    <Skeleton show={state}>
+  const [state, setState] = React.useState(true);
+  return <Skeleton show={state}>
+            <H2 top bottom>
+              Heading
+            </H2>
+            <P top bottom>
+              Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
+            </P>
+            <Input label="Input" />
+            <Skeleton.Exclude>
+              <ToggleButton checked={state} onChange={({
+        checked
+      }) => setState(checked)} top="large">
+                Toggle
+              </ToggleButton>
+            </Skeleton.Exclude>
+          </Skeleton>;
+};
+render(<UserData />);
+```
+
+
+## Skeleton wrapper
+
+
+```tsx
+render(<Skeleton show>
       <H2 top bottom>
         Heading
       </H2>
       <P top bottom>
         Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
       </P>
-      <Input label="Input" />
-      <Skeleton.Exclude>
-        <ToggleButton
-          checked={state}
-          onChange={({ checked }) => setState(checked)}
-          top="large"
-        >
-          Toggle
-        </ToggleButton>
-      </Skeleton.Exclude>
-    </Skeleton>
-  )
-}
-render(<UserData />)
+      <Button>Button</Button>
+    </Skeleton>)
 ```
 
-## Skeleton wrapper
-
-```tsx
-render(
-  <Skeleton show>
-    <H2 top bottom>
-      Heading
-    </H2>
-    <P top bottom>
-      Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
-    </P>
-    <Button>Button</Button>
-  </Skeleton>
-)
-```
 
 ## Skeleton using Eufemia Provider
 
 You can also use `formElement={{ skeleton: true }}`.
 
+
 ```tsx
-render(
-  <Provider skeleton={true}>
-    <H2 top bottom>
-      Heading
-    </H2>
-    <P top bottom>
-      Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
-    </P>
-    <Button>Button</Button>
-  </Provider>
-)
+render(<Provider skeleton={true}>
+      <H2 top bottom>
+        Heading
+      </H2>
+      <P top bottom>
+        Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
+      </P>
+      <Button>Button</Button>
+    </Provider>)
 ```
+
 
 ## Skeleton figures
 
@@ -239,24 +238,27 @@ You may import a given figure, or create your own.
 import { Article } from '@dnb/eufemia/components/skeleton/figures'
 ```
 
-```tsx
-render(
-  <Skeleton show figure={<Article rows={5} />}>
-    hidden content
-  </Skeleton>
-)
-```
 
 ```tsx
+render(<Skeleton show figure={<Article rows={5} />}>
+      hidden content
+    </Skeleton>)
+```
+
+
+
+  
+```tsx
 <Skeleton show noAnimation>
-  <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
-</Skeleton>
+      <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
+    </Skeleton>
 <Skeleton show noAnimation>
-  <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
-</Skeleton>
+      <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
+    </Skeleton>
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -268,7 +270,11 @@ render(
     },
     "figure": {
       "doc": "Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.",
-      "type": ["string", "React.Element", "function"],
+      "type": [
+        "string",
+        "React.Element",
+        "function"
+      ],
       "status": "optional"
     },
     "noAnimation": {
@@ -288,23 +294,36 @@ render(
     },
     "element": {
       "doc": "Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Skeleton.ariaBusy": {
       "nb-NO": "Behandler data ...",

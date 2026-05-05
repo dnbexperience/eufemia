@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.092Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.082Z
 checksum: fd927e5e6079ac54f6e5194de24331ff79e64fc4982b0071ecc885c7a6568fde
 ---
 
@@ -106,6 +106,7 @@ The `Iterate.ViewContainer` component has an `aria-label` attribute, which is se
 
 When the item (view and edit) container gets removed, the active element focus will be set on the previous item.
 
+
 ## Demos
 
 <Examples.ViewAndEditContainer />
@@ -124,6 +125,7 @@ When having two items in the Iterate.Array:
 
 ## Properties
 
+
 ```json
 {
   "props": {
@@ -134,7 +136,11 @@ When having two items in the Iterate.Array:
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "toolbar": {
@@ -144,7 +150,10 @@ When having two items in the Iterate.Array:
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": ["\"minimumOneItem\"", "\"custom\""],
+      "type": [
+        "\"minimumOneItem\"",
+        "\"custom\""
+      ],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -156,11 +165,18 @@ When having two items in the Iterate.Array:
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "IterateViewContainer.editButton": {
       "nb-NO": "Endre",

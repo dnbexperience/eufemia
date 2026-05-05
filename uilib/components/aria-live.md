@@ -1,8 +1,8 @@
 ---
 title: 'AriaLive'
 description: 'AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.017Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.196Z
 checksum: 37d6f9de1d851f832bada8ac3d611762cc0b7718429f09afd06e1cb9d7c5e34b
 ---
 
@@ -68,154 +68,130 @@ function MyCustomAriaLive(props) {
 }
 ```
 
+
 ## Demos
 
 ### Playground
 
+
 ```tsx
-const priorities = ['low', 'high']
+const priorities = ['low', 'high'];
 const contents = {
   default: 'This is a default announcement',
   second: 'And a second one',
   third: 'A third one',
-  fourth: 'And a fourth one',
-}
-const priority: 'low' | 'high' = 'low'
+  fourth: 'And a fourth one'
+};
+const priority: 'low' | 'high' = 'low';
 const defaultData = {
   enabled: false,
   content: contents.default,
-  priority,
-}
+  priority
+};
 function AriaLiveExample() {
-  const { data } = Form.useData('aria-live-playground', defaultData)
-  return (
-    <Form.Handler id="aria-live-playground">
-      <Flex.Stack>
-        <Field.Boolean label="Announcement enabled" path="/enabled" />
-        <Field.Selection
-          variant="button"
-          optionsLayout="horizontal"
-          label="Priority"
-          path="/priority"
-        >
-          {priorities.map((content) => {
-            return (
-              <Field.Option
-                key={content}
-                title={content}
-                value={content}
-              />
-            )
-          })}
-        </Field.Selection>
+  const {
+    data
+  } = Form.useData('aria-live-playground', defaultData);
+  return <Form.Handler id="aria-live-playground">
+            <Flex.Stack>
+              <Field.Boolean label="Announcement enabled" path="/enabled" />
+              <Field.Selection variant="button" optionsLayout="horizontal" label="Priority" path="/priority">
+                {priorities.map(content => {
+          return <Field.Option key={content} title={content} value={content} />;
+        })}
+              </Field.Selection>
 
-        <Field.Selection
-          optionsLayout="horizontal"
-          label="Content"
-          path="/content"
-        >
-          {Object.entries(contents).map(([key, value]) => {
-            return <Field.Option key={key} title={key} value={value} />
-          })}
-        </Field.Selection>
+              <Field.Selection optionsLayout="horizontal" label="Content" path="/content">
+                {Object.entries(contents).map(([key, value]) => {
+          return <Field.Option key={key} title={key} value={value} />;
+        })}
+              </Field.Selection>
 
-        <Field.String
-          label="Content as freetext"
-          path="/content-as-free-text"
-          multiline
-        />
+              <Field.String label="Content as freetext" path="/content-as-free-text" multiline />
 
-        <Flex.Item>
-          Output:{' '}
-          <AriaLive
-            delay={1000}
-            disabled={!data.enabled}
-            priority={data.priority}
-            showAnnouncement
-          >
-            Message: {data.content}
-          </AriaLive>
-        </Flex.Item>
-      </Flex.Stack>
-    </Form.Handler>
-  )
+              <Flex.Item>
+                Output:{' '}
+                <AriaLive delay={1000} disabled={!data.enabled} priority={data.priority} showAnnouncement>
+                  Message: {data.content}
+                </AriaLive>
+              </Flex.Item>
+            </Flex.Stack>
+          </Form.Handler>;
 }
-render(<AriaLiveExample />)
+render(<AriaLiveExample />);
 ```
 
+
 ### Additions
+
 
 ```tsx
 const defaultData = {
   enabled: false,
-  content: ['Line 1'],
-}
+  content: ['Line 1']
+};
 function AriaLiveExample() {
-  const { data, update } = Form.useData('aria-live-additions', defaultData)
-  return (
-    <Form.Handler id="aria-live-additions">
-      <Flex.Stack>
-        <Field.Boolean label="Announcement enabled" path="/enabled" />
+  const {
+    data,
+    update
+  } = Form.useData('aria-live-additions', defaultData);
+  return <Form.Handler id="aria-live-additions">
+            <Flex.Stack>
+              <Field.Boolean label="Announcement enabled" path="/enabled" />
 
-        <FieldBlock label="Content">
-          <Form.ButtonRow>
-            <Button
-              text="Add more content"
-              variant="secondary"
-              icon="add"
-              iconPosition="left"
-              onClick={() => {
-                update('/content', (content) => {
-                  const c = content.length + 1
-                  content.push(`Line ${c}`)
-                  return [...content]
-                })
-              }}
-            />
-            <Button
-              text="Remove content"
-              variant="tertiary"
-              icon="subtract"
-              iconPosition="left"
-              onClick={() => {
-                update('/content', (content) => {
-                  content.pop()
-                  return [...content]
-                })
-              }}
-            />
-          </Form.ButtonRow>
-        </FieldBlock>
+              <FieldBlock label="Content">
+                <Form.ButtonRow>
+                  <Button text="Add more content" variant="secondary" icon="add" iconPosition="left" onClick={() => {
+            update('/content', content => {
+              const c = content.length + 1;
+              content.push(`Line ${c}`);
+              return [...content];
+            });
+          }} />
+                  <Button text="Remove content" variant="tertiary" icon="subtract" iconPosition="left" onClick={() => {
+            update('/content', content => {
+              content.pop();
+              return [...content];
+            });
+          }} />
+                </Form.ButtonRow>
+              </FieldBlock>
 
-        <Flex.Item>
-          Output:{' '}
-          <AriaLive variant="content" disabled={!data.enabled}>
-            Message:{' '}
-            {data.content.map((line, i) => {
-              return <P key={i}>{line}</P>
-            })}
-          </AriaLive>
-        </Flex.Item>
-      </Flex.Stack>
-    </Form.Handler>
-  )
+              <Flex.Item>
+                Output:{' '}
+                <AriaLive variant="content" disabled={!data.enabled}>
+                  Message:{' '}
+                  {data.content.map((line, i) => {
+            return <P key={i}>{line}</P>;
+          })}
+                </AriaLive>
+              </Flex.Item>
+            </Flex.Stack>
+          </Form.Handler>;
 }
-render(<AriaLiveExample />)
+render(<AriaLiveExample />);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "variant": {
       "doc": "Can be `text` for text messages or `content` for whole application content. Defaults to `text`.",
-      "type": ["\"text\"", "\"content\""],
+      "type": [
+        "\"text\"",
+        "\"content\""
+      ],
       "status": "optional"
     },
     "priority": {
       "doc": "Priority of the announcement. Can be `low` or `high`. Defaults to `low`.",
-      "type": ["\"low\"", "\"high\""],
+      "type": [
+        "\"low\"",
+        "\"high\""
+      ],
       "status": "optional"
     },
     "delay": {

@@ -1,7 +1,7 @@
 ---
 title: 'React & TypeScript'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.489Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.387Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,9 +11,11 @@ The most basic way to use the `@dnb/eufemia` is like this:
 
 ## Basic Buttons
 
+
 ```tsx
 render(<Button text="Basic Button" />)
 ```
+
 
 ### Importing the Components
 
@@ -33,8 +35,10 @@ import { hamburger as hamburgerIcon } from '@dnb/eufemia/icons'
 
 ### Events
 
+
 ```tsx
 render(<Button text="Button" onClick={() => console.log('click')} />)
 ```
+
 
 Now, let's jump to the [Button Docs](/uilib/components/button) for more details.

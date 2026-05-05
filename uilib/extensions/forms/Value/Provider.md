@@ -1,8 +1,8 @@
 ---
 title: 'Value.Provider'
 description: 'The `Value.Provider` lets you pass generic properties to all nested Value.* components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.253Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.204Z
 checksum: cc86c48b6514ed0d129db65200bfaf13f2558a02b4eb08b99bcc87847b504d87
 ---
 
@@ -37,37 +37,34 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Provider)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Provider)
 
+
 ## Demos
 
 ### Inherit visibility
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.Boolean
-        variant="button"
-        path="/isVisible"
-        defaultValue={true}
-      />
+render(<Form.Handler>
+        <Form.Card>
+          <Field.Boolean variant="button" path="/isVisible" defaultValue={true} />
 
-      <Form.Visibility pathTrue="/isVisible" animate>
-        <Field.Name.First path="/foo" defaultValue="foo" />
-        <Field.Name.Last path="/bar" defaultValue="bar" />
-      </Form.Visibility>
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Name.First path="/foo" defaultValue="foo" />
+            <Field.Name.Last path="/bar" defaultValue="bar" />
+          </Form.Visibility>
 
-      <Value.Provider inheritVisibility>
-        <Value.SummaryList>
-          <Value.Name.First path="/foo" />
-          <Value.Name.First path="/bar" />
-        </Value.SummaryList>
-      </Value.Provider>
-    </Form.Card>
-  </Form.Handler>
-)
+          <Value.Provider inheritVisibility>
+            <Value.SummaryList>
+              <Value.Name.First path="/foo" />
+              <Value.Name.First path="/bar" />
+            </Value.SummaryList>
+          </Value.Provider>
+        </Form.Card>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -134,7 +131,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -144,7 +146,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "children": {

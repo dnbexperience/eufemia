@@ -1,8 +1,8 @@
 ---
 title: 'useValueProps'
 description: 'The `useValueProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.379Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.315Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -70,29 +70,28 @@ In addition there are **value transformers** which should be used outside of the
 
 - `transformIn` transforms the `value` before it's displayed in the value component.
 
+
 ## Demos
 
+
 ```tsx
-const MyValueComponent = (props) => {
+const MyValueComponent = props => {
   const preparedProps = {
     label: 'Default Label',
     ...props,
-    toInput: (value) => value + 10,
-  }
-  const { value, ...rest } = useValueProps(preparedProps)
-  return <ValueBlock {...rest}>{formatCurrency(value)} kroner</ValueBlock>
-}
-render(
-  <Form.Handler
-    data={{
-      myValue: 10,
-    }}
-  >
-    <MyValueComponent
-      label="Amount"
-      path="/myValue"
-      transformIn={(value) => value * 2}
-    />
-  </Form.Handler>
-)
+    toInput: value => value + 10
+  };
+  const {
+    value,
+    ...rest
+  } = useValueProps(preparedProps);
+  return <ValueBlock {...rest}>
+              {formatCurrency(value)} kroner
+            </ValueBlock>;
+};
+render(<Form.Handler data={{
+  myValue: 10
+}}>
+            <MyValueComponent label="Amount" path="/myValue" transformIn={value => value * 2} />
+          </Form.Handler>);
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.942Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.962Z
 checksum: 331caa573f5cc2c579960751e1ff9f48a542e73740f08295e62068ec0d5f6085
 ---
 
@@ -527,251 +527,214 @@ it('MySection should match snapshot', () => {
 })
 ```
 
+
 ## Demos
 
 ### Without Form.Handler
 
+
 ```tsx
-render(
-  <Form.Section
-    data={{
-      myField: 'Value',
-    }}
-    onChange={console.log}
-  >
-    <Field.String path="/myField" />
-  </Form.Section>
-)
+render(<Form.Section data={{
+  myField: 'Value'
+}} onChange={console.log}>
+        <Field.String path="/myField" />
+      </Form.Section>)
 ```
+
 
 ### With a nested path
 
 This lets you reuse the same section of fields in multiple places in your forms.
 
+
 ```tsx
 const MyNameSection = (props: SectionProps) => {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <Field.Name.First path="/firstName" />
-        <Field.Name.Last path="/lastName" />
-      </Form.Card>
-    </Form.Section>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: 'Nora',
-        lastName: 'Mørk',
-      },
-    }}
-  >
-    <MyNameSection path="/nestedPath" />
-    <Form.SubmitButton variant="send" />
-  </Form.Handler>
-)
+  return <Form.Section {...props}>
+              <Form.Card>
+                <Field.Name.First path="/firstName" />
+                <Field.Name.Last path="/lastName" />
+              </Form.Card>
+            </Form.Section>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora',
+    lastName: 'Mørk'
+  }
+}}>
+            <MyNameSection path="/nestedPath" />
+            <Form.SubmitButton variant="send" />
+          </Form.Handler>);
 ```
+
 
 ### With a Edit and View container
 
 This example uses the [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) containers with the default `variant="outline"`.
 
+
 ```tsx
 const MyEditContainer = () => {
-  return (
-    <Form.Section.EditContainer>
-      <Field.Name.First path="/firstName" />
-      <Field.Name.Last path="/lastName" />
-    </Form.Section.EditContainer>
-  )
-}
+  return <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>;
+};
 const MyViewContainer = () => {
-  return (
-    <Form.Section.ViewContainer>
-      <Value.SummaryList>
-        <Value.Name.First path="/firstName" />
-        <Value.Name.Last path="/lastName" />
-      </Value.SummaryList>
-    </Form.Section.ViewContainer>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: 'Nora',
-        lastName: 'Mørk',
-      },
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Your account</Form.SubHeading>
-      <Form.Section path="/nestedPath" required>
-        <MyEditContainer />
-        <MyViewContainer />
-      </Form.Section>
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+  return <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora',
+    lastName: 'Mørk'
+  }
+}}>
+            <Form.Card>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Show errors on the whole section
 
 When a field in the section has an error and the section has `containerMode` set to `auto` (default), the whole section will switch to edit mode. The errors will be shown when `validateInitially` is set to `true`.
 
+
 ```tsx
 const MyEditContainer = () => {
-  return (
-    <Form.Section.EditContainer>
-      <Field.Name.First path="/firstName" />
-      <Field.Name.Last path="/lastName" />
-    </Form.Section.EditContainer>
-  )
-}
+  return <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>;
+};
 const MyViewContainer = () => {
-  return (
-    <Form.Section.ViewContainer>
-      <Value.SummaryList>
-        <Value.Name.First path="/firstName" />
-        <Value.Name.Last path="/lastName" />
-      </Value.SummaryList>
-    </Form.Section.ViewContainer>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: 'Nora',
-        lastName: undefined, // initiate error
-      },
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Your account</Form.SubHeading>
-      <Form.Section path="/nestedPath" required validateInitially>
-        <MyEditContainer />
-        <MyViewContainer />
-      </Form.Section>
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+  return <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora',
+    lastName: undefined // initiate error
+  }
+}}>
+            <Form.Card>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required validateInitially>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Using `variant="basic"`
 
 Using `variant="basic"` will render the view and edit container without the additional Card `outline`.
 
+
 ```tsx
 const MyEditContainer = () => {
-  return (
-    <Form.Section.EditContainer variant="basic">
-      <Field.Name.First path="/firstName" />
-      <Field.Name.Last path="/lastName" />
-    </Form.Section.EditContainer>
-  )
-}
+  return <Form.Section.EditContainer variant="basic">
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>;
+};
 const MyViewContainer = () => {
-  return (
-    <Form.Section.ViewContainer variant="basic">
-      <Value.SummaryList>
-        <Value.Name.First path="/firstName" />
-        <Value.Name.Last path="/lastName" />
-      </Value.SummaryList>
-    </Form.Section.ViewContainer>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: 'Nora',
-        lastName: 'Mørk',
-      },
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Your account</Form.SubHeading>
-      <Form.Section path="/nestedPath" required>
-        <MyEditContainer />
-        <MyViewContainer />
-      </Form.Section>
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+  return <Form.Section.ViewContainer variant="basic">
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora',
+    lastName: 'Mørk'
+  }
+}}>
+            <Form.Card>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Overwrite properties
 
 Overwriting properties makes it very flexible to reuse the same section of fields in multiple places in your forms.
 
+
 ```tsx
-const MyNameSection = (props) => {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <Field.Composition width="large">
-          <Field.Name.First path="/firstName" />
-          <Field.Name.Last path="/lastName" required minLength={10} />
-        </Field.Composition>
-      </Form.Card>
-    </Form.Section>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: '',
-        lastName: 'M',
-      },
-    }}
-  >
-    <MyNameSection
-      path="/nestedPath"
-      overwriteProps={{
-        firstName: {
-          required: true,
-          label: 'Custom',
-        },
-        lastName: {
-          required: false,
-          minLength: 2,
-        },
-      }}
-    />
-    <Form.SubmitButton variant="send" />
-  </Form.Handler>
-)
+const MyNameSection = props => {
+  return <Form.Section {...props}>
+              <Form.Card>
+                <Field.Composition width="large">
+                  <Field.Name.First path="/firstName" />
+                  <Field.Name.Last path="/lastName" required minLength={10} />
+                </Field.Composition>
+              </Form.Card>
+            </Form.Section>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: '',
+    lastName: 'M'
+  }
+}}>
+            <MyNameSection path="/nestedPath" overwriteProps={{
+    firstName: {
+      required: true,
+      label: 'Custom'
+    },
+    lastName: {
+      required: false,
+      minLength: 2
+    }
+  }} />
+            <Form.SubmitButton variant="send" />
+          </Form.Handler>);
 ```
+
 
 ### Schema support
 
 This feature lets you extend the requirements of the fields in the section with a [JSON Schema](/uilib/extensions/forms/all-features/#schema-validation).
 
+
 ```tsx
 const MyNameSection = (props: SectionProps) => {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <Field.Composition width="large">
-          <Field.Name.First path="/firstName" />
-          <Field.Name.Last path="/lastName" required minLength={10} />
-        </Field.Composition>
-      </Form.Card>
-    </Form.Section>
-  )
-}
+  return <Form.Section {...props}>
+              <Form.Card>
+                <Field.Composition width="large">
+                  <Field.Name.First path="/firstName" />
+                  <Field.Name.Last path="/lastName" required minLength={10} />
+                </Field.Composition>
+              </Form.Card>
+            </Form.Section>;
+};
 const mySchema: JSONSchema = {
   type: 'object',
   properties: {
@@ -780,261 +743,215 @@ const mySchema: JSONSchema = {
       properties: {
         firstName: {
           type: 'string',
-          minLength: 3,
+          minLength: 3
         },
         lastName: {
           type: 'string',
-          minLength: 2,
-        },
+          minLength: 2
+        }
       },
-      required: ['firstName', 'lastName'],
-    },
-  },
-}
-const ajv = makeAjvInstance()
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    schema={mySchema}
-    ajvInstance={ajv}
-    defaultData={{
-      nestedPath: {
-        firstName: '',
-        lastName: 'M',
-      },
-    }}
-  >
-    <MyNameSection path="/nestedPath" />
-    <Form.SubmitButton variant="send" />
-  </Form.Handler>
-)
+      required: ['firstName', 'lastName']
+    }
+  }
+};
+const ajv = makeAjvInstance();
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} schema={mySchema} ajvInstance={ajv} defaultData={{
+  nestedPath: {
+    firstName: '',
+    lastName: 'M'
+  }
+}}>
+            <MyNameSection path="/nestedPath" />
+            <Form.SubmitButton variant="send" />
+          </Form.Handler>);
 ```
+
 
 ### Section level Zod schema
 
 You can also use a Zod schema to validate the data in the section.
 
+
 ```tsx
 const sectionSchema = z.object({
-  firstName: z
-    .string()
-    .min(4, 'StringField.errorMinLength')
-    .optional()
-    .refine(...asRequired('FirstName.errorRequired')),
-  lastName: z
-    .string()
-    .min(5, 'StringField.errorMinLength')
-    .optional()
-    .refine(...asRequired('LastName.errorRequired')),
-})
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Form.Section path="/customer" schema={sectionSchema}>
-        <Field.Composition width="large">
-          <Field.Name.First path="/firstName" label="Given name" />
-          <Field.Name.Last path="/lastName" label="Surname" />
-        </Field.Composition>
-      </Form.Section>
-      <Form.SubmitButton />
-      <Tools.Log label="Data" />
-      <Tools.Errors label="Errors" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+  firstName: z.string().min(4, 'StringField.errorMinLength').optional().refine(...asRequired('FirstName.errorRequired')),
+  lastName: z.string().min(5, 'StringField.errorMinLength').optional().refine(...asRequired('LastName.errorRequired'))
+});
+render(<Form.Handler>
+            <Flex.Stack>
+              <Form.Section path="/customer" schema={sectionSchema}>
+                <Field.Composition width="large">
+                  <Field.Name.First path="/firstName" label="Given name" />
+                  <Field.Name.Last path="/lastName" label="Surname" />
+                </Field.Composition>
+              </Form.Section>
+              <Form.SubmitButton />
+              <Tools.Log label="Data" />
+              <Tools.Errors label="Errors" />
+            </Flex.Stack>
+          </Form.Handler>);
 ```
+
 
 ### Required support
 
 You can easily make a section of fields required by setting the `required` property on the section itself.
 
+
 ```tsx
 const MyNameSection = (props: SectionProps) => {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <Field.Composition width="large">
-          <Field.Name.First path="/firstName" />
-          <Field.Name.Last path="/lastName" />
-        </Field.Composition>
-      </Form.Card>
-    </Form.Section>
-  )
-}
+  return <Form.Section {...props}>
+              <Form.Card>
+                <Field.Composition width="large">
+                  <Field.Name.First path="/firstName" />
+                  <Field.Name.Last path="/lastName" />
+                </Field.Composition>
+              </Form.Card>
+            </Form.Section>;
+};
 const schema: JSONSchema = {
   type: 'object',
-  required: ['myRequiredSection'],
-}
-const ajv = makeAjvInstance()
-render(
-  <Flex.Stack>
-    <Form.Handler onSubmit={async (data) => console.log('onSubmit', data)}>
-      <MyNameSection required />
-      <Form.SubmitButton variant="send" />
-    </Form.Handler>
+  required: ['myRequiredSection']
+};
+const ajv = makeAjvInstance();
+render(<Flex.Stack>
+            <Form.Handler onSubmit={async data => console.log('onSubmit', data)}>
+              <MyNameSection required />
+              <Form.SubmitButton variant="send" />
+            </Form.Handler>
 
-    <Form.Handler
-      onSubmit={async (data) => console.log('onSubmit', data)}
-      schema={schema}
-      ajvInstance={ajv}
-    >
-      <MyNameSection path="/myRequiredSection" />
-      <Form.SubmitButton variant="send" />
-    </Form.Handler>
-  </Flex.Stack>
-)
+            <Form.Handler onSubmit={async data => console.log('onSubmit', data)} schema={schema} ajvInstance={ajv}>
+              <MyNameSection path="/myRequiredSection" />
+              <Form.SubmitButton variant="send" />
+            </Form.Handler>
+          </Flex.Stack>);
 ```
+
 
 ### Nested sections
 
 You can nest sections inside each other.
 
+
 ```tsx
-return (
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        name: {
-          first: 'Nora',
-          last: 'Mørk',
-        },
-        address: {
-          street: 'Strøget',
-          nr: '',
-        },
-      },
-    }}
-  >
-    <MySection path="/nestedPath" required />
-    <Form.SubmitButton variant="send" />
-  </Form.Handler>
-)
+return <Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    name: {
+      first: 'Nora',
+      last: 'Mørk'
+    },
+    address: {
+      street: 'Strøget',
+      nr: ''
+    }
+  }
+}}>
+            <MySection path="/nestedPath" required />
+            <Form.SubmitButton variant="send" />
+          </Form.Handler>;
 function MySection(props: SectionProps) {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <MyNameSection path="/name" />
-        <MyAddressSection path="/address" />
-        <MyValueSection />
-      </Form.Card>
-    </Form.Section>
-  )
+  return <Form.Section {...props}>
+              <Form.Card>
+                <MyNameSection path="/name" />
+                <MyAddressSection path="/address" />
+                <MyValueSection />
+              </Form.Card>
+            </Form.Section>;
 }
 function MyNameSection(props: SectionProps) {
-  return (
-    <Form.Section {...props}>
-      <Field.Composition width="large">
-        <Field.Name.First path="/first" />
-        <Field.Name.Last path="/last" />
-      </Field.Composition>
-    </Form.Section>
-  )
+  return <Form.Section {...props}>
+              <Field.Composition width="large">
+                <Field.Name.First path="/first" />
+                <Field.Name.Last path="/last" />
+              </Field.Composition>
+            </Form.Section>;
 }
 function MyAddressSection(props: SectionProps) {
-  return (
-    <Form.Section {...props}>
-      <Field.Composition width="large">
-        <Field.String label="Gateadresse" path="/street" width="stretch" />
-        <Field.String label="Nr." path="/nr" width="small" />
-      </Field.Composition>
-    </Form.Section>
-  )
+  return <Form.Section {...props}>
+              <Field.Composition width="large">
+                <Field.String label="Gateadresse" path="/street" width="stretch" />
+                <Field.String label="Nr." path="/nr" width="small" />
+              </Field.Composition>
+            </Form.Section>;
 }
 function MyValueSection(props: SectionProps) {
-  return (
-    <Form.Section {...props}>
-      <Value.SummaryList>
-        <Form.Section path="/name">
-          <Value.Composition gap="small">
-            <Value.Name.First path="/first" />
-            <Value.Name.Last path="/last" />
-          </Value.Composition>
-        </Form.Section>
+  return <Form.Section {...props}>
+              <Value.SummaryList>
+                <Form.Section path="/name">
+                  <Value.Composition gap="small">
+                    <Value.Name.First path="/first" />
+                    <Value.Name.Last path="/last" />
+                  </Value.Composition>
+                </Form.Section>
 
-        <Form.Section path="/address">
-          <Value.Composition gap="small">
-            <Value.String label="Gateadresse" path="/street" />
-            <Value.String label="Nr." path="/nr" placeholder="–" />
-          </Value.Composition>
-        </Form.Section>
-      </Value.SummaryList>
-    </Form.Section>
-  )
+                <Form.Section path="/address">
+                  <Value.Composition gap="small">
+                    <Value.String label="Gateadresse" path="/street" />
+                    <Value.String label="Nr." path="/nr" placeholder="–" />
+                  </Value.Composition>
+                </Form.Section>
+              </Value.SummaryList>
+            </Form.Section>;
 }
 ```
+
 
 ### With Visibility logic
 
 The [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component lets you show or hide parts of your form based on the data given in the section itself.
 
+
 ```tsx
-const MySection = ({ children, ...props }) => {
-  return (
-    <Form.Section {...props}>
-      <Form.Card>
-        <Field.Boolean
-          label="Are you sure?"
-          variant="buttons"
-          path="/iAmSure"
-        />
-        <Form.Visibility pathTrue="/iAmSure" animate>
-          <Field.Selection
-            label="Choose"
-            variant="radio"
-            path="/mySelection"
-          >
-            <Field.Option value="less" title="Less" />
-            <Field.Option value="more" title="More" />
-          </Field.Selection>
+const MySection = ({
+  children,
+  ...props
+}) => {
+  return <Form.Section {...props}>
+              <Form.Card>
+                <Field.Boolean label="Are you sure?" variant="buttons" path="/iAmSure" />
+                <Form.Visibility pathTrue="/iAmSure" animate>
+                  <Field.Selection label="Choose" variant="radio" path="/mySelection">
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
 
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'more',
-            }}
-            animate
-          >
-            <Field.String label="My String" path="/myString" />
-          </Form.Visibility>
-        </Form.Visibility>
+                  <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'more'
+        }} animate>
+                    <Field.String label="My String" path="/myString" />
+                  </Form.Visibility>
+                </Form.Visibility>
 
-        {children}
-      </Form.Card>
+                {children}
+              </Form.Card>
 
-      <Tools.Log />
-    </Form.Section>
-  )
-}
-render(
-  <Form.Handler
-    onChange={console.log}
-    defaultData={{
-      nestedPath: {
-        iAmSure: false,
-        mySelection: 'less',
-        myString: 'has a value',
-      },
-    }}
-  >
-    <MySection path="/nestedPath">
-      <Form.Visibility
-        visibleWhen={{
-          path: '/myString',
-          hasValue: (value) => value !== 'has a value',
-        }}
-        animate
-      >
-        <P>
-          Result: <Value.String path="/nestedPath/myString" inline />
-        </P>
-      </Form.Visibility>
-    </MySection>
-  </Form.Handler>
-)
+              <Tools.Log />
+            </Form.Section>;
+};
+render(<Form.Handler onChange={console.log} defaultData={{
+  nestedPath: {
+    iAmSure: false,
+    mySelection: 'less',
+    myString: 'has a value'
+  }
+}}>
+            <MySection path="/nestedPath">
+              <Form.Visibility visibleWhen={{
+      path: '/myString',
+      hasValue: value => value !== 'has a value'
+    }} animate>
+                <P>
+                  Result:{' '}
+                  <Value.String path="/nestedPath/myString" inline />
+                </P>
+              </Form.Visibility>
+            </MySection>
+          </Form.Handler>);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -1076,7 +993,11 @@ render(
     },
     "containerMode": {
       "doc": "Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be \"edit\" if fields contain errors. Defaults to `auto`.",
-      "type": ["\"view\"", "\"edit\"", "\"auto\""],
+      "type": [
+        "\"view\"",
+        "\"edit\"",
+        "\"auto\""
+      ],
       "status": "optional"
     },
     "disableEditing": {
@@ -1093,11 +1014,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "SectionEditContainer.cancelButton": {
       "nb-NO": "Avbryt",
@@ -1136,6 +1064,7 @@ render(
 ## Events
 
 ### Section-specific events
+
 
 ```json
 {

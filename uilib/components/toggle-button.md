@@ -1,8 +1,8 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.603Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.667Z
 checksum: 353894e3b19029b335e5ff143d3d62ae26b3ffbd961810568cf2141082dc8824
 ---
 
@@ -42,195 +42,166 @@ If `multiselect` is enabled on the group, several items can be enabled or disabl
 
 You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `onChange(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.
 
+
 ## Demos
 
 ### Unchecked ToggleButton
+
 
 ```tsx
 render(<ToggleButton label="Label" text="Toggle Me" />)
 ```
 
+
 ### Checked ToggleButton
 
+
 ```tsx
-render(
-  <ToggleButton
-    label="Label"
-    text="Checked ToggleButton"
-    checked
-    onChange={({ checked }) => {
-      console.log('onChange', checked)
-    }}
-  />
-)
+render(<ToggleButton label="Label" text="Checked ToggleButton" checked onChange={({
+  checked
+}) => {
+  console.log('onChange', checked);
+}} />)
 ```
+
 
 ### Default ToggleButton group
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="ToggleButton Group"
-    value="first"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton text="Second" value="second" />
-    <ToggleButton text="Third" value="third" />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="ToggleButton Group" value="first" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}}>
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" />
+      <ToggleButton text="Third" value="third" />
+    </ToggleButton.Group>)
 ```
+
 
 ### Multi-select ToggleButton group
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="Multi-select"
-    multiselect={true}
-    values={['first', 'third']}
-    onChange={({ values }) => {
-      console.log('onChange', values)
-    }}
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton text="Second" value="second" />
-    <ToggleButton text="Third" value="third" />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="Multi-select" multiselect={true} values={['first', 'third']} onChange={({
+  values
+}) => {
+  console.log('onChange', values);
+}}>
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" />
+      <ToggleButton text="Third" value="third" />
+    </ToggleButton.Group>)
 ```
+
 
 ### Vertical aligned ToggleButton group with `checkbox` variant and `multiselect`
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="Vertical Group"
-    layoutDirection="column"
-    multiselect={true}
-    variant="checkbox"
-    onChange={({ values }) => {
-      console.log('onChange', values)
-    }}
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton text="Second" value="second" />
-    <ToggleButton text="Third" value="third" checked />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="Vertical Group" layoutDirection="column" multiselect={true} variant="checkbox" onChange={({
+  values
+}) => {
+  console.log('onChange', values);
+}}>
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" />
+      <ToggleButton text="Third" value="third" checked />
+    </ToggleButton.Group>)
 ```
+
 
 ### ToggleButton group as `multiselect` with a status message
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="ToggleButton Group with status"
-    status="Error message"
-    multiselect={true}
-    onChange={({ values }) => {
-      console.log('onChange', values)
-    }}
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton text="Second" value="second" checked />
-    <ToggleButton text="Third" value="third" checked={true} />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="ToggleButton Group with status" status="Error message" multiselect={true} onChange={({
+  values
+}) => {
+  console.log('onChange', values);
+}}>
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" checked />
+      <ToggleButton text="Third" value="third" checked={true} />
+    </ToggleButton.Group>)
 ```
+
 
 ### ToggleButton with status messages and a group variant as `radio`
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="ToggleButtons with status"
-    variant="radio"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-  >
-    <ToggleButton text="First" value="first" status="error" />
-    <ToggleButton
-      text="Second"
-      value="second"
-      checked
-      status="Error message"
-    />
-    <ToggleButton
-      text="Third"
-      value="third"
-      status="Info message"
-      statusState="information"
-    />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="ToggleButtons with status" variant="radio" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}}>
+      <ToggleButton text="First" value="first" status="error" />
+      <ToggleButton text="Second" value="second" checked status="Error message" />
+      <ToggleButton text="Third" value="third" status="Info message" statusState="information" />
+    </ToggleButton.Group>)
 ```
+
 
 ### Disabled ToggleButton group
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="Disabled Group"
-    disabled
-    value="first"
-    variant="checkbox"
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton text="Second" value="second" />
-    <ToggleButton text="Third" value="third" checked />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="Disabled Group" disabled value="first" variant="checkbox">
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" />
+      <ToggleButton text="Third" value="third" checked />
+    </ToggleButton.Group>)
 ```
+
 
 ### ToggleButtons with a suffix
 
+
 ```tsx
-render(
-  <ToggleButton.Group
-    label="With suffixes"
-    suffix={<HelpButton title="Group suffix">Group suffix</HelpButton>}
-  >
-    <ToggleButton text="First" value="first" />
-    <ToggleButton
-      text="Second"
-      value="second"
-      status="Error message"
-      suffix={<HelpButton title="Button suffix">Button suffix</HelpButton>}
-    />
-    <ToggleButton text="Third" value="third" checked />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="With suffixes" suffix={<HelpButton title="Group suffix">Group suffix</HelpButton>}>
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" status="Error message" suffix={<HelpButton title="Button suffix">Button suffix</HelpButton>} />
+      <ToggleButton text="Third" value="third" checked />
+    </ToggleButton.Group>)
 ```
+
 
 ### ToggleButtons with icons only
 
+
 ```tsx
-render(
-  <ToggleButton.Group label="Icons only">
-    <ToggleButton icon="bell" value="first" checked />
-    <ToggleButton icon="loupe" value="second" />
-    <ToggleButton icon="calendar" value="third" />
-  </ToggleButton.Group>
-)
+render(<ToggleButton.Group label="Icons only">
+      <ToggleButton icon="bell" value="first" checked />
+      <ToggleButton icon="loupe" value="second" />
+      <ToggleButton icon="calendar" value="third" />
+    </ToggleButton.Group>)
 ```
 
 ## `ToggleButton` properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.",
-      "type": ["string", "number", "object", "Array"],
+      "type": [
+        "string",
+        "number",
+        "object",
+        "Array"
+      ],
       "status": "optional"
     },
     "text": {
       "doc": "The text shown in the ToggleButton.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "checked": {
@@ -250,12 +221,18 @@ render(
     },
     "icon": {
       "doc": "Icon to be included in the toggle button.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "iconPosition": {
       "doc": "Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "iconSize": {
@@ -265,22 +242,37 @@ render(
     },
     "tooltip": {
       "doc": "Provide a string or a React Element to be shown as the tooltip content.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
-      "type": ["\"default\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -295,7 +287,10 @@ render(
     },
     "suffix": {
       "doc": "Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -305,14 +300,19 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## `ToggleButton.Group` properties
+
 
 ```json
 {
@@ -334,7 +334,10 @@ render(
     },
     "layoutDirection": {
       "doc": "Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `row`.",
-      "type": ["\"column\"", "\"row\""],
+      "type": [
+        "\"column\"",
+        "\"row\""
+      ],
       "status": "optional"
     },
     "title": {
@@ -344,12 +347,19 @@ render(
     },
     "status": {
       "doc": "Uses the `form-status` component to show failure messages.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -369,7 +379,10 @@ render(
     },
     "labelDirection": {
       "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.",
-      "type": ["\"vertical\"", "\"horizontal\""],
+      "type": [
+        "\"vertical\"",
+        "\"horizontal\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -394,7 +407,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
@@ -402,6 +418,7 @@ render(
 ```
 
 ## `ToggleButton` events
+
 
 ```json
 {
@@ -415,7 +432,9 @@ render(
 }
 ```
 
+
 ## `ToggleButton.Group` events
+
 
 ```json
 {

@@ -1,7 +1,7 @@
 ---
 title: 'CSS classes'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.417Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.340Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,29 +17,26 @@ Reusing classes in the markup instead of using SCSS extends or _mixins_ will pre
 
 Provides the core Body Style inside a wrapper, making it available for all its children. The Body Style includes the correct color, line-height, font, and a CSS reset, among other styles.
 
+
 ```tsx
-render(
-  <Wrapper className="dnb-spacing">
-    <ComponentBox hideCode data-visual-test="helper-core-style">
-      <div className="dnb-core-style">
-        <h3 className="dnb-h--medium">
-          Wrapper with the DNB Body Style (CSS reset)
-        </h3>
-        <p className="dnb-p">
-          Read more about <code className="dnb-code">.dnb-core-style</code>{' '}
-          and{' '}
-          <a
-            href="/uilib/usage/customisation/styling#core-style"
-            className="dnb-anchor"
-          >
-            Use Eufemia Styles elsewhere
-          </a>
-        </p>
-      </div>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper className="dnb-spacing">
+      <ComponentBox hideCode data-visual-test="helper-core-style">
+        <div className="dnb-core-style">
+          <h3 className="dnb-h--medium">
+            Wrapper with the DNB Body Style (CSS reset)
+          </h3>
+          <p className="dnb-p">
+            Read more about{' '}
+            <code className="dnb-code">.dnb-core-style</code> and{' '}
+            <a href="/uilib/usage/customisation/styling#core-style" className="dnb-anchor">
+              Use Eufemia Styles elsewhere
+            </a>
+          </p>
+        </div>
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ## Tab focus
 
@@ -52,21 +49,21 @@ There is also:
 - `dnb-focus-ring`
 - `dnb-no-focus`
 
+
 ```tsx
-render(
-  <Wrapper className="dnb-spacing">
-    <ComponentBox hideCode data-visual-test="helper-tap-focus">
-      <details>
-        <summary className="dnb-tab-focus">
-          Try to focus me with the Tab key
-        </summary>
-        My main focus state has been removed and replaced by the helping
-        class <code className="dnb-code">.dnb-tab-focus</code>
-      </details>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper className="dnb-spacing">
+      <ComponentBox hideCode data-visual-test="helper-tap-focus">
+        <details>
+          <summary className="dnb-tab-focus">
+            Try to focus me with the Tab key
+          </summary>
+          My main focus state has been removed and replaced by the helping
+          class <code className="dnb-code">.dnb-tab-focus</code>
+        </details>
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ## Skip link
 
@@ -74,19 +71,15 @@ render(
 
 A default Skip Link style for adding a link at the top of each page that goes directly to the main content area.
 
+
 ```tsx
-render(
-  <ChangeStylesOfSkipLink>
-    <a
-      className="dnb-skip-link--active"
-      onClick={onClick}
-      href="#dnb-app-content"
-    >
-      Show Skip-Link
-    </a>
-  </ChangeStylesOfSkipLink>
-)
+render(<ChangeStylesOfSkipLink>
+      <a className="dnb-skip-link--active" onClick={onClick} href="#dnb-app-content">
+        Show Skip-Link
+      </a>
+    </ChangeStylesOfSkipLink>)
 ```
+
 
 ```html
 <body>
@@ -136,22 +129,22 @@ NB: Browser support is not fully covered (2021).
 
 Visually hide an element while keeping it accessible to screen readers. (_sr_ stands for _Screen Reader_)
 
+
 ```tsx
-render(
-  <Wrapper className="dnb-spacing">
-    <ComponentBox hideCode data-visual-test="helper-sr-only">
-      <p className="dnb-p">
-        Hidden text
-        <span className="dnb-sr-only">
-          I am only visible to screen readers, so you probably can't see
-          me. Unless you're using a screen reader.
-        </span>
-        !
-      </p>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper className="dnb-spacing">
+      <ComponentBox hideCode data-visual-test="helper-sr-only">
+        <p className="dnb-p">
+          Hidden text
+          <span className="dnb-sr-only">
+            I am only visible to screen readers, so you probably can't see
+            me. Unless you're using a screen reader.
+          </span>
+          !
+        </p>
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ## Page background
 
@@ -217,22 +210,22 @@ Makes some form components, like [Input](/uilib/components/input), react to smal
 
 Removes default styling for lists. Applies to the `ul` or `ol` elements.
 
+
 ```tsx
-render(
-  <Wrapper className="dnb-spacing">
-    <ComponentBox hideCode data-visual-test="helper-unstyled-list">
-      <ul className="dnb-unstyled-list">
-        <li>I'm an unstyled list item</li>
-        <li>Me too!</li>
-      </ul>
-      <hr className="dnb-hr" />
-      <ul className="dnb-ul">
-        <li>But I'm not.</li>
-      </ul>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper className="dnb-spacing">
+      <ComponentBox hideCode data-visual-test="helper-unstyled-list">
+        <ul className="dnb-unstyled-list">
+          <li>I'm an unstyled list item</li>
+          <li>Me too!</li>
+        </ul>
+        <hr className="dnb-hr" />
+        <ul className="dnb-ul">
+          <li>But I'm not.</li>
+        </ul>
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ## Selection
 
@@ -248,18 +241,18 @@ color: var(--token-color-text-neutral);
 text-shadow: none;
 ```
 
+
 ```tsx
-render(
-  <Wrapper className="dnb-spacing">
-    <ComponentBox hideCode data-visual-test="helper-selection">
-      <p className="dnb-selection dnb-t__size--basis">
-        If you select a part of this text, you will see the selection
-        highlight is green.
-      </p>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper className="dnb-spacing">
+      <ComponentBox hideCode data-visual-test="helper-selection">
+        <p className="dnb-selection dnb-t__size--basis">
+          If you select a part of this text, you will see the selection
+          highlight is green.
+        </p>
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ## HTML class naming
 

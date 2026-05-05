@@ -1,8 +1,8 @@
 ---
 title: 'v10'
 description: 'May, 31. 2023'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:20.507Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:11.507Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -200,13 +200,11 @@ Following is a non-exhaustive list of examples of changes that could be relevant
    From:
 
    ```js
-
    ```
 
    To:
 
    ```js
-
    ```
 
 1. Find references to `@dnb/eufemia/cjs/style/properties` and replace it with `@dnb/eufemia/cjs/style/themes/theme-ui/properties`.
@@ -214,13 +212,11 @@ Following is a non-exhaustive list of examples of changes that could be relevant
    From:
 
    ```js
-
    ```
 
    To:
 
    ```js
-
    ```
 
 1. Find references to `@dnb/eufemia/style/dnb-ui-properties.min.css` and replace it with `@dnb/eufemia/style/themes/theme-ui/ui-theme-properties.min.css`.

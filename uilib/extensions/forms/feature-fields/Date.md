@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.387Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.321Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -56,6 +56,7 @@ const myValidator: DateValidator = (value, { validators }) => {
 render(<Field.Date onBlurValidator={myValidator} />)
 ```
 
+
 ## Demos
 
 <ChangeLocale
@@ -66,37 +67,29 @@ render(<Field.Date onBlurValidator={myValidator} />)
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.Date
-    label="Label text"
-    value="2023-01-16"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Date label="Label text" value="2023-01-16" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With a horizontal layout
 
+
 ```tsx
-render(
-  <Field.Date
-    label="Label with a long text that will wrap"
-    layout="horizontal"
-    layoutOptions={{
-      width: 'medium', // can be a rem value
-    }}
-  />
-)
+render(<Field.Date label="Label with a long text that will wrap" layout="horizontal" layoutOptions={{
+  width: 'medium' // can be a rem value
+}} />)
 ```
+
 
 ### Date range
 
+
 ```tsx
-render(
-  <Field.Date label="Label text" value="2023-01-16|2023-04-01" range />
-)
+render(<Field.Date label="Label text" value="2023-01-16|2023-04-01" range />)
 ```
+
 
 ### Automatically close picker
 
@@ -104,133 +97,103 @@ The calendar will be prevented from automatically closing when the submit or can
 
 To enable the picker to close automatically, you have to set `showCancelButton` to `false`, to override the default behavior.
 
+
 ```tsx
 render(<Field.Date label="Automatically Close" showCancelButton={false} />)
 ```
 
+
 ### With help
 
+
 ```tsx
-render(
-  <Field.Date
-    label="Label text"
-    value="2023-01-16"
-    help={{
-      title: 'Help is available',
-      content:
-        'Kindness and helping others will return to you when you least expect it, and maybe when you need it.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Date label="Label text" value="2023-01-16" help={{
+  title: 'Help is available',
+  content: 'Kindness and helping others will return to you when you least expect it, and maybe when you need it.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.Date
-    label="Label text"
-    value="2023-01-16"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Date label="Label text" value="2023-01-16" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.Date
-    value="2023-01-16"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Date value="2023-01-16" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Date limit validation
 
 The Date field will automatically display an error message if the selected date is before `minDate` or after `maxDate`.
 
+
 ```tsx
-render(
-  <Field.Date
-    value="2024-12-31|2025-02-01"
-    minDate="2025-01-01"
-    maxDate="2025-01-31"
-    range
-  />
-)
+render(<Field.Date value="2024-12-31|2025-02-01" minDate="2025-01-01" maxDate="2025-01-31" range />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.Date
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.Date label="Label text" onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
+
 
 ### Extend validation with custom validation function
 
 You can [extend the existing validation](/uilib/extensions/forms/create-component/useFieldProps/info/#validators) (`dateValidator`) with your own validation function.
 
+
 ```tsx
 const myDateValidator = (value: string) => {
   if (value === '2025-01-01') {
-    return new Error('My custom message')
+    return new Error('My custom message');
   }
   if (value === '2025-01-03') {
-    return [
-      new Error('My custom message 1'),
-      new Error('My custom message 2'),
-    ]
+    return [new Error('My custom message 1'), new Error('My custom message 2')];
   }
-}
+};
 
 // Combine the shared validator with the custom date rules.
 // Combine the shared validator with the custom date rules.
-const myOnBlurValidator: DateValidator = (
-  value: string,
-  { validators }
-) => {
-  const { dateValidator } = validators ?? {}
-  return [myDateValidator, dateValidator]
-}
-render(
-  <Field.Date
-    value="2025-01-01"
-    minDate="2024-12-31"
-    maxDate="2025-01-31"
-    onBlurValidator={myOnBlurValidator}
-  />
-)
+const myOnBlurValidator: DateValidator = (value: string, {
+  validators
+}) => {
+  const {
+    dateValidator
+  } = validators ?? {};
+  return [myDateValidator, dateValidator];
+};
+render(<Field.Date value="2025-01-01" minDate="2024-12-31" maxDate="2025-01-31" onBlurValidator={myOnBlurValidator} />);
 ```
 
+
+
+  
 ```tsx
-render(
-  <Form.Card>
-    <Field.String width="stretch" />
-    <Field.Date label="default" />
-    <Field.Date width="small" label="small" />
-    <Field.Date width="medium" label="medium" />
-    <Field.Date width="large" label="large" />
-    <Field.Date width="stretch" label="stretch" />
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.String width="stretch" />
+        <Field.Date label="default" />
+        <Field.Date width="small" label="small" />
+        <Field.Date width="medium" label="medium" />
+        <Field.Date width="large" label="large" />
+        <Field.Date width="stretch" label="stretch" />
+      </Form.Card>)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -262,27 +225,42 @@ render(
     },
     "month": {
       "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "startMonth": {
       "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "endMonth": {
       "doc": "To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "minDate": {
       "doc": "To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "maxDate": {
       "doc": "To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "dateFormat": {
@@ -362,7 +340,11 @@ render(
     },
     "direction": {
       "doc": "Defines the direction of the date picker popup. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "link": {
@@ -447,7 +429,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -469,12 +453,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -494,7 +486,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -574,7 +569,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -589,12 +587,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -604,17 +608,26 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
@@ -622,11 +635,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Date.errorEndDateMaxDate": {
       "nb-NO": "Sluttdato kan ikke være etter {date}.",
@@ -742,6 +762,7 @@ render(
 
 ## Date Events
 
+
 ```json
 {
   "props": {
@@ -784,7 +805,9 @@ render(
 }
 ```
 
+
 ## Events
+
 
 ```json
 {

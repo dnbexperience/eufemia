@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.206Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.340Z
 checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 
@@ -37,38 +37,40 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 Normally, you only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. Make sure you give every other one a new ID:
 
+
 ```tsx
 render(<GlobalStatus id="other-global-status" />)
 ```
+
 
 ### Where to put it
 
 - The `GlobalStatus` component should be positioned right under the header. By default, it uses `main` as the ID.
 - Or as a secondary summary of errors in a submit form. Keep in mind that, by default, form components like [Input](/uilib/components/input) use the ID `main`. To make sure the built-in [FormStatus](/uilib/components/form-status) sends the message to another `GlobalStatus`, you have to set the [`globalStatus`](/uilib/components/global-status/properties/#configuration-object), like:
 
+
 ```tsx
 <GlobalStatus id="other-global-status" />
-<Input
-  globalStatus={{
-    id: 'other-global-status',
-  }}
-/>
+<Input globalStatus={{
+id: 'other-global-status'
+}} />
 ```
+
 
 But you can also make use of the Eufemia [Provider](/uilib/usage/customisation/provider-info) where you can send the `globalStatus` to the underlying/wrapped components, like:
 
+
 ```tsx
 <GlobalStatus id="other-global-status" />
-<Provider
-  formElement={{
-    globalStatus: {
-      id: 'other-global-status',
-    },
-  }}
->
-  <Input status="Message" />
-</Provider>
+<Provider formElement={{
+globalStatus: {
+  id: 'other-global-status'
+}
+}}>
+    <Input status="Message" />
+  </Provider>
 ```
+
 
 ### Manual updates
 
@@ -82,11 +84,14 @@ You can access and manipulate an existing GlobalStatus from outside of the React
 
 1. Given you have already defined a GlobalStatus in JSX:
 
+
 ```tsx
 render(<GlobalStatus id="other-global-status" />)
 ```
 
+
 2. Then you can control it from within a JavaScript context whenever you need to:
+
 
 ```tsx
 // 1. Update / extend the status like so:
@@ -98,73 +103,56 @@ const statusOne = GlobalStatus.create({
   text: 'New Text',
   item: 'Item from status #1',
   title: 'New Title',
-  show: true,
-})
+  show: true
+});
 
 // 2. and removes "custom-id-1" again if needed
 // 2. and removes "custom-id-1" again if needed
 
 statusOne.update({
-  text: 'Updated Text',
-})
+  text: 'Updated Text'
+});
 
 // 3. and removes "custom-id-1" again if needed
 // 3. and removes "custom-id-1" again if needed
-statusOne.remove()
-render(<GlobalStatus id="other-global-status" />)
+statusOne.remove();
+render(<GlobalStatus id="other-global-status" />);
 ```
+
 
 ### JSX
 
+
 ```tsx
-{
-  /* 1. Place it under the header bar */
-}
-;<GlobalStatus text="Optional default text" />
-{
-  /* 2. later on, you can show a message */
-}
-;<GlobalStatus.Add
-  id="custom-id"
-  statusId="custom-id-1"
-  title="New title"
-  text="First long info text ..."
-  item="Item from status #1"
-  onClose={({ statusId }) => {
-    console.log('onClose', statusId)
-  }}
-/>
-{
-  /* 3. and remove it again */
-}
-;<GlobalStatus.Remove id="custom-id" statusId="custom-id-1" />
+{/* 1. Place it under the header bar */}
+<GlobalStatus text="Optional default text" />
+{/* 2. later on, you can show a message */}
+<GlobalStatus.Add id="custom-id" statusId="custom-id-1" title="New title" text="First long info text ..." item="Item from status #1" onClose={({
+statusId
+}) => {
+console.log('onClose', statusId);
+}} />
+{/* 3. and remove it again */}
+<GlobalStatus.Remove id="custom-id" statusId="custom-id-1" />
 ```
+
 
 If you need an additional `GlobalStatus`, define a custom ID (custom-status):
 
+
 ```tsx
-{
-  /* 1. Place it somewhere in your application */
-}
-;<GlobalStatus id="custom-status" />
-{
-  /* 2. later on, you can show a message */
-}
-;<GlobalStatus.Add
-  id="custom-status"
-  statusId="custom-id-1"
-  title="New title"
-  text="First long info text ..."
-  item="Item from status #1"
-  onClose={({ statusId }) => {
-    console.log('onClose', statusId)
-  }}
-/>
-{
-  /* 3. and remove it again */
-}
-;<GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
+{/* 1. Place it somewhere in your application */}
+<GlobalStatus id="custom-status" />
+{/* 2. later on, you can show a message */}
+<GlobalStatus.Add id="custom-status" statusId="custom-id-1" title="New title" text="First long info text ..." item="Item from status #1" onClose={({
+statusId
+}) => {
+console.log('onClose', statusId);
+}} />
+{/* 3. and remove it again */}
+<GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
 ```
+
 
 ## Demos
 
@@ -172,175 +160,112 @@ If you need an additional `GlobalStatus`, define a custom ID (custom-status):
 
 **NB:** Keep in mind, the `items` are handled automatically by all form components! This is just an example of how to define the content manually.
 
+
 ```tsx
-render(
-  <GlobalStatus
-    title="Custom Title"
-    text="Failure text"
-    items={[
-      {
-        text: 'List item',
-        statusAnchorUrl: '/uilib/components/global-status',
-        statusAnchorLabel: 'eksempel',
-      },
-    ]}
-    show={true}
-    autoScroll={false}
-    noAnimation={true}
-    omitSetFocus={true}
-    id="demo-1"
-  />
-)
+render(<GlobalStatus title="Custom Title" text="Failure text" items={[{
+  text: 'List item',
+  statusAnchorUrl: '/uilib/components/global-status',
+  statusAnchorLabel: 'eksempel'
+}]} show={true} autoScroll={false} noAnimation={true} omitSetFocus={true} id="demo-1" />)
 ```
+
 
 ### GlobalStatus displaying info status
 
+
 ```tsx
-render(
-  <GlobalStatus
-    state="information"
-    title="Custom info title ..."
-    text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-    items={['Status text 1', 'Status text 2']}
-    show={true}
-    autoScroll={false}
-    noAnimation={true}
-    omitSetFocus={true}
-    id="demo-4"
-  />
-)
+render(<GlobalStatus state="information" title="Custom info title ..." text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus" items={['Status text 1', 'Status text 2']} show={true} autoScroll={false} noAnimation={true} omitSetFocus={true} id="demo-4" />)
 ```
+
 
 ### GlobalStatus displaying warning status
 
+
 ```tsx
-render(
-  <GlobalStatus
-    state="warning"
-    title="Custom warning title ..."
-    text="A string of text providing a warning or semi-urgent message of some kind to the user"
-    show={true}
-    autoScroll={false}
-    noAnimation={true}
-    omitSetFocus={true}
-    id="demo-5"
-  />
-)
+render(<GlobalStatus state="warning" title="Custom warning title ..." text="A string of text providing a warning or semi-urgent message of some kind to the user" show={true} autoScroll={false} noAnimation={true} omitSetFocus={true} id="demo-5" />)
 ```
+
 
 ### GlobalStatus displaying success status
 
+
 ```tsx
-render(
-  <GlobalStatus
-    state="success"
-    title="Custom success title ..."
-    text="A string of text providing a success message of some kind to the user"
-    show={true}
-    autoScroll={false}
-    noAnimation={true}
-    omitSetFocus={true}
-    id="demo-6"
-  />
-)
+render(<GlobalStatus state="success" title="Custom success title ..." text="A string of text providing a success message of some kind to the user" show={true} autoScroll={false} noAnimation={true} omitSetFocus={true} id="demo-6" />)
 ```
+
 
 ### GlobalStatus custom icon
 
+
 ```tsx
-render(
-  <GlobalStatus
-    icon={<Icon icon={confetti_medium} />}
-    show={true}
-    autoScroll={false}
-    noAnimation={true}
-    omitSetFocus={true}
-    id="demo-icon"
-  />
-)
+render(<GlobalStatus icon={<Icon icon={confetti_medium} />} show={true} autoScroll={false} noAnimation={true} omitSetFocus={true} id="demo-icon" />)
 ```
+
 
 ### To showcase the automated coupling between **FormStatus** and **GlobalStatus**
 
+
 ```tsx
 const InputWithError = () => {
-  const [errorMessage, setErrorMessage] = React.useState(null)
-  return (
-    <Input
-      label="Input"
-      placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
-      stretch
-      status={errorMessage}
-      onBlur={({ value }) => {
-        setErrorMessage(value.length <= 4 ? 'With a message shown' : null)
-      }}
-      globalStatus={{
-        id: 'main-status',
-      }}
-    />
-  )
-}
-render(<InputWithError />)
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  return <Input label="Input" placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..." stretch status={errorMessage} onBlur={({
+    value
+  }) => {
+    setErrorMessage(value.length <= 4 ? 'With a message shown' : null);
+  }} globalStatus={{
+    id: 'main-status'
+  }} />;
+};
+render(<InputWithError />);
 ```
+
 
 ### GlobalStatus and update routines
 
+
 ```tsx
-const Context = React.createContext(null)
+const Context = React.createContext(null);
 const UpdateDemo = () => {
-  const [errorA, setErrorA] = React.useState(false)
-  const [errorB, setErrorB] = React.useState(false)
-  const [isVisible, setVisibility] = React.useState(false)
-  return (
-    <Context
-      value={{
-        errorA,
-        errorB,
-        setErrorA,
-        setErrorB,
-        isVisible,
-        setVisibility,
-      }}
-    >
-      <UpdateDemoStatus />
-      <UpdateDemoTools />
-    </Context>
-  )
-}
+  const [errorA, setErrorA] = React.useState(false);
+  const [errorB, setErrorB] = React.useState(false);
+  const [isVisible, setVisibility] = React.useState(false);
+  return <Context value={{
+    errorA,
+    errorB,
+    setErrorA,
+    setErrorB,
+    isVisible,
+    setVisibility
+  }}>
+            <UpdateDemoStatus />
+            <UpdateDemoTools />
+          </Context>;
+};
 const UpdateDemoStatus = () => {
-  const { errorA, errorB, setErrorA, setErrorB } =
-    React.useContext(Context)
-  return (
-    <>
-      <GlobalStatus title="Custom Title" text="Failure text" id="demo-2" />
-      <Input
-        top
-        right
-        label="Label A"
-        placeholder="Placeholder A"
-        status={errorA}
-        globalStatus={{
-          id: 'demo-2',
-        }}
-        onChange={({ value }) => {
-          setErrorA(value)
-        }}
-      />
-      <Input
-        top
-        label="Label B"
-        placeholder="Placeholder B"
-        status={errorB}
-        globalStatus={{
-          id: 'demo-2',
-        }}
-        onChange={({ value }) => {
-          setErrorB(value)
-        }}
-      />
-    </>
-  )
-}
+  const {
+    errorA,
+    errorB,
+    setErrorA,
+    setErrorB
+  } = React.useContext(Context);
+  return <>
+            <GlobalStatus title="Custom Title" text="Failure text" id="demo-2" />
+            <Input top right label="Label A" placeholder="Placeholder A" status={errorA} globalStatus={{
+      id: 'demo-2'
+    }} onChange={({
+      value
+    }) => {
+      setErrorA(value);
+    }} />
+            <Input top label="Label B" placeholder="Placeholder B" status={errorB} globalStatus={{
+      id: 'demo-2'
+    }} onChange={({
+      value
+    }) => {
+      setErrorB(value);
+    }} />
+          </>;
+};
 const UpdateDemoTools = () => {
   const {
     errorA,
@@ -348,11 +273,11 @@ const UpdateDemoTools = () => {
     setErrorA,
     setErrorB,
     isVisible,
-    setVisibility,
-  } = React.useContext(Context)
+    setVisibility
+  } = React.useContext(Context);
 
   // Only to demonstrate the usage of an interceptor situation
-  const inst = React.useRef(null)
+  const inst = React.useRef(null);
   React.useEffect(() => {
     if (!inst.current) {
       inst.current = GlobalStatus.create({
@@ -360,140 +285,98 @@ const UpdateDemoTools = () => {
         title: 'New Title',
         text: 'New Text',
         statusId: 'custom-item',
-        show: false,
-      })
+        show: false
+      });
       inst.current.update({
         onShow: () => {
-          console.log('onShow')
+          console.log('onShow');
           if (!isVisible) {
-            setVisibility(true)
+            setVisibility(true);
           }
         },
         onHide: () => {
-          console.log('onHide')
-          setVisibility(false)
+          console.log('onHide');
+          setVisibility(false);
         },
         onClose: () => {
-          console.log('onClose')
-          setVisibility(false)
-        },
-      })
+          console.log('onClose');
+          setVisibility(false);
+        }
+      });
     }
     inst.current.update({
-      show: isVisible,
-    })
-  }, [isVisible])
-  React.useEffect(() => () => inst.current.remove(), [])
-  return (
-    <Section
-      top
-      innerSpace={{
-        block: 'large',
-      }}
-      variant="divider"
-    >
-      <ToggleButton
-        text="Toggle"
-        variant="checkbox"
-        right
-        checked={isVisible}
-        onChange={({ checked }) => {
-          setVisibility(checked)
-        }}
-      />
-      <Button
-        text="Reset"
-        variant="tertiary"
-        icon="reset"
-        disabled={!(errorA || errorB)}
-        onClick={() => {
-          setErrorA(null)
-          setErrorB(null)
-        }}
-      />
-    </Section>
-  )
-}
-render(<UpdateDemo />)
+      show: isVisible
+    });
+  }, [isVisible]);
+  React.useEffect(() => () => inst.current.remove(), []);
+  return <Section top innerSpace={{
+    block: 'large'
+  }} variant="divider">
+            <ToggleButton text="Toggle" variant="checkbox" right checked={isVisible} onChange={({
+      checked
+    }) => {
+      setVisibility(checked);
+    }} />
+            <Button text="Reset" variant="tertiary" icon="reset" disabled={!(errorA || errorB)} onClick={() => {
+      setErrorA(null);
+      setErrorB(null);
+    }} />
+          </Section>;
+};
+render(<UpdateDemo />);
 ```
+
 
 ### To showcase the custom **Update** and **Remove** possibility
 
+
 ```tsx
 function AddRemoveItems() {
-  const [count, toggleUpdateStatus] = React.useState(0)
-  return (
-    <>
-      <GlobalStatus
-        id="custom-status"
-        autoScroll={false}
-        onClose={() => toggleUpdateStatus(0)}
-        onHide={() => toggleUpdateStatus(0)}
-      />
-      <Button
-        text={`Show step #${count}`}
-        onClick={() => {
-          toggleUpdateStatus(count + 1)
-          if (count >= 3) {
-            toggleUpdateStatus(0)
-          }
-        }}
-        top="small"
-      />
-      {count === 1 && (
-        <>
-          <GlobalStatus.Add
-            id="custom-status"
-            statusId="custom-id-1"
-            title="New title"
-            text="First long info text ..."
-            item="Item from status #1"
-            onClose={({ statusId }) => {
-              console.log('onClose 1', statusId)
-            }}
-          />
-          <GlobalStatus.Add
-            id="custom-status"
-            statusId="custom-id-2"
-            text="Second long info text ..."
-            item="Item from status #2"
-            onClose={({ statusId }) => {
-              console.log('onClose 2', statusId)
-            }}
-          />
-        </>
-      )}
-      {count === 2 && (
-        <GlobalStatus.Remove id="custom-status" statusId="custom-id-2" />
-      )}
-      {count === 3 && (
-        <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
-      )}
-    </>
-  )
+  const [count, toggleUpdateStatus] = React.useState(0);
+  return <>
+            <GlobalStatus id="custom-status" autoScroll={false} onClose={() => toggleUpdateStatus(0)} onHide={() => toggleUpdateStatus(0)} />
+            <Button text={`Show step #${count}`} onClick={() => {
+      toggleUpdateStatus(count + 1);
+      if (count >= 3) {
+        toggleUpdateStatus(0);
+      }
+    }} top="small" />
+            {count === 1 && <>
+                <GlobalStatus.Add id="custom-status" statusId="custom-id-1" title="New title" text="First long info text ..." item="Item from status #1" onClose={({
+        statusId
+      }) => {
+        console.log('onClose 1', statusId);
+      }} />
+                <GlobalStatus.Add id="custom-status" statusId="custom-id-2" text="Second long info text ..." item="Item from status #2" onClose={({
+        statusId
+      }) => {
+        console.log('onClose 2', statusId);
+      }} />
+              </>}
+            {count === 2 && <GlobalStatus.Remove id="custom-status" statusId="custom-id-2" />}
+            {count === 3 && <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />}
+          </>;
 }
-render(<AddRemoveItems />)
+render(<AddRemoveItems />);
 ```
+
 
 ### To showcase the scrolling
 
 NB: this demo only works once, so you'll have to refresh the browser to try again :)
 
+
 ```tsx
-render(
-  <Button
-    text="Scroll to main GlobalStatus"
-    onClick={() => {
-      GlobalStatus.Update({
-        id: 'main-status',
-        text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
-      })
-    }}
-  />
-)
+render(<Button text="Scroll to main GlobalStatus" onClick={() => {
+  GlobalStatus.Update({
+    id: 'main-status',
+    text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum'
+  });
+}} />)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -545,7 +428,10 @@ render(
     },
     "show": {
       "doc": "Set to `true` or `false` to manually make the global status visible. Defaults to `true`.",
-      "type": ["boolean", "\"auto\""],
+      "type": [
+        "boolean",
+        "\"auto\""
+      ],
       "status": "optional"
     },
     "autoClose": {
@@ -565,7 +451,10 @@ render(
     },
     "delay": {
       "doc": "Defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "hideCloseButton": {
@@ -600,18 +489,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "GlobalStatus.closeText": {
       "nb-NO": "Lukk",
@@ -635,6 +534,7 @@ render(
 }
 ```
 
+
 ## Item Object
 
 ```js
@@ -649,6 +549,7 @@ const items = [
 ```
 
 ## Advanced Item Properties
+
 
 ```json
 {
@@ -682,50 +583,41 @@ const items = [
 }
 ```
 
+
 ## Controllers
 
 In React, you can make use of the helper components, the function as a kind of a controller component.
 The goal is to update the content (properties/events) of the target GlobalStatus.
 
+
 ```tsx
 {/* Place the status wherever you have to.*/}
 <GlobalStatus id="custom-id" />
 {/* Manipulate the status later on. Every property is optional.*/}
-<GlobalStatus.Add
-  id="custom-id"
-  statusId="status-1"
-  item="Item #1"
-  text="New Text"
-  onClose={({ statusId }) => {
-    console.log('onClose', statusId)
-  }}
-/>
-<GlobalStatus.Add
-  id="custom-id"
-  statusId="status-2"
-  item="Item #2"
-  text="New Text"
-  title="New Title"
-  onClose={({ statusId }) => {
-    console.log('onClose', statusId)
-  }}
-/>
-<GlobalStatus.Add
-  id="custom-id"
-  statusId="status-3"
-  item="Item #3"
-  text="Text #3"
-  onClose={({ statusId }) => {
-    console.log('onClose', statusId)
-  }}
-/>
+<GlobalStatus.Add id="custom-id" statusId="status-1" item="Item #1" text="New Text" onClose={({
+statusId
+}) => {
+console.log('onClose', statusId);
+}} />
+<GlobalStatus.Add id="custom-id" statusId="status-2" item="Item #2" text="New Text" title="New Title" onClose={({
+statusId
+}) => {
+console.log('onClose', statusId);
+}} />
+<GlobalStatus.Add id="custom-id" statusId="status-3" item="Item #3" text="Text #3" onClose={({
+statusId
+}) => {
+console.log('onClose', statusId);
+}} />
 {/* or update the status.*/}
 <GlobalStatus.Update id="custom-id" text="text" />
 {/* Later you can remove a resolved item.*/}
 <GlobalStatus.Remove id="custom-id" statusId="status-3" />
 ```
 
+
 ## Controller Properties
+
 
 ```json
 {
@@ -749,6 +641,7 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 }
 ```
 
+
 ## Configuration Object
 
 This object is used as a representation to configure the GlobalStatus component from other components, using the `globalStatus` property.
@@ -762,6 +655,7 @@ See [Autocomplete](/uilib/components/autocomplete/properties), [Button](/uilib/c
 ```
 
 ## Configuration Object Properties
+
 
 ```json
 {
@@ -781,6 +675,7 @@ See [Autocomplete](/uilib/components/autocomplete/properties), [Button](/uilib/c
 ```
 
 ## Events
+
 
 ```json
 {

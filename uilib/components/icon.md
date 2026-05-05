@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.230Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.362Z
 checksum: 9ab15f87276c87bf659491ebc7970a6033329a90d8cf417f7362df8c8a620fb2
 ---
 
@@ -107,9 +107,11 @@ render(<Icon size="medium">{CustomIcon}</Icon>)
 
 There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
 
+
 ## Demos
 
 ### Default and Medium-sized icons (Responsive)
+
 
 ```tsx
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
@@ -118,52 +120,52 @@ There is also the [IconPrimary](/uilib/components/icon-primary) component, which
 {/* <- Not responsive! */}
 ```
 
+
 ### Icons with border
 
 **NB:** Use it with caution. It should not be used where it can confuse users with being a clickable button.
 
+
 ```tsx
-render(
-  <P>
-    <Icon border={true} icon={Bell} right />
-    <Icon border={true} icon={BellMedium} size="medium" right />
-    <IconPrimary border={true} icon="information" right />
-    <IconPrimary border={true} icon="information" size="medium" right />
-    <Button icon={<IconPrimary icon="add" border />} text="Button" />
-  </P>
-)
+render(<P>
+      <Icon border={true} icon={Bell} right />
+      <Icon border={true} icon={BellMedium} size="medium" right />
+      <IconPrimary border={true} icon="information" right />
+      <IconPrimary border={true} icon="information" size="medium" right />
+      <Button icon={<IconPrimary icon="add" border />} text="Button" />
+    </P>)
 ```
+
 
 ### Responsive to its inherited `font-size`
 
+
 ```tsx
-render(
-  <h1 className="dnb-h--xx-large">
-    h1 with auto sized <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
-    icon
-  </h1>
-)
+render(<h1 className="dnb-h--xx-large">
+      h1 with auto sized <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
+      icon
+    </h1>)
 ```
+
 
 ### Icon color variations
 
 All of these methods will output the same color
 
+
 ```tsx
-<Icon
-  icon={BellMedium}
-  color="var(--color-fire-red)"
-  title="CSS variable"
-/>
+<Icon icon={BellMedium} color="var(--color-fire-red)" title="CSS variable" />
 <Icon icon={BellMedium} color="#DC2A2A" title="Hex" />
 <Icon icon={BellMedium} color="rgb(220,42,42)" title="RGB" />
 ```
+
 
 ### Icon size variations
 
 The official supported sizes are `default` and `medium`.
 
 **NB:** If you need to use the `large`, `x-large` or `xx-large` sizes, then you should use the `*_medium` version of the icon. Ensure you import the `*_medium` version of the icon.
+
 
 ```tsx
 <Icon icon={BellMedium} title="Beach" size="large" />
@@ -172,6 +174,7 @@ The official supported sizes are `default` and `medium`.
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -233,7 +236,10 @@ The official supported sizes are `default` and `medium`.
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

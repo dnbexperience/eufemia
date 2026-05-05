@@ -1,8 +1,8 @@
 ---
 title: 'Value.SelectCurrency'
 description: '`Value.SelectCurrency` will render the selected currency.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.255Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.205Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -44,76 +44,81 @@ const MyComponent = () => {
 }
 ```
 
+
 ## Demos
 
 ### Interactive
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myCurrency: 'NOK',
-    }}
-  >
-    <Flex.Stack>
-      <Field.SelectCurrency path="/myCurrency" />
-      <Value.SelectCurrency path="/myCurrency" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myCurrency: 'NOK'
+}}>
+        <Flex.Stack>
+          <Field.SelectCurrency path="/myCurrency" />
+          <Value.SelectCurrency path="/myCurrency" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.SelectCurrency placeholder="No value given" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.SelectCurrency value="NOK" />)
 ```
 
+
 ### Use different locale
 
+
 ```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    data={{
-      myCurrency: 'CHF',
-    }}
-  >
-    <Value.SelectCurrency path="/myCurrency" />
-  </Form.Handler>
-)
+render(<Form.Handler locale="en-GB" data={{
+  myCurrency: 'CHF'
+}}>
+        <Value.SelectCurrency path="/myCurrency" />
+      </Form.Handler>)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.SelectCurrency label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.SelectCurrency label="Label text" value="NOK" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.SelectCurrency value="NOK" inline /> This is after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.SelectCurrency value="NOK" inline /> This is after the
+        component
+      </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -180,7 +185,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -190,19 +200,31 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "omit": ["compact"]
+  "omit": [
+    "compact"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",

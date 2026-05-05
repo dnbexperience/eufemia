@@ -1,0 +1,1 @@
+import"./rolldown-runtime-BYbx6iT9.js";import{n as e,t}from"./jsx-runtime-BgMs7Gb-.js";import{Ir as n,Ri as r,Wi as i}from"./index-CMgyXmp3.js";e();var a=t();function o({className:e=null,...t}){return(0,a.jsx)(n,{className:i(`dnb-forms-test-element`,e),...t})}r(o,{_supportsSpacingProps:!0});export{o as t};

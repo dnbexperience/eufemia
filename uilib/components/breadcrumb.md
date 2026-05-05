@@ -1,8 +1,8 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.075Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.242Z
 checksum: d64f91f44b0713a618053013c3d2b68a096909bdf9d4f815b94eb02f72bd00b3
 ---
 
@@ -24,34 +24,32 @@ The Breadcrumb is a component for navigation and for showing the current website
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/breadcrumb)
 
+
 ## Demos
 
 ### Breadcrumb
 
 To ensure the correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Breadcrumb](/uilib/components/breadcrumb/#pages-as-child-components).
 
+
 ```tsx
 // You can also import pages from a store and only do a remapping
-const pages = [
-  {
-    text: '',
-    href: '/',
-  },
-  {
-    text: 'UI Library',
-    href: '/uilib',
-  },
-  {
-    text: 'Components',
-    href: '/uilib/components',
-  },
-  {
-    text: 'Breadcrumbs',
-    href: '/uilib/components/breadcrumbs',
-  },
-]
-render(<Breadcrumb data={pages} spacing />)
+const pages = [{
+  text: '',
+  href: '/'
+}, {
+  text: 'UI Library',
+  href: '/uilib'
+}, {
+  text: 'Components',
+  href: '/uilib/components'
+}, {
+  text: 'Breadcrumbs',
+  href: '/uilib/components/breadcrumbs'
+}];
+render(<Breadcrumb data={pages} spacing />);
 ```
+
 
 - The first item, `Home`, gets assigned a home icon and an appropriate text label based on the current locale.
 - The last item in pages will be static text, corresponding to the current page.
@@ -61,45 +59,33 @@ render(<Breadcrumb data={pages} spacing />)
 
 For customizing the Breadcrumb to fit your needs, you can add each page as a child component.
 
+
 ```tsx
-render(
-  <Breadcrumb spacing>
-    <Breadcrumb.Item
-      onClick={() => {
-        console.log('go home!')
-      }}
-      variant="home"
-    />
-    <Breadcrumb.Item
-      text="Page item"
-      onClick={() => {
-        console.log('go to page 1')
-      }}
-    />
-    <Breadcrumb.Item
-      text="Page item"
-      onClick={() => {
-        console.log('go to page 2')
-      }}
-      variant="current"
-    />
-  </Breadcrumb>
-)
+render(<Breadcrumb spacing>
+      <Breadcrumb.Item onClick={() => {
+    console.log('go home!');
+  }} variant="home" />
+      <Breadcrumb.Item text="Page item" onClick={() => {
+    console.log('go to page 1');
+  }} />
+      <Breadcrumb.Item text="Page item" onClick={() => {
+    console.log('go to page 2');
+  }} variant="current" />
+    </Breadcrumb>)
 ```
+
 
 ### Single Breadcrumb
 
 When you only want a single button for `back`.
 
+
 ```tsx
-render(
-  <Breadcrumb
-    onClick={() => {
-      console.log('Going back!')
-    }}
-  />
-)
+render(<Breadcrumb onClick={() => {
+  console.log('Going back!');
+}} />)
 ```
+
 
 This can also be forced using the `variant="single"` property.
 
@@ -107,51 +93,46 @@ This can also be forced using the `variant="single"` property.
 
 Expands when user clicks
 
+
 ```tsx
-const pages = [
-  {
-    text: '',
-    href: '/',
-  },
-  {
-    text: 'UI Library',
-    href: '/uilib',
-  },
-  {
-    text: 'Components',
-    href: '/uilib/components',
-  },
-]
-render(<Breadcrumb variant="collapse" data={pages} spacing />)
+const pages = [{
+  text: '',
+  href: '/'
+}, {
+  text: 'UI Library',
+  href: '/uilib'
+}, {
+  text: 'Components',
+  href: '/uilib/components'
+}];
+render(<Breadcrumb variant="collapse" data={pages} spacing />);
 ```
+
 
 ### Never collapse (`variant="multiple"`)
 
+
 ```tsx
-const pages = [
-  {
-    text: '',
-    href: '/',
-  },
-  {
-    text: 'UI Library',
-    href: '/uilib',
-  },
-  {
-    text: 'Components',
-    href: '/uilib/components',
-  },
-  {
-    text: 'Breadcrumbs',
-    href: '/uilib/components/breadcrumbs',
-  },
-]
-render(<Breadcrumb variant="multiple" data={pages} spacing />)
+const pages = [{
+  text: '',
+  href: '/'
+}, {
+  text: 'UI Library',
+  href: '/uilib'
+}, {
+  text: 'Components',
+  href: '/uilib/components'
+}, {
+  text: 'Breadcrumbs',
+  href: '/uilib/components/breadcrumbs'
+}];
+render(<Breadcrumb variant="multiple" data={pages} spacing />);
 ```
 
 ## Properties
 
 ### `Breadcrumb` properties
+
 
 ```json
 {
@@ -243,14 +224,19 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `Breadcrumb.Item` properties
+
 
 ```json
 {
@@ -262,7 +248,11 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
     },
     "variant": {
       "doc": "The component variant. Options: `home` | `previous` | `current`.",
-      "type": ["\"home\"", "\"previous\"", "\"current\""],
+      "type": [
+        "\"home\"",
+        "\"previous\"",
+        "\"current\""
+      ],
       "status": "optional"
     },
     "icon": {
@@ -284,13 +274,20 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
 }
 ```
 
+
 **NB:** When interactive, the item is an inherited [Button](/uilib/components/button/). You can therefore swap out the underlying HTML element, by providing a new `element` or use other Button properties, such as `to` instead of `href`.
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Breadcrumb.backToText": {
       "nb-NO": "Tilbake til...",
@@ -322,6 +319,7 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
 
 ## `Breadcrumb` events
 
+
 ```json
 {
   "props": {
@@ -339,7 +337,9 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />)
 }
 ```
 
+
 ## `Breadcrumb.Item` events
+
 
 ```json
 {

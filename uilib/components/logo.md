@@ -1,8 +1,8 @@
 ---
 title: 'Logo'
 description: 'A ready to use Logo component with the needed SVGs.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.308Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.430Z
 checksum: 6b4cf82375feee3f504831b20288d4cf545f554e46820eb16d84d22bcbeddfba
 ---
 
@@ -23,6 +23,7 @@ A ready-to-use Logo component with the needed SVGs.
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/logo)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/logo)
 
+
 ## Demos
 
 ### Importing a logo
@@ -40,24 +41,26 @@ import {
 } from '@dnb/eufemia/components/Logo'
 ```
 
+
 ```tsx
-render(
-  <Flex.Vertical>
-    <Logo height="48" svg={DnbDefault} />
-    <Logo height="48" svg={EiendomDefault} />
-    <Logo height="48" svg={CarnegieDefault} />
-    <Logo height="48" svg={SbankenDefault} />
-    <Logo height="48" svg={SbankenHorizontal} />
-    <Logo height="48" svg={SbankenCompact} />
-  </Flex.Vertical>
-)
+render(<Flex.Vertical>
+      <Logo height="48" svg={DnbDefault} />
+      <Logo height="48" svg={EiendomDefault} />
+      <Logo height="48" svg={CarnegieDefault} />
+      <Logo height="48" svg={SbankenDefault} />
+      <Logo height="48" svg={SbankenHorizontal} />
+      <Logo height="48" svg={SbankenCompact} />
+    </Flex.Vertical>)
 ```
 
+
 If no svg is provided, the `DnbDefault` logo is used by default:
+
 
 ```tsx
 render(<Logo height="96" />)
 ```
+
 
 ### Change logo based on theme
 
@@ -67,29 +70,29 @@ The `svg` property can also accept a function that returns a logo svg based on t
 import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
 ```
 
+
 ```tsx
 function myLogoSelector(theme: ThemeProps) {
   switch (theme?.name) {
     case 'sbanken':
-      return SbankenDefault
+      return SbankenDefault;
     case 'carnegie':
-      return CarnegieDefault
+      return CarnegieDefault;
     case 'eiendom':
-      return EiendomDefault
+      return EiendomDefault;
     default:
-      return DnbDefault
+      return DnbDefault;
   }
 }
 function MyApp() {
-  return (
-    <Card stack>
-      <MyThemeSelector />
-      <Logo height="96" svg={myLogoSelector} />
-    </Card>
-  )
+  return <Card stack>
+            <MyThemeSelector />
+            <Logo height="96" svg={myLogoSelector} />
+          </Card>;
 }
-render(<MyApp />)
+render(<MyApp />);
 ```
+
 
 ### Customization
 
@@ -97,83 +100,83 @@ render(<MyApp />)
 
 By default the logo will use the inherited `font-size` to set its height.
 
+
 ```tsx
-render(
-  <span
-    style={{
-      fontSize: '6rem',
-    }}
-  >
-    <Logo svg={myLogoSelector} />
-  </span>
-)
+render(<span style={{
+  fontSize: '6rem'
+}}>
+      <Logo svg={myLogoSelector} />
+    </span>)
 ```
+
 
 #### Alternative inherited height
 
 You can chose to let the height be set by the inherited `height` instead by setting the `inheritSize` property.
 
+
 ```tsx
-render(
-  <span
-    style={{
-      height: '6rem',
-    }}
-  >
-    <Logo inheritSize svg={myLogoSelector} />
-  </span>
-)
+render(<span style={{
+  height: '6rem'
+}}>
+      <Logo inheritSize svg={myLogoSelector} />
+    </span>)
 ```
+
 
 #### Fixed height and/or width
 
 The logo's `height` and `width` can be fixed depending on your needs.
 
+
 ```tsx
-render(
-  <Flex.Vertical>
-    <Logo height="96" svg={myLogoSelector} />
-    <Logo width="96" svg={myLogoSelector} />
-  </Flex.Vertical>
-)
+render(<Flex.Vertical>
+      <Logo height="96" svg={myLogoSelector} />
+      <Logo width="96" svg={myLogoSelector} />
+    </Flex.Vertical>)
 ```
+
 
 #### Color
 
 You can choose to override the default colors by either inheriting the `currentcolor`, or set it directly.
 
-```tsx
-render(
-  <Flex.Vertical>
-    <span
-      style={{
-        color: 'tomato',
-      }}
-    >
-      <Logo height="96" inheritColor svg={myLogoSelector} />
-    </span>
 
-    <Logo height="96" color="hotpink" svg={myLogoSelector} />
-  </Flex.Vertical>
-)
+```tsx
+render(<Flex.Vertical>
+      <span style={{
+    color: 'tomato'
+  }}>
+        <Logo height="96" inheritColor svg={myLogoSelector} />
+      </span>
+
+      <Logo height="96" color="hotpink" svg={myLogoSelector} />
+    </Flex.Vertical>)
 ```
 
+
+
+  
 ```tsx
-render(
-  <P>
-    This logo is in the middle <Logo svg={myLogoSelector} /> of some text.
-  </P>
-)
+render(<P>
+      This logo is in the middle <Logo svg={myLogoSelector} /> of some
+      text.
+    </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "svg": {
       "doc": "Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component, element, or a function that receives the theme and returns a SVG component. Width, height and color properties still apply. If not provided, defaults to DNB logo. Import SVGs from `@dnb/eufemia/components/Logo` (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`). When using a function, it receives the theme context (useTheme return value) allowing theme-aware logo selection.",
-      "type": ["React.Component", "React.Element", "function"],
+      "type": [
+        "React.Component",
+        "React.Element",
+        "function"
+      ],
       "status": "optional"
     },
     "color": {
@@ -203,7 +206,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

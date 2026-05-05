@@ -1,8 +1,8 @@
 ---
 title: 'Value.BankAccountNumber'
 description: '`Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.123Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.109Z
 checksum: ec13490d1c2f56c9d3d84678ebcd37a4304e0d258fafc5afec118ddeff725cff
 ---
 
@@ -28,78 +28,77 @@ There is a corresponding [Field.BankAccountNumber](/uilib/extensions/forms/featu
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/BankAccountNumber)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/BankAccountNumber)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.BankAccountNumber showEmpty />)
 ```
 
+
 ### Placeholder
 
+
 ```tsx
-render(
-  <Value.BankAccountNumber placeholder="The value was not filled in" />
-)
+render(<Value.BankAccountNumber placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.BankAccountNumber value="20001234567" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.BankAccountNumber label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.BankAccountNumber label="Label text" value="20001234567" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.BankAccountNumber value="20001234567" inline /> This is after
-    the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.BankAccountNumber value="20001234567" inline /> This is
+        after the component
+      </P>)
 ```
+
 
 ### Bank account types
 
 Use the `bankAccountType` prop to switch between formats.
 
+
 ```tsx
-<Value.BankAccountNumber
-  bankAccountType="swedishBban"
-  value="50001234567"
-/>
-<Value.BankAccountNumber
-  bankAccountType="swedishBankgiro"
-  value="59140129"
-/>
-<Value.BankAccountNumber
-  bankAccountType="swedishPlusgiro"
-  value="1263664"
-/>
-<Value.BankAccountNumber
-  bankAccountType="iban"
-  value="NO9386011117947"
-/>
+<Value.BankAccountNumber bankAccountType="swedishBban" value="50001234567" />
+<Value.BankAccountNumber bankAccountType="swedishBankgiro" value="59140129" />
+<Value.BankAccountNumber bankAccountType="swedishPlusgiro" value="1263664" />
+<Value.BankAccountNumber bankAccountType="iban" value="NO9386011117947" />
 ```
 
 ## Properties
 
 ### BankAccountNumber-specific properties
+
 
 ```json
 {
@@ -113,7 +112,9 @@ Use the `bankAccountType` prop to switch between formats.
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -180,7 +181,12 @@ Use the `bankAccountType` prop to switch between formats.
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -190,18 +196,28 @@ Use the `bankAccountType` prop to switch between formats.
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "BankAccountNumber.errorBankAccountNumber": {
       "nb-NO": "Ugyldig kontonummer.",

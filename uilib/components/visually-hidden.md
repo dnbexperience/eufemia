@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
 description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.622Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.683Z
 checksum: 28d243b62406799fd86da1f9d89208ecb4b4735e8ed07aff554b859e2b71065c
 ---
 
@@ -25,68 +25,69 @@ import { VisuallyHidden } from '@dnb/eufemia'
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/visually-hidden)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/visually-hidden)
 
+
 ## Demos
 
 ### VisuallyHidden
 
+
 ```tsx
-render(
-  <P>
-    <span>before|</span>
-    <VisuallyHidden>hidden content</VisuallyHidden>
-    <span>|after</span>
-  </P>
-)
+render(<P>
+      <span>before|</span>
+      <VisuallyHidden>hidden content</VisuallyHidden>
+      <span>|after</span>
+    </P>)
 ```
+
 
 ### VisuallyHidden with focusable content
 
 Use `VisuallyHidden` with `focusable={true}` to visually hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user). The container will be displayed when any child element of the container receives focus.
 
+
 ```tsx
-render(
-  <VisuallyHidden focusable>
-    <Anchor href="/">Hidden, but focusable content</Anchor>
-  </VisuallyHidden>
-)
+render(<VisuallyHidden focusable>
+      <Anchor href="/">Hidden, but focusable content</Anchor>
+    </VisuallyHidden>)
 ```
+
 
 ### VisuallyHidden with example of use case
 
+
 ```tsx
-render(
-  <Anchor href="/">
-    Read more <VisuallyHidden>about Eufemia</VisuallyHidden>
-  </Anchor>
-)
+render(<Anchor href="/">
+      Read more <VisuallyHidden>about Eufemia</VisuallyHidden>
+    </Anchor>)
 ```
+
 
 ### VisuallyHidden with custom element
 
+
 ```tsx
 const Box = styled.div`
-  width: 1rem;
-  height: 1rem;
-`
+        width: 1rem;
+        height: 1rem;
+      `;
 const BoxBefore = styled(Box)`
-  background-color: var(--color-summer-green);
-`
+        background-color: var(--color-summer-green);
+      `;
 const BoxAfter = styled(Box)`
-  background-color: var(--color-emerald-green);
-`
-render(
-  <>
-    <BoxBefore />
-    {/* @ts-expect-error -- strictFunctionTypes */}
-    <VisuallyHidden aria-label="I'm a region" element={Section}>
-      <P>but, not visible to you!</P>
-    </VisuallyHidden>
-    <BoxAfter />
-  </>
-)
+        background-color: var(--color-emerald-green);
+      `;
+render(<>
+          <BoxBefore />
+          {/* @ts-expect-error -- strictFunctionTypes */}
+          <VisuallyHidden aria-label="I'm a region" element={Section}>
+            <P>but, not visible to you!</P>
+          </VisuallyHidden>
+          <BoxAfter />
+        </>);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -98,7 +99,10 @@ render(
     },
     "element": {
       "doc": "Custom root HTML element for the component. Defaults to `<span>`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     }
   }

@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.566Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.652Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 
@@ -24,6 +24,7 @@ A timeline shows events in chronological order and gives a great overview of the
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/timeline)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/timeline)
 
+
 ## Demos
 
 ### Timeline with multiple [timeline items](/uilib/components/timeline/properties#timelineitem-properties):
@@ -32,128 +33,96 @@ We can pass down a list of [timeline items](/uilib/components/timeline/propertie
 
 It's also possible to pass down [timeline items](/uilib/components/timeline/properties#timelineitem-properties) as `children`, see [example](/uilib/components/timeline/#timeline-with-multiple-timeline-items-passed-down-as-children).
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event',
-        subtitle: '10. september 2021',
-        state: 'completed',
-      },
-      {
-        title: 'Current event',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'current',
-      },
-      {
-        title: 'Upcoming event',
-        state: 'upcoming',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event',
+  subtitle: '10. september 2021',
+  state: 'completed'
+}, {
+  title: 'Current event',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'current'
+}, {
+  title: 'Upcoming event',
+  state: 'upcoming'
+}]} />);
 ```
+
 
 ### Timeline with multiple [timeline items](/uilib/components/timeline/properties#timelineitem-properties) passed down as children:
 
 Passing down [timeline items](/uilib/components/timeline/properties#timelineitem-properties) as children
 
+
 ```tsx
-render(
-  <Timeline>
-    <Timeline.Item
-      title="Completed event"
-      subtitle="10. september 2021"
-      state="completed"
-    />
-    <Timeline.Item
-      title="Current event"
-      infoMessage="Additional information about this step if needed."
-      state="current"
-    />
-    <Timeline.Item title="Upcoming event" state="upcoming" />
-  </Timeline>
-)
+render(<Timeline>
+      <Timeline.Item title="Completed event" subtitle="10. september 2021" state="completed" />
+      <Timeline.Item title="Current event" infoMessage="Additional information about this step if needed." state="current" />
+      <Timeline.Item title="Upcoming event" state="upcoming" />
+    </Timeline>)
 ```
+
 
 ### Examples of Timelines with one [timeline item](/uilib/components/timeline/properties#timelineitem-properties):
 
 #### Completed [timeline item](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event',
-        state: 'completed',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event',
+  state: 'completed'
+}]} />)
 ```
+
 
 #### Current [timeline item](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Current event',
-        state: 'current',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Current event',
+  state: 'current'
+}]} />)
 ```
+
 
 #### Upcoming [timeline item](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Upcoming event',
-        state: 'upcoming',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Upcoming event',
+  state: 'upcoming'
+}]} />)
 ```
+
 
 ### Setting property `state` of [timeline item](/uilib/components/timeline/properties#timelineitem-properties):
 
 Property `state` changes styling of icon, border, and font of the [timeline item](/uilib/components/timeline/properties#timelineitem-properties)
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event',
-        subtitle: '10. september 2021',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'completed',
-      },
-      {
-        title: 'Current event',
-        subtitle: '10. september 2021',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'current',
-      },
-      {
-        title: 'Upcoming event',
-        subtitle: '10. september 2021',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'upcoming',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event',
+  subtitle: '10. september 2021',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'completed'
+}, {
+  title: 'Current event',
+  subtitle: '10. september 2021',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'current'
+}, {
+  title: 'Upcoming event',
+  subtitle: '10. september 2021',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'upcoming'
+}]} />);
 ```
+
 
 ### Setting property `icon` of [timeline items](/uilib/components/timeline/properties#timelineitem-properties):
 
@@ -161,191 +130,143 @@ Property `icon` is by default set based on the value of `state` property, but ca
 
 See default icons based on value of `state` property in documentation for `icon` property of the [timeline item](/uilib/components/timeline/properties#timelineitem-properties)
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event',
-        state: 'completed',
-        icon: Confetti,
-        iconAlt: 'Celebration',
-      },
-      {
-        title: 'Current event',
-        state: 'current',
-        icon: Card,
-        iconAlt: 'Bank card',
-      },
-      {
-        title: 'Upcoming event',
-        state: 'upcoming',
-        icon: AccountCard,
-        iconAlt: 'Money bag & card',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event',
+  state: 'completed',
+  icon: Confetti,
+  iconAlt: 'Celebration'
+}, {
+  title: 'Current event',
+  state: 'current',
+  icon: Card,
+  iconAlt: 'Bank card'
+}, {
+  title: 'Upcoming event',
+  state: 'upcoming',
+  icon: AccountCard,
+  iconAlt: 'Money bag & card'
+}]} />);
 ```
+
 
 ### Timeline skeleton:
 
+
 ```tsx
-render(
-  <Timeline
-    skeleton
-    data={[
-      {
-        title: 'Upcoming',
-        subtitle: '10. september 2021',
-        state: 'upcoming',
-      },
-      {
-        title: 'Current',
-        subtitle: '11. september 2021',
-        state: 'current',
-      },
-      {
-        title: 'Completed',
-        subtitle: '12. september 2021',
-        state: 'completed',
-      },
-    ]}
-  />
-)
+render(<Timeline skeleton data={[{
+  title: 'Upcoming',
+  subtitle: '10. september 2021',
+  state: 'upcoming'
+}, {
+  title: 'Current',
+  subtitle: '11. september 2021',
+  state: 'current'
+}, {
+  title: 'Completed',
+  subtitle: '12. september 2021',
+  state: 'completed'
+}]} />)
 ```
+
 
 ### Timeline as children skeleton:
 
+
 ```tsx
-render(
-  <Timeline skeleton>
-    <Timeline.Item
-      title="Upcoming"
-      subtitle="10. september 2021"
-      state="upcoming"
-    />
-    <Timeline.Item
-      title="Current"
-      subtitle="11. september 2021"
-      state="current"
-    />
-    <Timeline.Item
-      title="Completed"
-      subtitle="11. september 2021"
-      state="completed"
-    />
-  </Timeline>
-)
+render(<Timeline skeleton>
+      <Timeline.Item title="Upcoming" subtitle="10. september 2021" state="upcoming" />
+      <Timeline.Item title="Current" subtitle="11. september 2021" state="current" />
+      <Timeline.Item title="Completed" subtitle="11. september 2021" state="completed" />
+    </Timeline>)
 ```
+
 
 ### [Timeline item](/uilib/components/timeline/properties#timelineitem-properties) skeleton:
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event#1',
-        subtitle: '10. september 2021',
-        state: 'completed',
-        skeleton: true,
-      },
-      {
-        title: 'Completed event#2',
-        subtitle: '11. september 2021',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'completed',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event#1',
+  subtitle: '10. september 2021',
+  state: 'completed',
+  skeleton: true
+}, {
+  title: 'Completed event#2',
+  subtitle: '11. september 2021',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'completed'
+}]} />)
 ```
+
 
 ### Timeline with multiple completed [timeline items](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Completed event#1',
-        infoMessage: 'Additional information about this step if needed.',
-        subtitle: '10. september 2021',
-        state: 'completed',
-      },
-      {
-        title: 'Completed event#2',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'completed',
-      },
-      {
-        title: 'Completed event#3',
-        subtitle: '10. september 2021',
-        state: 'completed',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Completed event#1',
+  infoMessage: 'Additional information about this step if needed.',
+  subtitle: '10. september 2021',
+  state: 'completed'
+}, {
+  title: 'Completed event#2',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'completed'
+}, {
+  title: 'Completed event#3',
+  subtitle: '10. september 2021',
+  state: 'completed'
+}]} />);
 ```
+
 
 ### Timeline with multiple current [timeline items](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Current event#1',
-        infoMessage: 'Additional information about this step if needed.',
-        subtitle: '10. september 2021',
-        state: 'current',
-      },
-      {
-        title: 'Current event#2',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'current',
-      },
-      {
-        title: 'Current event#3',
-        subtitle: '10. september 2021',
-        state: 'current',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Current event#1',
+  infoMessage: 'Additional information about this step if needed.',
+  subtitle: '10. september 2021',
+  state: 'current'
+}, {
+  title: 'Current event#2',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'current'
+}, {
+  title: 'Current event#3',
+  subtitle: '10. september 2021',
+  state: 'current'
+}]} />);
 ```
+
 
 ### Timeline with multiple upcoming [timeline items](/uilib/components/timeline/properties#timelineitem-properties):
 
+
 ```tsx
-render(
-  <Timeline
-    data={[
-      {
-        title: 'Upcoming event#1',
-        infoMessage: 'Additional information about this step if needed.',
-        subtitle: '10. september 2021',
-        state: 'upcoming',
-      },
-      {
-        title: 'Upcoming event#2',
-        infoMessage: 'Additional information about this step if needed.',
-        state: 'upcoming',
-      },
-      {
-        title: 'Upcoming event#3',
-        subtitle: '10. september 2021',
-        state: 'upcoming',
-      },
-    ]}
-  />
-)
+render(<Timeline data={[{
+  title: 'Upcoming event#1',
+  infoMessage: 'Additional information about this step if needed.',
+  subtitle: '10. september 2021',
+  state: 'upcoming'
+}, {
+  title: 'Upcoming event#2',
+  infoMessage: 'Additional information about this step if needed.',
+  state: 'upcoming'
+}, {
+  title: 'Upcoming event#3',
+  subtitle: '10. september 2021',
+  state: 'upcoming'
+}]} />);
 ```
 
 ## Properties
 
 ### `Timeline` properties
+
 
 ```json
 {
@@ -367,14 +288,19 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `Timeline.Item` properties
+
 
 ```json
 {
@@ -386,12 +312,19 @@ render(
     },
     "state": {
       "doc": "The component state. Options: `completed` | `current` | `upcoming`.",
-      "type": ["\"completed\"", "\"current\"", "\"upcoming\""],
+      "type": [
+        "\"completed\"",
+        "\"current\"",
+        "\"upcoming\""
+      ],
       "status": "required"
     },
     "subtitle": {
       "doc": "Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>"
+      ],
       "status": "optional"
     },
     "infoMessage": {
@@ -418,11 +351,18 @@ render(
 }
 ```
 
+
 ### `Timeline.Item` translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "TimelineItem.altLabelCompleted": {
       "nb-NO": "Utført",

@@ -1,8 +1,8 @@
 ---
 title: 'Getting Started'
 description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.415Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.339Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -65,6 +65,7 @@ Learn more about importing CSS in [Importing Styles](/uilib/usage/customisation/
 ## Code Editor Extensions
 
 Boost your workflow with the [Eufemia VS Code extension](/uilib/usage/first-steps/tools/#code-editor-extensions) (spacing, typography and more).
+
 
 # Welcome Info
 

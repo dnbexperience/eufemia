@@ -1,8 +1,8 @@
 ---
 title: 'Field.Boolean'
 description: '`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.353Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.296Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -88,462 +88,306 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### No label or value
 
+
 ```tsx
-render(
-  <Field.Boolean onChange={(value) => console.log('onChange', value)} />
-)
+render(<Field.Boolean onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Checkbox
 
 #### Value true
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="Label text"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="checkbox" label="Label text" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Value false
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="Label text"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="checkbox" label="Label text" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Checkbox - Required
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="Set to be required initially"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-    required
-  />
-)
+render(<Field.Boolean variant="checkbox" label="Set to be required initially" onChange={value => console.log('onChange', value)} validateInitially required />)
 ```
+
 
 #### Checkbox - Disabled
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="I am disabled"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Boolean variant="checkbox" label="I am disabled" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Checkbox - prevent changing the state of the checkbox
 
 You can prevent the state of the checkbox from changing by calling `preventDefault` on the `onClick` event.
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="I will never change the state"
-    onClick={(value, { event }) => {
-      event.preventDefault()
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="checkbox" label="I will never change the state" onClick={(value, {
+  event
+}) => {
+  event.preventDefault();
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Checkbox - Error
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Boolean variant="checkbox" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Checkbox - With Help
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox"
-    label="Checkbox variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Boolean variant="checkbox" label="Checkbox variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
+
 
 ### Button
 
 #### Value true
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="button"
-    label="Label text"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="button" label="Label text" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Button - Value false
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="button"
-    label="Label text"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="button" label="Label text" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Button - Required
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="button"
-    label="Set to be required initially"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-    required
-  />
-)
+render(<Field.Boolean variant="button" label="Set to be required initially" onChange={value => console.log('onChange', value)} validateInitially required />)
 ```
+
 
 #### Button - Disabled
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="button"
-    label="I am disabled"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Boolean variant="button" label="I am disabled" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 #### Button - Error
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Boolean variant="button" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Checkbox button
 
 #### Value true
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox-button"
-    label="Label text"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="checkbox-button" label="Label text" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Checkbox button - Value false
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox-button"
-    label="Label text"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="checkbox-button" label="Label text" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Checkbox button - Required
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox-button"
-    label="Set to be required initially"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-    required
-  />
-)
+render(<Field.Boolean variant="checkbox-button" label="Set to be required initially" onChange={value => console.log('onChange', value)} validateInitially required />)
 ```
+
 
 #### Checkbox button - Disabled
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox-button"
-    label="I am disabled"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Boolean variant="checkbox-button" label="I am disabled" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 #### Checkbox button - Error
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="checkbox-button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Boolean variant="checkbox-button" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Buttons
 
 #### Value true
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Label text"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="buttons" label="Label text" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Buttons - Value false
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Label text"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="buttons" label="Label text" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Button - Value undefined (no option selected)
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="buttons" label="Label text" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Buttons - Required
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Set to be required initially"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-    required
-  />
-)
+render(<Field.Boolean variant="buttons" label="Set to be required initially" onChange={value => console.log('onChange', value)} validateInitially required />)
 ```
+
 
 #### Buttons - With Help
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Buttons variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Boolean variant="buttons" label="Buttons variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
+
 
 #### Buttons - Disabled
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="I am disabled"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Boolean variant="buttons" label="I am disabled" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 #### Buttons - Error
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="buttons"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Boolean variant="buttons" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Radio
 
 #### Value true
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Label text"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="radio" label="Label text" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Radio - Value false
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Label text"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="radio" label="Label text" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Radio - Value undefined (no option selected)
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Boolean variant="radio" label="Label text" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Radio - Required
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Set to be required initially"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-    required
-  />
-)
+render(<Field.Boolean variant="radio" label="Set to be required initially" onChange={value => console.log('onChange', value)} validateInitially required />)
 ```
+
 
 #### Radio - With Help
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Radio variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Boolean variant="radio" label="Radio variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
+
 
 #### Radio - Disabled
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="I am disabled"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Boolean variant="radio" label="I am disabled" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 #### Radio - Error
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="radio"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Boolean variant="radio" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Switch
 
 #### Switch - With Help
 
+
 ```tsx
-render(
-  <Field.Boolean
-    variant="switch"
-    label="Switch variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Boolean variant="switch" label="Switch variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -572,7 +416,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -594,12 +440,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -619,7 +473,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["boolean", "undefined"],
+      "type": [
+        "boolean",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -699,7 +556,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -714,12 +574,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -729,30 +595,49 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
   "valueType": "boolean",
-  "omit": ["layout", "layoutOptions"]
+  "omit": [
+    "layout",
+    "layoutOptions"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "BooleanField.no": {
       "nb-NO": "Nei",
@@ -810,6 +695,7 @@ render(
 
 ### Field-specific events
 
+
 ```json
 {
   "props": {
@@ -822,7 +708,9 @@ render(
 }
 ```
 
+
 ### General events
+
 
 ```json
 {

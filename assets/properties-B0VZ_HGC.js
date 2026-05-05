@@ -1,0 +1,4 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import{t as r}from"./TranslationsTable-B6uVFdVX.js";var i=e(),a={toStep:{doc:`Lets you navigate to a specific step.`,type:`number`,status:`optional`}};function o(e){let o={h2:`h2`,...t(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(o.h2,{children:`Properties`}),`
+`,(0,i.jsx)(n,{props:a}),`
+`,(0,i.jsx)(o.h2,{children:`Translations`}),`
+`,(0,i.jsx)(r,{localeKey:[`WizardEditButton`]})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(o,{...e})}):o(e)}export{s as default};

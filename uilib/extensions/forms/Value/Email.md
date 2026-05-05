@@ -1,8 +1,8 @@
 ---
 title: 'Value.Email'
 description: '`Value.Email` is a wrapper component for displaying string values, with user experience tailored for email values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.215Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.171Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -31,53 +31,62 @@ render(<Value.Email />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Email)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Email)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.Email showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.Email placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.Email value="firstname.lastname@domain.com" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.Email label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
 
+
 ```tsx
-render(
-  <Value.Email label="Label text" value="firstname.lastname@domain.com" />
-)
+render(<Value.Email label="Label text" value="firstname.lastname@domain.com" />)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.Email value="firstname.lastname@domain.com" inline /> This is
-    after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.Email value="firstname.lastname@domain.com" inline /> This
+        is after the component
+      </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -144,7 +153,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -154,18 +168,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Email.label": {
       "nb-NO": "E-postadresse",

@@ -1,8 +1,8 @@
 ---
 title: 'Value.SelectCountry'
 description: '`Value.SelectCountry` will render the selected country.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.254Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.204Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -43,76 +43,81 @@ const MyComponent = () => {
 }
 ```
 
+
 ## Demos
 
 ### Interactive
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myCountry: 'NO',
-    }}
-  >
-    <Flex.Stack>
-      <Field.SelectCountry path="/myCountry" />
-      <Value.SelectCountry path="/myCountry" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myCountry: 'NO'
+}}>
+        <Flex.Stack>
+          <Field.SelectCountry path="/myCountry" />
+          <Value.SelectCountry path="/myCountry" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.SelectCountry placeholder="No value given" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.SelectCountry value="NO" />)
 ```
 
+
 ### Use different locale
 
+
 ```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    data={{
-      myCountry: 'CH',
-    }}
-  >
-    <Value.SelectCountry path="/myCountry" />
-  </Form.Handler>
-)
+render(<Form.Handler locale="en-GB" data={{
+  myCountry: 'CH'
+}}>
+        <Value.SelectCountry path="/myCountry" />
+      </Form.Handler>)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.SelectCountry label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.SelectCountry label="Label text" value="NO" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component <Value.SelectCountry value="NO" inline />{' '}
-    This is after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.SelectCountry value="NO" inline /> This is after the
+        component
+      </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -179,7 +184,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -189,18 +199,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -259,6 +279,7 @@ render(
   }
 }
 ```
+
 
 ## List of available countries
 

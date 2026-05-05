@@ -1,8 +1,8 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.378Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.314Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -278,6 +278,7 @@ In addition there are **field value transformers** which should be used outside 
 
 - `transformOut` transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
 
+
 ## Demos
 
 On the consumer side, we can use this custom component like so:
@@ -298,34 +299,27 @@ On the consumer side, we can use this custom component like so:
 
 It is recommended to use Zod schemas instead of JSON Schemas, as they provide better TypeScript integration.
 
+
 ```tsx
-const MySliderComponent = (props) => {
-  const fromInput = React.useCallback(
-    (event) => (typeof event === 'number' ? event : event?.value || 0),
-    []
-  )
+const MySliderComponent = props => {
+  const fromInput = React.useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
   const errorMessages = React.useMemo(() => {
     return {
       'Field.errorRequired': 'This field is required',
-      ...props.errorMessages,
-    }
-  }, [props.errorMessages])
+      ...props.errorMessages
+    };
+  }, [props.errorMessages]);
 
   // Preferred: Use Zod schemas when possible
   // They work out of the box and provide better TypeScript integration
-  const schema =
-    props.schema ??
-    z
-      .number()
-      .min(props.minimum || 0)
-      .max(props.maximum || 100)
+  const schema = props.schema ?? z.number().min(props.minimum || 0).max(props.maximum || 100);
   const preparedProps = {
     fromInput,
     schema,
     ...errorMessages,
     label: 'Label',
-    ...props,
-  }
+    ...props
+  };
   const {
     id,
     label,
@@ -339,94 +333,61 @@ const MySliderComponent = (props) => {
     step = 1,
     handleChange,
     handleFocus,
-    handleBlur,
-  } = useFieldProps(preparedProps)
+    handleBlur
+  } = useFieldProps(preparedProps);
   const steps = {
     minimum,
     maximum,
-    step,
-  }
-  return (
-    <FieldBlock
-      forId={id}
-      label={label}
-      info={info}
-      warning={warning}
-      error={error}
-      width={width}
-    >
-      <Flex.Stack>
-        <Field.Number
-          id={id}
-          value={value}
-          showStepControls
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          {...steps}
-        />
-        <Slider
-          value={value}
-          onChange={handleChange}
-          onDragStart={handleFocus}
-          onDragEnd={handleBlur}
-          {...steps}
-        />
-      </Flex.Stack>
-    </FieldBlock>
-  )
-}
+    step
+  };
+  return <FieldBlock forId={id} label={label} info={info} warning={warning} error={error} width={width}>
+              <Flex.Stack>
+                <Field.Number id={id} value={value} showStepControls onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} {...steps} />
+                <Slider value={value} onChange={handleChange} onDragStart={handleFocus} onDragEnd={handleBlur} {...steps} />
+              </Flex.Stack>
+            </FieldBlock>;
+};
 
 // Example with Zod schema (preferred)
 // Note: You can pass a Zod schema via props.schema and it will work without AJV
 // The component now uses a Zod schema by default: z.number().min(50).max(80)
-render(
-  <Form.Handler
-    data={{
-      sliderValue: 50,
-    }}
-  >
-    <MySliderComponent
-      path="/sliderValue"
-      minimum={50}
-      maximum={80}
-      required
-      info="Info"
-      // You can override with a custom Zod schema if needed
-      // Example: schema={z.number().min(40).max(90).refine(val => val > 60, 'Value must be greater than 60')}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  sliderValue: 50
+}}>
+            <MySliderComponent path="/sliderValue" minimum={50} maximum={80} required info="Info"
+  // You can override with a custom Zod schema if needed
+  // Example: schema={z.number().min(40).max(90).refine(val => val > 60, 'Value must be greater than 60')}
+  />
+          </Form.Handler>);
 ```
+
 
 ### Using an Ajv schema
 
+
 ```tsx
-const MySliderComponent = (props) => {
-  const fromInput = React.useCallback(
-    (event) => (typeof event === 'number' ? event : event?.value || 0),
-    []
-  )
+const MySliderComponent = props => {
+  const fromInput = React.useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
   const errorMessages = React.useMemo(() => {
     return {
       'Field.errorRequired': 'This field is required',
-      ...props.errorMessages,
-    }
-  }, [props.errorMessages])
+      ...props.errorMessages
+    };
+  }, [props.errorMessages]);
 
   // No schema - uses built-in validation from field props
   const schema = props.schema ?? {
     type: 'number',
     minimum: props.minimum,
-    maximum: props.maximum,
-  }
+    maximum: props.maximum
+  };
   const preparedProps = {
     fromInput,
     schema,
     ...errorMessages,
     label: 'Label',
-    ...props,
-  }
+    ...props
+  };
   const {
     id,
     label,
@@ -440,56 +401,23 @@ const MySliderComponent = (props) => {
     step = 1,
     handleChange,
     handleFocus,
-    handleBlur,
-  } = useFieldProps(preparedProps)
+    handleBlur
+  } = useFieldProps(preparedProps);
   const steps = {
     minimum,
     maximum,
-    step,
-  }
-  return (
-    <FieldBlock
-      forId={id}
-      label={label}
-      info={info}
-      warning={warning}
-      error={error}
-      width={width}
-    >
-      <Flex.Stack>
-        <Field.Number
-          id={id}
-          value={value}
-          showStepControls
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          {...steps}
-        />
-        <Slider
-          value={value}
-          onChange={handleChange}
-          onDragStart={handleFocus}
-          onDragEnd={handleBlur}
-          {...steps}
-        />
-      </Flex.Stack>
-    </FieldBlock>
-  )
-}
-render(
-  <Form.Handler
-    data={{
-      sliderValue: 50,
-    }}
-  >
-    <MySliderComponent
-      path="/sliderValue"
-      minimum={50}
-      maximum={80}
-      required
-      info="Info"
-    />
-  </Form.Handler>
-)
+    step
+  };
+  return <FieldBlock forId={id} label={label} info={info} warning={warning} error={error} width={width}>
+              <Flex.Stack>
+                <Field.Number id={id} value={value} showStepControls onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} {...steps} />
+                <Slider value={value} onChange={handleChange} onDragStart={handleFocus} onDragEnd={handleBlur} {...steps} />
+              </Flex.Stack>
+            </FieldBlock>;
+};
+render(<Form.Handler data={{
+  sliderValue: 50
+}}>
+            <MySliderComponent path="/sliderValue" minimum={50} maximum={80} required info="Info" />
+          </Form.Handler>);
 ```

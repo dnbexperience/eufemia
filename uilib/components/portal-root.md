@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'PortalRoot is a React component that helps you make React Portals.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.365Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.480Z
 checksum: c3ffa8555896797627d79901830e764235e7eba0e0098d804983b0ffa8f0bd14
 ---
 
@@ -140,12 +140,16 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
 
 ## Properties
 
+
 ```json
 {
   "props": {
     "ref": {
       "doc": "The ref of the element that will be used.",
-      "type": ["React.Ref<HTMLElement>", "React.RefObject<HTMLElement>"],
+      "type": [
+        "React.Ref<HTMLElement>",
+        "React.RefObject<HTMLElement>"
+      ],
       "status": "optional"
     },
     "id": {

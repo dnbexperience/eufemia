@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSnapshot'
 description: '`Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.016Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.010Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -121,96 +121,94 @@ function Component() {
 
 This is beneficial when you need to utilize the form data in other places within your application.
 
+
 ## Demos
 
 ### Undo / Redo
 
+
 ```tsx
 const MyComponent = () => {
-  const { createSnapshot, applySnapshot } = Form.useSnapshot()
-  const pointerRef = React.useRef(0)
+  const {
+    createSnapshot,
+    applySnapshot
+  } = Form.useSnapshot();
+  const pointerRef = React.useRef(0);
   React.useEffect(() => {
-    createSnapshot(pointerRef.current, 'my-snapshot-slice')
-  }, [createSnapshot])
+    createSnapshot(pointerRef.current, 'my-snapshot-slice');
+  }, [createSnapshot]);
   const changeHandler = React.useCallback(() => {
-    pointerRef.current += 1
-    createSnapshot(pointerRef.current, 'my-snapshot-slice')
-  }, [createSnapshot])
+    pointerRef.current += 1;
+    createSnapshot(pointerRef.current, 'my-snapshot-slice');
+  }, [createSnapshot]);
   const undoHandler = React.useCallback(() => {
-    pointerRef.current -= 1
-    applySnapshot(pointerRef.current, 'my-snapshot-slice')
-  }, [applySnapshot])
+    pointerRef.current -= 1;
+    applySnapshot(pointerRef.current, 'my-snapshot-slice');
+  }, [applySnapshot]);
   const redoHandler = React.useCallback(() => {
-    pointerRef.current += 1
-    applySnapshot(pointerRef.current, 'my-snapshot-slice')
-  }, [applySnapshot])
-  return (
-    <>
-      <Form.Card>
-        <Form.Snapshot name="my-snapshot-slice">
-          <Field.String
-            path="/foo"
-            label="Will be reverted"
-            onChange={changeHandler}
-          />
-        </Form.Snapshot>
-        <Field.String path="/bar" label="Will stay" />
-      </Form.Card>
+    pointerRef.current += 1;
+    applySnapshot(pointerRef.current, 'my-snapshot-slice');
+  }, [applySnapshot]);
+  return <>
+              <Form.Card>
+                <Form.Snapshot name="my-snapshot-slice">
+                  <Field.String path="/foo" label="Will be reverted" onChange={changeHandler} />
+                </Form.Snapshot>
+                <Field.String path="/bar" label="Will stay" />
+              </Form.Card>
 
-      <Form.ButtonRow>
-        <Button variant="secondary" onClick={undoHandler}>
-          Undo
-        </Button>
-        <Button variant="secondary" onClick={redoHandler}>
-          Redo
-        </Button>
-      </Form.ButtonRow>
+              <Form.ButtonRow>
+                <Button variant="secondary" onClick={undoHandler}>
+                  Undo
+                </Button>
+                <Button variant="secondary" onClick={redoHandler}>
+                  Redo
+                </Button>
+              </Form.ButtonRow>
 
-      <Tools.Log top />
-    </>
-  )
-}
-render(
-  <Form.Handler>
-    <MyComponent />
-  </Form.Handler>
-)
+              <Tools.Log top />
+            </>;
+};
+render(<Form.Handler>
+            <MyComponent />
+          </Form.Handler>);
 ```
+
 
 ### Used in a Wizard
 
 This example reverts the form data to its previous state when the user navigates back to a previous step.
 
+
 ```tsx
 const MyForm = () => {
-  const { createSnapshot, revertSnapshot } = Form.useSnapshot('my-form')
-  return (
-    <Form.Handler id="my-form">
-      <Wizard.Container
-        onStepChange={(index, mode, args) => {
-          if (mode === 'previous') {
-            revertSnapshot(String(args.id), 'my-snapshot-slice')
-          } else {
-            createSnapshot(args.previousStep.id, 'my-snapshot-slice')
-          }
-        }}
-      >
-        <Wizard.Step title="Step A" id="step-a">
-          <Form.Snapshot name="my-snapshot-slice">
-            <Field.String path="/foo" label="Will be reverted" />
-          </Form.Snapshot>
-          <Field.String path="/bar" label="Will stay" />
-          <Wizard.Buttons />
-        </Wizard.Step>
+  const {
+    createSnapshot,
+    revertSnapshot
+  } = Form.useSnapshot('my-form');
+  return <Form.Handler id="my-form">
+              <Wizard.Container onStepChange={(index, mode, args) => {
+      if (mode === 'previous') {
+        revertSnapshot(String(args.id), 'my-snapshot-slice');
+      } else {
+        createSnapshot(args.previousStep.id, 'my-snapshot-slice');
+      }
+    }}>
+                <Wizard.Step title="Step A" id="step-a">
+                  <Form.Snapshot name="my-snapshot-slice">
+                    <Field.String path="/foo" label="Will be reverted" />
+                  </Form.Snapshot>
+                  <Field.String path="/bar" label="Will stay" />
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-        <Wizard.Step title="Step B" id="step-b">
-          <Field.String path="/foo" label="Will be reverted" />
-          <Field.String path="/bar" label="Will stay" />
-          <Wizard.Buttons />
-        </Wizard.Step>
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Wizard.Step title="Step B" id="step-b">
+                  <Field.String path="/foo" label="Will be reverted" />
+                  <Field.String path="/bar" label="Will stay" />
+                  <Wizard.Buttons />
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```

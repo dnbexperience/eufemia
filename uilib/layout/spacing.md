@@ -1,7 +1,7 @@
 ---
 title: 'Spacing'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.443Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.362Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -19,6 +19,7 @@ Also have a look at the designers example guide on [using Eufemia's spatial syst
 
 Spacing follows a specific pattern:
 
+
 | Pixel | Type       | Rem     | Custom Property      |
 | ----- | ---------- | ------- | -------------------- |
 | 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
@@ -29,6 +30,7 @@ Spacing follows a specific pattern:
 | 56    | `xx-large` | **3.5** | `--spacing-xx-large` |
 
 **NB:** In some circumstances you may be in need of using **0.25rem** (4px) - therefore `xx-small` also exists, but as a single type. So, combining `xx-small` and `small` would not result in 0.25rem, but still remain 1rem.
+
 
 ### Code Editor Extensions
 

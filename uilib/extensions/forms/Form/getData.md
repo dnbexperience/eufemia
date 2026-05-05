@@ -1,8 +1,8 @@
 ---
 title: 'Form.getData'
 description: '`Form.getData` lets you access your form data outside of the form context.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.012Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.008Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -117,62 +117,68 @@ const { filterData } = Form.getData(myFormId)
 const filteredData = filterData(filterDataHandler)
 ```
 
+
 ## Demos
 
 ### Get data outside of the form
 
+
 ```tsx
 const existingData = {
-  foo: 'bar',
-}
+  foo: 'bar'
+};
 const Component = () => {
-  const { data } = Form.useData('default-id', existingData)
-  return (
-    <Form.Handler id="default-id">
-      <Field.String path="/foo" label={data.foo} />
-    </Form.Handler>
-  )
-}
-render(<Component />)
+  const {
+    data
+  } = Form.useData('default-id', existingData);
+  return <Form.Handler id="default-id">
+              <Field.String path="/foo" label={data.foo} />
+            </Form.Handler>;
+};
+render(<Component />);
 ```
 
+
 ### Filter your data
+
 
 ```tsx
 // Method A (if you know the paths)
 const filterDataPaths = {
-  '/foo': ({ value }) => {
+  '/foo': ({
+    value
+  }) => {
     if (value === 'foo') {
-      return false
+      return false;
     }
-  },
-}
+  }
+};
 
 // Method B (will iterate over all fields regardless of the path)
 // Method B (will iterate over all fields regardless of the path)
-const filterDataHandler = ({ value }) => {
+const filterDataHandler = ({
+  value
+}) => {
   if (value === 'foo') {
-    return false
+    return false;
   }
-}
+};
 const Component = () => {
-  return (
-    <Form.Handler id="filter-data">
-      <Flex.Stack>
-        <Field.String path="/foo" value="foo" />
-        <Field.String path="/bar" value="bar" />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-const { filterData } = Form.getData('filter-data')
-render(
-  <Flex.Stack>
-    <Component />
-    <Section backgroundColor="sand-yellow" innerSpace>
-      <pre>{JSON.stringify(filterData(filterDataPaths))}</pre>
-      <pre>{JSON.stringify(filterData(filterDataHandler))}</pre>
-    </Section>
-  </Flex.Stack>
-)
+  return <Form.Handler id="filter-data">
+              <Flex.Stack>
+                <Field.String path="/foo" value="foo" />
+                <Field.String path="/bar" value="bar" />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+const {
+  filterData
+} = Form.getData('filter-data');
+render(<Flex.Stack>
+            <Component />
+            <Section backgroundColor="sand-yellow" innerSpace>
+              <pre>{JSON.stringify(filterData(filterDataPaths))}</pre>
+              <pre>{JSON.stringify(filterData(filterDataHandler))}</pre>
+            </Section>
+          </Flex.Stack>);
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.EditContainer'
 description: '`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.052Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.038Z
 checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 
@@ -130,6 +130,7 @@ The `Iterate.EditContainer` component has an `aria-label` attribute, which is se
 
 When the edit container becomes active, it will automatically receive the active element focus. And when the edit container switches to the view container, the focus will be set to the view container.
 
+
 ## Demos
 
 <Examples.ViewAndEditContainer />
@@ -150,98 +151,78 @@ When having two items in the Iterate.Array:
 
 Press the submit button to see the error.
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      outsideOfCard: [
-        {
-          name: undefined, // // <- Trigger an error
-        },
-      ],
-      insideOfCard: [
-        {
-          name: undefined, // // <- Trigger an error
-        },
-      ],
-      withFilledVariant: [
-        {
-          name: undefined, // // <- Trigger an error
-        },
-      ],
-      withFilledVariantInsideOfCard: [
-        {
-          name: undefined, // // <- Trigger an error
-        },
-      ],
-      withBasicVariant: [
-        {
-          name: '', // // <- Trigger an error
-        },
-      ],
-      withBasicVariantInsideOfCard: [
-        {
-          name: '', // // <- Trigger an error
-        },
-      ],
-    }}
-  >
-    <Flex.Stack>
-      <Iterate.Array path="/outsideOfCard">
-        <Iterate.EditContainer title="Outside of card">
-          <Field.String label="Name" itemPath="/name" required />
-        </Iterate.EditContainer>
-      </Iterate.Array>
+render(<Form.Handler data={{
+  outsideOfCard: [{
+    name: undefined // // <- Trigger an error
+  }],
+  insideOfCard: [{
+    name: undefined // // <- Trigger an error
+  }],
+  withFilledVariant: [{
+    name: undefined // // <- Trigger an error
+  }],
+  withFilledVariantInsideOfCard: [{
+    name: undefined // // <- Trigger an error
+  }],
+  withBasicVariant: [{
+    name: '' // // <- Trigger an error
+  }],
+  withBasicVariantInsideOfCard: [{
+    name: '' // // <- Trigger an error
+  }]
+}}>
+        <Flex.Stack>
+          <Iterate.Array path="/outsideOfCard">
+            <Iterate.EditContainer title="Outside of card">
+              <Field.String label="Name" itemPath="/name" required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
 
-      <Form.Card>
-        <Iterate.Array path="/insideOfCard">
-          <Iterate.EditContainer title="Inside of card">
-            <Field.String label="Name" itemPath="/name" required />
-          </Iterate.EditContainer>
-        </Iterate.Array>
-      </Form.Card>
+          <Form.Card>
+            <Iterate.Array path="/insideOfCard">
+              <Iterate.EditContainer title="Inside of card">
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
 
-      <Iterate.Array path="/withFilledVariant">
-        <Iterate.EditContainer title="Filled variant" variant="filled">
-          <Field.String label="Name" itemPath="/name" required />
-        </Iterate.EditContainer>
-      </Iterate.Array>
+          <Iterate.Array path="/withFilledVariant">
+            <Iterate.EditContainer title="Filled variant" variant="filled">
+              <Field.String label="Name" itemPath="/name" required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
 
-      <Form.Card>
-        <Iterate.Array path="/withFilledVariantInsideOfCard">
-          <Iterate.EditContainer
-            title="Filled variant inside of card"
-            variant="filled"
-          >
-            <Field.String label="Name" itemPath="/name" required />
-          </Iterate.EditContainer>
-        </Iterate.Array>
-      </Form.Card>
+          <Form.Card>
+            <Iterate.Array path="/withFilledVariantInsideOfCard">
+              <Iterate.EditContainer title="Filled variant inside of card" variant="filled">
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
 
-      <Iterate.Array path="/withBasicVariant">
-        <Iterate.EditContainer title="Basic variant" variant="basic">
-          <Field.String label="Name" itemPath="/name" required />
-        </Iterate.EditContainer>
-      </Iterate.Array>
+          <Iterate.Array path="/withBasicVariant">
+            <Iterate.EditContainer title="Basic variant" variant="basic">
+              <Field.String label="Name" itemPath="/name" required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
 
-      <Form.Card>
-        <Iterate.Array path="/withBasicVariantInsideOfCard">
-          <Iterate.EditContainer
-            title="Basic variant inside of card"
-            variant="basic"
-          >
-            <Field.String label="Name" itemPath="/name" required />
-          </Iterate.EditContainer>
-        </Iterate.Array>
-      </Form.Card>
-    </Flex.Stack>
+          <Form.Card>
+            <Iterate.Array path="/withBasicVariantInsideOfCard">
+              <Iterate.EditContainer title="Basic variant inside of card" variant="basic">
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
+        </Flex.Stack>
 
-    <Form.SubmitButton text="Press me to see the error" />
-  </Form.Handler>
-)
+        <Form.SubmitButton text="Press me to see the error" />
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -258,7 +239,11 @@ render(
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "toolbar": {
@@ -268,7 +253,10 @@ render(
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": ["\"minimumOneItem\"", "\"custom\""],
+      "type": [
+        "\"minimumOneItem\"",
+        "\"custom\""
+      ],
       "status": "optional"
     },
     "open": {
@@ -285,11 +273,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "IterateEditContainer.cancelButton": {
       "nb-NO": "Avbryt",

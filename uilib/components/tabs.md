@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.544Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.634Z
 checksum: 2046a9cbb12d10b529ad0c48201d630e5630828beda14e1d5cffd8c5d84e98dd
 ---
 
@@ -28,6 +28,7 @@ Tabs are a set of buttons that allow navigation between content that is related 
 
 The Tabs component follows the [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` with proper ARIA attributes. Keyboard navigation includes arrow keys to move between tabs and Tab key to navigate into the active panel content.
 
+
 ## Demos
 
 ### Tabs where content is provided from outside
@@ -38,143 +39,118 @@ You have to provide an `id` to both of the components.
 
 **NB:** You do not need to use a function inside `Tabs.Content` – it can contain any element you need, as long as it is a React Node.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <Tabs
-        id="unique-linked-id"
-        data={[
-          {
-            title: 'One',
-            key: 'one',
-          },
-          {
-            title: 'Two',
-            key: 'two',
-          },
-        ]}
-      />
+      <Tabs id="unique-linked-id" data={[{
+      title: 'One',
+      key: 'one'
+    }, {
+      title: 'Two',
+      key: 'two'
+    }]} />
 
       <Tabs.Content id="unique-linked-id" key="unique-linked-key">
-        {({ key }) => {
-          return <H2>{key}</H2>
-        }}
+        {({
+        key
+      }) => {
+        return <H2>{key}</H2>;
+      }}
       </Tabs.Content>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs using 'data' property and content object
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        exampleContent,
-      }}
-      data-visual-test="tabs-tablist"
-    >
-      <Tabs
-        data={[
-          {
-            title: 'First',
-            key: 'first',
-          },
-          {
-            title: 'Second',
-            key: 'second',
-          },
-          {
-            title: 'Third',
-            key: 'third',
-            disabled: true,
-          },
-          {
-            title: 'Fourth',
-            key: 'fourth',
-          },
-        ]}
-      >
+render(<Wrapper>
+    <ComponentBox scope={{
+    exampleContent
+  }} data-visual-test="tabs-tablist">
+      <Tabs data={[{
+      title: 'First',
+      key: 'first'
+    }, {
+      title: 'Second',
+      key: 'second'
+    }, {
+      title: 'Third',
+      key: 'third',
+      disabled: true
+    }, {
+      title: 'Fourth',
+      key: 'fourth'
+    }]}>
         {exampleContent /* See Example Content below */}
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs using 'data' property only
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="tabs-clickhandler"
-      scope={{
-        exampleContent,
-      }}
-    >
-      <Tabs
-        data={{
-          first: {
-            title: 'First',
-            // See Example Content below
-            content: exampleContent.first,
-          },
-          second: {
-            title: 'Second',
-            // See Example Content below
-            content: exampleContent.second,
-          },
-        }}
-        // Only use "onClick" if you really have to
-        onClick={({ selectedKey }) => {
-          console.log('onClick', selectedKey)
-        }}
-        // Preferred way to listen on changes
-        onChange={({ selectedKey }) => {
-          console.log('onChange', selectedKey)
-        }}
-      />
+render(<Wrapper>
+    <ComponentBox data-visual-test="tabs-clickhandler" scope={{
+    exampleContent
+  }}>
+      <Tabs data={{
+      first: {
+        title: 'First',
+        // See Example Content below
+        content: exampleContent.first
+      },
+      second: {
+        title: 'Second',
+        // See Example Content below
+        content: exampleContent.second
+      }
+    }}
+    // Only use "onClick" if you really have to
+    onClick={({
+      selectedKey
+    }) => {
+      console.log('onClick', selectedKey);
+    }}
+    // Preferred way to listen on changes
+    onChange={({
+      selectedKey
+    }) => {
+      console.log('onChange', selectedKey);
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs using React Components only
 
 Also, this is an example of how to define a different content background color, by providing `contentStyle`.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
       <Tabs tabsStyle="information" contentStyle="information">
         <Tabs.Content title="First" key="first">
-          <Section
-            innerSpace={{
-              block: 'large',
-            }}
-            top
-            bottom
-            backgroundColor="white"
-          >
+          <Section innerSpace={{
+          block: 'large'
+        }} top bottom backgroundColor="white">
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
         <Tabs.Content title="Second" key="second">
-          <Section
-            innerSpace={{
-              block: 'large',
-            }}
-            top
-            bottom
-            backgroundColor="white"
-          >
+          <Section innerSpace={{
+          block: 'large'
+        }} top bottom backgroundColor="white">
             <H2 top={0} bottom>
               Second
             </H2>
@@ -182,15 +158,15 @@ render(
         </Tabs.Content>
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs without bottom border
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
       <Tabs noBorder={true}>
         <Tabs.Content title="First" key="first">
@@ -205,15 +181,15 @@ render(
         </Tabs.Content>
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs without breakout
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-no-breakout">
       <Tabs breakout={false}>
         <Tabs.Content title="First" key="first">
@@ -228,9 +204,9 @@ render(
         </Tabs.Content>
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs and `keepInDOM`
 
@@ -238,9 +214,9 @@ By using `keepInDOM={true}` the content is kept inside the DOM.
 
 Also, when switching the tabs, the height is animated.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
       <>
         <Tabs keepInDOM contentStyle="information">
@@ -248,24 +224,20 @@ render(
             <H2>Content 1</H2>
           </Tabs.Content>
           <Tabs.Content title="Tab 2" key="second">
-            <div
-              style={{
-                height: '10rem',
-                display: 'flex',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{
+            height: '10rem',
+            display: 'flex',
+            alignItems: 'flex-end'
+          }}>
               <H2>Content 2</H2>
             </div>
           </Tabs.Content>
           <Tabs.Content title="Tab 3" key="third">
-            <div
-              style={{
-                height: '20rem',
-                display: 'flex',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{
+            height: '20rem',
+            display: 'flex',
+            alignItems: 'flex-end'
+          }}>
               <H2>Content 3</H2>
             </div>
           </Tabs.Content>
@@ -273,98 +245,83 @@ render(
         <P top>Smile at me 📸</P>
       </>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Tabs optimized for narrow screens
 
 Navigation buttons will be shown and the tabs-list will be scrollable.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="tabs-tablist-scrollable"
-      scope={{
-        manyTabs,
-        manyTabsContent,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="tabs-tablist-scrollable" scope={{
+    manyTabs,
+    manyTabsContent
+  }}>
       <Tabs selectedKey="second" data={manyTabs}>
         {manyTabsContent}
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Horizontal aligned tabs
 
+
 ```tsx
 const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-`
+        display: flex;
+        flex-direction: row;
+      `;
 const LeftArea = styled.div`
-  /* Ensure no-wrap */
-  flex-shrink: 0;
-`
+        /* Ensure no-wrap */
+        flex-shrink: 0;
+      `;
 const RightArea = styled.div`
-  /* Ensure the tab bar is hidden outside this area */
-  overflow: hidden;
+        /* Ensure the tab bar is hidden outside this area */
+        overflow: hidden;
 
-  /* Ensure the focus ring is visible! (because of overflow: hidden) */
-  margin: -2px;
-  padding: 2px;
-`
+        /* Ensure the focus ring is visible! (because of overflow: hidden) */
+        margin: -2px;
+        padding: 2px;
+      `;
 function TabsHorizontalAligned() {
-  return (
-    <FlexWrapper>
-      <LeftArea>
-        <ToggleButton.Group value="first">
-          <ToggleButton text="first" value="first" />
-          <ToggleButton text="second" value="second" />
-        </ToggleButton.Group>
-      </LeftArea>
+  return <FlexWrapper>
+            <LeftArea>
+              <ToggleButton.Group value="first">
+                <ToggleButton text="first" value="first" />
+                <ToggleButton text="second" value="second" />
+              </ToggleButton.Group>
+            </LeftArea>
 
-      <RightArea>
-        <Tabs
-          left
-          noBorder
-          selectedKey="first"
-          id="unique-tabs-row"
-          data={manyTabs}
-        />
-      </RightArea>
-    </FlexWrapper>
-  )
+            <RightArea>
+              <Tabs left noBorder selectedKey="first" id="unique-tabs-row" data={manyTabs} />
+            </RightArea>
+          </FlexWrapper>;
 }
-render(<TabsHorizontalAligned />)
+render(<TabsHorizontalAligned />);
 ```
+
 
 ### max-width usage
 
+
 ```tsx
 const MaxWidthWrapper = styled.div`
-  max-width: 30rem;
-  background: var(--color-white);
-`
+        max-width: 30rem;
+        background: var(--color-white);
+      `;
 function TabsMaxWidth() {
-  return (
-    <MaxWidthWrapper>
-      <Tabs
-        top
-        noBorder
-        selectedKey="fifth"
-        id="unique-tabs-max-width"
-        data={manyTabs}
-      />
-    </MaxWidthWrapper>
-  )
+  return <MaxWidthWrapper>
+            <Tabs top noBorder selectedKey="fifth" id="unique-tabs-max-width" data={manyTabs} />
+          </MaxWidthWrapper>;
 }
-render(<TabsMaxWidth />)
+render(<TabsMaxWidth />);
 ```
+
 
 ### Router integration
 
@@ -390,44 +347,32 @@ const exampleContent = {
 
 ### Tabs with badge notification
 
-```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="tabs-badge-notification">
-      <Tabs
-        data={[
-          {
-            title: (
-              <>
-                Transaksjoner{' '}
-                <Badge
-                  content={1}
-                  label="Transaksjoner"
-                  variant="notification"
-                  vertical="top"
-                />
-              </>
-            ),
-            key: 'one',
-          },
-          {
-            title: 'Second',
-            key: 'second',
-          },
-          {
-            title: 'Third',
-            key: 'third',
-          },
-        ]}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-```
 
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
+    <ComponentBox data-visual-test="tabs-badge-notification">
+      <Tabs data={[{
+      title: <>
+                Transaksjoner{' '}
+                <Badge content={1} label="Transaksjoner" variant="notification" vertical="top" />
+              </>,
+      key: 'one'
+    }, {
+      title: 'Second',
+      key: 'second'
+    }, {
+      title: 'Third',
+      key: 'third'
+    }]} />
+    </ComponentBox>
+  </Wrapper>)
+```
+
+
+
+  
+```tsx
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-single-children-react-element">
       <Tabs>
         <Tabs.Content title="First" key="first">
@@ -435,101 +380,102 @@ render(
         </Tabs.Content>
       </Tabs>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-single-element-data">
-      <Tabs
-        data={[
-          {
-            title: 'First',
-            key: 1,
-            content: <div>hello1</div>,
-          },
-        ]}
-      />
+      <Tabs data={[{
+      title: 'First',
+      key: 1,
+      content: <div>hello1</div>
+    }]} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="tabs-align-property">
-      <Tabs
-        align="left"
-        data={[
-          {
-            title: 'Left',
-            key: 1,
-            content: <H2>Content</H2>,
-          },
-        ]}
-      />
-      <Tabs
-        align="center"
-        data={[
-          {
-            title: 'Center',
-            key: 1,
-            content: <H2>Content</H2>,
-          },
-        ]}
-      />
+      <Tabs align="left" data={[{
+      title: 'Left',
+      key: 1,
+      content: <H2>Content</H2>
+    }]} />
+      <Tabs align="center" data={[{
+      title: 'Center',
+      key: 1,
+      content: <H2>Content</H2>
+    }]} />
 
-      <Tabs
-        align="right"
-        data={[
-          {
-            title: 'Right',
-            key: 1,
-            content: <H2>Content</H2>,
-          },
-        ]}
-      />
+      <Tabs align="right" data={[{
+      title: 'Right',
+      key: 1,
+      content: <H2>Content</H2>
+    }]} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "selectedKey": {
       "doc": "In case one of the tabs should be opened by a `key`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "To align the tab list on the right side `align=\"right\"`. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "contentStyle": {
       "doc": "To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
-      "type": ["\"divider\"", "\"white\"", "\"transparent\""],
+      "type": [
+        "\"divider\"",
+        "\"white\"",
+        "\"transparent\""
+      ],
       "status": "optional"
     },
     "contentInnerSpace": {
       "doc": "To modify the inner space of the content wrapper. Defaults to `{ top: 'large' }`.",
-      "type": ["boolean", "string", "InnerSpaceType"],
+      "type": [
+        "boolean",
+        "string",
+        "InnerSpaceType"
+      ],
       "status": "optional"
     },
     "tabsStyle": {
       "doc": "To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.",
-      "type": ["\"divider\"", "\"white\"", "\"transparent\""],
+      "type": [
+        "\"divider\"",
+        "\"white\"",
+        "\"transparent\""
+      ],
       "status": "optional"
     },
     "tabsInnerSpace": {
       "doc": "To modify the top padding of the tab list. Only applies `paddingTop`. Defaults to `undefined`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "tabElement": {
@@ -544,12 +490,18 @@ render(
     },
     "children": {
       "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
-      "type": ["React.ReactNode", "object"],
+      "type": [
+        "React.ReactNode",
+        "object"
+      ],
       "status": "optional"
     },
     "content": {
       "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
-      "type": ["React.ReactNode", "object"],
+      "type": [
+        "React.ReactNode",
+        "object"
+      ],
       "status": "optional"
     },
     "keepInDOM": {
@@ -589,26 +541,37 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Data object
+
 
 ```json
 {
   "props": {
     "title": {
       "doc": "The title of the tab.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "required"
     },
     "key": {
       "doc": "The unique key of the tab.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "required"
     },
     "content": {
@@ -629,6 +592,7 @@ render(
   }
 }
 ```
+
 
 ## Key
 
@@ -659,6 +623,7 @@ The current Tab content can be a `string`, a function returning content or a `Re
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -685,6 +650,7 @@ The current Tab content can be a `string`, a function returning content or a `Re
   }
 }
 ```
+
 
 ### Prevent a change
 

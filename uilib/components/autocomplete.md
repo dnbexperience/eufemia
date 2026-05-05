@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.043Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.216Z
 checksum: a3b1b46b14a1c9a576be4be363ce819b1520e88f5dc9ee520064df6ce22fe43d
 ---
 
@@ -56,79 +56,59 @@ It is possible to wrap your content inside one HTML Element. Nested elements are
 
 To wrap your content only visually, you can provide your wrappers inside an array:
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <Autocomplete
-        data={[
-          {
-            content: [
-              <IconPrimary icon="bell" key="item-1" />,
-              <span className="custom-selector-a" key="item-2">
+      <Autocomplete data={[{
+      content: [<IconPrimary icon="bell" key="item-1" />, <span className="custom-selector-a" key="item-2">
                 The Shawshank Redemption
-              </span>,
-              <span className="custom-selector-b" key="item-3">
+              </span>, <span className="custom-selector-b" key="item-3">
                 The Dark Knight
               </span>,
-              // etc.
-              <NumberFormat.Number value={1234} key="item-4" />, // <-- Not searchable nor highlightable
-            ],
-          },
-        ]}
-        label="Label"
-      />
+      // etc.
+      <NumberFormat.Number value={1234} key="item-4" /> // <-- Not searchable nor highlightable
+      ]
+    }]} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 or you can provide it inside a fragment:
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <Autocomplete
-        data={[
-          {
-            content: (
-              <>
+      <Autocomplete data={[{
+      content: <>
                 <IconPrimary icon="bell" />
                 <span className="custom-selector-a">
                   The Shawshank Redemption
                 </span>
                 <span className="custom-selector-b">The Dark Knight</span>
               </>
-            ),
-          },
-        ]}
-        label="Label"
-      />
+    }]} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 and if you need to decouple the searchable content from what's displayed, then you can put your searchable content inside `searchContent`:
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <Autocomplete
-        data={[
-          {
-            content: ['your visual content'],
-            searchContent: ['your search content'],
-          },
-        ]}
-        label="Label"
-      />
+      <Autocomplete data={[{
+      content: ['your visual content'],
+      searchContent: ['your search content']
+    }]} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ## Re-render data
 
@@ -182,6 +162,7 @@ You can also set the width directly, but then it has to be defined like so (incl
 }
 ```
 
+
 ## Dynamically change data
 
 You can manipulate the used data dynamically, either by changing the `data` property or during user events like `onType` or `onFocus`. The following properties and methods are there to use:
@@ -226,74 +207,57 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 />
 ```
 
+
 ## Demos
 
 ### Default autocomplete
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        topMovies,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    topMovies
+  }}>
       <Autocomplete data={topMovies} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Autocomplete with numbers
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        numbersData,
-      }}
-    >
-      <Autocomplete
-        inputValue="201"
-        showClearButton
-        label="Label"
-        data={numbersData}
-        searchNumbers={true}
-      />
+render(<Wrapper>
+    <ComponentBox scope={{
+    numbersData
+  }}>
+      <Autocomplete inputValue="201" showClearButton label="Label" data={numbersData} searchNumbers={true} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Autocomplete with a custom title
 
 - `keepValue` means the input value gets not removed after an input blur happens.
 - `showClearButton` means a clear button will show up when the input field contains a value.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-closed"
-      scope={{
-        topMovies,
-      }}
-    >
-      <Autocomplete
-        data={topMovies}
-        keepValue={true}
-        showClearButton={true}
-        label="Label"
-        placeholder="Custom placeholder ..."
-        onChange={({ data }) => {
-          console.log('onChange', data)
-        }}
-      />
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-closed" scope={{
+    topMovies
+  }}>
+      <Autocomplete data={topMovies} keepValue={true} showClearButton={true} label="Label" placeholder="Custom placeholder ..." onChange={({
+      data
+    }) => {
+      console.log('onChange', data);
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Async usage, dynamically update data during typing
 
@@ -301,199 +265,158 @@ This example simulates server delay with a timeout and - if it gets debounced, w
 
 Also, you may consider using `disableFilter` if you have a backend doing the search operation.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        topMovies,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    topMovies
+  }}>
       {() => {
-        const onTypeHandler = ({
-          value,
-          showIndicator,
-          hideIndicator,
-          updateData,
-          showNoOptionsItem,
-          debounce,
-          /* ... */
+      const onTypeHandler = ({
+        value,
+        showIndicator,
+        hideIndicator,
+        updateData,
+        showNoOptionsItem,
+        debounce
+        /* ... */
+      }) => {
+        console.log('typed value:', value);
+        showIndicator();
+        debounce(({
+          value
         }) => {
-          console.log('typed value:', value)
-          showIndicator()
-          debounce(
-            ({ value }) => {
-              console.log('debounced value:', value)
-              const normalizedValue = value.trim().toLowerCase()
-              const filteredData = topMovies.filter(({ content }) => {
-                if (typeof content === 'string') {
-                  return content.toLowerCase().includes(normalizedValue)
-                }
-                if (Array.isArray(content)) {
-                  return content
-                    .filter((part) => typeof part === 'string')
-                    .join(' ')
-                    .toLowerCase()
-                    .includes(normalizedValue)
-                }
-                return false
-              })
-              const newData =
-                normalizedValue.length > 0 ? filteredData : topMovies
+          console.log('debounced value:', value);
+          const normalizedValue = value.trim().toLowerCase();
+          const filteredData = topMovies.filter(({
+            content
+          }) => {
+            if (typeof content === 'string') {
+              return content.toLowerCase().includes(normalizedValue);
+            }
+            if (Array.isArray(content)) {
+              return content.filter(part => typeof part === 'string').join(' ').toLowerCase().includes(normalizedValue);
+            }
+            return false;
+          });
+          const newData = normalizedValue.length > 0 ? filteredData : topMovies;
 
-              // simulate server delay
-              const timeout = setTimeout(() => {
-                // update the drawerList
-                updateData(newData)
-                hideIndicator()
-                if (newData.length === 0) {
-                  showNoOptionsItem()
-                }
-              }, 600)
+          // simulate server delay
+          const timeout = setTimeout(() => {
+            // update the drawerList
+            updateData(newData);
+            hideIndicator();
+            if (newData.length === 0) {
+              showNoOptionsItem();
+            }
+          }, 600);
 
-              // cancel invocation method
-              return () => clearTimeout(timeout)
-            },
-            {
-              value,
-            },
-            250
-          )
-        }
-        return (
-          <Autocomplete
-            mode="async"
-            onType={onTypeHandler}
-            noScrollAnimation={true}
-            placeholder="Search ..."
-          />
-        )
-      }}
+          // cancel invocation method
+          return () => clearTimeout(timeout);
+        }, {
+          value
+        }, 250);
+      };
+      return <Autocomplete mode="async" onType={onTypeHandler} noScrollAnimation={true} placeholder="Search ..." />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Update data dynamically on the first focus
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        topMovies,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    topMovies
+  }}>
       {() => {
-        const onFocusHandler = ({
-          updateData,
-          dataList,
-          showIndicatorItem,
-        }) => {
-          if (!dataList.length) {
-            showIndicatorItem()
-            setTimeout(() => {
-              updateData(topMovies)
-            }, 1e3)
-          }
+      const onFocusHandler = ({
+        updateData,
+        dataList,
+        showIndicatorItem
+      }) => {
+        if (!dataList.length) {
+          showIndicatorItem();
+          setTimeout(() => {
+            updateData(topMovies);
+          }, 1e3);
         }
-        return (
-          <Autocomplete
-            mode="async"
-            noScrollAnimation={true}
-            preventSelection={true}
-            onType={({ value /* updateData, ... */ }) => {
-              console.log('onType', value)
-            }}
-            onFocus={onFocusHandler}
-          />
-        )
-      }}
+      };
+      return <Autocomplete mode="async" noScrollAnimation={true} preventSelection={true} onType={({
+        value /* updateData, ... */
+      }) => {
+        console.log('onType', value);
+      }} onFocus={onFocusHandler} />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### With a Button to toggle the open / close state
 
 **NB:** Just to show the possibility; the data is given as a function.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-drawer-button"
-      scope={{
-        topMovies,
-      }}
-    >
-      <Autocomplete
-        label="Label"
-        value={10}
-        showSubmitButton={true}
-        onChange={({ data }) => {
-          console.log('onChange', data)
-        }}
-      >
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-drawer-button" scope={{
+    topMovies
+  }}>
+      <Autocomplete label="Label" value={10} showSubmitButton={true} onChange={({
+      data
+    }) => {
+      console.log('onChange', data);
+    }}>
         {() => topMovies}
       </Autocomplete>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### With a predefined input/search value
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-drawer-search"
-      scope={{
-        topMovies,
-      }}
-    >
-      <Autocomplete
-        label="Label"
-        inputValue="the pa ther"
-        noAnimation
-        onChange={({ data }) => {
-          console.log('onChange', data)
-        }}
-      >
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-drawer-search" scope={{
+    topMovies
+  }}>
+      <Autocomplete label="Label" inputValue="the pa ther" noAnimation onChange={({
+      data
+    }) => {
+      console.log('onChange', data);
+    }}>
         {() => topMovies}
       </Autocomplete>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Different sizes
 
 Four sizes are available: `small`, `default`, `medium` and `large`.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-sizes"
-      scope={{
-        topMovies,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-sizes" scope={{
+    topMovies
+  }}>
       <Flex.Vertical>
-        <Autocomplete
-          label="Label"
-          size="default"
-          data={() => topMovies}
-        />
+        <Autocomplete label="Label" size="default" data={() => topMovies} />
         <Autocomplete label="Label" size="medium" data={() => topMovies} />
         <Autocomplete label="Label" size="large" data={() => topMovies} />
       </Flex.Vertical>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Data suffix value
 
@@ -514,179 +437,126 @@ const data = [
 ]
 ```
 
+
 ```tsx
 const CustomWidth = styled(Autocomplete)`
-  .dnb-drawer-list__root,
-  .dnb-autocomplete__shell {
-    width: 50vw;
-    min-width: 15rem;
-    max-width: 30rem;
-  }
-`
-render(
-  <CustomWidth
-    value={1}
-    data={numbers}
-    size="medium"
-    icon={null}
-    showSubmitButton
-    label="From account"
-  />
-)
+          .dnb-drawer-list__root,
+          .dnb-autocomplete__shell {
+            width: 50vw;
+            min-width: 15rem;
+            max-width: 30rem;
+          }
+        `;
+render(<CustomWidth value={1} data={numbers} size="medium" icon={null} showSubmitButton label="From account" />);
 ```
+
 
 ### Custom width
 
+
 ```tsx
 const CustomWidthOne = styled(Autocomplete)`
-  .dnb-autocomplete__shell {
-    width: 10rem;
-  }
-`
+        .dnb-autocomplete__shell {
+          width: 10rem;
+        }
+      `;
 const CustomWidthTwo = styled(Autocomplete)`
-  &.dnb-autocomplete--is-popup .dnb-drawer-list__root {
-    width: 12rem;
-  }
-`
+        &.dnb-autocomplete--is-popup .dnb-drawer-list__root {
+          width: 12rem;
+        }
+      `;
 const CustomWidthThree = styled(Autocomplete)`
-  /** Change the "__shell" width */
-  .dnb-autocomplete__shell {
-    width: 12rem;
-  }
+        /** Change the "__shell" width */
+        .dnb-autocomplete__shell {
+          width: 12rem;
+        }
 
-  /** Change the "__list" width */
-  .dnb-drawer-list__root {
-    width: 20rem;
-  }
-`
-render(
-  <Flex.Vertical>
-    <CustomWidthOne
-      label="Label"
-      labelSrOnly
-      size="default"
-      iconPosition="left"
-      data={topMovies}
-    />
-    <CustomWidthTwo
-      label="Label"
-      labelSrOnly
-      size="medium"
-      data={topMovies}
-    />
-    <CustomWidthThree
-      label="Label"
-      labelSrOnly
-      size="large"
-      align="right"
-      iconPosition="right"
-      icon="bell"
-      data={topMovies}
-    />
-  </Flex.Vertical>
-)
+        /** Change the "__list" width */
+        .dnb-drawer-list__root {
+          width: 20rem;
+        }
+      `;
+render(<Flex.Vertical>
+          <CustomWidthOne label="Label" labelSrOnly size="default" iconPosition="left" data={topMovies} />
+          <CustomWidthTwo label="Label" labelSrOnly size="medium" data={topMovies} />
+          <CustomWidthThree label="Label" labelSrOnly size="large" align="right" iconPosition="right" icon="bell" data={topMovies} />
+        </Flex.Vertical>);
 ```
+
 
 ### Autocomplete with status message
 
-```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-status-information"
-      scope={{
-        topMovies,
-      }}
-    >
-      <Autocomplete
-        data={topMovies}
-        label="Label"
-        status="You need to select a movie"
-        statusState="information"
-        showSubmitButton
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-```
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="autocomplete-status-error"
-      scope={{
-        topMovies,
-      }}
-    >
-      <Autocomplete
-        label="Status error"
-        data={[topMovies[0]]}
-        status="Error"
-        statusState="error"
-        showSubmitButton
-        open
-        noAnimation
-        preventClose
-        direction="bottom"
-      />
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-status-information" scope={{
+    topMovies
+  }}>
+      <Autocomplete data={topMovies} label="Label" status="You need to select a movie" statusState="information" showSubmitButton />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
+
+
+  
+```tsx
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-status-error" scope={{
+    topMovies
+  }}>
+      <Autocomplete label="Status error" data={[topMovies[0]]} status="Error" statusState="error" showSubmitButton open noAnimation preventClose direction="bottom" />
+    </ComponentBox>
+  </Wrapper>)
+```
+
+
 
 ### Groups
 
 If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="autocomplete-groups">
-      <Autocomplete
-        groups={[undefined, 'Pets', 'Cars']}
-        data={[
-          {
-            groupIndex: 0,
-            content: 'Default 1',
-          },
-          {
-            groupIndex: 0,
-            content: 'Default 2',
-          },
-          {
-            groupIndex: 1,
-            content: 'Cat',
-          },
-          {
-            groupIndex: 1,
-            content: 'Dog',
-          },
-          {
-            groupIndex: 2,
-            content: 'Jeep',
-          },
-          {
-            groupIndex: 2,
-            content: 'Van',
-          },
-        ]}
-      />
+      <Autocomplete groups={[undefined, 'Pets', 'Cars']} data={[{
+      groupIndex: 0,
+      content: 'Default 1'
+    }, {
+      groupIndex: 0,
+      content: 'Default 2'
+    }, {
+      groupIndex: 1,
+      content: 'Cat'
+    }, {
+      groupIndex: 1,
+      content: 'Dog'
+    }, {
+      groupIndex: 2,
+      content: 'Jeep'
+    }, {
+      groupIndex: 2,
+      content: 'Van'
+    }]} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
 
 You may check out the [DrawerList Properties](#drawerlist-properties) down below as well as the [Data structure examples](#the-data-property).
 
+
 ```json
 {
   "props": {
     "mode": {
       "doc": "If set to `async`, it prevents showing the \"no options\" message during typing / filtering. Defaults to `sync`.",
-      "type": ["\"sync\"", "\"async\""],
+      "type": [
+        "\"sync\"",
+        "\"async\""
+      ],
       "status": "optional"
     },
     "inputValue": {
@@ -726,12 +596,18 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "searchInWordIndex": {
       "doc": "This gives you the possibility to change the threshold number, which defines from what word on we search \"inside words\". Defaults to `3`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "searchMatch": {
       "doc": "Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.",
-      "type": ["\"word\"", "\"starts-with\""],
+      "type": [
+        "\"word\"",
+        "\"starts-with\""
+      ],
       "status": "optional"
     },
     "keepValue": {
@@ -761,7 +637,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "icon": {
       "doc": "To be included in the autocomplete input.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "iconSize": {
@@ -771,17 +650,28 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "arrowPosition": {
       "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.",
-      "type": ["\"small\"", "\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"small\"",
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "drawerClass": {
@@ -796,7 +686,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "align": {
       "doc": "Use `right` to change the options alignment direction. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "noOptions": {
@@ -841,7 +734,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "submitButtonIcon": {
       "doc": "The icon used in the submit button. Defaults to `chevron_down`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "submitElement": {
@@ -871,12 +767,19 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -896,7 +799,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "labelDirection": {
       "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -921,7 +827,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "inputElement": {
       "doc": "Lets you provide a custom React element as the input HTML element.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "[DrawerList](/uilib/components/fragments/drawer-list/properties)": {
@@ -931,21 +840,29 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## DrawerList Properties
+
 
 ```json
 {
   "props": {
     "[data](#the-data-property)": {
       "doc": "The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).",
-      "type": ["{DATA}", "() => {DATA}"],
+      "type": [
+        "{DATA}",
+        "() => {DATA}"
+      ],
       "status": "required"
     },
     "groups": {
@@ -955,7 +872,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "value": {
       "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "defaultValue": {
@@ -970,7 +890,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "direction": {
       "doc": "Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "labelDirection": {
@@ -1085,7 +1009,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "wrapperElement": {
       "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
-      "type": ["string", "HTMLElement"],
+      "type": [
+        "string",
+        "HTMLElement"
+      ],
       "status": "optional"
     },
     "optionsRender": {
@@ -1095,12 +1022,17 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
+
 
 ## The `data` property
 
@@ -1163,6 +1095,7 @@ const onChange = ({ data, value }) => {
 
 Each object in the array have the following properties:
 
+
 ```json
 {
   "props": {
@@ -1187,22 +1120,32 @@ Each object in the array have the following properties:
     },
     "selectedKey": {
       "doc": "If set, can be used instead of array index by the `value` prop.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "selectedValue": {
       "doc": "Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "suffixValue": {
       "doc": "Content placed to the right in the list item.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `data` as an object
 
@@ -1270,11 +1213,18 @@ let data: DATA | () => DATA
 
 There is technically support for sending in a JSON string of the data to the `data` property. But this is an old functionality that we do not really support anymore.
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Autocomplete.ariaLiveOptions": {
       "nb-NO": "%s alternativer",
@@ -1348,6 +1298,7 @@ There is technically support for sending in a JSON string of the data to the `da
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -1405,6 +1356,7 @@ There is technically support for sending in a JSON string of the data to the `da
 }
 ```
 
+
 ### The `onChange` vs `onSelect` difference
 
 The difference between `onChange` and `onSelect` is:
@@ -1440,6 +1392,7 @@ The `onItemMouseEnter` event is called when the user hovers over a dropdown item
   }}
 />
 ```
+
 
 ## Dynamically change data
 

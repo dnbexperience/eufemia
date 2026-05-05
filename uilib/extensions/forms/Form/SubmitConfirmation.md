@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitConfirmation'
 description: '`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.978Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.993Z
 checksum: 7bf2130a8c9d87f05ba44fb9f83d48ee659850d6119e13e570398d54a7d4d582
 ---
 
@@ -111,161 +111,121 @@ In addition to `connectWithDialog`, there are the `submitHandler` and `cancelHan
 
 When the `cancelHandler` is called or the `onSubmit` event is completed, the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) will regain focus.
 
+
 ## Demos
 
 ### With confirmation dialog
 
-```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    onSubmit={async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-    }}
-  >
-    <Flex.Stack>
-      <Field.String label="Label" path="/foo" defaultValue="foo" />
-      <Form.SubmitButton />
-    </Flex.Stack>
 
-    <Form.SubmitConfirmation
-      preventSubmitWhen={() => true}
-      renderWithState={({ connectWithDialog }) => {
-        return (
-          <Dialog
-            variant="confirmation"
-            title="Dialog confirmation title"
-            description="Some content describing the situation."
-            {...connectWithDialog}
-          />
-        )
-      }}
-    />
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler locale="en-GB" onSubmit={async () => {
+  await new Promise(resolve => setTimeout(resolve, 2000));
+}}>
+        <Flex.Stack>
+          <Field.String label="Label" path="/foo" defaultValue="foo" />
+          <Form.SubmitButton />
+        </Flex.Stack>
+
+        <Form.SubmitConfirmation preventSubmitWhen={() => true} renderWithState={({
+    connectWithDialog
+  }) => {
+    return <Dialog variant="confirmation" title="Dialog confirmation title" description="Some content describing the situation." {...connectWithDialog} />;
+  }} />
+      </Form.Handler>)
 ```
+
 
 ### Enable and disable the confirmation mechanism
 
 This example makes first an ordinary submit request. But when the custom status is returned, the dialog component will be shown.
 
-```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    onSubmit={async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      return {
-        customStatus: 'My custom status',
-      }
-    }}
-  >
-    <Flex.Stack>
-      <Field.String label="Label" path="/foo" defaultValue="foo" />
-      <Form.SubmitButton />
-    </Flex.Stack>
 
-    <Form.SubmitConfirmation
-      onSubmitResult={({ submitState, setConfirmationState }) => {
-        if (submitState && submitState.customStatus) {
-          setConfirmationState('readyToBeSubmitted')
-        }
-      }}
-      renderWithState={({ connectWithDialog, submitState }) => {
-        return (
-          <Dialog
-            variant="confirmation"
-            title="Dialog confirmation title"
-            description="Some content describing the situation."
-            confirmText="Send"
-            {...connectWithDialog}
-          >
-            <Section
-              variant="information"
-              innerSpace={{
-                top: true,
-                bottom: true,
-              }}
-              top
-            >
-              <Flex.Stack>
-                <Field.String label="Inside the dialog" path="/foo" />
-                <Form.Isolation
-                  onChange={console.log}
-                  data={{
-                    bar: submitState ? submitState.customStatus : 'bar',
-                  }}
-                >
-                  <Field.String label="Isolated" path="/bar" />
-                </Form.Isolation>
-              </Flex.Stack>
-            </Section>
-          </Dialog>
-        )
-      }}
-    />
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler locale="en-GB" onSubmit={async () => {
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  return {
+    customStatus: 'My custom status'
+  };
+}}>
+        <Flex.Stack>
+          <Field.String label="Label" path="/foo" defaultValue="foo" />
+          <Form.SubmitButton />
+        </Flex.Stack>
+
+        <Form.SubmitConfirmation onSubmitResult={({
+    submitState,
+    setConfirmationState
+  }) => {
+    if (submitState && submitState.customStatus) {
+      setConfirmationState('readyToBeSubmitted');
+    }
+  }} renderWithState={({
+    connectWithDialog,
+    submitState
+  }) => {
+    return <Dialog variant="confirmation" title="Dialog confirmation title" description="Some content describing the situation." confirmText="Send" {...connectWithDialog}>
+                <Section variant="information" innerSpace={{
+        top: true,
+        bottom: true
+      }} top>
+                  <Flex.Stack>
+                    <Field.String label="Inside the dialog" path="/foo" />
+                    <Form.Isolation onChange={console.log} data={{
+            bar: submitState ? submitState.customStatus : 'bar'
+          }}>
+                      <Field.String label="Isolated" path="/bar" />
+                    </Form.Isolation>
+                  </Flex.Stack>
+                </Section>
+              </Dialog>;
+  }} />
+      </Form.Handler>)
 ```
+
 
 ### Render different content based on the submit state
 
+
 ```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    onSubmit={async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-    }}
-  >
-    <Form.SubmitConfirmation
-      preventSubmitWhen={() => true}
-      onStateChange={({ confirmationState }) => {
-        console.log('onStateChange', confirmationState)
-      }}
-      renderWithState={({ confirmationState, connectWithDialog }) => {
-        let content = null
-        switch (confirmationState) {
-          case 'readyToBeSubmitted':
-            content = <>Is waiting ...</>
-            break
-          case 'submitInProgress':
-            content = <>Submitting...</>
-            break
-          case 'submissionComplete':
-            content = <>Complete!</>
-            break
-          default:
-            content = (
-              <Flex.Stack>
-                <Field.String
-                  label="Label"
-                  path="/foo"
-                  defaultValue="foo"
-                />
-                <Form.SubmitButton />
-              </Flex.Stack>
-            )
-            break
-        }
-        return (
-          <>
-            {content}
-            <Dialog
-              variant="confirmation"
-              title="Dialog confirmation title"
-              description="Some content describing the situation."
-              {...connectWithDialog}
-            />
-          </>
-        )
-      }}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler locale="en-GB" onSubmit={async () => {
+  await new Promise(resolve => setTimeout(resolve, 2000));
+}}>
+        <Form.SubmitConfirmation preventSubmitWhen={() => true} onStateChange={({
+    confirmationState
+  }) => {
+    console.log('onStateChange', confirmationState);
+  }} renderWithState={({
+    confirmationState,
+    connectWithDialog
+  }) => {
+    let content = null;
+    switch (confirmationState) {
+      case 'readyToBeSubmitted':
+        content = <>Is waiting ...</>;
+        break;
+      case 'submitInProgress':
+        content = <>Submitting...</>;
+        break;
+      case 'submissionComplete':
+        content = <>Complete!</>;
+        break;
+      default:
+        content = <Flex.Stack>
+                    <Field.String label="Label" path="/foo" defaultValue="foo" />
+                    <Form.SubmitButton />
+                  </Flex.Stack>;
+        break;
+    }
+    return <>
+                {content}
+                <Dialog variant="confirmation" title="Dialog confirmation title" description="Some content describing the situation." {...connectWithDialog} />
+              </>;
+  }} />
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -285,6 +245,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

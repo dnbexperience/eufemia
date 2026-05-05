@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.AnimatedContainer'
 description: '`Iterate.AnimatedContainer` can be used to animate items when they are added or removed.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.029Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.019Z
 checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 
@@ -54,46 +54,38 @@ render(
 
 The `Iterate.AnimatedContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
 
+
 ## Demos
+
 
 ```tsx
 const MyForm = () => {
-  const { count } = Iterate.useCount('myForm')
-  return (
-    <Form.Handler
-      defaultData={{
-        myList: ['Item 1'],
-      }}
-      id="myForm"
-    >
-      <Form.Card>
-        <Iterate.Array
-          path="/myList"
-          placeholder={<>Empty list</>}
-          animate
-        >
-          <Iterate.AnimatedContainer title="Title {itemNo}">
-            <Field.String label="Label" itemPath="/" />
+  const {
+    count
+  } = Iterate.useCount('myForm');
+  return <Form.Handler defaultData={{
+    myList: ['Item 1']
+  }} id="myForm">
+              <Form.Card>
+                <Iterate.Array path="/myList" placeholder={<>Empty list</>} animate>
+                  <Iterate.AnimatedContainer title="Title {itemNo}">
+                    <Field.String label="Label" itemPath="/" />
 
-            <Iterate.Toolbar>
-              <Iterate.RemoveButton />
-            </Iterate.Toolbar>
-          </Iterate.AnimatedContainer>
-        </Iterate.Array>
+                    <Iterate.Toolbar>
+                      <Iterate.RemoveButton />
+                    </Iterate.Toolbar>
+                  </Iterate.AnimatedContainer>
+                </Iterate.Array>
 
-        <Iterate.PushButton
-          path="/myList"
-          pushValue={`Item ${String(count('/myList') + 1)}`}
-          text="Add new item"
-        />
-      </Form.Card>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Iterate.PushButton path="/myList" pushValue={`Item ${String(count('/myList') + 1)}`} text="Add new item" />
+              </Form.Card>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -110,7 +102,11 @@ render(<MyForm />)
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "toolbar": {
@@ -120,7 +116,10 @@ render(<MyForm />)
     },
     "toolbarVariant": {
       "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-      "type": ["\"minimumOneItem\"", "\"custom\""],
+      "type": [
+        "\"minimumOneItem\"",
+        "\"custom\""
+      ],
       "status": "optional"
     },
     "open": {

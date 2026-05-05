@@ -1,8 +1,8 @@
 ---
 title: 'Design Tokens (beta)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.483Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.382Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -131,51 +131,51 @@ See the [Tokens](/uilib/usage/customisation/theming/design-tokens/tokens) tab fo
 
 ## Naming contract
 
+
 ```tsx
-render(
-  <Table>
-    <thead>
-      <Tr>
-        <Th>Rule</Th>
-        <Th>Current contract</Th>
-      </Tr>
-    </thead>
-    <tbody>
-      <Tr>
-        <Td>Prefix</Td>
-        <Td>
-          <MDXCode>{tokenNamingPolicy.prefix}</MDXCode>
-        </Td>
-      </Tr>
-      <Tr>
-        <Td>Top-level categories</Td>
-        <Td>{renderInlineCodeList(tokenNamingPolicy.categories)}</Td>
-      </Tr>
-      <Tr>
-        <Td>Component sections (optional)</Td>
-        <Td>
-          {renderInlineCodeList(tokenNamingPolicy.componentSections)}
-        </Td>
-      </Tr>
-      <Tr>
-        <Td>Semantic Color sections</Td>
-        <Td>{renderInlineCodeList(tokenNamingPolicy.colorSections)}</Td>
-      </Tr>
-      <Tr>
-        <Td>Typical Color labels</Td>
-        <Td>{renderInlineCodeList(tokenNamingPolicy.givenLabels)}</Td>
-      </Tr>
-      <Tr>
-        <Td>Brand parity</Td>
-        <Td>
-          Every brand tokens file is expected to declare the same token
-          names.
-        </Td>
-      </Tr>
-    </tbody>
-  </Table>
-)
+render(<Table>
+      <thead>
+        <Tr>
+          <Th>Rule</Th>
+          <Th>Current contract</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        <Tr>
+          <Td>Prefix</Td>
+          <Td>
+            <MDXCode>{tokenNamingPolicy.prefix}</MDXCode>
+          </Td>
+        </Tr>
+        <Tr>
+          <Td>Top-level categories</Td>
+          <Td>{renderInlineCodeList(tokenNamingPolicy.categories)}</Td>
+        </Tr>
+        <Tr>
+          <Td>Component sections (optional)</Td>
+          <Td>
+            {renderInlineCodeList(tokenNamingPolicy.componentSections)}
+          </Td>
+        </Tr>
+        <Tr>
+          <Td>Semantic Color sections</Td>
+          <Td>{renderInlineCodeList(tokenNamingPolicy.colorSections)}</Td>
+        </Tr>
+        <Tr>
+          <Td>Typical Color labels</Td>
+          <Td>{renderInlineCodeList(tokenNamingPolicy.givenLabels)}</Td>
+        </Tr>
+        <Tr>
+          <Td>Brand parity</Td>
+          <Td>
+            Every brand tokens file is expected to declare the same token
+            names.
+          </Td>
+        </Tr>
+      </tbody>
+    </Table>)
 ```
+
 
 <br />
 

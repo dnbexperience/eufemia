@@ -1,8 +1,8 @@
 ---
 title: 'Grid'
 description: 'To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.439Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.359Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -46,60 +46,44 @@ UX designers are using a 12 column system, along with a 4 and 6 column system, d
 
 Here is an [example](/uilib/layout/grid/visual-tests/page-layout/) of how to use this Grid component for a page layout.
 
+
 ## Demos
 
 ### Responsive Grid.Container
 
+
 ```tsx
-render(
-  <Grid.Container rowGap columnGap>
-    <Grid.Item
-      span={{
-        small: [1, 2],
-        medium: [1, 3],
-        large: [1, 12],
-      }}
-      style={colors[0]}
-      element={TestElement}
-    >
-      Item A
-    </Grid.Item>
+render(<Grid.Container rowGap columnGap>
+        <Grid.Item span={{
+    small: [1, 2],
+    medium: [1, 3],
+    large: [1, 12]
+  }} style={colors[0]} element={TestElement}>
+          Item A
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [3, 4],
-        medium: [4, 6],
-        large: [1, 4],
-      }}
-      style={colors[1]}
-      element={TestElement}
-    >
-      Item B
-    </Grid.Item>
+        <Grid.Item span={{
+    small: [3, 4],
+    medium: [4, 6],
+    large: [1, 4]
+  }} style={colors[1]} element={TestElement}>
+          Item B
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [2, 3],
-        medium: [4, 6],
-        large: [5, 8],
-      }}
-      style={colors[2]}
-      element={TestElement}
-    >
-      Item C
-    </Grid.Item>
+        <Grid.Item span={{
+    small: [2, 3],
+    medium: [4, 6],
+    large: [5, 8]
+  }} style={colors[2]} element={TestElement}>
+          Item C
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [1, 4],
-        medium: [4, 6],
-        large: [9, 12],
-      }}
-      style={colors[3]}
-      element={TestElement}
-    >
-      Item D
-    </Grid.Item>
-  </Grid.Container>
-)
+        <Grid.Item span={{
+    small: [1, 4],
+    medium: [4, 6],
+    large: [9, 12]
+  }} style={colors[3]} element={TestElement}>
+          Item D
+        </Grid.Item>
+      </Grid.Container>)
 ```

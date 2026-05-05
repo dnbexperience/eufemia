@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import{t as r}from"./TypographyDocs-Bbsy7OYf.js";var i=e(),a={...r};function o(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...t(),...e.components}.h2,{children:`Properties`}),`
+`,(0,i.jsx)(n,{props:a})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(o,{...e})}):o(e)}export{s as default};

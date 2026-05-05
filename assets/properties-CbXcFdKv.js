@@ -1,0 +1,4 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import"./TranslationsTable-B6uVFdVX.js";import{t as r}from"./CardDocs-BClVLX2c.js";var i=e(),{stack:a,...o}=r,s={stack:{...a,doc:"True to stack the sub components with space between. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`."}},c={...o};function l(e){let r={a:`a`,h2:`h2`,...t(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(r.h2,{children:`Properties`}),`
+`,(0,i.jsx)(n,{props:s}),`
+`,(0,i.jsxs)(r.h2,{children:[`Other properties inherited from `,(0,i.jsx)(r.a,{href:`/uilib/components/card/properties`,children:`Card`})]}),`
+`,(0,i.jsx)(n,{props:c})]})}function u(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(l,{...e})}):l(e)}export{u as default};

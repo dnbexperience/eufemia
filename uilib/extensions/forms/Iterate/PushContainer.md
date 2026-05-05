@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushContainer'
 description: '`Iterate.PushContainer` enables users to create a new item in the array.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.077Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.070Z
 checksum: 8cd3382923d837703c0c254f89691158d72c5e342606f2caa400df09037c9260
 ---
 
@@ -131,6 +131,7 @@ Under the hood, it uses the [Form.Isolation](/uilib/extensions/forms/Form/Isolat
 
 All fields inside the container will be stored in the data context at this path: `/pushContainerItems/0`.
 
+
 ## Demos
 
 ### Prevent uncommitted changes
@@ -139,121 +140,87 @@ This example uses the `preventUncommittedChanges` property to display an error m
 
 Try entering something in the input field, then navigate to the next step. An error message will appear to indicate that changes must be committed first.
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Wizard.Container>
-      <Wizard.Step title="Step 1">
-        <Form.Card>
-          <Form.SubHeading>People</Form.SubHeading>
-          <Iterate.Array path="/people" animate placeholder="No people">
-            <Value.Name.First itemPath="/firstName" />
-          </Iterate.Array>
+render(<Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Form.Card>
+              <Form.SubHeading>People</Form.SubHeading>
+              <Iterate.Array path="/people" animate placeholder="No people">
+                <Value.Name.First itemPath="/firstName" />
+              </Iterate.Array>
 
-          <Iterate.PushContainer
-            path="/people"
-            title="New person"
-            preventUncommittedChanges
-            bubbleValidation
-            openButton={
-              <Iterate.PushContainer.OpenButton
-                top
-                variant="tertiary"
-                text="Add new person"
-              />
-            }
-            showOpenButtonWhen={(list) => list.length > 0}
-          >
-            <Field.Name.First itemPath="/firstName" />
-          </Iterate.PushContainer>
-        </Form.Card>
+              <Iterate.PushContainer path="/people" title="New person" preventUncommittedChanges bubbleValidation openButton={<Iterate.PushContainer.OpenButton top variant="tertiary" text="Add new person" />} showOpenButtonWhen={list => list.length > 0}>
+                <Field.Name.First itemPath="/firstName" />
+              </Iterate.PushContainer>
+            </Form.Card>
 
-        <Wizard.Buttons />
-      </Wizard.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-      <Wizard.Step title="Step 2">
-        <Iterate.Array path="/people">
-          <Value.Name.First itemPath="/firstName" />
-        </Iterate.Array>
-        <Wizard.Buttons />
-      </Wizard.Step>
-    </Wizard.Container>
-  </Form.Handler>
-)
+          <Wizard.Step title="Step 2">
+            <Iterate.Array path="/people">
+              <Value.Name.First itemPath="/firstName" />
+            </Iterate.Array>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>)
 ```
+
 
 ### Initially open
 
+
 ```tsx
 const MyEditItemForm = () => {
-  return (
-    <Field.Composition>
-      <Field.Name.First itemPath="/firstName" width="medium" />
-      <Field.Name.Last itemPath="/lastName" width="medium" required />
-    </Field.Composition>
-  )
-}
+  return <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last itemPath="/lastName" width="medium" required />
+            </Field.Composition>;
+};
 const MyEditItem = () => {
-  return (
-    <Iterate.EditContainer
-      title="Edit account holder {itemNo}"
-      titleWhenNew="New account holder {itemNo}"
-    >
-      <MyEditItemForm />
-    </Iterate.EditContainer>
-  )
-}
+  return <Iterate.EditContainer title="Edit account holder {itemNo}" titleWhenNew="New account holder {itemNo}">
+              <MyEditItemForm />
+            </Iterate.EditContainer>;
+};
 const MyViewItem = () => {
-  const item = Iterate.useItem()
-  console.log('index:', item.index)
-  return (
-    <Iterate.ViewContainer title="Account holder {itemNo}">
-      <Value.SummaryList>
-        <Value.Name.First itemPath="/firstName" showEmpty />
-        <Value.Name.Last itemPath="/lastName" placeholder="-" />
-      </Value.SummaryList>
-    </Iterate.ViewContainer>
-  )
-}
+  const item = Iterate.useItem();
+  console.log('index:', item.index);
+  return <Iterate.ViewContainer title="Account holder {itemNo}">
+              <Value.SummaryList>
+                <Value.Name.First itemPath="/firstName" showEmpty />
+                <Value.Name.Last itemPath="/lastName" placeholder="-" />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>;
+};
 const CreateNewEntry = () => {
-  return (
-    <Iterate.PushContainer
-      path="/accounts"
-      title="New account holder"
-      openButton={
-        <Iterate.PushContainer.OpenButton text="Add another account" />
-      }
-      showOpenButtonWhen={(list) => list.length > 0}
-    >
-      <MyEditItemForm />
-    </Iterate.PushContainer>
-  )
-}
+  return <Iterate.PushContainer path="/accounts" title="New account holder" openButton={<Iterate.PushContainer.OpenButton text="Add another account" />} showOpenButtonWhen={list => list.length > 0}>
+              <MyEditItemForm />
+            </Iterate.PushContainer>;
+};
 const MyForm = () => {
-  return (
-    <Form.Handler
-      onChange={(data) => console.log('DataContext/onChange', data)}
-      onSubmit={async (data) => console.log('onSubmit', data)}
-    >
-      <Flex.Stack>
-        <Form.MainHeading>Accounts</Form.MainHeading>
+  return <Form.Handler onChange={data => console.log('DataContext/onChange', data)} onSubmit={async data => console.log('onSubmit', data)}>
+              <Flex.Stack>
+                <Form.MainHeading>Accounts</Form.MainHeading>
 
-        <Form.Card gap={false}>
-          <Iterate.Array path="/accounts">
-            <MyViewItem />
-            <MyEditItem />
-          </Iterate.Array>
+                <Form.Card gap={false}>
+                  <Iterate.Array path="/accounts">
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
 
-          <CreateNewEntry />
-        </Form.Card>
+                  <CreateNewEntry />
+                </Form.Card>
 
-        <Form.SubmitButton variant="send" />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Form.SubmitButton variant="send" />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### With existing data
 
@@ -263,205 +230,149 @@ render(<MyForm />)
 
 This demo shows how to use the `isolatedData` property to provide data to the PushContainer.
 
+
 ```tsx
 const formData = {
-  persons: [
-    {
-      firstName: 'Ola',
-      lastName: 'Nordmann',
-    },
-    {
-      firstName: 'Kari',
-      lastName: 'Nordmann',
-    },
-    {
-      firstName: 'Per',
-      lastName: 'Hansen',
-    },
-  ],
-}
+  persons: [{
+    firstName: 'Ola',
+    lastName: 'Nordmann'
+  }, {
+    firstName: 'Kari',
+    lastName: 'Nordmann'
+  }, {
+    firstName: 'Per',
+    lastName: 'Hansen'
+  }]
+};
 function RepresentativesView() {
-  return (
-    <Iterate.ViewContainer>
-      <Value.Composition>
-        <Value.String itemPath="/firstName" />
-        <Value.String itemPath="/lastName" />
-      </Value.Composition>
-    </Iterate.ViewContainer>
-  )
+  return <Iterate.ViewContainer>
+              <Value.Composition>
+                <Value.String itemPath="/firstName" />
+                <Value.String itemPath="/lastName" />
+              </Value.Composition>
+            </Iterate.ViewContainer>;
 }
 function RepresentativesEdit() {
-  return (
-    <Iterate.EditContainer>
-      <Field.Name.First itemPath="/firstName" />
-      <Field.Name.Last itemPath="/lastName" />
-    </Iterate.EditContainer>
-  )
+  return <Iterate.EditContainer>
+              <Field.Name.First itemPath="/firstName" />
+              <Field.Name.Last itemPath="/lastName" />
+            </Iterate.EditContainer>;
 }
 function ExistingPersonDetails() {
-  const { data, getValue } = Form.useData()
-  const person = getValue(data['selectedPerson'])?.data || {}
-  return (
-    <Flex.Stack>
-      <Field.Name.First
-        readOnly
-        itemPath="/firstName"
-        value={person.firstName}
-      />
-      <Field.Name.Last
-        readOnly
-        itemPath="/lastName"
-        value={person.lastName}
-      />
-    </Flex.Stack>
-  )
+  const {
+    data,
+    getValue
+  } = Form.useData();
+  const person = getValue(data['selectedPerson'])?.data || {};
+  return <Flex.Stack>
+              <Field.Name.First readOnly itemPath="/firstName" value={person.firstName} />
+              <Field.Name.Last readOnly itemPath="/lastName" value={person.lastName} />
+            </Flex.Stack>;
 }
 function NewPersonDetails() {
-  return (
-    <Flex.Stack>
-      <Field.Name.First required itemPath="/firstName" />
-      <Field.Name.Last required itemPath="/lastName" />
-    </Flex.Stack>
-  )
+  return <Flex.Stack>
+              <Field.Name.First required itemPath="/firstName" />
+              <Field.Name.Last required itemPath="/lastName" />
+            </Flex.Stack>;
 }
 function PushContainerContent() {
-  const { data, update } = Form.useData()
-  const selectedPerson = data['selectedPerson'] // Because of missing TypeScript support
+  const {
+    data,
+    update
+  } = Form.useData();
+  const selectedPerson = data['selectedPerson']; // Because of missing TypeScript support
 
   // Clear the PushContainer data when the selected person is "other",
   // so the fields do not inherit existing data.
   React.useLayoutEffect(() => {
     if (selectedPerson === 'other') {
-      update('/pushContainerItems/0', {})
+      update('/pushContainerItems/0', {});
     }
-  }, [selectedPerson, update])
-  return (
-    <>
-      <Field.Selection
-        variant="radio"
-        required
-        path="/selectedPerson"
-        dataPath="/persons"
-      >
-        <Field.Option value="other" label="Other person" />
-      </Field.Selection>
+  }, [selectedPerson, update]);
+  return <>
+              <Field.Selection variant="radio" required path="/selectedPerson" dataPath="/persons">
+                <Field.Option value="other" label="Other person" />
+              </Field.Selection>
 
-      <HeightAnimation top>
-        <Form.Visibility
-          visibleWhen={{
-            path: '/selectedPerson',
-            hasValue: (value) =>
-              typeof value === 'string' && value !== 'other',
-          }}
-        >
-          <ExistingPersonDetails />
-        </Form.Visibility>
+              <HeightAnimation top>
+                <Form.Visibility visibleWhen={{
+        path: '/selectedPerson',
+        hasValue: value => typeof value === 'string' && value !== 'other'
+      }}>
+                  <ExistingPersonDetails />
+                </Form.Visibility>
 
-        <Form.Visibility
-          visibleWhen={{
-            path: '/selectedPerson',
-            hasValue: (value) => value === 'other',
-          }}
-        >
-          <NewPersonDetails />
-        </Form.Visibility>
-      </HeightAnimation>
-    </>
-  )
+                <Form.Visibility visibleWhen={{
+        path: '/selectedPerson',
+        hasValue: value => value === 'other'
+      }}>
+                  <NewPersonDetails />
+                </Form.Visibility>
+              </HeightAnimation>
+            </>;
 }
 function RepresentativesCreateNew() {
-  return (
-    <Iterate.PushContainer
-      path="/representatives"
-      title="Add new representative"
-      isolatedData={{
-        persons: formData.persons.map((data, i) => {
-          return {
-            title: [data.firstName, data.lastName].join(' '),
-            value: `/persons/${i}`,
-            data,
-          }
-        }),
-      }}
-      openButton={
-        <Iterate.PushContainer.OpenButton
-          variant="tertiary"
-          text="Add new representative"
-        />
-      }
-      showOpenButtonWhen={(list) => list.length > 0}
-    >
-      <PushContainerContent />
-    </Iterate.PushContainer>
-  )
+  return <Iterate.PushContainer path="/representatives" title="Add new representative" isolatedData={{
+    persons: formData.persons.map((data, i) => {
+      return {
+        title: [data.firstName, data.lastName].join(' '),
+        value: `/persons/${i}`,
+        data
+      };
+    })
+  }} openButton={<Iterate.PushContainer.OpenButton variant="tertiary" text="Add new representative" />} showOpenButtonWhen={list => list.length > 0}>
+              <PushContainerContent />
+            </Iterate.PushContainer>;
 }
-render(
-  <Form.Handler>
-    <Form.MainHeading>Representatives</Form.MainHeading>
-    <Flex.Stack>
-      <Form.Card>
-        <Iterate.Array path="/representatives">
-          <RepresentativesView />
-          <RepresentativesEdit />
-        </Iterate.Array>
-        <RepresentativesCreateNew />
-      </Form.Card>
+render(<Form.Handler>
+            <Form.MainHeading>Representatives</Form.MainHeading>
+            <Flex.Stack>
+              <Form.Card>
+                <Iterate.Array path="/representatives">
+                  <RepresentativesView />
+                  <RepresentativesEdit />
+                </Iterate.Array>
+                <RepresentativesCreateNew />
+              </Form.Card>
 
-      <Form.Card>
-        <Form.SubHeading>Data Context</Form.SubHeading>
-        <Tools.Log placeholder="-" />
-      </Form.Card>
-    </Flex.Stack>
-  </Form.Handler>
-)
+              <Form.Card>
+                <Form.SubHeading>Data Context</Form.SubHeading>
+                <Tools.Log placeholder="-" />
+              </Form.Card>
+            </Flex.Stack>
+          </Form.Handler>);
 ```
 
+
+
+  
 ```tsx
-render(
-  <Form.Handler>
-    <Wizard.Container>
-      <Wizard.Step title="Step 1">
-        <Iterate.Array path="/x" required>
-          <Value.Address itemPath="/y" />
-        </Iterate.Array>
-        <Iterate.PushContainer
-          path="/x"
-          variant="outline"
-          top
-          bottom
-          bubbleValidation
-        >
-          <Field.Address label="variant outline" itemPath="/y" required />
-        </Iterate.PushContainer>
-        <Iterate.PushContainer
-          path="/x"
-          variant="filled"
-          top
-          bottom
-          bubbleValidation
-        >
-          <Field.Address label="variant filled" itemPath="/y" required />
-        </Iterate.PushContainer>
-        <Iterate.PushContainer
-          path="/x"
-          variant="basic"
-          top
-          bottom
-          bubbleValidation
-        >
-          <Field.Address label="variant basic" itemPath="/y" required />
-        </Iterate.PushContainer>
-        <Wizard.Buttons />
-      </Wizard.Step>
-      <Wizard.Step title="Step 2">
-        <Wizard.Buttons />
-      </Wizard.Step>
-    </Wizard.Container>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Iterate.Array path="/x" required>
+              <Value.Address itemPath="/y" />
+            </Iterate.Array>
+            <Iterate.PushContainer path="/x" variant="outline" top bottom bubbleValidation>
+              <Field.Address label="variant outline" itemPath="/y" required />
+            </Iterate.PushContainer>
+            <Iterate.PushContainer path="/x" variant="filled" top bottom bubbleValidation>
+              <Field.Address label="variant filled" itemPath="/y" required />
+            </Iterate.PushContainer>
+            <Iterate.PushContainer path="/x" variant="basic" top bottom bubbleValidation>
+              <Field.Address label="variant basic" itemPath="/y" required />
+            </Iterate.PushContainer>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -488,12 +399,18 @@ render(
     },
     "data": {
       "doc": "Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`. Use `defaultData` when possible.",
-      "type": ["object", "array"],
+      "type": [
+        "object",
+        "array"
+      ],
       "status": "optional"
     },
     "defaultData": {
       "doc": "Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`.",
-      "type": ["object", "array"],
+      "type": [
+        "object",
+        "array"
+      ],
       "status": "optional"
     },
     "isolatedData": {
@@ -533,7 +450,11 @@ render(
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "toolbar": {
@@ -553,18 +474,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "IteratePushContainer.createButton": {
       "nb-NO": "Legg til",
@@ -583,6 +514,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

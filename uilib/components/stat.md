@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.510Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.604Z
 checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
@@ -57,423 +57,340 @@ import { Stat } from '@dnb/eufemia'
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/stat)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/stat)
 
+
 ## Demos
 
 ### Basic usage
 
+
 ```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Revenue growth</Stat.Label>
-    <Stat.Content direction="vertical">
-      <Stat.Currency value={1234} signDisplay="always" />
-      <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
-      <Stat.Info>Some additional information.</Stat.Info>
-    </Stat.Content>
-  </Stat.Root>
-)
+render(<Stat.Root>
+      <Stat.Label>Revenue growth</Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Currency value={1234} signDisplay="always" />
+        <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
+        <Stat.Info>Some additional information.</Stat.Info>
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Root and Label
 
 If the label acts as a section heading, place a heading element inside `Stat.Label` (for example `H3`).
 
-```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>
-      <H3>Revenue growth</H3>
-    </Stat.Label>
-    <Stat.Content direction="vertical">
-      <Stat.Currency
-        value={1234}
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
-      <Stat.Trend srLabel="Growth trend">+12.4%</Stat.Trend>
-    </Stat.Content>
 
-    <Stat.Label top>Monthly change</Stat.Label>
-    <Stat.Content direction="vertical">
-      <Stat.Currency value={-1234} locale="en-GB" />
-      <Stat.Inline>
-        <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
-        <Stat.Info>(some additional information)</Stat.Info>
-      </Stat.Inline>
-    </Stat.Content>
-  </Stat.Root>
-)
+```tsx
+render(<Stat.Root>
+      <Stat.Label>
+        <H3>Revenue growth</H3>
+      </Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Currency value={1234} mainSize="x-large" auxiliarySize="x-small" />
+        <Stat.Trend srLabel="Growth trend">+12.4%</Stat.Trend>
+      </Stat.Content>
+
+      <Stat.Label top>Monthly change</Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Currency value={-1234} locale="en-GB" />
+        <Stat.Inline>
+          <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
+          <Stat.Info>(some additional information)</Stat.Info>
+        </Stat.Inline>
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 #### Hidden Label
 
 Use a visually hidden label (`srOnly`) when the visible UI context already describes the statistic.
 
+
 ```tsx
-render(
-  <Stat.Root>
-    <Stat.Label srOnly>I'm a hidden label</Stat.Label>
-    <Stat.Content>
-      <Stat.Currency value={1234} />
-    </Stat.Content>
-  </Stat.Root>
-)
+render(<Stat.Root>
+      <Stat.Label srOnly>I'm a hidden label</Stat.Label>
+      <Stat.Content>
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Currency
 
 You can use `mainSize` and `auxiliarySize` to adjust the relative size of the currency symbol and the amount.
 
+
 ```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Always show sign</Stat.Label>
-    <Stat.Content>
-      <Stat.Currency
-        value={1234}
-        mainSize="x-large"
-        signDisplay="always"
-        auxiliarySize="x-small"
-      />
-    </Stat.Content>
+render(<Stat.Root>
+      <Stat.Label>Always show sign</Stat.Label>
+      <Stat.Content>
+        <Stat.Currency value={1234} mainSize="x-large" signDisplay="always" auxiliarySize="x-small" />
+      </Stat.Content>
 
-    <Stat.Label top>With suffix</Stat.Label>
-    <Stat.Content>
-      <Stat.Currency
-        value={1234}
-        currency="USD"
-        suffix="/mnd"
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
-    </Stat.Content>
+      <Stat.Label top>With suffix</Stat.Label>
+      <Stat.Content>
+        <Stat.Currency value={1234} currency="USD" suffix="/mnd" mainSize="x-large" auxiliarySize="x-small" />
+      </Stat.Content>
 
-    <Stat.Label top>
-      Colorized using <Code>en-GB</Code> locale
-    </Stat.Label>
-    <Stat.Content>
-      <Stat.Currency
-        value={-1234.5}
-        decimals={2}
-        currency="USD"
-        signDisplay="always"
-        fontSize="medium"
-        colorizeBySign
-        locale="en-GB"
-      />
-    </Stat.Content>
-  </Stat.Root>
-)
+      <Stat.Label top>
+        Colorized using <Code>en-GB</Code> locale
+      </Stat.Label>
+      <Stat.Content>
+        <Stat.Currency value={-1234.5} decimals={2} currency="USD" signDisplay="always" fontSize="medium" colorizeBySign locale="en-GB" />
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Currency within a Trend
 
+
 ```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>
-      <DateFormat value="P1Y" />
-    </Stat.Label>
-    <Stat.Content direction="vertical">
-      <Stat.Currency value={350234} srLabel="Annual revenue" />
-      <Stat.Inline>
-        <Stat.Trend>
-          <Stat.Currency
-            value={46692}
-            signDisplay="always"
-            srLabel="Revenue delta"
-          />
-        </Stat.Trend>
-        <Stat.Info>
-          (
-          <Stat.Percent
-            value={16.79}
-            decimals={2}
-            srLabel="Relative change"
-          />
-          )
-        </Stat.Info>
-      </Stat.Inline>
-    </Stat.Content>
-  </Stat.Root>
-)
+render(<Stat.Root>
+      <Stat.Label>
+        <DateFormat value="P1Y" />
+      </Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Currency value={350234} srLabel="Annual revenue" />
+        <Stat.Inline>
+          <Stat.Trend>
+            <Stat.Currency value={46692} signDisplay="always" srLabel="Revenue delta" />
+          </Stat.Trend>
+          <Stat.Info>
+            (
+            <Stat.Percent value={16.79} decimals={2} srLabel="Relative change" />
+            )
+          </Stat.Info>
+        </Stat.Inline>
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Number
 
-```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Number</Stat.Label>
-    <Stat.Content>
-      <Stat.Number
-        value={1234}
-        signDisplay="always"
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
-    </Stat.Content>
 
-    <Stat.Label top>Number in Trend and Info</Stat.Label>
-    <Stat.Content>
-      <Stat.Trend tone="negative" srLabel="Negative trend">
-        <Stat.Number value={-1234} signDisplay="always" />
-      </Stat.Trend>
-      <Stat.Info>
-        (
-        <Stat.Number value={1234} srLabel="Signed amount with currency" />)
-      </Stat.Info>
-    </Stat.Content>
-  </Stat.Root>
-)
+```tsx
+render(<Stat.Root>
+      <Stat.Label>Number</Stat.Label>
+      <Stat.Content>
+        <Stat.Number value={1234} signDisplay="always" mainSize="x-large" auxiliarySize="x-small" />
+      </Stat.Content>
+
+      <Stat.Label top>Number in Trend and Info</Stat.Label>
+      <Stat.Content>
+        <Stat.Trend tone="negative" srLabel="Negative trend">
+          <Stat.Number value={-1234} signDisplay="always" />
+        </Stat.Trend>
+        <Stat.Info>
+          (
+          <Stat.Number value={1234} srLabel="Signed amount with currency" />
+          )
+        </Stat.Info>
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Percent
 
-```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Percentage</Stat.Label>
-    <Stat.Content>
-      <Stat.Percent
-        value={12.3}
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
-    </Stat.Content>
 
-    <Stat.Label top>Percentage colorized</Stat.Label>
-    <Stat.Content>
-      <Stat.Percent
-        value={0.1234}
-        decimals={2}
-        signDisplay="always"
-        fontSize="medium"
-        colorizeBySign
-      />
-    </Stat.Content>
-  </Stat.Root>
-)
+```tsx
+render(<Stat.Root>
+      <Stat.Label>Percentage</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={12.3} mainSize="x-large" auxiliarySize="x-small" />
+      </Stat.Content>
+
+      <Stat.Label top>Percentage colorized</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={0.1234} decimals={2} signDisplay="always" fontSize="medium" colorizeBySign />
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Percent colorized by sign
 
+
 ```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Positive without signDisplay</Stat.Label>
-    <Stat.Content>
-      <Stat.Percent value={12.3} fontSize="medium" colorizeBySign />
-    </Stat.Content>
+render(<Stat.Root>
+      <Stat.Label>Positive without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={12.3} fontSize="medium" colorizeBySign />
+      </Stat.Content>
 
-    <Stat.Label top>Negative without signDisplay</Stat.Label>
-    <Stat.Content>
-      <Stat.Percent value={-12.3} fontSize="medium" colorizeBySign />
-    </Stat.Content>
+      <Stat.Label top>Negative without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={-12.3} fontSize="medium" colorizeBySign />
+      </Stat.Content>
 
-    <Stat.Label top>Zero without signDisplay</Stat.Label>
-    <Stat.Content>
-      <Stat.Percent value={0} fontSize="medium" colorizeBySign />
-    </Stat.Content>
-  </Stat.Root>
-)
+      <Stat.Label top>Zero without signDisplay</Stat.Label>
+      <Stat.Content>
+        <Stat.Percent value={0} fontSize="medium" colorizeBySign />
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Rating
 
-```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Stars rating</Stat.Label>
-    <Stat.Content>
-      <Stat.Rating value={4} />
-    </Stat.Content>
 
-    <Stat.Label top>Progressive rating</Stat.Label>
-    <Stat.Content direction="vertical">
-      <Stat.Rating variant="progressive" value={5} />
-    </Stat.Content>
-  </Stat.Root>
-)
+```tsx
+render(<Stat.Root>
+      <Stat.Label>Stars rating</Stat.Label>
+      <Stat.Content>
+        <Stat.Rating value={4} />
+      </Stat.Content>
+
+      <Stat.Label top>Progressive rating</Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Rating variant="progressive" value={5} />
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### Text
 
-```tsx
-render(
-  <Stat.Root>
-    <Stat.Label>Label</Stat.Label>
-    <Stat.Content>
-      <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
-    </Stat.Content>
 
-    <Stat.Label top>With medium font weight and size</Stat.Label>
-    <Stat.Content>
-      <Stat.Text
-        srLabel="Screen reader label"
-        colorizeBySign={123}
-        fontWeight="medium"
-        fontSize="medium"
-      >
-        Larger and bolder
-      </Stat.Text>
-    </Stat.Content>
-  </Stat.Root>
-)
+```tsx
+render(<Stat.Root>
+      <Stat.Label>Label</Stat.Label>
+      <Stat.Content>
+        <Stat.Text colorizeBySign={-123}>Custom content</Stat.Text>
+      </Stat.Content>
+
+      <Stat.Label top>With medium font weight and size</Stat.Label>
+      <Stat.Content>
+        <Stat.Text srLabel="Screen reader label" colorizeBySign={123} fontWeight="medium" fontSize="medium">
+          Larger and bolder
+        </Stat.Text>
+      </Stat.Content>
+    </Stat.Root>)
 ```
+
 
 ### With Subtle Label
 
 Also, the order of the content and label can be switched for visual users (not screen readers), and the label is styled with the `subtle` variant to further de-emphasize it.
 
+
 ```tsx
 function Example() {
-  const { rating } = useTranslation().Stat
-  return (
-    <Grid.Container
-      rowGap
-      columnGap
-      style={{
-        gridAutoRows: '1fr',
-      }}
-    >
-      <Grid.Item
-        span={{
-          small: [1, 12],
-          medium: [1, 12],
-          large: [1, 3],
-        }}
-      >
-        <Card
-          style={{
-            height: '100%',
-          }}
-        >
-          <Stat.Root visualOrder="content-label">
-            <Stat.Label variant="subtle">
-              <DateFormat value="P1Y" />
-            </Stat.Label>
-            <Stat.Content direction="vertical">
-              <IconPrimary icon="arrow_up" top="x-small" />
-              <Stat.Percent
-                top="small"
-                value={5.21}
-                decimals={2}
-                fontSize="basis"
-                srLabel="Revenue growth percentage"
-              />
-            </Stat.Content>
-          </Stat.Root>
-        </Card>
-      </Grid.Item>
+  const {
+    rating
+  } = useTranslation().Stat;
+  return <Grid.Container rowGap columnGap style={{
+    gridAutoRows: '1fr'
+  }}>
+            <Grid.Item span={{
+      small: [1, 12],
+      medium: [1, 12],
+      large: [1, 3]
+    }}>
+              <Card style={{
+        height: '100%'
+      }}>
+                <Stat.Root visualOrder="content-label">
+                  <Stat.Label variant="subtle">
+                    <DateFormat value="P1Y" />
+                  </Stat.Label>
+                  <Stat.Content direction="vertical">
+                    <IconPrimary icon="arrow_up" top="x-small" />
+                    <Stat.Percent top="small" value={5.21} decimals={2} fontSize="basis" srLabel="Revenue growth percentage" />
+                  </Stat.Content>
+                </Stat.Root>
+              </Card>
+            </Grid.Item>
 
-      <Grid.Item
-        span={{
-          small: [1, 12],
-          medium: [1, 12],
-          large: [4, 6],
-        }}
-      >
-        <Card
-          style={{
-            height: '100%',
-          }}
-        >
-          <Stat.Root visualOrder="content-label">
-            <Stat.Label variant="subtle">Yearly cost</Stat.Label>
-            <Stat.Content direction="vertical">
-              <Icon icon={globe_medium} />
-              <Stat.Percent
-                top="small"
-                value={0.6}
-                decimals={1}
-                fontSize="basis"
-              />
-            </Stat.Content>
-          </Stat.Root>
-        </Card>
-      </Grid.Item>
+            <Grid.Item span={{
+      small: [1, 12],
+      medium: [1, 12],
+      large: [4, 6]
+    }}>
+              <Card style={{
+        height: '100%'
+      }}>
+                <Stat.Root visualOrder="content-label">
+                  <Stat.Label variant="subtle">Yearly cost</Stat.Label>
+                  <Stat.Content direction="vertical">
+                    <Icon icon={globe_medium} />
+                    <Stat.Percent top="small" value={0.6} decimals={1} fontSize="basis" />
+                  </Stat.Content>
+                </Stat.Root>
+              </Card>
+            </Grid.Item>
 
-      <Grid.Item
-        span={{
-          small: [1, 12],
-          medium: [1, 12],
-          large: [7, 9],
-        }}
-      >
-        <Card
-          style={{
-            height: '100%',
-          }}
-        >
-          <Stat.Root visualOrder="content-label">
-            <Stat.Label variant="subtle">Risiko</Stat.Label>
-            <Stat.Content direction="vertical">
-              <Stat.Rating variant="progressive" value={2} />
-              <Stat.Info top variant="prominent">
-                Lav
-              </Stat.Info>
-            </Stat.Content>
-          </Stat.Root>
-        </Card>
-      </Grid.Item>
+            <Grid.Item span={{
+      small: [1, 12],
+      medium: [1, 12],
+      large: [7, 9]
+    }}>
+              <Card style={{
+        height: '100%'
+      }}>
+                <Stat.Root visualOrder="content-label">
+                  <Stat.Label variant="subtle">Risiko</Stat.Label>
+                  <Stat.Content direction="vertical">
+                    <Stat.Rating variant="progressive" value={2} />
+                    <Stat.Info top variant="prominent">
+                      Lav
+                    </Stat.Info>
+                  </Stat.Content>
+                </Stat.Root>
+              </Card>
+            </Grid.Item>
 
-      <Grid.Item
-        span={{
-          small: [1, 12],
-          medium: [1, 12],
-          large: [10, 12],
-        }}
-      >
-        <Card
-          style={{
-            height: '100%',
-          }}
-        >
-          <Stat.Root visualOrder="content-label">
-            <Stat.Label variant="subtle">Stars rating</Stat.Label>
-            <Stat.Content direction="vertical">
-              <Stat.Rating value={2} />
-              <Stat.Info top variant="prominent">
-                {rating.replace('%value', '2').replace('%max', '5')}
-              </Stat.Info>
-            </Stat.Content>
-          </Stat.Root>
-        </Card>
-      </Grid.Item>
-    </Grid.Container>
-  )
+            <Grid.Item span={{
+      small: [1, 12],
+      medium: [1, 12],
+      large: [10, 12]
+    }}>
+              <Card style={{
+        height: '100%'
+      }}>
+                <Stat.Root visualOrder="content-label">
+                  <Stat.Label variant="subtle">Stars rating</Stat.Label>
+                  <Stat.Content direction="vertical">
+                    <Stat.Rating value={2} />
+                    <Stat.Info top variant="prominent">
+                      {rating.replace('%value', '2').replace('%max', '5')}
+                    </Stat.Info>
+                  </Stat.Content>
+                </Stat.Root>
+              </Card>
+            </Grid.Item>
+          </Grid.Container>;
 }
-render(<Example />)
+render(<Example />);
 ```
+
 
 ### With AriaLive
 
 Use the [AriaLive](/uilib/components/aria-live/) component to announce dynamic value updates to screen readers. Wrap `Stat.Root` with `AriaLive` so that changes are announced when the content updates.
 
+
 ```tsx
 function Example() {
-  const [value, setValue] = React.useState(1234)
-  return (
-    <Flex.Stack>
-      <AriaLive variant="content">
-        <Stat.Root>
-          <Stat.Label>Revenue</Stat.Label>
-          <Stat.Content>
-            <Stat.Currency value={value} />
-          </Stat.Content>
-        </Stat.Root>
-      </AriaLive>
+  const [value, setValue] = React.useState(1234);
+  return <Flex.Stack>
+            <AriaLive variant="content">
+              <Stat.Root>
+                <Stat.Label>Revenue</Stat.Label>
+                <Stat.Content>
+                  <Stat.Currency value={value} />
+                </Stat.Content>
+              </Stat.Root>
+            </AriaLive>
 
-      <Button
-        text="Update value"
-        variant="secondary"
-        onClick={() => setValue((prev) => prev + 100)}
-      />
-    </Flex.Stack>
-  )
+            <Button text="Update value" variant="secondary" onClick={() => setValue(prev => prev + 100)} />
+          </Flex.Stack>;
 }
-render(<Example />)
+render(<Example />);
 ```
 
 ## Stat.Currency
@@ -514,12 +431,15 @@ render(<Example />)
 
 ## Stat.Inline
 
+
 ```json
 {
   "props": {
     "children": {
       "doc": "Inline layout container for content elements, typically `Stat.Trend` and `Stat.Info`.",
-      "type": ["React.ReactNode"],
+      "type": [
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -536,15 +456,22 @@ render(<Example />)
 }
 ```
 
+
 ## Stat.Text
 
 <PropertiesTable props={TextProperties} />
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Stat.rating": {
       "nb-NO": "%value av %max",

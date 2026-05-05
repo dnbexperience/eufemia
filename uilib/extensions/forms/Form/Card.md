@@ -1,8 +1,8 @@
 ---
 title: 'Form.Card'
 description: '`Form.Card` is a wrapper for the Card component to make it easier to use inside a form.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.839Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.877Z
 checksum: 8fc2cd617f94f3189944f8c32ce4537941cf6f9caa21cd1e102b6b443cbe0b2a
 ---
 
@@ -23,50 +23,49 @@ render(<Form.Card />)
 
 But in all other ways, it works just like the [Card](/uilib/components/card/) component.
 
+
 ## Demos
 
-```tsx
-render(
-  <Flex.Stack>
-    <Form.MainHeading>Main heading</Form.MainHeading>
-    <Form.Card>
-      <Field.String label="Field A" required />
-      <Field.String label="Field B" required />
-      <Form.Card>
-        <P>Nested card</P>
-      </Form.Card>
-    </Form.Card>
-    <Form.SubmitButton />
-  </Flex.Stack>
-)
-```
 
 ```tsx
-render(
-  <Form.Handler>
-    <Wizard.Container>
-      <Wizard.Step>
+render(<Flex.Stack>
+        <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.Card>
-          <Form.Section>
-            <Form.Section.ViewContainer
-              title="In a Wizard"
-              variant="basic"
-            >
-              <Value.String defaultValue="Something" />
-            </Form.Section.ViewContainer>
-            <Form.Section.EditContainer variant="basic">
-              <Field.String defaultValue="Something" />
-            </Form.Section.EditContainer>
-          </Form.Section>
+          <Field.String label="Field A" required />
+          <Field.String label="Field B" required />
+          <Form.Card>
+            <P>Nested card</P>
+          </Form.Card>
         </Form.Card>
-        <Form.SubmitButton text="Happy coding!" />
-      </Wizard.Step>
-    </Wizard.Container>
-  </Form.Handler>
-)
+        <Form.SubmitButton />
+      </Flex.Stack>)
+```
+
+
+
+  
+```tsx
+render(<Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step>
+            <Form.Card>
+              <Form.Section>
+                <Form.Section.ViewContainer title="In a Wizard" variant="basic">
+                  <Value.String defaultValue="Something" />
+                </Form.Section.ViewContainer>
+                <Form.Section.EditContainer variant="basic">
+                  <Field.String defaultValue="Something" />
+                </Form.Section.EditContainer>
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton text="Happy coding!" />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -80,7 +79,9 @@ render(
 }
 ```
 
+
 ## Other properties inherited from [Card](/uilib/components/card/properties)
+
 
 ```json
 {
@@ -92,7 +93,10 @@ render(
     },
     "direction": {
       "doc": "Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "alignSelf": {
@@ -128,7 +132,10 @@ render(
     },
     "outlineWidth": {
       "doc": "Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "dropShadow": {
@@ -163,7 +170,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

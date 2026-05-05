@@ -1,8 +1,8 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.102Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.264Z
 checksum: bb164c6a3535a7ad04203332e51a918cfe8e20dd89520b0925d627f9db05e9f0
 ---
 
@@ -28,75 +28,75 @@ The Checkbox component is displayed as a square box that is ticked (checked) whe
 
 Checkbox components use semantic `<input type="checkbox">` elements, ensuring full keyboard accessibility (Space to toggle) and proper state announcement by screen readers. Labels are properly associated using `htmlFor` attributes.
 
+
 ## Demos
 
 ### Unchecked Checkbox (default state)
 
+
 ```tsx
-render(<Checkbox label="Checkbox" onChange={(e) => console.log(e)} />)
+render(<Checkbox label="Checkbox" onChange={e => console.log(e)} />)
 ```
+
 
 ### Checked Checkbox, left label position
 
+
 ```tsx
-render(
-  <Checkbox
-    label="Label"
-    labelPosition="left"
-    checked
-    onChange={({ checked }) => console.log(checked)}
-  />
-)
+render(<Checkbox label="Label" labelPosition="left" checked onChange={({
+  checked
+}) => console.log(checked)} />)
 ```
 
+
 ### Checked Checkbox with error message
+
 
 ```tsx
 render(<Checkbox label="Checkbox" checked status="Error message" />)
 ```
 
+
 ### Checkbox with suffix
 
+
 ```tsx
-render(
-  <Checkbox
-    label="Checkbox"
-    checked
-    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-  />
-)
+render(<Checkbox label="Checkbox" checked suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />)
 ```
+
 
 ### With different sizes
 
 As for now, there are two sizes. `medium` is the default size.
+
 
 ```tsx
 <Checkbox size="medium" label="Medium" right="large" checked />
 <Checkbox size="large" label="Large" checked />
 ```
 
+
 ### Prevent changing the state of the checkbox
 
 You can prevent the state of the checkbox from changing by calling `preventDefault` on the `onClick` event.
 
+
 ```tsx
-render(
-  <Checkbox
-    label="Checkbox"
-    onClick={(event) => {
-      event.preventDefault()
-    }}
-    onChange={({ checked }) => console.log('onChange', checked)}
-  />
-)
+render(<Checkbox label="Checkbox" onClick={event => {
+  event.preventDefault();
+}} onChange={({
+  checked
+}) => console.log('onChange', checked)} />)
 ```
 
+
 ### Disabled checkbox
+
 
 ```tsx
 render(<Checkbox checked disabled />)
 ```
+
 
 ### Indeterminate state (partially checked)
 
@@ -104,34 +104,40 @@ The checkbox offers a fully controlled indeterminate state.
 
 Here is an indeterminate state [working example](/uilib/extensions/forms/base-fields/Indeterminate).
 
+
 ```tsx
 render(<Checkbox label="Checkbox" indeterminate />)
 ```
+
+
 
 ```tsx
 render(<Checkbox label="Checkbox" indeterminate size="large" />)
 ```
 
+
+
+  
 ```tsx
 <ComponentBox data-visual-test="checkbox-error-unchecked">
-  <Checkbox label="Unchecked" status="error" />
-</ComponentBox>
+    <Checkbox label="Unchecked" status="error" />
+  </ComponentBox>
 <ComponentBox data-visual-test="checkbox-error-checked">
-  <Checkbox label="Checked" status="error" checked />
-</ComponentBox>
+    <Checkbox label="Checked" status="error" checked />
+  </ComponentBox>
 ```
 
+  
 ```tsx
-render(
-  <ShowBoundingArea>
+render(<ShowBoundingArea>
     <ComponentBox data-visual-test="checkbox-bounding">
       <Checkbox label="Checkbox" checked />
     </ComponentBox>
-  </ShowBoundingArea>
-)
+  </ShowBoundingArea>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -153,7 +159,10 @@ render(
     },
     "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -163,7 +172,11 @@ render(
     },
     "size": {
       "doc": "The size of the checkbox. For now there is `medium` (default) and `large`.",
-      "type": ["\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "indeterminate": {
@@ -173,12 +186,19 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -208,7 +228,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
@@ -216,6 +239,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Name'
 description: '`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.392Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.324Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -117,143 +117,106 @@ const myValidator: CompanyNameValidator = (value, { validators }) => {
 render(<Field.Name.Company onBlurValidator={myValidator} />)
 ```
 
+
 ## Demos
 
 ### First name
 
+
 ```tsx
-render(
-  <Field.Name.First
-    value="Nora"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Name.First value="Nora" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Last name
 
+
 ```tsx
-render(
-  <Field.Name.Last
-    value="Mørk"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Name.Last value="Mørk" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Company name
 
+
 ```tsx
-render(
-  <Field.Name.Company
-    value="DNB"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Name.Company value="DNB" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.Name.Last
-    placeholder="Custom placeholder"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Name.Last placeholder="Custom placeholder" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Field composition
 
+
 ```tsx
-render(
-  <Field.Composition width="large">
-    <Field.Name.First
-      value="Nora"
-      onChange={(value) => console.log('onChange', value)}
-    />
-    <Field.Name.Last
-      value="Mørk"
-      onChange={(value) => console.log('onChange', value)}
-    />
-  </Field.Composition>
-)
+render(<Field.Composition width="large">
+        <Field.Name.First value="Nora" onChange={value => console.log('onChange', value)} />
+        <Field.Name.Last value="Mørk" onChange={value => console.log('onChange', value)} />
+      </Field.Composition>)
 ```
+
 
 ### Data Context
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      firstName: 'Nora',
-      lastName: 'Mørk',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Flex.Stack>
-      <Field.Name.First path="/firstName" />
-      <Field.Name.Last path="/lastName" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  firstName: 'Nora',
+  lastName: 'Mørk'
+}} onChange={value => console.log('onChange', value)}>
+        <Flex.Stack>
+          <Field.Name.First path="/firstName" />
+          <Field.Name.Last path="/lastName" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.Name.First
-    value="Nora"
-    help={{
-      title: 'Help is available',
-      content:
-        'Use your gifts to teach and help others. Acknowledge them as gifts (even if only in your mind). Take some time to list your strengths as well as the ways in which you could share them with the world around you and how that truly is a gift to others.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Name.First value="Nora" help={{
+  title: 'Help is available',
+  content: 'Use your gifts to teach and help others. Acknowledge them as gifts (even if only in your mind). Take some time to list your strengths as well as the ways in which you could share them with the world around you and how that truly is a gift to others.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Invalid syntax
 
+
 ```tsx
-render(
-  <Field.Name.First
-    value="Invalid @ syntax"
-    onChange={(value) => console.log('onChange', value)}
-    validateInitially
-  />
-)
+render(<Field.Name.First value="Invalid @ syntax" onChange={value => console.log('onChange', value)} validateInitially />)
 ```
+
 
 ### Error message
 
+
 ```tsx
-render(
-  <Field.Name.First
-    value="Nora"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Name.First value="Nora" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.Name.First
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.Name.First onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
 
 ## Properties
 
 ### General properties
+
 
 ```json
 {
@@ -275,12 +238,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -300,7 +271,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -380,7 +354,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -395,12 +372,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -410,28 +393,44 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "CompanyName.errorRequired": {
       "nb-NO": "Du må fylle inn firmanavn.",
@@ -528,6 +527,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

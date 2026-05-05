@@ -1,11 +1,11 @@
 ---
 title: 'Font Weights'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.445Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.364Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Font Weights for
+# Font Weights for 
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
@@ -52,34 +52,21 @@ p {
 <span class="dnb-t__weight--bold">Third Tag</span>
 ```
 
-## weight examples
+##  weight examples
+
 
 ```tsx
-render(
-  <Wrapper>
-    {/* Regular */}
-    <FontUsageExample
-      fontFamily="DNB Regular"
-      typoClass="dnb-t__weight--regular"
-    />
+render(<Wrapper>
+      {/* Regular */}
+      <FontUsageExample fontFamily="DNB Regular" typoClass="dnb-t__weight--regular" />
 
-    {/* Medium */}
-    <FontUsageExample
-      fontFamily="DNB Medium"
-      typoClass="dnb-t__weight--medium"
-    />
+      {/* Medium */}
+      <FontUsageExample fontFamily="DNB Medium" typoClass="dnb-t__weight--medium" />
 
-    {/* Bold */}
-    <FontUsageExample
-      fontFamily="DNB Bold"
-      typoClass="dnb-t__weight--bold"
-    />
+      {/* Bold */}
+      <FontUsageExample fontFamily="DNB Bold" typoClass="dnb-t__weight--bold" />
 
-    {/* Mono Regular */}
-    <FontUsageExample
-      fontFamily="DNB Mono Regular"
-      typoClass="dnb-t__weight--regular dnb-t__family--monospace"
-    />
-  </Wrapper>
-)
+      {/* Mono Regular */}
+      <FontUsageExample fontFamily="DNB Mono Regular" typoClass="dnb-t__weight--regular dnb-t__family--monospace" />
+    </Wrapper>)
 ```

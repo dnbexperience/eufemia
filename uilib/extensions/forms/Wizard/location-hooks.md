@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.LocationHooks'
 description: 'Is a set of React Hooks that lets you easily hook up your existing router in order to store the current step in the URL query string.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.345Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.290Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -133,70 +133,76 @@ function MyForm() {
 }
 ```
 
+
 ## Demos
+
 
 ```tsx
 const Component = () => {
-  Wizard.useQueryLocator('unique-id')
-  return (
-    <Form.Handler>
-      <Wizard.Container id="unique-id">
-        <MyStep title="Step 1" />
-        <MyStep title="Step 2" />
-        <MyStep title="Step 3" />
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-const MyStep = ({ title }) => {
-  return (
-    <Wizard.Step title={title}>
-      <Form.Card>
-        <P>Contents of {title}</P>
-      </Form.Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-render(<Component />)
+  Wizard.useQueryLocator('unique-id');
+  return <Form.Handler>
+              <Wizard.Container id="unique-id">
+                <MyStep title="Step 1" />
+                <MyStep title="Step 2" />
+                <MyStep title="Step 3" />
+              </Wizard.Container>
+            </Form.Handler>;
+};
+const MyStep = ({
+  title
+}) => {
+  return <Wizard.Step title={title}>
+              <Form.Card>
+                <P>Contents of {title}</P>
+              </Form.Card>
+              <Wizard.Buttons />
+            </Wizard.Step>;
+};
+render(<Component />);
 ```
 
+
 ## Reach router
+
 
 ```tsx
 const Component = () => {
   Wizard.useReachRouter('wizard-with-router', {
     useLocation,
-    navigate,
-  })
-  return (
-    <Form.Handler>
-      <Wizard.Container id="wizard-with-router">
-        <MyStep title="Step 1" />
-        <MyStep title="Step 2" />
-        <MyStep title="Step 3" />
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-const MyStep = ({ title }) => {
-  return (
-    <Wizard.Step title={title}>
-      <Form.Card>
-        <P>Contents of {title}</P>
-      </Form.Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-render(<Component />)
+    navigate
+  });
+  return <Form.Handler>
+              <Wizard.Container id="wizard-with-router">
+                <MyStep title="Step 1" />
+                <MyStep title="Step 2" />
+                <MyStep title="Step 3" />
+              </Wizard.Container>
+            </Form.Handler>;
+};
+const MyStep = ({
+  title
+}) => {
+  return <Wizard.Step title={title}>
+              <Form.Card>
+                <P>Contents of {title}</P>
+              </Form.Card>
+              <Wizard.Buttons />
+            </Wizard.Step>;
+};
+render(<Component />);
 ```
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Step.stepHasError": {
       "nb-NO": "Skjemaet inneholder feil.",

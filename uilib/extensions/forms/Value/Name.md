@@ -1,8 +1,8 @@
 ---
 title: 'Value.Name'
 description: '`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.216Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.172Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -44,6 +44,7 @@ function MyForm() {
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Name)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Name)
 
+
 ## Demos
 
 ### First name
@@ -60,42 +61,42 @@ function MyForm() {
 
 ### Placeholder
 
+
 ```tsx
 render(<Value.Name.Last placeholder="Custom placeholder" />)
 ```
 
+
 ### Value composition
 
+
 ```tsx
-render(
-  <Value.Composition>
-    <Value.Name.First value="Nora" />
-    <Value.Name.Last value="Mørk" />
-  </Value.Composition>
-)
+render(<Value.Composition>
+        <Value.Name.First value="Nora" />
+        <Value.Name.Last value="Mørk" />
+      </Value.Composition>)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      firstName: 'Nora',
-      lastName: 'Mørk',
-    }}
-  >
-    <P>
-      This is before the component{' '}
-      <Value.Name.First path="/firstName" inline />{' '}
-      <Value.Name.Last path="/lastName" inline /> This is after the
-      component
-    </P>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  firstName: 'Nora',
+  lastName: 'Mørk'
+}}>
+        <P>
+          This is before the component{' '}
+          <Value.Name.First path="/firstName" inline />{' '}
+          <Value.Name.Last path="/lastName" inline /> This is after the
+          component
+        </P>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -162,7 +163,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -172,18 +178,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "CompanyName.label": {
       "nb-NO": "Firmanavn",

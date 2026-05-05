@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.108Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.269Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 
@@ -38,78 +38,79 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Default
 
+
 ```tsx
-render(
-  <P>
-    <CopyOnClick>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus
-      pharetra elit in bibendum. Praesent nunc ipsum, convallis eget
-      convallis gravida, vehicula vitae metus.
-    </CopyOnClick>
-  </P>
-)
+render(<P>
+        <CopyOnClick>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum. Praesent nunc ipsum, convallis
+          eget convallis gravida, vehicula vitae metus.
+        </CopyOnClick>
+      </P>)
 ```
+
 
 ### Cursor hidden
 
+
 ```tsx
-render(
-  <P>
-    <CopyOnClick showCursor={false}>
-      Praesent nunc ipsum, convallis eget convallis gravida, vehicula vitae
-      metus.
-    </CopyOnClick>
-  </P>
-)
+render(<P>
+        <CopyOnClick showCursor={false}>
+          Praesent nunc ipsum, convallis eget convallis gravida, vehicula
+          vitae metus.
+        </CopyOnClick>
+      </P>)
 ```
+
 
 ### Copy content
 
 Used when the copied value should differ from the visually shown value (`children`).
 
+
 ```tsx
-render(
-  <P>
-    <CopyOnClick copyContent="content to copy">
-      content to display
-    </CopyOnClick>
-  </P>
-)
+render(<P>
+        <CopyOnClick copyContent="content to copy">
+          content to display
+        </CopyOnClick>
+      </P>)
 ```
+
 
 ### Copy text content
 
 If `children` is a React element that cannot be directly converted to a string, the component will copy the rendered text content (`textContent`) instead.
 
+
 ```tsx
-render(
-  <P>
-    <CopyOnClick>
-      <NumberFormat.Currency value={1234567.89} currency="NOK" />
-    </CopyOnClick>
-  </P>
-)
+render(<P>
+        <CopyOnClick>
+          <NumberFormat.Currency value={1234567.89} currency="NOK" />
+        </CopyOnClick>
+      </P>)
 ```
+
 
 ### Custom message shown in the tooltip when content is copied
 
+
 ```tsx
-render(
-  <P>
-    <CopyOnClick tooltipContent="Custom message">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus
-      pharetra elit in bibendum. Praesent nunc ipsum, convallis eget
-      convallis gravida, vehicula vitae metus.
-    </CopyOnClick>
-  </P>
-)
+render(<P>
+        <CopyOnClick tooltipContent="Custom message">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum. Praesent nunc ipsum, convallis
+          eget convallis gravida, vehicula vitae metus.
+        </CopyOnClick>
+      </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -143,11 +144,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "CopyOnClick.clipboardCopy": {
       "nb-NO": "Kopiert",

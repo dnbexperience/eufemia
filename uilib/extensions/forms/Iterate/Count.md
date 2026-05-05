@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Count'
 description: '`Iterate.Count` is a helper component / function that returns the count of a data array or object.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.047Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.034Z
 checksum: d307ca909ab5131cc1f6fedb10ee75dffb8f13b27e7215f45b44621ca1d66f5a
 ---
 
@@ -108,69 +108,61 @@ function MyForm() {
 }
 ```
 
+
 ## Demos
 
 ### Default
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myList: ['foo', 'bar'],
-    }}
-  >
-    <Iterate.Count path="/myList" />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myList: ['foo', 'bar']
+}}>
+        <Iterate.Count path="/myList" />
+      </Form.Handler>)
 ```
+
 
 ### Interactive
 
+
 ```tsx
 const MyForm = () => {
-  const { count } = Iterate.useCount('myForm')
-  return (
-    <Form.Handler
-      id="myForm"
-      data={{
-        myList: [1, 2],
-      }}
-    >
-      <output>
-        Total: <Iterate.Count path="/myList" />
-      </output>
+  const {
+    count
+  } = Iterate.useCount('myForm');
+  return <Form.Handler id="myForm" data={{
+    myList: [1, 2]
+  }}>
+              <output>
+                Total: <Iterate.Count path="/myList" />
+              </output>
 
-      <Iterate.Array path="/myList">
-        <Iterate.AnimatedContainer gap={false}>
-          <Flex.Horizontal align="center">
-            <strong>
-              <Value.Number itemPath="/" />
-            </strong>
-            <Iterate.RemoveButton />
-          </Flex.Horizontal>
-        </Iterate.AnimatedContainer>
-      </Iterate.Array>
-      <Iterate.PushButton
-        path="/myList"
-        pushValue={() => {
-          return (
-            Iterate.count({
-              id: 'myForm',
-              path: '/myList',
-            }) + 1
-          )
-        }}
-        top
-      >
-        Add item nr. {count('/myList') + 1}
-      </Iterate.PushButton>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+              <Iterate.Array path="/myList">
+                <Iterate.AnimatedContainer gap={false}>
+                  <Flex.Horizontal align="center">
+                    <strong>
+                      <Value.Number itemPath="/" />
+                    </strong>
+                    <Iterate.RemoveButton />
+                  </Flex.Horizontal>
+                </Iterate.AnimatedContainer>
+              </Iterate.Array>
+              <Iterate.PushButton path="/myList" pushValue={() => {
+      return Iterate.count({
+        id: 'myForm',
+        path: '/myList'
+      }) + 1;
+    }} top>
+                Add item nr. {count('/myList') + 1}
+              </Iterate.PushButton>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
 
 ## Properties
+
 
 ```json
 {

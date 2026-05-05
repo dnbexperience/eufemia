@@ -1,8 +1,8 @@
 ---
 title: 'Form.InfoOverlay'
 description: '`Form.InfoOverlay` is used to display an informational message that fully covers the available space.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.859Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.895Z
 checksum: e66e583890ad28aa30e87c4218c906a8825e5876be51320300e4609a73d39879
 ---
 
@@ -125,106 +125,93 @@ You can customize the `success` and `error` messages by using the `success` and 
 
 The component will manage focus handling, which is important for screen readers and users using keyboard navigation.
 
+
 ## Demos
 
 ### Error message
 
+
 ```tsx
 // myFormId can be anything, as long as it's a unique instance
-const myFormId = () => null
-render(
-  <Form.Handler
-    id={myFormId}
-    onSubmit={async () => {
-      await request(1000) // Simulate a request
+const myFormId = () => null;
+render(<Form.Handler id={myFormId} onSubmit={async () => {
+  await request(1000); // Simulate a request
 
-      Form.InfoOverlay.setContent(myFormId, 'error')
-    }}
-  >
-    <Form.InfoOverlay>
-      <Form.Card>
-        <Field.Email />
-        <Form.ButtonRow>
-          <Form.SubmitButton variant="send" />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              Form.InfoOverlay.setContent(myFormId, 'error')
-            }}
-          >
-            Show error
-          </Button>
-        </Form.ButtonRow>
-      </Form.Card>
-    </Form.InfoOverlay>
-  </Form.Handler>
-)
+  Form.InfoOverlay.setContent(myFormId, 'error');
+}}>
+            <Form.InfoOverlay>
+              <Form.Card>
+                <Field.Email />
+                <Form.ButtonRow>
+                  <Form.SubmitButton variant="send" />
+                  <Button variant="secondary" onClick={() => {
+          Form.InfoOverlay.setContent(myFormId, 'error');
+        }}>
+                    Show error
+                  </Button>
+                </Form.ButtonRow>
+              </Form.Card>
+            </Form.InfoOverlay>
+          </Form.Handler>);
 ```
+
 
 ### Success message
 
+
 ```tsx
 // myFormId can be anything, as long as it's a unique instance
-const myFormId = () => null
-render(
-  <Form.Handler
-    id={myFormId}
-    onSubmit={async () => {
-      await request(1000) // Simulate a request
+const myFormId = () => null;
+render(<Form.Handler id={myFormId} onSubmit={async () => {
+  await request(1000); // Simulate a request
 
-      Form.InfoOverlay.setContent(myFormId, 'success')
-    }}
-  >
-    <Form.InfoOverlay>
-      <Form.Card>
-        <Field.Email />
-        <Form.SubmitButton variant="send" />
-      </Form.Card>
-    </Form.InfoOverlay>
-  </Form.Handler>
-)
+  Form.InfoOverlay.setContent(myFormId, 'success');
+}}>
+            <Form.InfoOverlay>
+              <Form.Card>
+                <Field.Email />
+                <Form.SubmitButton variant="send" />
+              </Form.Card>
+            </Form.InfoOverlay>
+          </Form.Handler>);
 ```
+
 
 ### With a Wizard
 
+
 ```tsx
 // myFormId can be anything, as long as it's a unique instance
-const myFormId = () => null
-render(
-  <Form.Handler
-    id={myFormId}
-    onSubmit={async () => {
-      await request(1000)
-      Form.InfoOverlay.setContent(myFormId, 'success')
-    }}
-  >
-    <Form.InfoOverlay>
-      <Wizard.Container
-        onStepChange={async () => {
-          await request(1000)
-        }}
-      >
-        <Wizard.Step title="Step 1">
-          <Form.Card>
-            <Field.String path="/someInfo" label="Some information" />
-          </Form.Card>
-          <Wizard.NextButton />
-        </Wizard.Step>
-        <Wizard.Step title="Step 2">
-          <Form.Card>
-            <Field.String path="/more" label="More information" />
-          </Form.Card>
-          <Form.SubmitButton variant="send" />
-        </Wizard.Step>
-      </Wizard.Container>
-    </Form.InfoOverlay>
-  </Form.Handler>
-)
+const myFormId = () => null;
+render(<Form.Handler id={myFormId} onSubmit={async () => {
+  await request(1000);
+  Form.InfoOverlay.setContent(myFormId, 'success');
+}}>
+            <Form.InfoOverlay>
+              <Wizard.Container onStepChange={async () => {
+      await request(1000);
+    }}>
+                <Wizard.Step title="Step 1">
+                  <Form.Card>
+                    <Field.String path="/someInfo" label="Some information" />
+                  </Form.Card>
+                  <Wizard.NextButton />
+                </Wizard.Step>
+                <Wizard.Step title="Step 2">
+                  <Form.Card>
+                    <Field.String path="/more" label="More information" />
+                  </Form.Card>
+                  <Form.SubmitButton variant="send" />
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.InfoOverlay>
+          </Form.Handler>);
 ```
 
 ## Properties
 
 ### Error
+
 
 ```json
 {
@@ -258,7 +245,9 @@ render(
 }
 ```
 
+
 ### Success
+
 
 ```json
 {
@@ -297,11 +286,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "InfoOverlayError.cancelButton": {
       "nb-NO": "Tilbake",

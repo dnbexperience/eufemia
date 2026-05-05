@@ -46,6 +46,7 @@ Resources:
 - [Confluence specifications](https://confluence.tech.dnb.no/pages/viewpage.action?spaceKey=PMDT&title=Cards+mapping)
 - [Kortprodukter med egenskaper](http://team.erf01.net/sites/8974/Shared%20Documents/Kortprodukter_med_egenskaper.pdf)
 
+
 ## Demos
 
 <ChangeLocale label="Locale used in the demos:" />
@@ -54,9 +55,11 @@ Resources:
 
 Basic card using productCode.
 
+
 ```tsx
 render(<PaymentCard productCode="VL4" cardNumber="••••••••••••1337" />)
 ```
+
 
 ### Custom card using rawData
 
@@ -72,6 +75,7 @@ import PaymentCard, {
 } from '@dnb/eufemia/extensions/PaymentCard'
 ```
 
+
 ```tsx
 const customData = {
   productCode: 'CUSTOM',
@@ -80,112 +84,53 @@ const customData = {
   cardDesign: Designs.gold,
   cardType: CardType.Visa,
   productType: ProductType.Corporate,
-  bankAxept: BankAxeptType.BankAxept,
-}
-render(
-  <PaymentCard
-    productCode="UNDEFINED"
-    rawData={customData}
-    cardNumber="••••••••••••1337"
-  />
-)
+  bankAxept: BankAxeptType.BankAxept
+};
+render(<PaymentCard productCode="UNDEFINED" rawData={customData} cardNumber="••••••••••••1337" />);
 ```
+
 
 ### Basic card using a status
 
+
 ```tsx
-render(
-  <PaymentCard
-    productCode="VX5"
-    cardStatus="blocked"
-    cardNumber="••••••••••••1337"
-  />
-)
+render(<PaymentCard productCode="VX5" cardStatus="blocked" cardNumber="••••••••••••1337" />)
 ```
+
 
 Basic card using product code and status.
 
 ### Basic card in compact variant
 
+
 ```tsx
-<PaymentCard
-  variant="compact"
-  productCode="BK1"
-  cardNumber="••••••••••••1337"
-/>
-<PaymentCard
-  variant="compact"
-  productCode="VP5"
-  cardNumber="••••••••••••1337"
-/>
-<PaymentCard
-  variant="compact"
-  productCode="052"
-  cardNumber="••••••••••••1337"
-/>
-<PaymentCard
-  variant="compact"
-  productCode="101"
-  cardNumber="••••••••••••1337"
-/>
+<PaymentCard variant="compact" productCode="BK1" cardNumber="••••••••••••1337" />
+<PaymentCard variant="compact" productCode="VP5" cardNumber="••••••••••••1337" />
+<PaymentCard variant="compact" productCode="052" cardNumber="••••••••••••1337" />
+<PaymentCard variant="compact" productCode="101" cardNumber="••••••••••••1337" />
 ```
+
 
 ### Demo cards
 
 All the different card products and PaymentCard designs.
 
+
 ```tsx
-const demoCards = [
-  '043',
-  '044',
-  '052',
-  '053',
-  '062',
-  '069',
-  '074',
-  '080',
-  '084',
-  '085',
-  '086',
-  '096',
-  '098',
-  '101',
-  'BK1',
-  'BP1',
-  'VB5',
-  'VG4',
-  'VL1',
-  'VL4',
-  'VL6',
-  'VP4',
-  'VP5',
-  'VO1',
-  'VX1',
-  'VX4',
-  'VX5',
-  '087',
-  '103',
-  'VS8',
-]
-render(
-  <>
-    {demoCards.map((productCode) => {
-      const cardData = getCardData(productCode)
-      return (
-        <article key={productCode}>
-          <H4>
-            {cardData.cardDesign.name} ({productCode})
-          </H4>
-          <PaymentCard
-            productCode={productCode}
-            cardNumber="••••••••••••1337"
-          />
-        </article>
-      )
-    })}
-  </>
-)
+const demoCards = ['043', '044', '052', '053', '062', '069', '074', '080', '084', '085', '086', '096', '098', '101', 'BK1', 'BP1', 'VB5', 'VG4', 'VL1', 'VL4', 'VL6', 'VP4', 'VP5', 'VO1', 'VX1', 'VX4', 'VX5', '087', '103', 'VS8'];
+render(<>
+            {demoCards.map(productCode => {
+    const cardData = getCardData(productCode);
+    return <article key={productCode}>
+                  <H4>
+                    {cardData.cardDesign.name} ({productCode})
+                  </H4>
+                  <PaymentCard productCode={productCode} cardNumber="••••••••••••1337" />
+                </article>;
+  })}
+          </>);
 ```
+
 
 #### Decommissioned Cards
 
@@ -202,6 +147,7 @@ Decommissioned product codes that are still in circulation:
 ```
 
 ## Card Properties
+
 
 ```json
 {
@@ -239,12 +185,18 @@ Decommissioned product codes that are still in circulation:
     },
     "variant": {
       "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-      "type": ["\"normal\"", "\"compact\""],
+      "type": [
+        "\"normal\"",
+        "\"compact\""
+      ],
       "status": "optional"
     },
     "digits": {
       "doc": "Will use 8 digits if none are specified.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -259,14 +211,19 @@ Decommissioned product codes that are still in circulation:
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Card Data
+
 
 ```json
 {
@@ -310,7 +267,9 @@ Decommissioned product codes that are still in circulation:
 }
 ```
 
+
 ## Card Design
+
 
 ```json
 {
@@ -359,7 +318,9 @@ Decommissioned product codes that are still in circulation:
 }
 ```
 
+
 ## List of designs
+
 
 ```json
 {
@@ -438,6 +399,7 @@ Decommissioned product codes that are still in circulation:
 }
 ```
 
+
 ## Types
 
 | Type             |
@@ -486,9 +448,15 @@ Decommissioned product codes that are still in circulation:
 
 ## Card Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "PaymentCard.textBlocked": {
       "nb-NO": "Sperret",

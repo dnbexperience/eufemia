@@ -1,0 +1,1 @@
+import"./rolldown-runtime-BYbx6iT9.js";import{n as e,t}from"./jsx-runtime-BgMs7Gb-.js";e();var n=t(),r=e=>(0,n.jsx)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:16,height:16,fill:`none`,viewBox:`0 0 16 16`,...e,children:(0,n.jsx)(`path`,{stroke:`#000`,strokeWidth:1.5,d:`M12.95 3.05a7 7 0 0 0-9.9 9.9m9.9-9.9a7 7 0 1 1-9.9 9.9m9.9-9.9-9.9 9.9`})});export{r as t};

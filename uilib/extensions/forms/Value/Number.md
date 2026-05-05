@@ -1,8 +1,8 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.231Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.186Z
 checksum: 0f307fc9ab46854e5268683f8f4217f9372ca167662cbb832362a6a5abb6e3a6
 ---
 
@@ -37,67 +37,69 @@ For a locale-by-locale reference that pairs these components with their rendered
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Number)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Number)
 
+
 ## Demos
 
 ### Label and value
+
 
 ```tsx
 render(<Value.Number label="Label text" value={12345678} />)
 ```
 
+
 ### Value from path
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myNumber: 12345678,
-    }}
-  >
-    <Value.Number
-      label="Label text"
-      currency
-      currencyDisplay="code"
-      currencyPosition="before"
-      path="/myNumber"
-    />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myNumber: 12345678
+}}>
+        <Value.Number label="Label text" currency currencyDisplay="code" currencyPosition="before" path="/myNumber" />
+      </Form.Handler>)
 ```
 
+
 ### Label only
+
 
 ```tsx
 render(<Value.Number label="Label text" showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.Number placeholder="The number was not filled in" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component <Value.Number value={123} inline /> This
-    is after the component
-  </P>
-)
+render(<P>
+        This is before the component <Value.Number value={123} inline />{' '}
+        This is after the component
+      </P>)
 ```
 
 ## Properties
 
 ### Value-specific properties
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "minimum": {
@@ -127,7 +129,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -208,19 +214,27 @@ render(
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -287,7 +301,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -297,11 +316,17 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
   "valueType": "number",
-  "omit": ["value", "[Space](/uilib/layout/space/properties)"]
+  "omit": [
+    "value",
+    "[Space](/uilib/layout/space/properties)"
+  ]
 }
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.EditButton'
 description: '`Wizard.EditButton` is a button to be placed in a summary step.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.335Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.283Z
 checksum: d43acdbd40599e17d5d5ac71404f1b13ab47c7e14fcd42693e31368e140df117
 ---
 
@@ -45,49 +45,48 @@ render(
 )
 ```
 
+
 ## Demos
 
+
 ```tsx
-const Step = ({ title }) => {
-  return (
-    <Wizard.Step title={title}>
-      <Form.Card>
-        <P>Contents</P>
-      </Form.Card>
+const Step = ({
+  title
+}) => {
+  return <Wizard.Step title={title}>
+              <Form.Card>
+                <P>Contents</P>
+              </Form.Card>
 
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
+              <Wizard.Buttons />
+            </Wizard.Step>;
+};
 const Summary = () => {
-  const { summaryTitle } = Form.useTranslation().Step
-  return (
-    <Wizard.Step title={summaryTitle}>
-      <Form.Card>
-        <Value.SummaryList>
-          <Value.Name.First path="/firstName" />
-        </Value.SummaryList>
+  const {
+    summaryTitle
+  } = Form.useTranslation().Step;
+  return <Wizard.Step title={summaryTitle}>
+              <Form.Card>
+                <Value.SummaryList>
+                  <Value.Name.First path="/firstName" />
+                </Value.SummaryList>
 
-        <Wizard.EditButton toStep={0} />
-      </Form.Card>
-    </Wizard.Step>
-  )
-}
-render(
-  <Form.Handler
-    data={{
-      firstName: 'John',
-    }}
-  >
-    <Wizard.Container initialActiveIndex={1}>
-      <Step title="Step" />
-      <Summary />
-    </Wizard.Container>
-  </Form.Handler>
-)
+                <Wizard.EditButton toStep={0} />
+              </Form.Card>
+            </Wizard.Step>;
+};
+render(<Form.Handler data={{
+  firstName: 'John'
+}}>
+            <Wizard.Container initialActiveIndex={1}>
+              <Step title="Step" />
+              <Summary />
+            </Wizard.Container>
+          </Form.Handler>);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -101,11 +100,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "WizardEditButton.text": {
       "nb-NO": "Endre",

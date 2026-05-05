@@ -1,4 +1,5 @@
 ---
+
 ---
 
 ## List of all card products
@@ -6,6 +7,7 @@
 <CardProductsTable />
 
 ## Card Properties
+
 
 ```json
 {
@@ -43,12 +45,18 @@
     },
     "variant": {
       "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-      "type": ["\"normal\"", "\"compact\""],
+      "type": [
+        "\"normal\"",
+        "\"compact\""
+      ],
       "status": "optional"
     },
     "digits": {
       "doc": "Will use 8 digits if none are specified.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -63,14 +71,19 @@
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Card Data
+
 
 ```json
 {
@@ -114,7 +127,9 @@
 }
 ```
 
+
 ## Card Design
+
 
 ```json
 {
@@ -163,7 +178,9 @@
 }
 ```
 
+
 ## List of designs
+
 
 ```json
 {
@@ -242,6 +259,7 @@
 }
 ```
 
+
 ## Types
 
 | Type             |
@@ -290,9 +308,15 @@
 
 ## Card Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "PaymentCard.textBlocked": {
       "nb-NO": "Sperret",

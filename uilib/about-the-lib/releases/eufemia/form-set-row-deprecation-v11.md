@@ -1,6 +1,6 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:20.506Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:11.507Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -22,32 +22,31 @@ e.g. before:
 
 e.g. after (two examples):
 
-```tsx
-render(
-  <Form.Handler>
-    <H2 top={0}>Heading</H2>
-    <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
-      <Flex.Horizontal>
-        <Input label="Label A" />
-        <Input label="Label B" />
-      </Flex.Horizontal>
-    </FieldBlock>
-  </Form.Handler>
-)
-```
 
 ```tsx
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Form.MainHeading>Heading</Form.MainHeading>
+render(<Form.Handler>
+      <H2 top={0}>Heading</H2>
       <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
         <Flex.Horizontal>
-          <Field.String label="Label A" width="medium" />
-          <Field.String label="Label B" width="large" />
+          <Input label="Label A" />
+          <Input label="Label B" />
         </Flex.Horizontal>
       </FieldBlock>
-    </Flex.Stack>
-  </Form.Handler>
-)
+    </Form.Handler>)
+```
+
+
+
+```tsx
+render(<Form.Handler>
+      <Flex.Stack>
+        <Form.MainHeading>Heading</Form.MainHeading>
+        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+          <Flex.Horizontal>
+            <Field.String label="Label A" width="medium" />
+            <Field.String label="Label B" width="large" />
+          </Flex.Horizontal>
+        </FieldBlock>
+      </Flex.Stack>
+    </Form.Handler>)
 ```

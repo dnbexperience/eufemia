@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions."
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.519Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.612Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
@@ -65,281 +65,221 @@ const steps = [
 
 More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#step-item-properties).
 
+
 ## Demos
 
 ### StepIndicator in loose mode
 
 Every step can be clicked.
 
+
 ```tsx
 const InteractiveDemo = () => {
-  const [step, setStep] = React.useState(1)
-  return (
-    <div
-      style={{
-        display: 'flex',
-      }}
-    >
-      <Space stretch>
-        <StepIndicator
-          mode="loose"
-          currentStep={step}
-          onChange={({ currentStep }) => {
-            setStep(currentStep)
-          }}
-          data={[
-            'Cum odio si bolig bla et ta',
-            'Auctor tortor vestibulum placerat bibendum sociis aliquam nunc sed venenatis massa eget duis',
-            'Bibendum sociis',
-          ]}
-          bottom
-        />
+  const [step, setStep] = React.useState(1);
+  return <div style={{
+    display: 'flex'
+  }}>
+            <Space stretch>
+              <StepIndicator mode="loose" currentStep={step} onChange={({
+        currentStep
+      }) => {
+        setStep(currentStep);
+      }} data={['Cum odio si bolig bla et ta', 'Auctor tortor vestibulum placerat bibendum sociis aliquam nunc sed venenatis massa eget duis', 'Bibendum sociis']} bottom />
 
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setStep((step) => {
-              if (step >= 2) {
-                step = -1
-              }
-              return step + 1
-            })
-          }}
-        >
-          Next step
-        </Button>
-      </Space>
-    </div>
-  )
-}
-render(<InteractiveDemo />)
+              <Button variant="secondary" onClick={() => {
+        setStep(step => {
+          if (step >= 2) {
+            step = -1;
+          }
+          return step + 1;
+        });
+      }}>
+                Next step
+              </Button>
+            </Space>
+          </div>;
+};
+render(<InteractiveDemo />);
 ```
+
 
 ### StepIndicator in strict mode
 
 Every visited step can be clicked, including the current step.
 
+
 ```tsx
-render(
-  <StepIndicator
-    mode="strict"
-    currentStep={1}
-    onChange={({ currentStep }) => {
-      console.log('onChange', currentStep)
-    }}
-    data={[
-      {
-        title: 'Velg mottaker',
-      },
-      {
-        title: 'Bestill eller erstatt',
-        onClick: ({ currentStep }) =>
-          console.log('currentStep:', currentStep),
-        status:
-          'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
-      },
-      {
-        title: 'Oppsummering',
-      },
-    ]}
-  />
-)
+render(<StepIndicator mode="strict" currentStep={1} onChange={({
+  currentStep
+}) => {
+  console.log('onChange', currentStep);
+}} data={[{
+  title: 'Velg mottaker'
+}, {
+  title: 'Bestill eller erstatt',
+  onClick: ({
+    currentStep
+  }) => console.log('currentStep:', currentStep),
+  status: 'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.'
+}, {
+  title: 'Oppsummering'
+}]} />)
 ```
+
 
 ### StepIndicator in static mode
 
 None of the steps are clickable.
 
+
 ```tsx
-render(
-  <StepIndicator
-    mode="static"
-    currentStep={1}
-    onChange={({ currentStep }) => {
-      console.log('onChange', currentStep)
-    }}
-    data={[
-      {
-        title: 'Om din nye bolig',
-      },
-      {
-        title: 'Ditt lån og egenkapital',
-        onClick: ({ currentStep }) => console.log(currentStep),
-      },
-      {
-        title: 'Oppsummering',
-      },
-    ]}
-  />
-)
+render(<StepIndicator mode="static" currentStep={1} onChange={({
+  currentStep
+}) => {
+  console.log('onChange', currentStep);
+}} data={[{
+  title: 'Om din nye bolig'
+}, {
+  title: 'Ditt lån og egenkapital',
+  onClick: ({
+    currentStep
+  }) => console.log(currentStep)
+}, {
+  title: 'Oppsummering'
+}]} />)
 ```
+
 
 ### StepIndicator with a router
 
+
 ```tsx
 const StepIndicatorWithRouter = () => {
-  const [currentStep, setCurrentStep] = React.useState(1)
+  const [currentStep, setCurrentStep] = React.useState(1);
   React.useEffect(() => {
-    const step =
-      parseFloat(window.location.search?.replace(/[?]/, '')) || 1
-    setCurrentStep(step)
-  }, [])
-  return (
-    <>
-      <StepIndicator
-        mode="loose"
-        currentStep={currentStep - 1}
-        onChange={({ currentStep }) => {
-          const step = currentStep + 1
-          setCurrentStep(step)
-          window.history.pushState({}, '', '?' + step)
-        }}
-        data={[
-          {
-            title: 'Om din nye bolig',
-          },
-          {
-            title: 'Ditt lån og egenkapital',
-          },
-          {
-            title: 'Oppsummering',
-          },
-        ]}
-      />
-    </>
-  )
-}
-render(<StepIndicatorWithRouter />)
+    const step = parseFloat(window.location.search?.replace(/[?]/, '')) || 1;
+    setCurrentStep(step);
+  }, []);
+  return <>
+            <StepIndicator mode="loose" currentStep={currentStep - 1} onChange={({
+      currentStep
+    }) => {
+      const step = currentStep + 1;
+      setCurrentStep(step);
+      window.history.pushState({}, '', '?' + step);
+    }} data={[{
+      title: 'Om din nye bolig'
+    }, {
+      title: 'Ditt lån og egenkapital'
+    }, {
+      title: 'Oppsummering'
+    }]} />
+          </>;
+};
+render(<StepIndicatorWithRouter />);
 ```
+
 
 ### StepIndicator customized
 
 Completely customized step indicator.
 
+
 ```tsx
-function CustomStepIndicator({ children, data, ...props }) {
-  const [step, setStep] = React.useState(0)
-  return (
-    <>
-      <StepIndicator
-        mode="loose"
-        data={data}
-        currentStep={step}
-        onChange={({ currentStep }) => setStep(currentStep)}
-        bottom
-        {...props}
-      />
-      <Section backgroundColor="lavender" innerSpace>
-        {children(step)}
-      </Section>
-    </>
-  )
+function CustomStepIndicator({
+  children,
+  data,
+  ...props
+}) {
+  const [step, setStep] = React.useState(0);
+  return <>
+            <StepIndicator mode="loose" data={data} currentStep={step} onChange={({
+      currentStep
+    }) => setStep(currentStep)} bottom {...props} />
+            <Section backgroundColor="lavender" innerSpace>
+              {children(step)}
+            </Section>
+          </>;
 }
-render(
-  <CustomStepIndicator
-    data={[
-      {
-        title: 'First',
-        isCurrent: true,
-      },
-      {
-        title: 'Second',
-      },
-      {
-        title: 'Last',
-      },
-    ]}
-  >
-    {(step) => {
-      switch (step) {
-        case 0:
-          return <>Step One</>
-        case 1:
-          return <>Step Two</>
-        default:
-          return <>Fallback</>
-      }
-    }}
-  </CustomStepIndicator>
-)
+render(<CustomStepIndicator data={[{
+  title: 'First',
+  isCurrent: true
+}, {
+  title: 'Second'
+}, {
+  title: 'Last'
+}]}>
+          {step => {
+    switch (step) {
+      case 0:
+        return <>Step One</>;
+      case 1:
+        return <>Step Two</>;
+      default:
+        return <>Fallback</>;
+    }
+  }}
+        </CustomStepIndicator>);
 ```
+
 
 ### StepIndicator with text only
 
 This example also demonstrates the `expandedInitially` property.
 
+
 ```tsx
-render(
-  <StepIndicator
-    expandedInitially
-    mode="static"
-    currentStep={1}
-    data={['Om din nye bolig', 'Ditt lån og egenkapital', 'Oppsummering']}
-  />
-)
+render(<StepIndicator expandedInitially mode="static" currentStep={1} data={['Om din nye bolig', 'Ditt lån og egenkapital', 'Oppsummering']} />)
 ```
+
 
 ### With skeleton
 
-```tsx
-render(
-  <StepIndicator
-    mode="static"
-    skeleton
-    currentStep={1}
-    expandedInitially
-    data={[
-      {
-        title: 'Om din nye bolig',
-      },
-      {
-        title: 'Ditt lån og egenkapital',
-      },
-      {
-        title: 'Oppsummering',
-      },
-    ]}
-  />
-)
-```
 
 ```tsx
-render(
-  <StepIndicator
-    mode="loose"
-    currentStep={0}
-    data={[
-      {
-        title: 'Current',
-      },
-      {
-        title: 'Warning',
-        status: 'Status message',
-        statusState: 'warning',
-      },
-      {
-        title: 'Error',
-        status: 'Status message',
-        statusState: 'error',
-      },
-      {
-        title: 'Information',
-        status: 'Status message',
-        statusState: 'information',
-      },
-    ]}
-  />
-)
+render(<StepIndicator mode="static" skeleton currentStep={1} expandedInitially data={[{
+  title: 'Om din nye bolig'
+}, {
+  title: 'Ditt lån og egenkapital'
+}, {
+  title: 'Oppsummering'
+}]} />)
+```
+
+
+
+  
+```tsx
+render(<StepIndicator mode="loose" currentStep={0} data={[{
+  title: 'Current'
+}, {
+  title: 'Warning',
+  status: 'Status message',
+  statusState: 'warning'
+}, {
+  title: 'Error',
+  status: 'Status message',
+  statusState: 'error'
+}, {
+  title: 'Information',
+  status: 'Status message',
+  statusState: 'information'
+}]} />)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "mode": {
       "doc": "Defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.",
-      "type": ["\"static\"", "\"strict\"", "\"loose\""],
+      "type": [
+        "\"static\"",
+        "\"strict\"",
+        "\"loose\""
+      ],
       "status": "required"
     },
     "data": {
@@ -392,7 +332,11 @@ render(
     },
     "statusState": {
       "doc": "The type of status shown when the `status` property is set. Defaults to `warning`.",
-      "type": ["\"warning\"", "\"information\"", "\"error\""],
+      "type": [
+        "\"warning\"",
+        "\"information\"",
+        "\"error\""
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -402,21 +346,29 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Step Item Properties
+
 
 ```json
 {
   "props": {
     "title": {
       "doc": "The title of the step.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "required"
     },
     "isCurrent": {
@@ -436,17 +388,25 @@ render(
     },
     "status": {
       "doc": "Is used to set the status text.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "In case the status state should be `information` or `error`. Defaults to `warning`.",
-      "type": ["\"warning\"", "\"information\"", "\"error\""],
+      "type": [
+        "\"warning\"",
+        "\"information\"",
+        "\"error\""
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ## Step Items example
 
@@ -466,9 +426,15 @@ const steps = [
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "StepIndicator.overviewTitle": {
       "nb-NO": "Stegoversikt",
@@ -488,6 +454,7 @@ const steps = [
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -505,7 +472,9 @@ const steps = [
 }
 ```
 
+
 ## Step Item Events
+
 
 ```json
 {

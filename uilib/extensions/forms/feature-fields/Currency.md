@@ -1,8 +1,8 @@
 ---
 title: 'Field.Currency'
 description: '`Field.Currency` is a wrapper component for the input of numbers, with user experience tailored for currency values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.386Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.320Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -28,183 +28,126 @@ There is a corresponding [Value.Currency](/uilib/extensions/forms/Value/Currency
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Currency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Currency)
 
+
 ## Demos
 
 ### Empty
 
+
 ```tsx
-render(
-  <Field.Currency onChange={(value) => console.log('onChange', value)} />
-)
+render(<Field.Currency onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.Currency
-    placeholder="Enter a number"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Currency placeholder="Enter a number" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label
 
+
 ```tsx
-render(
-  <Field.Currency
-    label="Amount"
-    currencyDisplay="name"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Currency label="Amount" currencyDisplay="name" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.Currency
-    value={150000}
-    currency="NOK"
-    label="Amount"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Currency value={150000} currency="NOK" label="Amount" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Exclusive minimum and exclusive maximum
 
+
 ```tsx
-render(
-  <Field.Currency
-    value={1000}
-    label="Label text"
-    allowNegative={false}
-    required
-    exclusiveMinimum={900}
-    exclusiveMaximum={1000}
-    validateInitially
-  />
-)
+render(<Field.Currency value={1000} label="Label text" allowNegative={false} required exclusiveMinimum={900} exclusiveMaximum={1000} validateInitially />)
 ```
+
 
 ### With step controls
 
+
 ```tsx
-render(
-  <Field.Currency
-    showStepControls
-    label="Amount"
-    minimum={500}
-    maximum={2000}
-    value={1000}
-    step={100}
-  />
-)
+render(<Field.Currency showStepControls label="Amount" minimum={500} maximum={2000} value={1000} step={100} />)
 ```
+
 
 ## Locale
 
 This field is using `NOK` when `locale` is `en-GB`.
 
+
 ```tsx
-render(
-  <Provider locale="en-GB">
-    <Field.Currency value={-150000} align="right" />
-  </Provider>
-)
+render(<Provider locale="en-GB">
+        <Field.Currency value={-150000} align="right" />
+      </Provider>)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.Currency
-    value={150000}
-    currency="NOK"
-    label="Amount"
-    help={{
-      title: 'Help is available',
-      content:
-        'Helping others, without expecting anything in return is what true self-worth is all about.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Currency value={150000} currency="NOK" label="Amount" help={{
+  title: 'Help is available',
+  content: 'Helping others, without expecting anything in return is what true self-worth is all about.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.Currency
-    value={25000000}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Currency value={25000000} label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.Currency
-    value={12345678}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Currency value={12345678} label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.Currency
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.Currency label="Label text" onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
+
 
 ### With `Field.SelectCurrency`
 
 This example demonstrates how to use `Field.Currency` together with `Field.SelectCurrency`.
 It imitates a transaction, and therefore sets the HTML [autofill](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute for both fields, `transaction-currency` in `Field.SelectCurrency` and `transaction-amount` in `Field.Currency`.
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Form.Card>
-      <Flex.Horizontal>
-        <Field.SelectCurrency
-          label="Select a currency"
-          path="/currency"
-          value="EUR"
-          autoComplete="transaction-currency"
-        />
-        <Field.Currency
-          label="Amount"
-          currency="/currency"
-          autoComplete="transaction-amount"
-        />
-      </Flex.Horizontal>
-    </Form.Card>
-    <Form.SubmitButton text="Pay" />
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={console.log}>
+        <Form.Card>
+          <Flex.Horizontal>
+            <Field.SelectCurrency label="Select a currency" path="/currency" value="EUR" autoComplete="transaction-currency" />
+            <Field.Currency label="Amount" currency="/currency" autoComplete="transaction-amount" />
+          </Flex.Horizontal>
+        </Form.Card>
+        <Form.SubmitButton text="Pay" />
+      </Form.Handler>)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -272,22 +215,35 @@ render(
     },
     "width": {
       "doc": "`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "autoComplete": {
       "doc": "For HTML `autocomplete` attributes.",
-      "type": ["\"on\"", "string"],
+      "type": [
+        "\"on\"",
+        "string"
+      ],
       "status": "optional"
     },
     "prefix": {
@@ -317,14 +273,19 @@ render(
     },
     "mask": {
       "doc": "An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.",
-      "type": ["array", "function"],
+      "type": [
+        "array",
+        "function"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -346,12 +307,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -371,7 +340,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["number", "undefined"],
+      "type": [
+        "number",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -451,7 +423,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -466,12 +441,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -481,17 +462,26 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
@@ -499,11 +489,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -582,6 +579,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

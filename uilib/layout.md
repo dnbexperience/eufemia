@@ -1,8 +1,8 @@
 ---
 title: 'Layout'
 description: 'To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.444Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.362Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -99,298 +99,262 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Horizontal aligned Cards
 
 Grid wraps the Cards nicely on smaller screens. More examples in the [Card](/uilib/components/card/) section.
 
+
 ```tsx
-render(
-  <Grid.Container
-    columns={{
-      small: 1,
-      medium: 3,
-      large: 3,
-    }}
-    columnGap="small"
-  >
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Pariatur officia sit adipisicing pariatur commodo enim do quis</P>
-    </Card>
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-  </Grid.Container>
-)
+render(<Grid.Container columns={{
+  small: 1,
+  medium: 3,
+  large: 3
+}} columnGap="small">
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Grid.Container>)
 ```
+
 
 ### Accordion in two columns
 
 This is a demo of how to outline accordions in two columns, including the correct tab order.
 
+
 ```tsx
-const items = [
-  <Accordion key="one" variant="filled">
-    <Accordion.Header>
-      Sit amet suscipit ipsum tincidunt id?
-    </Accordion.Header>
-    <Accordion.Content space>
-      <P>
-        Sociis sapien sociosqu vel sollicitudin accumsan laoreet gravida
-        himenaeos nostra mollis volutpat bibendum convallis cum condimentum
-        dictumst blandit rutrum vehicula
-      </P>
-    </Accordion.Content>
-  </Accordion>,
-  <Accordion key="two" variant="filled">
-    <Accordion.Header>
-      Cras eget quam eget tortor placerat viverra?
-    </Accordion.Header>
-    <Accordion.Content space>
-      <P>
-        Morbi condimentum odio ut enim vulputate, rutrum ullamcorper sem
-        vestibulum. Ut luctus tempus leo vel finibus. Pellentesque ultrices
-        interdum nisi, sit amet suscipit ipsum tincidunt id. Praesent
-        sodales vel eros ut accumsan.
-      </P>
-    </Accordion.Content>
-  </Accordion>,
-  <Accordion key="three" variant="filled">
-    <Accordion.Header>Nam porta nec ipsum id porta</Accordion.Header>
-    <Accordion.Content space>
-      <P>
-        Nam porta nec ipsum id porta. Cras eget quam eget tortor placerat
-        viverra.
-      </P>
-    </Accordion.Content>
-  </Accordion>,
-]
-render(
-  <>
-    <Heading size="large">Accordion in columns</Heading>
-    <Grid.Container columns={2} columnGap="small" rowGap="x-small">
-      <Grid.Item
-        span={{
-          small: [1, 2],
-          medium: [1, 1],
-          large: [1, 1],
-        }}
-      >
-        <Flex.Stack gap="x-small">{items}</Flex.Stack>
-      </Grid.Item>
-      <Grid.Item
-        span={{
-          small: [1, 2],
-          medium: [2, 2],
-          large: [2, 2],
-        }}
-      >
-        <Flex.Stack gap="x-small">{[...items].reverse()}</Flex.Stack>
-      </Grid.Item>
-    </Grid.Container>
-  </>
-)
+const items = [<Accordion key="one" variant="filled">
+            <Accordion.Header>
+              Sit amet suscipit ipsum tincidunt id?
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+                gravida himenaeos nostra mollis volutpat bibendum convallis
+                cum condimentum dictumst blandit rutrum vehicula
+              </P>
+            </Accordion.Content>
+          </Accordion>, <Accordion key="two" variant="filled">
+            <Accordion.Header>
+              Cras eget quam eget tortor placerat viverra?
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Morbi condimentum odio ut enim vulputate, rutrum
+                ullamcorper sem vestibulum. Ut luctus tempus leo vel
+                finibus. Pellentesque ultrices interdum nisi, sit amet
+                suscipit ipsum tincidunt id. Praesent sodales vel eros ut
+                accumsan.
+              </P>
+            </Accordion.Content>
+          </Accordion>, <Accordion key="three" variant="filled">
+            <Accordion.Header>
+              Nam porta nec ipsum id porta
+            </Accordion.Header>
+            <Accordion.Content space>
+              <P>
+                Nam porta nec ipsum id porta. Cras eget quam eget tortor
+                placerat viverra.
+              </P>
+            </Accordion.Content>
+          </Accordion>];
+render(<>
+            <Heading size="large">Accordion in columns</Heading>
+            <Grid.Container columns={2} columnGap="small" rowGap="x-small">
+              <Grid.Item span={{
+      small: [1, 2],
+      medium: [1, 1],
+      large: [1, 1]
+    }}>
+                <Flex.Stack gap="x-small">{items}</Flex.Stack>
+              </Grid.Item>
+              <Grid.Item span={{
+      small: [1, 2],
+      medium: [2, 2],
+      large: [2, 2]
+    }}>
+                <Flex.Stack gap="x-small">
+                  {[...items].reverse()}
+                </Flex.Stack>
+              </Grid.Item>
+            </Grid.Container>
+          </>);
 ```
+
 
 ### Responsive application [Grid](/uilib/layout/grid/) usage
 
+
 ```tsx
-render(
-  <Grid.Container rowGap columnGap>
-    <Grid.Item
-      span={{
-        small: [1, 2],
-        medium: [1, 3],
-        large: [1, 12],
-      }}
-      style={colors[0]}
-      element={TestElement}
-    >
-      Item A
-    </Grid.Item>
+render(<Grid.Container rowGap columnGap>
+        <Grid.Item span={{
+    small: [1, 2],
+    medium: [1, 3],
+    large: [1, 12]
+  }} style={colors[0]} element={TestElement}>
+          Item A
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [3, 4],
-        medium: [4, 6],
-        large: [1, 4],
-      }}
-      style={colors[1]}
-      element={TestElement}
-    >
-      Item B
-    </Grid.Item>
+        <Grid.Item span={{
+    small: [3, 4],
+    medium: [4, 6],
+    large: [1, 4]
+  }} style={colors[1]} element={TestElement}>
+          Item B
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [2, 3],
-        medium: [4, 6],
-        large: [5, 8],
-      }}
-      style={colors[2]}
-      element={TestElement}
-    >
-      Item C
-    </Grid.Item>
+        <Grid.Item span={{
+    small: [2, 3],
+    medium: [4, 6],
+    large: [5, 8]
+  }} style={colors[2]} element={TestElement}>
+          Item C
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: [1, 4],
-        medium: [4, 6],
-        large: [9, 12],
-      }}
-      style={colors[3]}
-      element={TestElement}
-    >
-      Item D
-    </Grid.Item>
-  </Grid.Container>
-)
+        <Grid.Item span={{
+    small: [1, 4],
+    medium: [4, 6],
+    large: [9, 12]
+  }} style={colors[3]} element={TestElement}>
+          Item D
+        </Grid.Item>
+      </Grid.Container>)
 ```
+
 
 ### Responsive [Flex](/uilib/layout/flex/) usage
 
 With the default `sizeCount` of 12 parts.
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item span={8}>
-      <TestElement style={colors[0]}>FlexItem (8)</TestElement>
-    </Flex.Item>
-    <Flex.Item span={4}>
-      <TestElement style={colors[1]}>FlexItem (4)</TestElement>
-    </Flex.Item>
-    <Flex.Item
-      span={{
-        small: 12,
-        medium: 4,
-      }}
-    >
-      <TestElement style={colors[2]}>
-        FlexItem (small: 8, medium: 4)
-      </TestElement>
-    </Flex.Item>
-    <Flex.Item
-      span={{
-        small: 12,
-        medium: 8,
-      }}
-    >
-      <TestElement style={colors[3]}>
-        FlexItem (small: 4, medium: 8)
-      </TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item span={8}>
+          <TestElement style={colors[0]}>FlexItem (8)</TestElement>
+        </Flex.Item>
+        <Flex.Item span={4}>
+          <TestElement style={colors[1]}>FlexItem (4)</TestElement>
+        </Flex.Item>
+        <Flex.Item span={{
+    small: 12,
+    medium: 4
+  }}>
+          <TestElement style={colors[2]}>
+            FlexItem (small: 8, medium: 4)
+          </TestElement>
+        </Flex.Item>
+        <Flex.Item span={{
+    small: 12,
+    medium: 8
+  }}>
+          <TestElement style={colors[3]}>
+            FlexItem (small: 4, medium: 8)
+          </TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Customized [Flex.Item](/uilib/layout/flex/item/) spans
 
 With a custom amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
 
+
 ```tsx
 const breakpoints = {
   ...defaultBreakpoints,
-  xsmall: '30em',
-}
+  xsmall: '30em'
+};
 const queries = {
   ...defaultQueries,
   xsmall: {
     min: 0,
-    max: 'xsmall',
+    max: 'xsmall'
   },
   small: {
     min: 'xsmall',
-    max: 'small',
-  },
-}
-const CustomMediaQuery = styled.div`
-  display: flex;
-  flex-direction: column;
-  .dnb-flex-container[data-media-key='xsmall'] .dnb-flex-item--responsive {
-    --span: var(--xsmall);
+    max: 'small'
   }
-`
-render(
-  <CustomMediaQuery>
-    <Flex.Container
-      direction="horizontal"
-      sizeCount={4}
-      breakpoints={breakpoints}
-      queries={queries}
-    >
-      <Flex.Item
-        span={{
-          small: 2,
-          medium: 3,
-          large: 1,
-        }}
-      >
-        <TestElement style={colors[0]}>FlexItem</TestElement>
-      </Flex.Item>
-      <Flex.Item
-        span={{
-          small: 2,
-          medium: 1,
-          large: 2,
-        }}
-      >
-        <TestElement style={colors[1]}>FlexItem</TestElement>
-      </Flex.Item>
-      <Flex.Item
-        span={{
-          xsmall: 4,
-          small: 2,
-          medium: 1,
-          large: 1,
-        }}
-      >
-        <TestElement style={colors[2]}>FlexItem</TestElement>
-      </Flex.Item>
-      <Flex.Item
-        span={{
-          xsmall: 4,
-          small: 2,
-          medium: 3,
-          large: 4,
-        }}
-      >
-        <TestElement style={colors[3]}>FlexItem</TestElement>
-      </Flex.Item>
-    </Flex.Container>
-  </CustomMediaQuery>
-)
+};
+const CustomMediaQuery = styled.div`
+          display: flex;
+          flex-direction: column;
+          .dnb-flex-container[data-media-key='xsmall']
+            .dnb-flex-item--responsive {
+            --span: var(--xsmall);
+          }
+        `;
+render(<CustomMediaQuery>
+            <Flex.Container direction="horizontal" sizeCount={4} breakpoints={breakpoints} queries={queries}>
+              <Flex.Item span={{
+      small: 2,
+      medium: 3,
+      large: 1
+    }}>
+                <TestElement style={colors[0]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      small: 2,
+      medium: 1,
+      large: 2
+    }}>
+                <TestElement style={colors[1]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      xsmall: 4,
+      small: 2,
+      medium: 1,
+      large: 1
+    }}>
+                <TestElement style={colors[2]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      xsmall: 4,
+      small: 2,
+      medium: 3,
+      large: 4
+    }}>
+                <TestElement style={colors[3]}>FlexItem</TestElement>
+              </Flex.Item>
+            </Flex.Container>
+          </CustomMediaQuery>);
 ```
+
 
 ### [Flex](/uilib/layout/flex/) usage in [Forms](/uilib/extensions/forms/)
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Form.MainHeading>Profile</Form.MainHeading>
+render(<Flex.Stack>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
-    <Form.Card>
-      <Form.SubHeading>Name</Form.SubHeading>
+        <Form.Card>
+          <Form.SubHeading>Name</Form.SubHeading>
 
-      <Field.String label="Fornavn" value="John" />
-      <Field.String label="Etternavn" value="Smith" />
-    </Form.Card>
+          <Field.String label="Fornavn" value="John" />
+          <Field.String label="Etternavn" value="Smith" />
+        </Form.Card>
 
-    <Form.Card>
-      <Form.SubHeading>More information</Form.SubHeading>
+        <Form.Card>
+          <Form.SubHeading>More information</Form.SubHeading>
 
-      <Field.NationalIdentityNumber value="20058512345" />
-      <Field.Email value="john@smith.email" />
-      <Field.PhoneNumber value="+4798765432" />
-    </Form.Card>
-  </Flex.Stack>
-)
+          <Field.NationalIdentityNumber value="20058512345" />
+          <Field.Email value="john@smith.email" />
+          <Field.PhoneNumber value="+4798765432" />
+        </Form.Card>
+      </Flex.Stack>)
 ```

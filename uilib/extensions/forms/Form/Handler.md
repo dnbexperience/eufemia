@@ -1,8 +1,8 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.852Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.890Z
 checksum: adde9d9b5451327df41e0ca0f0c278288337a85881bae513fbf9c5a3d266859e
 ---
 
@@ -229,6 +229,7 @@ Depending on your needs, you may want to use e.g. `debounceAsync` ([debounce](/u
 
 You can return parameters from inside the async `onChange` or `onSubmit` event handler. This way you can display more related information, such as an error or an object with these keys:
 
+
 ```ts
 // Async event handler
 const onChange = debounceAsync(async function (data) {
@@ -251,6 +252,8 @@ const onChange = debounceAsync(async function (data) {
   } as const
 })
 ```
+
+
 
 In all async operations, you can simply return an error object to display it in the form or influence the form behavior.
 
@@ -294,6 +297,7 @@ function Component() {
   )
 }
 ```
+
 
 The `info`, `warning`, and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending on where it is used. The `success` message will be displayed on the label of the field that initiated the `onChange` event.
 
@@ -467,6 +471,7 @@ const MyForm = () => {
 }
 ```
 
+
 ## Demos
 
 ### Required and Optional Fields
@@ -475,23 +480,18 @@ To make all fields required, set the `required` property on the `Form.Handler` c
 
 For fields that should remain optional, use `required={false}` property on the specific field. When doing so, it will append "(optional)" to the optional field's label(`labelSuffix`).
 
+
 ```tsx
-render(
-  <Form.Handler required>
-    <Form.Card>
-      <Field.Email path="/email" required={false} />
-      <Field.String
-        path="/custom"
-        label="Label"
-        labelDescription="Label description"
-        required={false}
-      />
-      <Field.Currency path="/amount" label="Amount" />
-      <Form.SubmitButton />
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler required>
+        <Form.Card>
+          <Field.Email path="/email" required={false} />
+          <Field.String path="/custom" label="Label" labelDescription="Label description" required={false} />
+          <Field.Currency path="/amount" label="Amount" />
+          <Form.SubmitButton />
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### In combination with a SubmitButton
 
@@ -515,259 +515,221 @@ const onSubmit = async (data) => {
 }
 ```
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={async (data) => console.log('onSubmit', data)}>
-    <Form.Card>
-      <Field.Email path="/email" />
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-      </Form.ButtonRow>
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)}>
+        <Form.Card>
+          <Field.Email path="/email" />
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### New location after async submit
 
 This example is only for demo purpose and will NOT redirect to a new location. It will also time out after 10 seconds.
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myField: 'Some value',
-    }}
-    onSubmit={async (data) => {
-      console.log('onSubmit', data)
+render(<Form.Handler data={{
+  myField: 'Some value'
+}} onSubmit={async data => {
+  console.log('onSubmit', data);
 
-      // Wait for 2 seconds
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+  // Wait for 2 seconds
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // e.g. go to new location
+  // e.g. go to new location
 
-      // Optionally, you can return e.g. the "pending" status with an additional info
-      return {
-        info: 'Redirecting to a new location',
-        // Force the form to stay in pending state
-        status: 'pending',
-      }
-    }}
-    asyncSubmitTimeout={10000}
-  >
-    <Flex.Stack>
-      <Form.MainHeading>Heading</Form.MainHeading>
-      <Form.Card>
-        <Value.String label="Summary" path="/myField" />
-      </Form.Card>
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-      </Form.ButtonRow>
-    </Flex.Stack>
-  </Form.Handler>
-)
+  // Optionally, you can return e.g. the "pending" status with an additional info
+  return {
+    info: 'Redirecting to a new location',
+    // Force the form to stay in pending state
+    status: 'pending'
+  };
+}} asyncSubmitTimeout={10000}>
+        <Flex.Stack>
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Form.Card>
+            <Value.String label="Summary" path="/myField" />
+          </Form.Card>
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Async onSubmitRequest with error message
 
 This example demonstrates returning an error message from `onSubmitRequest`. When the form has validation errors and the user tries to submit, the `onSubmitRequest` handler is called. It can return an error, warning, or info message that will be displayed at the form level.
 
+
 ```tsx
-render(
-  <Form.Handler
-    onSubmitRequest={async ({ getErrors }) => {
-      const errors = getErrors()
-      console.log('onSubmitRequest errors', errors)
+render(<Form.Handler onSubmitRequest={async ({
+  getErrors
+}) => {
+  const errors = getErrors();
+  console.log('onSubmitRequest errors', errors);
 
-      // Wait for 1 second
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+  // Wait for 1 second
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Return an error message to display in the form
-      return {
-        error: new Error(
-          `The form has ${errors.length} error(s). Please fix them before submitting.`
-        ),
-      }
-    }}
-  >
-    <Flex.Stack>
-      <Form.Card>
-        <Field.String label="Required field" path="/myField" required />
-        <Field.Email path="/email" required />
-      </Form.Card>
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-      </Form.ButtonRow>
-    </Flex.Stack>
-  </Form.Handler>
-)
+  // Return an error message to display in the form
+  return {
+    error: new Error(`The form has ${errors.length} error(s). Please fix them before submitting.`)
+  };
+}}>
+        <Flex.Stack>
+          <Form.Card>
+            <Field.String label="Required field" path="/myField" required />
+            <Field.Email path="/email" required />
+          </Form.Card>
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Reduce your data to visible fields
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      isVisible: true,
-    }}
-    onSubmit={(data, { reduceToVisibleFields }) => {
-      const myData = reduceToVisibleFields(data, {
-        removePaths: ['/isVisible'],
-      })
-      console.log('Result of reduceToVisibleFields: ', myData)
-    }}
-  >
-    <Flex.Stack>
-      <Field.Boolean
-        label="Show radio buttons"
-        variant="button"
-        path="/isVisible"
-      />
-      <Form.Visibility pathTrue="/isVisible" animate>
-        <Field.Selection
-          label="Radio buttons"
-          variant="radio"
-          path="/myValue"
-          defaultValue="foo"
-        >
-          <Field.Option value="foo" title="Foo" />
-          <Field.Option value="bar" title="Bar" />
-        </Field.Selection>
-      </Form.Visibility>
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  isVisible: true
+}} onSubmit={(data, {
+  reduceToVisibleFields
+}) => {
+  const myData = reduceToVisibleFields(data, {
+    removePaths: ['/isVisible']
+  });
+  console.log('Result of reduceToVisibleFields: ', myData);
+}}>
+        <Flex.Stack>
+          <Field.Boolean label="Show radio buttons" variant="button" path="/isVisible" />
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Selection label="Radio buttons" variant="radio" path="/myValue" defaultValue="foo">
+              <Field.Option value="foo" title="Foo" />
+              <Field.Option value="bar" title="Bar" />
+            </Field.Selection>
+          </Form.Visibility>
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### With session storage
 
 Changes you make to the fields are temporarily saved and loaded
 when the browser reloads. The data is stored until the session storage is invalidated.
 
-```tsx
-render(
-  <Form.Handler
-    onSubmit={(data, { resetForm, clearData }) => {
-      console.log('onSubmit', data)
 
-      // Docs: https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider/events/#onsubmit-parameters
-      resetForm()
-      clearData()
-    }}
-    sessionStorageId="session-key"
-  >
-    <Form.Card>
-      <Field.String label="Name" path="/name" />
-      <Field.Email path="/email" />
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-      </Form.ButtonRow>
-    </Form.Card>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler onSubmit={(data, {
+  resetForm,
+  clearData
+}) => {
+  console.log('onSubmit', data);
+
+  // Docs: https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider/events/#onsubmit-parameters
+  resetForm();
+  clearData();
+}} sessionStorageId="session-key">
+        <Form.Card>
+          <Field.String label="Name" path="/name" />
+          <Field.Email path="/email" />
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Form.Card>
+      </Form.Handler>)
 ```
 
+
 ### Locale and translations
+
 
 ```tsx
 const myTranslations = {
   'nb-NO': {
     PhoneNumber: {
-      numberLabel: 'Egendefinert 🚀',
-    },
+      numberLabel: 'Egendefinert 🚀'
+    }
   },
   'en-GB': {
     PhoneNumber: {
-      numberLabel: 'Custom 🚀',
-    },
-  },
-}
+      numberLabel: 'Custom 🚀'
+    }
+  }
+};
 const MyForm = () => {
-  const { data } = Form.useData('my-form', {
-    locale: 'en-GB',
-  })
-  return (
-    <Form.Handler
-      id="my-form"
-      locale={data?.locale}
-      translations={myTranslations}
-    >
-      <Form.Card>
-        <Field.PhoneNumber />
+  const {
+    data
+  } = Form.useData('my-form', {
+    locale: 'en-GB'
+  });
+  return <Form.Handler id="my-form" locale={data?.locale} translations={myTranslations}>
+              <Form.Card>
+                <Field.PhoneNumber />
 
-        <Field.Selection
-          path="/locale"
-          variant="button"
-          optionsLayout="horizontal"
-        >
-          <Field.Option value="nb-NO">Norsk</Field.Option>
-          <Field.Option value="sv-SE">Svenska</Field.Option>
-          <Field.Option value="da-DK">Dansk</Field.Option>
-          <Field.Option value="en-GB">English</Field.Option>
-        </Field.Selection>
-      </Form.Card>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Field.Selection path="/locale" variant="button" optionsLayout="horizontal">
+                  <Field.Option value="nb-NO">Norsk</Field.Option>
+                  <Field.Option value="sv-SE">Svenska</Field.Option>
+                  <Field.Option value="da-DK">Dansk</Field.Option>
+                  <Field.Option value="en-GB">English</Field.Option>
+                </Field.Selection>
+              </Form.Card>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Autocomplete (autofill) user data
 
+
 ```tsx
-render(
-  <Form.Handler
-    onSubmit={(data) => console.log('onSubmit', data)}
-    autoComplete
-  >
-    <Flex.Stack>
-      <Form.MainHeading>Delivery address</Form.MainHeading>
+render(<Form.Handler onSubmit={data => console.log('onSubmit', data)} autoComplete>
+        <Flex.Stack>
+          <Form.MainHeading>Delivery address</Form.MainHeading>
 
-      <Form.Card>
-        <Form.SubHeading>Your name</Form.SubHeading>
+          <Form.Card>
+            <Form.SubHeading>Your name</Form.SubHeading>
 
-        <Field.Name.First path="/firstName" required />
-        <Field.Name.Last path="/lastName" required />
-      </Form.Card>
+            <Field.Name.First path="/firstName" required />
+            <Field.Name.Last path="/lastName" required />
+          </Form.Card>
 
-      <Form.Card>
-        <Form.SubHeading>Your address</Form.SubHeading>
+          <Form.Card>
+            <Form.SubHeading>Your address</Form.SubHeading>
 
-        <Field.Composition width="large">
-          <Field.String
-            label="Street"
-            width="stretch"
-            path="/streetName"
-            required
-          />
-          <Field.Number
-            label="Nr."
-            width="small"
-            path="/streetNr"
-            required
-          />
-        </Field.Composition>
+            <Field.Composition width="large">
+              <Field.String label="Street" width="stretch" path="/streetName" required />
+              <Field.Number label="Nr." width="small" path="/streetNr" required />
+            </Field.Composition>
 
-        <Field.PostalCodeAndCity
-          postalCode={{
-            required: true,
-            path: '/postalCode',
-          }}
-          city={{
-            required: true,
-            path: '/city',
-          }}
-        />
-      </Form.Card>
+            <Field.PostalCodeAndCity postalCode={{
+        required: true,
+        path: '/postalCode'
+      }} city={{
+        required: true,
+        path: '/city'
+      }} />
+          </Form.Card>
 
-      <Form.SubmitButton />
-    </Flex.Stack>
-  </Form.Handler>
-)
+          <Form.SubmitButton />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Complex async (autosave) example
 
@@ -787,96 +749,78 @@ This example demonstrates how to use async validation with an async `onSubmit` a
 
 - To access the `date` "in sync" – you can use the [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
 
+
 ```tsx
-const validator = debounceAsync(async function secondValidator(
-  value: string
-) {
+const validator = debounceAsync(async function secondValidator(value: string) {
   try {
-    const request = createRequest()
-    const wasCanceled = this.addCancelEvent(request.cancel)
-    await request(2000) // Simulate a request
+    const request = createRequest();
+    const wasCanceled = this.addCancelEvent(request.cancel);
+    await request(2000); // Simulate a request
 
     if (wasCanceled()) {
-      throw new Error('Validation request canceled')
+      throw new Error('Validation request canceled');
     }
   } catch (error) {
-    return error
+    return error;
   }
   if (value !== 'valid') {
-    return new Error(`Custom error with invalid value: ${value}`) // Show this message
+    return new Error(`Custom error with invalid value: ${value}`); // Show this message
   }
-})
+});
 const cancelRequest = () => {
-  validator.cancel()
-}
-const onSubmit = async (data) => {
-  console.log('onSubmit', data)
+  validator.cancel();
+};
+const onSubmit = async data => {
+  console.log('onSubmit', data);
 
   // Wait for 2 seconds
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   // For demo purposes, we show a message
   return {
-    info: 'Message from onSubmit return',
-  }
-}
-const onChangeForm = async (data) => {
-  console.log('onChangeForm', data)
+    info: 'Message from onSubmit return'
+  };
+};
+const onChangeForm = async data => {
+  console.log('onChangeForm', data);
 
   // Wait for 2 seconds
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   // For demo purposes, we show a message
   return {
-    warning: 'Warning message',
-  }
-}
-const onChangeField = async (data) => {
-  console.log('onChangeField', data)
+    warning: 'Warning message'
+  };
+};
+const onChangeField = async data => {
+  console.log('onChangeField', data);
 
   // Wait for 2 seconds
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   // For demo purposes, we show a message
   return {
-    info: 'Info message',
-  }
-}
+    info: 'Info message'
+  };
+};
 const MyForm = () => {
-  const { data } = Form.useData('unique-id')
-  console.log('data', data)
-  return (
-    <Form.Handler
-      id="unique-id"
-      onSubmit={onSubmit}
-      onChange={onChangeForm}
-    >
-      <Flex.Stack>
-        <Field.String
-          label='Type "valid" to validate the field'
-          path="/myField"
-          required
-          onChangeValidator={validator}
-          onChange={onChangeField}
-          autoComplete="off"
-        />
-        <Form.ButtonRow>
-          <Form.SubmitButton text="Save" />
-          <Button
-            text="Stop async operations"
-            variant="tertiary"
-            icon={stopIcon}
-            iconPosition="left"
-            disabled={false}
-            onClick={cancelRequest}
-          />
-        </Form.ButtonRow>
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+  const {
+    data
+  } = Form.useData('unique-id');
+  console.log('data', data);
+  return <Form.Handler id="unique-id" onSubmit={onSubmit} onChange={onChangeForm}>
+              <Flex.Stack>
+                <Field.String label='Type "valid" to validate the field' path="/myField" required onChangeValidator={validator} onChange={onChangeField} autoComplete="off" />
+                <Form.ButtonRow>
+                  <Form.SubmitButton text="Save" />
+                  <Button text="Stop async operations" variant="tertiary" icon={stopIcon} iconPosition="left" disabled={false} onClick={cancelRequest} />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Filter your data
 
@@ -886,52 +830,51 @@ More info about `filterData` can be found in the [Getting Started](/uilib/extens
 
 In this example we filter out all fields that are disabled.
 
+
 ```tsx
-const id = 'my-form'
-const filterDataHandler = ({ props }) => !props.disabled
+const id = 'my-form';
+const filterDataHandler = ({
+  props
+}) => !props.disabled;
 const MyForm = () => {
-  const { data } = Form.useData(id, {
+  const {
+    data
+  } = Form.useData(id, {
     disabled: false,
-    myField: 'Value',
-  })
-  return (
-    <Form.Handler
-      id={id}
-      onSubmit={(data, { filterData }) => {
-        console.log('onSubmit', filterData(filterDataHandler))
-      }}
-    >
-      <Flex.Stack>
-        <Field.Boolean label="Disabled" path="/disabled" />
-        <Field.String
-          label="My Field"
-          path="/myField"
-          disabled={data.disabled}
-        />
-        <Form.ButtonRow>
-          <Form.SubmitButton />
-        </Form.ButtonRow>
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
+    myField: 'Value'
+  });
+  return <Form.Handler id={id} onSubmit={(data, {
+    filterData
+  }) => {
+    console.log('onSubmit', filterData(filterDataHandler));
+  }}>
+              <Flex.Stack>
+                <Field.Boolean label="Disabled" path="/disabled" />
+                <Field.String label="My Field" path="/myField" disabled={data.disabled} />
+                <Form.ButtonRow>
+                  <Form.SubmitButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>;
+};
 const Output = () => {
-  const { filterData } = Form.useData(id)
-  const { hasErrors } = Form.useValidation(id)
-  return (
-    <>
-      <Tools.Log top data={hasErrors()} label="hasErrors:" />
-      <Tools.Log top data={filterData(filterDataHandler)} />
-    </>
-  )
-}
-render(
-  <>
-    <MyForm />
-    <Output />
-  </>
-)
+  const {
+    filterData
+  } = Form.useData(id);
+  const {
+    hasErrors
+  } = Form.useValidation(id);
+  return <>
+              <Tools.Log top data={hasErrors()} label="hasErrors:" />
+              <Tools.Log top data={filterData(filterDataHandler)} />
+            </>;
+};
+render(<>
+            <MyForm />
+            <Output />
+          </>);
 ```
+
 
 ### Transform data
 
@@ -939,67 +882,53 @@ You can use the `transformData` method from the `onSubmit` event callback to tra
 
 It's possible to use the `transformOut` on the Form.Handler method to achieve the same result. However, performance-wise, it's better to use the `transformData` method. This is because `transformOut` on the Form.Handler method executes for every change, while the `transformData` method from the `onSubmit` event callback only executes when submitting the form.
 
+
 ```tsx
 const MyForm = () => {
-  const [submitData, setSubmitData] = React.useState({})
-  const onSubmit = (data, { transformData }) => {
-    const transformedData = transformData(
-      data,
-      ({ value, displayValue, label }) => {
-        return {
-          value,
-          displayValue,
-          label,
-        }
-      }
-    )
-    setSubmitData(transformedData)
-    console.log('onSubmit', transformedData)
-  }
-  return (
-    <Form.Handler onSubmit={onSubmit}>
-      <Flex.Stack>
-        <Field.String
-          label="Foo label"
-          path="/myString"
-          defaultValue="foo"
-        />
+  const [submitData, setSubmitData] = React.useState({});
+  const onSubmit = (data, {
+    transformData
+  }) => {
+    const transformedData = transformData(data, ({
+      value,
+      displayValue,
+      label
+    }) => {
+      return {
+        value,
+        displayValue,
+        label
+      };
+    });
+    setSubmitData(transformedData);
+    console.log('onSubmit', transformedData);
+  };
+  return <Form.Handler onSubmit={onSubmit}>
+              <Flex.Stack>
+                <Field.String label="Foo label" path="/myString" defaultValue="foo" />
 
-        <Field.Selection
-          label="Bar label"
-          path="/mySelection"
-          defaultValue="bar"
-          variant="dropdown"
-        >
-          <Field.Option value="foo" title="Foo Value" />
-          <Field.Option value="bar" title="Bar Value" />
-        </Field.Selection>
+                <Field.Selection label="Bar label" path="/mySelection" defaultValue="bar" variant="dropdown">
+                  <Field.Option value="foo" title="Foo Value" />
+                  <Field.Option value="bar" title="Bar Value" />
+                </Field.Selection>
 
-        <Field.ArraySelection
-          label="Bar label"
-          path="/myArraySelection"
-          defaultValue={['bar']}
-          variant="checkbox"
-        >
-          <Field.Option value="foo" title="Foo Value" />
-          <Field.Option value="bar" title="Bar Value" />
-        </Field.ArraySelection>
+                <Field.ArraySelection label="Bar label" path="/myArraySelection" defaultValue={['bar']} variant="checkbox">
+                  <Field.Option value="foo" title="Foo Value" />
+                  <Field.Option value="bar" title="Bar Value" />
+                </Field.ArraySelection>
 
-        <Form.SubmitButton />
+                <Form.SubmitButton />
 
-        <Tools.Log
-          label="Submit Data (press submit to update)"
-          data={submitData}
-        />
-        <Tools.Log label="Data Context" />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Tools.Log label="Submit Data (press submit to update)" data={submitData} />
+                <Tools.Log label="Data Context" />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -1016,7 +945,12 @@ render(<MyForm />)
     },
     "id": {
       "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
-      "type": ["string", "function", "object", "React.Context"],
+      "type": [
+        "string",
+        "function",
+        "object",
+        "React.Context"
+      ],
       "status": "optional"
     },
     "schema": {
@@ -1096,7 +1030,10 @@ render(<MyForm />)
     },
     "countryCode": {
       "doc": "Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.",
-      "type": ["ISO 3166-1 alpha-2", "Path/JSON Pointer"],
+      "type": [
+        "ISO 3166-1 alpha-2",
+        "Path/JSON Pointer"
+      ],
       "status": "optional"
     },
     "children": {
@@ -1116,7 +1053,10 @@ render(<MyForm />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/properties)": {
@@ -1134,6 +1074,7 @@ render(<MyForm />)
 ```
 
 ## Events
+
 
 ```json
 {

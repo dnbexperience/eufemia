@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.ViewContainer'
 description: '`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.936Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.958Z
 checksum: 860d80482d33f1099e61af4d0bef4096954adb5a37a6228f2b462ddf83cb7822
 ---
 
@@ -61,11 +61,13 @@ The `ViewContainer` component has an `aria-label` attribute, which is set to the
 
 When the item (view and edit) container gets removed, the active element focus will be set on the previous item.
 
+
 ## Demos
 
 <Examples.ViewAndEditContainer />
 
 ## Properties
+
 
 ```json
 {
@@ -77,7 +79,11 @@ When the item (view and edit) container gets removed, the active element focus w
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -89,11 +95,18 @@ When the item (view and edit) container gets removed, the active element focus w
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "SectionViewContainer.editButton": {
       "nb-NO": "Endre",
@@ -106,6 +119,7 @@ When the item (view and edit) container gets removed, the active element focus w
 ```
 
 ## Events
+
 
 ```json
 {

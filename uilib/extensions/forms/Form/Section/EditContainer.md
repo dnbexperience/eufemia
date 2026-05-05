@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.925Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.950Z
 checksum: 32f70c4b6524d47c3512017c15ee7b6dbcbe4a533a5f4b3f97154a1e3dde47e8
 ---
 
@@ -65,51 +65,45 @@ The `EditContainer` component has an `aria-label` attribute, which is set to the
 
 When the edit container becomes active, it will automatically receive the active element focus. And when the edit container switches to the view container, the focus will be set to the view container.
 
+
 ## Demos
 
 This demo shows the edit container opened by default by using the `containerMode="edit"` property.
 
+
 ```tsx
 const MyEditContainer = () => {
-  return (
-    <Form.Section.EditContainer>
-      <Field.Name.First path="/firstName" />
-      <Field.Name.Last path="/lastName" />
-    </Form.Section.EditContainer>
-  )
-}
+  return <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>;
+};
 const MyViewContainer = () => {
-  return (
-    <Form.Section.ViewContainer>
-      <Value.SummaryList>
-        <Value.Name.First path="/firstName" />
-        <Value.Name.Last path="/lastName" />
-      </Value.SummaryList>
-    </Form.Section.ViewContainer>
-  )
-}
-render(
-  <Form.Handler
-    onSubmit={async (data) => console.log('onSubmit', data)}
-    defaultData={{
-      nestedPath: {
-        firstName: 'Nora',
-      },
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Your account</Form.SubHeading>
-      <Form.Section path="/nestedPath" required containerMode="edit">
-        <MyEditContainer />
-        <MyViewContainer />
-      </Form.Section>
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+  return <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora'
+  }
+}}>
+            <Form.Card>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required containerMode="edit">
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -121,7 +115,11 @@ render(
     },
     "variant": {
       "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-      "type": ["\"outline\"", "\"filled\"", "\"basic\""],
+      "type": [
+        "\"outline\"",
+        "\"filled\"",
+        "\"basic\""
+      ],
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -133,11 +131,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "SectionEditContainer.cancelButton": {
       "nb-NO": "Avbryt",
@@ -168,6 +173,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

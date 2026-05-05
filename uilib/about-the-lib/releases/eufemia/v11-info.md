@@ -1,8 +1,8 @@
 ---
 title: 'v11'
 description: 'April 21, 2026'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:20.510Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:11.510Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -1300,7 +1300,6 @@ New props added:
 - The addon helpers `createNumberMask` and `emailMask` have been removed. The following imports no longer work and should be deleted or replaced:
 
   ```tsx
-
   ```
 
 - The backward-compatibility re-export file `InputMaskedHooks` has been removed. If you imported hooks from `@dnb/eufemia/components/input-masked/InputMaskedHooks`, import from `@dnb/eufemia/components/input-masked/hooks` instead.

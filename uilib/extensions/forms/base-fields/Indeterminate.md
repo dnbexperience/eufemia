@@ -1,8 +1,8 @@
 ---
 title: 'Field.Indeterminate'
 description: '`Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.355Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.298Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -49,140 +49,94 @@ The indeterminate state of a parent checkbox should be shown when some children 
 - When some children are checked, the parent should be set in an indeterminate state.
   - When the parent gets clicked, all children should get checked. This behavior can be changed to the opposite or `auto` by using the `propagateIndeterminateState` property. Auto means that the parent will switch from its current state to be inverted.
 
+
 ## Demos
 
 ### Indeterminate state (partially checked)
 
+
 ```tsx
-render(
-  <Form.Handler onChange={console.log}>
-    <Form.Card>
-      <Field.Indeterminate
-        label="Indeterminate"
-        dependencePaths={['/child1', '/child2', '/child3']}
-      />
+render(<Form.Handler onChange={console.log}>
+        <Form.Card>
+          <Field.Indeterminate label="Indeterminate" dependencePaths={['/child1', '/child2', '/child3']} />
 
-      <Field.Toggle
-        label="Checkbox 1"
-        path="/child1"
-        valueOn="what-ever"
-        valueOff="you-name-it"
-        required
-      />
+          <Field.Toggle label="Checkbox 1" path="/child1" valueOn="what-ever" valueOff="you-name-it" required />
 
-      <Field.Boolean label="Checkbox 2" path="/child2" required />
+          <Field.Boolean label="Checkbox 2" path="/child2" required />
 
-      <Field.Toggle
-        label="Checkbox 3"
-        path="/child3"
-        valueOn="on"
-        valueOff="off"
-      />
-    </Form.Card>
+          <Field.Toggle label="Checkbox 3" path="/child3" valueOn="on" valueOff="off" />
+        </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+        <Form.SubmitButton />
+      </Form.Handler>)
 ```
+
 
 ### Nested indeterminate state
 
+
 ```tsx
-render(
-  <Form.Handler onChange={console.log}>
-    <Form.Card>
-      <Field.Indeterminate
-        label="1"
-        path="/p1"
-        dependencePaths={['/c2.1', '/p2.2', '/c3.1', '/c3.2']}
-      />
+render(<Form.Handler onChange={console.log}>
+        <Form.Card>
+          <Field.Indeterminate label="1" path="/p1" dependencePaths={['/c2.1', '/p2.2', '/c3.1', '/c3.2']} />
 
-      <Flex.Stack left="large">
-        <Field.Boolean label="2.1" path="/c2.1" />
-        <Field.Indeterminate
-          label="2.2"
-          valueOn="what-ever"
-          valueOff="you-name-it"
-          path="/p2.2"
-          dependencePaths={['/c3.1', '/c3.2']}
-        />
+          <Flex.Stack left="large">
+            <Field.Boolean label="2.1" path="/c2.1" />
+            <Field.Indeterminate label="2.2" valueOn="what-ever" valueOff="you-name-it" path="/p2.2" dependencePaths={['/c3.1', '/c3.2']} />
 
-        <Flex.Stack left="large">
-          <Field.Boolean label="3.1" path="/c3.1" />
-          <Field.Toggle
-            label="3.2"
-            path="/c3.2"
-            valueOn="what-ever"
-            valueOff="you-name-it"
-          />
-        </Flex.Stack>
-      </Flex.Stack>
-    </Form.Card>
-  </Form.Handler>
-)
+            <Flex.Stack left="large">
+              <Field.Boolean label="3.1" path="/c3.1" />
+              <Field.Toggle label="3.2" path="/c3.2" valueOn="what-ever" valueOff="you-name-it" />
+            </Flex.Stack>
+          </Flex.Stack>
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### Propagate to `auto`, `checked` and `unchecked`
 
+
 ```tsx
 const MyFormContent = () => {
-  const { data } = Form.useData()
-  return (
-    <>
-      <Form.Card>
-        <Field.Selection label="Propagate to" path="/propagate">
-          <Field.Option value="checked">Checked</Field.Option>
-          <Field.Option value="unchecked">Unchecked</Field.Option>
-          <Field.Option value="auto">Auto</Field.Option>
-        </Field.Selection>
+  const {
+    data
+  } = Form.useData();
+  return <>
+              <Form.Card>
+                <Field.Selection label="Propagate to" path="/propagate">
+                  <Field.Option value="checked">Checked</Field.Option>
+                  <Field.Option value="unchecked">Unchecked</Field.Option>
+                  <Field.Option value="auto">Auto</Field.Option>
+                </Field.Selection>
 
-        <Field.Indeterminate
-          label="Indeterminate"
-          dependencePaths={['/child1', '/child2', '/child3']}
-          propagateIndeterminateState={data['propagate']}
-        />
+                <Field.Indeterminate label="Indeterminate" dependencePaths={['/child1', '/child2', '/child3']} propagateIndeterminateState={data['propagate']} />
 
-        <Field.Toggle
-          label="Checkbox 1"
-          path="/child1"
-          valueOn="what-ever"
-          valueOff="you-name-it"
-        />
+                <Field.Toggle label="Checkbox 1" path="/child1" valueOn="what-ever" valueOff="you-name-it" />
 
-        <Field.Boolean label="Checkbox 2" path="/child2" />
+                <Field.Boolean label="Checkbox 2" path="/child2" />
 
-        <Field.Toggle
-          label="Checkbox 3"
-          path="/child3"
-          valueOn="on"
-          valueOff="off"
-        />
-      </Form.Card>
-    </>
-  )
-}
+                <Field.Toggle label="Checkbox 3" path="/child3" valueOn="on" valueOff="off" />
+              </Form.Card>
+            </>;
+};
 const MyForm = () => {
-  return (
-    <Form.Handler
-      id="propagate-demo"
-      defaultData={{
-        propagate: 'checked',
-        child1: 'you-name-it',
-        child2: true,
-        child3: 'on',
-      }}
-      onChange={console.log}
-    >
-      <MyFormContent />
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+  return <Form.Handler id="propagate-demo" defaultData={{
+    propagate: 'checked',
+    child1: 'you-name-it',
+    child2: true,
+    child3: 'on'
+  }} onChange={console.log}>
+              <MyFormContent />
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -194,17 +148,29 @@ render(<MyForm />)
     },
     "propagateIndeterminateState": {
       "doc": "When `checked`, the dependent checkboxes will always be set to \"checked\" when in indeterminate state. When `unchecked`, the dependent checkboxes will be set to \"unchecked\" when in indeterminate state. When \"auto\", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in. Defaults to `checked`.",
-      "type": ["\"checked\"", "\"unchecked\"", "\"auto\""],
+      "type": [
+        "\"checked\"",
+        "\"unchecked\"",
+        "\"auto\""
+      ],
       "status": "optional"
     },
     "valueOn": {
       "doc": "Source data value when the toggle is in the \"on-state\" (varies based on UI variant).",
-      "type": ["string", "number", "boolean"],
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "valueOff": {
       "doc": "Source data value when the toggle is in the \"off-state\".",
-      "type": ["string", "number", "boolean"],
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "size": {
@@ -216,7 +182,9 @@ render(<MyForm />)
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -238,12 +206,20 @@ render(<MyForm />)
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -263,7 +239,10 @@ render(<MyForm />)
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["any", "undefined"],
+      "type": [
+        "any",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -343,7 +322,10 @@ render(<MyForm />)
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -358,12 +340,18 @@ render(<MyForm />)
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -373,17 +361,26 @@ render(<MyForm />)
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },

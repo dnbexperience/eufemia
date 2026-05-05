@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.408Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.504Z
 checksum: 7c98c8e5d60d0db423b6e5ad570d91048ff8cda443f07724825c4ba516792ad0
 ---
 
@@ -59,39 +59,39 @@ Ensure you put a header or a section before the `SkipContent` component. It shou
 
 #### Example with a section landmark (section) and header + `SkipContent.Return`:
 
+
 ```tsx
 <section aria-labelledby="heading-id">
-  <H2 id="heading-id">Description of table</H2>
-   <SkipContent selector="#my-selector" text="Skip table content" />
-   <Table aria-labelledby="heading-id">table content</Table>
-</section>
+    <H2 id="heading-id">Description of table</H2>
+     <SkipContent selector="#my-selector" text="Skip table content" />
+     <Table aria-labelledby="heading-id">table content</Table>
+  </section>
 <section id="my-selector" aria-label="Submit">
-  <div id="submit-form" />
-</section>
+    <div id="submit-form" />
+  </section>
 ```
+
 
 #### Example using a section landmark (section) and table caption:
 
+
 ```tsx
-render(
-  <section aria-labelledby="table-id">
-    <SkipContent selector=".my-selector">Skip table content</SkipContent>
+render(<section aria-labelledby="table-id">
+      <SkipContent selector=".my-selector">Skip table content</SkipContent>
 
-    <Table id="table-id">
-      <caption>Description of table</caption>
-    </Table>
+      <Table id="table-id">
+        <caption>Description of table</caption>
+      </Table>
 
-    <div className="my-selector">
-      <SkipContent.Return
-        selector=".my-selector" // same as SkipContent
-        text="Back to beginning of table"
-      />
+      <div className="my-selector">
+        <SkipContent.Return selector=".my-selector" // same as SkipContent
+    text="Back to beginning of table" />
 
-      <div id="submit-form" />
-    </div>
-  </section>
-)
+        <div id="submit-form" />
+      </div>
+    </section>)
 ```
+
 
 ### Return button
 
@@ -103,36 +103,34 @@ The `SkipContent` helper component is mainly dedicated to keyboard navigation.
 
 In order to let screen readers skip large parts of content, you need to ensure your HTML has [logical landmarks and regions](/uilib/usage/accessibility/checklist/#landmark--and-semantics-example).
 
+
 ## Demos
 
 ### SkipContent with section
 
+
 ```tsx
 <section aria-labelledby="table-with-caption heading">
-  <H4 id="heading" space={0}>
-    This table has many focusable elements
-  </H4>
-   <SkipContent selector="#submit-area" text="Skip table content" top />
-   <LargeTableWithInteractiveElements id="table-with-caption" />
-</section>
-<Section
-  id="submit-area"
-  innerSpace={{
-    block: 'small',
-  }}
-  variant="divider"
-  top
->
-  <SkipContent.Return selector="#submit-area" bottom>
-    Back to beginning of table
-  </SkipContent.Return>
-   <Button>Submit</Button>
-</Section>
+    <H4 id="heading" space={0}>
+      This table has many focusable elements
+    </H4>
+     <SkipContent selector="#submit-area" text="Skip table content" top />
+     <LargeTableWithInteractiveElements id="table-with-caption" />
+  </section>
+<Section id="submit-area" innerSpace={{
+block: 'small'
+}} variant="divider" top>
+    <SkipContent.Return selector="#submit-area" bottom>
+      Back to beginning of table
+    </SkipContent.Return>
+     <Button>Submit</Button>
+  </Section>
 ```
 
 ## Properties
 
 The following properties applies to `SkipContent.Return` as well.
+
 
 ```json
 {

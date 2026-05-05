@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSubmit'
 description: '`Form.useSubmit` lets you trigger form submit from outside the form element, e.g. when the submit button is in a modal footer or toolbar.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.017Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.011Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -53,76 +53,72 @@ function MyForm() {
 
 - `submit(): Promise<EventStateObject | undefined>` – Triggers form submit (validation + `onSubmit`). Returns a Promise that resolves with the `onSubmit` result, or `undefined` if validation fails or `onSubmit` returns nothing.
 
+
 ## Demos
 
 ### Submit button outside the form
 
 The submit button is rendered outside `Form.Handler` and uses `Form.useSubmit()` to trigger submit. Validation and `onSubmit` run as when using [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) inside the form.
 
-```tsx
-const formId = 'my-form'
-const ExternalSubmitButton = () => {
-  const { submit } = Form.useSubmit(formId)
-  return (
-    <Button onClick={() => submit()}>Submit (outside Form.Handler)</Button>
-  )
-}
-render(
-  <Flex.Stack>
-    <Form.Handler
-      id={formId}
-      onSubmit={(data) => {
-        console.log('Submitted:', data)
-      }}
-    >
-      <Form.Card>
-        <Field.Name.First path="/name" value="John" />
-      </Form.Card>
-    </Form.Handler>
 
-    <ExternalSubmitButton />
-  </Flex.Stack>
-)
+```tsx
+const formId = 'my-form';
+const ExternalSubmitButton = () => {
+  const {
+    submit
+  } = Form.useSubmit(formId);
+  return <Button onClick={() => submit()}>
+              Submit (outside Form.Handler)
+            </Button>;
+};
+render(<Flex.Stack>
+            <Form.Handler id={formId} onSubmit={data => {
+    console.log('Submitted:', data);
+  }}>
+              <Form.Card>
+                <Field.Name.First path="/name" value="John" />
+              </Form.Card>
+            </Form.Handler>
+
+            <ExternalSubmitButton />
+          </Flex.Stack>);
 ```
+
 
 ### Async submit
 
 The `submit()` function returns a Promise. You can await it to show loading state or react to the result or errors:
 
+
 ```tsx
-const formId = 'my-form-async'
+const formId = 'my-form-async';
 const ExternalSubmitButton = () => {
-  const { submit } = Form.useSubmit(formId)
-  const [loading, setLoading] = React.useState(false)
+  const {
+    submit
+  } = Form.useSubmit(formId);
+  const [loading, setLoading] = React.useState(false);
   const handleClick = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const result = await submit()
-      console.log('Submit result:', result)
+      const result = await submit();
+      console.log('Submit result:', result);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-  return (
-    <Button onClick={handleClick} disabled={loading}>
-      {loading ? 'Submitting…' : 'Submit'}
-    </Button>
-  )
-}
-render(
-  <Flex.Stack>
-    <Form.Handler
-      id={formId}
-      onSubmit={async (data) => {
-        await new Promise((r) => setTimeout(r, 1000))
-        console.log('Submitted:', data)
-      }}
-    >
-      <Form.Card>
-        <Field.Name.First path="/name" value="John" />
-      </Form.Card>
-    </Form.Handler>
-    <ExternalSubmitButton />
-  </Flex.Stack>
-)
+  };
+  return <Button onClick={handleClick} disabled={loading}>
+              {loading ? 'Submitting…' : 'Submit'}
+            </Button>;
+};
+render(<Flex.Stack>
+            <Form.Handler id={formId} onSubmit={async data => {
+    await new Promise(r => setTimeout(r, 1000));
+    console.log('Submitted:', data);
+  }}>
+              <Form.Card>
+                <Field.Name.First path="/name" value="John" />
+              </Form.Card>
+            </Form.Handler>
+            <ExternalSubmitButton />
+          </Flex.Stack>);
 ```

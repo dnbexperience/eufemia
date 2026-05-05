@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.398Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.327Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -35,185 +35,151 @@ There is a corresponding [Value.PostalCodeAndCity](/uilib/extensions/forms/Value
 
 Read more about how to use the [Bring API](/uilib/extensions/forms/Connectors/Bring/) to validate and autofill a postal code and city name.
 
+
 ## Demos
 
 ### Empty
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      onChange: (value) => console.log('city onChange', value),
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  onChange: value => console.log('city onChange', value)
+}} />)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      placeholder: '????',
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      placeholder: 'Your city',
-      onChange: (value) => console.log('city onChange', value),
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  placeholder: '????',
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  placeholder: 'Your city',
+  onChange: value => console.log('city onChange', value)
+}} />)
 ```
+
 
 ### Label
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      label: 'PNR',
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      label: 'CTY',
-      onChange: (value) => console.log('city onChange', value),
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  label: 'PNR',
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  label: 'CTY',
+  onChange: value => console.log('city onChange', value)
+}} />)
 ```
+
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      label: 'Pnr.',
-      value: '0788',
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      value: 'Oslo',
-      onChange: (value) => console.log('city onChange', value),
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  label: 'Pnr.',
+  value: '0788',
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  value: 'Oslo',
+  onChange: value => console.log('city onChange', value)
+}} />)
 ```
+
 
 ### Iterate over array
 
 By using the `itemPath` property, you can iterate over an array and use the `postalCode` and `city` properties to render the fields.
 
+
 ```tsx
-render(
-  <Iterate.Array
-    value={[
-      {
-        postalCode: '0788',
-        city: 'Oslo',
-      },
-      {
-        postalCode: '0789',
-        city: 'Bergen',
-      },
-    ]}
-  >
-    <Field.PostalCodeAndCity
-      postalCode={{
-        itemPath: '/postalCode',
-      }}
-      city={{
-        itemPath: '/city',
-      }}
-    />
-  </Iterate.Array>
-)
+render(<Iterate.Array value={[{
+  postalCode: '0788',
+  city: 'Oslo'
+}, {
+  postalCode: '0789',
+  city: 'Bergen'
+}]}>
+        <Field.PostalCodeAndCity postalCode={{
+    itemPath: '/postalCode'
+  }} city={{
+    itemPath: '/city'
+  }} />
+      </Iterate.Array>)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      value: '1234',
-      disabled: true,
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      value: 'Oslo',
-      disabled: true,
-      onChange: (value) => console.log('city onChange', value),
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  value: '1234',
+  disabled: true,
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  value: 'Oslo',
+  disabled: true,
+  onChange: value => console.log('city onChange', value)
+}} />)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      onChange: (value) => console.log('postalCode onChange', value),
-    }}
-    city={{
-      onChange: (value) => console.log('city onChange', value),
-    }}
-    help={{
-      title: 'Help is available',
-      content:
-        'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  onChange: value => console.log('postalCode onChange', value)
+}} city={{
+  onChange: value => console.log('city onChange', value)
+}} help={{
+  title: 'Help is available',
+  content: 'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.'
+}} />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{}}
-    city={{}}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{}} city={{}} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      required: true,
-    }}
-    city={{
-      required: true,
-    }}
-  />
-)
+render(<Field.PostalCodeAndCity postalCode={{
+  required: true
+}} city={{
+  required: true
+}} />)
 ```
+
 
 ### Path Based Country
 
 The `country` property supports a field path as value. This allows you to set the `country` based on the value of another field.
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.SelectCountry path="/country" defaultValue="NO" />
-      <Field.PostalCodeAndCity countryCode="/country" />
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Form.Card>
+          <Field.SelectCountry path="/country" defaultValue="NO" />
+          <Field.PostalCodeAndCity countryCode="/country" />
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### Non-Norwegian Postal Codes
 
@@ -221,61 +187,54 @@ If you want to allow for a postal code that is not Norwegian, just set the `coun
 
 NB: As of today, setting `country` property to anything other than `NO` will only remove the default norwegian postal code pattern, mask, and placeholder, but not actually set the postal code pattern, mask, and placeholder for the value provided to the `country` property. This functionality will hopefully be implemented in the future.
 
-```tsx
-render(
-  <Form.Handler
-    translations={{
-      'nb-NO': {
-        'PostalCode.errorPattern':
-          'Dette er ikke et gyldig postnummer (fem siffer).',
-      },
-      'en-GB': {
-        'PostalCode.errorPattern':
-          'This is not a valid postal code (five-digits).',
-      },
-    }}
-  >
-    <Field.PostalCodeAndCity
-      countryCode="DE"
-      postalCode={{
-        pattern: '^[0-9]{5}$',
-        onBlurValidator: undefined,
-        mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
-        placeholder: '00000',
-        width: '5.4rem',
-      }}
-      city={{
-        pattern: '^[a-zA-ZäöüÄÖÜß -]+$',
-        width: 'stretch',
-      }}
-    />
-  </Form.Handler>
-)
-```
 
 ```tsx
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      label: 'With a very long label',
-    }}
-    city={{
-      label: 'With a very long label',
-    }}
-  />
-)
+render(<Form.Handler translations={{
+  'nb-NO': {
+    'PostalCode.errorPattern': 'Dette er ikke et gyldig postnummer (fem siffer).'
+  },
+  'en-GB': {
+    'PostalCode.errorPattern': 'This is not a valid postal code (five-digits).'
+  }
+}}>
+        <Field.PostalCodeAndCity countryCode="DE" postalCode={{
+    pattern: '^[0-9]{5}$',
+    onBlurValidator: undefined,
+    mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
+    placeholder: '00000',
+    width: '5.4rem'
+  }} city={{
+    pattern: '^[a-zA-ZäöüÄÖÜß -]+$',
+    width: 'stretch'
+  }} />
+      </Form.Handler>)
+```
+
+
+
+  
+```tsx
+render(<Field.PostalCodeAndCity postalCode={{
+  label: 'With a very long label'
+}} city={{
+  label: 'With a very long label'
+}} />)
 ```
 
 ## Properties
 
 ### Field-specific properties
 
+
 ```json
 {
   "props": {
     "countryCode": {
       "doc": "Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) i.e. `NO`, `DE` etc. Setting it to anything other than `NO` will remove the default norwegian postal code pattern. You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`. Defaults to `NO`.",
-      "type": ["Path", "string"],
+      "type": [
+        "Path",
+        "string"
+      ],
       "status": "optional"
     },
     "postalCode": {
@@ -295,14 +254,19 @@ render(
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -329,7 +293,10 @@ render(
     },
     "labelSize": {
       "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -344,12 +311,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -359,17 +332,26 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "labelHeight": {
@@ -384,7 +366,10 @@ render(
     },
     "align": {
       "doc": "`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "disableStatusSummary": {
@@ -403,15 +388,26 @@ render(
       "status": "optional"
     }
   },
-  "pick": ["width", "help", "[Space](/uilib/layout/space/properties)"]
+  "pick": [
+    "width",
+    "help",
+    "[Space](/uilib/layout/space/properties)"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "City.errorPattern": {
       "nb-NO": "Du må skrive inn et gyldig stedsnavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
@@ -490,6 +486,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

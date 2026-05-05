@@ -1,8 +1,8 @@
 ---
 title: 'Field.SelectCountry'
 description: '`Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.400Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.329Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -93,155 +93,113 @@ const onFocus = (value, country) => {}
 }
 ```
 
+
 ## Demos
 
 ### Option selected
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    onChange={(value, obj) => console.log('onChange', value, obj)}
-  />
-)
+render(<Field.SelectCountry value="NO" onChange={(value, obj) => console.log('onChange', value, obj)} />)
 ```
+
 
 ### With a horizontal layout
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    layout="horizontal"
-    layoutOptions={{
-      width: '6rem',
-    }}
-  />
-)
+render(<Field.SelectCountry value="NO" layout="horizontal" layoutOptions={{
+  width: '6rem'
+}} />)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    label="Label text"
-    help={{
-      title: 'Help is available',
-      content:
-        'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
-    }}
-    onChange={(value, obj) => console.log('onChange', value, obj)}
-  />
-)
+render(<Field.SelectCountry value="NO" label="Label text" help={{
+  title: 'Help is available',
+  content: 'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.'
+}} onChange={(value, obj) => console.log('onChange', value, obj)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    label="Label text"
-    onChange={(value, obj) => console.log('onChange', value, obj)}
-    disabled
-  />
-)
+render(<Field.SelectCountry value="NO" label="Label text" onChange={(value, obj) => console.log('onChange', value, obj)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    label="Label text"
-    onChange={(value, obj) => console.log('onChange', value, obj)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.SelectCountry value="NO" label="Label text" onChange={(value, obj) => console.log('onChange', value, obj)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.SelectCountry
-    label="Label text"
-    onChange={(value, obj) => console.log('onChange', value, obj)}
-    required
-    validateInitially
-    validateUnchanged
-  />
-)
+render(<Field.SelectCountry label="Label text" onChange={(value, obj) => console.log('onChange', value, obj)} required validateInitially validateUnchanged />)
 ```
 
+
 ### TransformIn and TransformOut
+
 
 ```tsx
 // From the Field (internal value) to the data context or event parameter
 const transformOut = (value, country) => {
   if (value) {
-    return country
+    return country;
   }
-}
+};
 
 // To the Field (from e.g. defaultValue)
 // To the Field (from e.g. defaultValue)
-const transformIn = (country) => {
-  return country?.iso
-}
+const transformIn = country => {
+  return country?.iso;
+};
 const MyForm = () => {
-  return (
-    <Form.Handler onSubmit={console.log}>
-      <Form.Card>
-        <Field.SelectCountry
-          path="/country"
-          transformIn={transformIn}
-          transformOut={transformOut}
-          defaultValue="NO"
-        />
+  return <Form.Handler onSubmit={console.log}>
+              <Form.Card>
+                <Field.SelectCountry path="/country" transformIn={transformIn} transformOut={transformOut} defaultValue="NO" />
 
-        <Value.SelectCountry
-          path="/country"
-          transformIn={transformIn}
-          placeholder="(Select a country)"
-          showEmpty
-        />
+                <Value.SelectCountry path="/country" transformIn={transformIn} placeholder="(Select a country)" showEmpty />
 
-        <Form.SubHeading>Data Context</Form.SubHeading>
-        <Tools.Log />
-      </Form.Card>
-      <Form.SubmitButton />
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Form.SubHeading>Data Context</Form.SubHeading>
+                <Tools.Log />
+              </Form.Card>
+              <Form.SubmitButton />
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Filter countries
 
 This example demonstrates how to filter specific countries. Use the `countries` property to define a set of countries and/or the `filterCountries` property to apply custom filtering logic.
 
-```tsx
-render(
-  <Field.SelectCountry
-    countries="Scandinavia"
-    filterCountries={({ iso }) => iso !== 'DK'}
-  />
-)
-```
 
 ```tsx
-render(
-  <Field.SelectCountry
-    value="NO"
-    htmlAttributes={{
-      opened: true,
-    }}
-  />
-)
+render(<Field.SelectCountry countries="Scandinavia" filterCountries={({
+  iso
+}) => iso !== 'DK'} />)
+```
+
+
+
+  
+```tsx
+render(<Field.SelectCountry value="NO" htmlAttributes={{
+  opened: true
+}} />)
 ```
 
 ### Field-specific properties
@@ -249,6 +207,7 @@ render(
 <PropertiesTable props={SelectCountryProperties} />
 
 ### General properties
+
 
 ```json
 {
@@ -270,12 +229,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -295,7 +262,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -375,7 +345,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -390,12 +363,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -405,28 +384,44 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -485,6 +480,7 @@ render(
   }
 }
 ```
+
 
 ## List of available countries
 

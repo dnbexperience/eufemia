@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.151Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.304Z
 checksum: 81d2fd74236351b8fe0315805263344b8c22fd30effa05c50ee9683818ab648c
 ---
 
@@ -40,303 +40,16 @@ For more details regarding the component functionality, check out the [Modal doc
 
 The Drawer component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
 
+
 ## Demos
 
 ### Basic Drawer
 
-```tsx
-render(
-  <Drawer
-    title="Drawer title"
-    triggerAttributes={{
-      text: 'Open drawer',
-    }}
-  >
-    <P top>Some informational content</P>
-    <P top>
-      Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-      ultrices tempus urna curae parturient conubia quisque viverra eget
-      vestibulum neque pulvinar semper vulputate id dis varius pellentesque
-      nunc egestas risus amet mus aptent luctus imperdiet netus natoque
-      cubilia mattis nostra proin ornare scelerisque sodales faucibus
-      placerat sem bibendum pretium rutrum vitae sociis ligula inceptos
-      morbi quam mi sed pharetra fermentum tortor ullamcorper ipsum tellus
-      eros euismod volutpat nisl dui lectus fames suscipit phasellus
-      praesent justo mollis montes velit taciti gravida
-    </P>
-  </Drawer>
-)
-```
-
-### Basic Drawer left placement
 
 ```tsx
-render(
-  <Drawer title="Drawer title" containerPlacement="left">
-    <P top>Some informational content</P>
-    <P top>
-      Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-      ultrices tempus urna curae parturient conubia quisque viverra eget
-      vestibulum neque pulvinar semper vulputate id dis varius pellentesque
-      nunc egestas risus amet
-    </P>
-  </Drawer>
-)
-```
-
-### Basic Drawer in fullscreen
-
-```tsx
-render(
-  <Drawer
-    fullscreen
-    title="Drawer title"
-    triggerAttributes={{
-      text: 'Open drawer',
-    }}
-  >
-    <P top>Some informational content</P>
-    <P top>
-      Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-      ultrices tempus urna curae parturient conubia quisque viverra eget
-      vestibulum neque pulvinar semper vulputate id dis varius pellentesque
-      nunc egestas risus amet
-    </P>
-  </Drawer>
-)
-```
-
-### Drawer with custom content
-
-```tsx
-render(
-  <Drawer title="Custom title">
-    <Drawer.Navigation>
-      <Breadcrumb onClick={handleBack} />
-    </Drawer.Navigation>
-    <Drawer.Header>
-      <P bottom>This is a lorem ipsum dolor</P>
-      <Button bottom size="large">
-        Lorem ipsum
-      </Button>
-      <Button bottom size="large" variant="secondary">
-        Dolor sit
-      </Button>
-      <FormStatus state="information">
-        This is a lorem ipsum dolor
-      </FormStatus>
-      <Tabs
-        id="unique-linked-id"
-        data={[
-          {
-            title: 'One',
-            key: 'one',
-          },
-          {
-            title: 'Two',
-            key: 'two',
-          },
-        ]}
-      />
-    </Drawer.Header>
-    <Drawer.Body>
-      <Tabs.Content id="unique-linked-id" key="contentKey">
-        {({ title }) => {
-          return (
-            <>
-              <H2>{title}</H2>
-              <P top>This is a left aligned Drawer content.</P>
-              <P top>
-                Elementum eu suspendisse sit platea elit porttitor magna
-                laoreet ad ultrices tempus urna curae parturient conubia
-                quisque viverra eget vestibulum neque pulvinar semper
-                vulputate id dis varius pellentesque nunc egestas risus
-                amet mus aptent luctus imperdiet netus natoque cubilia
-                mattis nostra proin ornare scelerisque sodales faucibus
-                placerat sem bibendum pretium rutrum vitae sociis ligula
-                inceptos morbi quam mi sed pharetra fermentum tortor
-                ullamcorper ipsum tellus eros euismod volutpat nisl dui
-                lectus fames suscipit phasellus praesent justo mollis
-                montes velit taciti gravida lacus commodo senectus feugiat
-                lorem etiam consequat penatibus cum hendrerit accumsan orci
-                potenti purus nulla
-              </P>
-            </>
-          )
-        }}
-      </Tabs.Content>
-    </Drawer.Body>
-  </Drawer>
-)
-```
-
-### Customize trigger button
-
-```tsx
-render(
-  <Drawer
-    title="Drawer with custom trigger"
-    triggerAttributes={{
-      text: 'Custom trigger',
-      variant: 'primary',
-      size: 'large',
-      icon: 'loupe',
-      iconPosition: 'left',
-    }}
-  >
-    <Drawer.Body
-      innerSpace={{
-        block: 'large',
-      }}
-    >
-      <P>Opened a Drawer with a custom trigger button!</P>
-    </Drawer.Body>
-  </Drawer>
-)
-```
-
-### Close Drawer by callback method
-
-```tsx
-render(
-  <Drawer
-    title="Drawer title"
-    triggerAttributes={{
-      text: 'Open drawer',
-    }}
-    hideCloseButton
-  >
-    {/* @ts-expect-error -- strictFunctionTypes */}
-    {({ close }) => (
-      <>
-        <Button text="Close by callback" onClick={close} />
-      </>
-    )}
-  </Drawer>
-)
-```
-
-### Remove animation and spacing
-
-```tsx
-render(
-  <Drawer
-    title="No spacing or animation"
-    noAnimation
-    spacing={false}
-    hideCloseButton
-  >
-    <Drawer.Body>
-      <P top bottom>
-        This is a lorem ipsum dolor
-      </P>
-      <Button bottom size="large">
-        Lorem ipsum
-      </Button>
-      <Button bottom size="large" variant="secondary">
-        Dolor sit
-      </Button>
-      <FormStatus state="information">
-        This is a lorem ipsum dolor
-      </FormStatus>
-    </Drawer.Body>
-  </Drawer>
-)
-```
-
-```tsx
-const DrawerMock = () => {
-  const scrollRef = React.useRef(null)
-  const ref = React.useRef(null)
-  const [errorMessage, setErrorMessage] = React.useState(null)
-  const message = errorMessage
-    ? errorMessage
-    : 'Yes, the "dnb-scroll-view" is used!'
-  return (
-    <Drawer
-      contentRef={ref}
-      scrollRef={scrollRef}
-      onOpen={() => {
-        const innerOverflowY = window.getComputedStyle(
-          ref.current
-        ).overflowY
-        const contentElem = scrollRef.current.querySelector(
-          '.dnb-drawer__content'
-        )
-        const contentOverflowY =
-          window.getComputedStyle(contentElem)?.overflowY
-        const scrollOverflowY = window.getComputedStyle(
-          scrollRef.current
-        ).overflowY
-        if (contentOverflowY !== 'visible') {
-          setErrorMessage(
-            `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`
-          )
-        } else if (innerOverflowY !== 'visible') {
-          setErrorMessage(
-            `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`
-          )
-        } else if (scrollOverflowY !== 'auto') {
-          setErrorMessage('.dnb-scroll-view was not "auto"')
-        }
-      }}
-    >
-      <Drawer.Body>
-        <div
-          style={{
-            height: '100rem',
-          }}
-        >
-          <div className="drawer-scroll-view">
-            <P size="x-large">{message}</P>
-          </div>
-        </div>
-      </Drawer.Body>
-    </Drawer>
-  )
-}
-render(<DrawerMock />)
-```
-
-```tsx
-render(
-  <Drawer title="Drawer title" containerPlacement="top">
-    <P top>Some informational content</P>
-    <P top>
-      Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-      ultrices tempus urna curae parturient conubia quisque viverra eget
-      vestibulum neque pulvinar semper vulputate id dis varius pellentesque
-      nunc egestas risus amet
-    </P>
-  </Drawer>
-)
-```
-
-```tsx
-render(
-  <Drawer title="Drawer title" containerPlacement="bottom">
-    <P top>Some informational content</P>
-    <P top>
-      Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-      ultrices tempus urna curae parturient conubia quisque viverra eget
-      vestibulum neque pulvinar semper vulputate id dis varius pellentesque
-      nunc egestas risus amet
-    </P>
-  </Drawer>
-)
-```
-
-```tsx
-const MockComponent = () => {
-  const scrollRef = React.useRef(null)
-  return (
-    <Drawer
-      title="Drawer title"
-      scrollRef={scrollRef}
-      onOpen={() => {
-        scrollRef.current.scrollTop = 50
-      }}
-    >
+render(<Drawer title="Drawer title" triggerAttributes={{
+  text: 'Open drawer'
+}}>
       <P top>Some informational content</P>
       <P top>
         Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
@@ -350,59 +63,51 @@ const MockComponent = () => {
         fames suscipit phasellus praesent justo mollis montes velit taciti
         gravida
       </P>
-      <P top>
-        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-        ultrices tempus urna curae parturient conubia quisque viverra eget
-        vestibulum neque pulvinar semper vulputate id dis varius
-        pellentesque nunc egestas risus amet mus aptent luctus imperdiet
-        netus natoque cubilia mattis nostra proin ornare scelerisque
-        sodales faucibus placerat sem bibendum pretium rutrum vitae sociis
-        ligula inceptos morbi quam mi sed pharetra fermentum tortor
-        ullamcorper ipsum tellus eros euismod volutpat nisl dui lectus
-        fames suscipit phasellus praesent justo mollis montes velit taciti
-        gravida
-      </P>
-
-      <P top>
-        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
-        ultrices tempus urna curae parturient conubia quisque viverra eget
-        vestibulum neque pulvinar semper vulputate id dis varius
-        pellentesque nunc egestas risus amet mus aptent luctus imperdiet
-        netus natoque cubilia mattis nostra proin ornare scelerisque
-        sodales faucibus placerat sem bibendum pretium rutrum vitae sociis
-        ligula inceptos morbi quam mi sed pharetra fermentum tortor
-        ullamcorper ipsum tellus eros euismod volutpat nisl dui lectus
-        fames suscipit phasellus praesent justo mollis montes velit taciti
-        gravida
-      </P>
-    </Drawer>
-  )
-}
-render(<MockComponent />)
+    </Drawer>)
 ```
 
+
+### Basic Drawer left placement
+
+
 ```tsx
-const MockComponent = () => {
-  const [showMe, setShowMe] = React.useState(false)
-  const scrollRef = React.useRef(null)
-  return (
-    <Drawer
-      title="Drawer title"
-      scrollRef={scrollRef}
-      onOpen={() => {
-        setShowMe(!showMe)
-        scrollRef.current.scrollTop = 50
-      }}
-    >
+render(<Drawer title="Drawer title" containerPlacement="left">
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>)
+```
+
+
+### Basic Drawer in fullscreen
+
+
+```tsx
+render(<Drawer fullscreen title="Drawer title" triggerAttributes={{
+  text: 'Open drawer'
+}}>
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>)
+```
+
+
+### Drawer with custom content
+
+
+```tsx
+render(<Drawer title="Custom title">
       <Drawer.Navigation>
-        {showMe ? (
-          <>
-            <P bottom>This is a lorem ipsum dolor</P>
-            <P bottom>This is a lorem ipsum dolor</P>
-            <P bottom>This is a lorem ipsum dolor</P>
-            <P bottom>This is a lorem ipsum dolor</P>
-          </>
-        ) : null}
+        <Breadcrumb onClick={handleBack} />
       </Drawer.Navigation>
       <Drawer.Header>
         <P bottom>This is a lorem ipsum dolor</P>
@@ -415,65 +120,305 @@ const MockComponent = () => {
         <FormStatus state="information">
           This is a lorem ipsum dolor
         </FormStatus>
-        <Tabs
-          id="unique-linked-id-x"
-          data={[
-            {
-              title: 'One',
-              key: 'one',
-            },
-            {
-              title: 'Two',
-              key: 'two',
-            },
-          ]}
-        />
+        <Tabs id="unique-linked-id" data={[{
+      title: 'One',
+      key: 'one'
+    }, {
+      title: 'Two',
+      key: 'two'
+    }]} />
       </Drawer.Header>
       <Drawer.Body>
-        <Tabs.Content id="unique-linked-id-x" key="contentKey0">
-          {({ title }) => {
-            return (
-              <>
+        <Tabs.Content id="unique-linked-id" key="contentKey">
+          {({
+        title
+      }) => {
+        return <>
                 <H2>{title}</H2>
-
                 <P top>This is a left aligned Drawer content.</P>
                 <P top>
                   Elementum eu suspendisse sit platea elit porttitor magna
                   laoreet ad ultrices tempus urna curae parturient conubia
                   quisque viverra eget vestibulum neque pulvinar semper
-                  vulputate id dis
+                  vulputate id dis varius pellentesque nunc egestas risus
+                  amet mus aptent luctus imperdiet netus natoque cubilia
+                  mattis nostra proin ornare scelerisque sodales faucibus
+                  placerat sem bibendum pretium rutrum vitae sociis ligula
+                  inceptos morbi quam mi sed pharetra fermentum tortor
+                  ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                  lectus fames suscipit phasellus praesent justo mollis
+                  montes velit taciti gravida lacus commodo senectus
+                  feugiat lorem etiam consequat penatibus cum hendrerit
+                  accumsan orci potenti purus nulla
                 </P>
-                <P top>
-                  Elementum eu suspendisse sit platea elit porttitor magna
-                  laoreet ad ultrices tempus urna curae parturient conubia
-                  quisque viverra eget vestibulum neque pulvinar semper
-                  vulputate id dis
-                </P>
-                <P top>
-                  Elementum eu suspendisse sit platea elit porttitor magna
-                  laoreet ad ultrices tempus urna curae parturient conubia
-                  quisque viverra eget vestibulum neque pulvinar semper
-                  vulputate id dis
-                </P>
-              </>
-            )
-          }}
+              </>;
+      }}
         </Tabs.Content>
       </Drawer.Body>
-    </Drawer>
-  )
-}
-render(<MockComponent />)
+    </Drawer>)
+```
+
+
+### Customize trigger button
+
+
+```tsx
+render(<Drawer title="Drawer with custom trigger" triggerAttributes={{
+  text: 'Custom trigger',
+  variant: 'primary',
+  size: 'large',
+  icon: 'loupe',
+  iconPosition: 'left'
+}}>
+      <Drawer.Body innerSpace={{
+    block: 'large'
+  }}>
+        <P>Opened a Drawer with a custom trigger button!</P>
+      </Drawer.Body>
+    </Drawer>)
+```
+
+
+### Close Drawer by callback method
+
+
+```tsx
+render(<Drawer title="Drawer title" triggerAttributes={{
+  text: 'Open drawer'
+}} hideCloseButton>
+      {/* @ts-expect-error -- strictFunctionTypes */}
+      {({
+    close
+  }) => <>
+          <Button text="Close by callback" onClick={close} />
+        </>}
+    </Drawer>)
+```
+
+
+### Remove animation and spacing
+
+
+```tsx
+render(<Drawer title="No spacing or animation" noAnimation spacing={false} hideCloseButton>
+      <Drawer.Body>
+        <P top bottom>
+          This is a lorem ipsum dolor
+        </P>
+        <Button bottom size="large">
+          Lorem ipsum
+        </Button>
+        <Button bottom size="large" variant="secondary">
+          Dolor sit
+        </Button>
+        <FormStatus state="information">
+          This is a lorem ipsum dolor
+        </FormStatus>
+      </Drawer.Body>
+    </Drawer>)
+```
+
+
+
+  
+```tsx
+const DrawerMock = () => {
+  const scrollRef = React.useRef(null);
+  const ref = React.useRef(null);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const message = errorMessage ? errorMessage : 'Yes, the "dnb-scroll-view" is used!';
+  return <Drawer contentRef={ref} scrollRef={scrollRef} onOpen={() => {
+    const innerOverflowY = window.getComputedStyle(ref.current).overflowY;
+    const contentElem = scrollRef.current.querySelector('.dnb-drawer__content');
+    const contentOverflowY = window.getComputedStyle(contentElem)?.overflowY;
+    const scrollOverflowY = window.getComputedStyle(scrollRef.current).overflowY;
+    if (contentOverflowY !== 'visible') {
+      setErrorMessage(`.dnb-drawer__content was "${contentOverflowY}" and not "visible"`);
+    } else if (innerOverflowY !== 'visible') {
+      setErrorMessage(`.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`);
+    } else if (scrollOverflowY !== 'auto') {
+      setErrorMessage('.dnb-scroll-view was not "auto"');
+    }
+  }}>
+            <Drawer.Body>
+              <div style={{
+        height: '100rem'
+      }}>
+                <div className="drawer-scroll-view">
+                  <P size="x-large">{message}</P>
+                </div>
+              </div>
+            </Drawer.Body>
+          </Drawer>;
+};
+render(<DrawerMock />);
+```
+
+  
+```tsx
+render(<Drawer title="Drawer title" containerPlacement="top">
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>)
+```
+
+  
+```tsx
+render(<Drawer title="Drawer title" containerPlacement="bottom">
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>)
+```
+
+  
+```tsx
+const MockComponent = () => {
+  const scrollRef = React.useRef(null);
+  return <Drawer title="Drawer title" scrollRef={scrollRef} onOpen={() => {
+    scrollRef.current.scrollTop = 50;
+  }}>
+              <P top>Some informational content</P>
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+            </Drawer>;
+};
+render(<MockComponent />);
+```
+
+  
+```tsx
+const MockComponent = () => {
+  const [showMe, setShowMe] = React.useState(false);
+  const scrollRef = React.useRef(null);
+  return <Drawer title="Drawer title" scrollRef={scrollRef} onOpen={() => {
+    setShowMe(!showMe);
+    scrollRef.current.scrollTop = 50;
+  }}>
+              <Drawer.Navigation>
+                {showMe ? <>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                  </> : null}
+              </Drawer.Navigation>
+              <Drawer.Header>
+                <P bottom>This is a lorem ipsum dolor</P>
+                <Button bottom size="large">
+                  Lorem ipsum
+                </Button>
+                <Button bottom size="large" variant="secondary">
+                  Dolor sit
+                </Button>
+                <FormStatus state="information">
+                  This is a lorem ipsum dolor
+                </FormStatus>
+                <Tabs id="unique-linked-id-x" data={[{
+        title: 'One',
+        key: 'one'
+      }, {
+        title: 'Two',
+        key: 'two'
+      }]} />
+              </Drawer.Header>
+              <Drawer.Body>
+                <Tabs.Content id="unique-linked-id-x" key="contentKey0">
+                  {({
+          title
+        }) => {
+          return <>
+                        <H2>{title}</H2>
+
+                        <P top>This is a left aligned Drawer content.</P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                      </>;
+        }}
+                </Tabs.Content>
+              </Drawer.Body>
+            </Drawer>;
+};
+render(<MockComponent />);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "containerPlacement": {
       "doc": "Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"left\"",
+        "\"right\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "title": {
@@ -483,12 +428,18 @@ render(<MockComponent />)
     },
     "minWidth": {
       "doc": "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "maxWidth": {
       "doc": "The maximum Drawer content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "className": {
@@ -523,27 +474,40 @@ render(<MockComponent />)
     },
     "alignContent": {
       "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `centered` and `right`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"centered\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"centered\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "fullscreen": {
       "doc": "If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "scrollbarGutter": {
       "doc": "Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` when spacing is enabled. Set to `false` to disable.",
-      "type": ["\"stable\"", "false"],
+      "type": [
+        "\"stable\"",
+        "false"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### More properties
 
 The properties of [Modal](/uilib/components/modal) formatted as camel case are also provided.
 See the table below:
+
 
 ```json
 {
@@ -565,12 +529,18 @@ See the table below:
     },
     "children": {
       "doc": "The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "fullscreen": {
       "doc": "If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "open": {
@@ -580,7 +550,10 @@ See the table below:
     },
     "openDelay": {
       "doc": "Forces the modal to delay the opening. The delay is given in `ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "disabled": {
@@ -600,7 +573,10 @@ See the table below:
     },
     "animationDuration": {
       "doc": "Duration of animation open/close in ms. Defaults to `300ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "preventClose": {
@@ -645,7 +621,10 @@ See the table below:
     },
     "trigger": {
       "doc": "Provide a custom trigger component. Like `trigger={<Anchor href=\"/\" />}`. It will set the focus on it when the modal gets closed.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "triggerAttributes": {
@@ -680,7 +659,10 @@ See the table below:
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "spacing": {
@@ -695,42 +677,70 @@ See the table below:
     },
     "modalContent": {
       "doc": "The content which will appear when triggering the modal/drawer. Alternative to `children`.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "barContent": {
       "doc": "The content which will appear in the bar, above the header, and side-by-side the close button.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "headerContent": {
       "doc": "The content which will appear in the header of the modal/drawer.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "minWidth": {
       "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "maxWidth": {
       "doc": "The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "alignContent": {
       "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"centered\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"centered\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "containerPlacement": {
       "doc": "For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"left\"",
+        "\"right\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "verticalAlignment": {
       "doc": "Define the vertical alignment of the container. Defaults to `center`.",
-      "type": ["\"top\"", "\"center\""],
+      "type": [
+        "\"top\"",
+        "\"center\""
+      ],
       "status": "optional"
     },
     "closeTitle": {
@@ -747,11 +757,18 @@ See the table below:
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Modal.closeTitle": {
       "nb-NO": "Lukk",
@@ -769,6 +786,7 @@ See the table below:
 }
 ```
 
+
 ### Drawer sizes
 
 The Drawer is responsive with the following properties:
@@ -782,6 +800,7 @@ The Drawer is responsive with the following properties:
 ## Events
 
 Drawer includes the same events as [Modal](/uilib/components/modal), only formatted as camel case.
+
 
 ```json
 {

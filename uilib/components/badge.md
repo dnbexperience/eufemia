@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.066Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.232Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 
@@ -36,6 +36,7 @@ Can be used to describe or inform about new activity or features in our applicat
 
 The logic of how long it should be visible would differ from case to case, so that's up to the designer.
 
+
 ## Demos
 
 ### Setting the `variant` property
@@ -44,123 +45,98 @@ The logic of how long it should be visible would differ from case to case, so th
 
 The default variant. Equivalent to `variant='information'`.
 
+
 ```tsx
 render(<Badge content="New" />)
 ```
 
+
+
 ```tsx
-render(
-  <P>
-    Text <Badge content="Info" variant="information" /> Text
-  </P>
-)
+render(<P>
+      Text <Badge content="Info" variant="information" /> Text
+    </P>)
 ```
+
 
 #### Notification
 
 `variant='notification'`.
 
+
 ```tsx
 render(<Badge content={1} label="Notifications" variant="notification" />)
 ```
 
+
+
 ```tsx
-render(
-  <P>
-    Text{' '}
-    <Badge content={1234} label="Notifications" variant="notification" />{' '}
-    Text
-  </P>
-)
+render(<P>
+      Text{' '}
+      <Badge content={1234} label="Notifications" variant="notification" />{' '}
+      Text
+    </P>)
 ```
+
 
 ### Overlayed badge
 
 You can overlay the badge on top of an element by wrapping the `<Badge>` component around it.
 
-```tsx
-render(
-  <Badge content="Ny" variant="information">
-    <Avatar.Group label="Persons">
-      <Avatar size="large" variant="secondary">
-        A
-      </Avatar>
-    </Avatar.Group>
-  </Badge>
-)
-```
 
 ```tsx
-render(
-  <Badge content={1234} label="Notifications" variant="notification">
-    <Avatar.Group label="Persons">
-      <Avatar size="large">A</Avatar>
-    </Avatar.Group>
-  </Badge>
-)
+render(<Badge content="Ny" variant="information">
+      <Avatar.Group label="Persons">
+        <Avatar size="large" variant="secondary">
+          A
+        </Avatar>
+      </Avatar.Group>
+    </Badge>)
 ```
+
+
+```tsx
+render(<Badge content={1234} label="Notifications" variant="notification">
+      <Avatar.Group label="Persons">
+        <Avatar size="large">A</Avatar>
+      </Avatar.Group>
+    </Badge>)
+```
+
 
 #### Setting property `horizontal` and `vertical`
 
 When overlaying the badge you can control its position.
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Badge
-      content={66}
-      label="Notifications"
-      vertical="top"
-      horizontal="left"
-      variant="notification"
-      data-visual-test="badge-top-left"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">A</Avatar>
-      </Avatar.Group>
-    </Badge>
+render(<Flex.Container>
+      <Badge content={66} label="Notifications" vertical="top" horizontal="left" variant="notification" data-visual-test="badge-top-left">
+        <Avatar.Group label="Persons">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-    <Badge
-      content={1234}
-      label="Notifications"
-      vertical="top"
-      horizontal="right"
-      variant="notification"
-      data-visual-test="badge-top-right"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">B</Avatar>
-      </Avatar.Group>
-    </Badge>
+      <Badge content={1234} label="Notifications" vertical="top" horizontal="right" variant="notification" data-visual-test="badge-top-right">
+        <Avatar.Group label="Persons">
+          <Avatar size="large">B</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-    <Badge
-      content={13}
-      label="Notifications"
-      vertical="bottom"
-      horizontal="left"
-      variant="notification"
-      data-visual-test="badge-bottom-left"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">C</Avatar>
-      </Avatar.Group>
-    </Badge>
+      <Badge content={13} label="Notifications" vertical="bottom" horizontal="left" variant="notification" data-visual-test="badge-bottom-left">
+        <Avatar.Group label="Persons">
+          <Avatar size="large">C</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-    <Badge
-      content={58}
-      label="Notifications"
-      vertical="bottom"
-      horizontal="right"
-      variant="notification"
-      data-visual-test="badge-bottom-right"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">D</Avatar>
-      </Avatar.Group>
-    </Badge>
-  </Flex.Container>
-)
+      <Badge content={58} label="Notifications" vertical="bottom" horizontal="right" variant="notification" data-visual-test="badge-bottom-right">
+        <Avatar.Group label="Persons">
+          <Avatar size="large">D</Avatar>
+        </Avatar.Group>
+      </Badge>
+    </Flex.Container>)
 ```
+
 
 ### Setting the `status` and `subtle` properties
 
@@ -168,30 +144,26 @@ The information variant has 5 possible `status` values, and two possible `subtle
 
 The default state is equivalent to `status='default'` and `subtle={false}`.
 
+
 ```tsx
-render(
-  <Grid.Container
-    rowGap
-    columnGap
-    style={{
-      display: 'inline-grid',
-      placeItems: 'start',
-      gridTemplateColumns: 'repeat(2, auto)',
-    }}
-  >
-    <Badge content="default" status="default" />
-    <Badge content="default (subtle)" status="default" subtle />
-    <Badge content="neutral" status="neutral" />
-    <Badge content="neutral (subtle)" status="neutral" subtle />
-    <Badge content="positive" status="positive" />
-    <Badge content="positive (subtle)" status="positive" subtle />
-    <Badge content="warning" status="warning" />
-    <Badge content="warning (subtle)" status="warning" subtle />
-    <Badge content="negative" status="negative" />
-    <Badge content="negative (subtle)" status="negative" subtle />
-  </Grid.Container>
-)
+render(<Grid.Container rowGap columnGap style={{
+  display: 'inline-grid',
+  placeItems: 'start',
+  gridTemplateColumns: 'repeat(2, auto)'
+}}>
+      <Badge content="default" status="default" />
+      <Badge content="default (subtle)" status="default" subtle />
+      <Badge content="neutral" status="neutral" />
+      <Badge content="neutral (subtle)" status="neutral" subtle />
+      <Badge content="positive" status="positive" />
+      <Badge content="positive (subtle)" status="positive" subtle />
+      <Badge content="warning" status="warning" />
+      <Badge content="warning (subtle)" status="warning" subtle />
+      <Badge content="negative" status="negative" />
+      <Badge content="negative (subtle)" status="negative" subtle />
+    </Grid.Container>)
 ```
+
 
 ### Hiding Badge with `hideBadge`
 
@@ -199,51 +171,44 @@ Sometimes you need to hide the badge without hiding the overlayed element. To ma
 
 The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 
+
 ```tsx
 const Example = () => {
   type Data = {
-    notifications: number
-  }
-  const { data } = Form.useData<Data>('badge-hide-example')
-  const notifications = data?.notifications
-  return (
-    <Form.Handler id="badge-hide-example">
-      <Form.Card>
-        <Badge
-          label="Notifications"
-          variant="notification"
-          content={notifications}
-          hideBadge={notifications === 0}
-        >
-          <Avatar.Group label="Persons">
-            <Avatar size="large">A</Avatar>
-          </Avatar.Group>
-        </Badge>
+    notifications: number;
+  };
+  const {
+    data
+  } = Form.useData<Data>('badge-hide-example');
+  const notifications = data?.notifications;
+  return <Form.Handler id="badge-hide-example">
+            <Form.Card>
+              <Badge label="Notifications" variant="notification" content={notifications} hideBadge={notifications === 0}>
+                <Avatar.Group label="Persons">
+                  <Avatar size="large">A</Avatar>
+                </Avatar.Group>
+              </Badge>
 
-        <Field.Number
-          label="Define number of notifications"
-          width="small"
-          path="/notifications"
-          defaultValue={1}
-          minimum={0}
-          step={1}
-          showStepControls
-        />
-      </Form.Card>
-    </Form.Handler>
-  )
-}
-render(<Example />)
+              <Field.Number label="Define number of notifications" width="small" path="/notifications" defaultValue={1} minimum={0} step={1} showStepControls />
+            </Form.Card>
+          </Form.Handler>;
+};
+render(<Example />);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "content": {
       "doc": "Content of the component.",
-      "type": ["string", "number", "React.ReactNode"],
+      "type": [
+        "string",
+        "number",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "children": {
@@ -253,12 +218,18 @@ render(<Example />)
     },
     "vertical": {
       "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
-      "type": ["\"top\"", "\"bottom\""],
+      "type": [
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "horizontal": {
       "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "className": {
@@ -273,7 +244,11 @@ render(<Example />)
     },
     "variant": {
       "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.",
-      "type": ["\"information\"", "\"notification\"", "\"content\""],
+      "type": [
+        "\"information\"",
+        "\"notification\"",
+        "\"content\""
+      ],
       "status": "optional"
     },
     "status": {
@@ -304,7 +279,10 @@ render(<Example />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

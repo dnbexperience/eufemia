@@ -1,7 +1,7 @@
 ---
 title: 'Create your own component'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.380Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.316Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -35,16 +35,19 @@ render(<MyValue path="/dataSelector" />)
 
 [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock/) provides a standardized way to display labels and other surrounding elements in a consistent manner.
 
+
 ```tsx
-const MyValue = ({ value, ...props }) => {
-  return (
-    <ValueBlock {...props}>
-      <NumberFormat.Currency>{value}</NumberFormat.Currency>
-    </ValueBlock>
-  )
-}
-render(<MyValue label="Label" value={1234} />)
+const MyValue = ({
+  value,
+  ...props
+}) => {
+  return <ValueBlock {...props}>
+              <NumberFormat.Currency>{value}</NumberFormat.Currency>
+            </ValueBlock>;
+};
+render(<MyValue label="Label" value={1234} />);
 ```
+
 
 The `useValueProps` provides a standardized way to handle data flow in a consistent manner.
 
@@ -93,37 +96,37 @@ The `FieldBlock` provides a standardized way to display labels, error messages a
 
 Here is a working example with code you can edit in the playground:
 
+
 ```tsx
-const MyField = (props) => {
-  const fromInput = React.useCallback(({ value }) => value, [])
+const MyField = props => {
+  const fromInput = React.useCallback(({
+    value
+  }) => value, []);
   const preparedProps = {
     label: 'What is the secret of this field?',
     fromInput,
-    onChangeValidator: (value) => {
+    onChangeValidator: value => {
       if (value === 'secret') {
-        return new Error('Do not reveal the secret!')
+        return new Error('Do not reveal the secret!');
       }
     },
-    ...props,
-  }
-  const { id, value, label, handleChange, handleFocus, handleBlur } =
-    useFieldProps(preparedProps)
-  return (
-    <FieldBlock forId={id} label={label}>
-      <Input
-        id={id}
-        value={value}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-    </FieldBlock>
-  )
-}
-render(
-  <MyField onChange={(value) => console.log('onChange', value)} required />
-)
+    ...props
+  };
+  const {
+    id,
+    value,
+    label,
+    handleChange,
+    handleFocus,
+    handleBlur
+  } = useFieldProps(preparedProps);
+  return <FieldBlock forId={id} label={label}>
+              <Input id={id} value={value} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} />
+            </FieldBlock>;
+};
+render(<MyField onChange={value => console.log('onChange', value)} required />);
 ```
+
 
 ### Further customization
 
@@ -175,54 +178,41 @@ If you need something that looks even more different from the usual fields, you 
 
 Here follows an example that retrieves data from a surrounding DataContext, and creates a composite field based on other components from Eufemia:
 
+
 ```tsx
-const MyComposedField = (props) => {
-  const { id, value, hasError, handleChange, handleFocus, handleBlur } =
-    useFieldProps({
-      path: '/birthYear',
-    })
-  const handleBirthYearChange = React.useCallback(
-    (sliderData) => {
-      handleChange(sliderData.value)
-    },
-    [handleChange]
-  )
-  return (
-    <FieldBlock id={id} label={props.label ?? 'Name and age'}>
-      <Flex.Horizontal>
-        <Field.Name.First path="/firstName" width="medium" minLength={2} />
-        <Field.Name.Last path="/lastName" width="medium" required />
-        <FieldBlock width="large">
-          <Slider
-            min={1900}
-            max={new Date().getFullYear()}
-            step={1}
-            label="Birth year"
-            value={parseFloat(String(value))}
-            onChange={handleBirthYearChange}
-            onDragStart={handleFocus}
-            onDragEnd={handleBlur}
-            status={hasError}
-            tooltip
-          />
-        </FieldBlock>
-      </Flex.Horizontal>
-    </FieldBlock>
-  )
-}
+const MyComposedField = props => {
+  const {
+    id,
+    value,
+    hasError,
+    handleChange,
+    handleFocus,
+    handleBlur
+  } = useFieldProps({
+    path: '/birthYear'
+  });
+  const handleBirthYearChange = React.useCallback(sliderData => {
+    handleChange(sliderData.value);
+  }, [handleChange]);
+  return <FieldBlock id={id} label={props.label ?? 'Name and age'}>
+              <Flex.Horizontal>
+                <Field.Name.First path="/firstName" width="medium" minLength={2} />
+                <Field.Name.Last path="/lastName" width="medium" required />
+                <FieldBlock width="large">
+                  <Slider min={1900} max={new Date().getFullYear()} step={1} label="Birth year" value={parseFloat(String(value))} onChange={handleBirthYearChange} onDragStart={handleFocus} onDragEnd={handleBlur} status={hasError} tooltip />
+                </FieldBlock>
+              </Flex.Horizontal>
+            </FieldBlock>;
+};
 const data = {
   firstName: 'John',
-  birthYear: 2000,
-}
-render(
-  <DataContext.Provider
-    defaultData={data}
-    onChange={(data) => console.log('onChange', data)}
-  >
-    <MyComposedField label="My custom label" />
-  </DataContext.Provider>
-)
+  birthYear: 2000
+};
+render(<DataContext.Provider defaultData={data} onChange={data => console.log('onChange', data)}>
+            <MyComposedField label="My custom label" />
+          </DataContext.Provider>);
 ```
+
 
 ## Layout
 

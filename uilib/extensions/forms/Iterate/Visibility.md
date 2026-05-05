@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Visibility'
 description: 'The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.094Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.083Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -26,43 +26,35 @@ The `Iterate.Visibility` component allows you to conditionally display content b
 
 Fore more details, head over to the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component documentation.
 
+
 ## Demos
 
 ### Basic example
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      myList: [
-        {
-          toggleValue: false,
-        },
-        {
-          toggleValue: true,
-        },
-      ],
-    }}
-  >
-    <Iterate.Array path="/myList">
-      <Field.Boolean
-        label="Show content for item no. {itemNo}"
-        variant="checkbox"
-        itemPath="/toggleValue"
-      />
-      <Iterate.Visibility pathTrue="/toggleValue" animate>
-        <TestElement>
-          <Iterate.ItemNo>
-            {'Hide and show me item no. {itemNo}'}
-          </Iterate.ItemNo>
-        </TestElement>
-      </Iterate.Visibility>
-    </Iterate.Array>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  myList: [{
+    toggleValue: false
+  }, {
+    toggleValue: true
+  }]
+}}>
+        <Iterate.Array path="/myList">
+          <Field.Boolean label="Show content for item no. {itemNo}" variant="checkbox" itemPath="/toggleValue" />
+          <Iterate.Visibility pathTrue="/toggleValue" animate>
+            <TestElement>
+              <Iterate.ItemNo>
+                {'Hide and show me item no. {itemNo}'}
+              </Iterate.ItemNo>
+            </TestElement>
+          </Iterate.Visibility>
+        </Iterate.Array>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -134,7 +126,10 @@ render(
     },
     "filterData": {
       "doc": "Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.",
-      "type": ["object", "function"],
+      "type": [
+        "object",
+        "function"
+      ],
       "status": "optional"
     },
     "fieldPropsWhenHidden": {
@@ -144,7 +139,10 @@ render(
     },
     "element": {
       "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is `true`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "children": {
@@ -157,6 +155,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

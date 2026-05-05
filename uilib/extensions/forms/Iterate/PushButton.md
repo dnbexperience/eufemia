@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushButton'
 description: '`Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.059Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.042Z
 checksum: 1eb1708450581371c3fed4049301393bc2aabbd59fa7d6375e685c3160458d55
 ---
 
@@ -66,60 +66,45 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Primitive items
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Iterate.Array path="/" animate>
-        <Value.String itemPath="/" />
-      </Iterate.Array>
-      <Iterate.PushButton
-        text="Add another item"
-        path="/"
-        pushValue="new"
-      />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Flex.Stack>
+          <Iterate.Array path="/" animate>
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton text="Add another item" path="/" pushValue="new" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Object items
 
-```tsx
-render(
-  <Form.Handler
-    data={[
-      {
-        name: 'Iron Man',
-      },
-      {
-        name: 'Captain America',
-      },
-      {
-        name: 'Thor',
-      },
-    ]}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Iterate.Array path="/" animate>
-      <Field.Name.Last itemPath="/name" />
-    </Iterate.Array>
 
-    <Iterate.PushButton
-      top="small"
-      text="Add another item"
-      path="/"
-      pushValue={{}}
-    />
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler data={[{
+  name: 'Iron Man'
+}, {
+  name: 'Captain America'
+}, {
+  name: 'Thor'
+}]} onChange={value => console.log('onChange', value)}>
+        <Iterate.Array path="/" animate>
+          <Field.Name.Last itemPath="/name" />
+        </Iterate.Array>
+
+        <Iterate.PushButton top="small" text="Add another item" path="/" pushValue={{}} />
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {

@@ -1,8 +1,8 @@
 ---
 title: 'Focus / Skip Link'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.450Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.367Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -22,24 +22,20 @@ Every interactive Eufemia component — Button, Input, Tag, Menu, Tabs, List —
 
 Here is an example of how it should look when implemented:
 
+
 ```tsx
-render(
-  <button
-    type="button"
-    style={{
-      display: 'inline-block',
-      padding: '0.5rem 1.5rem',
-      border:
-        'var(--focus-ring-width) solid var(--token-color-stroke-action-focus)',
-      backgroundColor: 'var(--token-color-background-action-focus-subtle)',
-      color: 'var(--token-color-text-action-focus)',
-      borderRadius: 'var(--token-radius-full)',
-    }}
-  >
-    Focus example
-  </button>
-)
+render(<button type="button" style={{
+  display: 'inline-block',
+  padding: '0.5rem 1.5rem',
+  border: 'var(--focus-ring-width) solid var(--token-color-stroke-action-focus)',
+  backgroundColor: 'var(--token-color-background-action-focus-subtle)',
+  color: 'var(--token-color-text-action-focus)',
+  borderRadius: 'var(--token-radius-full)'
+}}>
+      Focus example
+    </button>)
 ```
+
 
 # Focus Management
 
@@ -116,19 +112,15 @@ applyPageFocus('MyCustomName', (element) => {
 
 Our solution is CSS-only and should work for all kinds of application setups. Demo example below:
 
+
 ```tsx
-render(
-  <ChangeStylesOfSkipLink>
-    <a
-      className="dnb-skip-link--active"
-      onClick={onClick}
-      href="#dnb-app-content"
-    >
-      Show Skip-Link
-    </a>
-  </ChangeStylesOfSkipLink>
-)
+render(<ChangeStylesOfSkipLink>
+      <a className="dnb-skip-link--active" onClick={onClick} href="#dnb-app-content">
+        Show Skip-Link
+      </a>
+    </ChangeStylesOfSkipLink>)
 ```
+
 
 1. Place an anchor with an HTML class `.dnb-skip-link` as the very **first HTML element** tag:
 

@@ -1,8 +1,8 @@
 ---
 title: 'Value.ArraySelection'
 description: '`Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.118Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.105Z
 checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
 ---
 
@@ -33,166 +33,124 @@ render(<Value.ArraySelection />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/ArraySelection)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/ArraySelection)
 
+
 ## Demos
 
 ### Placeholder
+
 
 ```tsx
 render(<Value.ArraySelection placeholder="No value given" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} />)
 ```
 
+
 ### Custom format
 
+
 ```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    data={{
-      myPath: [123, 456, 789],
-    }}
-  >
-    <Value.ArraySelection
-      path="/myPath"
-      format={{
-        type: 'disjunction',
-      }}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler locale="en-GB" data={{
+  myPath: [123, 456, 789]
+}}>
+        <Value.ArraySelection path="/myPath" format={{
+    type: 'disjunction'
+  }} />
+      </Form.Handler>)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.ArraySelection label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
 
+
 ```tsx
-render(
-  <Value.ArraySelection label="Label text" value={['Foo', 'Bar', 'Baz']} />
-)
+render(<Value.ArraySelection label="Label text" value={['Foo', 'Bar', 'Baz']} />)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline /> This is
-    after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline /> This
+        is after the component
+      </P>)
 ```
+
 
 ### List variants
 
+
 ```tsx
-render(
-  <Value.SummaryList>
-    <Value.ArraySelection
-      value={['Foo', 'Bar', 'Baz']}
-      label="Ordered List"
-      variant="ol"
-    />
-    <Value.ArraySelection
-      value={['Foo', 'Bar', 'Baz']}
-      label="Unordered List"
-      variant="ul"
-    />
-  </Value.SummaryList>
-)
+render(<Value.SummaryList>
+        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Ordered List" variant="ol" />
+        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Unordered List" variant="ul" />
+      </Value.SummaryList>)
 ```
+
 
 ### List types
 
+
 ```tsx
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Ordered List a"
-  variant="ol"
-  listType="a"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Ordered List A"
-  variant="ol"
-  listType="A"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Ordered List i"
-  variant="ol"
-  listType="i"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Ordered List I"
-  variant="ol"
-  listType="I"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Unordered List square"
-  variant="ul"
-  listType="square"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Unordered List circle"
-  variant="ul"
-  listType="circle"
-/>
-<Value.ArraySelection
-  value={['Foo', 'Bar', 'Baz']}
-  label="Unordered List unstyled"
-  variant="ul"
-  listType="unstyled"
-/>
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Ordered List a" variant="ol" listType="a" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Ordered List A" variant="ol" listType="A" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Ordered List i" variant="ol" listType="i" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Ordered List I" variant="ol" listType="I" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Unordered List square" variant="ul" listType="square" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Unordered List circle" variant="ul" listType="circle" />
+<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} label="Unordered List unstyled" variant="ul" listType="unstyled" />
 ```
+
 
 ### Field.Option and Field.ArraySelection
 
 When using the same `path` as on a `Field.ArraySelection`, the `Field.Option` title will be used as the displayed value.
 
-```tsx
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Field.ArraySelection
-        label="My selections"
-        path="/myPath"
-        value={['bar', 'baz']}
-      >
-        <Field.Option value="foo" title="Foo" />
-        <Field.Option value="bar" title="Bar" />
-        <Field.Option value="baz" title="Baz" />
-      </Field.ArraySelection>
 
-      <Value.ArraySelection inheritLabel path="/myPath" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler>
+        <Flex.Stack>
+          <Field.ArraySelection label="My selections" path="/myPath" value={['bar', 'baz']}>
+            <Field.Option value="foo" title="Foo" />
+            <Field.Option value="bar" title="Bar" />
+            <Field.Option value="baz" title="Baz" />
+          </Field.ArraySelection>
+
+          <Value.ArraySelection inheritLabel path="/myPath" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
 
 ## Properties
 
 ### Value-specific properties
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "The value to format. Can be given as `children` instead.",
-      "type": ["Array<React.ReactNode>"],
+      "type": [
+        "Array<React.ReactNode>"
+      ],
       "status": "optional"
     },
     "children": {
@@ -207,7 +165,11 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["\"ol\"", "\"ul\"", "\"text\""],
+      "type": [
+        "\"ol\"",
+        "\"ul\"",
+        "\"text\""
+      ],
       "status": "optional"
     },
     "listType": {
@@ -248,14 +210,19 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -322,7 +289,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -332,7 +304,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },

@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.196Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.332Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 
@@ -28,65 +28,63 @@ You may also take a look at how it behaves once [404](/404) or [500](/500) is us
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/global-error)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/global-error)
 
+
 ## Demos
 
 ### To showcase the 404 status code component
+
 
 ```tsx
 render(<GlobalError statusCode="404" />)
 ```
 
+
 ### To showcase the 500 status code component
+
 
 ```tsx
 render(<GlobalError statusCode="500" />)
 ```
 
+
 ### To showcase a custom status code component
 
+
 ```tsx
-const links = [
-  {
-    text: 'Forside',
-    url: 'https://www.dnb.no/',
-  },
-  {
-    text: 'Forsikring',
-    url: 'https://www.dnb.no/forsikring/',
-  },
-  {
-    text: 'Sparing',
-    url: 'https://www.dnb.no/sparing/',
-  },
-  {
-    text: 'Lån',
-    url: 'https://www.dnb.no/lan/',
-  },
-  {
-    text: 'Kontakt',
-    url: 'https://www.dnb.no/hjelp-og-veiledning/',
-  },
-]
-render(
-  <GlobalError
-    statusCode="403"
-    title="Access Denied"
-    text="More related text"
-    links={links}
-  >
-    Additional Content
-  </GlobalError>
-)
+const links = [{
+  text: 'Forside',
+  url: 'https://www.dnb.no/'
+}, {
+  text: 'Forsikring',
+  url: 'https://www.dnb.no/forsikring/'
+}, {
+  text: 'Sparing',
+  url: 'https://www.dnb.no/sparing/'
+}, {
+  text: 'Lån',
+  url: 'https://www.dnb.no/lan/'
+}, {
+  text: 'Kontakt',
+  url: 'https://www.dnb.no/hjelp-og-veiledning/'
+}];
+render(<GlobalError statusCode="403" title="Access Denied" text="More related text" links={links}>
+          Additional Content
+        </GlobalError>);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "statusCode": {
       "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.",
-      "type": ["\"404\"", "\"500\"", "string"],
+      "type": [
+        "\"404\"",
+        "\"500\"",
+        "string"
+      ],
       "status": "optional"
     },
     "title": {
@@ -111,7 +109,9 @@ render(
     },
     "links": {
       "doc": "Provide an array with objects `{ text: \"Text\", url: \"https://...\" }` to display a list of anchor links.",
-      "type": ["Array<GlobalErrorLink>"],
+      "type": [
+        "Array<GlobalErrorLink>"
+      ],
       "status": "optional"
     },
     "center": {
@@ -136,18 +136,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "GlobalError.404.text": {
       "nb-NO": "Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?",

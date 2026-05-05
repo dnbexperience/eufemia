@@ -1,8 +1,8 @@
 ---
 title: 'InfoCard'
 description: 'The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.236Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.367Z
 checksum: 2890cecbe9826f0c50b742334a8426b83066dc06face9160aa86b557a38a803d
 ---
 
@@ -26,189 +26,131 @@ The text content is set to a max width of 70 characters to ensure an optimal [UU
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/info-card)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/info-card)
 
+
 ## Demos
 
 ### InfoCard (default)
 
+
 ```tsx
-render(
-  <InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." />)
 ```
+
 
 ### InfoCard with a title
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" />)
 ```
+
 
 ### InfoCard with a stretched container
 
+
 ```tsx
-render(
-  <InfoCard
-    stretch
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-  />
-)
+render(<InfoCard stretch text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" />)
 ```
+
 
 ### InfoCard with Buttons
 
-```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    closeButtonText="Close"
-    onClose={() => {
-      console.log('onClose')
-    }}
-    acceptButtonText="Accept"
-    onAccept={() => {
-      console.log('onAccept')
-    }}
-  />
-)
-```
 
 ```tsx
-render(
-  <InfoCard
-    centered
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    closeButtonText="Close"
-    onClose={() => {
-      console.log('onClose')
-    }}
-    acceptButtonText="Accept"
-    onAccept={() => {
-      console.log('onAccept')
-    }}
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" closeButtonText="Close" onClose={() => {
+  console.log('onClose');
+}} acceptButtonText="Accept" onAccept={() => {
+  console.log('onAccept');
+}} />)
 ```
+
+
+
+```tsx
+render(<InfoCard centered text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" closeButtonText="Close" onClose={() => {
+  console.log('onClose');
+}} acceptButtonText="Accept" onAccept={() => {
+  console.log('onAccept');
+}} />)
+```
+
 
 Each button can be used independently.
 
-```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    acceptButtonText="Accept"
-    onAccept={() => {
-      console.log('onAccept')
-    }}
-  />
-)
-```
 
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    closeButtonText="Close"
-    onClose={() => {
-      console.log('onClose')
-    }}
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" acceptButtonText="Accept" onAccept={() => {
+  console.log('onAccept');
+}} />)
 ```
+
+
+
+```tsx
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" closeButtonText="Close" onClose={() => {
+  console.log('onClose');
+}} />)
+```
+
 
 ### InfoCard accepts a custom icon
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    icon={Card}
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" icon={Card} />)
 ```
+
 
 ### InfoCard centered content
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    centered={true}
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" centered={true} />)
 ```
+
 
 ### InfoCard without drop shadow
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="Title of your info/tip"
-    dropShadow={false}
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="Title of your info/tip" dropShadow={false} />)
 ```
+
 
 ### InfoCard custom image
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="This is the InfoCard with a custom image"
-    src="/images/avatars/1501870.jpg"
-    alt="Profile picture"
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="This is the InfoCard with a custom image" src="/images/avatars/1501870.jpg" alt="Profile picture" />)
 ```
+
 
 ### InfoCard custom image centered
 
+
 ```tsx
-render(
-  <InfoCard
-    text="This is a description of some information or a tip that will inform the user of something that will help them."
-    title="This is the InfoCard with a custom image"
-    centered={true}
-    src="/images/avatars/1501870.jpg"
-    alt="Profile picture"
-  />
-)
+render(<InfoCard text="This is a description of some information or a tip that will inform the user of something that will help them." title="This is the InfoCard with a custom image" centered={true} src="/images/avatars/1501870.jpg" alt="Profile picture" />)
 ```
+
 
 ### InfoCard with children
 
+
 ```tsx
-render(
-  <InfoCard
-    title="Title of your info/tip"
-    acceptButtonText="Accept"
-    onAccept={() => {
-      console.log('onAccept')
-    }}
-  >
-    <P>I want to inform you about the following items:</P>
-    <Ul>
-      <Li>Item 1</Li>
-      <Li>Item 2</Li>
-    </Ul>
-    <P>Is this okay with you?</P>
-  </InfoCard>
-)
+render(<InfoCard title="Title of your info/tip" acceptButtonText="Accept" onAccept={() => {
+  console.log('onAccept');
+}}>
+      <P>I want to inform you about the following items:</P>
+      <Ul>
+        <Li>Item 1</Li>
+        <Li>Item 2</Li>
+      </Ul>
+      <P>Is this okay with you?</P>
+    </InfoCard>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -295,7 +237,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
@@ -303,6 +248,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitIndicator'
 description: '`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.982Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.997Z
 checksum: 07317f23ae535f0820553501fbef42b267854c7e5f58af7c62c852b5dbe7f1e4
 ---
 
@@ -29,39 +29,42 @@ render(<Form.SubmitIndicator state="pending" />)
 
 The indicator is implemented by default in the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) label. It will be displayed when the `onSubmit` event handler on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component is an async function. You can find some examples down below.
 
+
 ## Demos
 
 ### Default appearance
+
 
 ```tsx
 render(<Form.SubmitIndicator state="pending" />)
 ```
 
+
 ### SubmitIndicator in a simple form
 
 Press the "Send" button to see the submit indicator.
 
+
 ```tsx
 const delay = debounceAsync(async function () {
   try {
-    const request = createRequest()
-    await request(1000) // Simulate a request
+    const request = createRequest();
+    await request(1000); // Simulate a request
   } catch (error) {
-    return error
+    return error;
   }
-})
-render(
-  <Form.Handler onSubmit={delay}>
-    <Form.Card>
-      <Field.String path="/myField" label="Short label" />
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-        <Button variant="tertiary">Cancel</Button>
-      </Form.ButtonRow>
-    </Form.Card>
-  </Form.Handler>
-)
+});
+render(<Form.Handler onSubmit={delay}>
+            <Form.Card>
+              <Field.String path="/myField" label="Short label" />
+              <Form.ButtonRow>
+                <Form.SubmitButton />
+                <Button variant="tertiary">Cancel</Button>
+              </Form.ButtonRow>
+            </Form.Card>
+          </Form.Handler>);
 ```
+
 
 ### SubmitIndicator with field validation
 
@@ -71,82 +74,76 @@ This example shows a combination of async validation and async change behavior, 
 
 Make a change in the input field.
 
+
 ```tsx
 const delay = debounceAsync(async function () {
   try {
-    const request = createRequest()
-    await request(1000) // Simulate a request
+    const request = createRequest();
+    await request(1000); // Simulate a request
   } catch (error) {
-    return error
+    return error;
   }
-})
-render(
-  <Form.Handler onSubmit={delay} onChange={delay}>
-    <Form.Card>
-      <Field.String
-        path="/myField1"
-        label="Label (with async validation)"
-        placeholder="Write something ..."
-        onChangeValidator={delay}
-      />
-      <FieldBlock width="medium">
-        <Field.String
-          path="/myField2"
-          width="stretch"
-          label="This is a long label"
-        />
-      </FieldBlock>
-      <Form.ButtonRow>
-        <Form.SubmitButton />
-        <Button variant="tertiary">Cancel</Button>
-      </Form.ButtonRow>
-    </Form.Card>
-  </Form.Handler>
-)
+});
+render(<Form.Handler onSubmit={delay} onChange={delay}>
+            <Form.Card>
+              <Field.String path="/myField1" label="Label (with async validation)" placeholder="Write something ..." onChangeValidator={delay} />
+              <FieldBlock width="medium">
+                <Field.String path="/myField2" width="stretch" label="This is a long label" />
+              </FieldBlock>
+              <Form.ButtonRow>
+                <Form.SubmitButton />
+                <Button variant="tertiary">Cancel</Button>
+              </Form.ButtonRow>
+            </Form.Card>
+          </Form.Handler>);
 ```
+
 
 ### Used in other components
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Flex.Horizontal align="center">
-      <Form.SubmitButton showIndicator />
-      <Button variant="secondary" icon="chevron_right">
-        Secondary
-        <Form.SubmitIndicator state="pending" />
-      </Button>
-      <Button variant="tertiary">
-        Tertiary
-        <Form.SubmitIndicator state="pending" />
-      </Button>
-      <FormLabel>
-        Label
-        <Form.SubmitIndicator state="pending" />
-      </FormLabel>
-    </Flex.Horizontal>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Flex.Horizontal align="center">
+          <Form.SubmitButton showIndicator />
+          <Button variant="secondary" icon="chevron_right">
+            Secondary
+            <Form.SubmitIndicator state="pending" />
+          </Button>
+          <Button variant="tertiary">
+            Tertiary
+            <Form.SubmitIndicator state="pending" />
+          </Button>
+          <FormLabel>
+            Label
+            <Form.SubmitIndicator state="pending" />
+          </FormLabel>
+        </Flex.Horizontal>
+      </Form.Handler>)
 ```
+
 
 ### With a label
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.SubmitIndicator state="pending" showLabel />
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Form.SubmitIndicator state="pending" showLabel />
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "state": {
       "doc": "Provide `pending` to make the dots visible and `success` to show the checkmark icon.",
-      "type": ["\"pending\"", "\"success\""],
+      "type": [
+        "\"pending\"",
+        "\"success\""
+      ],
       "status": "required"
     },
     "showLabel": {
@@ -166,18 +163,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "SubmitIndicator.label": {
       "nb-NO": "Vennligst vent",

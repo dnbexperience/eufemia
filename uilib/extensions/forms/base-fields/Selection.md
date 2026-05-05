@@ -1,8 +1,8 @@
 ---
 title: 'Field.Selection'
 description: '`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.359Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.300Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -66,6 +66,7 @@ The autocomplete variant (`variant="autocomplete"`) is a special easy drop-in ve
 
 The [Autocomplete](/uilib/components/autocomplete/) by itself can be customized and used in various ways. If you need more control, you can use the `autocompleteProps` property to forward any additional properties (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component.
 
+
 ## Demos
 
 ### Variants summary
@@ -74,62 +75,47 @@ As there are many variants, they are split into separate sections. Here is a sum
 
 #### Dropdown
 
+
 ```tsx
-render(
-  <Field.Selection
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Autocomplete
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="autocomplete"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="autocomplete" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio buttons
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Toggle buttons
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 ---
 
@@ -137,389 +123,288 @@ render(
 
 #### Dropdown empty
 
+
 ```tsx
-render(
-  <Field.Selection
-    onFocus={(value) => console.log('onFocus', value)}
-    onBlur={(value) => console.log('onBlur', value)}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection onFocus={value => console.log('onFocus', value)} onBlur={value => console.log('onBlur', value)} onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown placeholder
 
+
 ```tsx
-render(
-  <Field.Selection
-    placeholder="Select something..."
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection placeholder="Select something..." onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown with a transformed selection text
 
+
 ```tsx
-render(
-  <Field.Selection
-    label="Label"
-    value="bar"
-    transformSelection={({ title }) => {
-      return title
-    }}
-  >
-    <Field.Option value="foo" title="Foo!" text="Additional text" />
-    <Field.Option value="bar" title="Baar!" text="Additional text" />
-  </Field.Selection>
-)
+render(<Field.Selection label="Label" value="bar" transformSelection={({
+  title
+}) => {
+  return title;
+}}>
+        <Field.Option value="foo" title="Foo!" text="Additional text" />
+        <Field.Option value="bar" title="Baar!" text="Additional text" />
+      </Field.Selection>)
 ```
+
 
 #### Dropdown label and option selected
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="bar" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown with help
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="bar"
-    label="Label text"
-    help={{
-      title: 'Help is available',
-      content:
-        'Somewhere along the way, we must learn that there is nothing greater than to do something for others.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="bar" label="Label text" help={{
+  title: 'Help is available',
+  content: 'Somewhere along the way, we must learn that there is nothing greater than to do something for others.'
+}} onChange={value => console.log('onChange', value)}>
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>)
 ```
+
 
 ### Horizontal layout
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="bar"
-    label="Label text"
-    layout="horizontal"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="bar" label="Label text" layout="horizontal" onChange={value => console.log('onChange', value)}>
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>)
 ```
+
 
 #### Dropdown disabled
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="bar" label="Label text" onChange={value => console.log('onChange', value)} disabled>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown option disabled
 
+
 ```tsx
 const Example = () => {
-  return (
-    <Field.Selection label="Label text">
-      <Field.Option value="foo" title="Foo!" disabled />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  )
-}
-render(<Example />)
+  return <Field.Selection label="Label text">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>;
+};
+render(<Example />);
 ```
+
 
 #### Dropdown error
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="bar" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown dynamic options
 
+
 ```tsx
 const Example = () => {
-  const [numOptions, setNumOptions] = React.useState(3)
-  return (
-    <>
-      <Field.Selection
-        value="option-15"
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        {Array.from(Array(numOptions).keys()).map((key) => (
-          <Field.Option
-            key={key}
-            value={key}
-            title={`Option ${key + 1}`}
-          />
-        ))}
-      </Field.Selection>
+  const [numOptions, setNumOptions] = React.useState(3);
+  return <>
+            <Field.Selection value="option-15" label="Label text" onChange={value => console.log('onChange', value)}>
+              {Array.from(Array(numOptions).keys()).map(key => <Field.Option key={key} value={key} title={`Option ${key + 1}`} />)}
+            </Field.Selection>
 
-      <p>
-        {[3, 4, 5].map((num, i) => (
-          <Button
-            key={i}
-            size="medium"
-            right="x-small"
-            variant={numOptions === num ? 'primary' : 'secondary'}
-            onClick={() => setNumOptions(num)}
-          >
-            {num} options
-          </Button>
-        ))}
-      </p>
-    </>
-  )
-}
-render(<Example />)
+            <p>
+              {[3, 4, 5].map((num, i) => <Button key={i} size="medium" right="x-small" variant={numOptions === num ? 'primary' : 'secondary'} onClick={() => setNumOptions(num)}>
+                  {num} options
+                </Button>)}
+            </p>
+          </>;
+};
+render(<Example />);
 ```
+
 
 #### Dropdown high number of options
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="option-15"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="option-1" title="One" />
-    <Field.Option value="option-2" title="Two" />
-    <Field.Option value="option-3" title="Three" />
-    <Field.Option value="option-4" title="Four" />
-    <Field.Option value="option-5" title="Five" />
-    <Field.Option value="option-6" title="Six" />
-    <Field.Option value="option-7" title="Seven" />
-    <Field.Option value="option-8" title="Eight" />
-    <Field.Option value="option-9" title="Nine" />
-    <Field.Option value="option-10" title="Ten" />
-    <Field.Option value="option-11" title="Eleven" />
-    <Field.Option value="option-12" title="Twelve" />
-    <Field.Option value="option-13" title="Thirteen" />
-    <Field.Option value="option-14" title="Fourteen" />
-    <Field.Option value="option-15" title="Fifteen" />
-    <Field.Option value="option-16" title="Sixteen" />
-    <Field.Option value="option-17" title="Seventeen" />
-    <Field.Option value="option-18" title="Eighteen" />
-    <Field.Option value="option-19" title="Nineteen" />
-    <Field.Option value="option-20" title="Twenty" />
-    <Field.Option value="option-21" title="Twenty-one" />
-    <Field.Option value="option-22" title="Twenty-two" />
-    <Field.Option value="option-23" title="Twenty-three" />
-    <Field.Option value="option-24" title="Twenty-four" />
-    <Field.Option value="option-25" title="Twenty-five" />
-  </Field.Selection>
-)
+render(<Field.Selection value="option-15" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="option-1" title="One" />
+      <Field.Option value="option-2" title="Two" />
+      <Field.Option value="option-3" title="Three" />
+      <Field.Option value="option-4" title="Four" />
+      <Field.Option value="option-5" title="Five" />
+      <Field.Option value="option-6" title="Six" />
+      <Field.Option value="option-7" title="Seven" />
+      <Field.Option value="option-8" title="Eight" />
+      <Field.Option value="option-9" title="Nine" />
+      <Field.Option value="option-10" title="Ten" />
+      <Field.Option value="option-11" title="Eleven" />
+      <Field.Option value="option-12" title="Twelve" />
+      <Field.Option value="option-13" title="Thirteen" />
+      <Field.Option value="option-14" title="Fourteen" />
+      <Field.Option value="option-15" title="Fifteen" />
+      <Field.Option value="option-16" title="Sixteen" />
+      <Field.Option value="option-17" title="Seventeen" />
+      <Field.Option value="option-18" title="Eighteen" />
+      <Field.Option value="option-19" title="Nineteen" />
+      <Field.Option value="option-20" title="Twenty" />
+      <Field.Option value="option-21" title="Twenty-one" />
+      <Field.Option value="option-22" title="Twenty-two" />
+      <Field.Option value="option-23" title="Twenty-three" />
+      <Field.Option value="option-24" title="Twenty-four" />
+      <Field.Option value="option-25" title="Twenty-five" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown validation - Required
 
+
 ```tsx
-render(
-  <Field.Selection
-    value="foo"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    onFocus={(value) => console.log('onFocus', value)}
-    onBlur={(value) => console.log('onBlur', value)}
-    required
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection value="foo" label="Label text" onChange={value => console.log('onChange', value)} onFocus={value => console.log('onFocus', value)} onBlur={value => console.log('onBlur', value)} required>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Dropdown button with a path to populate the data
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      example: {
-        list: [
-          {
-            title: 'One',
-            value: 'one',
-          },
-          {
-            title: 'Two',
-            value: 'two',
-          },
-        ],
-      },
-      selection: 'two',
-    }}
-  >
-    <Field.Selection
-      label="Label text"
-      path="/selection"
-      dataPath="/example/list"
-    >
-      <Field.Option value="foo">Fooo</Field.Option>
-    </Field.Selection>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  example: {
+    list: [{
+      title: 'One',
+      value: 'one'
+    }, {
+      title: 'Two',
+      value: 'two'
+    }]
+  },
+  selection: 'two'
+}}>
+      <Field.Selection label="Label text" path="/selection" dataPath="/example/list">
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
+    </Form.Handler>)
 ```
+
 
 #### Dropdown with the data property
 
+
 ```tsx
-render(
-  <Field.Selection
-    label="Label text"
-    data={[
-      {
-        title: 'One',
-        value: 'one',
-      },
-      {
-        title: 'Two',
-        value: 'two',
-      },
-    ]}
-  />
-)
+render(<Field.Selection label="Label text" data={[{
+  title: 'One',
+  value: 'one'
+}, {
+  title: 'Two',
+  value: 'two'
+}]} />)
 ```
+
 
 ### Dropdown widths
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Field.Selection label="Default width (property omitted)" value="bar">
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection
-      label="Small selection with a long label"
-      value="bar"
-      width="small"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection label="Medium" value="bar" width="medium">
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection label="Large" value="bar" width="large">
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection label="Stretch" value="bar" width="stretch">
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Field.Selection label="Default width (property omitted)" value="bar">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Small selection with a long label" value="bar" width="small">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Medium" value="bar" width="medium">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Large" value="bar" width="large">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection label="Stretch" value="bar" width="stretch">
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+      </Flex.Stack>)
 ```
+
 
 ### Dropdown groups
 
+
 ```tsx
-render(
-  <Field.Selection
-    label="Label text"
-    path="/selection"
-    dataPath="/example/list"
-    groups={['Foos', 'Bars']}
-  >
-    <Field.Option value="foo" groupIndex={0}>
-      Fooo
-    </Field.Option>
-    <Field.Option value="bar" groupIndex={1}>
-      Bar
-    </Field.Option>
-  </Field.Selection>
-)
+render(<Field.Selection label="Label text" path="/selection" dataPath="/example/list" groups={['Foos', 'Bars']}>
+        <Field.Option value="foo" groupIndex={0}>
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar" groupIndex={1}>
+          Bar
+        </Field.Option>
+      </Field.Selection>)
 ```
+
 
 ---
 
 ### Autocomplete variant
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="autocomplete"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    onFocus={(value) => console.log('onFocus', value)}
-    onBlur={(value) => console.log('onBlur', value)}
-    required
-    validateInitially
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="autocomplete" label="Label text" onChange={value => console.log('onChange', value)} onFocus={value => console.log('onFocus', value)} onBlur={value => console.log('onBlur', value)} required validateInitially>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 ### Autocomplete groups
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="autocomplete"
-    label="Label text"
-    path="/selection"
-    dataPath="/example/list"
-    groups={['Foos', 'Bars']}
-  >
-    <Field.Option value="foo" groupIndex={0}>
-      Fooo
-    </Field.Option>
-    <Field.Option value="bar" groupIndex={1}>
-      Bar
-    </Field.Option>
-  </Field.Selection>
-)
+render(<Field.Selection variant="autocomplete" label="Label text" path="/selection" dataPath="/example/list" groups={['Foos', 'Bars']}>
+        <Field.Option value="foo" groupIndex={0}>
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar" groupIndex={1}>
+          Bar
+        </Field.Option>
+      </Field.Selection>)
 ```
+
 
 ---
 
@@ -527,397 +412,270 @@ render(
 
 #### Radio empty
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio option selected
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    value="bar"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" label="Label text" value="bar" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio horizontal layout
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    value="bar"
-    layout="horizontal"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" label="Label text" value="bar" layout="horizontal" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    value="bar"
-    optionsLayout="horizontal"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" label="Label text" value="bar" optionsLayout="horizontal" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio horizontal layout and horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    value="bar"
-    layout="horizontal"
-    optionsLayout="horizontal"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" label="Label text" value="bar" layout="horizontal" optionsLayout="horizontal" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio disabled
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" value="bar" label="Label text" onChange={value => console.log('onChange', value)} disabled>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio option disabled
 
+
 ```tsx
 const Example = () => {
-  return (
-    <Field.Selection label="Label text" variant="radio">
-      <Field.Option value="foo" title="Foo!" disabled />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  )
-}
-render(<Example />)
+  return <Field.Selection label="Label text" variant="radio">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>;
+};
+render(<Example />);
 ```
+
 
 #### Radio error
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="radio" value="bar" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### Radio button with a path to populate the data
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      example: {
-        list: [
-          {
-            title: 'One',
-            value: 'one',
-          },
-          {
-            title: 'Two',
-            value: 'two',
-          },
-        ],
-      },
-      selection: 'two',
-    }}
-  >
-    <Field.Selection
-      variant="radio"
-      label="Label text"
-      path="/selection"
-      dataPath="/example/list"
-    >
-      <Field.Option value="foo">Fooo</Field.Option>
-    </Field.Selection>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  example: {
+    list: [{
+      title: 'One',
+      value: 'one'
+    }, {
+      title: 'Two',
+      value: 'two'
+    }]
+  },
+  selection: 'two'
+}}>
+      <Field.Selection variant="radio" label="Label text" path="/selection" dataPath="/example/list">
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
+    </Form.Handler>)
 ```
+
 
 #### Radio with the data property
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="radio"
-    label="Label text"
-    data={[
-      {
-        title: 'One',
-        value: 'one',
-      },
-      {
-        title: 'Two',
-        value: 'two',
-      },
-    ]}
-  />
-)
+render(<Field.Selection variant="radio" label="Label text" data={[{
+  title: 'One',
+  value: 'one'
+}, {
+  title: 'Two',
+  value: 'two'
+}]} />)
 ```
+
 
 #### Radio with List composition
 
 Use render prop children to compose each option with [List](/uilib/components/list) and set selected state from the current field value.
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      selection: 'bar',
-      myDataPath: [
-        {
-          value: 'foo',
-          title: 'Foo!',
-          amount: 1234,
-        },
-        {
-          value: 'bar',
-          title: 'Baar!',
-          amount: 5678,
-        },
-        {
-          value: 'baz',
-          title: 'Baz!',
-          amount: 9999,
-        },
-      ],
+render(<Form.Handler defaultData={{
+  selection: 'bar',
+  myDataPath: [{
+    value: 'foo',
+    title: 'Foo!',
+    amount: 1234
+  }, {
+    value: 'bar',
+    title: 'Baar!',
+    amount: 5678
+  }, {
+    value: 'baz',
+    title: 'Baz!',
+    amount: 9999
+  }]
+}}>
+      <Field.Selection label="Select an option" variant="radio" path="/selection" dataPath="/myDataPath" width="large">
+        {({
+      value: selectedValue,
+      options = []
+    }) => {
+      return <List.Container>
+              {options.map(({
+          value,
+          title,
+          amount
+        }) => {
+          return <List.Item.Basic key={value} selected={value === selectedValue}>
+                    <List.Cell.Start>
+                      <Field.Option value={value} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>;
+        })}
+            </List.Container>;
     }}
-  >
-    <Field.Selection
-      label="Select an option"
-      variant="radio"
-      path="/selection"
-      dataPath="/myDataPath"
-      width="large"
-    >
-      {({ value: selectedValue, options = [] }) => {
-        return (
-          <List.Container>
-            {options.map(({ value, title, amount }) => {
-              return (
-                <List.Item.Basic
-                  key={value}
-                  selected={value === selectedValue}
-                >
-                  <List.Cell.Start>
-                    <Field.Option value={value} title={title} />
-                  </List.Cell.Start>
-                  <List.Cell.End>
-                    <Value.Currency value={amount} />
-                  </List.Cell.End>
-                </List.Item.Basic>
-              )
-            })}
-          </List.Container>
-        )
-      }}
-    </Field.Selection>
-  </Form.Handler>
-)
+      </Field.Selection>
+    </Form.Handler>)
 ```
+
 
 #### Radio nesting other fields with logic
 
 You can nest other fields and show them based on your desired logic.
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Form.Card>
-      <Field.Selection
-        variant="radio"
-        label="Make a selection"
-        path="/mySelection"
-        required
+render(<Form.Handler onSubmit={console.log}>
+      <Form.Card>
+        <Field.Selection variant="radio" label="Make a selection" path="/mySelection" required>
+          <Field.Option value="nothing" title="Nothing" />
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility visibleWhen={{
+        path: '/mySelection',
+        hasValue: 'showInput'
+      }} animate compensateForGap="auto" // makes animation smooth
       >
-        <Field.Option value="nothing" title="Nothing" />
-        <Field.Option value="showInput" title="Show an input" />
-        <Form.Visibility
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: 'showInput',
-          }}
-          animate
-          compensateForGap="auto" // makes animation smooth
-        >
-          <Section variant="information" innerSpace>
-            <Field.String placeholder="Enter some value" required />
-          </Section>
-        </Form.Visibility>
-        <Field.Option
-          value="showAdditionalOption"
-          title="Show additional option"
-        />
-        <Form.Visibility
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: (value) =>
-              value === 'showAdditionalOption' || value === 'showMeMore',
-          }}
-          animate
-          compensateForGap="auto" // makes animation smooth
-        >
-          <Field.Option
-            value="showMeMore"
-            title="Show even more"
-            bottom="x-small"
-          />
-          <Form.Visibility
-            animate
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'showMeMore',
-            }}
-          >
             <Section variant="information" innerSpace>
-              <Field.String placeholder="Enter more info" required />
+              <Field.String placeholder="Enter some value" required />
             </Section>
           </Form.Visibility>
-        </Form.Visibility>
-      </Field.Selection>
-    </Form.Card>
+          <Field.Option value="showAdditionalOption" title="Show additional option" />
+          <Form.Visibility visibleWhen={{
+        path: '/mySelection',
+        hasValue: value => value === 'showAdditionalOption' || value === 'showMeMore'
+      }} animate compensateForGap="auto" // makes animation smooth
+      >
+            <Field.Option value="showMeMore" title="Show even more" bottom="x-small" />
+            <Form.Visibility animate visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'showMeMore'
+        }}>
+              <Section variant="information" innerSpace>
+                <Field.String placeholder="Enter more info" required />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.Selection>
+      </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+      <Form.SubmitButton />
+    </Form.Handler>)
 ```
+
 
 #### Radio nesting advanced
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      mySelection: 'first',
-      firstSelection: 'first',
-    }}
-    onSubmit={console.log}
-  >
-    <Form.Card>
-      <Field.Selection path="/mySelection" variant="radio">
-        <Field.Option value="first" title="First" />
-        <Form.Visibility
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: 'first',
-          }}
-          animate
-          compensateForGap="auto" // makes animation smooth
-        >
-          <Form.Card top bottom>
-            <Field.Number
-              path="/firstNumber"
-              label="First number"
-              value={1}
-              allowNegative={false}
-              required
-              exclusiveMinimum={900}
-              exclusiveMaximum={1000}
-            />
-            <Field.String
-              path="/firstString"
-              label="First String"
-              value="foo"
-              pattern="bar"
-              minLength={4}
-            />
-            <Field.Boolean
-              path="/firstBoolean"
-              label="First boolean"
-              variant="checkbox"
-              required
-            />
-            <Field.Selection
-              path="/firstSelection"
-              variant="radio"
-              required
-              label="First selection"
+render(<Form.Handler defaultData={{
+  mySelection: 'first',
+  firstSelection: 'first'
+}} onSubmit={console.log}>
+      <Form.Card>
+        <Field.Selection path="/mySelection" variant="radio">
+          <Field.Option value="first" title="First" />
+          <Form.Visibility visibleWhen={{
+        path: '/mySelection',
+        hasValue: 'first'
+      }} animate compensateForGap="auto" // makes animation smooth
+      >
+            <Form.Card top bottom>
+              <Field.Number path="/firstNumber" label="First number" value={1} allowNegative={false} required exclusiveMinimum={900} exclusiveMaximum={1000} />
+              <Field.String path="/firstString" label="First String" value="foo" pattern="bar" minLength={4} />
+              <Field.Boolean path="/firstBoolean" label="First boolean" variant="checkbox" required />
+              <Field.Selection path="/firstSelection" variant="radio" required label="First selection">
+                <Field.Option value="first" title="First nested" />
+                <Form.Visibility visibleWhen={{
+              path: '/firstSelection',
+              hasValue: 'first'
+            }} animate compensateForGap="auto" // makes animation smooth
             >
-              <Field.Option value="first" title="First nested" />
-              <Form.Visibility
-                visibleWhen={{
-                  path: '/firstSelection',
-                  hasValue: 'first',
-                }}
-                animate
-                compensateForGap="auto" // makes animation smooth
-              >
-                <Form.Card top bottom>
-                  <Field.Number
-                    path="/firstNestedNumber"
-                    label="First nested number"
-                    required
-                  />
-                </Form.Card>
-              </Form.Visibility>
-              <Field.Option value="second" title="Second nested" />
-            </Field.Selection>
-          </Form.Card>
-        </Form.Visibility>
+                  <Form.Card top bottom>
+                    <Field.Number path="/firstNestedNumber" label="First nested number" required />
+                  </Form.Card>
+                </Form.Visibility>
+                <Field.Option value="second" title="Second nested" />
+              </Field.Selection>
+            </Form.Card>
+          </Form.Visibility>
 
-        <Field.Option value="second" title="Second" />
-        <Field.Option value="third" title="Third" />
-      </Field.Selection>
-    </Form.Card>
+          <Field.Option value="second" title="Second" />
+          <Field.Option value="third" title="Third" />
+        </Field.Selection>
+      </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+      <Form.SubmitButton />
+    </Form.Handler>)
 ```
+
 
 ---
 
@@ -925,245 +683,181 @@ render(
 
 #### ToggleButton empty
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### ToggleButton option selected
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    label="Label text"
-    value="bar"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" label="Label text" value="bar" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### ToggleButton horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    label="Label text"
-    optionsLayout="horizontal"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" label="Label text" optionsLayout="horizontal" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### ToggleButton disabled
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" value="bar" label="Label text" onChange={value => console.log('onChange', value)} disabled>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### ToggleButton option disabled
 
+
 ```tsx
 const Example = () => {
-  return (
-    <Field.Selection label="Label text" variant="button">
-      <Field.Option value="foo" title="Foo!" disabled />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  )
-}
-render(<Example />)
+  return <Field.Selection label="Label text" variant="button">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>;
+};
+render(<Example />);
 ```
+
 
 #### ToggleButton error
 
+
 ```tsx
-render(
-  <Field.Selection
-    variant="button"
-    value="bar"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" value="bar" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>)
 ```
+
 
 #### ToggleButton nesting other fields with logic
 
 You can nest other fields and show them based on your desired logic.
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.Selection
-        variant="button"
-        label="Make a selection"
-        path="/mySelection"
-      >
-        <Field.Option value="nothing" title="Nothing" />
+render(<Form.Handler>
+      <Form.Card>
+        <Field.Selection variant="button" label="Make a selection" path="/mySelection">
+          <Field.Option value="nothing" title="Nothing" />
 
-        <Field.Option value="showInput" title="Show an input" />
-        <Form.Visibility
-          animate
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: 'showInput',
-          }}
-        >
-          <Section variant="information" innerSpace>
-            <Field.String placeholder="Enter some value" />
-          </Section>
-        </Form.Visibility>
-
-        <Field.Option
-          value="showAdditionalOption"
-          title="Show additional option"
-        />
-        <Form.Visibility
-          animate
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: (value) =>
-              value === 'showAdditionalOption' || value === 'showMeMore',
-          }}
-        >
-          <Field.Option
-            value="showMeMore"
-            title="Show even more"
-            bottom="x-small"
-          />
-          <Form.Visibility
-            animate
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'showMeMore',
-            }}
-          >
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility animate visibleWhen={{
+        path: '/mySelection',
+        hasValue: 'showInput'
+      }}>
             <Section variant="information" innerSpace>
-              <Field.String placeholder="Enter more info" />
+              <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
-        </Form.Visibility>
-      </Field.Selection>
-    </Form.Card>
-  </Form.Handler>
-)
+
+          <Field.Option value="showAdditionalOption" title="Show additional option" />
+          <Form.Visibility animate visibleWhen={{
+        path: '/mySelection',
+        hasValue: value => value === 'showAdditionalOption' || value === 'showMeMore'
+      }}>
+            <Field.Option value="showMeMore" title="Show even more" bottom="x-small" />
+            <Form.Visibility animate visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'showMeMore'
+        }}>
+              <Section variant="information" innerSpace>
+                <Field.String placeholder="Enter more info" />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.Selection>
+      </Form.Card>
+    </Form.Handler>)
 ```
+
 
 #### ToggleButton with a path to populate the data
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      example: {
-        list: [
-          {
-            title: 'One',
-            value: 'one',
-          },
-          {
-            title: 'Two',
-            value: 'two',
-          },
-        ],
-      },
-      selection: 'two',
-    }}
-  >
-    <Field.Selection
-      variant="button"
-      label="Label text"
-      path="/selection"
-      dataPath="/example/list"
-    >
-      <Field.Option value="foo">Fooo</Field.Option>
-    </Field.Selection>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  example: {
+    list: [{
+      title: 'One',
+      value: 'one'
+    }, {
+      title: 'Two',
+      value: 'two'
+    }]
+  },
+  selection: 'two'
+}}>
+      <Field.Selection variant="button" label="Label text" path="/selection" dataPath="/example/list">
+        <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
+    </Form.Handler>)
 ```
+
 
 #### ToggleButton with the data property
 
-```tsx
-render(
-  <Field.Selection
-    variant="button"
-    label="Label text"
-    data={[
-      {
-        title: 'One',
-        value: 'one',
-      },
-      {
-        title: 'Two',
-        value: 'two',
-      },
-    ]}
-  />
-)
-```
 
 ```tsx
-render(
-  <Field.Selection label="Label" error="This is what is wrong...">
-    <Field.Option value="foo">Foo</Field.Option>
-    <Field.Option value="bar">Bar</Field.Option>
-  </Field.Selection>
-)
+render(<Field.Selection variant="button" label="Label text" data={[{
+  title: 'One',
+  value: 'one'
+}, {
+  title: 'Two',
+  value: 'two'
+}]} />)
 ```
 
+
+
+  
 ```tsx
-render(
-  <Field.Selection label="Label" info="Useful information (?)">
-    <Field.Option value="foo">Foo</Field.Option>
-    <Field.Option value="bar">Bar</Field.Option>
-  </Field.Selection>
-)
+render(<Field.Selection label="Label" error="This is what is wrong...">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>)
 ```
 
+  
 ```tsx
-render(
-  <Field.Selection label="Label" warning="I'm warning you...">
-    <Field.Option value="foo">Foo</Field.Option>
-    <Field.Option value="bar">Bar</Field.Option>
-  </Field.Selection>
-)
+render(<Field.Selection label="Label" info="Useful information (?)">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>)
+```
+
+  
+```tsx
+render(<Field.Selection label="Label" warning="I'm warning you...">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -1180,7 +874,10 @@ render(
     },
     "value": {
       "doc": "Defines the `value`. When using variant `radio` or `button`, value has to be a `string`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "transformSelection": {
@@ -1190,12 +887,18 @@ render(
     },
     "optionsLayout": {
       "doc": "Layout for the list of options. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "width": {
       "doc": "`small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "data": {
@@ -1225,19 +928,29 @@ render(
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size=\"2\"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["\"small\"", "\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"small\"",
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "children": {
       "doc": "For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -1259,12 +972,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -1284,7 +1005,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -1364,7 +1088,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -1379,12 +1106,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -1394,25 +1127,37 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "omit": ["value"]
+  "omit": [
+    "value"
+  ]
 }
 ```
 
 ## Events
+
 
 ```json
 {

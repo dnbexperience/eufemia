@@ -1,7 +1,7 @@
 ---
 title: 'Colors (deprecated)'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.458Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.374Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,24 +25,39 @@ You may have a look at the Quick Guide for Designers [About Colors](/quickguide-
 
 ## Colors Table
 
+
 <ChangeStyleTheme label="Change the brand in order to see the related tables:" />
 
 <div data-visual-test="color-table">
 
+  
 ## DNB Eiendom Colors
 
 <ColorTable theme="eiendom" />
 
+
+
+
+  
 ## Sbanken Colors
 
 <ColorTable theme="sbanken" />
 
+
+
+
+  
 ## DNB Carnegie Colors
 
 <ColorTable theme="carnegie" />
 
+
+
+
+  
 ## DNB Colors
 
 <ColorTable theme="ui" />
+
 
 </div>

@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.415Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.510Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
@@ -32,193 +32,129 @@ The Slider uses a semantic `<input type="range">` element for the thumb control,
 
 Keep in mind, you should most probably define your `min` and `max` value, because they are tied closely to your given value property.
 
+
 ## Demos
 
 ### Default Slider
 
+
 ```tsx
-render(
-  <Slider
-    min={0}
-    max={100}
-    value={70}
-    label="Default Slider"
-    numberFormat={{
-      currency: 'EUR',
-    }}
-    onChange={({ value }) => console.log('onChange:', value)}
-  />
-)
+render(<Slider min={0} max={100} value={70} label="Default Slider" numberFormat={{
+  currency: 'EUR'
+}} onChange={({
+  value
+}) => console.log('onChange:', value)} />)
 ```
+
 
 ### Slider with multiple thumb buttons
 
 Provide the `value` property as an array with numbers. The `onChange` event will then also return the property `value` as an array. The `+` and `-` buttons will not be visible when when more than one thumb button is present.
 
+
 ```tsx
-render(
-  <Flex.Vertical align="stretch">
-    <Slider
-      min={0}
-      max={100}
-      value={[30, 70]}
-      step={5}
-      label="Range with steps"
-      numberFormat={{
-        currency: 'USD',
-      }}
-      tooltip
-      onChange={({ value }) => console.log('onChange:', value)}
-    />
-    <Slider
-      min={0}
-      max={100}
-      value={[10, 30, 50, 70]}
-      label="Multi thumbs"
-      numberFormat={(value) =>
-        formatPercent(value, {
-          decimals: 0,
-        })
-      }
-      tooltip
-      onChange={({ value, number }) =>
-        console.log('onChange:', value, number)
-      }
-    />
-  </Flex.Vertical>
-)
+render(<Flex.Vertical align="stretch">
+      <Slider min={0} max={100} value={[30, 70]} step={5} label="Range with steps" numberFormat={{
+    currency: 'USD'
+  }} tooltip onChange={({
+    value
+  }) => console.log('onChange:', value)} />
+      <Slider min={0} max={100} value={[10, 30, 50, 70]} label="Multi thumbs" numberFormat={value => formatPercent(value, {
+    decimals: 0
+  })} tooltip onChange={({
+    value,
+    number
+  }) => console.log('onChange:', value, number)} />
+    </Flex.Vertical>)
 ```
+
 
 By default, the thumbs can swap positions. You can change that behavior with `multiThumbBehavior`.
 
+
 ```tsx
-render(
-  <Flex.Vertical align="stretch">
-    <Slider
-      multiThumbBehavior="omit"
-      value={[30, 70]}
-      label="Omit behavior"
-      numberFormat={{
-        currency: 'EUR',
-      }}
-      tooltip={true}
-      onChange={({ value }) => console.log('onChange:', value)}
-    />
-    <Slider
-      multiThumbBehavior="push"
-      min={-40}
-      value={[-10, 50, 70]}
-      step={1}
-      label="Push behavior"
-      numberFormat={{
-        currency: true,
-      }}
-      tooltip={true}
-      onChange={({ value, number }) =>
-        console.log('onChange:', value, number)
-      }
-    />
-  </Flex.Vertical>
-)
+render(<Flex.Vertical align="stretch">
+      <Slider multiThumbBehavior="omit" value={[30, 70]} label="Omit behavior" numberFormat={{
+    currency: 'EUR'
+  }} tooltip={true} onChange={({
+    value
+  }) => console.log('onChange:', value)} />
+      <Slider multiThumbBehavior="push" min={-40} value={[-10, 50, 70]} step={1} label="Push behavior" numberFormat={{
+    currency: true
+  }} tooltip={true} onChange={({
+    value,
+    number
+  }) => console.log('onChange:', value, number)} />
+    </Flex.Vertical>)
 ```
+
 
 ### Vertical slider with steps of 10
 
+
 ```tsx
 const VerticalWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  height: 12rem; /* max-height works fine except in Safari */
-`
-render(
-  <VerticalWrapper>
-    <Slider
-      min={0}
-      max={100}
-      value={20}
-      step={10}
-      vertical={true}
-      label="Vertical slider"
-      onChange={({ value }) => console.log('onChange:', value)}
-    />
-  </VerticalWrapper>
-)
+        display: inline-flex;
+        flex-direction: column;
+        height: 12rem; /* max-height works fine except in Safari */
+      `;
+render(<VerticalWrapper>
+          <Slider min={0} max={100} value={20} step={10} vertical={true} label="Vertical slider" onChange={({
+    value
+  }) => console.log('onChange:', value)} />
+        </VerticalWrapper>);
 ```
+
 
 ### Horizontal and vertical slider in sync with input field
 
+
 ```tsx
 const Component = () => {
-  const [value, setValue] = React.useState(70)
-  return (
-    <>
-      <Slider
-        value={value}
-        step={1}
-        hideButtons
-        label="Slider A"
-        numberFormat={{
-          currency: 'EUR',
-        }}
-        tooltip={true}
-        onChange={({ value }) => setValue(parseFloat(String(value)))}
-      />
-      <VerticalWrapper>
-        <Slider
-          value={value}
-          vertical={true}
-          hideButtons={true}
-          step={10}
-          label="Slider B"
-          numberFormat={(value) =>
-            formatCurrency(value, {
-              currency: 'NOK',
-            })
-          }
-          tooltip
-          alwaysShowTooltip
-          onChange={({ value }) => setValue(Number(value))}
-        />
-        <Input
-          align="center"
-          selectAll
-          value={String(value)}
-          onChange={({ value }) => setValue(Number(value))}
-        />
-      </VerticalWrapper>
-    </>
-  )
-}
+  const [value, setValue] = React.useState(70);
+  return <>
+            <Slider value={value} step={1} hideButtons label="Slider A" numberFormat={{
+      currency: 'EUR'
+    }} tooltip={true} onChange={({
+      value
+    }) => setValue(parseFloat(String(value)))} />
+            <VerticalWrapper>
+              <Slider value={value} vertical={true} hideButtons={true} step={10} label="Slider B" numberFormat={value => formatCurrency(value, {
+        currency: 'NOK'
+      })} tooltip alwaysShowTooltip onChange={({
+        value
+      }) => setValue(Number(value))} />
+              <Input align="center" selectAll value={String(value)} onChange={({
+        value
+      }) => setValue(Number(value))} />
+            </VerticalWrapper>
+          </>;
+};
 const VerticalWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  height: 20rem; /* max-height works fine except in Safari */
-  margin-top: 1rem;
-  padding: 1rem;
-  background: var(--color-lavender);
-  border: 1px solid var(--color-black-20);
-  .dnb-input {
-    width: 4rem;
-    margin-top: 1rem;
-  }
-`
-render(<Component />)
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        height: 20rem; /* max-height works fine except in Safari */
+        margin-top: 1rem;
+        padding: 1rem;
+        background: var(--color-lavender);
+        border: 1px solid var(--color-black-20);
+        .dnb-input {
+          width: 4rem;
+          margin-top: 1rem;
+        }
+      `;
+render(<Component />);
 ```
+
 
 ### Slider with a suffix
 
+
 ```tsx
-render(
-  <Slider
-    min={0}
-    max={100}
-    value={70}
-    label="Slider with suffix"
-    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-  />
-)
+render(<Slider min={0} max={100} value={70} label="Slider with suffix" suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />)
 ```
+
 
 ### Slider with a marker
 
@@ -230,32 +166,29 @@ You can import the marker like so:
 import { SliderMarker } from '@dnb/eufemia/components/Slider'
 ```
 
+
 ```tsx
-render(
-  <Slider
-    min={0}
-    max={100}
-    value={50}
-    extensions={{
-      marker: {
-        instance: SliderMarker,
-        value: 20,
-        text: 'Default value',
-      },
-    }}
-    label="Slider with marker"
-  />
-)
+render(<Slider min={0} max={100} value={50} extensions={{
+  marker: {
+    instance: SliderMarker,
+    value: 20,
+    text: 'Default value'
+  }
+}} label="Slider with marker" />)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).",
-      "type": ["number", "Array<number>"],
+      "type": [
+        "number",
+        "Array<number>"
+      ],
       "status": "optional"
     },
     "min": {
@@ -295,7 +228,11 @@ render(
     },
     "multiThumbBehavior": {
       "doc": "Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.",
-      "type": ["\"omit\"", "\"push\"", "\"swap\""],
+      "type": [
+        "\"omit\"",
+        "\"push\"",
+        "\"swap\""
+      ],
       "status": "optional"
     },
     "thumbTitle": {
@@ -315,7 +252,10 @@ render(
     },
     "numberFormat": {
       "doc": "Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.",
-      "type": ["object", "function"],
+      "type": [
+        "object",
+        "function"
+      ],
       "status": "optional"
     },
     "tooltip": {
@@ -335,7 +275,10 @@ render(
     },
     "labelDirection": {
       "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -345,12 +288,19 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -380,18 +330,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Slider.addTitle": {
       "nb-NO": "Øk (%s)",
@@ -408,6 +368,7 @@ render(
   }
 }
 ```
+
 
 ## Extensions
 
@@ -429,6 +390,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

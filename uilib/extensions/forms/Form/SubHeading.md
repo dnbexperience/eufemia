@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubHeading'
 description: '`Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.968Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.985Z
 checksum: fc167f457283cabe892e733be94ba69895180957e54d922b2d6aad09cb80fb4b
 ---
 
@@ -37,81 +37,90 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Text only
+
 
 ```tsx
 render(<Form.SubHeading>This is a sub heading</Form.SubHeading>)
 ```
 
+
 ### Below MainHeading
+
 
 ```tsx
 <Form.MainHeading>This is a main heading</Form.MainHeading>
 <Form.SubHeading>This is a sub heading</Form.SubHeading>
 ```
 
+
 ### Above a flex container
+
 
 ```tsx
 <Form.SubHeading>This is a sub heading</Form.SubHeading>
 <Flex.Stack>
-  <P>Stack contents</P>
-</Flex.Stack>
+      <P>Stack contents</P>
+    </Flex.Stack>
 ```
+
 
 ### Inside Card
 
+
 ```tsx
-render(
-  <Form.Card>
-    <Flex.Stack>
-      <Form.SubHeading>This is a sub heading</Form.SubHeading>
-      <P>Card contents</P>
-    </Flex.Stack>
-  </Form.Card>
-)
+render(<Form.Card>
+        <Flex.Stack>
+          <Form.SubHeading>This is a sub heading</Form.SubHeading>
+          <P>Card contents</P>
+        </Flex.Stack>
+      </Form.Card>)
 ```
 
+
 ### Above Card
+
 
 ```tsx
 <Form.SubHeading>This is a sub heading</Form.SubHeading>
 <Form.Card>
-  <P>Card contents</P>
-</Form.Card>
+      <P>Card contents</P>
+    </Form.Card>
 ```
 
+
 ### Two sub headings
+
 
 ```tsx
 <Form.SubHeading>This is sub heading 1</Form.SubHeading>
 <Form.SubHeading>This is sub heading 2</Form.SubHeading>
-Other contents
+     Other contents
 ```
+
 
 ### With HelpButton
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Form.SubHeading
-      help={{
-        title: 'Title',
-        content: 'Content',
-      }}
-    >
-      This is a sub heading
-    </Form.SubHeading>
-    <Form.Card>
-      <P>Card contents</P>
-    </Form.Card>
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Form.SubHeading help={{
+    title: 'Title',
+    content: 'Content'
+  }}>
+          This is a sub heading
+        </Form.SubHeading>
+        <Form.Card>
+          <P>Card contents</P>
+        </Form.Card>
+      </Flex.Stack>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -133,7 +142,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

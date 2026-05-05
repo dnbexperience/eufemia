@@ -1,8 +1,8 @@
 ---
 title: 'HorizontalRule'
 description: 'The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.637Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.707Z
 checksum: 5fd9fdfe6031fc1b45bdcca23d523d244f08aafdbae5b1435dc866e3b0bf7164
 ---
 
@@ -39,62 +39,55 @@ Browsers render borders differently. They also handle sizing differently. For ex
 
 In order to address different solutions, [here is a test case](https://r8ljo.csb.app/) finding the right balance of creating `0.5px` / `1.5px` lines, browser compatibility, and correct look. As of 2020, Firefox does the best job of showing the line thickness correctly.
 
+
 ## Demos
 
 ### Horizontal Rule default
 
+
 ```tsx
-render(
-  <P>
-    Before
-    <Hr
-      space={{
-        top: '0.5rem',
-        bottom: '0.5rem',
-      }}
-    />
-    After
-  </P>
-)
+render(<P>
+      Before
+      <Hr space={{
+    top: '0.5rem',
+    bottom: '0.5rem'
+  }} />
+      After
+    </P>)
 ```
+
 
 ### Horizontal Rule dashed
 
+
 ```tsx
-render(
-  <P>
-    Before
-    <Hr
-      dashed
-      space={{
-        top: '0.5rem',
-        bottom: '0.5rem',
-      }}
-    />
-    After
-  </P>
-)
+render(<P>
+      Before
+      <Hr dashed space={{
+    top: '0.5rem',
+    bottom: '0.5rem'
+  }} />
+      After
+    </P>)
 ```
+
 
 ### Horizontal Rule in fullscreen
 
+
 ```tsx
-render(
-  <P>
-    Before
-    <Hr
-      breakout
-      space={{
-        top: '0.5rem',
-        bottom: '0.5rem',
-      }}
-    />
-    After
-  </P>
-)
+render(<P>
+      Before
+      <Hr breakout space={{
+    top: '0.5rem',
+    bottom: '0.5rem'
+  }} />
+      After
+    </P>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -111,7 +104,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

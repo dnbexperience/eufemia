@@ -1,8 +1,8 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.187Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.163Z
 checksum: 53e1414693ea679e7fe0f32285e0b77836ef75408a4785fdb6c31eb06e80eb7f
 ---
 
@@ -33,75 +33,91 @@ See [Best Practices for number formatting](/uilib/usage/best-practices/for-forma
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Currency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Currency)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.Currency showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.Currency placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.Currency value={150} />)
 ```
 
+
 ### Suffix
+
 
 ```tsx
 render(<Value.Currency value={150} suffix=" - my suffix" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.Currency label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.Currency label="Label text" value={60000000} />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component <Value.Currency value={25000} inline />{' '}
-    This is after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.Currency value={25000} inline /> This is after the component
+      </P>)
 ```
+
 
 ### Inline and label
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.Currency label="Label text" value={25000} inline /> This is
-    after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.Currency label="Label text" value={25000} inline /> This is
+        after the component
+      </P>)
 ```
 
 ## Value-specific properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "currency": {
@@ -142,7 +158,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -223,19 +243,27 @@ render(
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## General properties
+
 
 ```json
 {
@@ -302,7 +330,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -312,11 +345,17 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
   "valueType": "number",
-  "omit": ["value", "[Space](/uilib/layout/space/properties)"]
+  "omit": [
+    "value",
+    "[Space](/uilib/layout/space/properties)"
+  ]
 }
 ```

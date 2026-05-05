@@ -1,8 +1,8 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.378Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.491Z
 checksum: 5795f4aaf0b630532144f40f337f7e987269d7bb018d76733aa0070ace662f39
 ---
 
@@ -30,213 +30,173 @@ It is recommended to use radio buttons in a group. You can use either the React 
 
 Radio buttons use semantic `<input type="radio">` elements grouped by the `name` attribute. Arrow keys navigate between options within a group, and Space selects an option. Screen readers announce the group label, current selection, and number of options.
 
+
 ## Demos
 
 ### Radio group
 
+
 ```tsx
-render(
-  <Radio.Group
-    label="Radio Group"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-    value="first"
-  >
-    <Radio label="First" value="first" />
-    <Radio label="Second" value="second" />
-    <Radio label="Third" value="third" />
-  </Radio.Group>
-)
+render(<Radio.Group label="Radio Group" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}} value="first">
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" />
+      <Radio label="Third" value="third" />
+    </Radio.Group>)
 ```
+
 
 ### Vertical aligned Radio group
 
+
 ```tsx
-render(
-  <Radio.Group
-    label="Vertical Group"
-    layoutDirection="column"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-  >
-    <Radio label="First" value="first" />
-    <Radio label="Second" value="second" />
-    <Radio label="Third" value="third" checked />
-  </Radio.Group>
-)
+render(<Radio.Group label="Vertical Group" layoutDirection="column" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}}>
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" />
+      <Radio label="Third" value="third" checked />
+    </Radio.Group>)
 ```
+
 
 ### Radio group with label above
 
+
 ```tsx
-render(
-  <Radio.Group
-    vertical
-    label="Vertical Group"
-    layoutDirection="column"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-  >
-    <Radio label="First" value="first" />
-    <Radio label="Second" value="second" />
-    <Radio label="Third" value="third" checked />
-  </Radio.Group>
-)
+render(<Radio.Group vertical label="Vertical Group" layoutDirection="column" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}}>
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" />
+      <Radio label="Third" value="third" checked />
+    </Radio.Group>)
 ```
+
 
 ### Radio group with status messages
 
+
 ```tsx
-render(
-  <Radio.Group
-    label="Radio Group with status"
-    layoutDirection="column"
-    onChange={({ value }) => {
-      console.log('onChange', value)
-    }}
-  >
-    <Radio label="First" value="first" status="error" />
-    <Radio label="Second" value="second" status="Error message" />
-    <Radio
-      label="Third"
-      value="third"
-      checked
-      status="Info message"
-      statusState="information"
-    />
-  </Radio.Group>
-)
+render(<Radio.Group label="Radio Group with status" layoutDirection="column" onChange={({
+  value
+}) => {
+  console.log('onChange', value);
+}}>
+      <Radio label="First" value="first" status="error" />
+      <Radio label="Second" value="second" status="Error message" />
+      <Radio label="Third" value="third" checked status="Info message" statusState="information" />
+    </Radio.Group>)
 ```
+
 
 ### Plain Radio group
 
 Without `<Radio.Group>`. It is recommended to use the `<Radio.Group>` if you are using **React**.
 
+
 ```tsx
-render(
-  <FieldBlock
-    label="Plain Radio group"
-    layout="horizontal"
-    labelHeight="small"
-  >
-    <Radio
-      value="first"
-      label="First"
-      group="MyRadioGroup"
-      onChange={({ value, checked }) => {
-        console.log('onChange', value, checked)
-      }}
-      right
-    />
-    <Radio
-      value="second"
-      label="Second"
-      group="MyRadioGroup"
-      onChange={({ value, checked }) => {
-        console.log('onChange', value, checked)
-      }}
-      right
-    />
-    <Radio
-      checked
-      value="third"
-      label="Third"
-      group="MyRadioGroup"
-      onChange={({ value, checked }) => {
-        console.log('onChange', value, checked)
-      }}
-      right
-    />
-  </FieldBlock>
-)
+render(<FieldBlock label="Plain Radio group" layout="horizontal" labelHeight="small">
+      <Radio value="first" label="First" group="MyRadioGroup" onChange={({
+    value,
+    checked
+  }) => {
+    console.log('onChange', value, checked);
+  }} right />
+      <Radio value="second" label="Second" group="MyRadioGroup" onChange={({
+    value,
+    checked
+  }) => {
+    console.log('onChange', value, checked);
+  }} right />
+      <Radio checked value="third" label="Third" group="MyRadioGroup" onChange={({
+    value,
+    checked
+  }) => {
+    console.log('onChange', value, checked);
+  }} right />
+    </FieldBlock>)
 ```
+
 
 ### With different sizes
 
 As for now, there are two sizes. `medium` is the default size.
+
 
 ```tsx
 <Radio size="medium" label="Medium" right="large" checked />
 <Radio size="large" label="Large" checked />
 ```
 
+
 ### Disabled Radio Group
 
 With `labelPosition` set to left.
 
+
 ```tsx
-render(
-  <Radio.Group
-    label="Disabled Group"
-    disabled
-    labelPosition="left"
-    name="MyGroup"
-  >
-    <Radio label="First" value="first" />
-    <Radio label="Second" value="second" />
-    <Radio label="Third" value="third" checked />
-  </Radio.Group>
-)
+render(<Radio.Group label="Disabled Group" disabled labelPosition="left" name="MyGroup">
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" />
+      <Radio label="Third" value="third" checked />
+    </Radio.Group>)
 ```
+
 
 ### Radio Buttons with a suffix
 
+
 ```tsx
-render(
-  <Radio.Group label="With suffixes" labelPosition="left">
-    <Radio label="First" value="first" />
-    <Radio
-      label="Second"
-      value="second"
-      suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-    />
-    <Radio
-      label="Third"
-      value="third"
-      status="Error message"
-      suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-      checked
-    />
-  </Radio.Group>
-)
+render(<Radio.Group label="With suffixes" labelPosition="left">
+      <Radio label="First" value="first" />
+      <Radio label="Second" value="second" suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />
+      <Radio label="Third" value="third" status="Error message" suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} checked />
+    </Radio.Group>)
 ```
 
+
+
+  
 ```tsx
 <ComponentBox data-visual-test="radio-error-unchecked">
-  <Radio label="Unchecked" status="error" />
-</ComponentBox>
+    <Radio label="Unchecked" status="error" />
+  </ComponentBox>
 <ComponentBox data-visual-test="radio-error-checked">
-  <Radio label="Checked" status="error" checked />
-</ComponentBox>
+    <Radio label="Checked" status="error" checked />
+  </ComponentBox>
 ```
 
+  
 ```tsx
 <ComponentBox data-visual-test="radio-default">
-  <Radio label="Single Radio" />
-</ComponentBox>
+      <Radio label="Single Radio" />
+    </ComponentBox>
 <ComponentBox data-visual-test="radio-checked">
-  <Radio
-    label="Checked Radio"
-    checked
-    onChange={({ checked }) => console.log(checked)}
-  />
-</ComponentBox>
+      <Radio label="Checked Radio" checked onChange={({
+  checked
+}) => console.log(checked)} />
+    </ComponentBox>
 ```
 
+  
 ```tsx
-render(
-  <ShowBoundingArea>
+render(<ShowBoundingArea>
     <ComponentBox data-visual-test="radio-bounding">
       <Radio label="Radio button" checked />
     </ComponentBox>
-  </ShowBoundingArea>
-)
+  </ShowBoundingArea>)
 ```
 
 ## `Radio` properties
+
 
 ```json
 {
@@ -258,7 +218,11 @@ render(
     },
     "size": {
       "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
-      "type": ["\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "label": {
@@ -268,7 +232,10 @@ render(
     },
     "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -278,12 +245,19 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -305,7 +279,9 @@ render(
 }
 ```
 
+
 ## `Radio.Group` properties
+
 
 ```json
 {
@@ -322,22 +298,35 @@ render(
     },
     "layoutDirection": {
       "doc": "Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `row`.",
-      "type": ["\"column\"", "\"row\""],
+      "type": [
+        "\"column\"",
+        "\"row\""
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
-      "type": ["\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "status": {
       "doc": "Uses the `form-status` component to show failure messages.",
-      "type": ["string", "boolean"],
+      "type": [
+        "string",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -357,7 +346,10 @@ render(
     },
     "labelDirection": {
       "doc": "To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.",
-      "type": ["\"vertical\"", "\"horizontal\""],
+      "type": [
+        "\"vertical\"",
+        "\"horizontal\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -374,11 +366,13 @@ render(
 }
 ```
 
+
 ### Radio group Context
 
 You can also pass through `labelPosition` and some more **Radio button** properties to the Group. This way all nested Radio buttons will get the properties.
 
 ## `Radio` events
+
 
 ```json
 {
@@ -392,7 +386,9 @@ You can also pass through `labelPosition` and some more **Radio button** propert
 }
 ```
 
+
 ## `Radio.Group` events
+
 
 ```json
 {

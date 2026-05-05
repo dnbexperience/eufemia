@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.356Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.299Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -61,6 +61,7 @@ One of the reasons to make the buttons not focusable is to prevent keyboard-only
 
 Due to technical constraints, the `Field.Number` component will be announced as a `stepper` field but will have the same instructions read out by a screen reader like VoiceOver on how to change the value.
 
+
 ## Demos
 
 <ChangeLocale
@@ -71,35 +72,22 @@ Due to technical constraints, the `Field.Number` component will be announced as 
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.Number
-    label="Label text"
-    defaultValue={420000.25}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number label="Label text" defaultValue={420000.25} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label and description
 
+
 ```tsx
-render(
-  <Form.Card>
-    <Field.Number
-      label="Label text"
-      labelDescription="Description text on the next line"
-      placeholder="Enter a text..."
-    />
-    <Field.Number
-      label="Label text"
-      labelDescription="Description text on the same line"
-      labelDescriptionInline
-      placeholder="Enter a text..."
-    />
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.Number label="Label text" labelDescription="Description text on the next line" placeholder="Enter a text..." />
+        <Field.Number label="Label text" labelDescription="Description text on the same line" labelDescriptionInline placeholder="Enter a text..." />
+      </Form.Card>)
 ```
+
 
 ### With a horizontal layout
 
@@ -107,310 +95,174 @@ This example uses [Field.Provider](/uilib/extensions/forms/feature-fields/Provid
 
 The `width` of the horizontal label can be set to `small`, `medium`, `large` or a `rem` value.
 
+
 ```tsx
-render(
-  <Form.Card>
-    <Field.Provider
-      layout="horizontal"
-      layoutOptions={{
-        width: 'medium', // can be a rem value
-      }}
-      required
-    >
-      <Field.Number
-        label="Label text"
-        defaultValue={420000}
-        step={10000}
-        showStepControls
-      />
-      <Field.Number
-        label="Label with a long text that will wrap"
-        placeholder="Enter a number..."
-        info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
-      />
-      <Field.Number
-        label="Label with a long text that will wrap"
-        placeholder="Enter a number..."
-        size="large"
-        width="stretch"
-      />
-    </Field.Provider>
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.Provider layout="horizontal" layoutOptions={{
+    width: 'medium' // can be a rem value
+  }} required>
+          <Field.Number label="Label text" defaultValue={420000} step={10000} showStepControls />
+          <Field.Number label="Label with a long text that will wrap" placeholder="Enter a number..." info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et." />
+          <Field.Number label="Label with a long text that will wrap" placeholder="Enter a number..." size="large" width="stretch" />
+        </Field.Provider>
+      </Form.Card>)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.Number
-    label="Label text"
-    placeholder="Enter a number..."
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number label="Label text" placeholder="Enter a number..." onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### With custom mask
 
+
 ```tsx
-render(
-  <Field.Number
-    label="Label text"
-    defaultValue={1234}
-    mask={Array(4).fill(/\\d/)}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number label="Label text" defaultValue={1234} mask={Array(4).fill(/\\d/)} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With a status
 
 This example demonstrates how the status message width adjusts according to the field width.
 
+
 ```tsx
-render(
-  <Form.Card>
-    <Field.Number
-      label="Label text"
-      placeholder="Enter a number..."
-      width="large"
-      warning="Short warning."
-      required
-    />
-    <Field.Number
-      label="Label text"
-      defaultValue={420000}
-      width="large"
-      info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
-      required
-    />
-    <Field.Number
-      label="Label text"
-      value={1234}
-      width="small"
-      warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation."
-      required
-    />
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.Number label="Label text" placeholder="Enter a number..." width="large" warning="Short warning." required />
+        <Field.Number label="Label text" defaultValue={420000} width="large" info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et." required />
+        <Field.Number label="Label text" value={1234} width="small" warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation." required />
+      </Form.Card>)
 ```
+
 
 #### With help
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={12345}
-    label="Label text"
-    help={{
-      title: 'Help is available',
-      content:
-        'Here is what a team can do for you. . . . It allows you to help others do their best.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number defaultValue={12345} label="Label text" help={{
+  title: 'Help is available',
+  content: 'Here is what a team can do for you. . . . It allows you to help others do their best.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Exclusive minimum and exclusive maximum
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={1000}
-    label="Label text"
-    allowNegative={false}
-    required
-    exclusiveMinimum={900}
-    exclusiveMaximum={1000}
-    validateInitially
-  />
-)
+render(<Field.Number defaultValue={1000} label="Label text" allowNegative={false} required exclusiveMinimum={900} exclusiveMaximum={1000} validateInitially />)
 ```
+
 
 ### Prefix and suffix
 
 You can also use a function as a prefix or suffix.
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Field.Number
-      defaultValue={1234}
-      label="With prefix"
-      prefix="prefix "
-      onChange={(value) => console.log('onChange', value)}
-    />
-    <Field.Number
-      defaultValue={1}
-      label="With suffix (function)"
-      suffix={(value) => (value === 1 ? ' year' : ' years')}
-      onChange={(value) => console.log('onChange', value)}
-    />
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Field.Number defaultValue={1234} label="With prefix" prefix="prefix " onChange={value => console.log('onChange', value)} />
+        <Field.Number defaultValue={1} label="With suffix (function)" suffix={value => value === 1 ? ' year' : ' years'} onChange={value => console.log('onChange', value)} />
+      </Flex.Stack>)
 ```
+
 
 ### Alignment
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Field.Number
-      align="center"
-      label="Center aligned (default)"
-      defaultValue={10}
-      onChange={(value) => console.log('onChange', value)}
-    />
-    <Field.Number
-      align="left"
-      label="Left aligned"
-      defaultValue={10}
-      onChange={(value) => console.log('onChange', value)}
-    />
-    <Field.Number
-      align="right"
-      label="Right aligned"
-      defaultValue={10}
-      onChange={(value) => console.log('onChange', value)}
-    />
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Field.Number align="center" label="Center aligned (default)" defaultValue={10} onChange={value => console.log('onChange', value)} />
+        <Field.Number align="left" label="Left aligned" defaultValue={10} onChange={value => console.log('onChange', value)} />
+        <Field.Number align="right" label="Right aligned" defaultValue={10} onChange={value => console.log('onChange', value)} />
+      </Flex.Stack>)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={12345}
-    label="Label text"
-    help={{
-      title: 'Help is available',
-      content:
-        'Here is what a team can do for you. . . . It allows you to help others do their best.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number defaultValue={12345} label="Label text" help={{
+  title: 'Help is available',
+  content: 'Here is what a team can do for you. . . . It allows you to help others do their best.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With step controls
 
+
 ```tsx
-render(
-  <Field.Number
-    label="Label text"
-    showStepControls
-    minimum={0}
-    maximum={100}
-    step={10}
-    defaultValue={50}
-  />
-)
+render(<Field.Number label="Label text" showStepControls minimum={0} maximum={100} step={10} defaultValue={50} />)
 ```
+
 
 ### With step controls in conjunction with Slider
 
+
 ```tsx
 const Component = () => {
-  const [value, setValue] = React.useState(50000)
+  const [value, setValue] = React.useState(50000);
   const settings = {
     min: 0,
     max: 100000,
-    step: 1000,
-  }
-  return (
-    <Grid.Container>
-      <Grid.Item
-        span={{
-          small: [1, 12],
-          medium: [1, 4],
-          large: [1, 3],
-        }}
-      >
-        <Field.Number
-          label="Label text"
-          showStepControls
-          minimum={settings.min}
-          maximum={settings.max}
-          step={settings.step}
-          value={value}
-          onChange={(value) => setValue(value)}
-          width="stretch"
-          bottom="small"
-        />
-        <Slider
-          min={settings.min}
-          max={settings.max}
-          step={settings.step}
-          value={value}
-          onChange={({ value }) => setValue(parseFloat(String(value)))}
-          hideButtons
-          tooltip
-        />
-      </Grid.Item>
-    </Grid.Container>
-  )
-}
-render(<Component />)
+    step: 1000
+  };
+  return <Grid.Container>
+            <Grid.Item span={{
+      small: [1, 12],
+      medium: [1, 4],
+      large: [1, 3]
+    }}>
+              <Field.Number label="Label text" showStepControls minimum={settings.min} maximum={settings.max} step={settings.step} value={value} onChange={value => setValue(value)} width="stretch" bottom="small" />
+              <Slider min={settings.min} max={settings.max} step={settings.step} value={value} onChange={({
+        value
+      }) => setValue(parseFloat(String(value)))} hideButtons tooltip />
+            </Grid.Item>
+          </Grid.Container>;
+};
+render(<Component />);
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={135}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Number defaultValue={135} label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={123}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-  />
-)
+render(<Field.Number defaultValue={123} label="Label text" onChange={value => console.log('onChange', value)} required />)
 ```
+
 
 ### Validation - Minimum
 
+
 ```tsx
-render(
-  <Field.Number
-    defaultValue={300}
-    label="Enter a number below 250 and blur to trigger error"
-    onChange={(value) => console.log('onChange', value)}
-    minimum={250}
-  />
-)
+render(<Field.Number defaultValue={300} label="Enter a number below 250 and blur to trigger error" onChange={value => console.log('onChange', value)} minimum={250} />)
 ```
+
 
 ### Validation - Maximum and custom error message
 
+
 ```tsx
-render(
-  <Field.Number
-    label="Enter a number above 250 and blur to trigger error"
-    defaultValue={200}
-    maximum={250}
-    errorMessages={{
-      maximum: "You can't enter a number THAR large.. Max 250!",
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Number label="Enter a number above 250 and blur to trigger error" defaultValue={200} maximum={250} errorMessages={{
+  maximum: "You can't enter a number THAR large.. Max 250!"
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Displaying messages - Conditional info message
 
@@ -460,178 +312,112 @@ Down below you can see an example of how to use the `conditionally` function. Th
 
 Read more about [validation and the user experience](/uilib/extensions/forms/getting-started/#validation-and-the-user-experience-ux).
 
-```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      maximum: 4,
-      amount: 5,
-    }}
-    onSubmit={async (data) => {
-      console.log('onSubmit', data)
-    }}
-  >
-    <Form.Card>
-      <Field.Number
-        label="Maximum for amount"
-        labelDescription={
-          <>Defines the maximum amount possible to be entered.</>
-        }
-        path="/maximum"
-        required
-        info={(
-          maximum,
-          { conditionally, getValueByPath, getFieldByPath }
-        ) => {
-          return conditionally(() => {
-            if (maximum < getValueByPath('/amount')) {
-              const { props, id } = getFieldByPath('/amount')
-              const anchor = props?.label && (
-                <Anchor
-                  href={'#' + id + '-label'}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    const el = document.getElementById(id + '-label')
-                    el?.scrollIntoView()
-                  }}
-                >
-                  {props.label}
-                </Anchor>
-              )
-              return (
-                anchor && (
-                  <>
-                    Remember to adjust the {anchor} to be {maximum} or
-                    lower.
-                  </>
-                )
-              )
-            }
-          })
-        }}
-      />
-      <Field.Number
-        label="Amount"
-        labelDescription={<>Should be same or lower than maximum.</>}
-        path="/amount"
-        required
-        onBlurValidator={(amount: number, { connectWithPath }) => {
-          const maximum = connectWithPath('/maximum').getValue()
-          if (amount > maximum) {
-            return new FormError('NumberField.errorMaximum', {
-              messageValues: {
-                maximum: maximum.toString(),
-              },
-            })
-          }
-        }}
-      />
-    </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler defaultData={{
+  maximum: 4,
+  amount: 5
+}} onSubmit={async data => {
+  console.log('onSubmit', data);
+}}>
+            <Form.Card>
+              <Field.Number label="Maximum for amount" labelDescription={<>Defines the maximum amount possible to be entered.</>} path="/maximum" required info={(maximum, {
+      conditionally,
+      getValueByPath,
+      getFieldByPath
+    }) => {
+      return conditionally(() => {
+        if (maximum < getValueByPath('/amount')) {
+          const {
+            props,
+            id
+          } = getFieldByPath('/amount');
+          const anchor = props?.label && <Anchor href={'#' + id + '-label'} onClick={event => {
+            event.preventDefault();
+            const el = document.getElementById(id + '-label');
+            el?.scrollIntoView();
+          }}>
+                          {props.label}
+                        </Anchor>;
+          return anchor && <>
+                            Remember to adjust the {anchor} to be {maximum}{' '}
+                            or lower.
+                          </>;
+        }
+      });
+    }} />
+              <Field.Number label="Amount" labelDescription={<>Should be same or lower than maximum.</>} path="/amount" required onBlurValidator={(amount: number, {
+      connectWithPath
+    }) => {
+      const maximum = connectWithPath('/maximum').getValue();
+      if (amount > maximum) {
+        return new FormError('NumberField.errorMaximum', {
+          messageValues: {
+            maximum: maximum.toString()
+          }
+        });
+      }
+    }} />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Percentage
 
+
 ```tsx
-render(
-  <Field.Number
-    percent
-    defaultValue={80}
-    label="Percentage"
-    onChange={(value) => console.log('onChange', value)}
-    minimum={90}
-  />
-)
+render(<Field.Number percent defaultValue={80} label="Percentage" onChange={value => console.log('onChange', value)} minimum={90} />)
 ```
 
+
 ### Allow Negative
+
 
 ```tsx
 render(<Field.Number allowNegative={false} />)
 ```
 
+
 ### Disallow Leading Zeroes
+
 
 ```tsx
 render(<Field.Number disallowLeadingZeroes />)
 ```
 
+
 ### Widths
 
-```tsx
-render(
-  <Flex.Stack>
-    <Form.SubHeading>Without step controls</Form.SubHeading>
-
-    <Field.Number
-      label="Default width (property omitted)"
-      defaultValue={1234}
-    />
-    <Field.Number label="Small" defaultValue={1234} width="small" />
-    <Field.Number
-      label="Medium (and medium size)"
-      defaultValue={1234}
-      width="medium"
-      size="medium"
-    />
-    <Field.Number
-      label="Large (and large size)"
-      defaultValue={1234}
-      width="large"
-      size="large"
-    />
-    <Field.Number label="Stretch" defaultValue={1234} width="stretch" />
-    <Form.SubHeading>With step controls</Form.SubHeading>
-    <Field.Number
-      showStepControls
-      label="Default width (property omitted)"
-      defaultValue={1234}
-    />
-    <Field.Number
-      showStepControls
-      label="Small"
-      defaultValue={1234}
-      width="small"
-    />
-    <Field.Number
-      showStepControls
-      label="Medium (and medium size)"
-      defaultValue={1234}
-      width="medium"
-      size="medium"
-    />
-    <Field.Number
-      showStepControls
-      label="Large (and large size)"
-      defaultValue={1234}
-      width="large"
-      size="large"
-    />
-    <Field.Number
-      showStepControls
-      label="Stretch"
-      defaultValue={1234}
-      width="stretch"
-    />
-  </Flex.Stack>
-)
-```
 
 ```tsx
-render(
-  <Field.Number
-    label="Label text"
-    showStepControls
-    maximum={100}
-    defaultValue={150}
-    error={new Error('You done messed up, A-a-ron!')}
-  />
-)
+render(<Flex.Stack>
+        <Form.SubHeading>Without step controls</Form.SubHeading>
+
+        <Field.Number label="Default width (property omitted)" defaultValue={1234} />
+        <Field.Number label="Small" defaultValue={1234} width="small" />
+        <Field.Number label="Medium (and medium size)" defaultValue={1234} width="medium" size="medium" />
+        <Field.Number label="Large (and large size)" defaultValue={1234} width="large" size="large" />
+        <Field.Number label="Stretch" defaultValue={1234} width="stretch" />
+        <Form.SubHeading>With step controls</Form.SubHeading>
+        <Field.Number showStepControls label="Default width (property omitted)" defaultValue={1234} />
+        <Field.Number showStepControls label="Small" defaultValue={1234} width="small" />
+        <Field.Number showStepControls label="Medium (and medium size)" defaultValue={1234} width="medium" size="medium" />
+        <Field.Number showStepControls label="Large (and large size)" defaultValue={1234} width="large" size="large" />
+        <Field.Number showStepControls label="Stretch" defaultValue={1234} width="stretch" />
+      </Flex.Stack>)
 ```
 
+
+
+  
+```tsx
+render(<Field.Number label="Label text" showStepControls maximum={100} defaultValue={150} error={new Error('You done messed up, A-a-ron!')} />)
+```
+
+  
 ```tsx
 render(<Field.Number label="Label text" showStepControls disabled />)
 ```
@@ -639,6 +425,7 @@ render(<Field.Number label="Label text" showStepControls disabled />)
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -655,7 +442,10 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "currency": {
       "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "allowNegative": {
@@ -695,22 +485,35 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "width": {
       "doc": "`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "autoComplete": {
       "doc": "For HTML `autocomplete` attributes.",
-      "type": ["\"on\"", "string"],
+      "type": [
+        "\"on\"",
+        "string"
+      ],
       "status": "optional"
     },
     "prefix": {
@@ -740,14 +543,19 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "mask": {
       "doc": "An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.",
-      "type": ["array", "function"],
+      "type": [
+        "array",
+        "function"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -769,12 +577,20 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -794,7 +610,10 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["number", "undefined"],
+      "type": [
+        "number",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -874,7 +693,10 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -889,12 +711,18 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -904,17 +732,26 @@ render(<Field.Number label="Label text" showStepControls disabled />)
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
@@ -922,11 +759,18 @@ render(<Field.Number label="Label text" showStepControls disabled />)
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -1005,6 +849,7 @@ render(<Field.Number label="Label text" showStepControls disabled />)
 ```
 
 ## Events
+
 
 ```json
 {

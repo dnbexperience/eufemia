@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'A ready to use DNB list formatter.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.281Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.408Z
 checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
 ---
 
@@ -53,126 +53,81 @@ See the following [demo](/uilib/components/list-format/demos/#using-listformat-f
 
 The `listFormat` function supports an object with `{ format, locale }` as the second parameter. `format` and `locale` will accept the same values as documented in [format property](/uilib/components/list-format/properties/) of the `ListFormat` component.
 
+
 ## Demos
 
 ### Basic usage with `value`
 
+
 ```tsx
-render(
-  <ListFormat
-    value={[
-      <React.Fragment key="a">A</React.Fragment>,
-      <>
-        <b>B</b>
-      </>,
-      <>C</>,
-      'D',
-      123,
-      <Anchor
-        target="_blank"
-        href="https://github.com/dnbexperience/eufemia"
-        rel="noopener noreferrer"
-        key="github"
-      >
-        Link to Eufemia's Github Repo
-      </Anchor>,
-      <>
-        Text <Badge content="Info" variant="information" /> Text
-      </>,
-    ]}
-  />
-)
+render(<ListFormat value={[<React.Fragment key="a">A</React.Fragment>, <>
+            <b>B</b>
+          </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
+            Link to Eufemia's Github Repo
+          </Anchor>, <>
+            Text <Badge content="Info" variant="information" /> Text
+          </>]} />)
 ```
+
 
 ### Basic usage with `children`
 
+
 ```tsx
-render(
-  <ListFormat>
-    <React.Fragment key="a">A</React.Fragment>
-    <>
-      <b>B</b>
-    </>
-    <>C</>
-    <>D</>
-    123
-    <Anchor
-      target="_blank"
-      href="https://github.com/dnbexperience/eufemia"
-      rel="noopener noreferrer"
-      key="github"
-    >
-      Link to Eufemia's Github Repo
-    </Anchor>
-    <>
-      Text <Badge content="Info" variant="information" /> Text
-    </>
-  </ListFormat>
-)
+render(<ListFormat>
+        <React.Fragment key="a">A</React.Fragment>
+        <>
+          <b>B</b>
+        </>
+        <>C</>
+        <>D</>
+        123
+        <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
+          Link to Eufemia's Github Repo
+        </Anchor>
+        <>
+          Text <Badge content="Info" variant="information" /> Text
+        </>
+      </ListFormat>)
 ```
+
 
 ### Custom format
 
+
 ```tsx
-render(
-  <Provider locale="en-GB">
-    <ListFormat
-      value={[
-        <React.Fragment key="a">A</React.Fragment>,
-        <>
-          <b>B</b>
-        </>,
-        <>C</>,
-        'D',
-        123,
-        <Anchor
-          target="_blank"
-          href="https://github.com/dnbexperience/eufemia"
-          rel="noopener noreferrer"
-          key="github"
-        >
-          Link to Eufemia's Github Repo
-        </Anchor>,
-        <>
-          Text <Badge content="Info" variant="information" /> Text
-        </>,
-      ]}
-      format={{
-        type: 'disjunction',
-      }}
-    />
-  </Provider>
-)
+render(<Provider locale="en-GB">
+        <ListFormat value={[<React.Fragment key="a">A</React.Fragment>, <>
+              <b>B</b>
+            </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
+              Link to Eufemia's Github Repo
+            </Anchor>, <>
+              Text <Badge content="Info" variant="information" /> Text
+            </>]} format={{
+    type: 'disjunction'
+  }} />
+      </Provider>)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <ListFormat
-      value={[
-        123,
-        <Anchor
-          target="_blank"
-          href="https://github.com/dnbexperience/eufemia"
-          rel="noopener noreferrer"
-          key="github"
-        >
-          Link to Eufemia's Github Repo
-        </Anchor>,
-        <>
-          Text <Badge content="Info" variant="information" /> Text
-        </>,
-      ]}
-    />{' '}
-    This is after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <ListFormat value={[123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
+              Link to Eufemia's Github Repo
+            </Anchor>, <>
+              Text <Badge content="Info" variant="information" /> Text
+            </>]} />{' '}
+        This is after the component
+      </P>)
 ```
 
+
 ### List variants
+
 
 ```tsx
 <P>Ordered List:</P>
@@ -181,7 +136,9 @@ render(
 <ListFormat value={['Foo', 'Bar', 'Baz']} variant="ul" />
 ```
 
+
 ### List types
+
 
 ```tsx
 <P>Ordered List a:</P>
@@ -193,68 +150,43 @@ render(
 <P>Ordered List I:</P>
 <ListFormat value={['Foo', 'Bar', 'Baz']} variant="ol" listType="I" />
 <P>Unordered List square:</P>
-<ListFormat
-  value={['Foo', 'Bar', 'Baz']}
-  variant="ul"
-  listType="square"
-/>
+<ListFormat value={['Foo', 'Bar', 'Baz']} variant="ul" listType="square" />
 <P>Unordered List circle:</P>
-<ListFormat
-  value={['Foo', 'Bar', 'Baz']}
-  variant="ul"
-  listType="circle"
-/>
+<ListFormat value={['Foo', 'Bar', 'Baz']} variant="ul" listType="circle" />
 <P>Unordered List unstyled:</P>
-<ListFormat
-  value={['Foo', 'Bar', 'Baz']}
-  variant="ul"
-  listType="unstyled"
-/>
+<ListFormat value={['Foo', 'Bar', 'Baz']} variant="ul" listType="unstyled" />
 ```
+
 
 ### Using listFormat function
 
+
 ```tsx
-{
-  listFormat(
-    [
-      <React.Fragment key="a">A</React.Fragment>,
-      <>
-        <b>B</b>
-      </>,
-      <>C</>,
-      'D',
-      123,
-      <Anchor
-        target="_blank"
-        href="https://github.com/dnbexperience/eufemia"
-        rel="noopener noreferrer"
-        key="github"
-      >
-        Link to Eufemia's Github Repo
-      </Anchor>,
-      <>
-        Text <Badge content="Info" variant="information" /> Text
-      </>,
-    ],
-    {
-      format: {
-        type: 'disjunction',
-      },
-      locale: 'en-US',
-    }
-  )
-}
+{listFormat([<React.Fragment key="a">A</React.Fragment>, <>
+            <b>B</b>
+          </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
+            Link to Eufemia's Github Repo
+          </Anchor>, <>
+            Text <Badge content="Info" variant="information" /> Text
+          </>], {
+  format: {
+    type: 'disjunction'
+  },
+  locale: 'en-US'
+})}
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "The value to format. Can be given as `children` instead.",
-      "type": ["Array<React.ReactNode>"],
+      "type": [
+        "Array<React.ReactNode>"
+      ],
       "status": "optional"
     },
     "children": {
@@ -269,7 +201,11 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["\"ol\"", "\"ul\"", "\"text\""],
+      "type": [
+        "\"ol\"",
+        "\"ul\"",
+        "\"text\""
+      ],
       "status": "optional"
     },
     "listType": {
@@ -310,7 +246,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

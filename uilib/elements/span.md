@@ -1,8 +1,8 @@
 ---
 title: 'Span'
 description: 'Spans are inline-elements, used to define parts of text content.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.796Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.832Z
 checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
 ---
 
@@ -29,43 +29,48 @@ Span does not define any default styling. If no properties are set, it will just
 
 Both Span and the [Paragraph](/uilib/elements/paragraph/) component have the same typography properties that use the [typography helper classes](/uilib/typography/helper-classes/).
 
+
 ## Demos
 
 For more detailed examples of every property, see the [Paragraph demos](/uilib/elements/paragraph/#demos).
 
 ### Basics
 
+
 ```tsx
 <P>
-  Here is a paragraph with a <Span size="x-small">x-small</Span> word and
-  some <Span weight="medium">medium weight text</Span> in it.
-</P>
+      Here is a paragraph with a <Span size="x-small">x-small</Span> word
+      and some <Span weight="medium">medium weight text</Span> in it.
+    </P>
 <H4>
-  Heading 4 with <Span size="x-large">x-large</Span> word
-</H4>
+      Heading 4 with <Span size="x-large">x-large</Span> word
+    </H4>
 <Anchor href="/">
-  Anchor with <Span weight="medium">medium weight</Span> words
-</Anchor>
+      Anchor with <Span weight="medium">medium weight</Span> words
+    </Anchor>
 ```
+
 
 ### Span modifiers
 
+
 ```tsx
-render(
-  <div>
-    <Span>Default span</Span>
-    <br />
-    <Span weight="medium">Medium weight span</Span>
-    <br />
-    <Span size="basis">Basis size span</Span>
-    <br />
-    <Span weight="medium" size="x-small">
-      X-small span with medium weight
-    </Span>
-  </div>
-)
+render(<div>
+        <Span>Default span</Span>
+        <br />
+        <Span weight="medium">Medium weight span</Span>
+        <br />
+        <Span size="basis">Basis size span</Span>
+        <br />
+        <Span weight="medium" size="x-small">
+          X-small span with medium weight
+        </Span>
+      </div>)
 ```
 
+
+
+  
 ```tsx
 <SpanWrap />
 <SpanWrap size="xx-large" />
@@ -79,12 +84,16 @@ render(
 
 ## Properties
 
+
 ```json
 {
   "props": {
     "element": {
       "doc": "Defines the Element Type, like `p`.",
-      "type": ["HTMLElement", "string"],
+      "type": [
+        "HTMLElement",
+        "string"
+      ],
       "status": "optional"
     },
     "size": {
@@ -115,17 +124,28 @@ render(
     },
     "align": {
       "doc": "Sets the text alignment.",
-      "type": ["\"center\"", "\"left\"", "\"right\""],
+      "type": [
+        "\"center\"",
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "family": {
       "doc": "Sets the font family.",
-      "type": ["\"basis\"", "\"heading\"", "\"monospace\""],
+      "type": [
+        "\"basis\"",
+        "\"heading\"",
+        "\"monospace\""
+      ],
       "status": "optional"
     },
     "weight": {
       "doc": "Sets the font weight.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "status": "optional"
     },
     "decoration": {
@@ -140,12 +160,18 @@ render(
     },
     "proseMaxWidth": {
       "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
-      "type": ["number", "boolean"],
+      "type": [
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

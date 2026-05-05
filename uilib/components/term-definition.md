@@ -1,8 +1,8 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.554Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.642Z
 checksum: 5f27dd5c548c6ada6a44d280141da40e96c76f5c609f7acff36be2811ad6b469
 ---
 
@@ -43,115 +43,100 @@ To ensure that the TermDefinition component is accessible, it uses semantic HTML
 
 The TermDefinition component uses [PortalRoot](/uilib/components/portal-root) internally to render its explanation content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
 
+
 ## Demos
 
 ### Basic
 
+
 ```tsx
-render(
-  <P>
-    A text with{' '}
-    <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
-      unusual words (yeah)
-    </TermDefinition>{' '}
-    lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  </P>
-)
+render(<P>
+        A text with{' '}
+        <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
+          unusual words (yeah)
+        </TermDefinition>{' '}
+        lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </P>)
 ```
+
 
 ### In help text
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Form.SubHeading>My form</Form.SubHeading>
-      <Field.Email
-        help={{
-          title: 'Email help',
-          content: (
-            <>
-              Enter your{' '}
-              <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
-                email
-              </TermDefinition>{' '}
-              address
-            </>
-          ),
-        }}
-      />
-      <Field.Boolean
-        variant="radio"
-        label="Consent"
-        help={{
-          title: 'Data processing help',
-          content: (
-            <>
-              I consent to{' '}
-              <TermDefinition content="Data processing refers to any operation performed on personal data, such as collection, storage, use, or disclosure.">
-                data processing
-              </TermDefinition>
-            </>
-          ),
-        }}
-      />
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Form.Card>
+          <Form.SubHeading>My form</Form.SubHeading>
+          <Field.Email help={{
+      title: 'Email help',
+      content: <>
+                  Enter your{' '}
+                  <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
+                    email
+                  </TermDefinition>{' '}
+                  address
+                </>
+    }} />
+          <Field.Boolean variant="radio" label="Consent" help={{
+      title: 'Data processing help',
+      content: <>
+                  I consent to{' '}
+                  <TermDefinition content="Data processing refers to any operation performed on personal data, such as collection, storage, use, or disclosure.">
+                    data processing
+                  </TermDefinition>
+                </>
+    }} />
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### In label
 
-```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Form.SubHeading>My form</Form.SubHeading>
-      <Field.Email
-        label={
-          <>
-            Enter your{' '}
-            <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
-              email
-            </TermDefinition>{' '}
-            address
-          </>
-        }
-      />
-      <Field.Boolean
-        variant="checkbox"
-        label={
-          <>
-            I consent to{' '}
-            <TermDefinition content="Data processing refers to any operation performed on personal data, such as collection, storage, use, or disclosure.">
-              data processing
-            </TermDefinition>
-          </>
-        }
-      />
-    </Form.Card>
-  </Form.Handler>
-)
-```
 
 ```tsx
+render(<Form.Handler>
+        <Form.Card>
+          <Form.SubHeading>My form</Form.SubHeading>
+          <Field.Email label={<>
+                Enter your{' '}
+                <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
+                  email
+                </TermDefinition>{' '}
+                address
+              </>} />
+          <Field.Boolean variant="checkbox" label={<>
+                I consent to{' '}
+                <TermDefinition content="Data processing refers to any operation performed on personal data, such as collection, storage, use, or disclosure.">
+                  data processing
+                </TermDefinition>
+              </>} />
+        </Form.Card>
+      </Form.Handler>)
+```
+
+
+
+  
+```tsx
 <Lead>
-  As a lead with{' '}
-  <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
-    unusual words (yeah)
-  </TermDefinition>
-  .
-</Lead>
+      As a lead with{' '}
+      <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
+        unusual words (yeah)
+      </TermDefinition>
+      .
+    </Lead>
 <H2 top={false}>
-  As a heading with{' '}
-  <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
-    unusual words (yeah)
-  </TermDefinition>
-  .
-</H2>
+      As a heading with{' '}
+      <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
+        unusual words (yeah)
+      </TermDefinition>
+      .
+    </H2>
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -168,24 +153,39 @@ render(
     },
     "placement": {
       "doc": "Defines the preferred popover placement relative to the trigger.",
-      "type": ["\"top\"", "\"right\"", "\"bottom\"", "\"left\""],
+      "type": [
+        "\"top\"",
+        "\"right\"",
+        "\"bottom\"",
+        "\"left\""
+      ],
       "defaultValue": "\"bottom\"",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `left` or `right` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "TermDefinition.closeButtonTitle": {
       "nb-NO": "Lukk ordforklaring",

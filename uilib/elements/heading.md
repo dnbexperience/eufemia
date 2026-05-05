@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.633Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.692Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -66,11 +66,13 @@ import { Heading } from '@dnb/eufemia/components'
 import { H1, H2, ... } from '@dnb/eufemia'
 ```
 
+
 ## Demos
 
 ### The most basic use of headings
 
 Just using the `H1, H2, etc.` components will give you the basic headings.
+
 
 ```tsx
 <H1>Heading 1</H1>
@@ -82,9 +84,11 @@ Just using the `H1, H2, etc.` components will give you the basic headings.
 <P>Regular text</P>
 ```
 
+
 ### Heading typography using React JSX
 
 The visual size of a heading can be customized using the `size` property with values: `xx-large | x-large | large | medium | basis | small | x-small`
+
 
 ```tsx
 <H1>Heading 1 (default size 'xx-large')</H1>
@@ -92,38 +96,44 @@ The visual size of a heading can be customized using the `size` property with va
 <H1 size="small">Heading 1 style small</H1>
 ```
 
+
 By using the `<small>` element, we decrease the size one level (default size is `xx-large`):
+
 
 ```tsx
 <H1 size="x-large">Heading style x-large (using 'size')</H1>
 <H1>
-  <small>Heading style x-large (using &lt;small&gt;)</small>
-</H1>
+    <small>Heading style x-large (using &lt;small&gt;)</small>
+  </H1>
 ```
+
 
 ### Prose max width
 
 The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
 
+
 ```tsx
 <H2>
-  This is a regular heading without any width constraints. It will extend
-  to the full width of its container.
-</H2>
+    This is a regular heading without any width constraints. It will
+    extend to the full width of its container.
+  </H2>
 <H2 proseMaxWidth={40}>
-  This heading uses proseMaxWidth={40} to limit its width to
-  approximately 40 characters.
-</H2>
+    This heading uses proseMaxWidth={40} to limit its width to
+    approximately 40 characters.
+  </H2>
 <H2 proseMaxWidth={20}>
-  This heading uses proseMaxWidth={20} for an even narrower reading
-  width.
-</H2>
+    This heading uses proseMaxWidth={20} for an even narrower reading
+    width.
+  </H2>
 <H2 proseMaxWidth>
-  This heading uses proseMaxWidth with its default value.
-</H2>
+    This heading uses proseMaxWidth with its default value.
+  </H2>
 ```
 
+
 ## Heading styles in vanilla HTML
+
 
 ```tsx
 <h1 className="dnb-h--xx-large">Heading style xx-large</h1>
@@ -133,93 +143,90 @@ The `proseMaxWidth` property allows you to limit the width of heading text based
 <h3 className="dnb-h--basis">Heading style basis</h3>
 ```
 
+
 ### Additional Heading modifiers
 
+
 ```tsx
-render(
-  <article>
-    <h1 className="dnb-h--xx-large">
-      .dnb-h--xx-large <small>small</small>
-    </h1>
-    <h2 className="dnb-h--x-large">
-      .dnb-h--x-large <small>small</small>
-    </h2>
-    <h2 className="dnb-h--large">
-      .dnb-h--large <small>small</small>
-    </h2>
-    <h3 className="dnb-h--medium">
-      .dnb-h--medium <small>small</small>
-    </h3>
-    <h3 className="dnb-lead">
-      .dnb-lead <small>small</small>
-    </h3>
-  </article>
-)
+render(<article>
+      <h1 className="dnb-h--xx-large">
+        .dnb-h--xx-large <small>small</small>
+      </h1>
+      <h2 className="dnb-h--x-large">
+        .dnb-h--x-large <small>small</small>
+      </h2>
+      <h2 className="dnb-h--large">
+        .dnb-h--large <small>small</small>
+      </h2>
+      <h3 className="dnb-h--medium">
+        .dnb-h--medium <small>small</small>
+      </h3>
+      <h3 className="dnb-lead">
+        .dnb-lead <small>small</small>
+      </h3>
+    </article>)
 ```
+
 
 ### Example of margin collapsing
 
 Only the largest margin takes effect.
 
+
 ```tsx
 <H1 size="small" top bottom="small">
-  Spacing with bottom margin: small
-</H1>
+    Spacing with bottom margin: small
+  </H1>
 <P top="large" bottom="small">
-  Spacing with top margin: large
-</P>
+    Spacing with top margin: large
+  </P>
 ```
+
 
 ### Dark surface
 
 Headings automatically adapt their color when rendered on a dark surface:
 
-```tsx
-render(
-  <Section
-    innerSpace={{
-      block: true,
-    }}
-    surface="dark"
-  >
-    <H1 size="large" top={false} bottom={false}>
-      Heading on dark surface
-    </H1>
-  </Section>
-)
-```
 
 ```tsx
-<ComponentBox
-  scope={{
-    HWrap,
-  }}
-  data-visual-test="heading-sizes"
->
-  <HWrap size="xx-large" />
-  <HWrap size="x-large" />
-  <HWrap size="large" />
-  <HWrap size="medium" />
-  <HWrap size="basis" />
-  <HWrap size="small" />
-  <HWrap size="x-small" />
-</ComponentBox>
-<ComponentBox
-  scope={{
-    HWrap,
-  }}
-  data-visual-test="heading-base"
->
-  <H>default (h1 - xx-large)</H>
-  <H element="h2">custom level (h2 - xx-large)</H>
-  <H size="small">custom size (h1 - small)</H>
-  <H element="h2" size="small">
-    custom level and size (h2 - small)
-  </H>
-</ComponentBox>
+render(<Section innerSpace={{
+  block: true
+}} surface="dark">
+      <H1 size="large" top={false} bottom={false}>
+        Heading on dark surface
+      </H1>
+    </Section>)
+```
+
+
+
+  
+```tsx
+<ComponentBox scope={{
+HWrap
+}} data-visual-test="heading-sizes">
+      <HWrap size="xx-large" />
+      <HWrap size="x-large" />
+      <HWrap size="large" />
+      <HWrap size="medium" />
+      <HWrap size="basis" />
+      <HWrap size="small" />
+      <HWrap size="x-small" />
+    </ComponentBox>
+<ComponentBox scope={{
+HWrap
+}} data-visual-test="heading-base">
+      <H>default (h1 - xx-large)</H>
+      <H element="h2">custom level (h2 - xx-large)</H>
+      <H size="small">custom size (h1 - small)</H>
+      <H element="h2" size="small">
+        custom level and size (h2 - small)
+      </H>
+    </ComponentBox>
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -249,7 +256,14 @@ render(
     },
     "level": {
       "doc": "Overwrite the automated level handling to use a specific value to ensure correct level hierarchy.",
-      "type": ["1", "2", "3", "4", "5", "6"],
+      "type": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
       "status": "optional"
     },
     "increase": {
@@ -269,7 +283,10 @@ render(
     },
     "reset": {
       "doc": "If set to `true`, the heading level will be reset to 2. You can give it a custom level if you need to, e.g. `reset(1)`.",
-      "type": ["boolean", "number"],
+      "type": [
+        "boolean",
+        "number"
+      ],
       "status": "optional"
     },
     "skipCorrection": {
@@ -279,17 +296,26 @@ render(
     },
     "debug": {
       "doc": "If set to `true`, the content will have a prefix, showing the heading level.",
-      "type": ["boolean", "function"],
+      "type": [
+        "boolean",
+        "function"
+      ],
       "status": "optional"
     },
     "debugCounter": {
       "doc": "If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.",
-      "type": ["boolean", "function"],
+      "type": [
+        "boolean",
+        "function"
+      ],
       "status": "optional"
     },
     "element": {
       "doc": "Define what HTML element should be used. If you use, e.g. a `span`, then `role=\"heading\"` and `aria-level` gets set. Defaults to semantic heading element.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -299,7 +325,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

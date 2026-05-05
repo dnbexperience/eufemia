@@ -1,8 +1,8 @@
 ---
 title: 'Value.Boolean'
 description: '`Value.Boolean` is a base component for displaying values of the type `boolean`.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.130Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.114Z
 checksum: ac4682e58e3c1cc2aa3bde60f5c4226fddcdd1b758b90754a7a9ae0a6bfe0f74
 ---
 
@@ -33,71 +33,76 @@ render(<Value.Boolean />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Boolean)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Boolean)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.Boolean showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.Boolean placeholder="The value was not filled in" />)
 ```
 
+
 ### Value true
+
 
 ```tsx
 render(<Value.Boolean value={true} />)
 ```
 
+
 ### Value false
+
 
 ```tsx
 render(<Value.Boolean value={false} />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.Boolean label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.Boolean label="Label text" value={false} />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    <span
-      style={{
-        color: 'red',
-      }}
-    >
-      This is before the component
-    </span>{' '}
-    <Value.Boolean value={true} inline />{' '}
-    <span
-      style={{
-        color: 'red',
-      }}
-    >
-      This is after the component
-    </span>
-  </P>
-)
+render(<P>
+        <span style={{
+    color: 'red'
+  }}>This is before the component</span>{' '}
+        <Value.Boolean value={true} inline />{' '}
+        <span style={{
+    color: 'red'
+  }}>This is after the component</span>
+      </P>)
 ```
 
 ## Properties
 
 ### Value-specific properties
+
 
 ```json
 {
@@ -116,7 +121,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -183,7 +190,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -193,7 +205,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },

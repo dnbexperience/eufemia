@@ -1,8 +1,8 @@
 ---
 title: 'Wizard'
 description: '`Wizard` is a set of components for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several wizard. It also includes components for navigating between wizard.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.347Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.292Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -36,33 +36,33 @@ render(
 
 ## Intro example
 
+
 ```tsx
 const MyForm = () => {
   // Routers like "react-router" are supported as well
-  Wizard.useQueryLocator('my-wizard')
-  return (
-    <Form.Handler>
-      <Wizard.Container id="my-wizard" omitScrollManagement>
-        <Wizard.Step title="Step 1">
-          <Form.MainHeading>Heading</Form.MainHeading>
-          <Form.Card>
-            <P>Step 1</P>
-          </Form.Card>
-          <Wizard.Buttons />
-        </Wizard.Step>
-        <Wizard.Step title="Step 2">
-          <Form.MainHeading>Heading</Form.MainHeading>
-          <Form.Card>
-            <P>Step 2</P>
-          </Form.Card>
-          <Wizard.Buttons />
-        </Wizard.Step>
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+  Wizard.useQueryLocator('my-wizard');
+  return <Form.Handler>
+              <Wizard.Container id="my-wizard" omitScrollManagement>
+                <Wizard.Step title="Step 1">
+                  <Form.MainHeading>Heading</Form.MainHeading>
+                  <Form.Card>
+                    <P>Step 1</P>
+                  </Form.Card>
+                  <Wizard.Buttons />
+                </Wizard.Step>
+                <Wizard.Step title="Step 2">
+                  <Form.MainHeading>Heading</Form.MainHeading>
+                  <Form.Card>
+                    <P>Step 2</P>
+                  </Form.Card>
+                  <Wizard.Buttons />
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ## Dynamic steps support
 
@@ -94,15 +94,22 @@ const MyForm = () => {
 }
 ```
 
+
 ## Components
 
 <ListWizardComponents size="small" />
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Step.stepHasError": {
       "nb-NO": "Skjemaet inneholder feil.",

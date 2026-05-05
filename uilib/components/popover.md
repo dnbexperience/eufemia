@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
 description: 'Popover renders its own floating surface anchored to a trigger element. (For internal use only)'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.360Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.475Z
 checksum: 280c0cdc84655528d374cb911e58db65b02dc2b230f5741e9dee28ff08950843
 ---
 
@@ -41,408 +41,268 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 
 The Popover component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
 
+
 ## Demos
 
 ### Basic usage
 
+
 ```tsx
-render(
-  <Popover
-    trigger={({ active, ...triggerProps }) => (
-      <Button icon="question" {...triggerProps} selected={active} />
-    )}
-    title="Need help?"
-  >
-    Popover content that appears when the custom trigger button is toggled.
-  </Popover>
-)
+render(<Popover trigger={({
+  active,
+  ...triggerProps
+}) => <Button icon="question" {...triggerProps} selected={active} />} title="Need help?">
+        Popover content that appears when the custom trigger button is
+        toggled.
+      </Popover>)
 ```
+
 
 ### Without close button
 
-```tsx
-render(
-  <Popover
-    hideCloseButton
-    trigger={(triggerProps) => (
-      <Button text="More info" variant="secondary" {...triggerProps} />
-    )}
-    title="More information"
-    content={({ close }) => (
-      <Flex.Stack>
-        <P>
-          This popover hides the default close button. You can still close
-          it programmatically by calling the provided helpers.
-        </P>
-        <Button text="Dismiss" variant="secondary" onClick={close} />
-      </Flex.Stack>
-    )}
-  />
-)
-```
 
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-basic">
-      <Popover
-        trigger={(triggerProps) => (
-          <Button text="Details" {...triggerProps} />
-        )}
-        title="More information"
-        content={({ close }) => (
-          <Flex.Stack>
+render(<Popover hideCloseButton trigger={triggerProps => <Button text="More info" variant="secondary" {...triggerProps} />} title="More information" content={({
+  close
+}) => <Flex.Stack>
             <P>
-              You can render any content inside the popover. Use the
-              provided helpers to close it programmatically.
+              This popover hides the default close button. You can still
+              close it programmatically by calling the provided helpers.
             </P>
-            <Button text="Close" onClick={close} />
-          </Flex.Stack>
-        )}
-      />
-    </section>
-  </Box>
-)
+            <Button text="Dismiss" variant="secondary" onClick={close} />
+          </Flex.Stack>} />)
 ```
 
+
+
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-arrow-left">
-      <Popover
-        arrowPosition="left"
-        trigger={(triggerProps) => (
-          <Button text="Arrow left" {...triggerProps} />
-        )}
-      >
-        Arrow left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-basic">
+        <Popover trigger={triggerProps => <Button text="Details" {...triggerProps} />} title="More information" content={({
+      close
+    }) => <Flex.Stack>
+              <P>
+                You can render any content inside the popover. Use the
+                provided helpers to close it programmatically.
+              </P>
+              <Button text="Close" onClick={close} />
+            </Flex.Stack>} />
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-arrow-right">
-      <Popover
-        arrowPosition="right"
-        trigger={(triggerProps) => (
-          <Button text="Arrow right" {...triggerProps} />
-        )}
-      >
-        Arrow right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-arrow-left">
+        <Popover arrowPosition="left" trigger={triggerProps => <Button text="Arrow left" {...triggerProps} />}>
+          Arrow left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-arrow-center">
-      <Popover
-        alignOnTarget="center"
-        arrowPosition="center"
-        trigger={(triggerProps) => (
-          <Button text="Align center & arrow center" {...triggerProps} />
-        )}
-      >
-        Align center & arrow center
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-arrow-right">
+        <Popover arrowPosition="right" trigger={triggerProps => <Button text="Arrow right" {...triggerProps} />}>
+          Arrow right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-arrow-left">
-      <Popover
-        alignOnTarget="left"
-        arrowPosition="left"
-        trigger={(triggerProps) => (
-          <Button text="Align left & arrow left" {...triggerProps} />
-        )}
-      >
-        Align left & arrow left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-arrow-center">
+        <Popover alignOnTarget="center" arrowPosition="center" trigger={triggerProps => <Button text="Align center & arrow center" {...triggerProps} />}>
+          Align center & arrow center
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-arrow-right">
-      <Popover
-        alignOnTarget="right"
-        arrowPosition="right"
-        trigger={(triggerProps) => (
-          <Button text="Align right & arrow right" {...triggerProps} />
-        )}
-      >
-        Align right & arrow right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-arrow-left">
+        <Popover alignOnTarget="left" arrowPosition="left" trigger={triggerProps => <Button text="Align left & arrow left" {...triggerProps} />}>
+          Align left & arrow left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-left">
-      <Popover
-        alignOnTarget="left"
-        trigger={(triggerProps) => (
-          <Button text="Align left" {...triggerProps} />
-        )}
-      >
-        Align left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-arrow-right">
+        <Popover alignOnTarget="right" arrowPosition="right" trigger={triggerProps => <Button text="Align right & arrow right" {...triggerProps} />}>
+          Align right & arrow right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-right">
-      <Popover
-        alignOnTarget="right"
-        trigger={(triggerProps) => (
-          <Button text="Align right" {...triggerProps} />
-        )}
-      >
-        Align right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-left">
+        <Popover alignOnTarget="left" trigger={triggerProps => <Button text="Align left" {...triggerProps} />}>
+          Align left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-left-arrow-right">
-      <Popover
-        alignOnTarget="left"
-        arrowPosition="right"
-        trigger={(triggerProps) => (
-          <Button text="Align left & arrow right" {...triggerProps} />
-        )}
-      >
-        Align left & arrow right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-right">
+        <Popover alignOnTarget="right" trigger={triggerProps => <Button text="Align right" {...triggerProps} />}>
+          Align right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-align-right-arrow-left">
-      <Popover
-        alignOnTarget="right"
-        arrowPosition="left"
-        trigger={(triggerProps) => (
-          <Button text="Align right & arrow left" {...triggerProps} />
-        )}
-      >
-        Align right & arrow left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-left-arrow-right">
+        <Popover alignOnTarget="left" arrowPosition="right" trigger={triggerProps => <Button text="Align left & arrow right" {...triggerProps} />}>
+          Align left & arrow right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-top">
-      <Popover
-        placement="top"
-        trigger={(triggerProps) => (
-          <Button text="Placement top" {...triggerProps} />
-        )}
-      >
-        Placement top
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-align-right-arrow-left">
+        <Popover alignOnTarget="right" arrowPosition="left" trigger={triggerProps => <Button text="Align right & arrow left" {...triggerProps} />}>
+          Align right & arrow left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-bottom">
-      <Popover
-        placement="bottom"
-        trigger={(triggerProps) => (
-          <Button text="Placement bottom" {...triggerProps} />
-        )}
-      >
-        Placement bottom
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-top">
+        <Popover placement="top" trigger={triggerProps => <Button text="Placement top" {...triggerProps} />}>
+          Placement top
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-right">
-      <Popover
-        placement="right"
-        trigger={(triggerProps) => (
-          <Button text="Placement right" {...triggerProps} />
-        )}
-      >
-        Placement right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-bottom">
+        <Popover placement="bottom" trigger={triggerProps => <Button text="Placement bottom" {...triggerProps} />}>
+          Placement bottom
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-right-arrow-top">
-      <Popover
-        placement="right"
-        arrowPosition="top"
-        trigger={(triggerProps) => (
-          <Button text="Placement right & arrow top" {...triggerProps} />
-        )}
-      >
-        Placement right & arrow top
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-right">
+        <Popover placement="right" trigger={triggerProps => <Button text="Placement right" {...triggerProps} />}>
+          Placement right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-right-arrow-bottom">
-      <Popover
-        placement="right"
-        arrowPosition="bottom"
-        trigger={(triggerProps) => (
-          <Button
-            text="Placement right & arrow bottom"
-            {...triggerProps}
-          />
-        )}
-      >
-        Placement right & arrow bottom
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-right-arrow-top">
+        <Popover placement="right" arrowPosition="top" trigger={triggerProps => <Button text="Placement right & arrow top" {...triggerProps} />}>
+          Placement right & arrow top
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-right-arrow-left">
-      <Popover
-        placement="right"
-        arrowPosition="left"
-        trigger={(triggerProps) => (
-          <Button text="Placement right & arrow left" {...triggerProps} />
-        )}
-      >
-        Placement right & arrow left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-right-arrow-bottom">
+        <Popover placement="right" arrowPosition="bottom" trigger={triggerProps => <Button text="Placement right & arrow bottom" {...triggerProps} />}>
+          Placement right & arrow bottom
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-left">
-      <Popover
-        placement="left"
-        trigger={(triggerProps) => (
-          <Button text="Placement left" {...triggerProps} />
-        )}
-      >
-        Placement left
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-right-arrow-left">
+        <Popover placement="right" arrowPosition="left" trigger={triggerProps => <Button text="Placement right & arrow left" {...triggerProps} />}>
+          Placement right & arrow left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-left-arrow-top">
-      <Popover
-        placement="left"
-        arrowPosition="top"
-        trigger={(triggerProps) => (
-          <Button text="Placement left & arrow top" {...triggerProps} />
-        )}
-      >
-        Placement left & arrow top
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-left">
+        <Popover placement="left" trigger={triggerProps => <Button text="Placement left" {...triggerProps} />}>
+          Placement left
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-left-arrow-bottom">
-      <Popover
-        placement="left"
-        arrowPosition="bottom"
-        trigger={(triggerProps) => (
-          <Button text="Placement left & arrow bottom" {...triggerProps} />
-        )}
-      >
-        Placement left & arrow bottom
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-left-arrow-top">
+        <Popover placement="left" arrowPosition="top" trigger={triggerProps => <Button text="Placement left & arrow top" {...triggerProps} />}>
+          Placement left & arrow top
+        </Popover>
+      </section>
+    </Box>)
 ```
 
+  
 ```tsx
-render(
-  <Box>
-    <section data-visual-test="popover-placement-left-arrow-right">
-      <Popover
-        placement="left"
-        arrowPosition="right"
-        trigger={(triggerProps) => (
-          <Button text="Placement left & arrow right" {...triggerProps} />
-        )}
-      >
-        Placement left & arrow right
-      </Popover>
-    </section>
-  </Box>
-)
+render(<Box>
+      <section data-visual-test="popover-placement-left-arrow-bottom">
+        <Popover placement="left" arrowPosition="bottom" trigger={triggerProps => <Button text="Placement left & arrow bottom" {...triggerProps} />}>
+          Placement left & arrow bottom
+        </Popover>
+      </section>
+    </Box>)
+```
+
+  
+```tsx
+render(<Box>
+      <section data-visual-test="popover-placement-left-arrow-right">
+        <Popover placement="left" arrowPosition="right" trigger={triggerProps => <Button text="Placement left & arrow right" {...triggerProps} />}>
+          Placement left & arrow right
+        </Popover>
+      </section>
+    </Box>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -533,13 +393,23 @@ render(
     },
     "placement": {
       "doc": "Preferred placement of the popover relative to the trigger.",
-      "type": ["\"top\"", "\"right\"", "\"bottom\"", "\"left\""],
+      "type": [
+        "\"top\"",
+        "\"right\"",
+        "\"bottom\"",
+        "\"left\""
+      ],
       "defaultValue": "\"bottom\"",
       "status": "optional"
     },
     "alignOnTarget": {
       "doc": "Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.",
-      "type": ["\"left\"", "\"center\"", "\"right\"", "null"],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\"",
+        "null"
+      ],
       "defaultValue": "\"center\"",
       "status": "optional"
     },
@@ -598,7 +468,10 @@ render(
     },
     "focusOnOpenElement": {
       "doc": "Provide a specific element (or function returning one) to receive focus when the popover opens.",
-      "type": ["HTMLElement", "() => HTMLElement"],
+      "type": [
+        "HTMLElement",
+        "() => HTMLElement"
+      ],
       "status": "optional"
     },
     "restoreFocus": {
@@ -659,7 +532,11 @@ render(
     },
     "autoAlignMode": {
       "doc": "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
-      "type": ["\"initial\"", "\"scroll\"", "\"never\""],
+      "type": [
+        "\"initial\"",
+        "\"scroll\"",
+        "\"never\""
+      ],
       "defaultValue": "\"initial\"",
       "status": "optional"
     },
@@ -682,11 +559,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Popover.closeButtonTitle": {
       "nb-NO": "Lukk",
@@ -717,6 +601,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

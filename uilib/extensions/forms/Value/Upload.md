@@ -1,8 +1,8 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.307Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.262Z
 checksum: 2a7a52120d556efbd19d5c6c8685173ae3f11d714033e0126daa1692311cdf8c
 ---
 
@@ -31,516 +31,367 @@ render(<Value.Upload />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Upload)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Upload)
 
+
 ## Demos
 
 ### Placeholder
+
 
 ```tsx
 render(<Value.Upload placeholder="No value given" />)
 ```
 
+
 ### Value
 
+
 ```tsx
-render(
-  <Value.Upload
-    inline
-    value={[
-      {
-        file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-      {
-        file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-        exists: false,
-        id: '2',
-      },
-    ]}
-  />
-)
+render(<Value.Upload inline value={[{
+  file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}, {
+  file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+  exists: false,
+  id: '2'
+}]} />)
 ```
+
 
 ### With `displaySize` property
 
+
 ```tsx
-render(
-  <Value.Upload
-    displaySize
-    value={[
-      {
-        file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-    ]}
-  />
-)
+render(<Value.Upload displaySize value={[{
+  file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}]} />)
 ```
+
 
 ### With `download` property
 
+
 ```tsx
-render(
-  <Value.Upload
-    download
-    value={[
-      {
-        file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-    ]}
-  />
-)
+render(<Value.Upload download value={[{
+  file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}]} />)
 ```
+
 
 ### Custom format
 
+
 ```tsx
-render(
-  <Form.Handler
-    locale="en-GB"
-    data={{
-      myPath: [
-        {
-          file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-          exists: false,
-          id: '1',
-        },
-        {
-          file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-          exists: false,
-          id: '2',
-        },
-      ],
-    }}
-  >
-    <Value.Upload
-      inline
-      path="/myPath"
-      format={{
-        type: 'disjunction',
-      }}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler locale="en-GB" data={{
+  myPath: [{
+    file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+    exists: false,
+    id: '1'
+  }, {
+    file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+    exists: false,
+    id: '2'
+  }]
+}}>
+        <Value.Upload inline path="/myPath" format={{
+    type: 'disjunction'
+  }} />
+      </Form.Handler>)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.Upload label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
 
+
 ```tsx
-render(
-  <Value.Upload
-    label="Label text"
-    value={[
-      {
-        file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-      {
-        file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-        exists: false,
-        id: '2',
-      },
-    ]}
-  />
-)
+render(<Value.Upload label="Label text" value={[{
+  file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}, {
+  file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+  exists: false,
+  id: '2'
+}]} />)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <Span>
-    This is before the component{' '}
-    <Value.Upload
-      value={[
-        {
-          file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-          exists: false,
-          id: '1',
-        },
-        {
-          file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-          exists: false,
-          id: '2',
-        },
-      ]}
-      inline
-    />{' '}
-    This is after the component
-  </Span>
-)
+render(<Span>
+        This is before the component{' '}
+        <Value.Upload value={[{
+    file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+    exists: false,
+    id: '1'
+  }, {
+    file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+    exists: false,
+    id: '2'
+  }]} inline />{' '}
+        This is after the component
+      </Span>)
 ```
+
 
 ### List variants
 
+
 ```tsx
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List"
-  variant="ol"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Unordered List"
-  variant="ul"
-/>
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List" variant="ol" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Unordered List" variant="ul" />
 ```
+
 
 ### List types
 
+
 ```tsx
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List a"
-  variant="ol"
-  listType="a"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List A"
-  variant="ol"
-  listType="A"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List i"
-  variant="ol"
-  listType="i"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List I"
-  variant="ol"
-  listType="I"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Unordered List square"
-  variant="ul"
-  listType="square"
-/>
-<Value.Upload
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Unordered List circle"
-  variant="ul"
-  listType="circle"
-/>
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List a" variant="ol" listType="a" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List A" variant="ol" listType="A" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List i" variant="ol" listType="i" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List I" variant="ol" listType="I" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Unordered List square" variant="ul" listType="square" />
+<Value.Upload value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Unordered List circle" variant="ul" listType="circle" />
 ```
+
 
 ### Field.Upload path
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myPath: [
-        {
-          file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-          exists: false,
-          id: '1',
-        },
-        {
-          file: createMockFile('fileName-2.png', 3000000, 'image/png'),
-          exists: false,
-          id: '2',
-        },
-        {
-          file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-          exists: false,
-          id: '3',
-        },
-      ],
-    }}
-  >
-    <Flex.Stack>
-      <Field.Upload label="My selections" path="/myPath" />
-      <Value.Upload
-        inheritLabel
-        path="/myPath"
-        variant="ul"
-        listType="unstyled"
-      />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myPath: [{
+    file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+    exists: false,
+    id: '1'
+  }, {
+    file: createMockFile('fileName-2.png', 3000000, 'image/png'),
+    exists: false,
+    id: '2'
+  }, {
+    file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+    exists: false,
+    id: '3'
+  }]
+}}>
+        <Flex.Stack>
+          <Field.Upload label="My selections" path="/myPath" />
+          <Value.Upload inheritLabel path="/myPath" variant="ul" listType="unstyled" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Using `onFileClick`
 
+
 ```tsx
-render(
-  <Value.Upload
-    label="Label text"
-    value={[
-      {
-        file: createMockFile('35217511.jpg', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-      {
-        file: createMockFile('1501870.jpg', 2000000, 'image/png'),
-        exists: false,
-        id: '2',
-      },
-    ]}
-    onFileClick={async ({ fileItem }) => {
-      const request = createRequest()
-      console.log(
-        `making API request to fetch the url of the file: ${fileItem.file.name}`
-      )
-      await request(2000) // Simulate a request
-      window.open(
-        `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-        '_blank'
-      )
-    }}
-  />
-)
+render(<Value.Upload label="Label text" value={[{
+  file: createMockFile('35217511.jpg', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}, {
+  file: createMockFile('1501870.jpg', 2000000, 'image/png'),
+  exists: false,
+  id: '2'
+}]} onFileClick={async ({
+  fileItem
+}) => {
+  const request = createRequest();
+  console.log(`making API request to fetch the url of the file: ${fileItem.file.name}`);
+  await request(2000); // Simulate a request
+  window.open(`https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`, '_blank');
+}} />)
 ```
+
 
 ### Display files as non-clickable
 
 When file size is 0 or not given (`new File([], name, { type })`), the file is displayed as a span instead of an anchor. However, when `onFileClick` is given, the file will be clickable as a button.
 
-```tsx
-render(
-  <Value.Upload
-    label="Label text"
-    value={[
-      {
-        file: createMockFile('35217511.jpg', 0, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-      {
-        file: createMockFile('1501870.jpg', undefined, 'image/png'),
-        exists: false,
-        id: '2',
-      },
-    ]}
-  />
-)
-```
 
 ```tsx
-render(
-  <Value.Upload
-    onFileClick={() => {
-      console.log('Clicked on file')
-    }}
-    label="Label text"
-    value={[
-      {
-        file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-        exists: false,
-        id: '1',
-      },
-      {
-        file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-        exists: false,
-        isLoading: true,
-        id: '2',
-      },
-    ]}
-  />
-)
+render(<Value.Upload label="Label text" value={[{
+  file: createMockFile('35217511.jpg', 0, 'image/png'),
+  exists: false,
+  id: '1'
+}, {
+  file: createMockFile('1501870.jpg', undefined, 'image/png'),
+  exists: false,
+  id: '2'
+}]} />)
 ```
 
+
+
+  
 ```tsx
-<Value.Upload
-  onFileClick={() => {
-    console.log('Clicked on file')
-  }}
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      isLoading: true,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-    },
-  ]}
-  label="Ordered List"
-  variant="ol"
-/>
-<Value.Upload
-  onFileClick={() => {
-    console.log('Clicked on file')
-  }}
-  value={[
-    {
-      file: createMockFile('fileName-1.png', 1000000, 'image/png'),
-      exists: false,
-      id: '1',
-    },
-    {
-      file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-      exists: false,
-      id: '2',
-      isLoading: true,
-    },
-    {
-      file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-      exists: false,
-      id: '3',
-      isLoading: true,
-    },
-  ]}
-  label="Unordered List"
-  variant="ul"
-/>
+render(<Value.Upload onFileClick={() => {
+  console.log('Clicked on file');
+}} label="Label text" value={[{
+  file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+  exists: false,
+  id: '1'
+}, {
+  file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+  exists: false,
+  isLoading: true,
+  id: '2'
+}]} />)
+```
+
+  
+```tsx
+<Value.Upload onFileClick={() => {
+console.log('Clicked on file');
+}} value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+isLoading: true,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2'
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3'
+}]} label="Ordered List" variant="ol" />
+<Value.Upload onFileClick={() => {
+console.log('Clicked on file');
+}} value={[{
+file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+exists: false,
+id: '1'
+}, {
+file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+exists: false,
+id: '2',
+isLoading: true
+}, {
+file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+exists: false,
+id: '3',
+isLoading: true
+}]} label="Unordered List" variant="ul" />
 ```
 
 ## Properties
 
 ### Value-specific properties
+
 
 ```json
 {
@@ -557,7 +408,9 @@ render(
     },
     "value": {
       "doc": "The value to format. Can be given as `children` instead.",
-      "type": ["Array<React.ReactNode>"],
+      "type": [
+        "Array<React.ReactNode>"
+      ],
       "status": "optional"
     },
     "children": {
@@ -572,7 +425,11 @@ render(
     },
     "variant": {
       "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
-      "type": ["\"ol\"", "\"ul\"", "\"text\""],
+      "type": [
+        "\"ol\"",
+        "\"ul\"",
+        "\"text\""
+      ],
       "status": "optional"
     },
     "listType": {
@@ -613,14 +470,19 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -687,7 +549,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -697,7 +564,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
@@ -706,6 +576,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

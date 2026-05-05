@@ -1,8 +1,8 @@
 ---
 title: 'InfinityScroller'
 description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.343Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.460Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -126,168 +126,179 @@ const { InfinityMarker, endInfinity, resetInfinity } =
 render(<InfinityMarker>ReactComponent</InfinityMarker>)
 ```
 
+
 ## Demos
 
 ### Infinity scroller with load button
 
 A load button is shown at the bottom by having `useLoadButton={true}` - but here we define our `startupPage={5}`, so we also get a load button on top.
 
+
 ```tsx
-render(
-  <HeightLimit>
-    <Pagination
-      mode="infinity"
-      useLoadButton
-      startupPage={5}
-      minWaitTime={0}
-      onLoad={({ pageNumber, setContent }) => {
-        // simulate server communication delay
-        const timeout = setTimeout(
-          () => {
-            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-          },
-          Math.ceil(Math.random() * 500)
-        )
-        return () => clearTimeout(timeout)
-      }}
-    />
-  </HeightLimit>
-)
+render(<HeightLimit>
+      <Pagination mode="infinity" useLoadButton startupPage={5} minWaitTime={0} onLoad={({
+    pageNumber,
+    setContent
+  }) => {
+    // simulate server communication delay
+    const timeout = setTimeout(() => {
+      setContent(pageNumber, <LargePage>{pageNumber}</LargePage>);
+    }, Math.ceil(Math.random() * 500));
+    return () => clearTimeout(timeout);
+  }} />
+    </HeightLimit>)
 ```
+
 
 ### Infinity scroller with custom load indicator
 
+
 ```tsx
-render(
-  <HeightLimit>
-    <Pagination
-      mode="infinity"
-      indicatorElement={() => (
-        <LargePage color="lightgreen">Loading ...</LargePage>
-      )}
-      startupPage={3}
-      pageCount={10}
-      minWaitTime={0}
-      onLoad={({ pageNumber, setContent }) => {
-        // simulate server communication delay
-        const timeout = setTimeout(
-          () => {
-            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-          },
-          Math.ceil(Math.random() * 500)
-        )
-        return () => clearTimeout(timeout)
-      }}
-      onEnd={({ pageNumber, setContent }) => {
-        setContent(
-          pageNumber,
-          <LargePage color="lightgreen">End</LargePage>
-        )
-      }}
-    />
-  </HeightLimit>
-)
+render(<HeightLimit>
+      <Pagination mode="infinity" indicatorElement={() => <LargePage color="lightgreen">Loading ...</LargePage>} startupPage={3} pageCount={10} minWaitTime={0} onLoad={({
+    pageNumber,
+    setContent
+  }) => {
+    // simulate server communication delay
+    const timeout = setTimeout(() => {
+      setContent(pageNumber, <LargePage>{pageNumber}</LargePage>);
+    }, Math.ceil(Math.random() * 500));
+    return () => clearTimeout(timeout);
+  }} onEnd={({
+    pageNumber,
+    setContent
+  }) => {
+    setContent(pageNumber, <LargePage color="lightgreen">End</LargePage>);
+  }} />
+    </HeightLimit>)
 ```
+
 
 ### Infinity scroller with unknown `pageCount`
 
+
 ```tsx
-render(
-  <HeightLimit>
-    <Pagination
-      mode="infinity"
-      parallelLoadCount={2}
-      minWaitTime={0}
-      onLoad={({ pageNumber, setContent, endInfinity }) => {
-        // simulate server communication delay
-        const timeout = setTimeout(
-          () => {
-            if (pageNumber > 10) {
-              endInfinity()
-            } else {
-              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-            }
-          },
-          Math.ceil(Math.random() * 1e3)
-        )
-        return () => clearTimeout(timeout)
-      }}
-      onEnd={({ pageNumber, setContent }) => {
-        setContent(
-          pageNumber,
-          <LargePage color="lightgreen">End</LargePage>
-        )
-      }}
-    />
-  </HeightLimit>
-)
+render(<HeightLimit>
+      <Pagination mode="infinity" parallelLoadCount={2} minWaitTime={0} onLoad={({
+    pageNumber,
+    setContent,
+    endInfinity
+  }) => {
+    // simulate server communication delay
+    const timeout = setTimeout(() => {
+      if (pageNumber > 10) {
+        endInfinity();
+      } else {
+        setContent(pageNumber, <LargePage>{pageNumber}</LargePage>);
+      }
+    }, Math.ceil(Math.random() * 1e3));
+    return () => clearTimeout(timeout);
+  }} onEnd={({
+    pageNumber,
+    setContent
+  }) => {
+    setContent(pageNumber, <LargePage color="lightgreen">End</LargePage>);
+  }} />
+    </HeightLimit>)
 ```
+
 
 ### Advanced Table infinity scroller
 
 You can find the code either on [GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/Examples.tsx) or on [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)
 
+
 ```tsx
-render(
-  <HeightLimit height="60rem">
-    <PaginationTableExample />
-  </HeightLimit>
-)
+render(<HeightLimit height="60rem">
+      <PaginationTableExample />
+    </HeightLimit>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "mode": {
       "doc": "If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.",
-      "type": ["\"pagination\"", "\"infinity\""],
+      "type": [
+        "\"pagination\"",
+        "\"infinity\""
+      ],
       "status": "optional"
     },
     "paginationBarLayout": {
       "doc": "The layout of the pagination bar. Defaults to `vertical`.",
-      "type": ["\"vertical\"", "\"horizontal\""],
+      "type": [
+        "\"vertical\"",
+        "\"horizontal\""
+      ],
       "status": "optional"
     },
     "children": {
       "doc": "The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "startupPage": {
       "doc": "The page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "currentPage": {
       "doc": "The page shown at the moment the component renders. Defaults to `1`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "pageCount": {
       "doc": "The total pages count. Defaults to `1`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "startupCount": {
       "doc": "Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "parallelLoadCount": {
       "doc": "Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "minWaitTime": {
       "doc": "The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "placeMarkerBeforeContent": {
@@ -307,22 +318,38 @@ render(
     },
     "pageElement": {
       "doc": "By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.",
-      "type": ["string", "object", "React.ReactNode"],
+      "type": [
+        "string",
+        "object",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "fallbackElement": {
       "doc": "(infinity mode) is used by the _indicator_, _load more_ bar as well as by the marker. Defaults to a `div`.",
-      "type": ["string", "object", "React.ReactNode"],
+      "type": [
+        "string",
+        "object",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "indicatorElement": {
       "doc": "(infinity mode) is used by the _indicator_. Falls back to `fallbackElement` if not defined.",
-      "type": ["string", "object", "React.ReactNode"],
+      "type": [
+        "string",
+        "object",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "markerElement": {
       "doc": "(infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.",
-      "type": ["string", "object", "React.ReactNode"],
+      "type": [
+        "string",
+        "object",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "setContentHandler": {
@@ -392,18 +419,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Pagination.buttonTitle": {
       "nb-NO": "Side %s",
@@ -445,6 +482,7 @@ render(
 }
 ```
 
+
 ### Content as a render property
 
 The content can be either a function or a React Node. A function may be more useful if `infinity` mode is used.
@@ -458,6 +496,7 @@ The content can be either a function or a React Node. A function may be more use
 ```
 
 ## Events
+
 
 ```json
 {
@@ -485,6 +524,7 @@ The content can be either a function or a React Node. A function may be more use
   }
 }
 ```
+
 
 ## Returned object
 

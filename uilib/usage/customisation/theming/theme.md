@@ -1,8 +1,8 @@
 ---
 title: 'Theme component'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.484Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.383Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -240,10 +240,26 @@ import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
 
 render(
   <Theme name="...">
-    Only shown in Sbanken theme Only hidden in Eiendom theme Only shown in
-    Sbanken or Eiendom theme Only shown in Sbanken or Eiendom theme Only
-    shown in Sbanken then or Eiendom theme – that also includes the fictive
-    variant="blue".
+    
+      Only shown in Sbanken theme
+    
+
+    
+      Only hidden in Eiendom theme
+    
+
+    
+      Only shown in Sbanken or Eiendom theme
+    
+
+    
+      Only shown in Sbanken or Eiendom theme
+    
+
+    
+      Only shown in Sbanken then or Eiendom theme – that also includes the
+      fictive variant="blue".
+    
   </Theme>
 )
 ```
@@ -254,12 +270,18 @@ By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperie
 
 ## Properties
 
+
 ```json
 {
   "props": {
     "name": {
       "doc": "The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.",
-      "type": ["\"ui\"", "\"eiendom\"", "\"sbanken\"", "\"carnegie\""],
+      "type": [
+        "\"ui\"",
+        "\"eiendom\"",
+        "\"sbanken\"",
+        "\"carnegie\""
+      ],
       "status": "optional"
     },
     "size": {
@@ -279,12 +301,21 @@ By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperie
     },
     "colorScheme": {
       "doc": "Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode, `dark` for dark mode, or `inherit` to inherit from a parent Theme. Defaults to `undefined`.",
-      "type": ["\"auto\"", "\"light\"", "\"dark\"", "\"inherit\""],
+      "type": [
+        "\"auto\"",
+        "\"light\"",
+        "\"dark\"",
+        "\"inherit\""
+      ],
       "status": "optional"
     },
     "surface": {
       "doc": "Adjusts component appearance based on background. Use `dark` when content is placed on a dark surface, `light` for light, or `initial` to reset to the component's default behavior, ignoring any parent surface context. Defaults to `undefined`.",
-      "type": ["\"dark\"", "\"light\"", "\"initial\""],
+      "type": [
+        "\"dark\"",
+        "\"light\"",
+        "\"initial\""
+      ],
       "status": "optional"
     }
   }

@@ -1,8 +1,8 @@
 ---
 title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.352Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.295Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,56 +60,47 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/base-fields/ArraySelection)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/base-fields/ArraySelection)
 
+
 ## Demos
 
 ### Checkbox variant (default)
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    onFocus={(value) => console.log('onFocus', value)}
-    onBlur={(value) => console.log('onBlur', value)}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection onFocus={value => console.log('onFocus', value)} onBlur={value => console.log('onBlur', value)} onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 ### Button variant
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 ### Button with checkbox variant
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="checkbox-button"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="checkbox-button" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 ---
 
@@ -117,392 +108,288 @@ render(
 
 #### Checkbox label
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox option selected
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    value={['bar']}
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection value={['bar']} onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox horizontal layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    value={['bar']}
-    layout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" value={['bar']} layout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    value={['bar']}
-    optionsLayout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" value={['bar']} optionsLayout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox horizontal layout and horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    value={['bar']}
-    layout="horizontal"
-    optionsLayout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" value={['bar']} layout="horizontal" optionsLayout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox with help
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" help={{
+  title: 'Help title',
+  content: 'Help content'
+}}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox disabled
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    value={['bar']}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection value={['bar']} label="Label text" onChange={value => console.log('onChange', value)} disabled>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox disabled options
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    value={['foo']}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" disabled />
-    <Field.Option value="baz" title="Bazz!" disabled />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection value={['foo']} label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" disabled />
+      <Field.Option value="baz" title="Bazz!" disabled />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox info
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    info="FYI"
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" onChange={value => console.log('onChange', value)} info="FYI">
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox warning
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    warning="I'm warning you..."
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" onChange={value => console.log('onChange', value)} warning="I'm warning you...">
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox error
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Checkbox with nested fields and logic
 
 You can nest other fields and show them based on your desired logic.
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Flex.Stack>
-      <Form.Card>
-        <Field.ArraySelection
-          label="Make a selection"
-          path="/mySelection"
-          required
+render(<Form.Handler onSubmit={console.log}>
+      <Flex.Stack>
+        <Form.Card>
+          <Field.ArraySelection label="Make a selection" path="/mySelection" required>
+            <Field.Option value="nothing" title="Nothing" />
+
+            <Field.Option value="showInput" title="Show an input" />
+            <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: value => {
+            return Array.isArray(value) ? value.includes('showInput') : false;
+          }
+        }} animate compensateForGap="auto" // makes animation smooth
         >
-          <Field.Option value="nothing" title="Nothing" />
-
-          <Field.Option value="showInput" title="Show an input" />
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: (value) => {
-                return Array.isArray(value)
-                  ? value.includes('showInput')
-                  : false
-              },
-            }}
-            animate
-            compensateForGap="auto" // makes animation smooth
-          >
-            <Section variant="information" innerSpace>
-              <Field.String placeholder="Enter some value" required />
-            </Section>
-          </Form.Visibility>
-
-          <Field.Option
-            value="showAdditionalOption"
-            title="Show additional option"
-          />
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: (value) => {
-                return Array.isArray(value)
-                  ? value.includes('showAdditionalOption')
-                  : false
-              },
-            }}
-            animate
-            compensateForGap="auto" // makes animation smooth
-          >
-            <Field.Option
-              value="showMeMore"
-              title="Show even more"
-              bottom="x-small"
-            />
-            <Form.Visibility
-              animate
-              visibleWhen={{
-                path: '/mySelection',
-                hasValue: (value) => {
-                  return Array.isArray(value)
-                    ? value.includes('showMeMore')
-                    : false
-                },
-              }}
-            >
               <Section variant="information" innerSpace>
-                <Field.String placeholder="Enter more info" required />
+                <Field.String placeholder="Enter some value" required />
               </Section>
             </Form.Visibility>
-          </Form.Visibility>
-        </Field.ArraySelection>
-      </Form.Card>
 
-      <Form.SubmitButton />
-    </Flex.Stack>
-  </Form.Handler>
-)
+            <Field.Option value="showAdditionalOption" title="Show additional option" />
+            <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: value => {
+            return Array.isArray(value) ? value.includes('showAdditionalOption') : false;
+          }
+        }} animate compensateForGap="auto" // makes animation smooth
+        >
+              <Field.Option value="showMeMore" title="Show even more" bottom="x-small" />
+              <Form.Visibility animate visibleWhen={{
+            path: '/mySelection',
+            hasValue: value => {
+              return Array.isArray(value) ? value.includes('showMeMore') : false;
+            }
+          }}>
+                <Section variant="information" innerSpace>
+                  <Field.String placeholder="Enter more info" required />
+                </Section>
+              </Form.Visibility>
+            </Form.Visibility>
+          </Field.ArraySelection>
+        </Form.Card>
+
+        <Form.SubmitButton />
+      </Flex.Stack>
+    </Form.Handler>)
 ```
+
 
 #### Checkbox with a path to populate the data
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myDataPath: [
-        {
-          title: 'Foo!',
-          value: 'foo',
-        },
-        {
-          title: 'Bar!',
-          value: 'bar',
-        },
-        {
-          title: 'Baz!',
-          value: 'baz',
-        },
-      ],
-    }}
-  >
-    <Field.ArraySelection
-      label="Populated by dataPath"
-      dataPath="/myDataPath"
-    />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myDataPath: [{
+    title: 'Foo!',
+    value: 'foo'
+  }, {
+    title: 'Bar!',
+    value: 'bar'
+  }, {
+    title: 'Baz!',
+    value: 'baz'
+  }]
+}}>
+        <Field.ArraySelection label="Populated by dataPath" dataPath="/myDataPath" />
+      </Form.Handler>)
 ```
+
 
 #### Checkbox with the data property
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Populated by data"
-    data={[
-      {
-        title: 'Foo!',
-        value: 'foo',
-      },
-      {
-        title: 'Bar!',
-        value: 'bar',
-      },
-      {
-        title: 'Baz!',
-        value: 'baz',
-      },
-    ]}
-  />
-)
+render(<Field.ArraySelection label="Populated by data" data={[{
+  title: 'Foo!',
+  value: 'foo'
+}, {
+  title: 'Bar!',
+  value: 'bar'
+}, {
+  title: 'Baz!',
+  value: 'baz'
+}]} />)
 ```
+
 
 #### Checkbox with List composition
 
 Use render prop children to compose each option with [List](/uilib/components/list) and set selected state from the current field values.
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      selection: ['bar'],
-      myDataPath: [
-        {
-          value: 'foo',
-          title: 'Foo!',
-          amount: 1234,
-        },
-        {
-          value: 'bar',
-          title: 'Baar!',
-          amount: 5678,
-        },
-        {
-          value: 'baz',
-          title: 'Baz!',
-          amount: 9999,
-        },
-      ],
+render(<Form.Handler defaultData={{
+  selection: ['bar'],
+  myDataPath: [{
+    value: 'foo',
+    title: 'Foo!',
+    amount: 1234
+  }, {
+    value: 'bar',
+    title: 'Baar!',
+    amount: 5678
+  }, {
+    value: 'baz',
+    title: 'Baz!',
+    amount: 9999
+  }]
+}}>
+      <Field.ArraySelection label="Select one or more options" variant="checkbox" path="/selection" dataPath="/myDataPath" width="large">
+        {({
+      value = [],
+      options
+    }) => {
+      return <List.Container>
+              {options.map(({
+          value: optionValue,
+          title,
+          amount
+        }) => {
+          return <List.Item.Basic key={optionValue} selected={value.includes(optionValue)}>
+                    <List.Cell.Start>
+                      <Field.Option key={optionValue} value={optionValue} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>;
+        })}
+            </List.Container>;
     }}
-  >
-    <Field.ArraySelection
-      label="Select one or more options"
-      variant="checkbox"
-      path="/selection"
-      dataPath="/myDataPath"
-      width="large"
-    >
-      {({ value = [], options }) => {
-        return (
-          <List.Container>
-            {options.map(({ value: optionValue, title, amount }) => {
-              return (
-                <List.Item.Basic
-                  key={optionValue}
-                  selected={value.includes(optionValue)}
-                >
-                  <List.Cell.Start>
-                    <Field.Option
-                      key={optionValue}
-                      value={optionValue}
-                      title={title}
-                    />
-                  </List.Cell.Start>
-                  <List.Cell.End>
-                    <Value.Currency value={amount} />
-                  </List.Cell.End>
-                </List.Item.Basic>
-              )
-            })}
-          </List.Container>
-        )
-      }}
-    </Field.ArraySelection>
-  </Form.Handler>
-)
+      </Field.ArraySelection>
+    </Form.Handler>)
 ```
+
 
 ---
 
@@ -510,381 +397,284 @@ render(
 
 #### Button Label
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Fooo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Fooo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button option selected
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    value={['bar']}
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" value={['bar']} onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button horizontal layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    value={['bar']}
-    layout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" value={['bar']} layout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    value={['bar']}
-    optionsLayout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" value={['bar']} optionsLayout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button horizontal layout and horizontal options-layout
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    value={['bar']}
-    layout="horizontal"
-    optionsLayout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" value={['bar']} layout="horizontal" optionsLayout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button with help
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" help={{
+  title: 'Help title',
+  content: 'Help content'
+}}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button disabled
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    value={['bar']}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" value={['bar']} label="Label text" onChange={value => console.log('onChange', value)} disabled>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button disabled options
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    value={['foo']}
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" disabled />
-    <Field.Option value="baz" title="Bazz!" disabled />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" value={['foo']} label="Label text" onChange={value => console.log('onChange', value)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" disabled />
+      <Field.Option value="baz" title="Bazz!" disabled />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button info
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    info="FYI"
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" onChange={value => console.log('onChange', value)} info="FYI">
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button warning
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    warning="I'm warning you..."
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" onChange={value => console.log('onChange', value)} warning="I'm warning you...">
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button error
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection variant="button" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>)
 ```
+
 
 #### Button with a path to populate the data
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myDataPath: [
-        {
-          title: 'Foo!',
-          value: 'foo',
-        },
-        {
-          title: 'Bar!',
-          value: 'bar',
-        },
-        {
-          title: 'Baz!',
-          value: 'baz',
-        },
-      ],
-    }}
-  >
-    <Field.ArraySelection
-      variant="button"
-      label="Populated by dataPath"
-      dataPath="/myDataPath"
-    />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myDataPath: [{
+    title: 'Foo!',
+    value: 'foo'
+  }, {
+    title: 'Bar!',
+    value: 'bar'
+  }, {
+    title: 'Baz!',
+    value: 'baz'
+  }]
+}}>
+        <Field.ArraySelection variant="button" label="Populated by dataPath" dataPath="/myDataPath" />
+      </Form.Handler>)
 ```
+
 
 #### Button with the data property
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    variant="button"
-    label="Populated by data"
-    data={[
-      {
-        title: 'Foo!',
-        value: 'foo',
-      },
-      {
-        title: 'Bar!',
-        value: 'bar',
-      },
-      {
-        title: 'Baz!',
-        value: 'baz',
-      },
-    ]}
-  />
-)
+render(<Field.ArraySelection variant="button" label="Populated by data" data={[{
+  title: 'Foo!',
+  value: 'foo'
+}, {
+  title: 'Bar!',
+  value: 'bar'
+}, {
+  title: 'Baz!',
+  value: 'baz'
+}]} />)
 ```
+
 
 #### Button with nested fields and logic
 
 You can nest other fields and show them based on your desired logic.
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.ArraySelection
-        variant="button"
-        label="Make a selection"
-        path="/mySelection"
+render(<Form.Handler>
+      <Form.Card>
+        <Field.ArraySelection variant="button" label="Make a selection" path="/mySelection">
+          <Field.Option value="nothing" title="Nothing" />
+
+          <Field.Option value="showInput" title="Show an input" />
+          <Form.Visibility visibleWhen={{
+        path: '/mySelection',
+        hasValue: value => {
+          return Array.isArray(value) ? value.includes('showInput') : false;
+        }
+      }} animate compensateForGap="auto" // makes animation smooth
       >
-        <Field.Option value="nothing" title="Nothing" />
-
-        <Field.Option value="showInput" title="Show an input" />
-        <Form.Visibility
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: (value) => {
-              return Array.isArray(value)
-                ? value.includes('showInput')
-                : false
-            },
-          }}
-          animate
-          compensateForGap="auto" // makes animation smooth
-        >
-          <Section variant="information" innerSpace>
-            <Field.String placeholder="Enter some value" />
-          </Section>
-        </Form.Visibility>
-
-        <Field.Option
-          value="showAdditionalOption"
-          title="Show additional option"
-        />
-        <Form.Visibility
-          visibleWhen={{
-            path: '/mySelection',
-            hasValue: (value) => {
-              return Array.isArray(value)
-                ? value.includes('showAdditionalOption')
-                : false
-            },
-          }}
-          animate
-          compensateForGap="auto" // makes animation smooth
-        >
-          <Field.Option
-            value="showMeMore"
-            title="Show even more"
-            bottom="x-small"
-          />
-          <Form.Visibility
-            animate
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: (value) => {
-                return Array.isArray(value)
-                  ? value.includes('showMeMore')
-                  : false
-              },
-            }}
-          >
             <Section variant="information" innerSpace>
-              <Field.String placeholder="Enter more info" />
+              <Field.String placeholder="Enter some value" />
             </Section>
           </Form.Visibility>
-        </Form.Visibility>
-      </Field.ArraySelection>
-    </Form.Card>
-  </Form.Handler>
-)
+
+          <Field.Option value="showAdditionalOption" title="Show additional option" />
+          <Form.Visibility visibleWhen={{
+        path: '/mySelection',
+        hasValue: value => {
+          return Array.isArray(value) ? value.includes('showAdditionalOption') : false;
+        }
+      }} animate compensateForGap="auto" // makes animation smooth
+      >
+            <Field.Option value="showMeMore" title="Show even more" bottom="x-small" />
+            <Form.Visibility animate visibleWhen={{
+          path: '/mySelection',
+          hasValue: value => {
+            return Array.isArray(value) ? value.includes('showMeMore') : false;
+          }
+        }}>
+              <Section variant="information" innerSpace>
+                <Field.String placeholder="Enter more info" />
+              </Section>
+            </Form.Visibility>
+          </Form.Visibility>
+        </Field.ArraySelection>
+      </Form.Card>
+    </Form.Handler>)
 ```
+
 
 #### Button with checkbox variant
 
+
 ```tsx
-render(
-  <Field.ArraySelection
-    label="Label text"
-    value={['bar']}
-    variant="checkbox-button"
-    optionsLayout="horizontal"
-    onChange={(values) => console.log('onChange', values)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
-    <Field.Option value="qux" title="Quxx!" />
-    <Field.Option value="quux" title="Quuux!" />
-    <Field.Option value="quuz" title="Quuuuz!" />
-    <Field.Option value="corge" title="Corge!" />
-  </Field.ArraySelection>
-)
+render(<Field.ArraySelection label="Label text" value={['bar']} variant="checkbox-button" optionsLayout="horizontal" onChange={values => console.log('onChange', values)}>
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+      <Field.Option value="quux" title="Quuux!" />
+      <Field.Option value="quuz" title="Quuuuz!" />
+      <Field.Option value="corge" title="Corge!" />
+    </Field.ArraySelection>)
 ```
 
 ## Properties
 
 ### Field-specific properties
 
+
 ```json
 {
   "props": {
     "variant": {
       "doc": "Choice of UI feature.",
-      "type": ["\"checkbox\"", "\"button\"", "\"checkbox-button\""],
+      "type": [
+        "\"checkbox\"",
+        "\"button\"",
+        "\"checkbox-button\""
+      ],
       "defaultValue": "\"checkbox\"",
       "status": "optional"
     },
     "optionsLayout": {
       "doc": "Layout for the list of options.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "defaultValue": "\"vertical\"",
       "status": "optional"
     },
     "children": {
       "doc": "For providing `<Field.Option>` components. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "size": {
@@ -907,7 +697,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -929,12 +721,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -954,7 +754,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["Array<string | number>", "undefined"],
+      "type": [
+        "Array<string | number>",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -1034,7 +837,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -1049,12 +855,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -1064,17 +876,26 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
@@ -1083,6 +904,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

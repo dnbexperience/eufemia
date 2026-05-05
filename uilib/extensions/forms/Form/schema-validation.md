@@ -1,8 +1,8 @@
 ---
 title: 'Form.SchemaValidation'
 description: 'Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.013Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.009Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -427,6 +427,7 @@ it('should match generated schema snapshot', () => {
 })
 ```
 
+
 - [Demos](#demos)
   - [Schema for single field](#schema-for-single-field)
   - [Schema for a whole data set](#schema-for-a-whole-data-set)
@@ -439,110 +440,100 @@ it('should match generated schema snapshot', () => {
 
 ### Schema for single field
 
+
 ```tsx
-const ajv = makeAjvInstance()
+const ajv = makeAjvInstance();
 const schema = {
   type: 'string',
-  minLength: 5,
-}
-render(
-  <Form.Handler ajvInstance={ajv}>
-    <Field.String schema={schema} />
-  </Form.Handler>
-)
+  minLength: 5
+};
+render(<Form.Handler ajvInstance={ajv}>
+            <Field.String schema={schema} />
+          </Form.Handler>);
 ```
+
 
 ### Schema for a whole data set
 
+
 ```tsx
-const ajv = makeAjvInstance()
+const ajv = makeAjvInstance();
 const schema = {
   type: 'object',
   properties: {
     name: {
       type: 'string',
-      minLength: 2,
+      minLength: 2
     },
     address: {
       type: 'string',
-      minLength: 3,
-    },
+      minLength: 3
+    }
   },
-  required: ['name', 'address'],
-}
-render(
-  <Form.Handler
-    data={{
-      address: 'Prefilled address',
-    }}
-    schema={schema}
-    ajvInstance={ajv}
-  >
-    <Form.Card bottom="small">
-      <Form.MainHeading>Company information</Form.MainHeading>
+  required: ['name', 'address']
+};
+render(<Form.Handler data={{
+  address: 'Prefilled address'
+}} schema={schema} ajvInstance={ajv}>
+            <Form.Card bottom="small">
+              <Form.MainHeading>Company information</Form.MainHeading>
 
-      <Field.String path="/name" label="Name" />
-      <Field.String path="/address" label="Address" />
-    </Form.Card>
+              <Field.String path="/name" label="Name" />
+              <Field.String path="/address" label="Address" />
+            </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Schema with if-rule
 
+
 ```tsx
-const ajv = makeAjvInstance()
+const ajv = makeAjvInstance();
 const schema = {
   type: 'object',
   properties: {
     name: {
-      type: 'string',
+      type: 'string'
     },
     customerType: {
       type: 'string',
-      enum: ['corporate', 'private'],
+      enum: ['corporate', 'private']
     },
     companyName: {
-      type: 'string',
-    },
+      type: 'string'
+    }
   },
   if: {
     properties: {
       customerType: {
-        enum: ['corporate'],
-      },
+        enum: ['corporate']
+      }
     },
-    required: ['customerType'],
+    required: ['customerType']
   },
   then: {
-    required: ['name', 'companyName'],
+    required: ['name', 'companyName']
   },
   else: {
-    required: ['name'],
-  },
-}
-render(
-  <Form.Handler schema={schema} ajvInstance={ajv}>
-    <Form.Card>
-      <Form.MainHeading>Customer information</Form.MainHeading>
+    required: ['name']
+  }
+};
+render(<Form.Handler schema={schema} ajvInstance={ajv}>
+            <Form.Card>
+              <Form.MainHeading>Customer information</Form.MainHeading>
 
-      <Field.String path="/name" label="Name" />
-      <Field.String
-        path="/customerType"
-        label="Customer type (corporate or private)"
-      />
-      <Field.Name.Company
-        path="/companyName"
-        labelDescription="Company name (required for corporate customers)"
-      />
-    </Form.Card>
+              <Field.String path="/name" label="Name" />
+              <Field.String path="/customerType" label="Customer type (corporate or private)" />
+              <Field.Name.Company path="/companyName" labelDescription="Company name (required for corporate customers)" />
+            </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### Dependent list schema
 
@@ -550,8 +541,9 @@ Becoming a new customer, this form requires at least one normal account
 to be added, unless the customer opens a BSU account, then normal
 accounts can still be added, but is optional.
 
+
 ```tsx
-const ajv = makeAjvInstance()
+const ajv = makeAjvInstance();
 const schema = {
   type: 'object',
   definitions: {
@@ -560,120 +552,103 @@ const schema = {
       properties: {
         accountNumber: {
           type: 'string',
-          pattern: '^[0-9]{11}$',
+          pattern: '^[0-9]{11}$'
         },
         alias: {
           type: 'string',
           minLength: 2,
-          maxLength: 32,
-        },
+          maxLength: 32
+        }
       },
-      required: ['accountNumber'],
-    },
+      required: ['accountNumber']
+    }
   },
   properties: {
     name: {
-      type: 'string',
+      type: 'string'
     },
     email: {
-      type: 'string',
+      type: 'string'
     },
     phone: {
-      type: 'string',
+      type: 'string'
     },
     accounts: {
       type: 'array',
       items: {
-        $ref: '#/definitions/account',
-      },
+        $ref: '#/definitions/account'
+      }
     },
     bsuAccount: {
-      $ref: '#/definitions/account',
-    },
+      $ref: '#/definitions/account'
+    }
   },
-  oneOf: [
-    {
-      properties: {
-        accounts: {
-          type: 'array',
-          minItems: 1,
-        },
+  oneOf: [{
+    properties: {
+      accounts: {
+        type: 'array',
+        minItems: 1
+      }
+    }
+  }, {
+    properties: {
+      accounts: {
+        type: 'array',
+        minItems: 0
       },
+      bsuAccount: {
+        type: 'object',
+        required: ['accountNumber']
+      }
     },
-    {
-      properties: {
-        accounts: {
-          type: 'array',
-          minItems: 0,
-        },
-        bsuAccount: {
-          type: 'object',
-          required: ['accountNumber'],
-        },
-      },
-      required: ['bsuAccount'],
-    },
-  ],
-}
-render(
-  <Form.Handler
-    data={{
-      accounts: [{}],
-    }}
-    schema={schema}
-    ajvInstance={ajv}
-  >
-    <Flex.Vertical>
-      <Form.MainHeading>Customer information</Form.MainHeading>
-      <Form.Card>
-        <Field.String path="/name" label="Name" />
-        <Field.Email path="/email" label="E-mail" />
-        <Field.PhoneNumber path="/phone" label="Phone number" />
-      </Form.Card>
+    required: ['bsuAccount']
+  }]
+};
+render(<Form.Handler data={{
+  accounts: [{}]
+}} schema={schema} ajvInstance={ajv}>
+            <Flex.Vertical>
+              <Form.MainHeading>Customer information</Form.MainHeading>
+              <Form.Card>
+                <Field.String path="/name" label="Name" />
+                <Field.Email path="/email" label="E-mail" />
+                <Field.PhoneNumber path="/phone" label="Phone number" />
+              </Form.Card>
 
-      <Form.MainHeading>Accounts</Form.MainHeading>
-      <Form.Card>
-        <Form.SubHeading>Standard accounts</Form.SubHeading>
+              <Form.MainHeading>Accounts</Form.MainHeading>
+              <Form.Card>
+                <Form.SubHeading>Standard accounts</Form.SubHeading>
 
-        <Iterate.Array path="/accounts">
-          <Flex.Horizontal align="flex-end">
-            <Field.BankAccountNumber
-              itemPath="/accountNumber"
-              label="Account number"
-            />
-            <Field.String itemPath="/alias" label="Alias" width="medium" />
-            <Iterate.RemoveButton />
-          </Flex.Horizontal>
-        </Iterate.Array>
+                <Iterate.Array path="/accounts">
+                  <Flex.Horizontal align="flex-end">
+                    <Field.BankAccountNumber itemPath="/accountNumber" label="Account number" />
+                    <Field.String itemPath="/alias" label="Alias" width="medium" />
+                    <Iterate.RemoveButton />
+                  </Flex.Horizontal>
+                </Iterate.Array>
 
-        <Iterate.PushButton
-          text="Add account"
-          path="/accounts"
-          pushValue={{}}
-        />
+                <Iterate.PushButton text="Add account" path="/accounts" pushValue={{}} />
 
-        <Form.SubHeading>BSU Account</Form.SubHeading>
-        <Field.BankAccountNumber
-          path="/bsuAccount/accountNumber"
-          label="Account number"
-        />
-        <Field.String path="/bsuAccount/alias" label="Alias" />
-      </Form.Card>
+                <Form.SubHeading>BSU Account</Form.SubHeading>
+                <Field.BankAccountNumber path="/bsuAccount/accountNumber" label="Account number" />
+                <Field.String path="/bsuAccount/alias" label="Alias" />
+              </Form.Card>
 
-      <Form.SubmitButton />
-    </Flex.Vertical>
-  </Form.Handler>
-)
+              <Form.SubmitButton />
+            </Flex.Vertical>
+          </Form.Handler>);
 ```
+
 
 ### Dependent schema across sections
 
 This schema validates fields across different sections based on the value of
 another field.
 
+
 ```tsx
-const ajv = makeAjvInstance()
-const counts = [1, 2, 3]
+const ajv = makeAjvInstance();
+const counts = [1, 2, 3];
 const schema = {
   type: 'object',
   properties: {
@@ -681,10 +656,10 @@ const schema = {
       type: 'object',
       properties: {
         numberOfMembers: {
-          type: 'integer',
-        },
+          type: 'integer'
+        }
       },
-      required: ['numberOfMembers'],
+      required: ['numberOfMembers']
     },
     beneficialOwners: {
       type: 'object',
@@ -695,308 +670,249 @@ const schema = {
             type: 'object',
             properties: {
               name: {
-                type: 'string',
-              },
+                type: 'string'
+              }
             },
-            required: ['name'],
-          },
-        },
-      },
-    },
+            required: ['name']
+          }
+        }
+      }
+    }
   },
   dependentSchemas: {
     members: {
       allOf: [
-        // Handle count = 0: array must be empty
-        {
-          if: {
-            properties: {
-              members: {
-                type: 'object',
-                properties: {
-                  numberOfMembers: {
-                    const: 0,
-                  },
-                },
-                required: ['numberOfMembers'],
+      // Handle count = 0: array must be empty
+      {
+        if: {
+          properties: {
+            members: {
+              type: 'object',
+              properties: {
+                numberOfMembers: {
+                  const: 0
+                }
               },
-            },
-          },
-          then: {
-            properties: {
-              beneficialOwners: {
-                type: 'object',
-                properties: {
-                  addedExistingBeneficialOwners: {
-                    type: 'array',
-                    maxItems: 0,
-                  },
-                },
-              },
-            },
-          },
+              required: ['numberOfMembers']
+            }
+          }
         },
-        // Handle count = 1, 2, or 3: array must match exactly
-        ...counts.map((count) => ({
-          if: {
-            properties: {
-              members: {
-                type: 'object',
-                properties: {
-                  numberOfMembers: {
-                    const: count,
-                  },
-                },
-                required: ['numberOfMembers'],
+        then: {
+          properties: {
+            beneficialOwners: {
+              type: 'object',
+              properties: {
+                addedExistingBeneficialOwners: {
+                  type: 'array',
+                  maxItems: 0
+                }
+              }
+            }
+          }
+        }
+      },
+      // Handle count = 1, 2, or 3: array must match exactly
+      ...counts.map(count => ({
+        if: {
+          properties: {
+            members: {
+              type: 'object',
+              properties: {
+                numberOfMembers: {
+                  const: count
+                }
               },
-            },
-          },
-          then: {
-            required: ['beneficialOwners'],
-            properties: {
-              beneficialOwners: {
-                type: 'object',
-                properties: {
-                  addedExistingBeneficialOwners: {
-                    type: 'array',
-                    minItems: count,
-                    maxItems: count,
-                  },
-                },
-                required: ['addedExistingBeneficialOwners'],
+              required: ['numberOfMembers']
+            }
+          }
+        },
+        then: {
+          required: ['beneficialOwners'],
+          properties: {
+            beneficialOwners: {
+              type: 'object',
+              properties: {
+                addedExistingBeneficialOwners: {
+                  type: 'array',
+                  minItems: count,
+                  maxItems: count
+                }
               },
-            },
-          },
-        })),
-      ],
-    },
-  },
-}
-render(
-  <Form.Handler schema={schema} ajvInstance={ajv}>
-    <Flex.Stack>
-      <Form.Card>
-        <Form.MainHeading>Membership</Form.MainHeading>
-        <Field.Number
-          path="/members/numberOfMembers"
-          label="Number of members (1-3)"
-          width="small"
-          startWith={-1}
-          showStepControls
-        />
-      </Form.Card>
+              required: ['addedExistingBeneficialOwners']
+            }
+          }
+        }
+      }))]
+    }
+  }
+};
+render(<Form.Handler schema={schema} ajvInstance={ajv}>
+            <Flex.Stack>
+              <Form.Card>
+                <Form.MainHeading>Membership</Form.MainHeading>
+                <Field.Number path="/members/numberOfMembers" label="Number of members (1-3)" width="small" startWith={-1} showStepControls />
+              </Form.Card>
 
-      <Form.Card>
-        <Form.SubHeading>Beneficial owners</Form.SubHeading>
-        <Iterate.Array
-          path="/beneficialOwners/addedExistingBeneficialOwners"
-          errorMessages={{
-            minItems: 'You must add {minItems} existing owners.',
-          }}
-          animate
-        >
-          <Section
-            innerSpace={{
-              top: 'small',
-              bottom: 'small',
-            }}
-            bottom
-            backgroundColor="lavender"
-          >
-            <Field.String itemPath="/name" label="Owner name {itemNo}" />
-            <Iterate.RemoveButton />
-          </Section>
-        </Iterate.Array>
-        <Iterate.PushButton
-          path="/beneficialOwners/addedExistingBeneficialOwners"
-          pushValue={{}}
-          text="Add beneficiary"
-        />
-      </Form.Card>
+              <Form.Card>
+                <Form.SubHeading>Beneficial owners</Form.SubHeading>
+                <Iterate.Array path="/beneficialOwners/addedExistingBeneficialOwners" errorMessages={{
+        minItems: 'You must add {minItems} existing owners.'
+      }} animate>
+                  <Section innerSpace={{
+          top: 'small',
+          bottom: 'small'
+        }} bottom backgroundColor="lavender">
+                    <Field.String itemPath="/name" label="Owner name {itemNo}" />
+                    <Iterate.RemoveButton />
+                  </Section>
+                </Iterate.Array>
+                <Iterate.PushButton path="/beneficialOwners/addedExistingBeneficialOwners" pushValue={{}} text="Add beneficiary" />
+              </Form.Card>
 
-      <Form.SubmitButton text="Show errors" />
+              <Form.SubmitButton text="Show errors" />
 
-      <Tools.Log label="Form data" />
-      <Tools.Errors label="Errors" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+              <Tools.Log label="Form data" />
+              <Tools.Errors label="Errors" />
+            </Flex.Stack>
+          </Form.Handler>);
 ```
+
 
 ### Dependent schema using Zod
 
 This schema is using `Zod` for validation, and validates fields across different sections based on the value of another field.
 
+
 ```tsx
-const counts = [1, 2, 3]
+const counts = [1, 2, 3];
 const ownerSchema = z.object({
-  name: z.string().optional(),
-})
-const schema = z
-  .object({
-    members: z
-      .object({
-        numberOfMembers: z.number().int().optional(),
-      })
-      .optional(),
-    beneficialOwners: z
-      .object({
-        addedExistingBeneficialOwners: z.array(ownerSchema).optional(),
-      })
-      .optional(),
-  })
-  .superRefine((value, ctx) => {
-    // numberOfMembers is always required
-    if (!value.members || value.members.numberOfMembers === undefined) {
+  name: z.string().optional()
+});
+const schema = z.object({
+  members: z.object({
+    numberOfMembers: z.number().int().optional()
+  }).optional(),
+  beneficialOwners: z.object({
+    addedExistingBeneficialOwners: z.array(ownerSchema).optional()
+  }).optional()
+}).superRefine((value, ctx) => {
+  // numberOfMembers is always required
+  if (!value.members || value.members.numberOfMembers === undefined) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['members', 'numberOfMembers'],
+      message: 'Field.errorRequired'
+    });
+    return; // stop further validation
+  }
+  const count = value.members.numberOfMembers;
+
+  // Check if count matches one of the expected values (1, 2, or 3)
+  // This matches the AJV dependentSchemas logic with allOf and if/then
+  if (counts.includes(count)) {
+    // If count matches, beneficialOwners is required
+    if (!value.beneficialOwners) {
       ctx.addIssue({
         code: 'custom',
-        path: ['members', 'numberOfMembers'],
-        message: 'Field.errorRequired',
-      })
-      return // stop further validation
+        path: ['beneficialOwners'],
+        message: 'Field.errorRequired'
+      });
+      return; // stop further validation
     }
-    const count = value.members.numberOfMembers
 
-    // Check if count matches one of the expected values (1, 2, or 3)
-    // This matches the AJV dependentSchemas logic with allOf and if/then
-    if (counts.includes(count)) {
-      // If count matches, beneficialOwners is required
-      if (!value.beneficialOwners) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['beneficialOwners'],
-          message: 'Field.errorRequired',
-        })
-        return // stop further validation
-      }
+    // addedExistingBeneficialOwners is required
+    if (!value.beneficialOwners.addedExistingBeneficialOwners) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['beneficialOwners', 'addedExistingBeneficialOwners'],
+        message: 'Field.errorRequired'
+      });
+      return; // stop further validation
+    }
+    const ownersLength = value.beneficialOwners.addedExistingBeneficialOwners.length;
+    const path = ['beneficialOwners', 'addedExistingBeneficialOwners'];
 
-      // addedExistingBeneficialOwners is required
-      if (!value.beneficialOwners.addedExistingBeneficialOwners) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['beneficialOwners', 'addedExistingBeneficialOwners'],
-          message: 'Field.errorRequired',
-        })
-        return // stop further validation
-      }
-      const ownersLength =
-        value.beneficialOwners.addedExistingBeneficialOwners.length
-      const path = ['beneficialOwners', 'addedExistingBeneficialOwners']
-
-      // Validate array length matches count exactly
-      if (ownersLength < count) {
-        ctx.addIssue({
-          code: 'custom',
-          path,
-          message: 'IterateArray.errorMinItems',
-          messageValues: {
-            minItems: count,
-          },
-        })
-      }
-      if (ownersLength > count) {
-        ctx.addIssue({
-          code: 'custom',
-          path,
-          message: 'IterateArray.errorMaxItems',
-          messageValues: {
-            maxItems: count,
-          },
-        })
-      }
-
-      // Validate that each owner has a name (required)
-      value.beneficialOwners.addedExistingBeneficialOwners.forEach(
-        (owner, index) => {
-          if (!owner.name) {
-            ctx.addIssue({
-              code: 'custom',
-              path: [
-                'beneficialOwners',
-                'addedExistingBeneficialOwners',
-                index,
-                'name',
-              ],
-              message: 'Field.errorRequired',
-            })
-          }
+    // Validate array length matches count exactly
+    if (ownersLength < count) {
+      ctx.addIssue({
+        code: 'custom',
+        path,
+        message: 'IterateArray.errorMinItems',
+        messageValues: {
+          minItems: count
         }
-      )
+      });
+    }
+    if (ownersLength > count) {
+      ctx.addIssue({
+        code: 'custom',
+        path,
+        message: 'IterateArray.errorMaxItems',
+        messageValues: {
+          maxItems: count
+        }
+      });
     }
 
-    // Validate array length sync for all count values (including 0)
-    if (
-      value.beneficialOwners?.addedExistingBeneficialOwners &&
-      Array.isArray(value.beneficialOwners.addedExistingBeneficialOwners)
-    ) {
-      const ownersLength =
-        value.beneficialOwners.addedExistingBeneficialOwners.length
-      const path = ['beneficialOwners', 'addedExistingBeneficialOwners']
-
-      // If count is not in the expected range, array length must not exceed count
-      if (!counts.includes(count) && count >= 0 && ownersLength > count) {
+    // Validate that each owner has a name (required)
+    value.beneficialOwners.addedExistingBeneficialOwners.forEach((owner, index) => {
+      if (!owner.name) {
         ctx.addIssue({
           code: 'custom',
-          path,
-          message: 'IterateArray.errorMaxItems',
-          messageValues: {
-            maxItems: count,
-          },
-        })
+          path: ['beneficialOwners', 'addedExistingBeneficialOwners', index, 'name'],
+          message: 'Field.errorRequired'
+        });
       }
+    });
+  }
+
+  // Validate array length sync for all count values (including 0)
+  if (value.beneficialOwners?.addedExistingBeneficialOwners && Array.isArray(value.beneficialOwners.addedExistingBeneficialOwners)) {
+    const ownersLength = value.beneficialOwners.addedExistingBeneficialOwners.length;
+    const path = ['beneficialOwners', 'addedExistingBeneficialOwners'];
+
+    // If count is not in the expected range, array length must not exceed count
+    if (!counts.includes(count) && count >= 0 && ownersLength > count) {
+      ctx.addIssue({
+        code: 'custom',
+        path,
+        message: 'IterateArray.errorMaxItems',
+        messageValues: {
+          maxItems: count
+        }
+      });
     }
-  })
-render(
-  <Form.Handler
-    schema={schema}
-    defaultData={{
-      beneficialOwners: {
-        addedExistingBeneficialOwners: undefined,
-      },
-    }}
-  >
-    <Flex.Stack>
-      <Form.Card>
-        <Form.MainHeading>Membership</Form.MainHeading>
-        <Field.Number
-          path="/members/numberOfMembers"
-          label="Number of members (1-3)"
-          width="small"
-          startWith={-1}
-          showStepControls
-        />
-      </Form.Card>
+  }
+});
+render(<Form.Handler schema={schema} defaultData={{
+  beneficialOwners: {
+    addedExistingBeneficialOwners: undefined
+  }
+}}>
+            <Flex.Stack>
+              <Form.Card>
+                <Form.MainHeading>Membership</Form.MainHeading>
+                <Field.Number path="/members/numberOfMembers" label="Number of members (1-3)" width="small" startWith={-1} showStepControls />
+              </Form.Card>
 
-      <Form.Card>
-        <Form.SubHeading>Beneficial owners</Form.SubHeading>
-        <Iterate.Array
-          path="/beneficialOwners/addedExistingBeneficialOwners"
-          animate
-        >
-          <Section
-            innerSpace={{
-              top: 'small',
-              bottom: 'small',
-            }}
-            bottom
-            backgroundColor="lavender"
-          >
-            <Field.String itemPath="/name" label="Owner name {itemNo}" />
-            <Iterate.RemoveButton />
-          </Section>
-        </Iterate.Array>
-        <Iterate.PushButton
-          path="/beneficialOwners/addedExistingBeneficialOwners"
-          pushValue={{}}
-          text="Add beneficiary"
-        />
-      </Form.Card>
+              <Form.Card>
+                <Form.SubHeading>Beneficial owners</Form.SubHeading>
+                <Iterate.Array path="/beneficialOwners/addedExistingBeneficialOwners" animate>
+                  <Section innerSpace={{
+          top: 'small',
+          bottom: 'small'
+        }} bottom backgroundColor="lavender">
+                    <Field.String itemPath="/name" label="Owner name {itemNo}" />
+                    <Iterate.RemoveButton />
+                  </Section>
+                </Iterate.Array>
+                <Iterate.PushButton path="/beneficialOwners/addedExistingBeneficialOwners" pushValue={{}} text="Add beneficiary" />
+              </Form.Card>
 
-      <Form.SubmitButton text="Show errors" />
+              <Form.SubmitButton text="Show errors" />
 
-      <Tools.Log label="Form data" />
-      <Tools.Errors label="Errors" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+              <Tools.Log label="Form data" />
+              <Tools.Errors label="Errors" />
+            </Flex.Stack>
+          </Form.Handler>);
 ```

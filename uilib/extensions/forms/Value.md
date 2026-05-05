@@ -1,8 +1,8 @@
 ---
 title: 'Value'
 description: '`Value` components can be used to summarize any kind of data.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.320Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.272Z
 checksum: 25ec6c5757e21d72003cae1812e65f5fb700f03a0081f2ef11d5468416cdbe17
 ---
 
@@ -32,30 +32,30 @@ render(<Value.String path="/myPath" />)
 
 When you utilize multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
 
+
 ```tsx
-render(
-  <Value.SummaryList>
-    <Value.String label="Foo" value="value" />
-    <Value.Number label="Bar" value={123} />
-  </Value.SummaryList>
-)
+render(<Value.SummaryList>
+        <Value.String label="Foo" value="value" />
+        <Value.Number label="Bar" value={123} />
+      </Value.SummaryList>)
 ```
+
 
 ## Combine values together
 
 You can also combine `Value.*` components together by using the value [Composition](/uilib/extensions/forms/Value/Composition/) component. And it can still be used within the above mentioned [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
 
+
 ```tsx
-render(
-  <Value.SummaryList>
-    <Value.String label="Foo" value="value" />
-    <Value.Composition label="Label">
-      <Value.String value="value" />
-      <Value.Number value={123} />
-    </Value.Composition>
-  </Value.SummaryList>
-)
+render(<Value.SummaryList>
+        <Value.String label="Foo" value="value" />
+        <Value.Composition label="Label">
+          <Value.String value="value" />
+          <Value.Number value={123} />
+        </Value.Composition>
+      </Value.SummaryList>)
 ```
+
 
 ## Inherit visibility from fields based on path
 
@@ -123,6 +123,7 @@ And by using the [Value.Provider](/uilib/extensions/forms/Value/Provider/), you 
   <Value.String path="/myPath" inheritLabel />
 </Value.Provider>
 ```
+
 
 ## Components
 

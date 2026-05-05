@@ -1,8 +1,8 @@
 ---
 title: 'CSS Styles'
 description: 'To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.479Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.378Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'About the Library'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:20.513Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:11.513Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -19,11 +19,13 @@ The `@dnb/eufemia` package is intended for internal DNB development only. Make s
 
 ---
 
+
 ## The Eufemia Repository
 
 The `@dnb/eufemia` is hosted as a sub package inside the [<Icon icon={EufemiaLogo} size="large" />**Eufemia Repository**](https://github.com/dnbexperience/eufemia) on GitHub.
 
 You can also enable [<Icon icon={GithubLogo} size="default" />notification about upcoming releases](https://help.github.com/articles/watching-and-unwatching-releases-for-a-repository/).
+
 
 ---
 

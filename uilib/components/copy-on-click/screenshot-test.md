@@ -1,18 +1,17 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.103Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.265Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 ```tsx
-render(
-  <Drawer open>
-    <CopyOnClick>I'm inside the drawer</CopyOnClick>
-  </Drawer>
-)
+render(<Drawer open>
+        <CopyOnClick>I'm inside the drawer</CopyOnClick>
+      </Drawer>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -46,11 +45,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "CopyOnClick.clipboardCopy": {
       "nb-NO": "Kopiert",

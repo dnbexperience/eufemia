@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import{r}from"./UploadDocs-7QZVpMm3.js";var i=e();function a(e){let a={a:`a`,code:`code`,h2:`h2`,p:`p`,...t(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(a.h2,{children:`Events`}),`
+`,(0,i.jsx)(n,{props:r}),`
+`,(0,i.jsxs)(a.p,{children:[`Read more about `,(0,i.jsx)(a.code,{children:`fileItem`}),` in the properties docs section `,(0,i.jsx)(a.a,{href:`/uilib/components/upload/properties/#fileitem`,children:`FileItem`}),`.`]})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

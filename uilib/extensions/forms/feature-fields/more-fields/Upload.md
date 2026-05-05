@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.406Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.332Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -253,563 +253,458 @@ The `sessionStorageId` property can be used to store the files in the session st
 
 But the persisted files only render the file name, and not the file itself. The file blob will be lost during the serialization process.
 
+
 ## Demos
 
 Consider taking a look at the demos for the [Upload component](/uilib/components/upload/demos/) as well.
 
 ### Basic usage
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Field.Upload
-      label="My custom label"
-      labelDescription="My description"
-      onChange={(files) => console.log('onChange', files)}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Field.Upload label="My custom label" labelDescription="My description" onChange={files => console.log('onChange', files)} />
+      </Form.Handler>)
 ```
+
 
 ### Variant `compact`
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Field.Upload
-      variant="compact"
-      label="My custom label"
-      labelDescription="My description"
-      onChange={(files) => console.log('onChange', files)}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Field.Upload variant="compact" label="My custom label" labelDescription="My description" onChange={files => console.log('onChange', files)} />
+      </Form.Handler>)
 ```
+
 
 ### Required
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
-    <Flex.Stack>
-      <Field.Upload path="/myFiles" required />
-      <Form.SubmitButton />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={data => console.log('onSubmit', data)}>
+        <Flex.Stack>
+          <Field.Upload path="/myFiles" required />
+          <Form.SubmitButton />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Path usage
 
+
 ```tsx
-render(
-  <Form.Handler
-    onChange={(data) => console.log('onChange', data)}
-    data={{
-      myFiles: [
-        {
-          file: createMockFile('fileName-1.png', 100, 'image/png'),
-        },
-      ],
-    }}
-  >
-    <Field.Upload path="/myFiles" />
-  </Form.Handler>
-)
+render(<Form.Handler onChange={data => console.log('onChange', data)} data={{
+  myFiles: [{
+    file: createMockFile('fileName-1.png', 100, 'image/png')
+  }]
+}}>
+        <Field.Upload path="/myFiles" />
+      </Form.Handler>)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.Upload
-    help={{
-      open: true,
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Upload help={{
+  open: true,
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
+
 
 ### Customized
 
+
 ```tsx
-render(
-  <Field.Upload
-    title="My custom title"
-    text="My text with a help button"
-    width="large"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-      open: true,
-    }}
-    warning="Warning message"
-    acceptedFileTypes={['pdf']}
-    filesAmountLimit={1}
-    fileMaxSize={1}
-  />
-)
+render(<Field.Upload title="My custom title" text="My text with a help button" width="large" help={{
+  title: 'Help title',
+  content: 'Help content',
+  open: true
+}} warning="Warning message" acceptedFileTypes={['pdf']} filesAmountLimit={1} fileMaxSize={1} />)
 ```
+
 
 ### Session storage support
 
 The `sessionStorageId` property can be used to store the files in the session storage so they persist between page reloads.
 
-```tsx
-render(
-  <Form.Handler sessionStorageId="documents">
-    <Flex.Stack>
-      <Form.Card>
-        <Field.Upload path="/documents" />
-        <Value.Upload
-          path="/documents"
-          label="Uploaded files"
-          placeholder="No files uploaded."
-          variant="ol"
-          showEmpty
-        />
-      </Form.Card>
 
-      <Form.SubmitButton />
-      <Tools.Log />
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler sessionStorageId="documents">
+        <Flex.Stack>
+          <Form.Card>
+            <Field.Upload path="/documents" />
+            <Value.Upload path="/documents" label="Uploaded files" placeholder="No files uploaded." variant="ol" showEmpty />
+          </Form.Card>
+
+          <Form.SubmitButton />
+          <Tools.Log />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### With asynchronous file handler
 
 The `fileHandler` property supports an asynchronous function, and can be used for handling/validating files asynchronously, like to upload files to a virus checker and display errors based on the outcome:
 
+
 ```tsx
 const MyForm = () => {
-  return (
-    <Form.Handler onSubmit={async (form) => console.log(form)}>
-      <Flex.Stack>
-        <Field.Upload
-          path="/attachments"
-          labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-          fileHandler={mockAsyncFileUpload}
-          required
-        />
-        <Form.SubmitButton />
-        <Tools.Log />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-async function mockAsyncFileUpload(
-  newFiles: UploadValue
-): Promise<UploadValue> {
-  const updatedFiles: UploadValue = []
+  return <Form.Handler onSubmit={async form => console.log(form)}>
+              <Flex.Stack>
+                <Field.Upload path="/attachments" labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail." fileHandler={mockAsyncFileUpload} required />
+                <Form.SubmitButton />
+                <Tools.Log />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+async function mockAsyncFileUpload(newFiles: UploadValue): Promise<UploadValue> {
+  const updatedFiles: UploadValue = [];
   for (const [index, file] of Object.entries(newFiles)) {
-    const formData = new FormData()
-    formData.append('file', file.file, file.file.name)
-    const request = createRequest()
-    await request(Math.floor(Math.random() * 2000) + 1000) // Simulate a request
+    const formData = new FormData();
+    formData.append('file', file.file, file.file.name);
+    const request = createRequest();
+    await request(Math.floor(Math.random() * 2000) + 1000); // Simulate a request
 
     try {
       const mockResponse = {
         ok: (parseFloat(index) + 2) % 2 === 0,
         // Every other request will fail
         json: async () => ({
-          serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
-        }),
-      }
+          serverGeneratedId: file.file.name + '_' + crypto.randomUUID()
+        })
+      };
       if (!mockResponse.ok) {
-        throw new Error('Unable to upload this file')
+        throw new Error('Unable to upload this file');
       }
-      const data = await mockResponse.json()
+      const data = await mockResponse.json();
       updatedFiles.push({
         ...file,
-        id: data.serverGeneratedId,
-      })
+        id: data.serverGeneratedId
+      });
     } catch (error) {
       updatedFiles.push({
         ...file,
         errorMessage: error.message,
-        removeLink: true,
-      })
+        removeLink: true
+      });
     }
   }
-  return updatedFiles
+  return updatedFiles;
 }
-render(<MyForm />)
+render(<MyForm />);
 ```
+
 
 ### With synchronous file handler
 
 The `fileHandler` property supports a synchronous function, and can be used for handling/validating files synchronously, like to check for file names that's too long:
 
+
 ```tsx
 const MyForm = () => {
-  return (
-    <Form.Handler onSubmit={async (form) => console.log(form)}>
-      <Flex.Stack>
-        <Field.Upload
-          path="/myattachments"
-          fileHandler={mockSyncFileUpload}
-          required
-        />
-        <Form.SubmitButton />
-        <Tools.Log />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
+  return <Form.Handler onSubmit={async form => console.log(form)}>
+              <Flex.Stack>
+                <Field.Upload path="/myattachments" fileHandler={mockSyncFileUpload} required />
+                <Form.SubmitButton />
+                <Tools.Log />
+              </Flex.Stack>
+            </Form.Handler>;
+};
 function mockSyncFileUpload(newFiles: UploadValue) {
-  return newFiles.map((file) => {
+  return newFiles.map(file => {
     if (file.file.name.length > 5) {
-      file.errorMessage = 'File name is too long'
+      file.errorMessage = 'File name is too long';
     }
-    return file
-  })
+    return file;
+  });
 }
-render(<MyForm />)
+render(<MyForm />);
 ```
+
 
 ### With asynchronous `onFileDelete`
 
+
 ```tsx
-async function mockAsyncFileRemoval({ fileItem }) {
-  const request = createRequest()
-  console.log(`making API request to remove: ${fileItem.file.name}`)
-  await request(3000) // Simulate a request
+async function mockAsyncFileRemoval({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log(`making API request to remove: ${fileItem.file.name}`);
+  await request(3000); // Simulate a request
   const mockResponse = {
-    successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
-  }
+    successfulRemoval: Math.random() < 0.5 // Randomly fails to remove the file
+  };
   if (!mockResponse.successfulRemoval) {
-    throw new Error('Unable to remove this file')
+    throw new Error('Unable to remove this file');
   }
 }
-render(
-  <Field.Upload
-    onFileDelete={mockAsyncFileRemoval}
-    acceptedFileTypes={['jpg', 'png']}
-  />
-)
+render(<Field.Upload onFileDelete={mockAsyncFileRemoval} acceptedFileTypes={['jpg', 'png']} />);
 ```
+
 
 ### With asynchronous `onFileClick`
 
+
 ```tsx
-async function mockAsyncFileClick({ fileItem }) {
-  const request = createRequest()
-  console.log(
-    `making API request to fetch the url of the file: ${fileItem.file.name}`
-  )
-  await request(2000) // Simulate a request
-  window.open(
-    `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-    '_blank'
-  )
+async function mockAsyncFileClick({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log(`making API request to fetch the url of the file: ${fileItem.file.name}`);
+  await request(2000); // Simulate a request
+  window.open(`https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`, '_blank');
 }
-render(
-  <Form.Handler
-    data={{
-      myFiles: [
-        {
-          file: createMockFile('1501870.jpg', 100, 'image/png'),
-          id: '1',
-        },
-      ],
-    }}
-  >
-    <Field.Upload path="/myFiles" onFileClick={mockAsyncFileClick} />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myFiles: [{
+    file: createMockFile('1501870.jpg', 100, 'image/png'),
+    id: '1'
+  }]
+}}>
+            <Field.Upload path="/myFiles" onFileClick={mockAsyncFileClick} />
+          </Form.Handler>);
 ```
+
 
 ### With [FileItem](/uilib/components/upload/properties/#fileitem) options
 
+
 ```tsx
 const MyForm = () => {
-  return (
-    <Form.Handler
-      data={{
-        myFiles: [
-          {
-            file: createMockFile('fileName-1.png', 100, 'image/png'),
-            id: '1',
-            description: 'My description',
-            errorMessage: 'My error message',
-            removeDeleteButton: true,
-            removeLink: true,
-          },
-        ],
-      }}
-    >
-      <Field.Upload path="/myFiles" fileHandler={fileHandler} required />
-    </Form.Handler>
-  )
-}
+  return <Form.Handler data={{
+    myFiles: [{
+      file: createMockFile('fileName-1.png', 100, 'image/png'),
+      id: '1',
+      description: 'My description',
+      errorMessage: 'My error message',
+      removeDeleteButton: true,
+      removeLink: true
+    }]
+  }}>
+              <Field.Upload path="/myFiles" fileHandler={fileHandler} required />
+            </Form.Handler>;
+};
 function fileHandler(newFiles: UploadValue) {
-  return newFiles.map((file) => {
-    file.errorMessage = 'File has a problem'
-    file.description = 'File description'
-    file.removeDeleteButton = true
-    return file
-  })
+  return newFiles.map(file => {
+    file.errorMessage = 'File has a problem';
+    file.description = 'File description';
+    file.removeDeleteButton = true;
+    return file;
+  });
 }
-render(<MyForm />)
+render(<MyForm />);
 ```
+
 
 ### With file size validation
 
+
 ```tsx
-const MAX_SIZE = 500 * 1024 // 500 KB
+const MAX_SIZE = 500 * 1024; // 500 KB
 // 500 KB
-const MIN_SIZE = 50 * 1024 // 50 KB
+const MIN_SIZE = 50 * 1024; // 50 KB
 // 50 KB
 
 const myTranslation = {
   'nb-NO': {
     errorFileTooSmall: 'Filen er for liten.',
-    errorFileTooLarge: 'Filen er for stor.',
+    errorFileTooLarge: 'Filen er for stor.'
   },
   'en-GB': {
     errorFileTooSmall: 'File is too small.',
-    errorFileTooLarge: 'File is too large.',
-  },
-}
+    errorFileTooLarge: 'File is too large.'
+  }
+};
 function MyField() {
-  const tr = Form.useTranslation()
+  const tr = Form.useTranslation();
   const fileHandler = (newFiles: UploadValue) => {
-    return newFiles.map((item) => {
-      console.log('item:', item)
+    return newFiles.map(item => {
+      console.log('item:', item);
       if (item.file.size < MIN_SIZE) {
-        item.errorMessage = tr['errorFileTooSmall']
+        item.errorMessage = tr['errorFileTooSmall'];
       }
       if (item.file.size > MAX_SIZE) {
-        item.errorMessage = tr['errorFileTooLarge']
+        item.errorMessage = tr['errorFileTooLarge'];
       }
-      return item
-    })
-  }
-  return (
-    <Field.Upload
-      label="Label"
-      labelDescription="This is a Field"
-      path="/myField"
-      acceptedFileTypes={['PNG']}
-      fileMaxSize={false}
-      fileHandler={fileHandler}
-    />
-  )
+      return item;
+    });
+  };
+  return <Field.Upload label="Label" labelDescription="This is a Field" path="/myField" acceptedFileTypes={['PNG']} fileMaxSize={false} fileHandler={fileHandler} />;
 }
-render(
-  <Form.Handler
-    translations={myTranslation}
-    onSubmit={(data) => console.log('onSubmit', data)}
-  >
-    <Form.Card>
-      <MyField />
-    </Form.Card>
+render(<Form.Handler translations={myTranslation} onSubmit={data => console.log('onSubmit', data)}>
+            <Form.Card>
+              <MyField />
+            </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ### With validation error handler
 
 The `onValidationError` property can be used to handle files that fail built-in validation (file size or file type). This allows you to customize the appearance and behavior of invalid files, such as removing the download link or adding custom descriptions:
 
+
 ```tsx
 function validationErrorHandler(invalidFiles: UploadValue): UploadValue {
-  return invalidFiles.map((file) => ({
+  return invalidFiles.map(file => ({
     ...file,
     removeLink: true,
-    description: 'This file cannot be uploaded due to validation failure',
-  }))
+    description: 'This file cannot be uploaded due to validation failure'
+  }));
 }
 async function fileHandler(validFiles: UploadValue): Promise<UploadValue> {
-  const updatedFiles: UploadValue = []
+  const updatedFiles: UploadValue = [];
   for (const file of validFiles) {
-    const request = createRequest()
-    await request(2000) // Simulate upload
+    const request = createRequest();
+    await request(2000); // Simulate upload
 
     updatedFiles.push({
       ...file,
-      id: `server_${crypto.randomUUID()}`,
-    })
+      id: `server_${crypto.randomUUID()}`
+    });
   }
-  return updatedFiles
+  return updatedFiles;
 }
-async function onFileDelete({ fileItem }) {
-  const request = createRequest()
-  console.log('Deleting file:', fileItem.file.name)
-  await request(1000) // Simulate delete
+async function onFileDelete({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log('Deleting file:', fileItem.file.name);
+  await request(1000); // Simulate delete
 }
-render(
-  <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
-    <Flex.Stack>
-      <Field.Upload
-        path="/myFiles"
-        fileMaxSize={1}
-        acceptedFileTypes={['jpg', 'pdf', 'png']}
-        label="Upload documents"
-        labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
-        onValidationError={validationErrorHandler}
-        fileHandler={fileHandler}
-        onFileDelete={onFileDelete}
-      />
-      <Form.SubmitButton />
-      <Tools.Log />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={data => console.log('onSubmit', data)}>
+            <Flex.Stack>
+              <Field.Upload path="/myFiles" fileMaxSize={1} acceptedFileTypes={['jpg', 'pdf', 'png']} label="Upload documents" labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling." onValidationError={validationErrorHandler} fileHandler={fileHandler} onFileDelete={onFileDelete} />
+              <Form.SubmitButton />
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>);
 ```
+
 
 ### With Iterate.Array
 
+
 ```tsx
-async function mockAsyncFileUpload(
-  newFiles: UploadFile[]
-): Promise<UploadFile[]> {
-  const updatedFiles: UploadFile[] = []
+async function mockAsyncFileUpload(newFiles: UploadFile[]): Promise<UploadFile[]> {
+  const updatedFiles: UploadFile[] = [];
   for (const [, file] of Object.entries(newFiles)) {
-    const formData = new FormData()
-    formData.append('file', file.file, file.file.name)
-    const request = createRequest()
-    await request(8000) // Simulate a request
+    const formData = new FormData();
+    formData.append('file', file.file, file.file.name);
+    const request = createRequest();
+    await request(8000); // Simulate a request
 
     try {
       const mockResponse = {
         ok: true,
         json: async () => ({
-          serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
-        }),
-      }
-      const data = await mockResponse.json()
+          serverGeneratedId: file.file.name + '_' + crypto.randomUUID()
+        })
+      };
+      const data = await mockResponse.json();
       updatedFiles.push({
         ...file,
-        id: data.serverGeneratedId,
-      })
+        id: data.serverGeneratedId
+      });
     } catch (error) {
       updatedFiles.push({
         ...file,
-        errorMessage: error.message,
-      })
+        errorMessage: error.message
+      });
     }
   }
-  return updatedFiles
+  return updatedFiles;
 }
-async function mockAsyncOnFileClick({ fileItem }) {
-  const request = createRequest()
-  console.log(
-    'making API request to fetch the url of the file: ' +
-      fileItem.file.name
-  )
-  await request(3000) // Simulate a request
-  window.open(
-    'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-    '_blank'
-  )
+async function mockAsyncOnFileClick({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log('making API request to fetch the url of the file: ' + fileItem.file.name);
+  await request(3000); // Simulate a request
+  window.open('https://eufemia.dnb.no/images/avatars/1501870.jpg', '_blank');
 }
-async function mockAsyncFileRemoval({ fileItem }) {
-  const request = createRequest()
-  console.log('Making API request to remove: ' + fileItem.file.name)
-  await request(3000) // Simulate a request
+async function mockAsyncFileRemoval({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log('Making API request to remove: ' + fileItem.file.name);
+  await request(3000); // Simulate a request
 }
-render(
-  <Form.Handler
-    onSubmit={(data) => {
-      console.log('submitted data:', data)
-    }}
-    defaultData={{
-      listOfFiles: [
-        {
-          files: undefined,
-        },
-        {
-          files: undefined,
-        },
-      ],
-    }}
-  >
-    <Iterate.Array path="/listOfFiles">
-      <Field.Upload
-        itemPath="/files"
-        label="Required field with async fileHandler"
-        onFileDelete={mockAsyncFileRemoval}
-        onFileClick={mockAsyncOnFileClick}
-        // @ts-expect-error -- strictFunctionTypes
-        fileHandler={mockAsyncFileUpload}
-        required
-        onChange={(e) => {
-          console.log('onChange', e)
-        }}
-      />
-    </Iterate.Array>
-    <Form.SubmitButton />
-    <Tools.Log />
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={data => {
+  console.log('submitted data:', data);
+}} defaultData={{
+  listOfFiles: [{
+    files: undefined
+  }, {
+    files: undefined
+  }]
+}}>
+            <Iterate.Array path="/listOfFiles">
+              <Field.Upload itemPath="/files" label="Required field with async fileHandler" onFileDelete={mockAsyncFileRemoval} onFileClick={mockAsyncOnFileClick}
+    // @ts-expect-error -- strictFunctionTypes
+    fileHandler={mockAsyncFileUpload} required onChange={e => {
+      console.log('onChange', e);
+    }} />
+            </Iterate.Array>
+            <Form.SubmitButton />
+            <Tools.Log />
+          </Form.Handler>);
 ```
 
+
+
+  
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myFiles: [
-        {
-          file: createMockFile('fileName-1.png', 100, 'image/png'),
-        },
-      ],
-    }}
-  >
-    <Form.Card>
-      <Field.String width="stretch" />
-      <Field.Upload path="/myFiles" label="default" />
-      <Field.Upload path="/myFiles" width="large" label="large" />
-      <Field.Upload path="/myFiles" width="stretch" label="stretch" />
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myFiles: [{
+    file: createMockFile('fileName-1.png', 100, 'image/png')
+  }]
+}}>
+        <Form.Card>
+          <Field.String width="stretch" />
+          <Field.Upload path="/myFiles" label="default" />
+          <Field.Upload path="/myFiles" width="large" label="large" />
+          <Field.Upload path="/myFiles" width="stretch" label="stretch" />
+        </Form.Card>
+      </Form.Handler>)
 ```
 
+  
 ```tsx
-render(
-  <Field.Upload
-    labelDescription={false}
-    help={{
-      open: true,
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  />
-)
+render(<Field.Upload labelDescription={false} help={{
+  open: true,
+  title: 'Help title',
+  content: 'Help content'
+}} />)
 ```
 
+  
 ```tsx
-render(
-  <Form.Handler>
-    <Field.Upload
-      help={{
-        open: true,
-        title: 'Hva betyr lånebeløp?',
-        content: (
-          <>
-            Dette er hvor mye du har tenkt å låne{' '}
-            <Anchor href="#test">totalt</Anchor>.
-          </>
-        ),
-      }}
-      variant="compact"
-      label="My custom label"
-      labelDescription="My description"
-      onChange={(files) => console.log('onChange', files)}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Field.Upload help={{
+    open: true,
+    title: 'Hva betyr lånebeløp?',
+    content: <>
+                Dette er hvor mye du har tenkt å låne{' '}
+                <Anchor href="#test">totalt</Anchor>.
+              </>
+  }} variant="compact" label="My custom label" labelDescription="My description" onChange={files => console.log('onChange', files)} />
+      </Form.Handler>)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -826,7 +721,12 @@ render(
     },
     "id": {
       "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-      "type": ["string", "function", "object", "React.Context"],
+      "type": [
+        "string",
+        "function",
+        "object",
+        "React.Context"
+      ],
       "status": "optional"
     },
     "children": {
@@ -836,12 +736,18 @@ render(
     },
     "variant": {
       "doc": "Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.",
-      "type": ["\"default\"", "\"compact\""],
+      "type": [
+        "\"default\"",
+        "\"compact\""
+      ],
       "status": "optional"
     },
     "acceptedFileTypes": {
       "doc": "List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
-      "type": ["Array<string>", "Array<AcceptedFileType>"],
+      "type": [
+        "Array<string>",
+        "Array<AcceptedFileType>"
+      ],
       "status": "required"
     },
     "filesAmountLimit": {
@@ -851,7 +757,10 @@ render(
     },
     "fileMaxSize": {
       "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
-      "type": ["number", "false"],
+      "type": [
+        "number",
+        "false"
+      ],
       "status": "optional"
     },
     "download": {
@@ -941,26 +850,35 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "Source data value for the field. Will take precedence over the path value given in the data context.",
-      "type": ["Array<{ file, id }>"],
+      "type": [
+        "Array<{ file, id }>"
+      ],
       "status": "optional"
     },
     "defaultValue": {
       "doc": "Default source data value for the field. Will not take precedence over the path value given in the data context.",
-      "type": ["Array<{ file, id }>"],
+      "type": [
+        "Array<{ file, id }>"
+      ],
       "status": "optional"
     },
     "path": {
@@ -970,12 +888,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -995,7 +921,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["Array<{ file, id }>", "undefined"],
+      "type": [
+        "Array<{ file, id }>",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -1075,7 +1004,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -1090,12 +1022,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -1105,21 +1043,32 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "valueType": ["Array<{ file, id }>"],
+  "valueType": [
+    "Array<{ file, id }>"
+  ],
   "omit": [
     "layout",
     "layoutOptions",
@@ -1134,13 +1083,20 @@ render(
 }
 ```
 
+
 ### [FileItem](/uilib/components/upload/properties/#fileitem) properties
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Upload.buttonText": {
       "nb-NO": "Velg filer",
@@ -1255,6 +1211,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

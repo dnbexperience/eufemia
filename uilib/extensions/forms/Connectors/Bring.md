@@ -1,8 +1,8 @@
 ---
 title: 'Connector.Bring'
 description: 'Bring is a connector that allows you to fetch data from their REST API and use it in your form.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.803Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.838Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -116,46 +116,44 @@ function MyForm() {
 
 This demo contains only a mocked API call, so only a postal code of `1391` for Norway and `11432` for Sweden is valid.
 
+
 ```tsx
-const { withConfig } = Connectors.createContext({
+const {
+  withConfig
+} = Connectors.createContext({
   fetchConfig: {
-    url: async (value, { countryCode }) => {
-      await mockFetch(countryCode, getMockDataPostalCode(countryCode))
-      return `[YOUR-API-URL]/${value}`
-    },
-  },
-})
-const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
+    url: async (value, {
+      countryCode
+    }) => {
+      await mockFetch(countryCode, getMockDataPostalCode(countryCode));
+      return `[YOUR-API-URL]/${value}`;
+    }
+  }
+});
+const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator);
 const onBlur = withConfig(Connectors.Bring.postalCode.autofill, {
-  cityPath: '/city',
-})
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Form.Card>
-      <Field.PostalCodeAndCity
-        countryCode="/countryCode"
-        postalCode={{
-          path: '/postalCode',
-          onBlurValidator,
-          // @ts-expect-error -- strictFunctionTypes
-          onBlur,
-          required: true,
-        }}
-        city={{
-          path: '/city',
-          required: true,
-        }}
-      />
-      <Field.SelectCountry
-        path="/countryCode"
-        defaultValue="NO"
-        filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
-      />
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+  cityPath: '/city'
+});
+render(<Form.Handler onSubmit={console.log}>
+            <Form.Card>
+              <Field.PostalCodeAndCity countryCode="/countryCode" postalCode={{
+      path: '/postalCode',
+      onBlurValidator,
+      // @ts-expect-error -- strictFunctionTypes
+      onBlur,
+      required: true
+    }} city={{
+      path: '/city',
+      required: true
+    }} />
+              <Field.SelectCountry path="/countryCode" defaultValue="NO" filterCountries={({
+      iso
+    }) => ['NO', 'SE'].includes(iso)} />
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```
+
 
 ---
 
@@ -258,9 +256,15 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 
 ### Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "StreetAddress.suggestionPlaceholder": {
       "nb-NO": "Skriv inn adressen",
@@ -272,54 +276,47 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 }
 ```
 
+
 ### Address suggestion demos
 
 This demo contains only a mocked API call, so you can enter anything in the Street field.
 
-```tsx
-const { withConfig } = Connectors.createContext({
-  fetchConfig: {
-    url: async (value, { countryCode }) => {
-      await mockFetch(countryCode, getMockDataAddress(countryCode))
-      return `[YOUR-API-URL]/${value}`
-    },
-  },
-})
-const addressSuggestionsElement = withConfig(
-  Connectors.Bring.address.suggestionsElement,
-  {
-    countryCode: '/countryCode',
-    cityPath: '/city',
-    postalCodePath: '/postalCode',
-  }
-)
-render(
-  <Form.Handler onSubmit={console.log}>
-    <Form.Card>
-      <Field.Address.Street
-        path="/streetAddress"
-        // @ts-expect-error -- strictFunctionTypes
-        element={addressSuggestionsElement}
-      />
-      <Field.PostalCodeAndCity
-        countryCode="/countryCode"
-        postalCode={{
-          path: '/postalCode',
-          required: true,
-        }}
-        city={{
-          path: '/city',
-          required: true,
-        }}
-      />
-      <Field.SelectCountry
-        path="/countryCode"
-        defaultValue="NO"
-        filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
-      />
-    </Form.Card>
 
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+```tsx
+const {
+  withConfig
+} = Connectors.createContext({
+  fetchConfig: {
+    url: async (value, {
+      countryCode
+    }) => {
+      await mockFetch(countryCode, getMockDataAddress(countryCode));
+      return `[YOUR-API-URL]/${value}`;
+    }
+  }
+});
+const addressSuggestionsElement = withConfig(Connectors.Bring.address.suggestionsElement, {
+  countryCode: '/countryCode',
+  cityPath: '/city',
+  postalCodePath: '/postalCode'
+});
+render(<Form.Handler onSubmit={console.log}>
+            <Form.Card>
+              <Field.Address.Street path="/streetAddress"
+    // @ts-expect-error -- strictFunctionTypes
+    element={addressSuggestionsElement} />
+              <Field.PostalCodeAndCity countryCode="/countryCode" postalCode={{
+      path: '/postalCode',
+      required: true
+    }} city={{
+      path: '/city',
+      required: true
+    }} />
+              <Field.SelectCountry path="/countryCode" defaultValue="NO" filterCountries={({
+      iso
+    }) => ['NO', 'SE'].includes(iso)} />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>);
 ```

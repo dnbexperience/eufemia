@@ -1,11 +1,12 @@
 ---
 title: 'Accessibility'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.452Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.369Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Accessibility
+
 
 ## Eufemia aims to be [WCAG 2.1](https://www.w3.org/TR/WCAG21/) compliant
 
@@ -95,6 +96,7 @@ This is to ensure that users with visual limitations can sufficiently zoom the p
 > [**1.4.10 Reflow:**](https://www.w3.org/TR/WCAG21/#reflow) Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions for: Vertical scrolling content at a width equivalent to 320 CSS pixels.
 
 Make sure that you take into consideration any paddings that might be added around your content. If the content you are working on will be placed inside a container with 16px padding on each side, you will need to test at 288px (320 - 16 - 16).
+
 
 ## Tooling tips
 

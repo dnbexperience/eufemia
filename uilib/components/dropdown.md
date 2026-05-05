@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.160Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.312Z
 checksum: 1e3d4837783b622f108440442703c9b366fa7ad611927f646b6ea18919b836fa
 ---
 
@@ -71,224 +71,166 @@ You can also set the width directly, but then it has to be defined like so (incl
 }
 ```
 
+
 ## Demos
 
 ### Default dropdown
 
 No `value` is defined, but a `title` is given.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="dropdown-closed">
       {() => {
-        const data = [
-          // Every data item can, beside "content" - contain what ever
-          {
-            // (optional) can be what ever
-            selectedKey: 'key_0',
-            // (optional) is show instead of "content", once selected
-            selectedValue: 'Item 1 Value',
-            // Item content as a string or array
-            content: 'Item 1 Content',
-          },
-          {
-            selectedKey: 'key_1',
-            content: ['Item 2 Value', 'Item 2 Content'],
-          },
-          {
-            selectedValue: (
-              <NumberFormat.BankAccountNumber alwaysSelectAll>
-                11345678962
-              </NumberFormat.BankAccountNumber>
-            ),
-            content: [
-              <NumberFormat.BankAccountNumber key="ban" alwaysSelectAll>
+      const data = [
+      // Every data item can, beside "content" - contain what ever
+      {
+        // (optional) can be what ever
+        selectedKey: 'key_0',
+        // (optional) is show instead of "content", once selected
+        selectedValue: 'Item 1 Value',
+        // Item content as a string or array
+        content: 'Item 1 Content'
+      }, {
+        selectedKey: 'key_1',
+        content: ['Item 2 Value', 'Item 2 Content']
+      }, {
+        selectedValue: <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
               </NumberFormat.BankAccountNumber>,
-              'Bank account number',
-            ],
-          },
-          {
-            selectedKey: 'key_2',
-            selectedValue: 'Item 3 Value',
-            content: ['Item 3 Content A', 'Item 3 Content B'],
-          },
-          {
-            selectedKey: 'key_3',
-            selectedValue: 'Item 4 Value',
-            content: ['Item 4 Content A', <>Custom Component</>],
-          },
-        ]
-        return (
-          <Dropdown
-            data={data}
-            label="Label"
-            title="Please select a value"
-            onChange={({ data }) => {
-              console.log('onChange', data)
-            }}
-          />
-        )
-      }}
+        content: [<NumberFormat.BankAccountNumber key="ban" alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>, 'Bank account number']
+      }, {
+        selectedKey: 'key_2',
+        selectedValue: 'Item 3 Value',
+        content: ['Item 3 Content A', 'Item 3 Content B']
+      }, {
+        selectedKey: 'key_3',
+        selectedValue: 'Item 4 Value',
+        content: ['Item 4 Content A', <>Custom Component</>]
+      }];
+      return <Dropdown data={data} label="Label" title="Please select a value" onChange={({
+        data
+      }) => {
+        console.log('onChange', data);
+      }} />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Dropdown with different item content directions
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        visualTestProps,
-      }}
-      data-visual-test="dropdown-item-directions"
-    >
-      <Dropdown
-        label="Label"
-        data={[
-          ['Vertical', 'alignment'],
-          <>
-            <P weight="medium">Vertical</P>
-            <P>alignment</P>
-          </>,
-          <Dropdown.HorizontalItem key="item-1">
-            <P weight="medium" right="x-small">
-              Horizontal
-            </P>
-            <P>alignment</P>
-          </Dropdown.HorizontalItem>,
-        ]}
-        {...visualTestProps(globalThis.IS_TEST)}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper>
+      <ComponentBox scope={{
+    visualTestProps
+  }} data-visual-test="dropdown-item-directions">
+        <Dropdown label="Label" data={[['Vertical', 'alignment'], <>
+              <P weight="medium">Vertical</P>
+              <P>alignment</P>
+            </>, <Dropdown.HorizontalItem key="item-1">
+              <P weight="medium" right="x-small">
+                Horizontal
+              </P>
+              <P>alignment</P>
+            </Dropdown.HorizontalItem>]} {...visualTestProps(globalThis.IS_TEST)} />
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ### Icon on left side
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-      data-visual-test="dropdown-left-icon"
-    >
-      <Dropdown
-        label="Label"
-        iconPosition="left"
-        data={data}
-        value={3}
-        skipPortal={true}
-        onChange={({ data: selectedDataItem }) => {
-          console.log('onChange', selectedDataItem)
-        }}
-        onOpen={() => {
-          console.log('onOpen')
-        }}
-      />
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }} data-visual-test="dropdown-left-icon">
+      <Dropdown label="Label" iconPosition="left" data={data} value={3} skipPortal={true} onChange={({
+      data: selectedDataItem
+    }) => {
+      console.log('onChange', selectedDataItem);
+    }} onOpen={() => {
+      console.log('onOpen');
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Dropdown as tertiary variant
 
-```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-      data-visual-test="dropdown-tertiary"
-    >
-      <Dropdown
-        variant="tertiary"
-        direction="bottom"
-        independentWidth={true}
-        iconPosition="left"
-        align="left"
-        data={data}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-```
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-      data-visual-test="dropdown-tertiary-right"
-    >
-      <Dropdown
-        variant="tertiary"
-        direction="bottom"
-        independentWidth={true}
-        iconPosition="right"
-        align="right"
-        data={data}
-      />
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }} data-visual-test="dropdown-tertiary">
+      <Dropdown variant="tertiary" direction="bottom" independentWidth={true} iconPosition="left" align="left" data={data} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
+
+  
+```tsx
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }} data-visual-test="dropdown-tertiary-right">
+      <Dropdown variant="tertiary" direction="bottom" independentWidth={true} iconPosition="right" align="right" data={data} />
+    </ComponentBox>
+  </Wrapper>)
+```
+
+
 
 ### Dropdown in different sizes
 
 Four sizes are available: `small`, `default`, `medium` and `large`
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="dropdown-sizes"
-      scope={{
-        data,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="dropdown-sizes" scope={{
+    data
+  }}>
       <Flex.Vertical>
         <Dropdown label="Label" size="default" data={() => data} />
         <Dropdown label="Label" size="medium" data={() => data} />
         <Dropdown label="Label" size="large" data={() => data} />
       </Flex.Vertical>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Custom width
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }}>
       {() => {
-        const CustomWidthOne = styled(Dropdown)`
+      const CustomWidthOne = styled(Dropdown)`
           .dnb-dropdown__shell {
             width: 10rem;
           }
-        `
-        const CustomWidthTwo = styled(Dropdown)`
+        `;
+      const CustomWidthTwo = styled(Dropdown)`
           &.dnb-dropdown--is-popup .dnb-drawer-list__root {
             width: 12rem;
           }
-        `
-        const CustomWidthThree = styled(Dropdown)`
+        `;
+      const CustomWidthThree = styled(Dropdown)`
           /** Change the "__shell" width */
           .dnb-dropdown__shell {
             width: 10rem;
@@ -298,8 +240,8 @@ render(
           .dnb-drawer-list__root {
             width: 20rem;
           }
-        `
-        const CustomWidthFour = styled(Dropdown)`
+        `;
+      const CustomWidthFour = styled(Dropdown)`
           width: 60%;
           min-width: 224px; /** 14rem (please use pixels on min-width!) */
           max-width: 25rem;
@@ -308,301 +250,200 @@ render(
           .dnb-form-label + .dnb-dropdown__inner {
             width: 100%;
           }
-        `
-        return (
-          <Flex.Vertical>
-            <CustomWidthOne
-              label="Label"
-              size="default"
-              iconPosition="left"
-              data={data}
-            />
-            <CustomWidthTwo
-              label="Label"
-              size="small"
-              preventSelection
-              title={null}
-              data={data}
-            />
-            <CustomWidthThree
-              label="Label"
-              size="large"
-              align="right"
-              data={data}
-            />
-            <CustomWidthFour
-              title="Min and max width"
-              stretch={true}
-              data={data}
-            />
-          </Flex.Vertical>
-        )
-      }}
+        `;
+      return <Flex.Vertical>
+            <CustomWidthOne label="Label" size="default" iconPosition="left" data={data} />
+            <CustomWidthTwo label="Label" size="small" preventSelection title={null} data={data} />
+            <CustomWidthThree label="Label" size="large" align="right" data={data} />
+            <CustomWidthFour title="Min and max width" stretch={true} data={data} />
+          </Flex.Vertical>;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Dropdown with status
 
 And vertical label layout.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="dropdown-status-error"
-      scope={{
-        data,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="dropdown-status-error" scope={{
+    data
+  }}>
       <Dropdown data={data} label="Label" status="Message to the user" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Findable list
 
 With long list to make it scrollable and searchable
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
       {() => {
-        const scrollableData = [
-          {
-            content: 'A',
-          },
-          {
-            content: 'B',
-          },
-          {
-            selectedValue: (
-              <NumberFormat.BankAccountNumber alwaysSelectAll>
-                11345678962
-              </NumberFormat.BankAccountNumber>
-            ),
-            content: [
-              <NumberFormat.BankAccountNumber key="ban-1" alwaysSelectAll>
+      const scrollableData = [{
+        content: 'A'
+      }, {
+        content: 'B'
+      }, {
+        selectedValue: <NumberFormat.BankAccountNumber alwaysSelectAll>
                 11345678962
               </NumberFormat.BankAccountNumber>,
-              'C',
-            ],
-          },
-          {
-            selectedValue: (
-              <NumberFormat.BankAccountNumber alwaysSelectAll>
-                15349648901
-              </NumberFormat.BankAccountNumber>
-            ),
-            content: [
-              <NumberFormat.BankAccountNumber key="ban-2" alwaysSelectAll>
+        content: [<NumberFormat.BankAccountNumber key="ban-1" alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>, 'C']
+      }, {
+        selectedValue: <NumberFormat.BankAccountNumber alwaysSelectAll>
                 15349648901
               </NumberFormat.BankAccountNumber>,
-              'D',
-            ],
-          },
-          {
-            content: 'E',
-          },
-          {
-            selectedKey: 'key_1',
-            selectedValue: 'Find me by keypress',
-            content: ['F', 'F', 'F', 'F'],
-          },
-          {
-            content: 'G',
-          },
-          {
-            content: 'H',
-          },
-        ]
-        return (
-          <Dropdown
-            data={scrollableData}
-            value="key_1" // use either index (5) or selectedKey: 'key_1'
-            label="Label"
-          />
-        )
-      }}
+        content: [<NumberFormat.BankAccountNumber key="ban-2" alwaysSelectAll>
+                15349648901
+              </NumberFormat.BankAccountNumber>, 'D']
+      }, {
+        content: 'E'
+      }, {
+        selectedKey: 'key_1',
+        selectedValue: 'Find me by keypress',
+        content: ['F', 'F', 'F', 'F']
+      }, {
+        content: 'G'
+      }, {
+        content: 'H'
+      }];
+      return <Dropdown data={scrollableData} value="key_1" // use either index (5) or selectedKey: 'key_1'
+      label="Label" />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Disabled dropdown
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-      data-visual-test="dropdown-disabled"
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }} data-visual-test="dropdown-disabled">
       <Dropdown disabled data={['Disabled Dropdown']} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 Individual options can also be disabled.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="dropdown-disabled-options">
-      <Dropdown
-        data={[
-          {
-            content: 'Item 1 Content',
-          },
-          {
-            content: 'Item 2 Content',
-            disabled: true,
-          },
-          {
-            content: 'Item 3 Content',
-            disabled: true,
-          },
-          {
-            content: 'Item 4 Content A',
-          },
-        ]}
-        label="Label"
-      />
+      <Dropdown data={[{
+      content: 'Item 1 Content'
+    }, {
+      content: 'Item 2 Content',
+      disabled: true
+    }, {
+      content: 'Item 3 Content',
+      disabled: true
+    }, {
+      content: 'Item 4 Content A'
+    }]} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Disabled tertiary dropdown
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="dropdown-disabled-tertiary">
-      <Dropdown
-        disabled
-        variant="tertiary"
-        data={['Disabled Dropdown']}
-        label="Disabled tertiary dropdown"
-      />
+      <Dropdown disabled variant="tertiary" data={['Disabled Dropdown']} label="Disabled tertiary dropdown" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Customized Dropdown
 
 An example of how you can customize the look of your `Dropdown`
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        chevron_right,
-        newspaper,
-        chevron_down,
-      }}
-    >
-      {() => {
-        const styles = {
-          customTrigger: {
-            backgroundColor: '#d4ecc5',
-            color: '#14555a',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '8px 16px',
-            fontWeight: 600,
-          },
-          customMenuItem: {
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          },
-          customMenuItemTitle: {
-            display: 'flex',
-            flexFlow: 'column',
-            gap: '0.5rem',
-          },
+render(<Wrapper>
+      <ComponentBox scope={{
+    chevron_right,
+    newspaper,
+    chevron_down
+  }}>
+        {() => {
+      const styles = {
+        customTrigger: {
+          backgroundColor: '#d4ecc5',
+          color: '#14555a',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '8px 16px',
+          fontWeight: 600
+        },
+        customMenuItem: {
+          display: 'flex',
+          flexFlow: 'row nowrap',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        },
+        customMenuItemTitle: {
+          display: 'flex',
+          flexFlow: 'column',
+          gap: '0.5rem'
         }
-        const MenuItem = ({ title, content, key }) => (
-          <span style={styles.customMenuItem} key="item-1">
-            <span style={styles.customMenuItemTitle}>
-              {title}
-              <span>{content}</span>
-            </span>
-            <Icon icon={chevron_right} />
-          </span>
-        )
-        const data = {
-          accounts: (
-            <MenuItem
-              key="item-1"
-              title="Accounts"
-              content={'Bills, Savings'}
-            />
-          ),
-          loans: (
-            <MenuItem
-              key="item-2"
-              title="Loans"
-              content={'Mortgage, Car'}
-            />
-          ),
-          cards: (
-            <MenuItem
-              key="item-3"
-              title="Cards"
-              content={'Visa, Mastercard'}
-            />
-          ),
-          stocks: (
-            <MenuItem
-              key="item-4"
-              title="Stocks"
-              content={'Nvidia, Apple'}
-            />
-          ),
-        }
-        return (
-          <Dropdown
-            data={data}
-            preventSelection
-            triggerElement={(props) => (
-              <button {...props} style={styles.customTrigger}>
-                <Icon icon={newspaper} /> Custom trigger{' '}
-                <Icon icon={chevron_down} />
-              </button>
-            )}
-          />
-        )
-      }}
-    </ComponentBox>
-  </Wrapper>
-)
+      };
+      const MenuItem = ({
+        title,
+        content,
+        key
+      }) => <span style={styles.customMenuItem} key="item-1">
+              <span style={styles.customMenuItemTitle}>
+                {title}
+                <span>{content}</span>
+              </span>
+              <Icon icon={chevron_right} />
+            </span>;
+      const data = {
+        accounts: <MenuItem key="item-1" title="Accounts" content={'Bills, Savings'} />,
+        loans: <MenuItem key="item-2" title="Loans" content={'Mortgage, Car'} />,
+        cards: <MenuItem key="item-3" title="Cards" content={'Visa, Mastercard'} />,
+        stocks: <MenuItem key="item-4" title="Stocks" content={'Nvidia, Apple'} />
+      };
+      return <Dropdown data={data} preventSelection triggerElement={props => <button {...props} style={styles.customTrigger}>
+                  <Icon icon={newspaper} /> Custom trigger{' '}
+                  <Icon icon={chevron_down} />
+                </button>} />;
+    }}
+      </ComponentBox>
+    </Wrapper>)
 ```
+
 
 ### DrawerList opened
 
 Only to visualize and used for visual testing
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="dropdown-list"
-      scope={{
-        data,
-      }}
-      hideCode
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="dropdown-list" scope={{
+    data
+  }} hideCode>
       <span className="dnb-drawer-list__list">
         <ul className="dnb-drawer-list__options">
           <li className="dnb-drawer-list__option first-of-type">
@@ -650,115 +491,79 @@ render(
         </ul>
       </span>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+
+
+  
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="dropdown-ellipsis">
-      <Dropdown
-        data={['Long text that will overflow with CSS ellipsis']}
-        value={0}
-        label="Label"
-      />
+      <Dropdown data={['Long text that will overflow with CSS ellipsis']} value={0} label="Label" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="dropdown-independent_width_left">
-      <Dropdown
-        independentWidth={true}
-        iconPosition="left"
-        direction="top"
-        title="Choose an item"
-        data={() => [
-          <Link href="/" key="item-1">
-            Go to this Link
-          </Link>,
-          'Or press on me',
-          <>Custom component</>,
-        ]}
-        right="small"
-      />
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_left">
+        <Dropdown independentWidth={true} iconPosition="left" direction="top" title="Choose an item" data={() => [<Link href="/" key="item-1">
+              Go to this Link
+            </Link>, 'Or press on me', <>Custom component</>]} right="small" />
+      </ComponentBox>
+    </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="dropdown-independent_width_right">
-      <Dropdown
-        independentWidth={true}
-        iconPosition="right"
-        direction="top"
-        title="Choose an item"
-        data={() => [
-          <Link href="/" key="item-1">
-            Go to this Link
-          </Link>,
-          'Or press on me',
-          <>Custom component</>,
-        ]}
-        right="small"
-      />
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_right">
+        <Dropdown independentWidth={true} iconPosition="right" direction="top" title="Choose an item" data={() => [<Link href="/" key="item-1">
+              Go to this Link
+            </Link>, 'Or press on me', <>Custom component</>]} right="small" />
+      </ComponentBox>
+    </Wrapper>)
 ```
+
+
 
 ### Groups
 
 If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox data-visual-test="dropdown-groups">
-      <Dropdown
-        groups={[undefined, 'Pets', 'Cars']}
-        data={[
-          {
-            groupIndex: 0,
-            content: 'Default 2',
-          },
-          {
-            groupIndex: 0,
-            content: 'Default 1',
-          },
-          {
-            groupIndex: 1,
-            content: 'Cat',
-          },
-          {
-            groupIndex: 1,
-            content: 'Dog',
-          },
-          {
-            groupIndex: 2,
-            content: 'Jeep',
-          },
-          {
-            groupIndex: 2,
-            content: 'Van',
-          },
-        ]}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper>
+      <ComponentBox data-visual-test="dropdown-groups">
+        <Dropdown groups={[undefined, 'Pets', 'Cars']} data={[{
+      groupIndex: 0,
+      content: 'Default 2'
+    }, {
+      groupIndex: 0,
+      content: 'Default 1'
+    }, {
+      groupIndex: 1,
+      content: 'Cat'
+    }, {
+      groupIndex: 1,
+      content: 'Dog'
+    }, {
+      groupIndex: 2,
+      content: 'Jeep'
+    }, {
+      groupIndex: 2,
+      content: 'Van'
+    }]} />
+      </ComponentBox>
+    </Wrapper>)
 ```
 
 ## Properties
 
 You may check out the [DrawerList Properties](#drawerlist-properties) down below as well as the [Data structure examples](#the-data-property).
+
 
 ```json
 {
@@ -770,7 +575,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "value": {
       "doc": "Define a preselected data entry (index). More info down below.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "variant": {
@@ -795,17 +603,28 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "arrowPosition": {
       "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.",
-      "type": ["\"default\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "open": {
@@ -825,7 +644,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "align": {
       "doc": "Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "independentWidth": {
@@ -845,12 +667,19 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -870,7 +699,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "labelDirection": {
       "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -910,21 +742,29 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## DrawerList Properties
+
 
 ```json
 {
   "props": {
     "[data](#the-data-property)": {
       "doc": "The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).",
-      "type": ["{DATA}", "() => {DATA}"],
+      "type": [
+        "{DATA}",
+        "() => {DATA}"
+      ],
       "status": "required"
     },
     "groups": {
@@ -934,7 +774,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "value": {
       "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "defaultValue": {
@@ -949,7 +792,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "direction": {
       "doc": "Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "labelDirection": {
@@ -1064,7 +911,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "wrapperElement": {
       "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
-      "type": ["string", "HTMLElement"],
+      "type": [
+        "string",
+        "HTMLElement"
+      ],
       "status": "optional"
     },
     "optionsRender": {
@@ -1074,18 +924,23 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Value
 
 Should either be an index (integer) of the data array or a key – defined by `selectedKey` inside an array item.
 
 If `data` is an object, use the object key as the `value` to define the selected item. Can be a string or integer.
+
 
 ## The `data` property
 
@@ -1148,6 +1003,7 @@ const onChange = ({ data, value }) => {
 
 Each object in the array have the following properties:
 
+
 ```json
 {
   "props": {
@@ -1172,22 +1028,32 @@ Each object in the array have the following properties:
     },
     "selectedKey": {
       "doc": "If set, can be used instead of array index by the `value` prop.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "selectedValue": {
       "doc": "Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "suffixValue": {
       "doc": "Content placed to the right in the list item.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `data` as an object
 
@@ -1255,11 +1121,18 @@ let data: DATA | () => DATA
 
 There is technically support for sending in a JSON string of the data to the `data` property. But this is an old functionality that we do not really support anymore.
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DrawerList.defaultGroupSR": {
       "nb-NO": "Standardvalg",
@@ -1290,6 +1163,7 @@ There is technically support for sending in a JSON string of the data to the `da
 ```
 
 ## Events
+
 
 ```json
 {
@@ -1327,6 +1201,7 @@ There is technically support for sending in a JSON string of the data to the `da
   }
 }
 ```
+
 
 ### The `onChange` vs `onSelect` difference
 

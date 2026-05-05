@@ -1,8 +1,8 @@
 ---
 title: 'Form.Visibility'
 description: '`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.007Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.005Z
 checksum: 4124652588375b94b40a30fcb102910a53970d9a7800b7246035b0da7dd690a9
 ---
 
@@ -165,28 +165,24 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Boolean example
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Field.Boolean
-        label="Show content"
-        variant="buttons"
-        path="/toggleValue"
-        value={false}
-      />
-      <Form.Visibility pathTrue="/toggleValue" animate>
-        <TestElement>Item 1</TestElement>
-        <TestElement>Item 2</TestElement>
-      </Form.Visibility>
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Flex.Stack>
+          <Field.Boolean label="Show content" variant="buttons" path="/toggleValue" value={false} />
+          <Form.Visibility pathTrue="/toggleValue" animate>
+            <TestElement>Item 1</TestElement>
+            <TestElement>Item 2</TestElement>
+          </Form.Visibility>
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Matching value
 
@@ -203,84 +199,71 @@ render(
 </Form.Visibility>
 ```
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Field.Toggle
-      label="Show content"
-      valueOn="checked"
-      valueOff="unchecked"
-      variant="buttons"
-      path="/toggleValue"
-      value="unchecked"
-    />
-    <Form.Visibility
-      visibleWhen={{
-        path: '/toggleValue',
-        hasValue: 'checked',
-      }}
-      animate
-    >
-      <P>This is visible</P>
-    </Form.Visibility>
-  </Form.Handler>
-)
+render(<Form.Handler>
+        <Field.Toggle label="Show content" valueOn="checked" valueOff="unchecked" variant="buttons" path="/toggleValue" value="unchecked" />
+        <Form.Visibility visibleWhen={{
+    path: '/toggleValue',
+    hasValue: 'checked'
+  }} animate>
+          <P>This is visible</P>
+        </Form.Visibility>
+      </Form.Handler>)
 ```
+
 
 ### Direct properties
 
+
 ```tsx
-render(
-  <Form.Visibility visible={true}>
-    <P>This is visible</P>
-  </Form.Visibility>
-)
+render(<Form.Visibility visible={true}>
+        <P>This is visible</P>
+      </Form.Visibility>)
 ```
+
 
 ### Based on DataContext
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      toBe: true,
-      notToBe: false,
-    }}
-  >
-    <Form.Visibility pathTrue="/toBe">
-      <P>This will show, as long as `toBe` is true.</P>
-    </Form.Visibility>
-    <Form.Visibility pathTrue="/notToBe">
-      <P>This will not show until `notToBe` is true.</P>
-    </Form.Visibility>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  toBe: true,
+  notToBe: false
+}}>
+        <Form.Visibility pathTrue="/toBe">
+          <P>This will show, as long as `toBe` is true.</P>
+        </Form.Visibility>
+        <Form.Visibility pathTrue="/notToBe">
+          <P>This will not show until `notToBe` is true.</P>
+        </Form.Visibility>
+      </Form.Handler>)
 ```
+
 
 ### InferData
 
+
 ```tsx
 const MyComponent = () => {
-  const { data } = Form.useData('example-form', {
-    toggleValue: false,
-  })
-  const inferDataFunc = React.useCallback(
-    () => data.toggleValue,
-    [data.toggleValue]
-  )
-  return (
-    <Form.Handler id="example-form">
-      <Flex.Stack>
-        <Field.Boolean path="/toggleValue" label="Check me" />
-        <Form.Visibility inferData={inferDataFunc} animate>
-          <P>This is visible</P>
-        </Form.Visibility>
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyComponent />)
+  const {
+    data
+  } = Form.useData('example-form', {
+    toggleValue: false
+  });
+  const inferDataFunc = React.useCallback(() => data.toggleValue, [data.toggleValue]);
+  return <Form.Handler id="example-form">
+              <Flex.Stack>
+                <Field.Boolean path="/toggleValue" label="Check me" />
+                <Form.Visibility inferData={inferDataFunc} animate>
+                  <P>This is visible</P>
+                </Form.Visibility>
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyComponent />);
 ```
+
 
 ### Nested visibility example
 
@@ -288,194 +271,156 @@ Use `fieldPropsWhenHidden` and `keepInDOM` to keep the content in the DOM, even 
 
 In this example we filter out all fields that have the `data-exclude-field` attribute. See the console output for the result.
 
+
 ```tsx
-const filterDataHandler = ({ props }) => !props['data-exclude-field']
+const filterDataHandler = ({
+  props
+}) => !props['data-exclude-field'];
 const MyForm = () => {
-  return (
-    <Form.Handler
-      defaultData={{
-        isVisible: false,
-      }}
-    >
-      <Flex.Stack>
-        <Field.Boolean
-          label="Visible"
-          variant="button"
-          path="/isVisible"
-          data-exclude-field
-        />
-        <Form.Visibility
-          pathTrue="/isVisible"
-          animate
-          keepInDOM
-          fieldPropsWhenHidden={{
-            'data-exclude-field': true,
-          }}
-        >
-          <Field.Selection
-            label="Choose"
-            variant="radio"
-            value="less"
-            path="/mySelection"
-          >
-            <Field.Option value="less" title="Less" />
-            <Field.Option value="more" title="More" />
-          </Field.Selection>
+  return <Form.Handler defaultData={{
+    isVisible: false
+  }}>
+              <Flex.Stack>
+                <Field.Boolean label="Visible" variant="button" path="/isVisible" data-exclude-field />
+                <Form.Visibility pathTrue="/isVisible" animate keepInDOM fieldPropsWhenHidden={{
+        'data-exclude-field': true
+      }}>
+                  <Field.Selection label="Choose" variant="radio" value="less" path="/mySelection">
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
 
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'more',
-            }}
-            animate
-            keepInDOM
-            fieldPropsWhenHidden={{
-              'data-exclude-field': true,
-            }}
-          >
-            <Field.String label="My String" path="/myString" value="foo" />
-          </Form.Visibility>
-        </Form.Visibility>
-      </Flex.Stack>
+                  <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'more'
+        }} animate keepInDOM fieldPropsWhenHidden={{
+          'data-exclude-field': true
+        }}>
+                    <Field.String label="My String" path="/myString" value="foo" />
+                  </Form.Visibility>
+                </Form.Visibility>
+              </Flex.Stack>
 
-      <Output />
-    </Form.Handler>
-  )
-}
+              <Output />
+            </Form.Handler>;
+};
 const Output = () => {
-  const { filterData } = Form.useData()
-  const filteredData = filterData(filterDataHandler)
-  return <Tools.Log data={filteredData} top />
-}
-render(<MyForm />)
+  const {
+    filterData
+  } = Form.useData();
+  const filteredData = filterData(filterDataHandler);
+  return <Tools.Log data={filteredData} top />;
+};
+render(<MyForm />);
 ```
+
 
 ### Filter data
 
 **Note:** This example uses `filterData` with `pathDefined` on a Visibility component along, which is a declarative way to describe the data to be shown.
 
+
 ```tsx
 const filterDataPaths = {
   '/isVisible': false,
-  '/mySelection': ({ data }) => data.isVisible,
-  '/myString': ({ data }) => {
-    return data.isVisible && data.mySelection === 'more'
-  },
-}
+  '/mySelection': ({
+    data
+  }) => data.isVisible,
+  '/myString': ({
+    data
+  }) => {
+    return data.isVisible && data.mySelection === 'more';
+  }
+};
 const MyForm = () => {
-  return (
-    <Form.Handler
-      defaultData={{
-        myString: 'foo',
-      }}
-    >
-      <Flex.Stack>
-        <Field.Boolean
-          label="Visible"
-          variant="button"
-          path="/isVisible"
-          defaultValue={false}
-        />
-        <Form.Visibility pathTrue="/isVisible" animate>
-          <Field.Selection
-            label="Choose"
-            variant="radio"
-            value="less"
-            path="/mySelection"
-          >
-            <Field.Option value="less" title="Less" />
-            <Field.Option value="more" title="More" />
-          </Field.Selection>
+  return <Form.Handler defaultData={{
+    myString: 'foo'
+  }}>
+              <Flex.Stack>
+                <Field.Boolean label="Visible" variant="button" path="/isVisible" defaultValue={false} />
+                <Form.Visibility pathTrue="/isVisible" animate>
+                  <Field.Selection label="Choose" variant="radio" value="less" path="/mySelection">
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
 
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'more',
-            }}
-            animate
-          >
-            <Field.String label="My String" path="/myString" />
-          </Form.Visibility>
-        </Form.Visibility>
+                  <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'more'
+        }} animate>
+                    <Field.String label="My String" path="/myString" />
+                  </Form.Visibility>
+                </Form.Visibility>
 
-        <Form.Visibility
-          pathDefined="/myString"
-          filterData={filterDataPaths}
-          animate
-        >
-          <Form.Card>
-            <P>
-              Result: <Value.String path="/myString" inline />
-            </P>
-          </Form.Card>
-        </Form.Visibility>
-      </Flex.Stack>
+                <Form.Visibility pathDefined="/myString" filterData={filterDataPaths} animate>
+                  <Form.Card>
+                    <P>
+                      Result: <Value.String path="/myString" inline />
+                    </P>
+                  </Form.Card>
+                </Form.Visibility>
+              </Flex.Stack>
 
-      <Output />
-    </Form.Handler>
-  )
-}
+              <Output />
+            </Form.Handler>;
+};
 const Output = () => {
-  const { filterData } = Form.useData()
-  const filteredData = filterData(filterDataPaths)
-  return <Tools.Log data={filteredData} top />
-}
-render(<MyForm />)
+  const {
+    filterData
+  } = Form.useData();
+  const filteredData = filterData(filterDataPaths);
+  return <Tools.Log data={filteredData} top />;
+};
+render(<MyForm />);
 ```
+
 
 ### Inherit visibility
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.Boolean
-        variant="button"
-        path="/isVisible"
-        defaultValue={true}
-      />
+render(<Form.Handler>
+        <Form.Card>
+          <Field.Boolean variant="button" path="/isVisible" defaultValue={true} />
 
-      <Form.Visibility pathTrue="/isVisible" animate>
-        <Field.Name.First path="/foo" defaultValue="foo" />
-        <Field.Name.Last path="/bar" defaultValue="bar" />
-      </Form.Visibility>
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Name.First path="/foo" defaultValue="foo" />
+            <Field.Name.Last path="/bar" defaultValue="bar" />
+          </Form.Visibility>
 
-      <Value.Provider inheritVisibility>
-        <HeightAnimation>
-          <Value.SummaryList>
-            <Value.Name.First path="/foo" />
-            <Value.Name.First path="/bar" />
-          </Value.SummaryList>
-        </HeightAnimation>
-      </Value.Provider>
-    </Form.Card>
-  </Form.Handler>
-)
+          <Value.Provider inheritVisibility>
+            <HeightAnimation>
+              <Value.SummaryList>
+                <Value.Name.First path="/foo" />
+                <Value.Name.First path="/bar" />
+              </Value.SummaryList>
+            </HeightAnimation>
+          </Value.Provider>
+        </Form.Card>
+      </Form.Handler>)
 ```
+
 
 ### Show children when field has no errors (validation)
 
-```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Field.Name.First path="/foo" required />
 
-      <Form.Visibility
-        visibleWhen={{
-          path: '/foo',
-          isValid: true,
-        }}
-        animate
-      >
-        <Value.Name.First path="/foo" />
-      </Form.Visibility>
-    </Form.Card>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler>
+        <Form.Card>
+          <Field.Name.First path="/foo" required />
+
+          <Form.Visibility visibleWhen={{
+      path: '/foo',
+      isValid: true
+    }} animate>
+            <Value.Name.First path="/foo" />
+          </Form.Visibility>
+        </Form.Card>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -547,7 +492,10 @@ render(
     },
     "filterData": {
       "doc": "Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.",
-      "type": ["object", "function"],
+      "type": [
+        "object",
+        "function"
+      ],
       "status": "optional"
     },
     "fieldPropsWhenHidden": {
@@ -557,7 +505,10 @@ render(
     },
     "element": {
       "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is `true`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "children": {
@@ -570,6 +521,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

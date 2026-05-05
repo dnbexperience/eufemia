@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.167Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.317Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 
@@ -28,49 +28,56 @@ The FormLabel component represents a caption for all sorts of HTML elements in a
 
 DNB UX has chosen to not use colon on the end of form element labels. For consistency throughout our websites, please avoid using them.
 
+
 ## Demos
 
 ### Default form-label
+
 
 ```tsx
 <FormLabel forId="alone-1">Default vertical FormLabel</FormLabel>
 <Checkbox id="alone-1" label="Checkbox" />
 ```
 
+
 ### Horizontal form-label
+
 
 ```tsx
 <FormLabel forId="alone-2" vertical={false}>
-  Horizontal FormLabel
-</FormLabel>
+    Horizontal FormLabel
+  </FormLabel>
 <Checkbox id="alone-2" label="Checkbox" />
 ```
 
+
 ### Form-label without a `forId`
+
 
 ```tsx
 <FormLabel element="span">Without forId (select me)</FormLabel>
 <Checkbox label="Checkbox" />
 ```
 
+
 ### Linked label (pattern)
 
+
 ```tsx
-render(
-  <form>
-    <div>
+render(<form>
       <div>
-        <FormLabel forId="switch-1" text="Form Label (click me):" />
+        <div>
+          <FormLabel forId="switch-1" text="Form Label (click me):" />
+        </div>
+        <div>
+          <Switch id="switch-1" value="Value of switch" />
+        </div>
       </div>
-      <div>
-        <Switch id="switch-1" value="Value of switch" />
-      </div>
-    </div>
-  </form>
-)
+    </form>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -97,7 +104,11 @@ render(
     },
     "size": {
       "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.",
-      "type": ["\"basis\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -122,7 +133,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

@@ -1,8 +1,8 @@
 ---
 title: 'Form.useValidation'
 description: '`Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.019Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.012Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -169,85 +169,71 @@ To remove the field status, you can use `setFieldStatus('/path/to/field', { erro
 
 The form error is connected with the [Form.Handler](/uilib/extensions/forms/Form/Handler/) itself via `aria-labelledby` for screen reader support.
 
+
 ## Demos
 
 ### Set field status
 
+
 ```tsx
 const MyForm = () => {
-  const { setFieldStatus } = Form.useValidation('form-status')
-  return (
-    <Form.Handler
-      id="form-status"
-      onSubmit={async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        setFieldStatus('/myField', {
-          error: new Error('This is a field error'),
-          warning: 'This is a field warning',
-          info: 'This is a field info',
-        })
-        await new Promise((resolve) => setTimeout(resolve, 5000))
-        setFieldStatus('/myField', {
-          error: null,
-          warning: null,
-          info: null,
-        })
-      }}
-    >
-      <Flex.Stack>
-        <Field.String label="My field" path="/myField" />
+  const {
+    setFieldStatus
+  } = Form.useValidation('form-status');
+  return <Form.Handler id="form-status" onSubmit={async () => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setFieldStatus('/myField', {
+      error: new Error('This is a field error'),
+      warning: 'This is a field warning',
+      info: 'This is a field info'
+    });
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    setFieldStatus('/myField', {
+      error: null,
+      warning: null,
+      info: null
+    });
+  }}>
+              <Flex.Stack>
+                <Field.String label="My field" path="/myField" />
 
-        <Form.SubmitButton />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Form.SubmitButton />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Check for errors with hasErrors
 
+
 ```tsx
 const Component = () => {
-  const { data } = Form.useData('default-id', {
+  const {
+    data
+  } = Form.useData('default-id', {
     showError: true,
-    isVisible: true,
-  })
-  const { hasErrors, hasFieldError } = Form.useValidation('default-id')
-  return (
-    <Form.Handler id="default-id">
-      <Flex.Stack>
-        <Tools.Log
-          data={hasErrors()}
-          label="hasErrors:"
-          breakout={false}
-        />
-        <Tools.Log
-          data={hasFieldError('/foo')}
-          label="hasFieldError:"
-          breakout={false}
-        />
+    isVisible: true
+  });
+  const {
+    hasErrors,
+    hasFieldError
+  } = Form.useValidation('default-id');
+  return <Form.Handler id="default-id">
+              <Flex.Stack>
+                <Tools.Log data={hasErrors()} label="hasErrors:" breakout={false} />
+                <Tools.Log data={hasFieldError('/foo')} label="hasFieldError:" breakout={false} />
 
-        <Field.Boolean label="Error" variant="button" path="/showError" />
+                <Field.Boolean label="Error" variant="button" path="/showError" />
 
-        <Field.Boolean
-          label="Visible"
-          variant="button"
-          path="/isVisible"
-        />
+                <Field.Boolean label="Visible" variant="button" path="/isVisible" />
 
-        <Form.Visibility pathTrue="/isVisible" animate>
-          <Field.String
-            path="/foo"
-            label="Label"
-            value={data.showError ? 'error' : 'valid'}
-            pattern="^valid$"
-            validateInitially
-          />
-        </Form.Visibility>
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<Component />)
+                <Form.Visibility pathTrue="/isVisible" animate>
+                  <Field.String path="/foo" label="Label" value={data.showError ? 'error' : 'valid'} pattern="^valid$" validateInitially />
+                </Form.Visibility>
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<Component />);
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Forms for applications'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.411Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.336Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -52,6 +52,7 @@ Key features:
 - Parts of your form can be isolated using [Form.Isolation](/uilib/extensions/forms/Form/Isolation/)
 - Building blocks for [creating custom field components](/uilib/extensions/forms/create-component)
 
+
 ## Quick start
 
 Here's how you import the components from within scopes, such as `Form` and `Field`:
@@ -71,56 +72,38 @@ render(<Field.Email />)
 
 And here is how you can use the `Form` component:
 
+
 ```tsx
 const existingData = {
-  companyName: 'DNB',
-}
+  companyName: 'DNB'
+};
 function MyForm() {
-  return (
-    <Form.Handler
-      defaultData={existingData}
-      onSubmit={async (data) => console.log('onSubmit', data)}
-      required
-    >
-      <Form.MainHeading>Quick start</Form.MainHeading>
+  return <Form.Handler defaultData={existingData} onSubmit={async data => console.log('onSubmit', data)} required>
+              <Form.MainHeading>Quick start</Form.MainHeading>
 
-      <Form.Card>
-        <Field.Name.Company path="/companyName" />
+              <Form.Card>
+                <Field.Name.Company path="/companyName" />
 
-        <Field.OrganizationNumber path="/companyOrganizationNumber" />
+                <Field.OrganizationNumber path="/companyOrganizationNumber" />
 
-        <Field.Selection
-          path="/postalAddressSelect"
-          label="Ønsket sted for tilsendt post"
-          variant="radio"
-          required={false}
-        >
-          <Field.Option
-            value="companyAddress"
-            title="Samme som forretningsadresse"
-          />
-          <Field.Option value="other" title="Annet" />
-        </Field.Selection>
+                <Field.Selection path="/postalAddressSelect" label="Ønsket sted for tilsendt post" variant="radio" required={false}>
+                  <Field.Option value="companyAddress" title="Samme som forretningsadresse" />
+                  <Field.Option value="other" title="Annet" />
+                </Field.Selection>
 
-        <Form.Visibility
-          visibleWhen={{
-            path: '/postalAddressSelect',
-            hasValue: 'other',
-          }}
-          animate
-        >
-          <Field.String
-            path="/postalAddress"
-            label="Sted for tilsendt post"
-          />
-        </Form.Visibility>
-      </Form.Card>
-      <Form.SubmitButton variant="send" />
-    </Form.Handler>
-  )
+                <Form.Visibility visibleWhen={{
+        path: '/postalAddressSelect',
+        hasValue: 'other'
+      }} animate>
+                  <Field.String path="/postalAddress" label="Sted for tilsendt post" />
+                </Form.Visibility>
+              </Form.Card>
+              <Form.SubmitButton variant="send" />
+            </Form.Handler>;
 }
-render(<MyForm />)
+render(<MyForm />);
 ```
+
 
 More details in the [getting started](/uilib/extensions/forms/getting-started/) section.
 

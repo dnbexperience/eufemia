@@ -1,8 +1,8 @@
 ---
 title: 'Value.Selection'
 description: '`Value.Selection` is a component for displaying a string value based on a user selection.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.259Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.208Z
 checksum: 6782e49a32910133869cc6a4d99a98cece9e7563cc006c70ef75edd7155531f6
 ---
 
@@ -33,109 +33,102 @@ render(<Value.Selection />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Selection)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Selection)
 
+
 ## Demos
 
 ### Placeholder
+
 
 ```tsx
 render(<Value.Selection placeholder="No value selected" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.Selection value="Bar" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.Selection label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.Selection label="Label text" value="Foo" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component <Value.Selection value="Baz" inline />{' '}
-    This is after the component
-  </P>
-)
+render(<P>
+        This is before the component <Value.Selection value="Baz" inline />{' '}
+        This is after the component
+      </P>)
 ```
+
 
 ### Field.Selection with path
 
 When using the same `path` as on a `Field.Selection`, the title will be used as the displayed value.
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      selection: 'bar',
-      myList: [
-        {
-          value: 'foo',
-          title: 'Foo',
-        },
-        {
-          value: 'bar',
-          title: 'Bar',
-        },
-        {
-          value: 'baz',
-          title: 'Baz',
-        },
-      ],
-    }}
-  >
-    <Flex.Stack>
-      <Field.Selection
-        path="/selection"
-        dataPath="/myList"
-        variant="radio"
-        label="My selection"
-      />
-      <Value.Selection path="/selection" dataPath="/myList" inheritLabel />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  selection: 'bar',
+  myList: [{
+    value: 'foo',
+    title: 'Foo'
+  }, {
+    value: 'bar',
+    title: 'Bar'
+  }, {
+    value: 'baz',
+    title: 'Baz'
+  }]
+}}>
+        <Flex.Stack>
+          <Field.Selection path="/selection" dataPath="/myList" variant="radio" label="My selection" />
+          <Value.Selection path="/selection" dataPath="/myList" inheritLabel />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Field.Option and Field.Selection
 
 When using the same `path` as on a `Field.Selection`, the `Field.Option` title will be used as the displayed value.
 
-```tsx
-render(
-  <Form.Handler>
-    <Flex.Stack>
-      <Field.Selection
-        label="My selection"
-        path="/myPath"
-        variant="radio"
-        value="bar"
-      >
-        <Field.Option value="foo" title="Foo" />
-        <Field.Option value="bar" title="Bar" />
-        <Field.Option value="baz" title="Baz" />
-      </Field.Selection>
 
-      <Value.Selection label="My selection" path="/myPath" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler>
+        <Flex.Stack>
+          <Field.Selection label="My selection" path="/myPath" variant="radio" value="bar">
+            <Field.Option value="foo" title="Foo" />
+            <Field.Option value="bar" title="Bar" />
+            <Field.Option value="baz" title="Baz" />
+          </Field.Selection>
+
+          <Value.Selection label="My selection" path="/myPath" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
 
 ## Properties
 
 ### Value-specific properties
+
 
 ```json
 {
@@ -149,7 +142,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -216,7 +211,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -226,18 +226,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DrawerList.defaultGroupSR": {
       "nb-NO": "Standardvalg",

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Toggle'
 description: '`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.361Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.302Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -35,344 +35,209 @@ render(<Field.Toggle path="/myState" />)
 
 Here is an indeterminate state (partially checked) [working example](/uilib/extensions/forms/base-fields/Indeterminate/).
 
+
 ## Demos
 
 ### Value On
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    value="checked"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" value="checked" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Value Off
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    value="unchecked"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" value="unchecked" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Text On
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    textOn="Text on"
-    textOff="Text off"
-    variant="checkbox"
-    value="checked"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" textOn="Text on" textOff="Text off" variant="checkbox" value="checked" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Text Off
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    textOn="Text on"
-    textOff="Text off"
-    variant="checkbox"
-    value="unchecked"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" textOn="Text on" textOff="Text off" variant="checkbox" value="unchecked" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Info
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    info="Useful information (?)"
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" onChange={value => console.log('onChange', value)} info="Useful information (?)" />)
 ```
+
 
 ### Warning
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    warning="I'm warning you..."
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" onChange={value => console.log('onChange', value)} warning="I'm warning you..." />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="checked"
-    valueOff="unchecked"
-    variant="checkbox"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.Toggle valueOn="checked" valueOff="unchecked" variant="checkbox" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Value types
 
 #### Boolean value - On state
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn={true}
-    valueOff={false}
-    variant="checkbox"
-    label="Boolean value"
-    value={true}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn={true} valueOff={false} variant="checkbox" label="Boolean value" value={true} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Boolean value - Off state
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn={true}
-    valueOff={false}
-    variant="checkbox"
-    label="Boolean value"
-    value={false}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn={true} valueOff={false} variant="checkbox" label="Boolean value" value={false} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Number value - On state
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn={100}
-    valueOff={0}
-    variant="checkbox"
-    label="Number value"
-    value={100}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn={100} valueOff={0} variant="checkbox" label="Number value" value={100} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Number value - Off state
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn={100}
-    valueOff={0}
-    variant="checkbox"
-    label="Number value"
-    value={0}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn={100} valueOff={0} variant="checkbox" label="Number value" value={0} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Variants
 
 #### Switch
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="switch"
-    label="Switch variant"
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="switch" label="Switch variant" value="on" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Button
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="button"
-    label="Toggle button variant"
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="button" label="Toggle button variant" value="on" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Buttons
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="buttons"
-    label="Buttons variant"
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="buttons" label="Buttons variant" value="on" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Buttons with help
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="buttons"
-    label="Buttons variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="buttons" label="Buttons variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} value="on" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Radio
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="radio"
-    label="Radio variant"
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="radio" label="Radio variant" value="on" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 #### Radio with help
 
-```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="radio"
-    label="Radio variant"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
-```
 
 ```tsx
-Text above the toggle:
-<Field.Toggle
-  valueOn="on"
-  valueOff="off"
-  variant="buttons"
-  value="on"
-  onChange={(value) => console.log('onChange', value)}
-/>
+render(<Field.Toggle valueOn="on" valueOff="off" variant="radio" label="Radio variant" help={{
+  title: 'Help title',
+  content: 'Help content'
+}} value="on" onChange={value => console.log('onChange', value)} />)
 ```
 
+
+
+  
 ```tsx
 Text above the toggle:
-<Field.Toggle
-  valueOn="on"
-  valueOff="off"
-  variant="radio"
-  value="on"
-  onChange={(value) => console.log('onChange', value)}
-/>
+<Field.Toggle valueOn="on" valueOff="off" variant="buttons" value="on" onChange={value => console.log('onChange', value)} />
 ```
+
+  
+```tsx
+Text above the toggle:
+<Field.Toggle valueOn="on" valueOff="off" variant="radio" value="on" onChange={value => console.log('onChange', value)} />
+```
+
+
 
 #### Checkbox button
 
+
 ```tsx
-render(
-  <Field.Toggle
-    valueOn="on"
-    valueOff="off"
-    variant="checkbox-button"
-    label="Toggle checkbox variant"
-    value="on"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.Toggle valueOn="on" valueOff="off" variant="checkbox-button" label="Toggle checkbox variant" value="on" onChange={value => console.log('onChange', value)} />)
 ```
 
 ## Properties
 
 ### Field-specific properties
 
+
 ```json
 {
   "props": {
     "valueOn": {
       "doc": "Source data value when the toggle is in the \"on-state\" (varies based on UI variant).",
-      "type": ["string", "number", "boolean"],
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
       "status": "required"
     },
     "valueOff": {
       "doc": "Source data value when the toggle is in the \"off-state\".",
-      "type": ["string", "number", "boolean"],
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
       "status": "required"
     },
     "textOn": {
@@ -399,7 +264,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -421,12 +288,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -446,7 +321,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["any", "undefined"],
+      "type": [
+        "any",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -526,7 +404,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -541,12 +422,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -556,30 +443,49 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
   "valueType": "any",
-  "omit": ["layout", "layoutOptions"]
+  "omit": [
+    "layout",
+    "layoutOptions"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -637,6 +543,7 @@ render(
 
 ### Field-specific events
 
+
 ```json
 {
   "props": {
@@ -649,7 +556,9 @@ render(
 }
 ```
 
+
 ### General events
+
 
 ```json
 {

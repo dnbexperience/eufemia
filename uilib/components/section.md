@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.384Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.497Z
 checksum: 53374fcb803db9b71917a510cd257d02fc6f5f5162662ae0c6b86b36cb0c880c
 ---
 
@@ -48,309 +48,265 @@ Each of these properties do support either a single value or an object containin
 - `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
 - `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
 
+
 ## Demos
 
 ### Default Section
 
+
 ```tsx
-render(
-  <Section>
-    <P space={0}>
-      Visual Section: <Anchor href="#">default</Anchor>
-    </P>
-  </Section>
-)
+render(<Section>
+      <P space={0}>
+        Visual Section: <Anchor href="#">default</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Default Section with inner space
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-      left: 'small',
-    }}
-  >
-    <P space={0}>
-      Visual Section: <Anchor href="#">default with innerSpace</Anchor>
-    </P>
-  </Section>
-)
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large',
+  left: 'small'
+}}>
+      <P space={0}>
+        Visual Section: <Anchor href="#">default with innerSpace</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Responsive inner space (padding)
 
 Where `innerSpace` do respond on different screen sizes.
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      small: {
-        block: 'small',
-        inline: 'x-small',
-      },
-      medium: {
-        block: 'medium',
-        inline: 'small',
-      },
-      large: false,
-    }}
-    backgroundColor="var(--token-color-background-neutral-subtle)"
-    breakout={false}
-  >
-    <P space={0}>Responsive innerSpace</P>
-  </Section>
-)
+render(<Section innerSpace={{
+  small: {
+    block: 'small',
+    inline: 'x-small'
+  },
+  medium: {
+    block: 'medium',
+    inline: 'small'
+  },
+  large: false
+}} backgroundColor="var(--token-color-background-neutral-subtle)" breakout={false}>
+      <P space={0}>Responsive innerSpace</P>
+    </Section>)
 ```
+
 
 ### Responsive appearance
 
 Where `breakout`, `outline`, `roundedCorner`, `backgroundColor` and `dropShadow` do respond on different screen sizes.
 
+
 ```tsx
-render(
-  <Section
-    breakout={{
-      small: true,
-      medium: false,
-      large: false,
-    }}
-    outline={{
-      medium: true,
-      large: 'black',
-    }}
-    roundedCorner={{
-      large: true,
-    }}
-    backgroundColor={{
-      small: 'var(--token-color-background-neutral)',
-      medium: 'var(--token-color-background-neutral-subtle)',
-      large: 'var(--token-color-background-neutral-subtle)',
-    }}
-    dropShadow={{
-      small: false,
-      medium: true,
-      large: true,
-    }}
-    innerSpace
-  >
-    <P space={0}>Responsive properties</P>
-  </Section>
-)
+render(<Section breakout={{
+  small: true,
+  medium: false,
+  large: false
+}} outline={{
+  medium: true,
+  large: 'black'
+}} roundedCorner={{
+  large: true
+}} backgroundColor={{
+  small: 'var(--token-color-background-neutral)',
+  medium: 'var(--token-color-background-neutral-subtle)',
+  large: 'var(--token-color-background-neutral-subtle)'
+}} dropShadow={{
+  small: false,
+  medium: true,
+  large: true
+}} innerSpace>
+      <P space={0}>Responsive properties</P>
+    </Section>)
 ```
+
 
 ### No breakout
 
+
 ```tsx
-render(
-  <Section
-    breakout={false}
-    backgroundColor="var(--token-color-background-neutral-subtle)"
-  >
-    <P space={0}>No breakout</P>
-  </Section>
-)
+render(<Section breakout={false} backgroundColor="var(--token-color-background-neutral-subtle)">
+      <P space={0}>No breakout</P>
+    </Section>)
 ```
+
+
+### Dark surface
+
+
+```tsx
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} backgroundColor="var(--token-color-decorative-first-bold-static)" surface="dark">
+      <P space={0}>
+        Dark surface section: <Anchor href="#">anchor</Anchor>
+      </P>
+    </Section>)
+```
+
 
 ### Variant: section
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'medium',
-      bottom: 'medium',
-    }}
-    variant="divider"
-  >
-    <P space={0}>
-      Visual Section: <Anchor href="#">divider</Anchor>
-    </P>
-  </Section>
-)
+render(<Section innerSpace={{
+  top: 'medium',
+  bottom: 'medium'
+}} variant="divider">
+      <P space={0}>
+        Visual Section: <Anchor href="#">divider</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Variant: info
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-    }}
-    variant="information"
-  >
-    <P space={0}>
-      Generic information section: <Anchor href="#">info</Anchor>
-    </P>
-  </Section>
-)
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} variant="information">
+      <P space={0}>
+        Generic information section: <Anchor href="#">info</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Variant: error
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-    }}
-    variant="error"
-  >
-    <P space={0}>
-      Error section: <Anchor href="#">error</Anchor>
-    </P>
-  </Section>
-)
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} variant="error">
+      <P space={0}>
+        Error section: <Anchor href="#">error</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Variant: warning
 
+
 ```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-    }}
-    variant="warning"
-  >
-    <P space={0}>
-      Warning section: <Anchor href="#">warning</Anchor>
-    </P>
-  </Section>
-)
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} variant="warning">
+      <P space={0}>
+        Warning section: <Anchor href="#">warning</Anchor>
+      </P>
+    </Section>)
 ```
+
 
 ### Variant: success
 
-```tsx
-render(
-  <Section
-    innerSpace={{
-      top: 'large',
-      bottom: 'large',
-    }}
-    variant="success"
-  >
-    <P space={0}>
-      Success section: <Anchor href="#">success</Anchor>
-    </P>
-  </Section>
-)
-```
 
 ```tsx
-render(
-  <Section
-    innerSpace={{
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} variant="success">
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>)
+```
+
+
+
+  
+```tsx
+render(<Section innerSpace={{
+  top: 'large',
+  bottom: 'large'
+}} backgroundColor="var(--token-color-background-neutral-subtle)">
+      token-color-background-neutral-subtle
+      <div>
+        <Section innerSpace={{
       top: 'large',
-      bottom: 'large',
-    }}
-    backgroundColor="var(--token-color-background-neutral-subtle)"
-  >
-    token-color-background-neutral-subtle
-    <div>
-      <Section
-        innerSpace={{
+      bottom: 'large'
+    }} backgroundColor="var(--token-color-background-positive-subtle)">
+          token-color-background-positive-subtle
+          <div>
+            <Section innerSpace={{
           top: 'large',
-          bottom: 'large',
-        }}
-        backgroundColor="var(--token-color-background-positive-subtle)"
-      >
-        token-color-background-positive-subtle
-        <div>
-          <Section
-            innerSpace={{
+          bottom: 'large'
+        }} textColor="var(--token-color-text-neutral-ondark)" backgroundColor="var(--token-color-background-info)">
+              token-color-background-info
+              <div>
+                <Section innerSpace={{
               top: 'large',
-              bottom: 'large',
-            }}
-            textColor="var(--token-color-text-neutral-ondark)"
-            backgroundColor="var(--token-color-background-info)"
-          >
-            token-color-background-info
-            <div>
-              <Section
-                innerSpace={{
+              bottom: 'large'
+            }} textColor="var(--token-color-text-neutral-ondark)" backgroundColor="var(--token-color-background-marketing)">
+                  token-color-background-marketing
+                  <div>
+                    <Section innerSpace={{
                   top: 'large',
-                  bottom: 'large',
-                }}
-                textColor="var(--token-color-text-neutral-ondark)"
-                backgroundColor="var(--token-color-background-marketing)"
-              >
-                token-color-background-marketing
-                <div>
-                  <Section
-                    innerSpace={{
+                  bottom: 'large'
+                }} textColor="var(--token-color-text-neutral-ondark)" backgroundColor="var(--token-color-background-error)">
+                      token-color-background-error
+                      <div>
+                        <Section innerSpace={{
                       top: 'large',
-                      bottom: 'large',
-                    }}
-                    textColor="var(--token-color-text-neutral-ondark)"
-                    backgroundColor="var(--token-color-background-error)"
-                  >
-                    token-color-background-error
-                    <div>
-                      <Section
-                        innerSpace={{
+                      bottom: 'large'
+                    }} backgroundColor="var(--token-color-background-warning-subtle)">
+                          token-color-background-warning-subtle
+                          <div>
+                            <Section innerSpace={{
                           top: 'large',
-                          bottom: 'large',
-                        }}
-                        backgroundColor="var(--token-color-background-warning-subtle)"
-                      >
-                        token-color-background-warning-subtle
-                        <div>
-                          <Section
-                            innerSpace={{
+                          bottom: 'large'
+                        }} backgroundColor="var(--token-color-background-neutral-subtle)">
+                              token-color-background-neutral-subtle
+                              <div>
+                                <Section innerSpace={{
                               top: 'large',
-                              bottom: 'large',
-                            }}
-                            backgroundColor="var(--token-color-background-neutral-subtle)"
-                          >
-                            token-color-background-neutral-subtle
-                            <div>
-                              <Section
-                                innerSpace={{
+                              bottom: 'large'
+                            }} backgroundColor="var(--token-color-background-marketing-subtle)">
+                                  token-color-background-marketing-subtle
+                                  <div>
+                                    <Section innerSpace={{
                                   top: 'large',
-                                  bottom: 'large',
-                                }}
-                                backgroundColor="var(--token-color-background-marketing-subtle)"
-                              >
-                                token-color-background-marketing-subtle
-                                <div>
-                                  <Section
-                                    innerSpace={{
-                                      top: 'large',
-                                      bottom: 'large',
-                                    }}
-                                    variant="divider"
-                                  >
-                                    divider
-                                  </Section>
-                                </div>
-                              </Section>
-                            </div>
-                          </Section>
-                        </div>
-                      </Section>
-                    </div>
-                  </Section>
-                </div>
-              </Section>
-            </div>
-          </Section>
-        </div>
-      </Section>
-    </div>
-  </Section>
-)
+                                  bottom: 'large'
+                                }} variant="divider">
+                                      divider
+                                    </Section>
+                                  </div>
+                                </Section>
+                              </div>
+                            </Section>
+                          </div>
+                        </Section>
+                      </div>
+                    </Section>
+                  </div>
+                </Section>
+              </div>
+            </Section>
+          </div>
+        </Section>
+      </div>
+    </Section>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -384,7 +340,10 @@ render(
     },
     "outlineWidth": {
       "doc": "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "roundedCorner": {
@@ -414,12 +373,19 @@ render(
     },
     "surface": {
       "doc": "Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.",
-      "type": ["\"dark\"", "\"light\"", "\"initial\""],
+      "type": [
+        "\"dark\"",
+        "\"light\"",
+        "\"initial\""
+      ],
       "status": "optional"
     },
     "element": {
       "doc": "Define what HTML element should be used. Defaults to `<section>`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "ref": {
@@ -429,12 +395,16 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ## Variants
 

@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.618Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.679Z
 checksum: d3a8a00b18c6e6a9112ad2956a8c56788a7272b04874c248627d875ba23af2ab
 ---
 
@@ -103,30 +103,28 @@ In some situations, it's more suitable to have each link download the file inste
 
 By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.
 
+
 ## Demos
 
 ### Upload (default)
 
+
 ```tsx
-render(
-  <Upload
-    acceptedFileTypes={['jpg', 'png']}
-    onChange={({ files }) => console.log('onChange', files)}
-  />
-)
+render(<Upload acceptedFileTypes={['jpg', 'png']} onChange={({
+  files
+}) => console.log('onChange', files)} />)
 ```
+
 
 ### Upload `compact` variant
 
+
 ```tsx
-render(
-  <Upload
-    variant="compact"
-    acceptedFileTypes={['jpg', 'png']}
-    onChange={({ files }) => console.log('onChange', files)}
-  />
-)
+render(<Upload variant="compact" acceptedFileTypes={['jpg', 'png']} onChange={({
+  files
+}) => console.log('onChange', files)} />)
 ```
+
 
 ### `useUpload` React Hook
 
@@ -134,301 +132,254 @@ By using the `Upload.useUpload` you can remove or add files or the status displa
 
 You can also use the file blob in combination with the [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/File_API) API.
 
+
 ```tsx
 const Component = () => {
-  const myUploadId = 'unique-id' // or a function, object or React Context reference.
-  const { files, setFiles } = Upload.useUpload(myUploadId) // id is needed when wanting to connect with the useUpload hook.
+  const myUploadId = 'unique-id'; // or a function, object or React Context reference.
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload(myUploadId); // id is needed when wanting to connect with the useUpload hook.
 
-  return (
-    <>
-      <Upload acceptedFileTypes={['jpg', 'png']} id={myUploadId} />
+  return <>
+            <Upload acceptedFileTypes={['jpg', 'png']} id={myUploadId} />
 
-      <Button
-        top="small"
-        disabled={files.length < 1}
-        onClick={() => setFiles([])}
-      >
-        Remove selected files
-      </Button>
+            <Button top="small" disabled={files.length < 1} onClick={() => setFiles([])}>
+              Remove selected files
+            </Button>
 
-      <Preview files={files} />
-    </>
-  )
-  function Preview({ files }) {
-    const [images, setImages] = React.useState([])
+            <Preview files={files} />
+          </>;
+  function Preview({
+    files
+  }) {
+    const [images, setImages] = React.useState([]);
     React.useEffect(() => {
-      files.map(({ file }) => {
-        let reader = new FileReader()
-        reader.addEventListener(
-          'load',
-          (event) => {
-            images.push({
-              blob: event.target,
-              file,
-            })
-            setImages([...images])
-            reader = null
-          },
-          false
-        )
-        reader.readAsDataURL(file)
-      })
-    }, [files])
-    return (
-      <Section aria-label="List of chosen images">
-        {images.map((img, i) => (
-          <Img
-            top
-            key={i}
-            src={img.blob.result}
-            alt={img.file.name}
-            height={100}
-          />
-        ))}
-      </Section>
-    )
+      files.map(({
+        file
+      }) => {
+        let reader = new FileReader();
+        reader.addEventListener('load', event => {
+          images.push({
+            blob: event.target,
+            file
+          });
+          setImages([...images]);
+          reader = null;
+        }, false);
+        reader.readAsDataURL(file);
+      });
+    }, [files]);
+    return <Section aria-label="List of chosen images">
+              {images.map((img, i) => <Img top key={i} src={img.blob.result} alt={img.file.name} height={100} />)}
+            </Section>;
   }
-}
-render(<Component />)
+};
+render(<Component />);
 ```
+
 
 ### Upload single file/fixed amount of files
 
+
 ```tsx
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-single-file')
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload('upload-single-file');
   if (files.length) {
-    console.log('files', files, setFiles)
+    console.log('files', files, setFiles);
   }
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-single-file"
-      filesAmountLimit={1}
-    />
-  )
-}
-render(<Component />)
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-single-file" filesAmountLimit={1} />;
+};
+render(<Component />);
 ```
+
 
 ### Upload loading state
 
 When uploading the file you can set the loading state of the request using the `Upload.useUpload` hook and passing `isLoading` to the file that is being uploaded.
 
+
 ```tsx
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-is-loading')
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload('upload-is-loading');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('fileName.png', 123, 'image/png'),
-        isLoading: true,
-      },
-    ])
-  }, [])
-  return (
-    <>
-      <Upload acceptedFileTypes={['jpg', 'png']} id="upload-is-loading" />
-      <ToggleButton
-        top="small"
-        disabled={files.length < 1}
-        onChange={({ checked }) =>
-          setFiles(
-            files.map((fileItem) => {
-              return {
-                ...fileItem,
-                isLoading: checked,
-              }
-            })
-          )
-        }
-      >
-        Files is loading toggle
-      </ToggleButton>
-    </>
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('fileName.png', 123, 'image/png'),
+      isLoading: true
+    }]);
+  }, []);
+  return <>
+            <Upload acceptedFileTypes={['jpg', 'png']} id="upload-is-loading" />
+            <ToggleButton top="small" disabled={files.length < 1} onChange={({
+      checked
+    }) => setFiles(files.map(fileItem => {
+      return {
+        ...fileItem,
+        isLoading: checked
+      };
+    }))}>
+              Files is loading toggle
+            </ToggleButton>
+          </>;
+};
+render(<Component />);
 ```
+
 
 ### Upload error message
 
 The only file verification the Upload component does is for the file size and the file type. These errors are handled by the HTML element `input` so they are not selectable. If you want any other error messages you can use the `Upload.useUpload` hook the same way as with the loading state.
 
+
 ```tsx
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-error-message')
-  return (
-    <>
-      <Upload
-        acceptedFileTypes={['jpg', 'png']}
-        id="upload-error-message"
-      />
-      <ToggleButton
-        top="small"
-        disabled={files.length < 1}
-        onChange={({ checked }) => {
-          setFiles(
-            files.map((fileItem) => {
-              return {
-                ...fileItem,
-                errorMessage: checked ? 'custom error message' : null,
-              }
-            })
-          )
-        }}
-      >
-        Toggle error message
-      </ToggleButton>
-    </>
-  )
-}
-render(<Component />)
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload('upload-error-message');
+  return <>
+            <Upload acceptedFileTypes={['jpg', 'png']} id="upload-error-message" />
+            <ToggleButton top="small" disabled={files.length < 1} onChange={({
+      checked
+    }) => {
+      setFiles(files.map(fileItem => {
+        return {
+          ...fileItem,
+          errorMessage: checked ? 'custom error message' : null
+        };
+      }));
+    }}>
+              Toggle error message
+            </ToggleButton>
+          </>;
+};
+render(<Component />);
 ```
+
 
 ### Upload specific accepted file formats
 
 You can pass the file formats as a string array. This will restrict which files that can be selected.
 
+
 ```tsx
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-accepted-formats')
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload('upload-accepted-formats');
   if (files.length) {
-    console.log('files', files, setFiles)
+    console.log('files', files, setFiles);
   }
-  return (
-    <Upload
-      acceptedFileTypes={['png', 'jpg', 'pdf']}
-      id="upload-accepted-formats"
-    />
-  )
-}
-render(<Component />)
+  return <Upload acceptedFileTypes={['png', 'jpg', 'pdf']} id="upload-accepted-formats" />;
+};
+render(<Component />);
 ```
+
 
 ### Upload with prefilled error
 
+
 ```tsx
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('file-list')
+  const {
+    files,
+    setFiles
+  } = Upload.useUpload('file-list');
   if (files.length) {
-    console.log('files', files)
+    console.log('files', files);
   }
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('fileName.png', 123, 'image/png'),
-        errorMessage: 'This is no real file!',
-      },
-    ])
-  }, [setFiles])
-  return <Upload acceptedFileTypes={['jpg', 'png']} id="file-list" />
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('fileName.png', 123, 'image/png'),
+      errorMessage: 'This is no real file!'
+    }]);
+  }, [setFiles]);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="file-list" />;
+};
+render(<Component />);
 ```
+
 
 ### Upload with file max size based on file type
 
 The table of accepted file types is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
 
+
 ```tsx
-render(
-  <Upload
-    fileMaxSize={99}
-    acceptedFileTypes={[
-      {
-        fileType: 'jpg',
-        fileMaxSize: 1,
-      },
-      {
-        fileType: 'doc',
-        fileMaxSize: 1,
-      },
-      {
-        fileType: 'svg',
-        fileMaxSize: 1,
-      },
-      {
-        fileType: 'gif',
-        fileMaxSize: 1,
-      },
-      {
-        fileType: 'doc',
-        fileMaxSize: 4,
-      },
-      {
-        fileType: 'docx',
-        fileMaxSize: 4,
-      },
-      {
-        fileType: 'tiff',
-        fileMaxSize: 5,
-      },
-      {
-        fileType: 'tif',
-        fileMaxSize: 5,
-      },
-      {
-        fileType: 'html',
-        fileMaxSize: 6,
-      },
-      {
-        fileType: 'htm',
-        fileMaxSize: 6,
-      },
-      {
-        fileType: 'xls',
-        fileMaxSize: 7,
-      },
-      {
-        fileType: 'xlsx',
-        fileMaxSize: 7,
-      },
-      {
-        fileType: 'odt',
-      },
-      {
-        fileType: 'pdf',
-      },
-      {
-        fileType: 'text',
-        fileMaxSize: false,
-      },
-      {
-        fileType: 'txt',
-        fileMaxSize: 0,
-      },
-      {
-        fileType: 'zip',
-        fileMaxSize: 99,
-      },
-    ]}
-  />
-)
+render(<Upload fileMaxSize={99} acceptedFileTypes={[{
+  fileType: 'jpg',
+  fileMaxSize: 1
+}, {
+  fileType: 'doc',
+  fileMaxSize: 1
+}, {
+  fileType: 'svg',
+  fileMaxSize: 1
+}, {
+  fileType: 'gif',
+  fileMaxSize: 1
+}, {
+  fileType: 'doc',
+  fileMaxSize: 4
+}, {
+  fileType: 'docx',
+  fileMaxSize: 4
+}, {
+  fileType: 'tiff',
+  fileMaxSize: 5
+}, {
+  fileType: 'tif',
+  fileMaxSize: 5
+}, {
+  fileType: 'html',
+  fileMaxSize: 6
+}, {
+  fileType: 'htm',
+  fileMaxSize: 6
+}, {
+  fileType: 'xls',
+  fileMaxSize: 7
+}, {
+  fileType: 'xlsx',
+  fileMaxSize: 7
+}, {
+  fileType: 'odt'
+}, {
+  fileType: 'pdf'
+}, {
+  fileType: 'text',
+  fileMaxSize: false
+}, {
+  fileType: 'txt',
+  fileMaxSize: 0
+}, {
+  fileType: 'zip',
+  fileMaxSize: 99
+}]} />)
 ```
+
 
 To disable `maxFileSize` Use either `0` or `false`. If `maxFileSize` is not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.
 
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <Upload
-    acceptedFileTypes={[
-      {
-        fileType: 'jpg',
-        fileMaxSize: 0,
-      },
-      {
-        fileType: 'doc',
-        fileMaxSize: false,
-      },
-      {
-        fileType: 'svg',
-      },
-    ]}
-  />
-)
+render(<Upload acceptedFileTypes={[{
+  fileType: 'jpg',
+  fileMaxSize: 0
+}, {
+  fileType: 'doc',
+  fileMaxSize: false
+}, {
+  fileType: 'svg'
+}]} />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -438,417 +389,323 @@ render(
 You can disable the file max size, which will deactivate all file size verifications in the Upload component.
 This can also be used to manually implement more complex file max size verifications.
 
+
 ```tsx
 render(<Upload acceptedFileTypes={['jpg', 'pdf']} fileMaxSize={false} />)
 ```
 
+
 ### Upload without title and text
 
+
 ```tsx
-render(
-  <Upload title={false} text={false} acceptedFileTypes={['jpg', 'png']} />
-)
+render(<Upload title={false} text={false} acceptedFileTypes={['jpg', 'png']} />)
 ```
+
 
 ### Upload with async `onFileDelete`
 
+
 ```tsx
-async function mockAsyncFileRemoval({ fileItem }) {
-  const request = createRequest()
-  console.log('making API request to remove:', fileItem.file.name)
-  await request(3000) // Simulate a request
+async function mockAsyncFileRemoval({
+  fileItem
+}) {
+  const request = createRequest();
+  console.log('making API request to remove:', fileItem.file.name);
+  await request(3000); // Simulate a request
   const mockResponse = {
-    successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
-  }
+    successfulRemoval: Math.random() < 0.5 // Randomly fails to remove the file
+  };
   if (!mockResponse.successfulRemoval) {
-    throw new Error('Unable to remove this file')
+    throw new Error('Unable to remove this file');
   }
 }
-render(
-  <Upload
-    onFileDelete={mockAsyncFileRemoval}
-    acceptedFileTypes={['jpg', 'png']}
-  />
-)
+render(<Upload onFileDelete={mockAsyncFileRemoval} acceptedFileTypes={['jpg', 'png']} />);
 ```
+
 
 ### Upload with `onFileClick`
 
+
 ```tsx
 const Component = () => {
-  const { setFiles } = Upload.useUpload('upload-on-file-click')
+  const {
+    setFiles
+  } = Upload.useUpload('upload-on-file-click');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 123, 'image/png'),
-        id: '1',
-        description: 'Click the file name to open the image',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-long-and-has-letters.png',
-          123,
-          'image/png'
-        ),
-        id: '2',
-      },
-    ])
-  }, [setFiles])
-  async function mockAsyncFileFetching({ fileItem }) {
-    const request = createRequest()
-    console.log(
-      'making API request to fetch the url of the file:',
-      fileItem.file.name
-    )
-    await request(2000) // Simulate a request
-    window.open(
-      `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-      '_blank'
-    )
+    setFiles([{
+      file: createMockFile('1501870.jpg', 123, 'image/png'),
+      id: '1',
+      description: 'Click the file name to open the image'
+    }, {
+      file: createMockFile('file-name-that-is-very-long-and-has-letters.png', 123, 'image/png'),
+      id: '2'
+    }]);
+  }, [setFiles]);
+  async function mockAsyncFileFetching({
+    fileItem
+  }) {
+    const request = createRequest();
+    console.log('making API request to fetch the url of the file:', fileItem.file.name);
+    await request(2000); // Simulate a request
+    window.open(`https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`, '_blank');
   }
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-on-file-click"
-      onFileClick={mockAsyncFileFetching}
-    />
-  )
-}
-render(<Component />)
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-on-file-click" onFileClick={mockAsyncFileFetching} />;
+};
+render(<Component />);
 ```
+
 
 ### Upload programatically clearing files using `clearFiles `
 
+
 ```tsx
 const Component = () => {
-  const { setFiles, clearFiles } = Upload.useUpload('upload-clear-files')
+  const {
+    setFiles,
+    clearFiles
+  } = Upload.useUpload('upload-clear-files');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 123, 'image/png'),
-        id: '1',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-long-and-has-letters.png',
-          123,
-          'image/png'
-        ),
-        id: '2',
-      },
-    ])
-  }, [setFiles])
-  return (
-    <>
-      <Upload acceptedFileTypes={['jpg', 'png']} id="upload-clear-files" />
-      <Button top="small" onClick={() => clearFiles()}>
-        Clear files
-      </Button>
-    </>
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('1501870.jpg', 123, 'image/png'),
+      id: '1'
+    }, {
+      file: createMockFile('file-name-that-is-very-long-and-has-letters.png', 123, 'image/png'),
+      id: '2'
+    }]);
+  }, [setFiles]);
+  return <>
+            <Upload acceptedFileTypes={['jpg', 'png']} id="upload-clear-files" />
+            <Button top="small" onClick={() => clearFiles()}>
+              Clear files
+            </Button>
+          </>;
+};
+render(<Component />);
 ```
+
 
 ### Upload with file description
 
+
 ```tsx
 const Component = () => {
-  const { setFiles } = Upload.useUpload('upload-description')
+  const {
+    setFiles
+  } = Upload.useUpload('upload-description');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 0, 'image/png'),
-        id: '1',
-        description: 'This is my description',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-long-and-has-letters.png',
-          0,
-          'image/png'
-        ),
-        id: '2',
-      },
-      {
-        file: createMockFile('123.jpg', 123, 'image/png'),
-        id: '3',
-        description: (
-          <>
-            <Badge
-              variant="information"
-              status="positive"
-              content="Status"
-            />{' '}
-            This is my description
-          </>
-        ),
-      },
-      {
-        file: createMockFile('321.jpg', 0, 'image/png'),
-        id: '4',
-      },
-    ])
-  }, [setFiles])
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-description"
-      onChange={({ files }) =>
-        setFiles(
-          files.map((fileItem) => {
-            return {
-              ...fileItem,
-              description: 'This is my description',
-            }
-          })
-        )
-      }
-    />
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('1501870.jpg', 0, 'image/png'),
+      id: '1',
+      description: 'This is my description'
+    }, {
+      file: createMockFile('file-name-that-is-very-long-and-has-letters.png', 0, 'image/png'),
+      id: '2'
+    }, {
+      file: createMockFile('123.jpg', 123, 'image/png'),
+      id: '3',
+      description: <>
+                  <Badge variant="information" status="positive" content="Status" />{' '}
+                  This is my description
+                </>
+    }, {
+      file: createMockFile('321.jpg', 0, 'image/png'),
+      id: '4'
+    }]);
+  }, [setFiles]);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-description" onChange={({
+    files
+  }) => setFiles(files.map(fileItem => {
+    return {
+      ...fileItem,
+      description: 'This is my description'
+    };
+  }))} />;
+};
+render(<Component />);
 ```
+
 
 ### Upload with file without delete button
 
+
 ```tsx
 const Component = () => {
-  const { setFiles } = Upload.useUpload('upload-remove-delete-button')
+  const {
+    setFiles
+  } = Upload.useUpload('upload-remove-delete-button');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 0, 'image/png'),
-        id: '1',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
-          0,
-          'image/png'
-        ),
-        description:
-          'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
-        removeDeleteButton: true,
-      },
-      {
-        file: createMockFile('123.jpg', 0, 'image/png'),
-        id: '3',
-      },
-      {
-        file: createMockFile('321.jpg', 0, 'image/png'),
-        id: '4',
-        deleteButtonProps: {
-          tooltip: 'Button tooltip',
-        },
-      },
-    ])
-  }, [setFiles])
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-remove-delete-button"
-      onChange={({ files }) =>
-        setFiles(
-          files.map((fileItem) => {
-            return {
-              ...fileItem,
-              deleteButtonProps: {
-                tooltip: `Do you want to remove ${fileItem.file.name} file?`,
-              },
-            }
-          })
-        )
+    setFiles([{
+      file: createMockFile('1501870.jpg', 0, 'image/png'),
+      id: '1'
+    }, {
+      file: createMockFile('file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png', 0, 'image/png'),
+      description: 'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
+      removeDeleteButton: true
+    }, {
+      file: createMockFile('123.jpg', 0, 'image/png'),
+      id: '3'
+    }, {
+      file: createMockFile('321.jpg', 0, 'image/png'),
+      id: '4',
+      deleteButtonProps: {
+        tooltip: 'Button tooltip'
       }
-    />
-  )
-}
-render(<Component />)
+    }]);
+  }, [setFiles]);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-remove-delete-button" onChange={({
+    files
+  }) => setFiles(files.map(fileItem => {
+    return {
+      ...fileItem,
+      deleteButtonProps: {
+        tooltip: `Do you want to remove ${fileItem.file.name} file?`
+      }
+    };
+  }))} />;
+};
+render(<Component />);
 ```
 
+
+
+  
 ```tsx
 const Component = () => {
-  const { setFiles } = Upload.useUpload('upload-file-size-empty')
+  const {
+    setFiles
+  } = Upload.useUpload('upload-file-size-empty');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 0, 'image/png'),
-        id: '1',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-long-and-has-letters.png',
-          0,
-          'image/png'
-        ),
-        id: '2',
-      },
-    ])
-  }, [setFiles])
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-file-size-empty"
-    />
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('1501870.jpg', 0, 'image/png'),
+      id: '1'
+    }, {
+      file: createMockFile('file-name-that-is-very-long-and-has-letters.png', 0, 'image/png'),
+      id: '2'
+    }]);
+  }, [setFiles]);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-file-size-empty" />;
+};
+render(<Component />);
 ```
 
+  
 ```tsx
-render(
-  <Upload
-    disableDragAndDrop
-    acceptedFileTypes={['jpg', 'png']}
-    onChange={({ files }) => console.log('onChange', files)}
-  />
-)
+render(<Upload disableDragAndDrop acceptedFileTypes={['jpg', 'png']} onChange={({
+  files
+}) => console.log('onChange', files)} />)
 ```
 
+  
 ```tsx
 const Component = () => {
-  const { setInternalFiles, setFiles } = Upload.useUpload(
-    'upload-files-amount-message'
-  )
+  const {
+    setInternalFiles,
+    setFiles
+  } = Upload.useUpload('upload-files-amount-message');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('fileName1.png', 123, 'image/png'),
-      },
-      {
-        file: createMockFile('fileName2.png', 321, 'image/png'),
-      },
-    ])
-    setInternalFiles([
-      {
-        file: createMockFile('fileName1.png', 123, 'image/png'),
-        id: '1',
-        exists: false,
-      },
-      {
-        file: createMockFile('fileName2.png', 321, 'image/png'),
-        id: '2',
-        exists: false,
-      },
-    ])
-  }, [])
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-files-amount-message"
-      filesAmountLimit={1}
-    />
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('fileName1.png', 123, 'image/png')
+    }, {
+      file: createMockFile('fileName2.png', 321, 'image/png')
+    }]);
+    setInternalFiles([{
+      file: createMockFile('fileName1.png', 123, 'image/png'),
+      id: '1',
+      exists: false
+    }, {
+      file: createMockFile('fileName2.png', 321, 'image/png'),
+      id: '2',
+      exists: false
+    }]);
+  }, []);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-files-amount-message" filesAmountLimit={1} />;
+};
+render(<Component />);
 ```
 
+  
 ```tsx
 const Component = () => {
-  const { setInternalFiles, setFiles } = Upload.useUpload(
-    'upload-files-amount-limit'
-  )
+  const {
+    setInternalFiles,
+    setFiles
+  } = Upload.useUpload('upload-files-amount-limit');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('fileName1.png', 123, 'image/png'),
-      },
-      {
-        file: createMockFile('fileName2.png', 321, 'image/png'),
-      },
-    ])
-    setInternalFiles([
-      {
-        file: createMockFile('fileName1.png', 123, 'image/png'),
-        id: '1',
-        exists: false,
-      },
-      {
-        file: createMockFile('fileName2.png', 321, 'image/png'),
-        id: '2',
-        exists: false,
-      },
-    ])
-  }, [])
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-files-amount-limit"
-      filesAmountLimit={2}
-    />
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('fileName1.png', 123, 'image/png')
+    }, {
+      file: createMockFile('fileName2.png', 321, 'image/png')
+    }]);
+    setInternalFiles([{
+      file: createMockFile('fileName1.png', 123, 'image/png'),
+      id: '1',
+      exists: false
+    }, {
+      file: createMockFile('fileName2.png', 321, 'image/png'),
+      id: '2',
+      exists: false
+    }]);
+  }, []);
+  return <Upload acceptedFileTypes={['jpg', 'png']} id="upload-files-amount-limit" filesAmountLimit={2} />;
+};
+render(<Component />);
 ```
 
+  
 ```tsx
-render(
-  <Upload
-    acceptedFileTypes={['jpg', 'png']}
-    disabled
-    onChange={({ files }) => console.log('onChange', files)}
-  />
-)
+render(<Upload acceptedFileTypes={['jpg', 'png']} disabled onChange={({
+  files
+}) => console.log('onChange', files)} />)
 ```
 
+  
 ```tsx
-render(
-  <Upload
-    variant="compact"
-    acceptedFileTypes={['jpg', 'png']}
-    title={false}
-    text={false}
-    onChange={({ files }) => console.log('onChange', files)}
-  />
-)
+render(<Upload variant="compact" acceptedFileTypes={['jpg', 'png']} title={false} text={false} onChange={({
+  files
+}) => console.log('onChange', files)} />)
 ```
 
+  
 ```tsx
 const Component = () => {
-  const { setFiles } = Upload.useUpload('upload-compact-variant-files')
+  const {
+    setFiles
+  } = Upload.useUpload('upload-compact-variant-files');
   React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('1501870.jpg', 0, 'image/png'),
-        id: '1',
-      },
-      {
-        file: createMockFile(
-          'file-name-that-is-very-long-and-has-letters.png',
-          0,
-          'image/png'
-        ),
-        id: '2',
-      },
-      {
-        file: createMockFile('123.jpg', 0, 'image/png'),
-        id: '3',
-      },
-      {
-        file: createMockFile('321.jpg', 0, 'image/png'),
-        id: '4',
-      },
-    ])
-  }, [setFiles])
-  return (
-    <Upload
-      variant="compact"
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-compact-variant-files"
-    />
-  )
-}
-render(<Component />)
+    setFiles([{
+      file: createMockFile('1501870.jpg', 0, 'image/png'),
+      id: '1'
+    }, {
+      file: createMockFile('file-name-that-is-very-long-and-has-letters.png', 0, 'image/png'),
+      id: '2'
+    }, {
+      file: createMockFile('123.jpg', 0, 'image/png'),
+      id: '3'
+    }, {
+      file: createMockFile('321.jpg', 0, 'image/png'),
+      id: '4'
+    }]);
+  }, [setFiles]);
+  return <Upload variant="compact" acceptedFileTypes={['jpg', 'png']} id="upload-compact-variant-files" />;
+};
+render(<Component />);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "id": {
       "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-      "type": ["string", "function", "object", "React.Context"],
+      "type": [
+        "string",
+        "function",
+        "object",
+        "React.Context"
+      ],
       "status": "optional"
     },
     "children": {
@@ -858,12 +715,18 @@ render(<Component />)
     },
     "variant": {
       "doc": "Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.",
-      "type": ["\"default\"", "\"compact\""],
+      "type": [
+        "\"default\"",
+        "\"compact\""
+      ],
       "status": "optional"
     },
     "acceptedFileTypes": {
       "doc": "List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
-      "type": ["Array<string>", "Array<AcceptedFileType>"],
+      "type": [
+        "Array<string>",
+        "Array<AcceptedFileType>"
+      ],
       "status": "required"
     },
     "filesAmountLimit": {
@@ -873,7 +736,10 @@ render(<Component />)
     },
     "fileMaxSize": {
       "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
-      "type": ["number", "false"],
+      "type": [
+        "number",
+        "false"
+      ],
       "status": "optional"
     },
     "title": {
@@ -973,16 +839,21 @@ render(<Component />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## FileItem
 
 The file item object is representing the files of the Upload component.
+
 
 ```json
 {
@@ -1036,6 +907,7 @@ The file item object is representing the files of the Upload component.
 }
 ```
 
+
 ## AcceptedFileType
 
 The accepted file type object is used to define file max size for specific file types.
@@ -1043,6 +915,7 @@ The accepted file type object is used to define file max size for specific file 
 When providing a list of AcceptedFileType to [Uploads](/uilib/components/upload/properties/#properties) `acceptedFileTypes`, the accepted file types will be presented in a table. Here is an [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type).
 
 The table is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+
 
 ```json
 {
@@ -1054,20 +927,30 @@ The table is sorted descending by `maxFileSize`. Multiple `fileType` for the sam
     },
     "fileMaxSize": {
       "doc": "Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.",
-      "type": ["number", "false"],
+      "type": [
+        "number",
+        "false"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
 
 All translation keys listed in the translations table below, can be used as a component property (like `title` or `text`).
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Upload.buttonText": {
       "nb-NO": "Velg filer",
@@ -1183,6 +1066,7 @@ All translation keys listed in the translations table below, can be used as a co
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -1204,5 +1088,6 @@ All translation keys listed in the translations table below, can be used as a co
   }
 }
 ```
+
 
 Read more about `fileItem` in the properties docs section [FileItem](/uilib/components/upload/properties/#fileitem).

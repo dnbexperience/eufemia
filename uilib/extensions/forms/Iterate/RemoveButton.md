@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.RemoveButton'
 description: '`Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.083Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.074Z
 checksum: f8ee112a21fc50920cdfd3cec2d68bd5c9db04abc522b7368dec8674cc28ddc9
 ---
 
@@ -60,57 +60,44 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Primitive items
 
+
 ```tsx
-render(
-  <Iterate.Array
-    value={['One', 'Two', 'Three', 'Four', 'Five']}
-    onChange={(value) => console.log('onChange', value)}
-    animate
-  >
-    <Flex.Horizontal align="center">
-      <Field.String itemPath="/" />
-      <Iterate.RemoveButton
-        icon={TrashIcon}
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </Flex.Horizontal>
-  </Iterate.Array>
-)
+render(<Iterate.Array value={['One', 'Two', 'Three', 'Four', 'Five']} onChange={value => console.log('onChange', value)} animate>
+        <Flex.Horizontal align="center">
+          <Field.String itemPath="/" />
+          <Iterate.RemoveButton icon={TrashIcon} onChange={value => console.log('onChange', value)} />
+        </Flex.Horizontal>
+      </Iterate.Array>)
 ```
+
 
 ### Object items
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={[
-      {
-        name: 'Iron Man',
-      },
-      {
-        name: 'Captain America',
-      },
-      {
-        name: 'Thor',
-      },
-    ]}
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Iterate.Array path="/" animate>
-      <Flex.Horizontal align="center">
-        <Field.Name.Last itemPath="/name" />
-        <Iterate.RemoveButton text="Remove avenger" />
-      </Flex.Horizontal>
-    </Iterate.Array>
-  </Form.Handler>
-)
+render(<Form.Handler data={[{
+  name: 'Iron Man'
+}, {
+  name: 'Captain America'
+}, {
+  name: 'Thor'
+}]} onChange={value => console.log('onChange', value)}>
+        <Iterate.Array path="/" animate>
+          <Flex.Horizontal align="center">
+            <Field.Name.Last itemPath="/name" />
+            <Iterate.RemoveButton text="Remove avenger" />
+          </Flex.Horizontal>
+        </Iterate.Array>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -129,11 +116,18 @@ render(
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "RemoveButton.confirmRemoveText": {
       "nb-NO": "Er du sikker på at du vil slette dette?",

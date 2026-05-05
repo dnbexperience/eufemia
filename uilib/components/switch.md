@@ -1,8 +1,8 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.524Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.617Z
 checksum: 763f8973f7a19b170b8031de6065f88bda0b6d874f7ddcb1ee8b6e6175abed22
 ---
 
@@ -48,48 +48,47 @@ The label should describe what the toggle will do when the switch is on.
 
 [1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
 
+
 ## Demos
 
 ### Unchecked Switch
+
 
 ```tsx
 render(<Switch label="Switch" onChange={console.log} />)
 ```
 
+
 ### Checked Switch
 
+
 ```tsx
-render(
-  <Switch
-    label="Label"
-    labelPosition="left"
-    checked
-    onChange={({ checked }) => console.log(checked)}
-  />
-)
+render(<Switch label="Label" labelPosition="left" checked onChange={({
+  checked
+}) => console.log(checked)} />)
 ```
 
+
 ### Checked Switch with error message
+
 
 ```tsx
 render(<Switch label="Switch" checked status="Error message" />)
 ```
 
+
 ### Switch with suffix
 
+
 ```tsx
-render(
-  <Switch
-    label="Switch"
-    checked
-    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-  />
-)
+render(<Switch label="Switch" checked suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />)
 ```
+
 
 ### Switch in different sizes
 
 As for now, there are two sizes. `medium` is the default size.
+
 
 ```tsx
 <Switch size="medium" label="Medium" right="large" checked />
@@ -97,13 +96,16 @@ As for now, there are two sizes. `medium` is the default size.
 <Switch size="large" label="Large" />
 ```
 
+
 ### Switch in disabled state
+
 
 ```tsx
 render(<Switch checked disabled label="Disabled" />)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -125,7 +127,10 @@ render(<Switch checked disabled label="Disabled" />)
     },
     "labelPosition": {
       "doc": "Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -135,12 +140,20 @@ render(<Switch checked disabled label="Disabled" />)
     },
     "size": {
       "doc": "The size of the switch. For now there is `medium` (default) and `large`.",
-      "type": ["\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
@@ -181,7 +194,10 @@ render(<Switch checked disabled label="Disabled" />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
@@ -189,6 +205,7 @@ render(<Switch checked disabled label="Disabled" />)
 ```
 
 ## Events
+
 
 ```json
 {

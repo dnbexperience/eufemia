@@ -1,8 +1,8 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.006Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.189Z
 checksum: e0c93f5872857a54516c5d10979a9cf859f429d97a14c72576018d152c739499
 ---
 
@@ -35,7 +35,7 @@ You can combine a meta framework link with the Anchor. This way, all the framewo
 
 ```jsx
 import Anchor from '@dnb/eufemia/components/Anchor'
-import { Link } from 'gatsby'
+import { Link } from 'react-router-dom'
 
 render(
   <App>
@@ -61,15 +61,16 @@ render(
 </a>
 ```
 
+
 ## Demos
 
 ### Basic usage
 
 The basic use of `<Anchor>` is identical to the `<a>` tag.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="anchor-basic">
       <P>
         This is a regular paragraph with a{' '}
@@ -77,34 +78,29 @@ render(
         middle of some text.
       </P>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### With icon
 
 Icons can be added with the `icon` and `iconPosition` properties. Normally by sending in the name if an icon, but it is also possible to send in html/react code (normally for custom svg).
 
-For Sbanken, links with icons have a slightly different styling that is
-not intended to be used in a regular paragraph. The class
-`.dnb-anchor--inline` can be used to force default styling even if there
-is an icon.
+
+  For Sbanken, links with icons have a slightly different styling that is
+  not intended to be used in a regular paragraph. The class
+  `.dnb-anchor--inline` can be used to force default styling even if there
+  is an icon.
+
+
 
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
       <Example data-visual-test="anchor-icon-right">
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-        >
+        <Anchor href="/uilib/components/anchor" icon="arrow_right" iconPosition="right">
           Anchor with icon right
         </Anchor>
       </Example>
@@ -114,114 +110,77 @@ render(
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-icon-node">
-        <Anchor
-          href="/uilib/components/anchor"
-          icon={<IconPrimary icon="question" />}
-        >
+        <Anchor href="/uilib/components/anchor" icon={<IconPrimary icon="question" />}>
           Anchor with icon left using a html/react element
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-paragraph">
         <P>
           A text paragraph with an{' '}
-          <Anchor
-            href="/uilib/components/anchor"
-            icon="bell"
-            iconPosition="right"
-            className="dnb-anchor--inline"
-          >
+          <Anchor href="/uilib/components/anchor" icon="bell" iconPosition="right" className="dnb-anchor--inline">
             anchor with icon
           </Anchor>{' '}
           in it.
         </P>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### On dark surface
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
-      <Section
-        surface="dark"
-        innerSpace
-        data-visual-test="anchor-surface-dark"
-      >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
+      <Section surface="dark" innerSpace data-visual-test="anchor-surface-dark">
         <Anchor href="/uilib/components/anchor">Dark surface style</Anchor>
       </Section>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Additional Anchor helper classes
 
 To force a specific state of style, use the following classes to do so:
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-underline"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-underline">
           No underline
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-no-icon">
-        <Anchor
-          target="_blank"
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-icon"
-        >
+        <Anchor target="_blank" href="/uilib/components/anchor" className="dnb-anchor--no-icon">
           Blank target without launch icon
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-no-hover">
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-hover"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-hover">
           No hover
         </Anchor>
       </Example>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-radius"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-radius">
           No border-radius
         </Anchor>
       </Example>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-animation"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-animation">
           No animation
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-no-style">
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--no-style"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-style">
           Reset anchor style
         </Anchor>
       </Example>
@@ -240,9 +199,9 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Anchor modifier properties
 
@@ -255,57 +214,40 @@ render(
 
 If the link opens a new window it will automatically get an icon to indicate this.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
       <Example data-visual-test="anchor-blank">
         <Anchor target="_blank" href="/uilib/components/anchor">
           Blank target with https
         </Anchor>
       </Example>
       <Example>
-        <Anchor
-          target="_blank"
-          href="/uilib/components/anchor"
-          icon="arrow_right"
-          iconPosition="right"
-        >
+        <Anchor target="_blank" href="/uilib/components/anchor" icon="arrow_right" iconPosition="right">
           Blank target with different launch icon
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-blank-icon-left">
-        <Anchor
-          target="_blank"
-          href="/uilib/components/anchor"
-          icon="bell"
-          iconPosition="left"
-        >
+        <Anchor target="_blank" href="/uilib/components/anchor" icon="bell" iconPosition="left">
           Blank target with icon to the left
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 Unless the href contains `:mailto`, `:tel` or `:sms`.
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-      data-visual-test="anchor-protocol"
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }} data-visual-test="anchor-protocol">
       <Example>
         <Anchor target="_blank" href="mailto:john.doe@email.com">
           Send a mail to: john.doe@email.com
@@ -322,28 +264,21 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Anchor in headings
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
       <Example data-visual-test="anchor-heading">
         <H2>
-          <Anchor
-            href="/uilib/components/anchor"
-            icon="bell"
-            iconPosition="right"
-          >
+          <Anchor href="/uilib/components/anchor" icon="bell" iconPosition="right">
             Inside Headings
           </Anchor>{' '}
           H2
@@ -358,179 +293,115 @@ render(
         </H2>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Anchor in Section
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section
-        innerSpace={{
-          block: 'large',
-        }}
-      >
-        <Anchor
-          className="dnb-anchor--no-underline"
-          href="https://dnb.no/"
-        >
+      <Section innerSpace={{
+      block: 'large'
+    }}>
+        <Anchor className="dnb-anchor--no-underline" href="https://dnb.no/">
           Anchor in Section without underline
         </Anchor>
       </Section>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+
+
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        Example,
-      }}
-      data-visual-test="anchor-states"
-      hideCode
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    Example
+  }} data-visual-test="anchor-states" hideCode>
       <Example>
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
       </Example>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--hover"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--hover">
           Hover Style
         </Anchor>
       </Example>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--active"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--active">
           Active Style
         </Anchor>
       </Example>
       <Example>
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--focus"
-        >
+        <Anchor href="/uilib/components/anchor" className="dnb-anchor--focus">
           Focus Style
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example
+  }}>
       <Theme.Context surface="dark">
         <Example>
-          <Section
-            surface="dark"
-            innerSpace
-            data-visual-test="anchor-contrast-no-hover"
-          >
-            <Anchor
-              href="/uilib/components/anchor"
-              className="dnb-anchor--no-hover"
-            >
+          <Section surface="dark" innerSpace data-visual-test="anchor-contrast-no-hover">
+            <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-hover">
               Dark surface - no hover
             </Anchor>
           </Section>
         </Example>
         <Example>
-          <Section
-            surface="dark"
-            innerSpace
-            data-visual-test="anchor-contrast-no-radius"
-          >
-            <Anchor
-              href="/uilib/components/anchor"
-              className="dnb-anchor--no-radius"
-            >
+          <Section surface="dark" innerSpace data-visual-test="anchor-contrast-no-radius">
+            <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-radius">
               Dark surface - no radius
             </Anchor>
           </Section>
         </Example>
         <Example>
-          <Section
-            surface="dark"
-            innerSpace
-            data-visual-test="anchor-contrast-no-underline"
-          >
-            <Anchor
-              href="/uilib/components/anchor"
-              className="dnb-anchor--no-underline"
-            >
+          <Section surface="dark" innerSpace data-visual-test="anchor-contrast-no-underline">
+            <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-underline">
               Dark surface - no underline
             </Anchor>
           </Section>
         </Example>
         <Example>
-          <Section
-            surface="dark"
-            innerSpace
-            data-visual-test="anchor-contrast-no-underline-no-hover"
-          >
-            <Anchor
-              href="/uilib/components/anchor"
-              className="dnb-anchor--no-underline dnb-anchor--no-hover"
-            >
+          <Section surface="dark" innerSpace data-visual-test="anchor-contrast-no-underline-no-hover">
+            <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-underline dnb-anchor--no-hover">
               Dark surface - no underline - no hover
             </Anchor>
           </Section>
         </Example>
         <Example>
-          <Section
-            surface="dark"
-            innerSpace
-            data-visual-test="anchor-contrast-no-underline-no-radius"
-          >
-            <Anchor
-              href="/uilib/components/anchor"
-              className="dnb-anchor--no-underline dnb-anchor--no-radius"
-            >
+          <Section surface="dark" innerSpace data-visual-test="anchor-contrast-no-underline-no-radius">
+            <Anchor href="/uilib/components/anchor" className="dnb-anchor--no-underline dnb-anchor--no-radius">
               Dark surface - no underline - no radius
             </Anchor>
           </Section>
         </Example>
       </Theme.Context>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-        WidthMarkers,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox hideCode scope={{
+    Example,
+    WidthMarkers
+  }}>
       <Example data-visual-test="anchor-icon-break">
         <P>
           Some space{' '}
-          <Anchor
-            href="/uilib/components/anchor"
-            icon="bell"
-            className="dnb-anchor--inline"
-          >
+          <Anchor href="/uilib/components/anchor" icon="bell" className="dnb-anchor--inline">
             wordAttachedToIcon longFinalWord
           </Anchor>{' '}
           <WidthMarkers />
@@ -538,67 +409,49 @@ render(
 
         <P>
           Some{' '}
-          <Anchor
-            href="/uilib/components/anchor"
-            icon="bell"
-            iconPosition="right"
-            className="dnb-anchor--inline"
-          >
+          <Anchor href="/uilib/components/anchor" icon="bell" iconPosition="right" className="dnb-anchor--inline">
             space wordAttachedToIcon
           </Anchor>{' '}
           longFinalWord <WidthMarkers />
         </P>
       </Example>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      hideCode
-      scope={{
-        Example,
-      }}
-    >
-      <Example data-visual-test="anchor-no-icon-prop">
-        <Anchor href="/uilib/components/anchor" noIcon icon="bell">
-          Anchor without icon
-        </Anchor>
-      </Example>
-      <Example data-visual-test="anchor-no-launch-icon-prop">
-        <Anchor
-          target="_blank"
-          href="/uilib/components/anchor"
-          noLaunchIcon
-        >
-          Blank target without launch icon
-        </Anchor>
-      </Example>
-    </ComponentBox>
-  </Wrapper>
-)
+render(<Wrapper>
+      <ComponentBox hideCode scope={{
+    Example
+  }}>
+        <Example data-visual-test="anchor-no-icon-prop">
+          <Anchor href="/uilib/components/anchor" noIcon icon="bell">
+            Anchor without icon
+          </Anchor>
+        </Example>
+        <Example data-visual-test="anchor-no-launch-icon-prop">
+          <Anchor target="_blank" href="/uilib/components/anchor" noLaunchIcon>
+            Blank target without launch icon
+          </Anchor>
+        </Example>
+      </ComponentBox>
+    </Wrapper>)
 ```
 
+  
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="anchor-disabled">
-      <Anchor
-        href="/uilib/components/anchor"
-        disabled
-        tooltip="This is disabled because ..."
-      >
+      <Anchor href="/uilib/components/anchor" disabled tooltip="This is disabled because ...">
         Disabled link
       </Anchor>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -640,7 +493,10 @@ render(
     },
     "iconPosition": {
       "doc": "`left` (default) or `right`. Places icon to the left or to the right of the text.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "noAnimation": {
@@ -685,19 +541,23 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `left` or `right` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### Router Link
 
 You can make use of the `element` property in combination with the `to` property.
 
 ```jsx
-import { Link } from 'gatsby'
+import { Link } from 'react-router-dom'
 
 render(
   <Anchor to="/url" element={Link}>
@@ -708,9 +568,15 @@ render(
 
 ## Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Anchor.targetBlankTitle": {
       "nb-NO": "Åpner et nytt vindu",

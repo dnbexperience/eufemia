@@ -1,8 +1,8 @@
 ---
 title: 'DataContext.At'
 description: '`DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.808Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.842Z
 checksum: 8a9587445730d13aaa069f93aa4a0e76d55c22df3e4141147ec1c2a767ed23ac
 ---
 
@@ -37,59 +37,49 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### At path
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      foo: {
-        one: 1,
-        two: 2,
-      },
-      bar: 'Bar',
-    }}
-  >
-    <DataContext.At path="/foo">
-      <Field.Number path="/one" label="One" />
-      <Field.Number path="/two" label="Two" />
-    </DataContext.At>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  foo: {
+    one: 1,
+    two: 2
+  },
+  bar: 'Bar'
+}}>
+        <DataContext.At path="/foo">
+          <Field.Number path="/one" label="One" />
+          <Field.Number path="/two" label="Two" />
+        </DataContext.At>
+      </Form.Handler>)
 ```
+
 
 ### Iterate path
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      list: [
-        {
-          title: 'Object 1',
-        },
-        {
-          title: 'Object 2',
-        },
-      ],
-      bar: 'Bar',
-    }}
-    onChange={(data) => console.log('onChange', data)}
-    onPathChange={(path, value) =>
-      console.log('onPathChange', path, value)
-    }
-  >
-    <DataContext.At path="/list" iterate>
-      <Value.String path="/title" label="Title" />
-      <Field.String path="/title" label="Title" />
-    </DataContext.At>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  list: [{
+    title: 'Object 1'
+  }, {
+    title: 'Object 2'
+  }],
+  bar: 'Bar'
+}} onChange={data => console.log('onChange', data)} onPathChange={(path, value) => console.log('onPathChange', path, value)}>
+        <DataContext.At path="/list" iterate>
+          <Value.String path="/title" label="Title" />
+          <Field.String path="/title" label="Title" />
+        </DataContext.At>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {

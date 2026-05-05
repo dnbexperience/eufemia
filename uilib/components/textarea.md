@@ -1,8 +1,8 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.561Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.648Z
 checksum: 32198e15044283c4ef9d2668c493cb2ee237d97fa9fcc3a795d93a8860eff7cd
 ---
 
@@ -36,171 +36,132 @@ This way, the user gets visual feedback on the number of characters entered and 
 
 You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/uilib/extensions/forms/base-fields/String/).
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hideCode>
       <Form.Handler>
         <Form.Card>
-          <Field.String
-            label="Label"
-            placeholder="Write more than 3 characters to demonstrate the limit"
-            multiline
-            maxLength={3}
-            required
-            characterCounter={{
-              max: 3,
-              variant: 'up',
-            }}
-          />
+          <Field.String label="Label" placeholder="Write more than 3 characters to demonstrate the limit" multiline maxLength={3} required characterCounter={{
+          max: 3,
+          variant: 'up'
+        }} />
           <Form.SubmitButton text="Test" />
         </Form.Card>
       </Form.Handler>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ## Demos
 
 ### Textarea with rows and colds
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-default">
-      <Textarea
-        label="Default"
-        rows="2"
-        cols="20"
-        value="Textarea value\nNewline"
-        spellCheck={false}
-        onChange={({ value }) => {
-          console.log('onChange', value)
-        }}
-        onFocus={() => {
-          console.log('onFocus')
-        }}
-        onBlur={() => {
-          console.log('onBlur')
-        }}
-      />
+      <Textarea label="Default" rows="2" cols="20" value="Textarea value\nNewline" spellCheck={false} onChange={({
+      value
+    }) => {
+      console.log('onChange', value);
+    }} onFocus={() => {
+      console.log('onFocus');
+    }} onBlur={() => {
+      console.log('onBlur');
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Textarea with placeholder text
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
       <Textarea label="Placeholder" placeholder="Placeholder text" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Vertically placed label
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <Textarea
-        label="Vertical"
-        rows="3"
-        cols="33"
-        value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline"
-      />
+      <Textarea label="Vertical" rows="3" cols="33" value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Stretched horizontally placed label
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-stretch">
-      <Textarea
-        label="Horizontal"
-        stretch={true}
-        rows="3"
-        value="Nec litora inceptos vestibulum id interdum donec gravida."
-      />
+      <Textarea label="Horizontal" stretch={true} rows="3" value="Nec litora inceptos vestibulum id interdum donec gravida." />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Autoresize with max rows
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <Textarea
-        label="Autogrow"
-        rows={1}
-        autoResize={true}
-        autoResizeMaxRows={4}
-        placeholder="Placeholder"
-        onKeyDown={({ rows, event }) => {
-          if (rows >= 4 && event.key === 'Enter') {
-            event.preventDefault()
-          }
-        }}
-      />
+      <Textarea label="Autogrow" rows={1} autoResize={true} autoResizeMaxRows={4} placeholder="Placeholder" onKeyDown={({
+      rows,
+      event
+    }) => {
+      if (rows >= 4 && event.key === 'Enter') {
+        event.preventDefault();
+      }
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Character counter
 
 Internally, the [TextCounter](/uilib/components/fragments/text-counter/) fragment is used to display the character counter.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-character-counter">
-      <Textarea
-        label="Count characters"
-        autoResize
-        value="Textarea value\nNewline"
-        status="Message to the user"
-        characterCounter={40}
-      />
+      <Textarea label="Count characters" autoResize value="Textarea value\nNewline" status="Message to the user" characterCounter={40} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### With FormStatus failure message
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-error">
-      <Textarea
-        label="Error Message"
-        cols="33"
-        value="Nec litora inceptos vestibulum id interdum donec gravida."
-        status="Message to the user"
-      />
+      <Textarea label="Error Message" cols="33" value="Nec litora inceptos vestibulum id interdum donec gravida." status="Message to the user" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Sizes
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-sizes">
       <Flex.Stack>
         <Textarea placeholder="Small size" size="small" rows={1} />
@@ -208,43 +169,35 @@ render(
         <Textarea placeholder="Large size" size="large" rows={1} />
       </Flex.Stack>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Disabled textarea
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="textarea-disabled">
-      <Textarea
-        label="Disabled"
-        disabled
-        value="Nec litora inceptos vestibulum id interdum donec gravida."
-      />
+      <Textarea label="Disabled" disabled value="Nec litora inceptos vestibulum id interdum donec gravida." />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Textarea with a suffix
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <Textarea
-        label="Textarea with suffix"
-        value="Nec litora inceptos vestibulum id interdum donec gravida."
-        suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-      />
+      <Textarea label="Textarea with suffix" value="Nec litora inceptos vestibulum id interdum donec gravida." suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -256,7 +209,12 @@ render(
     },
     "align": {
       "doc": "Defines the `text-align` of the Textarea. Can be `left`, `center`, `right`, or `justify`. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\"", "\"justify\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\"",
+        "\"justify\""
+      ],
       "status": "optional"
     },
     "stretch": {
@@ -281,7 +239,10 @@ render(
     },
     "labelDirection": {
       "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "suffix": {
@@ -306,17 +267,28 @@ render(
     },
     "characterCounter": {
       "doc": "Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.",
-      "type": ["number", "object"],
+      "type": [
+        "number",
+        "object"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.",
-      "type": ["\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
@@ -357,18 +329,23 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### Set Textarea height
 
 You can set the height of a Textarea by both CSS styles or the `rows` attribute.
 
 ## Events
+
 
 ```json
 {

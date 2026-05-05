@@ -1,7 +1,7 @@
 ---
 title: 'Media Queries'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.441Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.360Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -173,30 +173,33 @@ function Component() {
 }
 ```
 
+
 ```tsx
 const Playground = () => {
-  const { isSmall, isMedium, isLarge, isSSR } = useMedia()
-  const { innerWidth } = useWindowWidth()
-  return (
-    <Code>
-      <pre>
-        {JSON.stringify(
-          {
-            isSmall,
-            isMedium,
-            isLarge,
-            isSSR,
-            innerWidth,
-          },
-          null,
-          2
-        )}
-      </pre>
-    </Code>
-  )
-}
-render(<Playground />)
+  const {
+    isSmall,
+    isMedium,
+    isLarge,
+    isSSR
+  } = useMedia();
+  const {
+    innerWidth
+  } = useWindowWidth();
+  return <Code>
+            <pre>
+              {JSON.stringify({
+        isSmall,
+        isMedium,
+        isLarge,
+        isSSR,
+        innerWidth
+      }, null, 2)}
+            </pre>
+          </Code>;
+};
+render(<Playground />);
 ```
+
 
 You can disable the usage of `window.matchMedia` by providing `useMedia({ disabled: true })`.
 
@@ -227,50 +230,47 @@ You can disable the usage of `window.matchMedia` by providing `useMedia({ disabl
 
 This example uses the `not` property to reverse the behavior.
 
+
 ```tsx
 const Playground = () => {
   const [query, updateQuery] = React.useState({
     screen: true,
     not: true,
     min: 'small',
-    max: 'large',
-  })
+    max: 'large'
+  });
   const match1 = useMediaQuery({
     matchOnSSR: true,
-    when: query,
-  })
+    when: query
+  });
   const match2 = useMediaQuery({
     matchOnSSR: true,
     not: true,
-    when: query,
-  })
+    when: query
+  });
   React.useEffect(() => {
-    console.log('mediaQuery:', match1, match2)
-  }, [match1, match2])
-  return (
-    <>
-      <Button
-        onClick={() => {
-          updateQuery({
-            ...query,
-            screen: !query.screen,
-          })
-        }}
-        right
-      >
-        Switch
-      </Button>
-      <MediaQuery when={query}>
-        <Code>when</Code>
-      </MediaQuery>
-      <MediaQuery not when={query}>
-        <Code>not when</Code>
-      </MediaQuery>
-    </>
-  )
-}
-render(<Playground />)
+    console.log('mediaQuery:', match1, match2);
+  }, [match1, match2]);
+  return <>
+            <Button onClick={() => {
+      updateQuery({
+        ...query,
+        screen: !query.screen
+      });
+    }} right>
+              Switch
+            </Button>
+            <MediaQuery when={query}>
+              <Code>when</Code>
+            </MediaQuery>
+            <MediaQuery not when={query}>
+              <Code>not when</Code>
+            </MediaQuery>
+          </>;
+};
+render(<Playground />);
 ```
+
 
 ### `MediaQuery` component
 

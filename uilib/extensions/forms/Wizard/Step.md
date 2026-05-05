@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.342Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.288Z
 checksum: f2546e685fcc753e946be2623669dca1f578a3bf9bb37b12ba8d7f9ab4f5a460
 ---
 
@@ -96,86 +96,61 @@ The same options object also provides `totalSteps`.
 
 In the demo section, you will find an example demonstrating how to use the `Wizard.Step` component with `includeWhen`.
 
+
 ## Demos
 
 See [Wizard.Container demo section](/uilib/extensions/forms/Wizard/Container/demos) for more examples.
 
 ### Dynamic steps
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      includedSteps: 'group-1',
-    }}
-  >
-    <Wizard.Container
-      onStepChange={(index, mode, args) => {
-        console.log('onStepChange', index, mode, args.id)
-      }}
-    >
-      <Wizard.Step
-        title="Step A"
-        id="step-a"
-        includeWhen={{
-          path: '/includedSteps',
-          hasValue: 'group-1',
-        }}
-      >
-        <Form.MainHeading>Step A</Form.MainHeading>
-        <Wizard.Buttons />
-      </Wizard.Step>
+render(<Form.Handler defaultData={{
+  includedSteps: 'group-1'
+}}>
+        <Wizard.Container onStepChange={(index, mode, args) => {
+    console.log('onStepChange', index, mode, args.id);
+  }}>
+          <Wizard.Step title="Step A" id="step-a" includeWhen={{
+      path: '/includedSteps',
+      hasValue: 'group-1'
+    }}>
+            <Form.MainHeading>Step A</Form.MainHeading>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-      <Wizard.Step
-        title="Step B"
-        id="step-b"
-        includeWhen={{
-          path: '/includedSteps',
-          hasValue: 'group-1',
-        }}
-      >
-        <Form.MainHeading>Step B</Form.MainHeading>
-        <Wizard.Buttons />
-      </Wizard.Step>
+          <Wizard.Step title="Step B" id="step-b" includeWhen={{
+      path: '/includedSteps',
+      hasValue: 'group-1'
+    }}>
+            <Form.MainHeading>Step B</Form.MainHeading>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-      <Wizard.Step
-        title="Step C"
-        id="step-c"
-        includeWhen={{
-          path: '/includedSteps',
-          hasValue: (value: string) =>
-            ['group-1', 'group-2'].includes(value),
-        }}
-      >
-        <Form.MainHeading>Step C</Form.MainHeading>
-        <Wizard.Buttons />
-      </Wizard.Step>
+          <Wizard.Step title="Step C" id="step-c" includeWhen={{
+      path: '/includedSteps',
+      hasValue: (value: string) => ['group-1', 'group-2'].includes(value)
+    }}>
+            <Form.MainHeading>Step C</Form.MainHeading>
+            <Wizard.Buttons />
+          </Wizard.Step>
 
-      <Wizard.Step
-        title="Step D"
-        id="step-d"
-        includeWhen={{
-          path: '/includedSteps',
-          hasValue: 'group-2',
-        }}
-      >
-        <Form.MainHeading>Step D</Form.MainHeading>
-        <Wizard.Buttons />
-      </Wizard.Step>
-    </Wizard.Container>
+          <Wizard.Step title="Step D" id="step-d" includeWhen={{
+      path: '/includedSteps',
+      hasValue: 'group-2'
+    }}>
+            <Form.MainHeading>Step D</Form.MainHeading>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
 
-    <Field.Selection
-      path="/includedSteps"
-      variant="button"
-      optionsLayout="horizontal"
-      top
-    >
-      <Field.Option value="group-1" title="Group 1" />
-      <Field.Option value="group-2" title="Group 2" />
-    </Field.Selection>
-  </Form.Handler>
-)
+        <Field.Selection path="/includedSteps" variant="button" optionsLayout="horizontal" top>
+          <Field.Option value="group-1" title="Group 1" />
+          <Field.Option value="group-2" title="Group 2" />
+        </Field.Selection>
+      </Form.Handler>)
 ```
+
 
 ### Inactive control
 
@@ -183,37 +158,34 @@ If you need more control over what steps the user can freely navigate to, the `i
 
 In this example, the first step is never clickable, and you can never skip ahead, even if the next steps have been visited.
 
+
 ```tsx
 const Component = () => {
-  const { activeIndex } = Wizard.useStep('unique-id-inactive')
-  return (
-    <Wizard.Container
-      mode="strict"
-      id="unique-id-inactive"
-      initialActiveIndex={2}
-      expandedInitially
-    >
-      <Wizard.Step title="Step 1" inactive>
-        <Wizard.Buttons />
-      </Wizard.Step>
+  const {
+    activeIndex
+  } = Wizard.useStep('unique-id-inactive');
+  return <Wizard.Container mode="strict" id="unique-id-inactive" initialActiveIndex={2} expandedInitially>
+              <Wizard.Step title="Step 1" inactive>
+                <Wizard.Buttons />
+              </Wizard.Step>
 
-      <Wizard.Step title="Step 2" inactive={activeIndex < 1}>
-        <Wizard.Buttons />
-      </Wizard.Step>
+              <Wizard.Step title="Step 2" inactive={activeIndex < 1}>
+                <Wizard.Buttons />
+              </Wizard.Step>
 
-      <Wizard.Step title="Step 3" inactive={activeIndex < 2}>
-        <Wizard.Buttons />
-      </Wizard.Step>
-      <Wizard.Step title="Step 4" inactive={activeIndex < 3}>
-        <Wizard.Buttons />
-      </Wizard.Step>
-    </Wizard.Container>
-  )
-}
-render(<Component />)
+              <Wizard.Step title="Step 3" inactive={activeIndex < 2}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 4" inactive={activeIndex < 3}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>;
+};
+render(<Component />);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -260,18 +232,28 @@ render(<Component />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Step.stepHasError": {
       "nb-NO": "Skjemaet inneholder feil.",

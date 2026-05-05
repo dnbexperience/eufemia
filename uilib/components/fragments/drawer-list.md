@@ -1,8 +1,8 @@
 ---
 title: 'DrawerList'
 description: 'The DrawerList component is a fragment inside other components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.176Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.325Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -63,29 +63,25 @@ const data = {
 
 ### Example usage of `optionsRender`
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-      hidePreview
-      hideToolbar
-    >
-      <DrawerList
-        optionsRender={({ Items, Item, data }) => (
-          <>
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }} hidePreview hideToolbar>
+      <DrawerList optionsRender={({
+      Items,
+      Item,
+      data
+    }) => <>
             <Items />
             <Item>Addition</Item>
             {data.length > 1 && <li>Addition</li>}
-          </>
-        )}
-      />
+          </>} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### data-dnb-drawer-list-active
 
@@ -99,61 +95,42 @@ html[data-dnb-drawer-list-active='DrawerList-ID'] {
 }
 ```
 
+
 ## Demos
 
 ### Default DrawerList, triggered by a ToggleButton
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }}>
       {() => {
-        const DrawerListWithState = (props) => {
-          const [open, setOpen] = React.useState(false)
-          return (
-            <>
-              <ToggleButton
-                id="state-toggle-button"
-                text="Toggle"
-                checked={open}
-                icon={`chevron_${open ? 'up' : 'down'}`}
-                iconPosition="left"
-                onChange={({ checked }) => setOpen(checked)}
-              />
-              <DrawerList
-                wrapperElement="#state-toggle-button"
-                skipPortal
-                data={data}
-                open={open}
-                onClose={() => setOpen(false)}
-                {...props}
-              />
-            </>
-          )
-        }
-        return <DrawerListWithState />
-      }}
+      const DrawerListWithState = props => {
+        const [open, setOpen] = React.useState(false);
+        return <>
+              <ToggleButton id="state-toggle-button" text="Toggle" checked={open} icon={`chevron_${open ? 'up' : 'down'}`} iconPosition="left" onChange={({
+            checked
+          }) => setOpen(checked)} />
+              <DrawerList wrapperElement="#state-toggle-button" skipPortal data={data} open={open} onClose={() => setOpen(false)} {...props} />
+            </>;
+      };
+      return <DrawerListWithState />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### DrawerList list - only to visualize
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      data-visual-test="drawer-list"
-      scope={{
-        data,
-      }}
-      hideCode
-    >
+render(<Wrapper>
+    <ComponentBox data-visual-test="drawer-list" scope={{
+    data
+  }} hideCode>
       <span className="dnb-drawer-list__list">
         <ul className="dnb-drawer-list__options">
           <li className="dnb-drawer-list__option first-of-type">
@@ -181,10 +158,7 @@ render(
                 </NumberFormat.BankAccountNumber>
               </span>
               <span className="dnb-drawer-list__option__item item-nr-2">
-                <a
-                  className="dnb-anchor dnb-anchor--has-icon"
-                  href="/uilib/components/fragments/drawer-list/"
-                >
+                <a className="dnb-anchor dnb-anchor--has-icon" href="/uilib/components/fragments/drawer-list/">
                   Long link that will wrap over several lines
                 </a>
               </span>
@@ -209,334 +183,246 @@ render(
         </ul>
       </span>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Default DrawerList
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-    >
-      <DrawerList
-        skipPortal
-        open
-        preventClose
-        arrowPosition="left"
-        data={data}
-        value={3}
-        onChange={({ data: selectedDataItem }) => {
-          console.log('onChange', selectedDataItem)
-        }}
-        onOpen={() => {
-          console.log('onOpen')
-        }}
-        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-      />
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }}>
+      <DrawerList skipPortal open preventClose arrowPosition="left" data={data} value={3} onChange={({
+      data: selectedDataItem
+    }) => {
+      console.log('onChange', selectedDataItem);
+    }} onOpen={() => {
+      console.log('onOpen');
+    }} observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="drawer-list-disabled">
-      <DrawerList
-        skipPortal
-        open
-        preventClose
-        data={[
-          {
-            content: 'Item 1',
-          },
-          {
-            content: 'Item 2, disabled',
-            disabled: true,
-          },
-          {
-            content: 'Item 3',
-          },
-        ]}
-        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-      />
+      <DrawerList skipPortal open preventClose data={[{
+      content: 'Item 1'
+    }, {
+      content: 'Item 2, disabled',
+      disabled: true
+    }, {
+      content: 'Item 3'
+    }]} observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Custom event and link on single item
 
+
 ```tsx
-render(
-  <Wrapper>
-    <ComponentBox
-      scope={{
-        data,
-      }}
-    >
+render(<Wrapper>
+    <ComponentBox scope={{
+    data
+  }}>
       {() => {
-        const CustomComponent = () => (
-          <CustomComponentInner
-            onTouchStart={preventDefault}
-            onClick={(e) => {
-              console.log('Do something different')
-              preventDefault(e)
-            }}
-          >
+      const CustomComponent = () => <CustomComponentInner onTouchStart={preventDefault} onClick={e => {
+        console.log('Do something different');
+        preventDefault(e);
+      }}>
             Custom event handler
-          </CustomComponentInner>
-        )
-        const CustomComponentInner = styled.span`
+          </CustomComponentInner>;
+      const CustomComponentInner = styled.span`
           display: block;
           width: 100%;
           margin: -1rem -2rem -1rem -1rem;
           padding: 1rem 2rem 1rem 1rem;
-        `
-        const preventDefault = (e) => {
-          e.stopPropagation()
-          e.preventDefault()
-        }
-        const CustomWidth = styled(DrawerList)`
+        `;
+      const preventDefault = e => {
+        e.stopPropagation();
+        e.preventDefault();
+      };
+      const CustomWidth = styled(DrawerList)`
           .dnb-drawer-list__list {
             width: var(--drawer-list-width);
           }
-        `
-        return (
-          <CustomWidth
-            skipPortal
-            open
-            preventClose
-            right
-            title="Choose an item"
-            data={() => [
-              <Link key="link" href="/">
+        `;
+      return <CustomWidth skipPortal open preventClose right title="Choose an item" data={() => [<Link key="link" href="/">
                 Go to this Link
-              </Link>,
-              'Or press on me',
-              <CustomComponent key="custom" />,
-            ]}
-            onChange={({ value }) => {
-              console.log('More menu:', value)
-            }}
-            suffix={
-              <HelpButton title="Modal Title">Modal content</HelpButton>
-            }
-            observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-          />
-        )
-      }}
+              </Link>, 'Or press on me', <CustomComponent key="custom" />]} onChange={({
+        value
+      }) => {
+        console.log('More menu:', value);
+      }} suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Using List and Items markup
 
 **NB:** By using this method you lose currently a lot of the core functionality like keyboard support and other accessibility features.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
       {() => {
-        const list = [
-          {
-            value: 'A',
-          },
-          {
-            value: 'B',
-          },
-          {
-            value: 'C',
-          },
-        ]
-        const CustomWidth = styled(DrawerList)`
+      const list = [{
+        value: 'A'
+      }, {
+        value: 'B'
+      }, {
+        value: 'C'
+      }];
+      const CustomWidth = styled(DrawerList)`
           .dnb-drawer-list__list {
             width: var(--drawer-list-width);
           }
-        `
-        const DrawerListWithState = () => {
-          const [selected, setSelected] = React.useState('C')
-          return (
-            <CustomWidth skipPortal open preventClose>
+        `;
+      const DrawerListWithState = () => {
+        const [selected, setSelected] = React.useState('C');
+        return <CustomWidth skipPortal open preventClose>
               <DrawerList.Options>
-                {list.map(({ value, ...props }, i) => (
-                  <DrawerList.Item
-                    key={i}
-                    selected={value === selected}
-                    value={value}
-                    onClick={({ value }) => setSelected(value)}
-                    {...props}
-                  >
+                {list.map(({
+              value,
+              ...props
+            }, i) => <DrawerList.Item key={i} selected={value === selected} value={value} onClick={({
+              value
+            }) => setSelected(value)} {...props}>
                     {value}
-                  </DrawerList.Item>
-                ))}
+                  </DrawerList.Item>)}
               </DrawerList.Options>
-            </CustomWidth>
-          )
-        }
-        return <DrawerListWithState />
-      }}
+            </CustomWidth>;
+      };
+      return <DrawerListWithState />;
+    }}
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Inline styling using JSX
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <DrawerList
-        skipPortal
-        open
-        preventClose
-        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-      >
+      <DrawerList skipPortal open preventClose observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    >
         <DrawerList.Options>
-          <DrawerList.Item
-            style={{
-              color: 'red',
-            }}
-            key="A"
-            selected={false}
-            value="A"
-            onClick={() => {
-              console.log('onClick')
-            }}
-          >
+          <DrawerList.Item style={{
+          color: 'red'
+        }} key="A" selected={false} value="A" onClick={() => {
+          console.log('onClick');
+        }}>
             Item 1
           </DrawerList.Item>
-          <DrawerList.HorizontalItem
-            style={{
-              color: 'green',
-            }}
-            key="B"
-            selected={false}
-            value="B"
-          >
+          <DrawerList.HorizontalItem style={{
+          color: 'green'
+        }} key="B" selected={false} value="B">
             Item 2
           </DrawerList.HorizontalItem>
         </DrawerList.Options>
       </DrawerList>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Inline styling using `data`
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="drawer-list-inline-style">
-      <DrawerList
-        skipPortal
-        open
-        preventClose
-        data={[
-          {
-            content:
-              'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
-            style: {
-              hyphens: 'auto',
-              color: 'red',
-            },
-          },
-          {
-            content:
-              'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease.',
-            style: {
-              hyphens: 'none',
-              color: 'green',
-            },
-          },
-          {
-            content:
-              'According to the Oxford English Dictionary the longest word in the language is pneumonoultramicroscopicsilicovolcanoconiosis, with 45 letters.',
-            style: {
-              hyphens: 'manual',
-              color: 'blue',
-            },
-          },
-        ]}
-        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-      />
+      <DrawerList skipPortal open preventClose data={[{
+      content: 'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
+      style: {
+        hyphens: 'auto',
+        color: 'red'
+      }
+    }, {
+      content: 'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease.',
+      style: {
+        hyphens: 'none',
+        color: 'green'
+      }
+    }, {
+      content: 'According to the Oxford English Dictionary the longest word in the language is pneumonoultramicroscopicsilicovolcanoconiosis, with 45 letters.',
+      style: {
+        hyphens: 'manual',
+        color: 'blue'
+      }
+    }]} observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Groups
 
 If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="drawer-list-groups">
-      <DrawerList
-        skipPortal
-        open
-        preventClose
-        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
-        groups={[undefined, 'Pets', undefined, 'Cars']}
-        data={[
-          {
-            groupIndex: 0,
-            content: 'Default 1',
-          },
-          {
-            groupIndex: 0,
-            content: 'Default 2',
-          },
-          {
-            groupIndex: 1,
-            content: 'Cat',
-          },
-          {
-            groupIndex: 1,
-            content: 'Dog',
-          },
-          {
-            groupIndex: 2,
-            content: 'Something',
-          },
-          {
-            groupIndex: 3,
-            content: 'Jeep',
-          },
-          {
-            groupIndex: 3,
-            content: 'Van',
-          },
-          {
-            content: 'No group',
-          },
-        ]}
-      />
+      <DrawerList skipPortal open preventClose observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    groups={[undefined, 'Pets', undefined, 'Cars']} data={[{
+      groupIndex: 0,
+      content: 'Default 1'
+    }, {
+      groupIndex: 0,
+      content: 'Default 2'
+    }, {
+      groupIndex: 1,
+      content: 'Cat'
+    }, {
+      groupIndex: 1,
+      content: 'Dog'
+    }, {
+      groupIndex: 2,
+      content: 'Something'
+    }, {
+      groupIndex: 3,
+      content: 'Jeep'
+    }, {
+      groupIndex: 3,
+      content: 'Van'
+    }, {
+      content: 'No group'
+    }]} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "[data](#the-data-property)": {
       "doc": "The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).",
-      "type": ["{DATA}", "() => {DATA}"],
+      "type": [
+        "{DATA}",
+        "() => {DATA}"
+      ],
       "status": "required"
     },
     "groups": {
@@ -546,7 +432,10 @@ render(
     },
     "value": {
       "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "defaultValue": {
@@ -561,7 +450,11 @@ render(
     },
     "direction": {
       "doc": "Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "labelDirection": {
@@ -676,7 +569,10 @@ render(
     },
     "wrapperElement": {
       "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
-      "type": ["string", "HTMLElement"],
+      "type": [
+        "string",
+        "HTMLElement"
+      ],
       "status": "optional"
     },
     "optionsRender": {
@@ -686,12 +582,17 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
+
 
 ## The `data` property
 
@@ -754,6 +655,7 @@ const onChange = ({ data, value }) => {
 
 Each object in the array have the following properties:
 
+
 ```json
 {
   "props": {
@@ -778,22 +680,32 @@ Each object in the array have the following properties:
     },
     "selectedKey": {
       "doc": "If set, can be used instead of array index by the `value` prop.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "selectedValue": {
       "doc": "Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "suffixValue": {
       "doc": "Content placed to the right in the list item.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `data` as an object
 
@@ -861,11 +773,18 @@ let data: DATA | () => DATA
 
 There is technically support for sending in a JSON string of the data to the `data` property. But this is an old functionality that we do not really support anymore.
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DrawerList.defaultGroupSR": {
       "nb-NO": "Standardvalg",
@@ -890,6 +809,7 @@ There is technically support for sending in a JSON string of the data to the `da
 ```
 
 ## Events
+
 
 ```json
 {
@@ -922,6 +842,7 @@ There is technically support for sending in a JSON string of the data to the `da
   }
 }
 ```
+
 
 ### The `onChange` vs `onSelect` difference
 

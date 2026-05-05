@@ -1,8 +1,8 @@
 ---
 title: 'HeightAnimation'
 description: 'HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.218Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.351Z
 checksum: 39da8a96e4f14c41c77a7da973abf2ca17efe40351d6bf65e3c341d2607cc690
 ---
 
@@ -39,157 +39,142 @@ It is important to never animate from 0 to e.g. 64px – because:
 - The content itself may change
 - The user may have a larger `font-size`
 
+
 ## Demos
 
 ### Animation during height changes
 
 This example shows how you easily can enhance the user experience. Here we also use `showOverflow` to avoid hidden overflow during the animation.
 
+
 ```tsx
 const Example = () => {
-  const [showMe, setShowMe] = React.useState(true)
-  return (
-    <>
-      <HeightAnimation showOverflow>
-        {showMe ? (
-          <Button
-            onClick={() => {
-              setShowMe(!showMe)
-            }}
-          >
-            Click me!
-          </Button>
-        ) : (
-          <Anchor
-            onClick={() => {
-              setShowMe(!showMe)
-            }}
-          >
-            No, click me!
-          </Anchor>
-        )}
-      </HeightAnimation>
+  const [showMe, setShowMe] = React.useState(true);
+  return <>
+              <HeightAnimation showOverflow>
+                {showMe ? <Button onClick={() => {
+        setShowMe(!showMe);
+      }}>
+                    Click me!
+                  </Button> : <Anchor onClick={() => {
+        setShowMe(!showMe);
+      }}>
+                    No, click me!
+                  </Anchor>}
+              </HeightAnimation>
 
-      <P top>Look at me 👀</P>
-    </>
-  )
-}
-render(<Example />)
+              <P top>Look at me 👀</P>
+            </>;
+};
+render(<Example />);
 ```
+
 
 ### Basic open/close
 
 This example removes its given children, when open is `open={false}`.
 
+
 ```tsx
 const Example = () => {
-  const [openState, setOpenState] = React.useState(false)
-  const [contentState, setContentState] = React.useState(false)
-  const onChangeHandler = ({ checked }) => {
-    setOpenState(checked)
-  }
-  return (
-    <>
-      <ToggleButton checked={openState} onChange={onChangeHandler} right>
-        Open/close
-      </ToggleButton>
-      <ToggleButton
-        checked={contentState || !openState}
-        disabled={!openState}
-        onChange={({ checked }) => {
-          setContentState(checked)
-        }}
-        space={{
-          top: true,
-          bottom: true,
-        }}
-      >
-        Change height inside
-      </ToggleButton>
+  const [openState, setOpenState] = React.useState(false);
+  const [contentState, setContentState] = React.useState(false);
+  const onChangeHandler = ({
+    checked
+  }) => {
+    setOpenState(checked);
+  };
+  return <>
+              <ToggleButton checked={openState} onChange={onChangeHandler} right>
+                Open/close
+              </ToggleButton>
+              <ToggleButton checked={contentState || !openState} disabled={!openState} onChange={({
+      checked
+    }) => {
+      setContentState(checked);
+    }} space={{
+      top: true,
+      bottom: true
+    }}>
+                Change height inside
+              </ToggleButton>
 
-      <Section backgroundColor="lavender" top>
-        <HeightAnimation open={openState}>
-          <Section
-            innerSpace={{
-              block: 'large',
-            }}
-            backgroundColor="lavender"
-          >
-            <P space={0}>Your content</P>
-          </Section>
-          {contentState && <P space={0}>More content</P>}
-        </HeightAnimation>
-      </Section>
+              <Section backgroundColor="lavender" top>
+                <HeightAnimation open={openState}>
+                  <Section innerSpace={{
+          block: 'large'
+        }} backgroundColor="lavender">
+                    <P space={0}>Your content</P>
+                  </Section>
+                  {contentState && <P space={0}>More content</P>}
+                </HeightAnimation>
+              </Section>
 
-      <P top>Look at me 👀</P>
-    </>
-  )
-}
-render(<Example />)
+              <P top>Look at me 👀</P>
+            </>;
+};
+render(<Example />);
 ```
+
 
 ### Keep in DOM
 
 When providing `keepInDOM={true}`, your nested content will never be removed from the DOM. But rather be "hidden" with `visually: hidden` and `aria-hidden`.
 
+
 ```tsx
 const Example = () => {
-  const [openState, setOpenState] = React.useState(true)
-  const [contentState, setContentState] = React.useState(false)
-  const onChangeHandler = ({ checked }) => {
-    setOpenState(checked)
-  }
-  return (
-    <>
-      <ToggleButton checked={openState} onChange={onChangeHandler} right>
-        Open/close
-      </ToggleButton>
-      <ToggleButton
-        checked={contentState || !openState}
-        disabled={!openState}
-        onChange={({ checked }) => {
-          setContentState(checked)
-        }}
-        space={{
-          top: true,
-          bottom: true,
-        }}
-      >
-        Change height inside
-      </ToggleButton>
+  const [openState, setOpenState] = React.useState(true);
+  const [contentState, setContentState] = React.useState(false);
+  const onChangeHandler = ({
+    checked
+  }) => {
+    setOpenState(checked);
+  };
+  return <>
+              <ToggleButton checked={openState} onChange={onChangeHandler} right>
+                Open/close
+              </ToggleButton>
+              <ToggleButton checked={contentState || !openState} disabled={!openState} onChange={({
+      checked
+    }) => {
+      setContentState(checked);
+    }} space={{
+      top: true,
+      bottom: true
+    }}>
+                Change height inside
+              </ToggleButton>
 
-      <StyledSection backgroundColor="lavender" top>
-        <HeightAnimation open={openState} keepInDOM={true} duration={1000}>
-          <Section
-            innerSpace={{
-              block: 'large',
-            }}
-            backgroundColor="lavender"
-          >
-            <P space={0}>Your content</P>
-          </Section>
-          {contentState && <P space={0}>More content</P>}
-        </HeightAnimation>
-      </StyledSection>
-    </>
-  )
-}
+              <StyledSection backgroundColor="lavender" top>
+                <HeightAnimation open={openState} keepInDOM={true} duration={1000}>
+                  <Section innerSpace={{
+          block: 'large'
+        }} backgroundColor="lavender">
+                    <P space={0}>Your content</P>
+                  </Section>
+                  {contentState && <P space={0}>More content</P>}
+                </HeightAnimation>
+              </StyledSection>
+            </>;
+};
 const StyledSection = styled(Section)`
-  .content-element {
-    transition: transform 1s var(--easing-default);
-    transform: translateY(-2rem);
+          .content-element {
+            transition: transform 1s var(--easing-default);
+            transform: translateY(-2rem);
 
-    padding: 4rem 0;
-  }
+            padding: 4rem 0;
+          }
 
-  .dnb-height-animation--parallax .content-element {
-    transform: translateY(0);
-  }
-`
-render(<Example />)
+          .dnb-height-animation--parallax .content-element {
+            transform: translateY(0);
+          }
+        `;
+render(<Example />);
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -231,7 +216,10 @@ render(<Example />)
     },
     "element": {
       "doc": "Custom HTML element for the component. Defaults to `div` HTML Element.",
-      "type": ["string", "React.ElementType"],
+      "type": [
+        "string",
+        "React.ElementType"
+      ],
       "status": "optional"
     },
     "ref": {
@@ -241,7 +229,10 @@ render(<Example />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
@@ -249,6 +240,7 @@ render(<Example />)
 ```
 
 ## Events
+
 
 ```json
 {

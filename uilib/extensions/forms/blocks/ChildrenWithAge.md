@@ -1,8 +1,8 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.370Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.309Z
 checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
 ---
 
@@ -17,11 +17,13 @@ import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
 render(<ChildrenWithAge />)
 ```
 
+
 ## Demos
 
 ### In Wizard
 
 All features, and additional questions (`enableAdditionalQuestions`) and custom translations, are enabled in this example.
+
 
 ```tsx
 const MyForm = () => {
@@ -30,84 +32,73 @@ const MyForm = () => {
       ChildrenWithAge: {
         hasChildren: {
           title: 'Utgifter til barn',
-          fieldLabel:
-            'Har du/dere barn under 18 år som dere er økonomisk ansvarlige for?',
-          required:
-            'Du må angi om du/dere har barn under 18 år som dere er økonomisk ansvarlige for.',
-        },
-      },
+          fieldLabel: 'Har du/dere barn under 18 år som dere er økonomisk ansvarlige for?',
+          required: 'Du må angi om du/dere har barn under 18 år som dere er økonomisk ansvarlige for.'
+        }
+      }
     },
     'en-GB': {
       ChildrenWithAge: {
         hasChildren: {
           title: 'Child expenses',
-          fieldLabel:
-            'Do you have children under the age of 18 for whom you are financially responsible?',
-          required:
-            'You must state whether you have children under the age of 18 for whom you are financially responsible.',
-        },
-      },
-    },
-  }
-  const { summaryTitle } = Form.useTranslation().Step
-  return (
-    <Form.Handler
-      onSubmit={(data, { reduceToVisibleFields }) => {
-        console.log(reduceToVisibleFields(data))
-      }}
-      translations={myTranslations}
-    >
-      <Wizard.Container>
-        <Wizard.Step title="Step 1">
-          <Blocks.ChildrenWithAge
-            enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-            {...props}
-          />
-          <Wizard.Buttons />
-        </Wizard.Step>
+          fieldLabel: 'Do you have children under the age of 18 for whom you are financially responsible?',
+          required: 'You must state whether you have children under the age of 18 for whom you are financially responsible.'
+        }
+      }
+    }
+  };
+  const {
+    summaryTitle
+  } = Form.useTranslation().Step;
+  return <Form.Handler onSubmit={(data, {
+    reduceToVisibleFields
+  }) => {
+    console.log(reduceToVisibleFields(data));
+  }} translations={myTranslations}>
+              <Wizard.Container>
+                <Wizard.Step title="Step 1">
+                  <Blocks.ChildrenWithAge enableAdditionalQuestions={['joint-responsibility', 'daycare']} {...props} />
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-        <Wizard.Step title={summaryTitle}>
-          <Blocks.ChildrenWithAge
-            mode="summary"
-            toWizardStep={0}
-            {...props}
-          />
+                <Wizard.Step title={summaryTitle}>
+                  <Blocks.ChildrenWithAge mode="summary" toWizardStep={0} {...props} />
 
-          <Form.ButtonRow>
-            <Wizard.Buttons />
-            <Form.SubmitButton variant="send" />
-          </Form.ButtonRow>
-        </Wizard.Step>
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                  <Form.ButtonRow>
+                    <Wizard.Buttons />
+                    <Form.SubmitButton variant="send" />
+                  </Form.ButtonRow>
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Basic
 
+
 ```tsx
-render(
-  <Form.Handler
-    onSubmit={(data, { reduceToVisibleFields }) => {
-      console.log(reduceToVisibleFields(data))
-    }}
-  >
-    <WithToolbar>
-      <Flex.Stack>
-        <Blocks.ChildrenWithAge {...props} />
-        <Blocks.ChildrenWithAge mode="summary" {...props} />
-      </Flex.Stack>
-    </WithToolbar>
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={(data, {
+  reduceToVisibleFields
+}) => {
+  console.log(reduceToVisibleFields(data));
+}}>
+      <WithToolbar>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge {...props} />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
+        </Flex.Stack>
+      </WithToolbar>
+    </Form.Handler>)
 ```
+
 
 ### With `joint-responsibility` question
 
 <Examples.ChildrenWithAge
-enableAdditionalQuestions={['joint-responsibility']}
+  enableAdditionalQuestions={['joint-responsibility']}
 />
 
 ### With `daycare` question
@@ -117,79 +108,62 @@ enableAdditionalQuestions={['joint-responsibility']}
 ### With `daycare` and `joint-responsibility` question
 
 <Examples.ChildrenWithAge
-enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+  enableAdditionalQuestions={['daycare', 'joint-responsibility']}
 />
 
+
+  
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      hasChildren: true,
-      hasJointResponsibility: true,
-      usesDaycare: true,
-      daycareExpenses: 123,
-      countChildren: 2,
-      children: [{}, {}],
-    }}
-  >
-    <Flex.Stack>
-      <Blocks.ChildrenWithAge
-        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-      />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  hasChildren: true,
+  hasJointResponsibility: true,
+  usesDaycare: true,
+  daycareExpenses: 123,
+  countChildren: 2,
+  children: [{}, {}]
+}}>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
 
+  
 ```tsx
 <Blocks.ChildrenWithAge data={noChildren} />
 <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
 ```
 
+  
 ```tsx
-<Blocks.ChildrenWithAge
-  data={multipleChildren}
-  enableAdditionalQuestions={['daycare', 'joint-responsibility']}
-/>
-<Blocks.ChildrenWithAge
-  mode="summary"
-  data={multipleChildren}
-  enableAdditionalQuestions={['daycare', 'joint-responsibility']}
-/>
+<Blocks.ChildrenWithAge data={multipleChildren} enableAdditionalQuestions={['daycare', 'joint-responsibility']} />
+<Blocks.ChildrenWithAge mode="summary" data={multipleChildren} enableAdditionalQuestions={['daycare', 'joint-responsibility']} />
 ```
 
+  
 ```tsx
-<Blocks.ChildrenWithAge
-  data={multipleChildrenNoJointAndDaycare}
-  enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-/>
-<Blocks.ChildrenWithAge
-  mode="summary"
-  data={multipleChildrenNoJointAndDaycare}
-  enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-/>
+<Blocks.ChildrenWithAge data={multipleChildrenNoJointAndDaycare} enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
+<Blocks.ChildrenWithAge mode="summary" data={multipleChildrenNoJointAndDaycare} enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
 ```
 
+  
 ```tsx
-<Blocks.ChildrenWithAge
-  data={noChildren}
-  enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-/>
-<Blocks.ChildrenWithAge
-  mode="summary"
-  data={noChildren}
-  enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-/>
+<Blocks.ChildrenWithAge data={noChildren} enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
+<Blocks.ChildrenWithAge mode="summary" data={noChildren} enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "mode": {
       "doc": "`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.",
-      "type": ["\"edit\"", "\"summary\""],
+      "type": [
+        "\"edit\"",
+        "\"summary\""
+      ],
       "status": "optional"
     },
     "enableAdditionalQuestions": {
@@ -204,18 +178,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "ChildrenWithAge.childrenAge.fieldLabel": {
       "nb-NO": "Alder på barn nr. {itemNo}",

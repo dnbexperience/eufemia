@@ -1,6 +1,6 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.480Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.379Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,42 +12,34 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 ## Overview
 
+
 ```tsx
-render(
-  <Table>
-    <thead>
-      <Tr>
-        <Th>Section</Th>
-        <Th>Tokens</Th>
-        <Th>Usage</Th>
-      </Tr>
-    </thead>
-    <tbody>
-      {colorSections.map((section) => {
-        return (
-          <Tr key={section.id}>
-            <Td>
-              <Anchor
-                href={`/uilib/usage/customisation/theming/design-tokens/colors/#${section.id}`}
-              >
-                {section.title}
-              </Anchor>
-            </Td>
-            <Td>{section.tokens.length}</Td>
-            <Td>
-              {section.id === 'component'
-                ? 'For internal use only.'
-                : section.id === 'decorative'
-                  ? 'For advanced custom decorative needs.'
-                  : 'For external use. Use the filters in each section to narrow tokens to the variants you need.'}
-            </Td>
-          </Tr>
-        )
-      })}
-    </tbody>
-  </Table>
-)
+render(<Table>
+      <thead>
+        <Tr>
+          <Th>Section</Th>
+          <Th>Tokens</Th>
+          <Th>Usage</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        {colorSections.map(section => {
+      return <Tr key={section.id}>
+              <Td>
+                <Anchor href={`/uilib/usage/customisation/theming/design-tokens/colors/#${section.id}`}>
+                  {section.title}
+                </Anchor>
+              </Td>
+              <Td>{section.tokens.length}</Td>
+              <Td>
+                {section.id === 'component' ? 'For internal use only.' : section.id === 'decorative' ? 'For advanced custom decorative needs.' : 'For external use. Use the filters in each section to narrow tokens to the variants you need.'}
+              </Td>
+            </Tr>;
+    })}
+      </tbody>
+    </Table>)
 ```
+
 
 ### Tips
 

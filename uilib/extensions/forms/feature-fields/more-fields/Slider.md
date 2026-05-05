@@ -1,8 +1,8 @@
 ---
 title: 'Field.Slider'
 description: '`Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.404Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.331Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -51,177 +51,125 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Slider min="/minValue" max="/maxValue" step="/stepValue" />)
 ```
 
+
 ## Demos
 
 ### Basic usage
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      myValue: 50,
-    }}
-  >
-    <Field.Slider label="Slider" path="/myValue" />
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  myValue: 50
+}}>
+        <Field.Slider label="Slider" path="/myValue" />
+      </Form.Handler>)
 ```
+
 
 ### Multi thumb
 
-```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      firstValue: 10,
-      secondValue: 60,
-    }}
-  >
-    <Flex.Stack>
-      <Field.Composition width="large">
-        <Field.Currency
-          label="First value"
-          path="/firstValue"
-          decimalLimit={0}
-        />
-        <Field.Currency
-          label="Second value"
-          path="/secondValue"
-          decimalLimit={0}
-        />
-      </Field.Composition>
 
-      <Field.Slider
-        label="My slider"
-        paths={['/firstValue', '/secondValue']}
-        multiThumbBehavior="push"
-        width="large"
-      />
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler defaultData={{
+  firstValue: 10,
+  secondValue: 60
+}}>
+        <Flex.Stack>
+          <Field.Composition width="large">
+            <Field.Currency label="First value" path="/firstValue" decimalLimit={0} />
+            <Field.Currency label="Second value" path="/secondValue" decimalLimit={0} />
+          </Field.Composition>
+
+          <Field.Slider label="My slider" paths={['/firstValue', '/secondValue']} multiThumbBehavior="push" width="large" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Sync with input
 
-```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      firstValue: 10,
-      secondValue: 60,
-    }}
-  >
-    <Flex.Stack>
-      <Field.Composition width="large">
-        <Field.Currency
-          label="First value"
-          path="/firstValue"
-          decimalLimit={0}
-        />
-        <Field.Currency
-          label="Second value"
-          path="/secondValue"
-          decimalLimit={0}
-        />
-      </Field.Composition>
 
-      <Field.Composition width="large">
-        <Field.Slider label="First slider" path="/firstValue" />
-        <Field.Slider label="Second slider" path="/secondValue" />
-      </Field.Composition>
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler defaultData={{
+  firstValue: 10,
+  secondValue: 60
+}}>
+        <Flex.Stack>
+          <Field.Composition width="large">
+            <Field.Currency label="First value" path="/firstValue" decimalLimit={0} />
+            <Field.Currency label="Second value" path="/secondValue" decimalLimit={0} />
+          </Field.Composition>
+
+          <Field.Composition width="large">
+            <Field.Slider label="First slider" path="/firstValue" />
+            <Field.Slider label="Second slider" path="/secondValue" />
+          </Field.Composition>
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### With stepper
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      myValue: 50,
-    }}
-  >
-    <Flex.Stack>
-      <Field.Currency
-        label="Stepper"
-        path="/myValue"
-        width="medium"
-        decimalLimit={0}
-        showStepControls
-      />
-      <Field.Slider label="Slider" path="/myValue" width="large" />
-    </Flex.Stack>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  myValue: 50
+}}>
+        <Flex.Stack>
+          <Field.Currency label="Stepper" path="/myValue" width="medium" decimalLimit={0} showStepControls />
+          <Field.Slider label="Slider" path="/myValue" width="large" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### Path usage for min, max and step
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      currentValue: 1000,
-      min: 0,
-      max: 10000,
-      step: 10,
-    }}
-  >
-    <Flex.Stack>
-      <Flex.Horizontal align="center">
-        <P>
-          Max value (
-          <Value.Currency path="/max" decimals={0} inline />)
-        </P>
+render(<Form.Handler defaultData={{
+  currentValue: 1000,
+  min: 0,
+  max: 10000,
+  step: 10
+}}>
+        <Flex.Stack>
+          <Flex.Horizontal align="center">
+            <P>
+              Max value (
+              <Value.Currency path="/max" decimals={0} inline />)
+            </P>
 
-        <HelpButton>Help text</HelpButton>
+            <HelpButton>Help text</HelpButton>
 
-        <Field.Currency
-          path="/currentValue"
-          width="stretch"
-          decimalLimit={0}
-        />
-      </Flex.Horizontal>
+            <Field.Currency path="/currentValue" width="stretch" decimalLimit={0} />
+          </Flex.Horizontal>
 
-      <Field.Slider
-        path="/currentValue"
-        min="/min"
-        max="/max"
-        step="/step"
-      />
-    </Flex.Stack>
-  </Form.Handler>
-)
+          <Field.Slider path="/currentValue" min="/min" max="/max" step="/step" />
+        </Flex.Stack>
+      </Form.Handler>)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      myValue: 50,
-    }}
-  >
-    <Field.Slider
-      label="Slider"
-      help={{
-        title: 'Help is available',
-        content:
-          'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.',
-      }}
-      path="/myValue"
-    />
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  myValue: 50
+}}>
+        <Field.Slider label="Slider" help={{
+    title: 'Help is available',
+    content: 'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.'
+  }} path="/myValue" />
+      </Form.Handler>)
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -268,7 +216,11 @@ render(
     },
     "multiThumbBehavior": {
       "doc": "Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.",
-      "type": ["\"omit\"", "\"push\"", "\"swap\""],
+      "type": [
+        "\"omit\"",
+        "\"push\"",
+        "\"swap\""
+      ],
       "status": "optional"
     },
     "thumbTitle": {
@@ -288,7 +240,10 @@ render(
     },
     "numberFormat": {
       "doc": "Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.",
-      "type": ["object", "function"],
+      "type": [
+        "object",
+        "function"
+      ],
       "status": "optional"
     },
     "tooltip": {
@@ -308,26 +263,37 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "Source data value for the field. Will take precedence over the path value given in the data context.",
-      "type": ["number", "Array<number>"],
+      "type": [
+        "number",
+        "Array<number>"
+      ],
       "status": "optional"
     },
     "defaultValue": {
       "doc": "Default source data value for the field. Will not take precedence over the path value given in the data context.",
-      "type": ["number", "Array<number>"],
+      "type": [
+        "number",
+        "Array<number>"
+      ],
       "status": "optional"
     },
     "path": {
@@ -337,12 +303,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -362,7 +336,11 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["number", "Array<number>", "undefined"],
+      "type": [
+        "number",
+        "Array<number>",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -442,7 +420,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -457,12 +438,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -472,29 +459,48 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "valueType": ["number", "Array<number>"]
+  "valueType": [
+    "number",
+    "Array<number>"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -537,6 +543,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

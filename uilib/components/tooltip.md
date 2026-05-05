@@ -1,8 +1,8 @@
 ---
 title: 'Tooltip'
 description: 'The Tooltip component is primarily meant to enhance the UX for various and additional information.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.609Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.672Z
 checksum: a1a83e458430ef1d1db7463d31d70f71e0d6d80606cccba00ca109e75d1b478b
 ---
 
@@ -51,56 +51,57 @@ When you pass the `open` property, the Tooltip becomes controlled:
 
 To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.
 
+
 ## Demos
 
 ### Button with hover Tooltip
 
+
 ```tsx
 render(<Button tooltip="Button tooltip" text="Hover" />)
 ```
+
 
 ### Button with open Tooltip
 
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <Button tooltip={<Tooltip open>Basic Tooltip</Tooltip>} text="Open" />
-)
+render(<Button tooltip={<Tooltip open>Basic Tooltip</Tooltip>} text="Open" />)
 ```
 
 </VisibleWhenNotVisualTest>
 
 ### NumberFormat with a tooltip
 
+
 ```tsx
 render(<NumberFormat.Number tooltip="Tooltip">1234</NumberFormat.Number>)
 ```
 
+
 ... or wrapped around the [NumberFormat](/uilib/components/number-format) component:
 
+
 ```tsx
-render(
-  <Tooltip targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}>
-    Tooltip NumberFormat
-  </Tooltip>
-)
+render(<Tooltip targetElement={<NumberFormat.Number>1234</NumberFormat.Number>}>
+      Tooltip NumberFormat
+    </Tooltip>)
 ```
+
 
 ### Tooltip with delay
 
+
 ```tsx
-<Tooltip
-  hideDelay={1e3}
-  size="large"
-  targetElement={<Span right>Top</Span>}
->
-  Tooltip 1
-</Tooltip>
+<Tooltip hideDelay={1e3} size="large" targetElement={<Span right>Top</Span>}>
+    Tooltip 1
+  </Tooltip>
 <Tooltip placement="bottom" targetElement={<Span>Bottom</Span>}>
-  Tooltip 2
-</Tooltip>
+    Tooltip 2
+  </Tooltip>
 ```
+
 
 ### Tooltip linked to a vanilla button
 
@@ -109,315 +110,238 @@ render(
 ```tsx
 <button className="target-1">Show the Tooltip</button>
 <Tooltip id="unique" open targetSelector=".target-1">
-  Tooltip linked
-</Tooltip>
+    Tooltip linked
+  </Tooltip>
 ```
 
 </VisibleWhenNotVisualTest>
 
+
+  
 ```tsx
 render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
 ```
 
+  
 ```tsx
 <Button className="target-align-center">
-  Align center & arrow center
-</Button>
-<Tooltip
-  id="unique-align-center"
-  targetSelector=".target-align-center"
-  align="center"
-  arrow="center"
->
-  Align center & arrow center
-</Tooltip>
+    Align center & arrow center
+  </Button>
+<Tooltip id="unique-align-center" targetSelector=".target-align-center" align="center" arrow="center">
+    Align center & arrow center
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-center-long-text">
-  Align center & arrow center
-</Button>
-<Tooltip
-  id="unique-align-center-long-text"
-  targetSelector=".target-align-center-long-text"
-  align="center"
-  arrow="center"
->
-  {longText}
-</Tooltip>
+    Align center & arrow center
+  </Button>
+<Tooltip id="unique-align-center-long-text" targetSelector=".target-align-center-long-text" align="center" arrow="center">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-position-right">Position right</Button>
-<Tooltip
-  id="unique-position-right"
-  targetSelector=".target-position-right"
-  placement="right"
->
-  Position right
-</Tooltip>
+<Tooltip id="unique-position-right" targetSelector=".target-position-right" placement="right">
+    Position right
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-position-right-long-text">
-  Position right
-</Button>
-<Tooltip
-  id="unique-position-right-long-text"
-  targetSelector=".target-position-right-long-text"
-  placement="right"
->
-  {longText}
-</Tooltip>
+    Position right
+  </Button>
+<Tooltip id="unique-position-right-long-text" targetSelector=".target-position-right-long-text" placement="right">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-left">Align left</Button>
-<Tooltip
-  id="unique-align-left"
-  targetSelector=".target-align-left"
-  align="left"
->
-  Align left
-</Tooltip>
+<Tooltip id="unique-align-left" targetSelector=".target-align-left" align="left">
+    Align left
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-left-long-text">Align left</Button>
-<Tooltip
-  id="unique-align-left-long-text"
-  targetSelector=".target-align-left-long-text"
-  align="left"
->
-  {longText}
-</Tooltip>
+<Tooltip id="unique-align-left-long-text" targetSelector=".target-align-left-long-text" align="left">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-right">Align right</Button>
-<Tooltip
-  id="unique-align-right"
-  targetSelector=".target-align-right"
-  align="right"
->
-  Align right
-</Tooltip>
+<Tooltip id="unique-align-right" targetSelector=".target-align-right" align="right">
+    Align right
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-right-long-text">Align right</Button>
-<Tooltip
-  id="unique-align-right-long-text"
-  targetSelector=".target-align-right-long-text"
-  align="right"
->
-  {longText}
-</Tooltip>
+<Tooltip id="unique-align-right-long-text" targetSelector=".target-align-right-long-text" align="right">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-arrow-left">
-  Align left & arrow left
-</Button>
-<Tooltip
-  id="unique-align-arrow-left"
-  targetSelector=".target-align-arrow-left"
-  align="left"
-  arrow="left"
->
-  Align left & arrow left
-</Tooltip>
+    Align left & arrow left
+  </Button>
+<Tooltip id="unique-align-arrow-left" targetSelector=".target-align-arrow-left" align="left" arrow="left">
+    Align left & arrow left
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-arrow-left-long-text">
-  Align left & arrow left
-</Button>
-<Tooltip
-  id="unique-align-arrow-left-long-text"
-  targetSelector=".target-align-arrow-left-long-text"
-  align="left"
-  arrow="left"
->
-  {longText}
-</Tooltip>
+    Align left & arrow left
+  </Button>
+<Tooltip id="unique-align-arrow-left-long-text" targetSelector=".target-align-arrow-left-long-text" align="left" arrow="left">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-arrow-right">
-  Align right & arrow right
-</Button>
-<Tooltip
-  id="unique-align-arrow-right"
-  targetSelector=".target-align-arrow-right"
-  align="right"
-  arrow="right"
->
-  Align right & arrow right
-</Tooltip>
+    Align right & arrow right
+  </Button>
+<Tooltip id="unique-align-arrow-right" targetSelector=".target-align-arrow-right" align="right" arrow="right">
+    Align right & arrow right
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-arrow-right-long-text">
-  Align right & arrow right
-</Button>
-<Tooltip
-  id="unique-align-arrow-right-long-text"
-  targetSelector=".target-align-arrow-right-long-text"
-  align="right"
-  arrow="right"
->
-  {longText}
-</Tooltip>
+    Align right & arrow right
+  </Button>
+<Tooltip id="unique-align-arrow-right-long-text" targetSelector=".target-align-arrow-right-long-text" align="right" arrow="right">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-left-arrow-right">
-  Align left & arrow right
-</Button>
-<Tooltip
-  id="unique-align-left-arrow-right"
-  targetSelector=".target-align-left-arrow-right"
-  align="left"
-  arrow="right"
->
-  Align left & arrow right
-</Tooltip>
+    Align left & arrow right
+  </Button>
+<Tooltip id="unique-align-left-arrow-right" targetSelector=".target-align-left-arrow-right" align="left" arrow="right">
+    Align left & arrow right
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-left-arrow-right-long-text">
-  Align left & arrow right
-</Button>
-<Tooltip
-  id="unique-align-left-arrow-right-long-text"
-  targetSelector=".target-align-left-arrow-right-long-text"
-  align="left"
-  arrow="right"
->
-  {longText}
-</Tooltip>
+    Align left & arrow right
+  </Button>
+<Tooltip id="unique-align-left-arrow-right-long-text" targetSelector=".target-align-left-arrow-right-long-text" align="left" arrow="right">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-right-arrow-left">
-  Align right & arrow left
-</Button>
-<Tooltip
-  id="unique-align-right-arrow-left"
-  targetSelector=".target-align-right-arrow-left"
-  align="right"
-  arrow="left"
->
-  Align right & arrow left
-</Tooltip>
+    Align right & arrow left
+  </Button>
+<Tooltip id="unique-align-right-arrow-left" targetSelector=".target-align-right-arrow-left" align="right" arrow="left">
+    Align right & arrow left
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-align-right-arrow-left-long-text">
-  Align right & arrow left
-</Button>
-<Tooltip
-  id="unique-align-right-arrow-left-long-text"
-  targetSelector=".target-align-right-arrow-left-long-text"
-  align="right"
-  arrow="left"
->
-  {longText}
-</Tooltip>
+    Align right & arrow left
+  </Button>
+<Tooltip id="unique-align-right-arrow-left-long-text" targetSelector=".target-align-right-arrow-left-long-text" align="right" arrow="left">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-arrow-left">Arrow left</Button>
-<Tooltip
-  id="unique-arrow-left"
-  targetSelector=".target-arrow-left"
-  arrow="left"
->
-  Arrow left
-</Tooltip>
+<Tooltip id="unique-arrow-left" targetSelector=".target-arrow-left" arrow="left">
+    Arrow left
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-arrow-left-long-text">Arrow left</Button>
-<Tooltip
-  id="unique-arrow-left-long-text"
-  targetSelector=".target-arrow-left-long-text"
-  arrow="left"
->
-  {longText}
-</Tooltip>
+<Tooltip id="unique-arrow-left-long-text" targetSelector=".target-arrow-left-long-text" arrow="left">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-arrow-right">Arrow right</Button>
-<Tooltip
-  id="unique-arrow-right"
-  targetSelector=".target-arrow-right"
-  arrow="right"
->
-  Arrow right
-</Tooltip>
+<Tooltip id="unique-arrow-right" targetSelector=".target-arrow-right" arrow="right">
+    Arrow right
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-arrow-right-long-text">Arrow right</Button>
-<Tooltip
-  id="unique-arrow-right-long-text"
-  targetSelector=".target-arrow-right-long-text"
-  arrow="right"
->
-  {longText}
-</Tooltip>
+<Tooltip id="unique-arrow-right-long-text" targetSelector=".target-arrow-right-long-text" arrow="right">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-position-left">Position left</Button>
-<Tooltip
-  id="unique-position-left"
-  targetSelector=".target-position-left"
-  placement="left"
->
-  Position left
-</Tooltip>
+<Tooltip id="unique-position-left" targetSelector=".target-position-left" placement="left">
+    Position left
+  </Tooltip>
 ```
 
+  
 ```tsx
-<Button className="target-position-left-long-text">Position left</Button>
-<Tooltip
-  id="unique-position-left-long-text"
-  targetSelector=".target-position-left-long-text"
-  placement="left"
->
-  {longText}
-</Tooltip>
+<Button className="target-position-left-long-text">
+    Position left
+  </Button>
+<Tooltip id="unique-position-left-long-text" targetSelector=".target-position-left-long-text" placement="left">
+    {longText}
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-position-bottom">Position bottom</Button>
-<Tooltip
-  id="unique-position-bottom"
-  targetSelector=".target-position-bottom"
-  placement="bottom"
->
-  Position bottom
-</Tooltip>
+<Tooltip id="unique-position-bottom" targetSelector=".target-position-bottom" placement="bottom">
+    Position bottom
+  </Tooltip>
 ```
 
+  
 ```tsx
 <Button className="target-position-bottom-long-text">
-  Position bottom
-</Button>
-<Tooltip
-  id="unique-position-bottom-long-text"
-  targetSelector=".target-position-bottom-long-text"
-  placement="bottom"
->
-  {longText}
-</Tooltip>
+    Position bottom
+  </Button>
+<Tooltip id="unique-position-bottom-long-text" targetSelector=".target-position-bottom-long-text" placement="bottom">
+    {longText}
+  </Tooltip>
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -434,12 +358,22 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
     },
     "placement": {
       "doc": "Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.",
-      "type": ["\"top\"", "\"right\"", "\"left\"", "\"bottom\""],
+      "type": [
+        "\"top\"",
+        "\"right\"",
+        "\"left\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Defines the offset alignment to the target element the arrow appears. Can be `left`, `center` and `right`. Defaults to `center`.",
-      "type": ["\"left\"", "\"center\"", "\"right\"", "null"],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\"",
+        "null"
+      ],
       "status": "optional"
     },
     "arrow": {
@@ -485,12 +419,18 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
     },
     "size": {
       "doc": "Defines the spacing size of the tooltip. Can be `large` or `default`. Defaults to `default`.",
-      "type": ["\"default\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "targetElement": {
       "doc": "Provide an element directly as a `React.ReactNode` or a `React.Ref` that will be wrapped and rendered.",
-      "type": ["React.ReactNode", "React.RefObject"],
+      "type": [
+        "React.ReactNode",
+        "React.RefObject"
+      ],
       "status": "optional"
     },
     "targetSelector": {
@@ -515,7 +455,10 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

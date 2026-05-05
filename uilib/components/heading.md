@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.212Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.345Z
 checksum: 0ce3addcfcfa735263d0f47955de9dc9632600df2345c730edde9e2d95f50e31
 ---
 
@@ -29,21 +29,21 @@ How does it work? The heading leveling is handled synchronously. But you can eas
 
 The first code example is without using context provider. To handle levels in batches or asynchronous, use a `Heading.Level` context provider.
 
+
 ```tsx
-render(
-  <Heading.Level reset={1}>
-    <Heading>h1</Heading>
-    <Heading>h2</Heading>
-    <Heading increase>h3</Heading>
-    <Heading>still h3</Heading>
-    <Heading increase>h4</Heading>
-    <Heading increase>h5</Heading>
-    <Heading decrease>h4</Heading>
-    <Heading level={2}>back to h2</Heading>
-    <Heading increase>h3</Heading>
-  </Heading.Level>
-)
+render(<Heading.Level reset={1}>
+      <Heading>h1</Heading>
+      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+      <Heading>still h3</Heading>
+      <Heading increase>h4</Heading>
+      <Heading increase>h5</Heading>
+      <Heading decrease>h4</Heading>
+      <Heading level={2}>back to h2</Heading>
+      <Heading increase>h3</Heading>
+    </Heading.Level>)
 ```
+
 
 **NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
 
@@ -58,15 +58,15 @@ render(
 
 For the visual part, we simply use [typography styles](/uilib/elements/heading) with the `size` property, e.g. `size="x-large"`
 
+
 ```tsx
-render(
-  <Heading.Level reset={2}>
-    <Heading increase size="xx-large">
-      h3, but looks like h1
-    </Heading>
-  </Heading.Level>
-)
+render(<Heading.Level reset={2}>
+      <Heading increase size="xx-large">
+        h3, but looks like h1
+      </Heading>
+    </Heading.Level>)
 ```
+
 
 ### Heading level rules and corrections
 
@@ -87,22 +87,22 @@ In order to control leveling of headings systematically, you can make use of the
 
 They are completely optional. But can help out to solve some kinds of challenges or logic.
 
+
 ```tsx
-render(
-  <Heading.Level reset={1}>
-    <Heading>h1</Heading>
-    <Heading.Level level="2">
-      <Heading>h2</Heading>
-      <Heading increase>h3</Heading>
-      <Heading>still h3</Heading>
-      <Heading.Increase>
-        <Heading>h4</Heading>
-        <Heading>still h4</Heading>
-      </Heading.Increase>
-    </Heading.Level>
-  </Heading.Level>
-)
+render(<Heading.Level reset={1}>
+      <Heading>h1</Heading>
+      <Heading.Level level="2">
+        <Heading>h2</Heading>
+        <Heading increase>h3</Heading>
+        <Heading>still h3</Heading>
+        <Heading.Increase>
+          <Heading>h4</Heading>
+          <Heading>still h4</Heading>
+        </Heading.Increase>
+      </Heading.Level>
+    </Heading.Level>)
 ```
+
 
 ### Skip auto correction and warnings
 
@@ -143,14 +143,14 @@ You could additionally define "what is a page change" and what not, by using the
 
 You may still consider of using the basic elements. But keep in mind, you have to define headings responsibly.
 
+
 ```tsx
-render(
-  <article>
-    <H1 size="large">h1</H1>
-    <H2 size="xx-large">h2</H2>
-  </article>
-)
+render(<article>
+      <H1 size="large">h1</H1>
+      <H2 size="xx-large">h2</H2>
+    </article>)
 ```
+
 
 ## Demos
 
@@ -158,9 +158,9 @@ render(
 
 ### Default headings
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="heading-default">
       <Heading.Level debug reset={1}>
         <Heading>h1</Heading>
@@ -176,15 +176,15 @@ render(
         </Heading>
       </Heading.Level>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Heading level context
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="heading-context">
       <Heading.Level debug reset={1}>
         <Heading>h1</Heading>
@@ -205,57 +205,49 @@ render(
         </Heading.Decrease>
       </Heading.Level>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Level isolation
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox>
       {() => {
-        const App = () => {
-          const [showHeading, setShowHeading] = React.useState(false)
-          return (
-            <Heading.Level debug reset={1}>
+      const App = () => {
+        const [showHeading, setShowHeading] = React.useState(false);
+        return <Heading.Level debug reset={1}>
               <Heading>h1</Heading>
               <Heading>h2</Heading>
 
               <Heading.Increase>
-                <ToggleButton
-                  text="Toggle h3"
-                  checked={showHeading}
-                  onChange={() => setShowHeading((c) => !c)}
-                />
-                {showHeading && (
-                  <>
+                <ToggleButton text="Toggle h3" checked={showHeading} onChange={() => setShowHeading(c => !c)} />
+                {showHeading && <>
                     <Heading>h3</Heading>
                     <Heading>h3</Heading>
                     <Heading>h3</Heading>
-                  </>
-                )}
+                  </>}
               </Heading.Increase>
 
               <Heading.Level>
                 <Heading>h2</Heading>
               </Heading.Level>
-            </Heading.Level>
-          )
-        }
-        return <App />
-      }}
+            </Heading.Level>;
+      };
+      return <App />;
+    }}
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Combine with manual heading
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="heading-mixin">
       <Heading.Level debug reset={1}>
         <Heading>h1</Heading>
@@ -265,11 +257,11 @@ render(
         <Heading>h3</Heading>
       </Heading.Level>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -299,7 +291,14 @@ render(
     },
     "level": {
       "doc": "Overwrite the automated level handling to use a specific value to ensure correct level hierarchy.",
-      "type": ["1", "2", "3", "4", "5", "6"],
+      "type": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
       "status": "optional"
     },
     "increase": {
@@ -319,7 +318,10 @@ render(
     },
     "reset": {
       "doc": "If set to `true`, the heading level will be reset to 2. You can give it a custom level if you need to, e.g. `reset(1)`.",
-      "type": ["boolean", "number"],
+      "type": [
+        "boolean",
+        "number"
+      ],
       "status": "optional"
     },
     "skipCorrection": {
@@ -329,17 +331,26 @@ render(
     },
     "debug": {
       "doc": "If set to `true`, the content will have a prefix, showing the heading level.",
-      "type": ["boolean", "function"],
+      "type": [
+        "boolean",
+        "function"
+      ],
       "status": "optional"
     },
     "debugCounter": {
       "doc": "If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.",
-      "type": ["boolean", "function"],
+      "type": [
+        "boolean",
+        "function"
+      ],
       "status": "optional"
     },
     "element": {
       "doc": "Define what HTML element should be used. If you use, e.g. a `span`, then `role=\"heading\"` and `aria-level` gets set. Defaults to semantic heading element.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -349,12 +360,16 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 Properties which do apply to the provider (level context) `Heading.Level` as well:
 

@@ -1,8 +1,8 @@
 ---
 title: 'Value.Address'
 description: '`Value.Address` is a wrapper component for displaying string values, with user experience tailored for postal and street addresses.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.097Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.086Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -37,47 +37,52 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Address)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Address)
 
+
 ## Demos
 
 ### Postal address
+
 
 ```tsx
 render(<Value.Address.Postal value="Postboks 55 Falkum 3705 Skien" />)
 ```
 
+
 ### Street address
+
 
 ```tsx
 render(<Value.Address.Street value="Dronning Eufemias gate 30" />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.Address.Street placeholder="Custom placeholder" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      streetAddress: 'Dronning Eufemias gate 30',
-      postalAddress: 'Postboks 55 Falkum 3705 Skien',
-    }}
-  >
-    <P>
-      This is before the component{' '}
-      <Value.Address.Street path="/streetAddress" inline />{' '}
-      <Value.Address.Postal path="/postalAddress" inline /> This is after
-      the component
-    </P>
-  </Form.Handler>
-)
+render(<Form.Handler defaultData={{
+  streetAddress: 'Dronning Eufemias gate 30',
+  postalAddress: 'Postboks 55 Falkum 3705 Skien'
+}}>
+        <P>
+          This is before the component{' '}
+          <Value.Address.Street path="/streetAddress" inline />{' '}
+          <Value.Address.Postal path="/postalAddress" inline /> This is
+          after the component
+        </P>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -144,7 +149,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -154,18 +164,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "PostalAddress.label": {
       "nb-NO": "Postadresse",

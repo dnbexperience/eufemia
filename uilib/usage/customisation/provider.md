@@ -1,7 +1,7 @@
 ---
 title: 'Provider / Context'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.475Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.376Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,6 +12,7 @@ To use the provider, you currently need to use React as your rendering library.
 Many components have some default translated strings. But also other things like the default currency and so on, can be controlled globally by using a Provider. Changing the properties of the provider, will automatically update all the components who has used a value from it.
 
 Here are some example usage of the Provider / Context relation ship.
+
 
 ## Send down component properties
 

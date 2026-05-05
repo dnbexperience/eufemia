@@ -1,6 +1,6 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.019Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.198Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -52,12 +52,16 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 You may check out the [DrawerList Properties](#drawerlist-properties) down below as well as the [Data structure examples](#the-data-property).
 
+
 ```json
 {
   "props": {
     "mode": {
       "doc": "If set to `async`, it prevents showing the \"no options\" message during typing / filtering. Defaults to `sync`.",
-      "type": ["\"sync\"", "\"async\""],
+      "type": [
+        "\"sync\"",
+        "\"async\""
+      ],
       "status": "optional"
     },
     "inputValue": {
@@ -97,12 +101,18 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "searchInWordIndex": {
       "doc": "This gives you the possibility to change the threshold number, which defines from what word on we search \"inside words\". Defaults to `3`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "searchMatch": {
       "doc": "Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.",
-      "type": ["\"word\"", "\"starts-with\""],
+      "type": [
+        "\"word\"",
+        "\"starts-with\""
+      ],
       "status": "optional"
     },
     "keepValue": {
@@ -132,7 +142,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "icon": {
       "doc": "To be included in the autocomplete input.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "iconSize": {
@@ -142,17 +155,28 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "arrowPosition": {
       "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.",
-      "type": ["\"small\"", "\"default\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"small\"",
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "drawerClass": {
@@ -167,7 +191,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "align": {
       "doc": "Use `right` to change the options alignment direction. Defaults to `left`.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "noOptions": {
@@ -212,7 +239,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "submitButtonIcon": {
       "doc": "The icon used in the submit button. Defaults to `chevron_down`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "submitElement": {
@@ -242,12 +272,19 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -267,7 +304,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "labelDirection": {
       "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "labelSrOnly": {
@@ -292,7 +332,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "inputElement": {
       "doc": "Lets you provide a custom React element as the input HTML element.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "[DrawerList](/uilib/components/fragments/drawer-list/properties)": {
@@ -302,21 +345,29 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## DrawerList Properties
+
 
 ```json
 {
   "props": {
     "[data](#the-data-property)": {
       "doc": "The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).",
-      "type": ["{DATA}", "() => {DATA}"],
+      "type": [
+        "{DATA}",
+        "() => {DATA}"
+      ],
       "status": "required"
     },
     "groups": {
@@ -326,7 +377,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "value": {
       "doc": "Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "defaultValue": {
@@ -341,7 +395,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "direction": {
       "doc": "Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "labelDirection": {
@@ -456,7 +514,10 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "wrapperElement": {
       "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
-      "type": ["string", "HTMLElement"],
+      "type": [
+        "string",
+        "HTMLElement"
+      ],
       "status": "optional"
     },
     "optionsRender": {
@@ -466,12 +527,17 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
+
 
 ## The `data` property
 
@@ -534,6 +600,7 @@ const onChange = ({ data, value }) => {
 
 Each object in the array have the following properties:
 
+
 ```json
 {
   "props": {
@@ -558,22 +625,32 @@ Each object in the array have the following properties:
     },
     "selectedKey": {
       "doc": "If set, can be used instead of array index by the `value` prop.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "selectedValue": {
       "doc": "Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "suffixValue": {
       "doc": "Content placed to the right in the list item.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `data` as an object
 
@@ -641,11 +718,18 @@ let data: DATA | () => DATA
 
 There is technically support for sending in a JSON string of the data to the `data` property. But this is an old functionality that we do not really support anymore.
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Autocomplete.ariaLiveOptions": {
       "nb-NO": "%s alternativer",
@@ -719,6 +803,7 @@ There is technically support for sending in a JSON string of the data to the `da
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -776,6 +861,7 @@ There is technically support for sending in a JSON string of the data to the `da
 }
 ```
 
+
 ### The `onChange` vs `onSelect` difference
 
 The difference between `onChange` and `onSelect` is:
@@ -811,6 +897,7 @@ The `onItemMouseEnter` event is called when the user hovers over a dropdown item
   }}
 />
 ```
+
 
 ## Dynamically change data
 

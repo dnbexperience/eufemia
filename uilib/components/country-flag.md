@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'The CountryFlag component lets you display a country flag based on a country ISO code.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.114Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.273Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
@@ -35,145 +35,111 @@ For UX designers, there is the [Figma Flags Library](https://www.figma.com/desig
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/country-flag)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/country-flag)
 
+
 ## Demos
 
 ### All sizes
 
+
 ```tsx
-render(
-  <Flex.Horizontal align="center">
-    <CountryFlag iso="NO" size="auto" />
-    <CountryFlag iso="NO" size="xx-small" />
-    <CountryFlag iso="NO" size="x-small" />
-    <CountryFlag iso="NO" size="small" />
-    <CountryFlag iso="NO" size="medium" />
-    <CountryFlag iso="NO" size="large" />
-    <CountryFlag iso="NO" size="x-large" />
-  </Flex.Horizontal>
-)
+render(<Flex.Horizontal align="center">
+      <CountryFlag iso="NO" size="auto" />
+      <CountryFlag iso="NO" size="xx-small" />
+      <CountryFlag iso="NO" size="x-small" />
+      <CountryFlag iso="NO" size="small" />
+      <CountryFlag iso="NO" size="medium" />
+      <CountryFlag iso="NO" size="large" />
+      <CountryFlag iso="NO" size="x-large" />
+    </Flex.Horizontal>)
 ```
 
+
 ### Square
+
 
 ```tsx
 render(<CountryFlag iso="CH" shape="square" size="large" />)
 ```
 
+
 ### Eufemia Forms
 
+
 ```tsx
-const MyComponent = ({ label, ...props }) => {
-  const { value } = useValueProps(props)
-  const iso = String(value)
-  return (
-    <FieldBlock label={label}>
-      <CountryFlag iso={iso} size="large" />
-    </FieldBlock>
-  )
-}
-render(
-  <Form.Handler>
-    <Field.Composition>
-      <Field.SelectCountry
-        label="Select a country"
-        path="/country"
-        width="medium"
-        value="SE"
-      />
-      <MyComponent label="Country flag" path="/country" />
-    </Field.Composition>
-  </Form.Handler>
-)
+const MyComponent = ({
+  label,
+  ...props
+}) => {
+  const {
+    value
+  } = useValueProps(props);
+  const iso = String(value);
+  return <FieldBlock label={label}>
+            <CountryFlag iso={iso} size="large" />
+          </FieldBlock>;
+};
+render(<Form.Handler>
+          <Field.Composition>
+            <Field.SelectCountry label="Select a country" path="/country" width="medium" value="SE" />
+            <MyComponent label="Country flag" path="/country" />
+          </Field.Composition>
+        </Form.Handler>);
 ```
+
 
 ### In various components
 
+
 ```tsx
-render(
-  <Flex.Vertical gap="x-small">
-    <Button icon={<CountryFlag iso="NO" />} title="Icon button" />
-    <Button
-      icon={<CountryFlag iso="NO" />}
-      title="Icon button"
-      size="large"
-    />
-    <Button
-      icon={<CountryFlag iso="NO" />}
-      iconPosition="left"
-      text="Button"
-      variant="secondary"
-    />
-    <Button
-      icon={<CountryFlag iso="NO" />}
-      iconSize="medium"
-      iconPosition="left"
-      size="large"
-      text="Button"
-      variant="secondary"
-    />
-    <Input
-      icon={<CountryFlag iso="NO" />}
-      iconPosition="left"
-      placeholder="Write something"
-    />
-    <Input
-      icon={<CountryFlag iso="NO" />}
-      iconPosition="left"
-      size="large"
-      placeholder="Write something"
-    />
-    <Dropdown
-      value="NO"
-      iconPosition="left"
-      data={{
-        NO: (
-          <Dropdown.HorizontalItem>
-            <CountryFlag iso="NO" />
-            {' '}Norway
-          </Dropdown.HorizontalItem>
-        ),
-        SE: (
-          <Dropdown.HorizontalItem>
-            <CountryFlag iso="SE" />
-            {' '}Sweden
-          </Dropdown.HorizontalItem>
-        ),
-      }}
-    />
-    <Dropdown icon={<CountryFlag iso="NO" />} size="large" />
+render(<Flex.Vertical gap="x-small">
+      <Button icon={<CountryFlag iso="NO" />} title="Icon button" />
+      <Button icon={<CountryFlag iso="NO" />} title="Icon button" size="large" />
+      <Button icon={<CountryFlag iso="NO" />} iconPosition="left" text="Button" variant="secondary" />
+      <Button icon={<CountryFlag iso="NO" />} iconSize="medium" iconPosition="left" size="large" text="Button" variant="secondary" />
+      <Input icon={<CountryFlag iso="NO" />} iconPosition="left" placeholder="Write something" />
+      <Input icon={<CountryFlag iso="NO" />} iconPosition="left" size="large" placeholder="Write something" />
+      <Dropdown value="NO" iconPosition="left" data={{
+    NO: <Dropdown.HorizontalItem>
+              <CountryFlag iso="NO" />
+              {' '}Norway
+            </Dropdown.HorizontalItem>,
+    SE: <Dropdown.HorizontalItem>
+              <CountryFlag iso="SE" />
+              {' '}Sweden
+            </Dropdown.HorizontalItem>
+  }} />
+      <Dropdown icon={<CountryFlag iso="NO" />} size="large" />
 
-    <Flex.Horizontal align="center" gap="x-small">
-      In Icon component:
-      <Icon icon={<CountryFlag iso="NO" />} />
-      <Icon icon={<CountryFlag iso="NO" />} size="medium" />
-    </Flex.Horizontal>
+      <Flex.Horizontal align="center" gap="x-small">
+        In Icon component:
+        <Icon icon={<CountryFlag iso="NO" />} />
+        <Icon icon={<CountryFlag iso="NO" />} size="medium" />
+      </Flex.Horizontal>
 
-    <Flex.Vertical>
-      <Heading level="1">
-        H1 heading <CountryFlag iso="NO" />
-      </Heading>
-      <Heading level="2">
-        H2 heading <CountryFlag iso="NO" />
-      </Heading>
-      <Heading level="3">
-        H3 heading <CountryFlag iso="NO" />
-      </Heading>
-      <P
-        style={{
-          maxWidth: '20rem',
-        }}
-      >
-        <CountryFlag iso="NO" /> Paragraph Eiusmod id cillum Lorem nulla
-        non consectetur pariatur mollit Lorem non do nulla reprehenderit
-        {' '}
-        <CountryFlag iso="NO" />
-      </P>
-    </Flex.Vertical>
-  </Flex.Vertical>
-)
+      <Flex.Vertical>
+        <Heading level="1">
+          H1 heading <CountryFlag iso="NO" />
+        </Heading>
+        <Heading level="2">
+          H2 heading <CountryFlag iso="NO" />
+        </Heading>
+        <Heading level="3">
+          H3 heading <CountryFlag iso="NO" />
+        </Heading>
+        <P style={{
+      maxWidth: '20rem'
+    }}>
+          <CountryFlag iso="NO" /> Paragraph Eiusmod id cillum Lorem nulla
+          non consectetur pariatur mollit Lorem non do nulla reprehenderit
+          {' '}
+          <CountryFlag iso="NO" />
+        </P>
+      </Flex.Vertical>
+    </Flex.Vertical>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -198,17 +164,24 @@ render(
     },
     "shape": {
       "doc": "The shape of the component. Can be `round` or `square`. Defaults to `round`.",
-      "type": ["\"round\"", "\"square\""],
+      "type": [
+        "\"round\"",
+        "\"square\""
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ## List of available countries
 

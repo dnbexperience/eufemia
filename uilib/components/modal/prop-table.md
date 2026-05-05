@@ -1,6 +1,6 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.324Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.442Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -24,12 +24,18 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "children": {
       "doc": "The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "fullscreen": {
       "doc": "If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "open": {
@@ -39,7 +45,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "openDelay": {
       "doc": "Forces the modal to delay the opening. The delay is given in `ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "disabled": {
@@ -59,7 +68,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "animationDuration": {
       "doc": "Duration of animation open/close in ms. Defaults to `300ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "preventClose": {
@@ -104,7 +116,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "trigger": {
       "doc": "Provide a custom trigger component. Like `trigger={<Anchor href=\"/\" />}`. It will set the focus on it when the modal gets closed.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "triggerAttributes": {
@@ -139,7 +154,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "spacing": {
@@ -154,42 +172,70 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "modalContent": {
       "doc": "The content which will appear when triggering the modal/drawer. Alternative to `children`.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "barContent": {
       "doc": "The content which will appear in the bar, above the header, and side-by-side the close button.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "headerContent": {
       "doc": "The content which will appear in the header of the modal/drawer.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "minWidth": {
       "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "maxWidth": {
       "doc": "The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "alignContent": {
       "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"centered\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"centered\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "containerPlacement": {
       "doc": "For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"left\"",
+        "\"right\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "verticalAlignment": {
       "doc": "Define the vertical alignment of the container. Defaults to `center`.",
-      "type": ["\"top\"", "\"center\""],
+      "type": [
+        "\"top\"",
+        "\"center\""
+      ],
       "status": "optional"
     },
     "closeTitle": {
@@ -207,6 +253,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -228,12 +275,18 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "children": {
       "doc": "The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "fullscreen": {
       "doc": "If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "open": {
@@ -243,7 +296,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "openDelay": {
       "doc": "Forces the modal to delay the opening. The delay is given in `ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "disabled": {
@@ -263,7 +319,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "animationDuration": {
       "doc": "Duration of animation open/close in ms. Defaults to `300ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "preventClose": {
@@ -308,7 +367,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "trigger": {
       "doc": "Provide a custom trigger component. Like `trigger={<Anchor href=\"/\" />}`. It will set the focus on it when the modal gets closed.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "triggerAttributes": {
@@ -343,7 +405,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "spacing": {
@@ -358,42 +423,70 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "modalContent": {
       "doc": "The content which will appear when triggering the modal/drawer. Alternative to `children`.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "barContent": {
       "doc": "The content which will appear in the bar, above the header, and side-by-side the close button.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "headerContent": {
       "doc": "The content which will appear in the header of the modal/drawer.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "minWidth": {
       "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "maxWidth": {
       "doc": "The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "alignContent": {
       "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"centered\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"centered\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "containerPlacement": {
       "doc": "For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"left\"",
+        "\"right\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "verticalAlignment": {
       "doc": "Define the vertical alignment of the container. Defaults to `center`.",
-      "type": ["\"top\"", "\"center\""],
+      "type": [
+        "\"top\"",
+        "\"center\""
+      ],
       "status": "optional"
     },
     "closeTitle": {
@@ -410,28 +503,32 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 }
 ```
 
+
 ## Trigger Properties
 
 Properties targeting the trigger component (Button), but they will be set the same way as all the other properties:
 
+
 ```tsx
-render(
-  <Modal
-    triggerAttributes={{
-      icon: 'bell',
-    }}
-    right="small"
-  >
-    ... content ...
-  </Modal>
-)
+render(<Modal triggerAttributes={{
+  icon: 'bell'
+}} right="small">
+      ... content ...
+    </Modal>)
 ```
+
 
 ## Modal Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Modal.closeTitle": {
       "nb-NO": "Lukk",
@@ -450,6 +547,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {
@@ -473,6 +571,7 @@ render(
 }
 ```
 
+
 ## `triggeredBy`
 
 The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` event is triggered. It can contain one of the following values:
@@ -483,26 +582,27 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
 - `overlay`: The overlay element that triggered the event.
 - `unmount`: The unmount event that triggered the `open` property change.
 
+
 ### Selective onClosePrevent
 
+
 ```tsx
-render(
-  <Modal
-    preventClose={true}
-    onClosePrevent={({ triggeredBy, close /* id, event */ }) => {
-      switch (triggeredBy) {
-        case 'keyboard':
-        case 'button':
-          close()
-          break
-        case 'overlay': {
-          const timeout = setTimeout(close, 1e3)
-          return () => clearTimeout(timeout) // clear timeout on unmount
-        }
+render(<Modal preventClose={true} onClosePrevent={({
+  triggeredBy,
+  close /* id, event */
+}) => {
+  switch (triggeredBy) {
+    case 'keyboard':
+    case 'button':
+      close();
+      break;
+    case 'overlay':
+      {
+        const timeout = setTimeout(close, 1e3);
+        return () => clearTimeout(timeout); // clear timeout on unmount
       }
-    }}
-  >
-    ...
-  </Modal>
-)
+  }
+}}>
+      ...
+    </Modal>)
 ```

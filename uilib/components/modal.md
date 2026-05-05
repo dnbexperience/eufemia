@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.332Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.449Z
 checksum: 0f1328ec8c9ab15b2d0358b83bfa13d94aaed954143bcd737eb68567b59cd7d9
 ---
 
@@ -35,15 +35,11 @@ Since Modal is often used with other components and frequently enhances contextu
 
 You can also use the broadly available `suffix` property, like so:
 
+
 ```tsx
-render(
-  <Input
-    label="Input"
-    placeholder="Placeholder ..."
-    suffix={<HelpButton>Help text</HelpButton>}
-  />
-)
+render(<Input label="Input" placeholder="Placeholder ..." suffix={<HelpButton>Help text</HelpButton>} />)
 ```
+
 
 ### Accessibility
 
@@ -110,94 +106,73 @@ html[data-dnb-modal-active='MODAL-ID'] {
 }
 ```
 
+
 ## Demos
 
 The following examples are to demonstrate the functionality of Modal. Please go to [Drawer demos](/uilib/components/drawer/demos) or [Dialog demos](/uilib/components/dialog/demos) for complete component demos.
 
 ### Example
 
+
 ```tsx
-render(
-  <Modal>
-    <div
-      style={{
-        padding: '2rem',
-        backgroundColor: 'var(--token-color-background-neutral)',
-      }}
-    >
-      <P>This is a Modal that you can use to make custom variations</P>
-    </div>
-  </Modal>
-)
+render(<Modal>
+      <div style={{
+    padding: '2rem',
+    backgroundColor: 'var(--token-color-background-neutral)'
+  }}>
+        <P>This is a Modal that you can use to make custom variations</P>
+      </div>
+    </Modal>)
 ```
+
 
 ### Open Modal by the state only
 
 Use a custom trigger button and state handling by setting `omitTriggerButton` to Modal.
 
+
 ```tsx
 const Component = () => {
-  const [modalIsActive, setModalState] = React.useState(false)
-  return (
-    <>
-      <Button
-        id="custom-triggerer"
-        text="Custom trigger Button"
-        onClick={() => setModalState((s) => !s)}
-      />
-      <Modal
-        title="Modal Title"
-        omitTriggerButton
-        open={modalIsActive}
-        labelledBy="custom-triggerer"
-        onClose={() => setModalState(false)}
-      >
-        <div
-          style={{
-            padding: '2rem',
-            backgroundColor: 'var(--token-color-background-neutral)',
-          }}
-        >
-          <P>This Modal was opened by a custom trigger button.</P>
-        </div>
-      </Modal>
-    </>
-  )
-}
-render(<Component />)
+  const [modalIsActive, setModalState] = React.useState(false);
+  return <>
+            <Button id="custom-triggerer" text="Custom trigger Button" onClick={() => setModalState(s => !s)} />
+            <Modal title="Modal Title" omitTriggerButton open={modalIsActive} labelledBy="custom-triggerer" onClose={() => setModalState(false)}>
+              <div style={{
+        padding: '2rem',
+        backgroundColor: 'var(--token-color-background-neutral)'
+      }}>
+                <P>This Modal was opened by a custom trigger button.</P>
+              </div>
+            </Modal>
+          </>;
+};
+render(<Component />);
 ```
+
 
 ### Close Modal by handlers
 
 Use the `closeModal` property to set another close handler, like a timeout for when the modal should close.
 
+
 ```tsx
-render(
-  <Modal
-    title="Auto close"
-    triggerAttributes={{
-      text: 'Click me',
-    }}
-    alignContent="center"
-    maxWidth="40rem"
-    closeModal={(close) => {
-      const timeout = setTimeout(close, 3e3)
-      return () => clearTimeout(timeout)
-    }}
-  >
-    <div
-      style={{
-        padding: '2rem',
-        backgroundColor: 'var(--token-color-background-neutral)',
-      }}
-    >
-      <P>This Modal will close in 3 seconds.</P>
-    </div>
-  </Modal>
-)
+render(<Modal title="Auto close" triggerAttributes={{
+  text: 'Click me'
+}} alignContent="center" maxWidth="40rem" closeModal={close => {
+  const timeout = setTimeout(close, 3e3);
+  return () => clearTimeout(timeout);
+}}>
+      <div style={{
+    padding: '2rem',
+    backgroundColor: 'var(--token-color-background-neutral)'
+  }}>
+        <P>This Modal will close in 3 seconds.</P>
+      </div>
+    </Modal>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -219,12 +194,18 @@ render(
     },
     "children": {
       "doc": "The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "fullscreen": {
       "doc": "If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "open": {
@@ -234,7 +215,10 @@ render(
     },
     "openDelay": {
       "doc": "Forces the modal to delay the opening. The delay is given in `ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "disabled": {
@@ -254,7 +238,10 @@ render(
     },
     "animationDuration": {
       "doc": "Duration of animation open/close in ms. Defaults to `300ms`.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "preventClose": {
@@ -299,7 +286,10 @@ render(
     },
     "trigger": {
       "doc": "Provide a custom trigger component. Like `trigger={<Anchor href=\"/\" />}`. It will set the focus on it when the modal gets closed.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "triggerAttributes": {
@@ -334,7 +324,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "spacing": {
@@ -349,42 +342,70 @@ render(
     },
     "modalContent": {
       "doc": "The content which will appear when triggering the modal/drawer. Alternative to `children`.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "barContent": {
       "doc": "The content which will appear in the bar, above the header, and side-by-side the close button.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "headerContent": {
       "doc": "The content which will appear in the header of the modal/drawer.",
-      "type": ["React.ReactNode", "function"],
+      "type": [
+        "React.ReactNode",
+        "function"
+      ],
       "status": "optional"
     },
     "minWidth": {
       "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "maxWidth": {
       "doc": "The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "alignContent": {
       "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"centered\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"centered\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "containerPlacement": {
       "doc": "For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.",
-      "type": ["\"left\"", "\"right\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"left\"",
+        "\"right\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "verticalAlignment": {
       "doc": "Define the vertical alignment of the container. Defaults to `center`.",
-      "type": ["\"top\"", "\"center\""],
+      "type": [
+        "\"top\"",
+        "\"center\""
+      ],
       "status": "optional"
     },
     "closeTitle": {
@@ -401,28 +422,32 @@ render(
 }
 ```
 
+
 ## Trigger Properties
 
 Properties targeting the trigger component (Button), but they will be set the same way as all the other properties:
 
+
 ```tsx
-render(
-  <Modal
-    triggerAttributes={{
-      icon: 'bell',
-    }}
-    right="small"
-  >
-    ... content ...
-  </Modal>
-)
+render(<Modal triggerAttributes={{
+  icon: 'bell'
+}} right="small">
+      ... content ...
+    </Modal>)
 ```
+
 
 ## Modal Translations
 
+
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Modal.closeTitle": {
       "nb-NO": "Lukk",
@@ -441,6 +466,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {
@@ -464,6 +490,7 @@ render(
 }
 ```
 
+
 ## `triggeredBy`
 
 The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` event is triggered. It can contain one of the following values:
@@ -474,26 +501,27 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
 - `overlay`: The overlay element that triggered the event.
 - `unmount`: The unmount event that triggered the `open` property change.
 
+
 ### Selective onClosePrevent
 
+
 ```tsx
-render(
-  <Modal
-    preventClose={true}
-    onClosePrevent={({ triggeredBy, close /* id, event */ }) => {
-      switch (triggeredBy) {
-        case 'keyboard':
-        case 'button':
-          close()
-          break
-        case 'overlay': {
-          const timeout = setTimeout(close, 1e3)
-          return () => clearTimeout(timeout) // clear timeout on unmount
-        }
+render(<Modal preventClose={true} onClosePrevent={({
+  triggeredBy,
+  close /* id, event */
+}) => {
+  switch (triggeredBy) {
+    case 'keyboard':
+    case 'button':
+      close();
+      break;
+    case 'overlay':
+      {
+        const timeout = setTimeout(close, 1e3);
+        return () => clearTimeout(timeout); // clear timeout on unmount
       }
-    }}
-  >
-    ...
-  </Modal>
-)
+  }
+}}>
+      ...
+    </Modal>)
 ```

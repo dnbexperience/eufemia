@@ -1,8 +1,8 @@
 ---
 title: 'Form.ButtonRow'
 description: '`Form.ButtonRow` is a wrapper for horizontally separated buttons.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.827Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.857Z
 checksum: d981eefdb45eafd168f036ff6bd5cdd6fd3f57f1495fb8fa4f65863b174d1723
 ---
 
@@ -32,36 +32,37 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Without any surrounding layout
 
+
 ```tsx
-render(
-  <Form.ButtonRow>
-    <Wizard.Buttons />
-    <Button variant="secondary">Other button</Button>
-  </Form.ButtonRow>
-)
+render(<Form.ButtonRow>
+        <Wizard.Buttons />
+        <Button variant="secondary">Other button</Button>
+      </Form.ButtonRow>)
 ```
+
 
 ### In combination with a Layout
 
+
 ```tsx
-render(
-  <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
-    <Form.Card>
-      <Field.Email />
-      <Form.ButtonRow>
-        <Form.SubmitButton icon={sendIcon} />
-        <Button variant="secondary">Cancel</Button>
-      </Form.ButtonRow>
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler onSubmit={data => console.log('onSubmit', data)}>
+        <Form.Card>
+          <Field.Email />
+          <Form.ButtonRow>
+            <Form.SubmitButton icon={sendIcon} />
+            <Button variant="secondary">Cancel</Button>
+          </Form.ButtonRow>
+        </Form.Card>
+      </Form.Handler>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -73,7 +74,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

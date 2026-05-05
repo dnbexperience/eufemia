@@ -1,8 +1,8 @@
 ---
 title: 'Value.PostalCodeAndCity'
 description: '`Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.239Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.191Z
 checksum: db7961bd44ab12a64bab31243b3343951db454ed0712fe7eecda3297bc12ae76
 ---
 
@@ -31,75 +31,79 @@ render(<Value.PostalCodeAndCity />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/PostalCodeAndCity)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.PostalCodeAndCity showEmpty />)
 ```
 
+
 ### Placeholder
 
+
 ```tsx
-render(
-  <Value.PostalCodeAndCity placeholder="The value was not filled in" />
-)
+render(<Value.PostalCodeAndCity placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.PostalCodeAndCity value="0010 Oslo" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.PostalCodeAndCity label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.PostalCodeAndCity label="Label text" value="0010 Oslo" />)
 ```
 
+
 ### Label and value from the DataContext
 
+
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      myPostalCode: '0010',
-      myCity: 'Oslo',
-    }}
-  >
-    <Value.PostalCodeAndCity
-      postalCode={{
-        path: '/myPostalCode',
-      }}
-      city={{
-        path: '/myCity',
-      }}
-    />
-  </Form.Handler>
-)
+render(<Form.Handler data={{
+  myPostalCode: '0010',
+  myCity: 'Oslo'
+}}>
+        <Value.PostalCodeAndCity postalCode={{
+    path: '/myPostalCode'
+  }} city={{
+    path: '/myCity'
+  }} />
+      </Form.Handler>)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.PostalCodeAndCity value="0010 Oslo" inline /> This is after the
-    component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.PostalCodeAndCity value="0010 Oslo" inline /> This is after
+        the component
+      </P>)
 ```
 
 ## Value-specific properties
+
 
 ```json
 {
@@ -118,7 +122,9 @@ render(
 }
 ```
 
+
 ## Properties
+
 
 ```json
 {
@@ -185,7 +191,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -195,18 +206,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "PostalCodeAndCity.invalidCode": {
       "nb-NO": "Ugyldig postnummer.",

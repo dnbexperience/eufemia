@@ -1,8 +1,8 @@
 ---
 title: 'Value.Date'
 description: '`Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.193Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.167Z
 checksum: 36cbdcd4a1ad32b5cbe9a2ab72297192fac95b6aaf44cdd10597a76872fbd8b4
 ---
 
@@ -33,58 +33,67 @@ Check the [Best Practices for number formatting](/uilib/usage/best-practices/for
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Date)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Date)
 
+
 ## Demos
 
 ### Label and value
+
 
 ```tsx
 render(<Value.Date label="Label text" value="2023-01-16" />)
 ```
 
+
 ### Variant short
 
+
 ```tsx
-render(
-  <Value.Date label="Label text" value="2023-01-16" variant="short" />
-)
+render(<Value.Date label="Label text" value="2023-01-16" variant="short" />)
 ```
+
 
 ### Variant numeric
 
+
 ```tsx
-render(
-  <Value.Date label="Label text" value="2023-01-16" variant="numeric" />
-)
+render(<Value.Date label="Label text" value="2023-01-16" variant="numeric" />)
 ```
 
+
 ### Date range
+
 
 ```tsx
 render(<Value.Date label="Label text" value="2023-01-16|2023-04-01" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.Date label="Label text" value="2023-01-16" inline /> This is
-    after the component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.Date label="Label text" value="2023-01-16" inline /> This is
+        after the component
+      </P>)
 ```
 
 ## Properties
 
 ### Value-specific properties
 
+
 ```json
 {
   "props": {
     "variant": {
       "doc": "Defines the variant of the date. Can be `long`, `short` or `numeric`. Defaults to `long`.",
-      "type": ["\"long\"", "\"short\"", "\"numeric\""],
+      "type": [
+        "\"long\"",
+        "\"short\"",
+        "\"numeric\""
+      ],
       "status": "optional"
     },
     "dateFormat": {
@@ -101,7 +110,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -168,7 +179,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -178,18 +194,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Date.label": {
       "nb-NO": "Dato",

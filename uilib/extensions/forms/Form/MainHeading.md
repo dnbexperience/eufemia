@@ -1,8 +1,8 @@
 ---
 title: 'Form.MainHeading'
 description: '`Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.919Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.946Z
 checksum: a49b043d7d31fec7f6ac2697605efdd82f8ebd7752638c7458c014cc87429631
 ---
 
@@ -42,53 +42,58 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Text only
+
 
 ```tsx
 render(<Form.MainHeading>This is a main heading</Form.MainHeading>)
 ```
 
+
 ### Above a flex container
+
 
 ```tsx
 <Form.MainHeading>This is a main heading</Form.MainHeading>
 <Flex.Stack>
-  <P>Stack contents</P>
-</Flex.Stack>
+      <P>Stack contents</P>
+    </Flex.Stack>
 ```
 
+
 ### Above Card
+
 
 ```tsx
 <Form.MainHeading>This is a main heading</Form.MainHeading>
 <Form.Card>
-  <P>Card contents</P>
-</Form.Card>
+      <P>Card contents</P>
+    </Form.Card>
 ```
+
 
 ### With HelpButton
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Form.MainHeading
-      help={{
-        title: 'Title',
-        content: 'Content',
-      }}
-    >
-      This is a main heading
-    </Form.MainHeading>
-    <Form.Card>
-      <P>Card contents</P>
-    </Form.Card>
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Form.MainHeading help={{
+    title: 'Title',
+    content: 'Content'
+  }}>
+          This is a main heading
+        </Form.MainHeading>
+        <Form.Card>
+          <P>Card contents</P>
+        </Form.Card>
+      </Flex.Stack>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -110,7 +115,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

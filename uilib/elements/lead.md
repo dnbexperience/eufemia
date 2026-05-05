@@ -1,8 +1,8 @@
 ---
 title: 'Lead'
 description: 'A lead paragraph is the opening paragraph of an article, etc.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.712Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.774Z
 checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
 ---
 
@@ -27,27 +27,32 @@ A lead paragraph is the opening paragraph of an article, such as a blog post or 
 
 Eufemia comes with [several styles](/uilib/elements/paragraph/#paragraphs-modifiers) you can use on paragraphs and other HTML text elements, where `.dnb-p--lead` is one of them.
 
+
 ## Demos
 
+
 ```tsx
-render(
-  <div>
-    <Lead>Default lead</Lead>
-    <Lead>
-      Lead with <Anchor href="/">Anchor / Text Link</Anchor> looks great!
-    </Lead>
-  </div>
-)
+render(<div>
+        <Lead>Default lead</Lead>
+        <Lead>
+          Lead with <Anchor href="/">Anchor / Text Link</Anchor> looks
+          great!
+        </Lead>
+      </div>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "element": {
       "doc": "Defines the Element Type, like `p`.",
-      "type": ["HTMLElement", "string"],
+      "type": [
+        "HTMLElement",
+        "string"
+      ],
       "status": "optional"
     },
     "size": {
@@ -78,17 +83,28 @@ render(
     },
     "align": {
       "doc": "Sets the text alignment.",
-      "type": ["\"center\"", "\"left\"", "\"right\""],
+      "type": [
+        "\"center\"",
+        "\"left\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "family": {
       "doc": "Sets the font family.",
-      "type": ["\"basis\"", "\"heading\"", "\"monospace\""],
+      "type": [
+        "\"basis\"",
+        "\"heading\"",
+        "\"monospace\""
+      ],
       "status": "optional"
     },
     "weight": {
       "doc": "Sets the font weight.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "status": "optional"
     },
     "decoration": {
@@ -103,12 +119,18 @@ render(
     },
     "proseMaxWidth": {
       "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
-      "type": ["number", "boolean"],
+      "type": [
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

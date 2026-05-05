@@ -1,6 +1,6 @@
 ---
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.334Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.451Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,12 +12,16 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 ### `NumberFormat.Number`
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -32,7 +36,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -113,26 +121,37 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `NumberFormat.Currency`
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -142,7 +161,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "currency": {
       "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.",
-      "type": ["string", "boolean"],
+      "type": [
+        "string",
+        "boolean"
+      ],
       "status": "optional"
     },
     "currencyDisplay": {
@@ -157,7 +179,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "decimals": {
@@ -167,7 +192,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -248,21 +277,29 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.Percent`
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -277,7 +314,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -358,21 +399,29 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `NumberFormat.PhoneNumber`
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -387,7 +436,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -473,23 +526,31 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.BankAccountNumber`
 
 Norwegian bank account number (e.g. `2000 12 34567`).
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -504,7 +565,11 @@ Norwegian bank account number (e.g. `2000 12 34567`).
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -585,23 +650,31 @@ Norwegian bank account number (e.g. `2000 12 34567`).
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.NationalIdentityNumber`
 
 Norwegian national identification number (e.g. `180892 12345`).
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -616,7 +689,11 @@ Norwegian national identification number (e.g. `180892 12345`).
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -697,23 +774,31 @@ Norwegian national identification number (e.g. `180892 12345`).
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.OrganizationNumber`
 
 Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by digit.
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -728,7 +813,11 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -809,18 +898,28 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "NumberFormat.clipboardCopy": {
       "nb-NO": "Kopiert",

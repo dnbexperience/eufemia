@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.303Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.425Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -105,490 +105,428 @@ render(
 - **List.Item.Accordion** exposes full ARIA for expand/collapse: the header has `id`, `aria-controls`, and `aria-expanded`; the content region has `id`, `aria-labelledby`, `aria-hidden`, and `aria-expanded`. Pass an `id` prop for stable references, or leave it unset for an auto-generated id. When `pending` is true, the header is not focusable and has `aria-disabled="true"`.
 - Use `aria-label` or other ARIA attributes on the container or items when needed for screen readers.
 
+
 ## Demos
 
 ### Rows with cells like Start, Center, End, Title
 
 This example demonstrates different cell layouts and their placement.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic>
-      <List.Cell.Start>Start</List.Cell.Start>
-      <List.Cell.Center>Center</List.Cell.Center>
-      <List.Cell.End>End</List.Cell.End>
-    </List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic>
+          <List.Cell.Start>Start</List.Cell.Start>
+          <List.Cell.Center>Center</List.Cell.Center>
+          <List.Cell.End>End</List.Cell.End>
+        </List.Item.Basic>
 
-    <List.Item.Basic title="Title" icon={fish_medium}>
-      <List.Cell.End>End</List.Cell.End>
-    </List.Item.Basic>
+        <List.Item.Basic title="Title" icon={fish_medium}>
+          <List.Cell.End>End</List.Cell.End>
+        </List.Item.Basic>
 
-    <List.Item.Basic>
-      <List.Cell.Title>
-        <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
-        Title
-        <List.Cell.Title.Subline variant="description">
-          Subline
-        </List.Cell.Title.Subline>
-      </List.Cell.Title>
-      <List.Cell.End>End</List.Cell.End>
-      <List.Cell.Footer
-        style={{
-          background: 'var(--token-color-background-neutral-subtle)',
-        }}
-      >
-        <P>Footer</P>
-      </List.Cell.Footer>
-    </List.Item.Basic>
-  </List.Container>
-)
+        <List.Item.Basic>
+          <List.Cell.Title>
+            <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+            Title
+            <List.Cell.Title.Subline variant="description">
+              Subline
+            </List.Cell.Title.Subline>
+          </List.Cell.Title>
+          <List.Cell.End>End</List.Cell.End>
+          <List.Cell.Footer style={{
+      background: 'var(--token-color-background-neutral-subtle)'
+    }}>
+            <P>Footer</P>
+          </List.Cell.Footer>
+        </List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### Navigable item
 
-```tsx
-render(
-  <List.Container>
-    <List.Item.Action
-      icon={fish_medium}
-      title="Navigate to details"
-      onClick={() => console.log('Clicked')}
-    >
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Action>
 
-    <List.Item.Action
-      chevronPosition="left"
-      title="Left aligned chevron"
-      onClick={() => console.log('Clicked')}
-    >
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
-)
+```tsx
+render(<List.Container>
+        <List.Item.Action icon={fish_medium} title="Navigate to details" onClick={() => console.log('Clicked')}>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action chevronPosition="left" title="Left aligned chevron" onClick={() => console.log('Clicked')}>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
 ```
+
 
 ### Navigable item with href
 
 Use the `href` property on `List.Item.Action` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
 
-```tsx
-render(
-  <List.Container>
-    <List.Item.Action
-      icon={fish_medium}
-      title="Link to details"
-      href="#details"
-    >
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Action>
 
-    <List.Item.Action
-      icon={fish_medium}
-      title="External link (opens in new tab)"
-      href="https://eufemia.dnb.no/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <List.Cell.End>
-        <NumberFormat.Currency value={5678} />
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
-)
+```tsx
+render(<List.Container>
+        <List.Item.Action icon={fish_medium} title="Link to details" href="#details">
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="External link (opens in new tab)" href="https://eufemia.dnb.no/" target="_blank" rel="noopener noreferrer">
+          <List.Cell.End>
+            <NumberFormat.Currency value={5678} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
 ```
+
 
 ### With anchor
 
 List items containing [Anchor](/uilib/components/anchor) links.
 
-```tsx
-render(
-  <List.Container>
-    <List.Item.Basic title={<Anchor href="#">Link to page one</Anchor>} />
 
-    <List.Item.Basic
-      icon={fish_medium}
-      title={<Anchor href="#">Link with icon and end value</Anchor>}
-    >
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Basic>
-  </List.Container>
-)
+```tsx
+render(<List.Container>
+        <List.Item.Basic title={<Anchor href="#">Link to page one</Anchor>} />
+
+        <List.Item.Basic icon={fish_medium} title={<Anchor href="#">Link with icon and end value</Anchor>}>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### Accordion
 
 Expandable list items using `List.Item.Accordion` with optional `icon` and `title` properties and `List.Item.Accordion.Content` for the expandable section. Use the `open` property to set the initial open state.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Accordion icon={fish_medium} title="Accordion title">
-      <List.Item.Accordion.Header>
-        <List.Cell.End>
-          <NumberFormat.Currency value={1234} />
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
+render(<List.Container>
+        <List.Item.Accordion icon={fish_medium} title="Accordion title">
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <NumberFormat.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
 
-      <List.Item.Accordion.Content innerSpace>
-        <P>Accordion content goes here.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-    <List.Item.Accordion open title="Opened by default">
-      <List.Item.Accordion.Content innerSpace>
-        <P>This section is open initially.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
+        <List.Item.Accordion open title="Opened by default">
+          <List.Item.Accordion.Content innerSpace>
+            <P>This section is open initially.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-    <List.Item.Accordion
-      chevronPosition="left"
-      title="Chevron on the left"
-    >
-      <List.Item.Accordion.Header>
-        <List.Cell.End>
-          <NumberFormat.Currency value={1234} />
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Item.Accordion.Content innerSpace>
-        <P>
-          Use <Code>chevronPosition="left"</Code> to place the chevron on
-          the left.
-        </P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
-  </List.Container>
-)
+        <List.Item.Accordion chevronPosition="left" title="Chevron on the left">
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <NumberFormat.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>
+              Use <Code>chevronPosition="left"</Code> to place the chevron
+              on the left.
+            </P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>)
 ```
+
 
 ### With Badge
 
 Use [Badge](/uilib/components/badge) in `List.Cell.End` to show status or counts.
 
-```tsx
-render(
-  <List.Container>
-    <List.Item.Action title="In Action Item" icon={fish_medium}>
-      <List.Cell.End>
-        <Badge content="Badge" />
-      </List.Cell.End>
-    </List.Item.Action>
 
-    <List.Item.Accordion title="In Accordion Item" icon={fish_medium}>
-      <List.Item.Accordion.Header>
-        <List.Cell.End>
-          <Flex.Horizontal>
-            <Badge
-              content={3}
-              label="Notifications"
-              variant="notification"
-            />
-            <Value.Currency value={1234} />
-          </Flex.Horizontal>
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Item.Accordion.Content innerSpace>
-        <P>Accordion content goes here.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
-  </List.Container>
-)
+```tsx
+render(<List.Container>
+        <List.Item.Action title="In Action Item" icon={fish_medium}>
+          <List.Cell.End>
+            <Badge content="Badge" />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion title="In Accordion Item" icon={fish_medium}>
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Flex.Horizontal>
+                <Badge content={3} label="Notifications" variant="notification" />
+                <Value.Currency value={1234} />
+              </Flex.Horizontal>
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>)
 ```
+
 
 ### Footer with buttons
 
 Use `List.Cell.Footer` to place actions such as [Button](/uilib/components/button) in the list row.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic title="Item with actions" icon={fish_medium}>
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-      <List.Cell.Footer>
-        <Flex.Horizontal>
-          <Button text="Save" />
-          <Button variant="tertiary" text="Delete" />
-        </Flex.Horizontal>
-      </List.Cell.Footer>
-    </List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic title="Item with actions" icon={fish_medium}>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+          <List.Cell.Footer>
+            <Flex.Horizontal>
+              <Button text="Save" />
+              <Button variant="tertiary" text="Delete" />
+            </Flex.Horizontal>
+          </List.Cell.Footer>
+        </List.Item.Basic>
 
-    <List.Item.Action icon={fish_medium} title="Action item with footer">
-      <List.Cell.End>
-        <Value.Currency value={5678} />
-      </List.Cell.End>
-      <List.Cell.Footer>
-        <Span>
-          Do not put interactive elements (e.g. Button) inside a footer
-          when using List.Item.Action.
-        </Span>
-      </List.Cell.Footer>
-    </List.Item.Action>
+        <List.Item.Action icon={fish_medium} title="Action item with footer">
+          <List.Cell.End>
+            <Value.Currency value={5678} />
+          </List.Cell.End>
+          <List.Cell.Footer>
+            <Span>
+              Do not put interactive elements (e.g. Button) inside a footer
+              when using List.Item.Action.
+            </Span>
+          </List.Cell.Footer>
+        </List.Item.Action>
 
-    <List.Item.Accordion chevronPosition="left" title="Accordion title">
-      <List.Item.Accordion.Header>
-        <List.Cell.End>
-          <NumberFormat.Currency value={1234} />
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Cell.Footer
-        style={{
-          background: 'var(--token-color-background-neutral-subtle)',
-        }}
-      >
-        <P>
-          Do not put interactive elements (e.g. Button) inside a footer
-          when using List.Item.Accordion.
-        </P>
-      </List.Cell.Footer>
+        <List.Item.Accordion chevronPosition="left" title="Accordion title">
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <NumberFormat.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Cell.Footer style={{
+      background: 'var(--token-color-background-neutral-subtle)'
+    }}>
+            <P>
+              Do not put interactive elements (e.g. Button) inside a footer
+              when using List.Item.Accordion.
+            </P>
+          </List.Cell.Footer>
 
-      <List.Item.Accordion.Content innerSpace>
-        <P>Accordion content goes here.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
-  </List.Container>
-)
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>)
 ```
+
 
 ### Responsive Grid Layout
 
 Using [Grid.Container](/uilib/layout/grid/container) with [Grid.Item](/uilib/layout/grid/item) for a 12-column responsive grid.
 
+
 ```tsx
-render(
-  <Grid.Container
-    rowGap
-    columnGap
-    style={{
-      marginInline: 'auto',
-      maxInlineSize: 'var(--layout-medium)',
-    }}
-  >
-    <Grid.Item
-      span={{
-        small: 'full',
-        medium: [1, 4],
-        large: [5, 12],
-      }}
-    >
-      <List.Container>
-        <List.Item.Action icon={fish_medium} title="Navigate to details">
-          <List.Cell.End>
-            <NumberFormat.Currency value={1234} />
-          </List.Cell.End>
-        </List.Item.Action>
+render(<Grid.Container rowGap columnGap style={{
+  marginInline: 'auto',
+  maxInlineSize: 'var(--layout-medium)'
+}}>
+        <Grid.Item span={{
+    small: 'full',
+    medium: [1, 4],
+    large: [5, 12]
+  }}>
+          <List.Container>
+            <List.Item.Action icon={fish_medium} title="Navigate to details">
+              <List.Cell.End>
+                <NumberFormat.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Navigate to details">
-          <List.Cell.End>
-            <NumberFormat.Currency value={1234} />
-          </List.Cell.End>
-        </List.Item.Action>
-      </List.Container>
-    </Grid.Item>
+            <List.Item.Action icon={fish_medium} title="Navigate to details">
+              <List.Cell.End>
+                <NumberFormat.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </Grid.Item>
 
-    <Grid.Item
-      span={{
-        small: 'full',
-        medium: [5, 6],
-        large: [1, 4],
-      }}
-      style={{
-        display: 'gid',
-        placeContent: 'center',
-        textAlign: 'center',
-        background: 'var(--token-color-background-neutral-subtle)',
-      }}
-    >
-      <P>Second Grid Item</P>
-    </Grid.Item>
-  </Grid.Container>
-)
+        <Grid.Item span={{
+    small: 'full',
+    medium: [5, 6],
+    large: [1, 4]
+  }} style={{
+    display: 'gid',
+    placeContent: 'center',
+    textAlign: 'center',
+    background: 'var(--token-color-background-neutral-subtle)'
+  }}>
+          <P>Second Grid Item</P>
+        </Grid.Item>
+      </Grid.Container>)
 ```
+
 
 ### Separated lists
 
 Use the `separated` property on `List.Container` to add row gap between list items.
 
-```tsx
-render(
-  <List.Container separated>
-    <List.Item.Basic icon={fish_medium} title="Title 1">
-      <List.Cell.End>
-        <Value.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Basic>
 
-    <List.Item.Basic icon={fish_medium} title="Title 2">
-      <List.Cell.End>
-        <Value.Currency value={4567} />
-      </List.Cell.End>
-    </List.Item.Basic>
-  </List.Container>
-)
+```tsx
+render(<List.Container separated>
+        <List.Item.Basic icon={fish_medium} title="Title 1">
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Basic>
+
+        <List.Item.Basic icon={fish_medium} title="Title 2">
+          <List.Cell.End>
+            <Value.Currency value={4567} />
+          </List.Cell.End>
+        </List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### Dynamic list
 
+
 ```tsx
-const myList = [
-  {
-    name: 'List item 1',
-    amount: 10000,
-  },
-  {
-    name: 'List item 2',
-    amount: 5000,
-  },
-  {
-    name: 'List item 3',
-    amount: 7500,
-  },
-]
-render(
-  <List.Container>
-    {myList.map((account) => (
-      <List.Item.Basic key={account.name} title={account.name}>
-        <List.Cell.End>
-          <Value.Currency value={account.amount} />
-        </List.Cell.End>
-      </List.Item.Basic>
-    ))}
-  </List.Container>
-)
+const myList = [{
+  name: 'List item 1',
+  amount: 10000
+}, {
+  name: 'List item 2',
+  amount: 5000
+}, {
+  name: 'List item 3',
+  amount: 7500
+}];
+render(<List.Container>
+            {myList.map(account => <List.Item.Basic key={account.name} title={account.name}>
+                <List.Cell.End>
+                  <Value.Currency value={account.amount} />
+                </List.Cell.End>
+              </List.Item.Basic>)}
+          </List.Container>);
 ```
+
 
 ### With DateFormat
 
 Use [DateFormat](/uilib/components/date-format) in `List.Cell.Start` to show dates in the list row.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic title="In Basic Item">
-      <List.Cell.Start fontSize="small">
-        <DateFormat
-          value={new Date('2026-02-07')}
-          dateStyle="medium"
-          hideCurrentYear
-        />
-      </List.Cell.Start>
-      <List.Cell.End>
-        <Value.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic title="In Basic Item">
+          <List.Cell.Start fontSize="small">
+            <DateFormat value={new Date('2026-02-07')} dateStyle="medium" hideCurrentYear />
+          </List.Cell.Start>
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Basic>
 
-    <List.Item.Action>
-      <List.Cell.Title>
-        <List.Cell.Title.Overline>
-          <DateFormat
-            value={new Date('2026-02-07')}
-            dateStyle="medium"
-            hideCurrentYear
-          />
-        </List.Cell.Title.Overline>
-        In Action Item
-      </List.Cell.Title>
-      <List.Cell.End>
-        <Value.Currency value={5678} />
-      </List.Cell.End>
-    </List.Item.Action>
+        <List.Item.Action>
+          <List.Cell.Title>
+            <List.Cell.Title.Overline>
+              <DateFormat value={new Date('2026-02-07')} dateStyle="medium" hideCurrentYear />
+            </List.Cell.Title.Overline>
+            In Action Item
+          </List.Cell.Title>
+          <List.Cell.End>
+            <Value.Currency value={5678} />
+          </List.Cell.End>
+        </List.Item.Action>
 
-    <List.Item.Accordion>
-      <List.Item.Accordion.Header>
-        <List.Cell.Title>
-          <List.Cell.Title.Overline>
-            <DateFormat
-              value={new Date('2026-02-07')}
-              dateStyle="medium"
-              hideCurrentYear
-            />
-          </List.Cell.Title.Overline>
-          In Accordion Item
-        </List.Cell.Title>
-        <List.Cell.End>
-          <Value.Currency value={1234} />
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Item.Accordion.Content innerSpace>
-        <P>
-          Use <Code>chevronPosition="left"</Code> to place the chevron on
-          the left.
-        </P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
-  </List.Container>
-)
+        <List.Item.Accordion>
+          <List.Item.Accordion.Header>
+            <List.Cell.Title>
+              <List.Cell.Title.Overline>
+                <DateFormat value={new Date('2026-02-07')} dateStyle="medium" hideCurrentYear />
+              </List.Cell.Title.Overline>
+              In Accordion Item
+            </List.Cell.Title>
+            <List.Cell.End>
+              <Value.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>
+              Use <Code>chevronPosition="left"</Code> to place the chevron
+              on the left.
+            </P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>)
 ```
+
 
 ### With Subline
 
 Use `List.Cell.Title.Subline` to add supporting text below the title. The `variant="description"` option uses smaller text for secondary information.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Action icon={fish_medium}>
-      <List.Cell.Title>
-        <span>Item 1</span>
-        <List.Cell.Title.Subline>
-          <DateFormat
-            value={new Date('2026-02-07')}
-            dateStyle="medium"
-            hideCurrentYear
-          />
-        </List.Cell.Title.Subline>
-      </List.Cell.Title>
-      <List.Cell.End>
-        <Value.Currency value={5678} />
-      </List.Cell.End>
-    </List.Item.Action>
+render(<List.Container>
+        <List.Item.Action icon={fish_medium}>
+          <List.Cell.Title>
+            <span>Item 1</span>
+            <List.Cell.Title.Subline>
+              <DateFormat value={new Date('2026-02-07')} dateStyle="medium" hideCurrentYear />
+            </List.Cell.Title.Subline>
+          </List.Cell.Title>
+          <List.Cell.End>
+            <Value.Currency value={5678} />
+          </List.Cell.End>
+        </List.Item.Action>
 
-    <List.Item.Accordion icon={fish_medium}>
-      <List.Item.Accordion.Header>
-        <List.Cell.Title>
-          <span>Item 2</span>
-          <List.Cell.Title.Subline>Detail 1</List.Cell.Title.Subline>
-          <List.Cell.Title.Subline variant="description">
-            Detail 2
-          </List.Cell.Title.Subline>
-          <List.Cell.Title.Subline>
-            <Flex.Horizontal rowGap="x-small">
-              <Badge status="neutral" subtle content="Detail 3" />
-              <Badge status="neutral" subtle content="Detail 3" />
-            </Flex.Horizontal>
-          </List.Cell.Title.Subline>
-        </List.Cell.Title>
-        <List.Cell.End>
-          <Value.Currency value={5678} />
-        </List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Item.Accordion.Content innerSpace>
-        <P>Accordion content goes here.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
+        <List.Item.Accordion icon={fish_medium}>
+          <List.Item.Accordion.Header>
+            <List.Cell.Title>
+              <span>Item 2</span>
+              <List.Cell.Title.Subline>Detail 1</List.Cell.Title.Subline>
+              <List.Cell.Title.Subline variant="description">
+                Detail 2
+              </List.Cell.Title.Subline>
+              <List.Cell.Title.Subline>
+                <Flex.Horizontal rowGap="x-small">
+                  <Badge status="neutral" subtle content="Detail 3" />
+                  <Badge status="neutral" subtle content="Detail 3" />
+                </Flex.Horizontal>
+              </List.Cell.Title.Subline>
+            </List.Cell.Title>
+            <List.Cell.End>
+              <Value.Currency value={5678} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-    <List.Item.Action title="Title" icon={fish_medium}>
-      <List.Cell.End>
-        <Value.Currency value={5678} />
-        <List.Cell.Title.Subline variant="description">
-          Subline
-        </List.Cell.Title.Subline>
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
-)
+        <List.Item.Action title="Title" icon={fish_medium}>
+          <List.Cell.End>
+            <Value.Currency value={5678} />
+            <List.Cell.Title.Subline variant="description">
+              Subline
+            </List.Cell.Title.Subline>
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
 ```
+
 
 ### With form elements
 
@@ -596,374 +534,340 @@ Use [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) and [Field
 
 Place them inside `List.Cell.Start` to align them to the left side of the list row.
 
-```tsx
-render(
-  <Form.Handler
-    defaultData={{
-      mySelection: 'bar',
-      myArraySelection: ['bar'],
-      myDataPath: [
-        {
-          value: 'foo',
-          title: 'Foo!',
-          amount: 1234,
-        },
-        {
-          value: 'bar',
-          title: 'Baar!',
-          amount: 5678,
-        },
-        {
-          value: 'baz',
-          title: 'Baz!',
-          amount: 9999,
-        },
-      ],
-    }}
-  >
-    <Flex.Stack>
-      <Field.Selection
-        label="Single choice"
-        variant="radio"
-        path="/mySelection"
-        dataPath="/myDataPath"
-        width="large"
-      >
-        {({ value: selectedValue, options = [] }) => {
-          return (
-            <List.Container>
-              {options.map(({ value, title, amount }) => {
-                return (
-                  <List.Item.Basic
-                    key={value}
-                    selected={value === selectedValue}
-                  >
-                    <List.Cell.Start>
-                      <Field.Option value={value} title={title} />
-                    </List.Cell.Start>
-                    <List.Cell.End>
-                      <Value.Currency value={amount} />
-                    </List.Cell.End>
-                  </List.Item.Basic>
-                )
-              })}
-            </List.Container>
-          )
-        }}
-      </Field.Selection>
 
-      <Field.ArraySelection
-        label="Multiple choice"
-        variant="checkbox"
-        path="/myArraySelection"
-        dataPath="/myDataPath"
-        width="large"
-      >
-        {({ value = [], options = [] }) => {
-          return (
-            <List.Container>
-              {options.map(({ value: optionValue, title, amount }) => {
-                return (
-                  <List.Item.Basic
-                    key={optionValue}
-                    selected={value.includes(optionValue)}
-                  >
-                    <List.Cell.Start>
-                      <Field.Option value={optionValue} title={title} />
-                    </List.Cell.Start>
-                    <List.Cell.End>
-                      <Value.Currency value={amount} />
-                    </List.Cell.End>
-                  </List.Item.Basic>
-                )
-              })}
-            </List.Container>
-          )
-        }}
-      </Field.ArraySelection>
-    </Flex.Stack>
-  </Form.Handler>
-)
+```tsx
+render(<Form.Handler defaultData={{
+  mySelection: 'bar',
+  myArraySelection: ['bar'],
+  myDataPath: [{
+    value: 'foo',
+    title: 'Foo!',
+    amount: 1234
+  }, {
+    value: 'bar',
+    title: 'Baar!',
+    amount: 5678
+  }, {
+    value: 'baz',
+    title: 'Baz!',
+    amount: 9999
+  }]
+}}>
+            <Flex.Stack>
+              <Field.Selection label="Single choice" variant="radio" path="/mySelection" dataPath="/myDataPath" width="large">
+                {({
+        value: selectedValue,
+        options = []
+      }) => {
+        return <List.Container>
+                      {options.map(({
+            value,
+            title,
+            amount
+          }) => {
+            return <List.Item.Basic key={value} selected={value === selectedValue}>
+                            <List.Cell.Start>
+                              <Field.Option value={value} title={title} />
+                            </List.Cell.Start>
+                            <List.Cell.End>
+                              <Value.Currency value={amount} />
+                            </List.Cell.End>
+                          </List.Item.Basic>;
+          })}
+                    </List.Container>;
+      }}
+              </Field.Selection>
+
+              <Field.ArraySelection label="Multiple choice" variant="checkbox" path="/myArraySelection" dataPath="/myDataPath" width="large">
+                {({
+        value = [],
+        options = []
+      }) => {
+        return <List.Container>
+                      {options.map(({
+            value: optionValue,
+            title,
+            amount
+          }) => {
+            return <List.Item.Basic key={optionValue} selected={value.includes(optionValue)}>
+                              <List.Cell.Start>
+                                <Field.Option value={optionValue} title={title} />
+                              </List.Cell.Start>
+                              <List.Cell.End>
+                                <Value.Currency value={amount} />
+                              </List.Cell.End>
+                            </List.Item.Basic>;
+          })}
+                    </List.Container>;
+      }}
+              </Field.ArraySelection>
+            </Flex.Stack>
+          </Form.Handler>);
 ```
+
 
 ### With avatar
 
 Use [Avatar](/uilib/components/avatar) in `List.Cell.Start` as the left content.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic title="Alice Andersen">
-      <List.Cell.Start>
-        <Avatar size="medium">A</Avatar>
-      </List.Cell.Start>
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic title="Alice Andersen">
+          <List.Cell.Start>
+            <Avatar size="medium">A</Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Basic>
 
-    <List.Item.Action title="Bob Berg" onClick={() => {}}>
-      <List.Cell.Start>
-        <Avatar size="medium">B</Avatar>
-      </List.Cell.Start>
-      <List.Cell.End>
-        <Value.Currency value={5678} />
-      </List.Cell.End>
-    </List.Item.Action>
+        <List.Item.Action title="Bob Berg" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium">B</Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>
+            <Value.Currency value={5678} />
+          </List.Cell.End>
+        </List.Item.Action>
 
-    <List.Item.Accordion title="Carol with image">
-      <List.Item.Accordion.Header>
-        <List.Cell.Start>
-          <Avatar size="medium">C</Avatar>
-        </List.Cell.Start>
-        <List.Cell.End>Value</List.Cell.End>
-      </List.Item.Accordion.Header>
-      <List.Item.Accordion.Content innerSpace>
-        <P>Content goes here.</P>
-      </List.Item.Accordion.Content>
-    </List.Item.Accordion>
-  </List.Container>
-)
+        <List.Item.Accordion title="Carol with image">
+          <List.Item.Accordion.Header>
+            <List.Cell.Start>
+              <Avatar size="medium">C</Avatar>
+            </List.Cell.Start>
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>)
 ```
+
 
 ### Selected state
 
 Provide the `selected` property on `List.Item.Basic` for selectable rows. When a **checkbox** or **radio** is nested inside the row, this also enables the full-row hit area behavior.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic>Normal row</List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic>Normal row</List.Item.Basic>
 
-    <List.Item.Basic selected>Selected row</List.Item.Basic>
+        <List.Item.Basic selected>Selected row</List.Item.Basic>
 
-    <List.Item.Basic>Another normal row</List.Item.Basic>
-  </List.Container>
-)
+        <List.Item.Basic>Another normal row</List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### With custom background color
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic>Normal row</List.Item.Basic>
+render(<List.Container>
+        <List.Item.Basic>Normal row</List.Item.Basic>
 
-    <List.Item.Basic
-      style={{
-        ['--item-background-color' as string]:
-          'var(--color-mint-green-12)',
-      }}
-    >
-      Custom background color (not selected)
-    </List.Item.Basic>
+        <List.Item.Basic style={{
+    ['--item-background-color' as string]: 'var(--color-mint-green-12)'
+  }}>
+          Custom background color (not selected)
+        </List.Item.Basic>
 
-    <List.Item.Basic>Another normal row</List.Item.Basic>
-  </List.Container>
-)
+        <List.Item.Basic>Another normal row</List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### Pending state
 
 Use the `pending` property on `List.Item.Basic` or `List.Item.Action` to show a skeleton overlay. Click and keyboard are disabled while pending.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Action icon={fish_medium} title="Pending item ..." pending>
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
-)
+render(<List.Container>
+        <List.Item.Action icon={fish_medium} title="Pending item ..." pending>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
 ```
+
 
 ### Progress indicator
 
 A single list item with a circular progress indicator in `List.Cell.Start`.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Basic>
-      <List.Cell.Start>
-        <ProgressIndicator
-          size="medium"
-          showDefaultLabel
-          labelDirection="horizontal"
-        />
-      </List.Cell.Start>
-    </List.Item.Basic>
-  </List.Container>
-)
+render(<List.Container>
+        <List.Item.Basic>
+          <List.Cell.Start>
+            <ProgressIndicator size="medium" showDefaultLabel labelDirection="horizontal" />
+          </List.Cell.Start>
+        </List.Item.Basic>
+      </List.Container>)
 ```
+
 
 ### Skeleton
 
 Use the `skeleton` property on `List.Item.Basic`, `List.Item.Action` or `List.Item.Accordion` to show a skeleton overlay while content is loading.
 
+
 ```tsx
-render(
-  <List.Container>
-    <List.Item.Action icon={fish_medium} title="Loading item…" skeleton>
-      <List.Cell.End>
-        <NumberFormat.Currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
-)
+render(<List.Container>
+        <List.Item.Action icon={fish_medium} title="Loading item…" skeleton>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
 ```
+
 
 ### Inside a Card
 
 Use `List.Card` to wrap a list inside a [Card](/uilib/components/card) with built-in styling. Add `List.ScrollView` for a scrollable area with a `maxVisibleListItems` property.
 
+
 ```tsx
-render(
-  <List.Card>
-    <Heading size="medium">Transactions</Heading>
+render(<List.Card>
+        <Heading size="medium">Transactions</Heading>
 
-    <List.ScrollView maxVisibleListItems={4}>
-      <List.Container>
-        <List.Item.Action icon={fish_medium} title="Payment received">
-          <List.Cell.End>
-            <Value.Currency value={1234} />
-          </List.Cell.End>
-        </List.Item.Action>
+        <List.ScrollView maxVisibleListItems={4}>
+          <List.Container>
+            <List.Item.Action icon={fish_medium} title="Payment received">
+              <List.Cell.End>
+                <Value.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Transfer sent">
-          <List.Cell.End>
-            <Value.Currency value={-500} />
-          </List.Cell.End>
-        </List.Item.Action>
+            <List.Item.Action icon={fish_medium} title="Transfer sent">
+              <List.Cell.End>
+                <Value.Currency value={-500} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Subscription">
-          <List.Cell.End>
-            <Value.Currency value={-99} />
-          </List.Cell.End>
-        </List.Item.Action>
+            <List.Item.Action icon={fish_medium} title="Subscription">
+              <List.Cell.End>
+                <Value.Currency value={-99} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Refund">
-          <List.Cell.End>
-            <Value.Currency value={250} />
-          </List.Cell.End>
-        </List.Item.Action>
+            <List.Item.Action icon={fish_medium} title="Refund">
+              <List.Cell.End>
+                <Value.Currency value={250} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Salary">
-          <List.Cell.End>
-            <Value.Currency value={45000} />
-          </List.Cell.End>
-        </List.Item.Action>
+            <List.Item.Action icon={fish_medium} title="Salary">
+              <List.Cell.End>
+                <Value.Currency value={45000} />
+              </List.Cell.End>
+            </List.Item.Action>
 
-        <List.Item.Action icon={fish_medium} title="Groceries">
-          <List.Cell.End>
-            <Value.Currency value={-320} />
-          </List.Cell.End>
-        </List.Item.Action>
-      </List.Container>
-    </List.ScrollView>
-  </List.Card>
-)
+            <List.Item.Action icon={fish_medium} title="Groceries">
+              <List.Cell.End>
+                <Value.Currency value={-320} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </List.ScrollView>
+      </List.Card>)
 ```
+
 
 #### Inside a Card without ScrollView
 
 `List.Card` also works without `List.ScrollView`. Side borders and redundant top/bottom borders on the first and last items are automatically removed.
 
+
 ```tsx
-render(
-  <List.Card innerSpace="x-small">
-    <List.Container>
-      <List.Item.Action
-        icon={fish_medium}
-        title="Payment received"
-        onClick={() => {}}
-      >
-        <List.Cell.End>
-          <Value.Currency value={1234} />
-        </List.Cell.End>
-      </List.Item.Action>
+render(<List.Card innerSpace="x-small">
+        <List.Container>
+          <List.Item.Action icon={fish_medium} title="Payment received" onClick={() => {}}>
+            <List.Cell.End>
+              <Value.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Action>
 
-      <List.Item.Action
-        icon={fish_medium}
-        title="Transfer sent"
-        onClick={() => {}}
-      >
-        <List.Cell.End>
-          <Value.Currency value={-500} />
-        </List.Cell.End>
-      </List.Item.Action>
+          <List.Item.Action icon={fish_medium} title="Transfer sent" onClick={() => {}}>
+            <List.Cell.End>
+              <Value.Currency value={-500} />
+            </List.Cell.End>
+          </List.Item.Action>
 
-      <List.Item.Basic icon={fish_medium} title="Subscription">
-        <List.Cell.End>
-          <Value.Currency value={-99} />
-        </List.Cell.End>
-      </List.Item.Basic>
-    </List.Container>
-  </List.Card>
-)
+          <List.Item.Basic icon={fish_medium} title="Subscription">
+            <List.Cell.End>
+              <Value.Currency value={-99} />
+            </List.Cell.End>
+          </List.Item.Basic>
+        </List.Container>
+      </List.Card>)
 ```
+
 
 #### With ShowMoreButton and visibleCount
 
 Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the list. Link it to `List.Container` by giving both the same `id`. Set `visibleCount` on the container to limit how many items are visible when collapsed.
 
+
 ```tsx
 <Flex.Horizontal justify="space-between" align="center" bottom>
-  <Heading size="medium" top={false} bottom={false}>
-    Transactions
-  </Heading>
-  <List.ShowMoreButton id="my-limited-list" />
-</Flex.Horizontal>
+      <Heading size="medium" top={false} bottom={false}>
+        Transactions
+      </Heading>
+      <List.ShowMoreButton id="my-limited-list" />
+    </Flex.Horizontal>
 <List.Container id="my-limited-list" visibleCount={3}>
-  <List.Item.Action icon={fish_medium} title="Payment received">
-    <List.Cell.End>
-      <Value.Currency value={1234} />
-    </List.Cell.End>
-  </List.Item.Action>
-   <List.Item.Accordion
-    icon={fish_medium}
-    title="Transfer sent (Accordion)"
-  >
-    <List.Item.Accordion.Header>
-      <List.Cell.End>
-        <Value.Currency value={-500} />
-      </List.Cell.End>
-    </List.Item.Accordion.Header>
-    <List.Item.Accordion.Content innerSpace>
-      <P>Details about the transfer go here.</P>
-    </List.Item.Accordion.Content>
-  </List.Item.Accordion>
-   <List.Item.Basic icon={fish_medium} title="Subscription">
-    <List.Cell.End>
-      <Value.Currency value={-99} />
-    </List.Cell.End>
-  </List.Item.Basic>
-   <List.Item.Action icon={fish_medium} title="Refund">
-    <List.Cell.End>
-      <Value.Currency value={250} />
-    </List.Cell.End>
-  </List.Item.Action>
-   <List.Item.Action icon={fish_medium} title="Salary">
-    <List.Cell.End>
-      <Value.Currency value={45000} />
-    </List.Cell.End>
-  </List.Item.Action>
-   <List.Item.Accordion icon={fish_medium} title="Groceries (Accordion)">
-    <List.Item.Accordion.Header>
-      <List.Cell.End>
-        <Value.Currency value={-320} />
-      </List.Cell.End>
-    </List.Item.Accordion.Header>
-    <List.Item.Accordion.Content innerSpace>
-      <P>Details about the transfer go here.</P>
-    </List.Item.Accordion.Content>
-  </List.Item.Accordion>
-</List.Container>
+      <List.Item.Action icon={fish_medium} title="Payment received">
+        <List.Cell.End>
+          <Value.Currency value={1234} />
+        </List.Cell.End>
+      </List.Item.Action>
+       <List.Item.Accordion icon={fish_medium} title="Transfer sent (Accordion)">
+        <List.Item.Accordion.Header>
+          <List.Cell.End>
+            <Value.Currency value={-500} />
+          </List.Cell.End>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content innerSpace>
+          <P>Details about the transfer go here.</P>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+       <List.Item.Basic icon={fish_medium} title="Subscription">
+        <List.Cell.End>
+          <Value.Currency value={-99} />
+        </List.Cell.End>
+      </List.Item.Basic>
+       <List.Item.Action icon={fish_medium} title="Refund">
+        <List.Cell.End>
+          <Value.Currency value={250} />
+        </List.Cell.End>
+      </List.Item.Action>
+       <List.Item.Action icon={fish_medium} title="Salary">
+        <List.Cell.End>
+          <Value.Currency value={45000} />
+        </List.Cell.End>
+      </List.Item.Action>
+       <List.Item.Accordion icon={fish_medium} title="Groceries (Accordion)">
+        <List.Item.Accordion.Header>
+          <List.Cell.End>
+            <Value.Currency value={-320} />
+          </List.Cell.End>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content innerSpace>
+          <P>Details about the transfer go here.</P>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
 ```
 
 ## List.Container
+
 
 ```json
 {
@@ -995,14 +899,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Item.Basic
+
 
 ```json
 {
@@ -1044,14 +953,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Item.Action
+
 
 ```json
 {
@@ -1103,7 +1017,10 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "chevronPosition": {
       "doc": "Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "defaultValue": "\"right\"",
       "status": "optional"
     },
@@ -1134,14 +1051,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Item.Accordion
+
 
 ```json
 {
@@ -1158,7 +1080,10 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "chevronPosition": {
       "doc": "Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.",
-      "type": ["\"left\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"right\""
+      ],
       "defaultValue": "\"right\"",
       "status": "optional"
     },
@@ -1199,7 +1124,9 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
 }
 ```
 
+
 ## List.Item.Accordion.Header
+
 
 ```json
 {
@@ -1216,14 +1143,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Item.Accordion.Content
+
 
 ```json
 {
@@ -1235,21 +1167,29 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Title
+
 
 ```json
 {
   "props": {
     "fontSize": {
       "doc": "Font size of the title content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["\"small\"", "\"basis\""],
+      "type": [
+        "\"small\"",
+        "\"basis\""
+      ],
       "defaultValue": "\"basis\"",
       "status": "optional"
     },
@@ -1260,27 +1200,39 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Title.Overline
+
 
 ```json
 {
   "props": {
     "fontSize": {
       "doc": "Font size of the overline content. Defaults to `x-small`.",
-      "type": ["\"basis\"", "\"small\"", "\"x-small\""],
+      "type": [
+        "\"basis\"",
+        "\"small\"",
+        "\"x-small\""
+      ],
       "defaultValue": "\"x-small\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the overline content. Defaults to `medium`.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "defaultValue": "\"medium\"",
       "status": "optional"
     },
@@ -1291,32 +1243,46 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Title.Subline
+
 
 ```json
 {
   "props": {
     "variant": {
       "doc": "Visual variant. Use `description` for smaller, muted text style.",
-      "type": ["\"description\""],
+      "type": [
+        "\"description\""
+      ],
       "status": "optional"
     },
     "fontSize": {
       "doc": "Font size of the subline content. Defaults to `small`. When `variant=\"description\"`, defaults to `x-small`.",
-      "type": ["\"basis\"", "\"small\"", "\"x-small\""],
+      "type": [
+        "\"basis\"",
+        "\"small\"",
+        "\"x-small\""
+      ],
       "defaultValue": "\"small\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the subline content. Defaults to `regular`.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "defaultValue": "\"regular\"",
       "status": "optional"
     },
@@ -1327,27 +1293,38 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Start
+
 
 ```json
 {
   "props": {
     "fontSize": {
       "doc": "Font size of the start content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["\"small\"", "\"basis\""],
+      "type": [
+        "\"small\"",
+        "\"basis\""
+      ],
       "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the start content. Defaults to `regular`.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "defaultValue": "\"regular\"",
       "status": "optional"
     },
@@ -1358,27 +1335,38 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Center
+
 
 ```json
 {
   "props": {
     "fontSize": {
       "doc": "Font size of the center content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["\"small\"", "\"basis\""],
+      "type": [
+        "\"small\"",
+        "\"basis\""
+      ],
       "defaultValue": "\"basis\"",
       "status": "optional"
     },
     "fontWeight": {
       "doc": "Font weight of the center content. Defaults to `regular`.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "defaultValue": "\"regular\"",
       "status": "optional"
     },
@@ -1389,27 +1377,38 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.End
+
 
 ```json
 {
   "props": {
     "fontWeight": {
       "doc": "Font weight of the end content. Defaults to `medium`.",
-      "type": ["\"regular\"", "\"medium\""],
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
       "defaultValue": "\"medium\"",
       "status": "optional"
     },
     "fontSize": {
       "doc": "Font size of the end content. Defaults to `basis`. Use `small` for smaller text.",
-      "type": ["\"small\"", "\"basis\""],
+      "type": [
+        "\"small\"",
+        "\"basis\""
+      ],
       "defaultValue": "\"basis\"",
       "status": "optional"
     },
@@ -1420,14 +1419,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Cell.Footer
+
 
 ```json
 {
@@ -1439,14 +1443,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.Card
+
 
 ```json
 {
@@ -1469,14 +1478,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.ScrollView
+
 
 ```json
 {
@@ -1503,14 +1517,19 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## List.ShowMoreButton
+
 
 ```json
 {
@@ -1537,18 +1556,28 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "List.showLess": {
       "nb-NO": "Vis mindre",
@@ -1568,6 +1597,7 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
 
 ## List.Item.Action Events
 
+
 ```json
 {
   "props": {
@@ -1580,7 +1610,9 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
 }
 ```
 
+
 ## List.Item.Accordion Events
+
 
 ```json
 {

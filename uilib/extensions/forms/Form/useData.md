@@ -1,8 +1,8 @@
 ---
 title: 'Form.useData'
 description: '`Form.useData` lets you access or modify your form data outside of the form context within your application.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.015Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.010Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -300,130 +300,120 @@ When you use an async `onChange`, `onChangeValidator` or `onBlurValidator` event
 
 That means, if you want to access the value of a field immediately, you can use the `useData` hook for that, as it always returns unvalidated data, in sync.
 
+
 ## Demos
 
 ### Set data outside of the form
 
+
 ```tsx
 const existingData = {
-  foo: 'bar',
-}
+  foo: 'bar'
+};
 const Component = () => {
-  const { data } = Form.useData('default-id', existingData)
-  return (
-    <Form.Handler id="default-id">
-      <Field.String path="/foo" label={data.foo} />
-    </Form.Handler>
-  )
-}
-render(<Component />)
+  const {
+    data
+  } = Form.useData('default-id', existingData);
+  return <Form.Handler id="default-id">
+              <Field.String path="/foo" label={data.foo} />
+            </Form.Handler>;
+};
+render(<Component />);
 ```
+
 
 ### Update the data outside of the form
 
 The update function `update('/count', (count) => count + 1)` has TypeScript support and returns the correct type for `count` (number).
 
+
 ```tsx
 const existingData = {
-  count: 1,
-}
+  count: 1
+};
 const Component = () => {
-  const { data, update } = Form.useData('update-id', existingData)
+  const {
+    data,
+    update
+  } = Form.useData('update-id', existingData);
   const increment = React.useCallback(() => {
-    update('/count', (count) => {
-      return count + 1
-    })
-  }, [update])
-  return (
-    <Form.Handler id="update-id">
-      <Flex.Horizontal>
-        <Field.Number path="/count" showStepControls />
-        <Form.SubmitButton
-          onClick={increment}
-          text={`Increment ${data.count}`}
-        />
-      </Flex.Horizontal>
-    </Form.Handler>
-  )
-}
-render(<Component />)
+    update('/count', count => {
+      return count + 1;
+    });
+  }, [update]);
+  return <Form.Handler id="update-id">
+              <Flex.Horizontal>
+                <Field.Number path="/count" showStepControls />
+                <Form.SubmitButton onClick={increment} text={`Increment ${data.count}`} />
+              </Flex.Horizontal>
+            </Form.Handler>;
+};
+render(<Component />);
 ```
+
 
 ### Shared state without a Form.Handler
 
+
 ```tsx
 const existingData = {
-  count: 1,
-}
+  count: 1
+};
 const Component = () => {
-  const { data, update } = Form.useData('independent-id', existingData)
+  const {
+    data,
+    update
+  } = Form.useData('independent-id', existingData);
   const increment = React.useCallback(() => {
-    update('/count', (count) => {
-      return count + 1
-    })
-  }, [update])
-  return (
-    <Button
-      onClick={increment}
-      text={`Increment ${data.count}`}
-      variant="secondary"
-    />
-  )
-}
-render(
-  <Flex.Vertical>
-    <Component />
-    <Component />
-  </Flex.Vertical>
-)
+    update('/count', count => {
+      return count + 1;
+    });
+  }, [update]);
+  return <Button onClick={increment} text={`Increment ${data.count}`} variant="secondary" />;
+};
+render(<Flex.Vertical>
+            <Component />
+            <Component />
+          </Flex.Vertical>);
 ```
+
 
 ### Get only data of visible fields
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
 
+
 ```tsx
 const MyForm = () => {
-  const { data, reduceToVisibleFields } = Form.useData()
+  const {
+    data,
+    reduceToVisibleFields
+  } = Form.useData();
 
   // Use useEffect to ensure we get the latest data
   React.useEffect(() => {
-    console.log(
-      'Result of reduceToVisibleFields:\n',
-      reduceToVisibleFields(data, {
-        removePaths: ['/isVisible'],
-      })
-    )
-  }, [data, reduceToVisibleFields])
-  return (
-    <Form.Handler>
-      <Flex.Stack>
-        <Field.Boolean
-          label="Show radio buttons"
-          variant="button"
-          path="/isVisible"
-          defaultValue={true}
-        />
+    console.log('Result of reduceToVisibleFields:\n', reduceToVisibleFields(data, {
+      removePaths: ['/isVisible']
+    }));
+  }, [data, reduceToVisibleFields]);
+  return <Form.Handler>
+              <Flex.Stack>
+                <Field.Boolean label="Show radio buttons" variant="button" path="/isVisible" defaultValue={true} />
 
-        <Form.Visibility pathTrue="/isVisible" animate>
-          <Field.Selection
-            label="Radio buttons"
-            variant="radio"
-            path="/myValue"
-            defaultValue="foo"
-          >
-            <Field.Option value="foo" title="Foo" />
-            <Field.Option value="bar" title="Bar" />
-          </Field.Selection>
-        </Form.Visibility>
+                <Form.Visibility pathTrue="/isVisible" animate>
+                  <Field.Selection label="Radio buttons" variant="radio" path="/myValue" defaultValue="foo">
+                    <Field.Option value="foo" title="Foo" />
+                    <Field.Option value="bar" title="Bar" />
+                  </Field.Selection>
+                </Form.Visibility>
 
-        <Value.Selection path="/myValue" inheritLabel inheritVisibility />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Value.Selection path="/myValue" inheritLabel inheritVisibility />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 ### Filter your data
 
@@ -433,65 +423,54 @@ But with the `filterData` method we can filter out all fields that have the `dat
 
 In this demo, the `data-exclude-field` attribute is added when the field is hidden.
 
+
 ```tsx
 const filterDataPaths = {
   '/isVisible': false,
-  '/mySelection': ({ data }) => data.isVisible,
-  '/myString': ({ data }) => {
-    return data.isVisible && data.mySelection === 'more'
-  },
-}
+  '/mySelection': ({
+    data
+  }) => data.isVisible,
+  '/myString': ({
+    data
+  }) => {
+    return data.isVisible && data.mySelection === 'more';
+  }
+};
 const MyForm = () => {
-  return (
-    <Form.Handler
-      defaultData={{
-        isVisible: false,
-        mySelection: 'less',
-        myString: 'foo',
-      }}
-    >
-      <Flex.Stack>
-        <Field.Boolean
-          label="Toggle visible"
-          variant="button"
-          path="/isVisible"
-          data-exclude-field
-        />
-        <Form.Visibility pathTrue="/isVisible" animate>
-          <Field.Selection
-            label="Choose"
-            variant="radio"
-            path="/mySelection"
-            value="less"
-          >
-            <Field.Option value="less" title="Less" />
-            <Field.Option value="more" title="More" />
-          </Field.Selection>
+  return <Form.Handler defaultData={{
+    isVisible: false,
+    mySelection: 'less',
+    myString: 'foo'
+  }}>
+              <Flex.Stack>
+                <Field.Boolean label="Toggle visible" variant="button" path="/isVisible" data-exclude-field />
+                <Form.Visibility pathTrue="/isVisible" animate>
+                  <Field.Selection label="Choose" variant="radio" path="/mySelection" value="less">
+                    <Field.Option value="less" title="Less" />
+                    <Field.Option value="more" title="More" />
+                  </Field.Selection>
 
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: 'more',
-            }}
-            animate
-          >
-            <Field.String label="My String" path="/myString" value="foo" />
-          </Form.Visibility>
-        </Form.Visibility>
+                  <Form.Visibility visibleWhen={{
+          path: '/mySelection',
+          hasValue: 'more'
+        }} animate>
+                    <Field.String label="My String" path="/myString" value="foo" />
+                  </Form.Visibility>
+                </Form.Visibility>
 
-        <Output />
-      </Flex.Stack>
-    </Form.Handler>
-  )
-}
+                <Output />
+              </Flex.Stack>
+            </Form.Handler>;
+};
 const Output = () => {
-  const { data, filterData } = Form.useData()
-  return (
-    <>
-      <Tools.Log data={filterData(filterDataPaths)} label="Filtered:" />
-      <Tools.Log data={data} label="All data:" />
-    </>
-  )
-}
-render(<MyForm />)
+  const {
+    data,
+    filterData
+  } = Form.useData();
+  return <>
+              <Tools.Log data={filterData(filterDataPaths)} label="Filtered:" />
+              <Tools.Log data={data} label="All data:" />
+            </>;
+};
+render(<MyForm />);
 ```

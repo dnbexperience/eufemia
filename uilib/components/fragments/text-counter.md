@@ -1,8 +1,8 @@
 ---
 title: 'TextCounter'
 description: 'The TextCounter is a component designed to provide real-time character count feedback in text input fields.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.178Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.326Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -27,67 +27,62 @@ It is used in the [Textarea](/uilib/components/textarea/) component.
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/fragments/text-counter)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/fragments/text-counter)
 
+
 ## Demos
 
 ### Interactive
 
+
 ```tsx
-const text = 'Count me!'
-const variant: TextCounterProps['variant'] = 'down'
+const text = 'Count me!';
+const variant: TextCounterProps['variant'] = 'down';
 const Counter = () => {
-  const { data } = Form.useData('text-counter', {
+  const {
+    data
+  } = Form.useData('text-counter', {
     max: 10,
     variant,
-    text,
-  })
-  return (
-    <Flex.Stack divider="line">
-      <Flex.Vertical gap="x-small">
-        <Field.String label="Text" path="/text" maxLength={data.max} />
-        <TextCounter
-          variant={data.variant}
-          text={data.text}
-          max={data.max}
-        />
-      </Flex.Vertical>
-      <Field.Toggle
-        valueOn="down"
-        valueOff="up"
-        textOn="Down"
-        textOff="Up"
-        variant="buttons"
-        label="Variant"
-        path="/variant"
-      />
-    </Flex.Stack>
-  )
-}
-render(
-  <Form.Handler id="text-counter">
-    <Counter />
-  </Form.Handler>
-)
+    text
+  });
+  return <Flex.Stack divider="line">
+              <Flex.Vertical gap="x-small">
+                <Field.String label="Text" path="/text" maxLength={data.max} />
+                <TextCounter variant={data.variant} text={data.text} max={data.max} />
+              </Flex.Vertical>
+              <Field.Toggle valueOn="down" valueOff="up" textOn="Down" textOff="Up" variant="buttons" label="Variant" path="/variant" />
+            </Flex.Stack>;
+};
+render(<Form.Handler id="text-counter">
+            <Counter />
+          </Form.Handler>);
 ```
 
+
 ### Count characters downwards
+
 
 ```tsx
 render(<TextCounter variant="down" text="test" max={10} />)
 ```
 
+
 ### Count characters upwards
+
 
 ```tsx
 render(<TextCounter variant="up" text="test" max={10} />)
 ```
 
+
 ### Show message as exceeded
+
 
 ```tsx
 render(<TextCounter text="test" max={2} />)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -104,23 +99,36 @@ render(<TextCounter text="test" max={2} />)
     },
     "variant": {
       "doc": "The counting variant. Can be either `up` (counts up from zero) or `down` (counts down from max). Defaults to `down`.",
-      "type": ["\"down\"", "\"up\""],
+      "type": [
+        "\"down\"",
+        "\"up\""
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "TextCounter.characterDown": {
       "nb-NO": "%count av %max tegn gjenstår.",

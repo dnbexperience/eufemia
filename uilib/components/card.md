@@ -1,8 +1,8 @@
 ---
 title: 'Card'
 description: '`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.092Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.256Z
 checksum: 9a5e6f7bdcbc3ec26452e956e5fd3bd75aee4a284a0656977fecbc1eba8fa020
 ---
 
@@ -45,31 +45,31 @@ render(
 
 It uses a `section` element. Which allows you to add an `aria-label` or `aria-labelledby` to provide screen readers with landmarks.
 
+
 ```tsx
-render(
-  <Card aria-labelledby="unique-id">
-    <Form.SubHeading id="unique-id" space={0}>
-      Heading
-    </Form.SubHeading>
-    <P>Content inside a landmark ...</P>
-  </Card>
-)
+render(<Card aria-labelledby="unique-id">
+        <Form.SubHeading id="unique-id" space={0}>
+          Heading
+        </Form.SubHeading>
+        <P>Content inside a landmark ...</P>
+      </Card>)
 ```
+
 
 ## Demos
 
 ### Default border
 
+
 ```tsx
-render(
-  <Card>
-    <P>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus
-      pharetra elit in bibendum.
-    </P>
-  </Card>
-)
+render(<Card>
+        <P>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum.
+        </P>
+      </Card>)
 ```
+
 
 ### Stack
 
@@ -79,323 +79,299 @@ For [form components](/uilib/extensions/forms/), you should use [Form.Card](/uil
 
 When `stack` is set to `true`, the Card will add a gap between its children and stretch them to the full.
 
+
 ```tsx
-render(
-  <Card stack>
-    <P>Stacked content</P>
-    <P>Stacked content</P>
-  </Card>
-)
+render(<Card stack>
+        <P>Stacked content</P>
+        <P>Stacked content</P>
+      </Card>)
 ```
+
 
 ### With form fields
 
 When using Eufemia Forms, you may want to use [Form.Card](/uilib/extensions/forms/Form/Card/) instead of the original Card component.
 
+
 ```tsx
-render(
-  <Form.Card>
-    <Field.String label="Label" value="Value" />
-    <Field.String label="Label" value="Value" />
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.String label="Label" value="Value" />
+        <Field.String label="Label" value="Value" />
+      </Form.Card>)
 ```
+
 
 ### Nested Cards
 
 Nested cards have `responsive={false}` by default and will not behave responsive.
 
+
 ```tsx
-render(
-  <Card stack>
-    <P>First Card</P>
-    <Card stack>
-      <P>Second Card</P>
-      <Card stack>
-        <P>Third Card (edge case)</P>
-      </Card>
-    </Card>
-  </Card>
-)
+render(<Card stack>
+        <P>First Card</P>
+        <Card stack>
+          <P>Second Card</P>
+          <Card stack>
+            <P>Third Card (edge case)</P>
+          </Card>
+        </Card>
+      </Card>)
 ```
+
 
 ### With drop shadow
 
+
 ```tsx
-render(
-  <Card stack dropShadow>
-    <Lead>Card 1</Lead>
-    <Card stack top="2.5rem">
-      <Lead size="basis">Card 2</Lead>
-      <Card
-        stack
-        top="1.5rem"
-        innerSpace={{
-          top: true,
-          block: '3rem',
-          inline: true,
-        }}
-      >
-        <Lead size="small">Card 3 (edge case)</Lead>
-      </Card>
-    </Card>
-  </Card>
-)
+render(<Card stack dropShadow>
+        <Lead>Card 1</Lead>
+        <Card stack top="2.5rem">
+          <Lead size="basis">Card 2</Lead>
+          <Card stack top="1.5rem" innerSpace={{
+      top: true,
+      block: '3rem',
+      inline: true
+    }}>
+            <Lead size="small">Card 3 (edge case)</Lead>
+          </Card>
+        </Card>
+      </Card>)
 ```
+
 
 ## With `outset`
 
 When using `outset`, the Card will break out of the layout container.
 On small screens (mobile) the outset is removed.
 
+
 ```tsx
-render(
-  <Flex.Vertical>
-    <Form.MainHeading>I'm left aligned</Form.MainHeading>
-    <Card stack outset>
-      <P>Card content</P>
-      <Card>
-        <P>Nested card</P>
-      </Card>
-    </Card>
-    <Form.SubmitButton text="I'm also left aligned" />
-  </Flex.Vertical>
-)
+render(<Flex.Vertical>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
+        <Card stack outset>
+          <P>Card content</P>
+          <Card>
+            <P>Nested card</P>
+          </Card>
+        </Card>
+        <Form.SubmitButton text="I'm also left aligned" />
+      </Flex.Vertical>)
 ```
+
 
 ### Without padding
 
+
 ```tsx
-render(
-  <Card innerSpace={false} align="stretch">
-    <P>no inner space</P>
-  </Card>
-)
+render(<Card innerSpace={false} align="stretch">
+        <P>no inner space</P>
+      </Card>)
 ```
+
 
 ### With nested Section
 
 Card components need to have `stack={true}` or `align="stretch"` in order to stretch its children components.
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Card gap="x-small" align="stretch">
-      <Form.SubHeading>Card with a nested Section</Form.SubHeading>
-      <Section
-        variant="information"
-        innerSpace={{
-          top: 'small',
-          bottom: 'medium',
-        }}
-      >
-        <Field.String width="medium" label="In nested Section" />
-      </Section>
-    </Card>
+render(<Flex.Stack>
+        <Card gap="x-small" align="stretch">
+          <Form.SubHeading>Card with a nested Section</Form.SubHeading>
+          <Section variant="information" innerSpace={{
+      top: 'small',
+      bottom: 'medium'
+    }}>
+            <Field.String width="medium" label="In nested Section" />
+          </Section>
+        </Card>
 
-    <Card innerSpace="x-large" stack>
-      <Section
-        variant="information"
-        innerSpace={{
-          top: 'small',
-          bottom: 'medium',
-        }}
-      >
-        <Field.String
-          width="medium"
-          label="Card with a 'x-large' inner space"
-        />
-      </Section>
-    </Card>
+        <Card innerSpace="x-large" stack>
+          <Section variant="information" innerSpace={{
+      top: 'small',
+      bottom: 'medium'
+    }}>
+            <Field.String width="medium" label="Card with a 'x-large' inner space" />
+          </Section>
+        </Card>
 
-    <Card innerSpace={false} align="stretch">
-      <P>no inner space</P>
-      <Section innerSpace backgroundColor="var(--color-lavender)">
-        <Field.String width="medium" label="Card with no inner space" />
-      </Section>
-      <P>no inner space</P>
-    </Card>
-  </Flex.Stack>
-)
+        <Card innerSpace={false} align="stretch">
+          <P>no inner space</P>
+          <Section innerSpace backgroundColor="var(--color-lavender)">
+            <Field.String width="medium" label="Card with no inner space" />
+          </Section>
+          <P>no inner space</P>
+        </Card>
+      </Flex.Stack>)
 ```
+
 
 ### With Table
 
+
 ```tsx
-const MyTable = () => (
-  <Table.ScrollView>
-    <Table border outline size="medium">
-      <thead>
-        <Tr noWrap>
-          <Th>Column 1</Th>
-          <Th>Column 2</Th>
-          <Th>Column 3</Th>
-        </Tr>
-      </thead>
-      <tbody>
-        <Tr>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-        </Tr>
-        <Tr>
-          <Td colSpan={3} align="right">
-            <Button>Button</Button>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>Row 3</Td>
-          <Td>Row 3</Td>
-          <Td>Row 3</Td>
-        </Tr>
-      </tbody>
-    </Table>
-  </Table.ScrollView>
-)
-render(
-  <Card title="Card title" responsive={false} innerSpace={0} filled>
-    <MyTable />
-  </Card>
-)
+const MyTable = () => <Table.ScrollView>
+            <Table border outline size="medium">
+              <thead>
+                <Tr noWrap>
+                  <Th>Column 1</Th>
+                  <Th>Column 2</Th>
+                  <Th>Column 3</Th>
+                </Tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Td colSpan={3} align="right">
+                    <Button>Button</Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>;
+render(<Card title="Card title" responsive={false} innerSpace={0} filled>
+            <MyTable />
+          </Card>);
 ```
+
 
 ### With Grid
 
 Grid wraps the Cards nicely on smaller screens.
 
+
 ```tsx
-render(
-  <Grid.Container
-    columns={{
-      small: 1,
-      medium: 3,
-      large: 3,
-    }}
-    columnGap="small"
-  >
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Pariatur officia sit adipisicing pariatur commodo enim do quis</P>
-    </Card>
-    <Card stack>
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-  </Grid.Container>
-)
+render(<Grid.Container columns={{
+  small: 1,
+  medium: 3,
+  large: 3
+}} columnGap="small">
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Grid.Container>)
 ```
+
 
 ### With Flex
 
 While Flex has the horizontal direction, it uses rowGap when wrapping. So it's the container spacing the Cards then. This is not ideal, because the Cards should ideally have no gap, like in the Grid example above.
 
-```tsx
-render(
-  <Flex.Container>
-    <Card
-      span={{
-        small: 'auto',
-        medium: 4,
-        large: 4,
-      }}
-      stack
-    >
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-    <Card
-      span={{
-        small: 'auto',
-        medium: 4,
-        large: 4,
-      }}
-      stack
-    >
-      <H2>Heading</H2>
-      <P>Pariatur officia sit adipisicing pariatur commodo enim do quis</P>
-    </Card>
-    <Card
-      span={{
-        small: 'auto',
-        medium: 4,
-        large: 4,
-      }}
-      stack
-    >
-      <H2>Heading</H2>
-      <P>Text</P>
-    </Card>
-  </Flex.Container>
-)
-```
 
 ```tsx
-const MyTable = () => (
-  <Table.ScrollView>
-    <Table border outline size="medium">
-      <thead>
-        <Tr noWrap>
-          <Th>Column 1</Th>
-          <Th>Column 2</Th>
-          <Th>Column 3</Th>
-        </Tr>
-      </thead>
-      <tbody>
-        <Tr>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-          <Td>Row 1</Td>
-        </Tr>
-        <Tr>
-          <Td colSpan={3} align="right">
-            <Button>Button</Button>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>Row 3</Td>
-          <Td>Row 3</Td>
-          <Td>Row 3</Td>
-        </Tr>
-      </tbody>
-    </Table>
-  </Table.ScrollView>
-)
-render(
-  <Card title="Card title" responsive={false} filled>
-    <MyTable />
-  </Card>
-)
+render(<Flex.Container>
+        <Card span={{
+    small: 'auto',
+    medium: 4,
+    large: 4
+  }} stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+        <Card span={{
+    small: 'auto',
+    medium: 4,
+    large: 4
+  }} stack>
+          <H2>Heading</H2>
+          <P>
+            Pariatur officia sit adipisicing pariatur commodo enim do quis
+          </P>
+        </Card>
+        <Card span={{
+    small: 'auto',
+    medium: 4,
+    large: 4
+  }} stack>
+          <H2>Heading</H2>
+          <P>Text</P>
+        </Card>
+      </Flex.Container>)
 ```
 
+
+
+  
 ```tsx
-render(
-  <Section backgroundColor="var(--color-signal-orange)" innerSpace="large">
-    <Card>Card in colored Section</Card>
-  </Section>
-)
+const MyTable = () => <Table.ScrollView>
+            <Table border outline size="medium">
+              <thead>
+                <Tr noWrap>
+                  <Th>Column 1</Th>
+                  <Th>Column 2</Th>
+                  <Th>Column 3</Th>
+                </Tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Td colSpan={3} align="right">
+                    <Button>Button</Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>;
+render(<Card title="Card title" responsive={false} filled>
+            <MyTable />
+          </Card>);
 ```
+
+  
+```tsx
+render(<Section backgroundColor="var(--color-signal-orange)" innerSpace="large">
+        <Card>Card in colored Section</Card>
+      </Section>)
+```
+
+
 
 ## With `backgroundColor` and `outline`
 
+
 ```tsx
-render(
-  <Flex.Vertical>
-    <Form.MainHeading>I'm left aligned</Form.MainHeading>
-    <Card stack backgroundColor="pistachio" outline="sea-green">
-      <P>Card content</P>
-      <Card outline="transparent">
-        <P>Nested card</P>
-      </Card>
-    </Card>
-  </Flex.Vertical>
-)
+render(<Flex.Vertical>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
+        <Card stack backgroundColor="pistachio" outline="sea-green">
+          <P>Card content</P>
+          <Card outline="transparent">
+            <P>Nested card</P>
+          </Card>
+        </Card>
+      </Flex.Vertical>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -412,7 +388,10 @@ render(
     },
     "direction": {
       "doc": "Defaults to `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "alignSelf": {
@@ -448,7 +427,10 @@ render(
     },
     "outlineWidth": {
       "doc": "Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "dropShadow": {
@@ -483,7 +465,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

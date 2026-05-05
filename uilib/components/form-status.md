@@ -1,8 +1,8 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.175Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.324Z
 checksum: 1917a74e4d47bb4108acb0382b864fc14f65214e17d98302bb720f1ceb1d227c
 ---
 
@@ -29,6 +29,7 @@ The `FormStatus` component cooperates with the [GlobalStatus](/uilib/components/
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/form-status)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/form-status)
 
+
 ## Use the [**FormStatus**](/uilib/components/form-status) icons only
 
 - `InfoIcon` <InfoIcon />
@@ -43,6 +44,7 @@ render(<InfoIcon />)
 ```
 
 ... or in combination with the [Icon](/uilib/components/form-status?fullscreen#form-status-icons) component. Have a look [at this example](/uilib/components/form-status#in-combination-with-the-icon-component).
+
 
 ## Accessibility
 
@@ -62,172 +64,132 @@ In order to enhance accessibility (readability), the FormStatus will align its w
 
 The `min-width` is set to be **12rem**. Use CSS `min-width` or `max-width` to set a custom (manual) width.
 
+
 ## Demos
 
 ### Displaying error status
+
 
 ```tsx
 render(<FormStatus text="Failure text" />)
 ```
 
+
 ### Displaying information status
 
+
 ```tsx
-render(
-  <FormStatus
-    title="Hover title"
-    text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-    state="information"
-  />
-)
+render(<FormStatus title="Hover title" text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus" state="information" />)
 ```
+
 
 ### Displaying warning status
 
+
 ```tsx
-render(
-  <FormStatus state="warning" variant="outlined">
-    Warningmessage. Take notice!
-  </FormStatus>
-)
+render(<FormStatus state="warning" variant="outlined">
+      Warningmessage. Take notice!
+    </FormStatus>)
 ```
+
 
 ### Displaying marketing status
 
+
 ```tsx
-render(
-  <FormStatus state="marketing" variant="outlined">
-    Marketingmessage. What a deal!
-  </FormStatus>
-)
+render(<FormStatus state="marketing" variant="outlined">
+      Marketingmessage. What a deal!
+    </FormStatus>)
 ```
+
 
 ### Stretching the status message
 
 **NB:** The inner text has a max-width of `var(--prose-max-width)` (defaults to `60ch`) to ensure we do not exceed characters limit per line for accessibility reasons.
 
+
 ```tsx
-render(
-  <FormStatus
-    stretch={true}
-    text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-    state="warning"
-  />
-)
+render(<FormStatus stretch={true} text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus" state="warning" />)
 ```
+
 
 ### Used by the Input Component
 
+
 ```tsx
-render(
-  <Input
-    label="Input with status"
-    status="You have to fill in this field"
-    value="Input value"
-  />
-)
+render(<Input label="Input with status" status="You have to fill in this field" value="Input value" />)
 ```
+
 
 ### With a custom-styled content
 
+
 ```tsx
-const CustomStatus = () => (
-  <>
-    My info <Link href="/">with a link</Link> and more text
-  </>
-)
-render(
-  <Input
-    label="Input with custom status"
-    status={<CustomStatus />}
-    statusState="information"
-    value="Input value"
-  />
-)
+const CustomStatus = () => <>
+          My info <Link href="/">with a link</Link> and more text
+        </>;
+render(<Input label="Input with custom status" status={<CustomStatus />} statusState="information" value="Input value" />);
 ```
+
 
 ### Large variant
 
+
 ```tsx
-render(
-  <FormStatus state="information" size="large" variant="outlined">
-    My HTML{' '}
-    <Anchor href="/" target="_blank">
-      with a link
-    </Anchor>{' '}
-    and more text
-  </FormStatus>
-)
+render(<FormStatus state="information" size="large" variant="outlined">
+          My HTML{' '}
+          <Anchor href="/" target="_blank">
+            with a link
+          </Anchor>{' '}
+          and more text
+        </FormStatus>);
 ```
+
 
 ### In combination with the Icon component
 
-```tsx
-<Icon
-  icon={<InfoIcon />}
-  size="medium"
-  title="Some title"
-  inheritColor={false}
-  right
-/>
-<Icon
-  icon={WarnIcon}
-  size="medium"
-  title="Some title"
-  inheritColor={false}
-  right
-/>
-<Icon
-  icon={ErrorIcon}
-  size="medium"
-  title="Some title"
-  inheritColor={false}
-  right
-/>
-<Icon
-  icon={MarketingIcon}
-  size="medium"
-  title="Some title"
-  inheritColor={false}
-/>
-```
 
 ```tsx
-render(
-  <Grid.Container
-    columns={{
-      small: 2,
-      medium: 3,
-      large: 3,
-    }}
-    columnGap="small"
-    rowGap="small"
-  >
-    <Grid.Container columns={1}>
-      <FormStatus text="Text" state="information" variant="plain" />
-      <FormStatus text="Text" state="information" variant="outlined" />
-    </Grid.Container>
-    <Grid.Container columns={1}>
-      <FormStatus text="Text" state="success" />
-      <FormStatus text="Text" state="success" variant="outlined" />
-    </Grid.Container>
-    <Grid.Container columns={1}>
-      <FormStatus text="Text" state="warning" variant="plain" />
-      <FormStatus text="Text" state="warning" variant="outlined" />
-    </Grid.Container>
-    <Grid.Container columns={1}>
-      <FormStatus text="Text" state="error" variant="plain" />
-      <FormStatus text="Text" state="error" variant="outlined" />
-    </Grid.Container>
-    <Grid.Container columns={1}>
-      <FormStatus text="Text" state="marketing" />
-      <FormStatus text="Text" state="marketing" variant="outlined" />
-    </Grid.Container>
-  </Grid.Container>
-)
+<Icon icon={<InfoIcon />} size="medium" title="Some title" inheritColor={false} right />
+<Icon icon={WarnIcon} size="medium" title="Some title" inheritColor={false} right />
+<Icon icon={ErrorIcon} size="medium" title="Some title" inheritColor={false} right />
+<Icon icon={MarketingIcon} size="medium" title="Some title" inheritColor={false} />
+```
+
+
+
+  
+```tsx
+render(<Grid.Container columns={{
+  small: 2,
+  medium: 3,
+  large: 3
+}} columnGap="small" rowGap="small">
+      <Grid.Container columns={1}>
+        <FormStatus text="Text" state="information" variant="plain" />
+        <FormStatus text="Text" state="information" variant="outlined" />
+      </Grid.Container>
+      <Grid.Container columns={1}>
+        <FormStatus text="Text" state="success" />
+        <FormStatus text="Text" state="success" variant="outlined" />
+      </Grid.Container>
+      <Grid.Container columns={1}>
+        <FormStatus text="Text" state="warning" variant="plain" />
+        <FormStatus text="Text" state="warning" variant="outlined" />
+      </Grid.Container>
+      <Grid.Container columns={1}>
+        <FormStatus text="Text" state="error" variant="plain" />
+        <FormStatus text="Text" state="error" variant="outlined" />
+      </Grid.Container>
+      <Grid.Container columns={1}>
+        <FormStatus text="Text" state="marketing" />
+        <FormStatus text="Text" state="marketing" variant="outlined" />
+      </Grid.Container>
+    </Grid.Container>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -265,7 +227,10 @@ render(
     },
     "size": {
       "doc": "Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.",
-      "type": ["\"default\"", "\"large\""],
+      "type": [
+        "\"default\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "icon": {
@@ -280,7 +245,10 @@ render(
     },
     "variant": {
       "doc": "As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.",
-      "type": ["\"plain\"", "\"outlined\""],
+      "type": [
+        "\"plain\"",
+        "\"outlined\""
+      ],
       "status": "optional"
     },
     "stretch": {
@@ -305,7 +273,10 @@ render(
     },
     "shellSpace": {
       "doc": "Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "skeleton": {
@@ -315,7 +286,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

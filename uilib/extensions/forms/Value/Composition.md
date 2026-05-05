@@ -1,8 +1,8 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.148Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.129Z
 checksum: e3522aee1be54e30e25b95ff91988fbeaba0252bc2dea14d58ec502c1c1d7d10
 ---
 
@@ -43,226 +43,203 @@ render(
 
 When you combine multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
 
+
 ## Demos
 
 ### Basic usage
 
+
 ```tsx
-render(
-  <Value.Composition>
-    <Value.String label="Label A" value="value" />
-    <Value.Number label="Label B" value={123} />
-  </Value.Composition>
-)
+render(<Value.Composition>
+        <Value.String label="Label A" value="value" />
+        <Value.Number label="Label B" value={123} />
+      </Value.Composition>)
 ```
+
 
 ### In SummaryList
 
-```tsx
-render(
-  <Value.SummaryList>
-    <Value.Composition label="Label">
-      <Value.String value="value" />
-      <Value.Number value={123} />
-    </Value.Composition>
-  </Value.SummaryList>
-)
-```
-
-### Inside a plain SummaryList
 
 ```tsx
-render(
-  <Form.Handler
-    data={{
-      firstName: 'John',
-      lastName: 'Doe',
-      streetName: 'Øvraørnefjeddstakkslåttåveien',
-      streetNr: 9998,
-      streetId: 'H0301',
-      postalCode: '9713',
-      city: 'Russenes',
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Subheading</Form.SubHeading>
-
-      <Value.SummaryList>
-        <Value.Composition label="Name">
-          <Value.String path="/firstName" />
-          <Value.String path="/lastName" />
-        </Value.Composition>
-
-        <Value.Composition label="Street">
-          <Value.String path="/streetName" />
-          <Value.Number path="/streetNr" />
-          <Value.String path="/streetId" />
-        </Value.Composition>
-
-        <Value.Composition label="City">
-          <Value.String path="/postalCode" />
-          <Value.String path="/city" />
-        </Value.Composition>
-      </Value.SummaryList>
-    </Form.Card>
-  </Form.Handler>
-)
-```
-
-### Inside a SummaryList with grid layout
-
-```tsx
-render(
-  <Form.Handler
-    data={{
-      firstName: 'John',
-      lastName: 'Doe',
-      streetName: 'Øvraørnefjeddstakkslåttåveien',
-      streetNr: 9998,
-      streetId: 'H0301',
-      postalCode: '9713',
-      city: 'Russenes',
-    }}
-  >
-    <Form.Card>
-      <Form.SubHeading>Subheading</Form.SubHeading>
-
-      <Value.SummaryList layout="grid">
-        <Value.Composition label="Name">
-          <Value.Name.First path="/firstName" />
-          <Value.Name.Last path="/lastName" />
-        </Value.Composition>
-
-        <Value.Composition label="Street">
-          <Value.String path="/streetName" />
-          <Value.Number path="/streetNr" />
-          <Value.String path="/streetId" />
-        </Value.Composition>
-
-        <Value.PostalCodeAndCity
-          postalCode={{
-            path: '/postalCode',
-          }}
-          city={{
-            path: '/city',
-          }}
-        />
-      </Value.SummaryList>
-    </Form.Card>
-  </Form.Handler>
-)
-```
-
-### Width comparison
-
-```tsx
-render(
-  <Value.Composition gap="large">
-    <Value.String
-      maxWidth="medium"
-      label="Medium maxWidth"
-      value="Nam sed aliquet nunc. Pellentesque condimentum enim arcu."
-    />
-    <Value.String
-      label="Without a width"
-      value="Nam sed aliquet nunc. Pellentesque condimentum enim arcu."
-    />
-  </Value.Composition>
-)
-```
-
-### With help
-
-```tsx
-render(
-  <Flex.Stack>
-    <Value.Composition
-      label="Label with help"
-      help={{
-        title: 'Hva betyr lånebeløp?',
-        content: 'Dette er hvor mye du har tenkt å låne totalt.',
-      }}
-    >
-      <Value.String value="value" />
-      <Value.Number value={123} />
-    </Value.Composition>
-
-    <Form.Card>
-      <Value.SummaryList>
-        <Value.Composition
-          label="Label with help inside SummaryList"
-          help={{
-            title: 'Hva betyr lånebeløp?',
-            content: 'Dette er hvor mye du har tenkt å låne totalt.',
-          }}
-        >
+render(<Value.SummaryList>
+        <Value.Composition label="Label">
           <Value.String value="value" />
           <Value.Number value={123} />
         </Value.Composition>
-        <Value.String value="Another value" />
-      </Value.SummaryList>
-    </Form.Card>
-  </Flex.Stack>
-)
+      </Value.SummaryList>)
 ```
 
+
+### Inside a plain SummaryList
+
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Form.Card>
-      <Form.SubHeading>Breaking word with 61 characters</Form.SubHeading>
-      <Value.Composition label={sixtyOneChars}>
-        <Value.String value={sixtyOneChars} />
-        <Value.String value={sixtyOneChars} />
-      </Value.Composition>
-      <Value.Composition
-        label={sixtyOneChars}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        <Value.String value={sixtyOneChars} />
-        <Value.String value={sixtyOneChars} />
-      </Value.Composition>
-    </Form.Card>
-    <Form.Card>
-      <Form.SubHeading>
-        Breaking a sentence of 61 characters that include a space
-      </Form.SubHeading>
-      <Value.Composition label={sixtyOneCharsIncludingASpace}>
-        <Value.String value={sixtyOneCharsIncludingASpace} />
-        <Value.String value={sixtyOneCharsIncludingASpace} />
-      </Value.Composition>
-      <Value.Composition
-        label={sixtyOneCharsIncludingASpace}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        <Value.String value={sixtyOneCharsIncludingASpace} />
-        <Value.String value={sixtyOneCharsIncludingASpace} />
-      </Value.Composition>
-    </Form.Card>
-    <Form.Card>
-      <Form.SubHeading>Help button should not wrap alone</Form.SubHeading>
-      <Value.Composition
-        label={fiftyEightCharsIncludingASpace}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        <Value.String value={'value'} />
-        <Value.String value={'value'} />
-      </Value.Composition>
-    </Form.Card>
-  </Flex.Stack>
-)
+render(<Form.Handler data={{
+  firstName: 'John',
+  lastName: 'Doe',
+  streetName: 'Øvraørnefjeddstakkslåttåveien',
+  streetNr: 9998,
+  streetId: 'H0301',
+  postalCode: '9713',
+  city: 'Russenes'
+}}>
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList>
+            <Value.Composition label="Name">
+              <Value.String path="/firstName" />
+              <Value.String path="/lastName" />
+            </Value.Composition>
+
+            <Value.Composition label="Street">
+              <Value.String path="/streetName" />
+              <Value.Number path="/streetNr" />
+              <Value.String path="/streetId" />
+            </Value.Composition>
+
+            <Value.Composition label="City">
+              <Value.String path="/postalCode" />
+              <Value.String path="/city" />
+            </Value.Composition>
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>)
+```
+
+
+### Inside a SummaryList with grid layout
+
+
+```tsx
+render(<Form.Handler data={{
+  firstName: 'John',
+  lastName: 'Doe',
+  streetName: 'Øvraørnefjeddstakkslåttåveien',
+  streetNr: 9998,
+  streetId: 'H0301',
+  postalCode: '9713',
+  city: 'Russenes'
+}}>
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList layout="grid">
+            <Value.Composition label="Name">
+              <Value.Name.First path="/firstName" />
+              <Value.Name.Last path="/lastName" />
+            </Value.Composition>
+
+            <Value.Composition label="Street">
+              <Value.String path="/streetName" />
+              <Value.Number path="/streetNr" />
+              <Value.String path="/streetId" />
+            </Value.Composition>
+
+            <Value.PostalCodeAndCity postalCode={{
+        path: '/postalCode'
+      }} city={{
+        path: '/city'
+      }} />
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>)
+```
+
+
+### Width comparison
+
+
+```tsx
+render(<Value.Composition gap="large">
+        <Value.String maxWidth="medium" label="Medium maxWidth" value="Nam sed aliquet nunc. Pellentesque condimentum enim arcu." />
+        <Value.String label="Without a width" value="Nam sed aliquet nunc. Pellentesque condimentum enim arcu." />
+      </Value.Composition>)
+```
+
+
+### With help
+
+
+```tsx
+render(<Flex.Stack>
+        <Value.Composition label="Label with help" help={{
+    title: 'Hva betyr lånebeløp?',
+    content: 'Dette er hvor mye du har tenkt å låne totalt.'
+  }}>
+          <Value.String value="value" />
+          <Value.Number value={123} />
+        </Value.Composition>
+
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.Composition label="Label with help inside SummaryList" help={{
+        title: 'Hva betyr lånebeløp?',
+        content: 'Dette er hvor mye du har tenkt å låne totalt.'
+      }}>
+              <Value.String value="value" />
+              <Value.Number value={123} />
+            </Value.Composition>
+            <Value.String value="Another value" />
+          </Value.SummaryList>
+        </Form.Card>
+      </Flex.Stack>)
+```
+
+
+
+  
+```tsx
+render(<Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <Value.Composition label={sixtyOneChars}>
+            <Value.String value={sixtyOneChars} />
+            <Value.String value={sixtyOneChars} />
+          </Value.Composition>
+          <Value.Composition label={sixtyOneChars} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            <Value.String value={sixtyOneChars} />
+            <Value.String value={sixtyOneChars} />
+          </Value.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <Value.Composition label={sixtyOneCharsIncludingASpace}>
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+          </Value.Composition>
+          <Value.Composition label={sixtyOneCharsIncludingASpace} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+          </Value.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <Value.Composition label={fiftyEightCharsIncludingASpace} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            <Value.String value={'value'} />
+            <Value.String value={'value'} />
+          </Value.Composition>
+        </Form.Card>
+      </Flex.Stack>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -284,7 +261,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `small`, `medium` or `large` for predefined standard max widths. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "gap": {

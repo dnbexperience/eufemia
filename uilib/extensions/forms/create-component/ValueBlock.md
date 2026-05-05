@@ -1,8 +1,8 @@
 ---
 title: 'ValueBlock'
 description: '`ValueBlock` is a reusable wrapper component that can be used to easily create custom Value-components that will display in the same way as other Value-components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.377Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.314Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -36,162 +36,141 @@ Check out the docs for the [useValueProps](/uilib/extensions/forms/create-compon
 
 For combining several value components into one, you can use [Value.Composition](/uilib/extensions/forms/Value/Composition/).
 
+
 ## Demos
+
 
 ```tsx
 render(<ValueBlock label="Label text">Data-value goes here</ValueBlock>)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    this is before the value <ValueBlock inline>Foo</ValueBlock>{' '}
-    <ValueBlock inline>Bar</ValueBlock> this is after the value
-  </P>
-)
+render(<P>
+        this is before the value <ValueBlock inline>Foo</ValueBlock>{' '}
+        <ValueBlock inline>Bar</ValueBlock> this is after the value
+      </P>)
 ```
+
 
 ## Help button
 
+
 ```tsx
-render(
-  <ValueBlock
-    label="Label text"
-    help={{
-      title: 'Help title',
-      content: 'Help content',
-    }}
-  >
-    Data-value goes here
-  </ValueBlock>
-)
+render(<ValueBlock label="Label text" help={{
+  title: 'Help title',
+  content: 'Help content'
+}}>
+        Data-value goes here
+      </ValueBlock>)
 ```
+
 
 ## Help button with HTML
 
+
 ```tsx
-render(
-  <ValueBlock
-    label="Label text with a long label label – lorem ipsum
-        dolor sit"
-    help={{
-      open: true,
-      title: <strong>Help title</strong>,
-      content: (
-        <>
-          Help content with a <Anchor href="/">Anchor</Anchor>.
-        </>
-      ),
-    }}
-  >
-    Data-value goes here – lorem ipsum dolor sit amet consectetur.
-  </ValueBlock>
-)
+render(<ValueBlock label="Label text with a long label label – lorem ipsum
+        dolor sit" help={{
+  open: true,
+  title: <strong>Help title</strong>,
+  content: <>
+              Help content with a <Anchor href="/">Anchor</Anchor>.
+            </>
+}}>
+        Data-value goes here – lorem ipsum dolor sit amet consectetur.
+      </ValueBlock>)
 ```
+
 
 ### Widths
 
-```tsx
-render(
-  <Flex.Stack>
-    <ValueBlock label="No maxWidth: This label is long so we can validate that the label can be longer until it will wrap.">
-      <TestElement>
-        This content is long so we can see the maxWidth defined. It should
-        wrap at a certain amount of characters.
-      </TestElement>
-    </ValueBlock>
-    <ValueBlock
-      label="maxWidth='small': This label is long so we can validate that the label can be longer."
-      maxWidth="small"
-    >
-      <TestElement>
-        This content is long so we can see the maxWidth defined. It should
-        wrap at a certain amount of characters.
-      </TestElement>
-    </ValueBlock>
-    <ValueBlock
-      label="maxWidth='medium': This label is long so we can validate that the label can be longer."
-      maxWidth="medium"
-    >
-      <TestElement>
-        This content is long so we can see the maxWidth defined. It should
-        wrap at a certain amount of characters.
-      </TestElement>
-    </ValueBlock>
-    <ValueBlock
-      label="maxWidth='large': This label is long so we can validate that the label can be longer."
-      maxWidth="large"
-    >
-      <TestElement>
-        This content is long so we can see the maxWidth defined. It should
-        wrap at a certain amount of characters.
-      </TestElement>
-    </ValueBlock>
-    <ValueBlock
-      label="maxWidth='auto': This label is long so we can validate that the label can be longer."
-      maxWidth="auto"
-    >
-      <TestElement>
-        This content is long so we can see the maxWidth defined. It should
-        wrap at a certain amount of characters.
-      </TestElement>
-    </ValueBlock>
-  </Flex.Stack>
-)
-```
 
 ```tsx
-render(
-  <Flex.Stack>
-    <Form.Card>
-      <Form.SubHeading>Breaking word with 61 characters</Form.SubHeading>
-      <ValueBlock label={sixtyOneChars}>{sixtyOneChars}</ValueBlock>
-      <ValueBlock
-        label={sixtyOneChars}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        {sixtyOneChars}
-      </ValueBlock>
-    </Form.Card>
-    <Form.Card>
-      <Form.SubHeading>
-        Breaking a sentence of 61 characters that include a space
-      </Form.SubHeading>
-      <ValueBlock label={sixtyOneCharsIncludingASpace}>
-        {sixtyOneCharsIncludingASpace}
-      </ValueBlock>
-      <ValueBlock
-        label={sixtyOneCharsIncludingASpace}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        {sixtyOneCharsIncludingASpace}
-      </ValueBlock>
-    </Form.Card>
-    <Form.Card>
-      <Form.SubHeading>Help button should not wrap alone</Form.SubHeading>
-      <ValueBlock
-        label={fiftyEightCharsIncludingASpace}
-        help={{
-          title: 'Help title',
-          content: 'Help content',
-        }}
-      >
-        {'value'}
-      </ValueBlock>
-    </Form.Card>
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <ValueBlock label="No maxWidth: This label is long so we can validate that the label can be longer until it will wrap.">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock label="maxWidth='small': This label is long so we can validate that the label can be longer." maxWidth="small">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock label="maxWidth='medium': This label is long so we can validate that the label can be longer." maxWidth="medium">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock label="maxWidth='large': This label is long so we can validate that the label can be longer." maxWidth="large">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock label="maxWidth='auto': This label is long so we can validate that the label can be longer." maxWidth="auto">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+      </Flex.Stack>)
+```
+
+
+
+  
+```tsx
+render(<Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <ValueBlock label={sixtyOneChars}>{sixtyOneChars}</ValueBlock>
+          <ValueBlock label={sixtyOneChars} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            {sixtyOneChars}
+          </ValueBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <ValueBlock label={sixtyOneCharsIncludingASpace}>
+            {sixtyOneCharsIncludingASpace}
+          </ValueBlock>
+          <ValueBlock label={sixtyOneCharsIncludingASpace} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            {sixtyOneCharsIncludingASpace}
+          </ValueBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <ValueBlock label={fiftyEightCharsIncludingASpace} help={{
+      title: 'Help title',
+      content: 'Help content'
+    }}>
+            {'value'}
+          </ValueBlock>
+        </Form.Card>
+      </Flex.Stack>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -258,7 +237,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -268,7 +252,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

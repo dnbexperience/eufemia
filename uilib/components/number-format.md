@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.342Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.459Z
 checksum: 87a61c9318dc3fae366890f0d7cdbfb0a19ea0463fd4d7c1c87b54848f81d727
 ---
 
@@ -325,15 +325,16 @@ You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTM
 </html>
 ```
 
+
 ## Demos
 
 <ChangeLocale label="Locale used in the demos:" />
 
 ### Default numbers
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-default">
       <P>
         <NumberFormat.Number value="12345" srLabel="Total:" />
@@ -348,100 +349,71 @@ render(
         <NumberFormat.Number decimals={2}>invalid</NumberFormat.Number>
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Currency
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-currency">
       <P>
         <NumberFormat.Currency>12345</NumberFormat.Currency>
-        <NumberFormat.Currency
-          currencyPosition="before"
-          value={-12345678.9}
-        />
+        <NumberFormat.Currency currencyPosition="before" value={-12345678.9} />
         <NumberFormat.Currency value={-12345678.95} decimals={0} />
-        <NumberFormat.Currency
-          value={-12345678.9}
-          currencyDisplay="code"
-        />
-        <NumberFormat.Currency
-          value={-12345678.9}
-          currencyDisplay={false}
-        />
+        <NumberFormat.Currency value={-12345678.9} currencyDisplay="code" />
+        <NumberFormat.Currency value={-12345678.9} currencyDisplay={false} />
         <NumberFormat.Currency decimals={2}>invalid</NumberFormat.Currency>
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Hero-style values
 
 For prominent values, use [Stat](/uilib/components/stat/) with `Stat.Currency` and `Stat.Percent`.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox>
-      <Stat.Currency
-        value={12345}
-        currency="NOK"
-        suffix="/mnd"
-        signDisplay="always"
-        mainSize="x-large"
-        auxiliarySize="x-small"
-      />
+      <Stat.Currency value={12345} currency="NOK" suffix="/mnd" signDisplay="always" mainSize="x-large" auxiliarySize="x-small" />
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Compact (shorten) numbers
 
 Shorten numbers should only be used for numbers above 100 000. A small `k` for thousand is not a Norwegian standard, and should not be used in formal contexts.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-compact">
       <P>
         <NumberFormat.Number compact decimals={1}>
           1234
         </NumberFormat.Number>
         <NumberFormat.Number compact decimals={1} value={123456} />
-        <NumberFormat.Number
-          compact="short"
-          decimals={2}
-          value={-1723967.38}
-        />
-        <NumberFormat.Number
-          compact="long"
-          decimals={3}
-          value={-1234567.9876}
-        />
-        <NumberFormat.Currency
-          compact="long"
-          value={12345}
-          decimals={1}
-          currencyDisplay="name"
-        />
+        <NumberFormat.Number compact="short" decimals={2} value={-1723967.38} />
+        <NumberFormat.Number compact="long" decimals={3} value={-1234567.9876} />
+        <NumberFormat.Currency compact="long" value={12345} decimals={1} currencyDisplay="name" />
         <NumberFormat.Number compact value={123455678912} decimals={3} />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Percentage
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-percent">
       <P>
         <NumberFormat.Percent value="12.34" />
@@ -449,17 +421,17 @@ render(
         <NumberFormat.Percent decimals={1}>-12.34</NumberFormat.Percent>
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Phone
 
 By using `selectAll={false}` you disable the auto-select all feature.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-phone">
       <P>
         <NumberFormat.PhoneNumber value="99999999" />
@@ -470,57 +442,57 @@ render(
         <NumberFormat.PhoneNumber value="+4702000" />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Bank Account number (Kontonummer)
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-ban">
       <P>
         <NumberFormat.BankAccountNumber value="20001234567" />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### National Identification number (Fødselsnummer)
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-nin">
       <P>
         <NumberFormat.NationalIdentityNumber value="18089212345" />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Organization number (Organisasjonsnummer)
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-org">
       <P>
         <NumberFormat.OrganizationNumber value="123456789" suffix="MVA" />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Numbers and currencies in different locales
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-locales">
       <H3>Numbers</H3>
       <P>
@@ -540,33 +512,33 @@ render(
         <NumberFormat.Currency locale="fr-CH" value="-12345.6" />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### NumberFormat and spacing
 
 The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/uilib/layout/space) to work.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-spacing">
       <span>text</span> <NumberFormat.Currency value="1234" left right />
       <span>text</span> <NumberFormat.Currency value="5678" left right />
       <span>text</span>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Sign display
 
 Control when to display the sign for numbers using the `signDisplay` property. Options include `always`, `exceptZero`, `negative`, and `never`.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-sign-display">
       <H3>signDisplay="auto"</H3>
       <P>
@@ -599,58 +571,47 @@ render(
         <NumberFormat.Number signDisplay="exceptZero" value={0} />
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Using the Provider with NumberFormat
 
 In this example every NumberFormat will receive the Provider defined properties, including `cleanCopyValue`.
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox>
-      <Provider
-        value={{
-          NumberFormat: {
-            currency: true,
-            rounding: 'omit',
-            cleanCopyValue: true,
-          },
-        }}
-      >
+      <Provider value={{
+      NumberFormat: {
+        currency: true,
+        rounding: 'omit',
+        cleanCopyValue: true
+      }
+    }}>
         <P>
           <NumberFormat.Currency>12345</NumberFormat.Currency>
           <NumberFormat.Currency value={-12345.123} decimals={0} />
-          <NumberFormat.Currency
-            value={-12345678.955}
-            currencyPosition="before"
-          />
+          <NumberFormat.Currency value={-12345678.955} currencyPosition="before" />
         </P>
       </Provider>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Monospace
 
 By using the `monospace` property you can set the font to [DNB Mono Regular](/quickguide-designer/fonts)
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="number-format-monospace">
-      <NumberFormat.Currency
-        value="123456"
-        locale="en-GB"
-        currency="NOK"
-        monospace
-      />
+      <NumberFormat.Currency value="123456" locale="en-GB" currency="NOK" monospace />
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
 
 ## Properties
@@ -659,12 +620,16 @@ render(
 
 ### `NumberFormat.Number`
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -679,7 +644,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -760,26 +729,37 @@ render(
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `NumberFormat.Currency`
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -789,7 +769,10 @@ render(
     },
     "currency": {
       "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.",
-      "type": ["string", "boolean"],
+      "type": [
+        "string",
+        "boolean"
+      ],
       "status": "optional"
     },
     "currencyDisplay": {
@@ -804,7 +787,10 @@ render(
     },
     "compact": {
       "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "decimals": {
@@ -814,7 +800,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -895,21 +885,29 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.Percent`
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -924,7 +922,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -1005,21 +1007,29 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `NumberFormat.PhoneNumber`
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -1034,7 +1044,11 @@ render(
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -1120,23 +1134,31 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.BankAccountNumber`
 
 Norwegian bank account number (e.g. `2000 12 34567`).
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -1151,7 +1173,11 @@ Norwegian bank account number (e.g. `2000 12 34567`).
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -1232,23 +1258,31 @@ Norwegian bank account number (e.g. `2000 12 34567`).
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.NationalIdentityNumber`
 
 Norwegian national identification number (e.g. `180892 12345`).
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -1263,7 +1297,11 @@ Norwegian national identification number (e.g. `180892 12345`).
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -1344,23 +1382,31 @@ Norwegian national identification number (e.g. `180892 12345`).
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
+
 
 ### `NumberFormat.OrganizationNumber`
 
 Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by digit.
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "A number or a string containing a number.",
-      "type": ["number", "string"],
+      "type": [
+        "number",
+        "string"
+      ],
       "status": "optional"
     },
     "locale": {
@@ -1375,7 +1421,11 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
     },
     "rounding": {
       "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": ["\"omit\"", "\"half-even\"", "\"half-up\""],
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
       "status": "optional"
     },
     "signDisplay": {
@@ -1456,18 +1506,28 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "NumberFormat.clipboardCopy": {
       "nb-NO": "Kopiert",

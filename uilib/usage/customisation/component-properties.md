@@ -1,7 +1,7 @@
 ---
 title: 'Component Properties'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.459Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.374Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,41 +17,32 @@ Both the properties- and event names should use **camelCase** to support a unive
 
 Below are some examples. You can even modify them right away in the Browser.
 
+
 ```tsx
-<Button
-  variant="secondary"
-  text="Secondary Button"
-  icon="chevron_right_medium"
-  size="large"
-/>
+<Button variant="secondary" text="Secondary Button" icon="chevron_right_medium" size="large" />
 <Button icon="chevron_right" iconSize="medium" size="large" />
 ```
 
+
 ## Extended example
+
 
 ```tsx
 const Wrapper = styled.div`
-  .dnb-button {
-    --button-width: 4rem;
-    --button-height: 4rem;
-    --button-border-radius: 2rem;
-    svg {
-      color: fuchsia;
-    }
-  }
-`
-const myHandler = () => alert('Hello')
-render(
-  <Wrapper>
-    <Button
-      variant="secondary"
-      icon={hamburgerIcon}
-      size="default"
-      onClick={myHandler}
-    />
-    <Button variant="secondary" size="default" onClick={myHandler}>
-      <Icon icon={hamburgerIcon} />
-    </Button>
-  </Wrapper>
-)
+        .dnb-button {
+          --button-width: 4rem;
+          --button-height: 4rem;
+          --button-border-radius: 2rem;
+          svg {
+            color: fuchsia;
+          }
+        }
+      `;
+const myHandler = () => alert('Hello');
+render(<Wrapper>
+          <Button variant="secondary" icon={hamburgerIcon} size="default" onClick={myHandler} />
+          <Button variant="secondary" size="default" onClick={myHandler}>
+            <Icon icon={hamburgerIcon} />
+          </Button>
+        </Wrapper>);
 ```

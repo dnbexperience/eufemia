@@ -1,8 +1,8 @@
 ---
 title: 'Field.DateOfBirth'
 description: '`Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.389Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.322Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -58,6 +58,7 @@ const myValidator: DateOfBirthValidator = (value, { validators }) => {
 render(<Field.DateOfBirth onBlurValidator={myValidator} />)
 ```
 
+
 ## Demos
 
 <ChangeLocale
@@ -68,207 +69,178 @@ render(<Field.DateOfBirth onBlurValidator={myValidator} />)
 
 ### Empty
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    onChange={(value, additionalArgs) => {
-      {
-        const { day, month, year } = additionalArgs || {}
-        console.log('onChange', value, {
-          day,
-          month,
-          year,
-        })
-      }
-    }}
-    onDayChange={(day) => console.log('onDayChange', day)}
-    onMonthChange={(month) => console.log('onMonthChange', month)}
-    onYearChange={(year) => console.log('onYearChange', year)}
-  />
-)
+render(<Field.DateOfBirth onChange={(value, additionalArgs) => {
+  {
+    const {
+      day,
+      month,
+      year
+    } = additionalArgs || {};
+    console.log('onChange', value, {
+      day,
+      month,
+      year
+    });
+  }
+}} onDayChange={day => console.log('onDayChange', day)} onMonthChange={month => console.log('onMonthChange', month)} onYearChange={year => console.log('onYearChange', year)} />)
 ```
+
 
 ### Label
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.DateOfBirth label="Label text" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    label="Label text"
-    value="2000-05-17"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.DateOfBirth label="Label text" value="2000-05-17" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    label="Label text"
-    value="2000-05-17"
-    help={{
-      title: 'Help is available',
-      content:
-        'The real point is that we all need help somewhere along life’s path whether we think we will or not. And, if you are the one giving and helping, just remember this: no matter what happens later, you will always be secure in the fact knowing that you have remained strong and true to assist those that need your help.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.DateOfBirth label="Label text" value="2000-05-17" help={{
+  title: 'Help is available',
+  content: 'The real point is that we all need help somewhere along life’s path whether we think we will or not. And, if you are the one giving and helping, just remember this: no matter what happens later, you will always be secure in the fact knowing that you have remained strong and true to assist those that need your help.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    value="2000-05-17"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.DateOfBirth value="2000-05-17" label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.DateOfBirth label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.DateOfBirth
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.DateOfBirth label="Label text" onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
+
 
 ### Extend validation with custom validation function
 
 You can [extend the existing validation](/uilib/extensions/forms/create-component/useFieldProps/info/#validators) (`dateOfBirthValidator`) with your own validation function.
 
+
 ```tsx
 const firstDigitIs1Validator = (value: string) => {
   if (value.substring(0, 4) !== '1990') {
-    return new Error('Has to be born in the year 1990!')
+    return new Error('Has to be born in the year 1990!');
   }
-}
+};
 
 // Keep the default validator and add a custom year rule.
 // Keep the default validator and add a custom year rule.
-const myValidator: DateOfBirthValidator = (value, { validators }) => {
-  const { dateOfBirthValidator } = validators
-  return [dateOfBirthValidator, firstDigitIs1Validator]
-}
-render(
-  <Field.DateOfBirth
-    required
-    value="2000-05-17"
-    // @ts-expect-error -- strictFunctionTypes
-    onBlurValidator={myValidator}
-    validateInitially
-  />
-)
+const myValidator: DateOfBirthValidator = (value, {
+  validators
+}) => {
+  const {
+    dateOfBirthValidator
+  } = validators;
+  return [dateOfBirthValidator, firstDigitIs1Validator];
+};
+render(<Field.DateOfBirth required value="2000-05-17"
+// @ts-expect-error -- strictFunctionTypes
+onBlurValidator={myValidator} validateInitially />);
 ```
 
+
+
+  
 ```tsx
-render(
-  <Form.Card>
-    <Field.String width="stretch" />
-    <Field.DateOfBirth label="default" />
-    <Field.DateOfBirth width="large" label="large" />
-    <Field.DateOfBirth width="stretch" label="stretch" />
-  </Form.Card>
-)
+render(<Form.Card>
+        <Field.String width="stretch" />
+        <Field.DateOfBirth label="default" />
+        <Field.DateOfBirth width="large" label="large" />
+        <Field.DateOfBirth width="stretch" label="stretch" />
+      </Form.Card>)
 ```
+
+
 
 ### Path usage
 
+
 ```tsx
-render(
-  <Form.Handler
-    onSubmit={console.log}
-    data={{
-      dob: '2000-05-17',
-    }}
-  >
-    <Form.Card>
-      <Field.DateOfBirth path="/dob" />
+render(<Form.Handler onSubmit={console.log} data={{
+  dob: '2000-05-17'
+}}>
+        <Form.Card>
+          <Field.DateOfBirth path="/dob" />
 
-      <Value.DateOfBirth path="/dob" showEmpty />
+          <Value.DateOfBirth path="/dob" showEmpty />
 
-      <Tools.Log />
-    </Form.Card>
-    <Form.SubmitButton />
-  </Form.Handler>
-)
+          <Tools.Log />
+        </Form.Card>
+        <Form.SubmitButton />
+      </Form.Handler>)
 ```
+
 
 ### Transform in and out
 
 You can use `transformIn` and `transformOut` to transform data between external and internal formats.
 
+
 ```tsx
 const transformOut = (internal, additionalArgs) => {
   if (additionalArgs) {
-    const { year, month, day } = additionalArgs
+    const {
+      year,
+      month,
+      day
+    } = additionalArgs;
     return {
       year,
       month,
-      day,
-    }
+      day
+    };
   }
-}
-const transformIn = (external) => {
+};
+const transformIn = external => {
   if (external) {
-    const { year, month, day } = external
-    return `${year}-${month}-${day}`
+    const {
+      year,
+      month,
+      day
+    } = external;
+    return `${year}-${month}-${day}`;
   }
-}
-render(
-  <Form.Handler
-    defaultData={{
-      myField: {
-        year: '1990',
-        month: '05',
-        day: '15',
-      },
-    }}
-  >
-    <Form.Card>
-      <Field.DateOfBirth
-        path="/myField"
-        transformOut={transformOut}
-        transformIn={transformIn}
-        label="Transform in and out"
-      />
-      <Tools.Log />
-    </Form.Card>
-  </Form.Handler>
-)
+};
+render(<Form.Handler defaultData={{
+  myField: {
+    year: '1990',
+    month: '05',
+    day: '15'
+  }
+}}>
+            <Form.Card>
+              <Field.DateOfBirth path="/myField" transformOut={transformOut} transformIn={transformIn} label="Transform in and out" />
+              <Tools.Log />
+            </Form.Card>
+          </Form.Handler>);
 ```
 
 ## Properties
@@ -278,6 +250,7 @@ render(
 <PropertiesTable props={DateOfBirthProperties} />
 
 ### General properties
+
 
 ```json
 {
@@ -299,12 +272,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -324,7 +305,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -404,7 +388,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -419,12 +406,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -434,29 +427,49 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "omit": ["layout", "layoutOptions", "onBlurValidator"]
+  "omit": [
+    "layout",
+    "layoutOptions",
+    "onBlurValidator"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DateOfBirth.dayLabel": {
       "nb-NO": "Dag",

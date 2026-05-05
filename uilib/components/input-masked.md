@@ -1,8 +1,8 @@
 ---
 title: 'InputMasked'
 description: 'The InputMasked component uses the basic input component, but with some additional masking functionality.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.245Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.380Z
 checksum: ec854c3f7edab3767cebaea07e1723cb55406d476c88740bcf81d27b7291d502
 ---
 
@@ -47,19 +47,17 @@ The InputMasked component handles soft keyboards (iOS and Android) by using eith
 
 For iOS it additionally sets `type="number"` during focus (InputModeNumber). This way the correct numeric soft keyboard is shown.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview hideToolbar>
-      <InputMasked
-        maskOptions={{
-          allowNegative: false,
-        }}
-      />
+      <InputMasked maskOptions={{
+      allowNegative: false
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Mask based on locale
 
@@ -78,33 +76,31 @@ More details in the [examples above](/uilib/components/input-masked/demos).
 
 If you use `asCurrency` or `asNumber`, you must always provide a clean number without any mask (`value="1234.50"`):
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
       <InputMasked asCurrency="EUR" value="1234.50" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 You can also receive a clean number value you can use and send back in again:
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <InputMasked
-        asCurrency="EUR"
-        value="1234.50"
-        onChange={({ numberValue }) => {
-          console.log(numberValue) // type of float
-        }}
-      />
+      <InputMasked asCurrency="EUR" value="1234.50" onChange={({
+      numberValue
+    }) => {
+      console.log(numberValue); // type of float
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 #### Decimals
 
@@ -117,62 +113,51 @@ You can change the number of decimals by sending in options to the `currencyMask
 
 This example here also shows how to affect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <Provider
-        locale="en-GB"
-        InputMasked={{
-          currencyMask: {
-            decimalLimit: 1, // defaults to 2
-          },
-        }}
-      >
+      <Provider locale="en-GB" InputMasked={{
+      currencyMask: {
+        decimalLimit: 1 // defaults to 2
+      }
+    }}>
         <InputMasked asCurrency="USD" value="1234.567" />
       </Provider>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <Provider
-        locale="en-GB"
-        InputMasked={{
-          numberMask: {
-            decimalLimit: 2, // defaults to no decimals
-          },
-        }}
-      >
+      <Provider locale="en-GB" InputMasked={{
+      numberMask: {
+        decimalLimit: 2 // defaults to no decimals
+      }
+    }}>
         <InputMasked asNumber value="1234.567" />
       </Provider>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 To remove a decimal limit, you can provide `null` and allow decimals with `allowDecimal`:
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox hidePreview>
-      <InputMasked
-        asNumber
-        maskOptions={{
-          allowDecimal: true,
-          decimalLimit: null,
-        }}
-        value="1234.567"
-      />
+      <InputMasked asNumber maskOptions={{
+      allowDecimal: true,
+      decimalLimit: null
+    }} value="1234.567" />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ## Demos
 
@@ -184,190 +169,151 @@ When you use `asNumber` or `asPercent` (and `asCurrency` see below) it will crea
 
 You can still define extra mask parameters with `numberMask` or `maskOptions`, as the second input example shows (e.g. `decimalLimit`).
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
       <Flex.Vertical>
-        <InputMasked
-          label="Number"
-          asNumber
-          maskOptions={{
-            allowNegative: false,
-          }}
-          value="1234.50"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <InputMasked
-          label="Number (decimal limit)"
-          asNumber
-          numberMask={{
-            decimalLimit: 2,
-          }}
-          value="1234.016"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <InputMasked
-          label="Percentage"
-          asPercent
-          numberMask={{
-            decimalLimit: 1,
-          }}
-          value="1234.016"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
+        <InputMasked label="Number" asNumber maskOptions={{
+        allowNegative: false
+      }} value="1234.50" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
+        <InputMasked label="Number (decimal limit)" asNumber numberMask={{
+        decimalLimit: 2
+      }} value="1234.016" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
+        <InputMasked label="Percentage" asPercent numberMask={{
+        decimalLimit: 1
+      }} value="1234.016" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
       </Flex.Vertical>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Locale based `asCurrency`
 
 When you use `asCurrency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale property is not given.
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="input-masked-currency">
       <Flex.Vertical>
-        <InputMasked
-          label="Currency"
-          asCurrency="EUR"
-          value="1234.50"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <Provider
-          locale="en-GB"
-          InputMasked={{
-            currencyMask: {
-              decimalLimit: 3,
-            },
-          }}
-        >
-          <InputMasked
-            label="Currency"
-            asCurrency="USD"
-            value="1234.567"
-            onChange={({ numberValue }) => {
-              console.log(numberValue)
-            }}
-          />
+        <InputMasked label="Currency" asCurrency="EUR" value="1234.50" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
+        <Provider locale="en-GB" InputMasked={{
+        currencyMask: {
+          decimalLimit: 3
+        }
+      }}>
+          <InputMasked label="Currency" asCurrency="USD" value="1234.567" onChange={({
+          numberValue
+        }) => {
+          console.log(numberValue);
+        }} />
         </Provider>
       </Flex.Vertical>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Define the `currencyMask` manually
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
       <Flex.Vertical>
-        <InputMasked
-          label="Left aligned (default)"
-          showMask
-          currencyMask="kr"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
-        <InputMasked
-          label="Right aligned"
-          showMask
-          currencyMask={{
-            currency: 'NOK',
-          }}
-          align="right"
-          onChange={({ numberValue }) => {
-            console.log(numberValue)
-          }}
-        />
+        <InputMasked label="Left aligned (default)" showMask currencyMask="kr" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
+        <InputMasked label="Right aligned" showMask currencyMask={{
+        currency: 'NOK'
+      }} align="right" onChange={({
+        numberValue
+      }) => {
+        console.log(numberValue);
+      }} />
       </Flex.Vertical>
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Customize the number mask
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <InputMasked
-        label="Masked amount"
-        showMask
-        numberMask={{
-          suffix: ' kr',
-          allowDecimal: true,
-        }}
-        onChange={({ numberValue }) => {
-          console.log(numberValue)
-        }}
-      />
+      <InputMasked label="Masked amount" showMask numberMask={{
+      suffix: ' kr',
+      allowDecimal: true
+    }} onChange={({
+      numberValue
+    }) => {
+      console.log(numberValue);
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Using the `numberMask` with a combined suffix
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox data-visual-test="input-masked-number_mask">
-      <InputMasked
-        label="Masked input"
-        value="1000000"
-        numberMask={{
-          suffix: ',-',
-          allowDecimal: false,
-        }}
-        suffix="kr"
-        onChange={({ numberValue }) => {
-          console.log(numberValue)
-        }}
-      />
+      <InputMasked label="Masked input" value="1000000" numberMask={{
+      suffix: ',-',
+      allowDecimal: false
+    }} suffix="kr" onChange={({
+      numberValue
+    }) => {
+      console.log(numberValue);
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
+
 
 ### Using the `numberMask` and a prefix
 
+
 ```tsx
-render(
-  <Wrapper>
+render(<Wrapper>
     <ComponentBox>
-      <InputMasked
-        label="Masked input"
-        numberMask={{
-          prefix: 'NOK ',
-        }}
-        stretch={true}
-        placeholder="Enter a number"
-        onChange={({ numberValue }) => {
-          console.log(numberValue)
-        }}
-      />
+      <InputMasked label="Masked input" numberMask={{
+      prefix: 'NOK '
+    }} stretch={true} placeholder="Enter a number" onChange={({
+      numberValue
+    }) => {
+      console.log(numberValue);
+    }} />
     </ComponentBox>
-  </Wrapper>
-)
+  </Wrapper>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -384,7 +330,10 @@ render(
     },
     "asCurrency": {
       "doc": "Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.",
-      "type": ["boolean", "string"],
+      "type": [
+        "boolean",
+        "string"
+      ],
       "status": "optional"
     },
     "maskOptions": {
@@ -394,12 +343,18 @@ render(
     },
     "numberMask": {
       "doc": "Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.",
-      "type": ["boolean", "object"],
+      "type": [
+        "boolean",
+        "object"
+      ],
       "status": "optional"
     },
     "currencyMask": {
       "doc": "Set to `true` or set the _valuta_ (currencyMask=\"kr\") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.",
-      "type": ["boolean", "object"],
+      "type": [
+        "boolean",
+        "object"
+      ],
       "status": "optional"
     },
     "numberFormat": {
@@ -414,7 +369,10 @@ render(
     },
     "mask": {
       "doc": "A mask defined as an array of RegExp and string tokens (e.g. `[/\\d/, /\\d/, \" \", /\\d/, /\\d/]`) or a single RegExp. Defaults to `number mask`.",
-      "type": ["RegExp", "Array<RegExp | string>"],
+      "type": [
+        "RegExp",
+        "Array<RegExp | string>"
+      ],
       "status": "optional"
     },
     "allowOverflow": {
@@ -424,7 +382,10 @@ render(
     },
     "overwriteMode": {
       "doc": "Control how overwriting characters is handled; `shift` (default) moves to the next slot while `replace` stays on the current slot.",
-      "type": ["string", "function"],
+      "type": [
+        "string",
+        "function"
+      ],
       "status": "optional"
     },
     "showMask": {
@@ -434,7 +395,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     },
     "[Input](/uilib/components/input/properties)": {
@@ -445,6 +409,7 @@ render(
   }
 }
 ```
+
 
 ## Number mask properties
 
@@ -464,6 +429,7 @@ The number mask is used for all kinds of number based masks, like:
 You can `maskOptions` to manipulate the options.
 
 Defaults to Norwegian number format.
+
 
 ```json
 {
@@ -517,6 +483,7 @@ Defaults to Norwegian number format.
 }
 ```
 
+
 ### Custom number mask usage
 
 The number mask is included and can be set with the `numberMask` property.
@@ -535,6 +502,7 @@ const numberMask = {
 
 ## Events
 
+
 ```json
 {
   "props": {
@@ -551,5 +519,6 @@ const numberMask = {
   }
 }
 ```
+
 
 **NB:** `numberValue` is returned as a float value and is only returned when using `numberMask`, `currencyMask`, `asNumber`, or `asCurrency`.

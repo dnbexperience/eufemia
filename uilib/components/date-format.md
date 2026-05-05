@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.120Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.278Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -90,6 +90,7 @@ This is helpful when you are comparing "today" against backend data or applying 
 | `locale`  | `AnyLocale`                  | `'nb-NO'`                | The locale to use for formatting.                                                                                                                                 |
 | `options` | `Intl.DateTimeFormatOptions` | `{ dateStyle: 'short' }` | The format options following the [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) API. |
 
+
 ## Demos
 
 <ChangeLocale
@@ -100,9 +101,9 @@ This is helpful when you are comparing "today" against backend data or applying 
 
 ### Date styles
 
+
 ```tsx
-render(
-  <Style>
+render(<Style>
     <ComponentBox data-visual-test="date-format-date-styles">
       <P>
         <DateFormat dateStyle="full">2025-08-01</DateFormat>
@@ -111,9 +112,9 @@ render(
         <DateFormat dateStyle="short">2025-08-01</DateFormat>
       </P>
     </ComponentBox>
-  </Style>
-)
+  </Style>)
 ```
+
 
 ### Hide year when in current year
 
@@ -122,190 +123,129 @@ current year. Works with any `dateStyle`.
 
 Use `hideYear` to always hide the year from the formatted date,
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox>
-      {() => {
-        const currentYear = new Date().getFullYear()
-        const dateInCurrentYear = `${currentYear}-02-04`
-        const dateInOtherYear = `${currentYear - 1}-02-04`
-        return (
-          <P>
-            <DateFormat
-              value={dateInCurrentYear}
-              dateStyle="medium"
-              hideCurrentYear
-            />
-            <DateFormat
-              value={dateInOtherYear}
-              dateStyle="medium"
-              hideCurrentYear
-            />
-            <Hr />
-            <DateFormat
-              value={dateInCurrentYear}
-              dateStyle="long"
-              hideCurrentYear
-            />
-            <DateFormat
-              value={dateInOtherYear}
-              dateStyle="long"
-              hideCurrentYear
-            />
-          </P>
-        )
-      }}
-    </ComponentBox>
-  </Style>
-)
+render(<Style>
+      <ComponentBox>
+        {() => {
+      const currentYear = new Date().getFullYear();
+      const dateInCurrentYear = `${currentYear}-02-04`;
+      const dateInOtherYear = `${currentYear - 1}-02-04`;
+      return <P>
+              <DateFormat value={dateInCurrentYear} dateStyle="medium" hideCurrentYear />
+              <DateFormat value={dateInOtherYear} dateStyle="medium" hideCurrentYear />
+              <Hr />
+              <DateFormat value={dateInCurrentYear} dateStyle="long" hideCurrentYear />
+              <DateFormat value={dateInOtherYear} dateStyle="long" hideCurrentYear />
+            </P>;
+    }}
+      </ComponentBox>
+    </Style>)
 ```
+
 
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    Payment due <DateFormat>2025-08-01</DateFormat>. Please make sure you
-    have sufficient funds available.
-  </P>
-)
+render(<P>
+        Payment due <DateFormat>2025-08-01</DateFormat>. Please make sure
+        you have sufficient funds available.
+      </P>)
 ```
+
 
 ### Date value formats
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox>
-      <P>
-        <DateFormat>2025-08-01</DateFormat>
-        <DateFormat>01.08.2025</DateFormat>
-        <DateFormat>01/08/2025</DateFormat>
-        <DateFormat value={new Date('2025-08-01')} />
-      </P>
-    </ComponentBox>
-  </Style>
-)
+render(<Style>
+      <ComponentBox>
+        <P>
+          <DateFormat>2025-08-01</DateFormat>
+          <DateFormat>01.08.2025</DateFormat>
+          <DateFormat>01/08/2025</DateFormat>
+          <DateFormat value={new Date('2025-08-01')} />
+        </P>
+      </ComponentBox>
+    </Style>)
 ```
+
 
 ### Date and time
 
 Use the `timeStyle` property to include a time value alongside the date. Add
 `dateTimeSeparator` if you need a custom separator.
 
+
 ```tsx
-render(
-  <P>
-    Updated at{' '}
-    <DateFormat
-      value={new Date('2026-01-13T11:55:00')}
-      dateStyle="medium"
-      timeStyle="short"
-      dateTimeSeparator=" – "
-    />
-  </P>
-)
+render(<P>
+        Updated at{' '}
+        <DateFormat value={new Date('2026-01-13T11:55:00')} dateStyle="medium" timeStyle="short" dateTimeSeparator=" – " />
+      </P>)
 ```
+
 
 ### Relative time
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox>
-      <P>
-        <DateFormat
-          value={new Date(new Date().getTime() - 30 * 1000)}
-          relativeTime
-        />
-        <DateFormat
-          value={new Date(new Date().getTime() - 2 * 60 * 1000)}
-          relativeTime
-        />
-        <DateFormat
-          value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)}
-          relativeTime
-        />
-      </P>
-    </ComponentBox>
-  </Style>
-)
+render(<Style>
+      <ComponentBox>
+        <P>
+          <DateFormat value={new Date(new Date().getTime() - 30 * 1000)} relativeTime />
+          <DateFormat value={new Date(new Date().getTime() - 2 * 60 * 1000)} relativeTime />
+          <DateFormat value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)} relativeTime />
+        </P>
+      </ComponentBox>
+    </Style>)
 ```
+
 
 ### Relative time with different styles
 
 Use `relativeTimeStyle` to control the relative time formatting without affecting `dateStyle`.
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox
-      scope={{
-        pastDates,
-        futureDates,
-      }}
-      hideCode
-    >
-      <H4>Short:</H4>
-      {pastDates.map((date, index) => (
-        <P key={index}>
-          <DateFormat
-            value={date}
-            relativeTime
-            relativeTimeStyle="short"
-          />
-          {index < pastDates.length - 1 && <br />}
-        </P>
-      ))}
+render(<Style>
+      <ComponentBox scope={{
+    pastDates,
+    futureDates
+  }} hideCode>
+        <H4>Short:</H4>
+        {pastDates.map((date, index) => <P key={index}>
+            <DateFormat value={date} relativeTime relativeTimeStyle="short" />
+            {index < pastDates.length - 1 && <br />}
+          </P>)}
 
-      <H4>Medium:</H4>
-      {pastDates.map((date, index) => (
-        <P key={index}>
-          <DateFormat
-            value={date}
-            relativeTime
-            relativeTimeStyle="medium"
-          />
-          {index < pastDates.length - 1 && <br />}
-        </P>
-      ))}
+        <H4>Medium:</H4>
+        {pastDates.map((date, index) => <P key={index}>
+            <DateFormat value={date} relativeTime relativeTimeStyle="medium" />
+            {index < pastDates.length - 1 && <br />}
+          </P>)}
 
-      <H4>Long (default):</H4>
-      {pastDates.map((date, index) => (
-        <P key={index}>
-          <DateFormat value={date} relativeTime relativeTimeStyle="long" />
-          {index < pastDates.length - 1 && <br />}
-        </P>
-      ))}
+        <H4>Long (default):</H4>
+        {pastDates.map((date, index) => <P key={index}>
+            <DateFormat value={date} relativeTime relativeTimeStyle="long" />
+            {index < pastDates.length - 1 && <br />}
+          </P>)}
 
-      <H4>Future dates with long style:</H4>
-      {futureDates.map((date, index) => (
-        <P key={index}>
-          <DateFormat value={date} relativeTime relativeTimeStyle="long" />
-          {index < futureDates.length - 1 && <br />}
-        </P>
-      ))}
+        <H4>Future dates with long style:</H4>
+        {futureDates.map((date, index) => <P key={index}>
+            <DateFormat value={date} relativeTime relativeTimeStyle="long" />
+            {index < futureDates.length - 1 && <br />}
+          </P>)}
 
-      <H4>Different locales with short style:</H4>
-      <P>
-        <DateFormat
-          value={pastDates[2]}
-          relativeTime
-          relativeTimeStyle="short"
-          locale="de-DE"
-        />
-        <DateFormat
-          value={futureDates[2]}
-          relativeTime
-          relativeTimeStyle="short"
-          locale="sv-SE"
-        />
-      </P>
-    </ComponentBox>
-  </Style>
-)
+        <H4>Different locales with short style:</H4>
+        <P>
+          <DateFormat value={pastDates[2]} relativeTime relativeTimeStyle="short" locale="de-DE" />
+          <DateFormat value={futureDates[2]} relativeTime relativeTimeStyle="short" locale="sv-SE" />
+        </P>
+      </ComponentBox>
+    </Style>)
 ```
+
 
 ### Duration formatting
 
@@ -320,87 +260,95 @@ The DateFormat component automatically detects and formats ISO
 - `P1M` = 1 month
 - `P1Y` = 1 year
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox>
-      <H4>Short durations:</H4>
-      <P>
-        <DateFormat value="PT1H" />
-        <DateFormat value="PT2H30M" />
-        <DateFormat value="PT45M" />
-      </P>
+render(<Style>
+      <ComponentBox>
+        <H4>Short durations:</H4>
+        <P>
+          <DateFormat value="PT1H" />
+          <DateFormat value="PT2H30M" />
+          <DateFormat value="PT45M" />
+        </P>
 
-      <H4>Longer durations:</H4>
-      <P>
-        <DateFormat value="P1D" />
-        <DateFormat value="P1DT2H30M" />
-        <DateFormat value="P1W" />
-        <DateFormat value="P1M" />
-        <DateFormat value="P1Y" />
-      </P>
+        <H4>Longer durations:</H4>
+        <P>
+          <DateFormat value="P1D" />
+          <DateFormat value="P1DT2H30M" />
+          <DateFormat value="P1W" />
+          <DateFormat value="P1M" />
+          <DateFormat value="P1Y" />
+        </P>
 
-      <H4>Different locales:</H4>
-      <P>
-        <DateFormat value="PT2H30M" locale="en-US" />
-        <DateFormat value="PT2H30M" locale="nb-NO" />
-        <DateFormat value="PT2H30M" locale="de-DE" />
-      </P>
-    </ComponentBox>
-  </Style>
-)
+        <H4>Different locales:</H4>
+        <P>
+          <DateFormat value="PT2H30M" locale="en-US" />
+          <DateFormat value="PT2H30M" locale="nb-NO" />
+          <DateFormat value="PT2H30M" locale="de-DE" />
+        </P>
+      </ComponentBox>
+    </Style>)
 ```
+
 
 ### Duration with different styles
 
 The `dateStyle` property affects how durations are formatted using the browser's built-in `Intl.DurationFormat` API.
 
+
 ```tsx
-render(
-  <Style>
-    <ComponentBox>
-      <H4>Short:</H4>
-      <P>
-        <DateFormat value="PT2H30M" dateStyle="short" />
-        <DateFormat value="P1DT2H30M" dateStyle="short" />
-      </P>
+render(<Style>
+      <ComponentBox>
+        <H4>Short:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="short" />
+          <DateFormat value="P1DT2H30M" dateStyle="short" />
+        </P>
 
-      <H4>Medium:</H4>
-      <P>
-        <DateFormat value="PT2H30M" dateStyle="medium" />
-        <DateFormat value="P1DT2H30M" dateStyle="medium" />
-      </P>
+        <H4>Medium:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="medium" />
+          <DateFormat value="P1DT2H30M" dateStyle="medium" />
+        </P>
 
-      <H4>Long (default):</H4>
-      <P>
-        <DateFormat value="PT2H30M" dateStyle="long" />
-        <DateFormat value="P1DT2H30M" dateStyle="long" />
-      </P>
+        <H4>Long (default):</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="long" />
+          <DateFormat value="P1DT2H30M" dateStyle="long" />
+        </P>
 
-      <H4>Different locales with short style:</H4>
-      <P>
-        <DateFormat value="PT2H30M" dateStyle="short" locale="en-US" />
-        <DateFormat value="PT2H30M" dateStyle="short" locale="nb-NO" />
-        <DateFormat value="PT2H30M" dateStyle="short" locale="de-DE" />
-      </P>
-    </ComponentBox>
-  </Style>
-)
+        <H4>Different locales with short style:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="short" locale="en-US" />
+          <DateFormat value="PT2H30M" dateStyle="short" locale="nb-NO" />
+          <DateFormat value="PT2H30M" dateStyle="short" locale="de-DE" />
+        </P>
+      </ComponentBox>
+    </Style>)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "value": {
       "doc": "The date that will be formatted.",
-      "type": ["Date", "string"],
+      "type": [
+        "Date",
+        "string"
+      ],
       "status": "optional"
     },
     "dateStyle": {
       "doc": "Defines the style used to format the date. Also affects duration formatting when using ISO 8601 duration strings. Defaults to `long`.",
-      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
+      "type": [
+        "\"long\"",
+        "\"medium\"",
+        "\"short\"",
+        "\"full\""
+      ],
       "status": "optional"
     },
     "hideCurrentYear": {
@@ -415,7 +363,12 @@ render(
     },
     "timeStyle": {
       "doc": "Defines the style used to format the time. If provided, time is included in the output.",
-      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
+      "type": [
+        "\"long\"",
+        "\"medium\"",
+        "\"short\"",
+        "\"full\""
+      ],
       "status": "optional"
     },
     "dateTimeSeparator": {
@@ -430,7 +383,12 @@ render(
     },
     "relativeTimeStyle": {
       "doc": "Defines the style used to format relative time. Defaults to `dateStyle` when not provided.",
-      "type": ["\"long\"", "\"medium\"", "\"short\"", "\"full\""],
+      "type": [
+        "\"long\"",
+        "\"medium\"",
+        "\"short\"",
+        "\"full\""
+      ],
       "status": "optional"
     },
     "relativeTimeReference": {
@@ -450,7 +408,10 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

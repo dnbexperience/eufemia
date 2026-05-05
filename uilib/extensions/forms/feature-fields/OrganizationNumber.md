@@ -1,8 +1,8 @@
 ---
 title: 'Field.OrganizationNumber'
 description: '`Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.395Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.325Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -63,152 +63,113 @@ const myValidator: OrganizationNumberValidator = (
 render(<Field.OrganizationNumber onBlurValidator={myValidator} />)
 ```
 
+
 ## Demos
 
 ### Empty
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.OrganizationNumber onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Omit mask
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    onChange={(value) => console.log('onChange', value)}
-    omitMask
-  />
-)
+render(<Field.OrganizationNumber onChange={value => console.log('onChange', value)} omitMask />)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    placeholder="Enter 9 digits..."
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.OrganizationNumber placeholder="Enter 9 digits..." onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.OrganizationNumber label="Label text" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    label="Label text"
-    value="987654321"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.OrganizationNumber label="Label text" value="987654321" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    label="Label text"
-    value="987654321"
-    help={{
-      title: 'Help is available',
-      content:
-        'Success has nothing to do with what you gain in life or accomplish for yourself. It’s what you do for others.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.OrganizationNumber label="Label text" value="987654321" help={{
+  title: 'Help is available',
+  content: 'Success has nothing to do with what you gain in life or accomplish for yourself. It’s what you do for others.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    value="989898989"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.OrganizationNumber value="989898989" label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    value="007"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.OrganizationNumber value="007" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.OrganizationNumber
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.OrganizationNumber label="Label text" onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
+
 
 ### Extend validation with custom validation function
 
 You can [extend the existing validation](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`organizationNumberValidator`) with your own validation function.
 
+
 ```tsx
 const firstDigitIs1Validator = (value: string) => {
   if (value.substring(0, 1) !== '1') {
-    return new Error('First digit is not 1')
+    return new Error('First digit is not 1');
   }
-}
+};
 
 // Keep the built-in validator while requiring the first digit.
 // Keep the built-in validator while requiring the first digit.
-const myValidator: OrganizationNumberValidator = (
-  value,
-  { validators }
-) => {
-  const { organizationNumberValidator } = validators
-  return [organizationNumberValidator, firstDigitIs1Validator]
-}
-render(
-  <Field.OrganizationNumber
-    required
-    value="991541209"
-    onBlurValidator={myValidator}
-    validateInitially
-  />
-)
+const myValidator: OrganizationNumberValidator = (value, {
+  validators
+}) => {
+  const {
+    organizationNumberValidator
+  } = validators;
+  return [organizationNumberValidator, firstDigitIs1Validator];
+};
+render(<Field.OrganizationNumber required value="991541209" onBlurValidator={myValidator} validateInitially />);
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -254,7 +215,10 @@ render(
     },
     "autoComplete": {
       "doc": "For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.",
-      "type": ["\"on\"", "string"],
+      "type": [
+        "\"on\"",
+        "string"
+      ],
       "status": "optional"
     },
     "minLength": {
@@ -274,17 +238,27 @@ render(
     },
     "width": {
       "doc": "`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "selectAll": {
@@ -309,7 +283,10 @@ render(
     },
     "characterCounter": {
       "doc": "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
-      "type": ["number", "object"],
+      "type": [
+        "number",
+        "object"
+      ],
       "status": "optional"
     },
     "autoResize": {
@@ -346,7 +323,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -368,12 +347,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -393,7 +380,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -473,7 +463,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -488,12 +481,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -503,29 +502,47 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   },
-  "omit": ["onBlurValidator"]
+  "omit": [
+    "onBlurValidator"
+  ]
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -592,6 +609,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

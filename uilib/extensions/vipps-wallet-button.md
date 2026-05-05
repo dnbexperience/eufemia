@@ -1,8 +1,8 @@
 ---
 title: 'VippsWalletButton'
 description: 'A branded Vipps wallet call-to-action button extension.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.412Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.337Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -30,32 +30,25 @@ It uses a primary [Button](/uilib/components/button/) under the hood.
 
 ### Default
 
+
 ```tsx
-render(
-  <VippsWalletButton
-    onClick={() => {
-      console.log('VippsWalletButton clicked')
-    }}
-    data-visual-test="vipps-wallet-button"
-  />
-)
+render(<VippsWalletButton onClick={() => {
+  console.log('VippsWalletButton clicked');
+}} data-visual-test="vipps-wallet-button" />)
 ```
+
 
 ### With SubmitIndicator
 
 Example with property `pending` set to `true`.
 
+
 ```tsx
-render(
-  <VippsWalletButton
-    pending
-    onClick={() => {
-      console.log('VippsWalletButton clicked')
-    }}
-    data-visual-test="vipps-wallet-button-pending"
-  />
-)
+render(<VippsWalletButton pending onClick={() => {
+  console.log('VippsWalletButton clicked');
+}} data-visual-test="vipps-wallet-button-pending" />)
 ```
+
 
 ## Translations
 

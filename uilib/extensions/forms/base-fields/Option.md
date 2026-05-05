@@ -1,8 +1,8 @@
 ---
 title: 'Field.Option'
 description: '`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.358Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.300Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -43,17 +43,24 @@ render(
 
 There might be more props available depending on the parent component. For example, `<Field.Selection variant="button">` also allows the `icon` property, among others, for its options.
 
+
 ```json
 {
   "props": {
     "value": {
       "doc": "Value for this option.",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "title": {
       "doc": "Title for the option. Overrides `children`.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "groupIndex": {
@@ -63,7 +70,10 @@ There might be more props available depending on the parent component. For examp
     },
     "text": {
       "doc": "Secondary text.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "disabled": {

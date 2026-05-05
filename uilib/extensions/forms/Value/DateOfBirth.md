@@ -1,8 +1,8 @@
 ---
 title: 'Value.DateOfBirth'
 description: '`Value.DateOfBirth` is a wrapper component for displaying string values, with user experience tailored for date of birth values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.214Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.171Z
 checksum: 5bae6a0512b60fd0f2268face3cdc590307333de1e3d4bccf2cf560a395f3d74
 ---
 
@@ -31,6 +31,7 @@ render(<Value.DateOfBirth />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/DateOfBirth)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/DateOfBirth)
 
+
 ## Demos
 
 <ChangeLocale
@@ -41,49 +42,59 @@ render(<Value.DateOfBirth />)
 
 ### Empty
 
+
 ```tsx
 render(<Value.DateOfBirth showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.DateOfBirth placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.DateOfBirth value="2023-01-16" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.DateOfBirth label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.DateOfBirth label="Label text" value="2023-01-16" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.DateOfBirth value="2023-01-16" inline /> This is after the
-    component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.DateOfBirth value="2023-01-16" inline /> This is after the
+        component
+      </P>)
 ```
 
 ## Properties
 
 ### DateOfBirth-specific properties
+
 
 ```json
 {
@@ -97,7 +108,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -164,7 +177,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -174,18 +192,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DateOfBirth.label": {
       "nb-NO": "Fødselsdato",

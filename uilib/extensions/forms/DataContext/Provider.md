@@ -1,8 +1,8 @@
 ---
 title: 'DataContext.Provider'
 description: '`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.816Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.848Z
 checksum: 4e01b67cf74fc2e0291f1a54a58983de792be25025c8d5dc17bbad73de94bea3
 ---
 
@@ -26,153 +26,99 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### Data and callback events (and session store)
 
-```tsx
-render(
-  <DataContext.Provider
-    defaultData={testData}
-    onChange={(data) => console.log('onChange', data)}
-    onPathChange={(path, value) =>
-      console.log('onPathChange', path, value)
-    }
-    onSubmitRequest={() => console.log('onSubmitRequest')}
-    onSubmit={(data, { resetForm, clearData }) => {
-      console.log('onSubmit', data)
 
-      // Docs: https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider/events/#onsubmit-parameters
-      resetForm()
-      clearData()
-    }}
-    sessionStorageId="provider-example-1"
-  >
-    <Flex.Stack>
-      <Form.Card>
-        <Flex.Vertical divider="line" gap="small">
-          <Field.String
-            path="/requiredString"
-            label="Required string"
-            required
-          />
-          <Field.String path="/hmm" label="Invalid path" />
-          <Field.String path="/string" label="String value" />
-          <Field.String path="/string" label="String value (copy)" />
-          <Field.Number path="/number" label="Number value" />
-          <Field.String path="/number" label="Number with Field.String" />
-          <Field.Boolean
-            path="/boolean"
-            label="Boolean - Checkbox"
-            variant="checkbox"
-          />
-          <Field.Boolean
-            path="/boolean"
-            label="Boolean - Toggle"
-            variant="button"
-          />
-          <div>
-            <Field.String path="/nested/nestedText" label="Nested text" />
-            <Field.Number
-              path="/nested/nestedNumber"
-              label="Nested number (minimum 50)"
-              minimum={50}
-            />
-          </div>
-          <div className="hmm">
-            <Flex.Horizontal>
-              <Field.String path="/list/0/itemText" label="Item text" />
-              <Field.Number
-                path="/list/0/itemNumber"
-                label="Item number"
-              />
-            </Flex.Horizontal>
-            <Flex.Horizontal>
-              <Field.String path="/list/1/itemText" label="Item text" />
-              <Field.Number
-                path="/list/1/itemNumber"
-                label="Item number"
-              />
-            </Flex.Horizontal>
-          </div>
-          <Form.ButtonRow>
-            <Form.SubmitButton />
-          </Form.ButtonRow>
-        </Flex.Vertical>
-      </Form.Card>
-    </Flex.Stack>
-  </DataContext.Provider>
-)
+```tsx
+render(<DataContext.Provider defaultData={testData} onChange={data => console.log('onChange', data)} onPathChange={(path, value) => console.log('onPathChange', path, value)} onSubmitRequest={() => console.log('onSubmitRequest')} onSubmit={(data, {
+  resetForm,
+  clearData
+}) => {
+  console.log('onSubmit', data);
+
+  // Docs: https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider/events/#onsubmit-parameters
+  resetForm();
+  clearData();
+}} sessionStorageId="provider-example-1">
+        <Flex.Stack>
+          <Form.Card>
+            <Flex.Vertical divider="line" gap="small">
+              <Field.String path="/requiredString" label="Required string" required />
+              <Field.String path="/hmm" label="Invalid path" />
+              <Field.String path="/string" label="String value" />
+              <Field.String path="/string" label="String value (copy)" />
+              <Field.Number path="/number" label="Number value" />
+              <Field.String path="/number" label="Number with Field.String" />
+              <Field.Boolean path="/boolean" label="Boolean - Checkbox" variant="checkbox" />
+              <Field.Boolean path="/boolean" label="Boolean - Toggle" variant="button" />
+              <div>
+                <Field.String path="/nested/nestedText" label="Nested text" />
+                <Field.Number path="/nested/nestedNumber" label="Nested number (minimum 50)" minimum={50} />
+              </div>
+              <div className="hmm">
+                <Flex.Horizontal>
+                  <Field.String path="/list/0/itemText" label="Item text" />
+                  <Field.Number path="/list/0/itemNumber" label="Item number" />
+                </Flex.Horizontal>
+                <Flex.Horizontal>
+                  <Field.String path="/list/1/itemText" label="Item text" />
+                  <Field.Number path="/list/1/itemNumber" label="Item number" />
+                </Flex.Horizontal>
+              </div>
+              <Form.ButtonRow>
+                <Form.SubmitButton />
+              </Form.ButtonRow>
+            </Flex.Vertical>
+          </Form.Card>
+        </Flex.Stack>
+      </DataContext.Provider>)
 ```
+
 
 ### Validation with Json Schema
 
+
 ```tsx
-render(
-  <DataContext.Provider
-    data={testData}
-    schema={TestDataSchema}
-    ajvInstance={ajv}
-    onChange={(data) => console.log('onChange', data)}
-    onPathChange={(path, value) =>
-      console.log('onPathChange', path, value)
-    }
-    onSubmit={(data) => console.log('onSubmit', data)}
-    onSubmitRequest={() => console.log('onSubmitRequest')}
-  >
-    <Flex.Stack>
-      <Form.Card>
-        <Flex.Vertical divider="line" gap="small">
-          <Field.String path="/requiredString" label="Required string" />
-          <Field.String path="/hmm" label="Invalid path" />
-          <Field.String path="/string" label="String value" />
-          <Field.String path="/string" label="String value (copy)" />
-          <Field.Number path="/number" label="Number value" />
-          <Field.String path="/number" label="Number with Field.String" />
-          <Field.Boolean
-            path="/boolean"
-            label="Boolean - Checkbox"
-            variant="checkbox"
-          />
-          <Field.Boolean
-            path="/boolean"
-            label="Boolean - Toggle"
-            variant="button"
-          />
-          <div>
-            <Field.String path="/nested/nestedText" label="Nested text" />
-            <Field.Number
-              path="/nested/nestedNumber"
-              label="Nested number"
-            />
-          </div>
-          <div className="hmm">
-            <Flex.Horizontal>
-              <Field.String path="/list/0/itemText" label="Item text" />
-              <Field.Number
-                path="/list/0/itemNumber"
-                label="Item number"
-              />
-            </Flex.Horizontal>
-            <Flex.Horizontal>
-              <Field.String path="/list/1/itemText" label="Item text" />
-              <Field.Number
-                path="/list/1/itemNumber"
-                label="Item number"
-              />
-            </Flex.Horizontal>
-          </div>
-          <Form.ButtonRow>
-            <Form.SubmitButton />
-          </Form.ButtonRow>
-        </Flex.Vertical>
-      </Form.Card>
-    </Flex.Stack>
-  </DataContext.Provider>
-)
+render(<DataContext.Provider data={testData} schema={TestDataSchema} ajvInstance={ajv} onChange={data => console.log('onChange', data)} onPathChange={(path, value) => console.log('onPathChange', path, value)} onSubmit={data => console.log('onSubmit', data)} onSubmitRequest={() => console.log('onSubmitRequest')}>
+        <Flex.Stack>
+          <Form.Card>
+            <Flex.Vertical divider="line" gap="small">
+              <Field.String path="/requiredString" label="Required string" />
+              <Field.String path="/hmm" label="Invalid path" />
+              <Field.String path="/string" label="String value" />
+              <Field.String path="/string" label="String value (copy)" />
+              <Field.Number path="/number" label="Number value" />
+              <Field.String path="/number" label="Number with Field.String" />
+              <Field.Boolean path="/boolean" label="Boolean - Checkbox" variant="checkbox" />
+              <Field.Boolean path="/boolean" label="Boolean - Toggle" variant="button" />
+              <div>
+                <Field.String path="/nested/nestedText" label="Nested text" />
+                <Field.Number path="/nested/nestedNumber" label="Nested number" />
+              </div>
+              <div className="hmm">
+                <Flex.Horizontal>
+                  <Field.String path="/list/0/itemText" label="Item text" />
+                  <Field.Number path="/list/0/itemNumber" label="Item number" />
+                </Flex.Horizontal>
+                <Flex.Horizontal>
+                  <Field.String path="/list/1/itemText" label="Item text" />
+                  <Field.Number path="/list/1/itemNumber" label="Item number" />
+                </Flex.Horizontal>
+              </div>
+              <Form.ButtonRow>
+                <Form.SubmitButton />
+              </Form.ButtonRow>
+            </Flex.Vertical>
+          </Form.Card>
+        </Flex.Stack>
+      </DataContext.Provider>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -189,7 +135,12 @@ render(
     },
     "id": {
       "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
-      "type": ["string", "function", "object", "React.Context"],
+      "type": [
+        "string",
+        "function",
+        "object",
+        "React.Context"
+      ],
       "status": "optional"
     },
     "schema": {
@@ -269,7 +220,10 @@ render(
     },
     "countryCode": {
       "doc": "Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.",
-      "type": ["ISO 3166-1 alpha-2", "Path/JSON Pointer"],
+      "type": [
+        "ISO 3166-1 alpha-2",
+        "Path/JSON Pointer"
+      ],
       "status": "optional"
     },
     "children": {
@@ -282,6 +236,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

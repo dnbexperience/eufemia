@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.550Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.638Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 
@@ -26,6 +26,7 @@ Tags with the `onDelete` property can be used to define an action. A clickable t
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tag)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/tag)
 
+
 ## Demos
 
 ### Tag
@@ -38,33 +39,21 @@ There are three interactive tag variants:
 
 We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
 
+
 ```tsx
-render(
-  <Tag.Group label="Interactable tags">
-    <Tag
-      data-visual-test="tag-clickable"
-      variant="clickable"
-      onClick={() => 'click'}
-    >
-      Clickable
-    </Tag>
-    <Tag
-      data-visual-test="tag-addable"
-      variant="addable"
-      onClick={() => 'click'}
-    >
-      Addable
-    </Tag>
-    <Tag
-      data-visual-test="tag-removable"
-      variant="removable"
-      onClick={() => 'click'}
-    >
-      Removable
-    </Tag>
-  </Tag.Group>
-)
+render(<Tag.Group label="Interactable tags">
+      <Tag data-visual-test="tag-clickable" variant="clickable" onClick={() => 'click'}>
+        Clickable
+      </Tag>
+      <Tag data-visual-test="tag-addable" variant="addable" onClick={() => 'click'}>
+        Addable
+      </Tag>
+      <Tag data-visual-test="tag-removable" variant="removable" onClick={() => 'click'}>
+        Removable
+      </Tag>
+    </Tag.Group>)
 ```
+
 
 ### Non-interactive tag
 
@@ -73,26 +62,26 @@ render(
 
 Non-interactable tags are simply made by skipping all callback properties, and are the only type that can have an icon.
 
+
 ```tsx
-render(
-  <Tag.Group label="Payment types">
-    <Tag>Digipost</Tag>
-    <Tag>AvtaleGiro</Tag>
-  </Tag.Group>
-)
+render(<Tag.Group label="Payment types">
+      <Tag>Digipost</Tag>
+      <Tag>AvtaleGiro</Tag>
+    </Tag.Group>)
 ```
+
 
 ### Non-interactive tag with icon
 
+
 ```tsx
-render(
-  <Tag.Group label="Betalingstyper">
-    <Tag icon={AInvoice} text="AvtaleGiro" />
-    <Tag icon={EInvoice} text="eFaktura" />
-    <Tag icon={DigiPost} text="DigiPost" />
-  </Tag.Group>
-)
+render(<Tag.Group label="Betalingstyper">
+      <Tag icon={AInvoice} text="AvtaleGiro" />
+      <Tag icon={EInvoice} text="eFaktura" />
+      <Tag icon={DigiPost} text="DigiPost" />
+    </Tag.Group>)
 ```
+
 
 ## Usage examples
 
@@ -100,126 +89,112 @@ render(
 
 Removable tags can for example be used in filter lists. This is a simple example on how to implement a filter list using removable `Tags`.
 
+
 ```tsx
 const Genres = () => {
-  const [tagsAdded, setTagsAdded] = React.useState([
-    {
-      key: 0,
-      text: 'Action',
-    },
-    {
-      key: 1,
-      text: 'Comedy',
-    },
-    {
-      key: 2,
-      text: 'Drama',
-    },
-    {
-      key: 3,
-      text: 'Horror',
-    },
-  ])
-  const [tagsRemoved, setTagsRemoved] = React.useState([
-    {
-      key: 4,
-      text: 'Fantasy',
-    },
-  ])
-  const handleRemove = React.useCallback(
-    (tagToRemove) => () => {
-      setTagsAdded(tagsAdded.filter((tag) => tag.key !== tagToRemove.key))
-      setTagsRemoved([...tagsRemoved, tagToRemove])
-    },
-    [tagsAdded, tagsRemoved]
-  )
-  const handleAdd = React.useCallback(
-    (tagToAdd) => () => {
-      setTagsAdded([...tagsAdded, tagToAdd])
-      setTagsRemoved(tagsRemoved.filter((tag) => tag.key !== tagToAdd.key))
-    },
-    [tagsAdded, tagsRemoved]
-  )
-  return (
-    <Flex.Stack>
-      <FieldBlock label="Selected">
-        <Tag.Group label="Genres Selected">
-          {tagsAdded.map((tag) => {
-            return (
-              <Tag
-                key={tag.key}
-                text={tag.text}
-                variant="removable"
-                onClick={handleRemove(tag)}
-              />
-            )
-          })}
-        </Tag.Group>
-      </FieldBlock>
-      <FieldBlock label="Removed">
-        <Tag.Group label="Genres Available">
-          {tagsRemoved.map((tag) => {
-            return (
-              <Tag
-                key={tag.key}
-                text={tag.text}
-                variant="addable"
-                onClick={handleAdd(tag)}
-              />
-            )
-          })}
-        </Tag.Group>
-      </FieldBlock>
-    </Flex.Stack>
-  )
-}
-render(<Genres />)
+  const [tagsAdded, setTagsAdded] = React.useState([{
+    key: 0,
+    text: 'Action'
+  }, {
+    key: 1,
+    text: 'Comedy'
+  }, {
+    key: 2,
+    text: 'Drama'
+  }, {
+    key: 3,
+    text: 'Horror'
+  }]);
+  const [tagsRemoved, setTagsRemoved] = React.useState([{
+    key: 4,
+    text: 'Fantasy'
+  }]);
+  const handleRemove = React.useCallback(tagToRemove => () => {
+    setTagsAdded(tagsAdded.filter(tag => tag.key !== tagToRemove.key));
+    setTagsRemoved([...tagsRemoved, tagToRemove]);
+  }, [tagsAdded, tagsRemoved]);
+  const handleAdd = React.useCallback(tagToAdd => () => {
+    setTagsAdded([...tagsAdded, tagToAdd]);
+    setTagsRemoved(tagsRemoved.filter(tag => tag.key !== tagToAdd.key));
+  }, [tagsAdded, tagsRemoved]);
+  return <Flex.Stack>
+            <FieldBlock label="Selected">
+              <Tag.Group label="Genres Selected">
+                {tagsAdded.map(tag => {
+          return <Tag key={tag.key} text={tag.text} variant="removable" onClick={handleRemove(tag)} />;
+        })}
+              </Tag.Group>
+            </FieldBlock>
+            <FieldBlock label="Removed">
+              <Tag.Group label="Genres Available">
+                {tagsRemoved.map(tag => {
+          return <Tag key={tag.key} text={tag.text} variant="addable" onClick={handleAdd(tag)} />;
+        })}
+              </Tag.Group>
+            </FieldBlock>
+          </Flex.Stack>;
+};
+render(<Genres />);
 ```
+
 
 ### Tag used inside text
 
+
 ```tsx
-Text{' '}
-<Tag.Group label="Inline">
-  <Tag text="First" /> between
-  <Tag text="Second" />
-  <Tag text="Third" />
-</Tag.Group>{' '}
 Text
+{' '}
+<Tag.Group label="Inline">
+    <Tag text="First" /> between
+    <Tag text="Second" />
+    <Tag text="Third" />
+  </Tag.Group>
+{' '}
+   Text
 ```
+
 
 ### Tag used as skeleton
 
+
 ```tsx
-render(
-  <Tag.Group label="Skeletons">
-    <Tag skeleton text="Skeleton" />
-    <Tag skeleton text="Skeleton" />
-    <Tag skeleton text="Skeleton" />
-  </Tag.Group>
-)
+render(<Tag.Group label="Skeletons">
+      <Tag skeleton text="Skeleton" />
+      <Tag skeleton text="Skeleton" />
+      <Tag skeleton text="Skeleton" />
+    </Tag.Group>)
 ```
 
 ## Properties
 
 ### `Tag` properties
 
+
 ```json
 {
   "props": {
     "text": {
       "doc": "The content of the tag can be a string or a React Element.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "children": {
       "doc": "The content of the tag can be a string or a React Element.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "icon": {
       "doc": "To be included in the tag. Primary Icons can be set as a string (e.g. `icon=\"chevron_right\"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "hasLabel": {
@@ -254,14 +229,19 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `Tag.Group` properties
+
 
 ```json
 {
@@ -288,18 +268,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ### `Tag` translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Tag.addIconTitle": {
       "nb-NO": "Legg til",
@@ -318,6 +308,7 @@ render(
 ```
 
 ## `Tag` events
+
 
 ```json
 {

@@ -1,8 +1,8 @@
 ---
 title: 'Form.setData'
 description: '`Form.setData` lets you set or modify your form data outside of the form context.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.014Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.009Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -74,60 +74,60 @@ update('/foo', (value) => {
 })
 ```
 
+
 ## Demos
 
 ### Set data outside of the form
 
+
 ```tsx
 Form.setData('default-id', {
-  foo: 'bar',
-})
+  foo: 'bar'
+});
 const Component = () => {
-  return (
-    <Form.Handler id="default-id">
-      <Field.String path="/foo" />
-    </Form.Handler>
-  )
-}
-render(<Component />)
+  return <Form.Handler id="default-id">
+              <Field.String path="/foo" />
+            </Form.Handler>;
+};
+render(<Component />);
 ```
+
 
 ### Set data after first render
 
+
 ```tsx
 const Component = () => {
-  return (
-    <Form.Handler id="after-id">
-      <Field.String path="/foo" />
-    </Form.Handler>
-  )
-}
+  return <Form.Handler id="after-id">
+              <Field.String path="/foo" />
+            </Form.Handler>;
+};
 Form.setData('after-id', {
-  foo: 'bar',
-})
-render(<Component />)
+  foo: 'bar'
+});
+render(<Component />);
 ```
+
 
 ### Using the update function
 
+
 ```tsx
-const myFormId = {}
-const { update } = Form.setData(myFormId)
+const myFormId = {};
+const {
+  update
+} = Form.setData(myFormId);
 const Component = () => {
-  return (
-    <Form.Card>
-      <Form.Handler id={myFormId}>
-        <Field.Number path="/foo" defaultValue={1} />
-      </Form.Handler>
-      <Button
-        onClick={() => {
-          update('/foo', (count) => count + 1)
-        }}
-      >
-        Update
-      </Button>
-    </Form.Card>
-  )
-}
-render(<Component />)
+  return <Form.Card>
+              <Form.Handler id={myFormId}>
+                <Field.Number path="/foo" defaultValue={1} />
+              </Form.Handler>
+              <Button onClick={() => {
+      update('/foo', count => count + 1);
+    }}>
+                Update
+              </Button>
+            </Form.Card>;
+};
+render(<Component />);
 ```

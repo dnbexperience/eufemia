@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.223Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.355Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
@@ -26,94 +26,87 @@ This button is used as the default [Modal trigger button](/uilib/components/moda
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/help-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/help-button)
 
+
 ## Demos
 
 ### Default HelpButton
+
 
 ```tsx
 render(<HelpButton>Text</HelpButton>)
 ```
 
+
 ### Help button used in form help (inline)
 
+
 ```tsx
-render(
-  <Form.Handler>
-    <Form.Card>
-      <Form.SubHeading>My form</Form.SubHeading>
-      <Field.Email
-        help={{
-          title: 'Email help',
-          content: (
-            <>
-              Enter your{' '}
-              <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
-                email
-              </TermDefinition>{' '}
-              address
-            </>
-          ),
-        }}
-      />
-    </Form.Card>
-  </Form.Handler>
-)
+render(<Form.Handler>
+      <Form.Card>
+        <Form.SubHeading>My form</Form.SubHeading>
+        <Field.Email help={{
+      title: 'Email help',
+      content: <>
+                Enter your{' '}
+                <TermDefinition content="Email is a method of exchanging messages between people using electronic devices.">
+                  email
+                </TermDefinition>{' '}
+                address
+              </>
+    }} />
+      </Form.Card>
+    </Form.Handler>)
 ```
+
 
 ### Help button inside a suffix
 
+
 ```tsx
-render(
-  <Input
-    size={10}
-    placeholder="Input ..."
-    suffix={<HelpButton title="Custom title">Text</HelpButton>}
-  />
-)
+render(<Input size={10} placeholder="Input ..." suffix={<HelpButton title="Custom title">Text</HelpButton>} />)
 ```
+
 
 ### Help button in different sizes
 
+
 ```tsx
 <HelpButton title="Custom title">Text</HelpButton>
-<HelpButton
-  size="small"
-  left
-  onClick={() => {
-    console.log('onClick')
-  }}
->
-  Text
-</HelpButton>
+<HelpButton size="small" left onClick={() => {
+console.log('onClick');
+}}>
+    Text
+  </HelpButton>
 ```
+
 
 ### Help button with an information icon
 
+
 ```tsx
-render(
-  <HelpButton icon="information" tooltip="More info">
-    <Dl>
-      <Dt>Term</Dt>
-      <Dd>Description</Dd>
-      <Dd>Description</Dd>
-      <Dt>Term</Dt>
-      <Dd>Description</Dd>
-    </Dl>
-  </HelpButton>
-)
+render(<HelpButton icon="information" tooltip="More info">
+      <Dl>
+        <Dt>Term</Dt>
+        <Dd>Description</Dd>
+        <Dd>Description</Dd>
+        <Dt>Term</Dt>
+        <Dd>Description</Dd>
+      </Dl>
+    </HelpButton>)
 ```
+
 
 ### Help button used inside text
 
+
 ```tsx
-render(
-  <span>
-    Text <HelpButton>Text</HelpButton> Text
-  </span>
-)
+render(<span>
+      Text <HelpButton>Text</HelpButton> Text
+    </span>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -130,7 +123,10 @@ render(
     },
     "icon": {
       "doc": "To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon=\"information\"`), other icons should be set as React elements.",
-      "type": ["string", "React.ReactNode"],
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "render": {
@@ -145,18 +141,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "HelpButton.ariaRole": {
       "nb-NO": "Hjelp-knapp",
@@ -174,24 +180,20 @@ render(
 }
 ```
 
+
 ## How to use `render`
 
+
 ```tsx
-render(
-  <HelpButton
-    title="Title"
-    render={(children, props) => (
-      <Dialog triggerAttributes={props} className="your-class">
-        {children}
-      </Dialog>
-    )}
-  >
-    Help text
-  </HelpButton>
-)
+render(<HelpButton title="Title" render={(children, props) => <Dialog triggerAttributes={props} className="your-class">
+          {children}
+        </Dialog>}>
+      Help text
+    </HelpButton>)
 ```
 
 ## Events
+
 
 ```json
 {

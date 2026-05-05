@@ -1,8 +1,8 @@
 ---
 title: 'Value.PhoneNumber'
 description: '`Value.PhoneNumber` is a wrapper component for displaying string values, with user experience tailored for phone number values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.233Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.187Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -31,63 +31,74 @@ render(<Value.PhoneNumber />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/PhoneNumber)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/PhoneNumber)
 
+
 ## Demos
 
 ### Empty
+
 
 ```tsx
 render(<Value.PhoneNumber showEmpty />)
 ```
 
+
 ### Placeholder
+
 
 ```tsx
 render(<Value.PhoneNumber placeholder="The value was not filled in" />)
 ```
 
+
 ### Value
+
 
 ```tsx
 render(<Value.PhoneNumber value="+4798712345" />)
 ```
 
+
 ### Label
+
 
 ```tsx
 render(<Value.PhoneNumber label="Label text" showEmpty />)
 ```
 
+
 ### Label and value
+
 
 ```tsx
 render(<Value.PhoneNumber label="Label text" value="+4798712345" />)
 ```
 
+
 ### Inline
 
+
 ```tsx
-render(
-  <P>
-    This is before the component{' '}
-    <Value.PhoneNumber value="98712345" inline /> This is after the
-    component
-  </P>
-)
+render(<P>
+        This is before the component{' '}
+        <Value.PhoneNumber value="98712345" inline /> This is after the
+        component
+      </P>)
 ```
+
 
 ### International Suffix
 
+
 ```tsx
-render(
-  <Flex.Stack>
-    <Value.PhoneNumber label="Label text" value="+4798712345" />
-    <Value.PhoneNumber label="Label text" value="+8860998472751" />
-    <Value.PhoneNumber label="Label text" value="+18686758288" />
-  </Flex.Stack>
-)
+render(<Flex.Stack>
+        <Value.PhoneNumber label="Label text" value="+4798712345" />
+        <Value.PhoneNumber label="Label text" value="+8860998472751" />
+        <Value.PhoneNumber label="Label text" value="+18686758288" />
+      </Flex.Stack>)
 ```
 
 ## Properties
+
 
 ```json
 {
@@ -154,7 +165,12 @@ render(
     },
     "maxWidth": {
       "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
-      "type": ["\"auto\"", "\"small\"", "\"medium\"", "\"large\""],
+      "type": [
+        "\"auto\"",
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "transformIn": {
@@ -164,18 +180,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "PhoneNumber.numberLabel": {
       "nb-NO": "Mobilnummer",

@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.410Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.335Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -61,6 +61,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     - [Finding errors](#finding-errors)
   - [Create your own component](#create-your-own-component)
 
+
 ## Quick start
 
 Here's how you import the components from within scopes, such as `Form` and `Field`:
@@ -80,56 +81,38 @@ render(<Field.Email />)
 
 And here is how you can use the `Form` component:
 
+
 ```tsx
 const existingData = {
-  companyName: 'DNB',
-}
+  companyName: 'DNB'
+};
 function MyForm() {
-  return (
-    <Form.Handler
-      defaultData={existingData}
-      onSubmit={async (data) => console.log('onSubmit', data)}
-      required
-    >
-      <Form.MainHeading>Quick start</Form.MainHeading>
+  return <Form.Handler defaultData={existingData} onSubmit={async data => console.log('onSubmit', data)} required>
+              <Form.MainHeading>Quick start</Form.MainHeading>
 
-      <Form.Card>
-        <Field.Name.Company path="/companyName" />
+              <Form.Card>
+                <Field.Name.Company path="/companyName" />
 
-        <Field.OrganizationNumber path="/companyOrganizationNumber" />
+                <Field.OrganizationNumber path="/companyOrganizationNumber" />
 
-        <Field.Selection
-          path="/postalAddressSelect"
-          label="Ønsket sted for tilsendt post"
-          variant="radio"
-          required={false}
-        >
-          <Field.Option
-            value="companyAddress"
-            title="Samme som forretningsadresse"
-          />
-          <Field.Option value="other" title="Annet" />
-        </Field.Selection>
+                <Field.Selection path="/postalAddressSelect" label="Ønsket sted for tilsendt post" variant="radio" required={false}>
+                  <Field.Option value="companyAddress" title="Samme som forretningsadresse" />
+                  <Field.Option value="other" title="Annet" />
+                </Field.Selection>
 
-        <Form.Visibility
-          visibleWhen={{
-            path: '/postalAddressSelect',
-            hasValue: 'other',
-          }}
-          animate
-        >
-          <Field.String
-            path="/postalAddress"
-            label="Sted for tilsendt post"
-          />
-        </Form.Visibility>
-      </Form.Card>
-      <Form.SubmitButton variant="send" />
-    </Form.Handler>
-  )
+                <Form.Visibility visibleWhen={{
+        path: '/postalAddressSelect',
+        hasValue: 'other'
+      }} animate>
+                  <Field.String path="/postalAddress" label="Sted for tilsendt post" />
+                </Form.Visibility>
+              </Form.Card>
+              <Form.SubmitButton variant="send" />
+            </Form.Handler>;
 }
-render(<MyForm />)
+render(<MyForm />);
 ```
+
 
 ## Creating forms
 
@@ -278,51 +261,38 @@ const { getValue, data, filterData, reduceToVisibleFields } =
 
 As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [Form.useData](/uilib/extensions/forms/Form/useData/) documentation.
 
+
 ```tsx
 const existingData = {
   companyName: 'DNB',
   companyOrganizationNumber: '123456789',
-  postalAddressSelect: 'companyAddress',
-}
+  postalAddressSelect: 'companyAddress'
+};
 function Component() {
-  const { data } = Form.useData('company-form')
-  console.log('State:', data)
-  return (
-    <Form.Handler
-      id="company-form"
-      defaultData={existingData}
-      onChange={console.log}
-      onSubmit={console.log}
-    >
-      <Flex.Stack>
-        <Form.MainHeading>Bedrift</Form.MainHeading>
-        <Form.Card>
-          <Field.Name.Company path="/companyName" required />
-          <Field.OrganizationNumber
-            path="/companyOrganizationNumber"
-            required
-          />
-          <Field.Selection
-            path="/postalAddressSelect"
-            label="Ønsket sted for tilsendt post"
-            variant="radio"
-          >
-            <Field.Option
-              value="companyAddress"
-              title="Samme som forretningsadresse"
-            />
-            <Field.Option value="other" title="Annet" />
-          </Field.Selection>
-        </Form.Card>
-        <Form.ButtonRow>
-          <Form.SubmitButton />
-        </Form.ButtonRow>
-      </Flex.Stack>
-    </Form.Handler>
-  )
+  const {
+    data
+  } = Form.useData('company-form');
+  console.log('State:', data);
+  return <Form.Handler id="company-form" defaultData={existingData} onChange={console.log} onSubmit={console.log}>
+              <Flex.Stack>
+                <Form.MainHeading>Bedrift</Form.MainHeading>
+                <Form.Card>
+                  <Field.Name.Company path="/companyName" required />
+                  <Field.OrganizationNumber path="/companyOrganizationNumber" required />
+                  <Field.Selection path="/postalAddressSelect" label="Ønsket sted for tilsendt post" variant="radio">
+                    <Field.Option value="companyAddress" title="Samme som forretningsadresse" />
+                    <Field.Option value="other" title="Annet" />
+                  </Field.Selection>
+                </Form.Card>
+                <Form.ButtonRow>
+                  <Form.SubmitButton />
+                </Form.ButtonRow>
+              </Flex.Stack>
+            </Form.Handler>;
 }
-render(<Component />)
+render(<Component />);
 ```
+
 
 ### Filter data
 
@@ -463,33 +433,26 @@ These functions allow you to transform the field value to a different format tha
 - `transformOut` (out of the `Field.*` component) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
 - `transformIn` (in to the `Field.*` or `Value.*` component) transforms the external value before it is displayed and used internally.
 
+
 ```tsx
 const MyForm = () => {
-  const transformToUpper = (value) => {
-    return value?.toUpperCase()
-  }
-  const transformToLower = (value) => {
-    return value?.toLowerCase()
-  }
-  return (
-    <Form.Handler onChange={console.log}>
-      <Form.Card>
-        <Field.String
-          width="medium"
-          label="Input value"
-          placeholder="Type letters"
-          path="/myField"
-          transformIn={transformToUpper}
-          transformOut={transformToLower}
-        />
+  const transformToUpper = value => {
+    return value?.toUpperCase();
+  };
+  const transformToLower = value => {
+    return value?.toLowerCase();
+  };
+  return <Form.Handler onChange={console.log}>
+              <Form.Card>
+                <Field.String width="medium" label="Input value" placeholder="Type letters" path="/myField" transformIn={transformToUpper} transformOut={transformToLower} />
 
-        <Value.String label="Output value" path="/myField" />
-      </Form.Card>
-    </Form.Handler>
-  )
-}
-render(<MyForm />)
+                <Value.String label="Output value" path="/myField" />
+              </Form.Card>
+            </Form.Handler>;
+};
+render(<MyForm />);
 ```
+
 
 #### Complex objects in the data context
 
@@ -612,6 +575,7 @@ This feature cannot only be used for autosave, but for any other real-time async
 
 Here is an example of an async change behavior:
 
+
 ```ts
 // Async event handler
 const onChange = debounceAsync(async function (data) {
@@ -634,6 +598,7 @@ const onChange = debounceAsync(async function (data) {
   } as const
 })
 ```
+
 
 More info about the async change behavior in the form [Form.Handler](/uilib/extensions/forms/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
 
@@ -1140,47 +1105,11 @@ export default {
 
 #### Using the shared `Provider`
 
-You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/):
-
-```tsx
-import { Provider } from '@dnb/eufemia/shared'
-
-const translationsLoader = async (locale) => {
-  const response = await fetch(`/api/translations/${locale}`)
-  return response.json()
-}
-
-render(
-  <Provider translationsLoader={translationsLoader} locale="nb-NO">
-    Your app, including Eufemia Forms
-  </Provider>
-)
-```
+You can also load translations at the app level using the shared [Provider](/uilib/usage/customisation/provider/). The shared [Localization](/uilib/usage/customisation/localization/#load-translations-dynamically) guide has the provider example and additional loading patterns.
 
 #### Combining with static translations
 
-The `translationsLoader` can be used alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top:
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const staticTranslations = {
-  'nb-NO': { PhoneNumber: { countryCodeLabel: 'Landskode' } },
-}
-
-const translationsLoader = async (locale) => {
-  return (await import(`./locales/${locale}`)).default
-}
-
-render(
-  <Form.Handler
-    translations={staticTranslations}
-    translationsLoader={translationsLoader}
-  >
-    <Field.PhoneNumber />
-  </Form.Handler>
-)
-```
+`Form.Handler` supports using `translationsLoader` alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top. See the shared [Localization](/uilib/usage/customisation/localization/#load-translations-dynamically) guide for the equivalent shared `Provider` example and additional loading patterns.
 
 ### How to customize translations in a form
 
@@ -1207,57 +1136,11 @@ render(
 
 #### Consume the translations
 
-You can consume both the internal or your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook:
+You can consume both the internal and your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook.
 
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+The dedicated [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) page shows examples for typed custom translations, `formatMessage`, `renderMessage`, `<Translation />`, and missing-key fallbacks.
 
-const myTranslations = {
-  'nb-NO': { myString: 'Min egendefinerte streng' },
-  'en-GB': {
-    // Cascaded translations
-    Nested: {
-      stringWithArgs: 'My custom string with an argument: {myKey}',
-    },
-
-    // Flat translations
-    'Nested.stringWithLinebreaks':
-      'My custom string with a {br}line-break',
-  },
-}
-
-const MyComponent = () => {
-  const t = Form.useTranslation<typeof myTranslations>()
-
-  // Internal translations
-  const existingString = t.Field.errorRequired
-
-  // Your translations
-  const myString = t.myString
-
-  // Use the "formatMessage" function to handle strings with arguments
-  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
-    myKey: 'myValue',
-  })
-  // You can also get the string with a key (dot-notation)
-  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
-    myKey: 'myValue',
-  })
-
-  // Render line-breaks
-  const jsxOutput = t.renderMessage(t.Nested.stringWithLinebreaks)
-
-  return <>MyComponent</>
-}
-
-render(
-  <Form.Handler translations={myTranslations}>
-    <MyComponent />
-  </Form.Handler>
-)
-```
-
-Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
+Here is also a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use translations in a form.
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
 

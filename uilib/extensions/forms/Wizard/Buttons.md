@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Buttons'
 description: '`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.324Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.275Z
 checksum: 4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61
 ---
 
@@ -61,31 +61,32 @@ render(
 )
 ```
 
+
 ## Demos
 
+
 ```tsx
-const Step = ({ title }) => {
-  return (
-    <Wizard.Step title={title}>
-      <Form.Card>
-        <P>Contents of {title}</P>
-      </Form.Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-render(
-  <Form.Handler>
-    <Wizard.Container mode="loose">
-      <Step title="Step 1" />
-      <Step title="Step 2" />
-      <Step title="Step 3" />
-    </Wizard.Container>
-  </Form.Handler>
-)
+const Step = ({
+  title
+}) => {
+  return <Wizard.Step title={title}>
+              <Form.Card>
+                <P>Contents of {title}</P>
+              </Form.Card>
+              <Wizard.Buttons />
+            </Wizard.Step>;
+};
+render(<Form.Handler>
+            <Wizard.Container mode="loose">
+              <Step title="Step 1" />
+              <Step title="Step 2" />
+              <Step title="Step 3" />
+            </Wizard.Container>
+          </Form.Handler>);
 ```
 
 ## Properties
+
 
 ```json
 {

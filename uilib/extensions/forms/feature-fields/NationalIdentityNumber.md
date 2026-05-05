@@ -1,8 +1,8 @@
 ---
 title: 'Field.NationalIdentityNumber'
 description: '`Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.394Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.325Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -109,117 +109,83 @@ isAdult('10072476609') // false
 isAdult('09100654021') // true
 ```
 
+
 ## Demos
 
 ### Empty
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.NationalIdentityNumber onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Omit mask
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    onChange={(value) => console.log('onChange', value)}
-    omitMask
-  />
-)
+render(<Field.NationalIdentityNumber onChange={value => console.log('onChange', value)} omitMask />)
 ```
+
 
 ### Placeholder
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    placeholder="Enter 11 digits..."
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.NationalIdentityNumber placeholder="Enter 11 digits..." onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.NationalIdentityNumber label="Label text" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Label and value
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    label="Label text"
-    value="01017501234"
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.NationalIdentityNumber label="Label text" value="01017501234" onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### With help
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    label="Label text"
-    value="01017501234"
-    help={{
-      title: 'Help is available',
-      content: 'The more I help others to succeed, the more I succeed.',
-    }}
-    onChange={(value) => console.log('onChange', value)}
-  />
-)
+render(<Field.NationalIdentityNumber label="Label text" value="01017501234" help={{
+  title: 'Help is available',
+  content: 'The more I help others to succeed, the more I succeed.'
+}} onChange={value => console.log('onChange', value)} />)
 ```
+
 
 ### Disabled
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    value="01010101010"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    disabled
-  />
-)
+render(<Field.NationalIdentityNumber value="01010101010" label="Label text" onChange={value => console.log('onChange', value)} disabled />)
 ```
+
 
 ### Error
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    value="007"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    error={new Error('This is what is wrong...')}
-  />
-)
+render(<Field.NationalIdentityNumber value="007" label="Label text" onChange={value => console.log('onChange', value)} error={new Error('This is what is wrong...')} />)
 ```
+
 
 ### Validation - Required
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-    required
-    validateInitially
-  />
-)
+render(<Field.NationalIdentityNumber label="Label text" onChange={value => console.log('onChange', value)} required validateInitially />)
 ```
+
 
 ### Validation - Norwegian national identity numbers
 
@@ -227,11 +193,11 @@ It validates [Norwegian national identity numbers(fnr)](https://www.skatteetaten
 
 Below is an example of the error message displayed when there's an invalid Norwegian national identity number(fnr):
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber value="29020112345" validateInitially />
-)
+render(<Field.NationalIdentityNumber value="29020112345" validateInitially />)
 ```
+
 
 ### Validation - D numbers
 
@@ -239,120 +205,98 @@ It validates [D numbers](https://www.skatteetaten.no/en/person/national-registry
 
 Below is an example of the error message displayed when there's an invalid D number(a D number has its first number in the identification number increased by 4):
 
+
 ```tsx
-render(
-  <Field.NationalIdentityNumber value="69020112345" validateInitially />
-)
+render(<Field.NationalIdentityNumber value="69020112345" validateInitially />)
 ```
+
 
 ### Validation function
 
 You can provide your own validation function, either to `onChangeValidator` or `onBlurValidator`.
 
+
 ```tsx
-const fnr = (value: string) =>
-  value.length >= 11
-    ? {
-        status: 'valid',
-      }
-    : {
-        status: 'invalid',
-      }
-render(
-  <Field.NationalIdentityNumber
-    required
-    value="123"
-    onBlurValidator={(value) => {
-      const result = fnr(value)
-      return result.status === 'invalid'
-        ? new FormError('Field.errorPattern')
-        : undefined
-    }}
-    validateInitially
-  />
-)
+const fnr = (value: string) => value.length >= 11 ? {
+  status: 'valid'
+} : {
+  status: 'invalid'
+};
+render(<Field.NationalIdentityNumber required value="123" onBlurValidator={value => {
+  const result = fnr(value);
+  return result.status === 'invalid' ? new FormError('Field.errorPattern') : undefined;
+}} validateInitially />);
 ```
+
 
 ### Extend validation with custom validation function
 
 You can [extend the existing validations](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`dnrValidator`, `fnrValidator`, `dnrAndFnrValidator`, and make your own age validator by using the `createMinimumAgeValidator` function) with your own validation function.
 
+
 ```tsx
 const bornInAprilValidator = (value: string) => {
   if (value.substring(2, 4) !== '04') {
-    return new Error('Not born in April')
+    return new Error('Not born in April');
   }
-}
+};
 // Keep the default validator while ensuring birth month is April.
 // Keep the default validator while ensuring birth month is April.
-const myValidator: NationalIdentityNumberValidator = (
-  value,
-  { validators }
-) => {
-  const { dnrAndFnrValidator } = validators ?? {}
-  return [dnrAndFnrValidator, bornInAprilValidator]
-}
-render(
-  <Field.NationalIdentityNumber
-    required
-    value="53050129159"
-    onBlurValidator={myValidator}
-    validateInitially
-  />
-)
+const myValidator: NationalIdentityNumberValidator = (value, {
+  validators
+}) => {
+  const {
+    dnrAndFnrValidator
+  } = validators ?? {};
+  return [dnrAndFnrValidator, bornInAprilValidator];
+};
+render(<Field.NationalIdentityNumber required value="53050129159" onBlurValidator={myValidator} validateInitially />);
 ```
+
 
 ### Extend validation with adult validator
 
 You can [extend the existing validations](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`dnrValidator`, `fnrValidator`, and `dnrAndFnrValidator`) with your own age validator, by using the `createMinimumAgeValidator` function.
 
+
 ```tsx
-const adultValidator = createMinimumAgeValidator(18)
+const adultValidator = createMinimumAgeValidator(18);
 // Keep the default validator while adding an age check.
 // Keep the default validator while adding an age check.
-const myAdultValidator: NationalIdentityNumberValidator = (
-  value,
-  { validators }
-) => {
-  const { dnrAndFnrValidator } = validators ?? {}
-  return [dnrAndFnrValidator, adultValidator]
-}
-render(
-  <Field.NationalIdentityNumber
-    required
-    value="56052459244"
-    onBlurValidator={myAdultValidator}
-    validateInitially
-  />
-)
+const myAdultValidator: NationalIdentityNumberValidator = (value, {
+  validators
+}) => {
+  const {
+    dnrAndFnrValidator
+  } = validators ?? {};
+  return [dnrAndFnrValidator, adultValidator];
+};
+render(<Field.NationalIdentityNumber required value="56052459244" onBlurValidator={myAdultValidator} validateInitially />);
 ```
+
 
 ### Validate only national identity numbers(fnr) above 18 years old
 
+
 ```tsx
-const adultValidator = createMinimumAgeValidator(18)
+const adultValidator = createMinimumAgeValidator(18);
 // Keep the default validator while ensuring an FNR-based age check.
 // Keep the default validator while ensuring an FNR-based age check.
-const myFnrAdultValidator: NationalIdentityNumberValidator = (
-  value,
-  { validators }
-) => {
-  const { fnrValidator } = validators ?? {}
-  return [fnrValidator, adultValidator]
-}
-render(
-  <Field.NationalIdentityNumber
-    required
-    value="49100651997"
-    onBlurValidator={myFnrAdultValidator}
-    validateInitially
-  />
-)
+const myFnrAdultValidator: NationalIdentityNumberValidator = (value, {
+  validators
+}) => {
+  const {
+    fnrValidator
+  } = validators ?? {};
+  return [fnrValidator, adultValidator];
+};
+render(<Field.NationalIdentityNumber required value="49100651997" onBlurValidator={myFnrAdultValidator} validateInitially />);
 ```
 
 ## Properties
 
 ### Field-specific properties
+
 
 ```json
 {
@@ -398,7 +342,10 @@ render(
     },
     "autoComplete": {
       "doc": "For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.",
-      "type": ["\"on\"", "string"],
+      "type": [
+        "\"on\"",
+        "string"
+      ],
       "status": "optional"
     },
     "minLength": {
@@ -418,17 +365,27 @@ render(
     },
     "width": {
       "doc": "`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "size": {
       "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "status": "optional"
     },
     "align": {
       "doc": "Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "selectAll": {
@@ -453,7 +410,10 @@ render(
     },
     "characterCounter": {
       "doc": "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
-      "type": ["number", "object"],
+      "type": [
+        "number",
+        "object"
+      ],
       "status": "optional"
     },
     "autoResize": {
@@ -490,7 +450,9 @@ render(
 }
 ```
 
+
 ### General properties
+
 
 ```json
 {
@@ -512,12 +474,20 @@ render(
     },
     "info": {
       "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "warning": {
       "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`.",
-      "type": ["React.ReactNode", "Array<React.ReactNode>", "function"],
+      "type": [
+        "React.ReactNode",
+        "Array<React.ReactNode>",
+        "function"
+      ],
       "status": "optional"
     },
     "error": {
@@ -537,7 +507,10 @@ render(
     },
     "emptyValue": {
       "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
-      "type": ["{valueType}", "undefined"],
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
       "status": "optional"
     },
     "required": {
@@ -617,7 +590,10 @@ render(
     },
     "labelSize": {
       "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
-      "type": ["\"medium\"", "\"large\""],
+      "type": [
+        "\"medium\"",
+        "\"large\""
+      ],
       "status": "optional"
     },
     "help": {
@@ -632,12 +608,18 @@ render(
     },
     "statusPosition": {
       "doc": "Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.",
-      "type": ["\"below\"", "\"above\""],
+      "type": [
+        "\"below\"",
+        "\"above\""
+      ],
       "status": "optional"
     },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
-      "type": ["\"horizontal\"", "\"vertical\""],
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
       "status": "optional"
     },
     "layoutOptions": {
@@ -647,28 +629,44 @@ render(
     },
     "width": {
       "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "contentWidth": {
       "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
-      "type": ["string", "false"],
+      "type": [
+        "string",
+        "false"
+      ],
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "Field.errorPattern": {
       "nb-NO": "Du må skrive inn en gyldig verdi.",
@@ -759,6 +757,7 @@ render(
 ```
 
 ## Events
+
 
 ```json
 {

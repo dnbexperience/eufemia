@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.434Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.354Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -136,224 +136,228 @@ render(
 )
 ```
 
+
 ## Demos
 
 ### No properties
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Horizontal Flex.Item
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Horizontal Flex.Item, `justify="center"`
 
+
 ```tsx
-render(
-  <Flex.Container justify="center">
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container justify="center">
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Horizontal Flex.Item, `justify="flex-end"`
 
+
 ```tsx
-render(
-  <Flex.Container justify="flex-end">
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container justify="flex-end">
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Horizontal with `size` and `grow`
 
+
 ```tsx
-render(
-  <Flex.Horizontal>
-    <Flex.Item span={3}>
-      <Card>Card contents</Card>
-    </Flex.Item>
-    <Flex.Item span={4}>
-      <Card>Card contents</Card>
-    </Flex.Item>
-    <Flex.Item span={5}>
-      <Card>Card contents</Card>
-    </Flex.Item>
-    <Flex.Item grow>
-      <Card>Card contents</Card>
-    </Flex.Item>
-    <Flex.Item grow>
-      <Card>Card contents</Card>
-    </Flex.Item>
-    <Flex.Item grow>
-      <Card>Card contents</Card>
-    </Flex.Item>
-  </Flex.Horizontal>
-)
+render(<Flex.Horizontal>
+        <Flex.Item span={3}>
+          <Card>Card contents</Card>
+        </Flex.Item>
+        <Flex.Item span={4}>
+          <Card>Card contents</Card>
+        </Flex.Item>
+        <Flex.Item span={5}>
+          <Card>Card contents</Card>
+        </Flex.Item>
+        <Flex.Item grow>
+          <Card>Card contents</Card>
+        </Flex.Item>
+        <Flex.Item grow>
+          <Card>Card contents</Card>
+        </Flex.Item>
+        <Flex.Item grow>
+          <Card>Card contents</Card>
+        </Flex.Item>
+      </Flex.Horizontal>)
 ```
+
 
 ### Horizontal Field.String
 
 Will wrap on small screens.
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Field.String label="Label" value="Foo" width="medium" />
-    <Field.String label="Label" value="Foo" width="small" />
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Field.String label="Label" value="Foo" width="medium" />
+        <Field.String label="Label" value="Foo" width="small" />
+      </Flex.Container>)
 ```
+
 
 ### Vertical Flex.Item
 
+
 ```tsx
-render(
-  <Flex.Container direction="vertical">
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container direction="vertical">
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Vertical aligned Card
 
+
 ```tsx
-render(
-  <Flex.Container direction="vertical">
-    <Card>Card contents</Card>
-    <Card>Card contents</Card>
-    <Card>Card contents</Card>
-  </Flex.Container>
-)
+render(<Flex.Container direction="vertical">
+        <Card>Card contents</Card>
+        <Card>Card contents</Card>
+        <Card>Card contents</Card>
+      </Flex.Container>)
 ```
+
 
 ### Vertical line divider
 
+
 ```tsx
-render(
-  <Flex.Container direction="vertical" divider="line" alignSelf="stretch">
-    <TestElement>FlexItem</TestElement>
-    <TestElement>FlexItem</TestElement>
-    <TestElement>FlexItem</TestElement>
-  </Flex.Container>
-)
+render(<Flex.Container direction="vertical" divider="line" alignSelf="stretch">
+        <TestElement>FlexItem</TestElement>
+        <TestElement>FlexItem</TestElement>
+        <TestElement>FlexItem</TestElement>
+      </Flex.Container>)
 ```
+
 
 ### Framed line dividers
 
 This example shows how to use the `Flex.Container` component to create a framed line divider (`line-framed`), which includes a line before the first item and above the last item.
 
+
 ```tsx
-const Item = () => (
-  <Flex.Stack divider="line-framed" gap="x-small">
-    <TestElement>FlexItem</TestElement>
-    <TestElement>FlexItem</TestElement>
-  </Flex.Stack>
-)
-render(
-  <Flex.Horizontal rowGap={false}>
-    <Item />
-    <Item />
-    <Item />
-  </Flex.Horizontal>
-)
+const Item = () => <Flex.Stack divider="line-framed" gap="x-small">
+            <TestElement>FlexItem</TestElement>
+            <TestElement>FlexItem</TestElement>
+          </Flex.Stack>;
+render(<Flex.Horizontal rowGap={false}>
+            <Item />
+            <Item />
+            <Item />
+          </Flex.Horizontal>);
 ```
+
 
 ### Flex.withChildren
 
+
 ```tsx
 // @ts-expect-error -- strictFunctionTypes
-const Wrapper = Flex.withChildren(({ children }) => {
-  return <div>{children}</div>
-})
-render(
-  <Flex.Container direction="vertical">
-    <TestElement>FlexItem 1</TestElement>
-    <Wrapper>
-      <TestElement>FlexItem 2</TestElement>
-      <TestElement>FlexItem 3</TestElement>
-    </Wrapper>
-    <TestElement>FlexItem 4</TestElement>
-  </Flex.Container>
-)
+const Wrapper = Flex.withChildren(({
+  children
+}) => {
+  return <div>{children}</div>;
+});
+render(<Flex.Container direction="vertical">
+            <TestElement>FlexItem 1</TestElement>
+            <Wrapper>
+              <TestElement>FlexItem 2</TestElement>
+              <TestElement>FlexItem 3</TestElement>
+            </Wrapper>
+            <TestElement>FlexItem 4</TestElement>
+          </Flex.Container>);
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "direction": {
       "doc": "Direction of sub components. Can be: `horizontal` or `vertical`.",
-      "type": ["'horizontal'", "'vertical'"],
+      "type": [
+        "'horizontal'",
+        "'vertical'"
+      ],
       "defaultValue": "'horizontal'",
       "status": "optional"
     },
@@ -390,7 +394,11 @@ render(
     },
     "divider": {
       "doc": "How to separate sub components.",
-      "type": ["'space'", "'line'", "'line-framed'"],
+      "type": [
+        "'space'",
+        "'line'",
+        "'line-framed'"
+      ],
       "defaultValue": "'space'",
       "status": "optional"
     },
@@ -432,7 +440,10 @@ render(
     },
     "element": {
       "doc": "Define the type of element.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "defaultValue": "'div'",
       "status": "optional"
     },

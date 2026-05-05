@@ -1,8 +1,8 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.134Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.290Z
 checksum: 25039cac80cdfedb8658fbb8c024cef46bb745e93d9713305471dc308cb200a2
 ---
 
@@ -61,19 +61,15 @@ Please use [date-fns](https://date-fns.org) to make the calculations.
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    onDaysRender={(days, calendarNumber = 0) => {
-      return days.map((dayObject) => {
-        if (isWeekend(dayObject.date)) {
-          dayObject.isInactive = true
-          dayObject.className = 'dnb-date-picker__day--weekend' // custom css
-        }
-        return dayObject
-      })
-    }}
-  />
-)
+render(<DatePicker onDaysRender={(days, calendarNumber = 0) => {
+  return days.map(dayObject => {
+    if (isWeekend(dayObject.date)) {
+      dayObject.isInactive = true;
+      dayObject.className = 'dnb-date-picker__day--weekend'; // custom css
+    }
+    return dayObject;
+  });
+}} />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -109,17 +105,13 @@ If you need to treat another time zone as "today", mutate the `dayObject.isToday
 <VisibleWhenNotVisualTest>
   
 ```tsx
-const osloDate = getOsloDate()
-render(
-  <DatePicker
-    onDaysRender={(days) => {
-      return days.map((dayObject) => {
-        dayObject.isToday = isSameDay(dayObject.date, osloDate)
-        return dayObject
-      })
-    }}
-  />
-)
+const osloDate = getOsloDate();
+render(<DatePicker onDaysRender={days => {
+  return days.map(dayObject => {
+    dayObject.isToday = isSameDay(dayObject.date, osloDate);
+    return dayObject;
+  });
+}} />);
 ```
 
 </VisibleWhenNotVisualTest>
@@ -166,6 +158,7 @@ Additional event return object properties:
 }
 ```
 
+
 ## Demos
 
 <ChangeLocale
@@ -188,104 +181,96 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    startDate="2019-04-01"
-    endDate="2019-05-17"
-    range
-    showInput
-    onChange={({ startDate, endDate }) => {
-      console.log('onChange', startDate, endDate)
-    }}
-    onSubmit={({ startDate, endDate }) => {
-      console.log('onSubmit', startDate, endDate)
-    }}
-    onCancel={({ startDate, endDate }) => {
-      console.log('onCancel', startDate, endDate)
-    }}
-    onBlur={({ startDate, endDate }) => {
-      console.log('onBlurComplete', startDate, endDate)
-    }}
-    shortcuts={[
-      {
-        title: 'Set date period',
-        startDate: '1969-07-15',
-        endDate: '1969-08-15',
-      },
-      {
-        title: 'Today',
-        startDate: new Date(),
-      },
-      {
-        title: 'This week',
-        startDate: startOfWeek(new Date()),
-        endDate: lastDayOfWeek(new Date()),
-      },
-      {
-        closeOnSelect: true,
-        title: 'This month',
-        startDate: startOfMonth(new Date()),
-        endDate: lastDayOfMonth(new Date()),
-      },
-      {
-        title: 'Relative +3 days',
-        // @ts-expect-error -- strictFunctionTypes
-        startDate: ({ startDate }) => startDate || new Date(),
-        // @ts-expect-error -- strictFunctionTypes
-        endDate: ({ endDate }) => addDays(endDate || new Date(), 3),
-      },
-    ]}
-  />
-)
+render(<DatePicker label="DatePicker" startDate="2019-04-01" endDate="2019-05-17" range showInput onChange={({
+  startDate,
+  endDate
+}) => {
+  console.log('onChange', startDate, endDate);
+}} onSubmit={({
+  startDate,
+  endDate
+}) => {
+  console.log('onSubmit', startDate, endDate);
+}} onCancel={({
+  startDate,
+  endDate
+}) => {
+  console.log('onCancel', startDate, endDate);
+}} onBlur={({
+  startDate,
+  endDate
+}) => {
+  console.log('onBlurComplete', startDate, endDate);
+}} shortcuts={[{
+  title: 'Set date period',
+  startDate: '1969-07-15',
+  endDate: '1969-08-15'
+}, {
+  title: 'Today',
+  startDate: new Date()
+}, {
+  title: 'This week',
+  startDate: startOfWeek(new Date()),
+  endDate: lastDayOfWeek(new Date())
+}, {
+  closeOnSelect: true,
+  title: 'This month',
+  startDate: startOfMonth(new Date()),
+  endDate: lastDayOfMonth(new Date())
+}, {
+  title: 'Relative +3 days',
+  // @ts-expect-error -- strictFunctionTypes
+  startDate: ({
+    startDate
+  }) => startDate || new Date(),
+  // @ts-expect-error -- strictFunctionTypes
+  endDate: ({
+    endDate
+  }) => addDays(endDate || new Date(), 3)
+}]} />)
 ```
 
 </VisibleWhenNotVisualTest>
 
 ### Default DatePicker
 
+
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date="2019-05-05"
-    returnFormat="dd-MM-yyyy"
-    onChange={({ date }) => {
-      console.log('onChange', date)
-    }}
-    onOpen={({ date }) => {
-      console.log('onOpen', date)
-    }}
-    onBlur={({ startDate, endDate }) => {
-      console.log('onBlur', startDate, endDate)
-    }}
-  />
-)
+render(<DatePicker label="DatePicker" date="2019-05-05" returnFormat="dd-MM-yyyy" onChange={({
+  date
+}) => {
+  console.log('onChange', date);
+}} onOpen={({
+  date
+}) => {
+  console.log('onOpen', date);
+}} onBlur={({
+  startDate,
+  endDate
+}) => {
+  console.log('onBlur', startDate, endDate);
+}} />)
 ```
+
 
 ### Default DatePicker with Input
 
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date={new Date()}
-    showInput
-    showCancelButton
-    showResetButton
-    onChange={({ date }) => {
-      console.log('onChange', date)
-    }}
-    onCancel={({ date }) => {
-      console.log('onCancel', date)
-    }}
-    onBlur={({ date }) => {
-      console.log('onBlur', date)
-    }}
-  />
-)
+render(<DatePicker label="DatePicker" date={new Date()} showInput showCancelButton showResetButton onChange={({
+  date
+}) => {
+  console.log('onChange', date);
+}} onCancel={({
+  date
+}) => {
+  console.log('onCancel', date);
+}} onBlur={({
+  date
+}) => {
+  console.log('onBlur', date);
+}} />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -295,27 +280,19 @@ render(
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date="2022/05/05"
-    minDate="2022/05/01"
-    maxDate="2022/05/17"
-    dateFormat="yyyy/MM/dd"
-    returnFormat="dd/MM/yyyy"
-    hideNavigation
-    hideDays
-    onChange={({ date }) => {
-      console.log('onChange', date)
-    }}
-    onClose={({ date }) => {
-      console.log('onClose', date)
-    }}
-    onBlur={({ date }) => {
-      console.log('onBlur', date)
-    }}
-  />
-)
+render(<DatePicker label="DatePicker" date="2022/05/05" minDate="2022/05/01" maxDate="2022/05/17" dateFormat="yyyy/MM/dd" returnFormat="dd/MM/yyyy" hideNavigation hideDays onChange={({
+  date
+}) => {
+  console.log('onChange', date);
+}} onClose={({
+  date
+}) => {
+  console.log('onClose', date);
+}} onBlur={({
+  date
+}) => {
+  console.log('onBlur', date);
+}} />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -325,14 +302,7 @@ render(
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date="05/02/2019"
-    dateFormat="MM/dd/yyyy"
-    onlyMonth
-  />
-)
+render(<DatePicker label="DatePicker" date="05/02/2019" dateFormat="MM/dd/yyyy" onlyMonth />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -342,15 +312,7 @@ render(
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date={new Date()}
-    showInput
-    status="Please select a valid date"
-    statusState="information"
-  />
-)
+render(<DatePicker label="DatePicker" date={new Date()} showInput status="Please select a valid date" statusState="information" />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -360,125 +322,128 @@ render(
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date={new Date()}
-    showInput
-    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-  />
-)
+render(<DatePicker label="DatePicker" date={new Date()} showInput suffix={<HelpButton title="Modal Title">Modal content</HelpButton>} />)
 ```
 
 </VisibleWhenNotVisualTest>
 
 ### Linked DatePickers
 
+
 ```tsx
 render(<DatePicker label="DatePicker" range link showInput />)
 ```
 
+
 ### Year navigation
+
 
 ```tsx
 render(<DatePicker showInput yearNavigation />)
 ```
 
+
 ### DatePicker with error status (no input)
 
+
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date="2019-05-05"
-    hideNavigation
-    status="Please select a valid date"
-  />
-)
+render(<DatePicker label="DatePicker" date="2019-05-05" hideNavigation status="Please select a valid date" />)
 ```
+
 
 ### DatePicker with error
 
+
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date="2019-05-05"
-    showInput
-    showSubmitButton
-    status={
-      <span>
-        Status message with <b>HTML</b> inside
-      </span>
-    }
-  />
-)
+render(<DatePicker label="DatePicker" date="2019-05-05" showInput showSubmitButton status={<span>
+          Status message with <b>HTML</b> inside
+        </span>} />)
 ```
+
 
 ### DatePicker with error status
 
+
 ```tsx
-render(
-  <DatePicker
-    label="DatePicker"
-    date={new Date()}
-    hideNavigation
-    status="error"
-  />
-)
+render(<DatePicker label="DatePicker" date={new Date()} hideNavigation status="error" />)
 ```
+
 
 ### Inline DatePicker
 
+
 ```tsx
-render(
-  <DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />
-)
+render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
 ```
 
 ## Properties
+
 
 ```json
 {
   "props": {
     "date": {
       "doc": "Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date=\"2019-05-05\"` and `content`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "startDate": {
       "doc": "To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "endDate": {
       "doc": "To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "month": {
       "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "startMonth": {
       "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "endMonth": {
       "doc": "To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "minDate": {
       "doc": "To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "maxDate": {
       "doc": "To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
-      "type": ["string", "Date"],
+      "type": [
+        "string",
+        "Date"
+      ],
       "status": "optional"
     },
     "dateFormat": {
@@ -578,7 +543,11 @@ render(
     },
     "direction": {
       "doc": "Defines the direction of the date picker popup. Defaults to `auto`.",
-      "type": ["\"auto\"", "\"top\"", "\"bottom\""],
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
       "status": "optional"
     },
     "link": {
@@ -621,7 +590,11 @@ render(
     },
     "labelAlignment": {
       "doc": "Sets the alignment of the label. Defaults to `left`.",
-      "type": ["\"left\"", "\"center\"", "\"right\""],
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
       "status": "optional"
     },
     "onlyMonth": {
@@ -646,7 +619,10 @@ render(
     },
     "labelDirection": {
       "doc": " Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": ["\"vertical\"", "\"horizontal\""],
+      "type": [
+        "\"vertical\"",
+        "\"horizontal\""
+      ],
       "status": "optional"
     },
     "suffix": {
@@ -676,12 +652,19 @@ render(
     },
     "status": {
       "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
-      "type": ["\"error\"", "\"information\"", "boolean"],
+      "type": [
+        "\"error\"",
+        "\"information\"",
+        "boolean"
+      ],
       "status": "optional"
     },
     "statusState": {
       "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
-      "type": ["\"error\"", "\"information\""],
+      "type": [
+        "\"error\"",
+        "\"information\""
+      ],
       "status": "optional"
     },
     "statusProps": {
@@ -716,18 +699,28 @@ render(
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }
 }
 ```
 
+
 ## Translations
+
 
 ```json
 {
-  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
   "entries": {
     "DatePicker.cancelButtonText": {
       "nb-NO": "Avbryt",
@@ -883,6 +876,7 @@ render(
 }
 ```
 
+
 ## Shortcuts
 
 You may use [date-fns](https://date-fns.org) to make date calculations.
@@ -890,21 +884,16 @@ You may use [date-fns](https://date-fns.org) to make date calculations.
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    shortcuts={[
-      {
-        title: 'Set date',
-        date: '1969-07-15',
-      },
-      {
-        title: 'Relative +3 days',
-        // @ts-expect-error -- strictFunctionTypes
-        date: ({ date }) => date && addDays(date, 3),
-      },
-    ]}
-  />
-)
+render(<DatePicker shortcuts={[{
+  title: 'Set date',
+  date: '1969-07-15'
+}, {
+  title: 'Relative +3 days',
+  // @ts-expect-error -- strictFunctionTypes
+  date: ({
+    date
+  }) => date && addDays(date, 3)
+}]} />)
 ```
 
 </VisibleWhenNotVisualTest>
@@ -914,28 +903,22 @@ With range enabled.
 <VisibleWhenNotVisualTest>
   
 ```tsx
-render(
-  <DatePicker
-    shortcuts={[
-      {
-        title: 'Set date period',
-        startDate: '1969-07-15',
-        endDate: '1969-07-15',
-        closeOnSelect: true, // will close the picker
-      },
-      {
-        title: 'This month',
-        startDate: startOfMonth(new Date()),
-        endDate: lastDayOfMonth(new Date()),
-      },
-    ]}
-  />
-)
+render(<DatePicker shortcuts={[{
+  title: 'Set date period',
+  startDate: '1969-07-15',
+  endDate: '1969-07-15',
+  closeOnSelect: true // will close the picker
+}, {
+  title: 'This month',
+  startDate: startOfMonth(new Date()),
+  endDate: lastDayOfMonth(new Date())
+}]} />)
 ```
 
 </VisibleWhenNotVisualTest>
 
 ## Events
+
 
 ```json
 {
@@ -993,6 +976,7 @@ render(
   }
 }
 ```
+
 
 ## Returned Object
 

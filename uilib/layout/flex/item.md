@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:22.435Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:13.355Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -47,14 +47,14 @@ The number will be used to set the item span (a part of the container). It set a
 
 The number 6 results in 50%, while 12 results in 100%.
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item span={6}>uses 50% in width</Flex.Item>
-    <Flex.Item span={6}>uses 50% in width</Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item span={6}>uses 50% in width</Flex.Item>
+        <Flex.Item span={6}>uses 50% in width</Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Responsive span
 
@@ -62,45 +62,42 @@ You can also make spans respond to media queries.
 
 For doing so, provide a `span` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media span should contain number, like mentioned above.
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item
-      span={{
-        small: 12,
-        large: 6,
-      }}
-    >
-      uses 50% or 100% based on the screen size
-    </Flex.Item>
-    <Flex.Item
-      span={{
-        small: 12,
-        large: 6,
-      }}
-    >
-      uses 50% or 100% based on the screen size
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item span={{
+    small: 12,
+    large: 6
+  }}>
+          uses 50% or 100% based on the screen size
+        </Flex.Item>
+        <Flex.Item span={{
+    small: 12,
+    large: 6
+  }}>
+          uses 50% or 100% based on the screen size
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 You need to ensure that `flex-wrap: wrap` is set, so the remaining items wrap to a new row when needed. This is enabled by default in the [Flex.Container](/uilib/layout/flex/container/).
 
+
 ## Demos
 
+
 ```tsx
-render(
-  <Flex.Container>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-    <Flex.Item>
-      <TestElement>FlexItem</TestElement>
-    </Flex.Item>
-  </Flex.Container>
-)
+render(<Flex.Container>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
 ```
+
 
 ### Basic `span` usage
 
@@ -115,6 +112,7 @@ The following example has a customized amount of 4 parts (`sizeCount`) as well a
 <Examples.AdvancedSizeExample />
 
 ## Properties
+
 
 ```json
 {
@@ -131,12 +129,18 @@ The following example has a customized amount of 4 parts (`sizeCount`) as well a
     },
     "span": {
       "doc": "To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
-      "type": ["number", "object"],
+      "type": [
+        "number",
+        "object"
+      ],
       "status": "optional"
     },
     "element": {
       "doc": "Define the type of element. Defaults to `div`.",
-      "type": ["string", "React.Element"],
+      "type": [
+        "string",
+        "React.Element"
+      ],
       "status": "optional"
     },
     "ref": {
@@ -146,7 +150,10 @@ The following example has a customized amount of 4 parts (`sizeCount`) as well a
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
-      "type": ["string", "object"],
+      "type": [
+        "string",
+        "object"
+      ],
       "status": "optional"
     }
   }

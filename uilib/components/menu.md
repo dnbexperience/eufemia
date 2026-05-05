@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.'
-version: 11.1.0
-generatedAt: 2026-05-04T18:06:21.319Z
+version: 11.1.1
+generatedAt: 2026-05-05T18:42:12.438Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 
@@ -48,185 +48,128 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 - Disabled items receive `aria-disabled` and are skipped during keyboard navigation.
 - Dividers use `role="separator"`.
 
+
 ## Demos
 
 ### Basic Menu
 
+
 ```tsx
-render(
-  <Menu.Root>
-    <Menu.Button />
-    <Menu.List>
-      <Menu.Action text="Action" onClick={() => null} />
-      <Menu.Action text="Link" href="https://www.dnb.no/" />
-    </Menu.List>
-  </Menu.Root>
-)
+render(<Menu.Root>
+        <Menu.Button />
+        <Menu.List>
+          <Menu.Action text="Action" onClick={() => null} />
+          <Menu.Action text="Link" href="https://www.dnb.no/" />
+        </Menu.List>
+      </Menu.Root>)
 ```
+
 
 ### Accordion
 
+
 ```tsx
-render(
-  <Menu.Root>
-    <Menu.Button text="File" icon="chevron_down" />
-    <Menu.List>
-      <Menu.Action
-        icon={file_add}
-        text="New"
-        onClick={() => console.log('new')}
-      />
-      <Menu.Action
-        icon={folder}
-        text="Open"
-        onClick={() => console.log('open')}
-      />
-      <Menu.Divider />
+render(<Menu.Root>
+        <Menu.Button text="File" icon="chevron_down" />
+        <Menu.List>
+          <Menu.Action icon={file_add} text="New" onClick={() => console.log('new')} />
+          <Menu.Action icon={folder} text="Open" onClick={() => console.log('open')} />
+          <Menu.Divider />
 
-      <Menu.Accordion icon={folder} text="Export as">
-        <Menu.Action
-          icon={file_pdf}
-          text="PDF"
-          onClick={() => console.log('export pdf')}
-        />
-        <Menu.Action
-          icon={file_png}
-          text="PNG"
-          onClick={() => console.log('export png')}
-        />
-      </Menu.Accordion>
+          <Menu.Accordion icon={folder} text="Export as">
+            <Menu.Action icon={file_pdf} text="PDF" onClick={() => console.log('export pdf')} />
+            <Menu.Action icon={file_png} text="PNG" onClick={() => console.log('export png')} />
+          </Menu.Accordion>
 
-      <Menu.Divider />
-      <Menu.Action
-        icon={save}
-        text="Save"
-        onClick={() => console.log('save')}
-      />
-    </Menu.List>
-  </Menu.Root>
-)
+          <Menu.Divider />
+          <Menu.Action icon={save} text="Save" onClick={() => console.log('save')} />
+        </Menu.List>
+      </Menu.Root>)
 ```
+
 
 ### Nested Menu
 
+
 ```tsx
-render(
-  <Menu.Root arrowPosition="left">
-    <Menu.Button text="File" icon="chevron_down" />
-    <Menu.List>
-      <Menu.Action
-        icon={file_add}
-        text="New"
-        onClick={() => console.log('new')}
-      />
-      <Menu.Action
-        icon={folder}
-        text="Open"
-        onClick={() => console.log('open')}
-      />
-      <Menu.Divider />
-
-      <Menu.Root placement="right" arrowPosition="top">
-        <Menu.Action icon={folder} text="Export as" />
+render(<Menu.Root arrowPosition="left">
+        <Menu.Button text="File" icon="chevron_down" />
         <Menu.List>
-          <Menu.Action
-            icon={file_pdf}
-            text="PDF"
-            onClick={() => console.log('export pdf')}
-          />
-          <Menu.Action
-            icon={file_png}
-            text="PNG"
-            onClick={() => console.log('export png')}
-          />
-          <Menu.Action
-            icon={file}
-            text="SVG"
-            onClick={() => console.log('export svg')}
-          />
-        </Menu.List>
-      </Menu.Root>
+          <Menu.Action icon={file_add} text="New" onClick={() => console.log('new')} />
+          <Menu.Action icon={folder} text="Open" onClick={() => console.log('open')} />
+          <Menu.Divider />
 
-      <Menu.Divider />
-      <Menu.Action
-        icon="close"
-        text="Close"
-        onClick={() => console.log('close')}
-      />
-    </Menu.List>
-  </Menu.Root>
-)
+          <Menu.Root placement="right" arrowPosition="top">
+            <Menu.Action icon={folder} text="Export as" />
+            <Menu.List>
+              <Menu.Action icon={file_pdf} text="PDF" onClick={() => console.log('export pdf')} />
+              <Menu.Action icon={file_png} text="PNG" onClick={() => console.log('export png')} />
+              <Menu.Action icon={file} text="SVG" onClick={() => console.log('export svg')} />
+            </Menu.List>
+          </Menu.Root>
+
+          <Menu.Divider />
+          <Menu.Action icon="close" text="Close" onClick={() => console.log('close')} />
+        </Menu.List>
+      </Menu.Root>)
 ```
+
 
 ### With Links
 
+
 ```tsx
-render(
-  <Menu.Root>
-    <Menu.Button text="Navigate" icon="chevron_down" variant="tertiary" />
-    <Menu.List>
-      <Menu.Action icon={home} text="Home" href="/" />
-      <Menu.Action icon={layout_card} text="Dashboard" href="/dashboard" />
-      <Menu.Action
-        icon={launch}
-        text="External"
-        href="https://example.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      />
-    </Menu.List>
-  </Menu.Root>
-)
+render(<Menu.Root>
+        <Menu.Button text="Navigate" icon="chevron_down" variant="tertiary" />
+        <Menu.List>
+          <Menu.Action icon={home} text="Home" href="/" />
+          <Menu.Action icon={layout_card} text="Dashboard" href="/dashboard" />
+          <Menu.Action icon={launch} text="External" href="https://example.com" target="_blank" rel="noopener noreferrer" />
+        </Menu.List>
+      </Menu.Root>)
 ```
+
 
 ### Max Visible List Items
 
+
 ```tsx
-render(
-  <Menu.Root>
-    <Menu.Button text="Long list" icon="chevron_down" />
-    <Menu.List maxVisibleListItems={4}>
-      <Menu.Action text="Item 1" />
-      <Menu.Action text="Item 2" />
-      <Menu.Action text="Item 3" />
-      <Menu.Action text="Item 4" />
-      <Menu.Action text="Item 5" />
-      <Menu.Action text="Item 6" />
-      <Menu.Action text="Item 7" />
-      <Menu.Action text="Item 8" />
-    </Menu.List>
-  </Menu.Root>
-)
+render(<Menu.Root>
+        <Menu.Button text="Long list" icon="chevron_down" />
+        <Menu.List maxVisibleListItems={4}>
+          <Menu.Action text="Item 1" />
+          <Menu.Action text="Item 2" />
+          <Menu.Action text="Item 3" />
+          <Menu.Action text="Item 4" />
+          <Menu.Action text="Item 5" />
+          <Menu.Action text="Item 6" />
+          <Menu.Action text="Item 7" />
+          <Menu.Action text="Item 8" />
+        </Menu.List>
+      </Menu.Root>)
 ```
+
 
 ### With Headers
 
+
 ```tsx
-render(
-  <Menu.Root>
-    <Menu.Button text="Edit" icon="chevron_down" />
-    <Menu.List>
-      <Menu.Header text="Clipboard" />
-      <Menu.Action
-        icon={scissors}
-        text="Cut"
-        onClick={() => console.log('cut')}
-      />
-      <Menu.Action
-        icon={copy}
-        text="Copy"
-        onClick={() => console.log('copy')}
-      />
-      <Menu.Action icon={edit} text="Paste" disabled />
-      <Menu.Divider />
-      <Menu.Header text="Selection" />
-      <Menu.Action icon="check" text="Select All" />
-    </Menu.List>
-  </Menu.Root>
-)
+render(<Menu.Root>
+        <Menu.Button text="Edit" icon="chevron_down" />
+        <Menu.List>
+          <Menu.Header text="Clipboard" />
+          <Menu.Action icon={scissors} text="Cut" onClick={() => console.log('cut')} />
+          <Menu.Action icon={copy} text="Copy" onClick={() => console.log('copy')} />
+          <Menu.Action icon={edit} text="Paste" disabled />
+          <Menu.Divider />
+          <Menu.Header text="Selection" />
+          <Menu.Action icon="check" text="Select All" />
+        </Menu.List>
+      </Menu.Root>)
 ```
 
 ## Menu.Root
+
 
 ```json
 {
@@ -250,13 +193,22 @@ render(
     },
     "placement": {
       "doc": "Preferred placement of the menu relative to the trigger.",
-      "type": ["\"top\"", "\"right\"", "\"bottom\"", "\"left\""],
+      "type": [
+        "\"top\"",
+        "\"right\"",
+        "\"bottom\"",
+        "\"left\""
+      ],
       "defaultValue": "\"bottom\"",
       "status": "optional"
     },
     "autoAlignMode": {
       "doc": "Control when the menu automatically flips its placement to fit within the viewport. `\"initial\"`: flip only on open. `\"scroll\"`: also flip during scroll. `\"never\"`: always use specified placement.",
-      "type": ["\"initial\"", "\"scroll\"", "\"never\""],
+      "type": [
+        "\"initial\"",
+        "\"scroll\"",
+        "\"never\""
+      ],
       "defaultValue": "\"initial\"",
       "status": "optional"
     },
@@ -276,7 +228,9 @@ render(
 }
 ```
 
+
 ## Menu.Button
+
 
 ```json
 {
@@ -289,7 +243,11 @@ render(
     },
     "variant": {
       "doc": "Button variant.",
-      "type": ["\"primary\"", "\"secondary\"", "\"tertiary\""],
+      "type": [
+        "\"primary\"",
+        "\"secondary\"",
+        "\"tertiary\""
+      ],
       "defaultValue": "\"secondary\"",
       "status": "optional"
     },
@@ -307,7 +265,9 @@ render(
 }
 ```
 
+
 ## Menu.List
+
 
 ```json
 {
@@ -326,7 +286,9 @@ render(
 }
 ```
 
+
 ## Menu.Action
+
 
 ```json
 {
@@ -381,7 +343,9 @@ render(
 }
 ```
 
+
 ## Menu.Accordion
+
 
 ```json
 {
@@ -411,7 +375,9 @@ render(
 }
 ```
 
+
 ## Menu.Header
+
 
 ```json
 {
@@ -430,11 +396,13 @@ render(
 }
 ```
 
+
 ## Menu.Divider
 
 No properties.
 
 ## Menu.Root Events
+
 
 ```json
 {
@@ -448,7 +416,9 @@ No properties.
 }
 ```
 
+
 ## Menu.Action Events
+
 
 ```json
 {
@@ -462,7 +432,9 @@ No properties.
 }
 ```
 
+
 ## Menu.Accordion Events
+
 
 ```json
 {
