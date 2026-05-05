@@ -18,6 +18,14 @@ const props: InputMaskedProps = {
 }
 
 describe('InputMasked component', () => {
+  it('should have spellCheck disabled', () => {
+    render(<InputMasked {...props} value="1234" currencyMask="kr" />)
+
+    expect(
+      document.querySelector('input').getAttribute('spellcheck')
+    ).toBe('false')
+  })
+
   it('should format "numberMask" accordingly the defined properties', () => {
     render(
       <InputMasked

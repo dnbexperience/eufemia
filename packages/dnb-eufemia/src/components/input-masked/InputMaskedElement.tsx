@@ -36,6 +36,7 @@ export default function InputMaskedElement(): React.JSX.Element {
       inputElement={inputElement}
       value={localValue}
       className={clsx('dnb-input-masked', className)}
+      spellCheck={false}
     />
   )
 }
