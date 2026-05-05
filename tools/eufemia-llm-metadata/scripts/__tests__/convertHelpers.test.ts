@@ -8,9 +8,48 @@ jest.unstable_mockModule('prettier', () => ({
   default: { format: async (code: string) => code },
 }))
 
-const { convertMdxToMd } = await import('../../src/convertHelpers.ts')
+const { convertMdxToMd, loadTsDocsForDocPath, toPublicUrl, toSlugAndDir } =
+  await import('../../src/convertHelpers.ts')
 
 describe('convertMdxToMd', () => {
+  it('only loads ts docs for uilib doc paths', async () => {
+    const nonUilibTsDocs = await loadTsDocsForDocPath(
+      'quickguide-designer/tools.mdx'
+    )
+
+    expect(nonUilibTsDocs).toEqual({
+      tsDocsDir: null,
+      props: {},
+      events: {},
+      related: [],
+    })
+
+    const uilibTsDocs = await loadTsDocsForDocPath(
+      path.join('uilib', 'components', 'breadcrumb.mdx')
+    )
+
+    expect(uilibTsDocs.tsDocsDir).not.toBeNull()
+    expect(Object.keys(uilibTsDocs.props)).toContain('data')
+  })
+
+  it('normalizes repeated slashes in slug bases and public url bases', () => {
+    expect(
+      toSlugAndDir('guides/getting-started.mdx', '////uilib////')
+    ).toEqual({
+      slug: '/uilib/guides/getting-started/',
+      dirForExtras: 'uilib/guides/getting-started/',
+    })
+
+    expect(toSlugAndDir('icons.mdx', '////')).toEqual({
+      slug: '/icons/',
+      dirForExtras: 'icons/',
+    })
+
+    expect(toPublicUrl('/icons/', 'https://eufemia.dnb.no////')).toBe(
+      'https://eufemia.dnb.no/icons/'
+    )
+  })
+
   it('replaces PropertiesTable with JSON block', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-json-'))
     const docsRoot = path.join(tmpRoot, 'docs')
@@ -172,5 +211,86 @@ describe('convertMdxToMd', () => {
 
     expect(output.startsWith('# Button')).toBe(true)
     expect(output).toContain('Some intro text.')
+  })
+
+  it('inlines imported mdx fragments from Docs aliases', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-imports-'))
+    const docsBaseRoot = path.join(tmpRoot, 'src')
+    const docsRoot = path.join(docsBaseRoot, 'docs')
+    const sectionDir = path.join(docsRoot, 'components', 'breadcrumb')
+    fs.mkdirSync(sectionDir, { recursive: true })
+
+    const infoPath = path.join(sectionDir, 'info.mdx')
+    fs.writeFileSync(
+      infoPath,
+      ['## Description', '', 'Breadcrumb description.'].join('\n')
+    )
+
+    const demosPath = path.join(sectionDir, 'demos.mdx')
+    fs.writeFileSync(
+      demosPath,
+      ['## Demos', '', '```tsx', 'render(<div />)', '```'].join('\n')
+    )
+
+    const mdxPath = path.join(sectionDir, 'breadcrumb.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        "import BreadcrumbInfo from 'Docs/components/breadcrumb/info'",
+        "import BreadcrumbDemos from 'Docs/components/breadcrumb/demos'",
+        '',
+        '# Breadcrumb',
+        '',
+        '<BreadcrumbInfo />',
+        '<BreadcrumbDemos />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('## Description')
+    expect(output).toContain('Breadcrumb description.')
+    expect(output).toContain('## Demos')
+    expect(output).toContain('render(<div />)')
+    expect(output).not.toContain('<BreadcrumbInfo />')
+    expect(output).not.toContain('<BreadcrumbDemos />')
+  })
+
+  it('replaces ListAllIcons with a markdown icon list', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-icons-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    const mdxPath = path.join(docsRoot, 'icons.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        "import ListAllIcons from 'dnb-design-system-portal/src/shared/parts/icons/ListAllIcons'",
+        '',
+        '# Icons',
+        '',
+        '<ListAllIcons variant="primary" />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).not.toContain('ListAllIcons')
+    expect(output).toContain('`bell`')
+    expect(output).toContain('Category:')
   })
 })

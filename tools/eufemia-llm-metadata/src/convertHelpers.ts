@@ -2,12 +2,37 @@ import fs from 'fs-extra'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import crypto from 'crypto'
-import frontMatter from 'front-matter'
+import frontMatter, {
+  type FrontMatterOptions,
+  type FrontMatterResult,
+} from 'front-matter'
 import * as prettier from 'prettier'
 import { extractMarkdownTables } from 'markdown-tables-utils'
 import type { File } from '@babel/types'
 
-const fm = frontMatter as unknown as typeof import('front-matter').default
+type FrontMatterParser = {
+  <T>(file: string, options?: FrontMatterOptions): FrontMatterResult<T>
+  test(file: string): boolean
+}
+
+function resolveFrontMatterParser(module: unknown): FrontMatterParser {
+  if (typeof module === 'function') {
+    return module as FrontMatterParser
+  }
+
+  if (
+    module &&
+    typeof module === 'object' &&
+    'default' in module &&
+    typeof module.default === 'function'
+  ) {
+    return module.default as FrontMatterParser
+  }
+
+  throw new TypeError('Unable to resolve front-matter parser')
+}
+
+const fm = resolveFrontMatterParser(frontMatter)
 
 const DEFAULT_PUBLIC_URL =
   process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
@@ -35,7 +60,7 @@ export const LLM_DOCS_SLUG_PREFIX = 'uilib'
 export function getPortalPaths(store: any) {
   const { program } = store.getState()
   const siteDir = program.directory
-  const docsRoot = path.join(siteDir, 'src', 'docs', LLM_DOCS_SLUG_PREFIX)
+  const docsRoot = path.join(siteDir, 'src', 'docs')
   const metadataRoot = path.join(siteDir, 'public')
   return { siteDir, docsRoot, metadataRoot }
 }
@@ -139,6 +164,25 @@ export async function loadTsDocs(rel: string) {
   }
 
   return { tsDocsDir, props, events, related }
+}
+
+function createEmptyTsDocs(): Awaited<ReturnType<typeof loadTsDocs>> {
+  return {
+    tsDocsDir: null,
+    props: {},
+    events: {},
+    related: [],
+  }
+}
+
+export async function loadTsDocsForDocPath(rel: string) {
+  const uilibPrefix = `uilib${path.sep}`
+
+  if (!rel.startsWith(uilibPrefix)) {
+    return createEmptyTsDocs()
+  }
+
+  return loadTsDocs(rel.slice(uilibPrefix.length))
 }
 
 export function mergeDocs(
@@ -302,12 +346,17 @@ export function toWorkspacePath(abs: string, siteDir: string) {
   return path.relative(siteDir, abs)
 }
 
-export function toSlugAndDir(rel: string) {
+export function toSlugAndDir(
+  rel: string,
+  slugBase: string = LLM_DOCS_SLUG_PREFIX
+) {
   const noExt = rel.replace(/\.[^/.]+$/, '')
-  const slug = `/${path.posix.join(
-    LLM_DOCS_SLUG_PREFIX,
-    noExt.split(path.sep).join('/')
-  )}/`
+  const normalizedSlugBase = trimEdgeSlashes(slugBase)
+  const slugSegments = [
+    normalizedSlugBase,
+    noExt.split(path.sep).join('/'),
+  ].filter(Boolean)
+  const slug = `/${path.posix.join(...slugSegments)}/`
   const dirForExtras = path.posix.join(slug).replace(/^\//, '')
   return { slug, dirForExtras }
 }
@@ -317,8 +366,32 @@ export function joinSlug(slug: string, sub: string) {
 }
 
 function normalizePublicUrlBase(publicUrlBase: string) {
-  // Remove trailing slashes - use non-greedy quantifier to prevent ReDoS
-  return publicUrlBase.replace(/\/+?$/, '')
+  return trimTrailingSlashes(publicUrlBase)
+}
+
+function trimEdgeSlashes(value: string) {
+  let start = 0
+  let end = value.length
+
+  while (start < end && value.charCodeAt(start) === 47) {
+    start++
+  }
+
+  while (end > start && value.charCodeAt(end - 1) === 47) {
+    end--
+  }
+
+  return value.slice(start, end)
+}
+
+function trimTrailingSlashes(value: string) {
+  let end = value.length
+
+  while (end > 0 && value.charCodeAt(end - 1) === 47) {
+    end--
+  }
+
+  return value.slice(0, end)
 }
 
 export function toPublicUrl(
@@ -940,7 +1013,7 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
     }
     const src = node.source && node.source.value
 
-    if (!src || !/Docs(\.[tj]sx?)?$/i.test(src)) {
+    if (!src || !hasDocsModuleSuffix(src)) {
       continue
     }
     const names = node.specifiers
@@ -970,6 +1043,18 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
     }
   }
   return prelude
+}
+
+function hasDocsModuleSuffix(source: string) {
+  const normalizedSource = source.toLowerCase()
+
+  return (
+    normalizedSource.endsWith('docs') ||
+    normalizedSource.endsWith('docs.ts') ||
+    normalizedSource.endsWith('docs.tsx') ||
+    normalizedSource.endsWith('docs.js') ||
+    normalizedSource.endsWith('docs.jsx')
+  )
 }
 
 async function resolveDocsModulePath(baseDir: string, modPath: string) {
@@ -1075,6 +1160,7 @@ export async function createMarkdownCopies({
   siteDir,
   docsRoot,
   outputRoot,
+  slugBase = LLM_DOCS_SLUG_PREFIX,
   publicUrlBase = DEFAULT_PUBLIC_URL,
   metadataBySlug,
   skipFormat = false,
@@ -1082,6 +1168,7 @@ export async function createMarkdownCopies({
   siteDir: string
   docsRoot: string
   outputRoot?: string
+  slugBase?: string
   publicUrlBase?: string
   skipFormat?: boolean
   metadataBySlug?: Map<
@@ -1112,7 +1199,7 @@ export async function createMarkdownCopies({
 
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel)
+    const { slug } = toSlugAndDir(rel, slugBase)
     const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
     const mdOutputPath = path.join(
       resolvedOutputRoot,
@@ -1223,6 +1310,7 @@ export async function convertMdxToMd({
     'VisibilityByTheme',
     'VisibleWhenVisualTest',
   ])
+  outputBody = await replaceListAllIcons(outputBody)
   outputBody = replaceComponentUsages(outputBody, componentCode)
 
   const links = frontmatterLinks || {}
@@ -2341,7 +2429,7 @@ function resolveImportPath({
   let candidate: string | null = null
 
   if (source.startsWith('Docs/')) {
-    candidate = path.join(docsBaseRoot, source.replace(/^Docs\//, ''))
+    candidate = path.join(docsRoot, source.replace(/^Docs\//, ''))
   } else if (source.startsWith('.')) {
     candidate = path.resolve(inputDir, source)
   } else {
@@ -2605,6 +2693,165 @@ function stripWrapperTags(content: string, tagNames: string[]) {
     output = output.replace(openTag, '').replace(closeTag, '')
   }
   return output
+}
+
+type IconMetadataEntry = {
+  name?: string
+  tags?: string[]
+  created?: number
+  variant?: string
+  category?: string
+}
+
+let cachedIconMetadata: Array<
+  Required<Pick<IconMetadataEntry, 'name' | 'tags' | 'created'>> &
+    Pick<IconMetadataEntry, 'variant' | 'category'>
+> | null = null
+
+async function replaceListAllIcons(content: string) {
+  const regex = /<ListAllIcons\b([^>]*)\/>/g
+
+  if (!regex.test(content)) {
+    return content
+  }
+
+  regex.lastIndex = 0
+  const icons = await loadListAllIconsMetadata()
+
+  if (icons.length === 0) {
+    return content
+  }
+
+  return content.replace(regex, (_match, attrsSource) => {
+    const attrs = parseSimpleJsxStringAttributes(String(attrsSource || ''))
+    const variant = attrs.variant
+    const groupBy = attrs.groupBy
+    const filteredIcons = icons.filter((icon) => {
+      return !variant || icon.variant === variant
+    })
+
+    if (filteredIcons.length === 0) {
+      return ''
+    }
+
+    return `\n${renderIconsMarkdown(filteredIcons, groupBy)}\n`
+  })
+}
+
+async function loadListAllIconsMetadata() {
+  if (cachedIconMetadata) {
+    return cachedIconMetadata
+  }
+
+  const eufemiaRoot = findPackageRoot('@dnb/eufemia')
+
+  if (!eufemiaRoot) {
+    return []
+  }
+
+  const metadataPath = path.join(
+    eufemiaRoot,
+    'src',
+    'icons',
+    'dnb',
+    'icons-meta.json'
+  )
+
+  try {
+    const raw = await fs.readFile(metadataPath, 'utf-8')
+    const metadata = JSON.parse(raw) as Record<string, IconMetadataEntry>
+
+    cachedIconMetadata = Object.entries(metadata)
+      .filter(([iconKey, icon]) => {
+        return !iconKey.endsWith('_medium') && Boolean(icon?.name)
+      })
+      .map(([_iconKey, icon]) => {
+        return {
+          name: String(icon.name),
+          tags: Array.isArray(icon.tags) ? icon.tags : [],
+          created: Number(icon.created || 0),
+          variant: icon.variant,
+          category: icon.category,
+        }
+      })
+      .sort((a, b) => a.created - b.created)
+
+    return cachedIconMetadata
+  } catch {
+    return []
+  }
+}
+
+function parseSimpleJsxStringAttributes(source: string) {
+  const attrs: Record<string, string> = {}
+  const regex = /([A-Za-z0-9_-]+)\s*=\s*(["'])(.*?)\2/g
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(source))) {
+    const [, name, , value] = match
+
+    if (name) {
+      attrs[name] = value || ''
+    }
+  }
+
+  return attrs
+}
+
+function renderIconsMarkdown(
+  icons: Array<{
+    name: string
+    tags: string[]
+    created: number
+    variant?: string
+    category?: string
+  }>,
+  groupBy?: string
+) {
+  if (groupBy === 'category') {
+    const groups = new Map<string, typeof icons>()
+
+    for (const icon of icons) {
+      const key = icon.category || 'uncategorized'
+      const existing = groups.get(key) || []
+      existing.push(icon)
+      groups.set(key, existing)
+    }
+
+    return Array.from(groups.entries())
+      .map(([category, groupedIcons]) => {
+        const heading = toPascalCase(category.replace(/[-_]/g, ' '))
+        const lines = groupedIcons.map((icon) => {
+          return renderIconMarkdownLine(icon, false)
+        })
+
+        return [`## ${heading}`, '', ...lines].join('\n')
+      })
+      .join('\n\n')
+  }
+
+  return icons.map((icon) => renderIconMarkdownLine(icon, true)).join('\n')
+}
+
+function renderIconMarkdownLine(
+  icon: {
+    name: string
+    tags: string[]
+    category?: string
+  },
+  includeCategory: boolean
+) {
+  const parts = [`- \`${icon.name}\``]
+
+  if (includeCategory && icon.category) {
+    parts.push(`Category: ${icon.category}.`)
+  }
+
+  if (icon.tags.length > 0) {
+    parts.push(`Tags: ${icon.tags.join(', ')}.`)
+  }
+
+  return parts.join(' ')
 }
 
 function replaceComponentUsages(

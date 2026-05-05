@@ -9,7 +9,6 @@
 
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
-import { LLM_DOCS_SLUG_PREFIX } from 'eufemia-llm-metadata'
 
 export type RouteEntry = {
   path?: string
@@ -96,20 +95,19 @@ export function getPageMeta(
 /**
  * Resolve the markdown alternate link path for a URL.
  *
- * Only /uilib/ pages get markdown links. The LLM metadata generator
- * creates .md files for "entry" MDX files (those with a title in
- * frontmatter), not for tab sub-pages. For tab pages, we walk up
- * the slug path to find the nearest entry parent.
+ * The LLM metadata generator creates .md files for "entry" MDX files
+ * (those with a title in frontmatter), not for tab sub-pages. For tab
+ * pages, we walk up the slug path to find the nearest entry parent.
  */
 export function getMdPath(
   url: string,
   allMdxNodes: MdxNode[]
 ): string | null {
-  if (!url.startsWith(`/${LLM_DOCS_SLUG_PREFIX}/`)) {
+  const slug = url.replace(/^\/|\/$/g, '')
+
+  if (!slug) {
     return null
   }
-
-  const slug = url.replace(/^\/|\/$/g, '')
 
   // Build a set of entry slugs — pages that get their own .md file
   // from the LLM metadata generator. Entry pages have a title in
@@ -117,10 +115,7 @@ export function getMdPath(
   const entrySlugs = new Set<string>()
   for (const node of allMdxNodes) {
     const s = node.fields.slug
-    if (
-      s.startsWith(`${LLM_DOCS_SLUG_PREFIX}/`) &&
-      node.frontmatter.title
-    ) {
+    if (node.frontmatter.title) {
       entrySlugs.add(s)
     }
   }

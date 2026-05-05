@@ -10,7 +10,7 @@ import {
   findEntryMdxFiles,
   findSourceInfo,
   findRepoRoot,
-  loadTsDocs,
+  loadTsDocsForDocPath,
   mergeDocs,
   resolveMetaText,
   toSlugAndDir,
@@ -50,8 +50,7 @@ export async function generateDocs() {
     'packages',
     'dnb-design-system-portal',
     'src',
-    'docs',
-    'uilib'
+    'docs'
   )
   const robotsRoot = path.join(
     repoRoot,
@@ -77,7 +76,7 @@ export async function generateDocs() {
   >()
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel)
+    const { slug } = toSlugAndDir(rel, '')
 
     if (!isAllowed(slug, robots)) {
       continue
@@ -88,7 +87,7 @@ export async function generateDocs() {
     let props: Record<string, any> = {}
     let events: Record<string, any> = {}
 
-    const tsDocs = await loadTsDocs(rel)
+    const tsDocs = await loadTsDocsForDocPath(rel)
     props = mergeDocs(props, tsDocs.props)
     events = mergeDocs(events, tsDocs.events)
 
@@ -139,6 +138,7 @@ export async function generateDocs() {
     siteDir: repoRoot,
     docsRoot,
     outputRoot,
+    slugBase: '',
     publicUrlBase: PUBLIC_URL_BASE,
     metadataBySlug,
   })

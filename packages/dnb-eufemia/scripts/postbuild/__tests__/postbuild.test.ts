@@ -384,6 +384,7 @@ describeDocsBuild('docs build', () => {
     expect(content).toContain(
       '/uilib/usage/first-steps/quick-reference.md'
     )
+    expect(content).toContain('/quickguide-designer/tools.md')
     expect(content).toContain('## Machine-readable docs')
     expect(content).not.toContain('https://eufemia.dnb.no')
   })
@@ -393,10 +394,16 @@ describeDocsBuild('docs build', () => {
       docsRoot,
       'uilib/components/breadcrumb.md'
     )
+    const nonUilibMarkdownPath = path.join(
+      docsRoot,
+      'quickguide-designer/tools.md'
+    )
 
     expect(fs.existsSync(markdownPath)).toBe(true)
+    expect(fs.existsSync(nonUilibMarkdownPath)).toBe(true)
 
     const markdown = fs.readFileSync(markdownPath, 'utf-8')
+    const nonUilibMarkdown = fs.readFileSync(nonUilibMarkdownPath, 'utf-8')
     expect(markdown).toContain('version:')
     expect(markdown).toContain('generatedAt:')
     expect(markdown).toContain('checksum:')
@@ -410,6 +417,37 @@ describeDocsBuild('docs build', () => {
     expect(markdown).toContain('## `Breadcrumb.Item` events')
     expect(markdown).toMatch(/```json[\s\S]*```/)
     expect(markdown).toMatch(/```tsx[\s\S]*render\(/)
+    expect(nonUilibMarkdown).toContain('# Tools')
+  })
+
+  it('writes rendered icon markdown lists for primary and secondary icons', () => {
+    const allIconsPath = path.join(docsRoot, 'icons.md')
+    const primaryIconsPath = path.join(docsRoot, 'icons/primary.md')
+    const secondaryIconsPath = path.join(docsRoot, 'icons/secondary.md')
+
+    expect(fs.existsSync(allIconsPath)).toBe(true)
+    expect(fs.existsSync(primaryIconsPath)).toBe(true)
+    expect(fs.existsSync(secondaryIconsPath)).toBe(true)
+
+    const allIconsMarkdown = fs.readFileSync(allIconsPath, 'utf-8')
+    const primaryIconsMarkdown = fs.readFileSync(primaryIconsPath, 'utf-8')
+    const secondaryIconsMarkdown = fs.readFileSync(
+      secondaryIconsPath,
+      'utf-8'
+    )
+
+    expect(allIconsMarkdown).not.toContain('ListAllIcons')
+    expect(allIconsMarkdown).toContain('`bell`')
+    expect(allIconsMarkdown).toContain('`user_feedback`')
+    expect(allIconsMarkdown).toContain('## Essentials')
+
+    expect(primaryIconsMarkdown).not.toContain('ListAllIcons')
+    expect(primaryIconsMarkdown).toContain('`bell`')
+    expect(primaryIconsMarkdown).toContain('`chevron_right`')
+
+    expect(secondaryIconsMarkdown).not.toContain('ListAllIcons')
+    expect(secondaryIconsMarkdown).toContain('`user_feedback`')
+    expect(secondaryIconsMarkdown).toContain('`instagram`')
   })
 })
 
