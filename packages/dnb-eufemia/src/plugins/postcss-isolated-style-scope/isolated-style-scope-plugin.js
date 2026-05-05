@@ -19,6 +19,7 @@ const postcssIsolateStyle = (opts = {}) => {
     replaceClassNames = undefined,
     verbose = false,
     runAsCssModule = false,
+    warnOnDeprecatedColorVariables = false,
   } = opts
 
   const currentFallbackHash = getStyleScopeHash()
@@ -38,9 +39,28 @@ const postcssIsolateStyle = (opts = {}) => {
   return {
     postcssPlugin: 'isolated-style-scope-plugin',
 
-    Once(root) {
+    Once(root, { result }) {
       const file = root.source?.input?.file ?? ''
       const isCssModule = runAsCssModule || file.includes('.module.')
+
+      if (warnOnDeprecatedColorVariables) {
+        const colorVariableRegex = /--color-[a-z0-9-]+/gi
+
+        root.walkDecls((decl) => {
+          for (const value of [decl.prop, decl.value]) {
+            const matches = value.match(colorVariableRegex)
+
+            if (matches) {
+              for (const variable of new Set(matches)) {
+                decl.warn(
+                  result,
+                  `Deprecated CSS color variable "${variable}" detected. Use a design token instead.`
+                )
+              }
+            }
+          }
+        })
+      }
 
       let fileFallbackHash = null
       // - Get the scope hash from the file
