@@ -163,7 +163,16 @@ export default function portalPagesPlugin(): Plugin {
 
     load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
-        const files = scanPageFiles(docsDir)
+        let files = scanPageFiles(docsDir)
+
+        const filter = process.env.filter
+        if (filter?.length) {
+          const filterTerms = filter.split(/(,|\s)/).filter(Boolean)
+          files = files.filter((file) => {
+            const pagePath = `/${file.slug}/`
+            return filterTerms.some((term) => pagePath.includes(term))
+          })
+        }
 
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
