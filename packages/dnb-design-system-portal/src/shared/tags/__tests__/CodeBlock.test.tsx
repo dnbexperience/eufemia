@@ -7,8 +7,8 @@ import {
   beforeEach,
   afterAll,
 } from 'vitest'
-import React, { act } from 'react'
-import { render } from '@testing-library/react'
+import React from 'react'
+import { act, render } from '@testing-library/react'
 
 // Mock CSS modules
 vi.mock('../CodeBlock.module.scss', () => ({
