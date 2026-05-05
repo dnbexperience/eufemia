@@ -1,7 +1,6 @@
 /**
  * Playwright Setup for Screenshot testing
  *
- * Replaces the old Jest + jest-playwright-preset + jest-image-snapshot stack.
  * All original makeScreenshot / setupPageScreenshot features are preserved.
  */
 
@@ -20,11 +19,6 @@ import {
   type TestInfo,
 } from '@playwright/test'
 
-/**
- * Shared worker-scoped page: one page per file, reused across all tests.
- * This matches the old Jest behaviour where setupPageScreenshot navigated
- * once in beforeAll and every test reused that same page.
- */
 // Module-level reference to the current worker's shared page.
 // Set automatically by the fixture so makeScreenshot can use it
 // without requiring callers to pass it explicitly.
