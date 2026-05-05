@@ -13,7 +13,6 @@ export const GLOBAL_VISUAL_FILES = new Set([
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.
 export const GLOBAL_VISUAL_PATH_PREFIXES = [
   'src/style/',
-  'src/core/jest/',
   'src/core/playwright/',
 ]
 

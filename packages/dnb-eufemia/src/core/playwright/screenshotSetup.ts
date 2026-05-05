@@ -67,7 +67,7 @@ test.beforeEach(async ({ page }, testInfo: TestInfo) => {
 })
 
 export { expect }
-export { onMain, runOnMain, selectThemes } from '../jest/themeSelection'
+export { onMain, runOnMain, selectThemes } from './themeSelection'
 export { isCI }
 
 export const loadImage = async (imagePath: string) =>

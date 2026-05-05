@@ -51,6 +51,28 @@ describe('runScreenshotsConditionally', () => {
     expect(selection.reason).toMatch(/Global visual impact detected/i)
   })
 
+  it('runs all tests when theme selection changes', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/core/playwright/themeSelection.ts',
+      ],
+    })
+
+    expect(selection.mode).toBe('all')
+    expect(selection.reason).toMatch(/Global visual impact detected/i)
+  })
+
+  it('does not treat unrelated core jest helpers as global visual impact', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/core/jest/jestSetup.ts',
+      ],
+    })
+
+    expect(selection.mode).toBe('all')
+    expect(selection.reason).toMatch(/no impacted screenshot tests/i)
+  })
+
   it('runs partial tests based on reverse dependencies', () => {
     const dependencyMap = buildDependencyMap([
       {
@@ -229,6 +251,24 @@ describe('path helpers', () => {
       isGlobalVisualImpact(
         'packages/dnb-design-system-portal/src/docs/uilib/components/button.mdx',
         null
+      )
+    ).toBe(false)
+  })
+
+  it('treats theme selection as global visual impact', () => {
+    expect(
+      isGlobalVisualImpact(
+        'packages/dnb-eufemia/src/core/playwright/themeSelection.ts',
+        'src/core/playwright/themeSelection.ts'
+      )
+    ).toBe(true)
+  })
+
+  it('does not treat unrelated jest helpers as global visual impact', () => {
+    expect(
+      isGlobalVisualImpact(
+        'packages/dnb-eufemia/src/core/jest/jestSetup.ts',
+        'src/core/jest/jestSetup.ts'
       )
     ).toBe(false)
   })
