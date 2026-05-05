@@ -197,7 +197,7 @@ class ScreenshotReporter implements Reporter {
     const failedTests = Array.from(this.failedTests.values())
 
     const cwd = process.cwd()
-    const reportDir = path.join(cwd, 'jest-visual-diff-report')
+    const reportDir = path.join(cwd, 'visual-diff-report')
     const htmlFilePath = path.join(reportDir, 'index.html')
 
     const cliColors = {
