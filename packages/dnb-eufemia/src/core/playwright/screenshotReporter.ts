@@ -57,11 +57,7 @@ export function selectFailedTestAttempt({
   const previousAttachmentCount = countAttachedImages(previous)
   const nextAttachmentCount = countAttachedImages(next)
 
-  if (nextAttachmentCount > previousAttachmentCount) {
-    return next
-  }
-
-  if (nextAttachmentCount === previousAttachmentCount) {
+  if (nextAttachmentCount >= previousAttachmentCount) {
     return next
   }
 
