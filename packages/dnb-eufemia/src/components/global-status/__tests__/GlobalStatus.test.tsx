@@ -596,7 +596,11 @@ describe('GlobalStatus component', () => {
     // Open
     fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toBeInTheDocument()
+    })
 
     expect(onClose).toHaveBeenCalledTimes(0)
 
@@ -607,7 +611,9 @@ describe('GlobalStatus component', () => {
       expect(onHide).toHaveBeenCalledTimes(1)
     })
 
-    simulateAnimationEnd()
+    simulateAnimationEnd(
+      document.querySelector('.dnb-global-status__shell')
+    )
 
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1)
@@ -648,7 +654,11 @@ describe('GlobalStatus component', () => {
 
     fireEvent.click(document.querySelector('input#switch-escape-key'))
 
-    await refresh()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toBeInTheDocument()
+    })
 
     expect(onClose).toHaveBeenCalledTimes(0)
 
@@ -658,7 +668,9 @@ describe('GlobalStatus component', () => {
       expect(onHide).toHaveBeenCalledTimes(1)
     })
 
-    simulateAnimationEnd()
+    simulateAnimationEnd(
+      document.querySelector('.dnb-global-status__shell')
+    )
 
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1)
