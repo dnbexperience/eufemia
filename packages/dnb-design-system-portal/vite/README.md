@@ -13,6 +13,17 @@ yarn preview            # Preview the production build locally
 yarn test:e2e:portal    # Run e2e tests against a Vite preview server
 ```
 
+### Filtering pages
+
+To speed up the dev server by only loading specific pages, use the `filter` env var:
+
+```bash
+filter=button yarn start          # Only pages with "button" in the path
+filter=button,accordion yarn start # Multiple filters (comma or space separated)
+```
+
+This is useful when working on a single component — it reduces the number of routes and speeds up startup.
+
 ## Directory Structure
 
 ```
