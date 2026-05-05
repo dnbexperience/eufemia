@@ -5,7 +5,8 @@ export default defineConfig({
   timeout: 30000,
   globalTimeout: 600000,
   reporter: 'list',
-  testDir: './src/e2e',
+  testDir: './src/',
+  testMatch: '*.e2e.spec.ts',
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
