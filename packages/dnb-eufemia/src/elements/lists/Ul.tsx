@@ -3,10 +3,11 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
+import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type UlProps = {
@@ -31,12 +32,15 @@ export type UlAllProps = UlProps &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
+  const context = useContext(Context)
+
   return (
     <E
       as="ul"
       {...props}
       className={clsx(
         props.className,
+        context?.theme?.surface === 'dark' && 'dnb-ul--surface-dark',
         nested && 'dnb-ul--nested',
         inside && 'dnb-ul--inside',
         outside && 'dnb-ul--outside'

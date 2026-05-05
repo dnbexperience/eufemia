@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 import type { HeadingProps, HeadingLevel } from '../Heading'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
 import H3 from '../../../elements/H3'
@@ -18,6 +19,28 @@ describe('Heading component', () => {
     render(<Heading {...props} />)
 
     expect(document.querySelector('.dnb-heading')).toBeInTheDocument()
+  })
+
+  describe('surface', () => {
+    it('does not apply dark surface class by default', () => {
+      render(<Heading>Heading</Heading>)
+
+      const element = document.querySelector('.dnb-heading')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(false)
+    })
+
+    it('applies dark surface class from Theme.Context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <Heading>Heading</Heading>
+        </Theme.Context>
+      )
+
+      const element = document.querySelector('.dnb-heading')
+
+      expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
+    })
   })
 
   it('should support inline styling', () => {

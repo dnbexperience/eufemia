@@ -9,6 +9,10 @@
 .dnb-hr {
   --hr-color: var(--token-color-stroke-neutral-subtle);
 
+  &--surface-dark {
+    --hr-color: var(--token-color-stroke-neutral-ondark);
+  }
+
   @include hr-mixins.hrStyle();
 
   &--dashed::after {

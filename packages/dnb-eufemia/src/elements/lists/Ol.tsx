@@ -3,10 +3,11 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
+import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type OlProps = {
@@ -31,12 +32,15 @@ export type OlAllProps = OlProps &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
+  const context = useContext(Context)
+
   return (
     <E
       as="ol"
       {...props}
       className={clsx(
         props.className,
+        context?.theme?.surface === 'dark' && 'dnb-ol--surface-dark',
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
         outside && 'dnb-ol--outside'

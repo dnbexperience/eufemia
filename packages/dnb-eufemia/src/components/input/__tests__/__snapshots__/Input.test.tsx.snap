@@ -978,6 +978,9 @@ button.dnb-button::-moz-focus-inner {
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
 }
+.dnb-form-label--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;

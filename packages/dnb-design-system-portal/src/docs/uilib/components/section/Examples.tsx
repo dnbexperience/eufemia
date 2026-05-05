@@ -28,6 +28,20 @@ export const NoBreakout = () => (
   </ComponentBox>
 )
 
+export const DarkSurface = () => (
+  <ComponentBox hideCode>
+    <Section
+      innerSpace={{ top: 'large', bottom: 'large' }}
+      backgroundColor="var(--token-color-decorative-first-bold-static)"
+      surface="dark"
+    >
+      <P space={0}>
+        Dark surface section: <Anchor href="#">anchor</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
 export const ResponsiveAppearance = () => (
   <ComponentBox hideCode data-visual-test="section-responsive-appearance">
     <Section
