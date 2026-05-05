@@ -147,6 +147,20 @@ describe('HelpButton', () => {
     expect(textContent).toContain(dialogContent)
   })
 
+  it('should fire onClick when children are given', () => {
+    const onClick = jest.fn()
+
+    render(
+      <HelpButton {...props} onClick={onClick}>
+        Help content
+      </HelpButton>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
   it('should return given render element', () => {
     render(
       <HelpButton
