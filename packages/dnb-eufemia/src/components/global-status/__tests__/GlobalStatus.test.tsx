@@ -603,11 +603,15 @@ describe('GlobalStatus component', () => {
     // Close with key
     keydown('Escape')
 
-    expect(onHide).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onHide).toHaveBeenCalledTimes(1)
+    })
 
     simulateAnimationEnd()
 
-    expect(onClose).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('should close when escape key name is pressed', async () => {
@@ -650,11 +654,15 @@ describe('GlobalStatus component', () => {
 
     keydown('Escape')
 
-    expect(onHide).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onHide).toHaveBeenCalledTimes(1)
+    })
 
     simulateAnimationEnd()
 
-    expect(onClose).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('should have height of auto value', async () => {
