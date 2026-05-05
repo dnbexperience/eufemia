@@ -83,7 +83,7 @@
     "test:screenshots:ci:conditional:explain": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/runScreenshotsConditionally/cli.ts --explain",
     "test:screenshots:ci:update": "playwright test --config=./playwright.config.screenshots.ts --update-snapshots=changed",
     "test:screenshots:update": "playwright test --config=./playwright.config.screenshots.ts --update-snapshots=changed",
-    "test:screenshots:watch": "playwright test --config=./playwright.config.screenshots.ts --watch",
+    "test:screenshots:watch": "nodemon --watch './src' --ext ts,tsx,js,jsx,scss,css --exec 'playwright test --config=./playwright.config.screenshots.ts'",
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "vitest run --update=true",
