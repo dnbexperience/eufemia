@@ -265,10 +265,14 @@ ${nodeEntries.join('\n')}
     },
 
     handleHotUpdate({ file, server }) {
+      const normalizedFile = file.replace(/\\/g, '/')
+
       // When a page file is added/removed, invalidate the virtual module
       if (
-        (file.endsWith('.mdx') || file.endsWith('.tsx')) &&
-        file.includes('/src/docs/')
+        (normalizedFile.endsWith('.mdx') ||
+          normalizedFile.endsWith('.tsx')) &&
+        normalizedFile.includes('/src/docs/') &&
+        !shouldIgnore(normalizedFile)
       ) {
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
