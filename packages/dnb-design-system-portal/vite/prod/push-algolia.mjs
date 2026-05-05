@@ -2,8 +2,7 @@
  * Push search index to Algolia after a Vite production build.
  *
  * Scans src/docs/ for MDX files, extracts frontmatter and headings,
- * and pushes search records to Algolia. Mirrors the Gatsby plugin's
- * searchQuery.js flatten logic.
+ * and pushes search records using the shared Algolia record builder.
  *
  * This script reads source files directly — it does NOT depend on
  * the SSR bundle (which is deleted after prerendering).
@@ -28,15 +27,15 @@ import { toString as nodeToString } from 'mdast-util-to-string'
 import GHSlugger from 'github-slugger'
 import matter from 'gray-matter'
 import algoliasearch from 'algoliasearch'
+import {
+  buildAlgoliaRecord,
+  findAncestorPages,
+  shouldIncludeInAlgolia,
+} from '../../src/uilib/search/algoliaRecords.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 const docsDir = path.resolve(portalRoot, 'src/docs')
-
-const excludedSlugPartials = [
-  'uilib/about-the-lib/releases/',
-  'EUFEMIA_CHANGELOG',
-]
 const slugger = new GHSlugger()
 
 function makeSlug(value) {
@@ -156,14 +155,12 @@ async function pushAlgolia() {
     const { slug } = node.fields
     const frontmatter = { ...node.frontmatter }
 
-    // Skip drafts and excluded pages
-    if (frontmatter.draft === true) {
-      continue
-    }
-    if (slug.includes('not_in_use')) {
-      continue
-    }
-    if (excludedSlugPartials.some((partial) => slug.includes(partial))) {
+    if (
+      !shouldIncludeInAlgolia({
+        slug,
+        draft: frontmatter.draft,
+      })
+    ) {
       continue
     }
 
@@ -173,55 +170,21 @@ async function pushAlgolia() {
       path.resolve(docsDir, `${slug}/index.mdx`),
     ]
     const sourceFile = candidates.find((f) => fs.existsSync(f))
-    let headings = sourceFile ? extractHeadings(sourceFile) : []
-
-    // Resolve title from headings if not in frontmatter
-    let title = frontmatter.title || ''
-    const description = frontmatter.description || ''
-
-    if (!title && frontmatter.search) {
-      title = frontmatter.search
-    } else if (!title && headings.length > 0) {
-      const first = headings[0]
-      if (first.depth === 1) {
-        title = first.value
-        headings = headings.slice(1)
-      } else if (first.depth === 2) {
-        // Tab sub-page: look for parent title
-        const parentSlug = slug.split('/').slice(0, -1).join('/')
-        const parent = allMdxNodes.find(
-          (n) => n.fields.slug === parentSlug
-        )
-        const parentTitle = parent?.frontmatter?.title || ''
-        title = parentTitle
-          ? `${parentTitle} → ${first.value}`
-          : first.value
-        headings = headings.slice(1)
-      }
-    }
-
-    if (!title && !description) {
-      continue
-    }
-
-    // Build category from parent
-    const parentSlug = slug.split('/').slice(0, -1).join('/')
-    const parent = allMdxNodes.find((n) => n.fields.slug === parentSlug)
-    const category = parent
-      ? {
-          slug: parent.fields.slug,
-          title: parent.frontmatter.title || '',
-        }
-      : null
-
-    records.push({
-      objectID: slug || 'index',
-      slug,
-      title,
-      description,
+    const headings = sourceFile ? extractHeadings(sourceFile) : []
+    const siblings = findAncestorPages(slug, allMdxNodes)
+    const record = buildAlgoliaRecord({
+      ...node,
+      frontmatter,
       headings,
-      ...(category ? { category } : {}),
+      siblings,
     })
+
+    if (record) {
+      records.push({
+        objectID: slug || 'index',
+        ...record,
+      })
+    }
   }
 
   // Push to Algolia
