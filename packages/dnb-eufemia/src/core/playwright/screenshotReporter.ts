@@ -13,6 +13,9 @@ import type {
   TestResult,
 } from '@playwright/test/reporter'
 
+// eslint-disable-next-line no-control-regex
+const ANSI_ESCAPE_SEQUENCE = /\u001B\[[0-?]*[ -/]*[@-~]/g
+
 export type FailedTestEntry = {
   testFilePath: string
   relativeTestFilePath: string
@@ -44,6 +47,10 @@ export function getFailedTestKey({
   fullName,
 }: Pick<FailedTestEntry, 'testFilePath' | 'fullName'>) {
   return `${testFilePath}::${fullName}`
+}
+
+export function formatFullName(titlePath: string[]): string {
+  return titlePath.filter(Boolean).join(' › ')
 }
 
 export function selectFailedTestAttempt({
@@ -89,6 +96,13 @@ export function resolveExpectedImagePath({
   }
 
   return expectedImagePath
+}
+
+export function formatFailureMessage(messages: string[]): string {
+  return messages
+    .join('\n')
+    .replace(ANSI_ESCAPE_SEQUENCE, '')
+    .replace(/\n/g, '<br />')
 }
 
 function extractTestMetadata(
@@ -157,15 +171,14 @@ class ScreenshotReporter implements Reporter {
     })
 
     // Extract error message
-    const message = result.errors
-      .map((e) => e.message || '')
-      .join('\n')
-      .replace(/\n/g, '<br />')
+    const message = formatFailureMessage(
+      result.errors.map((e) => e.message || '')
+    )
 
     const failedTestEntry = {
       testFilePath,
       relativeTestFilePath,
-      fullName: test.titlePath().join(' › '),
+      fullName: formatFullName(test.titlePath()),
       title: test.title,
       message,
       expectedImagePath,

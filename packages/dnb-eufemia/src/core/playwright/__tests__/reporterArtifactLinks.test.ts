@@ -3,6 +3,8 @@ import os from 'os'
 import path from 'path'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  formatFailureMessage,
+  formatFullName,
   getFailedTestKey,
   resolveExpectedImagePath,
   selectFailedTestAttempt,
@@ -103,6 +105,33 @@ describe('resolveExpectedImagePath', () => {
         diffImagePath: null,
       })
     ).toBe(checkedInExpectedImagePath)
+  })
+})
+
+describe('formatFailureMessage', () => {
+  it('strips ANSI escape sequences before rendering HTML line breaks', () => {
+    expect(
+      formatFailureMessage([
+        'Error: \u001b[2mexpect(\u001b[22m\u001b[31mBuffer\u001b[39m\u001b[2m).\u001b[22mtoMatchSnapshot failed',
+        'Details',
+      ])
+    ).toBe('Error: expect(Buffer).toMatchSnapshot failed<br />Details')
+  })
+})
+
+describe('formatFullName', () => {
+  it('removes empty title path segments before joining', () => {
+    expect(
+      formatFullName([
+        '',
+        '',
+        'extensions/forms/Field/PhoneNumber/__tests__/PhoneNumber.screenshot.test.ts',
+        'PhoneNumber for ui',
+        'have to match with a label',
+      ])
+    ).toBe(
+      'extensions/forms/Field/PhoneNumber/__tests__/PhoneNumber.screenshot.test.ts › PhoneNumber for ui › have to match with a label'
+    )
   })
 })
 
