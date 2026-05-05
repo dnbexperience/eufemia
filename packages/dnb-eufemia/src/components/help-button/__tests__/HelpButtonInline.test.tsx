@@ -716,4 +716,45 @@ describe('HelpButtonInlineContent Component', () => {
       'dnb-space__top--large'
     )
   })
+
+  it('should render block-level content without wrapping it in a p tag', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          open: true,
+          title: 'Help title',
+          content: (
+            <div>
+              <ul>
+                <li>Item 1</li>
+              </ul>
+            </div>
+          ),
+        }}
+      />
+    )
+
+    const pElements = document.querySelectorAll(
+      '.dnb-help-button__content .dnb-p'
+    )
+    const contentElement = pElements[1]
+    expect(contentElement.tagName).toBe('DIV')
+  })
+
+  it('should render string content with paragraph styling', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          open: true,
+          content: 'Simple text content',
+        }}
+      />
+    )
+
+    const contentElement = document.querySelector(
+      '.dnb-help-button__content .dnb-p'
+    )
+    expect(contentElement).toHaveTextContent('Simple text content')
+    expect(contentElement).toHaveClass('dnb-p')
+  })
 })
