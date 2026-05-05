@@ -374,80 +374,57 @@ describe('GlobalStatus component', () => {
       fireEvent.focus(getInput(selector))
     const blurInput = (selector: string) =>
       fireEvent.blur(getInput(selector))
+    const getFormStatusTexts = () =>
+      Array.from(document.querySelectorAll('.dnb-form-status__text')).map(
+        (element) => element.textContent
+      )
+    const getGlobalStatusTexts = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-global-status__message p')
+      ).map((element) => element.textContent)
 
-    await wait(1)
     clickInput('input#switch-1')
-
-    await wait(1)
     clickInput('input#switch-2')
-
-    await wait(1)
     focusInput('input#autocomplete-3')
 
-    // FormStatus content
-    expect(
-      document.querySelectorAll('.dnb-form-status__text')[0].textContent
-    ).toBe('error-message-1')
-    expect(
-      document.querySelectorAll('.dnb-form-status__text')[1].textContent
-    ).toBe('error-message-2')
-    expect(
-      document
-        .querySelectorAll('.dnb-autocomplete')[0]
-        .querySelector('.dnb-form-status__text').textContent
-    ).toBe('error-message-3')
-
-    await refresh()
-
-    // GlobalStatus content
     await waitFor(() => {
-      expect(
-        document.querySelectorAll('.dnb-global-status__message p')[0]
-          .textContent
-      ).toBe('error-message-1')
+      expect(getFormStatusTexts()).toEqual([
+        'error-message-1',
+        'error-message-2',
+        'error-message-3',
+      ])
     })
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[1]
-        .textContent
-    ).toBe('error-message-2')
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[2]
-        .textContent
-    ).toBe('error-message-3')
 
-    await wait(1)
+    await waitFor(() => {
+      expect(getGlobalStatusTexts()).toEqual([
+        'error-message-1',
+        'error-message-2',
+        'error-message-3',
+      ])
+    })
+
     clickInput('input#switch-1')
-
-    await wait(1)
     clickInput('input#switch-2')
-
-    await wait(1)
     blurInput('input#autocomplete-3')
 
     await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).not.toBeInTheDocument()
+      expect(getFormStatusTexts()).toEqual([])
+      expect(getGlobalStatusTexts()).toEqual([])
     })
-
-    await refresh()
 
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-global-status__message p')
-      ).not.toBeInTheDocument()
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).not.toBeInTheDocument()
+        document.querySelector('.dnb-global-status__shell')
+      ).toHaveTextContent('En feil har skjedd')
     })
-
-    expect(
-      document.querySelector('.dnb-global-status__shell')
-    ).toHaveTextContent('En feil har skjedd')
 
     simulateAnimationEnd()
 
-    expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__shell')
+      ).toBeNull()
+    })
   })
 
   it('should scroll to GlobalStatus', async () => {
@@ -866,7 +843,7 @@ describe('GlobalStatus component', () => {
     ).toBe("custom anchor text 'my-label'")
   })
 
-  it('should have a working auto close', () => {
+  it('should have a working auto close', async () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
     const onHide = jest.fn()
@@ -893,14 +870,12 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(onOpen.mock.calls.length).toBe(1)
-
-    expect(
-      document.querySelector('div.dnb-global-status__message')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('div.dnb-global-status__message').textContent
-    ).toBe('text only')
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector('div.dnb-global-status__message')
+      ).toHaveTextContent('text only')
+    })
 
     render(
       <GlobalStatus.Add
@@ -912,9 +887,11 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    expect(
-      document.querySelector('div.dnb-global-status__message').textContent
-    ).toBe('text onlyfoo')
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-global-status__message')
+      ).toHaveTextContent('text onlyfoo')
+    })
 
     render(
       <GlobalStatus.Remove
@@ -926,7 +903,7 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(onClose.mock.calls.length).toBe(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
 
     render(
       <GlobalStatus.Remove
@@ -938,12 +915,13 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(onClose.mock.calls.length).toBe(1)
-    expect(onHide.mock.calls.length).toBe(0)
-
-    expect(
-      document.querySelector('div.dnb-global-status__message')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onHide).toHaveBeenCalledTimes(0)
+      expect(
+        document.querySelector('div.dnb-global-status__message')
+      ).not.toBeInTheDocument()
+    })
 
     render(
       <GlobalStatus.Add
@@ -959,10 +937,12 @@ describe('GlobalStatus component', () => {
       document.querySelector('button.dnb-global-status__close-button')
     )
 
-    expect(onHide.mock.calls.length).toBe(1)
+    await waitFor(() => {
+      expect(onHide).toHaveBeenCalledTimes(1)
+    })
   })
 
-  it('should take account to the show prop', () => {
+  it('should take account to the show prop', async () => {
     const { rerender } = render(
       <GlobalStatus
         show={false}
@@ -987,12 +967,14 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    expect(
-      document.querySelector('div.dnb-global-status__content')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('div.dnb-global-status__message__content')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-global-status__content')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('div.dnb-global-status__message__content')
+      ).not.toBeInTheDocument()
+    })
 
     render(
       <GlobalStatus.Add
@@ -1003,9 +985,11 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    expect(
-      document.querySelector('div.dnb-global-status__message__content')
-    ).toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-global-status__message__content')
+      ).toBeInTheDocument()
+    })
 
     rerender(
       <GlobalStatus
@@ -1024,12 +1008,14 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(
-      document.querySelector('div.dnb-global-status__content')
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('div.dnb-global-status__message__content')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-global-status__content')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('div.dnb-global-status__message__content')
+      ).not.toBeInTheDocument()
+    })
   })
 
   it('should display correct state based on prop', () => {
