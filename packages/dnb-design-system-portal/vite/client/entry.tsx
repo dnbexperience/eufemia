@@ -30,7 +30,7 @@ import {
   loadTranslations,
 } from '../../src/core/PortalProviders'
 import tags from '../../src/shared/tags'
-import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
+import { useThemeHandler } from './shims/theme-handler'
 import { useNavigateSetup } from 'portal-query'
 import PortalLayout from '../../src/core/PortalLayout'
 
@@ -40,7 +40,7 @@ import 'virtual:eufemia-theme-styles'
 
 // When ?data-visual-test is in the URL, set globalThis.IS_TEST and
 // mark the document so visual-test CSS overrides and test-specific
-// component behaviour are activated — mirrors gatsby-browser.tsx.
+// component behaviour are activated.
 if (
   typeof window !== 'undefined' &&
   window.location.href.includes('data-visual-test')

@@ -101,7 +101,7 @@ describe('theme-handler shim', () => {
     })
 
     it('does not save invalid theme names', () => {
-      setTheme({ name: 'nonexistent' })
+      setTheme({ name: 'nonexistent' as never })
 
       const stored = localStorage.getItem('eufemia-theme')
       expect(stored).toBeNull()

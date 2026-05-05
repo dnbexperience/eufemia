@@ -16,8 +16,8 @@ test.describe('Typography for UI', () => {
       '/quickguide-designer/fonts/?data-visual-test&eufemia-theme=ui'
     )
 
-    // Check if app is mounted (Vite uses #root, Gatsby uses #eufemia-portal-root)
-    await page.waitForSelector('#root, #eufemia-portal-root', {
+    // Check if app is mounted
+    await page.waitForSelector('#root', {
       state: 'attached',
     })
   })

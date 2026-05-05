@@ -2,11 +2,10 @@
  * Vite plugin that redirects `@dnb/eufemia/src/...` imports to
  * `@dnb/eufemia/build/...` when a pre-built package exists.
  *
- * Replaces the Gatsby `normalModuleReplacement` approach in
- * `gatsby-node.js`. During production builds, if `@dnb/eufemia`
- * has been pre-compiled (a `build/index.js` file exists), all
- * imports referencing `@dnb/eufemia/src/` are rewritten to use
- * the compiled output from `@dnb/eufemia/build/` instead.
+ * During production builds, if `@dnb/eufemia` has been pre-compiled
+ * (a `build/index.js` file exists), all imports referencing
+ * `@dnb/eufemia/src/` are rewritten to use the compiled output from
+ * `@dnb/eufemia/build/` instead.
  *
  * This speeds up production builds by avoiding on-the-fly
  * transpilation of the entire Eufemia source tree.

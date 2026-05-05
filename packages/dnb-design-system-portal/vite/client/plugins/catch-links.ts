@@ -2,9 +2,8 @@
  * Vite plugin that intercepts clicks on internal links and navigates
  * via React Router instead of triggering a full page reload.
  *
- * Equivalent to Gatsby's `gatsby-plugin-catch-links`. The runtime code
- * is served via a virtual module (`virtual:catch-links`) that exports a
- * `useCatchLinks` React hook.
+ * The runtime code is served via a virtual module (`virtual:catch-links`)
+ * that exports a `useCatchLinks` React hook.
  */
 
 import type { Plugin } from 'vite'

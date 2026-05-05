@@ -1,5 +1,5 @@
 /**
- * Vite plugin that replicates gatsby-plugin-eufemia-theme-handler.
+ * Vite plugin that manages portal theme asset loading.
  *
  * At dev server start it:
  * 1. Discovers all Eufemia theme SCSS files using the same glob patterns
@@ -12,7 +12,7 @@
 
 import { type Plugin } from 'vite'
 import path from 'node:path'
-import glob from 'glob'
+import { globSync } from 'glob'
 import micromatch from 'micromatch'
 
 /**
@@ -90,7 +90,7 @@ function collectThemeFiles(config: ThemeConfig): string[] {
   })
 
   const allFiles = globbyPaths
-    .flatMap((pattern) => glob.sync(pattern))
+    .flatMap((pattern) => globSync(pattern))
     .filter((file) => {
       // Exclude es/cjs build artifacts
       if (/\/(es|cjs)\/style\//.test(file)) {

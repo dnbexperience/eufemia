@@ -15,7 +15,7 @@ import matter from 'gray-matter'
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 
-// Patterns to ignore when scanning for page files (matches gatsby-config.js ignoreAsPage)
+// Patterns to ignore when scanning for page files.
 const IGNORE_PATTERNS = [
   /\/Examples\./,
   /_not_in_use/,

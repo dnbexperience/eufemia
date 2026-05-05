@@ -1,29 +1,45 @@
 <!doctype html>
 <html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title id="head-title">Eufemia Portal (Vite Dev)</title>
+    <meta
+      id="head-description"
+      name="description"
+      content="Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB."
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/dnb/favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/dnb/apple-touch-icon.png"
+    />
+  </head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title id="head-title">Eufemia Portal (Vite Dev)</title>
-	<meta id="head-description" name="description"
-		content="Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB." />
-	<link rel="icon" type="image/png" sizes="32x32" href="/dnb/favicon-32x32.png" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/dnb/apple-touch-icon.png" />
-</head>
-
-<body class="dnb-page-background">
-	<script>
-		// Prevent layout flicker for visual test mode — hide sidebar
-		// and header before first paint, matching React's fullscreen mode.
-		if (location.search.includes('data-visual-test')) {
-			var s = document.createElement('style')
-			s.textContent =
-				'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
-			document.head.appendChild(s)
-		}
-	</script>
-	<div id="root"></div>
-	<script type="module" src="./entry.tsx"></script>
-</body>
-
+  <body class="dnb-page-background">
+    <script>
+      // Prevent layout flicker for visual test mode — hide sidebar
+      // and header before first paint, matching React's fullscreen mode.
+      if (location.search.includes('data-visual-test')) {
+        var s = document.createElement('style')
+        s.textContent =
+          'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
+        document.head.appendChild(s)
+      }
+    </script>
+    <noscript id="portal-noscript">
+      Eufemia works best with JavaScript enabled.
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="./entry.tsx"></script>
+  </body>
 </html>

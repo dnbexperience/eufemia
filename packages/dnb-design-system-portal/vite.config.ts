@@ -215,7 +215,7 @@ export default defineConfig({
     // File-system routing and virtual page registry
     portalPagesPlugin(),
 
-    // Eufemia theme style loading (replaces gatsby-plugin-eufemia-theme-handler)
+    // Eufemia theme style loading for the portal runtime
     eufemiaThemePlugin(),
 
     // Portal build information (release version, build timestamp, changelog)
@@ -290,10 +290,6 @@ export default defineConfig({
       'portal-query': path.resolve(
         __dirname,
         'vite/client/shims/portal-query.tsx'
-      ),
-      'gatsby-plugin-eufemia-theme-handler': path.resolve(
-        __dirname,
-        'vite/client/shims/theme-handler.ts'
       ),
 
       // Match Gatsby's Docs alias

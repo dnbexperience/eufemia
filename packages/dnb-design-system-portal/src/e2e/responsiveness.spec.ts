@@ -25,7 +25,7 @@ test.describe('Responsiveness', () => {
     )
     await page.click('#toggle-sidebar-menu')
 
-    // Use a top-level sidebar link that is visible in both Gatsby and Vite
+    // Use a top-level sidebar link that is visible in the prerendered portal
     // Vite links have no trailing slash
     const sidebarLink = (await isVite(page))
       ? 'nav#portal-sidebar-menu a[href="/uilib/components"]'

@@ -117,7 +117,7 @@ export default function testPageFilterPlugin(): Plugin {
   }
 }
 
-// -- URL collection helpers (ported from gatsby-node.js) --
+// -- URL collection helpers shared by the production test build --
 
 export function collectVisualTestPages(): Set<string> {
   const testDir = path.join(repoRoot, 'packages', 'dnb-eufemia', 'src')

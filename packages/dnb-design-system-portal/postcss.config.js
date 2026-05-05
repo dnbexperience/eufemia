@@ -13,7 +13,7 @@ module.exports = {
   plugins:
     /**
      * We also need to process the SASS modules from the portal.
-     * Because in "gatsby-config" we import the isolated files: *--isolated.min.css
+     * The portal imports isolated style files: *--isolated.min.css
      */
     enableBuildStyleScope() || enablePortalStyleScope()
       ? [

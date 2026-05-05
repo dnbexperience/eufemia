@@ -2,9 +2,7 @@ import React, { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-// Use setTheme from the gatsby plugin – it dynamically loads the theme CSS file,
-// whereas the eufemia version only persists the theme name to localStorage.
-import { getThemes, setTheme } from 'gatsby-plugin-eufemia-theme-handler'
+import { getThemes, setTheme } from '../../vite/client/shims/theme-handler'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export default function ChangeStyleTheme(props) {

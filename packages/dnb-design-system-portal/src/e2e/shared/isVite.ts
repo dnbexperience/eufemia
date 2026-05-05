@@ -1,9 +1,8 @@
 import type { Page } from '@playwright/test'
 
 /**
- * Returns true if the page is served by the Vite build
- * (as opposed to Gatsby). Vite builds include theme CSS
- * with "eufemia-theme-" in the href.
+ * Returns true if the page is served by the prerendered portal build.
+ * Portal builds include theme CSS with "eufemia-theme-" in the href.
  */
 export default async function isVite(page: Page) {
   return (

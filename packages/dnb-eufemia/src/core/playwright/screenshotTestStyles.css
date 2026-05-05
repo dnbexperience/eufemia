@@ -61,14 +61,6 @@ html[data-visual-test]:not(:has(.dev-grid)) .example-box::after {
   display: none !important;
 }
 
-/**
-* Hide "Preparing requested page" popup
-*/
-gatsby-qod {
-  opacity: 0;
-}
-
-[data-visual-test].hide-page-content #___gatsby,
 [data-visual-test].hide-page-content #root {
   /* NB: visibility: hidden; does not work here, because playwright does not find the selectors anymore */
   opacity: 0;
