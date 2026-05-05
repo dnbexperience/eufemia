@@ -308,8 +308,8 @@ class ScreenshotReporter implements Reporter {
     <head>
       <meta charset="utf-8" />
       <title>Visual Screenshot Report</title>
-      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@9.46.2/style/dnb-ui-core.min.css" />
-      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@9.46.2/style/themes/ui/dnb-theme-ui.min.css" />
+      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@latest/style/dnb-ui-core.min.css" />
+      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@latest/style/themes/ui/dnb-theme-ui.min.css" />
 
       <style>
         ol {
