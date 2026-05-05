@@ -2300,7 +2300,7 @@ exports[`Autocomplete scss > have to match default theme snapshot 1`] = `
  */
 .dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--token-color-stroke-action-hover);
-  --border-width: 0.0625rem;
+  --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
