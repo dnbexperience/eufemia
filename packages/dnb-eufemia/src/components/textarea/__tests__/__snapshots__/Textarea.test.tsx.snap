@@ -463,9 +463,7 @@ html[data-visual-test] .dnb-textarea__textarea {
   --textarea-color-border: var(--token-color-stroke-action-pressed);
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  --textarea-color-border: var(
-    --token-color-stroke-action-hover
-  );
+  --textarea-color-border: var(--token-color-stroke-action-hover);
 }
 .dnb-textarea__status--error .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-error);
