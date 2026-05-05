@@ -190,8 +190,8 @@ export default function eufemiaThemePlugin(): Plugin {
           // Build mode: only load core styles statically.
           // ALL theme CSS (including default) is lazy-loaded via
           // dynamic import() into separate CSS chunks. This allows
-          // clean theme switching — when switching from ui to sbanken,
-          // the ui theme's <link> is removed before loading sbanken's.
+          // clean theme switching while keeping the active theme enabled
+          // until the replacement stylesheet is ready.
           const loaderEntries = themeNames
             .map(
               (name) =>
@@ -229,10 +229,10 @@ ${loaderEntries}
     }
 
     // If the theme's <link> is already in the DOM (pre-injected during
-    // prerender), we can enable it immediately — no network fetch needed.
+    // prerender), it may still be disabled and not yet fetched. Wait for
+    // it to be ready before disabling the active theme.
     if (themeLinks[name]) {
-      activateTheme(name);
-      return Promise.resolve();
+      return waitForThemeLink(name);
     }
 
     // Otherwise, dynamically import the theme module. After import(),
@@ -255,24 +255,35 @@ ${loaderEntries}
         return;
       }
 
-      // If the stylesheet is already loaded (cached), activate now.
-      if (newLink.sheet) {
-        activateTheme(name);
-        return;
-      }
-
-      // Wait for the CSS to be fetched and applied before switching.
-      return new Promise(function(resolve) {
-        newLink.addEventListener('load', function onLoad() {
-          newLink.removeEventListener('load', onLoad);
-          activateTheme(name);
-          resolve();
-        });
-        // Enable so the browser starts loading it
-        newLink.disabled = false;
-      });
+      return waitForThemeLink(name);
     });
   };
+
+  function waitForThemeLink(name) {
+    var newLink = themeLinks[name];
+    if (!newLink) {
+      activateTheme(name);
+      return Promise.resolve();
+    }
+
+    // If the stylesheet is already loaded (cached), activate now.
+    if (newLink.sheet) {
+      activateTheme(name);
+      return Promise.resolve();
+    }
+
+    // Wait for the CSS to be fetched and applied before switching.
+    return new Promise(function(resolve) {
+      newLink.addEventListener('load', function onLoad() {
+        newLink.removeEventListener('load', onLoad);
+        activateTheme(name);
+        resolve();
+      });
+
+      // Enable so the browser starts loading it.
+      newLink.disabled = false;
+    });
+  }
 
   function activateTheme(name) {
     // Enable the new theme

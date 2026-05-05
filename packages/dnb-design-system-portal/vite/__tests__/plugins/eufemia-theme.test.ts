@@ -194,14 +194,19 @@ describe('eufemia-theme plugin', () => {
           value: null,
           writable: true,
         })
+      } else {
+        Object.defineProperty(link, 'sheet', {
+          value: {},
+          writable: true,
+        })
       }
       document.head.appendChild(link)
       return link
     }
 
-    it('activates pre-injected theme immediately without import()', async () => {
+    it('waits for pre-injected theme CSS to load before disabling the old theme', async () => {
       const uiLink = createMockLink('ui')
-      const sbankenLink = createMockLink('sbanken')
+      const sbankenLink = createMockLink('sbanken', { loaded: false })
       sbankenLink.disabled = true
 
       // Evaluate the virtual module code with mock loaders
@@ -212,7 +217,36 @@ describe('eufemia-theme plugin', () => {
       const fn = new Function('loaderSpy', evalCode)
       fn(loaderSpy)
 
-      // Switch to sbanken — it's pre-injected, so no import() needed
+      const loadPromise = (window as any).__loadEufemiaTheme('sbanken')
+
+      expect(loaderSpy).not.toHaveBeenCalled()
+      expect(uiLink.disabled).toBe(false)
+      expect(sbankenLink.disabled).toBe(false)
+
+      sbankenLink.dispatchEvent(new Event('load'))
+
+      await loadPromise
+
+      expect(loaderSpy).not.toHaveBeenCalled()
+      expect(sbankenLink.disabled).toBe(false)
+      expect(uiLink.disabled).toBe(true)
+      expect(
+        document.body.classList.contains('eufemia-theme__sbanken')
+      ).toBe(true)
+    })
+
+    it('activates a pre-injected loaded theme immediately without import()', async () => {
+      const uiLink = createMockLink('ui')
+      const sbankenLink = createMockLink('sbanken')
+      sbankenLink.disabled = true
+
+      const loaderSpy = vi.fn()
+      const evalCode = code
+        .replace(/import\([^)]+\)/g, '(loaderSpy(), Promise.resolve())')
+        .replace(/import '[^']+';/g, '')
+      const fn = new Function('loaderSpy', evalCode)
+      fn(loaderSpy)
+
       await (window as any).__loadEufemiaTheme('sbanken')
 
       expect(loaderSpy).not.toHaveBeenCalled()
