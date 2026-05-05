@@ -4,7 +4,7 @@
  * It scans src/docs/ for .mdx and .tsx page files and generates a
  * virtual module (`virtual:portal-pages`) that exports:
  *   - `routes`: an array of { path, component } for React Router
- *   - `allMdxNodes`: a static data structure replacing Gatsby's useStaticQuery
+ *   - `allMdxNodes`: a static data structure with frontmatter and table of contents for all MDX pages
  */
 
 import { type Plugin } from 'vite'
@@ -46,7 +46,6 @@ export function shouldIgnore(filePath: string): boolean {
 
 /**
  * Convert a heading title to a URL-friendly slug.
- * Matches Gatsby's default heading anchor behavior.
  */
 export function slugify(text: string): string {
   return text
@@ -59,8 +58,7 @@ export function slugify(text: string): string {
 
 /**
  * Extract a table-of-contents tree from MDX content by parsing
- * markdown headings (## and ###). Returns the same structure as
- * Gatsby's `tableOfContents` field.
+ * markdown headings (## and ###).
  */
 export function extractTableOfContents(
   mdxContent: string

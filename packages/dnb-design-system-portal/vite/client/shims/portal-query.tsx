@@ -112,7 +112,6 @@ function buildFilteredEdges(
 
   if (regexMatch) {
     try {
-      // Gatsby wraps regex in slashes: "/pattern/" — strip them
       const rawPattern = regexMatch[1].replace(/^\/|\/$/g, '')
       const re = new RegExp(rawPattern)
       filtered = filtered.filter((node) => {
@@ -133,7 +132,7 @@ function buildFilteredEdges(
     })
   }
 
-  // Apply hideInMenu filter only when the query uses it as a Gatsby filter
+  // Apply hideInMenu filter only when the query uses it as a filter
   // criterion (e.g. "hideInMenu: { ne: true }"), not when it just reads the field.
   if (
     filterStr.includes('hideInMenu') ||
@@ -159,8 +158,8 @@ function buildFilteredEdges(
     })
   }
 
-  // Compute siblings (parent pages) for each node, replicating Gatsby's
-  // createResolvers siblings resolver that traverses up the slug path.
+  // Compute siblings (parent pages) for each node, matching the
+  // siblings resolver behavior that traverses up the slug path.
   const allNodes = allMdxNodes as Record<string, unknown>[]
   if (queryStr.includes('siblings')) {
     for (const node of filtered) {

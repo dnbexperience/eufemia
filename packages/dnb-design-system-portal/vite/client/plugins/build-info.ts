@@ -1,7 +1,6 @@
 /**
  * Vite plugin that provides portal build information via a virtual module.
  *
- * Replaces the Gatsby approach of mutating package.json fields
  * (`buildVersion`, `releaseVersion`, `changelogVersion`) via
  * scripts/version.js before the build.
  *
@@ -63,7 +62,7 @@ export function getBuildInfo({
     // Ignore — use default
   }
 
-  // Build timestamp in Norwegian locale (matches the Gatsby version.js output)
+  // Build timestamp in Norwegian locale
   const buildVersion = new Date().toLocaleString('nb-NO', {
     timeZone: 'Europe/Oslo',
   })

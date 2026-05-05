@@ -88,7 +88,6 @@ function RootLayout() {
 
 /**
  * Enables skeleton mode when ?skeleton is in the URL.
- * Matches Gatsby's SkeletonEnabled wrapper from PortalProviders.
  */
 function SkeletonEnabled({ children }: { children: React.ReactNode }) {
   const { skeleton, update } = useContext(Context)
@@ -139,7 +138,6 @@ const router = createBrowserRouter([
 ])
 
 // Enforce trailing slashes: redirect /path to /path/
-// Equivalent to Gatsby's trailingSlash: 'always'
 router.subscribe(({ location }) => {
   const { pathname } = location
   if (

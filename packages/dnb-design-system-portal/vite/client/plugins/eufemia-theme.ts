@@ -403,8 +403,7 @@ if (typeof window !== 'undefined') {
 
     /**
      * Inject FOUC-prevention scripts from the shared ColorSchemeScript
-     * module into the HTML template. This ensures dev and build use the
-     * same blocking scripts as the Gatsby html.tsx.
+     * module into the HTML template.
      */
     transformIndexHtml(html) {
       const headScript = `<script>${getHeadScript()}</script>`
