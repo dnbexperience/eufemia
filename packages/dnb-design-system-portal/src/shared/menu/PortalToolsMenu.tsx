@@ -1,7 +1,15 @@
-import React, { useContext } from 'react'
-import clsx from 'clsx'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
+import { clsx } from 'clsx'
 import { Drawer, Tooltip } from '@dnb/eufemia/src/components'
 import { Anchor, Flex } from '@dnb/eufemia/src'
+import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
@@ -19,6 +27,50 @@ type Props = {
   hideWhenMediaLarge?: boolean
 }
 
+const portalToolsOpenStorageKey = 'portal-tools-open'
+const portalToolsMobileOpenStorageKey = 'portal-tools-open-mobile'
+const disableAnimationResetDelay = 400
+
+function getPortalToolsOpenStorageKey(hideWhenMediaLarge: boolean) {
+  return hideWhenMediaLarge
+    ? portalToolsMobileOpenStorageKey
+    : portalToolsOpenStorageKey
+}
+
+function getStoredPortalToolsOpen(storageKey: string) {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  try {
+    return window.sessionStorage.getItem(storageKey) === 'true'
+  } catch (error) {
+    return false
+  }
+}
+
+function setStoredPortalToolsOpen(isOpen: boolean, storageKey: string) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  try {
+    if (isOpen) {
+      const otherStorageKey =
+        storageKey === portalToolsOpenStorageKey
+          ? portalToolsMobileOpenStorageKey
+          : portalToolsOpenStorageKey
+
+      window.sessionStorage.setItem(storageKey, 'true')
+      window.sessionStorage.removeItem(otherStorageKey)
+    } else {
+      window.sessionStorage.removeItem(storageKey)
+    }
+  } catch (error) {
+    // Ignore storage write failures.
+  }
+}
+
 export default function PortalToolsMenu({
   className = null,
   tooltipPosition = 'left',
@@ -27,11 +79,57 @@ export default function PortalToolsMenu({
   ...props
 }: Props) {
   const { skeleton } = useContext(Context)
+  const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
+  const [isOpen, setIsOpen] = useState(() =>
+    getStoredPortalToolsOpen(storageKey)
+  )
+  const { name: themeName, colorScheme } = getTheme()
+  const themeKey = `${themeName}:${colorScheme || 'auto'}`
+  const [disableAnimation, setDisableAnimation] = useState(isOpen)
+  const previousThemeKeyRef = useRef(themeKey)
+  const themeChanged = previousThemeKeyRef.current !== themeKey
+  const noAnimation = disableAnimation || themeChanged
+
+  useEffect(() => {
+    if (!disableAnimation) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setDisableAnimation(false)
+    }, disableAnimationResetDelay)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [disableAnimation])
+
+  useLayoutEffect(() => {
+    if (themeChanged && isOpen) {
+      setDisableAnimation(true)
+    }
+
+    previousThemeKeyRef.current = themeKey
+  }, [isOpen, themeChanged, themeKey])
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(true)
+    setStoredPortalToolsOpen(true, storageKey)
+  }, [storageKey])
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+    setStoredPortalToolsOpen(false, storageKey)
+  }, [storageKey])
 
   return (
     <Drawer
       id="portal-tools"
       title="Portal Tools"
+      open={isOpen}
+      noAnimation={noAnimation}
+      onOpen={handleOpen}
+      onClose={handleClose}
       triggerAttributes={{
         className: clsx(
           className,
