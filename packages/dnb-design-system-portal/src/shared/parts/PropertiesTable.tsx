@@ -120,7 +120,11 @@ export default function PropertiesTable({
 
   if (activeSortName === 'property') {
     const direction = sortState.property.reversed ? -1 : 1
-    entries.sort(([a], [b]) => direction * a.localeCompare(b))
+    entries.sort(
+      ([a], [b]) =>
+        direction *
+        sortablePropertyName(a).localeCompare(sortablePropertyName(b))
+    )
   }
 
   const tableRows = entries.map(([key, props]) => {
@@ -249,6 +253,11 @@ function typeWithoutArray(type: string) {
     return type.slice(6, -1)
   }
   return type
+}
+
+function sortablePropertyName(name: string): string {
+  const match = name.match(/^\[([^\]]+)\]/)
+  return match ? match[1] : name
 }
 
 export function formatIfMarkdown(name: string): React.ReactNode | string {
