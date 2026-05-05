@@ -86,6 +86,65 @@ Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemNa
 
 ![Auto completion for font-size](./assets/eufemia-vscode-extension-font-size.png)
 
-## ESLint Plugin
+## Lint Plugins
 
-You may have a look at the [Eufemia ESLint Plugin](https://github.com/dnbexperience/eslint-plugin-eufemia) it will over time extend with more rules that can help you detect issues or recommendations.
+Eufemia ships lint plugins as part of `@dnb/eufemia`, so you can import them directly from the main package.
+
+Install `eslint` and/or `stylelint` in your application if you do not already use them.
+
+### ESLint
+
+Use the recommended flat config preset:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [eufemiaEslint.recommended]
+
+// or for legacy config (ESLint v7 and earlier):
+export default [eufemiaEslint.legacyRecommended]
+```
+
+If you need full control, register the plugin and configure the rules yourself:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [
+  {
+    plugins: {
+      eufemia: eufemiaEslint,
+    },
+    rules: {
+      'eufemia/no-deprecated-color-variables': 'warn',
+    },
+  },
+]
+```
+
+### Stylelint
+
+Use the recommended preset:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default eufemiaStylelint.recommended
+```
+
+If you need full control, register the plugin and configure the rules yourself:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default {
+  plugins: [eufemiaStylelint],
+  rules: {
+    'eufemia/no-deprecated-color-variables': true,
+  },
+}
+```
+
+For SCSS files, configure Stylelint with `postcss-scss` as the custom syntax.
+
+The first shipped ESLint and Stylelint rule reports deprecated `--color-*` CSS variables. Use design tokens instead.
