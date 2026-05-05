@@ -3,34 +3,6 @@
 *
 */
 
-.dnb-input__border--tokens {
-  // Border
-  --input-border-radius--default: var(--token-radius-md);
-  --input-border-radius--active: var(--token-radius-xl);
-  --input-border-radius--focus: var(--token-radius-xl);
-}
-
 .dnb-input {
   --input-height: 2.5rem;
-
-  // Button
-  --input-button-border-radius: var(--input-border-radius);
-
-  // - Border outline handling
-  &__shell,
-  &__input {
-    transition: border-radius 0.25s ease-out;
-  }
-
-  &:not([data-input-state='disabled']) {
-    // Focus
-    &[data-input-state='focus'] {
-      --input-button-border-radius: var(--input-border-radius--active);
-    }
-
-    .dnb-input__submit-button__button:not(:focus-visible) {
-      border-radius: 0 var(--input-button-border-radius)
-        var(--input-button-border-radius) 0;
-    }
-  }
 }

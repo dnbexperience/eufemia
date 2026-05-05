@@ -1163,7 +1163,6 @@ legend.dnb-form-label {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
-  --b-radius: var(--input-border-radius--active);
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
@@ -1185,7 +1184,6 @@ legend.dnb-form-label {
   --b-color: var(--input-border-color__error--active);
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
-  --b-radius: var(--input-border-radius--active);
 }
 .dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
   --b-color: var(--input-border-color__error);
@@ -1196,13 +1194,11 @@ html[data-whatinput=keyboard] .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
-  --b-radius: var(--input-border-radius--focus);
 }
 html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
   --b-color: var(--input-border-color__error--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
-  --b-radius: var(--input-border-radius--focus);
 }
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
@@ -1345,7 +1341,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button {
   width: var(--input-height--small);
   height: var(--input-height--small);
-  border-radius: var(--button-border-radius);
 }
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;

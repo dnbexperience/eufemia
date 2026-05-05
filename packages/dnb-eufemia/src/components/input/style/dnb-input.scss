@@ -213,7 +213,6 @@
     --b-color: var(--input-border-color--active);
     --b-width: var(--input-border-width--active);
     --b-inset: var(--input-border-inset--active);
-    --b-radius: var(--input-border-radius--active);
   }
   &__border:hover,
   &__border.hover {
@@ -238,7 +237,6 @@
     --b-color: var(--input-border-color__error--active);
     --b-width: var(--input-border-width__error--active);
     --b-inset: var(--input-border-inset--active);
-    --b-radius: var(--input-border-radius--active);
   }
   &__status--error &__border:hover,
   &__status--error &__border:hover:has(#{&}__input:autofill),
@@ -251,13 +249,11 @@
     --b-color: var(--input-border-color--focus);
     --b-width: var(--input-border-width--focus);
     --b-inset: var(--input-border-inset--focus);
-    --b-radius: var(--input-border-radius--focus);
   }
   html[data-whatinput='keyboard'] &__status--error &__border:focus-within {
     --b-color: var(--input-border-color__error--focus);
     --b-width: var(--input-border-width--focus);
     --b-inset: var(--input-border-inset--focus);
-    --b-radius: var(--input-border-radius--focus);
   }
 
   // centering type="file" - here we can actually keep it as pixels
@@ -447,7 +443,6 @@
     .dnb-button {
       width: var(--input-height--small);
       height: var(--input-height--small);
-      border-radius: var(--button-border-radius);
 
       .dnb-button__icon {
         margin: auto;

@@ -43,10 +43,6 @@
         }
       }
 
-      .dnb-input__border--root {
-        --input-border-radius--default: var(--input-border-radius--active);
-      }
-
       .dnb-button--control-before:not(:disabled):active
         ~ .dnb-input::before {
         z-index: -1;
