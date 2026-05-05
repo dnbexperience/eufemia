@@ -217,7 +217,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-t
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
@@ -611,7 +611,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-t
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
