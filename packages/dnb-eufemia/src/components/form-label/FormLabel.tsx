@@ -97,6 +97,8 @@ function FormLabel(localProps: FormLabelAllProps) {
     {
       className: clsx(
         'dnb-form-label',
+        context?.theme?.surface === 'dark' &&
+          'dnb-form-label--surface-dark',
         (vertical ||
           (vertical !== false && labelDirection !== 'horizontal')) &&
           `dnb-form-label--vertical`,

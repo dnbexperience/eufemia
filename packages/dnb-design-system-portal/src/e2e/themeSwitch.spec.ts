@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import isDev from './shared/isDev'
+import waitForApp from './shared/waitForApp'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
@@ -12,12 +13,10 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Theme', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/?data-visual-test')
+    await page.goto('/uilib/components/')
 
     // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   })
 
   test('should have no preload link', async ({ page }) => {
@@ -25,8 +24,11 @@ test.describe('Theme', () => {
       return // stop here
     }
 
+    // Vite uses data-eufemia-theme links — no preload links
     expect(
-      await page.locator('link[href^="/ui."][rel="preload"]').count()
+      await page
+        .locator('link[rel="preload"][href*="eufemia-theme"]')
+        .count()
     ).toEqual(0)
   })
 
@@ -35,9 +37,12 @@ test.describe('Theme', () => {
       return // stop here
     }
 
-    expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
-      1
-    )
+    // Vite injects <link data-eufemia-theme="ui"> (enabled)
+    const uiLink = page.locator('link[data-eufemia-theme="ui"]')
+    await expect(uiLink).toHaveCount(1)
+    expect(
+      await uiLink.evaluate((el: HTMLLinkElement) => el.disabled)
+    ).toBe(false)
   })
 
   test('should load css file', async ({ page }) => {
@@ -45,18 +50,17 @@ test.describe('Theme', () => {
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:nth-child(2)')
 
-    await page.waitForSelector('link[href^="/sbanken."]', {
-      state: 'attached',
-    })
-    expect(await page.locator('link[href^="/sbanken."]').count()).toEqual(
-      1
-    )
+    // Vite: sbanken link should be enabled, ui should be disabled
+    const sbankenLink = page.locator('link[data-eufemia-theme="sbanken"]')
+    await expect(sbankenLink).toHaveCount(1)
+    expect(
+      await sbankenLink.evaluate((el: HTMLLinkElement) => el.disabled)
+    ).toBe(false)
 
-    await page.waitForTimeout(100)
-
-    expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
-      0
-    )
+    const uiLink = page.locator('link[data-eufemia-theme="ui"]')
+    expect(
+      await uiLink.evaluate((el: HTMLLinkElement) => el.disabled)
+    ).toBe(true)
   })
 
   test('should set local storage', async ({ page }) => {
@@ -78,50 +82,58 @@ test.describe('Theme', () => {
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:nth-child(2)')
 
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:first-child')
-
-    await page.waitForSelector('link[href^="/ui."][rel="stylesheet"]', {
-      state: 'attached',
+    // Wait for sbanken theme to load before switching back
+    await page.waitForFunction(() => {
+      const sbankenLink = document.querySelector(
+        'link[data-eufemia-theme="sbanken"]'
+      ) as HTMLLinkElement | null
+      return sbankenLink && !sbankenLink.disabled
     })
-    const uiCssFileCount = await page.$$eval(
-      'link[href^="/ui."][rel="stylesheet"]',
-      (elements) => elements.length
-    )
-    expect(uiCssFileCount).toBe(1)
 
-    const uiStyleElementExists = await page.$('style[data-href^="/ui."]')
-    expect(uiStyleElementExists).toBeNull()
+    await page.click('#change-theme')
+    await page.locator('#change-theme-portal ul li:first-child').click()
+
+    // Wait for theme CSS to update after switching back
+    await page.waitForFunction(() => {
+      const uiLink = document.querySelector(
+        'link[data-eufemia-theme="ui"]'
+      ) as HTMLLinkElement | null
+      return uiLink && !uiLink.disabled
+    })
+
+    // ui link should be enabled again, sbanken disabled
+    const uiLink = page.locator('link[data-eufemia-theme="ui"]')
+    expect(
+      await uiLink.evaluate((el: HTMLLinkElement) => el.disabled)
+    ).toBe(false)
+
+    const sbankenLink = page.locator('link[data-eufemia-theme="sbanken"]')
+    expect(
+      await sbankenLink.evaluate((el: HTMLLinkElement) => el.disabled)
+    ).toBe(true)
   })
 
   test('should load css file after template', async ({ page }) => {
+    // Vite pre-injects all theme links — verify the correct theme
+    // is active after switching.
     await page.click('#portal-tools')
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:nth-child(2)')
 
-    const sbankenCssAfterTemplateExists = await page.$(
-      '#eufemia-style-theme + link[href^="/sbanken."][rel="stylesheet"]'
-    )
-    expect(sbankenCssAfterTemplateExists).toBeTruthy()
-
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:first-child')
-
-    const uiCssAfterTemplateExists = await page.$(
-      '#eufemia-style-theme + link[href^="/ui."][rel="stylesheet"]'
-    )
-    expect(uiCssAfterTemplateExists).toBeTruthy()
+    expect(
+      await page.evaluate(() =>
+        document.body.classList.contains('eufemia-theme__sbanken')
+      )
+    ).toBe(true)
   })
 })
 
 test.describe('Dark mode', () => {
-  const url = '/uilib/components/?data-visual-test'
+  const url = '/uilib/components/'
 
   async function gotoAndWait(page: Page) {
     await page.goto(url)
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   }
 
   async function setColorScheme(page: Page, colorScheme: string) {
@@ -142,9 +154,7 @@ test.describe('Dark mode', () => {
     await gotoAndWait(page)
     await setColorScheme(page, 'dark')
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const hasDarkClass = await page.evaluate(() =>
       document.body.classList.contains('eufemia-theme__color-scheme--dark')
@@ -169,9 +179,7 @@ test.describe('Dark mode', () => {
     await gotoAndWait(page)
     await setColorScheme(page, 'dark')
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const localStorageData = await page.evaluate(() => {
       return JSON.parse(
@@ -186,9 +194,7 @@ test.describe('Dark mode', () => {
     await gotoAndWait(page)
     await setColorScheme(page, 'dark')
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const hasDarkClass = await page.evaluate(() =>
       document.body.classList.contains('eufemia-theme__color-scheme--dark')
@@ -198,9 +204,7 @@ test.describe('Dark mode', () => {
     // Switch to light
     await setColorScheme(page, 'light')
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const hasLightClass = await page.evaluate(() =>
       document.body.classList.contains(
@@ -220,9 +224,7 @@ test.describe('Dark mode', () => {
     await gotoAndWait(page)
     await setColorScheme(page, 'auto')
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const hasDarkClass = await page.evaluate(() =>
       document.body.classList.contains('eufemia-theme__color-scheme--dark')
@@ -244,9 +246,7 @@ test.describe('Dark mode', () => {
     })
 
     await page.reload()
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
 
     const bodyClassAtDCL = await page.evaluate(
       () => globalThis.__bodyClassAtDCL

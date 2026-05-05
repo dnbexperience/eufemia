@@ -1,10 +1,23 @@
-import queries from '../searchQuery'
+import { describe, it, expect, vi, afterAll } from 'vitest'
 
-jest.mock('../searchHelpers', () => {
-  return { runQueriesWhen: () => true, getIndexName: () => 'indexName' }
+// searchQuery.js is CJS and evaluates require('./searchHelpers') at load time.
+// vi.mock can't intercept CJS require chains, so we set env vars in vi.hoisted
+// (which runs before imports) to control the real searchHelpers behavior.
+const origEnv = vi.hoisted(() => {
+  const orig = { ...process.env }
+  process.env.ALGOLIA_API_KEY = 'test-key'
+  process.env.NODE_ENV = 'production'
+  process.env.CI = ''
+  return orig
 })
 
+import queries from '../searchQuery'
+
 describe('searchQuery', () => {
+  afterAll(() => {
+    process.env = origEnv
+  })
+
   const { indexName, transformer } = queries?.[0] || {
     transformer: () => null,
   }
@@ -242,6 +255,6 @@ describe('searchQuery', () => {
   })
 
   it('should have indexName', () => {
-    expect(indexName).toBe('indexName')
+    expect(indexName).toBe('dev_eufemia_docs')
   })
 })

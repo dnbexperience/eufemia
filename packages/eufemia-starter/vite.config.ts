@@ -1,4 +1,4 @@
-import { defineConfig, transformWithEsbuild } from 'vite'
+import { defineConfig, transformWithOxc } from 'vite'
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
 
@@ -19,9 +19,9 @@ export default defineConfig({
         }
 
         // Use the exposed transform from Vite instead of calling esbuild directly
-        return transformWithEsbuild(code, filepath, {
-          loader: 'jsx',
-          jsx: 'automatic',
+        return transformWithOxc(code, filepath, {
+          lang: 'jsx',
+          jsx: { runtime: 'automatic' },
         })
       },
     },

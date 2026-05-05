@@ -18,22 +18,13 @@ export function injectTooltipSemantic(params) {
 }
 
 export const defaultProps: Partial<TooltipAllProps> = {
-  id: null,
   size: 'default',
-  open: null,
   placement: 'top',
   arrow: 'center',
-  align: null,
   fixedPosition: false,
-  skipPortal: null,
   noAnimation: false,
   showDelay: 300,
   hideDelay: 500,
-  targetSelector: null,
-  targetElement: null,
-  className: null,
-  children: null,
-  tooltip: null,
   triggerOffset: 16,
 } as const
 

@@ -978,6 +978,9 @@ button.dnb-button::-moz-focus-inner {
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
 }
+.dnb-form-label--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;
@@ -1062,12 +1065,14 @@ legend.dnb-form-label {
   display: inline-flex;
   flex-direction: column;
   width: auto;
+  color: inherit;
 }
 .dnb-input__shell {
   position: relative;
   background-color: var(--input-background-color);
   display: flex;
   align-items: center;
+  color: inherit;
   border: none;
 }
 .dnb-input__row {
@@ -1154,7 +1159,6 @@ legend.dnb-form-label {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
-  --b-radius: var(--input-border-radius--active);
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
@@ -1176,7 +1180,6 @@ legend.dnb-form-label {
   --b-color: var(--input-border-color__error--active);
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
-  --b-radius: var(--input-border-radius--active);
 }
 .dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
   --b-color: var(--input-border-color__error);
@@ -1187,13 +1190,11 @@ html[data-whatinput=keyboard] .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
-  --b-radius: var(--input-border-radius--focus);
 }
 html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
   --b-color: var(--input-border-color__error--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
-  --b-radius: var(--input-border-radius--focus);
 }
 .dnb-input input.dnb-input__input[type=file] {
   line-height: calc(var(--input-height) - 2px);
@@ -1336,7 +1337,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button {
   width: var(--input-height--small);
   height: var(--input-height--small);
-  border-radius: var(--button-border-radius);
 }
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;
@@ -1417,6 +1417,10 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   top: 0;
   bottom: 0;
   margin: auto;
+  color: var(--token-color-icon-action);
+}
+.dnb-input__status--error .dnb-input__icon {
+  color: var(--token-color-icon-error);
 }
 .dnb-input--icon-position-right .dnb-input__icon {
   order: 1;
@@ -1436,7 +1440,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 html[data-visual-test] .dnb-input__input {
-  caret-color: var(--color-white);
+  caret-color: var(--token-color-background-neutral);
 }
 .dnb-input[data-input-state=focus] .dnb-input__placeholder {
   display: none;
@@ -1458,24 +1462,5 @@ html[data-visual-test] .dnb-input__input {
   .dnb-responsive-component .dnb-input > .dnb-form-label {
     margin-bottom: 0.5rem;
   }
-}"
-`;
-
-exports[`Input scss > have to match default theme snapshot 1`] = `
-"/*
-* Input theme
-*
-*/
-.dnb-input__inner {
-  color: inherit;
-}
-.dnb-input__shell {
-  color: inherit;
-}
-.dnb-input__icon {
-  color: var(--color-sea-green);
-}
-.dnb-input__status--error .dnb-input__icon {
-  color: var(--color-fire-red);
 }"
 `;

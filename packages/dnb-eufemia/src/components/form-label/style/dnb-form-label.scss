@@ -21,6 +21,10 @@
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
 
+  &--surface-dark {
+    color: var(--token-color-text-neutral-ondark);
+  }
+
   &--vertical {
     display: block;
     margin-right: 0;

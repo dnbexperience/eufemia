@@ -1620,6 +1620,16 @@ describe('Modal component', () => {
     ).toBe(customText)
   })
 
+  it('should call triggerAttributes onClick', () => {
+    const onClick = jest.fn()
+
+    render(<Modal triggerAttributes={{ onClick }}>Modal content</Modal>)
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
   describe('onClose', () => {
     it('should have triggeredBy with "unmount" when unmounting', async () => {
       const onClose = jest.fn()

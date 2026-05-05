@@ -12,7 +12,7 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'portal-query'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {

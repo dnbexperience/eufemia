@@ -20,6 +20,9 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
+const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
+const messagePlaceholderPattern = /{\w+}/
+
 export function checkForError(potentialErrors: Array<unknown>): boolean {
   return potentialErrors.some((error) => {
     return error instanceof Error || error instanceof FormError
@@ -384,8 +387,19 @@ export default function useFieldError<Value>({
                 message
               )
             }
-          } else if (message.includes('.')) {
+          } else if (
+            translationKeyPattern.test(message) ||
+            (error.messageValues &&
+              messagePlaceholderPattern.test(message))
+          ) {
             message = formatMessage(message, error.messageValues)
+          } else if (error.messageValues) {
+            message = Object.entries(error.messageValues).reduce(
+              (msg, [key, value]) => {
+                return msg.replace(`{${key}}`, value)
+              },
+              message
+            )
           }
 
           if (React.isValidElement(message)) {

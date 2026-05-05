@@ -135,14 +135,13 @@ describe('DateFormat', () => {
       await waitFor(() => {
         const tooltipId = timeElem.getAttribute('aria-describedby')
         expect(tooltipId).toBeTruthy()
+
+        const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+        // The tooltip should contain the year
+        expect(tooltipElem).toHaveTextContent('2025')
+        expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
       })
-
-      const tooltipId = timeElem.getAttribute('aria-describedby')
-      const tooltipElem = document.body.querySelector('#' + tooltipId)
-
-      // The tooltip should contain the year
-      expect(tooltipElem).toHaveTextContent('2025')
-      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
     })
 
     it('should show year in tooltip when hideCurrentYear is true and date is in current year', async () => {
@@ -164,14 +163,13 @@ describe('DateFormat', () => {
       await waitFor(() => {
         const tooltipId = timeElem.getAttribute('aria-describedby')
         expect(tooltipId).toBeTruthy()
+
+        const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+        // The tooltip should contain the year
+        expect(tooltipElem).toHaveTextContent('2025')
+        expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
       })
-
-      const tooltipId = timeElem.getAttribute('aria-describedby')
-      const tooltipElem = document.body.querySelector('#' + tooltipId)
-
-      // The tooltip should contain the year
-      expect(tooltipElem).toHaveTextContent('2025')
-      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
 
       // Flush all pending timers and React updates before switching back to real timers
       jest.runOnlyPendingTimers()
@@ -200,15 +198,14 @@ describe('DateFormat', () => {
       await waitFor(() => {
         const tooltipId = timeElem.getAttribute('aria-describedby')
         expect(tooltipId).toBeTruthy()
+
+        const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+        // The tooltip should contain the year and time
+        expect(tooltipElem).toHaveTextContent('2025')
+        expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+        expect(tooltipElem).toHaveTextContent('14:30')
       })
-
-      const tooltipId = timeElem.getAttribute('aria-describedby')
-      const tooltipElem = document.body.querySelector('#' + tooltipId)
-
-      // The tooltip should contain the year and time
-      expect(tooltipElem).toHaveTextContent('2025')
-      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
-      expect(tooltipElem).toHaveTextContent('14:30')
     })
 
     it.each([

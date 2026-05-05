@@ -6,7 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-dropdown {
-  --dropdown-border-radius: var(--token-radius-md);
   --dropdown-height: 2.5rem;
   --dropdown-button-padding: 0 0.75rem 0 0.5rem;
   --dropdown-sb-icon-color--default: var(--token-color-icon-action);
@@ -55,6 +54,7 @@
   &--open &__trigger {
     --button-border-inset--hover: inset;
     --button-border-width--default: 0.125rem;
+    // Makes sure the bottom borders have no radius
     border-radius: var(--dropdown-border-radius)
       var(--dropdown-border-radius) 0 0;
   }
@@ -67,6 +67,7 @@
 
   // When it opens upwards
   &--open#{&}--top &__trigger {
+    // Makes sure the top borders have no radius
     border-radius: 0 0 var(--dropdown-border-radius)
       var(--dropdown-border-radius);
   }

@@ -551,28 +551,39 @@ describe('Upload', () => {
     const [firstItem] = Array.from(element.querySelectorAll('li'))
     const deleteButton = firstItem.querySelector('button')
 
-    expect(result.current.files.length).toBe(1)
-    expect(result.current.files).toEqual([
-      { file: file1, id: expect.any(String), exists: false },
-    ])
-    expect(
-      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
-    ).toBeInTheDocument()
-    expect(result.current.internalFiles.length).toBe(3)
+    await waitFor(() => {
+      expect(result.current.files).toEqual([
+        { file: file1, id: expect.any(String), exists: false },
+      ])
+      expect(result.current.internalFiles.length).toBe(3)
+    })
+
+    expect(element.querySelectorAll('li')).toHaveLength(1)
+
+    await waitFor(
+      () => {
+        expect(
+          screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
+        ).toBeInTheDocument()
+      },
+      { timeout: 2_000 }
+    )
 
     fireEvent.click(deleteButton)
 
-    expect(
-      element.querySelector(
-        '.dnb-upload__file-input-area .dnb-form-status'
-      )
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        element.querySelector(
+          '.dnb-upload__file-input-area .dnb-form-status'
+        )
+      ).not.toBeInTheDocument()
 
-    expect(
-      screen.queryByRole('button', {
-        name: nb.buttonTextSingular,
-      })
-    ).not.toHaveAttribute('disabled')
+      expect(
+        screen.queryByRole('button', {
+          name: nb.buttonTextSingular,
+        })
+      ).not.toHaveAttribute('disabled')
+    })
   })
 
   it('will remove files amount warning when resetting files', async () => {

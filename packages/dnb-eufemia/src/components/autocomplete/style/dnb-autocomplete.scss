@@ -35,6 +35,11 @@
     align-items: flex-end;
   }
 
+  &__shell,
+  &__input {
+    border-radius: var(--autocomplete-border-radius);
+  }
+
   &__shell {
     position: relative;
 

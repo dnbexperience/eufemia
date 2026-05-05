@@ -90,7 +90,6 @@ export type TagProps = {
 }
 
 const defaultProps: Partial<TagProps> = {
-  skeleton: null,
   omitOnKeyUpDeleteEvent: false,
 }
 

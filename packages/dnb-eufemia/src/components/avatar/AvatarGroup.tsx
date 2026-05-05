@@ -74,11 +74,8 @@ export type AvatarGroupProps = {
 export type AvatarGroupAllProps = AvatarGroupProps & SpacingProps
 
 const defaultProps: Partial<AvatarGroupAllProps> = {
-  label: null,
-  className: null,
   maxElements: 4,
   size: 'medium',
-  children: null,
   variant: 'primary',
   skeleton: false,
 }

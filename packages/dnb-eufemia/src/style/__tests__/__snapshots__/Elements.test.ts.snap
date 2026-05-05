@@ -219,6 +219,11 @@ del .dnb-code {
  */
 .dnb-hr {
   --hr-color: var(--token-color-stroke-neutral-subtle);
+}
+.dnb-hr--surface-dark {
+  --hr-color: var(--token-color-stroke-neutral-ondark);
+}
+.dnb-hr {
   position: relative;
   padding: 0;
   width: 100%;
@@ -381,6 +386,9 @@ del .dnb-code {
   line-height: var(--line-height-basis);
   color: var(--token-color-text-neutral, currentColor);
 }
+.dnb-ul--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-ul ul, .dnb-ul ol {
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -435,6 +443,9 @@ del .dnb-code {
   line-height: var(--line-height-basis);
   color: var(--token-color-text-neutral, currentColor);
 }
+.dnb-ol--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -467,6 +478,9 @@ del .dnb-code {
 }
 .dnb-ol {
   color: var(--token-color-text-neutral, currentColor);
+}
+.dnb-ol--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
 }
 .dnb-ol ul, .dnb-ol ol {
   margin-top: 0;

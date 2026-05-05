@@ -259,6 +259,7 @@ describe('Tools.ListAllProps', () => {
                 id="id-r1v"
                 inputmode="decimal"
                 name="myNumber"
+                spellcheck="false"
                 type="text"
               />,
             },
@@ -342,6 +343,7 @@ describe('Tools.ListAllProps', () => {
                 id="id-r45"
                 inputmode="decimal"
                 name="myNumber"
+                spellcheck="false"
                 type="text"
               />,
             },
@@ -431,6 +433,7 @@ describe('Tools.ListAllProps', () => {
                     id="id-r4v"
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
+                    spellcheck="false"
                     type="text"
                   />,
                 },
@@ -511,6 +514,7 @@ describe('Tools.ListAllProps', () => {
                   id="id-r6f"
                   inputmode="decimal"
                   name="myObject/withNumber"
+                  spellcheck="false"
                   type="text"
                 />,
               },
@@ -611,6 +615,7 @@ describe('Tools.ListAllProps', () => {
                   inputmode="decimal"
                   name="id-r74"
                   role="spinbutton"
+                  spellcheck="false"
                   step="1"
                   type="text"
                   value="0suffix"
@@ -638,6 +643,7 @@ describe('Tools.ListAllProps', () => {
                   inputmode="decimal"
                   name="id-r7j"
                   role="spinbutton"
+                  spellcheck="false"
                   step="1"
                   type="text"
                   value="1suffix"

@@ -77,6 +77,7 @@ export function init() {
             .getComputedStyle(styleElement || document.body)
             .getPropertyValue('--eufemia-version')
             .replace(/"/g, '')
+            .replace(/\s+/g, '')
 
           // Ensure we always get a valid version, even if there are more SHAs than versions
           const js =

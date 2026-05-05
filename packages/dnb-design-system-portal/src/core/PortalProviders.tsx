@@ -14,6 +14,7 @@ import {
 } from '@dnb/eufemia/src/shared'
 import GlobalStatus from '@dnb/eufemia/src/components/global-status/GlobalStatus'
 import coreTranslations from '@dnb/eufemia/src/shared/locales'
+export { coreTranslations as translations }
 import PortalLayout, { type PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 import type {
@@ -23,7 +24,7 @@ import type {
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 
 // Load additional locale translations on demand
-async function loadTranslations(locale: string) {
+export async function loadTranslations(locale: string) {
   switch (locale) {
     case 'en-US': {
       const enUS = (await import('@dnb/eufemia/src/shared/locales/en-US'))

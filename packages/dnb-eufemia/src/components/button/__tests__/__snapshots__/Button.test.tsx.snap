@@ -1109,7 +1109,6 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
 }
 
 .dnb-button {
-  --button-border-radius--control-button: 3rem;
   --button-padding--large: 1.5rem;
   border: none;
 }

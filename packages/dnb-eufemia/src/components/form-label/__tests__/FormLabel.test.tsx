@@ -8,9 +8,35 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
-import { Provider } from '../../../shared'
+import { Provider, Theme } from '../../../shared'
 
 describe('FormLabel component', () => {
+  describe('surface', () => {
+    it('does not apply dark surface class by default', () => {
+      render(<FormLabel text="Label" />)
+
+      const element = document.querySelector('.dnb-form-label')
+
+      expect(
+        element.classList.contains('dnb-form-label--surface-dark')
+      ).toBe(false)
+    })
+
+    it('applies dark surface class from Theme.Context', () => {
+      render(
+        <Theme.Context surface="dark">
+          <FormLabel text="Label" />
+        </Theme.Context>
+      )
+
+      const element = document.querySelector('.dnb-form-label')
+
+      expect(
+        element.classList.contains('dnb-form-label--surface-dark')
+      ).toBe(true)
+    })
+  })
+
   it('should forward unlisted attributes like "aria-hidden"', () => {
     render(<FormLabel forId="input" aria-hidden />)
     expect(

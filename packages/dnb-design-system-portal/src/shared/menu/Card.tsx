@@ -94,6 +94,6 @@ const StyledCard = styled(Card)`
 
   svg {
     align-self: center;
-    stroke: var(--token-color-icon-neutral);
+    color: var(--token-color-icon-neutral);
   }
 `

@@ -490,8 +490,10 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...applySpacing(rest as SpacingProps, {
             id: _id.current,
             title,
-            onClick: (event: React.MouseEvent) =>
-              toggleOpenClose(event.nativeEvent),
+            onClick: (event: React.MouseEvent) => {
+              triggerAttributes?.onClick?.(event)
+              toggleOpenClose(event.nativeEvent)
+            },
             ref: triggerRef,
             className: clsx(
               'dnb-modal__trigger',

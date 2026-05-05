@@ -217,7 +217,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-t
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
@@ -257,7 +257,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
@@ -271,7 +271,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active
 }
 .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover[disabled] {
@@ -611,7 +611,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-t
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
@@ -651,7 +651,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
@@ -665,7 +665,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active
 }
 .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover[disabled] {

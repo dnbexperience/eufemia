@@ -194,7 +194,7 @@
 
       &::after {
         height: 2px;
-        border-radius: 2px;
+        border-radius: var(--token-radius-sm);
         background-color: var(--tab-title-border--hover);
       }
     }
@@ -240,7 +240,7 @@
 
       &::after {
         height: 2px;
-        border-radius: 2px;
+        border-radius: var(--token-radius-sm);
         background-color: var(--tab-title-border--active);
       }
     }
@@ -263,7 +263,7 @@
     &:not([disabled]).selected {
       &::after {
         height: 2px;
-        border-radius: 2px;
+        border-radius: var(--token-radius-sm);
         background-color: var(--tab-title-border--selected);
       }
 

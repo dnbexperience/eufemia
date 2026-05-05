@@ -48,7 +48,10 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         id: modules-cache
         with:
-          path: node_modules
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
@@ -102,7 +105,10 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         id: modules-cache
         with:
-          path: node_modules
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 

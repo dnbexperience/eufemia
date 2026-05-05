@@ -25,10 +25,17 @@ type ComponentEntry = {
 }
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+/**
+ * The URL slug prefix for pages that get LLM markdown copies.
+ * Used by the prerender pipeline and metadata generator to
+ * determine which pages should have markdown alternate links.
+ */
+export const LLM_DOCS_SLUG_PREFIX = 'uilib'
+
 export function getPortalPaths(store: any) {
   const { program } = store.getState()
   const siteDir = program.directory
-  const docsRoot = path.join(siteDir, 'src', 'docs', 'uilib')
+  const docsRoot = path.join(siteDir, 'src', 'docs', LLM_DOCS_SLUG_PREFIX)
   const metadataRoot = path.join(siteDir, 'public')
   return { siteDir, docsRoot, metadataRoot }
 }
@@ -298,7 +305,7 @@ export function toWorkspacePath(abs: string, siteDir: string) {
 export function toSlugAndDir(rel: string) {
   const noExt = rel.replace(/\.[^/.]+$/, '')
   const slug = `/${path.posix.join(
-    'uilib',
+    LLM_DOCS_SLUG_PREFIX,
     noExt.split(path.sep).join('/')
   )}/`
   const dirForExtras = path.posix.join(slug).replace(/^\//, '')
@@ -510,7 +517,7 @@ export function makeChecksum({
 
       for (const k of keys) {
         const v = obj[k]
-        out[k] = Array.isArray(v) ? [...v] : v ?? null
+        out[k] = Array.isArray(v) ? [...v] : (v ?? null)
       }
       return out
     }
@@ -713,10 +720,10 @@ export function buildLlmsText(
     g === 'components'
       ? 'Components'
       : g === 'extensions'
-      ? 'Extensions'
-      : g === 'elements'
-      ? 'Elements'
-      : 'Unlisted'
+        ? 'Extensions'
+        : g === 'elements'
+          ? 'Elements'
+          : 'Unlisted'
 
   const printed = new Set<string>()
   const pushEntry = (meta: any) => {
@@ -724,8 +731,8 @@ export function buildLlmsText(
     const prefix = slug.includes('/extensions/forms/Value/')
       ? 'Value'
       : slug.includes('/extensions/forms/feature-fields/')
-      ? 'Field'
-      : null
+        ? 'Field'
+        : null
     const hasPrefix =
       prefix && typeof meta?.name === 'string'
         ? meta.name.startsWith(`${prefix}.`)
@@ -871,12 +878,10 @@ export async function extractTsDocs(dir: string) {
 
 async function evaluateTsModule(file: string) {
   const { default: babel } = await import('@babel/core')
-  const { default: transformTS } = await import(
-    '@babel/plugin-transform-typescript'
-  )
-  const { default: transformCJS } = await import(
-    '@babel/plugin-transform-modules-commonjs'
-  )
+  const { default: transformTS } =
+    await import('@babel/plugin-transform-typescript')
+  const { default: transformCJS } =
+    await import('@babel/plugin-transform-modules-commonjs')
   const vm = await import('node:vm')
   const moduleApi = await import('node:module')
   const localRequire = (moduleApi as any).createRequire(file)
@@ -1072,11 +1077,13 @@ export async function createMarkdownCopies({
   outputRoot,
   publicUrlBase = DEFAULT_PUBLIC_URL,
   metadataBySlug,
+  skipFormat = false,
 }: {
   siteDir: string
   docsRoot: string
   outputRoot?: string
   publicUrlBase?: string
+  skipFormat?: boolean
   metadataBySlug?: Map<
     string,
     {
@@ -1124,6 +1131,7 @@ export async function createMarkdownCopies({
       includeFrontmatter: true,
       publicUrlBase,
       state,
+      skipFormat,
       frontmatterLinks: entryLinks,
     })
     const { propsFile, eventsFile } = await findDocExtras(file)
@@ -1138,6 +1146,7 @@ export async function createMarkdownCopies({
         includeFrontmatter: false,
         publicUrlBase,
         state,
+        skipFormat,
         frontmatterLinks: entryLinks,
       })
       extras.push(propsMd)
@@ -1152,6 +1161,7 @@ export async function createMarkdownCopies({
         includeFrontmatter: false,
         publicUrlBase,
         state,
+        skipFormat,
         frontmatterLinks: entryLinks,
       })
       extras.push(eventsMd)
@@ -1176,6 +1186,7 @@ export async function convertMdxToMd({
   publicUrlBase = DEFAULT_PUBLIC_URL,
   state,
   frontmatterLinks,
+  skipFormat = false,
 }: {
   inputPath: string
   docsRoot: string
@@ -1184,6 +1195,7 @@ export async function convertMdxToMd({
   includeFrontmatter: boolean
   publicUrlBase?: string
   state: ConvertState
+  skipFormat?: boolean
   frontmatterLinks?: {
     docUrl?: string | null
     propertiesUrl?: string | null
@@ -1203,6 +1215,7 @@ export async function convertMdxToMd({
     docsBaseRoot,
     prettierConfig,
     state,
+    skipFormat,
   })
 
   let outputBody = cleanedBody
@@ -1256,6 +1269,11 @@ export async function convertMdxToMd({
   const output = [outputFrontmatter, titleHeading, outputBody.trim()]
     .filter(Boolean)
     .join('\n\n')
+
+  if (skipFormat) {
+    return `${output.trim()}\n`
+  }
+
   const formattedOutput = await prettier.format(output, {
     ...prettierConfig,
     parser: 'markdown',
@@ -2184,6 +2202,7 @@ async function collectComponentCode({
   docsBaseRoot,
   prettierConfig,
   state,
+  skipFormat = false,
 }: {
   importsByFile: Map<string, string[]>
   inputDir: string
@@ -2191,6 +2210,7 @@ async function collectComponentCode({
   docsBaseRoot: string
   prettierConfig: PrettierConfig
   state: ConvertState
+  skipFormat?: boolean
 }) {
   const componentCode = new Map<string, ComponentEntry>()
   const parsedFiles = new Map<string, Map<string, string>>()
@@ -2238,6 +2258,7 @@ async function collectComponentCode({
           docsBaseRoot,
           prettierConfig,
           includeFrontmatter: false,
+          skipFormat,
           state,
         })
         inProgress.delete(resolvedPath)
@@ -2273,7 +2294,8 @@ async function collectComponentCode({
         t,
         traverse,
         generate,
-        prettierConfig
+        prettierConfig,
+        skipFormat
       )
       parsedFiles.set(resolvedPath, fileCode)
     }
@@ -2375,7 +2397,8 @@ async function extractExports(
   t: any,
   traverse: any,
   generate: any,
-  prettierConfig: PrettierConfig
+  prettierConfig: PrettierConfig,
+  skipFormat = false
 ) {
   const exportsMap = new Map<string, string>()
   const exportEntries: Array<{ name: string; jsxNode: any }> = []
@@ -2413,7 +2436,8 @@ async function extractExports(
       entry.jsxNode,
       t,
       generate,
-      prettierConfig
+      prettierConfig,
+      skipFormat
     )
 
     if (code) {
@@ -2464,7 +2488,8 @@ async function formatJSXChildren(
   jsxNode: any,
   t: any,
   generate: any,
-  prettierConfig: PrettierConfig
+  prettierConfig: PrettierConfig,
+  skipFormat = false
 ) {
   let children: any[] = []
 
@@ -2551,13 +2576,15 @@ async function formatJSXChildren(
     code = `<>${childCode.join('\n')}</>`
   }
 
-  try {
-    code = await prettier.format(code, {
-      ...prettierConfig,
-      parser: 'babel-ts',
-    })
-  } catch {
-    return code.trim()
+  if (!skipFormat) {
+    try {
+      code = await prettier.format(code, {
+        ...prettierConfig,
+        parser: 'babel-ts',
+      })
+    } catch {
+      return code.trim()
+    }
   }
 
   code = code.replace(/(^|\n)\s*;(?=\s*[A-Za-z<(])/g, '$1')

@@ -8,11 +8,8 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
-import {
-  useLocation,
-  Router as ReachRouter,
-  navigate,
-} from '@gatsbyjs/reach-router'
+import { useLocation } from 'react-router-dom'
+import { navigate } from 'portal-query'
 import {
   Tabs,
   Section,
@@ -22,7 +19,10 @@ import {
   Badge,
 } from '@dnb/eufemia/src'
 
-const Router = ReachRouter as any
+// No-op Router shell for the reach-router example
+const Router = ({ children }: { children: React.ReactNode }) => (
+  <>{children}</>
+)
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -284,7 +284,7 @@ export const TabsExampleReachRouterNavigation = () =>
                   { title: 'Topics', key: '/topics' },
                 ]}
                 selectedKey={pathname}
-                onChange={({ key }) => navigate(key)}
+                onChange={({ key }) => navigate(String(key))}
                 tabsStyle="information"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>

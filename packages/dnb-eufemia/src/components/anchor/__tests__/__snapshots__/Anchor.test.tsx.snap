@@ -188,7 +188,7 @@ button.dnb-anchor {
   text-decoration-color: currentcolor;
   text-decoration-thickness: var(--anchor-underline-thickness);
   text-underline-offset: 0.25em;
-  border-radius: 0.25em;
+  border-radius: var(--token-radius-sm);
 }
 sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   padding: 0 0.025em;
@@ -326,7 +326,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     text-decoration-color: currentcolor;
     text-decoration-thickness: var(--anchor-underline-thickness);
     text-underline-offset: 0.25em;
-    border-radius: 0.25em;
+    border-radius: var(--token-radius-sm);
   }
   sup :not(.dnb-anchor--no-style).dnb-anchor, sub :not(.dnb-anchor--no-style).dnb-anchor {
     padding: 0 0.025em;

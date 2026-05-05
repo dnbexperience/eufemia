@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
@@ -16,9 +17,7 @@ test.describe('Colors for UI', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   })
 
   test('table should have correct color', async ({ page }) => {
@@ -40,9 +39,7 @@ test.describe('Colors for Sbanken', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#eufemia-portal-root', {
-      state: 'attached',
-    })
+    await waitForApp(page)
   })
 
   test('table should have correct color', async ({ page }) => {

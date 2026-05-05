@@ -73,22 +73,12 @@ type PaginationBarContext = {
   updatePageContent: (currentPageInternal: number) => void
 }
 
-const defaultProps: Partial<PaginationBarProps> = {
-  buttonTitle: null,
-  prevTitle: null,
-  nextTitle: null,
-  morePages: null,
-  contentRef: null,
-  children: null,
-  space: null,
-}
-
 const PaginationBar = (localProps: PaginationBarAllProps) => {
   const context = useContext(PaginationContext)
 
   const props = extendPropsWithContext(
     localProps,
-    defaultProps,
+    {},
     context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
@@ -169,7 +159,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   const { buttonTitle, prevTitle, nextTitle, morePages } =
     extendPropsWithContext(
       props,
-      defaultProps,
+      {},
       getTranslation(props as LocaleProps).Pagination
     )
 

@@ -7,6 +7,7 @@
 }
 
 [skip-isolation] body,
+[skip-isolation] body #root,
 [skip-isolation] body #___gatsby,
 [skip-isolation] body #gatsby-focus-wrapper {
   height: 100%;
@@ -18,6 +19,7 @@
   }
 }
 
+// Gatsby-only: noscript banner for non-JS users
 [skip-isolation] #gatsby-noscript {
   position: fixed;
   top: 0;

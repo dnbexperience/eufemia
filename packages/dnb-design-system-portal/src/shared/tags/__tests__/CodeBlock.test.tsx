@@ -1,32 +1,36 @@
-/**
- * @jest-environment jsdom
- */
-
-import React, { act } from 'react'
-import { render } from '@testing-library/react'
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeAll,
+  beforeEach,
+  afterAll,
+} from 'vitest'
+import React from 'react'
+import { act, render } from '@testing-library/react'
 
 // Mock CSS modules
-jest.mock('../CodeBlock.module.scss', () => ({
+vi.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
+  exampleBoxStyle: 'exampleBoxStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
-  plainBackgroundStyle: 'plainBackgroundStyle',
 }))
 
 // Mock prism theme
-jest.mock(
-  '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme',
-  () => ({
+vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
+  default: {
     plain: { color: '#000', backgroundColor: '#fff' },
     styles: [],
-  })
-)
+  },
+}))
 
 // Mock Tag
-jest.mock('../Tag', () => {
-  const React = require('react')
+vi.mock('../Tag', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const React = await vi.importActual<typeof import('react')>('react')
   return {
-    __esModule: true,
     default: (props: any) => {
       const { children, ...rest } = props
       return React.createElement('pre', rest, children)
@@ -35,13 +39,14 @@ jest.mock('../Tag', () => {
 })
 
 // Mock skeleton helper
-jest.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
+vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
   createSkeletonClass: () => '',
 }))
 
 // Mock Eufemia components
-jest.mock('@dnb/eufemia/src/components', () => {
-  const React = require('react')
+vi.mock('@dnb/eufemia/src/components', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const React = await vi.importActual<typeof import('react')>('react')
   return {
     Button: ({ text, onClick, ...rest }: any) =>
       React.createElement('button', { onClick, ...rest }, text),
@@ -75,8 +80,9 @@ jest.mock('@dnb/eufemia/src/components', () => {
 })
 
 // Mock Context
-jest.mock('@dnb/eufemia/src/shared', () => {
-  const React = require('react')
+vi.mock('@dnb/eufemia/src/shared', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const React = await vi.importActual<typeof import('react')>('react')
   return {
     Context: React.createContext({}),
   }
@@ -86,8 +92,9 @@ jest.mock('@dnb/eufemia/src/shared', () => {
 let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
 
-jest.mock('react-live-ssr', () => {
-  const React = require('react')
+vi.mock('react-live-ssr', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const React = await vi.importActual<typeof import('react')>('react')
   return {
     LiveProvider: ({
       children,
