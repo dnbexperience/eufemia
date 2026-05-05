@@ -30,11 +30,6 @@
     color: transparent;
   }
 
-  &__shell,
-  &__input {
-    border-radius: var(--autocomplete-border-radius);
-  }
-
   &__status--error:not(#{&}--open)
     .dnb-form-label:hover
     ~ &__inner

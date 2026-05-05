@@ -2095,6 +2095,9 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-autocomplete--right .dnb-autocomplete__inner {
   align-items: flex-end;
 }
+.dnb-autocomplete__shell, .dnb-autocomplete__input {
+  border-radius: var(--autocomplete-border-radius);
+}
 .dnb-autocomplete__shell {
   position: relative;
   width: var(--autocomplete-width);
@@ -2312,9 +2315,6 @@ exports[`Autocomplete scss > have to match default theme snapshot 1`] = `
 }
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
-}
-.dnb-autocomplete__shell, .dnb-autocomplete__input {
-  border-radius: var(--autocomplete-border-radius);
 }
 .dnb-autocomplete__status--error:not(.dnb-autocomplete--open) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--token-color-stroke-error);
