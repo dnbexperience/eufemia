@@ -369,25 +369,18 @@ export const makeScreenshot = async ({
   themeName = null,
   pageViewport = null,
   headers = null,
-  reload = null,
   fullscreen = false,
   selector,
   style = null,
   rootClassName = null,
   addWrapper = true,
   executeBeforeSimulate = null,
-  executeBeforeScreenshot = null,
   simulate = null,
   simulateAfter = null,
-  waitBeforeFinish = null,
-  waitBeforeSimulate = null,
-  waitAfterSimulate = null,
-  waitAfterSimulateSelector = null,
   screenshotSelector = null,
   styleSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
-  measureElement = null,
   recalculateHeightAfterSimulate = false,
 }: {
   page?: Page
@@ -395,25 +388,18 @@ export const makeScreenshot = async ({
   themeName?: string
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
-  reload?: boolean
   fullscreen?: boolean
   selector: string
   style?: Record<string, string>
   rootClassName?: string | string[]
   addWrapper?: boolean
   executeBeforeSimulate?: () => void
-  executeBeforeScreenshot?: () => void
   simulate?: Simulate
   simulateAfter?: Simulate
-  waitBeforeFinish?: number
-  waitBeforeSimulate?: number
-  waitAfterSimulate?: number
-  waitAfterSimulateSelector?: string
   screenshotSelector?: string
   styleSelector?: string
   simulateSelector?: string
   wrapperStyle?: Record<string, string>
-  measureElement?: string
   recalculateHeightAfterSimulate?: boolean
 }) => {
   // Merge with describe-level defaults
@@ -425,14 +411,9 @@ export const makeScreenshot = async ({
   const effectiveFullscreen = fullscreen || describeDefaults.fullscreen
 
   const shouldHardResetAfter = Boolean(
-    reload ||
     simulate ||
     simulateAfter ||
     executeBeforeSimulate ||
-    executeBeforeScreenshot ||
-    waitBeforeSimulate ||
-    waitAfterSimulate ||
-    waitAfterSimulateSelector ||
     recalculateHeightAfterSimulate ||
     rootClassName
   )
@@ -451,15 +432,6 @@ export const makeScreenshot = async ({
       headers: effectiveHeaders,
       fullscreen: effectiveFullscreen,
     })
-
-    if (reload) {
-      await page.reload({
-        waitUntil: config.waitUntil,
-        timeout: config.timeout,
-      })
-      await applyTestConfiguration(page)
-      await addTestStylesheet(page)
-    }
 
     const { element, styleCleanup: pendingStyleCleanup } =
       await handleElement({
@@ -490,21 +462,12 @@ export const makeScreenshot = async ({
       element,
       simulate,
       simulateSelector,
-      waitAfterSimulateSelector,
-      waitAfterSimulate,
-      waitBeforeSimulate,
     })
     delaySimulation = simulationValues.delaySimulation
     lastMouseAction = simulationValues.lastMouseAction
 
     if (recalculateHeightAfterSimulate) {
       await syncWrapperBounds({ page, selector })
-    }
-
-    await handleMeasureOfElement({ page, measureElement, selector })
-
-    if (executeBeforeScreenshot) {
-      await page.evaluate(executeBeforeScreenshot)
     }
 
     await waitForVisualStability(page)
@@ -538,10 +501,6 @@ export const makeScreenshot = async ({
 
     if (delaySimulation > 0) {
       await page.waitForTimeout(delaySimulation)
-    }
-
-    if (waitBeforeFinish) {
-      await page.waitForTimeout(waitBeforeFinish)
     }
 
     needsHardReset = shouldHardResetAfter
@@ -792,45 +751,6 @@ async function handleRootClassName({
   }
 }
 
-async function handleMeasureOfElement({
-  page,
-  measureElement,
-  selector,
-}: {
-  page: Page
-  measureElement?: string
-  selector: string
-}) {
-  if (measureElement) {
-    const pixelGrid = config.pixelGrid
-    if (selector !== measureElement) {
-      await page.waitForSelector(measureElement)
-    }
-    const heightInPixels = await page.evaluate(
-      ({ measureElement }) => {
-        const node = document.querySelector(measureElement)
-        return window.getComputedStyle(node).getPropertyValue('height')
-      },
-      { measureElement }
-    )
-    const heightInPixelsFloat = parseFloat(heightInPixels)
-    const isInEightSeries = (num: number) => num % pixelGrid
-    const howManyPixelsToNextEight = (num: number) => {
-      const v = isInEightSeries(num)
-      return v === 0 ? v : pixelGrid - v
-    }
-    const off = howManyPixelsToNextEight(heightInPixelsFloat)
-    if (off > 0) {
-      const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
-      log.warn(
-        `"${measureElement}" is <${off}px off to ${
-          heightInPixelsFloat + off
-        }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`
-      )
-    }
-  }
-}
-
 async function takeScreenshot({
   page,
   screenshotElement,
@@ -882,17 +802,11 @@ async function handleSimulation({
   element,
   simulate,
   simulateSelector = undefined,
-  waitAfterSimulateSelector = undefined,
-  waitAfterSimulate = undefined,
-  waitBeforeSimulate = undefined,
 }: {
   page: Page
   element: ElementHandle<Element>
   simulate: Simulate
   simulateSelector?: string
-  waitAfterSimulateSelector?: string
-  waitAfterSimulate?: number
-  waitBeforeSimulate?: number
 }) {
   if (simulateSelector) {
     await page.waitForSelector(simulateSelector, {
@@ -902,11 +816,6 @@ async function handleSimulation({
     element = await page.$(simulateSelector)
   }
 
-  if (waitBeforeSimulate) {
-    await page.waitForTimeout(waitBeforeSimulate)
-  }
-
-  const elementsToDispose = []
   let delaySimulation = 0
   let lastMouseAction: ActionName = undefined
 
@@ -1027,21 +936,10 @@ async function handleSimulation({
       if (simulate.keypress) {
         await page.keyboard.press(simulate.keypress)
       }
-
-      elementsToDispose.push(element)
     }
   }
 
-  if (waitAfterSimulateSelector) {
-    await page.waitForSelector(waitAfterSimulateSelector, {
-      state: 'visible',
-    })
-  }
-  if (waitAfterSimulate) {
-    await page.waitForTimeout(waitAfterSimulate)
-  }
-
-  return { elementsToDispose, delaySimulation, lastMouseAction }
+  return { delaySimulation, lastMouseAction }
 }
 
 async function wrapperCleanup({
