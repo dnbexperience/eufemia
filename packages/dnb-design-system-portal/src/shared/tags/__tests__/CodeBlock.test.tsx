@@ -8,7 +8,11 @@ import {
   afterAll,
 } from 'vitest'
 import { act } from 'react'
-import type { ReactNode } from 'react'
+import type {
+  createElement as _createElement,
+  createContext as _createContext,
+  ReactNode,
+} from 'react'
 import { render } from '@testing-library/react'
 
 // Mock CSS modules
@@ -29,7 +33,9 @@ vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
 
 // Mock Tag
 vi.mock('../Tag', async () => {
-  const { createElement } = await vi.importActual('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof _createElement
+  }
   return {
     default: (props: any) => {
       const { children, ...rest } = props
@@ -45,7 +51,9 @@ vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
 
 // Mock Eufemia components
 vi.mock('@dnb/eufemia/src/components', async () => {
-  const { createElement } = await vi.importActual('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof _createElement
+  }
   return {
     Button: ({ text, onClick, ...rest }: any) =>
       createElement('button', { onClick, ...rest }, text),
@@ -80,7 +88,9 @@ vi.mock('@dnb/eufemia/src/components', async () => {
 
 // Mock Context
 vi.mock('@dnb/eufemia/src/shared', async () => {
-  const { createContext } = await vi.importActual('react')
+  const { createContext } = (await vi.importActual('react')) as {
+    createContext: typeof _createContext
+  }
   return {
     Context: createContext({}),
   }
@@ -91,7 +101,9 @@ let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
 
 vi.mock('react-live-ssr', async () => {
-  const { createElement } = await vi.importActual('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof _createElement
+  }
   return {
     LiveProvider: ({
       children,
