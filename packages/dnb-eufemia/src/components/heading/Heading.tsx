@@ -284,6 +284,7 @@ export default function Heading(props: HeadingAllProps) {
     ref: _ref,
     className: clsx(
       'dnb-heading',
+      context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
       `dnb-h--${size}`,
       createSkeletonClass('font', skeleton, headingContext),
       className

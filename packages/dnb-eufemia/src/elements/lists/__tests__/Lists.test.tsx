@@ -6,12 +6,77 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
+import { Theme } from '../../../shared'
 import type { DlAllProps } from '../Dl'
 import Dl from '../Dl'
+import Ol from '../Ol'
+import Ul from '../Ul'
+import Li from '../Li'
 import type { DtProps } from '../../Dt'
 import Dt from '../../Dt'
 import type { DdProps } from '../../Dd'
 import Dd from '../../Dd'
+
+describe('lists surface', () => {
+  it.each([
+    ['Ul', (<Ul key="ul" />) as React.ReactElement, '.dnb-ul'],
+    ['Ol', (<Ol key="ol" />) as React.ReactElement, '.dnb-ol'],
+    ['Dl', (<Dl key="dl" />) as React.ReactElement, '.dnb-dl'],
+  ])(
+    '%s does not apply dark surface class by default',
+    (_, list, selector) => {
+      render(list)
+
+      const element = document.querySelector(selector)
+
+      expect(
+        element.classList.contains(`${selector.slice(1)}--surface-dark`)
+      ).toBe(false)
+    }
+  )
+
+  it.each([
+    [
+      'Ul',
+      (
+        <Ul key="ul">
+          <Li>Item</Li>
+        </Ul>
+      ) as React.ReactElement,
+      '.dnb-ul',
+    ],
+    [
+      'Ol',
+      (
+        <Ol key="ol">
+          <Li>Item</Li>
+        </Ol>
+      ) as React.ReactElement,
+      '.dnb-ol',
+    ],
+    [
+      'Dl',
+      (
+        <Dl key="dl">
+          <Dt>Term</Dt>
+          <Dd>Description</Dd>
+        </Dl>
+      ) as React.ReactElement,
+      '.dnb-dl',
+    ],
+  ])(
+    '%s applies dark surface class from Theme.Context',
+    (_, list, selector) => {
+      render(<Theme.Context surface="dark">{list}</Theme.Context>)
+
+      const element = document.querySelector(selector)
+
+      expect(
+        element.classList.contains(`${selector.slice(1)}--surface-dark`)
+      ).toBe(true)
+    }
+  )
+})
 
 describe('Dl', () => {
   it('renders with props as an object', () => {

@@ -24,6 +24,9 @@ exports[`FormLabel scss > has to match style dependencies css 1`] = `
   font-size: var(--font-size-basis);
   color: var(--token-color-text-neutral);
 }
+.dnb-form-label--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
 .dnb-form-label--vertical {
   display: block;
   margin-right: 0;

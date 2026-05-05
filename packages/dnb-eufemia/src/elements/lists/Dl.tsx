@@ -3,10 +3,11 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
+import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -22,9 +23,16 @@ export type DlAllProps = DlProps &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Dl = ({ layout, ...props }: DlAllProps) => {
+  const context = useContext(Context)
+
   if (layout) {
     props.className = clsx(props.className, `dnb-dl__layout--${layout}`)
   }
+
+  if (context?.theme?.surface === 'dark') {
+    props.className = clsx(props.className, 'dnb-dl--surface-dark')
+  }
+
   return <E as="dl" {...props} skeleton={false} />
 }
 

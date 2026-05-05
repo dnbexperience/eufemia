@@ -9,6 +9,10 @@
 @mixin listDefaults() {
   color: var(--token-color-text-neutral, currentColor);
 
+  &--surface-dark {
+    color: var(--token-color-text-neutral-ondark);
+  }
+
   & ul,
   & ol {
     margin-top: 0;
