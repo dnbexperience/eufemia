@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -280,6 +280,66 @@ describe('portal-pages plugin', () => {
       const plugin = portalPagesPlugin()
       const load = plugin.load as (id: string) => string | undefined
       expect(load('some-other-id')).toBeUndefined()
+    })
+
+    it('does not invalidate the virtual module for ignored Examples files', () => {
+      const plugin = portalPagesPlugin()
+      const mod = { id: '\0virtual:portal-pages' }
+      const getModuleById = vi.fn(() => mod)
+      const invalidateModule = vi.fn()
+      const handleHotUpdate = plugin.handleHotUpdate as (context: {
+        file: string
+        server: {
+          moduleGraph: {
+            getModuleById: (id: string) => unknown
+            invalidateModule: (module: unknown) => void
+          }
+        }
+      }) => unknown
+
+      const result = handleHotUpdate({
+        file: '/src/docs/uilib/components/button/Examples.tsx',
+        server: {
+          moduleGraph: {
+            getModuleById,
+            invalidateModule,
+          },
+        },
+      })
+
+      expect(result).toBeUndefined()
+      expect(getModuleById).not.toHaveBeenCalled()
+      expect(invalidateModule).not.toHaveBeenCalled()
+    })
+
+    it('invalidates the virtual module for MDX page updates', () => {
+      const plugin = portalPagesPlugin()
+      const mod = { id: '\0virtual:portal-pages' }
+      const getModuleById = vi.fn(() => mod)
+      const invalidateModule = vi.fn()
+      const handleHotUpdate = plugin.handleHotUpdate as (context: {
+        file: string
+        server: {
+          moduleGraph: {
+            getModuleById: (id: string) => unknown
+            invalidateModule: (module: unknown) => void
+          }
+        }
+      }) => unknown
+
+      const result = handleHotUpdate({
+        file: '/src/docs/uilib/components/button/demos.mdx',
+        server: {
+          moduleGraph: {
+            getModuleById,
+            invalidateModule,
+          },
+        },
+      })
+
+      expect(result).toEqual([mod])
+      expect(getModuleById).toHaveBeenCalledWith('\0virtual:portal-pages')
+      expect(invalidateModule).toHaveBeenCalledWith(mod)
     })
   })
 
