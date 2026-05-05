@@ -10,6 +10,11 @@ import fs from 'fs/promises'
 import ora from 'ora'
 import { isCI } from 'repo-utils'
 import { makeUniqueId } from '../../shared/component-helper'
+<<<<<<< HEAD
+=======
+import { getPageResetStrategy } from './pageResetStrategy'
+import { clearBrowserStorages } from './storageReset'
+>>>>>>> 92fc08933fc (Handle secure storage errors on retry reset)
 import {
   test as base,
   expect,
@@ -148,10 +153,7 @@ async function addTestStylesheet(page: Page) {
 }
 
 async function clearBrowserStorage(page: Page) {
-  await page.evaluate(() => {
-    window.localStorage.clear()
-    window.sessionStorage.clear()
-  })
+  await page.evaluate(clearBrowserStorages)
 }
 
 async function waitForVisualStability(page: Page) {
