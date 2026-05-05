@@ -58,6 +58,7 @@ function ComponentBox(props: CodeSectionProps) {
         useContext: React.useContext,
         useLayoutEffect: React.useLayoutEffect,
         createContext: React.createContext,
+        Suspense: React.Suspense,
         Iterate,
         FormError,
         Tools,
