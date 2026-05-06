@@ -1,27 +1,23 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../core/jest/jestSetupScreenshots'
+} from '../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
-  'Colors %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+  test.describe(`Colors ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/usage/customisation/colors/',
     })
 
-    it('have to all colors', async () => {
+    test('have to all colors', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="color-table"]',
         addWrapper: false,
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
-  }
-)
+  })
+}

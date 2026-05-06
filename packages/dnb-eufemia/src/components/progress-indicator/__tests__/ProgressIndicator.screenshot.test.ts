@@ -1,37 +1,33 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])(
-  'ProgressIndicator for %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`ProgressIndicator for ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/progress-indicator/demos/',
     })
 
-    it('with label inside', async () => {
+    test('with label inside', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="progress-indicator-label-inside"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match the static primary circular with 50 percentage', async () => {
+    test('have to match the static primary circular with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match the static primary linear with 50 percentage', async () => {
+    test('have to match the static primary linear with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         style: {
           width: '20rem',
@@ -39,46 +35,45 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="progress-indicator-linear--primary"] .dnb-progress-indicator',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('with custom colors and size', async () => {
+    test('with custom colors and size', async () => {
       const screenshot = await makeScreenshot({
         style: {
           width: '20rem',
         },
         selector: '[data-visual-test="progress-indicator-customization"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match customized horizontal', async () => {
+    test('have to match customized horizontal', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-custom-horizontal"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match customized  countdown', async () => {
+    test('have to match customized  countdown', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-custom-countdown"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
-  }
-)
+  })
+}
 
-describe.each(['ui', 'sbanken'])(
-  'ProgressIndicator circular for %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`ProgressIndicator circular for ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/progress-indicator/visual-tests/',
     })
 
-    it('have to match static primary circular sizes', async () => {
+    test('have to match static primary circular sizes', async () => {
       const screenshot = await makeScreenshot({
         style: {
           height: '3.5rem',
@@ -86,7 +81,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="progress-indicator-sizes"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
-  }
-)
+  })
+}

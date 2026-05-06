@@ -1,110 +1,108 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('Paragraph', () => {
+test.describe('Paragraph', () => {
   setupPageScreenshot({
     url: '/uilib/elements/paragraph/demos/',
   })
 
-  it('matches prose max width', async () => {
+  test('matches prose max width', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="paragraph-prose-max-width"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
 
-describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/elements/paragraph/demos/',
-  })
-
-  it('have to match the paragraph with weight modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-weight"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Paragraph for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/paragraph/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with size modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-size"]',
+    test('have to match the paragraph with weight modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-weight"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with align modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="paragraph-modifiers-align"]',
+    test('have to match the paragraph with size modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-size"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with family modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-family"]',
+    test('have to match the paragraph with align modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="paragraph-modifiers-align"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with line modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-line"]',
+    test('have to match the paragraph with family modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-family"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with other modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-other"]',
+    test('have to match the paragraph with line modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-line"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph example', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-default"]',
+    test('have to match the paragraph with other modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-other"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with small text', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-small"]',
+    test('have to match the paragraph example', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-default"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the paragraph with additional elements', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-additional"]',
-      matchConfig: {
-        failureThreshold: 0.0099, // the underlines gets blurry in the build version
-      },
+    test('have to match the paragraph with small text', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-small"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/elements/paragraph/demos/',
-  })
-
-  it('matches all sizes and weights', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="paragraph-sizes"]',
+    test('have to match the paragraph with additional elements', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-additional"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
-})
+}
+
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Paragraph for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/paragraph/demos/',
+    })
+
+    test('matches all sizes and weights', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-sizes"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+  })
+}

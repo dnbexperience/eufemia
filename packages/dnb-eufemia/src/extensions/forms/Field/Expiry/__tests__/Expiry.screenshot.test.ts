@@ -1,58 +1,57 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/extensions/forms/feature-fields/Expiry/demos/',
-  })
-
-  it('have to match the empty state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-empty"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Expiry field for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/extensions/forms/feature-fields/Expiry/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the input filled in value', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-with-value"]',
+    test('have to match the empty state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-empty"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the horizontal layout', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-horizontal-layout"]',
+    test('have to match the input filled in value', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-with-value"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match expiry with help button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-with-help"]',
+    test('have to match the horizontal layout', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-horizontal-layout"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the disabled state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-disabled"]',
+    test('have to match expiry with help button', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-with-help"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the error state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="expiry-error"]',
+    test('have to match the disabled state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-disabled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match the error state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="expiry-error"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

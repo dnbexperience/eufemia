@@ -1,55 +1,59 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
 const url = '/uilib/extensions/forms/feature-fields/DateOfBirth/demos/'
 
-describe.each(['ui'])('DateOfBirth for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url,
-  })
-
-  it('have to match default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-default"]',
+for (const themeName of ['ui']) {
+  test.describe(`DateOfBirth for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url,
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match label and value', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-label-and-value"]',
+    test('have to match default', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-default"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match with help', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-help"]',
+    test('have to match label and value', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-label-and-value"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match with disabled', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-disabled"]',
+    test('have to match with help', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-help"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match with error', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-error"]',
+    test('have to match with disabled', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-disabled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match widths', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-of-birth-width"]',
+    test('have to match with error', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-error"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match widths', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="date-of-birth-width"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

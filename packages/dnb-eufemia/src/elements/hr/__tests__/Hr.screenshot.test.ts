@@ -1,36 +1,33 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('Horizontal rule', () => {
+test.describe('Horizontal rule', () => {
   setupPageScreenshot({
     url: '/uilib/elements/horizontal-rule/demos/',
   })
 
-  it('have to match default horizontal rule', async () => {
+  test('have to match default horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match breakout horizontal rule', async () => {
+  test('have to match breakout horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-breakout"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match dashed horizontal rule', async () => {
+  test('have to match dashed horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-dashed"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

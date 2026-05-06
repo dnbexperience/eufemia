@@ -1,37 +1,36 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Span for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/elements/span/demos/',
-  })
-
-  it('basics', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="span-basic"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Span for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/span/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('with modifiers', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="span-modifiers"]',
+    test('basics', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="span-basic"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('all sizes and weights', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="span-sizes"]',
+    test('with modifiers', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="span-modifiers"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('all sizes and weights', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="span-sizes"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

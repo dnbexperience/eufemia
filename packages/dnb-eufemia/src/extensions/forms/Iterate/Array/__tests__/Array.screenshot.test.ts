@@ -1,51 +1,50 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
-
-describe('Iterate.Array', () => {
+test.describe('Iterate.Array', () => {
   const url = '/uilib/extensions/forms/Iterate/Array/demos/'
 
-  it('have to match primitive element values', async () => {
+  test('have to match primitive element values', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="primitive-element-values"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match animated container', async () => {
+  test('have to match animated container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
         '[data-visual-test="animated-container"] .dnb-forms-section-block',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match filled view container', async () => {
+  test('have to match filled view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
         '[data-visual-test="filled-view-and-edit-container"] .dnb-forms-section-view-block',
     })
 
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match view container with line divider', async () => {
+  test('have to match view container with line divider', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
         '[data-visual-test="view-and-edit-container-with-line-divider"]',
     })
 
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match filled edit container', async () => {
+  test('have to match filled edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="filled-view-and-edit-container"]',
@@ -56,30 +55,29 @@ describe('Iterate.Array', () => {
         '[data-visual-test="filled-view-and-edit-container"] button',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match view container', async () => {
+  test('have to match view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
         '[data-visual-test="view-and-edit-container"] .dnb-forms-section-view-block',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match edit container', async () => {
+  test('have to match edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
       screenshotSelector:
         '[data-visual-test="view-and-edit-container"] .dnb-forms-section-edit-block',
-      waitAfterSimulate: 100,
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="view-and-edit-container"] button',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

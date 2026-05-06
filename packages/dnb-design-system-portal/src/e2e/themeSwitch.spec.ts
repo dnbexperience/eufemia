@@ -68,6 +68,14 @@ test.describe('Theme', () => {
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:nth-child(2)')
 
+    await page.waitForFunction(() => {
+      const theme = JSON.parse(
+        window.localStorage.getItem('eufemia-theme') || '{}'
+      )
+
+      return theme.name === 'sbanken'
+    })
+
     const localStorageData = await page.evaluate(() => {
       return JSON.parse(
         window.localStorage.getItem('eufemia-theme') || '{}'
@@ -119,6 +127,10 @@ test.describe('Theme', () => {
     await page.click('#portal-tools')
     await page.click('#change-theme')
     await page.click('#change-theme-portal ul li:nth-child(2)')
+
+    await page.waitForFunction(() =>
+      document.body.classList.contains('eufemia-theme__sbanken')
+    )
 
     expect(
       await page.evaluate(() =>

@@ -43,6 +43,7 @@ env:
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
   RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
+  PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
   visual-regression:
@@ -174,7 +175,7 @@ jobs:
 
       - name: Build portal
         if: env.RUN_VISUAL_TEST == 'true'
-        run: yarn workspace dnb-design-system-portal build
+        run: yarn workspace dnb-design-system-portal build:visual-test
 
       - name: Run visual tests
         if: env.RUN_VISUAL_TEST == 'true'
@@ -186,7 +187,8 @@ jobs:
           name: visual-test-artifact
           path: |
             ./packages/dnb-eufemia/src/**/*.snap-diff.png
-            ./packages/dnb-eufemia/jest-visual-diff-report/*
+            ./packages/dnb-eufemia/test-results/**/*.png
+            ./packages/dnb-eufemia/visual-diff-report/**
 
       - name: Run visual tests info
         if: failure()

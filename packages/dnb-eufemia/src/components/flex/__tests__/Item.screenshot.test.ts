@@ -1,15 +1,14 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
-
-describe('Flex.Item', () => {
+test.describe('Flex.Item', () => {
   const selector =
     '[data-visual-test="flex-item-custom-size"] .dnb-flex-container'
 
-  it('have to match responsive size on large viewport', async () => {
+  test('have to match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -17,10 +16,10 @@ describe('Flex.Item', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match responsive size on medium viewport', async () => {
+  test('have to match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -28,10 +27,10 @@ describe('Flex.Item', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match responsive size on small viewport', async () => {
+  test('have to match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -39,10 +38,10 @@ describe('Flex.Item', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match responsive size on x-small viewport', async () => {
+  test('have to match responsive size on x-small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -50,6 +49,6 @@ describe('Flex.Item', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,54 +1,53 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui'])('VippsWalletButton for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/extensions/vipps-wallet-button/',
-  })
-
-  it('have to match default state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="vipps-wallet-button"]',
+for (const themeName of ['ui']) {
+  test.describe(`VippsWalletButton for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/extensions/vipps-wallet-button/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match hover state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="vipps-wallet-button"]',
-      simulate: 'hover',
+    test('have to match default state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="vipps-wallet-button"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match active state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="vipps-wallet-button"]',
-      simulate: 'active',
+    test('have to match hover state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="vipps-wallet-button"]',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match focus state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="vipps-wallet-button"]',
-      simulate: 'focus',
+    test('have to match active state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="vipps-wallet-button"]',
+        simulate: 'active',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match pending state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="vipps-wallet-button-pending"]',
+    test('have to match focus state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="vipps-wallet-button"]',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match pending state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="vipps-wallet-button-pending"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

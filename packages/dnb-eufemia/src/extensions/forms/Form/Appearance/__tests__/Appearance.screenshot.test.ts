@@ -1,25 +1,29 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Form.Appearance for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/extensions/forms/Form/Appearance/demos/',
-  })
-
-  it('have to match size', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="form-appearance-size"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Form.Appearance for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/extensions/forms/Form/Appearance/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match size nested', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="form-appearance-size-nested"]',
+    test('have to match size', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="form-appearance-size"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+    test('have to match size nested', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="form-appearance-size-nested"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

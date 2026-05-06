@@ -1,43 +1,40 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('HelpButton', () => {
+test.describe('HelpButton', () => {
   setupPageScreenshot({
     url: '/uilib/components/help-button/demos/',
   })
 
-  it('have to match default help button', async () => {
+  test('have to match default help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="help-button-default"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match help button sizes', async () => {
+  test('have to match help button sizes', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="help-button-sizes"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match help button suffix', async () => {
+  test('have to match help button suffix', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="help-button-suffix"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match help button used inside text', async () => {
+  test('have to match help button used inside text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="help-button-inline"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

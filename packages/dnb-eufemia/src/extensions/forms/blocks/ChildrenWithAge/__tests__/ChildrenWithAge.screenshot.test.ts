@@ -1,60 +1,59 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos/',
-  })
-
-  it('have to match when answering yes to all options', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="children-with-age-prefilled"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`ChildrenWithAge for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match field and value when multiple children', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="children-with-age-summary-multiple-children"]',
+    test('have to match when answering yes to all options', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="children-with-age-prefilled"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match field and value when no children', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="children-with-age-summary-no-children"]',
+    test('have to match field and value when multiple children', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="children-with-age-summary-multiple-children"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match field and value when previously filled out data', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="children-with-age-summary-previously-filled-out-data"]',
+    test('have to match field and value when no children', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="children-with-age-summary-no-children"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match field and value when multiple no answers', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="children-with-age-summary-multiple-no-answers"]',
+    test('have to match field and value when previously filled out data', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="children-with-age-summary-previously-filled-out-data"]',
+      })
+      expect(screenshot).toMatchSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe('ChildrenWithAge', () => {
+    test('have to match field and value when multiple no answers', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="children-with-age-summary-multiple-no-answers"]',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+  })
+}
+
+test.describe('ChildrenWithAge', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos/',
     pageViewport: {
@@ -62,10 +61,10 @@ describe('ChildrenWithAge', () => {
     },
   })
 
-  it('have to match small screens', async () => {
+  test('have to match small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="children-with-age-prefilled"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,28 +1,30 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Form.MainHeading', () => {
+test.describe('Form.MainHeading', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Form/MainHeading/demos/',
   })
 
-  it('have to match above stack', async () => {
+  test('have to match above stack', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-above-stack"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match above card', async () => {
+  test('have to match above card', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-above-card"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match help button', async () => {
+  test('have to match help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-help-button"]',
       simulate: 'click',
@@ -30,6 +32,6 @@ describe('Form.MainHeading', () => {
         '[data-visual-test="layout-main-heading-help-button"] .dnb-help-button',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
