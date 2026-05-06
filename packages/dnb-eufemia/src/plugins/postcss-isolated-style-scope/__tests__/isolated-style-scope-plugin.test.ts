@@ -1467,6 +1467,9 @@ describe('isolated-style-scope-plugin', () => {
 
       expect(warnings).toHaveLength(1)
       expect(warnings[0].text).toContain('--color-sea-green')
+      expect(warnings[0].text).toContain(
+        'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+      )
     })
 
     it('should warn on deprecated color variable in property', async () => {

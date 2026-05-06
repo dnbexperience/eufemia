@@ -10,6 +10,9 @@ const {
 } = require('./plugin-utils.js')
 const { getStyleScopeHash } = require('./plugin-scope-hash.cjs')
 
+const DESIGN_TOKENS_GUIDE_URL =
+  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+
 const postcssIsolateStyle = (opts = {}) => {
   const {
     scopeHash = 'auto',
@@ -54,7 +57,7 @@ const postcssIsolateStyle = (opts = {}) => {
               for (const variable of new Set(matches)) {
                 decl.warn(
                   result,
-                  `Deprecated CSS color variable "${variable}" detected. Use a design token instead.`
+                  `Deprecated CSS color variable "${variable}" detected. Use a design token instead. See ${DESIGN_TOKENS_GUIDE_URL} for more information.`
                 )
               }
             }
