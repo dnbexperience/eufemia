@@ -12,6 +12,10 @@ import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
 import { TableContext } from './TableContext'
 
+export type TableTrClickInfo = {
+  trElement: HTMLTableRowElement | null
+}
+
 export type TableTrProps = {
   /**
    * The variant of the tr
@@ -55,8 +59,9 @@ export type TableTrProps = {
   /**
    * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
    * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
+   * The second argument contains `trElement`.
    */
-  onClick?: (event: SyntheticEvent) => void
+  onClick?: (event: SyntheticEvent, info: TableTrClickInfo) => void
 
   /**
    * Will emit when table row is expanded.
@@ -77,7 +82,8 @@ export type TableTrProps = {
 }
 
 export default function Tr(
-  componentProps: TableTrProps & TableHTMLAttributes<HTMLTableRowElement>
+  componentProps: TableTrProps &
+    Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 ) {
   const {
     variant,

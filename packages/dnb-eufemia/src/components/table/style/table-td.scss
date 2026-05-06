@@ -3,6 +3,7 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
 @use './table-mixins.scss' as table-mixins;
 
 .dnb-table {
@@ -60,6 +61,90 @@
           border-top: var(--table-border);
         }
       }
+    }
+  }
+
+  // Navigable (clickable) cell
+  &__td--clickable {
+    padding: 0;
+
+    &:active {
+      --background-color: var(--table-accordion-background--active);
+    }
+  }
+
+  &__td__button {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: none;
+
+    color: inherit;
+    text-align: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &__icon {
+      flex: none;
+      color: var(--table-accordion-icon-color);
+      opacity: 0;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 6; // to be above the table outline/border
+      inset: 0;
+      border: var(--table-accordion-outline-width) solid transparent;
+    }
+
+    @include utilities.hover() {
+      &::before {
+        border-color: var(--table-accordion-outline-color);
+      }
+
+      .dnb-table__td__button__icon {
+        color: var(--table-accordion-icon-color--active);
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      &::before {
+        border-color: var(--table-accordion-outline-color);
+        border-width: var(--table-accordion-outline-width--active);
+      }
+
+      .dnb-table__td__button__icon {
+        color: var(--table-accordion-icon-color--active);
+        opacity: 1;
+      }
+    }
+
+    &:not(:active):not(:hover):focus-visible {
+      &::before {
+        border-color: var(--token-color-stroke-action-focus);
+        border-width: var(--focus-ring-width);
+      }
+
+      .dnb-table__td__button__icon {
+        opacity: 1;
+      }
+    }
+
+    &__content {
+      flex: 1;
+      min-width: 0;
     }
   }
 

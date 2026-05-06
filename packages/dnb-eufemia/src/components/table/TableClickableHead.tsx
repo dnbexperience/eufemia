@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import type {
   KeyboardEvent,
   ReactElement,
@@ -14,7 +14,7 @@ import IconPrimary from '../icon/IconPrimary'
 import Th from './TableTh'
 import Td from './TableTd'
 import { TableContext } from './TableContext'
-import type { TableTrProps } from './TableTr'
+import type { TableTrProps, TableTrClickInfo } from './TableTr'
 
 export type TableClickableHeadProps = {
   trIsOpen?: boolean
@@ -23,8 +23,12 @@ export type TableClickableHeadProps = {
   clickable: boolean
   noAnimation?: boolean
   ariaLabel: string
-} & TableTrProps &
-  TableHTMLAttributes<HTMLTableRowElement>
+  onClick?: (
+    event: SyntheticEvent,
+    allowInteractiveElement?: boolean
+  ) => void
+} & Omit<TableTrProps, 'onClick'> &
+  Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 
 export function TableClickableHead(allProps: TableClickableHeadProps) {
   const {
@@ -63,6 +67,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
 
   return (
     <tr
+      role="row"
       tabIndex={clickable && !disabled ? 0 : undefined}
       className={clsx(
         className,
@@ -107,7 +112,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
 export function onClickTr(
   event: SyntheticEvent,
   allowInteractiveElement = false,
-  onClick?: (event: SyntheticEvent) => void
+  onClick?: (event: SyntheticEvent, info: TableTrClickInfo) => void
 ) {
   const target = event.target as HTMLElement
   if (
@@ -131,7 +136,12 @@ export function onClickTr(
      */
     !(hasSelectedText() && event.type === 'click')
   ) {
-    onClick?.(event)
+    const trElement = (target.closest('tr') ||
+      null) as HTMLTableRowElement | null
+
+    onClick?.(event, {
+      trElement,
+    })
   }
 }
 
@@ -153,17 +163,24 @@ export function TableClickableButtonTd(props: {
       ? 'basis'
       : 'medium'
 
+  const emptyTextHandler = useCallback(() => {
+    // Empty the selected text, so that the user can always expand/close accordion.
+    // The selected text is not automatically cleared because we have
+    // CSS property `user-select: none` to prevent selection on double-click.
+    emptySelectedText()
+  }, [])
+
+  const onClickHandler = useCallback(
+    (event: SyntheticEvent) => {
+      onClick(event, true)
+    },
+    [onClick]
+  )
+
   return (
-    <Td
-      className="dnb-table__td__button-icon"
-      onClick={() => {
-        // Empty the selected text, so that the user can always expand/close accordion.
-        // The selected text is not automatically cleared because we have
-        // CSS property `user-select: none` to prevent selection on double-click.
-        emptySelectedText()
-      }}
-    >
-      <span className="dnb-table__button">
+    <Td className="dnb-table__td__button-icon">
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+      <span className="dnb-table__button" onClick={emptyTextHandler}>
         <IconPrimary icon={icon} size={iconSize} />
         <Button
           className="dnb-sr-only"
@@ -173,7 +190,7 @@ export function TableClickableButtonTd(props: {
           {...(trIsOpen != null
             ? { 'aria-expanded': Boolean(trIsOpen) }
             : {})}
-          onClick={(event) => onClick(event, true)}
+          onClick={onClickHandler}
         />
       </span>
     </Td>

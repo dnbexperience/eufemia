@@ -553,6 +553,20 @@ for (const themeName of ['ui', 'sbanken']) {
       })
       expect(screenshot).toMatchSnapshot()
     })
+
+    test('have to match hover state on one clickable cell', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-navigation-cell"] .dnb-table',
+        simulateSelector:
+          '[data-visual-test="table-navigation-cell"] tbody tr:first-of-type td:first-of-type .dnb-table__td__button',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
 }
 

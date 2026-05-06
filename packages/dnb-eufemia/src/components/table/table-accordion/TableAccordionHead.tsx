@@ -43,7 +43,7 @@ export type TableAccordionHeadProps = {
   /** The row number */
   count: number
 } & TableTrProps &
-  TableHTMLAttributes<HTMLTableRowElement>
+  Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 
 export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
@@ -110,7 +110,13 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         setOpen(!trIsOpen)
       }
       setHadClick(true)
-      onClick?.(event)
+
+      const target = event.target as HTMLElement
+      const trElement = (target.closest('tr') ||
+        null) as HTMLTableRowElement | null
+      onClick?.(event, {
+        trElement,
+      })
     },
     [onClick, tableContext.hasAccordionRows, trIsOpen]
   )

@@ -28,6 +28,7 @@ import {
   compose as composeIcon,
   copy as copyIcon,
   view_medium as eyeIcon,
+  launch as launchIcon,
   trash as trashIcon,
 } from '@dnb/eufemia/src/icons'
 import {
@@ -1181,7 +1182,7 @@ export const KeyboardNavigation = () => (
   </ComponentBox>
 )
 
-export const Navigation = () => (
+export const ClickableRows = () => (
   <ComponentBox hideCode data-visual-test="table-navigation">
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
@@ -1194,14 +1195,12 @@ export const Navigation = () => (
 
         const Row = ({ nr }) => {
           const shareId = id + '-' + nr
+          const handleClick = useCallback((_event, { trElement }) => {
+            console.log('Clicked row', trElement.dataset.rowId)
+          }, [])
+
           return (
-            <Tr
-              id={shareId}
-              onClick={() => {
-                console.log('your navigation logic here')
-                // window.location.href = 'https://eufemia.dnb.no/'
-              }}
-            >
+            <Tr id={shareId} data-row-id={nr} onClick={handleClick}>
               <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
               <Td>Row {nr}</Td>
               <Td spacing="horizontal">
@@ -1264,6 +1263,9 @@ export const NavigationMixed = () => (
         const TdInput = () => {
           return <Input label="Label" labelSrOnly size={4} />
         }
+        const handleClick = useCallback((_event, { trElement }) => {
+          console.log('Clicked row', trElement.dataset.rowId)
+        }, [])
 
         return (
           <Table mode="navigation" id={id} {...props}>
@@ -1279,13 +1281,7 @@ export const NavigationMixed = () => (
             </thead>
 
             <tbody>
-              <Tr
-                id={id + '-' + 1}
-                onClick={() => {
-                  console.log('your navigation logic here')
-                  // window.location.href = 'https://eufemia.dnb.no/'
-                }}
-              >
+              <Tr id={id + '-' + 1} data-row-id={1} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 1}</Td>
                 <Td>Row {1}</Td>
                 <Td spacing="horizontal">
@@ -1301,13 +1297,7 @@ export const NavigationMixed = () => (
                 </Td>
                 <Td align="right">Row {2}</Td>
               </Tr>
-              <Tr
-                id={id + '-' + 3}
-                onClick={() => {
-                  console.log('your navigation logic here')
-                  // window.location.href = 'https://eufemia.dnb.no/'
-                }}
-              >
+              <Tr id={id + '-' + 3} data-row-id={3} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 3}</Td>
                 <Td>Row {3}</Td>
                 <Td spacing="horizontal">
@@ -1339,6 +1329,74 @@ export const NavigationMixed = () => (
             />
           </Table.ScrollView>
         </>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ClickableCells = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-navigation-cell"
+    scope={{ eyeIcon, launchIcon }}
+  >
+    {() => {
+      const handleClick = (event, { trElement, thElement }) => {
+        console.log(
+          `Clicked row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`
+        )
+      }
+
+      return (
+        <Table.ScrollView>
+          <Table border outline>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th style={{ width: '50%' }} data-column-id="account">
+                  Account
+                </Th>
+                <Th style={{ width: '35%' }} data-column-id="balance">
+                  Balance
+                </Th>
+                <Th style={{ width: '15%' }} data-column-id="type">
+                  Type
+                </Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr data-row-id="1">
+                <Td onClick={handleClick}>Savings Account</Td>
+                <Td onClick={handleClick}>1 234,56 kr</Td>
+                <Td onClick={handleClick}>Savings</Td>
+              </Tr>
+              <Tr data-row-id="2">
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Checking Account
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  5 678,90 kr
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Checking
+                </Td>
+              </Tr>
+              <Tr data-row-id="3">
+                <Td icon={eyeIcon} onClick={handleClick}>
+                  Business Account with a very long name
+                </Td>
+                <Td icon={eyeIcon} onClick={handleClick}>
+                  12 345,00 kr
+                </Td>
+                <Td icon={eyeIcon} onClick={handleClick}>
+                  Business
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Table.ScrollView>
       )
     }}
   </ComponentBox>

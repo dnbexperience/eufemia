@@ -13,7 +13,7 @@ import {
 import type { TableTrProps } from '../TableTr'
 
 export type TableNavigationHeadProps = TableTrProps &
-  TableHTMLAttributes<HTMLTableRowElement>
+  Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 
 export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const { children, onClick, ...props } = allProps
@@ -52,11 +52,18 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
     content.push(<Td key="empty-td" />)
   }
 
+  const onKeyDownHandler = useCallback(
+    (event: SyntheticEvent) => {
+      onClickTr(event, true, onClick)
+    },
+    [onClick]
+  )
+
   return (
     <TableClickableHead
       clickable={hasOnClick}
       onClick={onClickHandler}
-      onKeyDown={onClick}
+      onKeyDown={onKeyDownHandler}
       ariaLabel={tableContextAllProps?.navigationButtonSR}
       {...props}
     >
