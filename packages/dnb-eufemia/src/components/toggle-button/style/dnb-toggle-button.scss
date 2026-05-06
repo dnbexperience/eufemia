@@ -36,6 +36,27 @@
   }
 
   &__button {
+    --button-border-radius: var(--token-radius-md);
+
+    // Background
+    --button-color-bg--default: var(--token-color-background-neutral);
+    --button-color-bg--hover: var(--token-color-background-neutral);
+    --button-color-bg--active: var(--token-color-background-neutral);
+
+    // Border
+    --button-color-border--default: var(--token-color-stroke-neutral-bold);
+    --button-color-border--hover: var(--token-color-stroke-action-hover);
+    --button-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+
+    // Icon
+    --button-color-icon--default: var(--token-color-icon-neutral);
+    // Text
+    --button-color-text--default: var(--token-color-text-neutral);
+    --button-color-text--hover: var(--token-color-text-neutral);
+    --button-color-text--active: var(--token-color-text-neutral);
+
     &.dnb-button--has-text {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
@@ -72,8 +93,8 @@
       }
 
       &__gfx {
-        width: calc(var(--checkbox-width--medium) - 0.5rem);
-        height: calc(var(--checkbox-height--medium) - 0.5rem);
+        width: calc(var(--checkbox-width--medium) - 0.625rem);
+        height: calc(var(--checkbox-height--medium) - 0.625rem);
       }
     }
 
@@ -95,10 +116,179 @@
       }
 
       &__dot {
-        width: calc(var(--radio-width--medium) - 1rem);
-        height: calc(var(--radio-height--medium) - 1rem);
+        width: calc(var(--radio-dot--medium) - 0.125rem);
+        height: calc(var(--radio-dot--medium) - 0.125rem);
       }
     }
+    @include utilities.hover() {
+      .dnb-radio {
+        .dnb-radio__button {
+          --radio-border-inset--default: var(--radio-border-inset--hover);
+          --radio-border-width--default: var(--radio-border-width--hover);
+          --radio-color-border--default: var(--radio-color-border--hover);
+          --radio-color-background--default: var(
+            --radio-color-background--hover
+          );
+        }
+        .dnb-radio__dot {
+          --radio-color-dot-on--default: var(--radio-color-dot-on--hover);
+        }
+      }
+      .dnb-checkbox {
+        .dnb-checkbox__button {
+          --checkbox-color-background-off: var(
+            --checkbox-color-background-off--hover
+          );
+          --checkbox-color-background-off--error: var(
+            --checkbox-color-background-off--hover
+          );
+          --checkbox-color-background-on: var(
+            --checkbox-color-background-on--hover
+          );
+          --checkbox-color-background-on--error: var(
+            --checkbox-color-background-on--hover
+          );
+          --checkbox-border-inset: var(--checkbox-border-inset--hover);
+          --checkbox-border-width: var(--checkbox-border-width--hover);
+          --checkbox-color-border: var(--checkbox-color-border--hover);
+        }
+        .dnb-checkbox__gfx {
+          --checkbox-color-gfx-on: var(--checkbox-color-gfx--hover);
+        }
+      }
+    }
+
+    @include utilities.active() {
+      .dnb-radio {
+        .dnb-radio__button {
+          --radio-border-inset--default: var(--radio-border-inset--active);
+          --radio-border-width--default: var(--radio-border-width--active);
+          --radio-color-border--default: var(--radio-color-border--active);
+          --radio-color-background--default: var(
+            --radio-color-background--active
+          );
+        }
+        .dnb-radio__dot {
+          --radio-color-dot-on--default: var(--radio-color-dot-on--active);
+        }
+      }
+      .dnb-checkbox {
+        .dnb-checkbox__button {
+          --checkbox-color-background-off: var(
+            --checkbox-color-background-off--active
+          );
+          --checkbox-color-background-off--error: var(
+            --checkbox-color-background-off--active
+          );
+          --checkbox-color-background-on: var(
+            --checkbox-color-background-on--active
+          );
+          --checkbox-color-background-on--error: var(
+            --checkbox-color-background-on--active
+          );
+          --checkbox-border-inset: var(--checkbox-border-inset--active);
+          --checkbox-border-width: var(--checkbox-border-width--default);
+          --checkbox-color-border: var(--checkbox-color-border-on--active);
+        }
+        .dnb-checkbox__gfx {
+          --checkbox-color-gfx-on: var(--checkbox-color-gfx-on--active);
+        }
+      }
+    }
+
+    @include utilities.focusVisible() {
+      .dnb-radio {
+        .dnb-radio__button {
+          // todo: missing default in radio
+          --radio-border-inset--default: var(--radio-border-inset--focus);
+          --radio-border-width--default: var(--radio-border-width--focus);
+          --radio-color-border--default: var(--radio-color-border--focus);
+          --radio-color-background--default: var(
+            --radio-color-background--focus
+          );
+        }
+        .dnb-radio__dot {
+          --radio-color-dot-on--default: var(--radio-color-dot-on--focus);
+        }
+      }
+      .dnb-checkbox {
+        .dnb-checkbox__button {
+          --checkbox-color-background-off: var(
+            --checkbox-color-background--focus
+          );
+          --checkbox-color-background-off--error: var(
+            --checkbox-color-background--focus
+          );
+          --checkbox-color-background-on: var(
+            --checkbox-color-background--focus
+          );
+          --checkbox-color-background-on--error: var(
+            --checkbox-color-background--focus
+          );
+          --checkbox-border-inset: ;
+          --checkbox-border-width: 0.25rem;
+          --checkbox-color-border: var(--token-color-stroke-action-focus);
+        }
+        .dnb-checkbox__gfx {
+          --checkbox-color-gfx-on: var(--checkbox-color-gfx--focus);
+          --checkbox-color-gfx--error: var(--checkbox-color-gfx--focus);
+        }
+      }
+    }
+  }
+
+  &--checked &__button {
+    // Background
+    --button-color-bg--default: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--hover: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--active: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--disabled: var(
+      --token-color-background-neutral-base
+    );
+
+    // Border
+    --button-color-border--default: var(
+      --token-color-component-button-stroke-selected
+    );
+
+    // Icon
+    --button-color-icon--default: var(--token-color-text-selected);
+
+    // Text
+    --button-color-text--default: var(--token-color-text-selected);
+    --button-color-text--hover: var(--token-color-text-selected);
+    --button-color-text--active: var(--token-color-text-selected);
+  }
+
+  &__status--error &__button {
+    // Background
+    --button-color-bg--default: var(--token-color-background-neutral);
+
+    // Border
+    --button-color-border--default: var(
+      --token-color-component-button-stroke-action-destructive
+    );
+
+    // Icon
+    --button-color-icon--default: var(
+      --token-color-component-button-icon-action-destructive
+    );
+
+    // Text
+    --button-color-text--default: var(
+      --token-color-component-button-text-action-destructive
+    );
+  }
+
+  &__status--error#{&}--checked &__button {
+    // Background
+    --button-color-bg--default: var(--token-color-background-error-subtle);
   }
 
   // in case we don't define a wrapping group
