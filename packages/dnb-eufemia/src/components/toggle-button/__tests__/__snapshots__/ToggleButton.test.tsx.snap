@@ -314,7 +314,7 @@ p > .dnb-icon {
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-lg);
+  --tooltip-border-radius: var(--token-radius-full);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
