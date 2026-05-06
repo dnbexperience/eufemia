@@ -836,7 +836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-typescript@npm:7.27.1, @babel/plugin-syntax-typescript@npm:^7.27.1":
+"@babel/plugin-syntax-typescript@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/plugin-syntax-typescript@npm:7.27.1"
   dependencies:
@@ -2458,7 +2458,6 @@ __metadata:
     "@babel/eslint-parser": "npm:7.28.5"
     "@babel/node": "npm:7.28.0"
     "@babel/parser": "npm:7.28.5"
-    "@babel/plugin-syntax-typescript": "npm:7.27.1"
     "@babel/plugin-transform-export-namespace-from": "npm:7.27.1"
     "@babel/plugin-transform-modules-commonjs": "npm:7.27.1"
     "@babel/plugin-transform-nullish-coalescing-operator": "npm:7.27.1"
@@ -2513,7 +2512,6 @@ __metadata:
     babel-plugin-search-and-replace: "npm:1.1.1"
     babel-plugin-transform-next-use-client: "npm:1.1.1"
     bundlewatch: "npm:0.4.1"
-    chalk: "npm:4.1.2"
     clsx: "npm:2.1.1"
     color: "npm:4.0.1"
     conventional-changelog-conventionalcommits: "npm:5.0.0"
