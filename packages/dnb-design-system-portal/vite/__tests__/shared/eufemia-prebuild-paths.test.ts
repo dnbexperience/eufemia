@@ -4,17 +4,27 @@ import fs from 'node:fs'
 import os from 'node:os'
 import prebuildPaths from '../../shared/eufemia-prebuild-paths.cjs'
 
-const { hasResolvablePrebuildTarget, resolveConfigTimeEufemiaPath } =
-  prebuildPaths as {
-    hasResolvablePrebuildTarget: (
-      source: string,
-      eufemiaRoot?: string
-    ) => boolean
-    resolveConfigTimeEufemiaPath: (
-      source: string,
-      eufemiaRoot?: string
-    ) => string
-  }
+const {
+  hasResolvablePrebuildTarget,
+  requireConfigTimeEufemiaModule,
+  resolveConfigTimeEufemiaPath,
+  unwrapConfigTimeModule,
+} = prebuildPaths as unknown as {
+  hasResolvablePrebuildTarget: (
+    source: string,
+    eufemiaRoot?: string
+  ) => boolean
+  requireConfigTimeEufemiaModule: (
+    source: string,
+    moduleLoader?: (id: string) => unknown,
+    eufemiaRoot?: string
+  ) => unknown
+  resolveConfigTimeEufemiaPath: (
+    source: string,
+    eufemiaRoot?: string
+  ) => string
+  unwrapConfigTimeModule: (moduleExports: unknown) => unknown
+}
 
 describe('eufemia-prebuild-paths', () => {
   let tmpDir: string
@@ -89,5 +99,48 @@ describe('eufemia-prebuild-paths', () => {
         tmpDir
       )
     ).toBe('@dnb/eufemia/src/style/dnb-ui-core.scss')
+  })
+
+  it('unwraps default-only config-time module interop objects', () => {
+    expect(
+      unwrapConfigTimeModule({
+        __esModule: true,
+        default: 'plugin',
+      })
+    ).toBe('plugin')
+  })
+
+  it('keeps named exports intact when a default export is also present', () => {
+    const moduleExports = {
+      __esModule: true,
+      default: 'plugin',
+      getStyleScopeHash: () => 'hash',
+    }
+
+    expect(unwrapConfigTimeModule(moduleExports)).toBe(moduleExports)
+  })
+
+  it('requires config-time modules through the rewritten path and unwraps default interop', () => {
+    fs.mkdirSync(path.join(tmpDir, 'build', 'plugins'), {
+      recursive: true,
+    })
+    fs.writeFileSync(path.join(tmpDir, 'build', 'index.js'), '')
+    fs.writeFileSync(
+      path.join(tmpDir, 'build', 'plugins', 'postcss-font-url-rewrite.js'),
+      ''
+    )
+
+    const moduleLoader = (id: string) => ({
+      __esModule: true,
+      default: id,
+    })
+
+    expect(
+      requireConfigTimeEufemiaModule(
+        '@dnb/eufemia/src/plugins/postcss-font-url-rewrite',
+        moduleLoader,
+        tmpDir
+      )
+    ).toBe('@dnb/eufemia/build/plugins/postcss-font-url-rewrite')
   })
 })

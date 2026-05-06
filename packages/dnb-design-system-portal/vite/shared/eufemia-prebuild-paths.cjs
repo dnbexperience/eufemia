@@ -98,10 +98,41 @@ function resolveConfigTimeEufemiaPath(
   return rewriteToPrebuild(source) ?? source
 }
 
+function unwrapConfigTimeModule(moduleExports) {
+  if (!moduleExports || typeof moduleExports !== 'object') {
+    return moduleExports
+  }
+
+  if (!('default' in moduleExports)) {
+    return moduleExports
+  }
+
+  const exportKeys = Object.keys(moduleExports).filter(
+    (key) => key !== '__esModule'
+  )
+
+  if (exportKeys.length === 1 && exportKeys[0] === 'default') {
+    return moduleExports.default
+  }
+
+  return moduleExports
+}
+
+function requireConfigTimeEufemiaModule(
+  source,
+  moduleLoader = require,
+  eufemiaRoot = getEufemiaRoot()
+) {
+  const resolvedPath = resolveConfigTimeEufemiaPath(source, eufemiaRoot)
+  return unwrapConfigTimeModule(moduleLoader(resolvedPath))
+}
+
 module.exports = {
   getAbsolutePackagePath,
   hasPrebuild,
   hasResolvablePrebuildTarget,
+  requireConfigTimeEufemiaModule,
   resolveConfigTimeEufemiaPath,
   rewriteToPrebuild,
+  unwrapConfigTimeModule,
 }
