@@ -7,6 +7,7 @@ import {
   stripMissingExampleImports,
 } from '../client/plugins/strip-missing-example-imports'
 import { convertCjsToEsm } from '../client/plugins/load-js-as-jsx'
+import portalMdxPlugin from '../client/plugins/portal-mdx'
 
 describe('vite.config transform plugins', () => {
   describe('strip-missing-example-imports', () => {
@@ -139,6 +140,30 @@ describe('vite.config transform plugins', () => {
       const code = `import foo from 'bar'\nexport const x = 1`
       const result = convertCjsToEsm(code)
       expect(result).toBeNull()
+    })
+  })
+
+  describe('portal-mdx', () => {
+    it('does not export frontmatter from runtime MDX modules', async () => {
+      const plugin = portalMdxPlugin()
+      const transform = plugin.transform
+
+      expect(transform).toBeTypeOf('function')
+
+      if (typeof transform !== 'function') {
+        throw new Error('Expected portal-mdx plugin to expose transform')
+      }
+
+      const result = await transform(
+        `---\ntitle: Test\nshowTabs: true\n---\n\n# Hello\n`,
+        '/virtual/page.mdx'
+      )
+
+      const code = typeof result === 'string' ? result : result?.code
+
+      expect(code).toContain('export default function MDXContent')
+      expect(code).not.toContain('frontmatter')
+      expect(code).not.toContain('showTabs')
     })
   })
 })

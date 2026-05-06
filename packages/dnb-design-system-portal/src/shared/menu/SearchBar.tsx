@@ -16,7 +16,7 @@ import {
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
-import { scrollToAnimation } from '../parts/Layout'
+import { scrollToAnimation } from '../parts/layout-utils'
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 
 export const SearchBarInput = () => {

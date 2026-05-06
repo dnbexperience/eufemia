@@ -6,15 +6,12 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import mdx from '@mdx-js/rollup'
 import { createRequire } from 'node:module'
-import remarkGfm from 'remark-gfm'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import rawLoaderCompatPlugin from './vite/client/plugins/raw-loader-compat'
 import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports'
 import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel'
 import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx'
+import portalMdxPlugin from './vite/client/plugins/portal-mdx'
 import portalPagesPlugin from './vite/client/plugins/portal-pages'
 import eufemiaThemePlugin from './vite/client/plugins/eufemia-theme'
 import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html'
@@ -77,17 +74,7 @@ export default defineConfig({
 
     // MDX support — must come before React plugin so .mdx files
     // are transformed to JSX before React processes them
-    {
-      enforce: 'pre',
-      ...mdx({
-        providerImportSource: '@mdx-js/react',
-        remarkPlugins: [
-          remarkGfm,
-          remarkFrontmatter,
-          [remarkMdxFrontmatter, { name: 'frontmatter' }],
-        ],
-      }),
-    },
+    portalMdxPlugin(),
 
     rawLoaderCompatPlugin(),
 

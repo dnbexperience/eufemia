@@ -25,7 +25,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
-import { defaultTabsValue } from '../tags/TabBar'
+import { defaultTabsValue } from '../tags/defaultValues'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
