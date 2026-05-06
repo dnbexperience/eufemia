@@ -1,6 +1,9 @@
 const path = require('path')
 const fs = require('fs-extra')
 const sass = require('sass')
+const {
+  resolveConfigTimeEufemiaPath,
+} = require('../vite/shared/eufemia-prebuild-paths.cjs')
 
 /**
  * Converts SASS to CSS and puts the css files inside the /public directory.
@@ -18,7 +21,7 @@ function generatePackages(convertFiles) {
      */
     const includePaths = []
 
-    const file = require.resolve(filePath)
+    const file = require.resolve(resolveConfigTimeEufemiaPath(filePath))
     const result = sass.compile(file, {
       loadPaths: includePaths,
     })

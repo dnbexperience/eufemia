@@ -1,4 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import type * as EufemiaPrebuildModule from '../../client/plugins/eufemia-prebuild'
+import type * as GlobModule from 'glob'
 import eufemiaThemePlugin, {
   getDefaultConfig,
 } from '../../client/plugins/eufemia-theme'
@@ -27,6 +29,20 @@ describe('eufemia-theme plugin', () => {
       )
       expect(config.filesGlobs).toContainEqual(
         expect.stringContaining('theme-{basis,components,dark-mode}')
+      )
+    })
+
+    it('uses build style globs when prebuild styles are requested', () => {
+      const config = getDefaultConfig(true)
+
+      expect(config.filesGlobs).toContain(
+        '**/build/style/dnb-ui-core.scss'
+      )
+      expect(config.filesGlobs).toContain(
+        '**/build/style/themes/**/*-theme-{basis,components,dark-mode}.scss'
+      )
+      expect(config.filesGlobs).toContain(
+        '**/build/extensions/payment-card/**/dnb-*.scss'
       )
     })
 
@@ -135,6 +151,69 @@ describe('eufemia-theme plugin', () => {
       expect(code).toContain(
         "querySelectorAll('link[data-eufemia-theme]')"
       )
+    })
+
+    it('uses build style imports in build mode when a prebuild exists', async () => {
+      vi.resetModules()
+
+      vi.doMock('../../client/plugins/eufemia-prebuild', async () => {
+        const actual = await vi.importActual<typeof EufemiaPrebuildModule>(
+          '../../client/plugins/eufemia-prebuild'
+        )
+
+        return {
+          ...actual,
+          hasPrebuild: () => true,
+        }
+      })
+
+      vi.doMock('glob', async () => {
+        const actual = await vi.importActual<typeof GlobModule>('glob')
+
+        return {
+          ...actual,
+          globSync: vi.fn((pattern: string) => {
+            const normalized = pattern.replace(/\\/g, '/')
+
+            if (normalized.includes('/build/style/dnb-ui-core.scss')) {
+              return ['/mock/build/style/dnb-ui-core.scss']
+            }
+
+            if (
+              normalized.includes(
+                '/build/extensions/payment-card/**/dnb-*.scss'
+              )
+            ) {
+              return [
+                '/mock/build/extensions/payment-card/style/dnb-payment-card.scss',
+              ]
+            }
+
+            return []
+          }),
+        }
+      })
+
+      try {
+        const { default: createThemePlugin } =
+          await import('../../client/plugins/eufemia-theme')
+        const plugin = createThemePlugin()
+
+        const configResolved = plugin.configResolved as (config: {
+          command: string
+        }) => void
+        configResolved({ command: 'build' })
+
+        const load = plugin.load as (id: string) => string | undefined
+        const code = load('\0virtual:eufemia-theme-styles')
+
+        expect(code).toContain('/build/style/')
+        expect(code).not.toContain('/src/style/')
+      } finally {
+        vi.doUnmock('../../client/plugins/eufemia-prebuild')
+        vi.doUnmock('glob')
+        vi.resetModules()
+      }
     })
 
     it('generates per-theme module code', () => {

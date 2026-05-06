@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Vite configuration for the Eufemia documentation portal.
  *
@@ -9,6 +8,7 @@ import { defineConfig, transformWithOxc } from 'vite'
 import react from '@vitejs/plugin-react'
 import mdx from '@mdx-js/rollup'
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import remarkGfm from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
@@ -23,12 +23,25 @@ import buildInfoPlugin from './vite/client/plugins/build-info'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
 import path from 'node:path'
 
+const nodeRequire = createRequire(import.meta.url)
+const { resolveConfigTimeEufemiaPath } = nodeRequire(
+  './vite/shared/eufemia-prebuild-paths.cjs'
+)
+
 // PostCSS plugins used by the portal
-const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope')
-const {
-  getStyleScopeHash,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
-const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
+const postcssIsolatePlugin = nodeRequire(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope'
+  )
+)
+const { getStyleScopeHash } = nodeRequire(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs'
+  )
+)
+const postcssThemeScopePlugin = nodeRequire(
+  './postcss-eufemia-theme-scope.cjs'
+)
 
 export default defineConfig({
   root: path.resolve(__dirname, 'vite/client'),
@@ -134,7 +147,6 @@ export default defineConfig({
             }
             if (fs.existsSync(candidate)) {
               examplesPath = candidate
-              break
             }
           }
 

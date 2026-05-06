@@ -1,12 +1,27 @@
 const {
-  enablePortalStyleScope,
-  enableBuildStyleScope,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
-const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope')
-const {
-  getStyleScopeHash,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
-const postcssFontUrlRewritePlugin = require('@dnb/eufemia/src/plugins/postcss-font-url-rewrite')
+  resolveConfigTimeEufemiaPath,
+} = require('./vite/shared/eufemia-prebuild-paths.cjs')
+
+const { enablePortalStyleScope, enableBuildStyleScope } = require(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config'
+  )
+)
+const postcssIsolatePlugin = require(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope'
+  )
+)
+const { getStyleScopeHash } = require(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs'
+  )
+)
+const postcssFontUrlRewritePlugin = require(
+  resolveConfigTimeEufemiaPath(
+    '@dnb/eufemia/src/plugins/postcss-font-url-rewrite'
+  )
+)
 const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
 
 module.exports = {

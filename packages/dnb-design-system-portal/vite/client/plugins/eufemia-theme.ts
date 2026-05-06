@@ -14,6 +14,7 @@ import { type Plugin } from 'vite'
 import path from 'node:path'
 import { globSync } from 'glob'
 import micromatch from 'micromatch'
+import { hasPrebuild } from './eufemia-prebuild'
 
 /**
  * FOUC-prevention scripts matching @dnb/eufemia/shared/ColorSchemeScript.
@@ -47,7 +48,12 @@ type ThemeConfig = {
   themeMatchers: RegExp[]
 }
 
-function getDefaultConfig(): ThemeConfig {
+function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
+  const styleRoot = usePrebuildStyles ? 'build/style' : 'src/style'
+  const paymentCardRoot = usePrebuildStyles
+    ? 'build/extensions/payment-card'
+    : 'src/extensions/payment-card'
+
   return {
     themes: {
       ui: { name: 'DNB' },
@@ -57,9 +63,9 @@ function getDefaultConfig(): ThemeConfig {
     },
     defaultTheme: 'ui',
     filesGlobs: [
-      '**/src/style/dnb-ui-core.scss',
-      '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
-      '**/src/extensions/payment-card/**/dnb-*.scss',
+      `**/${styleRoot}/dnb-ui-core.scss`,
+      `**/${styleRoot}/themes/**/*-theme-{basis,components,dark-mode}.scss`,
+      `**/${paymentCardRoot}/**/dnb-*.scss`,
     ],
     includeFiles: [
       '**/dnb-ui-core*',
@@ -130,17 +136,20 @@ function collectThemeFiles(config: ThemeConfig): string[] {
 }
 
 export default function eufemiaThemePlugin(): Plugin {
-  const config = getDefaultConfig()
   let isBuild = false
+  let usePrebuildStyles = false
 
   return {
     name: 'vite-plugin-eufemia-theme',
 
     configResolved(resolvedConfig) {
       isBuild = resolvedConfig.command === 'build'
+      usePrebuildStyles = isBuild && hasPrebuild()
     },
 
     resolveId(id) {
+      const config = getDefaultConfig(usePrebuildStyles)
+
       if (id === VIRTUAL_STYLES_ID) {
         return RESOLVED_VIRTUAL_STYLES_ID
       }
@@ -155,6 +164,8 @@ export default function eufemiaThemePlugin(): Plugin {
     },
 
     load(id) {
+      const config = getDefaultConfig(usePrebuildStyles)
+
       if (id === RESOLVED_VIRTUAL_STYLES_ID) {
         const files = collectThemeFiles(config)
         const themeMatchers = config.themeMatchers
