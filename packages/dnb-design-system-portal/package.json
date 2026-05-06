@@ -100,7 +100,6 @@
     "remark-frontmatter": "5.0.0",
     "remark-gfm": "4",
     "remark-gfm-react-markdown": "npm:remark-gfm@4.0.1",
-    "remark-mdx-frontmatter": "5.2.0",
     "repo-utils": "workspace:*",
     "sass": "1.97.2",
     "start-server-and-test": "2.0.1",
