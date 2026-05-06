@@ -366,11 +366,18 @@ export default [
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
     ...config,
     files: ['**/__tests__/**'],
+    settings: {
+      ...(config.settings || {}),
+      jest: { version: 30 },
+    },
   })),
   {
     files: ['**/__tests__/**'],
     plugins: {
       jest: jestPlugin,
+    },
+    settings: {
+      jest: { version: 30 },
     },
     rules: {
       'no-console': 'off',

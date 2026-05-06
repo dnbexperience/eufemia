@@ -47,7 +47,6 @@ audit-ci.json
 # conf
 package-scripts.js
 static.config.js
-jest.config.js
 tsdown.config.ts
 postcss.config.js
 
