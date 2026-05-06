@@ -81,9 +81,13 @@
     display: none;
   }
 
-  background-color: var(--token-color-background-neutral);
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-  :global(.background--plain) & {
     border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
   }
 
