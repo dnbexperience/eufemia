@@ -741,6 +741,26 @@ describe('HelpButtonInlineContent Component', () => {
     expect(contentElement.tagName).toBe('DIV')
   })
 
+  it('should render block-level title without wrapping it in a p tag', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          open: true,
+          title: (
+            <div>
+              <span>Title with block content</span>
+            </div>
+          ),
+        }}
+      />
+    )
+
+    const titleElement = document.querySelector(
+      '.dnb-help-button__content .dnb-p'
+    )
+    expect(titleElement.tagName).toBe('DIV')
+  })
+
   it('should render string content with paragraph styling', () => {
     render(
       <HelpButtonInline
