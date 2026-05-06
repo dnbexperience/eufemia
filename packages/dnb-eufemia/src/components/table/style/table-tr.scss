@@ -8,7 +8,7 @@
   & > tbody > tr,
   & &__tr,
   & &__tr--even {
-    background-color: var(
+    --background-color: var(
       --token-color-component-table-background-neutral-alternative
     );
   }
@@ -17,6 +17,6 @@
   & > tbody > tr:not(#{&}__tr--even):nth-of-type(2n),
   & &__tr:not(#{&}__tr--even):nth-of-type(2n),
   & &__tr--odd {
-    background-color: var(--token-color-background-neutral);
+    --background-color: var(--token-color-background-neutral);
   }
 }

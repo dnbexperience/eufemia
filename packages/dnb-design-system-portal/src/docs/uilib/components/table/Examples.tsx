@@ -1079,7 +1079,7 @@ export const KeyboardNavigation = () => (
 
         return (
           <div ref={navRef}>
-            <Table>
+            <Table border outline>
               <caption className="dnb-sr-only">
                 Keyboard navigable table
               </caption>
