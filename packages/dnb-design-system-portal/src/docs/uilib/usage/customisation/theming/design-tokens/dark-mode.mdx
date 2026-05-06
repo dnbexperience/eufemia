@@ -1,0 +1,128 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+# Dark mode guide
+
+Dark mode changes the active color scheme. It does not change how you choose semantic tokens.
+
+Start with the same semantic token family you would use in light mode, then adjust only when the surface relationship changes:
+
+- Use the base token when the content sits on the current color scheme's default surface.
+- Use the `inverse` variant when the content sits on a surface that follows the opposite color scheme.
+- Use the `ondark` variant when the content sits on a local dark surface, regardless of the surrounding color scheme.
+
+## Choosing the right variant
+
+### Base tokens follow the current scheme
+
+`--token-color-text-neutral`, `--token-color-icon-neutral`, `--token-color-text-action`, and `--token-color-icon-action` are the default choice for content that lives on the page's normal surface.
+
+If the application changes from light mode to dark mode, those same token names adapt automatically. In most cases, this is all you need.
+
+### `inverse` is for the opposite scheme
+
+Use `inverse` when the surrounding surface should feel like the opposite color scheme.
+
+Typical examples are overlays, promotional blocks, or embedded areas that intentionally contrast with the current page mode. The token keeps the semantic role, but flips the contrast relationship.
+
+### `ondark` is for local dark surfaces
+
+Use `ondark` when the background is dark because of the component or section itself, not because the whole app switched to dark mode.
+
+That distinction matters because a local dark card inside light mode and a full dark-mode page are not the same thing. `ondark` communicates that the content must stay readable on a dark surface in either case.
+
+### Variant behavior in each scheme
+
+#### Light color scheme
+
+Use the base token on the current surface, switch to `inverse` when the surface follows the opposite scheme, and use `ondark` for a local dark surface.
+
+#### Dark color scheme
+
+The same semantic token names adapt automatically in dark mode. Only `inverse` and `ondark` change the surface relationship.
+
+### Color token swatches
+
+<Examples.DarkModeTokenSwatches />
+
+## Practical rule
+
+Choose the token by semantic role first, then by surface relationship:
+
+1. Is this neutral content or action content?
+2. Is it on the current scheme, the opposite scheme, or a local dark surface?
+3. Pick the base, `inverse`, or `ondark` variant accordingly.
+
+If you are styling Eufemia components, prefer `surface="dark"` where supported. Components already switch to the correct `ondark` variants automatically.
+
+## Common pattern
+
+Dark mode tokens are not included in the default theme import. Import the extra dark mode stylesheet before using `colorScheme`:
+
+```tsx
+// DNB theme
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
+
+// Sbanken theme
+import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
+```
+
+For runtime setup, persistence, and SSR details, see the [`colorScheme` property](/uilib/usage/customisation/theming/theme/#the-colorscheme-property-dark-mode).
+
+If you render on the server, also read [Preventing dark mode flash (FOUC)](/uilib/usage/customisation/theming/theme/#preventing-dark-mode-flash-fouc).
+
+When your app switches the whole UI to dark mode, keep using the base semantic tokens once the dark mode stylesheet is loaded:
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme colorScheme="dark">
+    <App />
+  </Theme>
+)
+```
+
+When a single component can appear on a dark surface, swap only the local token references:
+
+```scss
+.my-card {
+  --card-text-color: var(--token-color-text-neutral);
+  --card-icon-color: var(--token-color-icon-neutral);
+}
+
+.my-card--on-dark {
+  --card-text-color: var(--token-color-text-neutral-ondark);
+  --card-icon-color: var(--token-color-icon-neutral-ondark);
+}
+
+.my-card__title {
+  color: var(--card-text-color);
+}
+
+.my-card__icon {
+  color: var(--card-icon-color);
+}
+```
+
+Use the same pattern for action-colored content:
+
+```scss
+.my-link-card {
+  --card-link-color: var(--token-color-text-action);
+  --card-link-icon-color: var(--token-color-icon-action);
+}
+
+.my-link-card--inverse {
+  --card-link-color: var(--token-color-text-action-inverse);
+  --card-link-icon-color: var(--token-color-icon-action-inverse);
+}
+
+.my-link-card--on-dark {
+  --card-link-color: var(--token-color-text-action-ondark);
+  --card-link-icon-color: var(--token-color-icon-action-ondark);
+}
+```
