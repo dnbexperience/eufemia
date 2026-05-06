@@ -2,59 +2,15 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
+import {
+  resolveExamplesPath,
+  stripMissingExampleImports,
+} from '../client/plugins/strip-missing-example-imports'
+import { convertCjsToEsm } from '../client/plugins/load-js-as-jsx'
+import portalMdxPlugin from '../client/plugins/portal-mdx'
 
 describe('vite.config transform plugins', () => {
   describe('strip-missing-example-imports', () => {
-    // Replicate the transform logic from vite.config.ts
-    function stripMissingExampleImports(
-      code: string,
-      filepath: string,
-      resolveExamples: (source: string, dir: string) => string | null
-    ): string | null {
-      if (!filepath.endsWith('.mdx') && !filepath.endsWith('.tsx')) {
-        return null
-      }
-
-      const importRe =
-        /import\s*\{([^}]+)\}\s*from\s*['"]([^'"]*Examples)['"]/g
-      let match = importRe.exec(code)
-      if (!match) {
-        return null
-      }
-
-      let transformed = code
-      while (match) {
-        const [fullImport, specifiers, source] = match
-        const dir = path.dirname(filepath)
-        const examplesPath = resolveExamples(source, dir)
-
-        if (examplesPath) {
-          const exContent = fs.readFileSync(examplesPath, 'utf-8')
-          const names = specifiers
-            .split(',')
-            .map((s) => s.trim())
-            .filter(Boolean)
-          const valid = names.filter((n) => exContent.includes(n))
-
-          if (valid.length < names.length) {
-            if (valid.length === 0) {
-              transformed = transformed.replace(
-                fullImport,
-                '// [vite] removed stale import'
-              )
-            } else {
-              const newImport = `import { ${valid.join(', ')} } from '${source}'`
-              transformed = transformed.replace(fullImport, newImport)
-            }
-          }
-        }
-
-        match = importRe.exec(code)
-      }
-
-      return transformed !== code ? transformed : null
-    }
-
     let tmpDir: string
 
     beforeEach(() => {
@@ -73,12 +29,11 @@ describe('vite.config transform plugins', () => {
       )
 
       const code = `import { ExistingExample, NonExistent } from './Examples'`
-      const resolve = (source: string) => examplesFile
 
       const result = stripMissingExampleImports(
         code,
         path.join(tmpDir, 'page.mdx'),
-        resolve
+        { portalRoot: tmpDir }
       )
       expect(result).toBe(`import { ExistingExample } from './Examples'`)
     })
@@ -88,12 +43,11 @@ describe('vite.config transform plugins', () => {
       fs.writeFileSync(examplesFile, 'export const Other = () => null')
 
       const code = `import { Missing1, Missing2 } from './Examples'`
-      const resolve = (source: string) => examplesFile
 
       const result = stripMissingExampleImports(
         code,
         path.join(tmpDir, 'page.mdx'),
-        resolve
+        { portalRoot: tmpDir }
       )
       expect(result).toBe('// [vite] removed stale import')
     })
@@ -106,12 +60,11 @@ describe('vite.config transform plugins', () => {
       )
 
       const code = `import { Foo, Bar } from './Examples'`
-      const resolve = (source: string) => examplesFile
 
       const result = stripMissingExampleImports(
         code,
         path.join(tmpDir, 'page.mdx'),
-        resolve
+        { portalRoot: tmpDir }
       )
       expect(result).toBeNull()
     })
@@ -120,7 +73,7 @@ describe('vite.config transform plugins', () => {
       const result = stripMissingExampleImports(
         `import { Foo } from './Examples'`,
         'file.js',
-        () => null
+        { portalRoot: tmpDir }
       )
       expect(result).toBeNull()
     })
@@ -129,43 +82,35 @@ describe('vite.config transform plugins', () => {
       const result = stripMissingExampleImports(
         `import { Foo } from './utils'`,
         'page.mdx',
-        () => null
+        { portalRoot: tmpDir }
       )
       expect(result).toBeNull()
+    })
+
+    it('prefers the first matching Examples extension', () => {
+      const examplesTsxFile = path.join(tmpDir, 'Examples.tsx')
+      const examplesJsFile = path.join(tmpDir, 'Examples.js')
+
+      fs.writeFileSync(examplesTsxFile, 'export const Foo = () => null')
+      fs.writeFileSync(examplesJsFile, 'export const Bar = () => null')
+
+      expect(
+        resolveExamplesPath('./Examples', path.join(tmpDir, 'page.mdx'), {
+          portalRoot: tmpDir,
+        })
+      ).toBe(examplesTsxFile)
+
+      const result = stripMissingExampleImports(
+        `import { Foo, Bar } from './Examples'`,
+        path.join(tmpDir, 'page.mdx'),
+        { portalRoot: tmpDir }
+      )
+
+      expect(result).toBe(`import { Foo } from './Examples'`)
     })
   })
 
   describe('load-js-as-jsx CJS conversion', () => {
-    // Replicate the CJS→ESM conversion logic from vite.config.ts
-    function convertCjsToEsm(code: string): string | null {
-      const isCjs = /\brequire\s*\(/.test(code) || /\bexports\./.test(code)
-      if (!isCjs) {
-        return null
-      }
-
-      let transformed = code
-
-      // require('x') → import x from 'x'
-      transformed = transformed.replace(
-        /(?:const|let|var)\s+(\w+)\s*=\s*require\s*\(\s*(['"][^'"]+['"])\s*\)/g,
-        'import $1 from $2'
-      )
-
-      // exports.name = function name(...) { → export function name(...) {
-      transformed = transformed.replace(
-        /exports\.(\w+)\s*=\s*function\s+\1/g,
-        'export function $1'
-      )
-
-      // exports.name = expr → export const name = expr
-      transformed = transformed.replace(
-        /exports\.(\w+)\s*=\s*/g,
-        'export const $1 = '
-      )
-
-      return transformed !== code ? transformed : null
-    }
-
     it('converts require to import', () => {
       const code = `const path = require('path')`
       const result = convertCjsToEsm(code)
@@ -195,6 +140,30 @@ describe('vite.config transform plugins', () => {
       const code = `import foo from 'bar'\nexport const x = 1`
       const result = convertCjsToEsm(code)
       expect(result).toBeNull()
+    })
+  })
+
+  describe('portal-mdx', () => {
+    it('does not export frontmatter from runtime MDX modules', async () => {
+      const plugin = portalMdxPlugin()
+      const transform = plugin.transform
+
+      expect(transform).toBeTypeOf('function')
+
+      if (typeof transform !== 'function') {
+        throw new Error('Expected portal-mdx plugin to expose transform')
+      }
+
+      const result = await transform(
+        `---\ntitle: Test\nshowTabs: true\n---\n\n# Hello\n`,
+        '/virtual/page.mdx'
+      )
+
+      const code = typeof result === 'string' ? result : result?.code
+
+      expect(code).toContain('export default function MDXContent')
+      expect(code).not.toContain('frontmatter')
+      expect(code).not.toContain('showTabs')
     })
   })
 })

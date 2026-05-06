@@ -7,66 +7,17 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
-import {
-  Provider,
-  Context,
-  Theme,
-  mergeTranslations,
-} from '@dnb/eufemia/src/shared'
+import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import GlobalStatus from '@dnb/eufemia/src/components/global-status/GlobalStatus'
-import coreTranslations from '@dnb/eufemia/src/shared/locales'
-export { coreTranslations as translations }
 import PortalLayout, { type PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from '../../vite/client/shims/theme-handler'
-import type {
-  InternalLocale,
-  TranslationsLoader,
-} from '@dnb/eufemia/src/shared/Context'
+import type { TranslationsLoader } from '@dnb/eufemia/src/shared/Context'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
-
-// Load additional locale translations on demand
-export async function loadTranslations(locale: string) {
-  switch (locale) {
-    case 'en-US': {
-      const enUS = (await import('@dnb/eufemia/src/shared/locales/en-US'))
-        .default
-      return enUS
-    }
-    case 'sv-SE': {
-      const [svSE, svSE_forms, svSE_forms_countries] = await Promise.all([
-        import('@dnb/eufemia/src/shared/locales/sv-SE'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'),
-      ])
-      return mergeTranslations(
-        svSE.default,
-        svSE_forms.default,
-        svSE_forms_countries.default
-      )
-    }
-    case 'da-DK': {
-      const [daDK, daDK_forms, daDK_forms_countries] = await Promise.all([
-        import('@dnb/eufemia/src/shared/locales/da-DK'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'),
-      ])
-      return mergeTranslations(
-        daDK.default,
-        daDK_forms.default,
-        daDK_forms_countries.default
-      )
-    }
-    default:
-      return null
-  }
-}
-
-export const supportedTranslationsKey = [
-  ...Object.keys(coreTranslations),
-  'en-US',
-  'sv-SE',
-  'da-DK',
-]
+import {
+  getLang,
+  getSkeletonEnabled,
+  loadTranslations,
+} from './portalRuntimeUtils'
 
 // This ensures we process the css prop during build.
 const createCacheInstance = () =>
@@ -184,33 +135,4 @@ function SkeletonEnabled({ children }) {
   }, [skeleton, update])
 
   return children
-}
-
-export function getLang(locale: InternalLocale = 'nb-NO'): InternalLocale {
-  try {
-    const l = window.localStorage.getItem('locale') as InternalLocale
-    if (l) {
-      locale = l
-    }
-  } catch (e) {
-    //
-  }
-  return locale
-}
-
-export function setLang(locale) {
-  try {
-    window.localStorage.setItem('locale', locale)
-  } catch (e) {
-    //
-  }
-}
-
-export function getSkeletonEnabled() {
-  try {
-    return window.localStorage.getItem('skeleton-enabled') === 'true'
-  } catch (e) {
-    //
-  }
-  return false
 }

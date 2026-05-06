@@ -12,13 +12,7 @@ import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
 import { navigate } from 'portal-query'
-
-export const defaultTabsValue = [
-  { title: 'Info', key: '/info' },
-  { title: 'Demos', key: '/demos' },
-  { title: 'Properties', key: '/properties' },
-  { title: 'Events', key: '/events' },
-]
+import { defaultTabsValue } from './defaultValues'
 
 type TabbarTabs = Array<{ title: string; key: string }>
 type TabbarProps = {

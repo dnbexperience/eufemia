@@ -5,6 +5,7 @@ import os from 'node:os'
 import eufemiaPrebuildPlugin, {
   hasPrebuild,
   logPrebuildWarning,
+  rewriteToPrebuild,
 } from '../../client/plugins/eufemia-prebuild'
 import type { ResolvedConfig } from 'vite'
 
@@ -110,7 +111,7 @@ describe('eufemia-prebuild plugin', () => {
       expect(result).toBeNull()
     })
 
-    it('ignores @dnb/eufemia imports that do not start with /src', () => {
+    it('ignores imports that already target the build output', () => {
       const plugin = createPlugin()
 
       vi.spyOn(fs, 'existsSync').mockReturnValue(true)
@@ -118,7 +119,7 @@ describe('eufemia-prebuild plugin', () => {
       vi.restoreAllMocks()
 
       const result = plugin.resolveId(
-        '@dnb/eufemia/components/Button',
+        '@dnb/eufemia/build/components/Button',
         undefined,
         {}
       )
@@ -150,6 +151,90 @@ describe('eufemia-prebuild plugin', () => {
         '@dnb/eufemia/build/components/Button',
         '/some/importer.ts',
         expect.objectContaining({ skipSelf: true })
+      )
+    })
+
+    it('rewrites bare @dnb/eufemia imports to the build entry in build mode with prebuild', async () => {
+      const plugin = createPlugin()
+
+      vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+      plugin.configResolved(makeConfig({ command: 'build' }))
+      vi.restoreAllMocks()
+
+      const mockResolve = vi.fn().mockResolvedValue({ id: '/resolved' })
+      const boundResolveId = plugin.resolveId.bind({
+        resolve: mockResolve,
+      })
+
+      await boundResolveId('@dnb/eufemia', '/some/importer.ts', {})
+
+      expect(mockResolve).toHaveBeenCalledWith(
+        '@dnb/eufemia/build',
+        '/some/importer.ts',
+        expect.objectContaining({ skipSelf: true })
+      )
+    })
+
+    it('rewrites public package subpaths to the build directory in build mode with prebuild', async () => {
+      const plugin = createPlugin()
+
+      vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+      plugin.configResolved(makeConfig({ command: 'build' }))
+      vi.restoreAllMocks()
+
+      const mockResolve = vi.fn().mockResolvedValue({ id: '/resolved' })
+      const boundResolveId = plugin.resolveId.bind({
+        resolve: mockResolve,
+      })
+
+      await boundResolveId(
+        '@dnb/eufemia/components/Button',
+        '/some/importer.ts',
+        {}
+      )
+
+      expect(mockResolve).toHaveBeenCalledWith(
+        '@dnb/eufemia/build/components/Button',
+        '/some/importer.ts',
+        expect.objectContaining({ skipSelf: true })
+      )
+    })
+
+    it('does not rewrite explicit prebuilt format paths', async () => {
+      const plugin = createPlugin()
+
+      vi.spyOn(fs, 'existsSync').mockReturnValue(true)
+      plugin.configResolved(makeConfig({ command: 'build' }))
+      vi.restoreAllMocks()
+
+      const mockResolve = vi.fn()
+      const boundResolveId = plugin.resolveId.bind({
+        resolve: mockResolve,
+      })
+
+      const result = await boundResolveId(
+        '@dnb/eufemia/es/components/Button',
+        '/some/importer.ts',
+        {}
+      )
+
+      expect(result).toBeNull()
+      expect(mockResolve).not.toHaveBeenCalled()
+    })
+
+    it('rewrites helper covers bare, src, and public subpaths', () => {
+      expect(rewriteToPrebuild('@dnb/eufemia')).toBe('@dnb/eufemia/build')
+
+      expect(rewriteToPrebuild('@dnb/eufemia/src/components/Button')).toBe(
+        '@dnb/eufemia/build/components/Button'
+      )
+
+      expect(rewriteToPrebuild('@dnb/eufemia/components/Button')).toBe(
+        '@dnb/eufemia/build/components/Button'
+      )
+
+      expect(rewriteToPrebuild('@dnb/eufemia/es/components/Button')).toBe(
+        null
       )
     })
 

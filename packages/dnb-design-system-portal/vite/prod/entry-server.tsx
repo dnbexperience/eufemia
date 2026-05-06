@@ -22,7 +22,7 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { MDXProvider } from '@mdx-js/react'
 import { routes, allMdxNodes } from 'virtual:portal-pages'
-import { translations, getLang } from '../../src/core/PortalProviders'
+import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
 

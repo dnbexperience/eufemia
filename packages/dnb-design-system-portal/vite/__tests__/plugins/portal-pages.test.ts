@@ -3,6 +3,8 @@ import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
 import {
+  getVirtualModuleSignature,
+  readPageFileInfo,
   shouldIgnore,
   scanPageFiles,
   slugify,
@@ -312,13 +314,23 @@ describe('portal-pages plugin', () => {
       expect(invalidateModule).not.toHaveBeenCalled()
     })
 
-    it('invalidates the virtual module for MDX page updates', () => {
-      const plugin = portalPagesPlugin()
+    it('invalidates the virtual module for MDX frontmatter updates', () => {
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'portal-pages-hot-update-')
+      )
+      const file = path.join(tmpDir, 'uilib/components/button/demos.mdx')
+
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+      fs.writeFileSync(file, '---\ntitle: Button\n---\n## First heading')
+
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const changedModule = { id: file }
       const mod = { id: '\0virtual:portal-pages' }
       const getModuleById = vi.fn(() => mod)
       const invalidateModule = vi.fn()
       const handleHotUpdate = plugin.handleHotUpdate as (context: {
         file: string
+        modules: Array<unknown>
         server: {
           moduleGraph: {
             getModuleById: (id: string) => unknown
@@ -327,8 +339,17 @@ describe('portal-pages plugin', () => {
         }
       }) => unknown
 
+      const load = plugin.load as (id: string) => string | undefined
+      load('\0virtual:portal-pages')
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Updated Button\n---\n## First heading'
+      )
+
       const result = handleHotUpdate({
-        file: '/src/docs/uilib/components/button/demos.mdx',
+        file,
+        modules: [changedModule],
         server: {
           moduleGraph: {
             getModuleById,
@@ -337,9 +358,169 @@ describe('portal-pages plugin', () => {
         },
       })
 
-      expect(result).toEqual([mod])
+      expect(result).toEqual([changedModule, mod])
       expect(getModuleById).toHaveBeenCalledWith('\0virtual:portal-pages')
       expect(invalidateModule).toHaveBeenCalledWith(mod)
+
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    })
+
+    it('does not invalidate the virtual module for MDX heading-only updates', () => {
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'portal-pages-headings-')
+      )
+      const file = path.join(tmpDir, 'uilib/components/button/demos.mdx')
+
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+      fs.writeFileSync(file, '---\ntitle: Button\n---\n## First heading')
+
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const mod = { id: '\0virtual:portal-pages' }
+      const getModuleById = vi.fn(() => mod)
+      const invalidateModule = vi.fn()
+      const handleHotUpdate = plugin.handleHotUpdate as (context: {
+        file: string
+        modules: Array<unknown>
+        server: {
+          moduleGraph: {
+            getModuleById: (id: string) => unknown
+            invalidateModule: (module: unknown) => void
+          }
+        }
+      }) => unknown
+
+      const load = plugin.load as (id: string) => string | undefined
+      load('\0virtual:portal-pages')
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## First heading\n## Second heading'
+      )
+
+      const result = handleHotUpdate({
+        file,
+        modules: [{ id: file }],
+        server: {
+          moduleGraph: {
+            getModuleById,
+            invalidateModule,
+          },
+        },
+      })
+
+      expect(result).toBeUndefined()
+      expect(getModuleById).not.toHaveBeenCalled()
+      expect(invalidateModule).not.toHaveBeenCalled()
+
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    })
+
+    it('does not invalidate the virtual module for MDX body-only updates', () => {
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'portal-pages-hmr-')
+      )
+      const file = path.join(tmpDir, 'uilib/components/button/demos.mdx')
+
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## First heading\nBody text'
+      )
+
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const mod = { id: '\0virtual:portal-pages' }
+      const getModuleById = vi.fn(() => mod)
+      const invalidateModule = vi.fn()
+      const handleHotUpdate = plugin.handleHotUpdate as (context: {
+        file: string
+        modules: Array<unknown>
+        server: {
+          moduleGraph: {
+            getModuleById: (id: string) => unknown
+            invalidateModule: (module: unknown) => void
+          }
+        }
+      }) => unknown
+
+      const load = plugin.load as (id: string) => string | undefined
+      load('\0virtual:portal-pages')
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## First heading\nUpdated body text'
+      )
+
+      const result = handleHotUpdate({
+        file,
+        modules: [{ id: file }],
+        server: {
+          moduleGraph: {
+            getModuleById,
+            invalidateModule,
+          },
+        },
+      })
+
+      expect(result).toBeUndefined()
+      expect(getModuleById).not.toHaveBeenCalled()
+      expect(invalidateModule).not.toHaveBeenCalled()
+
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    })
+  })
+
+  describe('virtual module signatures', () => {
+    let tmpDir: string
+
+    beforeEach(() => {
+      tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-pages-sign-'))
+    })
+
+    afterEach(() => {
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    })
+
+    it('ignores body-only MDX changes in the virtual module signature', () => {
+      const file = path.join(tmpDir, 'button/info.mdx')
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## Heading\nBody text'
+      )
+      const initial = readPageFileInfo(file, tmpDir)
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## Heading\nUpdated body text'
+      )
+      const updated = readPageFileInfo(file, tmpDir)
+
+      expect(initial).toBeTruthy()
+      expect(updated).toBeTruthy()
+      expect(getVirtualModuleSignature(initial!)).toBe(
+        getVirtualModuleSignature(updated!)
+      )
+    })
+
+    it('ignores heading-only MDX changes in the virtual module signature', () => {
+      const file = path.join(tmpDir, 'button/info.mdx')
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+
+      fs.writeFileSync(file, '---\ntitle: Button\n---\n## Heading')
+      const initial = readPageFileInfo(file, tmpDir)
+
+      fs.writeFileSync(
+        file,
+        '---\ntitle: Button\n---\n## Heading\n## Another heading'
+      )
+      const updated = readPageFileInfo(file, tmpDir)
+
+      expect(initial).toBeTruthy()
+      expect(updated).toBeTruthy()
+      expect(getVirtualModuleSignature(initial!)).toBe(
+        getVirtualModuleSignature(updated!)
+      )
     })
   })
 

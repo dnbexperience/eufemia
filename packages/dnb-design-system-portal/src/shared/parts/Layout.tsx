@@ -14,10 +14,7 @@ import {
   SidebarMenuContext,
 } from '../menu/SidebarMenuContext'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
-import {
-  setPageFocusElement,
-  scrollToLocationHashId,
-} from '@dnb/eufemia/src/shared/helpers'
+import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
@@ -29,21 +26,7 @@ import {
   fullscreenStyle,
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
-
-export function scrollToAnimation() {
-  // if url hash is defined, scroll to the id
-  scrollToLocationHashId({
-    offset: 100,
-    delay: 100,
-    onCompletion: (elem) => {
-      try {
-        elem.parentElement.classList.add('focus')
-      } catch (e) {
-        //
-      }
-    },
-  })
-}
+import { scrollToAnimation } from './layout-utils'
 
 type LayoutProps = {
   fullscreen?: boolean

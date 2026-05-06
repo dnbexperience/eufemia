@@ -61,7 +61,7 @@ In production, `prerender.mjs` builds the client and server bundles, collects ro
 - `portal-pages` scans `src/docs/` and builds the route and MDX metadata registry.
 - `eufemia-theme` discovers theme assets, injects color-scheme bootstrapping scripts, and manages runtime theme loading.
 - `test-page-filter` limits production builds to the routes needed for visual and e2e test runs.
-- `eufemia-prebuild` rewrites `@dnb/eufemia/src/...` imports to `@dnb/eufemia/build/...` when a prebuilt package is available.
+- `eufemia-prebuild` rewrites `@dnb/eufemia`, `@dnb/eufemia/src/...`, and public package subpaths to `@dnb/eufemia/build/...` when a prebuilt package is available.
 - `build-info` computes `releaseVersion`, `buildVersion`, and `changelogVersion` at build time.
 
 ## Production Scripts
