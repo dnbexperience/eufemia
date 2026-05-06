@@ -1,4 +1,5 @@
 import { isValidElement, useCallback, useContext, useRef } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
 import pointer from '../utils/json-pointer'
 import type { FilterData } from '../DataContext/Context'
@@ -10,9 +11,9 @@ export type ListAllPropsReturn<Data> = {
 }
 export type ListAllPropsProps<Data> = {
   log?: boolean
-  generateRef?: React.RefObject<() => ListAllPropsReturn<Data>>
+  generateRef?: RefObject<() => ListAllPropsReturn<Data>>
   filterData?: FilterData
-  children: React.ReactNode
+  children: ReactNode
 }
 export type GenerateRef<Data extends JsonObject = JsonObject> =
   ListAllPropsProps<Data>['generateRef']['current']
@@ -107,7 +108,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }
 
     if (generateRef) {
-      const mutableGenerateRef = generateRef as React.RefObject<
+      const mutableGenerateRef = generateRef as RefObject<
         () => ListAllPropsReturn<Data>
       >
       mutableGenerateRef.current = generate

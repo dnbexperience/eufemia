@@ -1,4 +1,3 @@
-import React from 'react'
 import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 

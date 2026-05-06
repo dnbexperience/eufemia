@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
@@ -8,12 +8,12 @@ import ContentWrapper, {
 
 export type TabsCustomContentTitle =
   | Record<string, unknown>
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
 
 export type TabsCustomContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => React.ReactNode)
+  | ReactNode
+  | ((...args: any[]) => ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string
@@ -26,7 +26,7 @@ export type TabsCustomContentProps = {
   children?: TabsCustomContentChildren
   className?: string
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
 > &
   SpacingProps
@@ -59,7 +59,7 @@ function CustomContent(props: TabsCustomContentProps) {
     >
     return (
       <ContentWrapper {...contentWrapperProps} id={id}>
-        {children as React.ReactNode}
+        {children as ReactNode}
       </ContentWrapper>
     )
   }
@@ -70,7 +70,7 @@ function CustomContent(props: TabsCustomContentProps) {
         className: clsx('dnb-tabs__content__inner', className),
       })}
     >
-      {children as React.ReactNode}
+      {children as ReactNode}
     </div>
   )
 }

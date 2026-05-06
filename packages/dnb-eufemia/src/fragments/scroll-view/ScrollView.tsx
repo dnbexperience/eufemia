@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useRef, useState } from 'react'
+import type { DetailedHTMLProps, HTMLAttributes, Ref } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
@@ -33,12 +34,12 @@ export type ScrollViewProps = {
 
 export type ScrollViewAllProps = ScrollViewProps &
   SpacingProps &
-  Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>> & {
-    ref?: React.Ref<unknown>
+  Partial<Omit<HTMLAttributes<HTMLDivElement>, 'title'>> & {
+    ref?: Ref<unknown>
   }
 
 function ScrollView(localProps: ScrollViewAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(localProps, {}, context.ScrollView)
@@ -52,11 +53,11 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ...attributes
   } = props
 
-  const mainParams: React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
+  const mainParams: DetailedHTMLProps<
+    HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > = applySpacing(props, {
-    ...(attributes as React.HTMLAttributes<unknown>),
+    ...(attributes as HTMLAttributes<unknown>),
     className: clsx(
       'dnb-scroll-view',
       scrollbarGutter === 'stable' &&
@@ -65,7 +66,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ),
   })
 
-  const localRef = React.useRef<HTMLDivElement>(undefined)
+  const localRef = useRef<HTMLDivElement>(undefined)
   const combinedRef = useCombinedRef(refProp, localRef)
   mainParams.ref = combinedRef
 
@@ -81,9 +82,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
 }
 
 function useInteractive({ interactive, children, ref }) {
-  const [isInteractive, setAsInteractive] = React.useState(
-    Boolean(interactive)
-  )
+  const [isInteractive, setAsInteractive] = useState(Boolean(interactive))
 
   useLayoutEffect(() => {
     if (interactive === 'auto') {

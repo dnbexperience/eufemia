@@ -1,7 +1,8 @@
 /**
  * Web PaymentCard Component
  */
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Context, { type Translation } from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -49,10 +50,7 @@ export type PaymentCardVariant = 'normal' | 'compact'
 
 export type PaymentCardDigits = string | number
 
-export type PaymentCardChildren =
-  | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+export type PaymentCardChildren = string | ReactNode | (() => ReactNode)
 
 export type PaymentCardRawData = {
   productCode: string
@@ -100,7 +98,7 @@ export type PaymentCardProps = {
   skeleton?: SkeletonShow
   className?: string
   children?: PaymentCardChildren
-} & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
+} & Omit<HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
 type PaymentCardTranslation = NonNullable<Translation['PaymentCard']>

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { ReactNode } from 'react'
 import {
   fireEvent,
   render,
@@ -2383,7 +2384,7 @@ describe('Field.Upload', () => {
         | Array<{
             id: string
             fileName: string
-            errorMessage?: React.ReactNode
+            errorMessage?: ReactNode
           }>
         | undefined
       return (

@@ -1,10 +1,5 @@
-import React, {
-  act,
-  useCallback,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react'
+import { act, useCallback, useMemo, useReducer, useRef } from 'react'
+import type { RefObject } from 'react'
 import { render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useNextRouter from '../useNextRouter'
@@ -41,7 +36,7 @@ describe('useNextRouter', () => {
     })
   }
   const getHookMock = () => {
-    const forceUpdateRef: React.RefObject<(() => void) | null> = {
+    const forceUpdateRef: RefObject<(() => void) | null> = {
       current: null,
     }
 

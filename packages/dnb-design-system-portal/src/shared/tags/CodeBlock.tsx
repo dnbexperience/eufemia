@@ -3,7 +3,7 @@
  *
  */
 
-import React, {
+import {
   useCallback,
   useContext,
   useId,
@@ -11,6 +11,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
@@ -62,7 +63,7 @@ export type CodeSectionProps = {
   className?: string
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
-  children: string | React.ReactNode | (() => React.ReactNode)
+  children: string | ReactNode | (() => ReactNode)
   tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 }

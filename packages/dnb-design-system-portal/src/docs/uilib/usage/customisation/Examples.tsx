@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Button, Icon } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'

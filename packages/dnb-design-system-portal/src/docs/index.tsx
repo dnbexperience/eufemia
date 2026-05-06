@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { useStaticQuery, graphql } from 'portal-query'
 import MainMenu from '../shared/menu/MainMenu'
 import { usePortalHead } from '../core/PortalHead'

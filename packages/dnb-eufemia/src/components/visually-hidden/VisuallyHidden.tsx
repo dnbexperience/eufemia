@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 
 // Shared
@@ -22,7 +23,7 @@ export type VisuallyHiddenProps = {
 }
 
 export type VisuallyHiddenAllProps = VisuallyHiddenProps &
-  React.HTMLProps<HTMLSpanElement>
+  HTMLProps<HTMLSpanElement>
 
 const defaultProps: Partial<VisuallyHiddenAllProps> = {
   focusable: false,
@@ -31,7 +32,7 @@ const defaultProps: Partial<VisuallyHiddenAllProps> = {
 
 const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // Extract additional props from global context
   const { element, children, className, focusable, ...props } =

@@ -3,19 +3,20 @@
  *
  */
 
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Space from '../../space/Space'
 
 export type SkeletonArticleRows = string | number
 export type SkeletonArticleChildren =
   | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+  | (() => ReactNode)
+  | ReactNode
 export type SkeletonArticleProps = {
   rows?: SkeletonArticleRows
   children?: SkeletonArticleChildren
-} & Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'>
+} & Omit<HTMLProps<HTMLDivElement>, 'rows' | 'children'>
 
 function SkeletonArticle({
   rows = 3,

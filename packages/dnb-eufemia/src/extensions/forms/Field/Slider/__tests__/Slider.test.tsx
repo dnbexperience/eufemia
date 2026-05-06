@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { DataContext, Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Context, {
   type InternalLocale,
 } from '@dnb/eufemia/src/shared/Context'

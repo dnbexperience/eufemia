@@ -1,4 +1,3 @@
-import React from 'react'
 import { Popover, Button, P, Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'

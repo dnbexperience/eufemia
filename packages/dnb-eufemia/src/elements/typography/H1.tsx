@@ -2,7 +2,6 @@
  * HTML Element
  *
  */
-import React from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { SharedHProps } from './H'
 import H from './H'

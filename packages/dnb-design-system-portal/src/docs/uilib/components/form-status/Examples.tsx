@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   InfoIcon,
@@ -82,7 +82,7 @@ export const FormStatusAnimation = () => (
   <ComponentBox>
     {() => {
       const ToggleAnimation = () => {
-        const [status, setStatus] = React.useState(null)
+        const [status, setStatus] = useState(null)
         const toggleStatus = () => {
           setStatus((s) => (!s ? 'You have to fill in this field' : null))
         }

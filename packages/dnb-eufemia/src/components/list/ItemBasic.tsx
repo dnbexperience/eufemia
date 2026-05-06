@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import type { ItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
@@ -9,7 +9,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type ItemBasicProps = {
   id?: string
   icon?: IconIcon
-  title?: React.ReactNode
+  title?: ReactNode
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {

@@ -1,11 +1,5 @@
-import type { ElementRef, RefObject } from 'react'
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useCallback,
-  useMemo,
-} from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import type { ElementRef, MouseEvent, RefObject } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import type { FieldStringProps as StringFieldProps } from '../String'
@@ -21,10 +15,9 @@ import IconViewOffMedium from '../../../../icons/hide_medium'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type PasswordVisibilityEvent =
-  React.MouseEvent<HTMLButtonElement> & {
-    value: string
-  }
+export type PasswordVisibilityEvent = MouseEvent<HTMLButtonElement> & {
+  value: string
+}
 
 export type PasswordProps = Omit<StringFieldProps, 'ref'> & {
   /**
@@ -73,7 +66,7 @@ function Password({
   }, [translations.errorRequired, props.errorMessages])
 
   const toggleVisibility = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+    (event: MouseEvent<HTMLButtonElement>) => {
       const { onShowPassword, onHidePassword } = props
 
       const value = ref.current.value
@@ -93,7 +86,7 @@ function Password({
     [props]
   )
 
-  const preventFocusChange = useCallback((event: React.MouseEvent) => {
+  const preventFocusChange = useCallback((event: MouseEvent) => {
     // Prevent the button from stealing focus from the input on click.
     // Without this, the input blurs and triggers a re-render that
     // replaces the icon SVG between mousedown and mouseup, causing

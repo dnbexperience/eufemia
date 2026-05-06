@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent, createEvent } from '@testing-library/react'
 import Table from '../Table'
 import Tr from '../TableTr'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import { setTheme } from '../../vite/client/shims/theme-handler'
 import type { ThemeColorScheme } from '@dnb/eufemia/src/shared/Theme'

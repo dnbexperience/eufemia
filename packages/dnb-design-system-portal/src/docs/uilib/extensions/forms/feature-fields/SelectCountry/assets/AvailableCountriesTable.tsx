@@ -1,4 +1,3 @@
-import React from 'react'
 import { Table, Th, Tr, Td } from '@dnb/eufemia/src'
 import useCountries from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/useCountries'
 import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'

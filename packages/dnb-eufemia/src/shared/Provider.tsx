@@ -3,7 +3,7 @@
  *
  */
 
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -11,6 +11,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { ReactNode } from 'react'
 import type { ContextProps, InternalLocale } from './Context'
 import Context, { prepareContext } from './Context'
 import { LOCALE } from './defaults'
@@ -27,7 +28,7 @@ export type ProviderProps = {
   /**
    * The content
    */
-  children: React.ReactNode
+  children: ReactNode
 } & ContextProps
 
 export default function Provider<Props>(

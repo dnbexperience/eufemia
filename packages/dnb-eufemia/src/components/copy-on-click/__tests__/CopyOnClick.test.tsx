@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { axeComponent, mockClipboard } from '../../../core/jest/jestSetup'

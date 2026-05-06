@@ -1,4 +1,18 @@
-import React, { useMemo, useCallback } from 'react'
+import {
+  Children,
+  createElement,
+  isValidElement,
+  useCallback,
+  useMemo,
+} from 'react'
+import type {
+  CSSProperties,
+  ComponentProps,
+  ComponentType,
+  JSX,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import {
@@ -34,17 +48,17 @@ import type { ToggleButtonGroupProps } from '../../../../components/toggle-butto
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type IOption = {
-  title: string | React.ReactNode
+  title: string | ReactNode
   value: number | string
   status: FormStatusText
 }
 export type Data = Array<
   {
     value: number | string
-    title: React.ReactNode
-    text?: React.ReactNode
+    title: ReactNode
+    text?: ReactNode
     disabled?: boolean
-    style?: React.CSSProperties
+    style?: CSSProperties
     [key: string]: any
   } & Partial<DrawerListDataArrayObjectStrict>
 >
@@ -52,7 +66,7 @@ export type Data = Array<
 type RenderSelectionChildren = (params: {
   value: IOption['value']
   options: FieldSelectionProps['data']
-}) => React.ReactNode
+}) => ReactNode
 
 type DrawerListChangeParams = {
   data?: DrawerListDataArrayObjectStrict | string | null
@@ -85,7 +99,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    * Transform the displayed selection for Dropdown and Autocomplete variant.
    * Use it to display a different value than the one in the data set.
    */
-  transformSelection?: (props: OptionFieldProps) => React.ReactNode
+  transformSelection?: (props: OptionFieldProps) => ReactNode
 
   /**
    * The path to the context data (Form.Handler).
@@ -102,7 +116,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
    * Array of groups, only the first can be `undefined`
    */
-  groups?: React.ReactNode[]
+  groups?: ReactNode[]
   /**
    * Autocomplete specific props
    */
@@ -125,7 +139,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
    * The content of the component.
    */
-  children?: React.ReactNode | RenderSelectionChildren
+  children?: ReactNode | RenderSelectionChildren
 }
 
 function Selection(props: FieldSelectionProps) {
@@ -272,8 +286,7 @@ function Selection(props: FieldSelectionProps) {
       })
 
       const additionalFieldBlockProps: FieldBlockProps = {
-        asFieldset:
-          hasRenderPropChildren || React.Children.count(items) > 1,
+        asFieldset: hasRenderPropChildren || Children.count(items) > 1,
         fieldsetRole: variant === 'radio' ? 'radiogroup' : 'group',
       }
       if (!size) {
@@ -389,15 +402,15 @@ function resolveChildren(
   return children
 }
 
-type OptionProps = React.ComponentProps<
+type OptionProps = ComponentProps<
   (props: {
     value: FieldSelectionProps['value']
     error: Error | FormError | undefined
     help: HelpProps
-    title: React.ReactNode
-    children: React.ReactNode
+    title: ReactNode
+    children: ReactNode
     size?: ToggleButtonProps['size'] | RadioProps['size']
-  }) => React.JSX.Element
+  }) => JSX.Element
 >
 
 function renderRadioItems({
@@ -418,12 +431,12 @@ function renderRadioItems({
   info: FieldSelectionProps['info']
   warning: FieldSelectionProps['warning']
   htmlAttributes: FieldSelectionProps['htmlAttributes']
-  children: React.ReactNode
+  children: ReactNode
   dataList?: Data
   hasError: ReturnAdditional<FieldSelectionProps['value']>['hasError']
   iterateOverItems?: (item: {
     value: FieldSelectionProps['value']
-    label: React.ReactNode
+    label: ReactNode
   }) => void
 }) {
   const optionsCount = countOptions(children) + (dataList?.length || 0)
@@ -473,18 +486,16 @@ function renderRadioItems({
   ].filter(Boolean)
 }
 
-export function countOptions(children: React.ReactNode): number {
+export function countOptions(children: ReactNode): number {
   let count = 0
 
-  React.Children.forEach(children, (child) => {
-    if (React.isValidElement(child)) {
+  Children.forEach(children, (child) => {
+    if (isValidElement(child)) {
       if (child.type === OptionField) {
         count++
-      } else if (
-        (child.props as { children?: React.ReactNode }).children
-      ) {
+      } else if ((child.props as { children?: ReactNode }).children) {
         count += countOptions(
-          (child.props as { children?: React.ReactNode }).children
+          (child.props as { children?: ReactNode }).children
         )
       }
     }
@@ -494,16 +505,16 @@ export function countOptions(children: React.ReactNode): number {
 }
 
 export function mapOptions(
-  children: React.ReactNode,
+  children: ReactNode,
   {
     createOption,
-  }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
+  }: { createOption: (props: OptionProps, i: number) => ReactNode }
 ) {
-  return React.Children.map(
+  return Children.map(
     // @ts-expect-error - strictFunctionTypes
     children,
-    (child: React.ReactElement<OptionProps>, i) => {
-      if (React.isValidElement(child)) {
+    (child: ReactElement<OptionProps>, i) => {
+      if (isValidElement(child)) {
         if (child.type === OptionField) {
           return createOption(child.props, i)
         }
@@ -512,8 +523,8 @@ export function mapOptions(
           const nestedChildren = mapOptions(child.props.children, {
             createOption,
           })
-          return React.createElement(
-            child.type as React.ComponentType<any>,
+          return createElement(
+            child.type as ComponentType<any>,
             child.props,
             nestedChildren
           )
@@ -526,15 +537,15 @@ export function mapOptions(
 }
 
 export function makeOptions<T = DrawerListProps['data']>(
-  children: React.ReactNode,
+  children: ReactNode,
   transformSelection?: FieldSelectionProps['transformSelection']
 ): T {
-  return React.Children.map(children, (child) => {
+  return Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
       child = child['props'].children
     }
 
-    if (React.isValidElement(child) && child.type === OptionField) {
+    if (isValidElement(child) && child.type === OptionField) {
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title

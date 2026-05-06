@@ -4,11 +4,11 @@
  * @returns object {props, htmlAttributes}
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 
 export const useFilteredProps = () => {
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
 
   const {
     mask,

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
 import IsolatedStyleScope, {
@@ -41,7 +41,7 @@ describe('PortalRoot', () => {
   })
 
   it('should handle ref forwarding', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
     render(
       <PortalRoot ref={ref}>
         <div>Content</div>
@@ -287,7 +287,7 @@ describe('PortalRoot', () => {
 
   it('should handle ref forwarding with custom id', () => {
     const customId = 'custom-portal-with-ref'
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
     render(
       <PortalRoot id={customId} ref={ref}>
         <div>Content</div>

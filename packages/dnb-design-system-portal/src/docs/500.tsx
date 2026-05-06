@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { GlobalError } from '@dnb/eufemia/src/components'
 
 export default function Error500() {

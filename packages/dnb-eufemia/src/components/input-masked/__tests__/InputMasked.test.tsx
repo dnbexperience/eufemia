@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -49,10 +50,10 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef(null)
+      ref = useRef(null)
       return <InputMasked {...props} ref={ref} />
     }
 
@@ -196,7 +197,7 @@ describe('InputMasked component', () => {
     const suffix = ' kr'
 
     const EditValue = () => {
-      const [value, setValue] = React.useState(10000.01)
+      const [value, setValue] = useState(10000.01)
 
       return (
         <InputMasked
@@ -233,7 +234,7 @@ describe('InputMasked component', () => {
     const onChange = jest.fn()
 
     const EditValue = () => {
-      const [value, setValue] = React.useState(-0.1)
+      const [value, setValue] = useState(-0.1)
 
       return (
         <InputMasked
@@ -661,7 +662,7 @@ describe('InputMasked component', () => {
   it('should set correct integerLimit during typing', () => {
     const onChange = jest.fn()
     const MockComponent = () => {
-      const [controlledValue, setControlledValue] = React.useState(123456)
+      const [controlledValue, setControlledValue] = useState(123456)
 
       const handleChange = (props) => {
         setControlledValue(props.numberValue)
@@ -1178,7 +1179,7 @@ describe('InputMasked component with currencyMask', () => {
 
   it('should handle zero after decimal', () => {
     const Input = () => {
-      const [value, setValue] = React.useState('20.0')
+      const [value, setValue] = useState('20.0')
       return (
         <InputMasked
           value={value}
@@ -1208,7 +1209,7 @@ describe('InputMasked component with currencyMask', () => {
 
   it('can change value to be empty', () => {
     const BasicMask = () => {
-      const [floatVal, setState] = React.useState(123)
+      const [floatVal, setState] = useState(123)
 
       return (
         <InputMasked
@@ -1657,8 +1658,7 @@ describe('InputMasked component asCurrency', () => {
   it('should set correct integerLimit during typing', () => {
     const onChange = jest.fn()
     const MockComponent = () => {
-      const [controlledValue, setControlledValue] =
-        React.useState(123456.1234)
+      const [controlledValue, setControlledValue] = useState(123456.1234)
 
       const handleChange = (props) => {
         setControlledValue(props.numberValue)
@@ -1943,7 +1943,7 @@ describe('InputMasked component asCurrency', () => {
 
   it('should handle decimal values less than 1', () => {
     const MockComponent = () => {
-      const [value, setState] = React.useState(1.5)
+      const [value, setState] = useState(1.5)
 
       return (
         <>
@@ -1981,7 +1981,7 @@ describe('InputMasked component asCurrency', () => {
 
   it('should handle "integerLimit" with minus and less or more integers than set as a limit', () => {
     const MockComponent = () => {
-      const [value, setState] = React.useState(-500.555)
+      const [value, setState] = useState(-500.555)
 
       return (
         <>
@@ -2025,7 +2025,7 @@ describe('InputMasked component asCurrency', () => {
 
   it('should handle negative (minus) value updates', () => {
     const MockComponent = () => {
-      const [value, setState] = React.useState(-1.5)
+      const [value, setState] = useState(-1.5)
 
       return (
         <>
@@ -2560,7 +2560,7 @@ describe('inputmode', () => {
 describe('controlled', () => {
   it('should correctly update with new value from outside', async () => {
     const MockComponent = (props) => {
-      const [value, setValue] = React.useState('')
+      const [value, setValue] = useState('')
       return (
         <>
           <input

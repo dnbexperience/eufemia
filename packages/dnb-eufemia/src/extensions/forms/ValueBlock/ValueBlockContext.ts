@@ -1,10 +1,9 @@
-import React from 'react'
-
+import { createContext } from 'react'
 export type ValueBlockContextProps = {
   composition?: boolean
 }
 
-const ValueBlockContext = React.createContext<
+const ValueBlockContext = createContext<
   ValueBlockContextProps | undefined
 >(undefined)
 

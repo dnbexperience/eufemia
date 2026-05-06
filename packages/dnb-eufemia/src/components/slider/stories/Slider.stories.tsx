@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -79,7 +79,7 @@ export function Marker() {
 }
 
 export function NegativeValues() {
-  const [value, setValue] = React.useState<Array<number>>([-20, 50])
+  const [value, setValue] = useState<Array<number>>([-20, 50])
 
   return (
     <FixedSizeWrapper>
@@ -106,8 +106,8 @@ export function NegativeValues() {
 }
 
 export function MultiButtons() {
-  const [value, setValue] = React.useState<Array<number>>([100, 400, 800])
-  const [valueSecond, setValueSecond] = React.useState<number>(800)
+  const [value, setValue] = useState<Array<number>>([100, 400, 800])
+  const [valueSecond, setValueSecond] = useState<number>(800)
 
   return (
     <>
@@ -159,7 +159,7 @@ export function MultiButtons() {
 }
 
 const SliderStory = () => {
-  const [value, setValue] = React.useState(70)
+  const [value, setValue] = useState(70)
   return (
     <Wrapper>
       <Box>
@@ -224,7 +224,7 @@ const SliderStory = () => {
 }
 
 const DisabledState = () => {
-  const [isDisabled, setDisabled] = React.useState(false)
+  const [isDisabled, setDisabled] = useState(false)
   return (
     <Provider formElement={{ direction: 'horizontal' }}>
       <ToggleButton

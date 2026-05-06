@@ -4,7 +4,14 @@
  * @returns React Element
  */
 
-import React, { useCallback } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect as reactUseLayoutEffect,
+  useRef,
+} from 'react'
+import type { JSX, Ref } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import TextMask from '../TextMask'
 import { getSoftKeyboardAttributes } from '../InputMaskedUtils'
@@ -14,17 +21,17 @@ import { createNumberMask } from './useNumberMask'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+  typeof window === 'undefined' ? useEffect : reactUseLayoutEffect
 
 export const useInputElement = () => {
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
   const { ref: refProp, allowOverflow, overwriteMode } = props
 
   const mask = useMask()
   const { showMask } = useMaskParams()
 
   const isFn = typeof refProp === 'function'
-  const refHook = React.useRef<HTMLInputElement>(null)
+  const refHook = useRef<HTMLInputElement>(null)
   const ref = (!isFn && refProp) || refHook
 
   useLayoutEffect(() => {
@@ -34,8 +41,8 @@ export const useInputElement = () => {
   }, [refProp, isFn, ref])
 
   // Create the actual input element
-  const inputElementRef = React.useRef<React.JSX.Element>(
-    <input ref={ref as React.Ref<HTMLInputElement>} />
+  const inputElementRef = useRef<JSX.Element>(
+    <input ref={ref as Ref<HTMLInputElement>} />
   )
 
   return useCallback(

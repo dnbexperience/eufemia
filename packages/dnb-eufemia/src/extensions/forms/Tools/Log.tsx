@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { ReactNode } from 'react'
 import DataContext from '../DataContext/Context'
 import type { SectionAllProps } from '../../../components/Section'
 import Section from '../../../components/Section'
@@ -12,8 +13,8 @@ function Log({
   ...props
 }: Omit<SectionAllProps, 'data' | 'label'> & {
   data?: unknown
-  label?: React.ReactNode
-  placeholder?: React.ReactNode
+  label?: ReactNode
+  placeholder?: ReactNode
 }) {
   const { internalDataRef } = useContext(DataContext)
   const data = internalDataRef?.current

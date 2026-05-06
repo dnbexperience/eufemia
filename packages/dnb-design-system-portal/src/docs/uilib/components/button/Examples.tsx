@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary, Section } from '@dnb/eufemia/src'

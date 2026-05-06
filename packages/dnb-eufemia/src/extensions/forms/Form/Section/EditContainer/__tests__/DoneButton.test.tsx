@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import FieldBoundaryContext from '../../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import SectionContainerContext from '../../containers/SectionContainerContext'

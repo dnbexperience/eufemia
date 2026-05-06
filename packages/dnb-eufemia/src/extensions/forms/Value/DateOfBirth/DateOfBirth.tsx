@@ -1,4 +1,3 @@
-import React from 'react'
 import type { ValueDateProps as DateValueProps } from '../Date/Date'
 import DateComponent from '../Date/Date'
 import useTranslation from '../../hooks/useTranslation'

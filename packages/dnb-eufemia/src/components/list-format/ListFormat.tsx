@@ -1,4 +1,5 @@
-import React, { Fragment, useContext, useMemo } from 'react'
+import { Children, Fragment, useContext, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { InternalLocale } from '../../shared/Context'
@@ -42,13 +43,13 @@ export type ListFormatProps = {
    * The value to format as list.
    * Default: `null`
    */
-  value?: Array<React.ReactNode>
+  value?: Array<ReactNode>
 
   /**
    * The children to format as list.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function ListFormat(
@@ -80,7 +81,7 @@ function ListFormat(
     }
 
     return isListVariant
-      ? React.Children.map(valueToUse, (child: React.ReactNode, index) => {
+      ? Children.map(valueToUse, (child: ReactNode, index) => {
           return <Li key={index}>{child}</Li>
         })
       : valueToUse
@@ -112,7 +113,7 @@ function ListFormat(
 }
 
 export function listFormat(
-  list: Array<React.ReactNode>,
+  list: Array<ReactNode>,
   {
     locale = LOCALE,
     format = {
@@ -159,7 +160,7 @@ export function listFormat(
             element
           ) : (
             // Support lists without a key
-            <React.Fragment key={i}>{element}</React.Fragment>
+            <Fragment key={i}>{element}</Fragment>
           )
         }
 
@@ -179,15 +180,12 @@ export function listFormat(
 
 function replaceRootFragment(children) {
   if (children?.type === Fragment) {
-    return React.Children.toArray(children?.props?.children)
+    return Children.toArray(children?.props?.children)
   }
   if (Array.isArray(children)) {
     const firstChild = children[0]
-    if (
-      React.Children.count(children) === 1 &&
-      firstChild?.type === Fragment
-    ) {
-      return React.Children.toArray(firstChild?.props?.children)
+    if (Children.count(children) === 1 && firstChild?.type === Fragment) {
+      return Children.toArray(firstChild?.props?.children)
     }
     return children
   }

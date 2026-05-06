@@ -3,7 +3,14 @@ import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { ItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
-import React, { useCallback, useContext, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  KeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  ReactNode,
+} from 'react'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
@@ -14,19 +21,19 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
-export type ItemActionProps<E extends React.ElementType = 'a'> = {
+export type ItemActionProps<E extends ElementType = 'a'> = {
   id?: string
   variant?: ListVariant
   selected?: boolean
   disabled?: boolean
   chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
-  title?: React.ReactNode
+  title?: ReactNode
   href?: string
   to?: string
   element?: E
   elementProps?: Omit<
-    React.ComponentPropsWithoutRef<E>,
+    ComponentPropsWithoutRef<E>,
     | 'href'
     | 'to'
     | 'target'
@@ -39,7 +46,7 @@ export type ItemActionProps<E extends React.ElementType = 'a'> = {
   rel?: string
 } & Omit<ItemContentProps, 'title' | 'element'>
 
-function ItemAction<E extends React.ElementType = 'a'>(
+function ItemAction<E extends ElementType = 'a'>(
   props: ItemActionProps<E>
 ) {
   const {
@@ -70,24 +77,24 @@ function ItemAction<E extends React.ElementType = 'a'>(
 
   const handleClick = useCallback(
     (
-      event: React.MouseEvent<
+      event: ReactMouseEvent<
         HTMLDivElement | HTMLAnchorElement,
         MouseEvent
       >
     ) => {
       if (!isInactive) {
-        onClick && onClick(event as React.MouseEvent<HTMLDivElement>)
+        onClick && onClick(event as ReactMouseEvent<HTMLDivElement>)
       }
     },
     [onClick, isInactive]
   )
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement | HTMLAnchorElement>) => {
+    (event: KeyboardEvent<HTMLDivElement | HTMLAnchorElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         handleClick(
-          event as unknown as React.MouseEvent<
+          event as unknown as ReactMouseEvent<
             HTMLDivElement | HTMLAnchorElement,
             MouseEvent
           >
@@ -100,16 +107,16 @@ function ItemAction<E extends React.ElementType = 'a'>(
   const anchorRef = useRef<HTMLAnchorElement>(null)
 
   const handleLinkClick = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
+    (event: ReactMouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
       if (!isInactive) {
-        onClick?.(event as React.MouseEvent<HTMLDivElement>)
+        onClick?.(event as ReactMouseEvent<HTMLDivElement>)
       }
     },
     [onClick, isInactive]
   )
 
   const handleLinkKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent<HTMLElement>) => {
       if (event.key === ' ') {
         event.preventDefault()
         if (!isInactive) {

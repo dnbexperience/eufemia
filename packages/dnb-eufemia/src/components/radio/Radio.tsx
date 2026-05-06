@@ -3,7 +3,17 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState, useCallback } from 'react'
+import { memo, useCallback, useContext, useRef, useState } from 'react'
+import type {
+  ChangeEvent,
+  ElementType,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  Ref,
+  SyntheticEvent,
+} from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -34,13 +44,13 @@ import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SpacingProps } from '../space/types'
 
-export type RadioLabel = string | React.ReactNode
+export type RadioLabel = string | ReactNode
 export type RadioLabelPosition = 'left' | 'right'
 export type RadioSize = 'default' | 'medium' | 'large'
-export type RadioSuffix = string | React.ReactNode
-export type RadioChildren = string | React.ReactNode
+export type RadioSuffix = string | ReactNode
+export type RadioChildren = string | ReactNode
 
-export type RadioEvent<E = React.SyntheticEvent> = {
+export type RadioEvent<E = SyntheticEvent> = {
   group?: string
   checked: boolean
   value: string
@@ -48,9 +58,9 @@ export type RadioEvent<E = React.SyntheticEvent> = {
 }
 
 export type RadioChangeEvent = RadioEvent<
-  | React.ChangeEvent<HTMLInputElement>
-  | React.KeyboardEvent<HTMLInputElement>
-  | React.MouseEvent<HTMLInputElement>
+  | ChangeEvent<HTMLInputElement>
+  | KeyboardEvent<HTMLInputElement>
+  | MouseEvent<HTMLInputElement>
 >
 
 export type RadioProps = {
@@ -72,7 +82,7 @@ export type RadioProps = {
   checked?: boolean
   disabled?: boolean
   id?: string
-  element?: React.ElementType
+  element?: ElementType
   /**
    * Use a unique group identifier to define the Radio buttons that belongs together.
    */
@@ -94,9 +104,9 @@ export type RadioProps = {
   /**
    * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
    */
-  ref?: React.Ref<HTMLInputElement>
+  ref?: Ref<HTMLInputElement>
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'ref' | 'onChange' | 'label' | 'size' | 'children'
 > &
   SpacingProps &
@@ -193,7 +203,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     }: {
       value: string
       checked: boolean
-      event: React.SyntheticEvent
+      event: SyntheticEvent
     }) => {
       const { group } = ownPropsRef.current
       if (groupContextRef.current.onChange) {
@@ -222,9 +232,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const onChangeHandler = useCallback(
-    (
-      _event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent
-    ) => {
+    (_event: ChangeEvent<HTMLInputElement> | KeyboardEvent) => {
       const event = _event
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
@@ -251,7 +259,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: KeyboardEvent) => {
       const key = event.key
       // only have key support if there is only a single radio
       if (isInNoGroup()) {
@@ -285,7 +293,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const onClickHandler = useCallback(
-    (event: React.MouseEvent<HTMLInputElement>) => {
+    (event: MouseEvent<HTMLInputElement>) => {
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
@@ -424,7 +432,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     <FormLabel
       id={id + '-label'}
       forId={id}
-      text={label as React.ReactNode}
+      text={label as ReactNode}
       disabled={disabled}
       skeleton={skeleton}
       srOnly={labelSrOnly}
@@ -449,7 +457,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
             show={showStatus}
             id={id + '-form-status'}
             globalStatus={globalStatus}
-            label={label as React.ReactNode}
+            label={label as ReactNode}
             textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + ', ' + id + '-label'}
             text={status}
@@ -502,7 +510,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
                 id={id + '-suffix'} // used for "aria-describedby"
                 context={props}
               >
-                {suffix as React.ReactNode}
+                {suffix as ReactNode}
               </Suffix>
             )}
           </span>
@@ -512,7 +520,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 }
 
-const Radio = React.memo(RadioInner) as unknown as typeof RadioInner & {
+const Radio = memo(RadioInner) as unknown as typeof RadioInner & {
   Group: typeof RadioGroup
   parseChecked: typeof parseChecked
 }

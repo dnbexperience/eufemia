@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { render } from '@testing-library/react'
 import {
   axeComponent,
@@ -118,7 +118,7 @@ describe('Stat.Inline', () => {
     let contextSkeleton: unknown = undefined
 
     function ContextReader() {
-      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      contextSkeleton = useContext(SharedContext)?.skeleton
       return null
     }
 

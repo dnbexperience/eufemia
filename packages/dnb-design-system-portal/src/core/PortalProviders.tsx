@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import {
@@ -76,7 +77,7 @@ const emotionCache = createCacheInstance()
 
 type PortalElementProps = {
   props: PortalLayoutProps
-  element: React.ReactNode
+  element: ReactNode
 }
 
 export const pageElement =
@@ -111,7 +112,7 @@ export const rootElement =
     )
   }
 
-function EufemiaProvider({ children }: { children: React.ReactNode }) {
+function EufemiaProvider({ children }: { children: ReactNode }) {
   const [translationError, setTranslationError] = useState<string | null>(
     null
   )

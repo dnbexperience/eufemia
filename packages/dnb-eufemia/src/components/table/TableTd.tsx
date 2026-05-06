@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode, TdHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
 
@@ -25,12 +25,11 @@ export type TableTdProps = {
    * The content of the component.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export default function Td(
-  componentProps: TableTdProps &
-    React.TdHTMLAttributes<HTMLTableCellElement>
+  componentProps: TableTdProps & TdHTMLAttributes<HTMLTableCellElement>
 ) {
   const {
     className,

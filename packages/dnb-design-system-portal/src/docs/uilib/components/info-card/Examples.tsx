@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { card_medium as Card } from '@dnb/eufemia/src/icons'
 import InfoCard from '@dnb/eufemia/src/components/info-card/InfoCard'

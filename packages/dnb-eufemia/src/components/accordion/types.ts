@@ -1,3 +1,4 @@
+import type { RefObject } from 'react'
 import type { AccordionProps } from './Accordion'
 
 export type AccordionInstance = {
@@ -23,7 +24,7 @@ export type AccordionGroupProps = AccordionProps & {
    */
   expandedId?: string
   /** Ref that exposes a function to programmatically collapse all expanded accordions. Call `.current()` to trigger. */
-  collapseAllHandleRef?: React.RefObject<() => void>
+  collapseAllHandleRef?: RefObject<() => void>
 }
 
 export const accordionDefaultProps: Partial<

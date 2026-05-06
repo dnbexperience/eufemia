@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -104,12 +104,12 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
-  ] = React.useState(createPagination)
-  const [orderDirection, setOrderDirection] = React.useState('asc')
-  const [currentPage, setLocalPage] = React.useState(null)
-  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
+  ] = useState(createPagination)
+  const [orderDirection, setOrderDirection] = useState('asc')
+  const [currentPage, setLocalPage] = useState(null)
+  const [cacheHash, forceRerender] = useState(null) // eslint-disable-line
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
@@ -167,7 +167,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   setContent(currentPage, content)
   let serverDelayTimeout
-  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
+  useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
     console.log('onChange: with page', pageNumber)
@@ -268,7 +268,7 @@ const InfinityPagination = ({
 }) => {
   const mountedItems = []
   if (onMounted) {
-    React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
+    useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
   }
 
   items = items.filter((cur, idx) => {
@@ -313,7 +313,7 @@ const InfinityPagination = ({
     mountedItems.push({ ...item, element: trRef })
 
     return (
-      <React.Fragment key={item.ssn}>
+      <Fragment key={item.ssn}>
         <TableRow
           {...props}
           {...params}
@@ -357,7 +357,7 @@ const InfinityPagination = ({
             )}
           </TableData>
         </TableRow>
-      </React.Fragment>
+      </Fragment>
     )
   })
 }

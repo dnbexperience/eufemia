@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'

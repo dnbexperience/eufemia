@@ -2,7 +2,8 @@
  * Web DrawerList Portal Component
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { CSSProperties, ReactNode, Ref, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   warn,
@@ -12,10 +13,10 @@ import PortalRoot from '../../components/PortalRoot'
 
 export type DrawerListPortalProps = {
   id: string
-  children: React.ReactNode
+  children: ReactNode
   open: boolean
-  ref?: React.Ref<HTMLSpanElement>
-  rootRef: React.RefObject<HTMLSpanElement>
+  ref?: Ref<HTMLSpanElement>
+  rootRef: RefObject<HTMLSpanElement>
   includeOwnerWidth?: boolean
   independentWidth?: boolean
   fixedPosition?: boolean
@@ -207,7 +208,7 @@ function DrawerListPortal({
       addPositionObserver()
     }
 
-    const style = (open ? makeStyle() : {}) as React.CSSProperties
+    const style = (open ? makeStyle() : {}) as CSSProperties
 
     return (
       <PortalRoot>

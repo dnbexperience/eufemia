@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
+import type { ComponentProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
@@ -19,29 +20,29 @@ import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-type OptionProps = React.ComponentProps<
+type OptionProps = ComponentProps<
   (props: {
     value: number | string
     error: Error | FormError | undefined
-    title: React.ReactNode
+    title: ReactNode
     help: HelpProps
     className: string
-    children: React.ReactNode
+    children: ReactNode
     handleSelect: () => void
     size?: ToggleButtonProps['size'] | CheckboxProps['size']
-  }) => React.JSX.Element
+  }) => JSX.Element
 >
 
 type OptionValue = string | number
 type RenderArraySelectionChildren = (params: {
   value: FieldArraySelectionProps['value']
   options: FieldArraySelectionProps['data']
-}) => React.ReactNode
+}) => ReactNode
 
 export type FieldArraySelectionProps = FieldProps<
   Array<OptionValue> | undefined
 > & {
-  children?: React.ReactNode | RenderArraySelectionChildren
+  children?: ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
 
@@ -209,7 +210,7 @@ export function useCheckboxOrToggleOptions({
   emptyValue?: FieldArraySelectionProps['emptyValue']
   htmlAttributes?: FieldArraySelectionProps['htmlAttributes']
   dataList?: FieldArraySelectionProps['data']
-  children?: React.ReactNode
+  children?: ReactNode
   value?: FieldArraySelectionProps['value']
   disabled?: FieldArraySelectionProps['disabled']
   size?: FieldArraySelectionProps['size']
@@ -219,7 +220,7 @@ export function useCheckboxOrToggleOptions({
   handleChange?: ReturnAdditional<
     FieldArraySelectionProps['value']
   >['handleChange']
-  handleActiveData?: (item: { labels: React.ReactNode[] }) => void
+  handleActiveData?: (item: { labels: ReactNode[] }) => void
 }) {
   const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(

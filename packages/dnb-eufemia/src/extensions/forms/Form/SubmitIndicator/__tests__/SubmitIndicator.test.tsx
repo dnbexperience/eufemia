@@ -1,4 +1,4 @@
-import React from 'react'
+import { useReducer } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
@@ -366,7 +366,7 @@ describe('Form.SubmitIndicator', () => {
     })
 
     const NestedComponent = () => {
-      const [count, increment] = React.useReducer((state) => state + 1, 1)
+      const [count, increment] = useReducer((state) => state + 1, 1)
       return <button onClick={increment}>{count}</button>
     }
 
@@ -411,7 +411,7 @@ describe('Form.SubmitIndicator', () => {
 
   it('should update children (label) when it changes', async () => {
     const MockComponent = () => {
-      const [count, increment] = React.useReducer((state) => state + 1, 1)
+      const [count, increment] = useReducer((state) => state + 1, 1)
       return (
         <>
           <Form.SubmitIndicator state="success">

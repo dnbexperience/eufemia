@@ -3,13 +3,14 @@
  *
  */
 
-import type { HTMLProps } from 'react'
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import type {
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
 } from 'react'
 
 import clsx from 'clsx'
@@ -44,7 +45,7 @@ export { accordionDefaultProps } from './types'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
 
-export type AccordionHeading = boolean | React.ReactNode
+export type AccordionHeading = boolean | ReactNode
 
 export type AccordionIcon =
   | IconIcon
@@ -58,13 +59,13 @@ export type AccordionIcon =
 
 export type AccordionIconPosition = ButtonIconPosition
 
-export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
+export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
   SpacingProps & {
     /**
      * A title as a string or React element. It will be used as the button text.
      */
-    title?: React.ReactNode
-    description?: React.ReactNode
+    title?: ReactNode
+    description?: ReactNode
     /**
      * Use `true` or `false` to control the expanded/collapsed state of the accordion.
      */
@@ -96,7 +97,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Send along a custom React Ref for `.dnb-accordion__content`.
      */
-    contentRef?: React.RefObject<HTMLElement | null>
+    contentRef?: RefObject<HTMLElement | null>
     /**
      * If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.
      */
@@ -112,7 +113,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
      */
-    leftComponent?: React.ReactNode
+    leftComponent?: ReactNode
     /**
      * If set to `true`, the accordion button will be disabled (dimmed).
      */
@@ -129,7 +130,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Gives you the option to replace the used `button` element. Provide a React element, including a string (HTML element). Defaults to a `div` with all the needed accessibility features included.
      */
-    element?: React.ReactNode
+    element?: ReactNode
     /**
      * If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.
      */
@@ -151,7 +152,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     iconSize?: IconSize
     className?: string
-    children?: React.ReactNode
+    children?: ReactNode
     /**
      * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
      */
@@ -160,7 +161,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
 
 export type AccordionChangeEvent = {
   expanded: boolean
-  event: React.SyntheticEvent
+  event: SyntheticEvent
 }
 
 function Accordion({
@@ -292,7 +293,7 @@ function Accordion({
     }
   }
 
-  function handleDisabledClick(e: React.MouseEvent<HTMLElement>) {
+  function handleDisabledClick(e: MouseEvent<HTMLElement>) {
     e.preventDefault()
     return false
   }
@@ -301,7 +302,7 @@ function Accordion({
     id: string
     group: string
     expanded: boolean
-    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
   }
 
   function callOnChangeHandler(params: AccordionInternalChangeParams) {

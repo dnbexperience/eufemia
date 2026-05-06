@@ -1,4 +1,5 @@
-import React, { useCallback, useReducer, useRef } from 'react'
+import { useCallback, useReducer, useRef } from 'react'
+import type { ReactNode } from 'react'
 import SectionContainerContext from './SectionContainerContext'
 import type { ContainerMode } from './SectionContainer'
 
@@ -6,7 +7,7 @@ export type SectionContainerProviderProps = {
   validateInitially?: boolean
   containerMode?: ContainerMode
   disableEditing?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function SectionContainerProvider(props: SectionContainerProviderProps) {

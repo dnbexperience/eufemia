@@ -2,7 +2,21 @@
  * Web GlobalStatus Component
  */
 
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import {
+  isValidElement,
+  memo,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react'
+import type {
+  ComponentType,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -43,15 +57,15 @@ import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
-export type GlobalStatusTitle = React.ReactNode | boolean
-export type GlobalStatusText = string | React.ReactNode
+export type GlobalStatusTitle = ReactNode | boolean
+export type GlobalStatusText = string | ReactNode
 export type GlobalStatusItem =
   | string
   | {
-      text?: React.ReactNode
+      text?: ReactNode
       id?: string | number
       itemId?: string
-      statusAnchorLabel?: React.ReactNode
+      statusAnchorLabel?: ReactNode
       statusAnchorText?: string
       statusAnchorUrl?: string | boolean
       [key: string]: unknown
@@ -70,7 +84,7 @@ export type GlobalStatusConfigObject = {
   id?: string
   message?: FormStatusText
 }
-export type GlobalStatusChildren = string | React.ReactNode
+export type GlobalStatusChildren = string | ReactNode
 
 export type GlobalStatusProps = {
   /**
@@ -126,7 +140,7 @@ export type GlobalStatusProps = {
   /**
    * Text of the close button. Defaults to `Lukk`.
    */
-  closeText?: React.ReactNode
+  closeText?: ReactNode
   /**
    * Set to `true` if the close button should be hidden for the user. Defaults to `false`.
    */
@@ -142,7 +156,7 @@ export type GlobalStatusProps = {
   /**
    * Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
    */
-  statusAnchorText?: React.ReactNode
+  statusAnchorText?: ReactNode
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -158,7 +172,7 @@ export type GlobalStatusProps = {
   onClose?: (globalStatus: GlobalStatusResult) => void
   onHide?: (globalStatus: GlobalStatusResult) => void
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'
 > &
   SpacingProps
@@ -276,10 +290,9 @@ function getIcon({
   icon?: IconIcon
   iconSize?: IconSize
   theme?: string
-}): React.ReactNode {
+}): ReactNode {
   if (typeof icon === 'string') {
-    let IconToLoad: React.ComponentType<{ state?: FormStatusState }> =
-      ErrorIcon
+    let IconToLoad: ComponentType<{ state?: FormStatusState }> = ErrorIcon
 
     switch (state) {
       case 'information':
@@ -303,7 +316,7 @@ function getIcon({
     )
   }
 
-  return icon as React.ReactNode
+  return icon as ReactNode
 }
 
 function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
@@ -498,10 +511,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   const gotoItem = useCallback(
     (
-      event: React.MouseEvent | React.KeyboardEvent,
+      event: MouseEvent | KeyboardEvent,
       item: { itemId?: string; [key: string]: unknown }
     ) => {
-      const key = (event as React.KeyboardEvent).key
+      const key = (event as KeyboardEvent).key
       if (
         (item.itemId &&
           typeof document !== 'undefined' &&
@@ -680,7 +693,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       className
     ),
     'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
-    onKeyDown: (e: React.KeyboardEvent) => {
+    onKeyDown: (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
         closeHandler()
@@ -726,7 +739,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
     let anchorText = statusAnchorText
 
-    if (React.isValidElement(item.statusAnchorLabel)) {
+    if (isValidElement(item.statusAnchorLabel)) {
       anchorText = (
         <>
           {typeof statusAnchorText === 'string'
@@ -781,9 +794,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         <>
           <div
             className="dnb-global-status__title"
-            role={
-              React.isValidElement(titleToRender) ? undefined : 'paragraph'
-            }
+            role={isValidElement(titleToRender) ? undefined : 'paragraph'}
             lang={lang}
           >
             <span className="dnb-global-status__icon">{iconToRender}</span>
@@ -855,7 +866,7 @@ GlobalStatusComponent.displayName = 'GlobalStatus'
 
 type GlobalStatusWithStatics = ((
   props: GlobalStatusProps
-) => React.ReactNode) & {
+) => ReactNode) & {
   create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor
   // Typed loosely because Update is used both imperatively and as JSX
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -865,7 +876,7 @@ type GlobalStatusWithStatics = ((
 }
 
 const GlobalStatus: GlobalStatusWithStatics = Object.assign(
-  React.memo(GlobalStatusComponent),
+  memo(GlobalStatusComponent),
   {
     create: (
       props: GlobalStatusInterceptorProps

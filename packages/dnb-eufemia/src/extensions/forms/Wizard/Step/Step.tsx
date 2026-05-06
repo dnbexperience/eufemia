@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
+import type { JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
@@ -15,7 +16,7 @@ export type WizardStepProps = ComponentProps &
     /**
      * An unique title of the step.
      */
-    title?: React.ReactNode
+    title?: ReactNode
 
     /**
      * Will treat the step as non-navigable if set to `true`.
@@ -55,7 +56,7 @@ export type WizardStepProps = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-function Step(props: WizardStepProps): React.JSX.Element {
+function Step(props: WizardStepProps): JSX.Element {
   const {
     id,
     className,
@@ -184,7 +185,7 @@ function Step(props: WizardStepProps): React.JSX.Element {
   if (prerenderFieldProps) {
     return (
       <WizardStepContext value={{ index }}>
-        {childrenWithFieldProvider as React.JSX.Element}
+        {childrenWithFieldProvider as JSX.Element}
       </WizardStepContext>
     )
   }

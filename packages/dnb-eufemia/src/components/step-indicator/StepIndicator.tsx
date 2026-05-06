@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, MouseEvent, ReactNode } from 'react'
 import { applySpacing } from '../space/SpacingUtils'
 import Card from '../Card'
 import CardContext from '../card/CardContext'
@@ -38,13 +39,13 @@ export type StepIndicatorDataItem = Pick<
 export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
 
 export type StepIndicatorMouseEvent = {
-  event: React.MouseEvent<HTMLButtonElement>
+  event: MouseEvent<HTMLButtonElement>
   item: StepIndicatorItemProps
   currentStep: number
 }
 
 export type StepIndicatorProps = Omit<
-  React.HTMLProps<HTMLAnchorElement>,
+  HTMLProps<HTMLAnchorElement>,
   'ref' | 'data' | 'onChange' | 'onClick'
 > &
   SpacingProps & {
@@ -116,7 +117,7 @@ export type StepIndicatorProps = Omit<
     outset?: boolean
     skeleton?: SkeletonShow
     className?: string
-    children?: React.ReactNode
+    children?: ReactNode
   }
 
 function StepIndicator({

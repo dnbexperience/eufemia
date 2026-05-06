@@ -3,15 +3,14 @@
  *
  */
 
-import React from 'react'
+import type { AllHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
 import Ul from './Ul'
 import Ol from './Ol'
 
-export type LiAllProps = React.AllHTMLAttributes<HTMLLIElement> &
-  ElementProps
+export type LiAllProps = AllHTMLAttributes<HTMLLIElement> & ElementProps
 
 const Li = ({ className, ...props }: LiAllProps = {}) => {
   /**

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import Context from '../../shared/Context'
 import {
   createSkeletonClass,
@@ -12,8 +13,8 @@ export default function useStatSkeleton(
   skeleton?: SkeletonShow,
   method: SkeletonMethods = 'font'
 ) {
-  const context = React.useContext(Context)
-  const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
+  const context = useContext(Context)
+  const { skeleton: rootSkeleton } = useContext(StatRootContext)
 
   const hasSkeleton = Boolean(
     skeleton ?? rootSkeleton ?? context?.skeleton
@@ -23,9 +24,7 @@ export default function useStatSkeleton(
     hasSkeleton,
     context,
     skeletonClass: createSkeletonClass(method, hasSkeleton, context),
-    applySkeletonAttributes: (
-      attributes: React.HTMLProps<HTMLElement>
-    ) => {
+    applySkeletonAttributes: (attributes: HTMLProps<HTMLElement>) => {
       skeletonDOMAttributes(attributes, hasSkeleton, context)
     },
   }

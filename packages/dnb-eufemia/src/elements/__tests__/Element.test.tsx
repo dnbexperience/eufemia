@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { ElementAllProps } from '../Element'

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import ModalContent from '../ModalContent'
 import type { ModalContentProps } from '../types'
@@ -49,7 +49,7 @@ afterEach(() => {
 })
 
 const createTestProps = (): ModalContentProps => {
-  const contentRef: React.RefObject<HTMLElement | null> = { current: null }
+  const contentRef: RefObject<HTMLElement | null> = { current: null }
 
   // Set up the content ref with a mock element that has the expected structure
   const mockElement = document.createElement('div')

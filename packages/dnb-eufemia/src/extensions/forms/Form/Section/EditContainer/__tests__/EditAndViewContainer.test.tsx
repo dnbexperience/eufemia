@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import { Field, Form } from '../../../..'
@@ -12,7 +12,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
+      const context = useContext(SectionContainerContext)
       containerMode = context.containerMode
 
       return null
@@ -62,7 +62,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
+      const context = useContext(SectionContainerContext)
       containerMode = context.containerMode
 
       return null
@@ -107,7 +107,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
+      const context = useContext(SectionContainerContext)
       containerMode = context.containerMode
 
       return null
@@ -133,7 +133,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
       }
@@ -270,7 +270,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
       }
@@ -346,7 +346,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
         return null
       }
@@ -417,7 +417,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
 
         return null
@@ -472,7 +472,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
 
         return null
@@ -573,7 +573,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
 
         return null
@@ -619,7 +619,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
 
         return null
@@ -726,7 +726,7 @@ describe('EditContainer and ViewContainer', () => {
       let containerMode = null
 
       const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
+        const context = useContext(SectionContainerContext)
         containerMode = context.containerMode
 
         return null
@@ -843,7 +843,7 @@ describe('EditContainer and ViewContainer', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
+      const context = useContext(SectionContainerContext)
       containerMode = context.containerMode
 
       return null

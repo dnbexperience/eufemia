@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
@@ -32,7 +33,7 @@ function ArraySelection(props: ValueArraySelectionProps) {
         path + '/arraySelectionData'
       ]?.props as unknown as Array<{
         value: string
-        title: string | React.ReactNode
+        title: string | ReactNode
       }>
 
       valueToUse =

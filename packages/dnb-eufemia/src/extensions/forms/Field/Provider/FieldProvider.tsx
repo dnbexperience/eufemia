@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import type { DataContextProviderProps as DataContextProps } from '../../DataContext/Provider'
 import type { FormStatusProps } from '../../../../components/FormStatus'
 import FieldProviderContext from './FieldProviderContext'
@@ -10,7 +10,7 @@ import type { JsonObject } from '../../utils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldProviderProps = FieldProps & {
-  children: React.ReactNode
+  children: ReactNode
 
   /**
    * Locale to use for all nested Eufemia components

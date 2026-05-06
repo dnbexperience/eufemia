@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -20,7 +21,7 @@ export type TagGroupProps = {
    * Aria label to describe the tag group
    * Default: `null`
    */
-  label: React.ReactNode
+  label: ReactNode
 
   /**
    * Custom className on the component root
@@ -32,7 +33,7 @@ export type TagGroupProps = {
    * The tags to group.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * Skeleton should be applied when loading content
@@ -48,10 +49,10 @@ const defaultProps: Partial<TagGroupProps> = {
 const TagGroup = (
   localProps: TagGroupProps &
     SpacingProps &
-    Omit<React.HTMLProps<HTMLElement>, 'label'>
+    Omit<HTMLProps<HTMLElement>, 'label'>
 ) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   // Extract additional props from global context
   const {
     label,
@@ -80,7 +81,7 @@ const TagGroup = (
 
   return (
     <TagGroupContext value={props}>
-      <span {...(attributes as React.HTMLAttributes<HTMLSpanElement>)}>
+      <span {...(attributes as HTMLAttributes<HTMLSpanElement>)}>
         <span className="dnb-sr-only">{label}</span>
         {children}
       </span>

@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { renderHook } from '@testing-library/react'
 import useSnapshot from '../useSnapshot'
 import type { SnapshotId } from '../../Form/Snapshot'

@@ -3,13 +3,8 @@
  *
  */
 
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties, RefObject } from 'react'
 import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
@@ -255,7 +250,7 @@ type ListItemProps = {
   isInsideActiveCategory?: boolean
   currentPathName?: string
   accordion?: boolean
-  scrollRef?: React.RefObject<HTMLElement>
+  scrollRef?: RefObject<HTMLElement>
 }
 
 function ListItem({
@@ -355,7 +350,7 @@ function ListItem({
             '--delay': `${
               nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
             }ms`,
-          } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
+          } as CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
         <div className="dnb-sidebar-menu__item">
@@ -740,9 +735,7 @@ function usePrevious<T>(
   return [hasChanged(value, previousValue), previousValue]
 }
 
-function ensureActiveMenuItemIsInView(
-  parentRef: React.RefObject<HTMLElement>
-) {
+function ensureActiveMenuItemIsInView(parentRef: RefObject<HTMLElement>) {
   const nav = parentRef?.current
   if (nav) {
     const item = nav.querySelector(

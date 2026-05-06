@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import { Modal, P, Button, Input, HelpButton } from '@dnb/eufemia/src'
@@ -27,7 +27,7 @@ export const ModalExampleStateOnly = () => (
   <ComponentBox>
     {() => {
       const Component = () => {
-        const [modalIsActive, setModalState] = React.useState(false)
+        const [modalIsActive, setModalState] = useState(false)
         return (
           <>
             <Button

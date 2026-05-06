@@ -3,8 +3,8 @@
  *
  */
 
-import type { HTMLProps } from 'react'
-import React, { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 
 import clsx from 'clsx'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
@@ -27,10 +27,10 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 export type StepIndicatorStatusState = 'warning' | 'information' | 'error'
 export type StepIndicatorItemProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'title' | 'data' | 'onClick'
 > & {
-  title: string | React.ReactNode
+  title: string | ReactNode
   /**
    * If set to true, this item step will be set as the current current selected step. This can be used instead of `currentStep` on the component itself.
    */
@@ -48,7 +48,7 @@ export type StepIndicatorItemProps = Omit<
   /**
    * Is used to set the status text.
    */
-  status?: string | React.ReactNode
+  status?: string | ReactNode
   /**
    * Used to set the status state to be either `information`, `error` or `warning`.
    * Defaults to `warning`.
@@ -67,7 +67,7 @@ function StepIndicatorItem({
   disabled: disabledDefault = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
-  const globalContext = React.useContext(Context)
+  const globalContext = useContext(Context)
 
   const props: StepIndicatorItemProps = useMemo(() => {
     return {
@@ -165,9 +165,7 @@ function StepIndicatorItem({
 
   const usedIsCurrent = currentItemNum === activeStep
 
-  const element = (
-    <StepItemWrapper>{title}</StepItemWrapper>
-  ) as React.ReactNode
+  const element = (<StepItemWrapper>{title}</StepItemWrapper>) as ReactNode
 
   const itemParams = {} as HTMLProps<HTMLLIElement>
   const buttonParams = {
@@ -319,9 +317,9 @@ export function StepItemButton({
   )
 }
 
-type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
+type StepItemWrapperProps = HTMLProps<HTMLElement> & {
   /** Content inside the step button */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function StepItemWrapper({ children }: StepItemWrapperProps) {

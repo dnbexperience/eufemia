@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { InputMasked, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
@@ -30,7 +30,7 @@ export function NoProps() {
 }
 
 export function Sandbox() {
-  const [locale, setLocale] = React.useState<InternalLocale>('nb-NO')
+  const [locale, setLocale] = useState<InternalLocale>('nb-NO')
   return (
     <Wrapper>
       <Provider locale={locale}>
@@ -77,7 +77,7 @@ export function Sandbox() {
 }
 
 function BasicNumberMask() {
-  const [floatVal, setState] = React.useState(10234.556)
+  const [floatVal, setState] = useState(10234.556)
 
   return (
     <InputMasked
@@ -96,7 +96,7 @@ function BasicNumberMask() {
 }
 
 function BasicCurrencyMask() {
-  const [floatVal, setState] = React.useState(1234.556)
+  const [floatVal, setState] = useState(1234.556)
 
   return (
     <InputMasked
@@ -119,7 +119,7 @@ function BasicCurrencyMask() {
 }
 
 function CurrencyInput() {
-  const [floatVal, setState] = React.useState(1234.556)
+  const [floatVal, setState] = useState(1234.556)
   // const [floatVal, setState] = React.useState(0.01)
 
   return (
@@ -137,7 +137,7 @@ function CurrencyInput() {
 }
 
 function NumberInput() {
-  const [floatVal, setState] = React.useState('1234.556')
+  const [floatVal, setState] = useState('1234.556')
 
   return (
     <>
@@ -156,7 +156,7 @@ function NumberInput() {
 }
 
 function PercentInput() {
-  const [floatVal, setState] = React.useState(1)
+  const [floatVal, setState] = useState(1)
 
   return (
     <InputMasked

@@ -3,15 +3,17 @@
  *
  */
 
-import React, {
+import {
+  createContext,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
+import type { ReactNode } from 'react'
 
-export const SidebarMenuContext = React.createContext({
+export const SidebarMenuContext = createContext({
   // just to have some default values (to avoid destructuring error later)
   toggleMenu: null,
   openMenu: null,
@@ -21,7 +23,7 @@ export const SidebarMenuContext = React.createContext({
 })
 
 type Props = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export function SidebarMenuProvider({ children }: Props) {

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { StepIndicator, Space, Button, Section } from '@dnb/eufemia/src'
 
@@ -62,7 +62,7 @@ export const StepIndicatorLoose = () => (
   <ComponentBox data-visual-test="step-indicator-loose">
     {() => {
       const InteractiveDemo = () => {
-        const [step, setStep] = React.useState(1)
+        const [step, setStep] = useState(1)
 
         return (
           <div style={{ display: 'flex' }}>
@@ -107,7 +107,7 @@ export const StepIndicatorCustomized = () => (
   <ComponentBox>
     {() => {
       function CustomStepIndicator({ children, data, ...props }) {
-        const [step, setStep] = React.useState(0)
+        const [step, setStep] = useState(0)
         return (
           <>
             <StepIndicator
@@ -174,9 +174,9 @@ export const StepIndicatorRouter = () => (
   <ComponentBox>
     {() => {
       const StepIndicatorWithRouter = () => {
-        const [currentStep, setCurrentStep] = React.useState(1)
+        const [currentStep, setCurrentStep] = useState(1)
 
-        React.useEffect(() => {
+        useEffect(() => {
           const step =
             parseFloat(window.location.search?.replace(/[?]/, '')) || 1
           setCurrentStep(step)

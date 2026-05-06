@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { AllHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ElementProps } from '../Element'
 import E from '../Element'
@@ -28,7 +29,7 @@ export type OlProps = {
 }
 
 export type OlAllProps = OlProps &
-  React.AllHTMLAttributes<HTMLOListElement> &
+  AllHTMLAttributes<HTMLOListElement> &
   Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {

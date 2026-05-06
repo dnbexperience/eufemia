@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useExternalValue from '../useExternalValue'
 import { DataContext } from '../..'

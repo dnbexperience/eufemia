@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import CountryFlag from '../CountryFlag'
 import Provider from '../../../shared/Provider'
@@ -73,7 +73,7 @@ describe('CountryFlag', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(<CountryFlag ref={ref} />)
 

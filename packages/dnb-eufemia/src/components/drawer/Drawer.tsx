@@ -2,7 +2,8 @@
  * Web Drawer Component
  *
  */
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { JSX } from 'react'
 import Modal from '../modal/Modal'
 import DrawerContent from './DrawerContent'
 import DrawerBody from './parts/DrawerBody'
@@ -61,7 +62,7 @@ function Drawer({
   space,
 
   ...props
-}: DrawerAllProps): React.JSX.Element {
+}: DrawerAllProps): JSX.Element {
   const context = useContext(Context)
 
   const modalProps = removeUndefinedProps({

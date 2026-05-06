@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/jest/jestSetup'
@@ -484,7 +485,7 @@ describe('Popover', () => {
   })
 
   it('moves focus to a custom element when focusOnOpenElement is provided', async () => {
-    const focusRef: React.RefObject<HTMLButtonElement | null> = {
+    const focusRef: RefObject<HTMLButtonElement | null> = {
       current: null,
     }
 
@@ -1452,7 +1453,7 @@ describe('Popover', () => {
   })
 
   it('applies contentClassName and exposes a contentRef', async () => {
-    const contentRef: React.RefObject<HTMLSpanElement | null> = {
+    const contentRef: RefObject<HTMLSpanElement | null> = {
       current: null,
     }
     renderWithTrigger({
@@ -3597,7 +3598,7 @@ describe('Popover', () => {
 
       render(
         <Popover
-          trigger={{ invalid: 'object' } as unknown as React.ReactNode}
+          trigger={{ invalid: 'object' } as unknown as ReactNode}
           content={contentText}
         >
           {contentText}
@@ -3619,7 +3620,7 @@ describe('Popover', () => {
 
       render(
         <Popover
-          trigger={123 as unknown as React.ReactNode}
+          trigger={123 as unknown as ReactNode}
           content={contentText}
         >
           {contentText}

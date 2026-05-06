@@ -2,13 +2,21 @@
  * Web DrawerList Provider
  */
 
-import React, {
+import {
+  memo,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useReducer,
   useRef,
+} from 'react'
+import type {
+  HTMLProps,
+  MemoExoticComponent,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
 } from 'react'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -81,7 +89,7 @@ export type DrawerListProviderChainable = {
 
 export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     | 'data'
     | 'role'
     | 'size'
@@ -113,7 +121,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event?: React.SyntheticEvent | Event | Record<string, unknown>
+        event?: SyntheticEvent | Event | Record<string, unknown>
       }
     ) => void
     selectedItem?: string | number
@@ -133,7 +141,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event?: React.SyntheticEvent | Event
+        event?: SyntheticEvent | Event
         closeOnSelection?: boolean
       }
     ) => void
@@ -149,16 +157,16 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       args?: {
         fireSelectEvent?: boolean
         scrollTo?: boolean
-        event?: React.SyntheticEvent | Event
+        event?: SyntheticEvent | Event
       }
     ) => void
-    _refShell?: React.RefObject<HTMLSpanElement>
-    _refTriangle?: React.RefObject<HTMLLIElement & HTMLSpanElement>
-    _refUl?: React.RefObject<HTMLUListElement>
-    _refRoot?: React.RefObject<HTMLSpanElement>
+    _refShell?: RefObject<HTMLSpanElement>
+    _refTriangle?: RefObject<HTMLLIElement & HTMLSpanElement>
+    _refUl?: RefObject<HTMLUListElement>
+    _refRoot?: RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
     attributes?: Record<string, any>
-    children: React.ReactNode
+    children: ReactNode
   }
 
 const allDefaultProps = {
@@ -1568,9 +1576,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
 DrawerListProviderComponent.displayName = 'DrawerListProvider'
 
-const DrawerListProvider = React.memo(
+const DrawerListProvider = memo(
   DrawerListProviderComponent
-) as React.MemoExoticComponent<typeof DrawerListProviderComponent> & {
+) as MemoExoticComponent<typeof DrawerListProviderComponent> & {
   blurDelay: number
 }
 

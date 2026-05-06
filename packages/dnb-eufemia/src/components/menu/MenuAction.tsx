@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
+import type { KeyboardEvent, MouseEvent, Ref } from 'react'
 import clsx from 'clsx'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
@@ -27,7 +28,7 @@ function MenuAction(props: MenuActionProps) {
     onKeyDown: externalOnKeyDown,
     ref: externalRef,
     ...rest
-  } = props as MenuActionProps & { ref?: React.Ref<HTMLLIElement> }
+  } = props as MenuActionProps & { ref?: Ref<HTMLLIElement> }
 
   const triggerContext = useMenuTriggerContext()
 
@@ -37,14 +38,12 @@ function MenuAction(props: MenuActionProps) {
 
   // Extract trigger props for Popover integration
   const triggerProps = triggerContext?.triggerProps
-  const triggerRef = triggerProps?.ref as
-    | React.Ref<HTMLLIElement>
-    | undefined
+  const triggerRef = triggerProps?.ref as Ref<HTMLLIElement> | undefined
   const triggerOnKeyDown = triggerProps?.onKeyDown as
-    | ((e: React.KeyboardEvent<HTMLElement>) => void)
+    | ((e: KeyboardEvent<HTMLElement>) => void)
     | undefined
   const triggerOnClick = triggerProps?.onClick as
-    | ((e: React.MouseEvent<HTMLElement>) => void)
+    | ((e: MouseEvent<HTMLElement>) => void)
     | undefined
 
   // Pick only ARIA attributes from trigger props — skip DOM props like
@@ -65,14 +64,14 @@ function MenuAction(props: MenuActionProps) {
   const { isActive, context } = useMenuItemRegistration(itemRef)
 
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLLIElement>) => {
+    (event: MouseEvent<HTMLLIElement>) => {
       if (disabled) {
         event.preventDefault()
         return // stop here
       }
 
       // Sub-menu trigger: let Popover's click handler toggle it
-      triggerOnClick?.(event as unknown as React.MouseEvent<HTMLElement>)
+      triggerOnClick?.(event as unknown as MouseEvent<HTMLElement>)
 
       onClick?.(event)
 
@@ -85,7 +84,7 @@ function MenuAction(props: MenuActionProps) {
   )
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLLIElement>) => {
+    (event: KeyboardEvent<HTMLLIElement>) => {
       if (disabled) {
         return // stop here
       }
@@ -110,7 +109,7 @@ function MenuAction(props: MenuActionProps) {
         if ((href || to) && anchorRef.current) {
           anchorRef.current.click()
         } else {
-          onClick?.(event as unknown as React.MouseEvent<HTMLLIElement>)
+          onClick?.(event as unknown as MouseEvent<HTMLLIElement>)
         }
 
         context?.closeAll()

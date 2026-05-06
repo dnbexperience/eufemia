@@ -1,4 +1,3 @@
-import React from 'react'
 import ChildrenWithAge from '../ChildrenWithAge'
 import { Form, Wizard } from '../../..'
 import { Flex } from '../../../../../components'

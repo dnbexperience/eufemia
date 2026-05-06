@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
+import type { JSX, ReactNode } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import {
@@ -82,12 +83,10 @@ const accounts = [
   { selectedKey: 4, content: 'D' },
 ]
 export function UpdateEachOther() {
-  const [selectedA, setSelectedA] = React.useState(-1)
-  const [selectedB, setSelectedB] = React.useState(-1)
-  const [selectedAccountsA, setSelectedAccountsA] =
-    React.useState(accounts)
-  const [selectedAccountsB, setSelectedAccountsB] =
-    React.useState(accounts)
+  const [selectedA, setSelectedA] = useState(-1)
+  const [selectedB, setSelectedB] = useState(-1)
+  const [selectedAccountsA, setSelectedAccountsA] = useState(accounts)
+  const [selectedAccountsB, setSelectedAccountsB] = useState(accounts)
 
   const indexA = selectedAccountsA.findIndex(({ selectedKey }) => {
     return selectedKey === selectedA
@@ -186,7 +185,7 @@ const CustomStyle = styled.div`
 `
 
 const AutocompleteWithState = () => {
-  const [results, setResults] = React.useState(null)
+  const [results, setResults] = useState(null)
 
   return (
     <Autocomplete
@@ -545,7 +544,7 @@ const autocompleteDataScrollable = [
     content: <>E</>,
   },
   <>Custom content {'🔥'}</>,
-  [<React.Fragment key="key1">Custom content X {'🔥'}</React.Fragment>],
+  [<Fragment key="key1">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE',
   },
@@ -702,8 +701,8 @@ const initialData = [
 ]
 
 function UpdateDataExample() {
-  const [choiceData, setChoiceData] = React.useState(initialData)
-  const [selectedData, setSelectedData] = React.useState([])
+  const [choiceData, setChoiceData] = useState(initialData)
+  const [selectedData, setSelectedData] = useState([])
 
   return (
     <>
@@ -772,7 +771,7 @@ const WideStyle = styled.div`
 `
 
 export function DataSuffix() {
-  const { locale } = React.useContext(Context)
+  const { locale } = useContext(Context)
   const ban = formatBankAccountNumber(21001234567, { locale })
   const numbers: DrawerListDataArray = [
     {
@@ -854,9 +853,7 @@ export const AsyncSearchExample = () => {
     { selectedKey: 'e', content: 'EEE' },
   ]
 
-  const [onChangeValue, setOnChangeValue] = useState<
-    string | React.ReactNode
-  >()
+  const [onChangeValue, setOnChangeValue] = useState<string | ReactNode>()
 
   const onTypeHandler = ({
     value,
@@ -975,7 +972,7 @@ export const Memo = () => {
   }: {
     getInputIcon: (
       value: string | number | undefined
-    ) => string | React.JSX.Element
+    ) => string | JSX.Element
     label: string
   }) {
     const [value, setValue] = useState<string | undefined>()

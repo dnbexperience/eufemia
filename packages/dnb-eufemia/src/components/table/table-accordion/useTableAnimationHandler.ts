@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { useCallback, useContext, useState } from 'react'
+import type { RefObject } from 'react'
 import { getClosestScrollViewElement } from '../../../shared/component-helper'
 import { useHeightAnimation } from '../../height-animation/useHeightAnimation'
 import { TableAccordionContext } from './TableAccordionContext'
@@ -8,11 +9,11 @@ export type UseTableAnimationHandlerProps = {
   /**
    * Ref to <div> inside the <tr> element being expanded/collapsed
    */
-  contentRef: React.RefObject<HTMLDivElement>
+  contentRef: RefObject<HTMLDivElement>
   /**
    * Ref to the <tr> element being clicked
    */
-  trRef: React.RefObject<HTMLTableRowElement>
+  trRef: RefObject<HTMLTableRowElement>
 }
 
 export function useTableAnimationHandler({
@@ -21,8 +22,8 @@ export function useTableAnimationHandler({
   expanded,
   noAnimation,
 }: UseTableAnimationHandlerProps & TableAccordionContentRowProps) {
-  const tableAccordionContext = React.useContext(TableAccordionContext)
-  const [ariaLive, setAriaLive] = React.useState(null)
+  const tableAccordionContext = useContext(TableAccordionContext)
+  const [ariaLive, setAriaLive] = useState(null)
   const open = Boolean(expanded || tableAccordionContext?.trIsOpen)
 
   const scrollViewHandler = useCallback(

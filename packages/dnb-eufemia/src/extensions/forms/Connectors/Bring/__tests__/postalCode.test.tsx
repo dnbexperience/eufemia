@@ -1,4 +1,3 @@
-import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Connectors, Field, Form } from '../../..'

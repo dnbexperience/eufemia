@@ -1,4 +1,4 @@
-import React from 'react'
+import { useMemo } from 'react'
 import AriaLive from '../AriaLive'
 import { Field, FieldBlock, Form } from '../../../extensions/forms'
 import type { AriaLiveProps } from '../types'
@@ -87,7 +87,7 @@ export function AriaLivePlayground() {
 }
 
 export function AriaLiveAdditions() {
-  const defaultData = React.useMemo(
+  const defaultData = useMemo(
     () => ({
       enabled: true,
       content: ['Line 1'],

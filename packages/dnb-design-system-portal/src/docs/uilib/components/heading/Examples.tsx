@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Heading, H3, ToggleButton, H1, H2 } from '@dnb/eufemia/src'
@@ -65,7 +65,7 @@ export const HeadingIsolation = () => (
     <ComponentBox>
       {() => {
         const App = () => {
-          const [showHeading, setShowHeading] = React.useState(false)
+          const [showHeading, setShowHeading] = useState(false)
 
           return (
             <Heading.Level debug reset={1}>

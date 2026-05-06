@@ -1,4 +1,11 @@
-import React from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type { ReactNode, SyntheticEvent, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
@@ -49,7 +56,7 @@ export type TableTrProps = {
    * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
    * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
    */
-  onClick?: (event: React.SyntheticEvent) => void
+  onClick?: (event: SyntheticEvent) => void
 
   /**
    * Will emit when table row is expanded.
@@ -66,12 +73,11 @@ export type TableTrProps = {
   /**
    * The content of the component.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function Tr(
-  componentProps: TableTrProps &
-    React.TableHTMLAttributes<HTMLTableRowElement>
+  componentProps: TableTrProps & TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
     variant,
@@ -92,7 +98,7 @@ export default function Tr(
     _className
   )
 
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
 
   if (tableContext?.allProps?.mode == 'accordion') {
     return (
@@ -122,16 +128,16 @@ export default function Tr(
 }
 
 function useHandleTrVariant({ variant }) {
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
 
   /**
    * Handle odd/even
    */
   const countRef = tableContext?.trCountRef.current
-  const lastRenderAliasRef = React.useRef(null)
-  const hasIncrementedRef = React.useRef(false)
+  const lastRenderAliasRef = useRef(null)
+  const hasIncrementedRef = useRef(false)
 
-  const increment = React.useCallback(() => {
+  const increment = useCallback(() => {
     if (typeof countRef === 'undefined') {
       return 0
     }
@@ -146,7 +152,7 @@ function useHandleTrVariant({ variant }) {
     return countRef.count
   }, [countRef, variant])
 
-  const [count, setCount] = React.useState(() => {
+  const [count, setCount] = useState(() => {
     // SSR Support
     if (typeof window === 'undefined') {
       hasIncrementedRef.current = true
@@ -157,7 +163,7 @@ function useHandleTrVariant({ variant }) {
   })
 
   // StrictMode support
-  React.useEffect(() => {
+  useEffect(() => {
     // SSR will not execute useEffect
     if (lastRenderAliasRef.current !== tableContext?.rerenderAlias) {
       lastRenderAliasRef.current = tableContext?.rerenderAlias
@@ -190,23 +196,23 @@ function useHandleTrVariant({ variant }) {
 }
 
 /**
- * Handle odd/even on re-render and React.StrictMode
+ * Handle odd/even on re-render and StrictMode
  */
 export function useHandleOddEven({ children }) {
   // Create this ref in order to "auto" set even/odd class in tr elements
-  const trCountRef = React.useRef({ count: 0 })
+  const trCountRef = useRef({ count: 0 })
 
   // When the alias changes, all tr's will rerender and get a new even/odd color
   // This is useful, when one tr gets removed
-  const [rerenderAlias, setRerenderAlias] = React.useState({})
+  const [rerenderAlias, setRerenderAlias] = useState({})
 
-  const forceRerender = React.useCallback(() => {
+  const forceRerender = useCallback(() => {
     trCountRef.current.count = 0
     setRerenderAlias({})
   }, [])
 
-  const isMounted = React.useRef(false)
-  React.useEffect(() => {
+  const isMounted = useRef(false)
+  useEffect(() => {
     if (isMounted.current) {
       forceRerender()
     }

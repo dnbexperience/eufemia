@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { TooltipProps } from './types'
 
 export type TooltipContextValue = {
@@ -16,5 +16,4 @@ export type TooltipContextValue = {
   internalId: string
 }
 
-export const TooltipContext =
-  React.createContext<TooltipContextValue>(null)
+export const TooltipContext = createContext<TooltipContextValue>(null)

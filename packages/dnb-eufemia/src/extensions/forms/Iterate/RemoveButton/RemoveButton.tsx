@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import type { ButtonProps } from '../../../../components/Button'

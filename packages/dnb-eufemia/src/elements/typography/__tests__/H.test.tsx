@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import type { SharedHProps } from '../H'
 import H from '../H'

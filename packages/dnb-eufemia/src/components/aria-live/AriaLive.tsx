@@ -1,4 +1,3 @@
-import React from 'react'
 import type { AriaLiveAllProps } from './types'
 import useAriaLive from './useAriaLive'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

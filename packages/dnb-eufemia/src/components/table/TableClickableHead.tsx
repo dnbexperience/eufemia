@@ -1,4 +1,11 @@
-import React from 'react'
+import { useContext } from 'react'
+import type {
+  KeyboardEvent,
+  ReactElement,
+  ReactNode,
+  SyntheticEvent,
+  TableHTMLAttributes,
+} from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
@@ -17,7 +24,7 @@ export type TableClickableHeadProps = {
   noAnimation?: boolean
   ariaLabel: string
 } & TableTrProps &
-  React.TableHTMLAttributes<HTMLTableRowElement>
+  TableHTMLAttributes<HTMLTableRowElement>
 
 export function TableClickableHead(allProps: TableClickableHeadProps) {
   const {
@@ -42,7 +49,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     ...props
   } = allProps
 
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
   const id = useId()
   const trParams =
     !disabled && clickable
@@ -78,9 +85,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     </tr>
   )
 
-  function onKeydownHandler(
-    event: React.KeyboardEvent<HTMLTableRowElement>
-  ) {
+  function onKeydownHandler(event: KeyboardEvent<HTMLTableRowElement>) {
     switch (event.key) {
       case ' ':
       case 'Enter':
@@ -100,9 +105,9 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
 }
 
 export function onClickTr(
-  event: React.SyntheticEvent,
+  event: SyntheticEvent,
   allowInteractiveElement = false,
-  onClick?: (event: React.SyntheticEvent) => void
+  onClick?: (event: SyntheticEvent) => void
 ) {
   const target = event.target as HTMLElement
   if (
@@ -135,13 +140,13 @@ export function TableClickableButtonTd(props: {
   ariaLabel: string
   icon: 'chevron_down' | 'chevron_right'
   onClick: (
-    event: React.SyntheticEvent,
+    event: SyntheticEvent,
     allowInteractiveElement: boolean
   ) => void
 }) {
   const { trIsOpen, ariaLabel, icon, onClick } = props
 
-  const tableContextAllProps = React.useContext(TableContext)?.allProps
+  const tableContextAllProps = useContext(TableContext)?.allProps
   const iconSize =
     tableContextAllProps?.size === 'medium' ||
     tableContextAllProps?.size === 'small'
@@ -185,5 +190,5 @@ export function TableIconSrTh(props: { text: string }) {
   )
 }
 
-export const isTableHead = (children: React.ReactNode[]) =>
-  children.some((element) => (element as React.ReactElement).type === Th)
+export const isTableHead = (children: ReactNode[]) =>
+  children.some((element) => (element as ReactElement).type === Th)

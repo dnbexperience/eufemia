@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
@@ -7,8 +7,8 @@ import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ValueBooleanProps = ValueProps<boolean> & {
-  trueText?: React.ReactNode
-  falseText?: React.ReactNode
+  trueText?: ReactNode
+  falseText?: ReactNode
 }
 
 function BooleanComponent(props: ValueBooleanProps) {

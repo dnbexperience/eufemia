@@ -1,4 +1,5 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
+import type { HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -12,7 +13,7 @@ export type TextCounterProps = {
   variant?: 'down' | 'up' | true
   text: string
   max: number
-} & React.HTMLAttributes<HTMLParagraphElement> &
+} & HTMLAttributes<HTMLParagraphElement> &
   LocaleProps &
   SpacingProps
 

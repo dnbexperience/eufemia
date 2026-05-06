@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import type { SharedStateId } from '../../shared/helpers/useSharedState'
@@ -99,27 +99,27 @@ export type UploadProps = {
   /**
    * Custom text properties
    */
-  title?: React.ReactNode
-  text?: React.ReactNode
-  fileTypeTableCaption?: React.ReactNode
-  fileTypeDescription?: React.ReactNode
-  fileSizeDescription?: React.ReactNode
-  fileAmountDescription?: React.ReactNode
-  fileSizeContent?: React.ReactNode
-  buttonText?: React.ReactNode
-  errorLargeFile?: React.ReactNode
-  errorUnsupportedFile?: React.ReactNode
-  errorAmountLimit?: React.ReactNode
-  loadingText?: React.ReactNode
-  deleteButton?: React.ReactNode
+  title?: ReactNode
+  text?: ReactNode
+  fileTypeTableCaption?: ReactNode
+  fileTypeDescription?: ReactNode
+  fileSizeDescription?: ReactNode
+  fileAmountDescription?: ReactNode
+  fileSizeContent?: ReactNode
+  buttonText?: ReactNode
+  errorLargeFile?: ReactNode
+  errorUnsupportedFile?: ReactNode
+  errorAmountLimit?: ReactNode
+  loadingText?: ReactNode
+  deleteButton?: ReactNode
   listAriaLabel?: string
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export type UploadAllProps = UploadProps &
   SpacingProps &
   LocaleProps &
-  Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'title'>
+  Omit<HTMLProps<HTMLElement>, 'onChange' | 'title'>
 
 export type UploadContextValue = {
   id?: string
@@ -131,8 +131,8 @@ export type UploadFile = {
   id: string
   exists: boolean
   isLoading?: boolean
-  errorMessage?: React.ReactNode
-  description?: React.ReactNode
+  errorMessage?: ReactNode
+  description?: ReactNode
   removeDeleteButton?: boolean
   deleteButtonProps?: ButtonProps
   removeLink?: boolean

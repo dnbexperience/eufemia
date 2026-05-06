@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { isValidElement, useContext, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
@@ -16,12 +17,12 @@ export type IterateViewContainerProps = {
   /**
    * The title of the ViewContainer.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * An alternative toolbar to be shown in the ViewContainer.
    */
-  toolbar?: React.ReactNode
+  toolbar?: ReactNode
 
   /**
    * The variant of the toolbar.
@@ -59,7 +60,7 @@ function ViewContainer(props: IterateViewContainerAllProps) {
   const hasToolbar =
     !toolbarElement &&
     (Array.isArray(children) ? children : [children]).some(
-      (child) => React.isValidElement(child) && child.type === Toolbar
+      (child) => isValidElement(child) && child.type === Toolbar
     )
 
   return (

@@ -1,6 +1,5 @@
-import React from 'react'
-
-const SbankenLogoSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const SbankenLogoSVG = (props: SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { ElementType, HTMLProps } from 'react'
 import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
@@ -9,13 +10,13 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type ContentOwnProps = {
-  element?: React.ElementType
+  element?: ElementType
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
 }
 
 export type ContentProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof ContentOwnProps | 'ref'
 > &
   ContentOwnProps &

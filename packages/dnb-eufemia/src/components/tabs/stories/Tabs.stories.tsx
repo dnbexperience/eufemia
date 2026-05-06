@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { Global, css } from '@emotion/react'
@@ -18,7 +18,7 @@ export default {
 }
 
 export const TabsSandbox = () => {
-  const [value, setValue] = React.useState('test')
+  const [value, setValue] = useState('test')
 
   return (
     <Wrapper>
@@ -282,7 +282,7 @@ const TabsInGrid = () => (
   </TabGridStyle>
 )
 const TabsContentUsage = () => {
-  const [value, setValue] = React.useState('two')
+  const [value, setValue] = useState('two')
   return (
     <>
       <Tabs

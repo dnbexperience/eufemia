@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex, List, Section } from '@dnb/eufemia/src'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
@@ -193,7 +193,7 @@ export const DropdownDynamicOptions = () => (
   <ComponentBox>
     {() => {
       const Example = () => {
-        const [numOptions, setNumOptions] = React.useState(3)
+        const [numOptions, setNumOptions] = useState(3)
 
         return (
           <>

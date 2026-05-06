@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback, useMemo } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Field,
@@ -15,13 +15,13 @@ export const CustomComponentWithAjvSchemaExample = () => {
     <ComponentBox scope={{ useFieldProps }}>
       {() => {
         const MySliderComponent = (props) => {
-          const fromInput = React.useCallback(
+          const fromInput = useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
             []
           )
 
-          const errorMessages = React.useMemo(() => {
+          const errorMessages = useMemo(() => {
             return {
               'Field.errorRequired': 'This field is required',
               ...props.errorMessages,
@@ -113,13 +113,13 @@ export const CustomComponentWithZodSchemaExample = () => {
     <ComponentBox scope={{ useFieldProps, z }}>
       {() => {
         const MySliderComponent = (props) => {
-          const fromInput = React.useCallback(
+          const fromInput = useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
             []
           )
 
-          const errorMessages = React.useMemo(() => {
+          const errorMessages = useMemo(() => {
             return {
               'Field.errorRequired': 'This field is required',
               ...props.errorMessages,
@@ -218,13 +218,13 @@ export const CustomComponentWithJsonSchema = () => {
     <ComponentBox scope={{ useFieldProps, makeAjvInstance }}>
       {() => {
         const MySliderComponent = (props) => {
-          const fromInput = React.useCallback(
+          const fromInput = useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
             []
           )
 
-          const errorMessages = React.useMemo(() => {
+          const errorMessages = useMemo(() => {
             return {
               'Field.errorRequired': 'This field is required',
               ...props.errorMessages,

@@ -5,7 +5,8 @@
  * bundle. Sets up React Router, providers, layout, and theme handling.
  */
 
-import React, { Suspense, useCallback, useContext, useEffect } from 'react'
+import { Suspense, useCallback, useContext, useEffect } from 'react'
+import type { ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -89,7 +90,7 @@ function RootLayout() {
 /**
  * Enables skeleton mode when ?skeleton is in the URL.
  */
-function SkeletonEnabled({ children }: { children: React.ReactNode }) {
+function SkeletonEnabled({ children }: { children: ReactNode }) {
   const { skeleton, update } = useContext(Context)
 
   useEffect(() => {

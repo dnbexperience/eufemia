@@ -1,4 +1,5 @@
-import React from 'react'
+import { isValidElement } from 'react'
+import type { HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
@@ -13,14 +14,14 @@ const trendContextValue = {
 
 type TrendOwnProps = {
   value?: number | string
-  element?: keyof React.JSX.IntrinsicElements
-  srLabel?: React.ReactNode
+  element?: keyof JSX.IntrinsicElements
+  srLabel?: ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
   skeleton?: SkeletonShow
 }
 
 export type TrendProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof TrendOwnProps | 'ref'
 > &
   TrendOwnProps &
@@ -99,15 +100,15 @@ function Trend(props: TrendProps) {
 
 Trend._supportsSpacingProps = true
 
-function getValueFromChildren(children: React.ReactNode): number | string {
+function getValueFromChildren(children: ReactNode): number | string {
   if (typeof children === 'string' || typeof children === 'number') {
     return children
   }
 
-  if (React.isValidElement(children)) {
+  if (isValidElement(children)) {
     const childProps = children.props as {
       value?: number | string
-      children?: React.ReactNode
+      children?: ReactNode
     }
 
     if (

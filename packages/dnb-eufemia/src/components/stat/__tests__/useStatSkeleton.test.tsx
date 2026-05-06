@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import { renderHook } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import StatRootContext from '../StatRootContext'
@@ -32,7 +32,7 @@ describe('useStatSkeleton', () => {
   })
 
   it('resolves skeleton from StatRootContext', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
+    const wrapper = ({ children }: { children: ReactNode }) => (
       <StatRootContext value={{ inRoot: true, skeleton: true }}>
         {children}
       </StatRootContext>
@@ -45,7 +45,7 @@ describe('useStatSkeleton', () => {
   })
 
   it('resolves skeleton from Provider context', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
+    const wrapper = ({ children }: { children: ReactNode }) => (
       <Provider skeleton>{children}</Provider>
     )
 
@@ -56,7 +56,7 @@ describe('useStatSkeleton', () => {
   })
 
   it('local prop takes priority over Root context', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
+    const wrapper = ({ children }: { children: ReactNode }) => (
       <StatRootContext value={{ inRoot: true, skeleton: true }}>
         {children}
       </StatRootContext>
@@ -71,7 +71,7 @@ describe('useStatSkeleton', () => {
   })
 
   it('Root context takes priority over Provider', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
+    const wrapper = ({ children }: { children: ReactNode }) => (
       <Provider skeleton={false}>
         <StatRootContext value={{ inRoot: true, skeleton: true }}>
           {children}
@@ -87,7 +87,7 @@ describe('useStatSkeleton', () => {
   it('applySkeletonAttributes sets aria-disabled when skeleton is active', () => {
     const { result } = renderHook(() => useStatSkeleton(true))
 
-    const attributes: React.HTMLProps<HTMLElement> = {}
+    const attributes: HTMLProps<HTMLElement> = {}
     result.current.applySkeletonAttributes(attributes)
 
     expect(attributes['aria-disabled']).toBe(true)
@@ -97,7 +97,7 @@ describe('useStatSkeleton', () => {
   it('applySkeletonAttributes does not set aria-disabled when skeleton is inactive', () => {
     const { result } = renderHook(() => useStatSkeleton(false))
 
-    const attributes: React.HTMLProps<HTMLElement> = {}
+    const attributes: HTMLProps<HTMLElement> = {}
     result.current.applySkeletonAttributes(attributes)
 
     expect(attributes['aria-disabled']).toBeUndefined()

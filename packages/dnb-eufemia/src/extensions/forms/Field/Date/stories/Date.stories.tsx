@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import FormHandler from '../../../Form/Handler/Handler'
 import { Card, DatePicker, Dropdown } from '../../../../../components'
@@ -9,8 +9,8 @@ export default {
 }
 
 export function Date() {
-  const [state, update] = React.useState('2023-01-16')
-  React.useEffect(() => {
+  const [state, update] = useState('2023-01-16')
+  useEffect(() => {
     update('2023-01-18')
   }, [])
 
@@ -38,7 +38,7 @@ export function Range() {
 }
 
 const ChangeLocale = () => {
-  const { setLocale, locale } = React.useContext(Context)
+  const { setLocale, locale } = useContext(Context)
 
   return (
     <Dropdown

@@ -4,7 +4,7 @@
  * This is a legacy component.
  */
 
-import type React from 'react'
+import type { RefObject } from 'react'
 import { warn, isMac, isWin, isLinux } from '../helpers'
 
 /**
@@ -103,10 +103,7 @@ export const processChildren = (props: Record<string, any>) => {
  * @return {DetectOutsideClickClass} [A new instance of DetectOutsideClickClass]
  */
 export const detectOutsideClick = (
-  ignoreElements:
-    | HTMLElement
-    | HTMLElement[]
-    | React.RefObject<HTMLElement>[],
+  ignoreElements: HTMLElement | HTMLElement[] | RefObject<HTMLElement>[],
   onSuccess: (args: { event: Event }) => void,
   options?: { includedKeys?: string[] }
 ) => new DetectOutsideClickClass(ignoreElements, onSuccess, options)
@@ -124,11 +121,11 @@ export class DetectOutsideClickClass {
     ignoreElementsInput:
       | HTMLElement
       | HTMLElement[]
-      | React.RefObject<HTMLElement>[],
+      | RefObject<HTMLElement>[],
     onSuccess: (args: { event: Event }) => void,
     options: { includedKeys?: string[] } = {}
   ) {
-    const ignoreElements: (HTMLElement | React.RefObject<HTMLElement>)[] =
+    const ignoreElements: (HTMLElement | RefObject<HTMLElement>)[] =
       Array.isArray(ignoreElementsInput)
         ? ignoreElementsInput
         : [ignoreElementsInput]
@@ -199,7 +196,7 @@ export class DetectOutsideClickClass {
       ignoreElements,
     }: {
       event: Event
-      ignoreElements: (HTMLElement | React.RefObject<HTMLElement> | null)[]
+      ignoreElements: (HTMLElement | RefObject<HTMLElement> | null)[]
     },
     onSuccess: (() => void) | null = null
   ) => {
@@ -232,7 +229,7 @@ export class DetectOutsideClickClass {
           ignoreElements[i] &&
           ignoreElements[i] !== null &&
           'current' in ignoreElements[i]
-            ? (ignoreElements[i] as React.RefObject<HTMLElement>).current
+            ? (ignoreElements[i] as RefObject<HTMLElement>).current
             : (ignoreElements[i] as HTMLElement)
 
         elem = currentElement

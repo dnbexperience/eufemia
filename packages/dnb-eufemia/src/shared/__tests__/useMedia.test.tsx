@@ -3,7 +3,7 @@
  *
  */
 
-import React, { act } from 'react'
+import { StrictMode, act } from 'react'
 import { render, waitFor, renderHook } from '@testing-library/react'
 import type { UseMediaProps } from '../useMedia'
 import useMedia from '../useMedia'
@@ -12,9 +12,7 @@ import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
-const wrapper = ({ children }) => (
-  <React.StrictMode>{children}</React.StrictMode>
-)
+const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
 
 describe('useMedia', () => {
   describe('using mock-match-media mocker', () => {

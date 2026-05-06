@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useCallback, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   einvoice as EInvoice,
@@ -80,17 +80,17 @@ export const TagMultipleRemovable = () => (
   <ComponentBox data-visual-test="tag-removable-list">
     {() => {
       const Genres = () => {
-        const [tagsAdded, setTagsAdded] = React.useState([
+        const [tagsAdded, setTagsAdded] = useState([
           { key: 0, text: 'Action' },
           { key: 1, text: 'Comedy' },
           { key: 2, text: 'Drama' },
           { key: 3, text: 'Horror' },
         ])
-        const [tagsRemoved, setTagsRemoved] = React.useState([
+        const [tagsRemoved, setTagsRemoved] = useState([
           { key: 4, text: 'Fantasy' },
         ])
 
-        const handleRemove = React.useCallback(
+        const handleRemove = useCallback(
           (tagToRemove) => () => {
             setTagsAdded(
               tagsAdded.filter((tag) => tag.key !== tagToRemove.key)
@@ -99,7 +99,7 @@ export const TagMultipleRemovable = () => (
           },
           [tagsAdded, tagsRemoved]
         )
-        const handleAdd = React.useCallback(
+        const handleAdd = useCallback(
           (tagToAdd) => () => {
             setTagsAdded([...tagsAdded, tagToAdd])
             setTagsRemoved(

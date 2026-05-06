@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 
 import { Section, Space, Button, Table } from '../..'
@@ -44,11 +44,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
-    React.useState(createPagination)
-  const [orderDirection, setOrderDirection] = React.useState('asc')
-  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
-  const [currentPage, setCurrentPage] = React.useState(startupPage)
-  const localStack = React.useRef({})
+    useState(createPagination)
+  const [orderDirection, setOrderDirection] = useState('asc')
+  const [cacheHash, forceRerender] = useState(null) // eslint-disable-line
+  const [currentPage, setCurrentPage] = useState(startupPage)
+  const localStack = useRef({})
   tableItems = reorderDirection(tableItems, orderDirection)
   tableItems
     .filter((cur, idx) => {
@@ -83,7 +83,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   }
 
   let serverDelayTimeout
-  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
+  useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
     clearTimeout(serverDelayTimeout)
     localStack.current = {}
@@ -187,9 +187,9 @@ const InfinityPagination = ({
   onMounted,
   ...props
 }) => {
-  const mountedItems = React.useMemo(() => [], [items])
+  const mountedItems = useMemo(() => [], [items])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onMounted && mountedItems.length > 0) {
       onMounted(mountedItems)
     }

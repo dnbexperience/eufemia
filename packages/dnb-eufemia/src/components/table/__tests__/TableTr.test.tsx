@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode, useState } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
 import type { TableTrProps } from '../TableTr'
@@ -219,7 +219,7 @@ describe('TableTr', () => {
 
   describe('re-render', () => {
     const MockComponent = () => {
-      const [list, setlist] = React.useState([
+      const [list, setlist] = useState([
         'content cab',
         'content abc',
         'content bac',
@@ -390,9 +390,9 @@ describe('TableTr', () => {
 
     it('should set correct odd/even in StrictMode', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <MockComponent />
-        </React.StrictMode>
+        </StrictMode>
       )
 
       let elements = document.querySelectorAll('tbody tr')

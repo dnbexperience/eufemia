@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -61,8 +61,8 @@ const iconPosition = 'right'
 const open = false
 
 const DropdownStory = () => {
-  const [data, setData] = React.useState(dropdownData)
-  const [value, setSelectedItem] = React.useState(0)
+  const [data, setData] = useState(dropdownData)
+  const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
       <Box>
@@ -487,14 +487,12 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selectedValue: (
-      <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
-    ),
+    selectedValue: <Fragment key="cs-1">Custom selected {'🔥'}</Fragment>,
     content: [
       <NumberFormat.BankAccountNumber key={15349648901}>
         15349648901
       </NumberFormat.BankAccountNumber>,
-      <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>,
+      <Fragment key="cs-2">Custom content {'🔥'}</Fragment>,
     ],
   },
 ]
@@ -533,7 +531,7 @@ const dropdownDataScrollable = [
     content: <>E</>,
   },
   <>Custom content {'🔥'}</>,
-  [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
+  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE',
   },
@@ -551,7 +549,7 @@ const dropdownDataScrollable = [
   },
 ]
 
-const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
+const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like Fragment
 function CurrencySelector({
   currencies,
   onChange,
@@ -582,7 +580,7 @@ function CurrencySelector({
 }
 
 function DropdownStatesSync() {
-  const [state, setState] = React.useState({})
+  const [state, setState] = useState({})
 
   const handleOnChange = (props) => {
     console.log('DropdownStates', props)
@@ -610,12 +608,12 @@ function DropdownStatesSync() {
 }
 
 function CurrencyDropdown() {
-  const [ccyPair, setCcyPair] = React.useState({
+  const [ccyPair, setCcyPair] = useState({
     base: 'EUR',
     terms: 'SEK',
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
   const handleBaseCurrencyChange = (base) =>
@@ -662,8 +660,8 @@ const initialData = [
 ]
 
 function UpdateDataExample() {
-  const [choiceData, setChoiceData] = React.useState(initialData)
-  const [selectedData, setSelectedData] = React.useState([])
+  const [choiceData, setChoiceData] = useState(initialData)
+  const [selectedData, setSelectedData] = useState([])
 
   return (
     <>
@@ -746,9 +744,9 @@ const filter2ToShow = [
 ]
 
 export function UpdateData() {
-  const [value, setValue] = React.useState(null)
-  const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
-  const [preventClose, setPreventClose] = React.useState(true)
+  const [value, setValue] = useState(null)
+  const [filtersToShow, setFiltersToShow] = useState(filter1ToShow)
+  const [preventClose, setPreventClose] = useState(true)
 
   const onFilterChange = ({ value, data }) => {
     setValue(value)

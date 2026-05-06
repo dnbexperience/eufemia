@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 import { Field, Form } from '../../../extensions/forms'
 import { Card, Flex, Grid, Section, Space } from '../../'
 import { Wrapper, Box } from 'storybook-utils/helpers'

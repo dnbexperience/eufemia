@@ -3,7 +3,8 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import { useContext, useMemo } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
@@ -56,7 +57,7 @@ export type InputMaskedEventHandler = (
 ) => unknown
 export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
 export type InputMaskedProps = Omit<
-  React.HTMLProps<HTMLInputElement>,
+  HTMLProps<HTMLInputElement>,
   | 'placeholder'
   | 'label'
   | 'children'
@@ -127,14 +128,14 @@ export type InputMaskedProps = Omit<
     size?: InputSize
     value?: InputMaskedValue
     id?: string
-    label?: React.ReactNode
+    label?: ReactNode
     labelDirection?: 'horizontal' | 'vertical'
     labelSrOnly?: boolean
     inputState?: string
     autocomplete?: string
     submitButtonTitle?: string
     clearButtonTitle?: string
-    placeholder?: React.ReactNode
+    placeholder?: ReactNode
     showClearButton?: boolean
     keepPlaceholder?: boolean
     suffix?: InputMaskedSuffix
@@ -150,7 +151,7 @@ export type InputMaskedProps = Omit<
     iconSize?: IconSize
     iconPosition?: ButtonIconPosition
     readOnly?: boolean
-    innerElement?: React.ReactNode
+    innerElement?: ReactNode
     submitElement?: InputMaskedSubmitElement
     submitButtonVariant?: ButtonVariant
     submitButtonIcon?: InputMaskedSubmitButtonIcon
@@ -160,10 +161,10 @@ export type InputMaskedProps = Omit<
   }
 
 function InputMasked({ ref, ...restProps }: InputMaskedProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // Remove masks defined in Provider/Context, because it overwrites a custom mask
-  const contextInputMasked = React.useMemo(() => {
+  const contextInputMasked = useMemo(() => {
     if (!restProps?.mask || !context?.InputMasked) {
       return context?.InputMasked
     }
@@ -178,7 +179,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
     return clone
   }, [context?.InputMasked, restProps?.mask])
 
-  const contextAndProps = React.useMemo(() => {
+  const contextAndProps = useMemo(() => {
     const propsWithRef = {
       ...restProps,
       ref,

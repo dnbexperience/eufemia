@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { TextCounter } from '@dnb/eufemia/src/fragments'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'

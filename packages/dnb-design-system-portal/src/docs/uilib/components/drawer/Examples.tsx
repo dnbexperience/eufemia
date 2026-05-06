@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Drawer,
@@ -43,7 +43,7 @@ export const LargeContentExample = () => {
     <ComponentBox data-visual-test="large-content-drawer">
       {() => {
         const MockComponent = () => {
-          const scrollRef = React.useRef(null)
+          const scrollRef = useRef(null)
           return (
             <Drawer
               title="Drawer title"
@@ -294,9 +294,9 @@ export const DrawerScrollViewSetup = () => (
   <ComponentBox data-visual-test="drawer-scroll-view">
     {() => {
       const DrawerMock = () => {
-        const scrollRef = React.useRef(null)
-        const ref = React.useRef(null)
-        const [errorMessage, setErrorMessage] = React.useState(null)
+        const scrollRef = useRef(null)
+        const ref = useRef(null)
+        const [errorMessage, setErrorMessage] = useState(null)
 
         const message = errorMessage
           ? errorMessage
@@ -354,9 +354,9 @@ export const UpdateNavigationHeaderExample = () => {
     <ComponentBox data-visual-test="update-navigation-header-example">
       {() => {
         const MockComponent = () => {
-          const [showMe, setShowMe] = React.useState(false)
+          const [showMe, setShowMe] = useState(false)
 
-          const scrollRef = React.useRef(null)
+          const scrollRef = useRef(null)
           return (
             <Drawer
               title="Drawer title"

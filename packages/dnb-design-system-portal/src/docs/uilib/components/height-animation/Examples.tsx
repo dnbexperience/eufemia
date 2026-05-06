@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
@@ -20,8 +20,8 @@ export function HeightAnimationDefault() {
     <ComponentBox>
       {() => {
         const Example = () => {
-          const [openState, setOpenState] = React.useState(false)
-          const [contentState, setContentState] = React.useState(false)
+          const [openState, setOpenState] = useState(false)
+          const [contentState, setContentState] = useState(false)
 
           const onChangeHandler = ({ checked }) => {
             setOpenState(checked)
@@ -75,7 +75,7 @@ export function HeightAnimationAutosizing() {
     <ComponentBox>
       {() => {
         const Example = () => {
-          const [showMe, setShowMe] = React.useState(true)
+          const [showMe, setShowMe] = useState(true)
 
           return (
             <>
@@ -115,8 +115,8 @@ export function HeightAnimationKeepInDOM() {
     <ComponentBox>
       {() => {
         const Example = () => {
-          const [openState, setOpenState] = React.useState(true)
-          const [contentState, setContentState] = React.useState(false)
+          const [openState, setOpenState] = useState(true)
+          const [contentState, setContentState] = useState(false)
 
           const onChangeHandler = ({ checked }) => {
             setOpenState(checked)

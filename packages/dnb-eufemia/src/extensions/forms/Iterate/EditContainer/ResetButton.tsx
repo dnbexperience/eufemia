@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
@@ -34,7 +34,7 @@ export default function ResetButton(props: Props) {
   const { confirmResetText } = useTranslation().IterateEditContainer
   const textContent = text || children || resetButton
 
-  const buttonWrapperRef = React.useRef<HTMLButtonElement>(null)
+  const buttonWrapperRef = useRef<HTMLButtonElement>(null)
   const handleClick = useCallback(
     ({ close, event }) => {
       close?.()

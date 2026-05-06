@@ -1,10 +1,19 @@
-import React, {
-  useMemo,
-  useContext,
+import {
+  Children,
+  Fragment,
+  isValidElement,
   useCallback,
-  useRef,
-  useReducer,
+  useContext,
   useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
 } from 'react'
 import clsx from 'clsx'
 import type {
@@ -90,7 +99,7 @@ export type SharedFieldBlockProps = {
   /**
    * Main label text for the field
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Use `true` to make the label only readable by screen readers.
    */
@@ -98,11 +107,11 @@ export type SharedFieldBlockProps = {
   /**
    * Will append an additional text to the label, like "(optional)" or "(recommended)"
    */
-  labelSuffix?: React.ReactNode
+  labelSuffix?: ReactNode
   /**
    * A more discreet text displayed beside the label
    */
-  labelDescription?: React.ReactNode
+  labelDescription?: ReactNode
   /**
    * If true, the labelDescription will be displayed on the same line as the label.
    */
@@ -158,8 +167,8 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     required?: boolean
     /** Role for the fieldset element when using fieldset */
     fieldsetRole?: string
-    children?: React.ReactNode
-  } & React.HTMLAttributes<HTMLDivElement>
+    children?: ReactNode
+  } & HTMLAttributes<HTMLDivElement>
 
 function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const dataContext = useContext(DataContext)
@@ -515,7 +524,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   }
 
   const mainStyle = useMemo(() => {
-    const style: React.CSSProperties = {}
+    const style: CSSProperties = {}
 
     if (hasCustomWidth) {
       style['--dnb-forms-field-block-width'] = width
@@ -693,7 +702,7 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: React.ReactElement<any>) => {
+      findElementInChildren(children, (child: ReactElement<any>) => {
         if (
           child?.props?.label ||
           (child?.type as ComponentMarkers)?._formElement === true
@@ -771,28 +780,28 @@ export function getMessagesFromError(
   }
 
   return [
-    ((React.isValidElement(content) ? content : content?.toString()) ||
+    ((isValidElement(content) ? content : content?.toString()) ||
       content) as StateMessage,
   ]
 }
 
-function isFragment(fragment: React.ReactNode) {
-  return React.isValidElement(fragment) && fragment.type === React.Fragment
+function isFragment(fragment: ReactNode) {
+  return isValidElement(fragment) && fragment.type === Fragment
 }
 
-function fragmentHasChildren(fragment: React.ReactNode) {
+function fragmentHasChildren(fragment: ReactNode) {
   return (
-    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.count(fragment.props.children) > 0
+    isValidElement<{ children?: ReactNode }>(fragment) &&
+    Children.count(fragment.props.children) > 0
   )
 }
 
-function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
+function fragmentHasOnlyUndefinedChildren(fragment: ReactNode) {
   const isUndefined = (child) => child === undefined
 
   return (
-    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
-    React.Children.toArray(fragment.props.children).every(isUndefined)
+    isValidElement<{ children?: ReactNode }>(fragment) &&
+    Children.toArray(fragment.props.children).every(isUndefined)
   )
 }
 

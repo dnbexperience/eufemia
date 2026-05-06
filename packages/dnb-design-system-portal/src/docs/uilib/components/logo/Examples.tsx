@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Card, Logo, Flex, P } from '@dnb/eufemia/src'
 import {

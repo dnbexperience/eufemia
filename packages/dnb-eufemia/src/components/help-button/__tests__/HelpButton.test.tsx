@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Dialog from '../../dialog/Dialog'
 import type { HelpButtonProps } from '../HelpButton'

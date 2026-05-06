@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
 import type { UploadFileNative } from '../../../../../components/Upload'
@@ -376,7 +377,7 @@ export const AsyncEverythingWithTransform = () => {
       | Array<{
           id: string
           fileName: string
-          errorMessage?: React.ReactNode
+          errorMessage?: ReactNode
         }>
       | undefined
     return (

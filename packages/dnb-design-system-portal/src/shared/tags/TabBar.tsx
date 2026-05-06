@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import type { TabsTabElement } from '@dnb/eufemia/src/components/tabs/Tabs'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
@@ -27,7 +28,7 @@ type TabbarProps = {
   title: string
   hideTabs: Array<{ title: string }>
   rootPath: string
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export default function TabBar({
@@ -39,7 +40,7 @@ export default function TabBar({
   defaultTabs = defaultTabsValue,
   children,
 }: TabbarProps) {
-  const [wasFullscreen, setFullscreen] = React.useState(
+  const [wasFullscreen, setFullscreen] = useState(
     /fullscreen/.test(location.search)
   )
 
@@ -67,7 +68,7 @@ export default function TabBar({
     location.hash,
   ].join('')
 
-  const preparedTabs = React.useMemo(() => {
+  const preparedTabs = useMemo(() => {
     return (
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter

@@ -1,4 +1,9 @@
-import type * as React from 'react'
+import type {
+  ElementType,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
+} from 'react'
 import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
@@ -67,7 +72,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: React.ReactNode | ((props: ModalProps) => React.ReactNode)
+  children?: ReactNode | ((props: ModalProps) => ReactNode)
 
   /**
    * Omits default showing trigger button
@@ -126,7 +131,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * Provide a custom trigger component. Like trigger={<Anchor href="/" />}. It will set the focus on it when the modal/drawer gets closed.
    */
-  trigger?: React.ElementType
+  trigger?: ElementType
 
   /**
    * Send along custom HTML attributes or properties to the trigger button.
@@ -136,7 +141,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  modalContent?: React.ReactNode | ((props: ModalProps) => React.ReactNode)
+  modalContent?: ReactNode | ((props: ModalProps) => ReactNode)
 
   /**
    * If true, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
@@ -146,31 +151,29 @@ export type ModalProps = ModalRootProps & {
   /**
    * To get the inner content Element, pass in your own React ref
    */
-  contentRef?: React.RefObject<HTMLElement>
+  contentRef?: RefObject<HTMLElement>
 
   /**
    * To get the scroll Element, pass in your own React ref
    */
-  scrollRef?: React.RefObject<HTMLElement>
+  scrollRef?: RefObject<HTMLElement>
 }
 
 export type ModalContentProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  modalContent?:
-    | React.ReactNode
-    | ((props: ModalContentProps) => React.ReactNode)
+  modalContent?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /**
    * The content which will appear in the bar, above the header, and side-by-side the close button.
    */
-  barContent?: React.ReactNode
+  barContent?: ReactNode
 
   /**
    * The content which will appear in the header of the modal/drawer the modal/drawer.
    */
-  headerContent?: React.ReactNode
+  headerContent?: ReactNode
   hide?: boolean
 
   /**
@@ -196,7 +199,7 @@ export type ModalContentProps = {
   /**
    * The modal/drawer title. Displays on the very top of the content.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.
@@ -289,7 +292,7 @@ export type ModalContentProps = {
    * Will close the modal
    */
   close?: (
-    event?: Event | React.SyntheticEvent,
+    event?: Event | SyntheticEvent,
     options?: { ifIsLatest?: boolean; triggeredBy?: string }
   ) => void
 
@@ -301,9 +304,7 @@ export type ModalContentProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?:
-    | React.ReactNode
-    | ((props: ModalContentProps) => React.ReactNode)
+  children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /**
    * The displayed text for the 'close' button. Defaults to `Lukk`.
@@ -314,10 +315,10 @@ export type ModalContentProps = {
    * Internal
    */
   dialogRole?: 'dialog' | 'alertdialog' | 'region'
-  contentRef?: React.RefObject<HTMLElement>
-  scrollRef?: React.RefObject<HTMLElement>
+  contentRef?: RefObject<HTMLElement>
+  scrollRef?: RefObject<HTMLElement>
   open?: boolean
-  modalContentCloseRef?: React.RefObject<any>
+  modalContentCloseRef?: RefObject<any>
 }
 
 export type ModalTriggerAttributes = ButtonProps

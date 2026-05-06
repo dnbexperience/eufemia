@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import type { FieldProps, Identifier, SubmitState } from '../types'
 
 export type FieldErrorIdsRef = Record<FieldState, string>
@@ -20,14 +21,14 @@ export type StateRecord = Record<
   Identifier,
   Array<Omit<StateBasis, 'identifier'>>
 >
-export type StateMessage = React.ReactNode
+export type StateMessage = ReactNode
 export type StateWithMessage = StateBasis & {
   message: StateMessage
 }
 export type StatesWithMessages = StateBasis & {
   messages: Array<StateWithMessage>
 }
-export type StatusContentState = { id: string; text: React.ReactNode }
+export type StatusContentState = { id: string; text: ReactNode }
 export type StatusContent = {
   error: StatusContentState
   warning: StatusContentState
@@ -48,11 +49,11 @@ export type FieldBlockContextProps = {
   hasErrorProp?: boolean
   composition?: true
   disableStatusSummary?: boolean
-  fieldStateIdsRef?: React.RefObject<FieldErrorIdsRef>
-  mountedFieldsRef?: React.RefObject<MountedFieldsRef>
+  fieldStateIdsRef?: RefObject<FieldErrorIdsRef>
+  mountedFieldsRef?: RefObject<MountedFieldsRef>
 }
 
-const FieldBlockContext = React.createContext<
+const FieldBlockContext = createContext<
   FieldBlockContextProps | undefined
 >(undefined)
 

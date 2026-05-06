@@ -1,4 +1,4 @@
-import React from 'react'
+import type { MouseEvent } from 'react'
 import styled from '@emotion/styled'
 
 const ChangeStylesOfSkipLink = styled.div`
@@ -15,7 +15,7 @@ const ChangeStylesOfSkipLink = styled.div`
 `
 
 export function SkipLinkExample() {
-  const onClick = (e: React.MouseEvent) => {
+  const onClick = (e: MouseEvent) => {
     const element = document.querySelector(
       'a.dnb-skip-link'
     ) as HTMLAnchorElement

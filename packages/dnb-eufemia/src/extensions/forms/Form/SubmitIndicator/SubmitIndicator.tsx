@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
@@ -15,10 +16,10 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 export type FormSubmitIndicatorProps = {
   state: SubmitState
   id?: string
-  label?: React.ReactNode
+  label?: ReactNode
   showLabel?: boolean
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
 } & SpaceProps
 
 function SubmitIndicator(props: FormSubmitIndicatorProps) {

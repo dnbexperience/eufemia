@@ -5,14 +5,14 @@
  *
  */
 
-import React from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
 
 type Props = {
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
   pseudoElementOnly?: boolean
-} & React.HTMLAttributes<HTMLSpanElement>
+} & HTMLAttributes<HTMLSpanElement>
 
 export default function AlignmentHelper({
   className = null,

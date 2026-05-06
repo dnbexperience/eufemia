@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
+import type { HTMLProps } from 'react'
 
 import type { HeadingContextValue } from './HeadingContext'
 import HeadingContext from './HeadingContext'
@@ -21,12 +22,12 @@ import type { InternalHeadingLevel, HeadingProps } from './Heading'
 
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &
-  React.HTMLProps<HTMLElement>
+  HTMLProps<HTMLElement>
 
 export default function HeadingProvider(props: HeadingProviderAllProps) {
-  const context = React.useContext(HeadingContext)
+  const context = useContext(HeadingContext)
 
-  const [state, setState] = React.useState(() => {
+  const [state, setState] = useState(() => {
     type State = {
       level?: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
@@ -83,7 +84,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     return state
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     const level = parseFloat(String(props.level))
     if (
       state.prevLevel !== props.level &&
@@ -105,7 +106,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     }
   }, [props.level])
 
-  React.useEffect(() => {
+  useEffect(() => {
     windupHeadings()
 
     return () => {

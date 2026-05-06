@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, Section } from '@dnb/eufemia/src'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'

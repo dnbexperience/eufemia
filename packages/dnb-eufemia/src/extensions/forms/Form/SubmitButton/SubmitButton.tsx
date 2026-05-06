@@ -1,4 +1,5 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
@@ -18,10 +19,7 @@ export type FormSubmitButtonProps = {
 } & ComponentProps &
   Omit<ButtonProps, 'variant'> &
   Partial<
-    Omit<
-      React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
-      'title'
-    >
+    Omit<HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, 'title'>
   > & {
     variant?: 'send' | 'secondary'
   }

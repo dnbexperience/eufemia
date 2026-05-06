@@ -1,11 +1,11 @@
-import React from 'react'
+import { useContext } from 'react'
 import { UploadContext } from './UploadContext'
 import FormStatus from '../FormStatus'
 import useUpload from './useUpload'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 const UploadStatus = () => {
-  const context = React.useContext(UploadContext)
+  const context = useContext(UploadContext)
 
   const { id, filesAmountLimit, errorAmountLimit } = context
   const { internalFiles } = useUpload(id)

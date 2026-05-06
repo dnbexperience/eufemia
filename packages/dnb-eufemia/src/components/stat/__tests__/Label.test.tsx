@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
@@ -105,7 +105,7 @@ describe('Stat.Label', () => {
     let contextSkeleton: unknown = undefined
 
     function ContextReader() {
-      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      contextSkeleton = useContext(SharedContext)?.skeleton
       return null
     }
 
@@ -127,7 +127,7 @@ describe('Stat.Label', () => {
     let contextSkeleton: unknown = undefined
 
     function ContextReader() {
-      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      contextSkeleton = useContext(SharedContext)?.skeleton
       return null
     }
 

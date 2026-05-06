@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
+import type { ReactNode, SyntheticEvent } from 'react'
 
 // Components
 import Button from '../button/Button'
@@ -21,13 +22,13 @@ const UploadFileInput = ({
   files,
   ...rest
 }: {
-  children?: React.ReactNode
+  children?: ReactNode
   files?: UploadFile[]
   disabled?: boolean
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
-  const context = React.useContext(UploadContext)
+  const context = useContext(UploadContext)
 
   const {
     id,
@@ -45,7 +46,7 @@ const UploadFileInput = ({
   const accept = getAcceptedFileTypes(acceptedFileTypes)
 
   const onChangeHandler = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: SyntheticEvent) => {
       const target = event.target as HTMLInputElement
       const { files } = target
 
@@ -58,7 +59,7 @@ const UploadFileInput = ({
     [onInputUpload]
   )
 
-  const onClickHandler = useCallback((event: React.SyntheticEvent) => {
+  const onClickHandler = useCallback((event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement
 
     /**

@@ -1,5 +1,5 @@
-import type { RefObject } from 'react'
 import { useCallback } from 'react'
+import type { FormEvent, KeyboardEvent, RefObject } from 'react'
 
 type TransferToNextParams = {
   key: string
@@ -20,7 +20,7 @@ function useHandleCursorPosition(
   options?: UseHandleCursorPositionOptions
 ) {
   const onKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement
       const key = event.key
 
@@ -113,7 +113,7 @@ function useHandleCursorPosition(
   )
 
   const onInput = useCallback(
-    (event: React.FormEvent<HTMLInputElement>) => {
+    (event: FormEvent<HTMLInputElement>) => {
       const input = event.currentTarget
 
       if (document.activeElement !== input) {

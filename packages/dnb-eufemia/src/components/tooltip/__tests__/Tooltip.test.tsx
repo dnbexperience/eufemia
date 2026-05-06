@@ -3,7 +3,7 @@
  *
  */
 
-import React, { act } from 'react'
+import { act, useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
@@ -103,7 +103,7 @@ describe('Tooltip', () => {
 
   it('should remove unmounted portal parts', () => {
     const Component = () => {
-      const [mounted, setMounted] = React.useState(true)
+      const [mounted, setMounted] = useState(true)
       const onClickHandler = () => {
         setMounted(!mounted)
       }
@@ -510,7 +510,7 @@ describe('Tooltip', () => {
 
     it('should show when open prop is true', async () => {
       const Tooltip = () => {
-        const [isOpen, setIsOpen] = React.useState(false)
+        const [isOpen, setIsOpen] = useState(false)
 
         return (
           <OriginalTooltip

@@ -1,3 +1,4 @@
+import type { HTMLAttributes, ReactNode } from 'react'
 import type { SpacingProps } from '../../shared/types'
 
 export type CopyOnClickProps = {
@@ -17,20 +18,20 @@ export type CopyOnClickProps = {
    * The content to be copied.
    * Used when the copied value should differ from the visually shown value(`children`).
    */
-  copyContent?: React.ReactNode
+  copyContent?: ReactNode
 
   /**
    * The message shown in the tooltip when the content is copied.
    * Defaults to the translation `CopyOnClick.clipboardCopy`.
    */
-  tooltipContent?: React.ReactNode
+  tooltipContent?: ReactNode
 
   /**
    * The content/children to be copied.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export type CopyOnClickAllProps = CopyOnClickProps &
   SpacingProps &
-  React.HTMLAttributes<HTMLSpanElement>
+  HTMLAttributes<HTMLSpanElement>

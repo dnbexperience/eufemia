@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import type { ModalInnerProps } from '../../modal/parts/ModalInner'
 import ModalInner from '../../modal/parts/ModalInner'
@@ -14,7 +14,7 @@ export default function DialogBody({
   className,
   ref,
   ...props
-}: DialogBodyProps & React.HTMLProps<HTMLElement>) {
+}: DialogBodyProps & HTMLProps<HTMLElement>) {
   return (
     <ModalInner
       {...props}

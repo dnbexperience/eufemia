@@ -1,10 +1,11 @@
-import React, {
+import {
   useCallback,
   useContext,
   useMemo,
   useReducer,
   useRef,
 } from 'react'
+import type { ReactNode } from 'react'
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import SharedProvider from '../../../../shared/Provider'
@@ -41,8 +42,8 @@ export type ConfirmProps = {
   preventSubmitWhen?: (params: ConfirmParams) => boolean
   onStateChange?: (params: ConfirmParams) => void | Promise<void>
   onSubmitResult?: (params: ConfirmParams) => void
-  renderWithState?: (params: ConfirmParams) => React.ReactNode
-  children?: React.ReactNode
+  renderWithState?: (params: ConfirmParams) => ReactNode
+  children?: ReactNode
 }
 
 function SubmitConfirmation(props: ConfirmProps) {

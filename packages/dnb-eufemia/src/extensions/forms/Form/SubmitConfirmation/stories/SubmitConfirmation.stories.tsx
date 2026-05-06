@@ -1,4 +1,3 @@
-import React from 'react'
 import { Field, Form } from '../../..'
 import { Dialog, Flex, Section } from '../../../../../components'
 

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createSharedState,
@@ -7,7 +8,7 @@ import {
 export type InfoOverlayContent =
   | 'success'
   | 'error'
-  | React.ReactNode
+  | ReactNode
   | undefined
 
 export default function setContent(

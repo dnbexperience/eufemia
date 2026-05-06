@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { JSX } from 'react'
 import clsx from 'clsx'
 import {
   findElementInChildren,
@@ -47,7 +48,7 @@ export default function DialogContent({
   confirmText,
   scrollbarGutter,
   ...rest
-}: DialogContentProps): React.JSX.Element {
+}: DialogContentProps): JSX.Element {
   const context = useContext(ModalContext)
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,

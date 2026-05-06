@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Form, DataContext, Field } from '../../..'
 

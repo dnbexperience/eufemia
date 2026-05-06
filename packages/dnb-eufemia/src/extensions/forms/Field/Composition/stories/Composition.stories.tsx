@@ -1,4 +1,3 @@
-import React from 'react'
 import type { JSONSchema } from '../../../Forms'
 import { Field, Form } from '../../../Forms'
 import { Flex } from '../../../../../components'

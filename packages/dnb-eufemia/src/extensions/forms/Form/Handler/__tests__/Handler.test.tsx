@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react'
+import { StrictMode } from 'react'
+import type { RefObject } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
@@ -551,7 +552,7 @@ describe('Form.Handler', () => {
         <Field.String path="/other" value="include this" />
         <Form.SubmitButton />
       </Form.Handler>,
-      { wrapper: React.StrictMode }
+      { wrapper: StrictMode }
     )
 
     const buttonElement = document.querySelector('button')
@@ -1439,7 +1440,7 @@ describe('Form.Handler TypeScript type validation', () => {
   })
 
   it('should support ref prop', () => {
-    const formRef: React.RefObject<HTMLFormElement | null> = {
+    const formRef: RefObject<HTMLFormElement | null> = {
       current: null,
     }
 

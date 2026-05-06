@@ -1,10 +1,9 @@
-import React from 'react'
-
+import { createContext } from 'react'
 export type BreadcrumbItemContextValue = {
   itemNo?: number
 }
 
 const BreadcrumbItemContext =
-  React.createContext<BreadcrumbItemContextValue | null>(null)
+  createContext<BreadcrumbItemContextValue | null>(null)
 
 export default BreadcrumbItemContext

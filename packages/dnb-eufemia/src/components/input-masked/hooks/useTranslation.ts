@@ -4,11 +4,11 @@
  * @returns String
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 
 export const useTranslation = () => {
-  const { props, context } = React.useContext(InputMaskedContext)
+  const { props, context } = useContext(InputMaskedContext)
 
   let { locale } = props
   if (!locale && context?.locale) {

@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useRef } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { SectionAllProps } from '../Section'
@@ -287,10 +288,10 @@ describe('Section component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return (
         <Section {...props} ref={ref}>
           content
@@ -318,7 +319,7 @@ describe('surface', () => {
     let receivedSurface: string | undefined
 
     function Consumer() {
-      const context = React.useContext(Context)
+      const context = useContext(Context)
       receivedSurface = context?.theme?.surface
       return null
     }
@@ -369,7 +370,7 @@ describe('surface', () => {
     let receivedSurface: string | undefined
 
     function Consumer() {
-      const context = React.useContext(Context)
+      const context = useContext(Context)
       receivedSurface = context?.theme?.surface
       return null
     }

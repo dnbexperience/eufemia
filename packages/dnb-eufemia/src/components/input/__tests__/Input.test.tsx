@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef, useState } from 'react'
+import type { Ref, RefObject } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -68,10 +69,10 @@ describe('Input component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef(null)
+      ref = useRef(null)
       return <Input {...props} ref={ref} />
     }
 
@@ -108,7 +109,7 @@ describe('Input component', () => {
   it('value should be controllable from outside', () => {
     const initialValue = '1234'
     const Controlled = () => {
-      const [value, setValue] = React.useState(initialValue)
+      const [value, setValue] = useState(initialValue)
       return (
         <Input
           value={String(formatNumber(value))}
@@ -838,7 +839,7 @@ describe('Input icon memoization', () => {
     const IconWrapper = ({
       ref,
       ...props
-    }: InputProps & { ref?: React.Ref<HTMLInputElement> }) => {
+    }: InputProps & { ref?: Ref<HTMLInputElement> }) => {
       renderSpy()
       return <Input {...props} ref={ref} />
     }

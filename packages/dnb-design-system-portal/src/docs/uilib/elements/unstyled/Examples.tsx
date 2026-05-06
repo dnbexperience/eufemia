@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Skeleton,
@@ -36,7 +36,7 @@ export const UnstyledExample = () => (
         }
       `
       const CustomImage = () => {
-        const [state, setState] = React.useState(false)
+        const [state, setState] = useState(false)
         return (
           <Skeleton show={state}>
             <Box>

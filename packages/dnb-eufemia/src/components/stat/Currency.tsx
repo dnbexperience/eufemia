@@ -1,4 +1,3 @@
-import React from 'react'
 import { AmountBase, type AmountProps } from './Amount'
 
 export type CurrencyProps = Omit<AmountProps, 'percent'> & {

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
@@ -99,12 +100,12 @@ export default function ContentWrapper({
     params
   )
 
-  let content: React.ReactNode = children as React.ReactNode
+  let content: ReactNode = children as ReactNode
   if (typeof children === 'function') {
     // If state.key is null but we have an activeKey, create a proper state object
     const stateToPass =
       state.key !== null ? state : { ...state, key: activeKey }
-    content = children(stateToPass) as React.ReactNode
+    content = children(stateToPass) as ReactNode
   }
 
   const resolvedInnerSpace =
@@ -121,7 +122,7 @@ export default function ContentWrapper({
               ref,
               ...props
             }: {
-              ref: React.RefObject<HTMLElement>
+              ref: RefObject<HTMLElement>
               [key: string]: unknown
             }) => {
               return (
@@ -165,8 +166,8 @@ import type { SectionVariants } from '../Section'
 
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
-  | React.ReactNode
-  | ((...args: any[]) => React.ReactNode)
+  | ReactNode
+  | ((...args: any[]) => ReactNode)
 
 export type TabsContentWrapperProps = {
   id: string
@@ -176,6 +177,6 @@ export type TabsContentWrapperProps = {
   contentInnerSpace?: InnerSpaceType | boolean
   children?: TabsContentWrapperChildren
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
 >

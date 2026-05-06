@@ -1,10 +1,11 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useReducer,
   useRef,
 } from 'react'
+import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import DataContext, {
   defaultContextState,
@@ -154,8 +155,8 @@ function usePreventSubmit() {
 function PrerenderPortal({
   children,
 }: {
-  children: React.ReactNode
-}): React.ReactNode {
+  children: ReactNode
+}): ReactNode {
   if (typeof document !== 'undefined') {
     return createPortal(children, document.body)
   }

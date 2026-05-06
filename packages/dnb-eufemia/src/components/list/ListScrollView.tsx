@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
@@ -10,11 +11,11 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
 export type ListScrollViewProps = {
-  children: React.ReactNode
+  children: ReactNode
   maxVisibleListItems?: number
   skeleton?: SkeletonShow
   disabled?: boolean
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'children'> &
   SpacingProps &
   ScrollViewAllProps
 
@@ -92,7 +93,7 @@ function ListScrollView(props: ListScrollViewProps) {
     ? undefined
     : measuredMaxHeight || fallbackMaxHeight
 
-  const scrollViewStyle: React.CSSProperties = {
+  const scrollViewStyle: CSSProperties = {
     ...(resolvedMaxHeight
       ? {
           maxHeight: `calc(${resolvedMaxHeight} + ${outlineCompensation})`,

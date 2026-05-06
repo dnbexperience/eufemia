@@ -214,15 +214,10 @@ const transformToJsx = (content, file): PromiseLike<string> => {
                   parser: 'typescript',
                 })
               )
-                // This is a fix, so the Rollup ESM export does export React.createElement, and not only createElement with a named import
+                // Replace the React import with IconSVGProps type import – automatic JSX transform makes the React import unnecessary
                 .replace(
                   new RegExp(`import \\* as React from 'react'`, 'g'),
-                  `import React from 'react'`
-                )
-                // Add import of IconSVGProps type after the React import
-                .replace(
-                  `import React from 'react'`,
-                  `import React from 'react'\nimport type { IconSVGProps } from '../../components/icon/Icon'`
+                  `import type { IconSVGProps } from '../../components/icon/Icon'`
                 )
           )
         })

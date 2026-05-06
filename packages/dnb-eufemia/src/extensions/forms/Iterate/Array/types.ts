@@ -1,3 +1,4 @@
+import type { HTMLAttributes, ReactNode } from 'react'
 import type {
   DefaultErrorMessages,
   Path,
@@ -10,15 +11,15 @@ import type { IterateItemContextState } from '../IterateItemContext'
 export type ContainerMode = 'view' | 'edit' | 'auto'
 export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
-  | React.ReactNode
+  | ReactNode
   | ((
       value: any,
       index: number,
       arrayItems: Array<IterateItemContextState>
-    ) => React.ReactNode)
+    ) => ReactNode)
 export type IterateArrayProps = Omit<
   FlexContainerProps,
-  keyof Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'id'>
+  keyof Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>
 > &
   Pick<
     UseFieldProps<Value, undefined | Value>,
@@ -55,7 +56,7 @@ export type IterateArrayProps = Omit<
     /** If `true`, animates item additions and removals. */
     animate?: boolean
     /** Content to display when the array is empty. */
-    placeholder?: React.ReactNode
+    placeholder?: ReactNode
     /** Controls the initial display mode for items: `view`, `edit`, or `auto`. */
     containerMode?: ContainerMode
     /** If `true`, at least one item is required. */

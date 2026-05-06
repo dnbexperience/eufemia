@@ -1,4 +1,5 @@
-import React from 'react'
+import { Children, cloneElement, isValidElement } from 'react'
+import type { JSX } from 'react'
 import clsx from 'clsx'
 
 export function TypographyBox({ children, className = null, ...props }) {
@@ -9,14 +10,14 @@ export function TypographyBox({ children, className = null, ...props }) {
   )
 }
 
-function removeNestedParagraphs(children: Array<React.JSX.Element>) {
-  return React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      const jsx = child as React.JSX.Element
+function removeNestedParagraphs(children: Array<JSX.Element>) {
+  return Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      const jsx = child as JSX.Element
       if (jsx.type?.name === 'p') {
         return jsx.props.children
       } else {
-        return React.cloneElement(
+        return cloneElement(
           child,
           null,
           removeNestedParagraphs(jsx.props.children)

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useCallback } from 'react'
+import type { CSSProperties, HTMLProps, Ref } from 'react'
 import clsx from 'clsx'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
@@ -31,12 +32,12 @@ export type FlexItemProps = {
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   span?: FlexSpan
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
 }
 
 export type FlexItemAllProps = FlexItemProps &
   SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
 
 function FlexItem(props: FlexItemAllProps) {
   const {
@@ -59,11 +60,11 @@ function FlexItem(props: FlexItemAllProps) {
     span && 'dnb-flex-item--responsive'
   )
 
-  const isValidSpan = React.useCallback((span: FlexSpans) => {
+  const isValidSpan = useCallback((span: FlexSpans) => {
     return typeof span === 'number' || span === 'auto'
   }, [])
 
-  const spaceStyles = {} as React.CSSProperties
+  const spaceStyles = {} as CSSProperties
 
   if (span) {
     if (isValidSpan(span as FlexSpans)) {

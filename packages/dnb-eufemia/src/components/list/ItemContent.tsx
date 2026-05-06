@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import clsx from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'

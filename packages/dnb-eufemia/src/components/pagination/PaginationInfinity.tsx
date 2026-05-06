@@ -2,7 +2,16 @@
  * Web Pagination Component
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import type {
+  ComponentType,
+  ElementType,
+  MouseEvent,
+  ReactNode,
+  Ref,
+  RefObject,
+  SyntheticEvent,
+} from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import {
   warn,
@@ -19,7 +28,7 @@ import {
 import PaginationContext from './PaginationContext'
 
 export type InfinityScrollerProps = {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 type CallbackBufferParams = {
@@ -43,8 +52,8 @@ type EventHandlerOptions = {
 type GetNewContentProps = {
   position?: 'before' | 'after'
   skipObserver?: boolean
-  event?: React.SyntheticEvent
-  ScrollElement?: React.ComponentType<Record<string, unknown>>
+  event?: SyntheticEvent
+  ScrollElement?: ComponentType<Record<string, unknown>>
   [key: string]: unknown
 }
 
@@ -335,7 +344,7 @@ export default function InfinityScroller({
   }
 
   // make sure we handle Table markup correctly
-  const Element = preparePageElement(pageElement || React.Fragment)
+  const Element = preparePageElement(pageElement || Fragment)
 
   return items.map(
     (
@@ -349,10 +358,10 @@ export default function InfinityScroller({
       }: {
         pageNumber: number
         hasContent: boolean
-        content: React.ReactNode
-        ref: React.Ref<HTMLElement>
+        content: ReactNode
+        ref: Ref<HTMLElement>
         skipObserver: boolean
-        ScrollElement: React.ComponentType<Record<string, unknown>>
+        ScrollElement: ComponentType<Record<string, unknown>>
       },
       idx: number
     ) => {
@@ -360,7 +369,7 @@ export default function InfinityScroller({
 
       // decide to whether use the default Element, or use the scrollTo element
       const Elem = (hasContent && ScrollElement) || Element
-      const isFragment = Elem === React.Fragment
+      const isFragment = Elem === Fragment
 
       // render the marker before
       const marker = hasContent &&
@@ -464,7 +473,7 @@ export default function InfinityScroller({
 
 type InteractionMarkerProps = {
   pageNumber: number
-  markerElement?: React.ReactNode | string | null
+  markerElement?: ReactNode | string | null
   onVisible: (pageNumber: number) => void
 }
 
@@ -540,7 +549,7 @@ function InteractionMarker({
     <Element className="dnb-pagination__marker dnb-table--ignore">
       <ElementChild
         className="dnb-pagination__marker__inner"
-        ref={markerRef as React.RefObject<never>}
+        ref={markerRef as RefObject<never>}
       />
     </Element>
   )
@@ -554,17 +563,17 @@ export function InfinityLoadButton({
   iconPosition = 'left',
   onClick,
 }: {
-  element?: React.ElementType
-  pressedElement?: React.ReactNode
+  element?: ElementType
+  pressedElement?: ReactNode
   icon?: string
   text?: string | null
   iconPosition?: 'left' | 'right'
-  onClick?: (e: React.MouseEvent) => void
+  onClick?: (e: MouseEvent) => void
 }) {
-  const context = React.useContext(Context)
-  const [isPressed, setIsPressed] = React.useState(false)
+  const context = useContext(Context)
+  const [isPressed, setIsPressed] = useState(false)
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
     setIsPressed(true)
     if (typeof onClick === 'function') {
       onClick(e)
@@ -598,10 +607,10 @@ function ScrollToElement({
   pageElement = null,
   ...props
 }: {
-  pageElement?: React.ElementType | null
+  pageElement?: ElementType | null
   [key: string]: unknown
 }) {
-  const elementRef = React.useRef<HTMLDivElement>(null)
+  const elementRef = useRef<HTMLDivElement>(null)
 
   useMountEffect(() => {
     const elem = elementRef.current
@@ -613,10 +622,10 @@ function ScrollToElement({
     }
   })
 
-  const Element = preparePageElement(pageElement || React.Fragment)
+  const Element = preparePageElement(pageElement || Fragment)
 
   // If Element is React.Fragment, we need to wrap it in a div to attach the ref
-  if (Element === React.Fragment) {
+  if (Element === Fragment) {
     return <div ref={elementRef} {...props} />
   }
 

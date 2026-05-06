@@ -1,4 +1,3 @@
-import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import {
   Avatar,

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react'
 import { format } from 'date-fns'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import DateFormat from '../../DateFormat'

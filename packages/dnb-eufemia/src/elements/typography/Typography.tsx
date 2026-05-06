@@ -3,7 +3,8 @@
  *
  */
 
-import React, { createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
+import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
 import clsx from 'clsx'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import E from '../Element'
@@ -38,13 +39,13 @@ export type TypographyProviderProps = {
    * Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
    */
   proseMaxWidth?: number | boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export type TypographyProps<
   ElementType extends HTMLElement = HTMLElement,
 > = SpacingProps &
-  React.HTMLAttributes<ElementType> & {
+  HTMLAttributes<ElementType> & {
     /**
      * Defines the Element Type, like "p".
      */
@@ -84,7 +85,7 @@ export type TypographyProps<
   }
 
 type TypographyInternalProps = {
-  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
+  ref?: RefObject<HTMLElement> | Ref<unknown>
 }
 
 const Typography = ({

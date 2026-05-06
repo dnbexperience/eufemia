@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { PaymentCardProps } from '../PaymentCard'
 import PaymentCard, {

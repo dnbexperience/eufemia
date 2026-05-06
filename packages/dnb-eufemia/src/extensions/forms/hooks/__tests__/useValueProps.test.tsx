@@ -1,4 +1,4 @@
-import React from 'react'
+import { useReducer } from 'react'
 import {
   fireEvent,
   render,
@@ -509,10 +509,7 @@ describe('useValueProps', () => {
 
     it('renders value visibility changes without Form.Visibility', async () => {
       const MyForm = () => {
-        const [count, increment] = React.useReducer(
-          (state) => state + 1,
-          1
-        )
+        const [count, increment] = useReducer((state) => state + 1, 1)
 
         return (
           <Form.Handler>

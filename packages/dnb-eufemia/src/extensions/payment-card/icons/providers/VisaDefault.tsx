@@ -1,6 +1,5 @@
-import React from 'react'
-
-const VisaDefaultSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const VisaDefaultSVG = (props: SVGProps<SVGSVGElement>) => (
   <div style={{ color: props.fill }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"

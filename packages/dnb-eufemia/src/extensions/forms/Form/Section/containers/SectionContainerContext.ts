@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { ContainerMode } from './SectionContainer'
 
 export type SectionContainerContextState = {
@@ -9,7 +9,7 @@ export type SectionContainerContextState = {
   disableEditing?: boolean
 }
 
-const SectionContainerContext = React.createContext<
+const SectionContainerContext = createContext<
   SectionContainerContextState | undefined
 >(undefined)
 

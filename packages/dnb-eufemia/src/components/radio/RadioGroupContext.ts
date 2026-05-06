@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { createContext } from 'react'
+import type { SyntheticEvent } from 'react'
 
 import type { RadioGroupLabelPosition, RadioGroupSize } from './RadioGroup'
 
@@ -13,9 +14,9 @@ export type RadioGroupContextValue = {
   size?: RadioGroupSize
   disabled?: boolean
   labelPosition?: RadioGroupLabelPosition
-  onChange?: (args: { value: string; event: React.SyntheticEvent }) => void
+  onChange?: (args: { value: string; event: SyntheticEvent }) => void
 }
 
-const RadioGroupContext = React.createContext<RadioGroupContextValue>({})
+const RadioGroupContext = createContext<RadioGroupContextValue>({})
 
 export default RadioGroupContext

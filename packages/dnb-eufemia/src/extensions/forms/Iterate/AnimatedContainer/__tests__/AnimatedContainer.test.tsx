@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import { Iterate, Value } from '../../..'
 import AnimatedContainer from '../AnimatedContainer'

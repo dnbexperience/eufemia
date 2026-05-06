@@ -3,6 +3,7 @@
  *
  */
 
+import type { CSSProperties } from 'react'
 import '../../../core/jest/jestSetup'
 import {
   spacePatterns,
@@ -744,7 +745,7 @@ describe('applySpacing', () => {
       { innerSpace: { right: 'large' } },
       {
         className: 'dnb-my-component',
-        style: { color: 'red' } as React.CSSProperties,
+        style: { color: 'red' } as CSSProperties,
       }
     )
     expect(result.style).toEqual({
@@ -760,7 +761,7 @@ describe('applySpacing', () => {
       { top: 'small', right: 'large' },
       {
         className: 'dnb-my-component',
-        style: { color: 'red' } as React.CSSProperties,
+        style: { color: 'red' } as CSSProperties,
       }
     )
     expect(result.style).toEqual({

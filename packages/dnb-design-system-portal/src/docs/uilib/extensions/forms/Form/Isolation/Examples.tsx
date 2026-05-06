@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useRef } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
@@ -44,7 +44,7 @@ export const CommitHandleRef = () => {
     <ComponentBox>
       {() => {
         const MyForm = () => {
-          const commitHandleRef = React.useRef(null)
+          const commitHandleRef = useRef(null)
 
           return (
             <>
@@ -276,7 +276,7 @@ export const UpdateDataReference = () => {
         const SetDelayedData = () => {
           const { update } = Form.useData()
 
-          React.useEffect(() => {
+          useEffect(() => {
             setTimeout(() => {
               update('/isolated', 'With a delayed default value')
               dataReference.refresh() // <-- refresh the data reference

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Section, Flex } from '../..'

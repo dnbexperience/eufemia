@@ -1,4 +1,5 @@
-import React from 'react'
+import { useRef } from 'react'
+import type { FormEvent, RefObject } from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 import {
   screen,
@@ -1673,10 +1674,10 @@ describe('Field.String', () => {
 
   it('gets valid ref element', () => {
     const id = 'unique'
-    let ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+    let ref: RefObject<HTMLInputElement | HTMLTextAreaElement>
 
     const MockComponent = () => {
-      ref = React.useRef(null)
+      ref = useRef(null)
       return <Field.String id={id} ref={ref} />
     }
 
@@ -2344,45 +2345,41 @@ describe('Field.String', () => {
     it('should prevent typing of invalid characters', async () => {
       const forbiddenRegex = /\d/
 
-      const onInput = jest.fn(
-        (event: React.FormEvent<HTMLInputElement>) => {
-          const inputEl = event.currentTarget
-          const currentVal = inputEl.value
-          const oldVal = inputEl.dataset.oldVal
+      const onInput = jest.fn((event: FormEvent<HTMLInputElement>) => {
+        const inputEl = event.currentTarget
+        const currentVal = inputEl.value
+        const oldVal = inputEl.dataset.oldVal
 
-          if (currentVal.length <= oldVal.length) {
-            inputEl.dataset.oldVal = currentVal
-            return // stop here
-          }
+        if (currentVal.length <= oldVal.length) {
+          inputEl.dataset.oldVal = currentVal
+          return // stop here
+        }
 
-          const addedLength = currentVal.length - oldVal.length
-          const caretPos = inputEl.selectionStart
-          const inserted = currentVal.substring(
+        const addedLength = currentVal.length - oldVal.length
+        const caretPos = inputEl.selectionStart
+        const inserted = currentVal.substring(
+          caretPos - addedLength,
+          caretPos
+        )
+
+        if (forbiddenRegex.test(inserted)) {
+          inputEl.value = oldVal
+
+          inputEl.setSelectionRange(
             caretPos - addedLength,
-            caretPos
+            caretPos - addedLength
           )
-
-          if (forbiddenRegex.test(inserted)) {
-            inputEl.value = oldVal
-
-            inputEl.setSelectionRange(
-              caretPos - addedLength,
-              caretPos - addedLength
-            )
-          } else {
-            inputEl.dataset.oldVal = currentVal
-          }
+        } else {
+          inputEl.dataset.oldVal = currentVal
         }
-      )
+      })
 
-      const onFocus = jest.fn(
-        (event: React.FormEvent<HTMLInputElement>) => {
-          const inputEl = event.currentTarget
-          if (typeof inputEl.dataset.oldVal === 'undefined') {
-            inputEl.dataset.oldVal = inputEl.value
-          }
+      const onFocus = jest.fn((event: FormEvent<HTMLInputElement>) => {
+        const inputEl = event.currentTarget
+        if (typeof inputEl.dataset.oldVal === 'undefined') {
+          inputEl.dataset.oldVal = inputEl.value
         }
-      )
+      })
 
       render(
         <Form.Handler>

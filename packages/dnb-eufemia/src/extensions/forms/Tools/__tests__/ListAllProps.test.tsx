@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form, Iterate, Tools, Value } from '../../'
 import type { GenerateRef } from '../ListAllProps'
@@ -50,7 +50,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should return "propsOfFields" with object that contains all props', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -163,7 +163,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should return "propsOfValues" with object that contains all props', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -220,7 +220,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate list of all props with different types', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -290,7 +290,7 @@ describe('Tools.ListAllProps', () => {
     `)
   })
 
-  const generateRef: React.RefObject<GenerateRef | null> = {
+  const generateRef: RefObject<GenerateRef | null> = {
     current: null,
   }
 
@@ -390,7 +390,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate props object with nested paths', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -464,7 +464,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should generate props object with required', () => {
-    const generateRef: React.RefObject<GenerateRef | null> = {
+    const generateRef: RefObject<GenerateRef | null> = {
       current: null,
     }
 
@@ -562,7 +562,7 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should filter out React elements', () => {
-    const generateRef: React.RefObject<GenerateRef<{
+    const generateRef: RefObject<GenerateRef<{
       items: {
         children: {
           type: {

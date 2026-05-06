@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
+import type { AnchorHTMLAttributes, Ref, RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { AnchorAllProps } from '../Anchor'
@@ -434,7 +435,7 @@ describe('Anchor element', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLAnchorElement | null> = {
+    const ref: RefObject<HTMLAnchorElement | null> = {
       current: null,
     }
 
@@ -452,7 +453,7 @@ describe('Anchor element', () => {
     const refValues: Array<HTMLAnchorElement | null> = []
 
     const Wrapper = () => {
-      const [, setState] = React.useState(0)
+      const [, setState] = useState(0)
 
       return (
         <Anchor
@@ -493,7 +494,7 @@ describe('Anchor element', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLAnchorElement | null> = {
+    const ref: RefObject<HTMLAnchorElement | null> = {
       current: null,
     }
 
@@ -565,9 +566,9 @@ describe('Anchor element', () => {
       children,
       to,
       ...rest
-    }: Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+    }: Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
       to: string | Record<string, string>
-      ref?: React.Ref<HTMLAnchorElement>
+      ref?: Ref<HTMLAnchorElement>
     }) => {
       return (
         <a {...rest} href={String(to)}>

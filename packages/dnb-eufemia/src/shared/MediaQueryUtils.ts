@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { toKebabCase } from './component-helper'
 import { warn } from './helpers'
 
@@ -77,7 +78,7 @@ export type MediaQueryProps = {
    */
   matchOnSSR?: boolean
 
-  children?: React.ReactNode
+  children?: ReactNode
 } & MediaQueryProperties &
   MediaQueryOptions
 

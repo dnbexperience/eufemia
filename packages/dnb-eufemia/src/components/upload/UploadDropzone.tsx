@@ -1,10 +1,11 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
 } from 'react'
+import type { DragEvent as ReactDragEvent } from 'react'
 import clsx from 'clsx'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -15,7 +16,7 @@ import type {
   UploadProps,
 } from './types'
 
-export type UploadDragEvent = React.DragEvent | DragEvent
+export type UploadDragEvent = ReactDragEvent | DragEvent
 
 export default function UploadDropzone({
   children,

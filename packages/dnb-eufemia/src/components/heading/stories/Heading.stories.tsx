@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { H2, H3 } from '../../..'
@@ -21,7 +21,7 @@ const CustomStyle = styled.div`
 `
 
 const ChangeLevel = ({ level }) => {
-  React.useEffect(() => {
+  useEffect(() => {
     setNextLevel(level)
   }, [])
   return <></>
@@ -31,9 +31,9 @@ const warn = (...log) => {
 }
 
 export const HeadingSandbox = () => {
-  const [showHeading, setShowHeading] = React.useState(false)
+  const [showHeading, setShowHeading] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setShowHeading(true)
     }, 100)
@@ -335,10 +335,10 @@ export const HeadingSandbox = () => {
 }
 
 function App() {
-  const [showHeading3, setShowHeading3] = React.useState(false)
-  const [showHeading4, setShowHeading4] = React.useState(false)
+  const [showHeading3, setShowHeading3] = useState(false)
+  const [showHeading4, setShowHeading4] = useState(false)
 
-  React.useState(() => {
+  useState(() => {
     resetLevels(1)
   })
 

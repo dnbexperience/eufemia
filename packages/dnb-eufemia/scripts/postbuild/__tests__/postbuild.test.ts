@@ -71,9 +71,7 @@ describe('type definitions', () => {
 
       const content = fs.readFileSync(file, 'utf-8')
       expect(content).toMatch(/export (type|interface) InputProps/)
-      expect(content).toContain(
-        "Omit<React.HTMLProps<HTMLInputElement>, 'ref'"
-      )
+      expect(content).toContain("Omit<HTMLProps<HTMLInputElement>, 'ref'")
       expect(content).toContain('SpacingProps')
     }
   )
@@ -430,8 +428,7 @@ describe('tsdown build', () => {
               ),
               'utf-8'
             )
-            expect(content).toMatch(/import\s\w,/)
-            expect(content).toContain('}from"react";')
+            expect(content).toMatch(/import\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
               /import\*as \w from"\.\.\/icons\/dnb\/primary_icons";/ // "../icons/dnb/primary_icons"

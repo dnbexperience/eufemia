@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 
 import {
@@ -405,10 +405,10 @@ export const DialogSandbox = () => (
 )
 
 function ModalRerenderExample() {
-  const [title, setTitle] = React.useState('Modal Title')
-  const [triggerText, setTriggerText] = React.useState('Open Modal')
+  const [title, setTitle] = useState('Modal Title')
+  const [triggerText, setTriggerText] = useState('Open Modal')
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setTitle('New Title')
       setTriggerText('New Open Modal')
@@ -504,10 +504,10 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [openState, setOpenState] = React.useState<boolean | null>(null)
-  const [count, setCount] = React.useState(0)
+  const [openState, setOpenState] = useState<boolean | null>(null)
+  const [count, setCount] = useState(0)
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timeout
 
     if (openState === true) {
@@ -567,7 +567,7 @@ const ModalCloseExample = () => {
 }
 
 const ModalTriggerExample = () => {
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   return (
     <Form.Handler>
@@ -766,7 +766,7 @@ function SimScrollView() {
 }
 
 function CloseWithAnimation() {
-  const [modalOpen, setModalOpen] = React.useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   return (
     <Dialog
       triggerAttributes={{
@@ -803,10 +803,10 @@ export const DialogConfirmHideConfirm = () => {
 }
 
 export function WithStrictMode() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <ToggleButton
         text="Open/Close"
         checked={open}
@@ -835,7 +835,7 @@ export function WithStrictMode() {
           Read more
         </Button>
       </Dialog>
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 
@@ -848,7 +848,7 @@ export function OpenStateInReactV19() {
   }
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       open: {isOpen.toString()}
       <Dialog
         triggerAttributes={{ text: 'Open dialog' }}
@@ -860,6 +860,6 @@ export function OpenStateInReactV19() {
       >
         Dialog
       </Dialog>
-    </React.StrictMode>
+    </StrictMode>
   )
 }

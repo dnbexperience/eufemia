@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -309,10 +310,10 @@ describe('Password component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLInputElement | null>(null)
+      ref = useRef<HTMLInputElement | null>(null)
       return <Field.Password ref={ref} />
     }
 

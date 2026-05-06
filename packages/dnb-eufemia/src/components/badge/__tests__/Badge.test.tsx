@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render, screen } from '@testing-library/react'
 import type { BadgeProps } from '../Badge'
 import Badge from '../Badge'
@@ -315,7 +315,7 @@ describe('Badge', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(<Badge ref={ref} content="1" />)
 

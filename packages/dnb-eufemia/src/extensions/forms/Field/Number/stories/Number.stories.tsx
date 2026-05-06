@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { MouseEvent } from 'react'
 import type { UseFieldProps } from '../../..'
 import { Field, Form, FormError } from '../../..'
 import { Anchor, Flex } from '../../../../../components'
@@ -95,7 +96,7 @@ export const ConditionalInfo = () => {
           const anchor = props && (
             <Anchor
               href={`#${id}-label`}
-              onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+              onClick={(event: MouseEvent<HTMLAnchorElement>) => {
                 event.preventDefault()
                 const el = document.getElementById(`${id}-label`)
                 el?.scrollIntoView()

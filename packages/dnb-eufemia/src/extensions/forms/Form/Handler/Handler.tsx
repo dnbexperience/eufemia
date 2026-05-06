@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import { warn } from '../../../../shared/helpers'
 import type { DataContextProviderProps as ProviderProps } from '../../DataContext/Provider'

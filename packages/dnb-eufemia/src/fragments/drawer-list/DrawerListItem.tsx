@@ -1,9 +1,9 @@
-import React from 'react'
+import type { HTMLProps, ReactNode, Ref } from 'react'
 import clsx from 'clsx'
 import type { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<
-  React.HTMLProps<HTMLLIElement>,
+  HTMLProps<HTMLLIElement>,
   'children' | 'onClick'
 > & {
   children: ItemContentChildren
@@ -26,7 +26,7 @@ export type DrawerListItemProps = Omit<
 
 export function DrawerListItem(
   props: DrawerListItemProps & {
-    ref?: React.Ref<HTMLLIElement>
+    ref?: Ref<HTMLLIElement>
   }
 ) {
   const {
@@ -89,9 +89,7 @@ export function DrawerListItem(
   )
 }
 
-export type ItemContentChildren =
-  | React.ReactNode
-  | DrawerListDataArrayObject
+export type ItemContentChildren = ReactNode | DrawerListDataArrayObject
 
 export type ItemContentProps = {
   hash?: string
@@ -155,8 +153,8 @@ function DrawerListOptionItem({
 }
 
 export type DrawerListHorizontalItemProps = {
-  children: React.ReactNode
-} & Omit<React.HTMLProps<HTMLElement>, 'children'>
+  children: ReactNode
+} & Omit<HTMLProps<HTMLElement>, 'children'>
 
 export function DrawerListHorizontalItem({
   className,

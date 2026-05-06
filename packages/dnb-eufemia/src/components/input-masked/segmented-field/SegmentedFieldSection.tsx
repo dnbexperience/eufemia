@@ -1,9 +1,5 @@
-import React, {
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
+import type { ClipboardEvent } from 'react'
 import clsx from 'clsx'
 import {
   listAllSections,
@@ -382,7 +378,7 @@ export default function SegmentedFieldSection({
   )
 
   const handlePaste = useCallback(
-    (event: React.ClipboardEvent<HTMLSpanElement>) => {
+    (event: ClipboardEvent<HTMLSpanElement>) => {
       if (handledPasteTimestampRef.current === event.timeStamp) {
         return
       }
@@ -390,7 +386,7 @@ export default function SegmentedFieldSection({
       handledPasteTimestampRef.current = event.timeStamp
 
       onPasteExternal?.(
-        event as unknown as React.ClipboardEvent<HTMLInputElement>
+        event as unknown as ClipboardEvent<HTMLInputElement>
       )
 
       if (event.defaultPrevented) {
@@ -716,7 +712,7 @@ export default function SegmentedFieldSection({
         }}
         onCopy={(event) => {
           onCopyExternal?.(
-            event as unknown as React.ClipboardEvent<HTMLInputElement>
+            event as unknown as ClipboardEvent<HTMLInputElement>
           )
 
           if (event.defaultPrevented) {

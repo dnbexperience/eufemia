@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Menu from '../Menu'
@@ -146,7 +147,7 @@ describe('Menu integration', () => {
       ...rest
     }: {
       to: string
-      children: React.ReactNode
+      children: ReactNode
     }) => (
       <a href={to} data-router-link {...rest}>
         {children}
@@ -162,7 +163,7 @@ describe('Menu integration', () => {
           <Menu.Action
             text="Dashboard"
             to="/dashboard"
-            element={MockLink as React.ComponentType}
+            element={MockLink as ComponentType}
           />
         </Menu.List>
       </Menu.Root>

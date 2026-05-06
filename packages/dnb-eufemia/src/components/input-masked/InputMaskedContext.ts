@@ -1,9 +1,9 @@
+import { createContext } from 'react'
 /**
  * Web InputMasked Context
  *
  */
 
-import React from 'react'
 import type { ContextProps } from '../../shared/Context'
 
 export type InputMaskedContextValue = {
@@ -11,7 +11,7 @@ export type InputMaskedContextValue = {
   context: ContextProps
 }
 
-const InputMaskedContext = React.createContext<InputMaskedContextValue>(
+const InputMaskedContext = createContext<InputMaskedContextValue>(
   {} as InputMaskedContextValue
 )
 

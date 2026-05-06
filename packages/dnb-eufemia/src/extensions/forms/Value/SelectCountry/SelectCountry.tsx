@@ -1,4 +1,3 @@
-import React from 'react'
 import clsx from 'clsx'
 import { useTranslation, useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'

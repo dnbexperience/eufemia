@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ElementType, HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 import type {
@@ -17,8 +17,8 @@ import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
 
 type TextOwnProps = {
   /** @internal Not documented – used by internal sub-components only. */
-  element?: React.ElementType
-  srLabel?: React.ReactNode
+  element?: ElementType
+  srLabel?: ReactNode
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
   colorizeBySign?: boolean | number
@@ -26,7 +26,7 @@ type TextOwnProps = {
 }
 
 export type TextProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof TextOwnProps | 'ref'
 > &
   TextOwnProps &
@@ -101,7 +101,7 @@ Text._supportsSpacingProps = true
 
 function resolveSignTone(
   colorizeBySign: TextProps['colorizeBySign'],
-  children: React.ReactNode
+  children: ReactNode
 ): 'positive' | 'negative' | null {
   if (colorizeBySign === false || colorizeBySign === null) {
     return null
@@ -148,7 +148,7 @@ function resolveSignTone(
   return null
 }
 
-function getValueFromChildren(children: React.ReactNode) {
+function getValueFromChildren(children: ReactNode) {
   if (typeof children === 'string' || typeof children === 'number') {
     return children
   }

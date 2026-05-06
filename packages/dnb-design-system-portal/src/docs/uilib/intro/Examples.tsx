@@ -1,5 +1,3 @@
-import React from 'react'
-
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Button, Input } from '@dnb/eufemia/src'
 

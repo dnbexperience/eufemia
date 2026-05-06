@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import type { HTMLAttributes, ReactElement, RefObject } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
@@ -64,7 +65,7 @@ function Tooltip(localProps: TooltipAllProps) {
       size === 'large' && 'dnb-tooltip--large',
       className
     ),
-  }) as React.HTMLAttributes<HTMLElement>
+  }) as HTMLAttributes<HTMLElement>
 
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
@@ -122,10 +123,10 @@ function useTooltipTarget(
       getTargetElement(
         typeof source === 'string'
           ? source
-          : getRefElement(source as React.RefObject<unknown>)
+          : getRefElement(source as RefObject<unknown>)
       ) || (typeof source === 'string' ? null : source)
 
-    setTarget(resolved as HTMLElement | React.ReactElement | null)
+    setTarget(resolved as HTMLElement | ReactElement | null)
   }, [source])
 
   return target

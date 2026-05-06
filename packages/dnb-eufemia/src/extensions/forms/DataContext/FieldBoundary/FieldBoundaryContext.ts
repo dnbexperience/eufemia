@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { RefObject } from 'react'
 import type { Path } from '../../types'
 
 export type FieldBoundaryContextState = {
@@ -20,7 +21,7 @@ export type FieldBoundaryContextState = {
   /**
    * Contains the nested field errors.
    */
-  errorsRef?: React.RefObject<unknown>
+  errorsRef?: RefObject<unknown>
 
   /**
    * Will be set to true when the boundary context error state should be shown.
@@ -52,7 +53,7 @@ export type FieldBoundaryContextState = {
   verifyFieldError?: () => boolean
 }
 
-const FieldBoundaryContext = React.createContext<
+const FieldBoundaryContext = createContext<
   FieldBoundaryContextState | undefined
 >(undefined)
 

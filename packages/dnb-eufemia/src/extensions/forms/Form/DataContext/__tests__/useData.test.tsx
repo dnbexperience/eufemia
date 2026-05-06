@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import { createContext, useEffect, useReducer } from 'react'
 import {
   renderHook,
   act,
@@ -1434,7 +1434,7 @@ describe('Form.useData', () => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
-        React.useEffect(() => {
+        useEffect(() => {
           collectedData = reduceToVisibleFields(data)
         }, [data, reduceToVisibleFields])
 
@@ -1494,7 +1494,7 @@ describe('Form.useData', () => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
-        React.useEffect(() => {
+        useEffect(() => {
           collectedData = reduceToVisibleFields(data, {
             keepPaths: ['/otherExistingPath'],
           })
@@ -1568,7 +1568,7 @@ describe('Form.useData', () => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
-        React.useEffect(() => {
+        useEffect(() => {
           collectedData = reduceToVisibleFields(data, {
             removePaths: ['/isVisible'],
           })
@@ -1626,7 +1626,7 @@ describe('Form.useData', () => {
         const { data, reduceToVisibleFields } = Form.useData()
 
         // Use useEffect to ensure we get the latest data
-        React.useEffect(() => {
+        useEffect(() => {
           collectedData = reduceToVisibleFields(data)
         }, [data, reduceToVisibleFields])
 
@@ -1634,10 +1634,7 @@ describe('Form.useData', () => {
       }
 
       const MockComponent = () => {
-        const [count, increment] = React.useReducer(
-          (state) => state + 1,
-          0
-        )
+        const [count, increment] = useReducer((state) => state + 1, 0)
         return (
           <Form.Handler>
             <button type="button" onClick={increment}>

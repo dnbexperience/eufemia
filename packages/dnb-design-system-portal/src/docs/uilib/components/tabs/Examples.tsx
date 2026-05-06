@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Suspense } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
@@ -18,11 +18,10 @@ import {
   ToggleButton,
   Badge,
 } from '@dnb/eufemia/src'
+import type { ReactNode } from 'react'
 
 // No-op Router shell for the reach-router example
-const Router = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
+const Router = ({ children }: { children: ReactNode }) => <>{children}</>
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -277,13 +276,13 @@ export const TabsExampleReachRouterNavigation = () =>
                 onChange={({ key }) => navigate(String(key))}
                 tabsStyle="information"
               >
-                <React.Suspense fallback={<em>Loading ...</em>}>
+                <Suspense fallback={<em>Loading ...</em>}>
                   <Router>
                     <Home path="/" default />
                     <About path="/about" />
                     <Topics path="/topics" />
                   </Router>
-                </React.Suspense>
+                </Suspense>
               </Tabs>
             )
           }

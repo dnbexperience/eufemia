@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import { createContext, useCallback, useContext, useRef } from 'react'
+import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 import { getSha } from './build-info/BuildInfo'
 
@@ -8,16 +9,16 @@ export type IsolatedStyleScopeProps = {
   scopeHash?: string | 'auto'
   disableCoreStyleWrapper?: boolean
   uniqueKey?: string | false
-  ref?: React.RefObject<HTMLDivElement>
-  children: React.ReactNode
-  style?: React.CSSProperties & {
+  ref?: RefObject<HTMLDivElement>
+  children: ReactNode
+  style?: CSSProperties & {
     [key: `--${string}`]: string | number
   }
 }
 
 type IsolatedStyleScopeContextValue = {
   generatedScopeHash: string
-  scopeElementRef: React.RefObject<HTMLDivElement>
+  scopeElementRef: RefObject<HTMLDivElement>
   internalKeys: Set<string>
   parentContextMap?: Map<string, IsolatedStyleScopeContextValue>
 } & Pick<
@@ -26,7 +27,7 @@ type IsolatedStyleScopeContextValue = {
 >
 
 export const IsolatedStyleScopeContext =
-  React.createContext<IsolatedStyleScopeContextValue>(undefined)
+  createContext<IsolatedStyleScopeContextValue>(undefined)
 
 // Map to keep track of parent contexts by generatedScopeHash
 const parentScopeContextMap = new Map<

@@ -3,7 +3,15 @@
  *
  */
 
-import React, { act } from 'react'
+import {
+  Fragment,
+  StrictMode,
+  act,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -66,7 +74,7 @@ const mockData: DrawerListDataArray = [
     content: <>Custom content {'123'}</>,
   },
   <>Custom content {'123'}</>,
-  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
+  [<Fragment key="key1">Custom content {'123'}</Fragment>],
   '0y',
 ]
 
@@ -1102,9 +1110,9 @@ describe('Dropdown component', () => {
 
   it('will change the selected value when StrictMode is enabled', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Dropdown noAnimation data={mockData} value={props.value} />
-      </React.StrictMode>
+      </StrictMode>
     )
 
     // first open
@@ -1148,9 +1156,9 @@ describe('Dropdown component', () => {
   it('has correct value after useEffect value state change', () => {
     const newValue = 3
     const UpdateValue = () => {
-      const [value, setValue] = React.useState(props.value)
+      const [value, setValue] = useState(props.value)
 
-      React.useEffect(() => {
+      useEffect(() => {
         setValue(newValue)
       }, [])
 
@@ -1182,7 +1190,7 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
-  it('should support title as `React.ReactNode`', () => {
+  it('should support title as `ReactNode`', () => {
     const TitleAsChildren = ({ children }) => {
       return <span id="title-as-children">{children}</span>
     }
@@ -1245,9 +1253,9 @@ describe('Dropdown component', () => {
   it('has correct title after useEffect value state change', () => {
     const newValue = 3
     const UpdateValue = () => {
-      const [value, setValue] = React.useState(props.value)
+      const [value, setValue] = useState(props.value)
 
-      React.useEffect(() => {
+      useEffect(() => {
         setValue(newValue)
       }, [])
 
@@ -1482,10 +1490,10 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid buttonRef element', () => {
-    let ref: React.RefObject<HTMLButtonElement>
+    let ref: RefObject<HTMLButtonElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLButtonElement | null>(null)
+      ref = useRef<HTMLButtonElement | null>(null)
       return <Dropdown {...props} buttonRef={ref} />
     }
 
@@ -1510,10 +1518,10 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLSpanElement>
+    let ref: RefObject<HTMLSpanElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLSpanElement | null>(null)
+      ref = useRef<HTMLSpanElement | null>(null)
       return <Dropdown {...props} ref={ref} />
     }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'

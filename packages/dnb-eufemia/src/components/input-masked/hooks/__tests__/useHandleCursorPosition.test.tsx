@@ -2,7 +2,7 @@
  * useHandleCursorPosition Hook Test
  */
 
-import type { MutableRefObject } from 'react'
+import type { FormEvent, KeyboardEvent, MutableRefObject } from 'react'
 import { renderHook, waitFor } from '@testing-library/react'
 import useHandleCursorPosition from '../useHandleCursorPosition'
 
@@ -39,20 +39,20 @@ function setupScope(count = 3) {
 const createEvent = (
   input: HTMLInputElement,
   key: string
-): React.KeyboardEvent<HTMLInputElement> =>
+): KeyboardEvent<HTMLInputElement> =>
   ({
     key,
     preventDefault: jest.fn(),
     target: input,
     currentTarget: input,
-  }) as unknown as React.KeyboardEvent<HTMLInputElement>
+  }) as unknown as KeyboardEvent<HTMLInputElement>
 
 const createInputEvent = (
   input: HTMLInputElement
-): React.FormEvent<HTMLInputElement> =>
+): FormEvent<HTMLInputElement> =>
   ({
     currentTarget: input,
-  }) as unknown as React.FormEvent<HTMLInputElement>
+  }) as unknown as FormEvent<HTMLInputElement>
 
 describe('useHandleCursorPosition', () => {
   beforeAll(() => {

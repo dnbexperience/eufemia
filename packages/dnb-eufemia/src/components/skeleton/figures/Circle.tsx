@@ -3,19 +3,17 @@
  *
  */
 
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Space from '../../space/Space'
 
 export type SkeletonCircleRows = string | number
-export type SkeletonCircleChildren =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type SkeletonCircleChildren = string | (() => ReactNode) | ReactNode
 export type SkeletonCircleProps = {
   rows?: SkeletonCircleRows
   children?: SkeletonCircleChildren
-} & Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'>
+} & Omit<HTMLProps<HTMLDivElement>, 'rows' | 'children'>
 
 function SkeletonCircle({
   rows = 3,

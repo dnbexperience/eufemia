@@ -3,8 +3,13 @@
  *
  */
 
-import type { HTMLProps } from 'react'
-import React, { useContext, useState } from 'react'
+import { isValidElement, useContext, useState } from 'react'
+import type {
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react'
 import type { SpacingProps } from '../../shared/types'
 
 import {
@@ -31,7 +36,7 @@ import type {
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionHeaderTitleProps = SpacingProps & {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function AccordionHeaderTitle({
@@ -50,7 +55,7 @@ function AccordionHeaderTitle({
 }
 
 export type AccordionHeaderDescriptionProps = SpacingProps & {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function AccordionHeaderDescription({
@@ -69,7 +74,7 @@ function AccordionHeaderDescription({
 }
 
 export type AccordionHeaderContainerProps = SpacingProps & {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function AccordionHeaderContainer({
@@ -127,36 +132,30 @@ function AccordionHeaderIcon({
   )
 }
 
-export type AccordionHeaderTitle =
-  | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+export type AccordionHeaderTitle = string | ReactNode | (() => ReactNode)
 export type AccordionHeaderDescription =
   | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
 export type AccordionHeaderLeftComponent =
   | string
-  | React.ReactNode
-  | (() => React.ReactNode)
-export type AccordionHeaderElement =
-  | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
+export type AccordionHeaderElement = string | ReactNode | (() => ReactNode)
 export type AccordionHeaderHeading =
   | boolean
   | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
 export type AccordionHeaderIcon =
-  | React.ReactNode
-  | (() => React.ReactNode)
+  | ReactNode
+  | (() => ReactNode)
   | {
-      closed?: React.ReactNode | (() => React.ReactNode)
-      expanded?: React.ReactNode | (() => React.ReactNode)
+      closed?: ReactNode | (() => ReactNode)
+      expanded?: ReactNode | (() => ReactNode)
     }
 
-export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
+export type AccordionHeaderProps = HTMLProps<HTMLElement> &
   SpacingProps & {
     title?: AccordionHeaderTitle
     expanded?: boolean
@@ -172,7 +171,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     skeleton?: SkeletonShow
     noAnimation?: boolean
     className?: string
-    children?: string | React.ReactNode | (() => React.ReactNode)
+    children?: string | ReactNode | (() => ReactNode)
     variant?: AccordionVariant
   }
 
@@ -191,7 +190,7 @@ export const AccordionHeader = ({
 
   const context = useContext(AccordionContext)
 
-  function onKeyDownHandler(event: React.KeyboardEvent<HTMLElement>) {
+  function onKeyDownHandler(event: KeyboardEvent<HTMLElement>) {
     const keyPressed = event.key
 
     if (keyPressed === 'Enter' || keyPressed === ' ') {
@@ -201,7 +200,7 @@ export const AccordionHeader = ({
   }
 
   function onClickHandler(
-    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
   ) {
     const { id, group } = context
 
@@ -279,23 +278,23 @@ export const AccordionHeader = ({
       iconPosition={iconPosition}
     />,
     <AccordionHeaderContainer key="container">
-      {leftComponent as React.ReactNode}
+      {leftComponent as ReactNode}
     </AccordionHeaderContainer>,
     <AccordionHeaderTitle key="title">
       {title ||
         (Array.isArray(children)
-          ? children.filter((cur) => !React.isValidElement(cur))
+          ? children.filter((cur) => !isValidElement(cur))
           : children)}
     </AccordionHeaderTitle>,
     <AccordionHeaderDescription key="description">
-      {description as React.ReactNode}
+      {description as ReactNode}
     </AccordionHeaderDescription>,
   ]
 
   if (Array.isArray(children)) {
     const removeParts = []
     children.forEach((cur) => {
-      if (React.isValidElement(cur)) {
+      if (isValidElement(cur)) {
         const part = defaultParts.find((c) => c.type === cur.type)
         if (part) {
           removeParts.push(part)
@@ -322,7 +321,7 @@ export const AccordionHeader = ({
 
   defaultParts.forEach((part) => {
     if (
-      React.isValidElement(part) &&
+      isValidElement(part) &&
       (part.type === AccordionHeaderTitle ||
         part.type === AccordionHeaderDescription)
     ) {

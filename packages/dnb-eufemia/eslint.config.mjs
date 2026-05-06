@@ -124,10 +124,19 @@ export default [
         },
       ],
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
       'import/namespace': 'off',
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message:
+                'Use named imports from "react" instead of the default React namespace import. E.g., import { useState } from "react" or import type { ReactNode } from "react".',
+            },
+          ],
           patterns: [
             {
               group: ['@dnb/eufemia/*'],
@@ -239,6 +248,14 @@ export default [
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message:
+                'Use named imports from "react" instead of the default React namespace import. E.g., import { useState } from "react" or import type { ReactNode } from "react".',
+            },
+          ],
           patterns: [
             {
               group: ['@dnb/eufemia/*'],
@@ -274,6 +291,12 @@ export default [
       parser: tsParser,
       ecmaVersion: 2020,
       sourceType: 'module',
+      parserOptions: {
+        // With the automatic JSX transform (react-jsx), importing React
+        // is not required for JSX. Setting jsxPragma to null lets
+        // @typescript-eslint/no-unused-vars flag unused React imports.
+        jsxPragma: null,
+      },
       globals: {
         ...esGlobals,
         ...browserGlobals,

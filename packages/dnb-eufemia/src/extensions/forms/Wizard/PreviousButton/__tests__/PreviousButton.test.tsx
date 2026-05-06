@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../../Context/WizardContext'

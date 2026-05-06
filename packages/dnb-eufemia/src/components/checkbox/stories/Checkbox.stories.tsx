@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -180,14 +180,14 @@ export const CheckboxSandbox = () => (
 )
 
 function IndeterminateState() {
-  const [checkedParent, setCheckedParent] = React.useState(false)
+  const [checkedParent, setCheckedParent] = useState(false)
   const [parentIndeterminateState, setParentIndeterminateState] =
-    React.useState(false)
+    useState(false)
 
-  const [c1State, setC1State] = React.useState(false)
-  const [c2State, setC2State] = React.useState(false)
+  const [c1State, setC1State] = useState(false)
+  const [c2State, setC2State] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (c1State !== c2State) {
       setParentIndeterminateState(true)
     } else {
@@ -198,7 +198,7 @@ function IndeterminateState() {
     if (!c1State && !c2State) setCheckedParent(false)
   }, [c1State, c2State])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (checkedParent) {
       setC1State(true)
       setC2State(true)
@@ -261,9 +261,9 @@ function IndeterminateState() {
 }
 
 function ControlledVsUncontrolled() {
-  const [checked, setChecked] = React.useState(false)
-  const [indeterminate, setIndeterminate] = React.useState(false)
-  const [random, setRandom] = React.useState(0)
+  const [checked, setChecked] = useState(false)
+  const [indeterminate, setIndeterminate] = useState(false)
+  const [random, setRandom] = useState(0)
 
   return (
     <>

@@ -2,7 +2,15 @@
  * Web FormStatus Component
  */
 
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { memo, useCallback, useContext, useEffect, useRef } from 'react'
+import type {
+  ComponentType,
+  HTMLProps,
+  MemoExoticComponent,
+  ReactNode,
+  Ref,
+  SVGProps,
+} from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import clsx from 'clsx'
@@ -39,8 +47,8 @@ const properties = { ui, sbanken }
 export type FormStatusText =
   | string
   | boolean
-  | (() => React.ReactNode)
-  | React.ReactNode
+  | (() => ReactNode)
+  | ReactNode
 export type FormStatusState =
   | 'error'
   | 'warning'
@@ -50,10 +58,7 @@ export type FormStatusState =
 export type FormStatusVariant = 'plain' | 'outlined'
 export type FormStatusSize = 'default' | 'large'
 export type FormStatusAttributes = string | Record<string, unknown>
-export type FormStatusChildren =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type FormStatusChildren = string | (() => ReactNode) | ReactNode
 
 /**
  * Shared status-related props used by form components that display a FormStatus.
@@ -87,7 +92,7 @@ export type FormStatusProps = {
    * The `title` attribute in the status.
    */
   title?: string
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */
@@ -150,33 +155,33 @@ export type FormStatusProps = {
    */
   children?: FormStatusChildren
 } & Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'ref' | 'label' | 'value' | 'onFocus' | 'onBlur' | 'children' | 'size'
 > &
   SpacingProps
 
-export type ErrorIconProps = React.SVGProps<SVGSVGElement> & {
+export type ErrorIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type WarnIconProps = React.SVGProps<SVGSVGElement> & {
+export type WarnIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type InfoIconProps = React.SVGProps<SVGSVGElement> & {
+export type InfoIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type MarketingIconProps = React.SVGProps<SVGSVGElement> & {
+export type MarketingIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -218,10 +223,10 @@ function getIcon({
   iconSize,
 }: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize'>) {
   if (typeof icon !== 'string') {
-    return icon as React.ReactNode
+    return icon as ReactNode
   }
 
-  let IconToLoad: React.ComponentType<
+  let IconToLoad: ComponentType<
     ErrorIconProps | WarnIconProps | InfoIconProps | MarketingIconProps
   > = ErrorIcon
 
@@ -251,7 +256,7 @@ function getIcon({
 }
 
 function FormStatusComponent(
-  ownProps: FormStatusProps & { ref?: React.Ref<HTMLElement> }
+  ownProps: FormStatusProps & { ref?: Ref<HTMLElement> }
 ) {
   const { ref, ...restOwnProps } = ownProps
   const context = useContext(Context)
@@ -286,7 +291,7 @@ function FormStatusComponent(
 
   const elementRef = useRef<HTMLElement | null>(null)
   const isMountedRef = useRef(false)
-  const contentCacheRef = useRef<React.ReactNode | null>(null)
+  const contentCacheRef = useRef<ReactNode | null>(null)
   const stateCacheRef = useRef<FormStatusState | undefined>(undefined)
 
   const ownPropsRef = useRef(restOwnProps)
@@ -559,12 +564,8 @@ function FormStatusComponent(
 
 FormStatusComponent.displayName = 'FormStatus'
 
-const FormStatus = React.memo(
-  FormStatusComponent
-) as React.MemoExoticComponent<
-  (
-    props: FormStatusProps & { ref?: React.Ref<HTMLElement> }
-  ) => React.ReactNode
+const FormStatus = memo(FormStatusComponent) as MemoExoticComponent<
+  (props: FormStatusProps & { ref?: Ref<HTMLElement> }) => ReactNode
 >
 
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })

@@ -1,4 +1,11 @@
-import React from 'react'
+import {
+  Fragment,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { basicComponents } from '../../../../../../shared/tags'
 import Table from '../../../../../../shared/tags/Table'
 import Anchor from '../../../../../../shared/tags/Anchor'
@@ -18,13 +25,16 @@ import {
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
 type DecorativeVariant = 'non-static' | 'static'
+type TokenType = 'color' | 'spacing'
+const defaultVisibleTypes: TokenType[] = ['color']
+const TokenTypeContext = createContext<TokenType[]>(defaultVisibleTypes)
 
 const renderInlineCodeList = (values: readonly string[]) => {
   return values.map((value, index) => (
-    <React.Fragment key={value}>
+    <Fragment key={value}>
       {index > 0 ? ', ' : null}
       <MDXCode>{value}</MDXCode>
-    </React.Fragment>
+    </Fragment>
   ))
 }
 
@@ -64,17 +74,17 @@ const decorativeGroupSortOrder: Record<string, number> = {
   third: 2,
 }
 
-const cellVerticalMiddle: React.CSSProperties = {
+const cellVerticalMiddle: CSSProperties = {
   verticalAlign: 'middle',
 }
 
-const swatchWrapperStyle: React.CSSProperties = {
+const swatchWrapperStyle: CSSProperties = {
   alignItems: 'center',
   display: 'inline-flex',
   gap: '0.5rem',
 }
 
-const swatchBackdropStyle: React.CSSProperties = {
+const swatchBackdropStyle: CSSProperties = {
   alignItems: 'center',
   backgroundImage:
     'linear-gradient(45deg, #dfe3e6 25%, transparent 25%), linear-gradient(-45deg, #dfe3e6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #dfe3e6 75%), linear-gradient(-45deg, transparent 75%, #dfe3e6 75%)',
@@ -234,7 +244,48 @@ const getAvailableModifiers = (tokens: TokenRow[]): TokenModifier[] => {
   return tokenModifierOrder.filter((modifier) => available.has(modifier))
 }
 
+export function TokenTypeFilter({ children }: { children: ReactNode }) {
+  const [visibleTypes, setVisibleTypes] = useState<TokenType[]>(
+    defaultVisibleTypes
+  )
+
+  return (
+    <TokenTypeContext.Provider value={visibleTypes}>
+      <Field.ArraySelection
+        label="Show token families"
+        value={visibleTypes}
+        onChange={(value) => {
+          setVisibleTypes((value as TokenType[]) || [])
+        }}
+        optionsLayout="horizontal"
+        variant="button"
+        size="medium"
+        emptyValue={[]}
+        bottom="medium"
+      >
+        <Field.Option value="color" title="Color" />
+        <Field.Option value="spacing" title="Spacing" disabled />
+      </Field.ArraySelection>
+
+      {visibleTypes.includes('color') ? (
+        children
+      ) : (
+        <MDXParagraph>
+          No token families are visible. `Spacing` will be enabled once
+          spacing tokens are part of the current token source.
+        </MDXParagraph>
+      )}
+    </TokenTypeContext.Provider>
+  )
+}
+
 export function TokenSectionOverview() {
+  const visibleTypes = useContext(TokenTypeContext)
+
+  if (!visibleTypes.includes('color')) {
+    return null
+  }
+
   const colorSections = tokenSections.filter(
     (section) => section.id !== 'radius'
   )
@@ -326,19 +377,20 @@ export function TokenSectionTable({
 }: {
   section: TokenSectionId
 }) {
+  const _visibleTypes = useContext(TokenTypeContext)
   const sectionData = tokenSections.find((item) => item.id === section)
   const sectionGroups = sectionData?.groups || []
   const sectionTokens = sectionData?.tokens || []
   const sectionTitle = sectionData?.title || section
 
-  const availableModifiers = React.useMemo(
+  const availableModifiers = useMemo(
     () => getAvailableModifiers(sectionTokens),
     [sectionTokens]
   )
-  const [activeModifiers, setActiveModifiers] = React.useState<
-    TokenModifier[]
-  >([])
-  const decorativeGroups = React.useMemo(() => {
+  const [activeModifiers, setActiveModifiers] = useState<TokenModifier[]>(
+    []
+  )
+  const decorativeGroups = useMemo(() => {
     if (section !== 'decorative') {
       return []
     }
@@ -346,9 +398,9 @@ export function TokenSectionTable({
     return sectionGroups.map(({ id }) => id)
   }, [section, sectionGroups])
   const [visibleDecorativeGroups, setVisibleDecorativeGroups] =
-    React.useState<string[]>(decorativeGroups)
+    useState<string[]>(decorativeGroups)
   const [visibleDecorativeVariants, setVisibleDecorativeVariants] =
-    React.useState<DecorativeVariant[]>(['non-static', 'static'])
+    useState<DecorativeVariant[]>(['non-static', 'static'])
   const { sortState, sortHandler, activeSortName } = useHandleSortState(
     {
       group: {
@@ -365,7 +417,7 @@ export function TokenSectionTable({
     }
   )
 
-  const visibleTokens = React.useMemo(() => {
+  const visibleTokens = useMemo(() => {
     const filteredTokens = sectionTokens.filter((token) => {
       if (section === 'decorative') {
         const tokenVariant: DecorativeVariant = isStaticToken(token)
@@ -613,7 +665,7 @@ export function TokenExample({ name }: { name: string }) {
   return <MDXCode>{name}</MDXCode>
 }
 
-const radiusPreviewStyle: React.CSSProperties = {
+const radiusPreviewStyle: CSSProperties = {
   backgroundColor: 'var(--token-color-background-neutral-subtle)',
   border: '1px solid var(--token-color-stroke-neutral-subtle)',
   display: 'inline-block',

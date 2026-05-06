@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
@@ -26,7 +26,7 @@ export type UseHeightAnimationOptions = {
   /**
    * In order to let the Hook know when children has changed
    */
-  children?: React.ReactNode | HTMLElement
+  children?: ReactNode | HTMLElement
 
   /**
    * Is called once before mounting the component (useLayoutEffect)
@@ -54,7 +54,7 @@ export type HeightAnimationOnStart = 'opening' | 'closing' | 'adjusting'
 export type HeightAnimationOnEnd = 'opened' | 'closed' | 'adjusted'
 
 export function useHeightAnimation(
-  targetRef: React.RefObject<HTMLElement>,
+  targetRef: RefObject<HTMLElement>,
   {
     open = true,
     animate = true,

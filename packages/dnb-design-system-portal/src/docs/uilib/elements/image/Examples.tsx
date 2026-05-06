@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Skeleton, ToggleButton, Img } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
@@ -75,7 +75,7 @@ export const ImageSkeletonExample = () => (
         border-radius: 1rem;
       `
       const CustomImage = () => {
-        const [state, setState] = React.useState(true)
+        const [state, setState] = useState(true)
         return (
           <Skeleton show={state}>
             <StyledImg

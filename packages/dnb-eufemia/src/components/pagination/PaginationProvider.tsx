@@ -3,7 +3,9 @@
  *
  */
 
-import React, {
+import {
+  isValidElement,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -11,6 +13,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
@@ -189,7 +192,7 @@ const PaginationProvider = (props: any) => {
   const setContent = useCallback(
     (
       newContent: unknown,
-      content: React.ReactNode = null,
+      content: ReactNode = null,
       position: string | null = null
     ) => {
       if (!Array.isArray(newContent) && content) {
@@ -201,7 +204,7 @@ const PaginationProvider = (props: any) => {
 
       if (typeof newContent === 'function') {
         content = newContent()
-      } else if (React.isValidElement(newContent)) {
+      } else if (isValidElement(newContent)) {
         content = newContent
       }
 
@@ -359,7 +362,7 @@ const PaginationProvider = (props: any) => {
         })
       }
 
-      if (potentialElement && React.isValidElement(potentialElement)) {
+      if (potentialElement && isValidElement(potentialElement)) {
         setContent([pn, potentialElement])
       }
     },
@@ -512,9 +515,9 @@ const PaginationProvider = (props: any) => {
     if (props.rerender) {
       const rerenderFn = ({
         current: store,
-      }: React.RefObject<{
+      }: RefObject<{
         pageNumber: number
-        content: React.ReactNode
+        content: ReactNode
       } | null>) => {
         if (store && store.pageNumber > 0) {
           clearTimeout(rerenderTimeoutRef.current)
@@ -657,6 +660,6 @@ const PaginationProvider = (props: any) => {
   )
 }
 
-const MemoizedPaginationProvider = React.memo(PaginationProvider)
+const MemoizedPaginationProvider = memo(PaginationProvider)
 
 export default MemoizedPaginationProvider

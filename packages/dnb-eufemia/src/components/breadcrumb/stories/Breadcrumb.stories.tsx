@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 import { Skeleton, ToggleButton } from '../../'
 import Breadcrumb from '../Breadcrumb'
@@ -38,7 +38,7 @@ const breadcrumbItems: BreadcrumbItemProps[] = [
 
 export const Multiple = () => {
   const list = [...breadcrumbItems]
-  const [removeLast, setRemoveLast] = React.useState(false)
+  const [removeLast, setRemoveLast] = useState(false)
   if (removeLast) {
     list.pop()
   }

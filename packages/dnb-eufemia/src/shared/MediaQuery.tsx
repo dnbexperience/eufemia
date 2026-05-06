@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Context from './Context'
 import {
   makeMediaQueryList,
@@ -17,8 +17,8 @@ export type { MediaQueryProps }
 export { onMediaQueryChange }
 
 function MediaQuery(props: MediaQueryProps) {
-  const context = React.useContext(Context)
-  const listenerRef = React.useRef<MediaQueryListener | null>(null)
+  const context = useContext(Context)
+  const listenerRef = useRef<MediaQueryListener | null>(null)
 
   const getInitialState = (): MediaQueryState => {
     const state: MediaQueryState = {
@@ -47,11 +47,10 @@ function MediaQuery(props: MediaQueryProps) {
     return state
   }
 
-  const [state, setState] =
-    React.useState<MediaQueryState>(getInitialState)
+  const [state, setState] = useState<MediaQueryState>(getInitialState)
 
   // Handle mount, updates, and cleanup
-  React.useEffect(() => {
+  useEffect(() => {
     // Cleanup existing listener
     if (listenerRef.current) {
       listenerRef.current()

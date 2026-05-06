@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import clsx from 'clsx'
 import {
   render,
@@ -24,7 +25,7 @@ describe('useHeightAnimation', () => {
     open = false,
     animate = true,
   }: UseHeightAnimationOptions) => {
-    const element = React.useRef<HTMLDivElement | null>(null)
+    const element = useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {
         open,
@@ -193,7 +194,7 @@ describe('useHeightAnimation', () => {
 
   it('should be open by default', () => {
     const current: HTMLDivElement = document.createElement('div')
-    const ref: React.RefObject<HTMLDivElement> = { current }
+    const ref: RefObject<HTMLDivElement> = { current }
 
     const { result } = renderHook(() => useHeightAnimation(ref))
 
@@ -210,7 +211,7 @@ describe('useHeightAnimation', () => {
 
   it('should be closed if open is false', () => {
     const current: HTMLDivElement = document.createElement('div')
-    const ref: React.RefObject<HTMLDivElement> = { current }
+    const ref: RefObject<HTMLDivElement> = { current }
 
     const { result } = renderHook(() =>
       useHeightAnimation(ref, { open: false })
@@ -232,7 +233,7 @@ describe('useHeightAnimation', () => {
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')
-    const ref: React.RefObject<HTMLDivElement> = { current }
+    const ref: RefObject<HTMLDivElement> = { current }
 
     const { rerender } = renderHook(
       ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),
@@ -254,7 +255,7 @@ describe('useHeightAnimation', () => {
 
     const onAnimationEnd = jest.fn()
     const current: HTMLDivElement = document.createElement('div')
-    const ref: React.RefObject<HTMLDivElement> = { current }
+    const ref: RefObject<HTMLDivElement> = { current }
 
     const { rerender } = renderHook(
       ({ open }) => useHeightAnimation(ref, { open, onAnimationEnd }),

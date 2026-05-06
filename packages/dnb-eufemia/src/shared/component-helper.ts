@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 import whatInput from './helpers/whatInput'
 import { warn } from './helpers'
@@ -276,19 +277,19 @@ export const getClosestScrollViewElement = (currentElement) => {
 }
 
 export function convertJsxToString(
-  elements: React.ReactNode | React.ReactNode[],
+  elements: ReactNode | ReactNode[],
   separator: string = undefined,
   transformWord: (
-    element: React.ReactElement<any>
-  ) => React.ReactElement<any> = undefined
+    element: ReactElement<any>
+  ) => ReactElement<any> = undefined
 ): string {
   if (!Array.isArray(elements)) {
     elements = [elements]
   }
 
-  const process = (word: React.ReactNode) => {
-    if (React.isValidElement<any>(word)) {
-      let element = word as React.ReactElement<any>
+  const process = (word: ReactNode) => {
+    if (isValidElement<any>(word)) {
+      let element = word as ReactElement<any>
 
       if (transformWord) {
         element = transformWord(element)
@@ -380,7 +381,7 @@ export function findElementInChildren(children, find) {
         return (result = res)
       }
     }
-    if (React.isValidElement(cur) && find(cur)) {
+    if (isValidElement(cur) && find(cur)) {
       return (result = cur)
     }
     return null

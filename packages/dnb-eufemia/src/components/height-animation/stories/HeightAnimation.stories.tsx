@@ -4,7 +4,7 @@
  */
 
 import styled from '@emotion/styled'
-import React from 'react'
+import { useState } from 'react'
 import { P } from '../../..'
 import Section from '../../section/Section'
 import { ToggleButton, Button } from '../../'
@@ -15,10 +15,10 @@ export default {
 }
 
 export const HeightAnimationSandbox = () => {
-  const [count, setCount] = React.useState(0)
-  const [openState, setOpenState] = React.useState(true)
-  const [isOpen, setIsOpen] = React.useState(true)
-  const [contentState, setContentState] = React.useState(false)
+  const [count, setCount] = useState(0)
+  const [openState, setOpenState] = useState(true)
+  const [isOpen, setIsOpen] = useState(true)
+  const [contentState, setContentState] = useState(false)
 
   return (
     <>
@@ -93,8 +93,8 @@ const StyledSection = styled(Section)`
 
 export function HeightAnimationKeepInDOM() {
   const Example = () => {
-    const [openState, setOpenState] = React.useState(true)
-    const [contentState, setContentState] = React.useState(false)
+    const [openState, setOpenState] = useState(true)
+    const [contentState, setContentState] = useState(false)
 
     const onChangeHandler = ({ checked }) => {
       setOpenState(checked)

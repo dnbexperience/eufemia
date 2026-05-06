@@ -1,4 +1,9 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
+import type {
+  ChangeEvent,
+  MouseEvent as ReactMouseEvent,
+  ReactElement,
+} from 'react'
 import * as z from 'zod'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
@@ -108,7 +113,7 @@ export type DateProps = Omit<
     | 'tooltip'
   >
 
-function DateComponent(props: DateProps): React.ReactElement {
+function DateComponent(props: DateProps): ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
@@ -229,7 +234,7 @@ function DateComponent(props: DateProps): React.ReactElement {
       invalidDate,
       invalidStartDate,
       invalidEndDate,
-    }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
+    }: DatePickerEvent<ChangeEvent<HTMLInputElement>>) => {
       // Add to ref, for use in onBlurValidator, would be better if there was a way to add this to additional args
       setInvalidDates({
         invalidDate,
@@ -295,7 +300,7 @@ function DateComponent(props: DateProps): React.ReactElement {
   )
 
   const handleCancel = useCallback(
-    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+    (event: DatePickerEvent<ReactMouseEvent<HTMLButtonElement>>) => {
       const revertValue = valueOnOpenRef.current
 
       if (range) {
@@ -314,7 +319,7 @@ function DateComponent(props: DateProps): React.ReactElement {
   )
 
   const handleSubmit = useCallback(
-    (event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>) => {
+    (event: DatePickerEvent<ReactMouseEvent<HTMLButtonElement>>) => {
       valueOnOpenRef.current = internalValue
       datePickerProps.onSubmit?.(event)
     },
@@ -324,7 +329,7 @@ function DateComponent(props: DateProps): React.ReactElement {
   const handleReset = useCallback(
     (
       event: DatePickerEvent<
-        React.MouseEvent<HTMLButtonElement, MouseEvent>
+        ReactMouseEvent<HTMLButtonElement, MouseEvent>
       >
     ) => {
       const initialValue = initialValueRef.current
@@ -365,7 +370,7 @@ function DateComponent(props: DateProps): React.ReactElement {
     handleError()
   }, [handleFocus, handleError])
   const onType = useCallback(
-    (event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
+    (event: DatePickerEvent<ChangeEvent<HTMLInputElement>>) => {
       const { date, startDate, endDate, ...rest } = event
 
       if (props.range) {

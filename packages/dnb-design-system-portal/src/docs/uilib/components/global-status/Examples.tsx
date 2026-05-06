@@ -3,7 +3,13 @@
  *
  */
 
-import React from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   GlobalStatus,
@@ -104,7 +110,7 @@ export const GlobalStatusCoupling = () => (
   <ComponentBox>
     {() => {
       const InputWithError = () => {
-        const [errorMessage, setErrorMessage] = React.useState(null)
+        const [errorMessage, setErrorMessage] = useState(null)
         return (
           <Input
             label="Input"
@@ -129,7 +135,7 @@ export const GlobalStatusAddRemoveItems = () => (
   <ComponentBox hideCode>
     {() => {
       function AddRemoveItems() {
-        const [count, toggleUpdateStatus] = React.useState(0)
+        const [count, toggleUpdateStatus] = useState(0)
         return (
           <>
             <GlobalStatus
@@ -208,13 +214,13 @@ export const GlobalStatusScrolling = () => (
 export const GlobalStatusUpdate = () => (
   <ComponentBox hideCode>
     {() => {
-      const Context = React.createContext(null)
+      const Context = createContext(null)
 
       const UpdateDemo = () => {
-        const [errorA, setErrorA] = React.useState(false)
-        const [errorB, setErrorB] = React.useState(false)
+        const [errorA, setErrorA] = useState(false)
+        const [errorB, setErrorB] = useState(false)
 
-        const [isVisible, setVisibility] = React.useState(false)
+        const [isVisible, setVisibility] = useState(false)
 
         return (
           <Context
@@ -235,7 +241,7 @@ export const GlobalStatusUpdate = () => (
 
       const UpdateDemoStatus = () => {
         const { errorA, errorB, setErrorA, setErrorB } =
-          React.useContext(Context)
+          useContext(Context)
 
         return (
           <>
@@ -277,11 +283,11 @@ export const GlobalStatusUpdate = () => (
           setErrorB,
           isVisible,
           setVisibility,
-        } = React.useContext(Context)
+        } = useContext(Context)
 
         // Only to demonstrate the usage of an interceptor situation
-        const inst = React.useRef(null)
-        React.useEffect(() => {
+        const inst = useRef(null)
+        useEffect(() => {
           if (!inst.current) {
             inst.current = GlobalStatus.create({
               id: 'demo-2',
@@ -313,7 +319,7 @@ export const GlobalStatusUpdate = () => (
             show: isVisible,
           })
         }, [isVisible])
-        React.useEffect(() => () => inst.current.remove(), [])
+        useEffect(() => () => inst.current.remove(), [])
 
         return (
           <Section top innerSpace={{ block: 'large' }} variant="divider">

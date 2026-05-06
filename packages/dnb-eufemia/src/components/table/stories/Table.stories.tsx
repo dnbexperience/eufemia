@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { StrictMode, useEffect, useRef, useState } from 'react'
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 
@@ -290,10 +290,10 @@ export const BasicTable = () => {
 
   console.log('activeSortName', activeSortName)
 
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <button onClick={handleCount}>count {count}</button>
       <Table top>
         <caption className="dnb-sr-only">A Table Caption</caption>
@@ -358,7 +358,7 @@ export const BasicTable = () => {
           </Tr>
         </tbody>
       </Table>
-    </React.StrictMode>
+    </StrictMode>
   )
 
   function handleCount() {
@@ -367,7 +367,7 @@ export const BasicTable = () => {
 }
 
 export const TableOddEven = () => {
-  const [list, setlist] = React.useState([
+  const [list, setlist] = useState([
     'content cab',
     'content abc',
     'content bac',
@@ -376,10 +376,10 @@ export const TableOddEven = () => {
     'content z',
   ])
 
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <button onClick={handleCount}>count {count}</button>
       <Table>
         <thead>
@@ -400,7 +400,7 @@ export const TableOddEven = () => {
           ))}
         </tbody>
       </Table>
-    </React.StrictMode>
+    </StrictMode>
   )
 
   function sortByName(a, b) {
@@ -580,7 +580,7 @@ const HeaderSortButton = ({ children }) => {
 }
 
 export const TableAccordionMode = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
+  const [skeleton, setSkeleton] = useState(false)
   return (
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
@@ -617,7 +617,7 @@ export const TableAccordionMode = () => {
 }
 
 export const TableNavigationMode = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
+  const [skeleton, setSkeleton] = useState(false)
   return (
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
@@ -677,9 +677,9 @@ export function TableSort() {
 
   const mockData = [product1, product2, product3]
 
-  const [sortedRows, setRowData] = React.useState<Row[]>(mockData)
+  const [sortedRows, setRowData] = useState<Row[]>(mockData)
 
-  React.useEffect(() => {
+  useEffect(() => {
     switch (sortState.column1.direction) {
       case 'asc':
         setRowData([...mockData].sort(compareAsc))
@@ -696,7 +696,7 @@ export function TableSort() {
     }
   }, [sortState.column1.direction])
 
-  React.useEffect(() => {
+  useEffect(() => {
     switch (sortState.column2.direction) {
       case 'asc':
         setRowData([...mockData].sort((a, b) => a.minAmount - b.minAmount))
@@ -1355,7 +1355,7 @@ export function Accodion() {
       return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
-      const ref = React.useRef<HTMLButtonElement | null>(null)
+      const ref = useRef<HTMLButtonElement | null>(null)
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId
@@ -1440,7 +1440,7 @@ export function Accodion() {
 }
 
 export const StickyHeaderWithDynamicBanner = () => {
-  const [showBanner, setShowBanner] = React.useState(false)
+  const [showBanner, setShowBanner] = useState(false)
 
   return (
     <div>

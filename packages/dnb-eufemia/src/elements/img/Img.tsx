@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
+import type { HTMLProps } from 'react'
 import E from '../Element'
 import {
   applySpacing,
@@ -15,7 +16,7 @@ import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ImgProps = SpacingProps &
-  React.HTMLProps<HTMLImageElement> & {
+  HTMLProps<HTMLImageElement> & {
     src: string
     alt: string
     skeleton?: SkeletonShow
@@ -35,7 +36,7 @@ const Img = ({
   loading = 'eager',
   ...p
 }: ImgProps) => {
-  const [hasError, setError] = React.useState(false)
+  const [hasError, setError] = useState(false)
 
   return (
     <E

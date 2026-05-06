@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
@@ -53,7 +53,7 @@ describe('Heading component', () => {
 
   it('should match level correction', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading level={2} debug={warn}>
           Heading #1
         </Heading>
@@ -80,7 +80,7 @@ describe('Heading component', () => {
         <Heading debug inherit decrease>
           Heading #12
         </Heading>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     let i = -1
@@ -101,7 +101,7 @@ describe('Heading component', () => {
 
   it('should match global reset', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
         </Heading.Level>
@@ -114,7 +114,7 @@ describe('Heading component', () => {
         <Heading debug reset>
           Heading #4
         </Heading>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     let i = -1
@@ -127,7 +127,7 @@ describe('Heading component', () => {
 
   it('should match context reset', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
           <Heading>Heading #2</Heading>
@@ -137,7 +137,7 @@ describe('Heading component', () => {
           </Heading.Level>
           <Heading reset>Heading #5</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     let i = -1
@@ -151,14 +151,14 @@ describe('Heading component', () => {
 
   it('should match level correction with manual heading', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
           <Heading>Heading #2</Heading>
           <H3 level="use">Heading #3</H3>
           <Heading>Heading #4</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     const first = document.querySelectorAll('h3.dnb-h--medium')
@@ -175,11 +175,11 @@ describe('Heading component', () => {
     const warn = jest.fn()
 
     const RenderComp = (props) => (
-      <React.StrictMode>
+      <StrictMode>
         <Heading debug={warn} {...props}>
           Heading #1
         </Heading>
-      </React.StrictMode>
+      </StrictMode>
     )
     const { rerender } = render(<RenderComp />)
 
@@ -373,12 +373,12 @@ describe('Heading component', () => {
 
   it('should set level if skipCorrection is true', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} skipCorrection reset={1}>
           <Heading level={4}>Heading #1</Heading>
           <Heading increase>Heading #2</Heading>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     const elem = document.querySelectorAll('.dnb-heading')
@@ -388,7 +388,7 @@ describe('Heading component', () => {
 
   it('should not increase level above 6', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn}>
           <Heading>Heading #1</Heading>
           <Heading.Increase skipCorrection level={6}>
@@ -396,7 +396,7 @@ describe('Heading component', () => {
             <Heading increase>Heading #3</Heading>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     const elem = document.querySelectorAll('.dnb-heading')
@@ -473,7 +473,7 @@ describe('Heading component', () => {
 
   it('should match default leveling', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
           <Heading>Heading #2</Heading>
@@ -493,7 +493,7 @@ describe('Heading component', () => {
             </Heading.Increase>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
 
     let i = -1
@@ -511,7 +511,7 @@ describe('Heading component', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <React.StrictMode>
+      <StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
           <Heading>Heading #2</Heading>
@@ -531,7 +531,7 @@ describe('Heading component', () => {
             </Heading.Increase>
           </Heading.Increase>
         </Heading.Level>
-      </React.StrictMode>
+      </StrictMode>
     )
     expect(await axeComponent(Comp, {})).toHaveNoViolations()
   })
@@ -546,16 +546,16 @@ function StateChanges({
   showHeading3 = false,
   showHeading4 = false,
 } = {}) {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     showHeading3,
     showHeading4,
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState({ showHeading3, showHeading4: state.showHeading4 })
   }, [showHeading3]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState({ showHeading4, showHeading3: state.showHeading3 })
   }, [showHeading4]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -568,21 +568,21 @@ function StateChanges({
       <Heading.Level group="B">
         <Heading>h3 before</Heading>
         {state.showHeading3 && (
-          <React.StrictMode>
+          <StrictMode>
             <Heading increase>h4 1</Heading>
             <Heading>h4 2</Heading>
             <Heading increase>h5 1</Heading>
-          </React.StrictMode>
+          </StrictMode>
         )}
         <Heading>h3 after</Heading>
 
         <Heading.Increase group="C">
           {state.showHeading4 && (
-            <React.StrictMode>
+            <StrictMode>
               <Heading>h4 1</Heading>
               <Heading>h4 2</Heading>
               <Heading increase>h5 1</Heading>
-            </React.StrictMode>
+            </StrictMode>
           )}
         </Heading.Increase>
       </Heading.Level>

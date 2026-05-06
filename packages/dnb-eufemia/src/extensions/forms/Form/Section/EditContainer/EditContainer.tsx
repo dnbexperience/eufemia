@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import {
+  isValidElement,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+} from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
@@ -15,7 +22,7 @@ import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type FormSectionEditContainerProps = {
-  title?: React.ReactNode
+  title?: ReactNode
   onDone?: () => void
   onCancel?: () => void
 }
@@ -62,7 +69,7 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
 
   const childArray = Array.isArray(children) ? children : [children]
   const hasToolbar = childArray.some(
-    (child) => React.isValidElement(child) && child.type === Toolbar
+    (child) => isValidElement(child) && child.type === Toolbar
   )
 
   return (

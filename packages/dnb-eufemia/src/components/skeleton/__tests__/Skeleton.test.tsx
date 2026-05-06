@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { SkeletonProps } from '../Skeleton'
 import Skeleton from '../Skeleton'

@@ -1,4 +1,5 @@
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import Anchor from './Anchor'
 import Heading, {
@@ -17,7 +18,7 @@ type AutoLinkHeaderProps = {
     hash,
   }: {
     location?: { pathname: string; search: string; hash: string }
-    title?: string | React.ReactNode
+    title?: string | ReactNode
     hash?: string
   }) => void
 } & Omit<HeadingAllProps, 'ref'>
@@ -75,7 +76,7 @@ const AutoLinkHeader = ({
         {typeof addToSearchIndex === 'function'
           ? addToSearchIndex({
               location,
-              title: React.isValidElement(children) ? children : title,
+              title: isValidElement(children) ? children : title,
               hash: id,
             })
           : children}

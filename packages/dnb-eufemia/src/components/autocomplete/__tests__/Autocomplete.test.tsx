@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
@@ -2920,7 +2921,7 @@ describe('Autocomplete component', () => {
     }
 
     const WithState = () => {
-      const [value, setValue] = React.useState(null)
+      const [value, setValue] = useState(null)
 
       return (
         <Autocomplete
@@ -2959,7 +2960,7 @@ describe('Autocomplete component', () => {
     const mockDataB = ['second', 'bar', 'baz']
 
     const WithState = () => {
-      const [data, setData] = React.useState(mockDataA)
+      const [data, setData] = useState(mockDataA)
 
       const onTypeHandler = ({ debounce, ...args }) => {
         debounce(() => {
@@ -3083,9 +3084,9 @@ describe('Autocomplete component', () => {
   it('has correct value after useEffect value state change', () => {
     const newValue = 0
     const UpdateValue = () => {
-      const [value, setValue] = React.useState(props.value)
+      const [value, setValue] = useState(props.value)
 
-      React.useEffect(() => {
+      useEffect(() => {
         setValue(newValue)
       }, [])
 
@@ -3415,8 +3416,8 @@ describe('Autocomplete component', () => {
     ]
 
     const MockComponent = () => {
-      const [value, setValue] = React.useState('+47')
-      const allData = React.useMemo(() => [data[1]], [])
+      const [value, setValue] = useState('+47')
+      const allData = useMemo(() => [data[1]], [])
 
       return (
         <Autocomplete
@@ -4017,7 +4018,7 @@ describe('Autocomplete component', () => {
   })
 
   it('gets valid element when inputRef is function', () => {
-    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
+    const ref: RefObject<HTMLInputElement | null> = { current: null }
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem

@@ -2,13 +2,24 @@
  * Web Popover Component
  */
 
-import React, {
+import {
+  createElement,
   isValidElement,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  ComponentType,
+  HTMLAttributes,
+  KeyboardEvent as ReactKeyboardEvent,
+  KeyboardEventHandler as ReactKeyboardEventHandler,
+  MouseEvent as ReactMouseEvent,
+  ReactNode,
+  RefCallback,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import PopoverCloseButton from './internal/PopoverCloseButton'
@@ -259,7 +270,7 @@ export default function Popover(props: PopoverProps) {
   )
 
   const runTriggerClick = useCallback(
-    (event?: MouseEvent | React.MouseEvent<HTMLElement>) => {
+    (event?: MouseEvent | ReactMouseEvent<HTMLElement>) => {
       if (event && 'preventDefault' in event) {
         event.preventDefault()
       }
@@ -456,8 +467,8 @@ export default function Popover(props: PopoverProps) {
 
   const handleTriggerKeyDown = useCallback(
     (
-      event: React.KeyboardEvent<HTMLElement>,
-      userHandler?: React.KeyboardEventHandler<HTMLElement>
+      event: ReactKeyboardEvent<HTMLElement>,
+      userHandler?: ReactKeyboardEventHandler<HTMLElement>
     ) => {
       userHandler?.(event)
       if (event.defaultPrevented) {
@@ -495,7 +506,7 @@ export default function Popover(props: PopoverProps) {
         triggerAttrRef(node)
       } else if ('current' in triggerAttrRef) {
         const mutableTriggerAttrRef =
-          triggerAttrRef as React.RefObject<HTMLElement | null>
+          triggerAttrRef as RefObject<HTMLElement | null>
         mutableTriggerAttrRef.current = node
       }
     },
@@ -504,8 +515,8 @@ export default function Popover(props: PopoverProps) {
 
   const statefulTitle = isOpen ? tr.closeTriggerTitle : tr.openTriggerTitle
 
-  const triggerDomProps: React.HTMLAttributes<HTMLElement> & {
-    ref: React.RefCallback<HTMLElement>
+  const triggerDomProps: HTMLAttributes<HTMLElement> & {
+    ref: RefCallback<HTMLElement>
   } = {
     ...restTriggerAttrs,
     ref: assignTriggerRef,
@@ -545,15 +556,15 @@ export default function Popover(props: PopoverProps) {
     toggle: { value: toggle, enumerable: false },
   })
 
-  let triggerMarkup: React.ReactNode = null
+  let triggerMarkup: ReactNode = null
   if (shouldRenderTrigger) {
     if (isRenderer(trigger)) {
       triggerMarkup = trigger(triggerRenderProps)
     } else if (isValidElement<Record<string, unknown>>(trigger)) {
-      triggerMarkup = React.createElement(
-        trigger.type as React.ComponentType<any>,
-        { ...trigger.props, ...triggerDomProps }
-      )
+      triggerMarkup = createElement(trigger.type as ComponentType<any>, {
+        ...trigger.props,
+        ...triggerDomProps,
+      })
     } else if (trigger) {
       warn(
         'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'
@@ -614,8 +625,8 @@ export default function Popover(props: PopoverProps) {
     className
   )
 
-  const popoverAttributes: React.HTMLAttributes<HTMLElement> = {
-    ...(restAttributes as React.HTMLAttributes<HTMLElement>),
+  const popoverAttributes: HTMLAttributes<HTMLElement> = {
+    ...(restAttributes as HTMLAttributes<HTMLElement>),
     className: popoverClassName,
   }
 
@@ -742,7 +753,7 @@ function usePopoverOpenState({
 
 function isRenderer<T>(
   value: PopoverRenderable<T>
-): value is (context: T) => React.ReactNode {
+): value is (context: T) => ReactNode {
   return typeof value === 'function'
 }
 
@@ -774,7 +785,7 @@ function resolveTargetNode(
     return target
   }
   if (typeof target === 'object' && 'current' in target) {
-    return getRefElement(target as React.RefObject<HTMLElement>)
+    return getRefElement(target as RefObject<HTMLElement>)
   }
   return null
 }

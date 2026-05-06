@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { AriaLive, Button, Flex, P } from '@dnb/eufemia/src'

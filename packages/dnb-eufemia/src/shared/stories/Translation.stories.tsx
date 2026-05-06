@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Dialog, Dropdown } from '../../components'
@@ -39,7 +39,7 @@ const ChangeLocale = () => {
     setLocale,
 
     locale,
-  } = React.useContext(Context)
+  } = useContext(Context)
   console.log('locale', locale)
 
   return (

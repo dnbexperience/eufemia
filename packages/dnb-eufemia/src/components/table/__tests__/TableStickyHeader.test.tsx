@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Table from '../Table'

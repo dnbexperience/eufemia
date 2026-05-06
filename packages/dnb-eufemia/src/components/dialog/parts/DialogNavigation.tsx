@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import type { ModalHeaderBarProps } from '../../modal/parts/ModalHeaderBar'
 import ModalHeaderBar from '../../modal/parts/ModalHeaderBar'
@@ -7,7 +7,7 @@ export default function DialogNavigation({
   className,
   ref,
   ...props
-}: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
+}: ModalHeaderBarProps & Omit<HTMLProps<HTMLElement>, 'children'>) {
   return (
     <ModalHeaderBar
       {...props}

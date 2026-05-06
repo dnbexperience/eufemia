@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { Children, cloneElement, isValidElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import styled from '@emotion/styled'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
@@ -18,13 +19,13 @@ export default function Table({ children }) {
   children =
     recursiveFind(children, (child) =>
       child.type === 'table'
-        ? (child.props as { children?: React.ReactNode }).children
+        ? (child.props as { children?: ReactNode }).children
         : false
     ) || children
 
   children = recursiveMap(
     children,
-    (child: React.ReactNode, isValid: boolean) => {
+    (child: ReactNode, isValid: boolean) => {
       if (!isValid && typeof child === 'string') {
         const checkChild = String(child).trim()
         if (checkChild.length === 0) {
@@ -32,7 +33,7 @@ export default function Table({ children }) {
         }
       }
 
-      if (React.isValidElement(child) && child.type === 'td') {
+      if (isValidElement(child) && child.type === 'td') {
         const tdChildren = getChildren(child as ChildWithChildren)
         if (tdChildren?.length === 1) {
           const text = String(tdChildren?.[0])
@@ -63,8 +64,8 @@ export default function Table({ children }) {
   )
 }
 
-type ChildWithChildren = React.ReactElement<{
-  children?: React.ReactNode
+type ChildWithChildren = ReactElement<{
+  children?: ReactNode
 }>
 
 function getChildren(children: ChildWithChildren) {
@@ -72,13 +73,13 @@ function getChildren(children: ChildWithChildren) {
 }
 
 function recursiveFind(
-  children: React.ReactNode,
+  children: ReactNode,
   func: (child: ChildWithChildren) => unknown
 ) {
   let found = null
   if (children) {
-    React.Children.forEach(children, (child) => {
-      if (!React.isValidElement(child)) {
+    Children.forEach(children, (child) => {
+      if (!isValidElement(child)) {
         return
       }
       found = func(child as ChildWithChildren)
@@ -86,10 +87,10 @@ function recursiveFind(
         return found
       } else if (
         child.props &&
-        (child.props as { children?: React.ReactNode }).children
+        (child.props as { children?: ReactNode }).children
       ) {
         found = recursiveFind(
-          (child.props as { children: React.ReactNode }).children,
+          (child.props as { children: ReactNode }).children,
           func
         )
         if (found) {
@@ -102,19 +103,17 @@ function recursiveFind(
 }
 
 function recursiveMap(
-  children: React.ReactNode,
-  func:
-    | ((child: React.ReactNode, isValid: boolean) => React.ReactNode)
-    | null = null
-): React.ReactNode[] {
-  return React.Children.map(children, (child: React.ReactNode) => {
-    if (!React.isValidElement(child)) {
+  children: ReactNode,
+  func: ((child: ReactNode, isValid: boolean) => ReactNode) | null = null
+): ReactNode[] {
+  return Children.map(children, (child: ReactNode) => {
+    if (!isValidElement(child)) {
       return func ? func(child, false) : child
     }
 
     const childWithChildren = child as ChildWithChildren
     if (childWithChildren.props.children) {
-      child = React.cloneElement(
+      child = cloneElement(
         childWithChildren,
         {},
         recursiveMap(childWithChildren.props.children, func)
@@ -122,7 +121,7 @@ function recursiveMap(
     }
 
     return func ? func(child, true) : child
-  }) as React.ReactNode[]
+  }) as ReactNode[]
 }
 
 function prepareStyleWithSameColor(hex: string) {

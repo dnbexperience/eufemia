@@ -4,7 +4,8 @@
  */
 
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { TextareaProps } from '../Textarea'
 import Textarea from '../Textarea'
@@ -325,10 +326,10 @@ describe('Textarea component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLTextAreaElement>
+    let ref: RefObject<HTMLTextAreaElement>
 
     function MockComponent() {
-      ref = React.useRef(null)
+      ref = useRef(null)
       return <Textarea {...props} ref={ref} />
     }
 

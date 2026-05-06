@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useMedia, useTranslation } from '@dnb/eufemia/src/shared'
@@ -91,7 +91,7 @@ export const VariantBasic = () => (
         })
 
         // Handle your "column1" logic
-        React.useEffect(() => {
+        useEffect(() => {
           switch (sortState.column1.direction) {
             case 'asc':
               break
@@ -752,7 +752,7 @@ export const Accordion = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef(undefined)
+          const ref = useRef(undefined)
           const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
@@ -871,7 +871,7 @@ export const AccordionMixed = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef(undefined)
+          const ref = useRef(undefined)
           const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
@@ -1509,8 +1509,8 @@ export function PaginationTable() {
       {() => {
         const TablePagination = () => {
           const amountPerPage = 5
-          const [currentPage, setCurrentPage] = React.useState(1)
-          const [data] = React.useState(() => getDataFromAPI(0, 100))
+          const [currentPage, setCurrentPage] = useState(1)
+          const [data] = useState(() => getDataFromAPI(0, 100))
 
           return (
             <Pagination

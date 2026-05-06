@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { StrictMode, useCallback, useState } from 'react'
 import {
   Field,
   FieldBlock,
@@ -18,7 +18,7 @@ export default {
 export const AnimatedContainer = () => {
   const { count } = Iterate.useCount('myForm')
   return (
-    <React.StrictMode>
+    <StrictMode>
       <Form.Handler
         defaultData={{
           myList: ['Item 1'],
@@ -57,7 +57,7 @@ export const AnimatedContainer = () => {
       >
         <Field.String itemPath="/" />
       </Iterate.Array>
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 
@@ -168,7 +168,7 @@ export const InitialOpen = () => {
 
   const { getCountryNameByIso } = Value.SelectCountry.useCountry()
 
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   return (
     <>
@@ -273,7 +273,7 @@ export const useCount = () => (
 
 export function InWizard() {
   return (
-    <React.StrictMode>
+    <StrictMode>
       <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
@@ -322,7 +322,7 @@ export function InWizard() {
 
         <Tools.Log top />
       </Form.Handler>
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 

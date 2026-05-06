@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 
 import clsx from 'clsx'
 import {
@@ -24,7 +25,7 @@ import type {
 import { accordionDefaultProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
+export type AccordionGroupProps = HTMLProps<HTMLElement> &
   AccordionGroupBaseProps & {
     onInit?: (accordion: AccordionInstance) => void
   }
@@ -87,7 +88,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   useEffect(() => {
     if (collapseAllHandleRef) {
       const mutableCollapseAllHandleRef =
-        collapseAllHandleRef as React.RefObject<() => void>
+        collapseAllHandleRef as RefObject<() => void>
       mutableCollapseAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
           callback()

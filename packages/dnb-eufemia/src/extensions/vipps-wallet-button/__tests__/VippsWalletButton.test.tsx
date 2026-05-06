@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { render } from '@testing-library/react'
 import VippsWalletButton from '../VippsWalletButton'
 import { Provider } from '../../../shared'

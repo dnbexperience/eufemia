@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { IconAllProps, IconProps } from '../icon/Icon'

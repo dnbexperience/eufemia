@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useQueryLocator from '../useQueryLocator'

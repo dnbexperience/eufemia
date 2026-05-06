@@ -1,4 +1,5 @@
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Card from '../../card/Card'
@@ -316,10 +317,10 @@ describe('Card', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLDivElement>
+    let ref: RefObject<HTMLDivElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLDivElement | null>(null)
+      ref = useRef<HTMLDivElement | null>(null)
       return (
         <Card ref={ref} element="div">
           Content
@@ -565,7 +566,7 @@ describe('Card', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Card ref={ref}>

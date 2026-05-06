@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import type { ScrollViewAllProps } from '../ScrollView'
 import ScrollView from '../ScrollView'
@@ -31,7 +32,7 @@ describe('ScrollView', () => {
   it('should set tabindex based on children when interactive is set to auto', () => {
     setResizeObserver()
 
-    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
+    const ref: RefObject<HTMLDivElement | null> = { current: null }
     const { rerender } = render(
       <ScrollView ref={ref} interactive="auto">
         overflow content
@@ -77,7 +78,7 @@ describe('ScrollView', () => {
     })
     setResizeObserver({ init, observe })
 
-    const ref: React.RefObject<HTMLDivElement | null> = { current: null }
+    const ref: RefObject<HTMLDivElement | null> = { current: null }
     render(
       <ScrollView ref={ref} interactive="auto">
         overflow content

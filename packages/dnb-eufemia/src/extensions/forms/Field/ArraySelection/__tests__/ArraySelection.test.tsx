@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
@@ -147,7 +147,7 @@ describe('ArraySelection', () => {
 
     it('supports render prop children with current values', async () => {
       function Component() {
-        const [value, setValue] = React.useState<Array<string>>(['foo'])
+        const [value, setValue] = useState<Array<string>>(['foo'])
 
         return (
           <Field.ArraySelection

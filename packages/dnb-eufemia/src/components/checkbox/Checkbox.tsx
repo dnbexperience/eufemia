@@ -3,12 +3,21 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useReducer,
   useRef,
+} from 'react'
+import type {
+  ChangeEvent,
+  ElementType,
+  HTMLProps,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import {
@@ -41,18 +50,18 @@ export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
 export type CheckboxOnChangeParams = {
   checked: boolean
-  event: React.ChangeEvent<HTMLInputElement>
+  event: ChangeEvent<HTMLInputElement>
 }
-export type CheckboxOnClickParams = React.MouseEvent<HTMLInputElement> & {
+export type CheckboxOnClickParams = MouseEvent<HTMLInputElement> & {
   checked: boolean
-  event: React.MouseEvent<HTMLInputElement>
+  event: MouseEvent<HTMLInputElement>
 }
 
 export type CheckboxProps = {
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
@@ -80,9 +89,9 @@ export type CheckboxProps = {
   /**
    * Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.
    */
-  suffix?: React.ReactNode
+  suffix?: ReactNode
   value?: string
-  element?: React.ElementType
+  element?: ElementType
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -98,13 +107,11 @@ export type CheckboxProps = {
   /**
    * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
    */
-  ref?:
-    | React.RefObject<HTMLInputElement>
-    | ((elem: HTMLInputElement) => void)
+  ref?: RefObject<HTMLInputElement> | ((elem: HTMLInputElement) => void)
 } & FormStatusBaseProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLInputElement>,
+    HTMLProps<HTMLInputElement>,
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
   >
 
@@ -216,32 +223,31 @@ function Checkbox(localProps: CheckboxProps) {
     [handleChange]
   )
 
-  const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
-    useCallback(
-      (event) => {
-        const preventDefault = () => {
-          event.preventDefault()
+  const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const preventDefault = () => {
+        event.preventDefault()
 
-          if (event.target['checked'] !== isCheckedRef.current) {
-            preventChangeRef.current = true
-            isCheckedRef.current = !isCheckedRef.current
-            forceUpdate()
-          }
+        if (event.target['checked'] !== isCheckedRef.current) {
+          preventChangeRef.current = true
+          isCheckedRef.current = !isCheckedRef.current
+          forceUpdate()
         }
+      }
 
-        if (readOnly) {
-          return preventDefault()
-        }
+      if (readOnly) {
+        return preventDefault()
+      }
 
-        onClick?.({
-          checked: isCheckedRef.current,
-          preventDefault,
-          event,
-          ...event,
-        })
-      },
-      [onClick, readOnly]
-    )
+      onClick?.({
+        checked: isCheckedRef.current,
+        preventDefault,
+        event,
+        ...event,
+      })
+    },
+    [onClick, readOnly]
+  )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent & CheckboxOnChangeParams['event']) => {
