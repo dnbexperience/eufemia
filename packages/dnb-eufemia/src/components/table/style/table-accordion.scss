@@ -37,6 +37,7 @@
   // Outline
   --table-accordion-outline-color: var(--token-color-stroke-selected);
   --table-accordion-outline-width: 0.125rem;
+  --table-accordion-outline-width--active: 0.0625rem;
   --table-accordion-background--active: var(
     --token-color-background-selected-subtle
   );
@@ -131,7 +132,8 @@
 
       // Here we use border to support Safari v16 on macOS
       // but also to only have a border on specific sides
-      border: var(--table-accordion-outline-width) solid transparent;
+      border: var(--border-width, var(--table-accordion-outline-width))
+        solid var(--border-color, transparent);
     }
     td:not(:first-of-type)::before {
       border-left: none;
@@ -142,7 +144,7 @@
 
     @include utilities.hover() {
       td::before {
-        border-color: var(--table-accordion-outline-color);
+        --border-color: var(--table-accordion-outline-color);
       }
 
       @include tableAccordionActiveColor();
@@ -157,7 +159,7 @@
   }
 
   &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover &__td {
-    background-color: var(--table-accordion-header-background);
+    --background-color: var(--table-accordion-header-background);
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
@@ -165,8 +167,8 @@
     ):focus {
     td::before {
       @include utilities.whatInput(keyboard) {
-        border-color: var(--token-color-stroke-action-focus);
-        border-width: 0.125rem;
+        --border-color: var(--token-color-stroke-action-focus);
+        --border-width: var(--focus-ring-width);
       }
     }
     td:first-of-type::before {
@@ -180,15 +182,13 @@
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active {
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
-      border-color: var(--table-accordion-outline-color);
-      border-width: var(
-        --table-accordion-border-width
-      ); // TODO: we should have something like activeRingWidth
+      --border-color: var(--table-accordion-outline-color);
+      --border-width: var(--table-accordion-outline-width--active);
     }
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active &__td {
-    background-color: var(--table-accordion-background--active);
+    --background-color: var(--table-accordion-background--active);
 
     @include tableAccordionActiveColor();
   }
@@ -197,7 +197,7 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    background-color: var(--table-accordion-header-background);
+    --background-color: var(--table-accordion-header-background);
 
     &::before {
       border: none;
@@ -209,7 +209,7 @@
       :active
     ):not(:hover) {
     @include utilities.whatInputNot('keyboard') {
-      background-color: var(--table-accordion-header-background);
+      --background-color: var(--table-accordion-header-background);
 
       td::before {
         border: none;
@@ -256,7 +256,7 @@
 
     &--expanded {
       > td.dnb-table__td {
-        background-color: var(--table-accordion-background);
+        --background-color: var(--table-accordion-background);
       }
 
       + .dnb-table__tr--clickable .dnb-table__td {
@@ -315,7 +315,7 @@
   }
 
   &__tr__accordion-content#{&}__tr &__td {
-    background-color: var(--table-accordion-background);
+    --background-color: var(--table-accordion-background);
 
     /**
       * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
