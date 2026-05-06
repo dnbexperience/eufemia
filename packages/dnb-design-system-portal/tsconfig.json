@@ -17,7 +17,6 @@
     "types": ["node", "jest", "react", "react-dom"],
     "outDir": "./out",
     "rootDir": ".",
-    "baseUrl": ".",
     "paths": {
       "Pages/*": ["./src/docs/*"],
       "portal-query": ["./vite/client/shims/portal-query.tsx"]
