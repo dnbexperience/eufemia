@@ -1,14 +1,14 @@
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
-jest.unstable_mockModule('prettier', () => ({
+vi.mock('prettier', () => ({
   format: async (code: string) => code,
   default: { format: async (code: string) => code },
 }))
 
-const {
+import {
   convertMdxToMd,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
@@ -17,7 +17,7 @@ const {
   resetUnhandledStandaloneMdxWarnings,
   toPublicUrl,
   toSlugAndDir,
-} = await import('../../src/convertHelpers.ts')
+} from '../../src/convertHelpers.ts'
 
 describe('convertMdxToMd', () => {
   beforeEach(() => {

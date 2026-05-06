@@ -13,11 +13,11 @@
     "require": "./markdownTablesUtils.ts"
   },
   "scripts": {
-    "test": "node ../../node_modules/.bin/jest --config ./jest.config.js",
+    "test": "vitest run",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts"
   },
   "devDependencies": {
-    "jest": "30.0.5"
+    "vitest": "4.1.5"
   },
   "volta": {
     "extends": "../../package.json"
