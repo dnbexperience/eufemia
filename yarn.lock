@@ -2522,7 +2522,6 @@ __metadata:
     date-fns: "npm:4.1.0"
     dependency-cruiser: "npm:17.3.8"
     dnb-design-system-portal: "workspace:*"
-    dotenv: "npm:10.0.0"
     dotenv-cli: "npm:4.1.0"
     eslint: "npm:9.39.2"
     eslint-plugin-compat: "npm:6.1.0"
@@ -10183,13 +10182,6 @@ __metadata:
   version: 5.1.0
   resolution: "dotenv-expand@npm:5.1.0"
   checksum: 10/d52af2a6e4642979ae4221408f1b75102508dbe4f5bac1c0613f92a3cf3880d5c31f86b2f5cff3273f7c23e10421e75028546e8b6cd0376fcd20e3803b374e15
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:10.0.0":
-  version: 10.0.0
-  resolution: "dotenv@npm:10.0.0"
-  checksum: 10/55f701ae213e3afe3f4232fae5edfb6e0c49f061a363ff9f1c5a0c2bf3fb990a6e49aeada11b2a116efb5fdc3bc3f1ef55ab330be43033410b267f7c0809a9dc
   languageName: node
   linkType: hard
 
