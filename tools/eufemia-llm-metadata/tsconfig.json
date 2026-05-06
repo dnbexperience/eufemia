@@ -8,7 +8,8 @@
     "downlevelIteration": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "es2020"
+    "target": "es2020",
+    "types": ["node", "vitest/globals"]
   },
   "include": [
     "src/**/*.ts",
