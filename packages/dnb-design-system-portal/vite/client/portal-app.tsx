@@ -98,6 +98,8 @@ function PageWrapper() {
     if (location.hash) {
       scrollToHash(location.hash)
     }
+
+    document.documentElement.setAttribute('data-portal-ready', 'true')
   }, [location.hash, location.pathname])
 
   return (

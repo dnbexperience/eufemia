@@ -3,9 +3,9 @@
  */
 
 import PortalApp from './portal-app'
+import { bootstrapPortalApp } from './bootstrap-portal-app'
 import { renderPortalApp } from './render-portal-app'
 import { routes } from 'virtual:portal-pages'
-import { preResolveCurrentRoute } from './pre-resolve-current-route'
 
 export const currentRoutes = routes
 
@@ -20,11 +20,10 @@ if (
   document.documentElement.setAttribute('data-visual-test', 'true')
 }
 
-if (typeof window !== 'undefined') {
-  void preResolveCurrentRoute(currentRoutes, window.location.pathname)
-}
-
-renderPortalApp(PortalApp, { props: { routes: currentRoutes } })
+void bootstrapPortalApp(PortalApp, currentRoutes, {
+  pathname:
+    typeof window !== 'undefined' ? window.location.pathname : undefined,
+})
 
 if (import.meta.hot) {
   import.meta.hot.accept((mod) => {
