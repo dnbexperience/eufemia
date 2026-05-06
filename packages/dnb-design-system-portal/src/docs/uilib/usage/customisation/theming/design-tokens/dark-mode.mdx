@@ -63,16 +63,11 @@ If you are styling Eufemia components, prefer `surface="dark"` where supported. 
 Dark mode tokens are not included in the default theme import. Import the extra dark mode stylesheet before using `colorScheme`:
 
 ```tsx
-import { Theme } from '@dnb/eufemia/shared'
+// DNB theme
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
 
-// Required: import dark mode tokens
-import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css' // If style isolation is used
-
-render(
-  <Theme colorScheme="auto">
-    <App />
-  </Theme>
-)
+// Sbanken theme
+import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
 ```
 
 For runtime setup, persistence, and SSR details, see the [`colorScheme` property](/uilib/usage/customisation/theming/theme/#the-colorscheme-property-dark-mode).

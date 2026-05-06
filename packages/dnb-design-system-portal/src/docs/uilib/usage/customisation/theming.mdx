@@ -87,16 +87,21 @@ When set to `"auto"`, it follows the user's system color preference unless overr
 Dark mode tokens are not included in the default theme import. You need to import them separately:
 
 ```tsx
-import { Theme } from '@dnb/eufemia/shared'
+// DNB theme
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
 
-// Required: import dark mode tokens
-import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css' // If style isolation is used
+// Sbanken theme
+import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css'
+```
 
-render(
-  <Theme colorScheme="auto">
-    <App />
-  </Theme>
-)
+For Tailwind, dark tokens are in a separate file per theme:
+
+```css
+/* DNB theme */
+@import '@dnb/eufemia/style/themes/ui/tokens-dark-tailwind.css';
+
+/* Sbanken theme */
+@import '@dnb/eufemia/style/themes/sbanken/tokens-dark-tailwind.css';
 ```
 
 When the `eufemia-theme__color-scheme--dark` class is active, the dark tokens override the same CSS custom property names with dark-appropriate values. For example, `--token-color-background-page-background` switches from `--dnb-greyscale-0` (white) to `--dnb-greyscale-1000` (dark).

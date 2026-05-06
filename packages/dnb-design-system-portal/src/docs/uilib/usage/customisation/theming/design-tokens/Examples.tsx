@@ -9,7 +9,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { basicComponents } from '../../../../../../shared/tags'
 import Table from '../../../../../../shared/tags/Table'
 import Anchor from '../../../../../../shared/tags/Anchor'
-import { Td, Th, Tooltip, Tr, Card, P, Lead } from '@dnb/eufemia/src'
+import { Td, Th, Tooltip, Tr, Card, P, Lead, Flex } from '@dnb/eufemia/src'
 import { Theme, useTheme } from '@dnb/eufemia/src/shared'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
@@ -172,15 +172,10 @@ const darkModeSwatchRows: DarkModeSwatch[] = [
 ]
 
 const darkModeGridStyle: CSSProperties = {
-  display: 'grid',
+  display: 'inline-grid',
   gap: '1rem',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
-  marginBlock: '1.5rem',
-}
-
-const darkModeSwatchListStyle: CSSProperties = {
-  display: 'grid',
-  gap: '0.75rem',
+  gridTemplateColumns: 'repeat(2, auto)',
+  placeItems: 'start',
 }
 
 const darkModeCardInnerStyle: CSSProperties = {
@@ -190,21 +185,12 @@ const darkModeCardInnerStyle: CSSProperties = {
   justifyContent: 'space-between',
 }
 
-const darkModeCardLabelStyle: CSSProperties = {
-  display: 'grid',
-  gap: '0.25rem',
-}
-
 const darkModeCardNameStyle: CSSProperties = {
   margin: 0,
-  // fontSize: '1rem',
-  // fontWeight: 600,
-  // lineHeight: 1.2,
 }
 
 const darkModeCardSurfaceStyle: CSSProperties = {
   margin: 0,
-  // fontSize: '0.75rem',
   opacity: 0.8,
 }
 
@@ -275,27 +261,16 @@ const DarkModeCard = ({
   const surfaceStyle = getCardSurfaceStyle(scheme, row.surface, theme)
 
   return (
-    <Card style={surfaceStyle} stack>
+    <Card style={surfaceStyle} stack gap="small">
       <div style={darkModeCardInnerStyle}>
-        <div style={darkModeCardLabelStyle}>
-          <Lead
-            style={{
-              ...darkModeCardNameStyle,
-              color: `var(${row.textToken})`,
-            }}
-          >
-            {row.label}
-          </Lead>
-          <P
-            className="dnb-t__size--x-small"
-            style={{
-              ...darkModeCardSurfaceStyle,
-              color: `var(${row.textToken})`,
-            }}
-          >
-            {getSurfaceLabel(row.surface)}
-          </P>
-        </div>
+        <Lead
+          style={{
+            ...darkModeCardNameStyle,
+            color: `var(${row.textToken})`,
+          }}
+        >
+          {row.label}
+        </Lead>
         <span
           aria-hidden
           style={{
@@ -314,6 +289,15 @@ const DarkModeCard = ({
           </svg>
         </span>
       </div>
+      <P
+        className="dnb-t__size--x-small"
+        style={{
+          ...darkModeCardSurfaceStyle,
+          color: `var(${row.textToken})`,
+        }}
+      >
+        {getSurfaceLabel(row.surface)}
+      </P>
       <div style={darkModeCardTokensStyle}>
         <MDXCode>{row.textToken}</MDXCode>
       </div>
@@ -336,7 +320,7 @@ export function DarkModeTokenSwatches() {
           }
         >
           <Theme colorScheme={scheme}>
-            <div style={darkModeSwatchListStyle}>
+            <Flex.Stack gap="small">
               {darkModeSwatchRows.map((row) => (
                 <DarkModeCard
                   key={`${scheme}-${row.label}`}
@@ -344,7 +328,7 @@ export function DarkModeTokenSwatches() {
                   row={row}
                 />
               ))}
-            </div>
+            </Flex.Stack>
           </Theme>
         </Card>
       ))}
