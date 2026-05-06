@@ -217,7 +217,6 @@
     "lockfile-lint": "4.14.1",
     "lodash.isequal": "4.5.0",
     "lodash.isequalwith": "4.4.0",
-    "markdown-tables-utils": "workspace:*",
     "mock-match-media": "0.3.0",
     "nodemon": "2.0.15",
     "opentype.js": "1.3.4",
