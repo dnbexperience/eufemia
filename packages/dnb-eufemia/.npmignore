@@ -47,7 +47,11 @@ audit-ci.json
 # conf
 package-scripts.js
 static.config.js
-jest.config.js
+vitest.config.ts
+vitest.config.*.ts
+vitest.d.ts
+jest.d.ts
+lebab.d.ts
 tsdown.config.ts
 postcss.config.js
 

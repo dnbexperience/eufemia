@@ -366,11 +366,22 @@ export default [
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
     ...config,
     files: ['**/__tests__/**'],
+    settings: {
+      ...(config.settings || {}),
+      // Hardcoded because the jest package is no longer installed (vitest is the
+      // sole runner). eslint-plugin-jest still lints test files via the compat
+      // shim, but it can't auto-detect the version without the jest package.
+      jest: { version: 30 },
+    },
   })),
   {
     files: ['**/__tests__/**'],
     plugins: {
       jest: jestPlugin,
+    },
+    settings: {
+      // See comment above — jest package is removed; version must be explicit.
+      jest: { version: 30 },
     },
     rules: {
       'no-console': 'off',

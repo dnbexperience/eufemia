@@ -48,9 +48,9 @@ import '@dnb/eufemia/cjs/style'
 require('@dnb/eufemia/cjs/style')
 ```
 
-#### Jest and ESM (Node testing environments)
+#### Jest/Vitest and ESM (Node testing environments)
 
-Older Jest versions uses still CommonJS as the default module format. If you use the default `@dnb/eufemia` imports, then you get a mismatch between ES module and CommonJS formats. To ensure that Jest transforms your code in to CJS, you can use the following Jest configuration `--moduleNameMapper`
+Older Jest versions still use CommonJS as the default module format. If you use the default `@dnb/eufemia` imports, then you get a mismatch between ES module and CommonJS formats. To ensure that Jest transforms your code into CJS, you can use the following Jest configuration `--moduleNameMapper`
 
 ```bash
 jest --moduleNameMapper '{"@dnb/eufemia(.*)":"@dnb/eufemia/cjs$1"}'
@@ -63,4 +63,14 @@ or in a `jest.config.js` or `jest.preset.js` file:
     ...
     moduleNameMapper: { '@dnb/eufemia(.*)': '@dnb/eufemia/cjs$1' }
   }
+```
+
+If you use [Vitest](https://vitest.dev/), configure the alias in `vitest.config.ts`:
+
+```ts
+export default defineConfig({
+  resolve: {
+    alias: { '@dnb/eufemia': '@dnb/eufemia/cjs' },
+  },
+})
 ```

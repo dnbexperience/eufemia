@@ -161,14 +161,14 @@ By default, CI still stops on the first failure (`--bail`). You can force a full
 
 ```bash
 git commit -m "feat: implement new feature"
-# Runs: yarn jest --config=./jest.config.screenshots.js --ci --bail --maxWorkers=1
+# Runs: playwright test --config=./playwright.config.screenshots.ts
 ```
 
 **Run all tests (continues on failures):**
 
 ```bash
 git commit -m "feat: implement new feature --run-all"
-# Runs: yarn jest --config=./jest.config.screenshots.js --ci --maxWorkers=1
+# Runs: playwright test --config=./playwright.config.screenshots.ts
 ```
 
 This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.

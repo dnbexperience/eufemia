@@ -8,7 +8,7 @@
   "main": "src/index.ts",
   "license": "SEE LICENSE IN LICENSE FILE",
   "scripts": {
-    "test": "BABEL_ENV=es node --experimental-vm-modules ../../node_modules/.bin/jest --config ./jest.config.js",
+    "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts",
     "generate": "node --experimental-strip-types scripts/run-llm-metadata.ts"
@@ -27,7 +27,8 @@
     "@babel/types": "7.28.5",
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
-    "prettier": "3.8.1"
+    "prettier": "3.8.1",
+    "vitest": "4.1.5"
   },
   "volta": {
     "extends": "../../package.json"

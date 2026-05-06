@@ -22,8 +22,7 @@ export function safeSetSelection(
     document.activeElement === element ||
     // In test environments, document.activeElement is not reliably set
     // because JSDOM does not manage focus the same way browsers do.
-    // This gate is stripped in production builds via NODE_ENV.
-    (process.env.NODE_ENV !== 'production' && typeof jest !== 'undefined')
+    process.env.NODE_ENV === 'test'
   ) {
     const select = () => {
       try {
