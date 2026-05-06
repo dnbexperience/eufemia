@@ -7,7 +7,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { createRequire } from 'node:module'
-import rawLoaderCompatPlugin from './vite/client/plugins/raw-loader-compat'
 import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports'
 import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel'
 import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx'
@@ -75,8 +74,6 @@ export default defineConfig({
     // MDX support — must come before React plugin so .mdx files
     // are transformed to JSX before React processes them
     portalMdxPlugin(),
-
-    rawLoaderCompatPlugin(),
 
     stripMissingExampleImportsPlugin(),
 
