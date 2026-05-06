@@ -493,8 +493,10 @@ describe('prerender-utils', () => {
       ).toBe('/uilib/components/slider.md')
     })
 
-    it('returns null for non-uilib pages', () => {
-      expect(getMdPath('/quickguide-designer/', allMdxNodes)).toBeNull()
+    it('returns .md path for non-uilib entry pages', () => {
+      expect(getMdPath('/quickguide-designer/', allMdxNodes)).toBe(
+        '/quickguide-designer.md'
+      )
     })
 
     it('returns null for uilib pages without a matching entry', () => {

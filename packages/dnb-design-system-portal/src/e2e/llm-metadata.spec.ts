@@ -50,11 +50,62 @@ test.describe('LLM integration', () => {
     expect(mdBody).not.toContain('hideTabs:')
   })
 
-  test('known .md pages have matching html pages', async () => {
+  test('top-level docs pages generate markdown copies', async () => {
+    const mdPaths = ['/quickguide-designer.md', '/uilib.md']
+    const publicDir = path.resolve(__dirname, '..', '..', 'public')
+
+    for (const mdPath of mdPaths) {
+      const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))
+      expect(fs.existsSync(mdFile)).toBeTruthy()
+      const mdBody = fs.readFileSync(mdFile, 'utf-8')
+      expect(mdBody.startsWith('---\n')).toBeTruthy()
+      expect(mdBody).toMatch(/^#\s+/m)
+    }
+
+    const uilibBody = fs.readFileSync(
+      path.join(publicDir, 'uilib.md'),
+      'utf-8'
+    )
+    expect(uilibBody).toContain('# UI library')
+    expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
+
+    const iconsMdFile = path.join(publicDir, 'icons.md')
+    expect(fs.existsSync(iconsMdFile)).toBeFalsy()
+  })
+
+  test('icons pages list concrete icons in rendered output', async ({
+    page,
+  }) => {
+    await page.goto('/icons/primary/')
+    await expect(
+      page.getByRole('heading', { name: 'Primary Icons', exact: true })
+    ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
+
+    await page.goto('/icons/secondary/')
+    await expect(page.locator('main')).toContainText(
+      'A list of all Secondary Icons'
+    )
+    await expect(
+      page.getByRole('heading', { name: 'user_feedback' })
+    ).toBeVisible()
+  })
+
+  test('known .md pages have matching html pages', async ({ request }) => {
     const mdPaths = [
       '/uilib/components/button.md',
       '/uilib/components/card.md',
+      '/quickguide-designer.md',
+      '/uilib.md',
     ]
+    const excludedMdPaths = [
+      '/icons.md',
+      '/uilib/extensions/payment-card/products.md',
+    ]
+    const mdPathsWithCodeBlocks = new Set([
+      '/uilib/components/button.md',
+      '/uilib/components/card.md',
+    ])
     const publicDir = path.resolve(__dirname, '..', '..', 'public')
     const firstMdFile = path.join(publicDir, mdPaths[0].replace(/^\//, ''))
     if (!fs.existsSync(firstMdFile)) {
@@ -70,16 +121,25 @@ test.describe('LLM integration', () => {
       expect(fs.existsSync(mdFile)).toBeTruthy()
       const mdBody = fs.readFileSync(mdFile, 'utf-8')
       expect(mdBody).not.toContain('doc:')
-      expect(mdBody).toMatch(/```[a-z]*\n[\s\S]*```/)
 
-      const htmlFile = path.join(
-        publicDir,
-        mdPath.replace(/^\//, '').replace(/\.md$/, ''),
-        'index.html'
-      )
-      expect(fs.existsSync(htmlFile)).toBeTruthy()
-      const htmlBody = fs.readFileSync(htmlFile, 'utf-8')
+      if (mdPathsWithCodeBlocks.has(mdPath)) {
+        expect(mdBody).toMatch(/```[a-z]*\n[\s\S]*```/)
+      } else {
+        expect(mdBody).toMatch(/^#\s+/m)
+      }
+
+      const htmlPath = mdPath.replace(/\.md$/, '/')
+      const htmlResponse = await request.get(htmlPath)
+
+      expect(htmlResponse.ok()).toBeTruthy()
+
+      const htmlBody = await htmlResponse.text()
       expect(htmlBody.toLowerCase()).toContain('<!doctype html')
+    }
+
+    for (const mdPath of excludedMdPaths) {
+      const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))
+      expect(fs.existsSync(mdFile)).toBeFalsy()
     }
   })
 })

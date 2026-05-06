@@ -6,11 +6,13 @@ import {
   buildMetadata,
   createMarkdownCopies,
   extractTableDocs,
+  formatUnhandledStandaloneMdxWarnings,
   findDocExtras,
   findEntryMdxFiles,
   findSourceInfo,
   findRepoRoot,
-  loadTsDocs,
+  loadTsDocsForDocPath,
+  resetUnhandledStandaloneMdxWarnings,
   mergeDocs,
   resolveMetaText,
   toSlugAndDir,
@@ -40,6 +42,7 @@ export async function generateDocs() {
   }
 
   console.log('[llm-metadata] build started ...')
+  resetUnhandledStandaloneMdxWarnings()
 
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
@@ -50,8 +53,7 @@ export async function generateDocs() {
     'packages',
     'dnb-design-system-portal',
     'src',
-    'docs',
-    'uilib'
+    'docs'
   )
   const robotsRoot = path.join(
     repoRoot,
@@ -60,11 +62,12 @@ export async function generateDocs() {
     'static'
   )
   const outputRoot = path.join(packageRoot, 'build', 'docs')
-  await fs.ensureDir(outputRoot)
+  await fs.emptyDir(outputRoot)
 
   const version = await getNextReleaseVersion()
   const robots = await loadRobots(robotsRoot)
   const entryFiles = await findEntryMdxFiles(docsRoot)
+  const allowedEntryFiles: string[] = []
 
   const results: Array<any> = []
   const metadataBySlug = new Map<
@@ -77,18 +80,20 @@ export async function generateDocs() {
   >()
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel)
+    const { slug } = toSlugAndDir(rel, '')
 
     if (!isAllowed(slug, robots)) {
       continue
     }
+
+    allowedEntryFiles.push(file)
 
     const { propsFile, eventsFile, demosFile } = await findDocExtras(file)
 
     let props: Record<string, any> = {}
     let events: Record<string, any> = {}
 
-    const tsDocs = await loadTsDocs(rel)
+    const tsDocs = await loadTsDocsForDocPath(rel)
     props = mergeDocs(props, tsDocs.props)
     events = mergeDocs(events, tsDocs.events)
 
@@ -139,6 +144,8 @@ export async function generateDocs() {
     siteDir: repoRoot,
     docsRoot,
     outputRoot,
+    entryFiles: allowedEntryFiles,
+    slugBase: '',
     publicUrlBase: PUBLIC_URL_BASE,
     metadataBySlug,
   })
@@ -152,8 +159,14 @@ export async function generateDocs() {
     llmsFilename: 'llm.md',
   })
 
+  const warningSummary = formatUnhandledStandaloneMdxWarnings()
+
+  if (warningSummary) {
+    console.warn(warningSummary)
+  }
+
   console.info(
-    `[llm-metadata] build outputs: ${entryFiles.length} markdown copies, llm.md`
+    `[llm-metadata] build outputs: ${allowedEntryFiles.length} markdown copies, llm.md`
   )
   console.log('[llm-metadata] build done!')
 }

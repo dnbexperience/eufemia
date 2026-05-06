@@ -1,7 +1,8 @@
 /**
  * Generate LLM metadata for the Vite portal build.
  *
- * 1. Scans src/docs/uilib/ for MDX entry files
+ * Mirrors the Gatsby plugin's onPostBuild logic:
+ * 1. Scans src/docs/ for MDX entry files
  * 2. Extracts props/events from TypeScript docs and MDX tables
  * 3. Writes markdown copies of each doc to vite/dist/
  * 4. Writes llms.txt to vite/dist/
@@ -16,12 +17,13 @@ import {
   buildMetadata,
   createMarkdownCopies,
   extractTableDocs,
+  formatUnhandledStandaloneMdxWarnings,
   findDocExtras,
   findEntryMdxFiles,
   findSourceInfo,
-  LLM_DOCS_SLUG_PREFIX,
-  loadTsDocs,
+  loadTsDocsForDocPath,
   mergeDocs,
+  resetUnhandledStandaloneMdxWarnings,
   resolveMetaText,
   toSlugAndDir,
   writeLlmsText,
@@ -32,15 +34,17 @@ const portalRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '../..'
 )
-const docsRoot = path.join(portalRoot, 'src', 'docs', LLM_DOCS_SLUG_PREFIX)
+const docsRoot = path.join(portalRoot, 'src', 'docs')
 const outputRoot = path.join(portalRoot, 'public')
 
 async function main() {
+  resetUnhandledStandaloneMdxWarnings()
   console.log('[llm-metadata] Scanning MDX docs for entries')
 
   const version = await getNextReleaseVersion()
   const robots = await loadRobots(path.join(portalRoot, 'static'))
   const entryFiles = await findEntryMdxFiles(docsRoot)
+  const allowedEntryFiles: string[] = []
 
   const results: Array<any> = []
   const metadataBySlug = new Map<
@@ -54,18 +58,20 @@ async function main() {
 
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel)
+    const { slug } = toSlugAndDir(rel, '')
 
     if (!isAllowed(slug, robots)) {
       continue
     }
+
+    allowedEntryFiles.push(file)
 
     const { propsFile, eventsFile, demosFile } = await findDocExtras(file)
 
     let props: Record<string, any> = {}
     let events: Record<string, any> = {}
 
-    const tsDocs = await loadTsDocs(rel)
+    const tsDocs = await loadTsDocsForDocPath(rel)
     props = mergeDocs(props, tsDocs.props)
     events = mergeDocs(events, tsDocs.events)
 
@@ -122,6 +128,8 @@ async function main() {
     siteDir: portalRoot,
     docsRoot,
     outputRoot,
+    entryFiles: allowedEntryFiles,
+    slugBase: '',
     metadataBySlug,
     skipFormat: true,
   })
@@ -132,6 +140,12 @@ async function main() {
     results,
     outputRoot,
   })
+
+  const warningSummary = formatUnhandledStandaloneMdxWarnings()
+
+  if (warningSummary) {
+    console.warn(warningSummary)
+  }
 
   console.log('[llm-metadata] Markdown copies are ready')
 }

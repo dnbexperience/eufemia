@@ -202,7 +202,7 @@ async function prerender() {
   const fontsSource = path.resolve(eufemiaRoot, 'assets', 'fonts')
   const fontsDest = path.resolve(outDir, 'fonts')
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
-  console.log(`✓ Copied fonts to ${fontsDest}`)
+  console.log(`\n✓ Copied fonts to ${fontsDest}`)
 
   /**
    * Write HTML to the correct path in the output directory.

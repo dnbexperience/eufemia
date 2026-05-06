@@ -253,45 +253,44 @@ export const TabsExampleMaxWidth = () => (
   </ComponentBox>
 )
 
-export const TabsExampleReachRouterNavigation = () =>
-  typeof window === 'undefined' ? null : (
-    <Wrapper>
-      <ComponentBox scope={{ useLocation, Router, navigate }}>
-        {() => {
-          const Home = ({ path, default: d }) => <H2>Home</H2>
-          const About = ({ path }) => <H2>About</H2>
-          const Topics = ({ path }) => <H2>Topics</H2>
+export const TabsExampleReachRouterNavigation = () => (
+  <Wrapper>
+    <ComponentBox scope={{ useLocation, Router, navigate }}>
+      {() => {
+        const Home = ({ path, default: d }) => <H2>Home</H2>
+        const About = ({ path }) => <H2>About</H2>
+        const Topics = ({ path }) => <H2>Topics</H2>
 
-          const Component = () => {
-            const { pathname } = useLocation()
+        const Component = () => {
+          const { pathname } = useLocation()
 
-            return (
-              <Tabs
-                data={[
-                  { title: 'Home', key: '/' },
-                  { title: 'About', key: '/about' },
-                  { title: 'Topics', key: '/topics' },
-                ]}
-                selectedKey={pathname}
-                onChange={({ key }) => navigate(String(key))}
-                tabsStyle="information"
-              >
-                <Suspense fallback={<em>Loading ...</em>}>
-                  <Router>
-                    <Home path="/" default />
-                    <About path="/about" />
-                    <Topics path="/topics" />
-                  </Router>
-                </Suspense>
-              </Tabs>
-            )
-          }
+          return (
+            <Tabs
+              data={[
+                { title: 'Home', key: '/' },
+                { title: 'About', key: '/about' },
+                { title: 'Topics', key: '/topics' },
+              ]}
+              selectedKey={pathname}
+              onChange={({ key }) => navigate(String(key))}
+              tabsStyle="information"
+            >
+              <Suspense fallback={<em>Loading ...</em>}>
+                <Router>
+                  <Home path="/" default />
+                  <About path="/about" />
+                  <Topics path="/topics" />
+                </Router>
+              </Suspense>
+            </Tabs>
+          )
+        }
 
-          return <Component />
-        }}
-      </ComponentBox>
-    </Wrapper>
-  )
+        return <Component />
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
 
 const exampleContent = {
   first: () => <h2 className="dnb-h--large">First</h2>,
