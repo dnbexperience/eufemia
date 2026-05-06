@@ -1,3 +1,1 @@
-# pings tujoworker when PRs are made to these packages
-packages/dnb-design-system-portal/*  @tujoworker
-packages/eufemia/*  @tujoworker
+
