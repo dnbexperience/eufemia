@@ -3,15 +3,20 @@ const { execFile } = require('child_process')
 function runCommand(command) {
   return new Promise((resolve, reject) => {
     try {
-      execFile('/bin/sh', ['-lc', command], (error, stdout, stderr) => {
-        if (error) {
-          return reject(error)
+      execFile(
+        '/bin/sh',
+        ['-c', command],
+        { timeout: 10000 },
+        (error, stdout, stderr) => {
+          if (error) {
+            return reject(error)
+          }
+          if (stderr) {
+            return reject(stderr)
+          }
+          return resolve(stdout)
         }
-        if (stderr) {
-          return reject(stderr)
-        }
-        return resolve(stdout)
-      })
+      )
     } catch (e) {
       reject(e)
     }
