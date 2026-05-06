@@ -1,5 +1,4 @@
 import { test, expect, type Locator } from '@playwright/test'
-import isVite from './shared/isVite'
 import waitForApp from './shared/waitForApp'
 
 const expandAllSidebarItems = async (page) => {
@@ -76,11 +75,10 @@ test.describe('Page Lists', () => {
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
-    test('should have same amount of extensions', async ({ page }) => {
-      if (await isVite(page)) {
-        // Vite renders all extension sub-pages inline — skip count comparison
-        return
-      }
+    test.skip('should have same amount of extensions', async ({
+      page,
+    }) => {
+      // Vite renders all extension sub-pages inline.
 
       const listLength = await page
         .locator(
@@ -90,7 +88,7 @@ test.describe('Page Lists', () => {
 
       await expect(
         page.locator(
-          '#tab-bar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))'
+          '#tab-bar-content h2:has(a[href*="/uilib/extensions/":not([aria-hidden]))'
         )
       ).toHaveCount(listLength)
     })

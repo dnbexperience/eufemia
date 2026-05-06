@@ -1,7 +1,6 @@
 /**
  * Generate LLM metadata for the Vite portal build.
  *
- * Mirrors the Gatsby plugin's onPostBuild logic:
  * 1. Scans src/docs/uilib/ for MDX entry files
  * 2. Extracts props/events from TypeScript docs and MDX tables
  * 3. Writes markdown copies of each doc to vite/dist/

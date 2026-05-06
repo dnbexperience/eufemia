@@ -1,5 +1,5 @@
 /**
- * Port of gatsby-plugin-eufemia-theme-handler for Vite.
+ * Runtime theme handler used by the portal.
  *
  * Provides the same runtime API: useThemeHandler, getTheme, setTheme, etc.
  * Theme switching works via the `data-dnb-theme` attribute on <html>,
@@ -10,6 +10,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
+import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -25,18 +26,22 @@ declare global {
 const STORAGE_KEY = 'eufemia-theme'
 const DEFAULT_THEME = 'ui'
 
-const availableThemes: Record<string, { name: string }> = {
+type ThemeColorScheme = 'auto' | 'light' | 'dark'
+
+const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   ui: { name: 'DNB' },
   sbanken: { name: 'Sbanken (WIP)' },
   eiendom: { name: 'DNB Eiendom' },
   carnegie: { name: 'DNB Carnegie (WIP)' },
 }
 
-const themeNames = Object.keys(availableThemes)
+const themeNames: ThemeNames[] = Object.keys(
+  availableThemes
+) as ThemeNames[]
 
 export type ThemeState = {
-  name: string
-  colorScheme?: string
+  name: ThemeNames
+  colorScheme?: ThemeColorScheme
 }
 
 // Simple event emitter for cross-component theme updates
@@ -51,8 +56,8 @@ export function getThemes() {
   return availableThemes
 }
 
-export function isValidTheme(name: string) {
-  return themeNames.includes(name)
+export function isValidTheme(name: string): name is ThemeNames {
+  return themeNames.includes(name as ThemeNames)
 }
 
 export function getTheme(): ThemeState {

@@ -46,8 +46,6 @@ jobs:
 
       - name: Build
         run: yarn workspace dnb-design-system-portal build
-        env:
-          GATSBY_IS_PREVIEW: 'true'
 
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy

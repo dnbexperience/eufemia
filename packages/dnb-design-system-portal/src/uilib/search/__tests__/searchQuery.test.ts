@@ -1,47 +1,24 @@
-import { describe, it, expect, vi, afterAll } from 'vitest'
+import { describe, it, expect } from 'vitest'
+import { findAncestorPages, flattenPageEdges } from '../algoliaRecords.js'
 
-// searchQuery.js is CJS and evaluates require('./searchHelpers') at load time.
-// vi.mock can't intercept CJS require chains, so we set env vars in vi.hoisted
-// (which runs before imports) to control the real searchHelpers behavior.
-const origEnv = vi.hoisted(() => {
-  const orig = { ...process.env }
-  process.env.ALGOLIA_API_KEY = 'test-key'
-  process.env.NODE_ENV = 'production'
-  process.env.CI = ''
-  return orig
-})
-
-import queries from '../searchQuery'
-
-describe('searchQuery', () => {
-  afterAll(() => {
-    process.env = origEnv
-  })
-
-  const { indexName, transformer } = queries?.[0] || {
-    transformer: () => null,
-  }
-
-  const makeNode = (node) => {
-    const edges = [
-      {
-        node: { siblings: [], headings: [], ...node },
-      },
-    ]
-    const data = { pages: { edges } }
-
-    return { data }
-  }
+describe('algoliaRecords', () => {
+  const makeNode = (node) => [
+    {
+      node: { siblings: [], headings: [], ...node },
+    },
+  ]
 
   it('should skip node when no title is found', () => {
     expect(
-      transformer(makeNode({ fields: { slug: '/page' }, frontmatter: {} }))
+      flattenPageEdges(
+        makeNode({ fields: { slug: '/page' }, frontmatter: {} })
+      )
     ).toHaveLength(0)
   })
 
   it('should remove node when draft is given', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page' },
           frontmatter: { draft: true },
@@ -52,7 +29,7 @@ describe('searchQuery', () => {
 
   it('should remove release pages from Algolia records', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: {
             slug: 'uilib/about-the-lib/releases/eufemia/v11-info',
@@ -63,9 +40,20 @@ describe('searchQuery', () => {
     ).toHaveLength(0)
   })
 
+  it('should remove changelog pages from Algolia records', () => {
+    expect(
+      flattenPageEdges(
+        makeNode({
+          fields: { slug: 'EUFEMIA_CHANGELOG' },
+          frontmatter: { title: 'Changelog' },
+        })
+      )
+    ).toHaveLength(0)
+  })
+
   it('should collect headings', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page' },
           frontmatter: {},
@@ -77,7 +65,7 @@ describe('searchQuery', () => {
 
   it('should collect frontmatter title and headings', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page' },
           frontmatter: { title: 'Title 1' },
@@ -109,7 +97,7 @@ describe('searchQuery', () => {
 
   it('should use frontmatter search field as title', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page' },
           frontmatter: { search: 'search string' },
@@ -134,7 +122,7 @@ describe('searchQuery', () => {
 
   it('should collect siblings and use it as category', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page-1' },
           frontmatter: { title: 'Title 1' },
@@ -164,7 +152,7 @@ describe('searchQuery', () => {
 
   it('should use heading depth 2 from headings, when no title else exist', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page-1' },
           frontmatter: {},
@@ -197,7 +185,7 @@ describe('searchQuery', () => {
 
   it('should use title from siblings, when slug matches', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/page-1' },
           frontmatter: {},
@@ -230,7 +218,7 @@ describe('searchQuery', () => {
 
   it('should use closest sibling with title when multiple siblings exist', () => {
     expect(
-      transformer(
+      flattenPageEdges(
         makeNode({
           fields: { slug: '/uilib/components/country-flag/properties' },
           frontmatter: {},
@@ -254,7 +242,26 @@ describe('searchQuery', () => {
     ).toBe('CountryFlag → Properties')
   })
 
-  it('should have indexName', () => {
-    expect(indexName).toBe('dev_eufemia_docs')
+  it('should find ancestors ordered from closest to farthest', () => {
+    expect(
+      findAncestorPages('/uilib/components/country-flag/properties', [
+        {
+          fields: { slug: '/uilib' },
+          frontmatter: { title: 'UI Library' },
+        },
+        {
+          fields: { slug: '/uilib/components' },
+          frontmatter: { title: 'Components' },
+        },
+        {
+          fields: { slug: '/uilib/components/country-flag' },
+          frontmatter: { title: 'CountryFlag' },
+        },
+      ]).map(({ fields }) => fields.slug)
+    ).toEqual([
+      '/uilib/components/country-flag',
+      '/uilib/components',
+      '/uilib',
+    ])
   })
 })

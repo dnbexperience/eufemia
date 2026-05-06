@@ -2,9 +2,8 @@
  * Vite plugin that persists and restores scroll positions for
  * specified DOM elements across route changes.
  *
- * Equivalent to Gatsby's `gatsby-plugin-scroll-position`. The runtime
- * code is served via a virtual module (`virtual:scroll-position`) that
- * exports helper functions and a React hook.
+ * The runtime code is served via a virtual module (`virtual:scroll-position`)
+ * that exports helper functions and a React hook.
  */
 
 import type { Plugin } from 'vite'

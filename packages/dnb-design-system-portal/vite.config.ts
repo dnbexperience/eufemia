@@ -36,7 +36,6 @@ export default defineConfig({
   // Serve static files from the portal's static/ directory (favicons, images, etc.)
   publicDir: path.resolve(__dirname, 'static'),
 
-  // Output to public/ — same directory Gatsby uses, so deployment
   // pipelines work unchanged.
   build: {
     outDir: path.resolve(__dirname, 'public'),
@@ -44,7 +43,7 @@ export default defineConfig({
   },
 
   plugins: [
-    // Redirect /path/index.html → /path/ to match Gatsby's clean-URL behavior
+    // Redirect /path/index.html → /path/ for SPA navigation and cleaner URLs
     redirectIndexHtmlPlugin(),
 
     // Prefetch route chunks when internal links are hovered or focused
@@ -215,7 +214,7 @@ export default defineConfig({
     // File-system routing and virtual page registry
     portalPagesPlugin(),
 
-    // Eufemia theme style loading (replaces gatsby-plugin-eufemia-theme-handler)
+    // Eufemia theme style loading for the portal runtime
     eufemiaThemePlugin(),
 
     // Portal build information (release version, build timestamp, changelog)
@@ -291,12 +290,8 @@ export default defineConfig({
         __dirname,
         'vite/client/shims/portal-query.tsx'
       ),
-      'gatsby-plugin-eufemia-theme-handler': path.resolve(
-        __dirname,
-        'vite/client/shims/theme-handler.ts'
-      ),
 
-      // Match Gatsby's Docs alias
+      // Match Docs alias
       Docs: path.resolve(__dirname, 'src/docs'),
     },
   },

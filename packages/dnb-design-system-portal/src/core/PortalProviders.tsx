@@ -16,7 +16,7 @@ import GlobalStatus from '@dnb/eufemia/src/components/global-status/GlobalStatus
 import coreTranslations from '@dnb/eufemia/src/shared/locales'
 export { coreTranslations as translations }
 import PortalLayout, { type PortalLayoutProps } from './PortalLayout'
-import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
+import { useThemeHandler } from '../../vite/client/shims/theme-handler'
 import type {
   InternalLocale,
   TranslationsLoader,
@@ -67,8 +67,7 @@ export const supportedTranslationsKey = [
   'da-DK',
 ]
 
-// This ensures we processes also the css prop during build
-// More into in the docs: https://emotion.sh/docs/ssr#gatsby
+// This ensures we process the css prop during build.
 const createCacheInstance = () =>
   createEmotionCache({
     key: 'css',

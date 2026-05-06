@@ -55,10 +55,10 @@ async function main() {
     }),
   }
 
-  await generateDocsWithGatsby({ store })
+  await generateDocsForPortal({ store })
 }
 
-async function generateDocsWithGatsby({ store }: { store: Store }) {
+async function generateDocsForPortal({ store }: { store: Store }) {
   const previousCwd = process.cwd()
   try {
     const { program } = store.getState()

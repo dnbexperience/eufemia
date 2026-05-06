@@ -32,7 +32,6 @@ export type PageMeta = {
  * Collect all URLs to prerender from the route list.
  *
  * Filters out catch-all routes (`*`) and 404 routes.
- * Ensures trailing slashes to match Gatsby output convention.
  * Always includes the root `/`.
  */
 export function collectUrls(routes: RouteEntry[]): string[] {
