@@ -71,7 +71,9 @@ describe('type definitions', () => {
 
       const content = fs.readFileSync(file, 'utf-8')
       expect(content).toMatch(/export (type|interface) InputProps/)
-      expect(content).toContain("Omit<HTMLProps<HTMLInputElement>, 'ref'")
+      expect(content).toMatch(
+        /Omit<(?:React\.)?[A-Za-z]+<HTMLInputElement>, ['"]ref['"]/
+      )
       expect(content).toContain('SpacingProps')
     }
   )
@@ -420,34 +422,200 @@ describeDocsBuild('docs build', () => {
     expect(nonUilibMarkdown).toContain('# Tools')
   })
 
-  it('writes rendered icon markdown lists for primary and secondary icons', () => {
+  it('does not write markdown copies for docs excluded by robots', () => {
     const allIconsPath = path.join(docsRoot, 'icons.md')
     const primaryIconsPath = path.join(docsRoot, 'icons/primary.md')
     const secondaryIconsPath = path.join(docsRoot, 'icons/secondary.md')
 
-    expect(fs.existsSync(allIconsPath)).toBe(true)
-    expect(fs.existsSync(primaryIconsPath)).toBe(true)
-    expect(fs.existsSync(secondaryIconsPath)).toBe(true)
+    expect(fs.existsSync(allIconsPath)).toBe(false)
+    expect(fs.existsSync(primaryIconsPath)).toBe(false)
+    expect(fs.existsSync(secondaryIconsPath)).toBe(false)
+  })
 
-    const allIconsMarkdown = fs.readFileSync(allIconsPath, 'utf-8')
-    const primaryIconsMarkdown = fs.readFileSync(primaryIconsPath, 'utf-8')
-    const secondaryIconsMarkdown = fs.readFileSync(
-      secondaryIconsPath,
+  it('writes rendered markdown color tables for deprecated colors docs', () => {
+    const quickguideColorsPath = path.join(
+      docsRoot,
+      'quickguide-designer/colors.md'
+    )
+    const uilibColorsPath = path.join(
+      docsRoot,
+      'uilib/usage/customisation/colors.md'
+    )
+
+    expect(fs.existsSync(quickguideColorsPath)).toBe(true)
+    expect(fs.existsSync(uilibColorsPath)).toBe(true)
+
+    const quickguideColorsMarkdown = fs.readFileSync(
+      quickguideColorsPath,
+      'utf-8'
+    )
+    const uilibColorsMarkdown = fs.readFileSync(uilibColorsPath, 'utf-8')
+
+    for (const markdown of [
+      quickguideColorsMarkdown,
+      uilibColorsMarkdown,
+    ]) {
+      expect(markdown).not.toContain('ColorTable')
+      expect(markdown).not.toContain('ChangeStyleTheme')
+      expect(markdown).not.toContain('data-visual-test="color-table"')
+      expect(markdown).toContain('| Sample')
+      expect(markdown).toContain('CSS Custom Properties name |')
+      expect(markdown).toContain('`--color-black`')
+      expect(markdown).toContain('## DNB Colors')
+    }
+  })
+
+  it('writes inline token examples in design token docs', () => {
+    const designTokensPath = path.join(
+      docsRoot,
+      'uilib/usage/customisation/theming/design-tokens.md'
+    )
+    const designTokensColorsPath = path.join(
+      docsRoot,
+      'uilib/usage/customisation/theming/design-tokens/colors.md'
+    )
+
+    expect(fs.existsSync(designTokensPath)).toBe(true)
+    expect(fs.existsSync(designTokensColorsPath)).toBe(true)
+
+    const designTokensMarkdown = fs.readFileSync(designTokensPath, 'utf-8')
+    const designTokensColorsMarkdown = fs.readFileSync(
+      designTokensColorsPath,
       'utf-8'
     )
 
-    expect(allIconsMarkdown).not.toContain('ListAllIcons')
-    expect(allIconsMarkdown).toContain('`bell`')
-    expect(allIconsMarkdown).toContain('`user_feedback`')
-    expect(allIconsMarkdown).toContain('## Essentials')
+    for (const markdown of [
+      designTokensMarkdown,
+      designTokensColorsMarkdown,
+    ]) {
+      expect(markdown).not.toContain('TokenExample')
+    }
 
-    expect(primaryIconsMarkdown).not.toContain('ListAllIcons')
-    expect(primaryIconsMarkdown).toContain('`bell`')
-    expect(primaryIconsMarkdown).toContain('`chevron_right`')
+    expect(designTokensMarkdown).not.toContain('<br />')
 
-    expect(secondaryIconsMarkdown).not.toContain('ListAllIcons')
-    expect(secondaryIconsMarkdown).toContain('`user_feedback`')
-    expect(secondaryIconsMarkdown).toContain('`instagram`')
+    expect(designTokensMarkdown).toContain(
+      '- semantic token: `--token-color-text-neutral`'
+    )
+    expect(designTokensMarkdown).toContain(
+      '- semantic state token: `--token-color-background-action-hover-subtle`'
+    )
+    expect(designTokensMarkdown).toContain(
+      '- component token: `--token-color-component-button-background-action`'
+    )
+    expect(designTokensColorsMarkdown).toContain(
+      '`--token-color-component-button-background-action`.'
+    )
+  })
+
+  it('writes rendered token section tables in design token colors docs', () => {
+    const designTokensColorsPath = path.join(
+      docsRoot,
+      'uilib/usage/customisation/theming/design-tokens/colors.md'
+    )
+
+    expect(fs.existsSync(designTokensColorsPath)).toBe(true)
+
+    const designTokensColorsMarkdown = fs.readFileSync(
+      designTokensColorsPath,
+      'utf-8'
+    )
+
+    expect(designTokensColorsMarkdown).not.toContain('TokenSectionTable')
+    expect(designTokensColorsMarkdown).toMatch(
+      /\| Group\s+\| Token\s+\| DNB Light\s+\| DNB Dark\s+\| Sbanken Light\s+\| Sbanken Dark\s+\| Carnegie\s+\|/
+    )
+    expect(designTokensColorsMarkdown).toContain(
+      '`--token-color-text-neutral`'
+    )
+    expect(designTokensColorsMarkdown).toContain('## Text')
+  })
+
+  it('writes a rendered radius token table in design token docs', () => {
+    const designTokensRadiusPath = path.join(
+      docsRoot,
+      'uilib/usage/customisation/theming/design-tokens/radius.md'
+    )
+
+    expect(fs.existsSync(designTokensRadiusPath)).toBe(true)
+
+    const designTokensRadiusMarkdown = fs.readFileSync(
+      designTokensRadiusPath,
+      'utf-8'
+    )
+
+    expect(designTokensRadiusMarkdown).not.toContain('RadiusTokenTable')
+    expect(designTokensRadiusMarkdown).not.toContain('```tsx')
+    expect(designTokensRadiusMarkdown).toMatch(
+      /\| Token\s+\| DNB Light\s+\| DNB Dark\s+\| Sbanken Light\s+\| Sbanken Dark\s+\| Carnegie\s+\|/
+    )
+    expect(designTokensRadiusMarkdown).toContain('`--token-radius-sm`')
+    expect(designTokensRadiusMarkdown).toContain('`0.25rem`')
+  })
+
+  it('writes rendered properties tables for feature-field docs that use helper exports', () => {
+    const dateOfBirthPath = path.join(
+      docsRoot,
+      'uilib/extensions/forms/feature-fields/DateOfBirth.md'
+    )
+    const selectCurrencyPath = path.join(
+      docsRoot,
+      'uilib/extensions/forms/feature-fields/SelectCurrency.md'
+    )
+
+    expect(fs.existsSync(dateOfBirthPath)).toBe(true)
+    expect(fs.existsSync(selectCurrencyPath)).toBe(true)
+
+    const dateOfBirthMarkdown = fs.readFileSync(dateOfBirthPath, 'utf-8')
+    const selectCurrencyMarkdown = fs.readFileSync(
+      selectCurrencyPath,
+      'utf-8'
+    )
+
+    expect(dateOfBirthMarkdown).not.toContain('PropertiesTable')
+    expect(dateOfBirthMarkdown).toContain('"onBlur"')
+
+    expect(selectCurrencyMarkdown).not.toContain('PropertiesTable')
+    expect(selectCurrencyMarkdown).toContain('"currencies"')
+    expect(selectCurrencyMarkdown).toContain('"size"')
+  })
+
+  it('writes a rendered available countries table in form docs', () => {
+    const selectCountryPath = path.join(
+      docsRoot,
+      'uilib/extensions/forms/feature-fields/SelectCountry.md'
+    )
+    const countryFlagPath = path.join(
+      docsRoot,
+      'uilib/components/country-flag.md'
+    )
+
+    expect(fs.existsSync(selectCountryPath)).toBe(true)
+    expect(fs.existsSync(countryFlagPath)).toBe(true)
+
+    const selectCountryMarkdown = fs.readFileSync(
+      selectCountryPath,
+      'utf-8'
+    )
+    const countryFlagMarkdown = fs.readFileSync(countryFlagPath, 'utf-8')
+
+    for (const markdown of [selectCountryMarkdown, countryFlagMarkdown]) {
+      expect(markdown).not.toContain('AvailableCountriesTable')
+      expect(markdown).toMatch(
+        /\| ISO 3166-1 alpha-2 code\s+\| en\s+\| nb\s+\|/
+      )
+      expect(markdown).toMatch(
+        /\| `AF`\s+\| Afghanistan\s+\| Afghanistan\s+\|/
+      )
+    }
+  })
+
+  it('does not write markdown copies for payment-card docs excluded by robots', () => {
+    const paymentCardProductsPath = path.join(
+      docsRoot,
+      'uilib/extensions/payment-card/products.md'
+    )
+
+    expect(fs.existsSync(paymentCardProductsPath)).toBe(false)
   })
 })
 
@@ -466,7 +634,7 @@ describe('tsdown build', () => {
               ),
               'utf-8'
             )
-            expect(content).toMatch(/import\{.*\}from"react";/)
+            expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
               /import\*as \w from"\.\.\/icons\/dnb\/primary_icons";/ // "../icons/dnb/primary_icons"

@@ -596,9 +596,13 @@ function replaceComponentUsages(
   content: string,
   componentCode: Map<string, ComponentEntry | string>
 ) {
-  const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
+  const componentRegex = /<([A-Z][A-Za-z0-9_.]*)\s*\/>/g
 
   return content.replace(componentRegex, (match, name: string) => {
+    if (!isComponentReferenceName(name)) {
+      return match
+    }
+
     const entry = componentCode.get(name)
     if (!entry) {
       return match
@@ -614,6 +618,44 @@ function replaceComponentUsages(
     }
     return `\n\`\`\`tsx\n${entry.code}\n\`\`\`\n`
   })
+}
+
+function isComponentReferenceName(name: string) {
+  if (!name) {
+    return false
+  }
+
+  for (let index = 0; index < name.length; index++) {
+    const charCode = name.charCodeAt(index)
+    const isDot = charCode === 46
+    const isDigit = charCode >= 48 && charCode <= 57
+    const isUppercase = charCode >= 65 && charCode <= 90
+    const isUnderscore = charCode === 95
+    const isLowercase = charCode >= 97 && charCode <= 122
+
+    if (
+      !isDot &&
+      !isDigit &&
+      !isLowercase &&
+      !isUnderscore &&
+      !isUppercase
+    ) {
+      return false
+    }
+
+    if (isDot) {
+      if (
+        index === 0 ||
+        index === name.length - 1 ||
+        name.charCodeAt(index - 1) === 46
+      ) {
+        return false
+      }
+    }
+  }
+
+  const firstCharCode = name.charCodeAt(0)
+  return firstCharCode >= 65 && firstCharCode <= 90
 }
 
 function looksLikeMarkdown(code: string) {

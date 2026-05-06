@@ -17,11 +17,13 @@ import {
   buildMetadata,
   createMarkdownCopies,
   extractTableDocs,
+  formatUnhandledStandaloneMdxWarnings,
   findDocExtras,
   findEntryMdxFiles,
   findSourceInfo,
   loadTsDocsForDocPath,
   mergeDocs,
+  resetUnhandledStandaloneMdxWarnings,
   resolveMetaText,
   toSlugAndDir,
   writeLlmsText,
@@ -36,11 +38,13 @@ const docsRoot = path.join(portalRoot, 'src', 'docs')
 const outputRoot = path.join(portalRoot, 'public')
 
 async function main() {
+  resetUnhandledStandaloneMdxWarnings()
   console.log('[llm-metadata] Scanning MDX docs for entries')
 
   const version = await getNextReleaseVersion()
   const robots = await loadRobots(path.join(portalRoot, 'static'))
   const entryFiles = await findEntryMdxFiles(docsRoot)
+  const allowedEntryFiles: string[] = []
 
   const results: Array<any> = []
   const metadataBySlug = new Map<
@@ -59,6 +63,8 @@ async function main() {
     if (!isAllowed(slug, robots)) {
       continue
     }
+
+    allowedEntryFiles.push(file)
 
     const { propsFile, eventsFile, demosFile } = await findDocExtras(file)
 
@@ -122,6 +128,7 @@ async function main() {
     siteDir: portalRoot,
     docsRoot,
     outputRoot,
+    entryFiles: allowedEntryFiles,
     slugBase: '',
     metadataBySlug,
     skipFormat: true,
@@ -133,6 +140,12 @@ async function main() {
     results,
     outputRoot,
   })
+
+  const warningSummary = formatUnhandledStandaloneMdxWarnings()
+
+  if (warningSummary) {
+    console.warn(warningSummary)
+  }
 
   console.log('[llm-metadata] Markdown copies are ready')
 }

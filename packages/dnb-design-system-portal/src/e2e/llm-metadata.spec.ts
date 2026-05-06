@@ -50,30 +50,57 @@ test.describe('LLM integration', () => {
     expect(mdBody).not.toContain('hideTabs:')
   })
 
-  test('top-level docs pages expose markdown copies', async ({ page }) => {
-    const mdPaths = ['/icons.md', '/uilib.md']
+  test('top-level docs pages generate markdown copies', async () => {
+    const mdPaths = ['/quickguide-designer.md', '/uilib.md']
+    const publicDir = path.resolve(__dirname, '..', '..', 'public')
 
     for (const mdPath of mdPaths) {
-      const mdBody = await page.request.get(mdPath).then((r) => r.text())
+      const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))
+      expect(fs.existsSync(mdFile)).toBeTruthy()
+      const mdBody = fs.readFileSync(mdFile, 'utf-8')
       expect(mdBody.startsWith('---\n')).toBeTruthy()
       expect(mdBody).toMatch(/^#\s+/m)
     }
 
-    const iconsBody = await page.request
-      .get('/icons.md')
-      .then((r) => r.text())
-    expect(iconsBody).not.toContain('ListAllIcons')
-    expect(iconsBody).toContain('`bell`')
-    expect(iconsBody).toContain('`user_feedback`')
-    expect(iconsBody).toContain('## Essentials')
+    const uilibBody = fs.readFileSync(
+      path.join(publicDir, 'uilib.md'),
+      'utf-8'
+    )
+    expect(uilibBody).toContain('# UI library')
+    expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
+
+    const iconsMdFile = path.join(publicDir, 'icons.md')
+    expect(fs.existsSync(iconsMdFile)).toBeFalsy()
+  })
+
+  test('icons pages list concrete icons in rendered output', async ({
+    page,
+  }) => {
+    await page.goto('/icons/primary/')
+    await expect(
+      page.getByRole('heading', { name: 'Primary Icons', exact: true })
+    ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
+
+    await page.goto('/icons/secondary/')
+    await expect(page.locator('main')).toContainText(
+      'A list of all Secondary Icons'
+    )
+    await expect(
+      page.getByRole('heading', { name: 'user_feedback' })
+    ).toBeVisible()
   })
 
   test('known .md pages have matching html pages', async ({ request }) => {
     const mdPaths = [
       '/uilib/components/button.md',
       '/uilib/components/card.md',
-      '/icons.md',
+      '/quickguide-designer.md',
       '/uilib.md',
+    ]
+    const excludedMdPaths = [
+      '/icons.md',
+      '/uilib/extensions/payment-card/products.md',
     ]
     const mdPathsWithCodeBlocks = new Set([
       '/uilib/components/button.md',
@@ -108,6 +135,11 @@ test.describe('LLM integration', () => {
 
       const htmlBody = await htmlResponse.text()
       expect(htmlBody.toLowerCase()).toContain('<!doctype html')
+    }
+
+    for (const mdPath of excludedMdPaths) {
+      const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))
+      expect(fs.existsSync(mdFile)).toBeFalsy()
     }
   })
 })

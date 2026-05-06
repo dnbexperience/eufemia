@@ -8,7 +8,35 @@ import frontMatter, {
 } from 'front-matter'
 import * as prettier from 'prettier'
 import { extractMarkdownTables } from 'markdown-tables-utils'
-import type { File } from '@babel/types'
+import type { NodePath } from '@babel/traverse'
+import type {
+  ArrowFunctionExpression,
+  BlockStatement,
+  CallExpression,
+  ExpressionStatement,
+  ExportNamedDeclaration,
+  Expression,
+  File,
+  FunctionDeclaration,
+  FunctionExpression,
+  Identifier,
+  ImportDeclaration,
+  JSXElement,
+  JSXExpressionContainer,
+  JSXFragment,
+  JSXIdentifier,
+  JSXText,
+  Node,
+  ParenthesizedExpression,
+  ReturnStatement,
+  Statement,
+  VariableDeclaration,
+} from '@babel/types'
+import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.ts'
+import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
+import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
+
+export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
 type FrontMatterParser = {
   <T>(file: string, options?: FrontMatterOptions): FrontMatterResult<T>
@@ -47,8 +75,126 @@ type ConvertState = {
 type ComponentEntry = {
   code: string
   format: 'md' | 'tsx'
+  propsIdentifier?: string
+}
+type BabelGenerate = (node: Node) => { code: string }
+type BabelTraverse = (
+  ast: File,
+  visitor: {
+    ImportDeclaration?: (path: NodePath<ImportDeclaration>) => void
+    ExportNamedDeclaration: (
+      path: NodePath<ExportNamedDeclaration>
+    ) => void
+  }
+) => void
+type BabelTypes = {
+  callExpression: (
+    callee: Expression,
+    args: Expression[]
+  ) => CallExpression
+  expressionStatement: (expression: Expression) => ExpressionStatement
+  identifier: (name: string) => Identifier
+  isArrowFunctionExpression: (
+    node: Node
+  ) => node is ArrowFunctionExpression
+  isBlockStatement: (node: Node) => node is BlockStatement
+  isFunctionDeclaration: (node: Node) => node is FunctionDeclaration
+  isFunctionExpression: (node: Node) => node is FunctionExpression
+  isIdentifier: (node: Node) => node is Identifier
+  isJSXElement: (node: Node) => node is JSXElement
+  isJSXExpressionContainer: (node: Node) => node is JSXExpressionContainer
+  isJSXFragment: (node: Node) => node is JSXFragment
+  isJSXIdentifier: (node: Node) => node is JSXIdentifier
+  isJSXText: (node: Node) => node is JSXText
+  isParenthesizedExpression: (
+    node: Node
+  ) => node is ParenthesizedExpression
+  isReturnStatement: (node: Node) => node is ReturnStatement
+  isVariableDeclaration: (node: Node) => node is VariableDeclaration
+}
+type JSXRenderableNode = JSXElement | JSXFragment
+type JSXReturnableNode =
+  | ArrowFunctionExpression
+  | Expression
+  | FunctionDeclaration
+  | FunctionExpression
+  | null
+  | undefined
+type UnhandledStandaloneMdxWarningGroup = {
+  components: string[]
+  files: Set<string>
 }
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const unhandledStandaloneMdxWarningGroups = new Map<
+  string,
+  UnhandledStandaloneMdxWarningGroup
+>()
+
+export function resetUnhandledStandaloneMdxWarnings() {
+  unhandledStandaloneMdxWarningGroups.clear()
+}
+
+export function recordUnhandledStandaloneMdxWarning({
+  inputPath,
+  docsRoot,
+  components,
+}: {
+  inputPath: string
+  docsRoot: string
+  components: string[]
+}) {
+  if (components.length === 0) {
+    return
+  }
+
+  const relativeInputPath = path
+    .relative(docsRoot, inputPath)
+    .replace(/\\/g, '/')
+  const normalizedComponents = [...components].sort()
+  const key = normalizedComponents.join('\u0000')
+  const existing = unhandledStandaloneMdxWarningGroups.get(key)
+
+  if (existing) {
+    existing.files.add(relativeInputPath)
+    return
+  }
+
+  unhandledStandaloneMdxWarningGroups.set(key, {
+    components: normalizedComponents,
+    files: new Set([relativeInputPath]),
+  })
+}
+
+export function formatUnhandledStandaloneMdxWarnings() {
+  if (unhandledStandaloneMdxWarningGroups.size === 0) {
+    return ''
+  }
+
+  const groups = Array.from(
+    unhandledStandaloneMdxWarningGroups.values()
+  ).sort((a, b) => {
+    const firstFileA = Array.from(a.files).sort()[0] || ''
+    const firstFileB = Array.from(b.files).sort()[0] || ''
+
+    return firstFileA.localeCompare(firstFileB)
+  })
+  const fileCount = groups.reduce((sum, group) => {
+    return sum + group.files.size
+  }, 0)
+  const lines = [
+    `[llm-metadata] warnings: unhandled standalone MDX components in ${fileCount} file${fileCount === 1 ? '' : 's'}`,
+  ]
+
+  for (const group of groups) {
+    lines.push(`- ${group.components.join(', ')}`)
+
+    for (const file of Array.from(group.files).sort()) {
+      lines.push(`  ${file}`)
+    }
+  }
+
+  return lines.join('\n')
+}
 
 /**
  * The URL slug prefix for pages that get LLM markdown copies.
@@ -536,20 +682,6 @@ export function normalizeKeyCell(cell: string) {
   return cleaned.split(/\s+or\s+/i).map((s) => s.trim())
 }
 
-export function toPascalCase(s: string) {
-  return s
-    .split(/_/g)
-    .reduce(
-      (acc, cur) =>
-        acc +
-        cur.replace(
-          /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
-        ),
-      ''
-    )
-}
-
 export function cleanDescription(s: string) {
   return s
     .replace(/<em>\((optional|mandatory)\)<\/em>\s*/gi, '')
@@ -949,7 +1081,14 @@ export async function extractTsDocs(dir: string) {
   return out
 }
 
-async function evaluateTsModule(file: string) {
+async function evaluateTsModule(file: string, seen = new Set<string>()) {
+  if (seen.has(file)) {
+    return {}
+  }
+
+  const nextSeen = new Set(seen)
+  nextSeen.add(file)
+
   const { default: babel } = await import('@babel/core')
   const { default: transformTS } =
     await import('@babel/plugin-transform-typescript')
@@ -960,14 +1099,19 @@ async function evaluateTsModule(file: string) {
   const localRequire = (moduleApi as any).createRequire(file)
 
   let code = await fs.readFile(file, 'utf-8')
-  const injection = await buildDocsInjectionPrelude(file, code)
+  const bindings = await buildModuleInjectionBindings(
+    file,
+    code,
+    localRequire,
+    nextSeen
+  )
 
   code = code.replace(
     /(^\s*import[\s\S]*?from\s+['"][^'"]+['"][^\n]*$)/gm,
     ''
   )
 
-  const result = await babel.transformAsync(injection + '\n' + code, {
+  const result = await babel.transformAsync(code, {
     filename: file,
     plugins: [
       [transformTS, { isTSX: true }],
@@ -983,15 +1127,27 @@ async function evaluateTsModule(file: string) {
     module: { exports: {} },
     exports: {},
     require: localRequire,
+    ...bindings,
   }
   vm.createContext(sandbox)
-  vm.runInContext(result.code, sandbox, { filename: file })
+
+  try {
+    vm.runInContext(result.code, sandbox, { filename: file })
+  } catch {
+    // Ignore runtime errors and keep any partial exports that were assigned.
+  }
+
   const exp = sandbox.exports
   const mod = sandbox.module && sandbox.module.exports
   return (exp && Object.keys(exp).length ? exp : mod) || {}
 }
 
-async function buildDocsInjectionPrelude(file: string, source: string) {
+async function buildModuleInjectionBindings(
+  file: string,
+  source: string,
+  localRequire: NodeJS.Require,
+  seen: Set<string>
+) {
   const parser = await import('@babel/parser')
   const dir = path.dirname(file)
   let ast
@@ -1002,117 +1158,121 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
       plugins: ['typescript', 'jsx'],
     })
   } catch {
-    return ''
+    return {}
   }
 
-  const mappings: Array<{ names: string[]; mod: Record<string, any> }> = []
+  const bindings: Record<string, unknown> = {}
 
   for (const node of ast.program.body) {
     if (node.type !== 'ImportDeclaration') {
       continue
     }
+
+    if (node.importKind === 'type') {
+      continue
+    }
+
     const src = node.source && node.source.value
 
-    if (!src || !hasDocsModuleSuffix(src)) {
+    if (!src) {
       continue
     }
-    const names = node.specifiers
-      .filter((s: any) => s.type === 'ImportSpecifier')
-      .map((s: any) => (s.imported && s.imported.name) || s.local.name)
-      .filter(Boolean)
 
-    if (names.length === 0) {
+    const mod = await loadImportedModuleForEvaluation({
+      baseDir: dir,
+      source: src,
+      localRequire,
+      seen,
+    })
+
+    if (!mod) {
       continue
     }
-    const abs = await resolveDocsModulePath(dir, src)
 
-    if (!abs) {
-      continue
-    }
-    const mod = await evaluateTsModule(abs)
-    mappings.push({ names, mod })
-  }
-
-  let prelude = ''
-
-  for (const { names, mod } of mappings) {
-    for (const n of names) {
-      const val =
-        mod && Object.prototype.hasOwnProperty.call(mod, n) ? mod[n] : {}
-      prelude += `const ${n} = ${JSON.stringify(val)};\n`
-    }
-  }
-  return prelude
-}
-
-function hasDocsModuleSuffix(source: string) {
-  const normalizedSource = source.toLowerCase()
-
-  return (
-    normalizedSource.endsWith('docs') ||
-    normalizedSource.endsWith('docs.ts') ||
-    normalizedSource.endsWith('docs.tsx') ||
-    normalizedSource.endsWith('docs.js') ||
-    normalizedSource.endsWith('docs.jsx')
-  )
-}
-
-async function resolveDocsModulePath(baseDir: string, modPath: string) {
-  const candidates = [
-    path.resolve(baseDir, modPath + '.ts'),
-    path.resolve(baseDir, modPath + '.tsx'),
-    path.resolve(baseDir, modPath),
-  ]
-
-  for (const c of candidates) {
-    try {
-      const st = await fs.stat(c)
-
-      if (st.isFile()) {
-        return c
+    for (const specifier of node.specifiers) {
+      if (specifier.type === 'ImportSpecifier') {
+        const importedName =
+          specifier.imported.type === 'Identifier'
+            ? specifier.imported.name
+            : specifier.imported.value
+        bindings[specifier.local.name] =
+          mod && Object.prototype.hasOwnProperty.call(mod, importedName)
+            ? mod[importedName]
+            : undefined
+        continue
       }
-    } catch {
-      // ignore
+
+      if (specifier.type === 'ImportDefaultSpecifier') {
+        bindings[specifier.local.name] =
+          mod && Object.prototype.hasOwnProperty.call(mod, 'default')
+            ? mod.default
+            : mod
+        continue
+      }
+
+      if (specifier.type === 'ImportNamespaceSpecifier') {
+        bindings[specifier.local.name] = mod
+      }
     }
   }
-  return null
+
+  return bindings
 }
 
-function findPackageRoot(pkgName: string) {
-  const root = path.parse(process.cwd()).root
-  let current = process.cwd()
-  const workspaceName =
-    pkgName === '@dnb/eufemia'
-      ? 'dnb-eufemia'
-      : pkgName.replace(/^@[^/]+\//, '')
+async function loadImportedModuleForEvaluation({
+  baseDir,
+  source,
+  localRequire,
+  seen,
+}: {
+  baseDir: string
+  source: string
+  localRequire: NodeJS.Require
+  seen: Set<string>
+}) {
+  const resolvedPath = resolveModulePathForEvaluation(baseDir, source)
 
-  while (true) {
-    const workspaceCandidate = path.join(
-      current,
-      'packages',
-      workspaceName,
-      'package.json'
+  if (resolvedPath) {
+    return evaluateTsModule(resolvedPath, seen)
+  }
+
+  try {
+    return localRequire(source)
+  } catch {
+    return null
+  }
+}
+
+function resolveModulePathForEvaluation(baseDir: string, modPath: string) {
+  if (modPath.startsWith('@dnb/eufemia/')) {
+    const pkgRoot = findPackageRoot('@dnb/eufemia')
+
+    if (!pkgRoot) {
+      return null
+    }
+
+    return resolveWithExtension(
+      path.join(pkgRoot, modPath.replace(/^@dnb\/eufemia\//, ''))
     )
+  }
 
-    if (fs.existsSync(workspaceCandidate)) {
-      return path.dirname(workspaceCandidate)
+  if (modPath.startsWith('dnb-design-system-portal/')) {
+    const portalRoot = findPackageRoot('dnb-design-system-portal')
+
+    if (!portalRoot) {
+      return null
     }
 
-    const candidate = path.join(
-      current,
-      'node_modules',
-      ...pkgName.split('/'),
-      'package.json'
+    return resolveWithExtension(
+      path.join(
+        portalRoot,
+        modPath.replace(/^dnb-design-system-portal\//, '')
+      )
     )
+  }
 
-    if (fs.existsSync(candidate)) {
-      return path.dirname(candidate)
-    }
-
-    if (current === root) {
-      break
-    }
-    current = path.dirname(current)
+  if (modPath.startsWith('.') || modPath.startsWith('/')) {
+    return resolveWithExtension(path.resolve(baseDir, modPath))
   }
 
   return null
@@ -1160,6 +1320,7 @@ export async function createMarkdownCopies({
   siteDir,
   docsRoot,
   outputRoot,
+  entryFiles,
   slugBase = LLM_DOCS_SLUG_PREFIX,
   publicUrlBase = DEFAULT_PUBLIC_URL,
   metadataBySlug,
@@ -1168,6 +1329,7 @@ export async function createMarkdownCopies({
   siteDir: string
   docsRoot: string
   outputRoot?: string
+  entryFiles?: string[]
   slugBase?: string
   publicUrlBase?: string
   skipFormat?: boolean
@@ -1191,13 +1353,14 @@ export async function createMarkdownCopies({
   }
 
   const docsBaseRoot = path.resolve(docsRoot, '..')
-  const entryFiles = await findEntryMdxFiles(docsRoot)
+  const markdownEntryFiles =
+    entryFiles || (await findEntryMdxFiles(docsRoot))
   const state: ConvertState = {
     mdxCache: new Map(),
     inProgress: new Set(),
   }
 
-  for (const file of entryFiles) {
+  for (const file of markdownEntryFiles) {
     const rel = path.relative(docsRoot, file)
     const { slug } = toSlugAndDir(rel, slugBase)
     const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
@@ -1310,7 +1473,20 @@ export async function convertMdxToMd({
     'VisibilityByTheme',
     'VisibleWhenVisualTest',
   ])
-  outputBody = await replaceListAllIcons(outputBody)
+  outputBody = removeSelfClosingComponents(outputBody, [
+    'ChangeStyleTheme',
+  ])
+  outputBody = stripStandaloneBreakTags(outputBody)
+  outputBody = stripDataVisualTestWrappers(outputBody)
+  outputBody = await applySpecialMdxComponentRenderers(outputBody, {
+    findPackageRoot,
+    inputDir: path.dirname(inputPath),
+    docsRoot,
+    importsByFile,
+    loadModuleDefault,
+    toPascalCase,
+    toSlugAndDir,
+  })
   outputBody = replaceComponentUsages(outputBody, componentCode)
 
   const links = frontmatterLinks || {}
@@ -1328,6 +1504,19 @@ export async function convertMdxToMd({
     docsRoot,
     docsBaseRoot,
   })
+
+  const unhandledStandaloneMdxComponents =
+    findUnhandledStandaloneMdxComponents(outputBody, {
+      importsByFile,
+    })
+
+  if (unhandledStandaloneMdxComponents.length > 0) {
+    recordUnhandledStandaloneMdxWarning({
+      inputPath,
+      docsRoot,
+      components: unhandledStandaloneMdxComponents,
+    })
+  }
 
   // Extract title from frontmatter and add as heading if not already present
   let titleHeading = ''
@@ -2301,14 +2490,14 @@ async function collectComponentCode({
   skipFormat?: boolean
 }) {
   const componentCode = new Map<string, ComponentEntry>()
-  const parsedFiles = new Map<string, Map<string, string>>()
+  const parsedFiles = new Map<string, Map<string, ComponentEntry>>()
   const mdxCache = state.mdxCache
   const inProgress = state.inProgress
   const parser = await import('@babel/parser')
   const traverseModule = await import('@babel/traverse')
   const generateModule = await import('@babel/generator')
   const typesModule = await import('@babel/types')
-  const resolveModuleDefault = <T>(mod: T): T => {
+  const resolveModuleDefault = <T>(mod: unknown): T => {
     const maybeDefault = (mod as { default?: unknown }).default
     if (
       maybeDefault &&
@@ -2319,9 +2508,46 @@ async function collectComponentCode({
     }
     return (maybeDefault ?? mod) as T
   }
-  const traverse = resolveModuleDefault(traverseModule)
-  const generate = resolveModuleDefault(generateModule)
-  const t = typesModule.default || typesModule
+  const traverse = resolveModuleDefault<BabelTraverse>(traverseModule)
+  const generate = resolveModuleDefault<BabelGenerate>(generateModule)
+  const t = resolveModuleDefault<BabelTypes>(typesModule)
+
+  const loadExportsForPath = async (filePath: string) => {
+    const cached = parsedFiles.get(filePath)
+
+    if (cached) {
+      return cached
+    }
+
+    const exportsMap = new Map<string, ComponentEntry>()
+    parsedFiles.set(filePath, exportsMap)
+
+    const sourceCode = await fs.readFile(filePath, 'utf-8')
+    const ast = parser.parse(sourceCode, {
+      sourceType: 'module',
+      plugins: ['typescript', 'jsx'],
+    })
+    const extractedExports = await extractExports(
+      ast,
+      t,
+      traverse,
+      generate,
+      prettierConfig,
+      {
+        docsRoot,
+        docsBaseRoot,
+        filePath,
+        loadExportsForPath,
+        skipFormat,
+      }
+    )
+
+    for (const [name, entry] of Array.from(extractedExports.entries())) {
+      exportsMap.set(name, entry)
+    }
+
+    return exportsMap
+  }
 
   for (const [source, names] of Array.from(importsByFile.entries())) {
     const resolvedPath = resolveImportPath({
@@ -2369,24 +2595,7 @@ async function collectComponentCode({
       continue
     }
 
-    let fileCode = parsedFiles.get(resolvedPath)
-
-    if (!fileCode) {
-      const sourceCode = await fs.readFile(resolvedPath, 'utf-8')
-      const ast = parser.parse(sourceCode, {
-        sourceType: 'module',
-        plugins: ['typescript', 'jsx'],
-      })
-      fileCode = await extractExports(
-        ast,
-        t,
-        traverse,
-        generate,
-        prettierConfig,
-        skipFormat
-      )
-      parsedFiles.set(resolvedPath, fileCode)
-    }
+    const fileCode = await loadExportsForPath(resolvedPath)
 
     for (const name of names) {
       if (name.startsWith('* as ')) {
@@ -2397,17 +2606,20 @@ async function collectComponentCode({
             fileCode.entries()
           )) {
             componentCode.set(`${ns}.${exportName}`, {
-              code: exportCode,
+              ...exportCode,
               format: 'tsx',
             })
           }
         }
         continue
       }
-      const code = fileCode.get(name)
+      const entry = fileCode.get(name)
 
-      if (code) {
-        componentCode.set(name, { code, format: 'tsx' })
+      if (entry) {
+        componentCode.set(name, {
+          ...entry,
+          format: 'tsx',
+        })
       }
     }
   }
@@ -2469,6 +2681,16 @@ function resolveWithExtension(basePath: string) {
     return basePath
   }
 
+  if (fs.existsSync(basePath) && fs.statSync(basePath).isDirectory()) {
+    for (const ext of extensions) {
+      const indexPath = path.join(basePath, `index${ext}`)
+
+      if (fs.existsSync(indexPath)) {
+        return indexPath
+      }
+    }
+  }
+
   for (const ext of extensions) {
     const withExt = `${basePath}${ext}`
 
@@ -2482,17 +2704,74 @@ function resolveWithExtension(basePath: string) {
 
 async function extractExports(
   ast: File,
-  t: any,
-  traverse: any,
-  generate: any,
+  t: BabelTypes,
+  traverse: BabelTraverse,
+  generate: BabelGenerate,
   prettierConfig: PrettierConfig,
-  skipFormat = false
+  {
+    docsRoot,
+    docsBaseRoot,
+    filePath,
+    loadExportsForPath,
+    skipFormat = false,
+  }: {
+    docsRoot: string
+    docsBaseRoot: string
+    filePath: string
+    loadExportsForPath: (
+      filePath: string
+    ) => Promise<Map<string, ComponentEntry>>
+    skipFormat?: boolean
+  }
 ) {
-  const exportsMap = new Map<string, string>()
-  const exportEntries: Array<{ name: string; jsxNode: any }> = []
+  const exportsMap = new Map<string, ComponentEntry>()
+  const exportEntries: Array<{
+    name: string
+    jsxNode: JSXRenderableNode
+    propsIdentifier?: string
+  }> = []
+  const importedBindings = new Map<
+    string,
+    {
+      importedName: string
+      source: string
+    }
+  >()
+  const reExportEntries: Array<{
+    exportName: string
+    localName: string
+    source: string
+  }> = []
 
   traverse(ast, {
-    ExportNamedDeclaration(path: any) {
+    ImportDeclaration(path: NodePath<ImportDeclaration>) {
+      const source = path.node.source.value
+
+      if (typeof source !== 'string') {
+        return
+      }
+
+      for (const specifier of path.node.specifiers) {
+        if (specifier.type === 'ImportSpecifier') {
+          const imported = specifier.imported
+          const importedName = t.isIdentifier(imported)
+            ? imported.name
+            : imported.value
+
+          importedBindings.set(specifier.local.name, {
+            importedName,
+            source,
+          })
+        } else if (specifier.type === 'ImportDefaultSpecifier') {
+          importedBindings.set(specifier.local.name, {
+            importedName: 'default',
+            source,
+          })
+        }
+      }
+    },
+
+    ExportNamedDeclaration(path: NodePath<ExportNamedDeclaration>) {
       const declaration = path.node.declaration
 
       if (t.isVariableDeclaration(declaration)) {
@@ -2503,17 +2782,57 @@ async function extractExports(
           const name = declarator.id.name
           const init = declarator.init
           const jsxNode = getReturnedJSX(init, t)
+          const propsIdentifier = getTopLevelPropsIdentifier(init, t)
 
           if (jsxNode) {
-            exportEntries.push({ name, jsxNode })
+            exportEntries.push({ name, jsxNode, propsIdentifier })
+            continue
+          }
+
+          if (t.isIdentifier(init)) {
+            const importedBinding = importedBindings.get(init.name)
+
+            if (importedBinding) {
+              reExportEntries.push({
+                exportName: name,
+                localName: importedBinding.importedName,
+                source: importedBinding.source,
+              })
+            }
           }
         }
       } else if (t.isFunctionDeclaration(declaration)) {
         const name = declaration.id?.name
         const jsxNode = getReturnedJSX(declaration, t)
+        const propsIdentifier = getTopLevelPropsIdentifier(declaration, t)
 
         if (name && jsxNode) {
-          exportEntries.push({ name, jsxNode })
+          exportEntries.push({ name, jsxNode, propsIdentifier })
+        }
+      } else if (
+        typeof path.node.source?.value === 'string' &&
+        path.node.specifiers.length > 0
+      ) {
+        for (const specifier of path.node.specifiers) {
+          if (
+            !('local' in specifier) ||
+            !('exported' in specifier) ||
+            !t.isIdentifier(specifier.local)
+          ) {
+            continue
+          }
+
+          const exported = specifier.exported
+
+          if (!t.isIdentifier(exported)) {
+            continue
+          }
+
+          reExportEntries.push({
+            exportName: exported.name,
+            localName: specifier.local.name,
+            source: path.node.source.value,
+          })
         }
       }
     },
@@ -2529,14 +2848,61 @@ async function extractExports(
     )
 
     if (code) {
-      exportsMap.set(entry.name, code)
+      exportsMap.set(entry.name, {
+        code,
+        format: 'tsx',
+        propsIdentifier: entry.propsIdentifier,
+      })
+    }
+  }
+
+  for (const entry of reExportEntries) {
+    const resolvedPath = resolveImportPath({
+      source: entry.source,
+      inputDir: path.dirname(filePath),
+      docsRoot,
+      docsBaseRoot,
+    })
+
+    if (!resolvedPath || !/\.[jt]sx?$/.test(resolvedPath)) {
+      continue
+    }
+
+    const reExportedCode = await loadExportsForPath(resolvedPath)
+    const reExportedEntry = reExportedCode.get(entry.localName)
+
+    if (reExportedEntry) {
+      exportsMap.set(entry.exportName, reExportedEntry)
     }
   }
 
   return exportsMap
 }
 
-function getReturnedJSX(fnNode: any, t: any) {
+function getTopLevelPropsIdentifier(
+  fnNode: JSXReturnableNode,
+  t: BabelTypes
+) {
+  if (
+    (t.isArrowFunctionExpression(fnNode) ||
+      t.isFunctionDeclaration(fnNode) ||
+      t.isFunctionExpression(fnNode)) &&
+    fnNode.params.length > 0
+  ) {
+    const firstParam = fnNode.params[0]
+
+    if (t.isIdentifier(firstParam)) {
+      return firstParam.name
+    }
+  }
+
+  return undefined
+}
+
+function getReturnedJSX(
+  fnNode: JSXReturnableNode,
+  t: BabelTypes
+): JSXRenderableNode | null {
   if (!fnNode) {
     return null
   }
@@ -2547,8 +2913,10 @@ function getReturnedJSX(fnNode: any, t: any) {
     }
 
     if (t.isBlockStatement(fnNode.body)) {
-      const returnStmt = fnNode.body.body.find((node: any) =>
-        t.isReturnStatement(node)
+      const returnStmt = fnNode.body.body.find(
+        (node: Statement): node is ReturnStatement => {
+          return t.isReturnStatement(node)
+        }
       )
       const arg = returnStmt?.argument
 
@@ -2559,8 +2927,10 @@ function getReturnedJSX(fnNode: any, t: any) {
   }
 
   if (t.isFunctionDeclaration(fnNode) || t.isFunctionExpression(fnNode)) {
-    const returnStmt = fnNode.body.body.find((node: any) =>
-      t.isReturnStatement(node)
+    const returnStmt = fnNode.body.body.find(
+      (node: Statement): node is ReturnStatement => {
+        return t.isReturnStatement(node)
+      }
     )
     const arg = returnStmt?.argument
 
@@ -2573,13 +2943,13 @@ function getReturnedJSX(fnNode: any, t: any) {
 }
 
 async function formatJSXChildren(
-  jsxNode: any,
-  t: any,
-  generate: any,
+  jsxNode: JSXRenderableNode,
+  t: BabelTypes,
+  generate: BabelGenerate,
   prettierConfig: PrettierConfig,
   skipFormat = false
 ) {
-  let children: any[] = []
+  let children: Array<JSXElement['children'][number]> = []
 
   if (t.isJSXElement(jsxNode)) {
     const name = jsxNode.openingElement.name
@@ -2632,9 +3002,9 @@ async function formatJSXChildren(
             childCode = statements
               .slice(0, -1)
               .concat(renderCall)
-              .map((stmt: any) => generate(stmt).code)
+              .map((stmt) => generate(stmt).code)
           } else {
-            childCode = statements.map((stmt: any) => generate(stmt).code)
+            childCode = statements.map((stmt) => generate(stmt).code)
           }
         } else if (t.isJSXElement(body) || t.isJSXFragment(body)) {
           childCode = [generate(body).code]
@@ -2695,191 +3065,367 @@ function stripWrapperTags(content: string, tagNames: string[]) {
   return output
 }
 
-type IconMetadataEntry = {
-  name?: string
-  tags?: string[]
-  created?: number
-  variant?: string
-  category?: string
+function removeSelfClosingComponents(content: string, tagNames: string[]) {
+  let output = content
+
+  for (const tag of tagNames) {
+    const tagPattern = new RegExp(`<${tag}\\b[^>]*\\/>\\s*`, 'g')
+    output = output.replace(tagPattern, '')
+  }
+
+  return output
 }
 
-let cachedIconMetadata: Array<
-  Required<Pick<IconMetadataEntry, 'name' | 'tags' | 'created'>> &
-    Pick<IconMetadataEntry, 'variant' | 'category'>
-> | null = null
+function stripStandaloneBreakTags(content: string) {
+  return content
+    .split('\n')
+    .filter((line) => !/^\s*<br\s*\/?\s*>\s*$/i.test(line))
+    .join('\n')
+}
 
-async function replaceListAllIcons(content: string) {
-  const regex = /<ListAllIcons\b([^>]*)\/>/g
+function stripDataVisualTestWrappers(content: string) {
+  const lines = content.split('\n')
+  const output: string[] = []
+  let wrapperDepth = 0
 
-  if (!regex.test(content)) {
-    return content
-  }
-
-  regex.lastIndex = 0
-  const icons = await loadListAllIconsMetadata()
-
-  if (icons.length === 0) {
-    return content
-  }
-
-  return content.replace(regex, (_match, attrsSource) => {
-    const attrs = parseSimpleJsxStringAttributes(String(attrsSource || ''))
-    const variant = attrs.variant
-    const groupBy = attrs.groupBy
-    const filteredIcons = icons.filter((icon) => {
-      return !variant || icon.variant === variant
-    })
-
-    if (filteredIcons.length === 0) {
-      return ''
+  for (const line of lines) {
+    if (/<div\b[^>]*data-visual-test=/.test(line)) {
+      wrapperDepth += 1
+      continue
     }
 
-    return `\n${renderIconsMarkdown(filteredIcons, groupBy)}\n`
-  })
-}
-
-async function loadListAllIconsMetadata() {
-  if (cachedIconMetadata) {
-    return cachedIconMetadata
-  }
-
-  const eufemiaRoot = findPackageRoot('@dnb/eufemia')
-
-  if (!eufemiaRoot) {
-    return []
-  }
-
-  const metadataPath = path.join(
-    eufemiaRoot,
-    'src',
-    'icons',
-    'dnb',
-    'icons-meta.json'
-  )
-
-  try {
-    const raw = await fs.readFile(metadataPath, 'utf-8')
-    const metadata = JSON.parse(raw) as Record<string, IconMetadataEntry>
-
-    cachedIconMetadata = Object.entries(metadata)
-      .filter(([iconKey, icon]) => {
-        return !iconKey.endsWith('_medium') && Boolean(icon?.name)
-      })
-      .map(([_iconKey, icon]) => {
-        return {
-          name: String(icon.name),
-          tags: Array.isArray(icon.tags) ? icon.tags : [],
-          created: Number(icon.created || 0),
-          variant: icon.variant,
-          category: icon.category,
-        }
-      })
-      .sort((a, b) => a.created - b.created)
-
-    return cachedIconMetadata
-  } catch {
-    return []
-  }
-}
-
-function parseSimpleJsxStringAttributes(source: string) {
-  const attrs: Record<string, string> = {}
-  const regex = /([A-Za-z0-9_-]+)\s*=\s*(["'])(.*?)\2/g
-  let match: RegExpExecArray | null
-
-  while ((match = regex.exec(source))) {
-    const [, name, , value] = match
-
-    if (name) {
-      attrs[name] = value || ''
-    }
-  }
-
-  return attrs
-}
-
-function renderIconsMarkdown(
-  icons: Array<{
-    name: string
-    tags: string[]
-    created: number
-    variant?: string
-    category?: string
-  }>,
-  groupBy?: string
-) {
-  if (groupBy === 'category') {
-    const groups = new Map<string, typeof icons>()
-
-    for (const icon of icons) {
-      const key = icon.category || 'uncategorized'
-      const existing = groups.get(key) || []
-      existing.push(icon)
-      groups.set(key, existing)
+    if (wrapperDepth > 0 && line.trim() === '</div>') {
+      wrapperDepth -= 1
+      continue
     }
 
-    return Array.from(groups.entries())
-      .map(([category, groupedIcons]) => {
-        const heading = toPascalCase(category.replace(/[-_]/g, ' '))
-        const lines = groupedIcons.map((icon) => {
-          return renderIconMarkdownLine(icon, false)
-        })
-
-        return [`## ${heading}`, '', ...lines].join('\n')
-      })
-      .join('\n\n')
+    output.push(line)
   }
 
-  return icons.map((icon) => renderIconMarkdownLine(icon, true)).join('\n')
-}
-
-function renderIconMarkdownLine(
-  icon: {
-    name: string
-    tags: string[]
-    category?: string
-  },
-  includeCategory: boolean
-) {
-  const parts = [`- \`${icon.name}\``]
-
-  if (includeCategory && icon.category) {
-    parts.push(`Category: ${icon.category}.`)
-  }
-
-  if (icon.tags.length > 0) {
-    parts.push(`Tags: ${icon.tags.join(', ')}.`)
-  }
-
-  return parts.join(' ')
+  return output.join('\n')
 }
 
 function replaceComponentUsages(
   content: string,
   componentCode: Map<string, ComponentEntry | string>
 ) {
-  const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
+  let output = ''
+  let index = 0
 
-  return content.replace(componentRegex, (match, name) => {
-    const entry = componentCode.get(name)
+  while (index < content.length) {
+    const start = content.indexOf('<', index)
+
+    if (start === -1) {
+      output += content.slice(index)
+      break
+    }
+
+    output += content.slice(index, start)
+
+    const parsedTag = parseSelfClosingComponentTag(content, start)
+
+    if (!parsedTag || !isComponentReferenceName(parsedTag.name)) {
+      output += content[start]
+      index = start + 1
+      continue
+    }
+
+    const entry = componentCode.get(parsedTag.name)
 
     if (!entry) {
-      return match
+      output += parsedTag.raw
+      index = parsedTag.end
+      continue
     }
 
-    if (typeof entry === 'string') {
-      return `\n\`\`\`tsx\n${entry}\n\`\`\`\n`
+    output += formatComponentEntryReplacement(entry, parsedTag)
+    index = parsedTag.end
+  }
+
+  return output
+}
+
+function parseSelfClosingComponentTag(
+  content: string,
+  startIndex: number
+) {
+  const nameStart = startIndex + 1
+  let nameEnd = nameStart
+
+  while (nameEnd < content.length) {
+    const char = content[nameEnd]
+
+    if (
+      (char >= 'A' && char <= 'Z') ||
+      (char >= 'a' && char <= 'z') ||
+      (char >= '0' && char <= '9') ||
+      char === '_' ||
+      char === '.'
+    ) {
+      nameEnd += 1
+      continue
     }
 
-    if (entry.format === 'md') {
-      return `\n${entry.code}\n`
+    break
+  }
+
+  if (nameEnd === nameStart) {
+    return null
+  }
+
+  let cursor = nameEnd
+  let quote = ''
+  let braceDepth = 0
+  let bracketDepth = 0
+  let parenDepth = 0
+
+  while (cursor < content.length) {
+    const char = content[cursor]
+
+    if (quote) {
+      if (char === '\\' && cursor + 1 < content.length) {
+        cursor += 2
+        continue
+      }
+
+      if (char === quote) {
+        quote = ''
+      }
+
+      cursor += 1
+      continue
     }
 
-    if (looksLikeMarkdown(entry.code)) {
-      return `\n${entry.code}\n`
+    if (char === '"' || char === "'") {
+      quote = char
+      cursor += 1
+      continue
     }
-    return `\n\`\`\`tsx\n${entry.code}\n\`\`\`\n`
-  })
+
+    if (char === '{') {
+      braceDepth += 1
+      cursor += 1
+      continue
+    }
+
+    if (char === '}') {
+      braceDepth = Math.max(0, braceDepth - 1)
+      cursor += 1
+      continue
+    }
+
+    if (char === '[') {
+      bracketDepth += 1
+      cursor += 1
+      continue
+    }
+
+    if (char === ']') {
+      bracketDepth = Math.max(0, bracketDepth - 1)
+      cursor += 1
+      continue
+    }
+
+    if (char === '(') {
+      parenDepth += 1
+      cursor += 1
+      continue
+    }
+
+    if (char === ')') {
+      parenDepth = Math.max(0, parenDepth - 1)
+      cursor += 1
+      continue
+    }
+
+    if (char === '>') {
+      if (
+        braceDepth === 0 &&
+        bracketDepth === 0 &&
+        parenDepth === 0 &&
+        cursor > startIndex &&
+        content[cursor - 1] === '/'
+      ) {
+        const raw = content.slice(startIndex, cursor + 1)
+        return {
+          name: content.slice(nameStart, nameEnd),
+          raw,
+          attrsSource: raw.slice(1 + (nameEnd - nameStart), -2).trim(),
+          end: cursor + 1,
+        }
+      }
+
+      return null
+    }
+
+    if (
+      char === '<' &&
+      braceDepth === 0 &&
+      bracketDepth === 0 &&
+      parenDepth === 0
+    ) {
+      return null
+    }
+
+    cursor += 1
+  }
+
+  return null
+}
+
+function formatComponentEntryReplacement(
+  entry: ComponentEntry | string,
+  parsedTag?: { attrsSource?: string }
+) {
+  if (typeof entry === 'string') {
+    return `\n\`\`\`tsx\n${entry}\n\`\`\`\n`
+  }
+
+  const code = injectComponentCallSiteProps(entry, parsedTag?.attrsSource)
+
+  if (entry.format === 'md') {
+    return `\n${code}\n`
+  }
+
+  if (looksLikeMarkdown(code)) {
+    return `\n${code}\n`
+  }
+
+  return `\n\`\`\`tsx\n${code}\n\`\`\`\n`
+}
+
+function injectComponentCallSiteProps(
+  entry: ComponentEntry,
+  attrsSource = ''
+) {
+  if (
+    entry.format !== 'tsx' ||
+    !entry.propsIdentifier ||
+    !containsIdentifier(entry.code, entry.propsIdentifier)
+  ) {
+    return entry.code
+  }
+
+  const propsObjectSource = buildCallSitePropsObjectSource(attrsSource)
+
+  return `const ${entry.propsIdentifier} = ${propsObjectSource}\n\n${entry.code}`
+}
+
+function containsIdentifier(code: string, identifier: string) {
+  return new RegExp(`\\b${escapeRegExp(identifier)}\\b`).test(code)
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function buildCallSitePropsObjectSource(attrsSource: string) {
+  const entries: string[] = []
+  let index = 0
+
+  while (index < attrsSource.length) {
+    index = skipWhitespace(attrsSource, index)
+
+    if (index >= attrsSource.length) {
+      break
+    }
+
+    let name = ''
+
+    while (
+      index < attrsSource.length &&
+      /[A-Za-z0-9_-]/.test(attrsSource[index])
+    ) {
+      name += attrsSource[index++]
+    }
+
+    if (!name) {
+      index += 1
+      continue
+    }
+
+    index = skipWhitespace(attrsSource, index)
+
+    const objectKey = formatObjectKey(name)
+
+    if (attrsSource[index] !== '=') {
+      entries.push(`${objectKey}: true`)
+      continue
+    }
+
+    index += 1
+    index = skipWhitespace(attrsSource, index)
+
+    if (attrsSource[index] === '{') {
+      const { value, nextIndex } = readBalancedExpression(
+        attrsSource,
+        index + 1,
+        '{',
+        '}'
+      )
+      const expressionValue = value.trim() || 'undefined'
+      entries.push(`${objectKey}: ${expressionValue}`)
+      index = nextIndex
+      continue
+    }
+
+    if (attrsSource[index] === '"' || attrsSource[index] === "'") {
+      const { value, nextIndex } = readString(attrsSource, index)
+      entries.push(`${objectKey}: ${JSON.stringify(value)}`)
+      index = nextIndex
+      continue
+    }
+
+    const value = readWord(attrsSource, index)
+    entries.push(`${objectKey}: ${JSON.stringify(value)}`)
+    index += value.length
+  }
+
+  return entries.length > 0 ? `{ ${entries.join(', ')} }` : '{}'
+}
+
+function formatObjectKey(name: string) {
+  return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name)
+    ? name
+    : JSON.stringify(name)
+}
+
+function isComponentReferenceName(name: string) {
+  if (!name) {
+    return false
+  }
+
+  for (let index = 0; index < name.length; index++) {
+    const charCode = name.charCodeAt(index)
+    const isDot = charCode === 46
+    const isDigit = charCode >= 48 && charCode <= 57
+    const isUppercase = charCode >= 65 && charCode <= 90
+    const isUnderscore = charCode === 95
+    const isLowercase = charCode >= 97 && charCode <= 122
+
+    if (
+      !isDot &&
+      !isDigit &&
+      !isLowercase &&
+      !isUnderscore &&
+      !isUppercase
+    ) {
+      return false
+    }
+
+    if (isDot) {
+      if (
+        index === 0 ||
+        index === name.length - 1 ||
+        name.charCodeAt(index - 1) === 46
+      ) {
+        return false
+      }
+    }
+  }
+
+  const firstCharCode = name.charCodeAt(0)
+  return firstCharCode >= 65 && firstCharCode <= 90
 }
 
 function looksLikeMarkdown(code: string) {

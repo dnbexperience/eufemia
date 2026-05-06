@@ -1,9 +1,9 @@
-const { exec } = require('child_process')
+const { execFile } = require('child_process')
 
 function runCommand(command) {
   return new Promise((resolve, reject) => {
     try {
-      exec(command, (error, stdout, stderr) => {
+      execFile('/bin/sh', ['-lc', command], (error, stdout, stderr) => {
         if (error) {
           return reject(error)
         }
@@ -27,17 +27,30 @@ function runCommand(command) {
  */
 const getCommittedFiles = async (countCommits = 10) => {
   try {
+    const history = await runCommand(
+      `git rev-list --max-count=${countCommits + 1} HEAD`
+    )
+    const commits = history.split('\n').filter(Boolean)
+
+    if (commits.length === 0) {
+      return []
+    }
+
     const files = (
-      await runCommand(
-        `git -c diff.renames=0 show --pretty="format:" --name-only HEAD...HEAD~${countCommits}`
-      )
+      commits.length === 1
+        ? await runCommand(
+            'git -c diff.renames=0 show --pretty="format:" --name-only HEAD'
+          )
+        : await runCommand(
+            `git -c diff.renames=0 diff --name-only ${commits[commits.length - 1]}..HEAD`
+          )
     )
       .split('\n')
       .filter(Boolean)
 
     return files
-  } catch (error) {
-    throw new Error(error)
+  } catch {
+    return []
   }
 }
 
