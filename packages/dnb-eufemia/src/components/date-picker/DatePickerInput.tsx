@@ -99,14 +99,13 @@ export type DatePickerInvalidDates = {
   invalidEndDate?: string
 }
 
-const defaultProps: DatePickerInputProps = {
-  separatorRegExp: /[-/ ]/g,
-  statusState: 'error',
-  open: false,
-}
-
-function DatePickerInput(externalProps: DatePickerInputProps) {
-  const props = { ...defaultProps, ...externalProps }
+function DatePickerInput({
+  separatorRegExp = /[-/ ]/g,
+  statusState = 'error' as const,
+  open = false,
+  ...externalProps
+}: DatePickerInputProps) {
+  const props = { separatorRegExp, statusState, open, ...externalProps }
 
   const {
     maskOrder: defaultMaskOrder,

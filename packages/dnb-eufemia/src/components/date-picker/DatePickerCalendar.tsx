@@ -118,21 +118,25 @@ type DayObject = {
   className?: string
 }
 
-const defaultProps: DatePickerCalendarProps = {
-  hideNavigation: false,
-  hideDays: false,
-  onlyMonth: false,
-  hideNextMonthWeek: false,
-  rtl: false,
-  resetDate: true,
-}
-
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 
-function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
-  const props = { ...defaultProps, ...restOfProps }
-
+function DatePickerCalendar({
+  hideNavigation = false,
+  hideDays = false,
+  onlyMonth = false,
+  hideNextMonthWeek = false,
+  rtl = false,
+  resetDate = true,
+  id,
+  nr,
+  month,
+  isRange,
+  firstDayOfWeek: firstDayOfWeekProp,
+  locale,
+  onSelect,
+  onKeyDown,
+}: DatePickerCalendarProps) {
   const {
     updateDates,
     setHasClickedCalendarDay,
@@ -151,22 +155,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     },
   } = useContext(DatePickerContext)
 
-  const {
-    id,
-    nr,
-    rtl,
-    month,
-    isRange,
-    firstDayOfWeek = defaultFirstDayOfWeek,
-    hideNavigation,
-    locale,
-    hideDays,
-    onSelect,
-    onKeyDown,
-    resetDate,
-    hideNextMonthWeek,
-    onlyMonth,
-  } = props
+  const firstDayOfWeek = firstDayOfWeekProp ?? defaultFirstDayOfWeek
 
   const tableRef = useRef<React.ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})

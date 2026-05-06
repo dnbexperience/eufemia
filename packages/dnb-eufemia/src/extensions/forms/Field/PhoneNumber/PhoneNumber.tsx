@@ -232,14 +232,11 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       return s
     }
   }, [props.schema, props.pattern])
-  const defaultProps: Partial<FieldPhoneNumberProps> = {
-    ...(schema ? { schema } : {}),
-    errorMessages,
-  }
   const ref = useRef<HTMLInputElement>(undefined)
   const preparedProps: FieldPhoneNumberProps = {
     ...props,
-    ...defaultProps,
+    ...(schema ? { schema } : {}),
+    errorMessages,
     validateRequired,
     fromExternal,
     toEvent,

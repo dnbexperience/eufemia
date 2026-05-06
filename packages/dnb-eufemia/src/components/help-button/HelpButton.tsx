@@ -8,13 +8,7 @@ import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
 import type { ButtonProps } from '../button/Button'
-import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-
-const defaultProps: Partial<HelpButtonProps> = {
-  variant: 'secondary',
-  iconPosition: 'left',
-}
 
 export type HelpButtonProps = {
   render?: (
@@ -23,11 +17,19 @@ export type HelpButtonProps = {
   ) => React.ReactElement
 } & ButtonProps
 
-export default function HelpButton(localProps: HelpButtonProps) {
+export default function HelpButton({
+  variant = 'secondary',
+  iconPosition = 'left',
+  children,
+  render,
+  ...rest
+}: HelpButtonProps) {
   const context = React.useContext(Context)
-  const props = extendPropsWithContext(localProps, defaultProps)
 
-  const { children, render, ...params } = props
+  const params = { variant, iconPosition, ...rest } as Record<
+    string,
+    unknown
+  >
 
   if (params.size === 'small') {
     params.bounding = true
@@ -39,7 +41,7 @@ export default function HelpButton(localProps: HelpButtonProps) {
 
   if (children) {
     if (!params.title) {
-      params.title = context.getTranslation(props).HelpButton.title
+      params.title = context.getTranslation(params).HelpButton.title
     }
 
     if (typeof render === 'function') {
