@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import isVite from './shared/isVite'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Responsiveness', () => {
@@ -25,21 +24,13 @@ test.describe('Responsiveness', () => {
     )
     await page.click('#toggle-sidebar-menu')
 
-    // Use a top-level sidebar link that is visible in the prerendered portal
-    // Vite links have no trailing slash
-    const sidebarLink = (await isVite(page))
-      ? 'nav#portal-sidebar-menu a[href="/uilib/components"]'
-      : 'nav#portal-sidebar-menu a[href="/uilib/about-the-lib/"]'
+    const sidebarLink =
+      'nav#portal-sidebar-menu a[href="/uilib/components"]'
     await page.click(sidebarLink)
 
     // Check if app is mounted
     await waitForApp(page)
 
-    if (await isVite(page)) {
-      expect(page.url()).toContain('/uilib/components')
-    } else {
-      expect(page.url()).toContain('/uilib/about-the-lib/')
-      await expect(page.locator('h1')).toContainText('#About the library')
-    }
+    expect(page.url()).toContain('/uilib/components')
   })
 })
