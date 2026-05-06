@@ -682,9 +682,17 @@ function PopoverContainer(props: PopoverContainerProps) {
     const marginRight = computedElementStyle
       ? parseFloat(computedElementStyle.marginRight) || 0
       : 0
-    const borderRadius = computedElementStyle
+    const rawBorderRadius = computedElementStyle
       ? parseFloat(computedElementStyle.borderRadius) || 0
       : 0
+    // Cap border-radius to actual visual maximum, since the browser
+    // clamps it to half the element size but getComputedStyle returns
+    // the raw value (e.g. 9999px from --token-radius-full).
+    const borderRadius = Math.min(
+      rawBorderRadius,
+      elementWidth / 2,
+      elementHeight / 2
+    )
 
     let actualLeft = nextLeft
 

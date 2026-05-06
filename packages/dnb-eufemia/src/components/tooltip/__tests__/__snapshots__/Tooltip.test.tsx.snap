@@ -18,7 +18,7 @@ exports[`Tooltip scss > has to match style dependencies css 1`] = `
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-lg);
+  --tooltip-border-radius: var(--token-radius-full);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
