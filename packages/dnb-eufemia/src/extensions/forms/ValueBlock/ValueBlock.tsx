@@ -109,7 +109,7 @@ function ValueBlock(localProps: ValueBlockProps) {
     }
 
     const canRenderToString = isValidElement(label)
-      ? typeof (label as any).type === 'string' // Not a custom component
+      ? typeof label.type === 'string' // Not a custom component
       : true
 
     return canRenderToString

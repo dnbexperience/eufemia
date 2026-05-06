@@ -57,7 +57,7 @@ function reduceContextHasValue<Props>(
   defaults: DefaultsProps,
   contexts: Contexts,
   { onlyMergeExistingProps = false } = {}
-) {
+): Record<string, unknown> {
   const context = reduceContext(contexts)
   return Object.entries(context).reduce((acc, [key, value]) => {
     if (

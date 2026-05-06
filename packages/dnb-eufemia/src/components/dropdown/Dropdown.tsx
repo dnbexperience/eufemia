@@ -45,6 +45,7 @@ import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
+import type { DrawerListProviderProps } from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
   getCurrentData,
@@ -478,7 +479,7 @@ const DropdownInstance = memo(function DropdownInstance({
     externalButtonRef: _externalButtonRef,
 
     ...attributes
-  } = props as any
+  } = props
 
   let { icon, iconPosition, align } = props
 
@@ -707,11 +708,13 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
 
   return (
     <DrawerListProvider
-      {...(props as any)}
+      {...({
+        ...props,
+        tagName: 'dnb-dropdown',
+      } as Partial<DrawerListProviderProps> & Record<string, unknown>)}
       id={id}
-      data={(data || children) as any}
+      data={(data || children) as DrawerListData}
       open={false}
-      tagName="dnb-dropdown"
       ignoreEvents={false}
       preventSelection={preventSelection}
     >

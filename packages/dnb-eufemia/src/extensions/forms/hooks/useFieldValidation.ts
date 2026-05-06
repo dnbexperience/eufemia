@@ -15,6 +15,7 @@ import type {
   Validator,
   Identifier,
 } from '../types'
+import type { ContextState } from '../DataContext'
 import pointer from '../utils/json-pointer'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useProcessManager from './useProcessManager'
@@ -53,9 +54,9 @@ export type UseFieldValidationParams<Value> = {
   ) => void
   getValueByPath: (path: string) => unknown
   getSourceValue: (path: string) => unknown
-  exportValidators: unknown
+  exportValidators: Record<string, Validator<Value>> | undefined
   props: unknown
-  dataContext: unknown
+  dataContext: ContextState
   combinedErrorMessages: Record<string, string>
   makeIteratePath: (
     path: string,
@@ -243,7 +244,7 @@ export default function useFieldValidation<Value>({
     getSourceValue,
     setFieldEventListener,
   } as Partial<ReceiveAdditionalEventArgs<Value>>)
-  additionalArgsRef.current.validators = exportValidators as any
+  additionalArgsRef.current.validators = exportValidators
   additionalArgsRef.current.props = props
 
   const additionalArgs = useMemo(() => {

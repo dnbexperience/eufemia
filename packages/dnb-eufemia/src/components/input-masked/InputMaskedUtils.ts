@@ -330,7 +330,7 @@ export const handlePercentMask = ({
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = formatPercent(props.value as any, { locale })
+  const value = formatPercent(props.value, { locale })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 
@@ -355,8 +355,11 @@ export const handleCurrencyMask = ({
 }): InputMaskParams => {
   const givenParams =
     typeof currencyMask === 'string'
-      ? { ...maskOptions, ...({ 0: String(currencyMask) } as any) }
-      : { ...maskOptions, ...(currencyMask as Record<string, any>) }
+      ? {
+          ...maskOptions,
+          ...({ 0: String(currencyMask) } as Record<string, string>),
+        }
+      : { ...maskOptions, ...currencyMask }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
     allowDecimal: true,

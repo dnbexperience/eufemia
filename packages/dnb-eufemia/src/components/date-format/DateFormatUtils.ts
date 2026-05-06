@@ -496,8 +496,9 @@ function createDurationFormatter(
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
 ): DurationFormat | null {
   try {
-    const DurationFormat = (Intl as any)
-      .DurationFormat as DurationFormatConstructor
+    const DurationFormat = (
+      Intl as typeof Intl & { DurationFormat?: DurationFormatConstructor }
+    ).DurationFormat
     return new DurationFormat(locale, {
       style:
         dateStyle === 'short'

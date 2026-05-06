@@ -301,11 +301,10 @@ function StringComponent(props: FieldStringProps) {
     onFocus: handleFocus,
     onBlur: handleBlur,
     onChange: handleChange,
-    onKeyDown: handleKeyDown as any,
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    ref: inputRef as any,
+    ref: inputRef as React.Ref<HTMLInputElement>,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
@@ -344,16 +343,38 @@ function StringComponent(props: FieldStringProps) {
   return (
     <FieldBlock {...fieldBlockProps}>
       {multiline ? (
-        <Textarea {...sharedProps} {...textareaProps} />
+        <Textarea
+          {...sharedProps}
+          {...textareaProps}
+          // All three components wrap onKeyDown via dispatchCustomElementEvent,
+          // so the handler receives a custom event shape at runtime.
+          // The element type difference (HTMLTextAreaElement vs HTMLInputElement)
+          // is safe here since only .key and .preventDefault are accessed.
+          onKeyDown={
+            handleKeyDown as unknown as TextareaProps['onKeyDown']
+          }
+          ref={inputRef as React.Ref<HTMLTextAreaElement>}
+        />
       ) : mask ? (
         <InputMasked
           {...sharedProps}
           {...inputProps}
+          // InputMasked internally delegates to Input and wraps onKeyDown
+          // via dispatchCustomElementEvent, so the handler receives
+          // InputKeyDownEvent at runtime despite InputMasked's type
+          // inheriting KeyboardEventHandler from HTMLProps.
+          onKeyDown={
+            handleKeyDown as unknown as InputMaskedProps['onKeyDown']
+          }
           mask={mask}
           allowOverflow={allowOverflow}
         />
       ) : (
-        <Input {...sharedProps} {...inputProps} />
+        <Input
+          {...sharedProps}
+          {...inputProps}
+          onKeyDown={handleKeyDown as InputProps['onKeyDown']}
+        />
       )}
     </FieldBlock>
   )

@@ -68,6 +68,7 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import Input, {
   SubmitButton,
   type InputSubmitButtonProps,
+  type InputEvent as InputComponentEvent,
 } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
@@ -2428,7 +2429,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],
+    onSubmit: ((_event: InputComponentEvent) =>
+      toggleVisible()) satisfies InputSubmitButtonProps['onSubmit'],
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,

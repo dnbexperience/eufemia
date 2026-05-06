@@ -526,7 +526,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasPath,
     identifier,
     executeOnChangeRegardlessOfError,
-    handlePathChangeDataContext: handlePathChangeDataContext as any,
+    // @ts-expect-error - handlePathChange from DataContext has a broader signature (path, value?) than useFieldAsync expects (identifier)
+    handlePathChangeDataContext,
   })
 
   // ─── useFieldValidation ──────────────────────────────────────────────
@@ -1176,7 +1177,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
     if (status) {
-      void setEventResult(status as any)
+      void setEventResult(status as EventReturnWithStateObjectAndSuccess)
     }
   }, [
     dataContext?.id,
