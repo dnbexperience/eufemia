@@ -131,8 +131,8 @@ export const TrProperties: PropertiesTableProps = {
 
 export const TrEventProperties: PropertiesTableProps = {
   onClick: {
-    doc: 'Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. Returns a native click.',
-    type: '(event) => void',
+    doc: 'Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).',
+    type: '(event, { trElement }) => void',
     defaultValue: 'undefined',
     status: 'optional',
   },
@@ -212,6 +212,21 @@ export const TdProperties: PropertiesTableProps = {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
+    status: 'optional',
+  },
+}
+
+export const TdEventProperties: PropertiesTableProps = {
+  onClick: {
+    doc: 'Will emit when user clicks the cell button. The second argument is an object with `trElement` (the parent `HTMLTableRowElement`), `tdElement` (the `HTMLTableCellElement`), and `thElement` (the matching `<Th>` from `<thead>`, or `null` if not found).',
+    type: '(event, { trElement, tdElement, thElement }) => void',
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
+  icon: {
+    doc: 'Icon to show in the clickable cell. Set to `true` for the default chevron icon, or pass a custom icon. Set to `false` to hide the icon. Only takes effect when `onClick` is provided.',
+    type: ['boolean', 'IconIcon'],
+    defaultValue: 'true',
     status: 'optional',
   },
 }

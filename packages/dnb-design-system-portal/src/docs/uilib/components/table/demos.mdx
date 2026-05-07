@@ -70,6 +70,18 @@ return (
 )
 ```
 
+### Table with clickable rows (navigation mode)
+
+Use `mode="navigation"` on the `<Table>` and `onClick` on individual `<Tr>` rows to make them clickable. A chevron icon is rendered in an additional cell at the end of each clickable row for screen reader and keyboard accessibility. Rows respond to click as well as keyboard interaction with Space and Enter. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+<Examples.ClickableRows />
+
+### Table with clickable cells
+
+Use `onClick` on individual `<Td>` cells to make them clickable. A native `<button>` is rendered inside the cell for screen reader and keyboard accessibility. The chevron icon is included by default, but is only shown on hover, active, and keyboard focus. Use `icon={false}` to hide it entirely, or pass a custom icon. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+<Examples.ClickableCells />
+
 ### Table with keyboard navigation
 
 Use the `useTableKeyboardNavigation` hook to navigate between cells with arrow keys. Focusable elements inside cells (inputs, buttons) receive focus automatically.
@@ -81,10 +93,6 @@ import Table, {
 ```
 
 <Examples.KeyboardNavigation />
-
-### Table with navigation
-
-<Examples.Navigation />
 
 ### Table with sticky header
 

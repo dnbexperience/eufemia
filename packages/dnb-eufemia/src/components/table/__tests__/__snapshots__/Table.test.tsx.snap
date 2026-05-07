@@ -433,6 +433,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
+ * Utilities
+ */
+/*
 * Table component
 *
 */
@@ -492,6 +495,84 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th:last-child::after {
   right: 0;
+}
+
+.dnb-table__td--clickable {
+  padding: 0;
+}
+
+.dnb-table__td--clickable:active {
+  --background-color: var(--table-accordion-background--active);
+}
+
+.dnb-table__td__button {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  text-align: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dnb-table__td__button__icon {
+  flex: none;
+  color: var(--table-accordion-icon-color);
+  opacity: 0;
+}
+
+.dnb-table__td__button:focus-visible {
+  outline: none;
+}
+
+.dnb-table__td__button::before {
+  content: "";
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  border: var(--table-accordion-outline-width) solid transparent;
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover[disabled] {
+  cursor: not-allowed;
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled])::before {
+  border-color: var(--table-accordion-outline-color);
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .dnb-table__td__button__icon {
+  color: var(--table-accordion-icon-color--active);
+  opacity: 1;
+}
+
+.dnb-table__td__button:active::before {
+  border-color: var(--table-accordion-outline-color);
+  border-width: var(--table-accordion-outline-width--active);
+}
+
+.dnb-table__td__button:active .dnb-table__td__button__icon {
+  color: var(--table-accordion-icon-color--active);
+  opacity: 1;
+}
+
+.dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
+  border-color: var(--token-color-stroke-action-focus);
+  border-width: var(--focus-ring-width);
+}
+
+.dnb-table__td__button:not(:active):not(:hover):focus-visible .dnb-table__td__button__icon {
+  opacity: 1;
+}
+
+.dnb-table__td__button__content {
+  flex: 1;
+  min-width: 0;
 }
 
 .dnb-table {
