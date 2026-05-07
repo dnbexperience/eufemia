@@ -102,7 +102,6 @@
   ],
   "types": "./index.d.ts",
   "dependencies": {
-    "@babel/runtime-corejs3": "7.28.4",
     "@maskito/core": "5.1.0",
     "@maskito/kit": "5.1.0",
     "@maskito/react": "5.1.0",
