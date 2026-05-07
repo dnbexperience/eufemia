@@ -1,4 +1,11 @@
-import type { ReactNode, SyntheticEvent, TdHTMLAttributes } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type ReactNode,
+  type SyntheticEvent,
+  type TdHTMLAttributes,
+} from 'react'
 import clsx from 'clsx'
 import IconPrimary from '../icon/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
@@ -8,6 +15,8 @@ export type TableTdClickInfo = {
   trElement: HTMLTableRowElement | null
   tdElement: HTMLTableCellElement | null
   thElement: HTMLTableCellElement | null
+  isSelected: boolean
+  setSelected: (selected: boolean) => boolean
 }
 
 export type TableTdProps = {
@@ -30,9 +39,17 @@ export type TableTdProps = {
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
   /**
+   * If set to `true`, the cell will be styled as selected.
+   * When provided (either `true` or `false`), the cell button will be
+   * announced as a toggle button by screen readers.
+   * Default: `undefined`
+   */
+  selected?: boolean
+
+  /**
    * Will emit when user clicks the cell button.
    * Renders a native button inside the cell for accessibility.
-   * The second argument contains `trElement`, `tdElement`, and `thElement` (the matching Th in thead).
+   * The second argument contains `trElement`, `tdElement`, `thElement` (the matching Th in thead), and `setSelected`.
    */
   onClick?: (event: SyntheticEvent, info: TableTdClickInfo) => void
 
@@ -62,12 +79,32 @@ export default function Td(
     noSpacing,
     spacing,
     verticalAlign,
+    selected: selectedProp,
     onClick,
     icon = true,
     ...props
   } = componentProps
 
   const hasOnClick = typeof onClick === 'function'
+  const isSelectable = selectedProp !== undefined
+  const [selectedState, setSelectedState] = useState(selectedProp ?? false)
+  const isSelected = isSelectable ? selectedState : false
+
+  useEffect(() => {
+    if (selectedProp !== undefined) {
+      setSelectedState(selectedProp)
+    }
+  }, [selectedProp])
+
+  const setSelected = useCallback(
+    (value: boolean) => {
+      if (isSelectable) {
+        setSelectedState(value)
+      }
+      return value
+    },
+    [isSelectable]
+  )
 
   const resolvedIcon = icon === true ? 'chevron_right' : icon
 
@@ -81,6 +118,7 @@ export default function Td(
         spacing && `dnb-table__td--spacing-${spacing}`,
         verticalAlign && `dnb-table__td--vertical-align-${verticalAlign}`,
         hasOnClick && 'dnb-table__td--clickable',
+        isSelected && 'dnb-table__td--selected',
         className
       )}
       {...props}
@@ -89,6 +127,7 @@ export default function Td(
         <button
           type="button"
           className="dnb-table__td__button"
+          aria-pressed={isSelectable ? isSelected : undefined}
           onClick={(event) => {
             const tdElement = event.currentTarget
               .parentElement as HTMLTableCellElement
@@ -106,6 +145,8 @@ export default function Td(
               trElement,
               tdElement,
               thElement,
+              isSelected,
+              setSelected,
             })
           }}
         >

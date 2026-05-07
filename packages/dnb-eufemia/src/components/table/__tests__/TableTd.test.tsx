@@ -431,3 +431,328 @@ describe('TableTd with onClick (navigable cell)', () => {
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
+
+describe('TableTd selected state', () => {
+  it('should set selected class when selected prop is true', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected>content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--selected'
+    )
+  })
+
+  it('should not set selected class when selected prop is false', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false}>content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+  })
+
+  it('should set aria-pressed on button when selected is true', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={jest.fn()}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  it('should not set aria-pressed when selected prop is not provided', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd onClick={jest.fn()}>content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    expect(button.getAttribute('aria-pressed')).toBeNull()
+  })
+
+  it('should set aria-pressed="false" when selected is false', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={jest.fn()}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    expect(button.getAttribute('aria-pressed')).toBe('false')
+  })
+
+  it('should provide setSelected and isSelected in onClick callback', () => {
+    const onClick = jest.fn()
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    fireEvent.click(button)
+
+    const info = onClick.mock.calls[0][1]
+    expect(typeof info.setSelected).toBe('function')
+    expect(info.isSelected).toBe(false)
+  })
+
+  it('should not apply selection when selected prop is not provided', () => {
+    const onClick = jest.fn((_event, { setSelected }) => {
+      setSelected(true)
+    })
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd onClick={onClick}>content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    const td = document.querySelector('td')
+
+    fireEvent.click(button)
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+    expect(button.getAttribute('aria-pressed')).toBeNull()
+  })
+
+  it('should toggle selected state via setSelected from onClick', () => {
+    const onClick = jest.fn((_event, { isSelected, setSelected }) => {
+      const result = setSelected(!isSelected)
+      expect(result).toBe(!isSelected)
+    })
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    const td = document.querySelector('td')
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+
+    fireEvent.click(button)
+
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+
+    fireEvent.click(button)
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+    expect(button.getAttribute('aria-pressed')).toBe('false')
+  })
+
+  it('should allow deselecting via setSelected(false)', () => {
+    let setSelectedRef: (v: boolean) => void
+
+    const onClick = jest.fn((_event, { setSelected }) => {
+      setSelectedRef = setSelected
+      setSelected(true)
+    })
+
+    const { rerender } = render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    fireEvent.click(button)
+
+    const td = document.querySelector('td')
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+
+    // Deselect by calling setSelected(false) outside of click
+    setSelectedRef(false)
+
+    rerender(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+  })
+
+  it('should use selected prop as initial value', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={jest.fn()}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const td = document.querySelector('td')
+    const button = document.querySelector('td button')
+
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  it('should let internal state take precedence after setSelected', () => {
+    const onClick = jest.fn((_event, { setSelected }) => {
+      setSelected(true)
+    })
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const td = document.querySelector('td')
+    const button = document.querySelector('td button')
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+
+    fireEvent.click(button)
+
+    // Internal state (true) takes precedence over prop (false)
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  it('should sync when selected prop changes externally', () => {
+    const { rerender } = render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected={false} onClick={jest.fn()}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const td = document.querySelector('td')
+    const button = document.querySelector('td button')
+
+    expect(Array.from(td.classList)).not.toContain(
+      'dnb-table__td--selected'
+    )
+
+    rerender(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={jest.fn()}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  it('should have no axe violations with selected cell', async () => {
+    const Component = render(
+      <table>
+        <thead>
+          <tr>
+            <th>Column A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={jest.fn()}>
+              Cell A
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+})
