@@ -153,6 +153,20 @@ This example uses `scope="row"` with a table header (`<th>`) in each row.
 <Examples.WithoutClasses />
 <Examples.ClassHelpers />
 
+### Column highlight
+
+Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+To adjust the border colors accordingly, pass the `highlightPlugin` via the `plugins` prop on `<Table>`.
+
+```tsx
+import Table, { highlightPlugin } from '@dnb/eufemia/components/Table'
+
+render(<Table plugins={[highlightPlugin]}>...</Table>)
+```
+
+<Examples.ColumnHighlight />
+
 <VisibleWhenVisualTest>
   <Examples.VariantCombinations />
 </VisibleWhenVisualTest>

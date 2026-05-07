@@ -1,6 +1,8 @@
 import {
   useCallback,
+  useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
   type SyntheticEvent,
@@ -10,6 +12,7 @@ import clsx from 'clsx'
 import IconPrimary from '../icon/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
+import { TableTrContext } from './TableTrContext'
 
 export type TableTdClickInfo = {
   trElement: HTMLTableRowElement | null
@@ -47,6 +50,13 @@ export type TableTdProps = {
   selected?: boolean
 
   /**
+   * Highlights this cell with a subtle background.
+   * Automatically set when the parent Tr has `highlight`.
+   * Default: `false`
+   */
+  highlight?: boolean
+
+  /**
    * Will emit when user clicks the cell button.
    * Renders a native button inside the cell for accessibility.
    * The second argument contains `trElement`, `tdElement`, `thElement` (the matching Th in thead), `isSelected`, and `setSelected`.
@@ -79,11 +89,17 @@ export default function Td(
     noSpacing,
     spacing,
     verticalAlign,
+    highlight: highlightProp,
     selected: selectedProp,
     onClick,
     icon = true,
     ...props
   } = componentProps
+
+  const trContext = useContext(TableTrContext)
+  const highlight = highlightProp || trContext?.highlight
+
+  const tdRef = useRef<HTMLTableCellElement>(undefined)
 
   const hasOnClick = typeof onClick === 'function'
   const isSelectable = selectedProp !== undefined
@@ -110,6 +126,7 @@ export default function Td(
 
   return (
     <td
+      ref={tdRef}
       // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
       role="cell"
       className={clsx(
@@ -119,6 +136,7 @@ export default function Td(
         verticalAlign && `dnb-table__td--vertical-align-${verticalAlign}`,
         hasOnClick && 'dnb-table__td--clickable',
         isSelected && 'dnb-table__td--selected',
+        highlight && 'dnb-table__td--highlight',
         className
       )}
       {...props}

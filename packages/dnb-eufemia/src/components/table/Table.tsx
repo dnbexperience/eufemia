@@ -88,7 +88,22 @@ export type TableProps = {
    * Default: `undefined`
    */
   collapseAllHandleRef?: RefObject<() => void>
+
+  /**
+   * Array of table plugins that run as effects with access to the table element.
+   * Each plugin receives the table DOM element and may return a cleanup function.
+   * Default: `undefined`
+   */
+  plugins?: TablePlugin[]
 } & TableStickyHeaderProps
+
+/**
+ * A table plugin function that receives the table element after render.
+ * It may return a cleanup function that is called before re-running or on unmount.
+ */
+export type TablePlugin = (
+  tableElement: HTMLTableElement
+) => void | (() => void)
 
 export type TableAllProps = TableProps &
   Omit<TableHTMLAttributes<HTMLTableElement>, 'border'> &
@@ -129,6 +144,7 @@ const Table = (componentProps: TableAllProps) => {
     accordionChevronPlacement,
     collapseAllHandleRef,
     ref,
+    plugins,
     ...props
   } = allProps
 
@@ -137,6 +153,23 @@ const Table = (componentProps: TableAllProps) => {
 
   const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
   const collapseTrCallbacks = useRef<(() => void)[]>([])
+
+  useEffect(() => {
+    const table = elementRef.current
+    if (!table || !plugins?.length) {
+      return undefined // stop here
+    }
+
+    const cleanups = plugins
+      .map((plugin) => plugin(table))
+      .filter(Boolean) as (() => void)[]
+
+    return () => {
+      for (const cleanup of cleanups) {
+        cleanup()
+      }
+    }
+  })
 
   useEffect(() => {
     if (collapseAllHandleRef) {
@@ -197,5 +230,6 @@ export { useTableKeyboardNavigation } from './useTableKeyboardNavigation'
 export { default as Th } from './TableTh'
 export { default as Td } from './TableTd'
 export { default as Tr } from './TableTr'
+export { highlightPlugin } from './plugins/TableHighlightPlugin'
 
 Table.ScrollView = ScrollView

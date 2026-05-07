@@ -609,4 +609,15 @@ test.describe('Table', () => {
     })
     expect(screenshot).toMatchSnapshot()
   })
+
+  test('have to match column highlight', async () => {
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      style: {
+        width: '40rem',
+      },
+      selector: '[data-visual-test="table-column-highlight"] .dnb-table',
+    })
+    expect(screenshot).toMatchSnapshot()
+  })
 })

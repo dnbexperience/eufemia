@@ -46,6 +46,7 @@ import Table, {
   Td,
   Tr,
   useTableKeyboardNavigation,
+  highlightPlugin,
 } from '@dnb/eufemia/src/components/Table'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
@@ -2160,6 +2161,61 @@ export const TableInAccordionTable = () => (
             id="accordion-table-in-table"
             accordionChevronPlacement="right"
           />
+        </Table.ScrollView>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ColumnHighlight = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-column-highlight"
+    scope={{ highlightPlugin }}
+  >
+    {() => {
+      const plugins = [highlightPlugin]
+      return (
+        <Table.ScrollView>
+          <Table outline border plugins={plugins}>
+            <caption className="dnb-sr-only">
+              Table with highlighted column
+            </caption>
+
+            <thead>
+              <Tr>
+                <Th />
+                <Th highlight>Column A</Th>
+                <Th highlight>Column B</Th>
+                <Th>Column C</Th>
+                <Th>Column D</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr highlight>
+                <Th>Row 1 Header</Th>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+              </Tr>
+              <Tr>
+                <Th>Row 2 Header</Th>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+              </Tr>
+              <Tr>
+                <Th>Row 3 Header</Th>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td highlight>Row 3</Td>
+                <Td>Row 3</Td>
+              </Tr>
+            </tbody>
+          </Table>
         </Table.ScrollView>
       )
     }}

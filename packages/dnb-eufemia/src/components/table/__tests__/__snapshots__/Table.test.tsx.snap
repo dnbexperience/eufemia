@@ -109,6 +109,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 */
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
+  --table-th-highlight-background: var(
+    --token-color-decorative-first-muted
+  );
+  --table-th-highlight-border: var(--token-color-decorative-first-subtle);
   display: table;
   table-layout: auto;
   width: 100%;
@@ -432,6 +436,24 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   width: 100%;
 }
 
+.dnb-table__th--highlight {
+  --table-th-background-color: var(--table-th-highlight-background);
+}
+
+.dnb-table--border .dnb-table__th--highlight + .dnb-table__th--highlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  right: -0.0625rem;
+  z-index: 1;
+  pointer-events: none;
+  border-left: var(--table-border-left);
+}
+
+.dnb-table--border .dnb-table__th--highlight + .dnb-table__th--highlight:last-child::after {
+  right: 0;
+}
+
 /*
  * Utilities
  */
@@ -452,8 +474,10 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   right: -0.0625rem;
   z-index: 1;
   pointer-events: none;
-  border: var(--table-border);
-  border-bottom: none;
+  border-left: var(--table-border-left, var(--table-border));
+  border-right: var(--table-border-right, var(--table-border));
+  border-top: var(--table-border-top, var(--table-border));
+  border-bottom: var(--table-border-bottom, none);
 }
 
 .dnb-table--border tbody .dnb-table__td:last-child::after,
@@ -478,7 +502,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__td::after,
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
-  border-top: var(--table-border);
+  border-top: var(--table-border-top, var(--table-border));
 }
 
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td::after,
@@ -489,7 +513,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   right: -0.0625rem;
   z-index: 1;
   pointer-events: none;
-  border-top: var(--table-border);
+  border-top: var(--table-border-top, var(--table-border));
 }
 
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
@@ -579,6 +603,20 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 .dnb-table__td__button__content {
   flex: 1;
   min-width: 0;
+}
+
+.dnb-table__td--highlight {
+  --background-color: var(--table-th-highlight-background);
+}
+
+.dnb-table__td--highlight-border {
+  --table-border-top: var(--table-border-width) solid
+    var(--table-th-highlight-border);
+}
+
+.dnb-table__th--highlight + .dnb-table__th--highlight, .dnb-table__th--highlight + .dnb-table__td--highlight, .dnb-table__td--highlight + .dnb-table__td--highlight {
+  --table-border-left: var(--table-border-width) solid
+    var(--table-th-highlight-border);
 }
 
 .dnb-table__td--selected {

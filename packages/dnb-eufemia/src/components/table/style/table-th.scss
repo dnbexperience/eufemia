@@ -3,13 +3,14 @@
 *
 */
 
+@use './table-mixins.scss' as table-mixins;
+
 .dnb-table {
   &__th__horizontal {
     display: flex;
     align-items: flex-end; // bottom align help-button or other additional elements
   }
 
-  // head
   &__th,
   & thead th {
     background-color: var(--table-th-background-color);
@@ -21,5 +22,14 @@
   }
   & tbody tr th[scope='row'] + td:last-child {
     width: 100%;
+  }
+
+  &__th--highlight {
+    --table-th-background-color: var(--table-th-highlight-background);
+  }
+  &--border &__th--highlight + &__th--highlight {
+    @include table-mixins.tableBorder() {
+      border-left: var(--table-border-left);
+    }
   }
 }

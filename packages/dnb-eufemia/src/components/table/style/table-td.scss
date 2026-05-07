@@ -12,14 +12,16 @@
     background-color: var(--background-color);
   }
 
-  // table border
+  // Table border
   &--border {
     tbody {
       .dnb-table__td,
       .dnb-table__th {
         @include table-mixins.tableBorder() {
-          border: var(--table-border);
-          border-bottom: none;
+          border-left: var(--table-border-left, var(--table-border));
+          border-right: var(--table-border-right, var(--table-border));
+          border-top: var(--table-border-top, var(--table-border));
+          border-bottom: var(--table-border-bottom, none);
         }
         &:first-child::after {
           border-left: none;
@@ -45,7 +47,7 @@
         .dnb-table__td,
         .dnb-table__th {
           &::after {
-            border-top: var(--table-border);
+            border-top: var(--table-border-top, var(--table-border));
           }
         }
       }
@@ -58,7 +60,7 @@
       .dnb-table__td,
       .dnb-table__th {
         @include table-mixins.tableBorder() {
-          border-top: var(--table-border);
+          border-top: var(--table-border-top, var(--table-border));
         }
       }
     }
@@ -73,6 +75,7 @@
     }
   }
 
+  // Clickable cell with button
   &__td__button {
     display: flex;
     align-items: center;
@@ -152,6 +155,21 @@
       flex: 1;
       min-width: 0;
     }
+  }
+
+  // Highlighted cell
+  &__td--highlight {
+    --background-color: var(--table-th-highlight-background);
+  }
+  &__td--highlight-border {
+    --table-border-top: var(--table-border-width) solid
+      var(--table-th-highlight-border);
+  }
+  &__th--highlight + &__th--highlight,
+  &__th--highlight + &__td--highlight,
+  &__td--highlight + &__td--highlight {
+    --table-border-left: var(--table-border-width) solid
+      var(--table-th-highlight-border);
   }
 
   // Selected cell

@@ -2,6 +2,9 @@ import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import type { TableTdProps } from '../TableTd'
 import TableTd from '../TableTd'
+import TableTh from '../TableTh'
+import TableTr from '../TableTr'
+import Table, { highlightPlugin } from '../Table'
 import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {
@@ -797,5 +800,88 @@ describe('TableTd selected state', () => {
       </table>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it('should set highlight class when highlight prop is true', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd highlight>td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--highlight'
+    )
+  })
+
+  it('should not set highlight class when highlight prop is false', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd highlight={false}>td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-table__td--highlight'
+    )
+  })
+
+  it('should inherit highlight from Tr context', () => {
+    render(
+      <Table>
+        <tbody>
+          <TableTr highlight>
+            <TableTd>td content</TableTd>
+          </TableTr>
+        </tbody>
+      </Table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--highlight'
+    )
+  })
+
+  it('should inherit highlight from Th in the same column', () => {
+    render(
+      <Table plugins={[highlightPlugin]}>
+        <thead>
+          <TableTr>
+            <TableTh>A</TableTh>
+            <TableTh highlight>B</TableTh>
+            <TableTh>C</TableTh>
+          </TableTr>
+        </thead>
+        <tbody>
+          <TableTr>
+            <TableTd>1</TableTd>
+            <TableTd>2</TableTd>
+            <TableTd>3</TableTd>
+          </TableTr>
+        </tbody>
+      </Table>
+    )
+
+    const cells = document.querySelectorAll('td')
+    expect(Array.from(cells[0].classList)).not.toContain(
+      'dnb-table__td--highlight'
+    )
+    expect(Array.from(cells[1].classList)).toContain(
+      'dnb-table__td--highlight'
+    )
+    expect(Array.from(cells[2].classList)).not.toContain(
+      'dnb-table__td--highlight'
+    )
   })
 })

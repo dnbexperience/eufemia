@@ -248,4 +248,59 @@ describe('TableTh', () => {
   it('should have Th.HelpButton', () => {
     expect(TableTh.HelpButton).toBe(TableHelpButton)
   })
+
+  it('should set the highlight class', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh highlight>th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__th--highlight'
+    )
+  })
+
+  it('should not set the highlight class when highlight is false', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh>th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-table__th--highlight'
+    )
+  })
+
+  it('should combine highlight with other classes', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh highlight sortable active className="custom">
+              th content
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    const classList = Array.from(element.classList)
+    expect(classList).toContain('dnb-table__th--highlight')
+    expect(classList).toContain('dnb-table--sortable')
+    expect(classList).toContain('dnb-table--active')
+    expect(classList).toContain('custom')
+  })
 })
