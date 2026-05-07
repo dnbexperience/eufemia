@@ -124,13 +124,13 @@ export type BreadcrumbProps = {
 
   /**
    * Use one of the Section background colors.
-   * Default: `transparent`
+   * Default: `var(--token-color-background-neutral)`
    */
   backgroundColor?: SectionBackgroundColor
 
   /**
    * Use one of the Section component variants
-   * Default: `information`
+   * Default: `undefined`
    */
   collapsedStyleType?: SectionVariants
 
@@ -168,8 +168,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   homeText: 'Home',
   backToText: 'Back to...',
   collapsed: true,
-  backgroundColor: 'transparent',
-  collapsedStyleType: 'information',
+  backgroundColor: 'var(--token-color-background-neutral)',
   spacing: false,
 }
 
@@ -277,7 +276,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
       <Section
         className="dnb-breadcrumb__bar"
-        backgroundColor={backgroundColor || 'transparent'}
+        backgroundColor={backgroundColor}
         innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (
