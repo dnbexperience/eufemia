@@ -163,6 +163,92 @@ describe('DataContext.Provider', () => {
       expect(input).toHaveValue('changed')
     })
 
+    it('should update field value when data prop changes with id', () => {
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('changed')
+    })
+
+    it('should preserve updated data prop after unmount and remount with id', () => {
+      const { rerender, unmount } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('original')
+
+      // Update data prop
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('updated')
+
+      // Unmount
+      unmount()
+
+      // Remount with the same updated data
+      render(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const remountedInput = document.querySelector('input')
+      expect(remountedInput).toHaveValue('updated')
+    })
+
+    it('should sync shared state when data prop changes with id', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      // First render the Provider so the shared state is set up
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const span = document.querySelector(
+        '[data-testid="consumer"]'
+      )
+
+      expect(input).toHaveValue('original')
+      expect(span).toHaveTextContent('{"foo":"original"}')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('changed')
+      expect(span).toHaveTextContent('{"foo":"changed"}')
+    })
+
     it('should handle path change', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>

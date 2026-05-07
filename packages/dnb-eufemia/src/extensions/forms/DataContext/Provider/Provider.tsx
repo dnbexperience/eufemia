@@ -928,9 +928,43 @@ export default function Provider<Data extends JsonObject>(
       sharedData.update(initialData)
     }
 
-    // Merge both internal data and the shared state, if it both where given
+    // Track data prop reference changes (handles inline objects that create new references each render)
+    if (data !== cacheRef.current.data) {
+      const prevData = cacheRef.current.data
+      cacheRef.current.data = data
+
+      // When the data VALUE actually changed (not just the reference),
+      // update internal data. This handles both controlled data prop updates
+      // and inline objects that create new references each render.
+      if (
+        data !== undefined &&
+        (prevData === undefined ||
+          JSON.stringify(data) !== JSON.stringify(prevData))
+      ) {
+        cacheRef.current.hasUsedInitialData = true
+        return data
+      }
+    }
+
+    // On initial mount / remount, apply data prop unless shared state
+    // was externally initialized via Form.useData(id, initialData).
+    if (
+      data !== undefined &&
+      !cacheRef.current.hasUsedInitialData &&
+      (!id || !sharedData?.hadInitialData)
+    ) {
+      cacheRef.current.data = data
+      cacheRef.current.hasUsedInitialData = true
+      return data
+    }
+
+    // Merge both internal data and the shared state, if both were given
+    // and the shared state was externally initialized (e.g. via Form.useData(id, initialData)).
+    // Without the hadInitialData check, stale shared data from a previous mount
+    // could overwrite the current data prop on remount.
     if (
       id &&
+      sharedData?.hadInitialData &&
       initialData &&
       sharedData.data &&
       cacheRef.current.shared === sharedData.data &&
@@ -974,12 +1008,6 @@ export default function Provider<Data extends JsonObject>(
         ...internalDataRef.current,
         ...(sharedData.data || {}),
       }
-    }
-
-    // When external data has changed, update the internal data
-    if (data !== cacheRef.current.data) {
-      cacheRef.current.data = data
-      return data
     }
 
     return internalDataRef.current
@@ -1668,6 +1696,25 @@ export default function Provider<Data extends JsonObject>(
       }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
+
+  // Sync shared state when data prop value changes.
+  // Only sync when the shared state was NOT externally initialized (e.g., via Form.useData(id, initialData)).
+  // Uses JSON.stringify comparison to avoid infinite loops with inline objects
+  // that create new references each render but have the same values.
+  // Initialized with current data so the effect only fires on actual value changes,
+  // not on the initial mount.
+  const prevSyncedDataStringRef = useRef<string | undefined>(
+    data !== undefined ? JSON.stringify(data) : undefined
+  )
+  useLayoutEffect(() => {
+    if (id && data !== undefined && !sharedData?.hadInitialData) {
+      const dataString = JSON.stringify(data)
+      if (dataString !== prevSyncedDataStringRef.current) {
+        prevSyncedDataStringRef.current = dataString
+        extendSharedData(data, { preventSyncOfSameInstance: true })
+      }
+    }
+  }, [id, data, extendSharedData, sharedData?.hadInitialData])
 
   useLayoutEffect(() => {
     if (id) {
