@@ -386,4 +386,33 @@ describe('Table using mode="navigation" prop', () => {
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)
     expect(onClick).toHaveBeenCalledTimes(2)
   })
+
+  it('tr should not crash on keyDown when onClick is not provided', () => {
+    render(
+      <Table mode="navigation">
+        <thead>
+          <Tr>
+            <Th>heading</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tbody tr')
+
+    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+
+    expect(() => {
+      fireEvent.keyDown(trElement, { key: 'Enter' })
+    }).not.toThrow()
+
+    expect(() => {
+      fireEvent.keyDown(trElement, { key: ' ' })
+    }).not.toThrow()
+  })
 })
