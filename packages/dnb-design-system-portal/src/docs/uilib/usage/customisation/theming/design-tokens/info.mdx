@@ -8,7 +8,7 @@ import { TokenExample, TokenNamingRules } from './Examples'
 
 **Beta:** The `--token-*` CSS custom properties are in beta. We encourage you to start using them and welcome your feedback. The token API may still change, but we will communicate any breaking changes.
 
-**Deprecated legacy colors:** The old `--color-*` CSS custom properties are deprecated. Prefer semantic design tokens such as `--token-color-text-neutral` instead. If you want automated help finding legacy color usage, Eufemia also ships integrated ESLint and Stylelint plugins via `@dnb/eufemia/plugins/eslint.js` and `@dnb/eufemia/plugins/stylelint.js`.
+**Deprecated legacy colors:** The old `--color-*` CSS custom properties are deprecated. Prefer semantic design tokens such as `--token-color-text-neutral` instead. If you want automated help finding legacy color usage, Eufemia ships integrated ESLint and Stylelint plugins via `@dnb/eufemia/plugins/eslint.js` and `@dnb/eufemia/plugins/stylelint.js`. If you use the [style isolation](/uilib/usage/customisation/styling/style-isolation/) PostCSS plugin, `warnOnDeprecatedColorVariables` is enabled by default to give you build-time warnings. You can disable it by setting `warnOnDeprecatedColorVariables: false`.
 
 ---
 

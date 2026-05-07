@@ -32,6 +32,7 @@ module.exports = {
               [getStyleScopeHash()]: 'eufemia-scope--portal',
             },
             verbose: false,
+            warnOnDeprecatedColorVariables: false,
           }),
           postcssThemeScopePlugin(),
           postcssFontUrlRewritePlugin({
