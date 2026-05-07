@@ -250,7 +250,7 @@ function FlexContainer(props: FlexContainerAllProps) {
       data-media-key={mediaKey}
       style={
         hasSizeProp
-          ? ({ '--sizeCount': sizeCount, ...style } as CSSProperties)
+          ? ({ '--size-count': sizeCount, ...style } as CSSProperties)
           : style
       }
       {...rest}
