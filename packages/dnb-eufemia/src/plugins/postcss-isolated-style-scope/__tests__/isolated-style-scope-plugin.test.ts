@@ -1447,7 +1447,17 @@ describe('isolated-style-scope-plugin', () => {
       return result.warnings()
     }
 
-    it('should not warn when opted out', async () => {
+    it('should warn by default without explicit opt-in', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--color-sea-green); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0].text).toContain('--color-sea-green')
+    })
+
+    it('should not warn when explicitly disabled', async () => {
       const warnings = await runWithWarnings(
         '.foo { color: var(--color-sea-green); }',
         {
@@ -1462,7 +1472,7 @@ describe('isolated-style-scope-plugin', () => {
     it('should warn on deprecated color variable in value', async () => {
       const warnings = await runWithWarnings(
         '.foo { color: var(--color-sea-green); }',
-        { scopeHash: 'test-scope', warnOnDeprecatedColorVariables: true }
+        { scopeHash: 'test-scope' }
       )
 
       expect(warnings).toHaveLength(1)
@@ -1475,7 +1485,7 @@ describe('isolated-style-scope-plugin', () => {
     it('should warn on deprecated color variable in property', async () => {
       const warnings = await runWithWarnings(
         '.foo { --color-mint: #00f; }',
-        { scopeHash: 'test-scope', warnOnDeprecatedColorVariables: true }
+        { scopeHash: 'test-scope' }
       )
 
       expect(warnings).toHaveLength(1)
@@ -1485,7 +1495,7 @@ describe('isolated-style-scope-plugin', () => {
     it('should warn once per unique variable in a declaration', async () => {
       const warnings = await runWithWarnings(
         '.foo { background: var(--color-sea-green) var(--color-sea-green); }',
-        { scopeHash: 'test-scope', warnOnDeprecatedColorVariables: true }
+        { scopeHash: 'test-scope' }
       )
 
       expect(warnings).toHaveLength(1)
@@ -1494,7 +1504,7 @@ describe('isolated-style-scope-plugin', () => {
     it('should warn for multiple different deprecated variables', async () => {
       const warnings = await runWithWarnings(
         '.foo { color: var(--color-sea-green); background: var(--color-mint); }',
-        { scopeHash: 'test-scope', warnOnDeprecatedColorVariables: true }
+        { scopeHash: 'test-scope' }
       )
 
       expect(warnings).toHaveLength(2)

@@ -22,7 +22,7 @@ const postcssIsolateStyle = (opts = {}) => {
     replaceClassNames = undefined,
     verbose = false,
     runAsCssModule = false,
-    warnOnDeprecatedColorVariables = false,
+    warnOnDeprecatedColorVariables = true,
   } = opts
 
   const currentFallbackHash = getStyleScopeHash()
