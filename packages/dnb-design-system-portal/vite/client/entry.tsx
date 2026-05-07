@@ -5,6 +5,8 @@
 import PortalApp from './portal-app'
 import { bootstrapPortalApp } from './bootstrap-portal-app'
 import { renderPortalApp } from './render-portal-app'
+import { setupChunkLoadErrorHandler } from './chunk-load-error-handler'
+import { unregisterLegacyServiceWorkers } from './unregister-legacy-service-workers'
 import { routes } from 'virtual:portal-pages'
 
 export const currentRoutes = routes
@@ -19,6 +21,16 @@ if (
   globalThis.IS_TEST = true
   document.documentElement.setAttribute('data-visual-test', 'true')
 }
+
+// Recover from stale chunk URLs after a deploy by reloading once when
+// a dynamic import fails (e.g. the previous app shell restored from
+// bfcache after we switched bundlers).
+setupChunkLoadErrorHandler()
+
+// Clean up service workers registered by previous portal versions
+// (e.g. Gatsby's offline plugin) so they no longer intercept fetches
+// with stale cached responses.
+unregisterLegacyServiceWorkers()
 
 void bootstrapPortalApp(PortalApp, currentRoutes, {
   pathname:
