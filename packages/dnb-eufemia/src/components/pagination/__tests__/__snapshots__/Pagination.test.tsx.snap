@@ -1118,7 +1118,7 @@ button.dnb-button::-moz-focus-inner {
   width: 100%;
   will-change: transform;
   height: var(--progress-indicator-linear-size);
-  border-radius: calc(var(--progress-indicator-linear-size) / 2);
+  border-radius: var(--token-radius-full);
 }
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
