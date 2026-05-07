@@ -88,7 +88,11 @@ describe('prerender-utils', () => {
       },
       {
         fields: { slug: 'uilib/components/button/info' },
-        frontmatter: { title: '', description: '' },
+        frontmatter: { title: '', description: '', showTabs: true },
+      },
+      {
+        fields: { slug: 'uilib/components/button/demos' },
+        frontmatter: { title: '', description: '', showTabs: true },
       },
       {
         fields: { slug: 'uilib/components/card' },
@@ -111,10 +115,33 @@ describe('prerender-utils', () => {
       })
     })
 
-    it('inherits title from parent for tab sub-pages', () => {
+    it('constructs tab title for tab sub-pages with showTabs', () => {
       const meta = getPageMeta('/uilib/components/button/info/', nodes)
-      expect(meta.title).toBe('Button')
+      expect(meta.title).toBe('Button → Info')
       expect(meta.description).toBe('A button component')
+    })
+
+    it('constructs tab title for demos tab', () => {
+      const meta = getPageMeta('/uilib/components/button/demos/', nodes)
+      expect(meta.title).toBe('Button → Demos')
+    })
+
+    it('inherits parent title without tab suffix when showTabs is not set', () => {
+      const noTabNodes = [
+        {
+          fields: { slug: 'uilib/components/button' },
+          frontmatter: { title: 'Button', description: '' },
+        },
+        {
+          fields: { slug: 'uilib/components/button/info' },
+          frontmatter: { title: '', description: '' },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/components/button/info/',
+        noTabNodes
+      )
+      expect(meta.title).toBe('Button')
     })
 
     it('returns empty strings for unknown routes', () => {

@@ -82,6 +82,25 @@ export function getPageMeta(
 
     if (parent?.frontmatter?.title) {
       title = parent.frontmatter.title as string
+
+      // For tab pages (showTabs but no own title), construct
+      // "ParentTitle → TabTitle" to match the client-side title.
+      if (node.frontmatter.showTabs) {
+        const tabKey = '/' + slug.split('/').pop()
+        const defaultTabs = [
+          { title: 'Info', key: '/info' },
+          { title: 'Demos', key: '/demos' },
+          { title: 'Properties', key: '/properties' },
+          { title: 'Events', key: '/events' },
+        ]
+        const tabs =
+          (parent.frontmatter.tabs as typeof defaultTabs) || defaultTabs
+        const tab = tabs.find((t) => t.key === tabKey)
+
+        if (tab?.title) {
+          title = `${parent.frontmatter.title} → ${tab.title}`
+        }
+      }
     }
 
     if (!description && parent?.frontmatter?.description) {
@@ -213,13 +232,40 @@ export function injectHtml(
     ''
   )
 
+  // React's renderToString serializes CSS custom properties in inline
+  // styles without spaces (e.g. "--var:value") while the browser
+  // normalizes them with spaces ("--var: value;"). This causes
+  // hydration mismatches. Normalize the format to match the browser.
+  appHtml = appHtml.replace(
+    /style="([^"]*)"/g,
+    (_match: string, styleContent: string) => {
+      const normalized = styleContent
+        .split(';')
+        .filter(Boolean)
+        .map((decl: string) => {
+          const colonIdx = decl.indexOf(':')
+          if (colonIdx === -1) return decl
+          const prop = decl.slice(0, colonIdx).trim()
+          const value = decl.slice(colonIdx + 1).trim()
+          return `${prop}: ${value}`
+        })
+        .join('; ')
+      return normalized ? `style="${normalized};"` : 'style=""'
+    }
+  )
+
   // Inject the prerendered HTML into the root div, followed by a
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
+
+  // Restore sidebar scroll position before first paint so the menu
+  // doesn't flash at the top before jumping to the saved position.
+  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(localStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

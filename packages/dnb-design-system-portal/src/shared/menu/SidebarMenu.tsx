@@ -4,7 +4,7 @@
  */
 
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import type { CSSProperties, RefObject } from 'react'
+import type { RefObject } from 'react'
 import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
@@ -289,6 +289,13 @@ function ListItem({
     isAccordion ? isInsideActivePath || isActive : true
   )
   const [manualClick, setManualClick] = useState(false)
+
+  useEffect(() => {
+    if (ref.current && nr && nr < 20) {
+      ref.current.style.setProperty('--delay', `${nr * 12}ms`)
+    }
+  }, [nr])
+
   if (hideInMenu) {
     return null
   }
@@ -345,13 +352,6 @@ function ListItem({
           className
         )}
         ref={ref}
-        style={
-          {
-            '--delay': `${
-              nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
-            }ms`,
-          } as CSSProperties /* Casting to allow css variable in JSX inline styling */
-        }
       >
         <div className="dnb-sidebar-menu__item">
           <Anchor

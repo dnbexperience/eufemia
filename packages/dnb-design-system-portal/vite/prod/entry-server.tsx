@@ -6,7 +6,7 @@
  * pages only load the JS they actually need.
  */
 
-import { Component } from 'react'
+import { Component, Suspense } from 'react'
 import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
@@ -151,7 +151,9 @@ function SSRPageWrapper() {
       pageContext={{ frontmatter: {} }}
     >
       <SSRErrorBoundary>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </SSRErrorBoundary>
     </PortalLayout>
   )

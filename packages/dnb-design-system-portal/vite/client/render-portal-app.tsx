@@ -1,5 +1,6 @@
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
+import { releaseVersion } from 'virtual:build-info'
 
 type RootStore = {
   __portalRoot?: Root
@@ -53,10 +54,20 @@ export function renderPortalApp<Props extends object>(
     // that only render client-side) are expected and handled
     // gracefully by React's recovery mechanism.
     root = hydrateRootFn(container, element, {
-      onRecoverableError() {
-        // Suppress hydration mismatch warnings in production.
-        // Known causes: Tooltip AriaLive spans, inline style
-        // formatting differences.
+      onRecoverableError(error, errorInfo) {
+        // Only log hydration mismatches on local and preview builds
+        // so they surface during development without cluttering
+        // production error reporting.
+        if (releaseVersion !== '[LOCAL BUILD]') {
+          return
+        }
+
+        console.group('React recoverable hydration error')
+        console.error(error)
+        if (errorInfo?.componentStack) {
+          console.log(errorInfo.componentStack)
+        }
+        console.groupEnd()
       },
     })
   } else {

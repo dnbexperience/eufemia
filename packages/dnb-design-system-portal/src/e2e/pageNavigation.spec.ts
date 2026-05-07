@@ -55,7 +55,7 @@ test.describe('Page Navigation', () => {
       await page.goto('/uilib/components/button/demos/')
 
       const title = await page.title()
-      expect(title).toContain('Button | Eufemia')
+      expect(title).toContain('Button → Demos | Eufemia')
 
       const heading = await page.textContent('h2')
       expect(heading).toContain('Demos')
