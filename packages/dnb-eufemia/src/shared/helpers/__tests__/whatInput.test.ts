@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import whatInput from '../whatInput'
 
 const dispatchMouse = () =>
@@ -69,5 +70,69 @@ describe('whatInput', () => {
 
     // Reset
     whatInput.specificKeys([])
+  })
+})
+
+describe('whatInput deferred setup', () => {
+  const originalNodeEnv = process.env.NODE_ENV
+
+  beforeEach(() => {
+    vi.resetModules()
+    document.documentElement.removeAttribute('data-whatinput')
+    document.documentElement.removeAttribute('data-whatintent')
+  })
+
+  afterEach(() => {
+    process.env.NODE_ENV = originalNodeEnv
+    vi.unstubAllGlobals()
+    vi.useRealTimers()
+  })
+
+  it('defers setup via requestIdleCallback when not in test mode', async () => {
+    process.env.NODE_ENV = 'production'
+
+    const ric = vi.fn()
+    vi.stubGlobal('requestIdleCallback', ric)
+
+    await import('../whatInput')
+
+    expect(ric).toHaveBeenCalledTimes(1)
+    expect(
+      document.documentElement.getAttribute('data-whatinput')
+    ).toBeNull()
+
+    // Fire the deferred callback
+    ric.mock.calls[0][0]()
+
+    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+      'initial'
+    )
+  })
+
+  it('falls back to setTimeout when requestIdleCallback is unavailable', async () => {
+    process.env.NODE_ENV = 'production'
+
+    vi.stubGlobal('requestIdleCallback', undefined)
+    vi.useFakeTimers()
+
+    await import('../whatInput')
+
+    expect(
+      document.documentElement.getAttribute('data-whatinput')
+    ).toBeNull()
+
+    vi.runAllTimers()
+
+    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+      'initial'
+    )
+  })
+
+  it('sets up synchronously in test mode', async () => {
+    await import('../whatInput')
+
+    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+      'initial'
+    )
   })
 })
