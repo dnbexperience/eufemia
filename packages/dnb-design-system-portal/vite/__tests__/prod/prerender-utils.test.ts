@@ -434,6 +434,29 @@ describe('prerender-utils', () => {
       expect(result).toContain('href="/uilib/components/button.md"')
       expect(result).not.toContain('/demos.md')
     })
+
+    it('strips React 19 inline preload links from app HTML and moves them to head', () => {
+      const appHtml =
+        '<link rel="preload" href="/img/a.png" as="image"/><h1>Hello</h1><link rel="preload" href="/img/b.png" as="image"/>'
+      const result = injectHtml(template, appHtml, { js: [], css: [] })
+
+      // Links should not appear inside #root
+      expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
+
+      // Links should appear in <head>
+      const headContent = result.slice(0, result.indexOf('</head>'))
+      expect(headContent).toContain('href="/img/a.png"')
+      expect(headContent).toContain('href="/img/b.png"')
+    })
+
+    it('strips staticRouterHydrationData script from app HTML', () => {
+      const appHtml =
+        '<h1>Hello</h1><script>window.__staticRouterHydrationData = {"loaderData":{}}</script>'
+      const result = injectHtml(template, appHtml, { js: [], css: [] })
+
+      expect(result).not.toContain('__staticRouterHydrationData')
+      expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
+    })
   })
 
   describe('getMdPath', () => {

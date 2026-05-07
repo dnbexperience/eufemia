@@ -194,13 +194,32 @@ export function injectHtml(
   },
   themeCssPaths?: Record<string, string>
 ): string {
+  // React 19 injects <link rel="preload"> elements inline during
+  // renderToString for resources like images. Strip them from the app
+  // HTML and move them to <head> so they don't break client-side
+  // hydration (React can't match the DOM when unexpected <link>
+  // elements appear before the root component's first element).
+  const reactPreloadLinks: string[] = []
+  appHtml = appHtml.replace(/<link rel="preload"[^>]*\/>/g, (match) => {
+    reactPreloadLinks.push(match)
+    return ''
+  })
+
+  // StaticRouterProvider injects a <script> with hydration data that
+  // is not needed for our hydration approach. Strip it so it doesn't
+  // appear inside the root container as unexpected DOM content.
+  appHtml = appHtml.replace(
+    /<script>window\.__staticRouterHydrationData\s*=[^<]*<\/script>/,
+    ''
+  )
+
   // Inject the prerendered HTML into the root div, followed by a
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n	<script>${contentScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -297,6 +316,13 @@ export function injectHtml(
       .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
       .join('\n    ')
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
+  }
+
+  // Inject React-generated preload links that were stripped from the
+  // app HTML to avoid hydration mismatches.
+  if (reactPreloadLinks.length > 0) {
+    const linkTags = reactPreloadLinks.join('\n    ')
+    html = html.replace('</head>', `    ${linkTags}\n  </head>`)
   }
 
   return html

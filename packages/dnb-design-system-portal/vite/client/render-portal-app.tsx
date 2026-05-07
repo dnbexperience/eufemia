@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
 
 type RootStore = {
@@ -6,29 +6,13 @@ type RootStore = {
 }
 
 type CreateRootFn = (container: Element) => Root
+type HydrateRootFn = typeof hydrateRoot
 
 type RenderPortalAppOptions = {
   container?: Element | null
   rootStore?: RootStore
   createRootFn?: CreateRootFn
-}
-
-export function getOrCreatePortalRoot(
-  container: Element,
-  {
-    rootStore = globalThis as RootStore,
-    createRootFn = createRoot,
-  }: Omit<RenderPortalAppOptions, 'container'> = {}
-) {
-  const existingRoot = rootStore.__portalRoot
-
-  if (existingRoot) {
-    return existingRoot
-  }
-
-  const nextRoot = createRootFn(container)
-  rootStore.__portalRoot = nextRoot
-  return nextRoot
+  hydrateRootFn?: HydrateRootFn
 }
 
 export function renderPortalApp<Props extends object>(
@@ -37,6 +21,7 @@ export function renderPortalApp<Props extends object>(
     container = document.getElementById('root'),
     rootStore = globalThis as RootStore,
     createRootFn = createRoot,
+    hydrateRootFn = hydrateRoot,
     props,
   }: RenderPortalAppOptions & { props?: Props } = {}
 ) {
@@ -44,12 +29,42 @@ export function renderPortalApp<Props extends object>(
     throw new Error('Expected #root container for portal app')
   }
 
-  const root = getOrCreatePortalRoot(container, {
-    rootStore,
-    createRootFn,
-  })
+  const existingRoot = rootStore.__portalRoot
 
-  root.render(<AppComponent {...props} />)
+  if (existingRoot) {
+    existingRoot.render(<AppComponent {...props} />)
+    return existingRoot
+  }
+
+  const element = <AppComponent {...(props as Props)} />
+
+  const hasPreRenderedContent = container.childElementCount > 0
+
+  let root: Root
+
+  if (hasPreRenderedContent) {
+    // The pre-rendered HTML from SSG is already in the DOM. Use
+    // hydrateRoot so React adopts the existing nodes without
+    // rebuilding the tree. The current route's lazy chunk was
+    // pre-resolved before this call, so React Router won't
+    // render a HydrateFallback.
+    //
+    // Minor hydration mismatches (e.g. AriaLive spans from Tooltips
+    // that only render client-side) are expected and handled
+    // gracefully by React's recovery mechanism.
+    root = hydrateRootFn(container, element, {
+      onRecoverableError() {
+        // Suppress hydration mismatch warnings in production.
+        // Known causes: Tooltip AriaLive spans, inline style
+        // formatting differences.
+      },
+    })
+  } else {
+    root = createRootFn(container)
+    root.render(element)
+  }
+
+  rootStore.__portalRoot = root
 
   return root
 }

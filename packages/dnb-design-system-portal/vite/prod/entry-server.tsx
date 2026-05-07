@@ -132,7 +132,7 @@ function RootLayout() {
         disableCoreStyleWrapper
         scopeHash="eufemia-scope--portal"
       >
-        <Theme colorScheme="light">
+        <Theme name="ui" colorScheme="auto">
           <MDXProvider components={tags}>
             <SSRPageWrapper />
           </MDXProvider>

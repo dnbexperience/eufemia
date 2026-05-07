@@ -1,5 +1,6 @@
 type RouteLike = {
   path?: string
+  index?: boolean
   lazy?: (() => Promise<Record<string, unknown>>) | undefined
 } & Record<string, unknown>
 
@@ -7,26 +8,29 @@ export async function preResolveCurrentRoute(
   routes: RouteLike[],
   pathname: string
 ) {
-  for (const route of routes) {
-    if (!route.lazy || !route.path) {
-      continue
+  const currentPath = pathname.replace(/\/+$/, '') || '/'
+
+  const matchingRoutes = routes.filter((route) => {
+    if (!route.lazy) {
+      return false
     }
 
-    const routePath = route.path.replace(/\/+$/, '') || '/'
-    const currentPath = pathname.replace(/\/+$/, '') || '/'
+    // Index routes match when the parent path matches the current URL
+    return route.index
+      ? currentPath === '/'
+      : route.path &&
+          (route.path.replace(/\/+$/, '') || '/') === currentPath
+  })
 
-    if (routePath !== currentPath) {
-      continue
-    }
-
-    try {
-      const resolved = await route.lazy()
-      Object.assign(route, resolved)
-      route.lazy = undefined
-    } catch {
-      // If pre-resolution fails, React Router will handle it.
-    }
-
-    break
-  }
+  await Promise.all(
+    matchingRoutes.map(async (route) => {
+      try {
+        const resolved = await route.lazy()
+        Object.assign(route, resolved)
+        route.lazy = undefined
+      } catch {
+        // If pre-resolution fails, React Router will handle it.
+      }
+    })
+  )
 }
