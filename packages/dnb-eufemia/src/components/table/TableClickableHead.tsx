@@ -100,7 +100,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
             document.activeElement !== target ||
             target.tagName === 'TR'
           ) {
-            onKeyDown(event)
+            onKeyDown?.(event)
             event.preventDefault()
           }
         }
