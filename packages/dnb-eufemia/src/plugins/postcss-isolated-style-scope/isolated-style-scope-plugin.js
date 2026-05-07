@@ -47,7 +47,7 @@ const postcssIsolateStyle = (opts = {}) => {
       const isCssModule = runAsCssModule || file.includes('.module.')
 
       if (warnOnDeprecatedColorVariables) {
-        const colorVariableRegex = /--color-[a-z0-9-]+/gi
+        const colorVariableRegex = /--color-[a-z0-9-]+/g
 
         root.walkDecls((decl) => {
           for (const value of [decl.prop, decl.value]) {
