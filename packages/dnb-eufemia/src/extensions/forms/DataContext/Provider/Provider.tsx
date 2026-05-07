@@ -62,6 +62,7 @@ import type {
 } from '../Context'
 import DataContext from '../Context'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import { isDeepEqual } from '../../../../shared/helpers/isDeepEqual'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -914,10 +915,11 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const cacheRef = useRef({
+    id,
     data,
     schema,
     shared: sharedData.data,
-    hasUsedInitialData: false,
+    hasAppliedDataProp: false,
   })
 
   const internalData = useMemo(() => {
@@ -928,9 +930,46 @@ export default function Provider<Data extends JsonObject>(
       sharedData.update(initialData)
     }
 
-    // Merge both internal data and the shared state, if it both where given
+    // When id changes, treat this as a fresh mount so the data prop is
+    // re-applied to the new shared state.
+    if (id !== cacheRef.current.id) {
+      cacheRef.current.id = id
+      cacheRef.current.hasAppliedDataProp = false
+      cacheRef.current.shared = sharedData.data
+    }
+
+    // Return the data prop when it has a value and either:
+    //  a) its value genuinely changed — always honored, even when hadInitialData
+    //     is true (e.g. a controlled data prop overriding a useData-seeded store), or
+    //  b) it hasn't been applied yet on this mount and shared state wasn't seeded
+    //     externally (hadInitialData guards against overwriting Form.useData(id,
+    //     initialData) rendered before the Provider on initial mount).
+    // Inline objects that create a new reference each render but have the same
+    // value are treated as unchanged (isDeepEqual).
+    if (data !== undefined) {
+      const prevData = cacheRef.current.data
+      cacheRef.current.data = data
+
+      const valueChanged =
+        prevData !== data &&
+        (prevData === undefined || !isDeepEqual(data, prevData))
+      const notYetApplied =
+        !cacheRef.current.hasAppliedDataProp &&
+        (!id || !sharedData?.hadInitialData)
+
+      if (valueChanged || notYetApplied) {
+        cacheRef.current.hasAppliedDataProp = true
+        return data
+      }
+    }
+
+    // Merge both internal data and the shared state, if both were given
+    // and the shared state was externally initialized (e.g. via Form.useData(id, initialData)).
+    // Without the hadInitialData check, stale shared data from a previous mount
+    // could overwrite the current data prop on remount.
     if (
       id &&
+      sharedData?.hadInitialData &&
       initialData &&
       sharedData.data &&
       cacheRef.current.shared === sharedData.data &&
@@ -974,12 +1013,6 @@ export default function Provider<Data extends JsonObject>(
         ...internalDataRef.current,
         ...(sharedData.data || {}),
       }
-    }
-
-    // When external data has changed, update the internal data
-    if (data !== cacheRef.current.data) {
-      cacheRef.current.data = data
-      return data
     }
 
     return internalDataRef.current
@@ -1668,6 +1701,22 @@ export default function Provider<Data extends JsonObject>(
       }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
+
+  // Sync shared state when the data prop value changes (or when id changes).
+  // Skipped when shared state was seeded externally (hadInitialData=true).
+  // isDeepEqual prevents re-syncing inline objects that have the same values.
+  // sharedData.update is omitted from deps: it is stable and never changes.
+  const prevSyncedRef = useRef({ id, data })
+  useLayoutEffect(() => {
+    if (id && data !== undefined && !sharedData?.hadInitialData) {
+      const prev = prevSyncedRef.current
+      if (prev.id !== id || !isDeepEqual(data, prev.data)) {
+        prevSyncedRef.current = { id, data }
+        sharedData.update(data, { preventSyncOfSameInstance: true })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, data, sharedData, sharedData?.hadInitialData])
 
   useLayoutEffect(() => {
     if (id) {
