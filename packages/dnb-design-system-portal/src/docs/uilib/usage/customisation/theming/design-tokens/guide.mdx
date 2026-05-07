@@ -31,6 +31,8 @@ import * as Examples from './Examples'
 
 When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
 
+If you still find yourself reaching for legacy `--color-*` variables, treat that as a migration signal. Those variables are deprecated; prefer semantic `--token-*` design tokens instead.
+
 All Eufemia components already use design tokens. Their stylesheets are the best reference for how to apply tokens correctly. When you are unsure which token to use, inspect the Eufemia component that is closest to what you are building.
 
 ## Token selection by role
