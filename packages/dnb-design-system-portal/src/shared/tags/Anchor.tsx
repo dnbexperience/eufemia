@@ -3,17 +3,10 @@
  *
  */
 
-import { useCallback } from 'react'
-import type {
-  AnchorHTMLAttributes,
-  DetailedHTMLProps,
-  MouseEvent,
-  Ref,
-} from 'react'
+import type { AnchorHTMLAttributes, DetailedHTMLProps, Ref } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
 import type { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
 import { Link as RouterLink, type LinkProps } from 'react-router-dom'
-import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &
   DetailedHTMLProps<
@@ -22,22 +15,13 @@ export type AnchorProps = Props &
   >
 
 function PortalLink({ href, onClick = null, ref, ...props }: AnchorProps) {
-  const clickHandler = useCallback(
-    (event: MouseEvent<HTMLAnchorElement>) => {
-      startPageTransition()
-      if (onClick) {
-        onClick(event)
-      }
-    },
-    [onClick]
-  )
-
   return (
     <RouterLink
       to={href}
       ref={ref as Ref<HTMLAnchorElement>}
       {...(props as Omit<LinkProps, 'ref' | 'onClick' | 'to'>)}
-      onClick={clickHandler}
+      onClick={onClick}
+      viewTransition
     />
   )
 }
