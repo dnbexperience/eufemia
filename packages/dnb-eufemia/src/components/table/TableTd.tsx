@@ -49,7 +49,7 @@ export type TableTdProps = {
   /**
    * Will emit when user clicks the cell button.
    * Renders a native button inside the cell for accessibility.
-   * The second argument contains `trElement`, `tdElement`, `thElement` (the matching Th in thead), and `setSelected`.
+   * The second argument contains `trElement`, `tdElement`, `thElement` (the matching Th in thead), `isSelected`, and `setSelected`.
    */
   onClick?: (event: SyntheticEvent, info: TableTdClickInfo) => void
 

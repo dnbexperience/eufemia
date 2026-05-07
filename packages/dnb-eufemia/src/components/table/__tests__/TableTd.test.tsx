@@ -450,6 +450,49 @@ describe('TableTd selected state', () => {
     )
   })
 
+  it('should not render a button when selected is true without onClick', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected>content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const button = document.querySelector('td button')
+    expect(button).not.toBeInTheDocument()
+  })
+
+  it('should render selected class and clickable button when selected and onClick are both provided', () => {
+    const onClick = jest.fn()
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={onClick}>
+              content
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const td = document.querySelector('td')
+    const button = document.querySelector('td button')
+
+    expect(Array.from(td.classList)).toContain('dnb-table__td--selected')
+    expect(Array.from(td.classList)).toContain('dnb-table__td--clickable')
+    expect(button).toBeInTheDocument()
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+
+    fireEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
   it('should not set selected class when selected prop is false', () => {
     render(
       <table>

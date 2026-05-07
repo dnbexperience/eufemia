@@ -80,7 +80,7 @@ Use `mode="navigation"` on the `<Table>` and `onClick` on individual `<Tr>` rows
 
 Use `onClick` on individual `<Td>` cells to make them clickable. A native `<button>` is rendered inside the cell for screen reader and keyboard accessibility. The chevron icon is included by default, but is only shown on hover, active, and keyboard focus. Use `icon={false}` to hide it entirely, or pass a custom icon. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
 
-When the `selected` prop is provided (either `true` or `false`), the cell button will be announced as a toggle button by screen readers, conveying its pressed state.
+When the `selected` prop is provided (either `true` or `false`) together with `onClick`, the cell button is announced as a toggle button by screen readers, conveying its pressed state. The `selected` prop requires `onClick` to take effect, since the selected styling targets the cell button.
 
 <Examples.ClickableCells />
 
