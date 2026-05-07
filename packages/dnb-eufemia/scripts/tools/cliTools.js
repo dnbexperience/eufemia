@@ -1,8 +1,17 @@
 const { execFile } = require('child_process')
 
+function assertSafeCommand(command) {
+  // Reject potentially dangerous shell control characters when using `/bin/sh -c`.
+  // This keeps existing API while preventing command injection from dynamic values.
+  if (/[;&|`$<>\n\r]/.test(command)) {
+    throw new Error('Unsafe shell command rejected')
+  }
+}
+
 function runCommand(command) {
   return new Promise((resolve, reject) => {
     try {
+      assertSafeCommand(command)
       execFile(
         '/bin/sh',
         ['-c', command],

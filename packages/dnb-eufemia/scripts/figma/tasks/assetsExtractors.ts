@@ -747,7 +747,8 @@ const createXMLTarBundles = async ({
   async function convertSvgToXml() {
     try {
       log.info(`> Figma: convert SVG to XML in directory: ${destDir}`)
-      await runCommand(`yarn vd-tool -c -in ${destDir}`)
+      const safeDestDir = `'${String(destDir).replace(/'/g, `'\\''`)}'`
+      await runCommand(`yarn vd-tool -c -in ${safeDestDir}`)
     } catch (error) {
       log.fail(
         `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`
