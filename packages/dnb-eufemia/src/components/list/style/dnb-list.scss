@@ -320,14 +320,14 @@
         outline: none;
       }
 
-      // The inner clickable element owns the padding so it fills the
-      // full item area, making clicks anywhere trigger the action.
+      // Full item area, making clicks anywhere trigger the action.
       &--href a,
       &__button {
-        place-content: center;
-        align-items: center;
-        min-height: var(--item-height);
-        padding: calc(var(--item-padding)) 0;
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+        }
       }
 
       // Handle action states
