@@ -47,11 +47,11 @@ export function HeightAnimationDefault() {
                 Change height inside
               </ToggleButton>
 
-              <Section backgroundColor="lavender" top>
+              <Section variant="information" top>
                 <HeightAnimation open={openState}>
                   <Section
                     innerSpace={{ block: 'large' }}
-                    backgroundColor="lavender"
+                    variant="information"
                   >
                     <P space={0}>Your content</P>
                   </Section>
@@ -142,7 +142,7 @@ export function HeightAnimationKeepInDOM() {
                 Change height inside
               </ToggleButton>
 
-              <StyledSection backgroundColor="lavender" top>
+              <StyledSection variant="information" top>
                 <HeightAnimation
                   open={openState}
                   keepInDOM={true}
@@ -150,7 +150,7 @@ export function HeightAnimationKeepInDOM() {
                 >
                   <Section
                     innerSpace={{ block: 'large' }}
-                    backgroundColor="lavender"
+                    variant="information"
                   >
                     <P space={0}>Your content</P>
                   </Section>

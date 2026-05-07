@@ -136,7 +136,7 @@ export function WithToolbar({ children }) {
         </Tools.GenerateSchema>
       </Tools.ListAllProps>
 
-      <Section backgroundColor="sand-yellow" innerSpace>
+      <Section variant="information" innerSpace>
         <Flex.Horizontal align="center">
           <Form.SubmitButton text="Submit" />
           <Field.Selection
