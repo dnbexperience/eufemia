@@ -42,8 +42,10 @@ ruleTester.run('no-deprecated-color-variables', rule, {
       code: "const color = 'var(--color-sea-green)'",
       errors: [
         {
-          message:
-            'Deprecated CSS color variable "--color-sea-green" detected. Use a design token instead; the correct replacement depends on context. See https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/ for more information.',
+          messageId: 'deprecatedColorVariable',
+          data: {
+            variable: '--color-sea-green',
+          },
         },
       ],
     },

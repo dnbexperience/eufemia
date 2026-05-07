@@ -31,9 +31,11 @@ module.exports = {
     docs: {
       description:
         'Warn when deprecated --color-* CSS variables are used in JavaScript and TypeScript code',
+      url: DESIGN_TOKENS_GUIDE_URL,
     },
     messages: {
-      deprecatedColorVariable: `Deprecated CSS color variable "{{ variable }}" detected. Use a design token instead; the correct replacement depends on context. See ${DESIGN_TOKENS_GUIDE_URL} for more information.`,
+      deprecatedColorVariable:
+        'Deprecated CSS color variable "{{ variable }}" detected. Use a design token instead; the correct replacement depends on context.',
     },
     schema: [],
   },
