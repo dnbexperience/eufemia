@@ -118,7 +118,7 @@ export const StepIndicatorCustomized = () => (
               bottom
               {...props}
             />
-            <Section backgroundColor="lavender" innerSpace>
+            <Section variant="information" innerSpace>
               {children(step)}
             </Section>
           </>
