@@ -1,5 +1,9 @@
 /**
  * This is written in JavaScript, because it is used directly by PostCSS.
+ *
+ * NOTE: "postcss-selector-parser" must be a production dependency (not devDependency)
+ * because this plugin ships in the published package (build/plugins/) and is used
+ * at build-time by consumers for style isolation.
  */
 
 const path = require('path')
