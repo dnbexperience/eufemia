@@ -105,7 +105,7 @@ export type CheckboxProps = {
    */
   onClick?: (args: CheckboxOnClickParams) => void
   /**
-   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
   ref?: RefObject<HTMLInputElement> | ((elem: HTMLInputElement) => void)
 } & FormStatusBaseProps &

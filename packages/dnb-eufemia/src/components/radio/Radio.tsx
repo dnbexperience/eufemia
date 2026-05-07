@@ -102,7 +102,7 @@ export type RadioProps = {
   children?: RadioChildren
   onChange?: (event: RadioChangeEvent) => void
   /**
-   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
   ref?: Ref<HTMLInputElement>
 } & Omit<

@@ -186,7 +186,7 @@ export type TextareaProps = Omit<
      */
     locale?: InternalLocale
     /**
-     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
      */
     ref?: Ref<HTMLTextAreaElement> | null
   }
