@@ -98,6 +98,12 @@ export const TrProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  verticalAlign: {
+    doc: 'Vertical alignment of all cell content in the row.',
+    type: ['"top"', '"middle"', '"bottom"'],
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
   expanded: {
     doc: 'Use `true` to render the `<Tr>` initially as expanded.',
     type: 'boolean',

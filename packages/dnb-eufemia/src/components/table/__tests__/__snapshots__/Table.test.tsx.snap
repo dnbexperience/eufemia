@@ -707,15 +707,15 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   border-color: transparent;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__td.dnb-table__td--vertical-align-top {
+.dnb-table__tr--vertical-align-top .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-top {
   vertical-align: top;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__td.dnb-table__td--vertical-align-middle {
+.dnb-table__tr--vertical-align-middle .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-middle {
   vertical-align: middle;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__td.dnb-table__td--vertical-align-bottom {
+.dnb-table__tr--vertical-align-bottom .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-bottom {
   vertical-align: bottom;
 }
 

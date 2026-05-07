@@ -29,6 +29,12 @@ export type TableTrProps = {
   noWrap?: boolean
 
   /**
+   * Vertical alignment of all cell content in the row.
+   * Default: `undefined`
+   */
+  verticalAlign?: 'top' | 'middle' | 'bottom'
+
+  /**
    * Set true to render the tr initially as expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    * Default: `false`
@@ -88,6 +94,7 @@ export default function Tr(
   const {
     variant,
     noWrap,
+    verticalAlign,
     className: _className,
     ...restProps
   } = componentProps
@@ -101,6 +108,7 @@ export default function Tr(
     currentVariant && `dnb-table__tr--${currentVariant}`,
     isLast && 'dnb-table__tr--last',
     noWrap && 'dnb-table--no-wrap',
+    verticalAlign && `dnb-table__tr--vertical-align-${verticalAlign}`,
     _className
   )
 

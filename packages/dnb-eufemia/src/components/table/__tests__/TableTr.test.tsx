@@ -66,6 +66,24 @@ describe('TableTr', () => {
     expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
   })
 
+  it('should set the verticalAlign class', () => {
+    render(
+      <table>
+        <tbody>
+          <TableTr verticalAlign="middle">
+            <td>content</td>
+          </TableTr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('tr')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__tr--vertical-align-middle'
+    )
+  })
+
   it('should include custom attributes', () => {
     render(
       <Table>
