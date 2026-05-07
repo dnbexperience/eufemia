@@ -104,6 +104,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = extendPropsWithContext(localProps, {}, context?.BreadcrumbItem)
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
+  const hideIcon = breadcrumbItemContext?.hideIcon
 
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
@@ -143,7 +144,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           <Button
             variant="tertiary"
             href={href}
-            icon={iconToUse}
+            icon={hideIcon ? undefined : iconToUse}
             iconPosition="left"
             onClick={onClick}
             text={currentText}
@@ -152,7 +153,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           />
         ) : (
           <>
-            {variant !== 'home' && (
+            {!hideIcon && variant !== 'home' && (
               <IconPrimary
                 icon={iconToUse}
                 className="dnb-breadcrumb__item__span__icon"
@@ -161,7 +162,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             <Anchor
               href={href}
               onClick={onClick}
-              icon={variant === 'home' ? iconToUse : null}
+              icon={!hideIcon && variant === 'home' ? iconToUse : null}
               skeleton={skeleton}
               {...props}
             >
@@ -171,10 +172,12 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
         )
       ) : (
         <span className="dnb-breadcrumb__item__span">
-          <IconPrimary
-            icon={iconToUse}
-            className="dnb-breadcrumb__item__span__icon"
-          />
+          {!hideIcon && (
+            <IconPrimary
+              icon={iconToUse}
+              className="dnb-breadcrumb__item__span__icon"
+            />
+          )}
           <P space="0">{currentText}</P>
         </span>
       )}
