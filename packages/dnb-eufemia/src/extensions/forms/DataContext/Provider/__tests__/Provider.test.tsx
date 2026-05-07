@@ -163,6 +163,305 @@ describe('DataContext.Provider', () => {
       expect(input).toHaveValue('changed')
     })
 
+    it('should update field value when data prop changes with id', () => {
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('original')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('changed')
+    })
+
+    it('should preserve updated data prop after unmount and remount with id', () => {
+      const { rerender, unmount } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('original')
+
+      // Update data prop
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('updated')
+
+      // Unmount
+      unmount()
+
+      // Remount with the same updated data
+      render(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const remountedInput = document.querySelector('input')
+      expect(remountedInput).toHaveValue('updated')
+    })
+
+    it('should sync shared state when data prop changes with id', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      // First render the Provider so the shared state is set up
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const span = document.querySelector('[data-testid="consumer"]')
+
+      expect(input).toHaveValue('original')
+      expect(span).toHaveTextContent('{"foo":"original"}')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(input).toHaveValue('changed')
+      expect(span).toHaveTextContent('{"foo":"changed"}')
+    })
+
+    it('should not carry over removed keys when data prop loses a key with id', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'original', bar: 'world' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const span = document.querySelector('[data-testid="consumer"]')
+      expect(span).toHaveTextContent('{"foo":"original","bar":"world"}')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      // The removed key "bar" must not linger in shared state
+      expect(span).toHaveTextContent('{"foo":"updated"}')
+    })
+
+    it('should not overwrite data prop when shared state was initialized via Form.useData inside the Provider', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier, { foo: 'from-useData' })
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'from-data-prop' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const span = document.querySelector('[data-testid="consumer"]')
+
+      // Form.useData's initialData wins via the merge-with-shared-state path:
+      // the child's useMountEffect extends shared state with { foo: 'from-useData' },
+      // which then triggers a rerender where shared state takes precedence.
+      expect(input).toHaveValue('from-useData')
+      expect(span).toHaveTextContent('{"foo":"from-useData"}')
+    })
+
+    it('should give priority to Form.useData(id, initialData) when rendered as a sibling before the Provider', () => {
+      // When Form.useData(id, initialData) renders before the Provider (e.g. as a
+      // sibling above it), it seeds the shared store with hadInitialData=true.
+      // The Provider's !hadInitialData guard then permanently prevents the data prop
+      // from overwriting the shared state, so useData's initialData takes precedence.
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier, { foo: 'from-useData' })
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      render(
+        <>
+          <MockConsumer />
+          <DataContext.Provider
+            id={identifier}
+            data={{ foo: 'from-data-prop' }}
+          >
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        </>
+      )
+
+      const input = document.querySelector('input')
+      const span = document.querySelector('[data-testid="consumer"]')
+
+      // MockConsumer renders first and seeds shared state with hadInitialData=true.
+      // The Provider's sync effect guard (!hadInitialData) evaluates to false,
+      // so 'from-data-prop' never overwrites the shared store.
+      expect(input).toHaveValue('from-useData')
+      expect(span).toHaveTextContent('{"foo":"from-useData"}')
+    })
+
+    it('should update both field and Form.useData consumers when data prop changes (Form.useData inside Provider)', () => {
+      // When Form.useData is inside the Provider, hadInitialData is false (Provider
+      // creates the shared state first). On initial mount the child's useMountEffect
+      // extends shared state with its initialData and the merge path returns it.
+      // On subsequent data prop changes, the sync useLayoutEffect fires (because
+      // !hadInitialData is true) and updates both the field and useData consumers.
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier, { foo: 'from-useData' })
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'from-data-prop' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      // On initial mount the child's useData initialData wins via the merge path
+      expect(document.querySelector('input')).toHaveValue('from-useData')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"from-useData"}')
+
+      rerender(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'updated-data-prop' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      // Both the field and consumers reflect the updated data prop value
+      expect(document.querySelector('input')).toHaveValue(
+        'updated-data-prop'
+      )
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"updated-data-prop"}')
+    })
+
+    it('should not cause unnecessary updates when data prop is an inline object with the same values', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+
+      // Multiple rerenders with new references but same values should not
+      // cause infinite loops or stale values (isDeepEqual prevents unnecessary
+      // shared state updates that would otherwise fire on every render)
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+
+      // A real value change must still propagate after same-value rerenders
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('updated')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"updated"}')
+    })
+
+    it('should apply data prop to new shared state when id changes', () => {
+      const secondId = `${identifier}-second`
+
+      const MockConsumer = ({ id: consumerId }: { id: string }) => {
+        const { data } = Form.useData(consumerId)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+          <MockConsumer id={identifier} />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('original')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"original"}')
+
+      // Change the id — the data prop should be applied to the new shared state
+      rerender(
+        <DataContext.Provider id={secondId} data={{ foo: 'original' }}>
+          <Field.String path="/foo" />
+          <MockConsumer id={secondId} />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('original')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"original"}')
+    })
+
     it('should handle path change', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
