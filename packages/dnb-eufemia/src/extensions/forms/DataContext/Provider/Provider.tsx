@@ -65,6 +65,46 @@ import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
+function isDeepEqual(a: unknown, b: unknown): boolean {
+  if (a === b) {
+    return true
+  }
+  if (
+    a === null ||
+    b === null ||
+    typeof a !== 'object' ||
+    typeof b !== 'object'
+  ) {
+    return false
+  }
+  const arrA = Array.isArray(a)
+  const arrB = Array.isArray(b)
+  if (arrA !== arrB) {
+    return false
+  }
+  if (arrA && arrB) {
+    if ((a as unknown[]).length !== (b as unknown[]).length) {
+      return false
+    }
+    return (a as unknown[]).every((v, i) =>
+      isDeepEqual(v, (b as unknown[])[i])
+    )
+  }
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+  if (keysA.length !== keysB.length) {
+    return false
+  }
+  return keysA.every(
+    (k) =>
+      Object.prototype.hasOwnProperty.call(b, k) &&
+      isDeepEqual(
+        (a as Record<string, unknown>)[k],
+        (b as Record<string, unknown>)[k]
+      )
+  )
+}
+
 export type SharedAttachments<Data = unknown> = {
   visibleDataHandler?: VisibleDataHandler<Data>
   filterDataHandler?: FilterDataHandler<Data>
@@ -917,7 +957,7 @@ export default function Provider<Data extends JsonObject>(
     data,
     schema,
     shared: sharedData.data,
-    hasUsedInitialData: false,
+    hasAppliedDataProp: false,
   })
 
   const internalData = useMemo(() => {
@@ -938,10 +978,9 @@ export default function Provider<Data extends JsonObject>(
       // and inline objects that create new references each render.
       if (
         data !== undefined &&
-        (prevData === undefined ||
-          JSON.stringify(data) !== JSON.stringify(prevData))
+        (prevData === undefined || !isDeepEqual(data, prevData))
       ) {
-        cacheRef.current.hasUsedInitialData = true
+        cacheRef.current.hasAppliedDataProp = true
         return data
       }
     }
@@ -950,11 +989,11 @@ export default function Provider<Data extends JsonObject>(
     // was externally initialized via Form.useData(id, initialData).
     if (
       data !== undefined &&
-      !cacheRef.current.hasUsedInitialData &&
+      !cacheRef.current.hasAppliedDataProp &&
       (!id || !sharedData?.hadInitialData)
     ) {
       cacheRef.current.data = data
-      cacheRef.current.hasUsedInitialData = true
+      cacheRef.current.hasAppliedDataProp = true
       return data
     }
 
@@ -1699,22 +1738,19 @@ export default function Provider<Data extends JsonObject>(
 
   // Sync shared state when data prop value changes.
   // Only sync when the shared state was NOT externally initialized (e.g., via Form.useData(id, initialData)).
-  // Uses JSON.stringify comparison to avoid infinite loops with inline objects
+  // Uses deep equality to avoid infinite loops with inline objects
   // that create new references each render but have the same values.
   // Initialized with current data so the effect only fires on actual value changes,
   // not on the initial mount.
-  const prevSyncedDataStringRef = useRef<string | undefined>(
-    data !== undefined ? JSON.stringify(data) : undefined
-  )
+  const prevSyncedDataRef = useRef<typeof data>(data)
   useLayoutEffect(() => {
     if (id && data !== undefined && !sharedData?.hadInitialData) {
-      const dataString = JSON.stringify(data)
-      if (dataString !== prevSyncedDataStringRef.current) {
-        prevSyncedDataStringRef.current = dataString
-        extendSharedData(data, { preventSyncOfSameInstance: true })
+      if (!isDeepEqual(data, prevSyncedDataRef.current)) {
+        prevSyncedDataRef.current = data
+        sharedData.update(data, { preventSyncOfSameInstance: true })
       }
     }
-  }, [id, data, extendSharedData, sharedData?.hadInitialData])
+  }, [id, data, sharedData, sharedData?.hadInitialData])
 
   useLayoutEffect(() => {
     if (id) {

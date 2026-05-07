@@ -247,6 +247,60 @@ describe('DataContext.Provider', () => {
       expect(span).toHaveTextContent('{"foo":"changed"}')
     })
 
+    it('should not carry over removed keys when data prop loses a key with id', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'original', bar: 'world' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const span = document.querySelector('[data-testid="consumer"]')
+      expect(span).toHaveTextContent('{"foo":"original","bar":"world"}')
+
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      // The removed key "bar" must not linger in shared state
+      expect(span).toHaveTextContent('{"foo":"updated"}')
+    })
+
+    it('should not overwrite data prop when shared state was initialized via Form.useData', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier, { foo: 'from-useData' })
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      render(
+        <DataContext.Provider
+          id={identifier}
+          data={{ foo: 'from-data-prop' }}
+        >
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      const span = document.querySelector('[data-testid="consumer"]')
+
+      // Form.useData initialData takes precedence when hadInitialData is true
+      expect(input).toHaveValue('from-useData')
+      expect(span).toHaveTextContent('{"foo":"from-useData"}')
+    })
+
     it('should handle path change', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
