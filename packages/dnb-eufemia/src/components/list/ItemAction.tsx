@@ -180,6 +180,7 @@ function ItemAction<E extends ElementType = 'a'>(
   return (
     <ItemContent
       className={actionClassName}
+      onClick={handleClick}
       variant={variant}
       selected={selected}
       skeleton={skeleton}
@@ -192,7 +193,6 @@ function ItemAction<E extends ElementType = 'a'>(
         role="button"
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
-        onClick={handleClick}
         onKeyDown={handleKeyDown}
       >
         {content}
