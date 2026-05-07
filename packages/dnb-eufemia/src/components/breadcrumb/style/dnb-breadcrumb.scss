@@ -127,5 +127,9 @@
     margin: 0.5rem 0;
     margin-left: 1.5rem;
     padding: 0;
+
+    &--divider {
+      --background-color: var(--token-color-background-page-background);
+    }
   }
 }
