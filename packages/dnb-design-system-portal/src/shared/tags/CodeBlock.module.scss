@@ -106,7 +106,7 @@
 }
 
 .liveCodeEditorStyle {
-  --border-radius: 1rem;
+  --border-radius: var(--token-radius-lg);
   border-radius: var(--border-radius);
 
   // Outline
