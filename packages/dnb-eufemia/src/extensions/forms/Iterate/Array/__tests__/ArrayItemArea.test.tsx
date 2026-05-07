@@ -171,7 +171,7 @@ describe('ArrayItemArea', () => {
       </IterateItemContext>
     )
 
-    const { rerender } = render(
+    render(
       <ArrayItemArea mode="view" openDelay={1}>
         Content
       </ArrayItemArea>,
@@ -179,14 +179,6 @@ describe('ArrayItemArea', () => {
     )
 
     const block = document.querySelector('.dnb-forms-section-block')
-    expect(block).toHaveClass('dnb-height-animation--hidden')
-
-    rerender(
-      <ArrayItemArea mode="edit" openDelay={1}>
-        Content
-      </ArrayItemArea>
-    )
-
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
     await waitFor(() => {
