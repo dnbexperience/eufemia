@@ -20,14 +20,17 @@
       @include utilities.focusRing('always', $inset: inset);
     }
 
+    .dnb-table__tr--vertical-align-top &,
     &.dnb-table__td--vertical-align-top {
       vertical-align: top;
     }
 
+    .dnb-table__tr--vertical-align-middle &,
     &.dnb-table__td--vertical-align-middle {
       vertical-align: middle;
     }
 
+    .dnb-table__tr--vertical-align-bottom &,
     &.dnb-table__td--vertical-align-bottom {
       vertical-align: bottom;
     }

@@ -1367,12 +1367,12 @@ export const ClickableCells = () => (
             </thead>
 
             <tbody>
-              <Tr data-row-id="1">
+              <Tr data-row-id="1" verticalAlign="middle">
                 <Td onClick={handleClick}>Savings Account</Td>
                 <Td onClick={handleClick}>1 234,56 kr</Td>
                 <Td onClick={handleClick}>Savings</Td>
               </Tr>
-              <Tr data-row-id="2">
+              <Tr data-row-id="2" verticalAlign="middle">
                 <Td icon={launchIcon} onClick={handleClick}>
                   Checking Account
                 </Td>
@@ -1383,7 +1383,7 @@ export const ClickableCells = () => (
                   Checking
                 </Td>
               </Tr>
-              <Tr data-row-id="3">
+              <Tr data-row-id="3" verticalAlign="middle">
                 <Td icon={eyeIcon} onClick={handleClick}>
                   Business Account with a very long name
                 </Td>
