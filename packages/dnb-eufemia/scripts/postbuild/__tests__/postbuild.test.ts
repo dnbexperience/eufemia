@@ -138,7 +138,10 @@ describe('babel build', () => {
 
       files
         .filter((filePath) => {
-          return filePath.includes('/dnb-eufemia/src/')
+          return (
+            filePath.includes('/dnb-eufemia/src/') &&
+            /\.(ts|tsx|js|jsx)$/.test(filePath)
+          )
         })
         .map((filePath) => {
           return filePath.replace('packages/dnb-eufemia/', '')
@@ -147,7 +150,7 @@ describe('babel build', () => {
           const absolutePath = path.resolve(process.cwd(), filePath)
           if (fs.existsSync(absolutePath)) {
             const content = fs.readFileSync(absolutePath, 'utf-8')
-            const regex = /.*import.*(\/src\/)/
+            const regex = /^.*import.*\/src\//m
 
             if (regex.test(content)) {
               console.error('Failed in this file:', absolutePath)
