@@ -21,7 +21,6 @@ function PortalLink({ href, onClick = null, ref, ...props }: AnchorProps) {
       ref={ref as Ref<HTMLAnchorElement>}
       {...(props as Omit<LinkProps, 'ref' | 'onClick' | 'to'>)}
       onClick={onClick}
-      viewTransition
     />
   )
 }
