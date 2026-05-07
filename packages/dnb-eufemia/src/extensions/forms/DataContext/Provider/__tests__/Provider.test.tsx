@@ -301,6 +301,53 @@ describe('DataContext.Provider', () => {
       expect(span).toHaveTextContent('{"foo":"from-useData"}')
     })
 
+    it('should not cause unnecessary updates when data prop is an inline object with the same values', () => {
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier)
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+
+      // Multiple rerenders with new references but same values should not
+      // cause infinite loops or stale values (isDeepEqual prevents unnecessary
+      // shared state updates that would otherwise fire on every render)
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+
+      // A real value change must still propagate after same-value rerenders
+      rerender(
+        <DataContext.Provider id={identifier} data={{ foo: 'updated' }}>
+          <Field.String path="/foo" />
+          <MockConsumer />
+        </DataContext.Provider>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('updated')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"updated"}')
+    })
+
     it('should handle path change', () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>

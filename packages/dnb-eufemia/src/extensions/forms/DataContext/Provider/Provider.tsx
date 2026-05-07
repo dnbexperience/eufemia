@@ -1742,6 +1742,12 @@ export default function Provider<Data extends JsonObject>(
   // that create new references each render but have the same values.
   // Initialized with current data so the effect only fires on actual value changes,
   // not on the initial mount.
+  //
+  // Known limitation: when hadInitialData is true (shared state was seeded via
+  // Form.useData(id, initialData)), data prop updates after mount are NOT synced
+  // to the shared state. The field (internalData) will reflect the new data prop
+  // value, but Form.useData consumers will keep the externally initialized value.
+  // This case is intentionally unsupported to avoid overwriting user-managed state.
   const prevSyncedDataRef = useRef<typeof data>(data)
   useLayoutEffect(() => {
     if (id && data !== undefined && !sharedData?.hadInitialData) {
@@ -1750,6 +1756,10 @@ export default function Provider<Data extends JsonObject>(
         sharedData.update(data, { preventSyncOfSameInstance: true })
       }
     }
+    // sharedData?.hadInitialData is listed explicitly because the sharedData
+    // object reference may remain stable even when hadInitialData flips,
+    // so we need it as a separate dep to re-run the guard correctly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, data, sharedData, sharedData?.hadInitialData])
 
   useLayoutEffect(() => {
