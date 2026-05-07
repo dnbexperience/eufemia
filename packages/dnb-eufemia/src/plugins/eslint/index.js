@@ -10,14 +10,7 @@ const recommendedRules = {
   'eufemia/no-deprecated-color-variables': 'warn',
 }
 
-const legacyRecommendedConfig = {
-  plugins: {
-    eufemia: eslintPlugin,
-  },
-  rules: recommendedRules,
-}
-
-const flatRecommendedConfig = {
+const recommendedConfig = {
   plugins: {
     eufemia: eslintPlugin,
   },
@@ -25,11 +18,9 @@ const flatRecommendedConfig = {
 }
 
 eslintPlugin.configs = {
-  legacyRecommended: legacyRecommendedConfig,
-  recommended: flatRecommendedConfig,
+  recommended: recommendedConfig,
 }
 
-eslintPlugin.legacyRecommended = legacyRecommendedConfig
-eslintPlugin.recommended = flatRecommendedConfig
+eslintPlugin.recommended = recommendedConfig
 
 module.exports = eslintPlugin

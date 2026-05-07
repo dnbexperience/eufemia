@@ -4,14 +4,6 @@ import eslintPlugin from '../../eslint.js'
 const rule = eslintPlugin.rules['no-deprecated-color-variables']
 
 describe('eslint recommended config', () => {
-  it('includes no-deprecated-color-variables in legacyRecommended', () => {
-    expect(
-      eslintPlugin.configs.legacyRecommended.rules[
-        'eufemia/no-deprecated-color-variables'
-      ]
-    ).toBe('warn')
-  })
-
   it('includes the rule in the recommended config', () => {
     expect(
       eslintPlugin.configs.recommended.rules[
@@ -24,11 +16,8 @@ describe('eslint recommended config', () => {
     )
   })
 
-  it('exposes recommended and legacyRecommended as top-level aliases', () => {
+  it('exposes recommended as a top-level alias', () => {
     expect(eslintPlugin.recommended).toBe(eslintPlugin.configs.recommended)
-    expect(eslintPlugin.legacyRecommended).toBe(
-      eslintPlugin.configs.legacyRecommended
-    )
   })
 })
 
@@ -53,10 +42,8 @@ ruleTester.run('no-deprecated-color-variables', rule, {
       code: "const color = 'var(--color-sea-green)'",
       errors: [
         {
-          messageId: 'deprecatedColorVariable',
-          data: {
-            variable: '--color-sea-green',
-          },
+          message:
+            'Deprecated CSS color variable "--color-sea-green" detected. Use a design token instead; the correct replacement depends on context. See https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/ for more information.',
         },
       ],
     },

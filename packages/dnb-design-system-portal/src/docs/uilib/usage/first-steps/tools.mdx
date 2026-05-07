@@ -100,9 +100,6 @@ Use the recommended flat config preset:
 import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
 
 export default [eufemiaEslint.recommended]
-
-// or for legacy config (ESLint v7 and earlier):
-export default [eufemiaEslint.legacyRecommended]
 ```
 
 If you need full control, register the plugin and configure the rules yourself:
@@ -116,7 +113,11 @@ export default [
       eufemia: eufemiaEslint,
     },
     rules: {
-      'eufemia/no-deprecated-color-variables': 'warn',
+      // All rules
+      ...eufemiaEslint.recommended.rules,
+
+      // Or specific rules
+      'eufemia/no-deprecated-color-variables': 'error',
     },
   },
 ]
@@ -147,4 +148,4 @@ export default {
 
 For SCSS files, configure Stylelint with `postcss-scss` as the custom syntax.
 
-The first shipped ESLint and Stylelint rule reports deprecated `--color-*` CSS variables. Use design tokens instead.
+Both plugins ship with one rule: `no-deprecated-color-variables`. It reports deprecated `--color-*` CSS variables and guides towards design tokens instead.

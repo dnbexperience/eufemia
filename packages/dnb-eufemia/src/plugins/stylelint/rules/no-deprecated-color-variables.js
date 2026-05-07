@@ -1,11 +1,13 @@
 const stylelint = require('stylelint')
 
 const RULE_NAME = 'eufemia/no-deprecated-color-variables'
-const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/gi
+const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/g
+const DESIGN_TOKENS_GUIDE_URL =
+  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
 
 const messages = stylelint.utils.ruleMessages(RULE_NAME, {
   rejected: (variable) =>
-    `Deprecated CSS color variable "${variable}" detected. Use a design token instead; the correct replacement depends on context.`,
+    `Deprecated CSS color variable "${variable}" detected. Use a design token instead; the correct replacement depends on context. See ${DESIGN_TOKENS_GUIDE_URL} for more information.`,
 })
 
 const reportMatches = ({ node, result, value }) => {
