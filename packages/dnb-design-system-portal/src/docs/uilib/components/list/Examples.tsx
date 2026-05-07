@@ -205,6 +205,39 @@ export const NavigableItemWithHref = () => {
   )
 }
 
+export const NavigableItemWithCustomElement = () => {
+  return (
+    <ComponentBox scope={{ fish_medium }}>
+      {() => {
+        // Example using a custom link component (e.g. React Router's Link).
+        // Pass the component via the `element` prop and the route via `to`.
+        function MyLink({ to, children, ...rest }) {
+          return (
+            <a href={to} {...rest}>
+              {children}
+            </a>
+          )
+        }
+
+        return (
+          <List.Container>
+            <List.Item.Action
+              element={MyLink}
+              to="#custom-route"
+              icon={fish_medium}
+              title="Navigate with custom element"
+            >
+              <List.Cell.End>
+                <NumberFormat.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
 export const WithAnchor = () => {
   return (
     <ComponentBox scope={{ fish_medium }}>
