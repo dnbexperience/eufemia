@@ -51,7 +51,7 @@ describe('no-deprecated-color-variables', () => {
     expect(warnings).toHaveLength(1)
     expect(warnings[0].text).toContain('--color-sea-green')
     expect(warnings[0].text).toContain('design token')
-    expect(warnings[0].text).toContain(
+    expect(warnings[0].text).not.toContain(
       'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
     )
   })

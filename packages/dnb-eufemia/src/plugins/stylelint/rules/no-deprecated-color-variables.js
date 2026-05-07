@@ -7,8 +7,12 @@ const DESIGN_TOKENS_GUIDE_URL =
 
 const messages = stylelint.utils.ruleMessages(RULE_NAME, {
   rejected: (variable) =>
-    `Deprecated CSS color variable "${variable}" detected. Use a design token instead; the correct replacement depends on context. See ${DESIGN_TOKENS_GUIDE_URL} for more information.`,
+    `Deprecated CSS color variable "${variable}" detected. Use a design token instead; the correct replacement depends on context.`,
 })
+
+const meta = {
+  url: DESIGN_TOKENS_GUIDE_URL,
+}
 
 const reportMatches = ({ node, result, value }) => {
   if (typeof value !== 'string') {
@@ -64,6 +68,7 @@ const ruleFunction = (primary) => {
 
 ruleFunction.ruleName = RULE_NAME
 ruleFunction.messages = messages
+ruleFunction.meta = meta
 
 const plugin = stylelint.createPlugin(RULE_NAME, ruleFunction)
 
