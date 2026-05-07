@@ -231,9 +231,7 @@ describe('DataContext.Provider', () => {
       )
 
       const input = document.querySelector('input')
-      const span = document.querySelector(
-        '[data-testid="consumer"]'
-      )
+      const span = document.querySelector('[data-testid="consumer"]')
 
       expect(input).toHaveValue('original')
       expect(span).toHaveTextContent('{"foo":"original"}')
