@@ -77,7 +77,7 @@ async function prerender() {
     : {}
 
   const contentScript = getContentScript()
-  const urls = collectUrls(routes)
+  let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
   // Find CSS chunks for ALL themes so we can inject render-blocking
@@ -264,6 +264,24 @@ function getPageMeta(url, allMdxNodes) {
 
     if (parent?.frontmatter?.title) {
       title = parent.frontmatter.title
+
+      // For tab pages (showTabs but no own title), construct
+      // "ParentTitle → TabTitle" to match the client-side title.
+      if (node.frontmatter.showTabs) {
+        const tabKey = '/' + slug.split('/').pop()
+        const defaultTabs = [
+          { title: 'Info', key: '/info' },
+          { title: 'Demos', key: '/demos' },
+          { title: 'Properties', key: '/properties' },
+          { title: 'Events', key: '/events' },
+        ]
+        const tabs = parent.frontmatter.tabs || defaultTabs
+        const tab = tabs.find((t) => t.key === tabKey)
+
+        if (tab?.title) {
+          title = `${parent.frontmatter.title} → ${tab.title}`
+        }
+      }
     }
 
     if (!description && parent?.frontmatter?.description) {
@@ -360,9 +378,50 @@ function injectHtml(
   meta,
   themeCssPaths
 ) {
+  // React 19 injects <link rel="preload"> elements inline during
+  // renderToString for resources like images. Strip them from the app
+  // HTML and move them to <head> so they don't break client-side
+  // hydration (React can't match the DOM when unexpected <link>
+  // elements appear before the root component's first element).
+  const reactPreloadLinks = []
+  appHtml = appHtml.replace(/<link rel="preload"[^>]*\/>/g, (match) => {
+    reactPreloadLinks.push(match)
+    return ''
+  })
+
+  // StaticRouterProvider injects a <script> with hydration data that
+  // is not needed for our hydration approach. Strip it so it doesn't
+  // appear inside the root container as unexpected DOM content.
+  appHtml = appHtml.replace(
+    /<script>window\.__staticRouterHydrationData\s*=[^<]*<\/script>/,
+    ''
+  )
+
+  // React's renderToString serializes CSS custom properties in inline
+  // styles without spaces (e.g. "--var:value") while the browser
+  // normalizes them with spaces ("--var: value;"). This causes
+  // hydration mismatches. Normalize the format to match the browser.
+  appHtml = appHtml.replace(/style="([^"]*)"/g, (_match, styleContent) => {
+    const normalized = styleContent
+      .split(';')
+      .filter(Boolean)
+      .map((decl) => {
+        const colonIdx = decl.indexOf(':')
+        if (colonIdx === -1) return decl
+        const prop = decl.slice(0, colonIdx).trim()
+        const value = decl.slice(colonIdx + 1).trim()
+        return `${prop}: ${value}`
+      })
+      .join('; ')
+    return normalized ? `style="${normalized};"` : 'style=""'
+  })
+
+  // Restore sidebar scroll position before first paint.
+  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(localStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -464,6 +523,13 @@ function injectHtml(
       .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
       .join('\n    ')
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
+  }
+
+  // Inject React-generated preload links that were stripped from the
+  // app HTML to avoid hydration mismatches.
+  if (reactPreloadLinks.length > 0) {
+    const linkTags = reactPreloadLinks.join('\n    ')
+    html = html.replace('</head>', `    ${linkTags}\n  </head>`)
   }
 
   return html

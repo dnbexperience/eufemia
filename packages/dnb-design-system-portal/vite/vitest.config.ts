@@ -16,6 +16,10 @@ export default defineConfig({
         __dirname,
         '__tests__/mocks/virtual-portal-pages.ts'
       ),
+      'virtual:build-info': path.resolve(
+        __dirname,
+        '__tests__/mocks/virtual-build-info.ts'
+      ),
     },
   },
 })

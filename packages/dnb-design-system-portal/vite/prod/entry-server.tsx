@@ -6,7 +6,7 @@
  * pages only load the JS they actually need.
  */
 
-import { Component } from 'react'
+import { Component, Suspense } from 'react'
 import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
@@ -132,7 +132,7 @@ function RootLayout() {
         disableCoreStyleWrapper
         scopeHash="eufemia-scope--portal"
       >
-        <Theme colorScheme="light">
+        <Theme name="ui" colorScheme="auto">
           <MDXProvider components={tags}>
             <SSRPageWrapper />
           </MDXProvider>
@@ -151,7 +151,9 @@ function SSRPageWrapper() {
       pageContext={{ frontmatter: {} }}
     >
       <SSRErrorBoundary>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </SSRErrorBoundary>
     </PortalLayout>
   )

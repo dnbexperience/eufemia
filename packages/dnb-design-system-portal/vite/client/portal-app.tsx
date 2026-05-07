@@ -119,28 +119,13 @@ type PortalAppProps = {
 }
 
 function createPortalRouter(routes: RouteObject[]) {
-  const router = createBrowserRouter([
+  return createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
       children: routes,
     },
   ])
-
-  router.subscribe(({ location }) => {
-    const { pathname } = location
-    if (
-      pathname !== '/' &&
-      !pathname.endsWith('/') &&
-      !pathname.includes('.')
-    ) {
-      router.navigate(pathname + '/' + location.search + location.hash, {
-        replace: true,
-      })
-    }
-  })
-
-  return router
 }
 
 export default function PortalApp({ routes }: PortalAppProps) {
