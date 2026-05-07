@@ -17,10 +17,13 @@
   --accordion-header-wrapper-margin--icon-right: calc(
     1.5rem - var(--sb-accordion-frame-width)
   );
-  --sb-accordion-header-border-radius--expanded: 0.125rem 0.125rem 0 0;
+  --sb-accordion-header-border-radius--expanded: var(--token-radius-xs)
+    var(--token-radius-xs) 0 0;
   --sb-accordion-header-border-radius--hover: var(--token-radius-xs);
-  --sb-accordion-header-border-radius--hover-expanded: 0.125rem 0.125rem 0
-    0;
+  --sb-accordion-header-border-radius--hover-expanded: var(
+      --token-radius-xs
+    )
+    var(--token-radius-xs) 0 0;
 
   // icon
   --accordion-header-icon-gutter: 0.5rem;
@@ -37,7 +40,8 @@
   --sb-accordion-content-padding-left: calc(
     3.5rem - var(--sb-accordion-frame-width)
   );
-  --sb-accordion-content-border-radius: 0 0 0.125rem 0.125rem;
+  --sb-accordion-content-border-radius: 0 0 var(--token-radius-xs)
+    var(--token-radius-xs);
   --accordion-content-margin: 0;
   --accordion-content-padding: 0 1rem 1rem
     var(--sb-accordion-content-padding-left);

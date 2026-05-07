@@ -777,4 +777,21 @@ describe('HelpButtonInlineContent Component', () => {
     expect(contentElement).toHaveTextContent('Simple text content')
     expect(contentElement).toHaveClass('dnb-p')
   })
+
+  it('should not set a backgroundColor on the Section', () => {
+    render(
+      <HelpButtonInlineContent
+        contentId="test-content"
+        help={{ open: true, content: 'Help content' }}
+      />
+    )
+
+    const section = document.querySelector(
+      '.dnb-help-button__content .dnb-section'
+    )
+    expect(section).toBeInTheDocument()
+    expect(section.getAttribute('style')).not.toContain(
+      '--background-color'
+    )
+  })
 })

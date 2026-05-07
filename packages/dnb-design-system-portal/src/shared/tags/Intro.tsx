@@ -9,7 +9,6 @@ import { Global, css } from '@emotion/react'
 import { navigate } from 'portal-query'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
-import { startPageTransition } from './Transition'
 import { Link } from './Anchor'
 
 type IntroProps = {
@@ -23,7 +22,6 @@ const Intro = ({ children }: IntroProps) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return
       }
-      startPageTransition()
       try {
         if (e.key === 'ArrowRight' && ref && ref.current) {
           const elem = ref.current.querySelector('a[href*="/intro"]')

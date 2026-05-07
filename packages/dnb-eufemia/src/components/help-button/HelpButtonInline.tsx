@@ -305,7 +305,6 @@ function HelpButtonInlineContentComponent(
                 right: 'x-small',
               }
         }
-        backgroundColor="lavender"
         {...rest}
       >
         <Flex.Vertical gap="x-small">

@@ -319,6 +319,16 @@
         outline: none;
       }
 
+      // Full item area, making clicks anywhere trigger the action.
+      &--href a,
+      &__button {
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+        }
+      }
+
       // Handle action states
       &:not(.dnb-list__item--disabled):hover,
       &:not(.dnb-list__item--disabled):has(:focus-visible) {

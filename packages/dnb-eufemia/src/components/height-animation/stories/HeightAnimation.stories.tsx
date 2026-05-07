@@ -51,7 +51,7 @@ export const HeightAnimationSandbox = () => {
         {count}
       </Button>
 
-      <StyledSection backgroundColor="lavender" top>
+      <StyledSection variant="information" top>
         <HeightAnimation
           open={openState}
           element="div" // Optional
@@ -60,10 +60,7 @@ export const HeightAnimationSandbox = () => {
           duration={1000}
           onOpen={setIsOpen}
         >
-          <Section
-            innerSpace={{ block: 'large' }}
-            backgroundColor="lavender"
-          >
+          <Section innerSpace={{ block: 'large' }} variant="information">
             <P>Your content</P>
           </Section>
           {contentState && <P>More content</P>}
@@ -116,12 +113,9 @@ export function HeightAnimationKeepInDOM() {
           Change height inside
         </ToggleButton>
 
-        <StyledSection backgroundColor="lavender" top>
+        <StyledSection variant="information" top>
           <HeightAnimation open={openState} duration={1000}>
-            <Section
-              innerSpace={{ block: 'large' }}
-              backgroundColor="lavender"
-            >
+            <Section innerSpace={{ block: 'large' }} variant="information">
               <P space={0}>Your content</P>
             </Section>
             {contentState && <P space={0}>More content</P>}

@@ -49,6 +49,8 @@ for (const themeName of ['ui', 'sbanken']) {
       const screenshot = await makeScreenshot({
         style: { width: '30rem' },
         selector: '[data-visual-test="list-action-href"]',
+        simulateSelector:
+          '[data-visual-test="list-action-href"] li:last-of-type',
         simulate: 'hover',
       })
       expect(screenshot).toMatchSnapshot()

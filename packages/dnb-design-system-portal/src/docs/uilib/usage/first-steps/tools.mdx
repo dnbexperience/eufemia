@@ -148,4 +148,24 @@ export default {
 
 For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
 
+### PostCSS (Style Isolation)
+
+If you use the [style isolation](/uilib/usage/customisation/styling/style-isolation/) PostCSS plugin, deprecation warnings for `--color-*` variables are enabled by default at build time:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/plugins/postcss-isolated-style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin()],
+}
+```
+
+To disable the warnings, set `warnOnDeprecatedColorVariables: false`:
+
+```js
+export default {
+  plugins: [styleScopePlugin({ warnOnDeprecatedColorVariables: false })],
+}
+```
+
 Both plugins ship with one rule: `no-deprecated-color-variables`. It reports deprecated `--color-*` CSS variables and guides towards design tokens instead.

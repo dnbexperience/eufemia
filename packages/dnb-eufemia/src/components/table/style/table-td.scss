@@ -105,12 +105,14 @@
       position: absolute;
       z-index: 6; // to be above the table outline/border
       inset: 0;
-      border: var(--table-accordion-outline-width) solid transparent;
+      right: calc(var(--table-accordion-outline-width--active) * -1);
+      border: var(--border-width, 0) solid var(--border-color, transparent);
     }
 
     @include utilities.hover() {
       &::before {
-        border-color: var(--table-accordion-outline-color);
+        --border-width: var(--table-accordion-outline-width);
+        --border-color: var(--table-accordion-outline-color);
       }
 
       .dnb-table__td__button__icon {
@@ -121,8 +123,8 @@
 
     &:active {
       &::before {
-        border-color: var(--table-accordion-outline-color);
-        border-width: var(--table-accordion-outline-width--active);
+        --border-width: var(--table-accordion-outline-width--active);
+        --border-color: var(--table-accordion-outline-color);
       }
 
       .dnb-table__td__button__icon {
@@ -131,10 +133,14 @@
       }
     }
 
+    .dnb-table__td:last-child > &::before {
+      right: 0;
+    }
+
     &:not(:active):not(:hover):focus-visible {
       &::before {
-        border-color: var(--token-color-stroke-action-focus);
-        border-width: var(--focus-ring-width);
+        --border-width: var(--focus-ring-width);
+        --border-color: var(--token-color-stroke-action-focus);
       }
 
       .dnb-table__td__button__icon {
@@ -145,6 +151,26 @@
     &__content {
       flex: 1;
       min-width: 0;
+    }
+  }
+
+  // Selected cell
+  &__td--selected {
+    --background-color: var(
+      --table-td-background--selected,
+      var(--token-color-background-selected-subtle)
+    );
+
+    /* stylelint-disable */
+    .dnb-table__td__button__icon {
+      opacity: 1;
+      color: var(--token-color-icon-selected);
+    }
+    /* stylelint-enable */
+
+    .dnb-table__td__button:not(:hover):not(:active)::before {
+      --border-width: var(--table-accordion-outline-width--active);
+      --border-color: var(--token-color-stroke-selected);
     }
   }
 

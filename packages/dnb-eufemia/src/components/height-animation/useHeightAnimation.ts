@@ -74,7 +74,7 @@ export function useHeightAnimation(
   )
 
   const [isOpen, setIsOpen] = useState(open)
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(open)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isVisibleParallax, setParallax] = useState(open)
 

@@ -27,7 +27,7 @@ import {
   stop as stopIcon,
   compose as composeIcon,
   copy as copyIcon,
-  view_medium as eyeIcon,
+  view as eyeIcon,
   launch as launchIcon,
   trash as trashIcon,
 } from '@dnb/eufemia/src/icons'
@@ -1346,6 +1346,15 @@ export const ClickableCells = () => (
           `Clicked row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`
         )
       }
+      const handleSelectedClick = (
+        event,
+        { trElement, thElement, isSelected, setSelected }
+      ) => {
+        const selected = setSelected(!isSelected)
+        console.log(
+          `Selected: "${selected}" on row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`
+        )
+      }
 
       return (
         <Table.ScrollView>
@@ -1361,7 +1370,7 @@ export const ClickableCells = () => (
                   Balance
                 </Th>
                 <Th style={{ width: '15%' }} data-column-id="type">
-                  Type
+                  Details
                 </Th>
               </Tr>
             </thead>
@@ -1370,7 +1379,7 @@ export const ClickableCells = () => (
               <Tr data-row-id="1" verticalAlign="middle">
                 <Td onClick={handleClick}>Savings Account</Td>
                 <Td onClick={handleClick}>1 234,56 kr</Td>
-                <Td onClick={handleClick}>Savings</Td>
+                <Td onClick={handleClick}>Default</Td>
               </Tr>
               <Tr data-row-id="2" verticalAlign="middle">
                 <Td icon={launchIcon} onClick={handleClick}>
@@ -1380,18 +1389,30 @@ export const ClickableCells = () => (
                   5 678,90 kr
                 </Td>
                 <Td icon={launchIcon} onClick={handleClick}>
-                  Checking
+                  Custom icon
                 </Td>
               </Tr>
               <Tr data-row-id="3" verticalAlign="middle">
-                <Td icon={eyeIcon} onClick={handleClick}>
-                  Business Account with a very long name
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
+                  Press me to select with a lot of text
                 </Td>
-                <Td icon={eyeIcon} onClick={handleClick}>
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
                   12 345,00 kr
                 </Td>
-                <Td icon={eyeIcon} onClick={handleClick}>
-                  Business
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
+                  Selectable
                 </Td>
               </Tr>
             </tbody>

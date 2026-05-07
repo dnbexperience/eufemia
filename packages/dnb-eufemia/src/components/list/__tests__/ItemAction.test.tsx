@@ -112,6 +112,50 @@ describe('ItemAction', () => {
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
+  it('calls onClick when the outer item element is clicked', () => {
+    const handleClick = jest.fn()
+
+    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls onClick when the outer item element is clicked with href', () => {
+    const handleClick = jest.fn()
+
+    render(
+      <ItemAction href="/foo" onClick={handleClick}>
+        Content
+      </ItemAction>
+    )
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call onClick when the outer item element is clicked while disabled', () => {
+    const handleClick = jest.fn()
+
+    render(
+      <ItemAction onClick={handleClick} disabled>
+        Content
+      </ItemAction>
+    )
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).not.toHaveBeenCalled()
+  })
+
   it('calls onClick when Enter key is pressed', () => {
     const handleClick = jest.fn()
 

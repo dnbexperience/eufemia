@@ -354,7 +354,7 @@ export const DependentSchemaValidation = () => {
                       bottom: 'small',
                     }}
                     bottom
-                    backgroundColor="lavender"
+                    variant="information"
                   >
                     <Field.String
                       itemPath="/name"
@@ -560,7 +560,7 @@ export const DependentSchemaValidationWithZod = () => {
                       bottom: 'small',
                     }}
                     bottom
-                    backgroundColor="lavender"
+                    variant="information"
                   >
                     <Field.String
                       itemPath="/name"

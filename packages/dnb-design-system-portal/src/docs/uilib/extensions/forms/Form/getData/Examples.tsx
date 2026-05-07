@@ -60,7 +60,7 @@ export function FilterData() {
         return (
           <Flex.Stack>
             <Component />
-            <Section backgroundColor="sand-yellow" innerSpace>
+            <Section variant="information" innerSpace>
               <pre>{JSON.stringify(filterData(filterDataPaths))}</pre>
               <pre>{JSON.stringify(filterData(filterDataHandler))}</pre>
             </Section>

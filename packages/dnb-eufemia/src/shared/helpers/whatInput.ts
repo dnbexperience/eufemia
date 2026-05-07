@@ -195,8 +195,21 @@ function specificKeys(arr: string[]) {
 
 // -- Init -------------------------------------------------------------
 
+// Delay setup so event listeners and initial data-whatinput /
+// data-whatintent attributes are not added during SSR hydration.
+// The attributes are set on <html> (outside React's hydration root)
+// but the event listeners should not fire until the page is
+// interactive. In test environments, set up synchronously so
+// assertions work immediately after dispatching events.
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-  setUp()
+  if (process.env.NODE_ENV === 'test') {
+    setUp()
+  } else if (typeof requestIdleCallback === 'function') {
+    // eslint-disable-next-line compat/compat
+    requestIdleCallback(setUp)
+  } else {
+    setTimeout(setUp, 0)
+  }
 }
 
 const whatInput = { specificKeys }
