@@ -36,6 +36,12 @@ exports[`Dropdown scss > has to match style dependencies css 1`] = `
 .dnb-icon svg[height="100%"] {
   height: inherit;
 }
+.dnb-icon--filled svg path,
+.dnb-icon--filled svg circle,
+.dnb-icon--filled svg rect,
+.dnb-icon--filled svg polygon {
+  fill: currentcolor;
+}
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
   fill: currentcolor;
 }
