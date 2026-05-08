@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["es2022", "dom"],
-    "types": ["node", "jest", "react", "react-dom"],
+    "types": ["node", "react", "react-dom"],
     "outDir": "./build",
     "rootDir": ".",
     "alwaysStrict": true,
@@ -23,5 +23,5 @@
     "noImplicitReturns": true,
     "noImplicitOverride": true
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "vitest.d.ts"]
 }

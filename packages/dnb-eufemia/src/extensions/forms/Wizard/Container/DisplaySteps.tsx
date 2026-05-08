@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer } from 'react'
+import { useCallback, useContext, useReducer } from 'react'
 import WizardContext from '../Context'
 import StepIndicator from '../../../../components/StepIndicator'
 import type { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'

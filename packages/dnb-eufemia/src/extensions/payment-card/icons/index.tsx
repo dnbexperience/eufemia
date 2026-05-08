@@ -1,5 +1,3 @@
-import React from 'react'
-
 // brand logos
 import DNB from './brandLogos/DNB'
 import Sbanken from './brandLogos/Sbanken'

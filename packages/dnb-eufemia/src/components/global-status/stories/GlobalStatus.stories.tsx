@@ -3,7 +3,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type { JSX } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import {
@@ -28,12 +35,12 @@ export default {
   title: 'Eufemia/Components/GlobalStatus',
 }
 
-const LabelComponent = (): React.JSX.Element => {
+const LabelComponent = (): JSX.Element => {
   return <>my label</>
 }
 
 export const ComponentAsLabel = () => {
-  const [status, setStatus] = React.useState(null)
+  const [status, setStatus] = useState(null)
 
   return (
     <>
@@ -76,7 +83,7 @@ export const ComponentAsLabel = () => {
 }
 
 export const CustomGlobalStatusMessage = () => {
-  const [showStatus, setShowStatus] = React.useState<boolean>(false)
+  const [showStatus, setShowStatus] = useState<boolean>(false)
 
   return (
     <>
@@ -199,10 +206,10 @@ export const GlobalStatuseSandbox = () => (
 const scrolltoElement = { current: null }
 
 const InputWithError = () => {
-  const [haveAnErrorMessage1, setErrorMessage1] = React.useState(false)
-  const [haveAnErrorMessage2, setErrorMessage2] = React.useState(false)
-  const [haveAnErrorMessage3, setErrorMessage3] = React.useState(false)
-  const [haveAnErrorMessage4, setErrorMessage4] = React.useState(false)
+  const [haveAnErrorMessage1, setErrorMessage1] = useState(false)
+  const [haveAnErrorMessage2, setErrorMessage2] = useState(false)
+  const [haveAnErrorMessage3, setErrorMessage3] = useState(false)
+  const [haveAnErrorMessage4, setErrorMessage4] = useState(false)
   return (
     <Provider
       formElement={{
@@ -280,7 +287,7 @@ const ModalExample = () => (
 )
 
 export const SimulateSteps = () => {
-  const [count, toggleUpdateStatus] = React.useState(0)
+  const [count, toggleUpdateStatus] = useState(0)
   return (
     <>
       <GlobalStatus
@@ -391,7 +398,7 @@ const NestedSections = () => (
   </Section>
 )
 const DemoAnimation = () => {
-  const [showDemo, toggleShowDemo] = React.useState(false)
+  const [showDemo, toggleShowDemo] = useState(false)
   return (
     <>
       <ToggleButton
@@ -413,13 +420,13 @@ const DemoAnimation = () => {
   )
 }
 
-const Context = React.createContext(null)
+const Context = createContext(null)
 
 const UpdateDemo = () => {
-  const [errorA, setErrorA] = React.useState()
-  const [errorB, setErrorB] = React.useState()
+  const [errorA, setErrorA] = useState()
+  const [errorB, setErrorB] = useState()
 
-  const [isVisible, setVisibility] = React.useState('auto')
+  const [isVisible, setVisibility] = useState('auto')
 
   return (
     <Context
@@ -439,8 +446,7 @@ const UpdateDemo = () => {
 }
 
 const UpdateDemoStatus = () => {
-  const { errorA, errorB, setErrorA, setErrorB } =
-    React.useContext(Context)
+  const { errorA, errorB, setErrorA, setErrorB } = useContext(Context)
 
   return (
     <>
@@ -483,9 +489,9 @@ const UpdateDemoTools = () => {
     setErrorB,
     isVisible,
     setVisibility,
-  } = React.useContext(Context)
-  const inst = React.useRef(null)
-  React.useEffect(() => {
+  } = useContext(Context)
+  const inst = useRef(null)
+  useEffect(() => {
     if (!inst.current) {
       inst.current = GlobalStatus.create({
         id: 'demo-2',
@@ -517,7 +523,7 @@ const UpdateDemoTools = () => {
       show: isVisible,
     })
   }, [isVisible])
-  React.useEffect(() => () => inst.current.remove(), [])
+  useEffect(() => () => inst.current.remove(), [])
 
   return (
     <Section top innerSpace={{ block: 'large' }} variant="divider">

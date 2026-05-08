@@ -3,7 +3,12 @@
  *
  */
 
-import React from 'react'
+import type {
+  CSSProperties,
+  ElementType,
+  HTMLProps,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../shared/component-helper'
 import type { SkeletonShow } from './Skeleton'
@@ -28,7 +33,7 @@ export type SkeletonDOMAttributesContext = {
 }
 
 export const skeletonDOMAttributes = (
-  params: React.HTMLProps<HTMLElement>,
+  params: HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
   context?: SkeletonContextValue
 ) => {
@@ -59,10 +64,10 @@ export const createSkeletonClass = (
 }
 
 export type SkeletonAutoSizeProps = {
-  __element?: React.ElementType
-  children?: React.ReactNode
+  __element?: ElementType
+  children?: ReactNode
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
 }
 
 export function AutoSize({

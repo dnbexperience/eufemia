@@ -1,12 +1,12 @@
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { render, screen } from '@testing-library/react'
 import renderWithFormatting from '../renderWithFormatting'
 import useTranslation from '../useTranslation'
 import Provider from '../Provider'
 import { Field, Form } from '../../extensions/forms'
 
-const renderNode = (node: React.ReactNode) =>
-  render(<output>{node}</output>)
+const renderNode = (node: ReactNode) => render(<output>{node}</output>)
 
 describe('renderWithFormatting', () => {
   it('renders plain text without changes', () => {
@@ -103,8 +103,8 @@ describe('renderWithFormatting', () => {
 
   it('returns fragment with key="renderWithFormatting"', () => {
     const node = renderWithFormatting('`Test`')
-    expect(React.isValidElement(node)).toBe(true)
-    expect((node as React.ReactElement).key).toBe('renderWithFormatting')
+    expect(isValidElement(node)).toBe(true)
+    expect((node as ReactElement).key).toBe('renderWithFormatting')
   })
 
   it('does not produce React key warnings for generated fragments', () => {

@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type { SectionContextState } from './SectionContext'
 import SectionContext from './SectionContext'
 import DataContext from '../../DataContext/Context'
@@ -88,7 +89,7 @@ export type SectionProps<
 
 export type LocalProps<overwriteProps = OverwritePropsDefaults> =
   SectionProps<overwriteProps> & {
-    children: React.ReactNode
+    children: ReactNode
   }
 
 function SectionComponent<overwriteProps = OverwritePropsDefaults>(

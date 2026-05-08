@@ -1,5 +1,6 @@
+import type { ElementType, HTMLAttributes, ReactNode } from 'react'
 export type AriaLiveProps = {
-  element?: React.ElementType
+  element?: ElementType
 
   /**
    * The variant of the announcement. Can be 'text' or 'content'.
@@ -26,17 +27,17 @@ export type AriaLiveProps = {
   /**
    * The politeness level of the announcement. Can be 'off', 'polite', or 'assertive'.
    */
-  politeness?: React.HTMLAttributes<HTMLElement>['aria-live']
+  politeness?: HTMLAttributes<HTMLElement>['aria-live']
 
   /**
    * Whether the entire region should be considered as a whole when communicating updates.
    */
-  atomic?: React.HTMLAttributes<HTMLElement>['aria-atomic']
+  atomic?: HTMLAttributes<HTMLElement>['aria-atomic']
 
   /**
    * What types of changes should be presented to the user. Can be 'additions', 'removals', 'text', or 'all'.
    */
-  relevant?: React.HTMLAttributes<HTMLElement>['aria-relevant']
+  relevant?: HTMLAttributes<HTMLElement>['aria-relevant']
 
   /**
    * Whether to show the children or not.
@@ -47,8 +48,7 @@ export type AriaLiveProps = {
   /**
    * The content to be announced.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export type AriaLiveAllProps = AriaLiveProps &
-  React.HTMLAttributes<HTMLElement>
+export type AriaLiveAllProps = AriaLiveProps & HTMLAttributes<HTMLElement>

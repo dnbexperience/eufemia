@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import DateFormat from '../'
 import { Context, Provider } from '../../../shared'
 import { Dropdown, Card, P } from '../../../'

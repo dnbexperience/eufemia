@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { ElementType } from 'react'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
@@ -6,7 +7,7 @@ import type { AutocompleteAllProps } from '../../../../components/autocomplete/A
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldAddressProps = StringFieldProps & {
-  element?: React.ElementType<FieldAddressProps>
+  element?: ElementType<FieldAddressProps>
   autocompleteProps?: AutocompleteAllProps
 }
 

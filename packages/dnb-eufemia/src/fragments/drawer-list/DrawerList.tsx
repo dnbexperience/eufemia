@@ -2,7 +2,18 @@
  * Web List Component
  */
 
-import React, { useContext, useCallback } from 'react'
+import { isValidElement, memo, useCallback, useContext } from 'react'
+import type {
+  CSSProperties,
+  ComponentType,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  Ref,
+  SyntheticEvent,
+} from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
@@ -39,29 +50,26 @@ const propsToFilterOut: Record<string, null> = {
   onItemMouseEnter: null,
 }
 
-export type DrawerListContent =
-  | string
-  | React.ReactNode
-  | (string | React.ReactNode)[]
+export type DrawerListContent = string | ReactNode | (string | ReactNode)[]
 
 export type DrawerListDataArrayObjectStrict = {
   /** index of group supplied in the `groups` prop */
   groupIndex?: number
-  selectedValue?: string | React.ReactNode
+  selectedValue?: string | ReactNode
   selectedKey?: string | number
-  suffixValue?: string | React.ReactNode
+  suffixValue?: string | ReactNode
   content: DrawerListContent
   disabled?: boolean
   /** used by Autocomplete for additional search hits */
-  searchContent?: string | React.ReactNode | string[]
+  searchContent?: string | ReactNode | string[]
   /** style prop of the html list item */
-  style?: React.CSSProperties
+  style?: CSSProperties
   /** classname added to the html list item */
   className?: string
   /** set to true to disable mouse events selected style. Keyboard can still select. */
   ignoreEvents?: boolean
   /** internal use only */
-  render?: (children: React.ReactNode, id: string) => React.ReactNode
+  render?: (children: ReactNode, id: string) => ReactNode
 }
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any
@@ -83,28 +91,28 @@ export type DrawerListSize =
   | number
 
 export type DrawerListGroup<T> = {
-  groupTitle: React.ReactNode
+  groupTitle: ReactNode
   groupData: T
   /** Make title screen reader only */
   hideTitle?: boolean
 }
 
-export type DrawerListGroupTitles = React.ReactNode[]
+export type DrawerListGroupTitles = ReactNode[]
 export type DrawerListOptionsRender = ({
   data,
   Items,
   Item,
 }: {
   data: DrawerListDataArrayObject[]
-  Items: () => React.ReactNode
-  Item: React.ComponentType<DrawerListItemProps>
-}) => React.ReactNode
+  Items: () => ReactNode
+  Item: ComponentType<DrawerListItemProps>
+}) => ReactNode
 export type DrawerListValue = string | number
 export type DrawerListData =
   | string
   | (() => DrawerListDataAll)
   | DrawerListDataAll
-export type DrawerListSuffix = React.ReactNode
+export type DrawerListSuffix = ReactNode
 
 export type DrawerListEvent = {
   data: DrawerListDataArrayObject | null
@@ -116,7 +124,7 @@ export type DrawerListChangeEvent = {
   selectedItem: number | null
   value: string | number
   data: DrawerListDataArrayObject | null
-  event: React.SyntheticEvent | null
+  event: SyntheticEvent | null
   attributes: Record<string, unknown>
 }
 
@@ -132,7 +140,7 @@ export type DrawerListResizeEvent = {
 export type DrawerListItemMouseEnterEvent = {
   item: number
   data: DrawerListDataArrayObject | string | null
-  event: React.MouseEvent<HTMLLIElement>
+  event: MouseEvent<HTMLLIElement>
 }
 
 export type DrawerListProps = {
@@ -245,7 +253,7 @@ export type DrawerListProps = {
   ignoreEvents?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
-  children?: DrawerListData | React.ReactElement
+  children?: DrawerListData | ReactElement
   suffix?: DrawerListSuffix
   /**
    * If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.
@@ -258,7 +266,7 @@ export type DrawerListProps = {
   /**
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
-  observerElement?: string | React.ReactNode
+  observerElement?: string | ReactNode
   onOpen?: (event: DrawerListEvent) => void
   onClose?: (event: DrawerListEvent) => void
   handleDismissFocus?: () => void
@@ -286,7 +294,7 @@ export type DrawerListRenderData = Array<
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     | 'ref'
     | 'size'
     | 'label'
@@ -311,7 +319,7 @@ function DrawerList(props: DrawerListAllProps) {
       {...rest}
       data={
         data ||
-        (!React.isValidElement(children)
+        (!isValidElement(children)
           ? (children as DrawerListData)
           : undefined)
       }
@@ -322,7 +330,7 @@ function DrawerList(props: DrawerListAllProps) {
 }
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms"
 
-const DrawerListInstance = React.memo(function DrawerListInstance(
+const DrawerListInstance = memo(function DrawerListInstance(
   ownProps: DrawerListAllProps
 ) {
   const context = useContext(DrawerListContext)
@@ -350,7 +358,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   })
 
   const preventTab = useCallback(
-    (e: React.KeyboardEvent) => {
+    (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Tab':
           if (!context.drawerList.hasFocusOnElement) {
@@ -385,7 +393,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     .onItemMouseEnter as DrawerListProps['onItemMouseEnter']
 
   const onItemMouseEnterHandler = useCallback(
-    (itemId: number, event: React.MouseEvent<HTMLLIElement>) => {
+    (itemId: number, event: MouseEvent<HTMLLIElement>) => {
       if (onItemMouseEnterCallback) {
         const data = getEventData(itemId, context.drawerList.data)
         onItemMouseEnterCallback({ item: itemId, data, event })
@@ -442,7 +450,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
 
     ...attributes
   } = propsWithDefaults as DrawerListAllProps & {
-    onKeyDown?: (e: React.KeyboardEvent) => void
+    onKeyDown?: (e: KeyboardEvent) => void
   }
 
   function noNullNumbers({
@@ -586,7 +594,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
               onClick: selectItemHandler,
               onKeyDown: preventTab,
               onMouseEnter: onItemMouseEnterHandler
-                ? (e: React.MouseEvent<HTMLLIElement>) =>
+                ? (e: MouseEvent<HTMLLIElement>) =>
                     onItemMouseEnterHandler(__id, e)
                 : undefined,
               disabled: disabled,
@@ -677,7 +685,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
             />
           </>
         ) : (
-          React.isValidElement(children) && (
+          isValidElement(children) && (
             <span className="dnb-drawer-list__content">
               {children}
               <span
@@ -767,15 +775,15 @@ function makeRenderData(
   return renderData
 }
 
-export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
-  children: React.ReactNode
-  triangleRef?: React.Ref<HTMLLIElement | HTMLSpanElement>
+export type DrawerListOptionsProps = HTMLProps<HTMLUListElement> & {
+  children: ReactNode
+  triangleRef?: Ref<HTMLLIElement | HTMLSpanElement>
   cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
 }
 // DrawerList List
-DrawerList.Options = React.memo(
+DrawerList.Options = memo(
   ({
     children,
     className,
@@ -786,7 +794,7 @@ DrawerList.Options = React.memo(
     ref,
     ...rest
   }: DrawerListOptionsProps & {
-    ref?: React.Ref<HTMLUListElement | HTMLSpanElement>
+    ref?: Ref<HTMLUListElement | HTMLSpanElement>
   }) => {
     return (
       <E

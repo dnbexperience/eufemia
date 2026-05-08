@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import clsx from 'clsx'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
@@ -28,7 +28,7 @@ export default function StickyMenuBar({
   hideSidebarToggleButton = false,
   preventBarVisibility = false,
 } = {}) {
-  const { toggleMenu, isOpen } = React.useContext(SidebarMenuContext)
+  const { toggleMenu, isOpen } = useContext(SidebarMenuContext)
 
   if (preventBarVisibility || hideSidebarToggleButton) {
     return null

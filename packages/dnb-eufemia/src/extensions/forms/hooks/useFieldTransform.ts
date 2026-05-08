@@ -1,4 +1,5 @@
-import { useRef, useCallback } from 'react'
+import { useCallback, useRef } from 'react'
+import type { RefObject } from 'react'
 import type { ProvideAdditionalEventArgs } from '../types'
 
 export type TransformerFns<Value> = {
@@ -45,7 +46,7 @@ export default function useFieldTransform<Value>({
   provideAdditionalArgs: TransformerFns<Value>['provideAdditionalArgs']
   fromExternal: TransformerFns<Value>['fromExternal']
   validateRequired: TransformerFns<Value>['validateRequired']
-  valueRef: React.RefObject<Value>
+  valueRef: RefObject<Value>
 }) {
   const transformers = useRef<TransformerFns<Value>>({
     transformIn,

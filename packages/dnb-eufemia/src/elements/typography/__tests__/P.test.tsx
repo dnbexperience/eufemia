@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Dialog from '../../../components/dialog/Dialog'
 import Drawer from '../../../components/drawer/Drawer'

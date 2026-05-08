@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import Provider from '../../../shared/Provider'
@@ -24,9 +24,9 @@ export default {
 }
 
 function ToggleButtonGroup() {
-  const [button1, setButton1] = React.useState(false)
-  const [button2, setButton2] = React.useState(false)
-  const [button3, setButton3] = React.useState(false)
+  const [button1, setButton1] = useState(false)
+  const [button2, setButton2] = useState(false)
+  const [button3, setButton3] = useState(false)
 
   return (
     <>
@@ -355,8 +355,8 @@ export const ToggleButtonSandbox = () => (
 )
 
 export function MultiselectRerender() {
-  const [values, setValues] = React.useState(['third'])
-  const [count, increment] = React.useState(0)
+  const [values, setValues] = useState(['third'])
+  const [count, increment] = useState(0)
 
   const selectAll = () => setValues(['first', 'second', 'third'])
   const deselectAll = () => setValues([])

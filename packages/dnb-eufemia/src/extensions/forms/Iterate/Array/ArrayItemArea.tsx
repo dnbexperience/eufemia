@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer, useRef } from 'react'
+import { useCallback, useContext, useReducer, useRef } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
 import type { CardProps } from '../../../../components/card/Card'
@@ -102,6 +102,7 @@ function ArrayItemArea(
 
   const openRef = useRef(open ?? (containerMode === mode && !isNew))
   const isRemoving = useRef(false)
+  const openDelayRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   const setOpenState = useCallback((open: boolean) => {
     openRef.current = open
@@ -117,7 +118,7 @@ function ArrayItemArea(
         // - Open the block with animation, if it's in the right mode
         if (openRef.current !== (containerMode === mode)) {
           if (isNew) {
-            setTimeout(() => {
+            openDelayRef.current = setTimeout(() => {
               setOpenState(containerMode === mode)
             }, openDelay) // in order to apply the animation
           } else {
@@ -125,6 +126,10 @@ function ArrayItemArea(
           }
         }
       }
+    }
+
+    return () => {
+      clearTimeout(openDelayRef.current)
     }
   }, [containerMode, isNew, mode, open, openDelay, setOpenState])
 

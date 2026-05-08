@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { isValidElement, useContext } from 'react'
+import type { JSX } from 'react'
 import type {
   TranslationArguments,
   TranslationId,
@@ -34,7 +35,7 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
     messageFormatter
   )
 
-  if (React.isValidElement(result) || Array.isArray(result)) {
+  if (isValidElement(result) || Array.isArray(result)) {
     return <>{result}</>
   }
 
@@ -47,12 +48,12 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
 
 type TranslationFn = <T = TranslationCustomLocales>(
   props: TranslationProps<T>
-) => React.JSX.Element
+) => JSX.Element
 
 export type TranslationComponent = TranslationFn & {
   withTypes: <T = TranslationCustomLocales>() => (
     props: TranslationProps<T>
-  ) => React.JSX.Element
+  ) => JSX.Element
 }
 
 const Translation = TranslationImpl as unknown as TranslationComponent

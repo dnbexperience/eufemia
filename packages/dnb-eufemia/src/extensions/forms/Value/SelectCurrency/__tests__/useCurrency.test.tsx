@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import { renderHook } from '@testing-library/react'
 import SharedContext from '../../../../../shared/Context'
 import { getCurrencyData } from '../../../Field/SelectCurrency'
@@ -23,7 +23,7 @@ describe('useCurrency', () => {
     mock.mockReturnValue(mockCurrencyData)
   })
 
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
+  const wrapper = ({ children }: { children: ReactNode }) => (
     <SharedContext value={{ locale: mockLocale }}>
       {children}
     </SharedContext>

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   trash_medium,
@@ -222,7 +222,7 @@ export const DialogConfirmLoggedOut = () => {
     >
       {() => {
         const DemoComponent = () => {
-          const [open, setOpen] = React.useState(false)
+          const [open, setOpen] = useState(false)
           const loginHandler = () => null
           return (
             <>
@@ -307,7 +307,7 @@ export const DialogConfirmScrollableContent = () => {
     <ComponentBox data-visual-test="dialog-scroll-content">
       {() => {
         const MockComponent = () => {
-          const scrollRef = React.useRef(null)
+          const scrollRef = useRef(null)
           return (
             <Dialog
               triggerAttributes={{
@@ -415,7 +415,7 @@ export const DialogInformationScrollableContent = () => {
     <ComponentBox data-visual-test="dialog-scroll-content-info">
       {() => {
         const MockComponent = () => {
-          const scrollRef = React.useRef(null)
+          const scrollRef = useRef(null)
           return (
             <Dialog
               triggerAttributes={{

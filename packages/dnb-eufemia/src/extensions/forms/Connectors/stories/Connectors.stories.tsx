@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react'
 import { Connectors, Field, Form, Tools } from '../../'
 import { isSupportedCountryCode } from '../createContext'
 import { supportedCountryCodes as postalCode_supportedCountryCodes } from '../Bring/postalCode'
@@ -116,7 +117,7 @@ export function Address() {
         <Field.Address.Street
           path="/streetAddress"
           required
-          element={addressSuggestionsElement as React.ComponentType}
+          element={addressSuggestionsElement as ComponentType}
           autocompleteProps={{
             icon: false,
           }}

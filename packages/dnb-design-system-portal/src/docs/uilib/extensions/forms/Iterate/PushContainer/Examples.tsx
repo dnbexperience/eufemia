@@ -1,4 +1,4 @@
-import React from 'react'
+import { useLayoutEffect } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import {
@@ -177,7 +177,7 @@ export const IsolatedData = () => {
 
           // Clear the PushContainer data when the selected person is "other",
           // so the fields do not inherit existing data.
-          React.useLayoutEffect(() => {
+          useLayoutEffect(() => {
             if (selectedPerson === 'other') {
               update('/pushContainerItems/0', {})
             }

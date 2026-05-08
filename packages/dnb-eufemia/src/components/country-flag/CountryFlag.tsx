@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'

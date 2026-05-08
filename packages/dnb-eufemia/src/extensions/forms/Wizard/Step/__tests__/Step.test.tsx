@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
@@ -378,7 +379,7 @@ describe('Step', () => {
           [2, {}],
           [3, {}],
         ]),
-      } as React.RefObject<Steps>
+      } as RefObject<Steps>
 
       render(
         <Form.Handler>

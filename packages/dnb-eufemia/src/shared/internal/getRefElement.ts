@@ -1,16 +1,16 @@
-import type React from 'react'
+import type { RefObject } from 'react'
 
-type RefElement = React.RefObject<HTMLElement> | HTMLElement | null
+type RefElement = RefObject<HTMLElement> | HTMLElement | null
 
 export default function getRefElement(
-  target: React.RefObject<unknown> | HTMLElement | null
+  target: RefObject<unknown> | HTMLElement | null
 ): HTMLElement | null {
   if (!target) {
     return null
   }
 
-  const unknownTarget = target as React.RefObject<{
-    _ref: React.RefObject<HTMLElement>
+  const unknownTarget = target as RefObject<{
+    _ref: RefObject<HTMLElement>
   }>
   let element: RefElement = target as RefElement
 
@@ -20,7 +20,7 @@ export default function getRefElement(
   }
 
   if (element && Object.hasOwn(element, 'current')) {
-    element = (element as React.RefObject<HTMLElement>).current
+    element = (element as RefObject<HTMLElement>).current
   }
 
   return element as HTMLElement | null

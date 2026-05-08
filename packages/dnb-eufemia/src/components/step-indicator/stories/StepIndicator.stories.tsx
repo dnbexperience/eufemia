@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { StepIndicator, Button, Space } from '../../'
 import { Code } from '../../..'
@@ -15,7 +15,7 @@ export default {
 }
 
 export function RenderDuringSSR() {
-  const [count, increment] = React.useState(0)
+  const [count, increment] = useState(0)
 
   const data = [
     {
@@ -77,7 +77,7 @@ const data = [
 ]
 
 const InteractiveDemo = () => {
-  const [step, setStep] = React.useState(1)
+  const [step, setStep] = useState(1)
 
   return (
     <div style={{ display: 'flex' }}>
@@ -115,8 +115,8 @@ const InteractiveDemo = () => {
 }
 
 export const StepIndicatorSandbox = () => {
-  const [count, increment] = React.useState(0)
-  const [currentStep, setCurrentStep] = React.useState(1)
+  const [count, increment] = useState(0)
+  const [currentStep, setCurrentStep] = useState(1)
   return (
     <Wrapper>
       <Box>
@@ -190,7 +190,7 @@ const stepIndicatorListData = [
 ]
 
 export const CurrentStepPropChange = () => {
-  const [currentStep, setCurrentStep] = React.useState(1)
+  const [currentStep, setCurrentStep] = useState(1)
 
   function stepOn() {
     if (currentStep === stepIndicatorListData.length - 1) {
@@ -276,7 +276,7 @@ export const EventTests = () => {
 }
 
 export const TitleTests = () => {
-  const [currentStep, setCurrentStep] = React.useState(0)
+  const [currentStep, setCurrentStep] = useState(0)
 
   const data: StepIndicatorDataItem[] = [
     {

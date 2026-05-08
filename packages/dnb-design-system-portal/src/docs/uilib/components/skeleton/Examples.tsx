@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Suspense } from 'react'
+import { Suspense, useContext, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
@@ -36,7 +36,7 @@ export const SkeletonToggleExample = () => (
   <ComponentBox data-visual-test="skeleton-exclude">
     {() => {
       const UserData = () => {
-        const [state, setState] = React.useState(true)
+        const [state, setState] = useState(true)
         return (
           <Skeleton show={state}>
             <H2 top bottom>
@@ -178,7 +178,7 @@ export const SkeletonInfoCustom = () => (
   >
     {() => {
       function Component({ skeleton = false, ...params } = {}) {
-        const context = React.useContext(Context)
+        const context = useContext(Context)
 
         // Handle accessibility features
         skeletonDOMAttributes(params, skeleton, context)

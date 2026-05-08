@@ -1,11 +1,11 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import ValueProviderContext from './ValueProviderContext'
 import type { Path, ValueProps } from '../../types'
 import useValueProvider from './useValueProvider'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ValueProviderProps = {
-  children: React.ReactNode
+  children: ReactNode
   overwriteProps?: {
     [key: Path]: ValueProps
   }

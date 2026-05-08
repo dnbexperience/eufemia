@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import type { HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
@@ -70,9 +71,9 @@ export type HeadingProps = {
   group?: string
 
   /**
-   * A heading, can be text or React.ReactNode.
+   * A heading, can be text or ReactNode.
    */
-  text?: React.ReactNode
+  text?: ReactNode
 
   /**
    * Define the typography font-size by a size type, e.g. `x-large`. Defaults to the predefined heading sizes.
@@ -130,13 +131,13 @@ export type HeadingProps = {
 }
 
 export type HeadingAllProps = HeadingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'size'> &
+  Omit<HTMLProps<HTMLElement>, 'size'> &
   SpacingProps
 
 export default function Heading(props: HeadingAllProps) {
-  const context = React.useContext(Context)
-  const headingContext = React.useContext(HeadingContext)
-  const _ref = React.useRef(null)
+  const context = useContext(Context)
+  const headingContext = useContext(HeadingContext)
+  const _ref = useRef(null)
 
   const {
     text,
@@ -159,7 +160,7 @@ export default function Heading(props: HeadingAllProps) {
     ...rest
   } = props
 
-  const [state, setState] = React.useState(() => {
+  const [state, setState] = useState(() => {
     type State = {
       level: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
@@ -208,7 +209,7 @@ export default function Heading(props: HeadingAllProps) {
     return state
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     windupHeadings()
     state.counter.windup()
 
@@ -218,7 +219,7 @@ export default function Heading(props: HeadingAllProps) {
     }
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const level = parseFloat(String(props.level))
     if (
       state.prevLevel !== props.level &&
@@ -277,7 +278,7 @@ export default function Heading(props: HeadingAllProps) {
 
   const Element = element as
     | string
-    | ((props: React.HTMLProps<HTMLElement>) => React.JSX.Element) // typecasting to avoid typescript parser error ts(2590)
+    | ((props: HTMLProps<HTMLElement>) => JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
   const elementProps = applySpacing(props, {
     ...attributes,

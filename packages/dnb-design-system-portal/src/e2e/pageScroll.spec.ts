@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import isVite from './shared/isVite'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Page Scroll', () => {
@@ -19,7 +18,7 @@ test.describe('Page Scroll', () => {
     page,
   }) => {
     const anchors = await page.locator('main .dnb-ul li a').all()
-    const anchorIndex = (await isVite(page)) ? 0 : 7
+    const anchorIndex = 0
 
     if (anchors.length <= anchorIndex) {
       return // page structure different, skip

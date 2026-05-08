@@ -3,13 +3,8 @@
  *
  */
 
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
@@ -30,7 +25,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
-import { defaultTabsValue } from '../tags/TabBar'
+import { defaultTabsValue } from '../tags/defaultValues'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -255,7 +250,7 @@ type ListItemProps = {
   isInsideActiveCategory?: boolean
   currentPathName?: string
   accordion?: boolean
-  scrollRef?: React.RefObject<HTMLElement>
+  scrollRef?: RefObject<HTMLElement>
 }
 
 function ListItem({
@@ -294,6 +289,7 @@ function ListItem({
     isAccordion ? isInsideActivePath || isActive : true
   )
   const [manualClick, setManualClick] = useState(false)
+
   if (hideInMenu) {
     return null
   }
@@ -350,13 +346,6 @@ function ListItem({
           className
         )}
         ref={ref}
-        style={
-          {
-            '--delay': `${
-              nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
-            }ms`,
-          } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
-        }
       >
         <div className="dnb-sidebar-menu__item">
           <Anchor
@@ -596,8 +585,8 @@ function groupNavItems(navItems: NavItem[], location: Location) {
   // so it can be done with only one loop through
   navItems.reduce<{ [id: string]: NavItem }>((hashmap, item) => {
     // Using items url path as ID, it only works in this case, since we can determine the items grouping by the url path
-    // It's solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
-    // and therefor leads to wrong grouping if used
+    // The source node ids do not reflect the SidebarMenu hierarchy reliably,
+    // so we derive parent-child relationships from the URL path instead.
     const itemId = item.path.replace(/\//g, '-')
     const parentId = item.path.replace(/\/[^/]+$/g, '').replace(/\//g, '-')
 
@@ -703,9 +692,8 @@ function checkIfActiveItem(
   }
 
   if (showTabs) {
-    // If gatsby node has showTabs active
-    // we can most likely assume that the last part of the slug is the tab path
-    // and then remove it from the currentPath to determine if this item is the active item
+    // If a page exposes tabs, the last slug segment is usually the active tab.
+    // Remove it from currentPath to determine the active parent item.
     const slugs = currentPath.split('/').filter(Boolean)
     const lastSlug = slugs[slugs.length - 1]
     const currentPathWithoutTabSlug = currentPath.replace(
@@ -741,9 +729,7 @@ function usePrevious<T>(
   return [hasChanged(value, previousValue), previousValue]
 }
 
-function ensureActiveMenuItemIsInView(
-  parentRef: React.RefObject<HTMLElement>
-) {
+function ensureActiveMenuItemIsInView(parentRef: RefObject<HTMLElement>) {
   const nav = parentRef?.current
   if (nav) {
     const item = nav.querySelector(

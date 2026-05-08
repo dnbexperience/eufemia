@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { Children, createElement, isValidElement, useContext } from 'react'
+import type { ComponentType, ReactElement, ReactNode } from 'react'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
 import type { WizardStepProps as StepProps } from '../Step/Step'
@@ -8,8 +9,8 @@ import { useCollectStepsData } from './useCollectStepsData'
 export function IterateOverSteps({
   children,
 }: {
-  children: React.ReactNode
-}): React.ReactNode {
+  children: ReactNode
+}): ReactNode {
   const {
     check,
     stepsRef,
@@ -30,14 +31,14 @@ export function IterateOverSteps({
   stepIndexRef.current = -1
   totalStepsRef.current = 0
 
-  const childrenArray = React.Children.map(children, (child) => {
-    if (React.isValidElement<any>(child)) {
+  const childrenArray = Children.map(children, (child) => {
+    if (isValidElement<any>(child)) {
       let step = child
 
       if (child?.type !== Step && typeof child.type === 'function') {
-        step = (child.type as (props: unknown) => React.ReactElement)(
+        step = (child.type as (props: unknown) => ReactElement)(
           child.props
-        ) as React.ReactElement
+        ) as ReactElement
 
         if (step?.type === Step) {
           child = step
@@ -46,7 +47,7 @@ export function IterateOverSteps({
 
       if (child?.type === Step) {
         const { title, inactive, keepInDOM, include, id, includeWhen } =
-          (child as React.ReactElement<any>).props || {}
+          (child as ReactElement<any>).props || {}
 
         if (include === false) {
           return null
@@ -83,11 +84,11 @@ export function IterateOverSteps({
           prerenderFieldPropsRef.current['step-' + index] = {
             index,
             fn: () =>
-              React.createElement(
-                (child as React.ReactElement<StepProps>)
-                  .type as React.ComponentType<StepProps>,
+              createElement(
+                (child as ReactElement<StepProps>)
+                  .type as ComponentType<StepProps>,
                 {
-                  ...(child as React.ReactElement<StepProps>).props,
+                  ...(child as ReactElement<StepProps>).props,
                   key,
                   index,
                   prerenderFieldProps: true,

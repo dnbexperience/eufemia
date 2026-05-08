@@ -1,4 +1,11 @@
-import React, { StrictMode, useContext, useEffect } from 'react'
+import {
+  StrictMode,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react'
+import type { RefObject } from 'react'
 import {
   act,
   fireEvent,
@@ -919,7 +926,7 @@ describe('DataContext.Provider', () => {
     const UseContext = ({
       result,
     }: {
-      result: React.RefObject<ContextState | null>
+      result: RefObject<ContextState | null>
     }) => {
       result.current = useContext(DataContext.Context)
       return null
@@ -1326,7 +1333,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when "onChangeValidator" is async', async () => {
-      const result: React.RefObject<ContextState | null> = {
+      const result: RefObject<ContextState | null> = {
         current: null,
       }
       const onChangeValidator = async () => {
@@ -1375,7 +1382,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when "onBlurValidator" is async', async () => {
-      const result: React.RefObject<ContextState | null> = {
+      const result: RefObject<ContextState | null> = {
         current: null,
       }
       const onBlurValidator = async () => {
@@ -1424,7 +1431,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
-      const result: React.RefObject<ContextState | null> = {
+      const result: RefObject<ContextState | null> = {
         current: null,
       }
       const onSubmit = async () => null
@@ -1450,7 +1457,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
-      const result: React.RefObject<ContextState | null> = {
+      const result: RefObject<ContextState | null> = {
         current: null,
       }
       const onSubmit = async () => null
@@ -4774,7 +4781,7 @@ describe('DataContext.Provider', () => {
       const MockComponent = () => {
         const { data, update } = Form.useData(identifier, existingData)
 
-        const increment = React.useCallback(() => {
+        const increment = useCallback(() => {
           update('/count', (count) => {
             return count + 1
           })
@@ -4822,7 +4829,7 @@ describe('DataContext.Provider', () => {
           count: 1,
         })
 
-        const increment = React.useCallback(() => {
+        const increment = useCallback(() => {
           set({ count: data?.count + 1 })
         }, [data.count, set])
 
@@ -4868,7 +4875,7 @@ describe('DataContext.Provider', () => {
           identifier
         )
 
-        const increment = React.useCallback(() => {
+        const increment = useCallback(() => {
           update('/count', (count) => {
             return count + 1
           })
@@ -4906,7 +4913,7 @@ describe('DataContext.Provider', () => {
       const MockComponent = () => {
         const { data, update } = Form.useData(identifier, { count: 1 })
 
-        React.useEffect(() => {
+        useEffect(() => {
           update('/count', (count) => count + 1)
         }, [update])
 
@@ -4938,7 +4945,7 @@ describe('DataContext.Provider', () => {
           identifier
         )
 
-        React.useEffect(() => {
+        useEffect(() => {
           update('/count', () => 123)
         }, [update])
 
@@ -6262,10 +6269,7 @@ describe('DataContext.Provider', () => {
       })
 
       const MockComponent = () => {
-        const [count, increment] = React.useReducer(
-          (state) => state + 1,
-          0
-        )
+        const [count, increment] = useReducer((state) => state + 1, 0)
         return (
           <Form.Handler onSubmit={onSubmit}>
             <button type="button" onClick={increment}>
@@ -6383,9 +6387,9 @@ describe('DataContext.Provider', () => {
       let contextValue: ContextState = null
 
       const AsyncField = () => {
-        const dataContext = React.useContext(DataContext.Context)
+        const dataContext = useContext(DataContext.Context)
 
-        React.useEffect(() => {
+        useEffect(() => {
           dataContext?.setFieldInternals?.('/async-field', {
             enableAsyncMode: true,
           })
@@ -6395,7 +6399,7 @@ describe('DataContext.Provider', () => {
       }
 
       const Reporter = () => {
-        contextValue = React.useContext(DataContext.Context)
+        contextValue = useContext(DataContext.Context)
         return null
       }
 

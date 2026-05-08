@@ -1,5 +1,5 @@
 /**
- * Vite plugin that normalises URLs to match Gatsby's clean-URL /
+ * Vite plugin that normalises URLs /
  * trailingSlash: 'always' behavior.
  *
  * Two middleware layers, both applied to dev and preview servers:

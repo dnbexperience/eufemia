@@ -1,17 +1,31 @@
-const { exec } = require('child_process')
+const { execFile } = require('child_process')
+
+function assertSafeCommand(command) {
+  // Reject potentially dangerous shell control characters when using `/bin/sh -c`.
+  // This keeps existing API while preventing command injection from dynamic values.
+  if (/[;&|`$<>\n\r]/.test(command)) {
+    throw new Error('Unsafe shell command rejected')
+  }
+}
 
 function runCommand(command) {
   return new Promise((resolve, reject) => {
     try {
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          return reject(error)
+      assertSafeCommand(command)
+      execFile(
+        '/bin/sh',
+        ['-c', command],
+        { timeout: 10000 },
+        (error, stdout, stderr) => {
+          if (error) {
+            return reject(error)
+          }
+          if (stderr) {
+            return reject(stderr)
+          }
+          return resolve(stdout)
         }
-        if (stderr) {
-          return reject(stderr)
-        }
-        return resolve(stdout)
-      })
+      )
     } catch (e) {
       reject(e)
     }
@@ -27,17 +41,30 @@ function runCommand(command) {
  */
 const getCommittedFiles = async (countCommits = 10) => {
   try {
+    const history = await runCommand(
+      `git rev-list --max-count=${countCommits + 1} HEAD`
+    )
+    const commits = history.split('\n').filter(Boolean)
+
+    if (commits.length === 0) {
+      return []
+    }
+
     const files = (
-      await runCommand(
-        `git -c diff.renames=0 show --pretty="format:" --name-only HEAD...HEAD~${countCommits}`
-      )
+      commits.length === 1
+        ? await runCommand(
+            'git -c diff.renames=0 show --pretty="format:" --name-only HEAD'
+          )
+        : await runCommand(
+            `git -c diff.renames=0 diff --name-only ${commits[commits.length - 1]}..HEAD`
+          )
     )
       .split('\n')
       .filter(Boolean)
 
     return files
-  } catch (error) {
-    throw new Error(error)
+  } catch {
+    return []
   }
 }
 

@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { ElementType, HTMLProps, ReactNode, RefObject } from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
@@ -19,12 +19,12 @@ export type SliderOnChangeParams = {
 
 export type SliderExtensions = Record<
   string,
-  { instance: React.ElementType; [key: string]: unknown }
+  { instance: ElementType; [key: string]: unknown }
 >
 
 export type SliderProps = {
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
-  label?: React.ReactNode
+  label?: ReactNode
 
   /** use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`. */
   labelDirection?: 'vertical' | 'horizontal'
@@ -112,12 +112,12 @@ export type SliderProps = {
   /** Will be called once the user stops dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export type SliderAllProps = SliderProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
+  Omit<HTMLProps<HTMLElement>, keyof SliderProps>
 
 export type SliderThumbState =
   | 'initial'
@@ -131,7 +131,7 @@ export type SliderContextValue = {
   isVertical: boolean
   shouldAnimate: boolean
   thumbState: SliderThumbState
-  thumbIndex: React.RefObject<number>
+  thumbIndex: RefObject<number>
   showStatus: boolean
   showButtons: boolean
   attributes: unknown
@@ -142,7 +142,7 @@ export type SliderContextValue = {
   setThumbState: (thumbState: SliderThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
-  trackRef: React.RefObject<HTMLElement>
+  trackRef: RefObject<HTMLElement>
   setShouldAnimate: (state: boolean) => void
-  animationTimeout: React.RefObject<NodeJS.Timeout>
+  animationTimeout: RefObject<NodeJS.Timeout>
 }

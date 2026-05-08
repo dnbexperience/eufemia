@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { StrictMode, useState } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
@@ -157,10 +158,10 @@ describe('Modal component', () => {
   })
 
   it('accepts custom refs', () => {
-    const contentRef: React.RefObject<HTMLElement | null> = {
+    const contentRef: RefObject<HTMLElement | null> = {
       current: null,
     }
-    const scrollRef: React.RefObject<HTMLElement | null> = {
+    const scrollRef: RefObject<HTMLElement | null> = {
       current: null,
     }
 
@@ -812,7 +813,7 @@ describe('Modal component', () => {
 
   it('will remove HTML attributes on unmount when open is used', () => {
     const HandleState = () => {
-      const [open, toggle] = React.useState(false)
+      const [open, toggle] = useState(false)
       return (
         <>
           <button id="toggle" onClick={() => toggle((s) => !s)}>
@@ -854,7 +855,7 @@ describe('Modal component', () => {
     const onClose = jest.fn()
 
     const HandleState = () => {
-      const [open, toggle] = React.useState(false)
+      const [open, toggle] = useState(false)
       return (
         <>
           <button id="toggle" onClick={() => toggle((s) => !s)}>
@@ -1337,10 +1338,10 @@ describe('Modal component', () => {
 
   it('can be mounted from within another component', () => {
     const TestCustomTrigger = () => {
-      const [count, setCount] = React.useState(0)
+      const [count, setCount] = useState(0)
 
       return (
-        <React.StrictMode>
+        <StrictMode>
           <Button
             id="count-trigger"
             text="Count"
@@ -1363,7 +1364,7 @@ describe('Modal component', () => {
           />
 
           <span className="count">{count}</span>
-        </React.StrictMode>
+        </StrictMode>
       )
     }
 
@@ -1407,7 +1408,7 @@ describe('Modal component', () => {
     const onClose = jest.fn()
 
     const ModalTriggerMock = () => {
-      const [modalOpen, setModalOpen] = React.useState(false)
+      const [modalOpen, setModalOpen] = useState(false)
 
       return (
         <Modal
@@ -1452,7 +1453,7 @@ describe('Modal component', () => {
 
   it('should close on esc when used with external state', async () => {
     const ModalTriggerMock = () => {
-      const [modalOpen, setModalOpen] = React.useState(true)
+      const [modalOpen, setModalOpen] = useState(true)
 
       return (
         <Modal
@@ -1740,7 +1741,7 @@ describe('Modal component', () => {
               return (
                 <Button id="close-button" text="close" onClick={close} />
               )
-            }) as (props: ModalContentProps) => React.ReactNode
+            }) as (props: ModalContentProps) => ReactNode
           }
         </Modal>
       )
@@ -1765,11 +1766,11 @@ describe('Modal component', () => {
         const onOpen = jest.fn()
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <Modal noAnimation onOpen={onOpen} onClose={onClose}>
               Content
             </Modal>
-          </React.StrictMode>
+          </StrictMode>
         )
 
         fireEvent.click(document.querySelector('.dnb-modal__trigger'))
@@ -1783,7 +1784,7 @@ describe('Modal component', () => {
         const onOpen = jest.fn()
 
         const MockComponent = () => {
-          const [open, setOpen] = React.useState(false)
+          const [open, setOpen] = useState(false)
 
           const onOpenHandler = (...args) => {
             setOpen(true)
@@ -1813,9 +1814,9 @@ describe('Modal component', () => {
         process.env.NODE_ENV = 'something-else'
 
         render(
-          <React.StrictMode>
+          <StrictMode>
             <MockComponent />
-          </React.StrictMode>
+          </StrictMode>
         )
 
         fireEvent.click(document.querySelector('button'))

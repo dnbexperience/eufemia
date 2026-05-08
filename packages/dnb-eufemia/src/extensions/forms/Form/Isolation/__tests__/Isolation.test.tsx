@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import type { RefObject } from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import {
   act,
@@ -423,7 +424,7 @@ describe('Form.Isolation', () => {
     }
 
     const MockComponent = () => {
-      const [state, setState] = React.useState(data.section.second)
+      const [state, setState] = useState(data.section.second)
       return (
         <Form.Handler
           data={{
@@ -537,7 +538,7 @@ describe('Form.Isolation', () => {
 
   it('should call onChange on data context when local data submit is called', async () => {
     const onChange = jest.fn()
-    const commitHandleRef: React.RefObject<(() => void) | null> = {
+    const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
 
@@ -667,7 +668,7 @@ describe('Form.Isolation', () => {
 
   it('should call onCommit event when commitHandleRef is called', async () => {
     const onCommit = jest.fn()
-    const commitHandleRef: React.RefObject<(() => void) | null> = {
+    const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
 
@@ -723,7 +724,7 @@ describe('Form.Isolation', () => {
 
   it('should support nested paths', async () => {
     const onChange = jest.fn()
-    const commitHandleRef: React.RefObject<(() => void) | null> = {
+    const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
 
@@ -1669,7 +1670,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should render error when commitHandleRef is called', async () => {
-    const commitHandleRef: React.RefObject<(() => void) | null> = {
+    const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
 
@@ -3104,7 +3105,7 @@ describe('Form.Isolation', () => {
       const SetDelayedData = () => {
         const { update } = Form.useData()
 
-        React.useEffect(() => {
+        useEffect(() => {
           requestAnimationFrame(() => {
             update('/isolated', 'With a delayed default value')
             setTimeout(() => {

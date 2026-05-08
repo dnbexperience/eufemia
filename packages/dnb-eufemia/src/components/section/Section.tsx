@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext, useRef } from 'react'
+import type { CSSProperties, HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -97,7 +98,7 @@ export type SectionProps = {
   /**
    * Define a React.Ref.
    */
-  ref?: React.RefObject<HTMLElement>
+  ref?: RefObject<HTMLElement>
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
@@ -106,13 +107,13 @@ type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
 
 export type SectionAllProps = SectionProps &
   SectionSpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref'>
+  Omit<HTMLProps<HTMLElement>, 'ref'>
 
 type SectionReturnParams = Record<string, unknown> & {
   className: string
-  ref: React.RefObject<HTMLElement>
-  children: React.ReactNode
-  style: React.CSSProperties
+  ref: RefObject<HTMLElement>
+  children: ReactNode
+  style: CSSProperties
 }
 
 const defaultProps: Partial<SectionAllProps> = {
@@ -130,7 +131,7 @@ export default function Section(props: SectionAllProps) {
 export function SectionParams(
   localProps: SectionAllProps
 ): SectionReturnParams {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
@@ -162,7 +163,7 @@ export function SectionParams(
     ...attributes
   } = props
 
-  const internalRef = React.useRef<HTMLElement>(undefined)
+  const internalRef = useRef<HTMLElement>(undefined)
   const elementRef = refProp || internalRef
 
   return Object.freeze({
@@ -205,7 +206,7 @@ export function SectionParams(
         typeof value === 'number' ? `${value}px` : value
       ),
       ...attributes?.style,
-    } as React.CSSProperties,
+    } as CSSProperties,
     ref: elementRef,
     children: surface ? (
       <Theme.Context surface={surface}>{children}</Theme.Context>

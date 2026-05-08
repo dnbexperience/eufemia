@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, Section } from '@dnb/eufemia/src'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
@@ -61,7 +60,7 @@ export function FilterData() {
         return (
           <Flex.Stack>
             <Component />
-            <Section backgroundColor="sand-yellow" innerSpace>
+            <Section variant="information" innerSpace>
               <pre>{JSON.stringify(filterData(filterDataPaths))}</pre>
               <pre>{JSON.stringify(filterData(filterDataHandler))}</pre>
             </Section>

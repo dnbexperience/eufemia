@@ -6,6 +6,7 @@ import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/Propertie
 import {
   TableEventProperties,
   TrEventProperties,
+  TdEventProperties,
 } from '@dnb/eufemia/src/components/table/TableDocs'
 
 ## Table events
@@ -21,3 +22,9 @@ Table with navigation mode(`mode="navigation"`) only supports the `<Tr>` event `
 Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events listed below.
 
 <PropertiesTable props={TrEventProperties} showDefaultValue />
+
+## Table Data `<Td>` events
+
+The `<Td>` `onClick` event renders a native `<button>` inside the cell for accessibility and provides element references in the second argument.
+
+<PropertiesTable props={TdEventProperties} showDefaultValue />

@@ -294,7 +294,7 @@ describe('test-page-filter plugin', () => {
       )
 
       // Non-URL strings are normalized to portal paths — this matches
-      // gatsby-node.js behavior where page.goto always uses portal paths.
+      // page.goto always uses portal paths in this build setup.
       const urls = extractPageGotoUrls(filePath)
       expect(urls.has('/not-a-url')).toBe(true)
     })

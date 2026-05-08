@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
 import { createMockFile } from './testHelpers'

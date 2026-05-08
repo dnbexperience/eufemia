@@ -61,37 +61,6 @@ Since Figma has different rules and limitations than CSS we have established som
 - Variables are not case-sensitive. (`onDark` and `ondark` are considered the same variable)
 - We use dashes (`-`) to separate groups and words.
 
-## How to use
-
-The css variables are imported in the `style/themes/*/*-theme-basis.scss` file and are therefore part of each theme's basis import:
-
-```
-import '@dnb/eufemia/style/'
-import '@dnb/eufemia/style/themes/ui'
-import '@dnb/eufemia/style/themes/ui/basis'
-
-```
-
-Dark mode tokens are generated into a separate `tokens-dark.scss` file per theme. They are **not** included in the theme basis import and must be imported separately to opt in:
-
-```
-// DNB theme
-import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css'
-
-// Sbanken theme
-import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.scss'
-```
-
-For Tailwind, dark tokens are in a separate file per theme:
-
-```css
-/* DNB theme */
-@import '@dnb/eufemia/style/themes/ui/tokens-dark-tailwind.css';
-
-/* Sbanken theme */
-@import '@dnb/eufemia/style/themes/sbanken/tokens-dark-tailwind.css';
-```
-
 ### Transforms
 
 During the CSS generation, Figma variables are converted to lower case. And groups are separated by dashes (`-`).

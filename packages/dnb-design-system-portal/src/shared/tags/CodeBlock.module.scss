@@ -39,19 +39,19 @@
   @include PortalMixins.gridStyle();
 
   --grid-rgb: 236 236 236;
-  --grid-opacity: 0.5;
-  --grid-opacity-bold: 0.85;
+  --grid-opacity: 0.2;
+  --grid-opacity-bold: 0.2;
   --grid-background: var(--token-color-background-page-background);
 
   :global(.surface--dark) & {
-    --grid-opacity: 0.12;
-    --grid-opacity-bold: 0.06;
+    --grid-opacity: 0.05;
+    --grid-opacity-bold: 0.03;
     --grid-background: var(--token-color-decorative-first-bold-static);
   }
 
   :global(.eufemia-theme__color-scheme--dark) > & {
-    --grid-opacity: 0.12;
-    --grid-opacity-bold: 0.06;
+    --grid-opacity: 0.05;
+    --grid-opacity-bold: 0.03;
   }
 
   :global(.background--plain) & {
@@ -60,10 +60,11 @@
     }
   }
 
-  // For backwards compatibility with visual tests, we need to keep the grid in visual tests, but we want to remove the background color to avoid snapshot differences due to different background colors
-  // In future we may rather remove the grid from visual tests and then we can remove this rule as well so we get a "local" background color in visual tests as well.
   :global(html[data-visual-test]) & {
-    --grid-background: #fafafa;
+    --grid-background: transparent;
+    &::after {
+      background-image: none;
+    }
   }
 }
 
@@ -80,9 +81,13 @@
     display: none;
   }
 
-  background-color: var(--token-color-background-neutral);
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-  :global(.background--plain) & {
     border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
   }
 
@@ -101,7 +106,7 @@
 }
 
 .liveCodeEditorStyle {
-  --border-radius: 1rem;
+  --border-radius: var(--token-radius-lg);
   border-radius: var(--border-radius);
 
   // Outline

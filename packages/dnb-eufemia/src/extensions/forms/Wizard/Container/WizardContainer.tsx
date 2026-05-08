@@ -1,11 +1,12 @@
-import React, {
-  useContext,
+import {
   useCallback,
-  useRef,
-  useReducer,
-  useMemo,
+  useContext,
   useEffect,
+  useMemo,
+  useReducer,
+  useRef,
 } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
@@ -102,7 +103,7 @@ export type WizardContainerProps = ComponentProps & {
   /**
    * The children of the wizard container.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function WizardContainer(props: WizardContainerProps) {

@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect } from 'react'
+import type { HTMLAttributes } from 'react'
 import { Switch } from '@dnb/eufemia/src'
 
 function setGridVisibility(visibility = true) {
@@ -25,7 +26,7 @@ function isGridVisible() {
 }
 
 export function GridActivator() {
-  React.useEffect(() => {
+  useEffect(() => {
     if (isGridVisible()) {
       setGridVisibility()
     }
@@ -37,7 +38,7 @@ export function GridActivator() {
 export default function ToggleGrid({
   label = 'Toggle Grid',
   ...props
-}: React.HTMLAttributes<HTMLSpanElement> & { label?: string }) {
+}: HTMLAttributes<HTMLSpanElement> & { label?: string }) {
   const handleChange = () => {
     setGridVisibility(!isGridVisible())
   }

@@ -1,4 +1,9 @@
-import type React from 'react'
+import type {
+  HTMLAttributes,
+  MouseEventHandler,
+  ReactNode,
+  RefObject,
+} from 'react'
 import type { IconIcon } from '../icon/Icon'
 import type { AnchorProps } from '../anchor/Anchor'
 import type { ButtonProps } from '../button/Button'
@@ -14,7 +19,7 @@ export type MenuTriggerRenderProps = PopoverTriggerRenderProps
 export type MenuRootProps = {
   id?: string
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Placement of the menu relative to the trigger.
    * Default: `bottom`
@@ -60,24 +65,22 @@ export type MenuButtonProps = Omit<ButtonProps, 'children'> & {
    * Render function for a custom trigger element.
    * Receives trigger props including `ref`, `active`, `open`, `close`, `toggle`.
    */
-  children?:
-    | React.ReactNode
-    | ((context: MenuTriggerRenderProps) => React.ReactNode)
+  children?: ReactNode | ((context: MenuTriggerRenderProps) => ReactNode)
 }
 
 export type MenuListProps = {
-  children?: React.ReactNode
+  children?: ReactNode
   className?: string
   /**
    * Maximum number of visible items before the list scrolls.
    */
   maxVisibleListItems?: number
-} & Omit<React.HTMLAttributes<HTMLUListElement>, 'children'>
+} & Omit<HTMLAttributes<HTMLUListElement>, 'children'>
 
 export type MenuActionProps = {
   id?: string
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Icon displayed before the text.
    */
@@ -85,11 +88,11 @@ export type MenuActionProps = {
   /**
    * Action label text.
    */
-  text?: React.ReactNode
+  text?: ReactNode
   /**
    * Click handler for the action.
    */
-  onClick?: React.MouseEventHandler<HTMLLIElement>
+  onClick?: MouseEventHandler<HTMLLIElement>
   /**
    * When provided, the action renders as a link.
    */
@@ -118,12 +121,12 @@ export type MenuActionProps = {
    * Default: `false`
    */
   hasSubMenu?: boolean
-} & Omit<React.HTMLAttributes<HTMLLIElement>, 'title' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'onClick'>
 
 export type MenuAccordionProps = {
   id?: string
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Icon displayed before the text.
    */
@@ -131,7 +134,7 @@ export type MenuAccordionProps = {
   /**
    * Accordion trigger label text.
    */
-  text?: React.ReactNode
+  text?: ReactNode
   /**
    * Whether the accordion is disabled.
    * Default: `false`
@@ -141,7 +144,7 @@ export type MenuAccordionProps = {
    * Callback fired when the open state changes.
    */
   onOpenChange?: (open: boolean) => void
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>
 
 export type MenuDividerProps = {
   className?: string
@@ -152,12 +155,12 @@ export type MenuHeaderProps = {
   /**
    * Header text.
    */
-  text?: React.ReactNode
+  text?: ReactNode
   /**
    * Alternative to `text`. Rendered inside the header.
    */
-  children?: React.ReactNode
-} & Omit<React.HTMLAttributes<HTMLLIElement>, 'title' | 'role'>
+  children?: ReactNode
+} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'role'>
 
 export type MenuContextValue = {
   level: number
@@ -165,9 +168,9 @@ export type MenuContextValue = {
   closeSelf?: () => void
   activeIndex: number
   setActiveIndex: (index: number) => void
-  registerItem: (ref: React.RefObject<HTMLElement>) => number
+  registerItem: (ref: RefObject<HTMLElement>) => number
   unregisterItem: (index: number) => void
-  itemRefs: React.RefObject<Array<React.RefObject<HTMLElement>>>
-  menuRef: React.RefObject<HTMLUListElement>
+  itemRefs: RefObject<Array<RefObject<HTMLElement>>>
+  menuRef: RefObject<HTMLUListElement>
   isOpen: boolean
 }

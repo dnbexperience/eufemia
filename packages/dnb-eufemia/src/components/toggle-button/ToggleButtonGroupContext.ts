@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { createContext } from 'react'
+import type { ReactNode, SyntheticEvent } from 'react'
 import type { ToggleButtonValue } from './ToggleButton'
 
 export type ToggleButtonGroupContextValue = {
@@ -13,7 +14,7 @@ export type ToggleButtonGroupContextValue = {
   size?: string
   multiselect?: boolean | null
   variant?: string | null
-  leftComponent?: React.ReactNode
+  leftComponent?: ReactNode
   disabled?: boolean | null
   skeleton?: boolean | string | null
   status?: string
@@ -26,11 +27,11 @@ export type ToggleButtonGroupContextValue = {
   ) => void
   onChange?: (args: {
     value: ToggleButtonValue | ToggleButtonValue[]
-    event: React.SyntheticEvent
+    event: SyntheticEvent
   }) => void
 }
 
 const ToggleButtonGroupContext =
-  React.createContext<ToggleButtonGroupContextValue>({})
+  createContext<ToggleButtonGroupContextValue>({})
 
 export default ToggleButtonGroupContext

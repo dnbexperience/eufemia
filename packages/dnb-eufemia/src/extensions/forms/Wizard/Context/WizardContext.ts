@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { ReactElement, ReactNode, RefObject } from 'react'
 import type { Path } from '../../types'
 import type { VisibleWhen } from '../../Form/Visibility'
 import type {
@@ -13,7 +14,7 @@ export type HandleStatusArgs = {
   id: string
   index: StepIndex
   inactive: boolean
-  titleProp: React.ReactNode
+  titleProp: ReactNode
 }
 
 export type WizardContextState = {
@@ -21,23 +22,23 @@ export type WizardContextState = {
   totalSteps?: number
   activeIndex?: StepIndex
   initialActiveIndex?: StepIndex
-  stepElementRef?: React.RefObject<HTMLElement>
-  stepsRef?: React.RefObject<Steps>
-  updateTitlesRef?: React.RefObject<() => void>
-  activeIndexRef?: React.RefObject<StepIndex>
-  stepIndexRef?: React.RefObject<StepIndex>
-  totalStepsRef?: React.RefObject<number>
-  prerenderFieldPropsRef?: React.RefObject<
+  stepElementRef?: RefObject<HTMLElement>
+  stepsRef?: RefObject<Steps>
+  updateTitlesRef?: RefObject<() => void>
+  activeIndexRef?: RefObject<StepIndex>
+  stepIndexRef?: RefObject<StepIndex>
+  totalStepsRef?: RefObject<number>
+  prerenderFieldPropsRef?: RefObject<
     Record<
       `step-${number}`,
       {
         index: number
-        fn: () => React.ReactElement
+        fn: () => ReactElement
       }
     >
   >
-  hasErrorInOtherStepRef?: React.RefObject<boolean>
-  onStepChangeEventsRef?: React.RefObject<Set<OnStepChange>>
+  hasErrorInOtherStepRef?: RefObject<boolean>
+  onStepChangeEventsRef?: RefObject<Set<OnStepChange>>
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
   handlePrevious?: () => void
@@ -59,10 +60,10 @@ export type WizardContextState = {
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
   collectStepsData?: (args: HandleStatusArgs) => { title: string }
   enableMapOverChildren?: () => void
-  mapOverChildrenRef?: React.RefObject<boolean>
+  mapOverChildrenRef?: RefObject<boolean>
 }
 
-const WizardContext = React.createContext<WizardContextState | undefined>(
+const WizardContext = createContext<WizardContextState | undefined>(
   undefined
 )
 

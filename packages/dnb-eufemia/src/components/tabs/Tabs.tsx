@@ -3,13 +3,25 @@
  *
  */
 
-import React, {
+import {
+  isValidElement,
+  memo,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  ComponentType,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  SyntheticEvent,
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -54,7 +66,7 @@ import type { SkeletonShow } from '../Skeleton'
 export type TabsData =
   | string
   | {
-      title: string | React.ReactNode | (() => React.ReactNode)
+      title: string | ReactNode | (() => ReactNode)
       key: string | number
       selected?: boolean
       disabled?: boolean
@@ -64,8 +76,8 @@ export type TabsData =
 
 export type TabsContent =
   | Record<string, unknown>
-  | React.ReactNode
-  | ((key: TabsSelectedKey) => React.ReactNode)
+  | ReactNode
+  | ((key: TabsSelectedKey) => ReactNode)
 
 export type TabsTabElement = DynamicElement<
   null,
@@ -76,11 +88,11 @@ export type TabsSelectedKey = string | number
 export type TabsAlign = 'left' | 'center' | 'right'
 export type TabsChildren =
   | Record<string, unknown>
-  | React.ReactNode
-  | ((key: TabsSelectedKey) => React.ReactNode)
+  | ReactNode
+  | ((key: TabsSelectedKey) => ReactNode)
 
 export type TabsProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   | 'ref'
   | 'data'
   | 'content'
@@ -107,7 +119,7 @@ export type TabsProps = Omit<
     contentInnerSpace?: InnerSpaceType | boolean
     label?: string
     /**
-     * Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.
+     * Define what HTML element should be used. You can provide e.g. `tabElement={Link}` and then pass the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.
      */
     tabElement?: TabsTabElement
     /**
@@ -161,7 +173,7 @@ export type TabsProps = Omit<
      * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     children?: TabsChildren
-    render?: (components: TabsRenderComponents) => React.ReactNode
+    render?: (components: TabsRenderComponents) => ReactNode
     onChange?: (event: TabsEvent) => void
     onMouseEnter?: (event: TabsEvent) => void
     onClick?: (event: TabsEvent) => void | boolean
@@ -172,34 +184,30 @@ export type TabsEvent = {
   key: TabsSelectedKey
   selectedKey: TabsSelectedKey
   focusKey: TabsSelectedKey
-  title: string | React.ReactNode
-  event?: React.SyntheticEvent
+  title: string | ReactNode
+  event?: SyntheticEvent
 }
 
 export type TabsRenderComponents = {
-  Wrapper: React.ComponentType<
-    React.PropsWithChildren<
-      { className?: string } & Record<string, unknown>
-    >
+  Wrapper: ComponentType<
+    PropsWithChildren<{ className?: string } & Record<string, unknown>>
   >
-  Content: React.ComponentType<Record<string, unknown>>
-  TabsList: React.ComponentType<
-    React.PropsWithChildren<
-      { className?: string } & Record<string, unknown>
-    >
+  Content: ComponentType<Record<string, unknown>>
+  TabsList: ComponentType<
+    PropsWithChildren<{ className?: string } & Record<string, unknown>>
   >
-  Tabs: React.ComponentType<Record<string, unknown>>
+  Tabs: ComponentType<Record<string, unknown>>
 }
 
 export type TabsDummyProps = {
   /**
    * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
-  children: React.ReactNode
+  children: ReactNode
 }
 
 type TabDataItem = {
-  title: string | React.ReactNode | (() => React.ReactNode)
+  title: string | ReactNode | (() => ReactNode)
   key: string | number
   selected?: boolean
   disabled?: boolean
@@ -271,7 +279,7 @@ function getSelectedKeyOrFallback(
 function getData(props: TabsProps) {
   const addReactElement = (
     list: TabDataItem[],
-    reactElem: React.ReactElement,
+    reactElem: ReactElement,
     reactElemIndex?: number
   ) => {
     if (reactElem && reactElem.type === CustomContent) {
@@ -319,8 +327,7 @@ function getData(props: TabsProps) {
   if (
     Array.isArray(props.children) &&
     props.children.some(
-      (element) =>
-        typeof element === 'function' || React.isValidElement(element)
+      (element) => typeof element === 'function' || isValidElement(element)
     )
   ) {
     res = props.children.reduce((list, reactElem, i) => {
@@ -333,9 +340,9 @@ function getData(props: TabsProps) {
   if (
     !Array.isArray(props.children) &&
     (typeof props.children === 'function' ||
-      React.isValidElement(props.children))
+      isValidElement(props.children))
   ) {
-    addReactElement(res, props.children as React.ReactElement)
+    addReactElement(res, props.children as ReactElement)
   }
 
   // continue, while the children didn't contain our data
@@ -381,7 +388,7 @@ function TabsComponent(ownProps: TabsProps) {
   const tabsRef = useRef<HTMLDivElement>(null)
   const tablistRef = useRef<HTMLDivElement>(null)
   const cacheRef = useRef<
-    Record<string, { content: React.ReactNode; [key: string]: unknown }>
+    Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
   const listenForPropChangesRef = useRef(true)
 
@@ -727,7 +734,7 @@ function TabsComponent(ownProps: TabsProps) {
 
   const focusTab = (
     newFocusKey: string | number,
-    event: React.SyntheticEvent | null = null,
+    event: SyntheticEvent | null = null,
     mode: string | null = null
   ) => {
     // for handling openPrevTab and openNextTab
@@ -764,7 +771,7 @@ function TabsComponent(ownProps: TabsProps) {
 
   const openTab = (
     newSelectedKey: string | number,
-    event: React.SyntheticEvent | null = null,
+    event: SyntheticEvent | null = null,
     mode: string | null = null
   ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
@@ -931,40 +938,40 @@ function TabsComponent(ownProps: TabsProps) {
   }, [selectedKey, data])
 
   // Navigation handlers
-  const focusFirstTab = (e: React.KeyboardEvent) => {
+  const focusFirstTab = (e: KeyboardEvent) => {
     const key = dataRef.current[0].key
     focusTab(key, e, 'step')
     scrollToTab({ type: 'focus' })
   }
 
-  const focusLastTab = (e: React.KeyboardEvent) => {
+  const focusLastTab = (e: KeyboardEvent) => {
     const d = dataRef.current
     const key = d[d.length - 1].key
     focusTab(key, e, 'step')
     scrollToTab({ type: 'focus' })
   }
 
-  const focusPrevTab = (e: React.KeyboardEvent) => {
+  const focusPrevTab = (e: KeyboardEvent) => {
     focusTab(-1, e, 'step')
     scrollToTab({ type: 'focus' })
   }
 
-  const focusNextTab = (e: React.KeyboardEvent) => {
+  const focusNextTab = (e: KeyboardEvent) => {
     focusTab(+1, e, 'step')
     scrollToTab({ type: 'focus' })
   }
 
-  const openPrevTab = (e: React.MouseEvent) => {
+  const openPrevTab = (e: MouseEvent) => {
     openTab(-1, e, 'step')
     scrollToTab({ type: 'selected' })
   }
 
-  const openNextTab = (e: React.MouseEvent) => {
+  const openNextTab = (e: MouseEvent) => {
     openTab(+1, e, 'step')
     scrollToTab({ type: 'selected' })
   }
 
-  const onTablistKeyDownHandler = (e: React.KeyboardEvent) => {
+  const onTablistKeyDownHandler = (e: KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
       case 'PageUp':
@@ -989,7 +996,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const getCurrentKey = (event: React.SyntheticEvent) => {
+  const getCurrentKey = (event: SyntheticEvent) => {
     let currentKey: string | undefined
     try {
       const elem = getClosestParent(
@@ -1003,7 +1010,7 @@ function TabsComponent(ownProps: TabsProps) {
     return currentKey
   }
 
-  const onMouseEnterHandler = (event: React.SyntheticEvent) => {
+  const onMouseEnterHandler = (event: SyntheticEvent) => {
     const key = getCurrentKey(event)
     if (key) {
       dispatchCustomElementEvent(
@@ -1014,7 +1021,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const onClickHandler = (event: React.SyntheticEvent) => {
+  const onClickHandler = (event: SyntheticEvent) => {
     const key = getCurrentKey(event)
     if (key) {
       const ret = dispatchCustomElementEvent(
@@ -1030,7 +1037,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const onKeyDownHandler = (event: React.KeyboardEvent) => {
+  const onKeyDownHandler = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       try {
         const elem = document.getElementById(`${_id}-content`)
@@ -1055,7 +1062,7 @@ function TabsComponent(ownProps: TabsProps) {
         content = contentToRender[key]
       } else if (typeof contentToRender === 'function') {
         content = contentToRender(key)
-      } else if (React.isValidElement(contentToRender)) {
+      } else if (isValidElement(contentToRender)) {
         content = contentToRender
       }
     }
@@ -1087,27 +1094,25 @@ function TabsComponent(ownProps: TabsProps) {
   // Store render functions in refs for stable sub-component wrappers
   const renderWrapperRef =
     useRef<
-      (
-        p: React.PropsWithChildren<Record<string, unknown>>
-      ) => React.ReactElement
+      (p: PropsWithChildren<Record<string, unknown>>) => ReactElement
     >(null)
   const renderTabsListRef =
     useRef<
       (
-        p: React.PropsWithChildren<
+        p: PropsWithChildren<
           { className?: string } & Record<string, unknown>
         >
-      ) => React.ReactElement
+      ) => ReactElement
     >(null)
-  const renderContentRef = useRef<() => React.ReactElement>(null)
+  const renderContentRef = useRef<() => ReactElement>(null)
   const renderTabsRef =
-    useRef<(p?: Record<string, unknown>) => React.ReactElement>(null)
+    useRef<(p?: Record<string, unknown>) => ReactElement>(null)
 
   // Update render functions with latest state on every render
   renderWrapperRef.current = ({
     children,
     ...rest
-  }: React.PropsWithChildren<Record<string, unknown>>) => {
+  }: PropsWithChildren<Record<string, unknown>>) => {
     const { className } = ownProps as TabsProps
     const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
 
@@ -1132,7 +1137,7 @@ function TabsComponent(ownProps: TabsProps) {
     children,
     className: extraClassName,
     ...rest
-  }: React.PropsWithChildren<
+  }: PropsWithChildren<
     { className?: string } & Record<string, unknown>
   >) => {
     const {
@@ -1329,9 +1334,9 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                   createSkeletonClass('font', skeleton, currentContext)
                 )}
               >
-                {title as React.ReactNode}
+                {title as ReactNode}
               </span>
-              <Dummy>{title as React.ReactNode}</Dummy>
+              <Dummy>{title as ReactNode}</Dummy>
             </TabElement>
           </div>
         )
@@ -1365,7 +1370,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   // Create stable sub-component wrappers that delegate to the render refs
   // This prevents React from unmounting/remounting when state changes
   const Wrapper = useMemo(() => {
-    const C = (p: React.PropsWithChildren<Record<string, unknown>>) =>
+    const C = (p: PropsWithChildren<Record<string, unknown>>) =>
       renderWrapperRef.current(p)
     C.displayName = 'TabsWrapper'
     return C
@@ -1373,7 +1378,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
   const TabsList = useMemo(() => {
     const C = (
-      p: React.PropsWithChildren<
+      p: PropsWithChildren<
         { className?: string } & Record<string, unknown>
       >
     ) => renderTabsListRef.current(p)
@@ -1415,12 +1420,12 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
 TabsComponent.displayName = 'Tabs'
 
-type TabsWithStatics = ((props: TabsProps) => React.ReactNode) & {
+type TabsWithStatics = ((props: TabsProps) => ReactNode) & {
   Content: typeof CustomContent
   ContentWrapper: typeof ContentWrapper
 }
 
-const Tabs = Object.assign(React.memo(TabsComponent), {
+const Tabs = Object.assign(memo(TabsComponent), {
   Content: CustomContent,
   ContentWrapper: ContentWrapper,
 }) as TabsWithStatics
@@ -1429,7 +1434,7 @@ withComponentMarkers(Tabs, { _supportsSpacingProps: true })
 
 export default Tabs
 
-export const Dummy = ({ children }: { children: React.ReactNode }) => {
+export const Dummy = ({ children }: { children: ReactNode }) => {
   /**
    * This is a dummy markup, to define a width of every tab
    * We use "aria-hidden" SPAN to simulate a wider width for each tab

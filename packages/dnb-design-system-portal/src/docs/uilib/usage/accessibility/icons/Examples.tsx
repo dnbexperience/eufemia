@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { H1, Icon, H4 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
@@ -45,7 +44,7 @@ export const IconsSVGExample = () => (
             fillRule="evenodd"
             clipRule="evenodd"
             d="M4.03 5.22a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l4.5-4.5a.75.75 0 0 0-1.06-1.06L8 9.19 4.03 5.22z"
-            fill="#000"
+            fill="currentColor"
           />
         </svg>
       )

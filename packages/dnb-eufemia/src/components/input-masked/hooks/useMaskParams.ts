@@ -4,13 +4,13 @@
  * @returns mask params
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import { useMask } from './useMask'
 import { useNumberMaskParams } from './useNumberMaskParams'
 
 export const useMaskParams = () => {
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
 
   const { showMask, placeholder } = props
 

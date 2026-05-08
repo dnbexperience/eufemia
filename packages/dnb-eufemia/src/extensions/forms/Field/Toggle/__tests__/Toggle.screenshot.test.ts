@@ -1,43 +1,42 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
-
-describe('Field.Toggle', () => {
+test.describe('Field.Toggle', () => {
   const url = '/uilib/extensions/forms/base-fields/Toggle/demos/'
 
-  it('have to match buttons variant with help', async () => {
+  test('have to match buttons variant with help', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-buttons-with-help"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match buttons variant without label', async () => {
+  test('have to match buttons variant without label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
         '[data-visual-test="toggle-variant-buttons-without-label"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match radio variant with help', async () => {
+  test('have to match radio variant with help', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-with-help"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match radio variant without label', async () => {
+  test('have to match radio variant without label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-without-label"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

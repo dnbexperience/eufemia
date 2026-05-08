@@ -1,4 +1,3 @@
-import React from 'react'
 import type { ValueBlockProps as ValueProps } from '../../ValueBlock'
 import ValueBlock from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'

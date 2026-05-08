@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Flex from '../flex/Flex'
 import type { SectionProps } from '../section/Section'
@@ -18,7 +19,7 @@ export type CardProps = {
   /**
    * Define a title that appears on top of the Card
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * Define if the Card should behave responsive. Defaults to `true`
@@ -41,7 +42,7 @@ export type CardProps = {
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
 
 function Card(props: CardProps) {
   const nestedContext = useContext(CardContext)

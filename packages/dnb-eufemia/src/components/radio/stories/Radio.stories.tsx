@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Radio, FormLabel, Button, HelpButton, GlobalStatus } from '../..'
 
@@ -207,10 +207,8 @@ export const RadioButtonSandbox = () => (
 )
 
 const RadioGroupsWithStatus = () => {
-  const [currentValueForGroupA, setValueForGroupA] =
-    React.useState('first')
-  const [currentValueForGroupB, setValueForGroupB] =
-    React.useState('second')
+  const [currentValueForGroupA, setValueForGroupA] = useState('first')
+  const [currentValueForGroupB, setValueForGroupB] = useState('second')
 
   return (
     <Form.Handler>

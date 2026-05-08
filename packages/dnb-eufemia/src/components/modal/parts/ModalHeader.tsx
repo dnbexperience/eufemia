@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
 import type { SectionProps } from '../../section/Section'
@@ -16,12 +17,12 @@ export type ModalHeaderProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * The modal/drawer title. Displays on the very top of the content.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * Give the h1 component a classname (maps to `dnb-modal__title`)
@@ -43,7 +44,7 @@ export default function ModalHeader({
   ref,
   ...sectionProps
 }: ModalHeaderProps &
-  Omit<React.HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>) {
+  Omit<HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>) {
   const context = useContext(ModalContext)
 
   const customHeader = findElementInChildren(children, (cur) => {
@@ -82,7 +83,7 @@ export default function ModalHeader({
           {usedTitle}
         </div>
       )}
-      <div>{children as React.ReactNode}</div>
+      <div>{children as ReactNode}</div>
     </Section>
   )
 }

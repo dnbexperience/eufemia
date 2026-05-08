@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+import type { JSX, ReactElement } from 'react'
 import clsx from 'clsx'
 import { findElementInChildren } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
@@ -34,7 +35,7 @@ export default function DrawerContent({
   maxWidth: maxWidthProp = null,
   scrollbarGutter,
   ...rest
-}: DrawerContentProps): React.JSX.Element {
+}: DrawerContentProps): JSX.Element {
   const context = useContext(ModalContext)
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,
@@ -74,7 +75,7 @@ export default function DrawerContent({
   /**
    * Update CSS --header-height with spacing to top of page
    */
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       const height = getOffsetTop(context?.contentRef.current) / 16
       context?.contentRef.current.style.setProperty(
@@ -88,12 +89,12 @@ export default function DrawerContent({
 
   const navigationElement = findElementInChildren(
     content,
-    (cur: React.ReactElement) =>
+    (cur: ReactElement) =>
       cur.type === DrawerNavigation || cur.type === ModalHeaderBar
   )
   const headerElement = findElementInChildren(
     content,
-    (cur: React.ReactElement) =>
+    (cur: ReactElement) =>
       cur.type === DrawerHeader || cur.type === ModalHeader
   )
 

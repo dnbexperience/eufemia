@@ -1,4 +1,3 @@
-import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
 import { P } from '@dnb/eufemia/src'

@@ -4,7 +4,7 @@
  */
 
 import styled from '@emotion/styled'
-import React from 'react'
+import { useState } from 'react'
 import { P } from '../../..'
 import Section from '../../section/Section'
 import { ToggleButton, Button } from '../../'
@@ -15,10 +15,10 @@ export default {
 }
 
 export const HeightAnimationSandbox = () => {
-  const [count, setCount] = React.useState(0)
-  const [openState, setOpenState] = React.useState(true)
-  const [isOpen, setIsOpen] = React.useState(true)
-  const [contentState, setContentState] = React.useState(false)
+  const [count, setCount] = useState(0)
+  const [openState, setOpenState] = useState(true)
+  const [isOpen, setIsOpen] = useState(true)
+  const [contentState, setContentState] = useState(false)
 
   return (
     <>
@@ -51,7 +51,7 @@ export const HeightAnimationSandbox = () => {
         {count}
       </Button>
 
-      <StyledSection backgroundColor="lavender" top>
+      <StyledSection variant="information" top>
         <HeightAnimation
           open={openState}
           element="div" // Optional
@@ -60,10 +60,7 @@ export const HeightAnimationSandbox = () => {
           duration={1000}
           onOpen={setIsOpen}
         >
-          <Section
-            innerSpace={{ block: 'large' }}
-            backgroundColor="lavender"
-          >
+          <Section innerSpace={{ block: 'large' }} variant="information">
             <P>Your content</P>
           </Section>
           {contentState && <P>More content</P>}
@@ -93,8 +90,8 @@ const StyledSection = styled(Section)`
 
 export function HeightAnimationKeepInDOM() {
   const Example = () => {
-    const [openState, setOpenState] = React.useState(true)
-    const [contentState, setContentState] = React.useState(false)
+    const [openState, setOpenState] = useState(true)
+    const [contentState, setContentState] = useState(false)
 
     const onChangeHandler = ({ checked }) => {
       setOpenState(checked)
@@ -116,12 +113,9 @@ export function HeightAnimationKeepInDOM() {
           Change height inside
         </ToggleButton>
 
-        <StyledSection backgroundColor="lavender" top>
+        <StyledSection variant="information" top>
           <HeightAnimation open={openState} duration={1000}>
-            <Section
-              innerSpace={{ block: 'large' }}
-              backgroundColor="lavender"
-            >
+            <Section innerSpace={{ block: 'large' }} variant="information">
               <P space={0}>Your content</P>
             </Section>
             {contentState && <P space={0}>More content</P>}

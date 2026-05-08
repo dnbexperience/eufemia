@@ -1,8 +1,16 @@
-import React from 'react'
+import {
+  Fragment,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { basicComponents } from '../../../../../../shared/tags'
 import Table from '../../../../../../shared/tags/Table'
 import Anchor from '../../../../../../shared/tags/Anchor'
-import { Td, Th, Tooltip, Tr } from '@dnb/eufemia/src'
+import { Td, Th, Tooltip, Tr, Card, P, Lead, Flex } from '@dnb/eufemia/src'
+import { Theme, useTheme } from '@dnb/eufemia/src/shared'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import {
@@ -18,13 +26,16 @@ import {
 const MDXCode = basicComponents.code
 const MDXParagraph = basicComponents.p
 type DecorativeVariant = 'non-static' | 'static'
+type TokenType = 'color' | 'spacing'
+const defaultVisibleTypes: TokenType[] = ['color']
+const TokenTypeContext = createContext<TokenType[]>(defaultVisibleTypes)
 
 const renderInlineCodeList = (values: readonly string[]) => {
   return values.map((value, index) => (
-    <React.Fragment key={value}>
+    <Fragment key={value}>
       {index > 0 ? ', ' : null}
       <MDXCode>{value}</MDXCode>
-    </React.Fragment>
+    </Fragment>
   ))
 }
 
@@ -64,17 +75,17 @@ const decorativeGroupSortOrder: Record<string, number> = {
   third: 2,
 }
 
-const cellVerticalMiddle: React.CSSProperties = {
+const cellVerticalMiddle: CSSProperties = {
   verticalAlign: 'middle',
 }
 
-const swatchWrapperStyle: React.CSSProperties = {
+const swatchWrapperStyle: CSSProperties = {
   alignItems: 'center',
   display: 'inline-flex',
   gap: '0.5rem',
 }
 
-const swatchBackdropStyle: React.CSSProperties = {
+const swatchBackdropStyle: CSSProperties = {
   alignItems: 'center',
   backgroundImage:
     'linear-gradient(45deg, #dfe3e6 25%, transparent 25%), linear-gradient(-45deg, #dfe3e6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #dfe3e6 75%), linear-gradient(-45deg, transparent 75%, #dfe3e6 75%)',
@@ -108,6 +119,220 @@ const renderColorValue = (value: string) => {
       </span>
       <MDXCode>{value}</MDXCode>
     </span>
+  )
+}
+
+type ColorScheme = 'light' | 'dark'
+type SurfaceVariant = 'default' | 'inverse' | 'ondark'
+
+type DarkModeSwatch = {
+  label: string
+  textToken: string
+  iconToken: string
+  surface: SurfaceVariant
+}
+
+const darkModeSwatchRows: DarkModeSwatch[] = [
+  {
+    label: 'neutral',
+    textToken: '--token-color-text-neutral',
+    iconToken: '--token-color-icon-neutral',
+    surface: 'default',
+  },
+  {
+    label: 'neutral-inverse',
+    textToken: '--token-color-text-neutral-inverse',
+    iconToken: '--token-color-icon-neutral-inverse',
+    surface: 'inverse',
+  },
+  {
+    label: 'neutral-ondark',
+    textToken: '--token-color-text-neutral-ondark',
+    iconToken: '--token-color-icon-neutral-ondark',
+    surface: 'ondark',
+  },
+  {
+    label: 'action',
+    textToken: '--token-color-text-action',
+    iconToken: '--token-color-icon-action',
+    surface: 'default',
+  },
+  {
+    label: 'action-inverse',
+    textToken: '--token-color-text-action-inverse',
+    iconToken: '--token-color-icon-action-inverse',
+    surface: 'inverse',
+  },
+  {
+    label: 'action-ondark',
+    textToken: '--token-color-text-action-ondark',
+    iconToken: '--token-color-icon-action-ondark',
+    surface: 'ondark',
+  },
+]
+
+const darkModeGridStyle: CSSProperties = {
+  display: 'inline-grid',
+  gap: '1rem',
+  gridTemplateColumns: 'repeat(2, auto)',
+  placeItems: 'start',
+}
+
+const darkModeCardInnerStyle: CSSProperties = {
+  alignItems: 'center',
+  display: 'flex',
+  gap: '0.75rem',
+  justifyContent: 'space-between',
+}
+
+const darkModeCardNameStyle: CSSProperties = {
+  margin: 0,
+}
+
+const darkModeCardSurfaceStyle: CSSProperties = {
+  margin: 0,
+  opacity: 0.8,
+}
+
+const darkModeCardTokensStyle: CSSProperties = {
+  display: 'grid',
+  gap: '0.125rem',
+  marginTop: '0.75rem',
+}
+
+const darkModeCardIconStyle: CSSProperties = {
+  display: 'inline-flex',
+  flexShrink: 0,
+}
+
+const getSurfaceLabel = (surface: SurfaceVariant) => {
+  if (surface === 'ondark') {
+    return 'Dark surface'
+  }
+
+  if (surface === 'inverse') {
+    return 'Opposite scheme'
+  }
+
+  return 'Current scheme'
+}
+
+const getCardSurfaceStyle = (
+  scheme: ColorScheme,
+  surface: SurfaceVariant,
+  theme: ReturnType<typeof useTheme>
+): CSSProperties => {
+  if (surface === 'ondark') {
+    return {
+      backgroundColor: 'var(--token-color-decorative-first-bold-static)',
+      borderColor: 'var(--token-stroke-color-neutral-subtle)',
+    }
+  }
+
+  if (surface === 'inverse') {
+    // In light scheme, inverse surface is dark, and vice versa. This ensures that the swatch surface always has some contrast with the text and icon colors.
+    if (scheme === 'light' && theme.colorScheme === 'dark') {
+      scheme = 'dark'
+    }
+
+    return scheme === 'light'
+      ? {
+          backgroundColor: '#000',
+          borderColor: 'var(--token-stroke-color-neutral-subtle)',
+        }
+      : {
+          backgroundColor: '#fff',
+        }
+  }
+
+  return {
+    backgroundColor: 'var(--token-color-background-neutral)',
+  }
+}
+
+const DarkModeCard = ({
+  scheme,
+  row,
+}: {
+  scheme: ColorScheme
+  row: DarkModeSwatch
+}) => {
+  const theme = useTheme()
+  const surfaceStyle = getCardSurfaceStyle(scheme, row.surface, theme)
+
+  return (
+    <Card style={surfaceStyle} stack gap="small">
+      <div style={darkModeCardInnerStyle}>
+        <Lead
+          style={{
+            ...darkModeCardNameStyle,
+            color: `var(${row.textToken})`,
+          }}
+        >
+          {row.label}
+        </Lead>
+        <span
+          aria-hidden
+          style={{
+            ...darkModeCardIconStyle,
+            color: `var(${row.iconToken})`,
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="4" fill="currentColor" />
+            <path
+              d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.72 5.28l-2.12 2.12M7.4 16.6l-2.12 2.12M18.72 18.72l-2.12-2.12M7.4 7.4 5.28 5.28"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </span>
+      </div>
+      <P
+        className="dnb-t__size--x-small"
+        style={{
+          ...darkModeCardSurfaceStyle,
+          color: `var(${row.textToken})`,
+        }}
+      >
+        {getSurfaceLabel(row.surface)}
+      </P>
+      <div style={darkModeCardTokensStyle}>
+        <MDXCode>{row.textToken}</MDXCode>
+      </div>
+    </Card>
+  )
+}
+
+export function DarkModeTokenSwatches() {
+  const theme = useTheme()
+  const schemes: ColorScheme[] =
+    theme?.colorScheme === 'dark' ? ['dark', 'light'] : ['light', 'dark']
+
+  return (
+    <div style={darkModeGridStyle}>
+      {schemes.map((scheme) => (
+        <Card
+          key={scheme}
+          title={
+            scheme === 'dark' ? 'Dark color scheme' : 'Light color scheme'
+          }
+        >
+          <Theme colorScheme={scheme}>
+            <Flex.Stack gap="small">
+              {darkModeSwatchRows.map((row) => (
+                <DarkModeCard
+                  key={`${scheme}-${row.label}`}
+                  scheme={scheme}
+                  row={row}
+                />
+              ))}
+            </Flex.Stack>
+          </Theme>
+        </Card>
+      ))}
+    </div>
   )
 }
 
@@ -234,7 +459,48 @@ const getAvailableModifiers = (tokens: TokenRow[]): TokenModifier[] => {
   return tokenModifierOrder.filter((modifier) => available.has(modifier))
 }
 
+export function TokenTypeFilter({ children }: { children: ReactNode }) {
+  const [visibleTypes, setVisibleTypes] = useState<TokenType[]>(
+    defaultVisibleTypes
+  )
+
+  return (
+    <TokenTypeContext.Provider value={visibleTypes}>
+      <Field.ArraySelection
+        label="Show token families"
+        value={visibleTypes}
+        onChange={(value) => {
+          setVisibleTypes((value as TokenType[]) || [])
+        }}
+        optionsLayout="horizontal"
+        variant="button"
+        size="medium"
+        emptyValue={[]}
+        bottom="medium"
+      >
+        <Field.Option value="color" title="Color" />
+        <Field.Option value="spacing" title="Spacing" disabled />
+      </Field.ArraySelection>
+
+      {visibleTypes.includes('color') ? (
+        children
+      ) : (
+        <MDXParagraph>
+          No token families are visible. `Spacing` will be enabled once
+          spacing tokens are part of the current token source.
+        </MDXParagraph>
+      )}
+    </TokenTypeContext.Provider>
+  )
+}
+
 export function TokenSectionOverview() {
+  const visibleTypes = useContext(TokenTypeContext)
+
+  if (!visibleTypes.includes('color')) {
+    return null
+  }
+
   const colorSections = tokenSections.filter(
     (section) => section.id !== 'radius'
   )
@@ -326,19 +592,20 @@ export function TokenSectionTable({
 }: {
   section: TokenSectionId
 }) {
+  const _visibleTypes = useContext(TokenTypeContext)
   const sectionData = tokenSections.find((item) => item.id === section)
   const sectionGroups = sectionData?.groups || []
   const sectionTokens = sectionData?.tokens || []
   const sectionTitle = sectionData?.title || section
 
-  const availableModifiers = React.useMemo(
+  const availableModifiers = useMemo(
     () => getAvailableModifiers(sectionTokens),
     [sectionTokens]
   )
-  const [activeModifiers, setActiveModifiers] = React.useState<
-    TokenModifier[]
-  >([])
-  const decorativeGroups = React.useMemo(() => {
+  const [activeModifiers, setActiveModifiers] = useState<TokenModifier[]>(
+    []
+  )
+  const decorativeGroups = useMemo(() => {
     if (section !== 'decorative') {
       return []
     }
@@ -346,9 +613,9 @@ export function TokenSectionTable({
     return sectionGroups.map(({ id }) => id)
   }, [section, sectionGroups])
   const [visibleDecorativeGroups, setVisibleDecorativeGroups] =
-    React.useState<string[]>(decorativeGroups)
+    useState<string[]>(decorativeGroups)
   const [visibleDecorativeVariants, setVisibleDecorativeVariants] =
-    React.useState<DecorativeVariant[]>(['non-static', 'static'])
+    useState<DecorativeVariant[]>(['non-static', 'static'])
   const { sortState, sortHandler, activeSortName } = useHandleSortState(
     {
       group: {
@@ -365,7 +632,7 @@ export function TokenSectionTable({
     }
   )
 
-  const visibleTokens = React.useMemo(() => {
+  const visibleTokens = useMemo(() => {
     const filteredTokens = sectionTokens.filter((token) => {
       if (section === 'decorative') {
         const tokenVariant: DecorativeVariant = isStaticToken(token)
@@ -613,7 +880,7 @@ export function TokenExample({ name }: { name: string }) {
   return <MDXCode>{name}</MDXCode>
 }
 
-const radiusPreviewStyle: React.CSSProperties = {
+const radiusPreviewStyle: CSSProperties = {
   backgroundColor: 'var(--token-color-background-neutral-subtle)',
   border: '1px solid var(--token-color-stroke-neutral-subtle)',
   display: 'inline-block',

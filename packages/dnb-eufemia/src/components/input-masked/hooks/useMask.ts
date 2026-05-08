@@ -4,12 +4,12 @@
  * @returns mask function
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import { useNumberMask } from './useNumberMask'
 
 export const useMask = () => {
-  const { props } = React.useContext(InputMaskedContext)
+  const { props } = useContext(InputMaskedContext)
 
   const numberMask = useNumberMask()
   if (numberMask) {

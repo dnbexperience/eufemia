@@ -1,7 +1,8 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -26,7 +27,7 @@ const makeLayoutEffect = () => {
     ? useEffect
     : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
       ? () => null
-      : React.useLayoutEffect
+      : useLayoutEffect
 }
 
 export type UseMediaProps = {

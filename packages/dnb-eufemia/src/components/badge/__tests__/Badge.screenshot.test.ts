@@ -1,103 +1,99 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
-  'Badge for %s',
-  (themeName) => {
+for (const themeName of ['ui', 'sbanken', 'carnegie']) {
+  test.describe(`Badge for ${themeName}`, () => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/badge/demos/',
     })
 
-    describe('variant', () => {
-      it('have to match variant notification', async () => {
+    test.describe('variant', () => {
+      test('have to match variant notification', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-notification"] .dnb-badge',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match variant notification inline with text', async () => {
+      test('have to match variant notification inline with text', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-notification-inline"]',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match variant notification for avatar as content', async () => {
+      test('have to match variant notification for avatar as content', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-notification-avatar"] .dnb-badge__root',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
 
-      it('have to match variant information as default variant', async () => {
+      test('have to match variant information as default variant', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-default"] .dnb-badge',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match variant information inline with text', async () => {
+      test('have to match variant information inline with text', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-information-inline"]',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match variant information for avatar as content', async () => {
+      test('have to match variant information for avatar as content', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-information-avatar"] .dnb-badge__root',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
     })
-    describe('positioning', () => {
-      it('have to match top left positioning', async () => {
+    test.describe('positioning', () => {
+      test('have to match top left positioning', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '.dnb-badge__root:has([data-visual-test="badge-top-left"])',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match top right positioning', async () => {
+      test('have to match top right positioning', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '.dnb-badge__root:has([data-visual-test="badge-top-right"])',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match bottom left positioning', async () => {
+      test('have to match bottom left positioning', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '.dnb-badge__root:has([data-visual-test="badge-bottom-left"])',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
-      it('have to match bottom right positioning', async () => {
+      test('have to match bottom right positioning', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '.dnb-badge__root:has([data-visual-test="badge-bottom-right"])',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
     })
-    describe('status', () => {
-      it('have to match all status variants', async () => {
+    test.describe('status', () => {
+      test('have to match all status variants', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="badge-status"]',
         })
-        expect(screenshot).toMatchImageSnapshot()
+        expect(screenshot).toMatchSnapshot()
       })
     })
-  }
-)
+  })
+}

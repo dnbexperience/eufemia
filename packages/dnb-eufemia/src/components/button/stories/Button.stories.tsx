@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { AnchorHTMLAttributes, ComponentType, Ref } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -349,9 +349,9 @@ export const GlobalStatusExample = () => {
 }
 
 export const TypeScriptElement = () => {
-  const ReactRouterDomLink: React.ComponentType<
-    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
-      ref?: React.Ref<HTMLAnchorElement>
+  const ReactRouterDomLink: ComponentType<
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+      ref?: Ref<HTMLAnchorElement>
     }
   > = null // This is "simulating" { Link } from 'react-router-dom'
   return <Button element={ReactRouterDomLink as any} />

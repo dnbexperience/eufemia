@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act, useEffect, useState } from 'react'
 import { isCI } from 'repo-utils'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -501,8 +501,8 @@ describe('Field.PhoneNumber', () => {
     const onCountryCodeChange = jest.fn()
 
     const MockPhoneNumber = () => {
-      const [state, update] = React.useState('+471')
-      React.useEffect(() => {
+      const [state, update] = useState('+471')
+      useEffect(() => {
         update('+412')
       }, [])
 

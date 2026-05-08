@@ -3,20 +3,21 @@
  *
  */
 
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Space from '../../space/Space'
 
 export type SkeletonProductRows = string | number
 export type SkeletonProductChildren =
   | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+  | (() => ReactNode)
+  | ReactNode
 
 export type SkeletonProductProps = {
   rows?: SkeletonProductRows
   children?: SkeletonProductChildren
-} & Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'>
+} & Omit<HTMLProps<HTMLDivElement>, 'rows' | 'children'>
 
 function SkeletonProduct({
   rows = 3,

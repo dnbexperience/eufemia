@@ -2,11 +2,13 @@
  * MDX Template
  */
 
-import React from 'react'
+import { useMemo } from 'react'
+import type { ReactNode } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
-import TabBar, { defaultTabsValue } from '../shared/tags/TabBar'
+import TabBar from '../shared/tags/TabBar'
+import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
@@ -30,7 +32,7 @@ type PortalLayoutNode = {
 export type PortalLayoutProps = {
   location: Location
   pageContext: { frontmatter: Frontmatter; fullscreen?: boolean }
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function PortalLayout(props: PortalLayoutProps) {
@@ -93,7 +95,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
   const mdx =
-    React.useMemo(() => {
+    useMemo(() => {
       return data.allMdx.edges.find(({ node }) => {
         return slug === node.fields.slug
       })

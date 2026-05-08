@@ -3,9 +3,15 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
 @use './table-mixins.scss' as table-mixins;
 
 .dnb-table {
+  &__td {
+    position: relative;
+    background-color: var(--background-color);
+  }
+
   // table border
   &--border {
     tbody {
@@ -58,6 +64,116 @@
     }
   }
 
+  // Navigable (clickable) cell
+  &__td--clickable {
+    padding: 0;
+
+    &:active {
+      --background-color: var(--table-accordion-background--active);
+    }
+  }
+
+  &__td__button {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: none;
+
+    color: inherit;
+    text-align: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &__icon {
+      flex: none;
+      color: var(--table-accordion-icon-color);
+      opacity: 0;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 6; // to be above the table outline/border
+      inset: 0;
+      right: calc(var(--table-accordion-outline-width--active) * -1);
+      border: var(--border-width, 0) solid var(--border-color, transparent);
+    }
+
+    @include utilities.hover() {
+      &::before {
+        --border-width: var(--table-accordion-outline-width);
+        --border-color: var(--table-accordion-outline-color);
+      }
+
+      .dnb-table__td__button__icon {
+        color: var(--table-accordion-icon-color--active);
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      &::before {
+        --border-width: var(--table-accordion-outline-width--active);
+        --border-color: var(--table-accordion-outline-color);
+      }
+
+      .dnb-table__td__button__icon {
+        color: var(--table-accordion-icon-color--active);
+        opacity: 1;
+      }
+    }
+
+    .dnb-table__td:last-child > &::before {
+      right: 0;
+    }
+
+    &:not(:active):not(:hover):focus-visible {
+      &::before {
+        --border-width: var(--focus-ring-width);
+        --border-color: var(--token-color-stroke-action-focus);
+      }
+
+      .dnb-table__td__button__icon {
+        opacity: 1;
+      }
+    }
+
+    &__content {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  // Selected cell
+  &__td--selected {
+    --background-color: var(
+      --table-td-background--selected,
+      var(--token-color-background-selected-subtle)
+    );
+
+    /* stylelint-disable */
+    .dnb-table__td__button__icon {
+      opacity: 1;
+      color: var(--token-color-icon-selected);
+    }
+    /* stylelint-enable */
+
+    .dnb-table__td__button:not(:hover):not(:active)::before {
+      --border-width: var(--table-accordion-outline-width--active);
+      --border-color: var(--token-color-stroke-selected);
+    }
+  }
+
   /* stylelint-disable */
   &--outline {
     // first row must be rounded
@@ -88,17 +204,16 @@
     .dnb-table__tr--clickable:not(
         .dnb-table__tr--expanded
       ).dnb-table__tr--last {
-      // Use "clip-path" instead of "overflow" because display=table-row does not give the expected/same result like display=block would.
-      clip-path: inset(
-        0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
-      );
-
       .dnb-table__th,
       .dnb-table__td {
         &:first-child {
           &,
           &::before,
           &::after {
+            border-bottom-left-radius: var(--table-outline-radius);
+          }
+
+          .dnb-table__td__button::before {
             border-bottom-left-radius: var(--table-outline-radius);
           }
         }
@@ -108,11 +223,14 @@
           &::after {
             border-bottom-right-radius: var(--table-outline-radius);
           }
+
+          .dnb-table__td__button::before {
+            border-bottom-right-radius: var(--table-outline-radius);
+          }
         }
       }
     }
   }
-
   /* stylelint-enable */
 
   // spacing

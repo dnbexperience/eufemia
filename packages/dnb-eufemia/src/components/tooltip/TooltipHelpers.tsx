@@ -1,9 +1,9 @@
+import { isValidElement } from 'react'
 /**
  * Web Tooltip Component
  *
  */
 
-import React from 'react'
 import clsx from 'clsx'
 import type { TooltipAllProps } from './types'
 
@@ -46,7 +46,7 @@ export function getPropsFromTooltipProp(localProps: {
     return null
   }
 
-  if (React.isValidElement(tooltip)) {
+  if (isValidElement(tooltip)) {
     const type = tooltip.type as typeof tooltip.type & {
       isTooltipComponent?: boolean
     }

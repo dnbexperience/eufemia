@@ -1,5 +1,5 @@
-import React from 'react'
-type InlineLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement>
+import type { AnchorHTMLAttributes } from 'react'
+type InlineLinkProps = AnchorHTMLAttributes<HTMLAnchorElement>
 
 export default function InlineLink({
   className,

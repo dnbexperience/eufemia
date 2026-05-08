@@ -117,7 +117,7 @@ p > .dnb-icon {
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-lg);
+  --tooltip-border-radius: var(--token-radius-full);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -1923,7 +1923,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   width: 100%;
   will-change: transform;
   height: var(--progress-indicator-linear-size);
-  border-radius: calc(var(--progress-indicator-linear-size) / 2);
+  border-radius: var(--token-radius-full);
 }
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);

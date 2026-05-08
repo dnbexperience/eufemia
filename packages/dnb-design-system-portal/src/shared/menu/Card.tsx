@@ -3,18 +3,16 @@
  *
  */
 
-import React from 'react'
+import type { HTMLAttributes, JSX, ReactNode } from 'react'
 import { Link } from '../tags/Anchor'
 import styled from '@emotion/styled'
 import { Button, Card, P } from '@dnb/eufemia/src'
 
 type MenuCardProps = {
   url: string
-  title: React.ReactNode
-  about: React.ReactNode
-  icon: (
-    props?: React.HTMLAttributes<React.JSX.Element>
-  ) => React.JSX.Element
+  title: ReactNode
+  about: ReactNode
+  icon: (props?: HTMLAttributes<JSX.Element>) => JSX.Element
 }
 
 export default function MenuCard(props: MenuCardProps) {

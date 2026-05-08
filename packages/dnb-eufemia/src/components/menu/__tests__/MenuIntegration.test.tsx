@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Menu from '../Menu'
 

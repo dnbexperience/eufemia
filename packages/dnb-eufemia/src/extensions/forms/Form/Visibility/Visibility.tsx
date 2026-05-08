@@ -1,5 +1,5 @@
-import type { AriaAttributes } from 'react'
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { AriaAttributes, ReactNode } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -65,7 +65,7 @@ export type FormVisibilityProps = {
 
   /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
-  children: React.ReactNode
+  children: ReactNode
 
   /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean

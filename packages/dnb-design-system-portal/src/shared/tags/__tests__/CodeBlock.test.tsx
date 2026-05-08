@@ -7,7 +7,11 @@ import {
   beforeEach,
   afterAll,
 } from 'vitest'
-import React from 'react'
+import type {
+  createElement as CreateElement,
+  createContext as CreateContext,
+  ReactNode,
+} from 'react'
 import { act, render } from '@testing-library/react'
 
 // Mock CSS modules
@@ -28,12 +32,13 @@ vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
 
 // Mock Tag
 vi.mock('../Tag', async () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const React = await vi.importActual<typeof import('react')>('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof CreateElement
+  }
   return {
     default: (props: any) => {
       const { children, ...rest } = props
-      return React.createElement('pre', rest, children)
+      return createElement('pre', rest, children)
     },
   }
 })
@@ -45,16 +50,17 @@ vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
 
 // Mock Eufemia components
 vi.mock('@dnb/eufemia/src/components', async () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const React = await vi.importActual<typeof import('react')>('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof CreateElement
+  }
   return {
     Button: ({ text, onClick, ...rest }: any) =>
-      React.createElement('button', { onClick, ...rest }, text),
+      createElement('button', { onClick, ...rest }, text),
     Checkbox: ({ label, checked, onChange, ...rest }: any) =>
-      React.createElement(
+      createElement(
         'label',
         null,
-        React.createElement('input', {
+        createElement('input', {
           type: 'checkbox',
           checked,
           onChange: (event: any) =>
@@ -64,9 +70,9 @@ vi.mock('@dnb/eufemia/src/components', async () => {
         label
       ),
     Space: ({ children, ref, ...rest }: any) =>
-      React.createElement('div', { ref: ref, ...rest }, children),
+      createElement('div', { ref: ref, ...rest }, children),
     ToggleButton: ({ children, checked, onChange, ...rest }: any) =>
-      React.createElement(
+      createElement(
         'button',
         {
           type: 'button',
@@ -81,10 +87,11 @@ vi.mock('@dnb/eufemia/src/components', async () => {
 
 // Mock Context
 vi.mock('@dnb/eufemia/src/shared', async () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const React = await vi.importActual<typeof import('react')>('react')
+  const { createContext } = (await vi.importActual('react')) as {
+    createContext: typeof CreateContext
+  }
   return {
-    Context: React.createContext({}),
+    Context: createContext({}),
   }
 })
 
@@ -93,19 +100,20 @@ let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
 
 vi.mock('react-live-ssr', async () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const React = await vi.importActual<typeof import('react')>('react')
+  const { createElement } = (await vi.importActual('react')) as {
+    createElement: typeof CreateElement
+  }
   return {
     LiveProvider: ({
       children,
       code,
     }: {
-      children: React.ReactNode
+      children: ReactNode
       code: string
       [key: string]: unknown
     }) => {
       mockLiveProviderCode = code
-      return React.createElement(
+      return createElement(
         'div',
         { 'data-testid': 'live-provider' },
         children
@@ -119,14 +127,14 @@ vi.mock('react-live-ssr', async () => {
       [key: string]: unknown
     }) => {
       mockLiveEditorOnChange = onChange
-      return React.createElement('div', {
+      return createElement('div', {
         'data-testid': 'live-editor',
         contentEditable: true,
       })
     },
     LiveError: () => null,
     LivePreview: ({ ...rest }: Record<string, unknown>) =>
-      React.createElement('div', {
+      createElement('div', {
         'data-testid': 'live-preview',
         ...rest,
       }),

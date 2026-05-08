@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   refresh_medium as Refresh,
   clock_medium as Expired,

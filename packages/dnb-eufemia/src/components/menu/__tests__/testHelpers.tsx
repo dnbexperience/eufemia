@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement, ReactNode, RefObject } from 'react'
 import { render } from '@testing-library/react'
 import { MenuContext } from '../MenuContext'
 import type { MenuContextValue } from '../types'
@@ -15,9 +15,7 @@ export function MockPopover(props: {
   open?: boolean
   onOpenChange?: (state: boolean) => void
   trigger?: unknown
-  children?:
-    | React.ReactNode
-    | ((ctx: Record<string, unknown>) => React.ReactNode)
+  children?: ReactNode | ((ctx: Record<string, unknown>) => ReactNode)
   className?: string
   id?: string
   triggerAttributes?: Record<string, unknown>
@@ -72,7 +70,7 @@ export function MockPopover(props: {
 export function createMockContext(
   overrides?: Partial<MenuContextValue>
 ): MenuContextValue {
-  const itemRefs: React.RefObject<Array<React.RefObject<HTMLElement>>> = {
+  const itemRefs: RefObject<Array<RefObject<HTMLElement>>> = {
     current: [],
   }
 
@@ -95,7 +93,7 @@ export function createMockContext(
 }
 
 export function renderWithContext(
-  ui: React.ReactElement,
+  ui: ReactElement,
   contextOverrides?: Partial<MenuContextValue>
 ) {
   const context = createMockContext(contextOverrides)

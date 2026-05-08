@@ -1,10 +1,11 @@
-import React, { useCallback, useContext, useReducer } from 'react'
+import { useCallback, useContext, useReducer } from 'react'
+import type { ReactNode } from 'react'
 import DataContext from '../DataContext/Context'
 import Log from './Log'
 import useEventListener from '../DataContext/Provider/useEventListener'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
-function Errors({ label }: { label?: React.ReactNode }) {
+function Errors({ label }: { label?: ReactNode }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { fieldErrorRef, errorsRef } = useContext(DataContext)
 

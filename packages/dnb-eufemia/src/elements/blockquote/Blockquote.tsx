@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { HTMLAttributes, Ref } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
@@ -11,7 +11,7 @@ import { Theme } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type BlockquoteProps = SpacingProps &
-  React.HTMLAttributes<HTMLElement> & {
+  HTMLAttributes<HTMLElement> & {
     /**
      * Hides the blockquote background by making it transparent
      */
@@ -30,7 +30,7 @@ function Blockquote({
   children,
   ref,
   ...props
-}: BlockquoteProps & { ref?: React.Ref<HTMLQuoteElement> }) {
+}: BlockquoteProps & { ref?: Ref<HTMLQuoteElement> }) {
   return (
     <E
       as="blockquote"

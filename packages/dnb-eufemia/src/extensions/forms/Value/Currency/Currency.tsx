@@ -1,4 +1,3 @@
-import React from 'react'
 import { CURRENCY } from '../../../../shared/defaults'
 import type { ValueNumberProps as NumberValueProps } from '../Number'
 import NumberValue from '../Number'

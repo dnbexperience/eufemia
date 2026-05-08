@@ -1,11 +1,13 @@
-import React, {
+import {
   Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
 } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
@@ -60,7 +62,7 @@ export type ValueBlockProps = Omit<ValueProps<any>, 'value'> & {
    */
   gap?: 'xx-small' | 'x-small' | 'small' | 'medium' | 'large' | false
 
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 function ValueBlock(localProps: ValueBlockProps) {
@@ -106,7 +108,7 @@ function ValueBlock(localProps: ValueBlockProps) {
       label = replaceItemNo(labelProp, iterateIndex)
     }
 
-    const canRenderToString = React.isValidElement(label)
+    const canRenderToString = isValidElement(label)
       ? typeof (label as any).type === 'string' // Not a custom component
       : true
 
@@ -299,8 +301,8 @@ function ValueBlock(localProps: ValueBlockProps) {
 }
 
 function useNotInSummaryList(
-  ref: React.RefObject<HTMLElement>,
-  label?: React.ReactNode,
+  ref: RefObject<HTMLElement>,
+  label?: ReactNode,
   path?: Path,
   itemPath?: Path
 ) {

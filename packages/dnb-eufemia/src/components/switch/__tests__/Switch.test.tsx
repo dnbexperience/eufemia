@@ -4,7 +4,8 @@
  */
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
-import React from 'react'
+import { StrictMode, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
@@ -52,8 +53,8 @@ describe('Switch component', () => {
 
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
-      const [checked, setChecked] = React.useState(true)
-      const [random, setRandom] = React.useState(null)
+      const [checked, setChecked] = useState(true)
+      const [random, setRandom] = useState(null)
 
       return (
         <>
@@ -106,9 +107,9 @@ describe('Switch component', () => {
 
     TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      <React.StrictMode>
+      <StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>
+      </StrictMode>
     )
   })
 
@@ -173,10 +174,10 @@ describe('Switch component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLInputElement | null>(null)
+      ref = useRef<HTMLInputElement | null>(null)
       return <Switch {...props} ref={ref} />
     }
 
@@ -186,7 +187,7 @@ describe('Switch component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLInputElement | null> = { current: null }
+    const ref: RefObject<HTMLInputElement | null> = { current: null }
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem

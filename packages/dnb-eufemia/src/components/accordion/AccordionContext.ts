@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { createContext } from 'react'
+import type { KeyboardEvent, MouseEvent } from 'react'
 import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
 import type { AccordionProps } from './Accordion'
 import type { AccordionGroupProps } from './AccordionGroup'
@@ -16,12 +17,10 @@ export type AccordionContextValue = AccordionProps &
       id: string
       group: string
       expanded: boolean
-      event:
-        | React.MouseEvent<HTMLElement>
-        | React.KeyboardEvent<HTMLElement>
+      event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
     }) => void
   }
 
-const AccordionContext = React.createContext<AccordionContextValue>({})
+const AccordionContext = createContext<AccordionContextValue>({})
 
 export default AccordionContext

@@ -22,6 +22,7 @@ module.exports = {
               [getStyleScopeHash()]: 'eufemia-scope--portal',
             },
             verbose: false,
+            warnOnDeprecatedColorVariables: false,
           }),
           postcssFontUrlRewritePlugin({
             basePath: 'https://eufemia.dnb.no/fonts/',

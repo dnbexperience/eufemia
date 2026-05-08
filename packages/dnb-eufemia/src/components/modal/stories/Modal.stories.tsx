@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import type { ModalContentProps } from '../types'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
@@ -221,10 +222,10 @@ export const ModalV2Sandbox = () => (
 )
 
 function ModalRerenderExample() {
-  const [title, setTitle] = React.useState('Modal Title')
-  const [triggerText, setTriggerText] = React.useState('Open Modal')
+  const [title, setTitle] = useState('Modal Title')
+  const [triggerText, setTriggerText] = useState('Open Modal')
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setTitle('New Title')
       setTriggerText('New Open Modal')
@@ -320,10 +321,10 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [openState, setOpenState] = React.useState<boolean>(false)
-  const [count, setCount] = React.useState(0)
+  const [openState, setOpenState] = useState<boolean>(false)
+  const [count, setCount] = useState(0)
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timeout
 
     if (openState) {
@@ -381,7 +382,7 @@ const ModalCloseExample = () => {
 }
 
 const ModalTriggerExample = () => {
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = useState(0)
 
   return (
     <Form.Handler>
@@ -578,7 +579,7 @@ function SimScrollView() {
 }
 
 function CloseWithAnimation() {
-  const [modalOpen, setModalOpen] = React.useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   return (
     <Modal
       triggerAttributes={{ text: 'CloseWithAnimation' }}
@@ -601,7 +602,7 @@ function CloseByCallback() {
       {
         (({ close }) => (
           <Button text="Close by callback" onClick={close} />
-        )) as (props: ModalContentProps) => React.ReactNode
+        )) as (props: ModalContentProps) => ReactNode
       }
     </Modal>
   )

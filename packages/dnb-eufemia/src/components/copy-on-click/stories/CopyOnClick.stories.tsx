@@ -1,4 +1,3 @@
-import React from 'react'
 import CopyOnClick from '../CopyOnClick'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 import { NumberFormat } from '../..'

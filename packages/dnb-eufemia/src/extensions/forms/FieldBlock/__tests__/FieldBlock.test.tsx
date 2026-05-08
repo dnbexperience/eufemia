@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import { wait, axeComponent } from '../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
@@ -398,7 +398,7 @@ describe('FieldBlock', () => {
 
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
-      const fromInput = React.useCallback(
+      const fromInput = useCallback(
         (external: unknown) => (external as { value: string }).value,
         []
       )

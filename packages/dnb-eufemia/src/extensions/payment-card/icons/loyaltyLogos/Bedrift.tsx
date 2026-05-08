@@ -1,6 +1,5 @@
-import React from 'react'
-
-const Bedrift = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const Bedrift = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="82"
     height="27"

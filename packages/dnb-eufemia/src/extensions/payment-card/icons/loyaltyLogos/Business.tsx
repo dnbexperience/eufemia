@@ -1,6 +1,5 @@
-import React from 'react'
-
-const Business = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const Business = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="94"
     height="27"

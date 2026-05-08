@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { render, renderHook } from '@testing-library/react'
 import useTranslation from '../useTranslation'
 import Provider from '../../../../shared/Provider'

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
@@ -191,7 +191,7 @@ describe('Pagination bar', () => {
 
   it('rerenders properly', () => {
     const Rerender = () => {
-      const [count, incrementBy] = React.useReducer((state, count) => {
+      const [count, incrementBy] = useReducer((state, count) => {
         return state + count
       }, 1)
       const onClickHandler = () => incrementBy(1)
@@ -291,9 +291,9 @@ describe('Infinity scroller', () => {
     const onStartup = jest.fn()
 
     const MyComponent = () => {
-      const [currentPage, setCurrentPage] = React.useState(null)
+      const [currentPage, setCurrentPage] = useState(null)
 
-      React.useEffect(() => {
+      useEffect(() => {
         setCurrentPage(3)
       }, [])
 
@@ -433,8 +433,8 @@ describe('Infinity scroller', () => {
 
     const MyComponent = () => {
       const [{ InfinityMarker, endInfinity, resetInfinity }] =
-        React.useState(createPagination)
-      const [currentPage, setCurrentPage] = React.useState(startupPage)
+        useState(createPagination)
+      const [currentPage, setCurrentPage] = useState(startupPage)
 
       resetInfinityHandler = resetInfinity
 
@@ -545,10 +545,10 @@ describe('Infinity scroller', () => {
     const localStack = { current: {} }
 
     const MyComponent = () => {
-      const [{ InfinityMarker }] = React.useState(createPagination)
+      const [{ InfinityMarker }] = useState(createPagination)
 
       // 1. Start with 2
-      const [currentPage, setCurrentPage] = React.useState(2)
+      const [currentPage, setCurrentPage] = useState(2)
 
       tableItems
         .filter((cur, idx) => {
@@ -562,7 +562,7 @@ describe('Infinity scroller', () => {
       const items = Object.values(localStack.current)
 
       // 2. And set it back to 1
-      React.useEffect(() => {
+      useEffect(() => {
         setCurrentPage(1)
       }, [])
 
@@ -764,8 +764,8 @@ describe('Infinity scroller', () => {
     const MyComponent = () => {
       const startupPage = 3
       const [{ InfinityMarker, endInfinity, resetInfinity }] =
-        React.useState(createPagination)
-      const [currentPage, setCurrentPage] = React.useState(startupPage)
+        useState(createPagination)
+      const [currentPage, setCurrentPage] = useState(startupPage)
 
       resetInfinityHandler = resetInfinity
 

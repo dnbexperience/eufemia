@@ -2,7 +2,13 @@
  * Web Popover Component
  */
 
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import type {
+  ComponentProps,
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+} from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -24,27 +30,23 @@ type PopoverPortalProps = {
   keepInDOM?: boolean
   noAnimation?: boolean
   portalRootClass?: string
-  children?: React.ReactNode
-  attributes?: React.HTMLAttributes<HTMLElement>
-  arrowPosition?: React.ComponentProps<
-    typeof PopoverContainer
-  >['arrowPosition']
-  placement?: React.ComponentProps<typeof PopoverContainer>['placement']
-  alignOnTarget?: React.ComponentProps<
-    typeof PopoverContainer
-  >['alignOnTarget']
-  horizontalOffset?: React.ComponentProps<
+  children?: ReactNode
+  attributes?: HTMLAttributes<HTMLElement>
+  arrowPosition?: ComponentProps<typeof PopoverContainer>['arrowPosition']
+  placement?: ComponentProps<typeof PopoverContainer>['placement']
+  alignOnTarget?: ComponentProps<typeof PopoverContainer>['alignOnTarget']
+  horizontalOffset?: ComponentProps<
     typeof PopoverContainer
   >['horizontalOffset']
-  arrowPositionSelector?: React.ComponentProps<
+  arrowPositionSelector?: ComponentProps<
     typeof PopoverContainer
   >['arrowPositionSelector']
   fixedPosition?: boolean
-  contentRef?: React.RefObject<HTMLSpanElement>
+  contentRef?: RefObject<HTMLSpanElement>
   triggerOffset?: number
   autoAlignMode?: PopoverAutoAlignMode
   hideArrow?: boolean
-  arrowEdgeOffset?: React.ComponentProps<
+  arrowEdgeOffset?: ComponentProps<
     typeof PopoverContainer
   >['arrowEdgeOffset']
   targetRefreshKey?: unknown

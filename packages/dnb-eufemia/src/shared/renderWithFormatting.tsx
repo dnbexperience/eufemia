@@ -1,16 +1,17 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
+import type { ReactNode } from 'react'
 import InlineLink from './internal/InlineLink'
 import CodeEl from '../elements/Code'
 
 export type FormatOptions = {
   br?: string
-  strong?: (c: React.ReactNode) => React.ReactNode
-  em?: (c: React.ReactNode) => React.ReactNode
-  link?: (c: React.ReactNode, href: string) => React.ReactNode
-  code?: (c: React.ReactNode) => React.ReactNode
+  strong?: (c: ReactNode) => ReactNode
+  em?: (c: ReactNode) => ReactNode
+  link?: (c: ReactNode, href: string) => ReactNode
+  code?: (c: ReactNode) => ReactNode
 }
 
-type Nodes = React.ReactNode[]
+type Nodes = ReactNode[]
 
 const Strong = (c) => <strong>{c}</strong>
 const Em = (c) => <em>{c}</em>
@@ -30,7 +31,7 @@ export default function renderWithFormatting(
     link = Link,
     code = Code,
   }: FormatOptions = {}
-): React.ReactNode {
+): ReactNode {
   // Fast-path: if text is a plain string without any formatting markers, return it directly
   if (typeof text === 'string') {
     const HAS_MARKERS_RE =
@@ -56,7 +57,7 @@ function withFormatting(
   }: Required<
     Pick<FormatOptions, 'strong' | 'em' | 'br' | 'link' | 'code'>
   >
-): React.ReactNode {
+): ReactNode {
   let nodes: Nodes = Array.isArray(text) ? text : [text]
 
   // {br}
@@ -141,11 +142,7 @@ function replaceInStrings(
 function splitToken(
   nodes: Nodes,
   token: string,
-  make: (ctx: {
-    i: number
-    idx: number
-    k: () => string
-  }) => React.ReactNode
+  make: (ctx: { i: number; idx: number; k: () => string }) => ReactNode
 ): Nodes {
   let key = 0
   const k = () => String(key++)

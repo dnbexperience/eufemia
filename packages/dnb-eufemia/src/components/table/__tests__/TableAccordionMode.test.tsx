@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import {
   render,
   fireEvent,
@@ -934,7 +934,7 @@ describe('Table using mode="accordion" prop', () => {
 
   describe('closeAllHandle', () => {
     it('should close all tr when called', () => {
-      const collapseAllHandleRef: React.RefObject<(() => void) | null> = {
+      const collapseAllHandleRef: RefObject<(() => void) | null> = {
         current: null,
       }
 

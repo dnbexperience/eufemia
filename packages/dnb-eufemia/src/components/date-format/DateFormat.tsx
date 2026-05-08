@@ -1,11 +1,12 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useState,
   useRef,
+  useState,
 } from 'react'
+import type { ReactNode } from 'react'
 import type { InternalLocale } from '../../shared/Context'
 import SharedContext from '../../shared/Context'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
@@ -34,7 +35,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type DateFormatProps = SpacingProps & {
   value?: Date | string | number
-  children?: React.ReactNode
+  children?: ReactNode
   locale?: InternalLocale
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']

@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
@@ -14,7 +15,7 @@ export type ModalHeaderBarProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   shadowClass?: string
 } & Omit<SectionProps, 'children'>
@@ -25,7 +26,7 @@ export default function ModalHeaderBar({
   ref: _ref,
   shadowClass = null,
   ...props
-}: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
+}: ModalHeaderBarProps & Omit<HTMLProps<HTMLElement>, 'children'>) {
   const context = useContext(ModalContext)
   const sectionRef = useRef<HTMLElement>(null)
   const [showShadow, setShowShadow] = useState(false)
@@ -90,7 +91,7 @@ export default function ModalHeaderBar({
       {...props}
     >
       <div className="dnb-modal__header__bar__inner">
-        {children as React.ReactNode}
+        {children as ReactNode}
       </div>
 
       {!hideCloseButton && (

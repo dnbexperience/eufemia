@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type {
   DatePickerEventAttributes,
   DatePickerAllProps,
@@ -35,7 +36,7 @@ type DatePickerProviderProps = DatePickerAllProps & {
   ) => DatePickerContextValue['getReturnObject']
   hidePicker?: DatePickerContextValue['hidePicker']
   attributes?: DatePickerEventAttributes
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export type DatePickerChangeEvent<E> = DatePickerDates &

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import Flex from '../Flex'
 import Card from '../../card/Card'

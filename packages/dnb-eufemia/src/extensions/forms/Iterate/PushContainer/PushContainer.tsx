@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -6,6 +6,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import type { IsolationProps } from '../../Form/Isolation'
 import Isolation from '../../Form/Isolation'
@@ -70,7 +71,7 @@ export type IteratePushContainerProps = (
   /**
    * The title of the container.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * If the fields inside the container are required.
@@ -85,7 +86,7 @@ export type IteratePushContainerProps = (
   /**
    * The button to open container.
    */
-  openButton?: React.ReactNode
+  openButton?: ReactNode
 
   /**
    * Define when the "open button" should be shown.
@@ -126,7 +127,7 @@ export type IteratePushContainerProps = (
   /**
    * A custom toolbar to be shown below the container.
    */
-  toolbar?: React.ReactNode
+  toolbar?: ReactNode
 
   /**
    * Will be called when the user clicks on the "Done" button.
@@ -136,7 +137,7 @@ export type IteratePushContainerProps = (
   /**
    * The container contents.
    */
-  children: React.ReactNode
+  children: ReactNode
 } & Pick<IsolationProps<JsonObject>, 'dataReference'>
 
 export type IteratePushContainerAllProps = IteratePushContainerProps &

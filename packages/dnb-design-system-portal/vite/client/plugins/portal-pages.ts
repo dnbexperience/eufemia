@@ -4,7 +4,7 @@
  * It scans src/docs/ for .mdx and .tsx page files and generates a
  * virtual module (`virtual:portal-pages`) that exports:
  *   - `routes`: an array of { path, component } for React Router
- *   - `allMdxNodes`: a static data structure replacing Gatsby's useStaticQuery
+ *   - `allMdxNodes`: a static data structure with frontmatter and table of contents for all MDX pages
  */
 
 import { type Plugin } from 'vite'
@@ -15,7 +15,7 @@ import matter from 'gray-matter'
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 
-// Patterns to ignore when scanning for page files (matches gatsby-config.js ignoreAsPage)
+// Patterns to ignore when scanning for page files.
 const IGNORE_PATTERNS = [
   /\/Examples\./,
   /_not_in_use/,
@@ -40,13 +40,16 @@ export type PageFileInfo = {
   type: 'mdx' | 'tsx'
 }
 
+export type PortalPagesPluginOptions = {
+  docsDir?: string
+}
+
 export function shouldIgnore(filePath: string): boolean {
   return IGNORE_PATTERNS.some((pattern) => pattern.test(filePath))
 }
 
 /**
  * Convert a heading title to a URL-friendly slug.
- * Matches Gatsby's default heading anchor behavior.
  */
 export function slugify(text: string): string {
   return text
@@ -59,8 +62,7 @@ export function slugify(text: string): string {
 
 /**
  * Extract a table-of-contents tree from MDX content by parsing
- * markdown headings (## and ###). Returns the same structure as
- * Gatsby's `tableOfContents` field.
+ * markdown headings (## and ###).
  */
 export function extractTableOfContents(
   mdxContent: string
@@ -149,8 +151,83 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
   return results
 }
 
-export default function portalPagesPlugin(): Plugin {
-  const docsDir = path.resolve(__dirname, '../../../src/docs')
+export function readPageFileInfo(
+  filePath: string,
+  docsDir: string
+): PageFileInfo | null {
+  if (shouldIgnore(filePath)) {
+    return null
+  }
+
+  const normalizedPath = filePath.replace(/\\/g, '/')
+  const normalizedDocsDir = docsDir.replace(/\\/g, '/')
+
+  if (!normalizedPath.startsWith(normalizedDocsDir + '/')) {
+    return null
+  }
+
+  const entryName = path.basename(filePath)
+  const isMdx = entryName.endsWith('.mdx') && !entryName.startsWith('_')
+  const isTsx = entryName.endsWith('.tsx')
+
+  if (!isMdx && !isTsx) {
+    return null
+  }
+
+  const relativePath = path.relative(docsDir, filePath)
+  const slug = relativePath
+    .replace(/\.(mdx|tsx)$/, '')
+    .replace(/(^|\/)index$/, '$1')
+    .replace(/\/$/, '')
+
+  let frontmatter: Record<string, unknown> = {}
+  let tableOfContents: { items: TableOfContentsItem[] } | undefined
+
+  if (isMdx) {
+    try {
+      const content = fs.readFileSync(filePath, 'utf-8')
+      const parsed = matter(content)
+      frontmatter = parsed.data
+      tableOfContents = extractTableOfContents(parsed.content)
+    } catch {
+      // ignore frontmatter parse errors
+    }
+  }
+
+  return {
+    filePath,
+    slug,
+    frontmatter,
+    tableOfContents,
+    type: isMdx ? 'mdx' : 'tsx',
+  }
+}
+
+export function getVirtualModuleSignature(
+  file: PageFileInfo
+): string | null {
+  if (file.type !== 'mdx') {
+    return null
+  }
+
+  return JSON.stringify({
+    slug: file.slug,
+    frontmatter: file.frontmatter,
+    isFirstTab:
+      file.frontmatter.showTabs &&
+      !file.frontmatter.title &&
+      file.slug.endsWith('/info'),
+    redirectFrom: file.frontmatter.redirect_from,
+  })
+}
+
+export default function portalPagesPlugin(
+  options: PortalPagesPluginOptions = {}
+): Plugin {
+  const docsDir =
+    options.docsDir ?? path.resolve(__dirname, '../../../src/docs')
+  const normalizedDocsDir = docsDir.replace(/\\/g, '/')
+  const pageSignatures = new Map<string, string | null>()
 
   return {
     name: 'vite-plugin-portal-pages',
@@ -164,6 +241,14 @@ export default function portalPagesPlugin(): Plugin {
     load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
         const files = scanPageFiles(docsDir)
+
+        pageSignatures.clear()
+        for (const file of files) {
+          pageSignatures.set(
+            file.filePath.replace(/\\/g, '/'),
+            getVirtualModuleSignature(file)
+          )
+        }
 
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
@@ -264,22 +349,34 @@ ${nodeEntries.join('\n')}
       }
     },
 
-    handleHotUpdate({ file, server }) {
+    handleHotUpdate({ file, modules, server }) {
       const normalizedFile = file.replace(/\\/g, '/')
 
-      // When a page file is added/removed, invalidate the virtual module
+      // Let regular module HMR handle page content edits. Only invalidate the
+      // virtual registry when route/sidebar metadata changes.
       if (
-        (normalizedFile.endsWith('.mdx') ||
-          normalizedFile.endsWith('.tsx')) &&
-        normalizedFile.includes('/src/docs/') &&
+        normalizedFile.endsWith('.mdx') &&
+        normalizedFile.startsWith(normalizedDocsDir + '/') &&
         !shouldIgnore(normalizedFile)
       ) {
+        const nextFileInfo = readPageFileInfo(file, docsDir)
+        const nextSignature = nextFileInfo
+          ? getVirtualModuleSignature(nextFileInfo)
+          : null
+        const previousSignature = pageSignatures.get(normalizedFile)
+
+        pageSignatures.set(normalizedFile, nextSignature)
+
+        if (previousSignature === nextSignature) {
+          return
+        }
+
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
         )
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
-          return [mod]
+          return modules.includes(mod) ? modules : [...modules, mod]
         }
       }
     },

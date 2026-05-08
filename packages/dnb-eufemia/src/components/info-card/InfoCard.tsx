@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import type { HTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -31,7 +32,7 @@ export type InfoCardProps = {
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: `null`
    */
-  alt?: React.ReactNode
+  alt?: ReactNode
   /**
    * Aligns the content to center, rather than left
    * Default: `false`
@@ -70,37 +71,37 @@ export type InfoCardProps = {
    * The text content of the InfoCard
    * Default: `null`
    */
-  text?: React.ReactNode
+  text?: ReactNode
   /**
    * Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Component title
    * Default: `null`
    */
-  title?: React.ReactNode
+  title?: ReactNode
   /**
    * Is called when the close button is clicked
    * Default: `null`
    */
-  onClose?: React.MouseEventHandler<HTMLButtonElement>
+  onClose?: MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the close button.
    * Default: `null`
    */
-  closeButtonText?: React.ReactNode
+  closeButtonText?: ReactNode
   /**
    * Is called when the accept button is clicked
    * Default: `null`
    */
-  onAccept?: React.MouseEventHandler<HTMLButtonElement>
+  onAccept?: MouseEventHandler<HTMLButtonElement>
   /**
    * The text of the accept button.
    * Default: `null`
    */
-  acceptButtonText?: React.ReactNode
+  acceptButtonText?: ReactNode
   /**
    * Additional attributes for the close button.
    * Default: `null`
@@ -114,7 +115,7 @@ export type InfoCardProps = {
 }
 
 export type InfoCardAllProps = InfoCardProps &
-  Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> &
+  Omit<HTMLAttributes<HTMLDivElement>, 'title'> &
   SpacingProps
 
 export const defaultProps = {
@@ -126,7 +127,7 @@ export const defaultProps = {
 
 const InfoCard = (localProps: InfoCardAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const allProps = extendPropsWithContext(
     localProps,

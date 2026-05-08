@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { KeyboardEvent, ReactNode, SyntheticEvent } from 'react'
 import clsx from 'clsx'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
@@ -17,7 +18,7 @@ export type SkipContentProps = {
    * Define a clear message describing the choices the users has.
    * Optional
    */
-  text?: React.ReactNode
+  text?: ReactNode
 
   /**
    * Defines the delay after the enter key has been pressed
@@ -30,7 +31,7 @@ export type SkipContentAllProps = SkipContentProps & ButtonProps
 
 type FocusEvent<T = Element> = {
   target: EventTarget & T
-} & React.SyntheticEvent<T>
+} & SyntheticEvent<T>
 
 const SkipContent = (localProps: SkipContentAllProps) => {
   const {
@@ -42,17 +43,17 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     ...props
   } = localProps
 
-  React.useEffect(
+  useEffect(
     () => () => {
       clearTimeout(timeout.current)
     },
     []
   )
 
-  const [visible, setVisible] = React.useState(false)
-  const [keepReturnActive, setKeepReturnActive] = React.useState(false)
-  const ref = React.useRef<HTMLElement>(undefined)
-  const timeout = React.useRef<NodeJS.Timeout>(undefined)
+  const [visible, setVisible] = useState(false)
+  const [keepReturnActive, setKeepReturnActive] = useState(false)
+  const ref = useRef<HTMLElement>(undefined)
+  const timeout = useRef<NodeJS.Timeout>(undefined)
 
   const classes = clsx(
     'dnb-skip-content',
@@ -113,7 +114,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   )
 
   const handleKeyUp = useCallback(
-    (e: React.KeyboardEvent) => {
+    (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         setFocus()
       }

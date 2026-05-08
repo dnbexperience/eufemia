@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Code, H4, Lead, P } from '@dnb/eufemia/src'

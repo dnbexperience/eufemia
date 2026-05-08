@@ -1,4 +1,5 @@
-import { useRef, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
+import type { RefObject } from 'react'
 import type {
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
@@ -27,7 +28,7 @@ type AsyncProcessesBuffer = {
 export type UseFieldAsyncParams<Value> = {
   onChange: (...args: unknown[]) => unknown
   onChangeContext: (...args: unknown[]) => unknown
-  valueRef: React.RefObject<Value>
+  valueRef: RefObject<Value>
   forceUpdate: () => void
 
   // Error methods (from useFieldError)
@@ -39,12 +40,12 @@ export type UseFieldAsyncParams<Value> = {
   revealError: () => void
   setFieldState: (state: SubmitStateWithValidating) => void
   hasError: () => boolean
-  warningRef: React.RefObject<FieldStatus['warning']>
-  infoRef: React.RefObject<FieldStatus['info']>
-  fieldStateRef: React.RefObject<SubmitStateWithValidating>
+  warningRef: RefObject<FieldStatus['warning']>
+  infoRef: RefObject<FieldStatus['info']>
+  fieldStateRef: RefObject<SubmitStateWithValidating>
 
   // Refs for breaking circular dep with useFieldValidation
-  removeErrorRef: React.RefObject<() => void>
+  removeErrorRef: RefObject<() => void>
 
   // Context
   hasPath: boolean

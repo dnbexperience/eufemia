@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import ListFormat, { listFormat } from '../ListFormat'
 
 export default {
@@ -26,11 +26,11 @@ const jsxList = [
 ]
 
 const jsxListWithKey = [
-  <React.Fragment key="a">A</React.Fragment>,
-  <React.Fragment key="b">
+  <Fragment key="a">A</Fragment>,
+  <Fragment key="b">
     <b>B</b>
-  </React.Fragment>,
-  <React.Fragment key="c">C</React.Fragment>,
+  </Fragment>,
+  <Fragment key="c">C</Fragment>,
   'D',
   123,
   <a

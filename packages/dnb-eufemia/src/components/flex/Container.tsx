@@ -1,4 +1,17 @@
-import React, { Fragment, useMemo } from 'react'
+import {
+  Children,
+  Fragment,
+  createElement,
+  isValidElement,
+  useMemo,
+} from 'react'
+import type {
+  CSSProperties,
+  ComponentType,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
@@ -54,7 +67,7 @@ export type FlexContainerProps = {
 export type FlexContainerAllProps = FlexContainerProps &
   SpaceProps &
   Omit<
-    React.HTMLAttributes<HTMLDivElement>,
+    HTMLAttributes<HTMLDivElement>,
     'ref' | 'wrap' | 'value' | 'label' | 'title' | 'placeholder'
   >
 
@@ -155,7 +168,7 @@ function FlexContainer(props: FlexContainerAllProps) {
       startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
 
       return (
-        <React.Fragment key={`element-${i}`}>
+        <Fragment key={`element-${i}`}>
           <Hr
             top={!isFirst ? spaceAboveLine : 0}
             space={0}
@@ -174,7 +187,7 @@ function FlexContainer(props: FlexContainerAllProps) {
               className="dnb-flex-container__hr"
             />
           )}
-        </React.Fragment>
+        </Fragment>
       )
     }
 
@@ -190,7 +203,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     }
 
     if (
-      React.isValidElement(previousChild) &&
+      isValidElement(previousChild) &&
       previousChild?.type?.['_supportsSpacingProps'] === false
     ) {
       startSpacing = 0
@@ -237,7 +250,7 @@ function FlexContainer(props: FlexContainerAllProps) {
       data-media-key={mediaKey}
       style={
         hasSizeProp
-          ? ({ '--sizeCount': sizeCount, ...style } as React.CSSProperties)
+          ? ({ '--size-count': sizeCount, ...style } as CSSProperties)
           : style
       }
       {...rest}
@@ -247,20 +260,17 @@ function FlexContainer(props: FlexContainerAllProps) {
   )
 }
 
-function wrapChildren(
-  props: FlexContainerAllProps,
-  children: React.ReactNode
-) {
-  return React.Children.toArray(children).map((child) => {
+function wrapChildren(props: FlexContainerAllProps, children: ReactNode) {
+  return Children.toArray(children).map((child) => {
     if (
-      React.isValidElement<any>(child) &&
+      isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'
     ) {
-      const childElement = child as React.ReactElement<any>
+      const childElement = child as ReactElement<any>
       const childKey = childElement.key
       const childProps = childElement.props || {}
-      return React.createElement(
-        childElement.type as React.ComponentType<any>,
+      return createElement(
+        childElement.type as ComponentType<any>,
         { ...childProps, key: childKey },
         <FlexContainer {...props}>
           {childElement.props.children}
@@ -274,11 +284,8 @@ function wrapChildren(
 
 function replaceRootFragment(children) {
   const firstChild = children[0]
-  if (
-    React.Children.count(children) === 1 &&
-    firstChild?.type === Fragment
-  ) {
-    return React.Children.toArray(firstChild?.props?.children)
+  if (Children.count(children) === 1 && firstChild?.type === Fragment) {
+    return Children.toArray(firstChild?.props?.children)
   }
   return children
 }

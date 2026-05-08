@@ -1,10 +1,8 @@
 @mixin tableBorderHelper($offset: -0.0625rem) {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: $offset;
-  bottom: 0;
   z-index: 1;
 
   pointer-events: none;

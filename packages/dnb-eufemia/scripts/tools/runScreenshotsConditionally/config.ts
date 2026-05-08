@@ -6,12 +6,15 @@
 // These files can change screenshot behavior globally, so any change forces full visual coverage.
 export const GLOBAL_VISUAL_FILES = new Set([
   'package.json',
-  'jest.config.screenshots',
+  'playwright.config.screenshots',
   'playwright.config',
 ])
 
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.
-export const GLOBAL_VISUAL_PATH_PREFIXES = ['src/style/', 'src/core/jest/']
+export const GLOBAL_VISUAL_PATH_PREFIXES = [
+  'src/style/',
+  'src/core/playwright/',
+]
 
 // Source paths that should not influence visual screenshot selection.
 export const NON_VISUAL_SOURCE_PATH_PREFIXES = []

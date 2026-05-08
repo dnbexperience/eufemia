@@ -1,4 +1,5 @@
-import React, { useRef, useCallback, useMemo } from 'react'
+import { isValidElement, useCallback, useMemo, useRef } from 'react'
+import type { RefObject } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { errorChanged, FormError } from '../utils'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
@@ -109,15 +110,15 @@ export type UseFieldErrorParams<Value> = {
   contextErrorMessages: Record<string, unknown>
 
   // Shared refs
-  valueRef: React.RefObject<Value>
-  hasFocusRef: React.RefObject<boolean>
-  isInternalRerenderRef: React.RefObject<unknown>
-  schemaValidatorRef: React.RefObject<
+  valueRef: RefObject<Value>
+  hasFocusRef: RefObject<boolean>
+  isInternalRerenderRef: RefObject<unknown>
+  schemaValidatorRef: RefObject<
     ValidateFunction | ((value: unknown) => unknown)
   >
 
   // Translation
-  translationRef: React.RefObject<FormsTranslation>
+  translationRef: RefObject<FormsTranslation>
   formatMessage: (key: string, values?: Record<string, string>) => string
 
   // Helpers
@@ -180,7 +181,7 @@ export default function useFieldError<Value>({
     if (typeof error === 'string') {
       key = error
       returnValue = new Error(error)
-    } else if (error && React.isValidElement(error)) {
+    } else if (error && isValidElement(error)) {
       key = error.key || convertJsxToString(error)
       returnValue = new FormError('Error', {
         formattedMessage: error,
@@ -402,7 +403,7 @@ export default function useFieldError<Value>({
             )
           }
 
-          if (React.isValidElement(message)) {
+          if (isValidElement(message)) {
             error.formattedMessage = message
           } else {
             error.message = message

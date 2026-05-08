@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { ElementType, HTMLProps } from 'react'
 import clsx from 'clsx'
 import { applySpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
@@ -14,7 +15,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type LabelOwnProps = {
-  element?: React.ElementType
+  element?: ElementType
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
@@ -23,7 +24,7 @@ type LabelOwnProps = {
 }
 
 export type LabelProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof LabelOwnProps | 'ref'
 > &
   LabelOwnProps &

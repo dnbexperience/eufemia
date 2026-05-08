@@ -1,15 +1,14 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
-
-describe('Grid.Container', () => {
+test.describe('Grid.Container', () => {
   const selector =
     '[data-visual-test="grid-container-responsive"] .dnb-grid-container'
 
-  it('have to match responsive size on large viewport', async () => {
+  test('have to match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {
@@ -20,10 +19,10 @@ describe('Grid.Container', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match responsive size on medium viewport', async () => {
+  test('have to match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {
@@ -31,10 +30,10 @@ describe('Grid.Container', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match responsive size on small viewport', async () => {
+  test('have to match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {
@@ -42,6 +41,6 @@ describe('Grid.Container', () => {
       },
       selector,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

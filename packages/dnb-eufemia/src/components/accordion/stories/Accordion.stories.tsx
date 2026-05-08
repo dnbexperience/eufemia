@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -29,7 +29,7 @@ const TestStyles = styled.div`
 `
 
 const DidRender = ({ message }) => {
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('DidRender', message)
   }, [])
   return <></>
@@ -166,18 +166,12 @@ export const AccordionSandbox = () => {
 }
 
 function AccordionWithContainer() {
-  const ref1 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
-  )
-  const ref2 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
-  )
-  const ref3 = React.useRef<{ setContainerHeight?: () => void } | null>(
-    null
-  )
-  const [changeHeight] = React.useState(() => ({ ref1, ref2, ref3 }))
-  const [flushCache, flushCacheNow] = React.useState(false)
-  const [count, setCount] = React.useState(1)
+  const ref1 = useRef<{ setContainerHeight?: () => void } | null>(null)
+  const ref2 = useRef<{ setContainerHeight?: () => void } | null>(null)
+  const ref3 = useRef<{ setContainerHeight?: () => void } | null>(null)
+  const [changeHeight] = useState(() => ({ ref1, ref2, ref3 }))
+  const [flushCache, flushCacheNow] = useState(false)
+  const [count, setCount] = useState(1)
   return (
     <>
       <Button
@@ -333,8 +327,8 @@ function AccordionWithContainer() {
 }
 
 function ChangingContent({ changeHeight, children }) {
-  const [contentSize, changeContentSize] = React.useState(false)
-  React.useLayoutEffect(() => {
+  const [contentSize, changeContentSize] = useState(false)
+  useLayoutEffect(() => {
     changeHeight.current?.setContainerHeight?.()
   }, [changeHeight, contentSize])
   return (

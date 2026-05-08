@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 
 function formatTitle(title) {
   return `${title} | Eufemia`
@@ -89,7 +89,7 @@ export function setPortalHeadData(pageContext, { title, description }) {
 }
 
 export function usePortalHead({ title, description }) {
-  React.useEffect(() => {
+  useEffect(() => {
     // Update meta during hydration render
     if (typeof document !== 'undefined') {
       try {

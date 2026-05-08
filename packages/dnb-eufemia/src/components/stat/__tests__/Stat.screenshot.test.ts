@@ -1,81 +1,80 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe.each(['ui', 'sbanken'])('Stat for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/stat/demos/',
-  })
-
-  it('has to match basic usage', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-amount-default"]',
+for (const themeName of ['ui', 'sbanken']) {
+  test.describe(`Stat for ${themeName}`, () => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/stat/demos/',
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match basic usage', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-amount-default"]',
+      })
 
-  it('has to match root and label', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-root-and-label"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match root and label', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-root-and-label"]',
+      })
 
-  it('has to match currency within trend', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-currency-within-trend"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match currency within trend', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-currency-within-trend"]',
+      })
 
-  it('has to match currency default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-currency-default"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match currency default', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-currency-default"]',
+      })
 
-  it('has to match percent default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-percent-default"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match percent default', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-percent-default"]',
+      })
 
-  it('has to match percent colorize by sign', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-percent-colorize-by-sign"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match percent colorize by sign', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-percent-colorize-by-sign"]',
+      })
 
-  it('has to match rating default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="stat-rating-default"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    test('has to match rating default', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="stat-rating-default"]',
+      })
 
-  it('has to match content-label-order with subtle label', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="stat-content-label-order-subtle-label"]',
+      expect(screenshot).toMatchSnapshot()
     })
 
-    expect(screenshot).toMatchImageSnapshot()
+    test('has to match content-label-order with subtle label', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="stat-content-label-order-subtle-label"]',
+      })
+
+      expect(screenshot).toMatchSnapshot()
+    })
   })
-})
+}

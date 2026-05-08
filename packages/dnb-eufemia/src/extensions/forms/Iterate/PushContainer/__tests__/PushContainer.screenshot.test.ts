@@ -1,28 +1,25 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
 const url = '/uilib/extensions/forms/Iterate/PushContainer/demos/'
 
-describe('PushContainer', () => {
+test.describe('PushContainer', () => {
   setupPageScreenshot({
     url,
   })
 
-  it('have to match variants', async () => {
+  test('have to match variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match variants in error state', async () => {
+  test('have to match variants in error state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
@@ -30,24 +27,24 @@ describe('PushContainer', () => {
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })
 
-describe('PushContainer on small screen', () => {
+test.describe('PushContainer on small screen', () => {
   setupPageScreenshot({
     url,
     pageViewport: { width: 640 },
   })
 
-  it('have to match variants', async () => {
+  test('have to match variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match variants in error state', async () => {
+  test('have to match variants in error state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
@@ -55,6 +52,6 @@ describe('PushContainer on small screen', () => {
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

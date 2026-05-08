@@ -1,4 +1,3 @@
-import React from 'react'
 import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'

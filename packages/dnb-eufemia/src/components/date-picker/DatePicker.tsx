@@ -4,14 +4,21 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { HTMLProps } from 'react'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  ChangeEvent,
+  FocusEvent,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
 } from 'react'
 
 import clsx from 'clsx'
@@ -76,14 +83,14 @@ export type DatePickerEvent<T> = DatePickerReturnObject<T>
 type FocusOnClose = { focusOnClose?: boolean | string }
 
 export type DisplayPickerEvent = (
-  | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
+  | MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
   | FocusOnClose
 ) &
   DatePickerDates &
   FocusOnClose & {
-    event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    event?: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   }
 
 export type DatePickerProps = {
@@ -206,7 +213,7 @@ export type DatePickerProps = {
   /**
    * A prepending label in sync with the date input field.
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
@@ -222,7 +229,7 @@ export type DatePickerProps = {
   /**
    * Gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.
    */
-  addonElement?: React.ReactNode
+  addonElement?: ReactNode
   /**
    * Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.
    */
@@ -243,7 +250,7 @@ export type DatePickerProps = {
   /**
    * Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.
    */
-  suffix?: React.ReactNode
+  suffix?: ReactNode
   /**
    * To open the date-picker by default. Defaults to `false`.
    */
@@ -251,7 +258,7 @@ export type DatePickerProps = {
   /**
    * Provide a short Tooltip content that shows up on the picker button.
    */
-  tooltip?: React.ReactNode
+  tooltip?: ReactNode
   tabIndex?: number
   preventClose?: boolean
   noAnimation?: boolean
@@ -284,14 +291,12 @@ export type DatePickerProps = {
    * Will be called on a date change event. Returns an `object`. See Returned Object below.
    */
   onChange?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
+    event: DatePickerEvent<ChangeEvent<HTMLInputElement>>
   ) => void
   /**
    * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
    */
-  onType?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
-  ) => void
+  onType?: (event: DatePickerEvent<ChangeEvent<HTMLInputElement>>) => void
   /**
    * Will be called once date-picker is visible.
    */
@@ -304,28 +309,26 @@ export type DatePickerProps = {
    * Will be called once a user presses the submit button.
    */
   onSubmit?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    event: DatePickerEvent<MouseEvent<HTMLButtonElement>>
   ) => void
   /**
    * Will be called once a user presses the cancel button.
    */
   onCancel?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
+    event: DatePickerEvent<MouseEvent<HTMLButtonElement>>
   ) => void
   /**
    * Will be called once a user presses the reset button. The DatePicker will revert to the value it had when it was first rendered (the initial `date`, `startDate`, or `endDate` prop values). If no initial value was provided, the date will be cleared.
    */
-  onReset?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-  ) => void
+  onReset?: (event: DatePickerEvent<MouseEvent<HTMLButtonElement>>) => void
   /**
    * Will be called once the input gets focus.
    */
-  onFocus?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
+  onFocus?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /**
    * Will be called once the input lose focus.
    */
-  onBlur?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
+  onBlur?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /** @internal */
   _omitInputShellClass?: boolean
 }
@@ -334,7 +337,7 @@ export type DatePickerAllProps = DatePickerProps &
   FormStatusBaseProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     | 'ref'
     | 'children'
     | 'label'
@@ -478,8 +481,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       hidePicker: shouldHidePicker = true,
       ...args
     }: DatePickerChangeEvent<
-      | React.MouseEvent<HTMLSpanElement>
-      | React.KeyboardEvent<HTMLTableElement>
+      MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
         hidePicker({ focusOnClose: true })
@@ -491,7 +493,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const onSubmitHandler = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+    (event: MouseEvent<HTMLButtonElement>) => {
       if (open) {
         // If picker is open, close it and call onSubmit
         hidePicker(event)
@@ -507,9 +509,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const onCancelHandler = useCallback(
-    (
-      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
-    ) => {
+    (event: DatePickerChangeEvent<MouseEvent<HTMLButtonElement>>) => {
       hidePicker()
       onCancel?.({ ...getReturnObject.current(event) })
     },
@@ -517,9 +517,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const onResetHandler = useCallback(
-    (
-      event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
-    ) => {
+    (event: DatePickerChangeEvent<MouseEvent<HTMLButtonElement>>) => {
       hidePicker()
       onReset?.({ ...getReturnObject.current(event) })
     },
@@ -527,7 +525,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const togglePicker = useCallback(
-    (args: React.MouseEvent<HTMLButtonElement>) => {
+    (args: MouseEvent<HTMLButtonElement>) => {
       !open ? showPicker(args) : hidePicker(args)
     },
     [open, showPicker, hidePicker]

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import styled from '@emotion/styled'
 
 import Table from '../Table'
@@ -175,7 +175,7 @@ const TableAccordionRowContent = () => {
 }
 
 const TableAccordionRows = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
+  const [skeleton, setSkeleton] = useState(false)
   return (
     <main aria-label="main area">
       <h1 className="dnb-sr-only">

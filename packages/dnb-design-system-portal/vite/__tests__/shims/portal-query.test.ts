@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock virtual:portal-pages before importing the gatsby shim
+// Mock virtual:portal-pages before importing the portal query shim.
 vi.mock('virtual:portal-pages', () => ({
   allMdxNodes: [
     {
@@ -38,7 +38,7 @@ vi.mock('virtual:portal-pages', () => ({
   ],
 }))
 
-// Must mock react-router-dom before importing gatsby shim
+// Must mock react-router-dom before importing the portal query shim.
 vi.mock('react-router-dom', () => ({
   Link: vi.fn(({ to, children, ...rest }) => null),
   useNavigate: vi.fn(() => vi.fn()),

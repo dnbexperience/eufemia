@@ -1,22 +1,21 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
-
-describe('Modal', () => {
+test.describe('Modal', () => {
   const url = '/uilib/components/modal/demos/'
 
-  it('have to match the default modal trigger button', async () => {
+  test('have to match the default modal trigger button', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="modal-standard"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match the default modal window', async () => {
+  test('have to match the default modal window', async () => {
     const screenshot = await makeScreenshot({
       url: url,
       pageViewport: {
@@ -30,6 +29,6 @@ describe('Modal', () => {
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

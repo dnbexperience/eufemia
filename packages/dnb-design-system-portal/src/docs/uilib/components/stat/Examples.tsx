@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { useTranslation } from '@dnb/eufemia/shared'
 import {
   AriaLive,
@@ -351,7 +351,7 @@ export const WithAriaLive = () => (
   <ComponentBox>
     {() => {
       function Example() {
-        const [value, setValue] = React.useState(1234)
+        const [value, setValue] = useState(1234)
 
         return (
           <Flex.Stack>

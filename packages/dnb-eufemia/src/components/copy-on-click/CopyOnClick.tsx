@@ -2,7 +2,7 @@
  * Web CopyOnClick Component
  */
 
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
@@ -29,7 +29,7 @@ const CopyOnClick = ({
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout>(undefined)
-  const [active, setActive] = React.useState(false)
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     if (IS_IOS) {

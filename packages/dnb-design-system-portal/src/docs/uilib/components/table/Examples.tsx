@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useMedia, useTranslation } from '@dnb/eufemia/src/shared'
@@ -27,7 +27,8 @@ import {
   stop as stopIcon,
   compose as composeIcon,
   copy as copyIcon,
-  view_medium as eyeIcon,
+  view as eyeIcon,
+  launch as launchIcon,
   trash as trashIcon,
 } from '@dnb/eufemia/src/icons'
 import {
@@ -91,7 +92,7 @@ export const VariantBasic = () => (
         })
 
         // Handle your "column1" logic
-        React.useEffect(() => {
+        useEffect(() => {
           switch (sortState.column1.direction) {
             case 'asc':
               break
@@ -752,7 +753,7 @@ export const Accordion = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef(undefined)
+          const ref = useRef(undefined)
           const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
@@ -871,7 +872,7 @@ export const AccordionMixed = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef(undefined)
+          const ref = useRef(undefined)
           const { copy, copyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
@@ -1079,7 +1080,7 @@ export const KeyboardNavigation = () => (
 
         return (
           <div ref={navRef}>
-            <Table>
+            <Table border outline>
               <caption className="dnb-sr-only">
                 Keyboard navigable table
               </caption>
@@ -1181,7 +1182,7 @@ export const KeyboardNavigation = () => (
   </ComponentBox>
 )
 
-export const Navigation = () => (
+export const ClickableRows = () => (
   <ComponentBox hideCode data-visual-test="table-navigation">
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
@@ -1194,14 +1195,12 @@ export const Navigation = () => (
 
         const Row = ({ nr }) => {
           const shareId = id + '-' + nr
+          const handleClick = useCallback((_event, { trElement }) => {
+            console.log('Clicked row', trElement.dataset.rowId)
+          }, [])
+
           return (
-            <Tr
-              id={shareId}
-              onClick={() => {
-                console.log('your navigation logic here')
-                // window.location.href = 'https://eufemia.dnb.no/'
-              }}
-            >
+            <Tr id={shareId} data-row-id={nr} onClick={handleClick}>
               <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
               <Td>Row {nr}</Td>
               <Td spacing="horizontal">
@@ -1264,6 +1263,9 @@ export const NavigationMixed = () => (
         const TdInput = () => {
           return <Input label="Label" labelSrOnly size={4} />
         }
+        const handleClick = useCallback((_event, { trElement }) => {
+          console.log('Clicked row', trElement.dataset.rowId)
+        }, [])
 
         return (
           <Table mode="navigation" id={id} {...props}>
@@ -1279,13 +1281,7 @@ export const NavigationMixed = () => (
             </thead>
 
             <tbody>
-              <Tr
-                id={id + '-' + 1}
-                onClick={() => {
-                  console.log('your navigation logic here')
-                  // window.location.href = 'https://eufemia.dnb.no/'
-                }}
-              >
+              <Tr id={id + '-' + 1} data-row-id={1} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 1}</Td>
                 <Td>Row {1}</Td>
                 <Td spacing="horizontal">
@@ -1301,13 +1297,7 @@ export const NavigationMixed = () => (
                 </Td>
                 <Td align="right">Row {2}</Td>
               </Tr>
-              <Tr
-                id={id + '-' + 3}
-                onClick={() => {
-                  console.log('your navigation logic here')
-                  // window.location.href = 'https://eufemia.dnb.no/'
-                }}
-              >
+              <Tr id={id + '-' + 3} data-row-id={3} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 3}</Td>
                 <Td>Row {3}</Td>
                 <Td spacing="horizontal">
@@ -1339,6 +1329,95 @@ export const NavigationMixed = () => (
             />
           </Table.ScrollView>
         </>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ClickableCells = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-navigation-cell"
+    scope={{ eyeIcon, launchIcon }}
+  >
+    {() => {
+      const handleClick = (event, { trElement, thElement }) => {
+        console.log(
+          `Clicked row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`
+        )
+      }
+      const handleSelectedClick = (
+        event,
+        { trElement, thElement, isSelected, setSelected }
+      ) => {
+        const selected = setSelected(!isSelected)
+        console.log(
+          `Selected: "${selected}" on row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`
+        )
+      }
+
+      return (
+        <Table.ScrollView>
+          <Table border outline>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th style={{ width: '50%' }} data-column-id="account">
+                  Account
+                </Th>
+                <Th style={{ width: '35%' }} data-column-id="balance">
+                  Balance
+                </Th>
+                <Th style={{ width: '15%' }} data-column-id="type">
+                  Details
+                </Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr data-row-id="1" verticalAlign="middle">
+                <Td onClick={handleClick}>Savings Account</Td>
+                <Td onClick={handleClick}>1 234,56 kr</Td>
+                <Td onClick={handleClick}>Default</Td>
+              </Tr>
+              <Tr data-row-id="2" verticalAlign="middle">
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Checking Account
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  5 678,90 kr
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Custom icon
+                </Td>
+              </Tr>
+              <Tr data-row-id="3" verticalAlign="middle">
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
+                  Press me to select with a lot of text
+                </Td>
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
+                  12 345,00 kr
+                </Td>
+                <Td
+                  icon={eyeIcon}
+                  selected={false}
+                  onClick={handleSelectedClick}
+                >
+                  Selectable
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Table.ScrollView>
       )
     }}
   </ComponentBox>
@@ -1509,8 +1588,8 @@ export function PaginationTable() {
       {() => {
         const TablePagination = () => {
           const amountPerPage = 5
-          const [currentPage, setCurrentPage] = React.useState(1)
-          const [data] = React.useState(() => getDataFromAPI(0, 100))
+          const [currentPage, setCurrentPage] = useState(1)
+          const [data] = useState(() => getDataFromAPI(0, 100))
 
           return (
             <Pagination

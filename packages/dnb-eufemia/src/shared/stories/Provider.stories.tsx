@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import Context from '../Context'
 import Provider from '../Provider'
@@ -44,7 +44,7 @@ export const ProviderSandbox = () => {
 }
 
 const ChangeLocale = () => {
-  const { locale, setLocale, update } = React.useContext(Context)
+  const { locale, setLocale, update } = useContext(Context)
   console.log(locale)
 
   return (

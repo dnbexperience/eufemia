@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import MenuList from '../MenuList'
@@ -9,7 +9,7 @@ import type { MenuContextValue } from '../types'
 import { createMockContext } from './testHelpers'
 
 function renderWithContext(
-  ui: React.ReactElement,
+  ui: ReactElement,
   contextOverrides?: Partial<MenuContextValue>
 ) {
   const context = createMockContext(contextOverrides)

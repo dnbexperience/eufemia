@@ -1,4 +1,5 @@
-import React from 'react'
+import { useEffect } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import IsolatedStyleScope, {
   useIsolatedStyleScope,
@@ -140,7 +141,7 @@ describe('useIsolatedStyleScope', () => {
     const MockComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         scopeElement = getScopeElement()
       }, [getScopeElement])
 
@@ -162,7 +163,7 @@ describe('useIsolatedStyleScope', () => {
     const MockComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         scopeElement = getScopeElement()
       }, [getScopeElement])
 
@@ -176,14 +177,14 @@ describe('useIsolatedStyleScope', () => {
 
   it('returns the custom ref element if provided', () => {
     let scopeElement = null
-    const customRef: React.RefObject<HTMLDivElement | null> = {
+    const customRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
 
     const MockComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         scopeElement = getScopeElement()
       }, [getScopeElement])
 
@@ -208,7 +209,7 @@ describe('useIsolatedStyleScope', () => {
     const OuterComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         outerElement = getScopeElement()
       }, [getScopeElement])
 
@@ -219,7 +220,7 @@ describe('useIsolatedStyleScope', () => {
       const { getScopeElement } = useIsolatedStyleScope()
       const { getScopeElement: getOuterScope } =
         useIsolatedStyleScope('outer-scope')
-      React.useEffect(() => {
+      useEffect(() => {
         innerElement = getScopeElement()
         innerGetsOuter = getOuterScope()
       }, [getScopeElement, getOuterScope])
@@ -248,7 +249,7 @@ describe('useIsolatedStyleScope', () => {
     const OuterComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         outerElement = getScopeElement()
       }, [getScopeElement])
 
@@ -258,7 +259,7 @@ describe('useIsolatedStyleScope', () => {
     const InnerComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         innerElement = getScopeElement()
       }, [getScopeElement])
 
@@ -287,7 +288,7 @@ describe('useIsolatedStyleScope', () => {
       const { getScopeElement: getParentScope } =
         useIsolatedStyleScope('parent-scope')
 
-      React.useEffect(() => {
+      useEffect(() => {
         innerScopeElement = getScopeElement()
         parentScopeElement = getParentScope()
       }, [getScopeElement, getParentScope])
@@ -313,7 +314,7 @@ describe('useIsolatedStyleScope', () => {
     const MockComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         scopeElement = getScopeElement()
       }, [getScopeElement])
 
@@ -341,7 +342,7 @@ describe('useIsolatedStyleScope', () => {
     const OuterComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope()
 
-      React.useEffect(() => {
+      useEffect(() => {
         outerElement = getScopeElement()
       }, [getScopeElement])
 
@@ -351,7 +352,7 @@ describe('useIsolatedStyleScope', () => {
     const InnerComponent = () => {
       const { getScopeElement } = useIsolatedStyleScope('outer-scope')
 
-      React.useEffect(() => {
+      useEffect(() => {
         innerElement = getScopeElement()
       }, [getScopeElement])
 

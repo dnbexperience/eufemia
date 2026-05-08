@@ -1,4 +1,5 @@
-import React, { act, useContext } from 'react'
+import { act, useContext } from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import FieldBoundaryProvider from '../FieldBoundaryProvider'
 import type { FieldBoundaryContextState } from '../FieldBoundaryContext'
@@ -17,7 +18,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in context', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+    const contextRef: RefObject<FieldBoundaryContextState | null> = {
       current: null,
     }
 
@@ -127,7 +128,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set showBoundaryErrorsRef to true when showErrors is true', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+    const contextRef: RefObject<FieldBoundaryContextState | null> = {
       current: null,
     }
 
@@ -149,7 +150,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in boundary context', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+    const contextRef: RefObject<FieldBoundaryContextState | null> = {
       current: null,
     }
 
@@ -203,7 +204,7 @@ describe('FieldBoundaryProvider', () => {
   })
 
   it('should set error in context with validateContinuously', async () => {
-    const contextRef: React.RefObject<FieldBoundaryContextState | null> = {
+    const contextRef: RefObject<FieldBoundaryContextState | null> = {
       current: null,
     }
 

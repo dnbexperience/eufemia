@@ -1,6 +1,9 @@
 const path = require('path')
 const fs = require('fs-extra')
 const sass = require('sass')
+const {
+  resolveConfigTimeEufemiaPath,
+} = require('../vite/shared/eufemia-prebuild-paths.cjs')
 
 /**
  * Converts SASS to CSS and puts the css files inside the /public directory.
@@ -18,7 +21,7 @@ function generatePackages(convertFiles) {
      */
     const includePaths = []
 
-    const file = require.resolve(filePath)
+    const file = require.resolve(resolveConfigTimeEufemiaPath(filePath))
     const result = sass.compile(file, {
       loadPaths: includePaths,
     })
@@ -39,10 +42,8 @@ if (require.main === module) {
 }
 
 /**
- * This helper function could be used inside gatsby-node
- * to re-generate the sass to css conversion each time a page gets visited.
- *
- * But because its so rarely touched, we rather keep it inside here as of now.
+ * This helper function can be attached to a dev-only route to
+ * re-generate the sass to css conversion on demand.
  */
 function runGeneratePackages({ app, page, packages }) {
   // Run a Node.js Script on a specific page visit

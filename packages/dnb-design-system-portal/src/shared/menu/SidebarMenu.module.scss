@@ -22,8 +22,6 @@
       --level-offset: 2rem;
     }
 
-    --delay: 0; /* polyfill fallback */
-
     /* 2.5rem - but we don't want it to be responsive */
     --level-icon-adjust: -40px;
     --level: 2vw;
@@ -41,12 +39,12 @@
     .show-mobile-menu & {
       opacity: 0.3;
       animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
-        var(--delay) forwards;
+        forwards;
     }
     .hide-mobile-menu & {
       opacity: 1;
       animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
-        calc(10ms - var(--delay)) forwards;
+        forwards;
     }
 
     html[show-dev-grid] :global(.dev-grid) & {

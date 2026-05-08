@@ -1,4 +1,5 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { HTMLProps, KeyboardEvent } from 'react'
 import {
   addMonths,
   addYears,
@@ -19,7 +20,7 @@ type CalendarNavigationDateType = 'month' | 'year'
 type CalendarNavigationType = 'both' | CalendarNavigationDateType
 
 export type DatePickerCalendarNavigationProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
   type: CalendarNavigationType
@@ -169,7 +170,7 @@ export type CalendarNavButtonProps = {
     nr: number
     type: CalendarNavButtonProps['type']
   }) => void
-  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
+  onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
 }
 
 type NavButtonDisabledHandlerMap = {

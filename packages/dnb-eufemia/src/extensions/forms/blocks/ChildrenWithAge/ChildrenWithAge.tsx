@@ -1,4 +1,3 @@
-import React from 'react'
 import { Field, Form, Iterate, Value, Wizard } from '../..'
 import { Lead } from '../../../../elements'
 import type { Translation } from './ChildrenWithAgeTranslations'

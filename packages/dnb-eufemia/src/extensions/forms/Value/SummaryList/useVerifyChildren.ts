@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
+import type { ReactNode } from 'react'
 import { warn } from '../../../../shared/helpers'
 
 export function useVerifyChildren({
@@ -16,7 +17,7 @@ export function useVerifyChildren({
 }: {
   ignoreTypes?: Array<string>
   messageInfo?: unknown
-  children: React.ReactNode
+  children: ReactNode
   message: string
 }) {
   const verifyCount = useRef(0)
@@ -43,7 +44,7 @@ export function useVerifyChildren({
  * without counting React.Fragment or primitive nodes.
  */
 export const countChildren = (
-  children: React.ReactNode,
+  children: ReactNode,
   ignoreTypes?: Array<string>,
   count = 0
 ) => {

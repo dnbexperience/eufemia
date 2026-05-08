@@ -2,12 +2,28 @@
  * Web Autocomplete Component
  */
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
+import {
+  createElement,
+  isValidElement,
   useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type {
+  ChangeEvent,
+  ComponentType,
+  ElementType,
+  FocusEvent,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
 } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import clsx from 'clsx'
@@ -69,26 +85,23 @@ import {
 export type AutocompleteOnClearParams = {
   value: string
   previousValue: string | number | null
-  event: React.SyntheticEvent | Event
+  event: SyntheticEvent | Event
 }
 
 type AutocompleteMode = 'sync' | 'async'
 type AutocompleteAlign = 'left' | 'right'
 type FormLabelLabelDirection = 'horizontal' | 'vertical'
-type AutocompleteTitle = string | React.ReactNode
-type AutocompletePlaceholder = string | React.ReactNode
-type AutocompleteNoOptions = React.ReactNode
-type AutocompleteShowAll = string | React.ReactNode
-type AutocompleteAriaLiveOptions = string | React.ReactNode
-type AutocompleteIndicatorLabel = string | React.ReactNode
-type AutocompleteSubmitButtonIcon =
-  | string
-  | React.ReactNode
-  | (() => React.ReactNode)
+type AutocompleteTitle = string | ReactNode
+type AutocompletePlaceholder = string | ReactNode
+type AutocompleteNoOptions = ReactNode
+type AutocompleteShowAll = string | ReactNode
+type AutocompleteAriaLiveOptions = string | ReactNode
+type AutocompleteIndicatorLabel = string | ReactNode
+type AutocompleteSubmitButtonIcon = string | ReactNode | (() => ReactNode)
 type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
-  | React.RefObject<HTMLInputElement | undefined>
-type AutocompleteInputElement = React.ElementType | React.ReactNode
+  | RefObject<HTMLInputElement | undefined>
+type AutocompleteInputElement = ElementType | ReactNode
 type AutocompleteSearchInWordIndex = string | number
 type AutocompleteSearchMatch = 'word' | 'starts-with'
 
@@ -123,29 +136,29 @@ export type AutocompleteEventMethods = {
 }
 export type AutocompleteOnTypeParams = {
   value: string
-  event: React.ChangeEvent<HTMLInputElement>
+  event: ChangeEvent<HTMLInputElement>
   data?: DrawerListDataArrayObject | string | null
 } & AutocompleteEventMethods
 export type AutocompleteOnFocusParams = {
   value: string
-  event: React.FocusEvent<HTMLInputElement>
+  event: FocusEvent<HTMLInputElement>
 } & AutocompleteEventMethods
 export type AutocompleteOnBlurParams = {
   value?: string
-  event?: React.FocusEvent<HTMLInputElement>
+  event?: FocusEvent<HTMLInputElement>
   data?: DrawerListDataArrayObject | string | null
   selectedItem?: number | string
 } & AutocompleteEventMethods
 
 export type AutocompleteOnChangeParams = {
   value?: string
-  event?: React.FocusEvent<HTMLInputElement>
+  event?: FocusEvent<HTMLInputElement>
   data: DrawerListDataArrayObject | string | null
   selectedItem?: number | string
 } & AutocompleteEventMethods
 export type AutocompleteOnSubmitParams = {
   value: string
-  event: React.KeyboardEvent<HTMLInputElement>
+  event: KeyboardEvent<HTMLInputElement>
 } & AutocompleteEventMethods
 
 export type AutocompleteOnSelectParams = {
@@ -153,7 +166,7 @@ export type AutocompleteOnSelectParams = {
   selectedItem?: number | string | null
   value: string | number
   data: DrawerListDataArrayObject | string | null
-  event: React.SyntheticEvent
+  event: SyntheticEvent
 } & AutocompleteEventMethods
 
 export type AutocompleteProps = {
@@ -212,7 +225,7 @@ export type AutocompleteProps = {
   /**
    * Icon to be included in the autocomplete input. Defaults to `'loupe'`.
    */
-  icon?: IconIcon | React.ReactNode | (() => React.ReactNode)
+  icon?: IconIcon | ReactNode | (() => ReactNode)
   /**
    * Change icon size.
    */
@@ -224,7 +237,7 @@ export type AutocompleteProps = {
   /**
    * Prepends the form label.
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Set `vertical` to change label layout direction.
    */
@@ -268,7 +281,7 @@ export type AutocompleteProps = {
   /**
    * Replace submit button with a custom element.
    */
-  submitElement?: React.ReactNode
+  submitElement?: ReactNode
   /**
    * Change options alignment.
    */
@@ -349,7 +362,7 @@ export type AutocompleteAllProps = AutocompleteProps &
   Omit<DrawerListProps, 'onChange' | 'onSelect'> &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     | 'ref'
     | 'size'
     | 'label'
@@ -1219,9 +1232,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
 
         item.dataItem.render = (
-          children: React.ReactNode,
+          children: ReactNode,
           id: string
-        ): React.ReactNode => {
+        ): ReactNode => {
           if (disableHL || disableHighlightingState) {
             return children
           }
@@ -1229,26 +1242,26 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           const cacheHash = id + value
           cacheMemoryRef.current = cacheMemoryRef.current || {}
           if (cacheMemoryRef.current[cacheHash]) {
-            return cacheMemoryRef.current[cacheHash] as React.ReactNode
+            return cacheMemoryRef.current[cacheHash] as ReactNode
           }
 
           const isComponent =
-            typeof children !== 'string' && React.isValidElement(children)
+            typeof children !== 'string' && isValidElement(children)
 
-          let childArray: Array<React.ReactNode>
+          let childArray: Array<ReactNode>
           if (
             isComponent &&
             Array.isArray(
               (
-                children as React.ReactElement<{
-                  children?: React.ReactNode[]
+                children as ReactElement<{
+                  children?: ReactNode[]
                 }>
               ).props?.children
             )
           ) {
             childArray = (
-              children as React.ReactElement<{
-                children: React.ReactNode[]
+              children as ReactElement<{
+                children: ReactNode[]
               }>
             ).props.children
           } else if (!Array.isArray(children)) {
@@ -1305,7 +1318,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                 }
               })
 
-              let result: React.ReactNode = segment
+              let result: ReactNode = segment
 
               if (segment.includes(strS)) {
                 const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
@@ -1353,14 +1366,14 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               }
 
               if (isComponent) {
-                const element = originalChild as React.ReactElement<{
-                  children?: React.ReactNode | React.ReactNode[]
+                const element = originalChild as ReactElement<{
+                  children?: ReactNode | ReactNode[]
                 }>
                 if (Array.isArray(element?.props?.children)) {
                   result = element.props.children.map(
-                    (Comp: React.ReactNode) => {
-                      const compEl = Comp as React.ReactElement<{
-                        children?: React.ReactNode
+                    (Comp: ReactNode) => {
+                      const compEl = Comp as ReactElement<{
+                        children?: ReactNode
                       }>
                       return Comp === originalChild ||
                         (compEl.props &&
@@ -1374,12 +1387,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                 }
 
                 if (
-                  React.isValidElement<Record<string, unknown>>(
-                    originalChild
-                  )
+                  isValidElement<Record<string, unknown>>(originalChild)
                 ) {
-                  result = React.createElement(
-                    originalChild.type as React.ComponentType<any>,
+                  result = createElement(
+                    originalChild.type as ComponentType<any>,
                     {
                       ...originalChild.props,
                       key: 'clone' + cacheHash + idx,
@@ -1804,7 +1815,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       event,
     }: {
       value: string
-      event: React.ChangeEvent<HTMLInputElement>
+      event: ChangeEvent<HTMLInputElement>
     }) => {
       selectAllActiveRef.current = false
       setTypedInputValue(val)
@@ -1825,7 +1836,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const onInputKeyDownHandler = useCallback(
-    ({ event: e }: { event: React.KeyboardEvent }) => {
+    ({ event: e }: { event: KeyboardEvent }) => {
       const key = e.key
 
       switch (key) {
@@ -1894,7 +1905,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const onInputClickHandler = useCallback(
-    (e: React.MouseEvent<HTMLInputElement>) => {
+    (e: MouseEvent<HTMLInputElement>) => {
       if (!drawerList.open && hasFilterActive()) {
         ignoreEvents()
         showAll()
@@ -1913,7 +1924,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const onInputFocusHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
+    (event: FocusEvent<HTMLInputElement>) => {
       if (skipFocusDuringChange) {
         return undefined // stop here
       }
@@ -1961,7 +1972,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const reserveActivityHandler = useCallback(
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (event: KeyboardEvent | MouseEvent) => {
       preventFiringBlurEvent.current = Boolean(
         ('key' in event && event.key === 'Enter') ||
         (event?.currentTarget
@@ -1986,7 +1997,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const onBlurHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
+    (event: FocusEvent<HTMLInputElement>) => {
       if (
         preventFiringBlurEvent.current ||
         drawerList.hasFocusOnElement ||
@@ -2055,7 +2066,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const onTriggerKeyDownHandler = useCallback(
-    (e: React.KeyboardEvent) => {
+    (e: KeyboardEvent) => {
       const key = e.key
 
       switch (key) {
@@ -2411,7 +2422,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const { iconPosition: _iconPosition, ...customInputParams } = inputParams
 
-  let submitButton: React.ReactNode = false
+  let submitButton: ReactNode = false
   const triggerParams = {
     id: id + '-submit-button',
     disabled,
@@ -2427,10 +2438,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   if (
     submitElement &&
-    React.isValidElement<Record<string, unknown>>(submitElement)
+    isValidElement<Record<string, unknown>>(submitElement)
   ) {
-    submitButton = React.createElement(
-      submitElement.type as React.ComponentType<any>,
+    submitButton = createElement(
+      submitElement.type as ComponentType<any>,
       {
         ...submitElement.props,
         ...triggerParams,
@@ -2515,7 +2526,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           srOnly={labelSrOnly}
           disabled={disabled}
           skeleton={skeleton}
-          onClick={toggleVisible as unknown as React.MouseEventHandler}
+          onClick={toggleVisible as unknown as MouseEventHandler}
         />
       )}
 
@@ -2539,10 +2550,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         <span className="dnb-autocomplete__row">
           <span {...shellParams}>
             {CustomInput ? (
-              React.createElement(
-                CustomInput as React.ElementType,
-                customInputParams
-              )
+              createElement(CustomInput as ElementType, customInputParams)
             ) : (
               <Input
                 icon={

@@ -7,18 +7,18 @@
  * @returns object with internal value state and state setter
  */
 
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import { correctNumberValue } from '../InputMaskedUtils'
 import { useTranslation } from './useTranslation'
 import { useNumberMaskParams } from './useNumberMaskParams'
 
 export const useLocalValue = () => {
-  const { props, context } = React.useContext(InputMaskedContext)
+  const { props, context } = useContext(InputMaskedContext)
   const maskParams = useNumberMaskParams() || {}
   const locale = useTranslation()
 
-  const [localValue, setLocalValue] = React.useState(() => {
+  const [localValue, setLocalValue] = useState(() => {
     return correctNumberValue({
       locale,
       props,
@@ -30,7 +30,7 @@ export const useLocalValue = () => {
    * Use an effect here, just;
    * because when a property gets changed from outside
    */
-  React.useEffect(() => {
+  useEffect(() => {
     const value = correctNumberValue({
       localValue,
       locale,

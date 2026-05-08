@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
@@ -34,23 +35,23 @@ export type FormInfoOverlayProps = {
 
   /** Predefined content */
   success?: {
-    title?: React.ReactNode
-    description?: React.ReactNode
-    buttonText?: React.ReactNode
+    title?: ReactNode
+    description?: ReactNode
+    buttonText?: ReactNode
     buttonHref?: string
     buttonClickHandler?: () => void
   }
   /** Predefined content */
   error?: {
-    title?: React.ReactNode
-    description?: React.ReactNode
-    retryButton?: React.ReactNode
-    cancelButton?: React.ReactNode
+    title?: ReactNode
+    description?: ReactNode
+    retryButton?: ReactNode
+    cancelButton?: ReactNode
   }
 
   // Various props
   id?: SharedStateId
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }
 

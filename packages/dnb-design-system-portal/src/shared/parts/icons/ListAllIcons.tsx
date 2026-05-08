@@ -2,7 +2,7 @@
  * List all the Icons available
  */
 
-import React from 'react'
+import { Fragment, useMemo } from 'react'
 import { Icon, CopyOnClick } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src'
 import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
@@ -58,7 +58,7 @@ type Props = {
 export default function ListAllIcons(props: Props) {
   const { groupBy, variant } = props
 
-  const iconsToRender = React.useMemo(() => {
+  const iconsToRender = useMemo(() => {
     let icons = {}
     switch (variant) {
       case 'primary':
@@ -121,12 +121,12 @@ export default function ListAllIcons(props: Props) {
 
   if (groupBy === 'category') {
     return groupByCategory(iconsToRender).map(([categoryName, icons]) => (
-      <React.Fragment key={categoryName}>
+      <Fragment key={categoryName}>
         <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
           {categoryName}
         </AutoLinkHeader>
         <ul className={listStyle}>{renderListItem(icons)}</ul>
-      </React.Fragment>
+      </Fragment>
     ))
   } else {
     return <ul className={listStyle}>{renderListItem(iconsToRender)}</ul>

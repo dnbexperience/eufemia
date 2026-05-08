@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { Fragment, useContext } from 'react'
+import type { HTMLProps, ReactNode, Ref, RefObject } from 'react'
 import clsx from 'clsx'
 import Context from '../shared/Context'
 import {
@@ -38,13 +39,13 @@ export type ElementProps = {
    * Default: `undefined`
    */
   internalClass?: string | boolean
-  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
-  children?: React.ReactNode
+  ref?: RefObject<HTMLElement> | Ref<unknown>
+  children?: ReactNode
 } & SpacingProps
 
 export type ElementAllProps = ElementProps &
   ElementInternalProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'as'>
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'as'>
 
 type Attributes = Record<string, unknown>
 
@@ -53,7 +54,7 @@ export const defaultProps = {
 }
 
 function Element(localProps: ElementAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps, {
     skeleton: context?.skeleton,
   })
@@ -95,18 +96,14 @@ function Element(localProps: ElementAllProps) {
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  const isFragment = Tag === React.Fragment
+  const isFragment = Tag === Fragment
 
   if (!isFragment && ref) {
     ;(params as Record<string, unknown>).ref = ref
   }
 
   if (isFragment) {
-    return (
-      <>
-        {(params as Record<string, unknown>).children as React.ReactNode}
-      </>
-    )
+    return <>{(params as Record<string, unknown>).children as ReactNode}</>
   }
 
   return <Tag {...params} />

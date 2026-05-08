@@ -1,22 +1,21 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
+import {
+  test,
+  expect,
+  makeScreenshot,
+} from '../../../../../core/playwright/screenshotSetup'
 
-import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
-
-describe('Form.Section', () => {
+test.describe('Form.Section', () => {
   const url = '/uilib/extensions/forms/Form/Section/demos/'
 
-  it('have to match view container', async () => {
+  test('have to match view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match edit container', async () => {
+  test('have to match edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
@@ -25,18 +24,18 @@ describe('Form.Section', () => {
       simulate: 'click',
     })
 
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match basic view container', async () => {
+  test('have to match basic view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 
-  it('have to match basic edit container', async () => {
+  test('have to match basic edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',
@@ -45,6 +44,6 @@ describe('Form.Section', () => {
       simulate: 'click',
     })
 
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

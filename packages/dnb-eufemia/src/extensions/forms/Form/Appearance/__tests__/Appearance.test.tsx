@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'

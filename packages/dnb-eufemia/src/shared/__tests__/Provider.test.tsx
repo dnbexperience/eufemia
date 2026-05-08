@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 import GlobalError from '../../components/global-error/GlobalError'
@@ -48,7 +48,7 @@ describe('Provider', () => {
     }
 
     const ChangeLocale = () => {
-      const { setLocale, locale } = React.useContext(Context)
+      const { setLocale, locale } = useContext(Context)
 
       expect(typeof setLocale).toBe('function')
 
@@ -222,7 +222,7 @@ describe('Provider', () => {
       let receivedLocale = null
 
       const Consumer = () => {
-        receivedLocale = React.useContext(Context).locale
+        receivedLocale = useContext(Context).locale
         return null
       }
 
@@ -240,7 +240,7 @@ describe('Provider', () => {
 
     it('should change locale in root context', () => {
       const Consumer = ({ id }) => {
-        const context = React.useContext(Context)
+        const context = useContext(Context)
         const { locale, setLocale } = context
 
         const handleOnChange = () => {
@@ -295,7 +295,7 @@ describe('Provider', () => {
 
     it('should change locale in local context', () => {
       const Consumer = ({ id }) => {
-        const context = React.useContext(Context)
+        const context = useContext(Context)
         const { locale, setCurrentLocale } = context
 
         const handleOnChange = () => {
@@ -359,7 +359,7 @@ describe('Provider', () => {
       }
 
       const Consumer = ({ id }) => {
-        const context = React.useContext<
+        const context = useContext<
           ContextProps & Partial<ConsumerContext>
         >(Context)
 
@@ -703,7 +703,7 @@ describe('Provider', () => {
 
   describe('translationsLoader', () => {
     const DisplayTitle = () => {
-      const { translation } = React.useContext(Context)
+      const { translation } = useContext(Context)
       return <span>{translation.HelpButton?.title}</span>
     }
 
@@ -753,7 +753,7 @@ describe('Provider', () => {
       })
 
       const ChangeLocale = () => {
-        const { setLocale } = React.useContext(Context)
+        const { setLocale } = useContext(Context)
         return <button onClick={() => setLocale('en-GB')}>Switch</button>
       }
 
@@ -800,7 +800,7 @@ describe('Provider', () => {
       }) as unknown as TranslationsLoader & jest.Mock
 
       const ChangeLocale = () => {
-        const { setLocale } = React.useContext(Context)
+        const { setLocale } = useContext(Context)
         return <button onClick={() => setLocale('en-GB')}>Switch</button>
       }
 
@@ -848,7 +848,7 @@ describe('Provider', () => {
       })
 
       const DisplayCloseTitle = () => {
-        const { translation } = React.useContext(Context)
+        const { translation } = useContext(Context)
         return (
           <>
             <span id="help">{translation.HelpButton?.title}</span>
@@ -988,7 +988,7 @@ describe('Provider', () => {
       })
 
       const DisplayBoth = () => {
-        const { translation } = React.useContext(Context)
+        const { translation } = useContext(Context)
         return (
           <>
             <span id="help">{translation.HelpButton?.title}</span>
@@ -1060,7 +1060,7 @@ describe('Provider', () => {
       })
 
       const DisplayChildTranslation = () => {
-        const { translation } = React.useContext(Context)
+        const { translation } = useContext(Context)
         return <span id="close">{translation.Modal?.closeTitle}</span>
       }
 
@@ -1100,7 +1100,7 @@ describe('Provider', () => {
       }) as unknown as TranslationsLoader & jest.Mock
 
       const ChangeLocale = () => {
-        const { setLocale } = React.useContext(Context)
+        const { setLocale } = useContext(Context)
         return <button onClick={() => setLocale('en-GB')}>Switch</button>
       }
 

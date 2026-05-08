@@ -1,5 +1,5 @@
 /**
- * Vite plugin that replicates gatsby-plugin-eufemia-theme-handler.
+ * Vite plugin that manages portal theme asset loading.
  *
  * At dev server start it:
  * 1. Discovers all Eufemia theme SCSS files using the same glob patterns
@@ -12,8 +12,9 @@
 
 import { type Plugin } from 'vite'
 import path from 'node:path'
-import glob from 'glob'
+import { globSync } from 'glob'
 import micromatch from 'micromatch'
+import { hasPrebuild } from './eufemia-prebuild'
 
 /**
  * FOUC-prevention scripts matching @dnb/eufemia/shared/ColorSchemeScript.
@@ -47,7 +48,12 @@ type ThemeConfig = {
   themeMatchers: RegExp[]
 }
 
-function getDefaultConfig(): ThemeConfig {
+function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
+  const styleRoot = usePrebuildStyles ? 'build/style' : 'src/style'
+  const paymentCardRoot = usePrebuildStyles
+    ? 'build/extensions/payment-card'
+    : 'src/extensions/payment-card'
+
   return {
     themes: {
       ui: { name: 'DNB' },
@@ -57,9 +63,9 @@ function getDefaultConfig(): ThemeConfig {
     },
     defaultTheme: 'ui',
     filesGlobs: [
-      '**/src/style/dnb-ui-core.scss',
-      '**/src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
-      '**/src/extensions/payment-card/**/dnb-*.scss',
+      `**/${styleRoot}/dnb-ui-core.scss`,
+      `**/${styleRoot}/themes/**/*-theme-{basis,components,dark-mode}.scss`,
+      `**/${paymentCardRoot}/**/dnb-*.scss`,
     ],
     includeFiles: [
       '**/dnb-ui-core*',
@@ -90,7 +96,7 @@ function collectThemeFiles(config: ThemeConfig): string[] {
   })
 
   const allFiles = globbyPaths
-    .flatMap((pattern) => glob.sync(pattern))
+    .flatMap((pattern) => globSync(pattern))
     .filter((file) => {
       // Exclude es/cjs build artifacts
       if (/\/(es|cjs)\/style\//.test(file)) {
@@ -130,17 +136,20 @@ function collectThemeFiles(config: ThemeConfig): string[] {
 }
 
 export default function eufemiaThemePlugin(): Plugin {
-  const config = getDefaultConfig()
   let isBuild = false
+  let usePrebuildStyles = false
 
   return {
     name: 'vite-plugin-eufemia-theme',
 
     configResolved(resolvedConfig) {
       isBuild = resolvedConfig.command === 'build'
+      usePrebuildStyles = isBuild && hasPrebuild()
     },
 
     resolveId(id) {
+      const config = getDefaultConfig(usePrebuildStyles)
+
       if (id === VIRTUAL_STYLES_ID) {
         return RESOLVED_VIRTUAL_STYLES_ID
       }
@@ -155,6 +164,8 @@ export default function eufemiaThemePlugin(): Plugin {
     },
 
     load(id) {
+      const config = getDefaultConfig(usePrebuildStyles)
+
       if (id === RESOLVED_VIRTUAL_STYLES_ID) {
         const files = collectThemeFiles(config)
         const themeMatchers = config.themeMatchers
@@ -403,8 +414,7 @@ if (typeof window !== 'undefined') {
 
     /**
      * Inject FOUC-prevention scripts from the shared ColorSchemeScript
-     * module into the HTML template. This ensures dev and build use the
-     * same blocking scripts as the Gatsby html.tsx.
+     * module into the HTML template.
      */
     transformIndexHtml(html) {
       const headScript = `<script>${getHeadScript()}</script>`

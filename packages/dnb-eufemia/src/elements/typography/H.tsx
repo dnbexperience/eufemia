@@ -4,7 +4,8 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import type { ElementProps } from '../Element'
@@ -21,7 +22,7 @@ import { TypographyContext } from './Typography'
 export type HSize = HeadingSize
 
 type HProps = SpacingProps &
-  React.HTMLAttributes<HTMLHeadingElement> & {
+  HTMLAttributes<HTMLHeadingElement> & {
     /**
      * Defines the Element Type, like "h1".
      * Default: `h1`

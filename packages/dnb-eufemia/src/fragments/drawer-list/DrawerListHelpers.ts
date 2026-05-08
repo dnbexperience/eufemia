@@ -2,7 +2,8 @@
  * Web DrawerList Helpers
  */
 
-import React from 'react'
+import { isValidElement } from 'react'
+import type { ReactElement } from 'react'
 import { convertJsxToString } from '../../shared/component-helper'
 import type {
   DrawerListDataArrayItem,
@@ -118,16 +119,15 @@ export function parseContentTitle(
     if (preferSelectedValue) {
       ret = String(
         convertJsxToString(dataItem.selectedValue, separator, (word) => {
-          const element = word as React.ReactElement<any>
+          const element = word as ReactElement<any>
           const nestedChildren =
             !element.props.children &&
             element?.type !== Icon &&
             element?.type !== CountryFlag &&
             typeof element?.type === 'function' &&
-            (element.type as () => React.ReactElement)()
+            (element.type as () => ReactElement)()
 
-          return (nestedChildren as React.ReactElement<any>)?.props
-            ?.children
+          return (nestedChildren as ReactElement<any>)?.props?.children
             ? nestedChildren
             : element
         })
@@ -151,7 +151,7 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
       data[0] === '{' || data[0] === '['
         ? (JSON.parse(data) as Array<any> | Record<string, any>)
         : undefined
-  } else if (data && React.isValidElement(data)) {
+  } else if (data && isValidElement(data)) {
     data = []
   } else if (typeof data === 'function') {
     data = data()
@@ -318,7 +318,7 @@ export function prepareStartupState(
   const selectedItem = null
   const rawData = preSelectData(
     props.data ||
-      (!React.isValidElement(props.children)
+      (!isValidElement(props.children)
         ? (props.children as DrawerListData)
         : undefined)
   )

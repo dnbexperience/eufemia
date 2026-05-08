@@ -8,15 +8,15 @@
     "downlevelIteration": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "es2020"
+    "target": "es2020",
+    "types": ["node", "vitest/globals"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.js",
     "__tests__/**/*.ts",
-    "scripts/**/*.ts",
-    "gatsby-node.ts"
+    "scripts/**/*.ts"
   ],
   "exclude": ["node_modules", "out"]
 }

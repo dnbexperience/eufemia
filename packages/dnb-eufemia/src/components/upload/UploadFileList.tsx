@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
@@ -6,7 +6,7 @@ import useUpload from './useUpload'
 import { isAsync } from '../../shared/helpers/isAsync'
 
 function UploadFileList() {
-  const context = React.useContext(UploadContext)
+  const context = useContext(UploadContext)
 
   const {
     id,

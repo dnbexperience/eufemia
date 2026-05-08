@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode, Ref } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ItemAction from '../ItemAction'
@@ -110,6 +110,50 @@ describe('ItemAction', () => {
     fireEvent.click(button)
 
     expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls onClick when the outer item element is clicked', () => {
+    const handleClick = jest.fn()
+
+    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls onClick when the outer item element is clicked with href', () => {
+    const handleClick = jest.fn()
+
+    render(
+      <ItemAction href="/foo" onClick={handleClick}>
+        Content
+      </ItemAction>
+    )
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call onClick when the outer item element is clicked while disabled', () => {
+    const handleClick = jest.fn()
+
+    render(
+      <ItemAction onClick={handleClick} disabled>
+        Content
+      </ItemAction>
+    )
+
+    const li = document.querySelector('.dnb-list__item__action')
+
+    fireEvent.click(li)
+
+    expect(handleClick).not.toHaveBeenCalled()
   })
 
   it('calls onClick when Enter key is pressed', () => {
@@ -598,8 +642,8 @@ describe('ItemAction', () => {
       ...rest
     }: {
       to: string
-      children: React.ReactNode
-      ref?: React.Ref<HTMLAnchorElement>
+      children: ReactNode
+      ref?: Ref<HTMLAnchorElement>
       preventScrollReset?: boolean
     }) {
       return (

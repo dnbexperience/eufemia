@@ -2,7 +2,13 @@
  * Web TermDefinition Component
  */
 
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type {
+  HTMLAttributes,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
@@ -16,11 +22,11 @@ export type TermDefinitionProps = {
   /**
    * The term shown as the anchor trigger.
    */
-  children: React.ReactNode
+  children: ReactNode
   /**
    * The explanatory text/content shown inside the tooltip.
    */
-  content: React.ReactNode
+  content: ReactNode
   /**
    * Optional CSS class for the anchor trigger.
    */
@@ -33,7 +39,7 @@ export type TermDefinitionProps = {
 
 export type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
-  React.HTMLAttributes<HTMLSpanElement>
+  HTMLAttributes<HTMLSpanElement>
 
 const defaultProps: Partial<TermDefinitionAllProps> = {
   placement: 'bottom',
@@ -70,7 +76,7 @@ export default function TermDefinition(
   }, [])
 
   const onClick = useCallback(
-    (e: React.MouseEvent<HTMLSpanElement>) => {
+    (e: MouseEvent<HTMLSpanElement>) => {
       e.preventDefault()
       toggle()
     },
@@ -78,7 +84,7 @@ export default function TermDefinition(
   )
 
   const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLSpanElement> & KeyboardEvent) => {
+    (e: KeyboardEvent<HTMLSpanElement> & KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
         toggle()

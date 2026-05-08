@@ -1,4 +1,5 @@
-import React from 'react'
+import { createContext, useContext } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
@@ -20,7 +21,7 @@ export type AvatarGroupProps = {
    * Label to describe the avatar group
    * Default: `null`
    */
-  label: React.ReactNode
+  label: ReactNode
 
   /**
    * Custom className on the component root
@@ -38,7 +39,7 @@ export type AvatarGroupProps = {
    * The avatars to group.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * The size of the Avatars, and "elements hidden text (+x)".
@@ -69,7 +70,7 @@ export type AvatarGroupProps = {
    * Default: `undefined`
    */
   color?: string
-} & Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'>
+} & Omit<HTMLProps<HTMLElement>, 'size' | 'label'>
 
 export type AvatarGroupAllProps = AvatarGroupProps & SpacingProps
 
@@ -80,15 +81,15 @@ const defaultProps: Partial<AvatarGroupAllProps> = {
   skeleton: false,
 }
 
-export const AvatarGroupContext = React.createContext(null)
+export const AvatarGroupContext = createContext(null)
 
-export const AvatarGroupItemContext = React.createContext<{
+export const AvatarGroupItemContext = createContext<{
   zIndex?: number
 } | null>(null)
 
 const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   // Every component should have a context
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   // Extract additional props from global context
   const {
     label,
@@ -162,7 +163,7 @@ export type AvatarElementsHiddenProps = {
    * The avatars to group.
    * Default: `null`
    */
-  children?: React.ReactNode
+  children?: ReactNode
 
   /**
    * The size of the "elements hidden text (+x)".

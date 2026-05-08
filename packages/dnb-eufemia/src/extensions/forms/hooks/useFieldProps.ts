@@ -1,13 +1,12 @@
-import type { AriaAttributes } from 'react'
-import type React from 'react'
 import {
-  useRef,
-  useEffect,
-  useContext,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
   useReducer,
+  useRef,
 } from 'react'
+import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { isZodSchema } from '../utils'
@@ -1172,7 +1171,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const sharedAttachments = createSharedState<{
-      fieldStatusRef?: React.RefObject<Record<Identifier, unknown>>
+      fieldStatusRef?: RefObject<Record<Identifier, unknown>>
     }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
@@ -1816,7 +1815,7 @@ export type ReturnAdditional<Value> = {
   updateValue: (value: Value) => void
   setChanged: (state: boolean) => void
   setDisplayValue: (
-    value: React.ReactNode,
+    value: ReactNode,
     { path, type }?: { path?: Identifier; type?: 'field' }
   ) => void
   forceUpdate: () => void

@@ -1,6 +1,14 @@
 ---
 title: 'Theming'
 order: 7
+showTabs: true
+tabs:
+  - title: Overview
+    key: /uilib/usage/customisation/theming
+  - title: Theme component
+    key: /uilib/usage/customisation/theming/theme
+  - title: Design Tokens
+    key: /uilib/usage/customisation/theming/design-tokens
 ---
 
 # Theming
@@ -29,7 +37,7 @@ Read more about [how to import styles](/uilib/usage/customisation/styling/consum
 
 However, giving the user the ability to switch a theme during runtime is a different challenge.
 
-The Eufemia Portal (documentation) uses [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) to handle it both in development and production mode.
+The Eufemia Portal (documentation) uses a dedicated runtime theme loader to handle it both in development and production mode.
 
 In future we may provide a built-in solution for runtime theme switching.
 
@@ -60,17 +68,7 @@ Use the `var()` function to reference a token in your CSS:
 }
 ```
 
-### Using tokens in your own styles
-
-When writing custom component styles, you can use design tokens with the `var(--token-*)` syntax. For example:
-
-```scss
-.my-component__title--warning {
-  color: var(--token-color-text-warning);
-}
-```
-
-### Dark surfaces
+## Dark surfaces
 
 Use `surface="dark"` on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
 
@@ -89,18 +87,25 @@ When set to `"auto"`, it follows the user's system color preference unless overr
 Dark mode tokens are not included in the default theme import. You need to import them separately:
 
 ```tsx
-import { Theme } from '@dnb/eufemia/shared'
+// DNB theme
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css' // Use --isolated.min.css for style isolation
 
-// Required: import dark mode tokens
-import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css' // If style isolation is used
+// Sbanken theme
+import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css'
+```
 
-render(
-  <Theme colorScheme="auto">
-    <App />
-  </Theme>
-)
+For Tailwind, dark tokens are in a separate file per theme:
+
+```css
+/* DNB theme */
+@import '@dnb/eufemia/style/themes/ui/tokens-dark-tailwind.css';
+
+/* Sbanken theme */
+@import '@dnb/eufemia/style/themes/sbanken/tokens-dark-tailwind.css';
 ```
 
 When the `eufemia-theme__color-scheme--dark` class is active, the dark tokens override the same CSS custom property names with dark-appropriate values. For example, `--token-color-background-page-background` switches from `--dnb-greyscale-0` (white) to `--dnb-greyscale-1000` (dark).
 
 Read more about the [colorScheme](/uilib/usage/customisation/theming/theme/) property, including [preventing dark mode flash (FOUC)](/uilib/usage/customisation/theming/theme/#preventing-dark-mode-flash-fouc) for SSR considerations.
+
+For guidance on choosing between base, `inverse`, and `ondark` token variants in dark mode, see the [Design Tokens dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode).

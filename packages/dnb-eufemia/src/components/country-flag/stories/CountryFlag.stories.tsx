@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Button, Dropdown, Flex, Icon, Input } from '../../'
 import CountryFlag from '../CountryFlag'
 

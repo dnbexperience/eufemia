@@ -1,4 +1,5 @@
-import React from 'react'
+import { useState } from 'react'
+import type { RefObject } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { TimelineAllProps } from '../Timeline'
 import Timeline from '../Timeline'
@@ -279,7 +280,7 @@ describe('Timeline', () => {
 
     it('should rerender sub components', () => {
       const TimelineMock = () => {
-        const [value, setValue] = React.useState('initial state')
+        const [value, setValue] = useState('initial state')
         return (
           <>
             <Timeline>
@@ -377,7 +378,7 @@ describe('Timeline', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLOListElement | null> = { current: null }
+    const ref: RefObject<HTMLOListElement | null> = { current: null }
 
     render(
       <Timeline

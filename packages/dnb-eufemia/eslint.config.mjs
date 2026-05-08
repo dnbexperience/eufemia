@@ -124,10 +124,19 @@ export default [
         },
       ],
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
       'import/namespace': 'off',
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message:
+                'Use named imports from "react" instead of the default React namespace import. E.g., import { useState } from "react" or import type { ReactNode } from "react".',
+            },
+          ],
           patterns: [
             {
               group: ['@dnb/eufemia/*'],
@@ -239,6 +248,14 @@ export default [
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message:
+                'Use named imports from "react" instead of the default React namespace import. E.g., import { useState } from "react" or import type { ReactNode } from "react".',
+            },
+          ],
           patterns: [
             {
               group: ['@dnb/eufemia/*'],
@@ -274,6 +291,12 @@ export default [
       parser: tsParser,
       ecmaVersion: 2020,
       sourceType: 'module',
+      parserOptions: {
+        // With the automatic JSX transform (react-jsx), importing React
+        // is not required for JSX. Setting jsxPragma to null lets
+        // @typescript-eslint/no-unused-vars flag unused React imports.
+        jsxPragma: null,
+      },
       globals: {
         ...esGlobals,
         ...browserGlobals,
@@ -343,11 +366,22 @@ export default [
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
     ...config,
     files: ['**/__tests__/**'],
+    settings: {
+      ...(config.settings || {}),
+      // Hardcoded because the jest package is no longer installed (vitest is the
+      // sole runner). eslint-plugin-jest still lints test files via the compat
+      // shim, but it can't auto-detect the version without the jest package.
+      jest: { version: 30 },
+    },
   })),
   {
     files: ['**/__tests__/**'],
     plugins: {
       jest: jestPlugin,
+    },
+    settings: {
+      // See comment above — jest package is removed; version must be explicit.
+      jest: { version: 30 },
     },
     rules: {
       'no-console': 'off',

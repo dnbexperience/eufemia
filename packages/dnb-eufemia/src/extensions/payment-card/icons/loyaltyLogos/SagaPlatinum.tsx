@@ -1,6 +1,5 @@
-import React from 'react'
-
-const SagaPlatinumSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const SagaPlatinumSVG = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="123"
     height="27"

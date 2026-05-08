@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import {
@@ -19,7 +19,7 @@ export const DrawerListExampleInteractive = () => (
     <ComponentBox scope={{ data }}>
       {() => {
         const DrawerListWithState = (props) => {
-          const [open, setOpen] = React.useState(false)
+          const [open, setOpen] = useState(false)
 
           return (
             <>
@@ -292,7 +292,7 @@ export const DrawerListExampleMarkup = () => (
           }
         `
         const DrawerListWithState = () => {
-          const [selected, setSelected] = React.useState('C')
+          const [selected, setSelected] = useState('C')
 
           return (
             <CustomWidth skipPortal open preventClose>

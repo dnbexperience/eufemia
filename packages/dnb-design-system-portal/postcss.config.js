@@ -1,19 +1,27 @@
 const {
-  enablePortalStyleScope,
-  enableBuildStyleScope,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
-const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope')
-const {
-  getStyleScopeHash,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
-const postcssFontUrlRewritePlugin = require('@dnb/eufemia/src/plugins/postcss-font-url-rewrite')
+  requireConfigTimeEufemiaModule,
+} = require('./vite/shared/eufemia-prebuild-paths.cjs')
+
+const { enablePortalStyleScope, enableBuildStyleScope } =
+  requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config'
+  )
+const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
+  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope'
+)
+const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
+  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs'
+)
+const postcssFontUrlRewritePlugin = requireConfigTimeEufemiaModule(
+  '@dnb/eufemia/src/plugins/postcss-font-url-rewrite'
+)
 const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
 
 module.exports = {
   plugins:
     /**
      * We also need to process the SASS modules from the portal.
-     * Because in "gatsby-config" we import the isolated files: *--isolated.min.css
+     * The portal imports isolated style files: *--isolated.min.css
      */
     enableBuildStyleScope() || enablePortalStyleScope()
       ? [
@@ -24,6 +32,7 @@ module.exports = {
               [getStyleScopeHash()]: 'eufemia-scope--portal',
             },
             verbose: false,
+            warnOnDeprecatedColorVariables: false,
           }),
           postcssThemeScopePlugin(),
           postcssFontUrlRewritePlugin({

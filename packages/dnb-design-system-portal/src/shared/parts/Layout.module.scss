@@ -125,26 +125,6 @@
       content: '';
     }
 
-    .gatsby-resp-image-wrapper {
-      margin-left: 0 !important; /* align the img to the left */
-      a {
-        padding: 0;
-        box-shadow: none;
-        &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon)::after {
-          content: none;
-        }
-
-        /* stylelint-disable-next-line */
-        img {
-          width: 100%;
-        }
-      }
-      a:hover img {
-        border-radius: 0.25rem; /* 4/16 */
-        box-shadow: 0 0 0 0.125rem var(--color-mint-green-50);
-      }
-    }
-
     .contains-task-list {
       padding-left: 0;
     }

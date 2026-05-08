@@ -1,4 +1,4 @@
-import React from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
 import ModalHeader from '../../modal/parts/ModalHeader'
@@ -15,8 +15,7 @@ export default function DialogHeader({
   size = 'large',
   ref,
   ...props
-}: DialogHeaderProps &
-  Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {
+}: DialogHeaderProps & Omit<HTMLProps<HTMLElement>, 'size' | 'children'>) {
   return (
     <ModalHeader
       {...props}

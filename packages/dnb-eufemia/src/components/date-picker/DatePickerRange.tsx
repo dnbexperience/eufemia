@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
+import type { HTMLProps, KeyboardEvent, MouseEvent } from 'react'
 
 import type { DatePickerCalendarProps } from './DatePickerCalendar'
 import DatePickerCalendar from './DatePickerCalendar'
@@ -14,7 +15,7 @@ import type { DatePickerChangeEvent } from './DatePickerProvider'
 export type DatePickerRangeViews = number | Record<string, unknown>[]
 
 export type DatePickerRangeProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'onChange'
 > &
   DatePickerCalendarProps & {
@@ -26,8 +27,7 @@ export type DatePickerRangeProps = Omit<
     hideNavigation?: boolean
     onPickerChange?: (
       event: DatePickerChangeEvent<
-        | React.MouseEvent<HTMLSpanElement>
-        | React.KeyboardEvent<HTMLTableElement>
+        MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
       >
     ) => void
   }
@@ -42,8 +42,7 @@ function DatePickerRange({
   const onSelect = useCallback(
     (
       event: DatePickerChangeEvent<
-        | React.MouseEvent<HTMLSpanElement>
-        | React.KeyboardEvent<HTMLTableElement>
+        MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
       > &
         DatePickerDates
     ) => {

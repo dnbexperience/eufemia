@@ -1,4 +1,3 @@
-import React from 'react'
 import { List, Section } from '../../../../../components'
 import { Field, Form, Value } from '../../..'
 

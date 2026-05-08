@@ -3,7 +3,8 @@
  *
  */
 
-import React, {
+import {
+  createElement,
   isValidElement,
   useCallback,
   useContext,
@@ -12,6 +13,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { ComponentType, HTMLAttributes } from 'react'
 import clsx from 'clsx'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
@@ -23,7 +25,7 @@ import AriaLive from '../AriaLive'
 
 type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
-  attributes?: React.HTMLAttributes<HTMLElement>
+  attributes?: HTMLAttributes<HTMLElement>
   targetRefreshKey?: TooltipProps['targetRefreshKey']
 }
 
@@ -182,7 +184,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
    */
   const componentWrapper = useMemo(() => {
     if (isValidElement<Record<string, unknown>>(target)) {
-      return React.createElement(target.type as React.ComponentType<any>, {
+      return createElement(target.type as ComponentType<any>, {
         ...target.props,
         ref: cloneRef,
         'aria-describedby': combineDescribedBy(
@@ -339,7 +341,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         onMouseEnter={handleOverlayMouseEnter}
         onMouseLeave={handleOverlayMouseLeave}
         role="tooltip"
-        {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
+        {...(restAttributes as HTMLAttributes<HTMLElement>)}
       >
         {children}
       </Popover>

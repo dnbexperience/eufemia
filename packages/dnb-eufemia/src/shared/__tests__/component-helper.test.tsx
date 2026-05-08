@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 
 import {
@@ -62,10 +62,10 @@ describe('"isTouchDevice" should', () => {
 
 describe('"defineNavigator" should', () => {
   it('add "os" as an attribute to the HTML tag', () => {
-    window.IS_TEST = true
+    globalThis.IS_TEST = true
     defineNavigator()
     expect(document.documentElement.getAttribute('data-os')).toBe('other')
-    window.IS_TEST = false
+    globalThis.IS_TEST = false
   })
 })
 
@@ -158,10 +158,10 @@ describe('"detectOutsideClick" should', () => {
     // Is there perhaps a better way to handle this?
     window.PointerEvent = undefined
 
-    const ignoreElementRef: React.RefObject<HTMLDivElement | null> = {
+    const ignoreElementRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
-    const wrapperElementRef: React.RefObject<HTMLDivElement | null> = {
+    const wrapperElementRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
     const onSuccess = jest.fn()

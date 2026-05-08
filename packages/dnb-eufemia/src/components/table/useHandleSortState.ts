@@ -1,4 +1,4 @@
-import React from 'react'
+import { useMemo, useState } from 'react'
 
 export type UseHandleSortStateOptions = {
   /**
@@ -65,7 +65,7 @@ export function useHandleSortState(
     modes: ['asc', 'desc', 'off'],
   }
 ) {
-  const initialState = React.useMemo(() => {
+  const initialState = useMemo(() => {
     return Object.entries(config).reduce((acc, [name, opts]) => {
       acc[name] = { ...defaults, ...opts }
 
@@ -73,10 +73,9 @@ export function useHandleSortState(
     }, {})
   }, [config, defaults])
 
-  const [internalState, setState] =
-    React.useState<TableSortState>(initialState)
+  const [internalState, setState] = useState<TableSortState>(initialState)
 
-  const sortHandler: TableSortHandler = React.useMemo(() => {
+  const sortHandler: TableSortHandler = useMemo(() => {
     const list = Object.entries(internalState as SortStateInternalEntry)
 
     return list.reduce((acc, [name, opts]) => {

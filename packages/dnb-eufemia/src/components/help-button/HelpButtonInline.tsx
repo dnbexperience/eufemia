@@ -1,5 +1,12 @@
-import type { AriaAttributes } from 'react'
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { memo, useCallback, useContext, useEffect, useRef } from 'react'
+import type {
+  AriaAttributes,
+  ElementType,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  RefObject,
+} from 'react'
 import clsx from 'clsx'
 import type { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -17,8 +24,8 @@ import { question as QuestionIcon, close as CloseIcon } from '../../icons'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type HelpProps = {
-  title?: React.ReactNode
-  content?: React.ReactNode
+  title?: ReactNode
+  content?: ReactNode
   renderAs?: 'inline' | 'dialog'
   /** Only for the "inline" variant */
   open?: boolean
@@ -45,7 +52,7 @@ export type HelpButtonInlineProps = HelpButtonProps & {
 export type HelpButtonInlineSharedStateDataProps = {
   isOpen: boolean
   isUserIntent?: boolean
-  buttonRef?: React.RefObject<HTMLButtonElement>
+  buttonRef?: RefObject<HTMLButtonElement>
   focusOnOpen?: boolean
 }
 
@@ -88,7 +95,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
     ({
       event,
     }: {
-      event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+      event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
       event.preventDefault() // Because when used inside a FormLabel
       toggleOpen()
@@ -97,7 +104,7 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (event.currentTarget === event.target) {
         switch (event.key) {
           case 'Escape':
@@ -159,8 +166,8 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
 export type HelpButtonInlineContentProps = SpacingProps & {
   contentId: string
   className?: string
-  element?: React.ElementType
-  children?: React.ReactNode
+  element?: ElementType
+  children?: ReactNode
   help?: HelpProps
   breakout?: boolean
   outset?: boolean
@@ -220,7 +227,7 @@ function HelpButtonInlineContentComponent(
   }, [update])
 
   const onKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (event.currentTarget === event.target) {
         switch (event.key) {
           case 'Enter':
@@ -298,11 +305,14 @@ function HelpButtonInlineContentComponent(
                 right: 'x-small',
               }
         }
-        backgroundColor="lavender"
         {...rest}
       >
         <Flex.Vertical gap="x-small">
-          {title && <P weight="medium">{title}</P>}
+          {title && (
+            <P weight="medium" element="div">
+              {title}
+            </P>
+          )}
           {content && <P element="div">{content}</P>}
         </Flex.Vertical>
         {children}
@@ -320,10 +330,10 @@ function HelpButtonIcon() {
   )
 }
 
-const MemoizedHelpButtonInline = React.memo(HelpButtonInline)
+const MemoizedHelpButtonInline = memo(HelpButtonInline)
 export default MemoizedHelpButtonInline
 
-export const HelpButtonInlineContent = React.memo(
+export const HelpButtonInlineContent = memo(
   HelpButtonInlineContentComponent
 )
 

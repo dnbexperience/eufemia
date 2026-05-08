@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
@@ -396,7 +396,7 @@ describe('PushButton', () => {
       let containerModeOfFirstItem = null
 
       const ContainerModeConsumer = () => {
-        const context = React.useContext(IterateItemContext)
+        const context = useContext(IterateItemContext)
         if (context.index === 0) {
           containerModeOfFirstItem = context.containerMode
         }

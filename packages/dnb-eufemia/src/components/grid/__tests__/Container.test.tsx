@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import Grid from '../Grid'
@@ -159,7 +159,7 @@ describe('Grid.Container', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Grid.Container ref={ref}>

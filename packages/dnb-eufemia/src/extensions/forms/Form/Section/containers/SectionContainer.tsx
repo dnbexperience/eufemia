@@ -1,10 +1,11 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useReducer,
   useRef,
 } from 'react'
+import type { RefObject } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../../components'
 import type { SectionContainerContextState } from './SectionContainerContext'
@@ -26,7 +27,7 @@ export type SectionContainerAllProps = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
-  omitFocusManagementRef?: React.RefObject<boolean | undefined>
+  omitFocusManagementRef?: RefObject<boolean | undefined>
 } & SectionContainerProps
 
 function SectionContainer(

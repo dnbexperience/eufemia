@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { getTheme } from '@dnb/eufemia/src/shared/Theme'
-// Use setTheme from the gatsby plugin – it emits theme change events
-// that useThemeHandler() in PortalProviders listens to.
-import { setTheme } from 'gatsby-plugin-eufemia-theme-handler'
+import { setTheme } from '../../vite/client/shims/theme-handler'
 import type { ThemeColorScheme } from '@dnb/eufemia/src/shared/Theme'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 

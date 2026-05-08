@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 type StatRootContextValue = {
@@ -6,7 +6,7 @@ type StatRootContextValue = {
   skeleton?: SkeletonShow
 }
 
-const StatRootContext = React.createContext<StatRootContextValue>({
+const StatRootContext = createContext<StatRootContextValue>({
   inRoot: false,
   skeleton: undefined,
 })

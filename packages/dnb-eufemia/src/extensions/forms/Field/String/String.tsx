@@ -1,9 +1,9 @@
-import React, {
-  useContext,
-  useMemo,
-  useCallback,
-  useEffect,
-  useRef,
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import type {
+  HTMLAttributes,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import { Input, Textarea } from '../../../../components'
@@ -29,7 +29,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
   /** Ref to the underlying input or textarea element. */
-  ref?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  ref?: RefObject<HTMLInputElement | HTMLTextAreaElement>
   /** Defines the width of the field block container. */
   width?: FieldBlockWidth
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
@@ -83,19 +83,19 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   /** HTML `autocomplete` attribute for browser autofill hints. */
   autoComplete?: HTMLInputElement['autocomplete']
   /** Hint for the virtual keyboard type on touch devices, e.g. `numeric`, `email`, `tel`. */
-  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
+  inputMode?: HTMLAttributes<HTMLInputElement>['inputMode']
   /** Controls browser autocorrect behavior. */
-  autoCorrect?: React.HTMLAttributes<HTMLInputElement>['autoCorrect']
+  autoCorrect?: HTMLAttributes<HTMLInputElement>['autoCorrect']
   /** Controls browser spell-checking behavior. */
-  spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
+  spellCheck?: HTMLAttributes<HTMLInputElement>['spellCheck']
   /** If `true`, the input receives focus when the component mounts. */
-  autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
+  autoFocus?: HTMLAttributes<HTMLInputElement>['autoFocus']
   /** Controls text auto-capitalization on touch devices. */
-  autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
+  autoCapitalize?: HTMLAttributes<HTMLInputElement>['autoCapitalize']
 
   // - Events
   /** Callback fired when a key is pressed while the input has focus. */
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
 function StringComponent(props: FieldStringProps) {
@@ -270,7 +270,7 @@ function StringComponent(props: FieldStringProps) {
 
   const { handleSubmit } = dataContext ?? {}
   const handleKeyDown = useCallback(
-    ({ event }: { event: React.KeyboardEvent<HTMLInputElement> }) => {
+    ({ event }: { event: KeyboardEvent<HTMLInputElement> }) => {
       if (
         !multiline &&
         dataContext?.props?.isolate &&

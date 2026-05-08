@@ -3,15 +3,15 @@
  *
  */
 
-import React from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { DynamicElement } from '@dnb/eufemia/src/shared/types'
 
 type Props = {
   as: DynamicElement
-  css?: React.CSSProperties
+  css?: CSSProperties
   className?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const Tag = ({ children, className, as: Component, ...rest }: Props) => {

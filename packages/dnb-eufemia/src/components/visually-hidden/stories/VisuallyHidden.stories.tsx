@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 
 import { Provider } from '../../../shared'

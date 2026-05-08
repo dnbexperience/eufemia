@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HeightAnimation, P } from '@dnb/eufemia/src'
 import {
@@ -64,7 +64,7 @@ export const InferData = () => {
           const { data } = Form.useData('example-form', {
             toggleValue: false,
           })
-          const inferDataFunc = React.useCallback(
+          const inferDataFunc = useCallback(
             () => data.toggleValue,
             [data.toggleValue]
           )

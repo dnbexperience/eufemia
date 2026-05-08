@@ -1,4 +1,5 @@
-import React from 'react'
+import { createElement, isValidElement, useContext } from 'react'
+import type { ButtonHTMLAttributes, ComponentType, ReactNode } from 'react'
 import clsx from 'clsx'
 import Context from '../../../shared/Context'
 import { applySpacing } from '../../space/SpacingUtils'
@@ -9,18 +10,18 @@ import type { SpacingProps } from '../../../shared/types'
 import ButtonContent from '../../button/internal/ButtonContent'
 
 type CloseButtonProps = Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  ButtonHTMLAttributes<HTMLButtonElement>,
   'type'
 > &
   SpacingProps & {
     type?: string
-    icon?: IconIcon | React.ReactNode
+    icon?: IconIcon | ReactNode
     iconSize?: IconSize
     iconPosition?: 'left' | 'right' | 'top'
     variant?: 'primary' | 'secondary' | 'tertiary' | 'unstyled'
     size?: 'default' | 'small' | 'medium' | 'large'
-    text?: React.ReactNode
-    children?: React.ReactNode
+    text?: ReactNode
+    children?: ReactNode
     stretch?: boolean
     wrap?: boolean
     skeleton?: SkeletonShow
@@ -42,13 +43,13 @@ export default function PopoverCloseButton({
   skeleton,
   ...rest
 }: CloseButtonProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const hasIcon = Boolean(icon)
   const content = text ?? children
   const hasContent = Boolean(content)
   const isIconOnly = Boolean(hasIcon && !hasContent)
-  const iconElement = React.isValidElement<{ className?: string }>(icon)
-    ? React.createElement(icon.type as React.ComponentType<any>, {
+  const iconElement = isValidElement<{ className?: string }>(icon)
+    ? createElement(icon.type as ComponentType<any>, {
         ...icon.props,
         className: clsx(icon.props.className, 'dnb-button__icon'),
       })
@@ -125,7 +126,7 @@ export default function PopoverCloseButton({
       type: resolvedType,
       ...rest,
     }
-  ) as React.ButtonHTMLAttributes<HTMLButtonElement>
+  ) as ButtonHTMLAttributes<HTMLButtonElement>
 
   return (
     <button {...buttonProps}>

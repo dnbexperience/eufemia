@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Fragment } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ListFormat, { listFormat } from '../ListFormat'
 import { Provider } from '../../../shared'
@@ -56,11 +56,11 @@ describe('ListFormat', () => {
     const { container } = render(
       <ListFormat
         value={[
-          <React.Fragment key="a">A</React.Fragment>,
-          <React.Fragment key="b">
+          <Fragment key="a">A</Fragment>,
+          <Fragment key="b">
             <b>B</b>
-          </React.Fragment>,
-          <React.Fragment key="c">C</React.Fragment>,
+          </Fragment>,
+          <Fragment key="c">C</Fragment>,
           'D',
           123,
         ]}
@@ -83,11 +83,11 @@ describe('ListFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment in value prop', () => {
     const withRootFragment = [
-      <React.Fragment key="fragment">
+      <Fragment key="fragment">
         <span key="a">a</span>
         <span key="b">b</span>
         <span key="c">c</span>
-      </React.Fragment>,
+      </Fragment>,
     ]
     const withoutRootFragment = [
       <span key="a">a</span>,
@@ -109,11 +109,11 @@ describe('ListFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment as children', () => {
     const withRootFragment = [
-      <React.Fragment key="fragment">
+      <Fragment key="fragment">
         <span key="a">a</span>
         <span key="b">b</span>
         <span key="c">c</span>
-      </React.Fragment>,
+      </Fragment>,
     ]
     const withoutRootFragment = [
       <span key="a">a</span>,
@@ -407,9 +407,9 @@ describe('ListFormat', () => {
   it('should render different `listTypes` using children as JSX with keys', () => {
     const values = (
       <>
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        <Fragment key="123">123</Fragment>
+        <Fragment key="456">456</Fragment>
+        <Fragment key="789">789</Fragment>
       </>
     )
     const { container, rerender } = render(
@@ -506,9 +506,9 @@ describe('ListFormat', () => {
     const { container } = render(
       <Provider locale="en-GB">
         <ListFormat>
-          <React.Fragment key="123">Baz</React.Fragment>
-          <React.Fragment key="456">Bar</React.Fragment>
-          <React.Fragment key="789">Foo</React.Fragment>
+          <Fragment key="123">Baz</Fragment>
+          <Fragment key="456">Bar</Fragment>
+          <Fragment key="789">Foo</Fragment>
         </ListFormat>
       </Provider>
     )
@@ -606,11 +606,11 @@ describe('listFormat', () => {
 
   it('accepts array with jsx values with keys', () => {
     const result = listFormat([
-      <React.Fragment key="a">A</React.Fragment>,
-      <React.Fragment key="b">
+      <Fragment key="a">A</Fragment>,
+      <Fragment key="b">
         <b>B</b>
-      </React.Fragment>,
-      <React.Fragment key="c">C</React.Fragment>,
+      </Fragment>,
+      <Fragment key="c">C</Fragment>,
       'D',
       123,
     ])
@@ -620,11 +620,11 @@ describe('listFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment', () => {
     const withRootFragment = listFormat([
-      <React.Fragment key="fragment">
+      <Fragment key="fragment">
         <span key="a">a</span>
         <span key="b">b</span>
         <span key="c">c</span>
-      </React.Fragment>,
+      </Fragment>,
     ])
     const withoutRootFragment = listFormat([
       <span key="a">a</span>,

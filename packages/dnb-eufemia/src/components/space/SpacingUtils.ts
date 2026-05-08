@@ -3,6 +3,7 @@
  *
  */
 
+import type { CSSProperties } from 'react'
 import clsx, { type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
@@ -81,7 +82,7 @@ export const calc = (...types: Array<SpaceType>) => {
  */
 export const createSpacingProperties = (
   props: InnerSpacingProps
-): React.CSSProperties => {
+): CSSProperties => {
   if (props?.innerSpace) {
     return computeProperties(props.innerSpace)
   }
@@ -104,7 +105,7 @@ export const createSpacingProperties = (
  */
 export const createMarginProperties = (
   props: SpacingProps | SpacingUnknownProps
-): React.CSSProperties => {
+): CSSProperties => {
   return computeMarginProperties(props)
 }
 
@@ -159,7 +160,7 @@ function mergeSpacing(
 
 function computeMarginProperties(
   props: SpacingProps | SpacingUnknownProps
-): React.CSSProperties {
+): CSSProperties {
   const { space, top, right, bottom, left } = props as SpacingProps
   const individualProps = { top, right, bottom, left }
   const hasMedia = hasMediaSize(space as InnerSpaceTypeMedia)
@@ -218,7 +219,7 @@ function computeMarginProperties(
     }
   }
 
-  return result as React.CSSProperties
+  return result as CSSProperties
 }
 
 function hasMediaSize(media: InnerSpaceTypeMedia | null | undefined) {
@@ -273,7 +274,7 @@ function computeProperties(space: InnerSpaceType) {
     }
   }
 
-  return result as React.CSSProperties
+  return result as CSSProperties
 }
 
 function transformToAll(value: SpaceType | InnerSpacingElementProps) {
@@ -426,7 +427,7 @@ const collectSpacingClasses = (
 
 export type SpacingReturn = {
   className: string[]
-  style: React.CSSProperties | undefined
+  style: CSSProperties | undefined
 }
 
 /**
@@ -461,7 +462,7 @@ export const createSpacing = (
 
 export type ApplySpacingTarget = {
   className?: ClassValue
-  style?: React.CSSProperties
+  style?: CSSProperties
 } & Record<string, unknown>
 
 /**

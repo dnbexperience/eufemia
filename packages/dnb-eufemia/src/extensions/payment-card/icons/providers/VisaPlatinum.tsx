@@ -1,6 +1,5 @@
-import React from 'react'
-
-const VisaPlatinumSVG = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const VisaPlatinumSVG = (props: SVGProps<SVGSVGElement>) => (
   <div style={{ color: '#CCCCCC' }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"

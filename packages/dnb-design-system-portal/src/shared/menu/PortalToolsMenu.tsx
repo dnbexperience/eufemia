@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -80,18 +80,40 @@ export default function PortalToolsMenu({
 }: Props) {
   const { skeleton } = useContext(Context)
   const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
-  const [isOpen, setIsOpen] = useState(() =>
-    getStoredPortalToolsOpen(storageKey)
-  )
+  const [isOpen, setIsOpen] = useState(false)
   const { name: themeName, colorScheme } = getTheme()
   const themeKey = `${themeName}:${colorScheme || 'auto'}`
-  const [disableAnimation, setDisableAnimation] = useState(isOpen)
+  // Start with animation disabled so the initial open=false render
+  // uses the immediate close path in Modal, avoiding a 300ms timer
+  // that would race with the restore effect and close the drawer.
+  const [disableAnimation, setDisableAnimation] = useState(true)
   const previousThemeKeyRef = useRef(themeKey)
   const themeChanged = previousThemeKeyRef.current !== themeKey
+  const restoredRef = useRef(false)
   const noAnimation = disableAnimation || themeChanged
 
+  // Restore open state from sessionStorage after hydration to avoid
+  // a mismatch between server (always closed) and client.
   useEffect(() => {
-    if (!disableAnimation) {
+    if (restoredRef.current) {
+      return
+    }
+    const stored = getStoredPortalToolsOpen(storageKey)
+    if (stored) {
+      restoredRef.current = true
+      setDisableAnimation(true)
+      setIsOpen(true)
+    }
+  }, [storageKey])
+
+  useEffect(() => {
+    if (!disableAnimation || restoredRef.current) {
+      return
+    }
+
+    // Only reset after the drawer has been opened at least once,
+    // so the initial true value doesn't get cleared prematurely.
+    if (!isOpen) {
       return
     }
 
@@ -102,7 +124,7 @@ export default function PortalToolsMenu({
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [disableAnimation])
+  }, [disableAnimation, isOpen])
 
   useLayoutEffect(() => {
     if (themeChanged && isOpen) {
@@ -113,11 +135,14 @@ export default function PortalToolsMenu({
   }, [isOpen, themeChanged, themeKey])
 
   const handleOpen = useCallback(() => {
+    restoredRef.current = false
     setIsOpen(true)
     setStoredPortalToolsOpen(true, storageKey)
   }, [storageKey])
 
   const handleClose = useCallback(() => {
+    restoredRef.current = false
+    setDisableAnimation(false)
     setIsOpen(false)
     setStoredPortalToolsOpen(false, storageKey)
   }, [storageKey])

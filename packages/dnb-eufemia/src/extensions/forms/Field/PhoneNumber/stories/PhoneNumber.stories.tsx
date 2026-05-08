@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { Field, Form, FormError, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 import type { AdditionalArgs } from '../PhoneNumber'
@@ -28,7 +28,7 @@ const onChangeValidator = async (value) => {
 export function PhoneNumber() {
   const { update } = Form.useData('uniqueId')
 
-  React.useEffect(() => {
+  useEffect(() => {
     update('/phone', () => '+41123')
   }, [update])
 

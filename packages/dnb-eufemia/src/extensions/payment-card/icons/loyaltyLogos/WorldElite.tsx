@@ -1,6 +1,5 @@
-import React from 'react'
-
-const WorldElite = (props: React.SVGProps<SVGSVGElement>) => (
+import type { SVGProps } from 'react'
+const WorldElite = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="95"
     height="27"

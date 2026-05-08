@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
+import type { ElementType } from 'react'
 import clsx from 'clsx'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { applySpacing } from '../space/SpacingUtils'
@@ -29,7 +30,7 @@ import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
 
 export function SliderInstance() {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const {
     isReverse,
@@ -115,7 +116,7 @@ export function SliderInstance() {
             {extensions &&
               Object.entries(extensions).map(
                 ([key, { instance, ...options }]) => {
-                  const Element = instance as React.ElementType
+                  const Element = instance as ElementType
                   return <Element key={key} {...options} />
                 }
               )}

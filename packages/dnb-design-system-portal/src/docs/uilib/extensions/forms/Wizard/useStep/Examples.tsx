@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Wizard } from '@dnb/eufemia/src/extensions/forms'

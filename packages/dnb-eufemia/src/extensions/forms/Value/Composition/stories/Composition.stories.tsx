@@ -1,4 +1,3 @@
-import React from 'react'
 import { Value } from '../../..'
 import { Flex } from '../../../../../components'
 

@@ -1,5 +1,9 @@
 /**
  * This is written in JavaScript, because it is used directly by PostCSS.
+ *
+ * NOTE: "postcss-selector-parser" must be a production dependency (not devDependency)
+ * because this plugin ships in the published package (build/plugins/) and is used
+ * at build-time by consumers for style isolation.
  */
 
 const path = require('path')
@@ -10,6 +14,9 @@ const {
 } = require('./plugin-utils.js')
 const { getStyleScopeHash } = require('./plugin-scope-hash.cjs')
 
+const DESIGN_TOKENS_GUIDE_URL =
+  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+
 const postcssIsolateStyle = (opts = {}) => {
   const {
     scopeHash = 'auto',
@@ -19,6 +26,7 @@ const postcssIsolateStyle = (opts = {}) => {
     replaceClassNames = undefined,
     verbose = false,
     runAsCssModule = false,
+    warnOnDeprecatedColorVariables = true,
   } = opts
 
   const currentFallbackHash = getStyleScopeHash()
@@ -38,9 +46,28 @@ const postcssIsolateStyle = (opts = {}) => {
   return {
     postcssPlugin: 'isolated-style-scope-plugin',
 
-    Once(root) {
+    Once(root, { result }) {
       const file = root.source?.input?.file ?? ''
       const isCssModule = runAsCssModule || file.includes('.module.')
+
+      if (warnOnDeprecatedColorVariables) {
+        const colorVariableRegex = /--color-[a-z0-9-]+/g
+
+        root.walkDecls((decl) => {
+          for (const value of [decl.prop, decl.value]) {
+            const matches = value.match(colorVariableRegex)
+
+            if (matches) {
+              for (const variable of new Set(matches)) {
+                decl.warn(
+                  result,
+                  `Deprecated CSS color variable "${variable}" detected. Use a design token instead. See ${DESIGN_TOKENS_GUIDE_URL} for more information.`
+                )
+              }
+            }
+          }
+        })
+      }
 
       let fileFallbackHash = null
       // - Get the scope hash from the file

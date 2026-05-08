@@ -3,7 +3,8 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState, useCallback } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode, SyntheticEvent } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -111,7 +112,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       event,
     }: {
       value: ToggleButtonGroupValue
-      event: React.SyntheticEvent
+      event: SyntheticEvent
     }) => {
       const currentValues = [...(valuesRef.current || [])]
 
@@ -316,7 +317,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                   `dnb-toggle-button-group__shell__children--${layoutDirection}`
                 )}
               >
-                {children as React.ReactNode}
+                {children as ReactNode}
 
                 {suffix && (
                   <Suffix
@@ -324,7 +325,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                     id={id + '-suffix'} // used for "aria-describedby"
                     context={props as Record<string, unknown>}
                   >
-                    {suffix as React.ReactNode}
+                    {suffix as ReactNode}
                   </Suffix>
                 )}
               </span>
@@ -351,8 +352,8 @@ import type { SpacingProps, SpaceType } from '../../shared/types'
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonGroupSuffix =
   | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+  | (() => ReactNode)
+  | ReactNode
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row'
 export type ToggleButtonGroupValue =
   | string
@@ -362,17 +363,17 @@ export type ToggleButtonGroupValue =
 export type ToggleButtonGroupValues = string | ToggleButtonGroupValue[]
 export type ToggleButtonGroupChildren =
   | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+  | (() => ReactNode)
+  | ReactNode
 
 export type ToggleButtonGroupChangeEvent = {
   value: ToggleButtonGroupValue
   values: ToggleButtonGroupValues
-  event: React.SyntheticEvent
+  event: SyntheticEvent
 }
 
 export type ToggleButtonGroupProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'label' | 'value' | 'children' | 'onChange' | 'size'
 > &
   Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> &
@@ -380,7 +381,7 @@ export type ToggleButtonGroupProps = Omit<
     /**
      * Use either the `label` property or provide a custom one.
      */
-    label?: string | React.ReactNode
+    label?: string | ReactNode
     labelDirection?: 'horizontal' | 'vertical'
     labelSrOnly?: boolean
     /**
@@ -392,7 +393,7 @@ export type ToggleButtonGroupProps = Omit<
      */
     checked?: boolean
     variant?: ToggleButtonGroupVariant
-    leftComponent?: React.ReactNode
+    leftComponent?: ReactNode
     disabled?: boolean
     /**
      * If set to `true`, an overlaying skeleton with animation will be shown.

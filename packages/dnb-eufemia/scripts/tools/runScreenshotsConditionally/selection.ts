@@ -29,7 +29,7 @@ export function toPackageRelativePath(
     normalizedPath.startsWith('src/') ||
     normalizedPath.startsWith('scripts/') ||
     normalizedPath === 'package.json' ||
-    normalizedPath === 'jest.config.screenshots.js' ||
+    normalizedPath === 'playwright.config.screenshots.ts' ||
     normalizedPath === 'playwright.config'
   ) {
     return normalizedPath

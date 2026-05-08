@@ -1,9 +1,9 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
-function renderInRoot(node: React.ReactNode) {
+function renderInRoot(node: ReactNode) {
   return render(
     <Stat.Root>
       <Stat.Label>Revenue</Stat.Label>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import AriaLive from '../AriaLive'
 import { axeComponent } from '../../../core/jest/jestSetup'

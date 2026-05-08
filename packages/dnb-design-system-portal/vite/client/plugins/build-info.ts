@@ -1,7 +1,6 @@
 /**
  * Vite plugin that provides portal build information via a virtual module.
  *
- * Replaces the Gatsby approach of mutating package.json fields
  * (`buildVersion`, `releaseVersion`, `changelogVersion`) via
  * scripts/version.js before the build.
  *
@@ -63,7 +62,7 @@ export function getBuildInfo({
     // Ignore — use default
   }
 
-  // Build timestamp in Norwegian locale (matches the Gatsby version.js output)
+  // Build timestamp in Norwegian locale
   const buildVersion = new Date().toLocaleString('nb-NO', {
     timeZone: 'Europe/Oslo',
   })
@@ -73,6 +72,17 @@ export function getBuildInfo({
 
 export default function buildInfoPlugin(): Plugin {
   const buildInfoFile = path.resolve(portalRoot, 'src/shared/buildInfo.ts')
+
+  // Compute build info once and store in an env var so the SSR prerender
+  // worker (which spawns a separate Vite server in a worker thread)
+  // uses the same timestamp as the client build.
+  let info: BuildInfo
+  if (process.env.__PORTAL_BUILD_INFO) {
+    info = JSON.parse(process.env.__PORTAL_BUILD_INFO)
+  } else {
+    info = getBuildInfo()
+    process.env.__PORTAL_BUILD_INFO = JSON.stringify(info)
+  }
 
   return {
     name: 'portal-build-info',
@@ -89,7 +99,6 @@ export default function buildInfoPlugin(): Plugin {
         id === buildInfoFile ||
         id.replace(/\?.*$/, '') === buildInfoFile
       ) {
-        const info = getBuildInfo()
         return [
           `export const releaseVersion = ${JSON.stringify(info.releaseVersion)}`,
           `export const buildVersion = ${JSON.stringify(info.buildVersion)}`,

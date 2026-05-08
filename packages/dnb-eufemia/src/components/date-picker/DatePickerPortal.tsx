@@ -1,17 +1,13 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 import type { DatePickerProps } from './DatePicker'
 import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
 
-type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
+type DatePickerPortalProps = HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
   alignment?: DatePickerProps['alignPicker']
-  targetElementRef?: React.RefObject<HTMLElement>
+  targetElementRef?: RefObject<HTMLElement>
 }
 
 export default function DatePickerPortal({

@@ -9,7 +9,6 @@
 
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
-import { LLM_DOCS_SLUG_PREFIX } from 'eufemia-llm-metadata'
 
 export type RouteEntry = {
   path?: string
@@ -32,7 +31,6 @@ export type PageMeta = {
  * Collect all URLs to prerender from the route list.
  *
  * Filters out catch-all routes (`*`) and 404 routes.
- * Ensures trailing slashes to match Gatsby output convention.
  * Always includes the root `/`.
  */
 export function collectUrls(routes: RouteEntry[]): string[] {
@@ -84,6 +82,25 @@ export function getPageMeta(
 
     if (parent?.frontmatter?.title) {
       title = parent.frontmatter.title as string
+
+      // For tab pages (showTabs but no own title), construct
+      // "ParentTitle → TabTitle" to match the client-side title.
+      if (node.frontmatter.showTabs) {
+        const tabKey = '/' + slug.split('/').pop()
+        const defaultTabs = [
+          { title: 'Info', key: '/info' },
+          { title: 'Demos', key: '/demos' },
+          { title: 'Properties', key: '/properties' },
+          { title: 'Events', key: '/events' },
+        ]
+        const tabs =
+          (parent.frontmatter.tabs as typeof defaultTabs) || defaultTabs
+        const tab = tabs.find((t) => t.key === tabKey)
+
+        if (tab?.title) {
+          title = `${parent.frontmatter.title} → ${tab.title}`
+        }
+      }
     }
 
     if (!description && parent?.frontmatter?.description) {
@@ -97,20 +114,19 @@ export function getPageMeta(
 /**
  * Resolve the markdown alternate link path for a URL.
  *
- * Only /uilib/ pages get markdown links. The LLM metadata generator
- * creates .md files for "entry" MDX files (those with a title in
- * frontmatter), not for tab sub-pages. For tab pages, we walk up
- * the slug path to find the nearest entry parent.
+ * The LLM metadata generator creates .md files for "entry" MDX files
+ * (those with a title in frontmatter), not for tab sub-pages. For tab
+ * pages, we walk up the slug path to find the nearest entry parent.
  */
 export function getMdPath(
   url: string,
   allMdxNodes: MdxNode[]
 ): string | null {
-  if (!url.startsWith(`/${LLM_DOCS_SLUG_PREFIX}/`)) {
+  const slug = url.replace(/^\/|\/$/g, '')
+
+  if (!slug) {
     return null
   }
-
-  const slug = url.replace(/^\/|\/$/g, '')
 
   // Build a set of entry slugs — pages that get their own .md file
   // from the LLM metadata generator. Entry pages have a title in
@@ -118,10 +134,7 @@ export function getMdPath(
   const entrySlugs = new Set<string>()
   for (const node of allMdxNodes) {
     const s = node.fields.slug
-    if (
-      s.startsWith(`${LLM_DOCS_SLUG_PREFIX}/`) &&
-      node.frontmatter.title
-    ) {
+    if (node.frontmatter.title) {
       entrySlugs.add(s)
     }
   }
@@ -200,13 +213,59 @@ export function injectHtml(
   },
   themeCssPaths?: Record<string, string>
 ): string {
+  // React 19 injects <link rel="preload"> elements inline during
+  // renderToString for resources like images. Strip them from the app
+  // HTML and move them to <head> so they don't break client-side
+  // hydration (React can't match the DOM when unexpected <link>
+  // elements appear before the root component's first element).
+  const reactPreloadLinks: string[] = []
+  appHtml = appHtml.replace(/<link rel="preload"[^>]*\/>/g, (match) => {
+    reactPreloadLinks.push(match)
+    return ''
+  })
+
+  // StaticRouterProvider injects a <script> with hydration data that
+  // is not needed for our hydration approach. Strip it so it doesn't
+  // appear inside the root container as unexpected DOM content.
+  appHtml = appHtml.replace(
+    /<script>window\.__staticRouterHydrationData\s*=[^<]*<\/script>/,
+    ''
+  )
+
+  // React's renderToString serializes CSS custom properties in inline
+  // styles without spaces (e.g. "--var:value") while the browser
+  // normalizes them with spaces ("--var: value;"). This causes
+  // hydration mismatches. Normalize the format to match the browser.
+  appHtml = appHtml.replace(
+    /style="([^"]*)"/g,
+    (_match: string, styleContent: string) => {
+      const normalized = styleContent
+        .split(';')
+        .filter(Boolean)
+        .map((decl: string) => {
+          const colonIdx = decl.indexOf(':')
+          if (colonIdx === -1) return decl
+          const prop = decl.slice(0, colonIdx).trim()
+          const value = decl.slice(colonIdx + 1).trim()
+          return `${prop}: ${value}`
+        })
+        .join('; ')
+      return normalized ? `style="${normalized};"` : 'style=""'
+    }
+  )
+
   // Inject the prerendered HTML into the root div, followed by a
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
+
+  // Restore sidebar scroll position before first paint so the menu
+  // doesn't flash at the top before jumping to the saved position.
+  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(localStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n	<script>${contentScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -303,6 +362,13 @@ export function injectHtml(
       .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
       .join('\n    ')
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
+  }
+
+  // Inject React-generated preload links that were stripped from the
+  // app HTML to avoid hydration mismatches.
+  if (reactPreloadLinks.length > 0) {
+    const linkTags = reactPreloadLinks.join('\n    ')
+    html = html.replace('</head>', `    ${linkTags}\n  </head>`)
   }
 
   return html

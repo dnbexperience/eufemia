@@ -1,4 +1,10 @@
 .dnb-forms-field-expiry {
+  width: fit-content;
+
+  .dnb-forms-field-block__contents {
+    width: fit-content;
+  }
+
   .dnb-segmented-field__fieldset {
     width: var(--forms-field-width--small);
   }

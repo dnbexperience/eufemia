@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Field } from '../../..'
 
 export default {
@@ -6,8 +6,8 @@ export default {
 }
 
 export function Address() {
-  const [state, update] = React.useState(' Dronning Eufemias gate 30 ')
-  React.useEffect(() => {
+  const [state, update] = useState(' Dronning Eufemias gate 30 ')
+  useEffect(() => {
     update(' Dronning Eufemias gate 30 ')
   }, [])
 

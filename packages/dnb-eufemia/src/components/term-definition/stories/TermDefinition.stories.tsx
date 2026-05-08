@@ -1,4 +1,3 @@
-import React from 'react'
 import TermDefinition from '../TermDefinition'
 import '../style/dnb-term-definition.scss'
 import { P } from '../../../elements'

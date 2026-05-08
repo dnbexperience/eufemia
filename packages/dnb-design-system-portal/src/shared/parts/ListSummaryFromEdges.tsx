@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import Anchor from '../tags/Anchor'
@@ -44,8 +44,8 @@ export default function ListSummaryFromEdges({
   returnListItems = false,
   ...props
 }: ListSummaryFromEdgesProps) {
-  const ListWrapper = returnListItems ? Ul : React.Fragment
-  const ItemWrapper = returnListItems ? Li : React.Fragment
+  const ListWrapper = returnListItems ? Ul : Fragment
+  const ItemWrapper = returnListItems ? Li : Fragment
 
   resetLevels((level || 2) as InternalHeadingLevel)
 

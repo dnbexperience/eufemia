@@ -1,5 +1,5 @@
-import React from 'react'
 import { render, fireEvent, createEvent } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
@@ -48,14 +48,33 @@ describe('Table using mode="navigation" prop', () => {
     )
   })
 
-  it('should emit onClick event when clicking tr', () => {
-    const onClick = jest.fn()
-    const trid = '123'
+  it('clickable tr should have role="row"', () => {
+    render(
+      <Table mode="navigation">
+        <tbody>
+          <Tr onClick={jest.fn()}>
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const element = document.querySelector('tr')
+
+    expect(element.getAttribute('role')).toBe('row')
+  })
+
+  it('should emit onClick and expose data attributes on the tr', () => {
+    let currentTarget: HTMLElement | null = null
+
+    const onClick = jest.fn((event) => {
+      currentTarget = event.currentTarget
+    })
 
     render(
       <Table mode="navigation">
         <tbody>
-          <Tr onClick={onClick} data-trid={trid}>
+          <Tr onClick={onClick} data-row-number="42">
             <Td>content</Td>
           </Tr>
         </tbody>
@@ -63,14 +82,33 @@ describe('Table using mode="navigation" prop', () => {
     )
 
     const trElement = document.querySelector('tr')
+    fireEvent.click(trElement)
 
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(currentTarget).toBe(trElement)
+    expect(currentTarget.dataset.rowNumber).toBe('42')
+  })
+
+  it('should pass enriched info as second argument to onClick', () => {
+    const onClick = jest.fn()
+
+    render(
+      <Table mode="navigation">
+        <tbody>
+          <Tr onClick={onClick} data-row-id="row-1">
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tbody tr')
     fireEvent.click(trElement)
 
     expect(onClick).toHaveBeenCalledTimes(1)
 
-    const { target } = onClick.mock.calls[0][0]
-    expect(target).toBe(trElement)
-    expect(target.dataset.trid).toBe(trid)
+    const info = onClick.mock.calls[0][1]
+    expect(info.trElement).toBe(trElement)
   })
 
   it('tr should not emit onClick event on interactive element click', () => {
@@ -278,6 +316,30 @@ describe('Table using mode="navigation" prop', () => {
     )
 
     expect(thElement.textContent).toBe(en.navigationButtonSR)
+  })
+
+  it('should have no axe violations with clickable rows', async () => {
+    const Component = render(
+      <Table mode="navigation">
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr onClick={jest.fn()}>
+            <Td>Row 1 A</Td>
+            <Td>Row 1 B</Td>
+          </Tr>
+          <Tr onClick={jest.fn()}>
+            <Td>Row 2 A</Td>
+            <Td>Row 2 B</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 
   it('tr should call onClick with enter or space key on tr', () => {

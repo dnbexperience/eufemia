@@ -3,12 +3,17 @@
  *
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import type {
+  ChangeEvent,
+  ClipboardEvent,
+  ElementType,
+  FocusEvent,
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  RefObject,
 } from 'react'
 
 // date-fns
@@ -39,7 +44,7 @@ import useInputDates from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 export type DatePickerInputProps = Omit<
-  React.HTMLProps<HTMLInputElement>,
+  HTMLProps<HTMLInputElement>,
   | 'children'
   | 'ref'
   | 'value'
@@ -73,21 +78,21 @@ export type DatePickerInputProps = Omit<
      */
     open?: boolean
     showInput?: boolean
-    onSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onSubmit?: (event: MouseEvent<HTMLButtonElement>) => void
     onChange?: (
-      event: DatePickerReturnObject<React.ChangeEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<ChangeEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once the input gets focus.
      */
     onFocus?: (
-      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once the input lose focus.
      */
     onBlur?: (
-      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
     /** @internal */
     _omitInputShellClass?: boolean
@@ -243,7 +248,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const copyHandler = useCallback(
     (
-      event: React.ClipboardEvent<HTMLInputElement>,
+      event: ClipboardEvent<HTMLInputElement>,
       mode: DatePickerEventAttributes['mode']
     ) => {
       const date = mode === 'end' ? endDate : startDate
@@ -257,7 +262,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   const pasteHandler = useCallback(
-    async (event: React.ClipboardEvent<HTMLInputElement>) => {
+    async (event: ClipboardEvent<HTMLInputElement>) => {
       if (!focusMode.current) {
         return // Stop here
       }
@@ -385,7 +390,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           className: cls,
           inputMode: 'numeric' as const,
           onPaste: pasteHandler,
-          onCopy: (e: React.ClipboardEvent<HTMLInputElement>) =>
+          onCopy: (e: ClipboardEvent<HTMLInputElement>) =>
             copyHandler(e, mode),
         }
       }
@@ -398,7 +403,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     (params: {
       endDate?: Date
       startDate?: Date
-      event: React.ChangeEvent<HTMLInputElement>
+      event: ChangeEvent<HTMLInputElement>
     }) => {
       // Should fire if user has filled out an invalid date,
       // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
@@ -434,8 +439,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       startDate?: Date
       endDate?: Date
       event:
-        | React.ChangeEvent<HTMLInputElement>
-        | React.KeyboardEvent<HTMLInputElement>
+        | ChangeEvent<HTMLInputElement>
+        | KeyboardEvent<HTMLInputElement>
     }) => {
       const state = {}
       if (typeof startDate !== 'undefined' && isValidFn(startDate)) {
@@ -465,7 +470,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   const callOnType = useCallback(
-    ({ event }: { event: React.ChangeEvent<HTMLInputElement> }) => {
+    ({ event }: { event: ChangeEvent<HTMLInputElement> }) => {
       const getInputPart = (
         mode: 'start' | 'end',
         part: 'Day' | 'Month' | 'Year',
@@ -552,7 +557,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const setDate = useCallback(
     (
-      event: React.ChangeEvent<HTMLInputElement>,
+      event: ChangeEvent<HTMLInputElement>,
       mode: 'start' | 'end',
       type: 'Day' | 'Month' | 'Year'
     ) => {
@@ -693,7 +698,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const synthetic = {
         persist: () => null,
         target: { value: values[changed] },
-      } as React.ChangeEvent<HTMLInputElement>
+      } as ChangeEvent<HTMLInputElement>
       setDate(synthetic, mode, Type)
     },
     [setDate, getValues]
@@ -876,7 +881,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   validateDOMAttributes(props, attributes)
   validateDOMAttributes(null, submitAttributes)
 
-  const SubmitElement: React.ElementType = useMemo(
+  const SubmitElement: ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),
     [showInput]
   )
@@ -890,9 +895,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         inputElement={
           inputElement && typeof inputElement !== 'string'
             ? typeof inputElement === 'function'
-              ? (inputElement as (...args: unknown[]) => React.ReactNode)(
-                  props
-                )
+              ? (inputElement as (...args: unknown[]) => ReactNode)(props)
               : inputElement
             : renderInputElement
         }
@@ -956,7 +959,7 @@ function getCopyValue(date: Date, locale: string) {
 }
 
 function syncDateRefs(
-  dateRefs: React.RefObject<DatePickerInputDates>,
+  dateRefs: RefObject<DatePickerInputDates>,
   inputDates: DatePickerInputDates
 ) {
   for (const date in dateRefs.current) {

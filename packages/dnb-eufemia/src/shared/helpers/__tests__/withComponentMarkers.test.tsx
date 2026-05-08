@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import { render } from '@testing-library/react'
 import withComponentMarkers from '../withComponentMarkers'
 import type { ComponentMarkers } from '../withComponentMarkers'
@@ -129,7 +129,7 @@ describe('withComponentMarkers', () => {
   })
 
   it('should work with class components', () => {
-    class MyClassComponent extends React.Component {
+    class MyClassComponent extends Component {
       override render() {
         return null
       }

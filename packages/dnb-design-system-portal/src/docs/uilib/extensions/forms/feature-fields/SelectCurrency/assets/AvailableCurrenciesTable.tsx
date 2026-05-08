@@ -1,4 +1,3 @@
-import React from 'react'
 import { Table, Th, Tr, Td } from '@dnb/eufemia/src'
 import currencies from '@dnb/eufemia/src/extensions/forms/constants/currencies'
 import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'

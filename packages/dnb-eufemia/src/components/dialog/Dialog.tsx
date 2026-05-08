@@ -2,7 +2,7 @@
  * Web Dialog Component
  *
  */
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Modal from '../modal/Modal'
 import DialogContent from './DialogContent'
 import DialogBody from './parts/DialogBody'

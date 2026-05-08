@@ -3,14 +3,16 @@
  *
  */
 
-import React, {
+import {
   useCallback,
   useContext,
+  useEffect,
   useId,
   useMemo,
   useRef,
   useState,
 } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
@@ -62,7 +64,7 @@ export type CodeSectionProps = {
   className?: string
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
-  children: string | React.ReactNode | (() => React.ReactNode)
+  children: string | ReactNode | (() => ReactNode)
   tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 }
@@ -188,7 +190,15 @@ function LiveCode(props: LiveCodeProps) {
 
   const scope = useMemo(() => scopeProp || {}, [scopeProp])
   const theme = context.theme || {}
-  const inheritedDark = theme.colorScheme === 'dark'
+
+  // During SSR, colorScheme resolves to 'light' (no matchMedia).
+  // The blocking script may flip it to 'dark' before hydration,
+  // so we defer the resolved value to avoid a text mismatch
+  // ("Dark mode" vs "Light mode").
+  const [inheritedDark, setInheritedDark] = useState(false)
+  useEffect(() => {
+    setInheritedDark(theme.colorScheme === 'dark')
+  }, [theme.colorScheme])
 
   const codeToUse = useMemo(() => {
     const code =

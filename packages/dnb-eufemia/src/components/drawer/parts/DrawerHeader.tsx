@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
 import ModalHeader from '../../modal/parts/ModalHeader'
@@ -14,9 +15,8 @@ export default function DrawerHeader({
   size = 'x-large',
   ref,
   ...props
-}: DrawerHeaderProps &
-  Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {
-  const contentContext = React.useContext(DrawerContentContext)
+}: DrawerHeaderProps & Omit<HTMLProps<HTMLElement>, 'size' | 'children'>) {
+  const contentContext = useContext(DrawerContentContext)
   if (contentContext?.headerElement) {
     return null
   }

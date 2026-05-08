@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Span from '../Span'
 import { render } from '@testing-library/react'
@@ -65,10 +66,10 @@ describe('Span element', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLSpanElement>
+    let ref: RefObject<HTMLSpanElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLSpanElement | null>(null)
+      ref = useRef<HTMLSpanElement | null>(null)
       return <Span ref={ref}>content</Span>
     }
 

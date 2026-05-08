@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import type { ReactNode, RefObject, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -27,7 +28,7 @@ export type TableProps = {
   /**
    * The content of the component.
    */
-  children: React.ReactNode
+  children: ReactNode
 
   /**
    * Custom className on the component root
@@ -85,11 +86,11 @@ export type TableProps = {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.RefObject<() => void>
+  collapseAllHandleRef?: RefObject<() => void>
 } & TableStickyHeaderProps
 
 export type TableAllProps = TableProps &
-  Omit<React.TableHTMLAttributes<HTMLTableElement>, 'border'> &
+  Omit<TableHTMLAttributes<HTMLTableElement>, 'border'> &
   LocaleProps &
   SpacingProps
 
@@ -99,7 +100,7 @@ const defaultProps: Partial<TableAllProps> = {
 }
 
 const Table = (componentProps: TableAllProps) => {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const allProps = extendPropsWithContext(
     componentProps,
@@ -129,12 +130,12 @@ const Table = (componentProps: TableAllProps) => {
 
   const { elementRef } = useStickyHeader(allProps)
   const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
-  const collapseTrCallbacks = React.useRef<(() => void)[]>([])
+  const collapseTrCallbacks = useRef<(() => void)[]>([])
 
   useEffect(() => {
     if (collapseAllHandleRef) {
       const mutableCollapseAllHandleRef =
-        collapseAllHandleRef as React.RefObject<() => void>
+        collapseAllHandleRef as RefObject<() => void>
       mutableCollapseAllHandleRef.current = () => {
         collapseTrCallbacks.current.forEach((callback) => callback())
       }

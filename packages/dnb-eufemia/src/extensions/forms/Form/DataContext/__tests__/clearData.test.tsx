@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { StrictMode, act } from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
@@ -24,14 +24,14 @@ describe('Form.clearData', () => {
     expect(document.querySelector('input')).toHaveValue('')
   })
 
-  it('should not show an error when clearing a form in React.StrictMode', async () => {
+  it('should not show an error when clearing a form in StrictMode', async () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Form.Handler id="unique-id">
           <Field.String path="/myString" required />
         </Form.Handler>
         <button onClick={() => Form.clearData('unique-id')} />
-      </React.StrictMode>
+      </StrictMode>
     )
 
     const input = document.querySelector('input')

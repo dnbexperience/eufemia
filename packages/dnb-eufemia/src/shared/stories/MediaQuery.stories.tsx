@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import Button from '../../components/button/Button'
@@ -14,11 +14,11 @@ export default {
 }
 
 const useWindowWidth = () => {
-  const [innerWidth, setWidth] = React.useState(
+  const [innerWidth, setWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     const resizeHandler = () => {
       setWidth(window.innerWidth)
     }
@@ -48,9 +48,9 @@ export const UseMediaHook = () => {
 
 export function UseMediaHookStrictMode() {
   return (
-    <React.StrictMode>
+    <StrictMode>
       <UseMediaHook />
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 
@@ -66,7 +66,7 @@ const Div2 = styled.div`
 `
 
 export const MediaQuerySandbox = () => {
-  const [query, updateQuery] = React.useState({
+  const [query, updateQuery] = useState({
     screen: true,
     not: true,
     min: 'small',

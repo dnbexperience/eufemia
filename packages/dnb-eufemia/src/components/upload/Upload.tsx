@@ -1,5 +1,5 @@
+import { useCallback, useContext } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useCallback } from 'react'
 import clsx from 'clsx'
 
 // Shared
@@ -30,7 +30,7 @@ export type * from './types'
 export { defaultProps }
 
 const Upload = (localProps: UploadAllProps) => {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const { buttonTextSingular, textSingular, ...translations } =
     context.getTranslation(localProps).Upload

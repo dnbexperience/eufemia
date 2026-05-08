@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Form,
@@ -437,7 +437,7 @@ export const TransformData = () => {
     <ComponentBox>
       {() => {
         const MyForm = () => {
-          const [submitData, setSubmitData] = React.useState({})
+          const [submitData, setSubmitData] = useState({})
           const onSubmit = (data, { transformData }) => {
             const transformedData = transformData(
               data,

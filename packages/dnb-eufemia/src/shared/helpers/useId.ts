@@ -1,13 +1,9 @@
-import React from 'react'
-import { makeUniqueId } from '../component-helper'
+import { useId as reactUseId, useMemo } from 'react'
 
 export default function useId(customId?: string) {
-  const id = React.useId()
-  return React.useMemo(
-    () =>
-      customId ??
-      id?.replace(/_/, 'id-').replace(/_/g, '') ??
-      makeUniqueId(),
+  const id = reactUseId()
+  return useMemo(
+    () => customId ?? id.replace(/_/, 'id-').replace(/_/g, ''),
     [customId, id]
   )
 }

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Switch, FormLabel, HelpButton, GlobalStatus } from '../..'
@@ -89,7 +89,7 @@ export const SwitchSandbox = () => (
 )
 
 function ControlledSwitch() {
-  const [isChecked, setIsChecked] = React.useState(false)
+  const [isChecked, setIsChecked] = useState(false)
 
   return (
     <>

@@ -1,16 +1,14 @@
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
-jest.unstable_mockModule('prettier', () => ({
+vi.mock('prettier', () => ({
   format: async (code: string) => code,
   default: { format: async (code: string) => code },
 }))
 
-const { createMarkdownCopies } = await import(
-  '../../src/convertHelpers.ts'
-)
+import { createMarkdownCopies } from '../../src/convertHelpers.ts'
 
 describe('createMarkdownCopies', () => {
   it('appends properties and events markdown to output', async () => {
@@ -121,6 +119,48 @@ describe('createMarkdownCopies', () => {
     )
     expect(fs.existsSync(propsPath)).toBe(false)
     expect(fs.existsSync(eventsPath)).toBe(false)
+  })
+
+  it('writes markdown copies for non-uilib routes when no slug base is used', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-md-route-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    const outputRoot = path.join(tmpRoot, 'out')
+    const entryDir = path.join(docsRoot, 'quickguide-designer')
+    const entryFile = path.join(entryDir, 'tools.mdx')
+
+    fs.mkdirSync(entryDir, { recursive: true })
+
+    fs.writeFileSync(
+      entryFile,
+      [
+        '---',
+        "title: 'Tools'",
+        '---',
+        '',
+        '# Tools',
+        '',
+        'Designer tooling docs.',
+      ].join('\n')
+    )
+
+    await createMarkdownCopies({
+      siteDir: tmpRoot,
+      docsRoot,
+      outputRoot,
+      publicUrlBase: '',
+      slugBase: '',
+    })
+
+    const outputPath = path.join(
+      outputRoot,
+      'quickguide-designer',
+      'tools.md'
+    )
+
+    expect(fs.existsSync(outputPath)).toBe(true)
+    expect(fs.readFileSync(outputPath, 'utf-8')).toContain(
+      'Designer tooling docs.'
+    )
   })
 
   it('adds metadata fields to frontmatter when available', async () => {

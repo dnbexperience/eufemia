@@ -88,7 +88,11 @@ describe('prerender-utils', () => {
       },
       {
         fields: { slug: 'uilib/components/button/info' },
-        frontmatter: { title: '', description: '' },
+        frontmatter: { title: '', description: '', showTabs: true },
+      },
+      {
+        fields: { slug: 'uilib/components/button/demos' },
+        frontmatter: { title: '', description: '', showTabs: true },
       },
       {
         fields: { slug: 'uilib/components/card' },
@@ -111,10 +115,33 @@ describe('prerender-utils', () => {
       })
     })
 
-    it('inherits title from parent for tab sub-pages', () => {
+    it('constructs tab title for tab sub-pages with showTabs', () => {
       const meta = getPageMeta('/uilib/components/button/info/', nodes)
-      expect(meta.title).toBe('Button')
+      expect(meta.title).toBe('Button → Info')
       expect(meta.description).toBe('A button component')
+    })
+
+    it('constructs tab title for demos tab', () => {
+      const meta = getPageMeta('/uilib/components/button/demos/', nodes)
+      expect(meta.title).toBe('Button → Demos')
+    })
+
+    it('inherits parent title without tab suffix when showTabs is not set', () => {
+      const noTabNodes = [
+        {
+          fields: { slug: 'uilib/components/button' },
+          frontmatter: { title: 'Button', description: '' },
+        },
+        {
+          fields: { slug: 'uilib/components/button/info' },
+          frontmatter: { title: '', description: '' },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/components/button/info/',
+        noTabNodes
+      )
+      expect(meta.title).toBe('Button')
     })
 
     it('returns empty strings for unknown routes', () => {
@@ -434,6 +461,29 @@ describe('prerender-utils', () => {
       expect(result).toContain('href="/uilib/components/button.md"')
       expect(result).not.toContain('/demos.md')
     })
+
+    it('strips React 19 inline preload links from app HTML and moves them to head', () => {
+      const appHtml =
+        '<link rel="preload" href="/img/a.png" as="image"/><h1>Hello</h1><link rel="preload" href="/img/b.png" as="image"/>'
+      const result = injectHtml(template, appHtml, { js: [], css: [] })
+
+      // Links should not appear inside #root
+      expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
+
+      // Links should appear in <head>
+      const headContent = result.slice(0, result.indexOf('</head>'))
+      expect(headContent).toContain('href="/img/a.png"')
+      expect(headContent).toContain('href="/img/b.png"')
+    })
+
+    it('strips staticRouterHydrationData script from app HTML', () => {
+      const appHtml =
+        '<h1>Hello</h1><script>window.__staticRouterHydrationData = {"loaderData":{}}</script>'
+      const result = injectHtml(template, appHtml, { js: [], css: [] })
+
+      expect(result).not.toContain('__staticRouterHydrationData')
+      expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
+    })
   })
 
   describe('getMdPath', () => {
@@ -493,8 +543,10 @@ describe('prerender-utils', () => {
       ).toBe('/uilib/components/slider.md')
     })
 
-    it('returns null for non-uilib pages', () => {
-      expect(getMdPath('/quickguide-designer/', allMdxNodes)).toBeNull()
+    it('returns .md path for non-uilib entry pages', () => {
+      expect(getMdPath('/quickguide-designer/', allMdxNodes)).toBe(
+        '/quickguide-designer.md'
+      )
     })
 
     it('returns null for uilib pages without a matching entry', () => {

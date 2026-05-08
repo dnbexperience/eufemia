@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import type { CSSProperties, KeyboardEvent } from 'react'
 import clsx from 'clsx'
 import { useMenuContext } from './MenuContext'
 import type { MenuListProps } from './types'
@@ -90,7 +91,7 @@ export default function MenuList(props: MenuListProps) {
   )
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLUListElement>) => {
+    (event: KeyboardEvent<HTMLUListElement>) => {
       if (!context) {
         return
       }
@@ -183,7 +184,7 @@ export default function MenuList(props: MenuListProps) {
     ? undefined
     : measuredMaxHeight || fallbackMaxHeight
 
-  const listStyle: React.CSSProperties = {
+  const listStyle: CSSProperties = {
     ...(resolvedMaxHeight
       ? {
           maxHeight: resolvedMaxHeight,

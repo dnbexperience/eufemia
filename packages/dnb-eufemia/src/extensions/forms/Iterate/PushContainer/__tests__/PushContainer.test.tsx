@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from 'react'
+import { useContext, useLayoutEffect } from 'react'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

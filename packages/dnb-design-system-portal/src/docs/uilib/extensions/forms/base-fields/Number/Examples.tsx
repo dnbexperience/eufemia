@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Slider, Grid, Flex, Anchor } from '@dnb/eufemia/src'
 import { Field, Form, FormError } from '@dnb/eufemia/src/extensions/forms'
@@ -390,7 +390,7 @@ export const WithSlider = () => (
   <ComponentBox hideCode>
     {() => {
       const Component = () => {
-        const [value, setValue] = React.useState(50000)
+        const [value, setValue] = useState(50000)
         const settings = {
           min: 0,
           max: 100000,

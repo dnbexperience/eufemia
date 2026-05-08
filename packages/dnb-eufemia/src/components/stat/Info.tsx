@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps, JSX } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
@@ -13,20 +14,20 @@ const infoContextValue = {
 } as const
 
 type InfoOwnProps = {
-  element?: keyof React.JSX.IntrinsicElements
+  element?: keyof JSX.IntrinsicElements
   variant?: 'plain' | 'subtle' | 'prominent'
   skeleton?: SkeletonShow
 }
 
 export type InfoProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof InfoOwnProps | 'ref'
 > &
   InfoOwnProps &
   SpacingProps
 
 function Info(props: InfoProps) {
-  const { inRoot } = React.useContext(StatRootContext)
+  const { inRoot } = useContext(StatRootContext)
 
   const {
     children,

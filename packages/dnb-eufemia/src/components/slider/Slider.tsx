@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 import { SliderProvider } from './SliderProvider'

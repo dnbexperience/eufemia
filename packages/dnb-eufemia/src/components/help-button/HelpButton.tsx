@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -17,14 +18,11 @@ const defaultProps: Partial<HelpButtonProps> = {
 }
 
 export type HelpButtonProps = {
-  render?: (
-    children: React.ReactNode,
-    props: ButtonProps
-  ) => React.ReactElement
+  render?: (children: ReactNode, props: ButtonProps) => ReactElement
 } & ButtonProps
 
 export default function HelpButton(localProps: HelpButtonProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps)
 
   const { children, render, ...params } = props

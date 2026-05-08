@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { P, Button, Anchor, Section, Dropdown } from '@dnb/eufemia/src'
@@ -37,9 +37,7 @@ export const ThemeBasis = () => (
       }
 
       const Demo = () => {
-        const [name, setName] = React.useState<ThemeNames>(
-          'dnb' as ThemeNames
-        )
+        const [name, setName] = useState<ThemeNames>('dnb' as ThemeNames)
 
         return (
           <MyColors>

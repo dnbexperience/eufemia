@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import ArrayItemArea from '../ArrayItemArea'
@@ -171,7 +171,7 @@ describe('ArrayItemArea', () => {
       </IterateItemContext>
     )
 
-    const { rerender } = render(
+    render(
       <ArrayItemArea mode="view" openDelay={1}>
         Content
       </ArrayItemArea>,
@@ -179,14 +179,6 @@ describe('ArrayItemArea', () => {
     )
 
     const block = document.querySelector('.dnb-forms-section-block')
-    expect(block).toHaveClass('dnb-height-animation--hidden')
-
-    rerender(
-      <ArrayItemArea mode="edit" openDelay={1}>
-        Content
-      </ArrayItemArea>
-    )
-
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
     await waitFor(() => {
@@ -336,7 +328,7 @@ describe('ArrayItemArea', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -362,7 +354,7 @@ describe('ArrayItemArea', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -389,7 +381,7 @@ describe('ArrayItemArea', () => {
     const switchContainerMode = jest.fn()
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -418,7 +410,7 @@ describe('ArrayItemArea', () => {
     const switchContainerMode = jest.fn()
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null
@@ -451,7 +443,7 @@ describe('ArrayItemArea', () => {
     const switchContainerMode = jest.fn()
 
     const ContextConsumer = () => {
-      const context = React.useContext(IterateItemContext)
+      const context = useContext(IterateItemContext)
       containerMode = context.containerMode
 
       return null

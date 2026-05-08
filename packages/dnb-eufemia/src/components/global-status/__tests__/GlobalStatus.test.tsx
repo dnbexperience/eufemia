@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
+import type { PropsWithChildren, Ref } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import type { GlobalStatusProps } from '../GlobalStatus'
 import GlobalStatus from '../GlobalStatus'
@@ -311,7 +312,7 @@ describe('GlobalStatus component', () => {
 
   it('should handle delayed interactions', async () => {
     const FormField1 = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
       return (
         <Switch
           id="switch-1"
@@ -325,7 +326,7 @@ describe('GlobalStatus component', () => {
     }
 
     const FormField2 = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
       return (
         <Switch
           id="switch-2"
@@ -339,7 +340,7 @@ describe('GlobalStatus component', () => {
     }
 
     const FormField3 = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
       return (
         <Autocomplete
           id="autocomplete-3"
@@ -433,7 +434,7 @@ describe('GlobalStatus component', () => {
     const offsetTop = 1000
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -497,7 +498,7 @@ describe('GlobalStatus component', () => {
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -531,7 +532,7 @@ describe('GlobalStatus component', () => {
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -567,7 +568,7 @@ describe('GlobalStatus component', () => {
     const onHide = jest.fn()
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -625,7 +626,7 @@ describe('GlobalStatus component', () => {
     const onHide = jest.fn()
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -679,7 +680,7 @@ describe('GlobalStatus component', () => {
 
   it('should have height of auto value', async () => {
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -714,7 +715,7 @@ describe('GlobalStatus component', () => {
 
   it('should be hidden after all messages are removed', async () => {
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch
@@ -775,8 +776,8 @@ describe('GlobalStatus component', () => {
     const StatusAsComponent = ({
       children,
       ref,
-    }: React.PropsWithChildren<{
-      ref?: React.Ref<HTMLSpanElement>
+    }: PropsWithChildren<{
+      ref?: Ref<HTMLSpanElement>
     }>) => <span ref={ref}>{children}</span>
 
     render(<GlobalStatus autoScroll={false} id="custom-status-element" />)
@@ -822,7 +823,7 @@ describe('GlobalStatus component', () => {
     }
 
     const ToggleStatus = () => {
-      const [status, setStatus] = React.useState(null)
+      const [status, setStatus] = useState(null)
 
       return (
         <Switch

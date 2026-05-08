@@ -1,17 +1,19 @@
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/playwright/screenshotSetup'
 
-describe('Form.SubmitIndicator', () => {
+test.describe('Form.SubmitIndicator', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Form/SubmitIndicator/demos/',
   })
 
-  it('have to match submit-indicator-with-label', async () => {
+  test('have to match submit-indicator-with-label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="submit-indicator-with-label"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchSnapshot()
   })
 })

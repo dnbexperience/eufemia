@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react'
+import { isValidElement, useContext, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
@@ -17,12 +18,12 @@ export type IterateEditContainerProps = {
   /**
    * The title of the EditContainer.
    */
-  title?: React.ReactNode
+  title?: ReactNode
 
   /**
    * The title for a new item show within the EditContainer.
    */
-  titleWhenNew?: React.ReactNode
+  titleWhenNew?: ReactNode
 
   /**
    * If the EditContainer is open or not.
@@ -32,7 +33,7 @@ export type IterateEditContainerProps = {
   /**
    * An alternative toolbar to be shown in the EditContainer.
    */
-  toolbar?: React.ReactNode
+  toolbar?: ReactNode
 
   /**
    * The variant of the toolbar.
@@ -58,7 +59,7 @@ export default function EditContainer(
   const hasToolbar =
     !toolbarElement &&
     (Array.isArray(children) ? children : [children]).some(
-      (child) => React.isValidElement(child) && child.type === Toolbar
+      (child) => isValidElement(child) && child.type === Toolbar
     )
 
   return (
@@ -85,7 +86,7 @@ export default function EditContainer(
 export function EditContainerWithoutToolbar(
   props: IterateEditContainerProps &
     Omit<FlexContainerProps, 'onAnimationEnd'> & {
-      toolbar?: React.ReactNode
+      toolbar?: ReactNode
     }
 ) {
   const { containerMode, isNew, index, path } =

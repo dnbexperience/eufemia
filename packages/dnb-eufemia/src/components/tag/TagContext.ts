@@ -1,3 +1,2 @@
-import React from 'react'
-
-export const TagGroupContext = React.createContext(null)
+import { createContext } from 'react'
+export const TagGroupContext = createContext(null)

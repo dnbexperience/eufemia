@@ -8,14 +8,10 @@ exports[`Timeline scss > should match default theme snapshot 1`] = `
 .dnb-timeline {
   --timeline-icon-height--small: 1.5rem;
   --timeline-icon-width--small: 1.5rem;
-  --timeline-icon-border-radius--small: calc(
-    var(--timeline-icon-height--small) / 2
-  );
+  --timeline-icon-border-radius--small: var(--token-radius-full);
   --timeline-icon-height--medium: 2rem;
   --timeline-icon-width--medium: 2rem;
-  --timeline-icon-border-radius--medium: calc(
-    var(--timeline-icon-height--medium) / 2
-  );
+  --timeline-icon-border-radius--medium: var(--token-radius-full);
   --timeline-icon-width-diff: calc(
     (
         var(--timeline-icon-width--medium) - var(

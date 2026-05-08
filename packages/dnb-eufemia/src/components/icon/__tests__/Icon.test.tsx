@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useState } from 'react'
+import type { SVGProps } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
@@ -133,7 +134,7 @@ describe('Icon component', () => {
 
   it('should work when icon property is provided a functional component with a hook', () => {
     const FunctionalComponentWithHookIcon = () => {
-      const [title] = React.useState('banana')
+      const [title] = useState('banana')
 
       return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -153,7 +154,7 @@ describe('Icon component', () => {
 
     const HookIcon = (props?: Record<string, unknown>) => {
       renderCalls += 1
-      const [title] = React.useState('hook-icon')
+      const [title] = useState('hook-icon')
 
       return (
         <svg
@@ -219,9 +220,7 @@ describe('Icon component', () => {
   it('should detect medium size from a direct function icon with minified name', () => {
     // Direct function (not wrapped in JSX) with short name — tests the
     // typeof icon === 'function' branch in calcSize
-    const e = (
-      props?: React.SVGProps<SVGSVGElement> & { title?: string }
-    ) => (
+    const e = (props?: SVGProps<SVGSVGElement> & { title?: string }) => (
       <svg
         width={24}
         height={24}

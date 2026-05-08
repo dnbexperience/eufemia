@@ -1,4 +1,5 @@
-import React from 'react'
+import { useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import {
   screen,
@@ -2358,9 +2359,9 @@ describe('Field.Number', () => {
 
     it('should set validateContinuously to true when numberValue exceeds MAX_SAFE_INTEGER', () => {
       const TestComponent = () => {
-        const [value, setValue] = React.useState(undefined)
+        const [value, setValue] = useState(undefined)
         const [validateContinuously, setValidateContinuously] =
-          React.useState(false)
+          useState(false)
 
         return (
           <div>
@@ -2901,10 +2902,10 @@ describe('Field.Number', () => {
 
   it('gets valid ref element', () => {
     const id = 'unique'
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: RefObject<HTMLInputElement>
 
     const MockComponent = () => {
-      ref = React.useRef<HTMLInputElement | null>(null)
+      ref = useRef<HTMLInputElement | null>(null)
       return <Field.Number id={id} ref={ref} />
     }
 

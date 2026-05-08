@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import Code from '../Code'
 import Section from '../../../components/section/Section'

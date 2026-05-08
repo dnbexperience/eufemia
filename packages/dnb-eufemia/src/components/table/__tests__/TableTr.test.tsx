@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode, useState } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
 import type { TableTrProps } from '../TableTr'
@@ -64,6 +64,24 @@ describe('TableTr', () => {
     const element = document.querySelector('tr')
 
     expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
+  })
+
+  it('should set the verticalAlign class', () => {
+    render(
+      <table>
+        <tbody>
+          <TableTr verticalAlign="middle">
+            <td>content</td>
+          </TableTr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('tr')
+
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__tr--vertical-align-middle'
+    )
   })
 
   it('should include custom attributes', () => {
@@ -219,7 +237,7 @@ describe('TableTr', () => {
 
   describe('re-render', () => {
     const MockComponent = () => {
-      const [list, setlist] = React.useState([
+      const [list, setlist] = useState([
         'content cab',
         'content abc',
         'content bac',
@@ -390,9 +408,9 @@ describe('TableTr', () => {
 
     it('should set correct odd/even in StrictMode', () => {
       render(
-        <React.StrictMode>
+        <StrictMode>
           <MockComponent />
-        </React.StrictMode>
+        </StrictMode>
       )
 
       let elements = document.querySelectorAll('tbody tr')

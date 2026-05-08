@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Context, {
   type InternalLocale,
 } from '@dnb/eufemia/src/shared/Context'
-import { setLang, supportedTranslationsKey } from './PortalProviders'
+import { setLang, supportedTranslationsKey } from './portalRuntimeUtils'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const languageDisplayNames = {
@@ -26,7 +26,7 @@ export default function ChangeLocale({
       value={locale}
       onChange={(value) => {
         setLocale(value as InternalLocale)
-        setLang(value)
+        setLang(value as string)
       }}
       {...props}
     >

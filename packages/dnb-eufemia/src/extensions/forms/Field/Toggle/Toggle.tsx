@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
+import type { MouseEvent } from 'react'
 import clsx from 'clsx'
 import {
   Checkbox,
@@ -47,7 +48,7 @@ export type ToggleProps = {
    */
   onClick?: (
     value: unknown,
-    params: { event: React.MouseEvent<HTMLInputElement> }
+    params: { event: MouseEvent<HTMLInputElement> }
   ) => void
 }
 

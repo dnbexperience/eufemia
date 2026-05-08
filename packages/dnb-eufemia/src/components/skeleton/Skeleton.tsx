@@ -2,7 +2,14 @@
  * Web Skeleton Component
  */
 
-import React from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import {
   extendExistingPropsWithContext,
@@ -19,15 +26,9 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SkeletonShow = boolean
 
-export type SkeletonFigure =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type SkeletonFigure = string | (() => ReactNode) | ReactNode
 
-export type SkeletonChildren =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type SkeletonChildren = string | (() => ReactNode) | ReactNode
 
 export type SkeletonProps = {
   /**
@@ -53,14 +54,14 @@ export type SkeletonProps = {
   /**
    * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.
    */
-  element?: React.ReactNode
+  element?: ReactNode
   /**
    * If set to `true`, a loading skeleton will be shown.
    */
   skeleton?: boolean
   className?: string
   children?: SkeletonChildren
-} & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
+} & Omit<HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
 const skeletonDefaultProps: Partial<SkeletonProps> = {
@@ -76,12 +77,12 @@ const skeletonDefaultProps: Partial<SkeletonProps> = {
 }
 
 function Skeleton(props: SkeletonProps) {
-  const context = React.useContext(Context)
-  const [ariaLiveUpdate, setAriaLiveUpdate] = React.useState(null)
-  const ariaLiveUpdateTimeoutRef = React.useRef(null)
-  const prevShowRef = React.useRef(props.show)
+  const context = useContext(Context)
+  const [ariaLiveUpdate, setAriaLiveUpdate] = useState(null)
+  const ariaLiveUpdateTimeoutRef = useRef(null)
+  const prevShowRef = useRef(props.show)
 
-  const getProps = React.useCallback(
+  const getProps = useCallback(
     (propsToExtend = props, ctx = context) => {
       return extendExistingPropsWithContext(
         {
@@ -100,7 +101,7 @@ function Skeleton(props: SkeletonProps) {
     [props, context]
   )
 
-  const updateAriaLive = React.useCallback(() => {
+  const updateAriaLive = useCallback(() => {
     // this is only to make a better screen reader ux
     clearTimeout(ariaLiveUpdateTimeoutRef.current)
     ariaLiveUpdateTimeoutRef.current = setTimeout(() => {
@@ -123,14 +124,14 @@ function Skeleton(props: SkeletonProps) {
     }, 1e3) // so that the input gets read out first, and then the results
   }, [props.show, getProps])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (prevShowRef.current !== props.show) {
       updateAriaLive()
     }
     prevShowRef.current = props.show
   }, [props.show, updateAriaLive])
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       clearTimeout(ariaLiveUpdateTimeoutRef.current)
     }

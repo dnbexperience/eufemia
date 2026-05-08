@@ -161,14 +161,14 @@ By default, CI still stops on the first failure (`--bail`). You can force a full
 
 ```bash
 git commit -m "feat: implement new feature"
-# Runs: yarn jest --config=./jest.config.screenshots.js --ci --bail --maxWorkers=1
+# Runs: playwright test --config=./playwright.config.screenshots.ts
 ```
 
 **Run all tests (continues on failures):**
 
 ```bash
 git commit -m "feat: implement new feature --run-all"
-# Runs: yarn jest --config=./jest.config.screenshots.js --ci --maxWorkers=1
+# Runs: playwright test --config=./playwright.config.screenshots.ts
 ```
 
 This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
@@ -219,11 +219,11 @@ When a visual test fails, a visual comparison file (diff) will be created. Its l
 
 you can find a report entry (`index.html`), that lists all of the failed tests here:
 
-- `/packages/dnb-eufemia/jest-visual-diff-report/index.html`
+- `/packages/dnb-eufemia/visual-diff-report/index.html`
 
 You may check out the CI/CLI logs for more details.
 
-**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you can find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files as well as the report entry inside `/jest-visual-diff-report`.
+**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you can find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files as well as the report entry inside `/visual-diff-report`.
 
 ## Support SCSS snapshot test
 

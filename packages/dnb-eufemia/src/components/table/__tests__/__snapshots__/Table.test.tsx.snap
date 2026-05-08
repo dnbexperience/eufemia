@@ -80,10 +80,8 @@ exports[`Table scss > should match default theme snapshot 1`] = `
 .dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: -0.0625rem;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-bottom: var(--table-border);
@@ -137,10 +135,8 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table > caption::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: -0.0625rem;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   top: calc(var(--table-border-width) * -1);
@@ -161,10 +157,8 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table--outline::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: 0;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   z-index: 3;
@@ -220,7 +214,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline-width: 0.0625rem;
   --table-outline: var(--table-outline-width) solid
     var(--table-outline-color);
-  --table-outline-radius: 0.5rem;
+  --table-outline-radius: var(--token-radius-md);
 }
 html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container {
   --table-border-color: blue;
@@ -439,17 +433,23 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
+ * Utilities
+ */
+/*
 * Table component
 *
 */
+.dnb-table__td {
+  position: relative;
+  background-color: var(--background-color);
+}
+
 .dnb-table--border tbody .dnb-table__td::after,
 .dnb-table--border tbody .dnb-table__th::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: -0.0625rem;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   border: var(--table-border);
@@ -485,10 +485,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: -0.0625rem;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-top: var(--table-border);
@@ -497,6 +495,112 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th:last-child::after {
   right: 0;
+}
+
+.dnb-table__td--clickable {
+  padding: 0;
+}
+
+.dnb-table__td--clickable:active {
+  --background-color: var(--table-accordion-background--active);
+}
+
+.dnb-table__td__button {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  text-align: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dnb-table__td__button__icon {
+  flex: none;
+  color: var(--table-accordion-icon-color);
+  opacity: 0;
+}
+
+.dnb-table__td__button:focus-visible {
+  outline: none;
+}
+
+.dnb-table__td__button::before {
+  content: "";
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  right: calc(var(--table-accordion-outline-width--active) * -1);
+  border: var(--border-width, 0) solid var(--border-color, transparent);
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover[disabled] {
+  cursor: not-allowed;
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled])::before {
+  --border-width: var(--table-accordion-outline-width);
+  --border-color: var(--table-accordion-outline-color);
+}
+
+html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .dnb-table__td__button__icon {
+  color: var(--table-accordion-icon-color--active);
+  opacity: 1;
+}
+
+.dnb-table__td__button:active::before {
+  --border-width: var(--table-accordion-outline-width--active);
+  --border-color: var(--table-accordion-outline-color);
+}
+
+.dnb-table__td__button:active .dnb-table__td__button__icon {
+  color: var(--table-accordion-icon-color--active);
+  opacity: 1;
+}
+
+.dnb-table__td:last-child > .dnb-table__td__button::before {
+  right: 0;
+}
+
+.dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
+  --border-width: var(--focus-ring-width);
+  --border-color: var(--token-color-stroke-action-focus);
+}
+
+.dnb-table__td__button:not(:active):not(:hover):focus-visible .dnb-table__td__button__icon {
+  opacity: 1;
+}
+
+.dnb-table__td__button__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dnb-table__td--selected {
+  --background-color: var(
+    --table-td-background--selected,
+    var(--token-color-background-selected-subtle)
+  );
+  /* stylelint-disable */
+}
+
+.dnb-table__td--selected .dnb-table__td__button__icon {
+  opacity: 1;
+  color: var(--token-color-icon-selected);
+}
+
+.dnb-table__td--selected {
+  /* stylelint-enable */
+}
+
+.dnb-table__td--selected .dnb-table__td__button:not(:hover):not(:active)::before {
+  --border-width: var(--table-accordion-outline-width--active);
+  --border-color: var(--token-color-stroke-selected);
 }
 
 .dnb-table {
@@ -541,11 +645,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-top-right-radius: var(--table-outline-radius);
 }
 
-.dnb-table--outline tbody:last-child .dnb-table__tr:last-child,
-.dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last {
-  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
-}
-
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::after,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child::before,
@@ -559,6 +658,13 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-bottom-left-radius: var(--table-outline-radius);
 }
 
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:first-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:first-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:first-child .dnb-table__td__button::before {
+  border-bottom-left-radius: var(--table-outline-radius);
+}
+
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child::after,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child,
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child::before,
@@ -569,6 +675,13 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child,
 .dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child::before,
 .dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child::after {
+  border-bottom-right-radius: var(--table-outline-radius);
+}
+
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:last-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__td:last-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__th:last-child .dnb-table__td__button::before,
+.dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child .dnb-table__td__button::before {
   border-bottom-right-radius: var(--table-outline-radius);
 }
 
@@ -592,11 +705,13 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 *
 */
 .dnb-table > tbody > tr, .dnb-table .dnb-table__tr, .dnb-table .dnb-table__tr--even {
-  background-color: var(--token-color-component-table-background-neutral-alternative);
+  --background-color: var(
+    --token-color-component-table-background-neutral-alternative
+  );
 }
 
 .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
-  background-color: var(--token-color-background-neutral);
+  --background-color: var(--token-color-background-neutral);
 }
 
 /*
@@ -612,7 +727,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   word-break: keep-all;
 }
 
-.dnb-table thead th.dnb-table__cell--focus:focus, .dnb-table tbody td.dnb-table__cell--focus:focus, .dnb-table__th.dnb-table__cell--focus:focus, .dnb-table__td.dnb-table__cell--focus:focus {
+.dnb-table thead th.dnb-table__cell--focus, .dnb-table tbody td.dnb-table__cell--focus, .dnb-table__th.dnb-table__cell--focus, .dnb-table__td.dnb-table__cell--focus {
   outline: none;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
@@ -620,16 +735,44 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-color: transparent;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__td.dnb-table__td--vertical-align-top {
+.dnb-table__tr--vertical-align-top .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-top {
   vertical-align: top;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__td.dnb-table__td--vertical-align-middle {
+.dnb-table__tr--vertical-align-middle .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-middle {
   vertical-align: middle;
 }
 
-.dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__td.dnb-table__td--vertical-align-bottom {
+.dnb-table__tr--vertical-align-bottom .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-bottom {
   vertical-align: bottom;
+}
+
+.dnb-table {
+  /* stylelint-disable no-descending-specificity */
+}
+
+.dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:first-child,
+.dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child {
+  border-top-left-radius: var(--table-outline-radius);
+}
+
+.dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:last-child,
+.dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child {
+  border-top-right-radius: var(--table-outline-radius);
+}
+
+.dnb-table--outline tbody:last-child tr:last-of-type > .dnb-table__cell--focus:first-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-of-type > .dnb-table__cell--focus:first-child {
+  border-bottom-left-radius: var(--table-outline-radius);
+}
+
+.dnb-table--outline tbody:last-child tr:last-of-type > .dnb-table__cell--focus:last-child,
+.dnb-table--outline tbody:last-child .dnb-table__tr:last-of-type > .dnb-table__cell--focus:last-child {
+  border-bottom-right-radius: var(--table-outline-radius);
+}
+
+.dnb-table {
+  /* stylelint-enable no-descending-specificity */
 }
 
 /*
@@ -669,10 +812,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__container::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: 0;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   z-index: 3;
@@ -703,10 +844,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__container__body .dnb-table::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: 0;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-bottom: var(--table-border);
@@ -792,8 +931,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   );
   --table-accordion-outline-color: var(--token-color-stroke-selected);
   --table-accordion-outline-width: 0.125rem;
+  --table-accordion-outline-width--active: 0.0625rem;
   --table-accordion-background--active: var(
-    --token-color-background-selected-subtle
+    --token-color-background-action-pressed-subtle
   );
 }
 
@@ -880,7 +1020,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   z-index: 3;
   inset: 0;
   pointer-events: none;
-  border: var(--table-accordion-outline-width) solid transparent;
+  border: var(--border-width, var(--table-accordion-outline-width)) solid var(--border-color, transparent);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {
@@ -896,7 +1036,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
-  border-color: var(--table-accordion-outline-color);
+  --border-color: var(--table-accordion-outline-color);
 }
 
 html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__button-icon .dnb-icon {
@@ -908,12 +1048,12 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
-  background-color: var(--table-accordion-header-background);
+  --background-color: var(--table-accordion-header-background);
 }
 
 html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
-  border-color: var(--token-color-stroke-action-focus);
-  border-width: 0.125rem;
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
@@ -926,12 +1066,12 @@ html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-t
 
 html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
-  border-color: var(--table-accordion-outline-color);
-  border-width: var(--table-accordion-border-width);
+  --border-color: var(--table-accordion-outline-color);
+  --border-width: var(--table-accordion-outline-width--active);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-  background-color: var(--table-accordion-background--active);
+  --background-color: var(--table-accordion-background--active);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__button-icon .dnb-icon {
@@ -939,7 +1079,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-  background-color: var(--table-accordion-header-background);
+  --background-color: var(--table-accordion-header-background);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
@@ -948,7 +1088,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
-  background-color: var(--table-accordion-header-background);
+  --background-color: var(--table-accordion-header-background);
 }
 
 html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
@@ -995,16 +1135,14 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
 }
 
 .dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
-  background-color: var(--table-accordion-background);
+  --background-color: var(--table-accordion-background);
 }
 
 .dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   right: -0.0625rem;
-  bottom: 0;
   z-index: 1;
   pointer-events: none;
   border-top: var(--table-accordion-border);
@@ -1056,7 +1194,7 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
 }
 
 .dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
-  background-color: var(--table-accordion-background);
+  --background-color: var(--table-accordion-background);
   /**
     * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
     * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.

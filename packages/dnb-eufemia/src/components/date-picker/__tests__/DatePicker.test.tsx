@@ -3,7 +3,7 @@
  *
  */
 
-import React, { StrictMode, useState } from 'react'
+import { StrictMode, useLayoutEffect, useState } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
@@ -3647,7 +3647,7 @@ describe('DatePicker component', () => {
   it('should update calendar when changing minDate', async () => {
     const DatePickerComponent = () => {
       const today = new Date()
-      const [minDate, setMinDate] = React.useState(today)
+      const [minDate, setMinDate] = useState(today)
 
       const tomorrow = new Date()
       tomorrow.setDate(tomorrow.getDate() + 1)
@@ -4245,11 +4245,11 @@ describe('DatePicker component', () => {
 
   it('should use correct dates based on props updated through useLayoutEffect', async () => {
     const Component = () => {
-      const [date, setDate] = React.useState(new Date('2025-04-12'))
-      const [minDate, setMinDate] = React.useState(new Date('2025-04-10'))
-      const [maxDate, setMaxDate] = React.useState(new Date('2025-04-20'))
+      const [date, setDate] = useState(new Date('2025-04-12'))
+      const [minDate, setMinDate] = useState(new Date('2025-04-10'))
+      const [maxDate, setMaxDate] = useState(new Date('2025-04-20'))
 
-      React.useLayoutEffect(() => {
+      useLayoutEffect(() => {
         setDate(new Date('2025-04-15'))
         setMinDate(new Date('2025-04-05'))
         setMaxDate(new Date('2025-04-25'))
@@ -4285,11 +4285,11 @@ describe('DatePicker component', () => {
 
   it('should use correct dates based on props updated through useLayoutEffect in StrictMode', async () => {
     const Component = () => {
-      const [date, setDate] = React.useState(new Date('2025-04-12'))
-      const [minDate, setMinDate] = React.useState(new Date('2025-04-10'))
-      const [maxDate, setMaxDate] = React.useState(new Date('2025-04-20'))
+      const [date, setDate] = useState(new Date('2025-04-12'))
+      const [minDate, setMinDate] = useState(new Date('2025-04-10'))
+      const [maxDate, setMaxDate] = useState(new Date('2025-04-20'))
 
-      React.useLayoutEffect(() => {
+      useLayoutEffect(() => {
         setDate(new Date('2025-04-15'))
         setMinDate(new Date('2025-04-05'))
         setMaxDate(new Date('2025-04-25'))
@@ -5281,7 +5281,7 @@ describe('DatePickerPortal', () => {
     const onOpen = jest.fn()
 
     const DatePickerComponent = () => {
-      const [, setShow] = React.useState(false)
+      const [, setShow] = useState(false)
 
       return (
         <DatePicker

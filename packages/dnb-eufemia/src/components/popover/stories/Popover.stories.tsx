@@ -1,4 +1,3 @@
-import React from 'react'
 import Popover from '../Popover'
 import '../style/dnb-popover.scss'
 import Button from '../../button/Button'

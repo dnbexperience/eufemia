@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex } from '@dnb/eufemia/src'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
@@ -47,7 +47,7 @@ export function AsyncSubmit() {
 
         const ExternalSubmitButton = () => {
           const { submit } = Form.useSubmit(formId)
-          const [loading, setLoading] = React.useState(false)
+          const [loading, setLoading] = useState(false)
 
           const handleClick = async () => {
             setLoading(true)

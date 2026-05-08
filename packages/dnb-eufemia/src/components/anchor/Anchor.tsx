@@ -4,7 +4,15 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import { createElement, useCallback, useContext, useRef } from 'react'
+import type {
+  AnchorHTMLAttributes,
+  ComponentType,
+  HTMLProps,
+  ReactNode,
+  Ref,
+  RefObject,
+} from 'react'
 import clsx from 'clsx'
 import type { ElementAllProps } from '../../elements/Element'
 import E from '../../elements/Element'
@@ -21,7 +29,7 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 // Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
 type ReactRouterLink = Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  AnchorHTMLAttributes<HTMLAnchorElement>,
   'href'
 > & {
   to: string | { pathname?: string; search?: string; has?: string }
@@ -30,19 +38,17 @@ type ReactRouterLink = Omit<
 export type AnchorProps = {
   element?:
     | DynamicElement<HTMLAnchorElement | AnchorAllProps>
-    | React.ComponentType<
-        ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
-      >
+    | ComponentType<ReactRouterLink & { ref?: Ref<HTMLAnchorElement> }>
   href?: string
   to?: string
   targetBlankTitle?: string
   target?: string
-  tooltip?: React.ReactNode
+  tooltip?: ReactNode
   icon?: IconIcon
   iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
-  ref?: React.Ref<HTMLAnchorElement>
+  ref?: Ref<HTMLAnchorElement>
 
   /**
    * Removes default animation.
@@ -82,7 +88,7 @@ export type AnchorProps = {
 }
 
 export type AnchorAllProps = AnchorProps &
-  Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> &
+  Omit<HTMLProps<HTMLAnchorElement>, 'ref'> &
   SpacingProps
 
 const defaultProps: AnchorProps = {
@@ -96,7 +102,7 @@ const defaultProps: AnchorProps = {
 }
 
 export function AnchorInstance(localProps: AnchorAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
@@ -105,13 +111,13 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
-  const fallbackRef = React.useRef<HTMLAnchorElement>(null)
+  const fallbackRef = useRef<HTMLAnchorElement>(null)
 
   if (!allProps.ref) {
     allProps.ref = fallbackRef
   }
 
-  const tooltipRef = React.useRef<HTMLAnchorElement | null>(null)
+  const tooltipRef = useRef<HTMLAnchorElement | null>(null)
 
   const {
     id,
@@ -169,15 +175,14 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const prefix = iconPosition === 'left' && iconNode
 
-  const anchorRef = React.useCallback(
+  const anchorRef = useCallback(
     (elem: HTMLAnchorElement | null) => {
       tooltipRef.current = elem
 
       if (typeof refProp === 'function') {
         refProp(elem)
       } else if (refProp) {
-        ;(refProp as React.RefObject<HTMLAnchorElement | null>).current =
-          elem
+        ;(refProp as RefObject<HTMLAnchorElement | null>).current = elem
       }
     },
     [refProp]
@@ -298,7 +303,7 @@ function getIcon(icon) {
 
 export function pickIcon(icon, className?: string) {
   if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
-    return React.createElement(icon.type, {
+    return createElement(icon.type, {
       ...icon.props,
       key: 'button-icon-clone',
       className: clsx(icon.props?.className, className),

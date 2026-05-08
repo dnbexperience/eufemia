@@ -1,10 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { KeyboardEvent } from 'react'
 import clsx from 'clsx'
 import IconPrimary from '../IconPrimary'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -105,7 +100,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
   }, [parentContext])
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
+    (event: KeyboardEvent<HTMLDivElement>) => {
       if (disabled) {
         return // stop here
       }

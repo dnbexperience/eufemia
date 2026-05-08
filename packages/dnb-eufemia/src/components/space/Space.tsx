@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useContext } from 'react'
+import type { CSSProperties, HTMLProps, Ref } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
@@ -61,16 +62,16 @@ export type SpaceProps = {
    * Send along a custom React Ref.
    * Default: `null`
    */
-  ref?: React.Ref<HTMLElement>
+  ref?: Ref<HTMLElement>
 } & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref'>
+  Omit<HTMLProps<HTMLElement>, 'ref'>
 
 const defaultProps: Partial<SpaceAllProps> = {}
 
 function SpaceInstance(localProps: SpaceAllProps) {
-  const context = React.useContext<ContextProps & SpacingProps>(Context)
+  const context = useContext<ContextProps & SpacingProps>(Context)
 
   // consume the space context
   const props = context.space
@@ -121,7 +122,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
   const styleObj = {
     ...style,
     ...spacingInnerStyle,
-  } as React.CSSProperties
+  } as CSSProperties
 
   skeletonDOMAttributes(params, skeleton) // do not send along context
 

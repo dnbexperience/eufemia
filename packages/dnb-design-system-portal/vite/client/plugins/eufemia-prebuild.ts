@@ -1,12 +1,12 @@
 /**
- * Vite plugin that redirects `@dnb/eufemia/src/...` imports to
- * `@dnb/eufemia/build/...` when a pre-built package exists.
+ * Vite plugin that redirects `@dnb/eufemia` imports to
+ * `@dnb/eufemia/build...` when a pre-built package exists.
  *
- * Replaces the Gatsby `normalModuleReplacement` approach in
- * `gatsby-node.js`. During production builds, if `@dnb/eufemia`
- * has been pre-compiled (a `build/index.js` file exists), all
- * imports referencing `@dnb/eufemia/src/` are rewritten to use
- * the compiled output from `@dnb/eufemia/build/` instead.
+ * During production builds, if `@dnb/eufemia` has been pre-compiled
+ * (a `build/index.js` file exists), imports referencing
+ * `@dnb/eufemia`, `@dnb/eufemia/src/...`, and public package subpaths
+ * are rewritten to use the compiled output from
+ * `@dnb/eufemia/build/` instead.
  *
  * This speeds up production builds by avoiding on-the-fly
  * transpilation of the entire Eufemia source tree.
@@ -18,6 +18,16 @@
 import { type Plugin, type ResolvedConfig } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
+
+const EUFEMIA_PACKAGE_NAME = '@dnb/eufemia'
+const EXPLICIT_PREBUILD_TARGETS = new Set([
+  'build',
+  'cjs',
+  'es',
+  'esm',
+  'src',
+  'umd',
+])
 
 /**
  * Check whether the pre-built `@dnb/eufemia` package exists.
@@ -43,6 +53,29 @@ export function logPrebuildWarning() {
       'Keep in mind, the code from "dnb-eufemia/build" may be outdated.\n\n' +
       '👉 You can remove the build with: "yarn workspace @dnb/eufemia build:clean"\n'
   )
+}
+
+export function rewriteToPrebuild(source: string): string | null {
+  if (source === EUFEMIA_PACKAGE_NAME) {
+    return `${EUFEMIA_PACKAGE_NAME}/build`
+  }
+
+  if (!source.startsWith(`${EUFEMIA_PACKAGE_NAME}/`)) {
+    return null
+  }
+
+  const subpath = source.slice(EUFEMIA_PACKAGE_NAME.length + 1)
+  const [topLevelSegment] = subpath.split('/')
+
+  if (EXPLICIT_PREBUILD_TARGETS.has(topLevelSegment)) {
+    if (topLevelSegment === 'src') {
+      return `${EUFEMIA_PACKAGE_NAME}/build/${subpath.slice('src/'.length)}`
+    }
+
+    return null
+  }
+
+  return `${EUFEMIA_PACKAGE_NAME}/build/${subpath}`
 }
 
 export default function eufemiaPrebuildPlugin(): Plugin {
@@ -85,15 +118,11 @@ export default function eufemiaPrebuildPlugin(): Plugin {
         return null
       }
 
-      // Only rewrite @dnb/eufemia/src/... imports
-      if (!source.startsWith('@dnb/eufemia/src')) {
+      const rewritten = rewriteToPrebuild(source)
+
+      if (!rewritten) {
         return null
       }
-
-      const rewritten = source.replace(
-        /^@dnb\/eufemia\/src(.*)/,
-        '@dnb/eufemia/build$1'
-      )
 
       // Let Vite resolve the rewritten path normally
       return this.resolve(rewritten, importer, {

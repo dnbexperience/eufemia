@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'

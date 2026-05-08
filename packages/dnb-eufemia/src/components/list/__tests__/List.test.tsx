@@ -4,7 +4,6 @@
  * and accessibility (axe) for the most used list patterns.
  */
 
-import React from 'react'
 import { render } from '@testing-library/react'
 import List from '../List'
 import { axeComponent } from '../../../core/jest/jestSetup'

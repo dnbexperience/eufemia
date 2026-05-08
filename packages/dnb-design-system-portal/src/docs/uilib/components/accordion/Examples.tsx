@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useRef } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell,
@@ -287,7 +287,7 @@ export const AccordionInColumns = () => {
 }
 
 export function AccordionCloseAllInGroup() {
-  const collapseAll = React.useRef<(() => void) | null>(null)
+  const collapseAll = useRef<(() => void) | null>(null)
 
   return (
     <>

@@ -7,7 +7,8 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { TextCounter } from '@dnb/eufemia/src/fragments'
-import React from 'react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 
 export const Placeholder = () => {
   return (
@@ -521,7 +522,7 @@ export const OnInput = () => {
       {() => {
         const forbiddenRegex = /\\d/
 
-        const onInput = (event: React.FormEvent<HTMLInputElement>) => {
+        const onInput = (event: FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
           const oldVal = inputEl.dataset.oldVal || ''
           const addedLength = inputEl.value.length - oldVal.length
@@ -562,14 +563,14 @@ export const OnInput = () => {
           inputEl.dataset.oldVal = inputEl.value
         }
 
-        const onFocus = (event: React.FormEvent<HTMLInputElement>) => {
+        const onFocus = (event: FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
           if (typeof inputEl.dataset.oldVal === 'undefined') {
             inputEl.dataset.oldVal = inputEl.value
           }
         }
 
-        const onSelect = (event: React.FormEvent<HTMLInputElement>) => {
+        const onSelect = (event: FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
           inputEl.dataset.selectionStart = String(inputEl.selectionStart)
           inputEl.dataset.selectionEnd = String(inputEl.selectionEnd)
@@ -605,7 +606,7 @@ export const MaximumLengthWithTextCounter = () => {
     <ComponentBox>
       {() => {
         const MyFieldStringWithTextCounter = () => {
-          const [text, setText] = React.useState('')
+          const [text, setText] = useState('')
 
           return (
             <Flex.Vertical gap="x-small">

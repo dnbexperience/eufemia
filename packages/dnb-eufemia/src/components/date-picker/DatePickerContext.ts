@@ -1,9 +1,9 @@
+import { createContext } from 'react'
 /**
  * Web DatePicker Context
  *
  */
 
-import React from 'react'
 import type { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
 import type { ContextProps } from '../../shared/Context'
 import type {
@@ -47,7 +47,7 @@ export type DatePickerContextValue = ContextProps &
     ) => DatePickerReturnObject<E>
   }
 
-const DatePickerContext = React.createContext<DatePickerContextValue>(
+const DatePickerContext = createContext<DatePickerContextValue>(
   {} as DatePickerContextValue
 )
 

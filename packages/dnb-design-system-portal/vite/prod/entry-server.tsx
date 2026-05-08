@@ -6,7 +6,8 @@
  * pages only load the JS they actually need.
  */
 
-import React, { Component } from 'react'
+import { Component, Suspense } from 'react'
+import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
   createStaticHandler,
@@ -21,7 +22,7 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { MDXProvider } from '@mdx-js/react'
 import { routes, allMdxNodes } from 'virtual:portal-pages'
-import { translations, getLang } from '../../src/core/PortalProviders'
+import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
 
@@ -131,7 +132,7 @@ function RootLayout() {
         disableCoreStyleWrapper
         scopeHash="eufemia-scope--portal"
       >
-        <Theme colorScheme="light">
+        <Theme name="ui" colorScheme="auto">
           <MDXProvider components={tags}>
             <SSRPageWrapper />
           </MDXProvider>
@@ -150,7 +151,9 @@ function SSRPageWrapper() {
       pageContext={{ frontmatter: {} }}
     >
       <SSRErrorBoundary>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </SSRErrorBoundary>
     </PortalLayout>
   )
@@ -162,7 +165,7 @@ function SSRPageWrapper() {
  * The client-side JS will render the content on hydration.
  */
 class SSRErrorBoundary extends Component<
-  { children: React.ReactNode },
+  { children: ReactNode },
   { hasError: boolean }
 > {
   state = { hasError: false }

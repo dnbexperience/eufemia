@@ -1,4 +1,4 @@
-import React from 'react'
+import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
@@ -13,13 +13,13 @@ type RatingOwnProps = {
   value?: number
   max?: number
   variant?: 'stars' | 'progressive'
-  element?: keyof React.JSX.IntrinsicElements
-  srLabel?: React.ReactNode
+  element?: keyof JSX.IntrinsicElements
+  srLabel?: ReactNode
   skeleton?: SkeletonShow
 }
 
 export type RatingProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   keyof RatingOwnProps | 'ref'
 > &
   RatingOwnProps &
@@ -94,7 +94,7 @@ function Rating(props: RatingProps) {
                 style={
                   {
                     '--dnb-stat-rating-fill': `${fill * 100}%`,
-                  } as React.CSSProperties
+                  } as CSSProperties
                 }
                 data-fill={fill.toFixed(2)}
               >
@@ -121,7 +121,7 @@ function Rating(props: RatingProps) {
                   {
                     '--dnb-stat-rating-step-fill': `${fill * 100}%`,
                     '--dnb-stat-rating-step-height': `${stepHeight}rem`,
-                  } as React.CSSProperties
+                  } as CSSProperties
                 }
                 data-fill={fill.toFixed(2)}
               />

@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import { act, useState } from 'react'
 import { fireEvent, render, renderHook } from '@testing-library/react'
 import { Form, Field } from '../../..'
 import useSubmit from '../useSubmit'
@@ -89,7 +89,7 @@ describe('Form.useSubmit', () => {
 
     const SubmitTrigger = () => {
       const { submit } = Form.useSubmit()
-      const [result, setResult] = React.useState<unknown>(null)
+      const [result, setResult] = useState<unknown>(null)
       return (
         <>
           <button

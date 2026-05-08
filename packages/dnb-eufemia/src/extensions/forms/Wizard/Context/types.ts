@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { StepIndicatorStatusState } from '../../../../components/step-indicator/StepIndicatorItem'
 import type { EventReturnWithStateObject, Path } from '../../types'
 
@@ -26,7 +27,7 @@ export type Steps = Map<
   {
     index: StepIndex
     id: string
-    title: React.ReactNode
+    title: ReactNode
     stringifiedTitle: string
     inactive?: boolean
     keepInDOM?: boolean

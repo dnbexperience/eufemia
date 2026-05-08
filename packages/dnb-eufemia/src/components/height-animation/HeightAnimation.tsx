@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 import clsx from 'clsx'
 import type { UseHeightAnimationOptions } from './useHeightAnimation'
 import { useHeightAnimation } from './useHeightAnimation'
@@ -42,13 +43,13 @@ export type HeightAnimationProps = {
    * Send along a custom React Ref.
    * Default: `null`
    */
-  ref?: React.RefObject<HTMLElement>
+  ref?: RefObject<HTMLElement>
 } & UseHeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
   Omit<
-    React.HTMLProps<HTMLElement>,
+    HTMLProps<HTMLElement>,
     'ref' | 'onAnimationEnd' | 'onAnimationStart'
   >
 
@@ -90,15 +91,31 @@ function HeightAnimation({
     onAnimationEnd,
   })
 
+  // Set CSS custom properties via the DOM instead of React's style
+  // prop. React's SSR serializes custom properties without spaces
+  // (e.g. "--duration:600ms") while the client serializes them with
+  // spaces and a trailing semicolon ("--duration: 600ms;"), causing
+  // a hydration mismatch.
+  useEffect(() => {
+    const el = targetRef.current
+    if (!el) {
+      return
+    }
+    if (duration) {
+      el.style.setProperty('--duration', `${duration}ms`)
+    } else {
+      el.style.removeProperty('--duration')
+    }
+
+    if (delay) {
+      el.style.setProperty('--delay', `${delay}ms`)
+    } else {
+      el.style.removeProperty('--delay')
+    }
+  }, [duration, delay, targetRef, isInDOM])
+
   if (!keepInDOM && !isInDOM && !isAnimating) {
     return null
-  }
-
-  if (duration) {
-    firstPaintStyle['--duration'] = `${duration}ms`
-  }
-  if (delay) {
-    firstPaintStyle['--delay'] = `${delay}ms`
   }
 
   return (

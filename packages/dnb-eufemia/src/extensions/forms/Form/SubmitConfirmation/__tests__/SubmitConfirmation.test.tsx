@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { isCI } from 'repo-utils'
 import { Form, Wizard } from '../../..'
@@ -14,10 +15,10 @@ describe('Form.SubmitConfirmation', () => {
   describe('with preventSubmitWhen', () => {
     it('should keep pending state when confirmationState is "readyToBeSubmitted"', async () => {
       const onSubmit = jest.fn()
-      const confirmationStateRef: React.RefObject<
+      const confirmationStateRef: RefObject<
         ConfirmParams['confirmationState'] | null
       > = { current: null }
-      const submitHandlerRef: React.RefObject<
+      const submitHandlerRef: RefObject<
         ConfirmParams['submitHandler'] | null
       > = { current: null }
 
@@ -66,10 +67,10 @@ describe('Form.SubmitConfirmation', () => {
 
     it('should keep pending state when confirmationState is "readyToBeSubmitted" and onSubmit is async', async () => {
       const onSubmit = jest.fn(async () => null)
-      const confirmationStateRef: React.RefObject<
+      const confirmationStateRef: RefObject<
         ConfirmParams['confirmationState'] | null
       > = { current: null }
-      const submitHandlerRef: React.RefObject<
+      const submitHandlerRef: RefObject<
         ConfirmParams['submitHandler'] | null
       > = { current: null }
 
@@ -118,7 +119,7 @@ describe('Form.SubmitConfirmation', () => {
 
     describe('focus handling', () => {
       it('should set focus on submit button when submitHandler is called', async () => {
-        const submitHandlerRef: React.RefObject<
+        const submitHandlerRef: RefObject<
           ConfirmParams['submitHandler'] | null
         > = { current: null }
 
@@ -169,7 +170,7 @@ describe('Form.SubmitConfirmation', () => {
       })
 
       it('should set focus on submit button when cancelHandler is called', async () => {
-        const cancelHandlerRef: React.RefObject<
+        const cancelHandlerRef: RefObject<
           ConfirmParams['cancelHandler'] | null
         > = { current: null }
 
@@ -438,7 +439,7 @@ describe('Form.SubmitConfirmation', () => {
       const onSubmit = jest.fn(async () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
       })
-      const confirmationStateRef: React.RefObject<
+      const confirmationStateRef: RefObject<
         ConfirmParams['confirmationState'] | null
       > = { current: null }
 
@@ -632,7 +633,7 @@ describe('Form.SubmitConfirmation', () => {
 
   it('should call onSubmit when submitHandler is called', async () => {
     const onSubmit = jest.fn()
-    const submitHandlerRef: React.RefObject<
+    const submitHandlerRef: RefObject<
       ConfirmParams['submitHandler'] | null
     > = { current: null }
 
@@ -657,10 +658,10 @@ describe('Form.SubmitConfirmation', () => {
   })
 
   it('should set confirmationState to idle when cancelHandler is called', async () => {
-    const confirmationStateRef: React.RefObject<
+    const confirmationStateRef: RefObject<
       ConfirmParams['confirmationState'] | null
     > = { current: null }
-    const cancelHandlerRef: React.RefObject<
+    const cancelHandlerRef: RefObject<
       ConfirmParams['cancelHandler'] | null
     > = { current: null }
 

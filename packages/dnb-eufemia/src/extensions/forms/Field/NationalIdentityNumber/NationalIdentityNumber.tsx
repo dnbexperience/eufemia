@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'

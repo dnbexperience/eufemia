@@ -1,4 +1,4 @@
-import React from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Button } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
@@ -60,21 +60,21 @@ export const UndoRedo = () => {
       {() => {
         const MyComponent = () => {
           const { createSnapshot, applySnapshot } = Form.useSnapshot()
-          const pointerRef = React.useRef(0)
+          const pointerRef = useRef(0)
 
-          React.useEffect(() => {
+          useEffect(() => {
             createSnapshot(pointerRef.current, 'my-snapshot-slice')
           }, [createSnapshot])
 
-          const changeHandler = React.useCallback(() => {
+          const changeHandler = useCallback(() => {
             pointerRef.current += 1
             createSnapshot(pointerRef.current, 'my-snapshot-slice')
           }, [createSnapshot])
-          const undoHandler = React.useCallback(() => {
+          const undoHandler = useCallback(() => {
             pointerRef.current -= 1
             applySnapshot(pointerRef.current, 'my-snapshot-slice')
           }, [applySnapshot])
-          const redoHandler = React.useCallback(() => {
+          const redoHandler = useCallback(() => {
             pointerRef.current += 1
             applySnapshot(pointerRef.current, 'my-snapshot-slice')
           }, [applySnapshot])

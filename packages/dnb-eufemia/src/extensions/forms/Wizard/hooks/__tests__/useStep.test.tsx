@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { render, renderHook, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
@@ -416,10 +416,10 @@ describe('useStep', () => {
     it('queues setActiveIndex until the wizard registers', async () => {
       const Consumer = () => {
         const { activeIndex, setActiveIndex } = useStep(identifier)
-        const [show, setShow] = React.useState(false)
-        const queuedRef = React.useRef(false)
+        const [show, setShow] = useState(false)
+        const queuedRef = useRef(false)
 
-        React.useEffect(() => {
+        useEffect(() => {
           if (queuedRef.current) {
             return
           }
@@ -474,7 +474,7 @@ describe('useStep', () => {
       const Consumer = () => {
         const { setActiveIndex } = useStep(identifier)
 
-        React.useEffect(() => {
+        useEffect(() => {
           setter = setActiveIndex
         }, [setActiveIndex])
 
@@ -1071,7 +1071,7 @@ describe('useStep', () => {
     const MockStep = () => {
       const { setFormError } = useStep(identifier)
 
-      React.useEffect(() => {
+      useEffect(() => {
         setFormError(new Error('My error'))
       }, [setFormError])
 

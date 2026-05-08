@@ -1,4 +1,4 @@
-import React from 'react'
+import type { RefObject } from 'react'
 import { render, screen } from '@testing-library/react'
 import type { AvatarImgProps, AvatarProps } from '../Avatar'
 import Avatar from '../Avatar'
@@ -831,7 +831,7 @@ describe('Avatar', () => {
   })
 
   it('should forward ref', () => {
-    const ref: React.RefObject<HTMLElement | null> = { current: null }
+    const ref: RefObject<HTMLElement | null> = { current: null }
 
     render(
       <Avatar.Group label="label">

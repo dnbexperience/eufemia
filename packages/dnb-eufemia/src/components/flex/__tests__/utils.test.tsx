@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 import { MainHeading, SubHeading } from '../../../extensions/forms/Form'
 import Heading from '../../Heading'
 import { H1, H2, H3, H4, H5, H6 } from '../../../elements'
@@ -101,21 +101,18 @@ describe('renderWithSpacing', () => {
     const MockComponent = ({ children }) => <div>{children}</div>
     MockComponent._supportsSpacingProps = 'children'
 
-    const spy = jest.spyOn(React, 'createElement')
-
-    renderWithSpacing(
+    const result = renderWithSpacing(
       <MockComponent key="test-key">
         <span>child</span>
       </MockComponent>,
       {}
     )
 
-    const call = spy.mock.calls.find(
-      ([type]) => type === (MockComponent as any)
-    )
-    expect(call).toBeDefined()
-    expect(call[1].key).toBe('.$test-key-0')
-
-    spy.mockRestore()
+    const elements = (result as ReactElement[][]).flat()
+    const element = elements.find(
+      (el) => (el as ReactElement).type === MockComponent
+    ) as ReactElement
+    expect(element).toBeDefined()
+    expect(element.key).toBe('.$test-key-0')
   })
 })

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { Suspense } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
@@ -18,11 +18,10 @@ import {
   ToggleButton,
   Badge,
 } from '@dnb/eufemia/src'
+import type { ReactNode } from 'react'
 
 // No-op Router shell for the reach-router example
-const Router = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
+const Router = ({ children }: { children: ReactNode }) => <>{children}</>
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -157,24 +156,14 @@ export const TabsExampleLeftAligned = () => (
     <ComponentBox data-visual-test="tabs-section-styles">
       <Tabs tabsStyle="information" contentStyle="information">
         <Tabs.Content title="First" key="first">
-          <Section
-            innerSpace={{ block: 'large' }}
-            top
-            bottom
-            backgroundColor="white"
-          >
+          <Section innerSpace={{ block: 'large' }} top bottom>
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
         <Tabs.Content title="Second" key="second">
-          <Section
-            innerSpace={{ block: 'large' }}
-            top
-            bottom
-            backgroundColor="white"
-          >
+          <Section innerSpace={{ block: 'large' }} top bottom>
             <H2 top={0} bottom>
               Second
             </H2>
@@ -264,45 +253,44 @@ export const TabsExampleMaxWidth = () => (
   </ComponentBox>
 )
 
-export const TabsExampleReachRouterNavigation = () =>
-  typeof window === 'undefined' ? null : (
-    <Wrapper>
-      <ComponentBox scope={{ useLocation, Router, navigate }}>
-        {() => {
-          const Home = ({ path, default: d }) => <H2>Home</H2>
-          const About = ({ path }) => <H2>About</H2>
-          const Topics = ({ path }) => <H2>Topics</H2>
+export const TabsExampleReachRouterNavigation = () => (
+  <Wrapper>
+    <ComponentBox scope={{ useLocation, Router, navigate }}>
+      {() => {
+        const Home = ({ path, default: d }) => <H2>Home</H2>
+        const About = ({ path }) => <H2>About</H2>
+        const Topics = ({ path }) => <H2>Topics</H2>
 
-          const Component = () => {
-            const { pathname } = useLocation()
+        const Component = () => {
+          const { pathname } = useLocation()
 
-            return (
-              <Tabs
-                data={[
-                  { title: 'Home', key: '/' },
-                  { title: 'About', key: '/about' },
-                  { title: 'Topics', key: '/topics' },
-                ]}
-                selectedKey={pathname}
-                onChange={({ key }) => navigate(String(key))}
-                tabsStyle="information"
-              >
-                <React.Suspense fallback={<em>Loading ...</em>}>
-                  <Router>
-                    <Home path="/" default />
-                    <About path="/about" />
-                    <Topics path="/topics" />
-                  </Router>
-                </React.Suspense>
-              </Tabs>
-            )
-          }
+          return (
+            <Tabs
+              data={[
+                { title: 'Home', key: '/' },
+                { title: 'About', key: '/about' },
+                { title: 'Topics', key: '/topics' },
+              ]}
+              selectedKey={pathname}
+              onChange={({ key }) => navigate(String(key))}
+              tabsStyle="information"
+            >
+              <Suspense fallback={<em>Loading ...</em>}>
+                <Router>
+                  <Home path="/" default />
+                  <About path="/about" />
+                  <Topics path="/topics" />
+                </Router>
+              </Suspense>
+            </Tabs>
+          )
+        }
 
-          return <Component />
-        }}
-      </ComponentBox>
-    </Wrapper>
-  )
+        return <Component />
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
 
 const exampleContent = {
   first: () => <h2 className="dnb-h--large">First</h2>,

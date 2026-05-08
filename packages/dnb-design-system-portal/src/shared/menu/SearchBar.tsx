@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useRef, useState } from 'react'
+import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
@@ -15,12 +16,12 @@ import {
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
-import { scrollToAnimation } from '../parts/Layout'
+import { scrollToAnimation } from '../parts/layout-utils'
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 
 export const SearchBarInput = () => {
-  const searchIndex = React.useRef(null)
-  const [status, setStatus] = React.useState(null)
+  const searchIndex = useRef(null)
+  const [status, setStatus] = useState(null)
 
   const onTypeHandler = ({
     value,
@@ -130,7 +131,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
     const { slug, title, description, search } = hit
 
     const handleTitleClick = (
-      event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
+      event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
     ) => {
       event.stopPropagation()
       if (
@@ -160,7 +161,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
 
     hit.headings?.forEach(({ value, slug: hash }, i) => {
       const handleHeadingClick = (
-        event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
+        event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
       ) => {
         event.stopPropagation()
         if (
@@ -202,9 +203,9 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
 
 type SearchResultNavigationArgs = {
   event?:
-    | React.MouseEvent<HTMLElement>
-    | React.KeyboardEvent<HTMLElement>
-    | React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
+    | MouseEvent<HTMLElement>
+    | KeyboardEvent<HTMLElement>
+    | MouseEvent<HTMLAnchorElement | HTMLLinkElement>
   slug: string
   hash?: string
   setHidden?: () => void
@@ -225,8 +226,7 @@ const handleSearchResultNavigation = ({
     event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey
   const isMouseEvent =
     !!event && 'button' in event && typeof event.button === 'number'
-  const isMiddleClick =
-    isMouseEvent && (event as React.MouseEvent).button !== 0
+  const isMiddleClick = isMouseEvent && (event as MouseEvent).button !== 0
 
   if ((modifiedClick || isMiddleClick) && allowBrowserDefaultOnModified) {
     return false
@@ -251,7 +251,7 @@ const handleSearchResultNavigation = ({
   return true
 }
 
-const SearchLogo = (props: Omit<React.SVGProps<SVGElement>, 'ref'>) => (
+const SearchLogo = (props: Omit<SVGProps<SVGElement>, 'ref'>) => (
   <svg
     width="40"
     height="10"

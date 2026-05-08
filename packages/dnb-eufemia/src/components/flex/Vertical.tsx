@@ -1,4 +1,3 @@
-import React from 'react'
 import Container from './Container'
 import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { Ref } from 'react'
 import Button from '../button/Button'
 import { useMenuTriggerContext } from './MenuContext'
 import type { MenuButtonProps, MenuTriggerRenderProps } from './types'
@@ -36,7 +36,7 @@ export default function MenuButton(props: MenuButtonProps) {
       variant={variant}
       icon={icon}
       selected={active}
-      ref={ref as React.Ref<HTMLElement>}
+      ref={ref as Ref<HTMLElement>}
       {...restTriggerProps}
       {...rest}
     />

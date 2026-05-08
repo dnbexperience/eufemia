@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext, useRef } from 'react'
+import type { TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
@@ -13,7 +14,7 @@ type TableAccordionContentProps = {
   /** Overwrite the internal collected colSpan (add +1) */
   colSpan?: number
   variant: 'row' | 'single'
-} & React.TableHTMLAttributes<HTMLTableRowElement>
+} & TableHTMLAttributes<HTMLTableRowElement>
 
 export type TableAccordionContentRowProps = Omit<
   TableAccordionContentProps,
@@ -39,11 +40,11 @@ function TableAccordionContent(
     ...props
   } = componentProps
 
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
   const tableContextAllProps = tableContext?.allProps
-  const contentRef = React.useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const id = useId()
-  const trRef = React.useRef<HTMLTableRowElement>(null)
+  const trRef = useRef<HTMLTableRowElement>(null)
   const {
     ariaLive,
     isInDOM,
@@ -56,9 +57,7 @@ function TableAccordionContent(
     expanded,
     noAnimation,
   })
-  const keepInDOM = Boolean(
-    React.useContext(TableAccordionContext)?.keepInDOM
-  )
+  const keepInDOM = Boolean(useContext(TableAccordionContext)?.keepInDOM)
   const shouldRenderContent = isInDOM || keepInDOM
 
   const chevronTdProps = {
@@ -151,7 +150,7 @@ const ChevronTd = ({
 export function TableAccordionContentRow(
   props: TableAccordionContentRowProps
 ) {
-  const tableContext = React.useContext(TableContext)
+  const tableContext = useContext(TableContext)
   tableContext.hasAccordionRows = true
   return <TableAccordionContent variant="row" {...props} />
 }
@@ -160,7 +159,7 @@ export function TableAccordionContentSingle({
   colSpan = 100,
   ...props
 }: TableAccordionContentSingleProps) {
-  const tableAccordionContext = React.useContext(TableAccordionContext)
+  const tableAccordionContext = useContext(TableAccordionContext)
 
   return (
     <TableAccordionContent

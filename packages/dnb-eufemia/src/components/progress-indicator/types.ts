@@ -1,4 +1,4 @@
-import type * as React from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import type CSS from 'csstype'
 import type { SpacingProps } from '../../shared/types'
 
@@ -37,11 +37,11 @@ export type ProgressIndicatorProps = {
   /**
    * Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)
    */
-  label?: React.ReactNode
+  label?: ReactNode
   /**
    * Same as `label` prop (`label` prop has priority)
    */
-  children?: React.ReactNode
+  children?: ReactNode
   /**
    * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `vertical`.
    */
@@ -103,14 +103,14 @@ export type ProgressIndicatorAnimationProps = Pick<
 }
 
 export type ProgressIndicatorAllProps = Omit<
-  React.HTMLProps<HTMLSpanElement>,
+  HTMLProps<HTMLSpanElement>,
   'ref' | 'label' | 'size'
 > &
   SpacingProps &
   ProgressIndicatorProps
 
 export type ProgressIndicatorCircularAllProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'size'
 > &
   ProgressIndicatorAnimationProps & {
@@ -121,7 +121,7 @@ export type ProgressIndicatorCircularAllProps = Omit<
   }
 
 export type ProgressIndicatorLinearAllProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'size'
 > &
   Omit<ProgressIndicatorAnimationProps, 'customCircleWidth'>

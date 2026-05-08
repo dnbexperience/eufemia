@@ -3,13 +3,14 @@
  *
  */
 
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
 } from 'react'
+import type { CSSProperties } from 'react'
 import clsx from 'clsx'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
@@ -116,7 +117,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           '--progress-indicator-circular-size': customSize,
           '--progress-indicator-circular-stroke-width': customCircleWidth,
           '--progress-indicator-linear-size': customSize,
-        } as React.CSSProperties,
+        } as CSSProperties,
         ...remainingDOMProps,
       })}
     >

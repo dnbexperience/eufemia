@@ -1429,4 +1429,94 @@ describe('isolated-style-scope-plugin', () => {
       })
     })
   })
+
+  describe('warnOnDeprecatedColorVariables', () => {
+    async function runWithWarnings(
+      input: string,
+      options: Options & { warnOnDeprecatedColorVariables?: boolean } = {}
+    ) {
+      options.postcssOptions = options.postcssOptions ?? {
+        from: '/file.css',
+      }
+
+      const result = await postcss([plugin(options)]).process(
+        input,
+        options.postcssOptions
+      )
+
+      return result.warnings()
+    }
+
+    it('should warn by default without explicit opt-in', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--color-sea-green); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0].text).toContain('--color-sea-green')
+    })
+
+    it('should not warn when explicitly disabled', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--color-sea-green); }',
+        {
+          scopeHash: 'test-scope',
+          warnOnDeprecatedColorVariables: false,
+        }
+      )
+
+      expect(warnings).toHaveLength(0)
+    })
+
+    it('should warn on deprecated color variable in value', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--color-sea-green); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0].text).toContain('--color-sea-green')
+      expect(warnings[0].text).toContain(
+        'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+      )
+    })
+
+    it('should warn on deprecated color variable in property', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { --color-mint: #00f; }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0].text).toContain('--color-mint')
+    })
+
+    it('should warn once per unique variable in a declaration', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { background: var(--color-sea-green) var(--color-sea-green); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(1)
+    })
+
+    it('should warn for multiple different deprecated variables', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--color-sea-green); background: var(--color-mint); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(2)
+    })
+
+    it('should not warn on non-deprecated variables', async () => {
+      const warnings = await runWithWarnings(
+        '.foo { color: var(--token-color-text-neutral); }',
+        { scopeHash: 'test-scope' }
+      )
+
+      expect(warnings).toHaveLength(0)
+    })
+  })
 })

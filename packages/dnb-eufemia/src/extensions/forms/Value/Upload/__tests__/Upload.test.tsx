@@ -1,4 +1,3 @@
-import React from 'react'
 import { screen, render, fireEvent, waitFor } from '@testing-library/react'
 import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'

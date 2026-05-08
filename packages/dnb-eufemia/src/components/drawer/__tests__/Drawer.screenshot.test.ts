@@ -1,42 +1,39 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
+  test,
+  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/playwright/screenshotSetup'
 
-describe('Drawer', () => {
-  describe('large', () => {
+test.describe('Drawer', () => {
+  test.describe('large', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos/',
     })
 
-    it('have to match default drawer trigger with title', async () => {
+    test('have to match default drawer trigger with title', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match default drawer trigger', async () => {
+    test('have to match default drawer trigger', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match customized drawer trigger', async () => {
+    test('have to match customized drawer trigger', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-custom-trigger"]',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
   })
 
-  describe('open', () => {
+  test.describe('open', () => {
     const pageViewport = {
       width: 700,
       height: 600,
@@ -47,7 +44,7 @@ describe('Drawer', () => {
       pageViewport,
     })
 
-    it('have to match simple drawer window', async () => {
+    test('have to match simple drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
         simulate: 'click',
@@ -56,10 +53,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match fullscreen drawer', async () => {
+    test('have to match fullscreen drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="fullscreen-drawer"]',
         simulate: 'click',
@@ -68,10 +65,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match left placement drawer', async () => {
+    test('have to match left placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="left-placement-drawer"]',
         simulate: 'click',
@@ -80,10 +77,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match full drawer window', async () => {
+    test('have to match full drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
         simulate: 'click',
@@ -92,10 +89,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match callback drawer window', async () => {
+    test('have to match callback drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="callback-drawer"]',
         simulate: 'click',
@@ -104,10 +101,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match no-animation drawer window', async () => {
+    test('have to match no-animation drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-no-animation"]',
         simulate: 'click',
@@ -116,10 +113,10 @@ describe('Drawer', () => {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match correct scroll view setup', async () => {
+    test('have to match correct scroll view setup', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-scroll-view"]',
         simulate: 'click',
@@ -128,39 +125,37 @@ describe('Drawer', () => {
         screenshotSelector: '.drawer-scroll-view',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match large content drawer scrolled', async () => {
+    test('have to match large content drawer scrolled', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="large-content-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="large-content-drawer"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
         rootClassName: ['hide-page-content'],
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to apply sticky header when header content changes', async () => {
+    test('have to apply sticky header when header content changes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="update-navigation-header-example"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="update-navigation-header-example"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         simulateAfter: { keypress: 'Escape' },
         rootClassName: ['hide-page-content'],
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
   })
 
-  describe('small', () => {
+  test.describe('small', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos/',
       pageViewport: {
@@ -169,7 +164,7 @@ describe('Drawer', () => {
       },
     })
 
-    it('have to match top placement drawer', async () => {
+    test('have to match top placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="top-placement-drawer"]',
         simulate: 'click',
@@ -179,10 +174,10 @@ describe('Drawer', () => {
         simulateAfter: { keypress: 'Escape' },
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
 
-    it('have to match bottom placement drawer', async () => {
+    test('have to match bottom placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="bottom-placement-drawer"]',
         simulate: 'click',
@@ -192,7 +187,7 @@ describe('Drawer', () => {
         simulateAfter: { keypress: 'Escape' },
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchImageSnapshot()
+      expect(screenshot).toMatchSnapshot()
     })
   })
 })

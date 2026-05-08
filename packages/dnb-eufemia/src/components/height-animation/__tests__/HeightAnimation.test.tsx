@@ -1,5 +1,7 @@
-import React from 'react'
+import { useRef } from 'react'
+import type { RefObject } from 'react'
 import { render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import HeightAnimation from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
@@ -421,10 +423,10 @@ describe('HeightAnimation without initializeTestSetup()', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLElement>
+    let ref: RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef<HTMLElement | null>(null)
+      ref = useRef<HTMLElement | null>(null)
       return <HeightAnimation ref={ref}>content</HeightAnimation>
     }
 
@@ -433,6 +435,54 @@ describe('HeightAnimation without initializeTestSetup()', () => {
     expect(ref.current instanceof HTMLDivElement).toBe(true)
     expect(ref.current.tagName).toBe('DIV')
     expect(ref.current.classList).toContain('dnb-height-animation')
+  })
+})
+
+describe('HeightAnimation SSR', () => {
+  it('should not include CSS custom properties in server-rendered HTML', () => {
+    const html = renderToString(
+      <HeightAnimation duration={600} delay={200}>
+        content
+      </HeightAnimation>
+    )
+
+    expect(html).not.toContain('--duration')
+    expect(html).not.toContain('--delay')
+  })
+
+  it('should remove stale CSS custom properties when props are cleared', () => {
+    const { rerender } = render(
+      <HeightAnimation duration={600} delay={200}>
+        content
+      </HeightAnimation>
+    )
+
+    const element = document.querySelector(
+      '.dnb-height-animation'
+    ) as HTMLElement
+    expect(element.style.getPropertyValue('--duration')).toBe('600ms')
+    expect(element.style.getPropertyValue('--delay')).toBe('200ms')
+
+    rerender(<HeightAnimation>content</HeightAnimation>)
+
+    expect(element.style.getPropertyValue('--duration')).toBe('')
+    expect(element.style.getPropertyValue('--delay')).toBe('')
+  })
+
+  it('should render with is-visible class when open', () => {
+    const html = renderToString(
+      <HeightAnimation open>content</HeightAnimation>
+    )
+
+    expect(html).toContain('dnb-height-animation--is-visible')
+  })
+
+  it('should not render element when open is false', () => {
+    const html = renderToString(
+      <HeightAnimation open={false}>content</HeightAnimation>
+    )
+
+    expect(html).not.toContain('dnb-height-animation')
   })
 })
 

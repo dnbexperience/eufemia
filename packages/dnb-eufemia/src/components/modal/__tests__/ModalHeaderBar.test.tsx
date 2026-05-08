@@ -1,4 +1,5 @@
-import React, { act } from 'react'
+import { act } from 'react'
+import type { ReactElement } from 'react'
 import { render } from '@testing-library/react'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
 import ModalContext from '../ModalContext'
@@ -23,10 +24,7 @@ const defaultContext = {
   close: null,
 }
 
-function renderWithContext(
-  ui: React.ReactElement,
-  context = defaultContext
-) {
+function renderWithContext(ui: ReactElement, context = defaultContext) {
   return render(<ModalContext value={context}>{ui}</ModalContext>)
 }
 

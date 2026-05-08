@@ -3,20 +3,21 @@
  *
  */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
+import type { HTMLAttributes, Ref } from 'react'
 import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import Context from '../../shared/Context'
 import E from '../Element'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-type CodeProps = SpacingProps & React.HTMLAttributes<HTMLElement>
+type CodeProps = SpacingProps & HTMLAttributes<HTMLElement>
 
 function Code({
   className,
   ref,
   ...props
-}: CodeProps & { ref?: React.Ref<HTMLElement> }) {
+}: CodeProps & { ref?: Ref<HTMLElement> }) {
   const context = useContext(Context)
 
   return (

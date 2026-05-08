@@ -4,7 +4,7 @@ The DNB Eufemia Design System Portal is the go-to place for all who have to desi
 
 ## Run the Portal locally
 
-The DNB Eufemia Portal is built with [Gatsby](https://www.gatsbyjs.com/).
+The DNB Eufemia Portal is built with [Vite](https://vite.dev/).
 
 1. To run the site locally you'll need [Node](https://nodejs.org/) and [NPM](https://www.npmjs.com) or [Yarn](https://yarnpkg.com/)
 1. Run the site: `yarn workspace dnb-design-system-portal start`

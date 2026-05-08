@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState, useCallback } from 'react'
+import { memo, useCallback, useContext, useRef, useState } from 'react'
+import type {
+  HTMLProps,
+  KeyboardEvent,
+  ReactElement,
+  ReactNode,
+  SyntheticEvent,
+} from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -152,7 +159,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       event,
     }: {
       checked: boolean
-      event: React.SyntheticEvent
+      event: SyntheticEvent
     }) => {
       const value = ownPropsRef.current.value ?? ''
       if (groupContextRef.current.onChange) {
@@ -178,7 +185,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   checkedRef.current = checked
 
   const onClickHandler = useCallback(
-    ({ event }: { event: React.SyntheticEvent }) => {
+    ({ event }: { event: SyntheticEvent }) => {
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
@@ -212,7 +219,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         onClickHandler({ event })
       }
@@ -221,7 +228,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const onKeyUpHandler = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         onClickHandler({ event })
       }
@@ -441,7 +448,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
               id={id + '-suffix'} // used for "aria-describedby"
               context={props}
             >
-              {suffix as React.ReactNode}
+              {suffix as ReactNode}
             </Suffix>
           )}
         </span>
@@ -450,8 +457,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 }
 
-const MemoizedToggleButton = React.memo(ToggleButton) as unknown as {
-  (props: ToggleButtonProps): React.ReactElement
+const MemoizedToggleButton = memo(ToggleButton) as unknown as {
+  (props: ToggleButtonProps): ReactElement
   Group: typeof ToggleButtonGroup
 }
 
@@ -476,25 +483,22 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
 
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
-export type ToggleButtonSuffix =
-  | string
-  | (() => React.ReactNode)
-  | React.ReactNode
+export type ToggleButtonSuffix = string | (() => ReactNode) | ReactNode
 export type ToggleButtonValue =
   | string
   | number
   | Record<string, unknown>
   | unknown[]
-export type ToggleButtonChildren = string | (() => React.ReactNode)
+export type ToggleButtonChildren = string | (() => ReactNode)
 
 export type ToggleButtonChangeEvent = {
   checked: boolean
   value: ToggleButtonValue
-  event: React.SyntheticEvent
+  event: SyntheticEvent
 }
 
 export type ToggleButtonProps = Omit<
-  React.HTMLProps<HTMLButtonElement>,
+  HTMLProps<HTMLButtonElement>,
   'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
 > &
   Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> &
@@ -502,11 +506,11 @@ export type ToggleButtonProps = Omit<
     /**
      * The text shown in the ToggleButton.
      */
-    text?: React.ReactNode
+    text?: ReactNode
     /**
      * Use either the `label` property or provide a custom one.
      */
-    label?: string | React.ReactNode
+    label?: string | ReactNode
     labelDirection?: 'horizontal' | 'vertical'
     labelSrOnly?: boolean
     /**
@@ -518,7 +522,7 @@ export type ToggleButtonProps = Omit<
      */
     checked?: boolean
     variant?: ToggleButtonVariant
-    leftComponent?: React.ReactNode
+    leftComponent?: ReactNode
     disabled?: boolean
     /**
      * If set to `true`, an overlaying skeleton with animation will be shown.
@@ -566,6 +570,6 @@ export type ToggleButtonProps = Omit<
 
 // Type for the component with static properties
 export type ToggleButtonComponent = {
-  (props: ToggleButtonProps): React.ReactElement
+  (props: ToggleButtonProps): ReactElement
   Group: typeof ToggleButtonGroup
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {

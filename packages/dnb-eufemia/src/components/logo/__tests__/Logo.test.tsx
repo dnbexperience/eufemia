@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import type { ReactNode, SVGProps } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
@@ -192,7 +192,7 @@ describe('Logo component', () => {
   })
 
   it('should render a custom SVG and support height and color', () => {
-    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+    const CustomSvg = (props: SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 10 10" {...props}>
         <circle cx="5" cy="5" r="5" />
       </svg>
@@ -212,7 +212,7 @@ describe('Logo component', () => {
     const CustomSvg = ({
       alt,
       ...props
-    }: React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }) => (
+    }: SVGProps<SVGSVGElement> & { alt?: ReactNode }) => (
       <svg viewBox="0 0 10 10" {...props}>
         <title>{alt}</title>
         <circle cx="5" cy="5" r="5" />
@@ -227,7 +227,7 @@ describe('Logo component', () => {
   })
 
   it('should render a custom SVG when provided as an element', () => {
-    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+    const CustomSvg = (props: SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 10 10" {...props}>
         <rect width="10" height="10" />
       </svg>
@@ -265,7 +265,7 @@ describe('Logo component', () => {
 
   it('should not forward non-DOM props to svg', () => {
     const CustomSvg = (
-      props: React.SVGProps<SVGSVGElement> & {
+      props: SVGProps<SVGSVGElement> & {
         propMapping?: unknown
         colorScheme?: string
       }

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import clsx from 'clsx'
 import Flex from '../flex/Flex'
 import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
@@ -21,7 +22,7 @@ function Inline({
   skeleton = null,
   ...rest
 }: InlineProps) {
-  const { inRoot } = React.useContext(StatRootContext)
+  const { inRoot } = useContext(StatRootContext)
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
 
@@ -30,7 +31,7 @@ function Inline({
   }
 
   const attributes: Record<string, unknown> = {}
-  applySkeletonAttributes(attributes as React.HTMLProps<HTMLElement>)
+  applySkeletonAttributes(attributes as HTMLProps<HTMLElement>)
 
   return (
     <StatRootContext value={{ inRoot, skeleton: hasSkeleton }}>

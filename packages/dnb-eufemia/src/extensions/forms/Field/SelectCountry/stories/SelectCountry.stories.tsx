@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
 import type { CountryISO, CountryType } from '../../../constants/countries'
@@ -8,8 +8,8 @@ export default {
 }
 
 export function SelectCountry() {
-  const [state, update] = React.useState<CountryISO>('NO')
-  React.useEffect(() => {
+  const [state, update] = useState<CountryISO>('NO')
+  useEffect(() => {
     update('CH')
   }, [])
   return (

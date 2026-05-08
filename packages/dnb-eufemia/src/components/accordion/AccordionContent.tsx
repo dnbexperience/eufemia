@@ -3,8 +3,8 @@
  *
  */
 
-import type { HTMLProps } from 'react'
-import React from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   warn,
@@ -21,17 +21,17 @@ import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionContentProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  HTMLProps<HTMLElement>,
   'onAnimationStart' | 'onAnimationEnd' | 'children'
 > &
   SpacingProps & {
-    instance?: React.RefObject<unknown>
+    instance?: RefObject<unknown>
     className?: string
-    children?: React.ReactNode | (() => React.ReactNode)
+    children?: ReactNode | (() => ReactNode)
   }
 
 export default function AccordionContent(props: AccordionContentProps) {
-  const context = React.useContext<AccordionContextValue>(AccordionContext)
+  const context = useContext<AccordionContextValue>(AccordionContext)
 
   const {
     id,
@@ -46,8 +46,8 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   const { className, children, instance, ...rest } = props
 
-  let elementRef = React.useRef<HTMLElement>(null)
-  const cacheRef = React.useRef<React.ReactNode | null>(null)
+  let elementRef = useRef<HTMLElement>(null)
+  const cacheRef = useRef<ReactNode | null>(null)
 
   if (contentRef) {
     elementRef = contentRef
@@ -120,15 +120,15 @@ export default function AccordionContent(props: AccordionContentProps) {
     return content
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (expanded && singleContainer) {
       setContainerHeight()
     }
   }, [children, expanded, singleContainer, setContainerHeight])
 
-  React.useState(() => {
+  useState(() => {
     if (instance && Object.hasOwn(instance, 'current')) {
-      const mutableInstance = instance as React.RefObject<unknown>
+      const mutableInstance = instance as RefObject<unknown>
       mutableInstance.current = {
         setContainerHeight,
       }

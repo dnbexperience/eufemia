@@ -3,14 +3,15 @@
  *
  */
 
-import React from 'react'
+import { createContext, isValidElement } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
-const SuffixContext = React.createContext(null)
+const SuffixContext = createContext(null)
 
-export type SuffixChildren = React.ReactNode
+export type SuffixChildren = ReactNode
 
 export type SuffixProps = {
   className: string
@@ -25,13 +26,13 @@ const Suffix = ({
   context,
   skeleton,
   ...props
-}: SuffixProps & React.HTMLAttributes<HTMLSpanElement>) => {
+}: SuffixProps & HTMLAttributes<HTMLSpanElement>) => {
   const content = (
     // The styles are as of now, set in @dnb/eufemia/src/style/components/imports.scss
     <span
       className={clsx(
         'dnb-suffix',
-        !React.isValidElement(children) &&
+        !isValidElement(children) &&
           createSkeletonClass('font', skeleton, context),
         className
       )}

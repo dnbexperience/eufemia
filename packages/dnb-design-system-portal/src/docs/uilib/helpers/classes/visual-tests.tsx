@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import * as Examples from '../Examples'
 
 export default function VisibleWhenVisualTests() {
@@ -12,7 +12,7 @@ export default function VisibleWhenVisualTests() {
 function useSelection(className: string) {
   // Selects/marks some of the text in SelectionExample on second render tick
   // For comparing screenshots
-  React.useEffect(() => {
+  useEffect(() => {
     const textNode = document.querySelector(className).childNodes[0]
 
     const range = new Range()

@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { StrictMode } from 'react'
+import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
 import type { TabsProps } from '../Tabs'
@@ -110,7 +111,7 @@ describe('Tabs component', () => {
       children,
     }: {
       href?: string
-      children?: React.ReactNode
+      children?: ReactNode
     }) => {
       return <a href={href}>{children}</a>
     }
@@ -639,7 +640,7 @@ describe('A single Tab component', () => {
 
   it('should render in StrictMode', () => {
     render(
-      <React.StrictMode>
+      <StrictMode>
         <Tabs
           {...props}
           data={[
@@ -661,7 +662,7 @@ describe('A single Tab component', () => {
             },
           ]}
         />
-      </React.StrictMode>
+      </StrictMode>
     )
 
     expect(document.querySelector('.dnb-tabs')).toBeInTheDocument()

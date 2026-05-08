@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderHook } from '@testing-library/react'
 import Theme from '../Theme'
 import useTheme from '../useTheme'

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import type { CSSProperties } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
@@ -44,10 +45,10 @@ export const LayoutComponents = () => {
 }
 
 export const colors = [
-  { background: '#babeee' } as React.CSSProperties,
-  { background: '#dfe0ee' } as React.CSSProperties,
-  { background: '#90d2c3' } as React.CSSProperties,
-  { background: '#ecf4be' } as React.CSSProperties,
+  { background: '#babeee' } as CSSProperties,
+  { background: '#dfe0ee' } as CSSProperties,
+  { background: '#90d2c3' } as CSSProperties,
+  { background: '#ecf4be' } as CSSProperties,
 ]
 
 export const HorizontalFlexItemResponsiveSize = () => {
@@ -183,11 +184,11 @@ export const HorizontalAutoSize = () => {
 }
 
 const useWindowWidth = () => {
-  const [innerWidth, setWidth] = React.useState(
+  const [innerWidth, setWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     const resizeHandler = () => {
       setWidth(window.innerWidth)
     }
@@ -226,7 +227,7 @@ export const MediaQueryLiveExample = () => (
   <ComponentBox scope={{ MediaQuery, useMediaQuery }} hideCode>
     {() => {
       const Playground = () => {
-        const [query, updateQuery] = React.useState({
+        const [query, updateQuery] = useState({
           screen: true,
           not: true,
           min: 'small',
@@ -243,7 +244,7 @@ export const MediaQueryLiveExample = () => (
           when: query,
         })
 
-        React.useEffect(() => {
+        useEffect(() => {
           console.log('mediaQuery:', match1, match2)
         }, [match1, match2])
 

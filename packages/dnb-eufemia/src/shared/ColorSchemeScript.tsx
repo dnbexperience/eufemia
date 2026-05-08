@@ -5,7 +5,6 @@
  * setting the correct color-scheme classes on HTML elements
  * based on the user's stored preference or system setting.
  *
- * Usage in a custom HTML template (e.g. Gatsby html.tsx):
  *
  *   import {
  *     ColorSchemeHeadScript,
@@ -23,7 +22,6 @@
  *   </body>
  */
 
-import React from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 const STORAGE_KEY = 'eufemia-theme'

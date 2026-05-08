@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
+import type { ReactNode } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -79,14 +80,14 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     const SetErrorOnce = () => {
-      const { setFieldError } = React.useContext(FieldBoundaryContext)
-      React.useEffect(() => {
+      const { setFieldError } = useContext(FieldBoundaryContext)
+      useEffect(() => {
         setFieldError?.('/x' as any, new Error('err'))
       }, [setFieldError])
       return null
     }
 
-    const MockBoundary = ({ children }: { children: React.ReactNode }) => (
+    const MockBoundary = ({ children }: { children: ReactNode }) => (
       <FieldBoundaryProvider>
         <SetErrorOnce />
         <FieldBoundaryContext.Consumer>

@@ -1,4 +1,3 @@
-import React from 'react'
 import clsx from 'clsx'
 import type { CardProps } from '../card/Card'
 import Card from '../card/Card'

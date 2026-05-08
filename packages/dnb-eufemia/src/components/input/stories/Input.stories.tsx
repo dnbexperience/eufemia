@@ -3,7 +3,8 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
+import type { ChangeEvent } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -317,9 +318,9 @@ export const InputSandbox = () => {
 }
 
 const InputUpdate = () => {
-  const [initValue, setNewValue] = React.useState('Input ...')
+  const [initValue, setNewValue] = useState('Input ...')
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       setNewValue('')
     }, 1e3)
@@ -341,7 +342,7 @@ const InputUpdate = () => {
 }
 
 const CustomInput = () => {
-  const [value, setValue] = React.useState('2019-02-15')
+  const [value, setValue] = useState('2019-02-15')
   return (
     <>
       <Input
@@ -446,14 +447,14 @@ export function InputClearButton() {
 }
 
 export function ControlledInput() {
-  const [value, setValue] = React.useState('123')
+  const [value, setValue] = useState('123')
 
   const onChangeHandler = ({ value }) => {
     value = value.replace(/[^0-9]/g, '')
     setValue(value)
   }
 
-  const onChangeHandlerHtml = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandlerHtml = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, '')
     setValue(e.target.value)
   }

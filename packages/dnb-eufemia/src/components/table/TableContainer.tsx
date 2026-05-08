@@ -1,4 +1,10 @@
-import React from 'react'
+import type {
+  HTMLAttributes,
+  JSX,
+  ReactElement,
+  ReactNode,
+  TableHTMLAttributes,
+} from 'react'
 import clsx from 'clsx'
 import type { TableScrollViewProps } from './TableScrollView'
 import TableScrollView from './TableScrollView'
@@ -15,22 +21,22 @@ export type TableContainerProps = {
    */
   children:
     | [
-        React.ReactElement<TableContainerHeadProps>,
-        React.ReactElement<TableContainerBodyProps>,
-        React.ReactElement<TableContainerFootProps>,
+        ReactElement<TableContainerHeadProps>,
+        ReactElement<TableContainerBodyProps>,
+        ReactElement<TableContainerFootProps>,
       ]
-    | React.ReactElement<TableContainerBodyProps>
+    | ReactElement<TableContainerBodyProps>
 }
 
 export type TableContainerAllProps = TableContainerProps &
-  React.TableHTMLAttributes<HTMLTableRowElement> &
+  TableHTMLAttributes<HTMLTableRowElement> &
   SpacingProps
 
 type InternalTableContainerTableScrollView = Omit<
   TableScrollViewProps,
   'children'
 > & {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function TableContainer(props: TableContainerAllProps) {
@@ -45,7 +51,7 @@ export default function TableContainer(props: TableContainerAllProps) {
 
   const ScrollView = TableScrollView as (
     props: InternalTableContainerTableScrollView
-  ) => React.JSX.Element
+  ) => JSX.Element
 
   const isArray = Array.isArray(children)
   const content = isArray ? children : [children]
@@ -68,13 +74,11 @@ export type TableContainerBodyProps = {
   /**
    * The content of the component.
    */
-  children:
-    | React.ReactElement<TableProps>
-    | Array<React.ReactElement<TableProps>>
+  children: ReactElement<TableProps> | Array<ReactElement<TableProps>>
 }
 
 export function TableContainerBody(
-  props: TableContainerBodyProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerBodyProps & HTMLAttributes<HTMLDivElement>
 ) {
   const { children, className, ...rest } = props
 
@@ -92,11 +96,11 @@ export type TableContainerHeadProps = {
   /**
    * The content of the component.
    */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function TableContainerHead(
-  props: TableContainerHeadProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerHeadProps & HTMLAttributes<HTMLDivElement>
 ) {
   const { children, className, ...rest } = props
 
@@ -118,11 +122,11 @@ export type TableContainerFootProps = {
   /**
    * The content of the component.
    */
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function TableContainerFoot(
-  props: TableContainerFootProps & React.HTMLAttributes<HTMLDivElement>
+  props: TableContainerFootProps & HTMLAttributes<HTMLDivElement>
 ) {
   const { children, className, ...rest } = props
 

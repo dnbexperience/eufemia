@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
 import Container from '../Container'

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { StrictMode, useState } from 'react'
 import {
   render,
   screen,
@@ -23,9 +23,7 @@ jest.mock('../MediaQueryUtils', () => ({
   isMatchMediaSupported: jest.fn(),
 }))
 
-const wrapper = ({ children }) => (
-  <React.StrictMode>{children}</React.StrictMode>
-)
+const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
 
 const RenderMediaQueryHook = (props: MediaQueryProps) => {
   const match = useMediaQuery(props)
@@ -115,7 +113,7 @@ describe('useMediaQuery', () => {
     const match2Handler = jest.fn()
 
     const Playground = () => {
-      const [query, updateQuery] = React.useState({
+      const [query, updateQuery] = useState({
         screen: true,
         not: true,
         min: 'small',

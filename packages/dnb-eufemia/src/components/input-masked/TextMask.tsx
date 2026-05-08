@@ -1,10 +1,19 @@
-import React, {
+import {
   cloneElement,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+} from 'react'
+import type {
+  ChangeEvent,
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  JSX,
+  MutableRefObject,
+  ReactElement,
+  Ref,
 } from 'react'
 import { useMaskito } from '@maskito/react'
 import {
@@ -28,17 +37,17 @@ export type TextMaskMask =
   | Array<RegExp | string>
   | false
   | typeof createNumberMask
-export type TextMaskInputElement = React.ReactElement<any>
+export type TextMaskInputElement = ReactElement<any>
 export type TextMaskValue = string | number
 export type TextMaskProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
+  InputHTMLAttributes<HTMLInputElement>,
   'onChange' | 'value' | 'size'
 > & {
   mask: TextMaskMask
-  inputRef?: React.Ref<HTMLInputElement> &
-    React.MutableRefObject<HTMLInputElement | null>
+  inputRef?: Ref<HTMLInputElement> &
+    MutableRefObject<HTMLInputElement | null>
   inputElement?: TextMaskInputElement
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   value?: TextMaskValue
   size?: number
   showMask?: boolean
@@ -52,7 +61,7 @@ export type TextMaskProps = Omit<
   overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
-export default function TextMask(props: TextMaskProps): React.JSX.Element {
+export default function TextMask(props: TextMaskProps): JSX.Element {
   const {
     inputElement,
     inputRef,
@@ -208,7 +217,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       baseProps.value = formatted
     }
 
-    baseProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    baseProps.onChange = (e: ChangeEvent<HTMLInputElement>) => {
       // Conform programmatic value changes (e.g. tests firing change directly)
       if (localRef.current && enhancedOptions) {
         const element = localRef.current
@@ -229,7 +238,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
           const v = stripValue(e.target.value)
           rest.onChange({
             target: { value: v },
-          } as React.ChangeEvent<HTMLInputElement>)
+          } as ChangeEvent<HTMLInputElement>)
         } else {
           rest.onChange(e)
         }

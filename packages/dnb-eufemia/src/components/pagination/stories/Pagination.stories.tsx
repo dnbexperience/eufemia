@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -233,9 +233,9 @@ const HeightLimit = styled.div`
   border: 4px solid blue;
 `
 const PaginationWithState = ({ children, ...props }) => {
-  const [currentPage, setCurrentPage] = React.useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
-    React.useState(createPagination)
+    useState(createPagination)
   setContent(currentPage, children(currentPage))
   if (currentPage === 30) {
     setTimeout(() => {
@@ -290,10 +290,10 @@ const InfinityPagination = ({ children, ...props }) => {
 function PaginationRender() {
   const pageCount = 8
   const startupPage = 2
-  const [currentPage, setCurrentPage] = React.useState(startupPage)
-  const [delayedCount, setDelayedCount] = React.useState(currentPage)
+  const [currentPage, setCurrentPage] = useState(startupPage)
+  const [delayedCount, setDelayedCount] = useState(currentPage)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setDelayedCount(currentPage)
   }, [currentPage])
 

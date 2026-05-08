@@ -1,10 +1,10 @@
-import type React from 'react'
+import type { RefObject } from 'react'
 import { warn, processChildren } from '../../shared/component-helper'
 
 export type ModalStackEntry = {
   _id: string
-  _scrollRef: React.RefObject<HTMLElement | null>
-  _contentRef: React.RefObject<HTMLElement | null>
+  _scrollRef: RefObject<HTMLElement | null>
+  _contentRef: RefObject<HTMLElement | null>
   _iiLocal?: {
     activate: (target?: HTMLElement | null) => void
     revert: () => void

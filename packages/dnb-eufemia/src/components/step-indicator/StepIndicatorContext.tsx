@@ -3,7 +3,8 @@
  *
  */
 
-import React, {
+import {
+  createContext,
   useCallback,
   useContext,
   useEffect,
@@ -12,6 +13,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './defaults'
@@ -50,7 +52,7 @@ type StepIndicatorContextValues = StepIndicatorProviderProps &
   ContextProps
 
 const StepIndicatorContext =
-  React.createContext<StepIndicatorContextValues>(null)
+  createContext<StepIndicatorContextValues>(null)
 
 export default StepIndicatorContext
 
@@ -66,7 +68,7 @@ export type StepIndicatorProviderProps = Omit<
    * Defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
    */
   mode?: StepIndicatorMode
-  children: React.ReactNode
+  children: ReactNode
 }
 
 type StepIndicatorProviderStates = {
@@ -77,7 +79,7 @@ type StepIndicatorProviderStates = {
   countSteps: number
   stepsLabel: string
   filterAttributes: string[]
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>
+  setActiveStep: Dispatch<SetStateAction<number>>
   openHandler: () => void
   closeHandler: () => void
 }

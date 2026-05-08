@@ -14,10 +14,9 @@
     "skipLibCheck": true,
     "strictFunctionTypes": true,
     "lib": ["es2022", "dom"],
-    "types": ["node", "jest", "react", "react-dom"],
+    "types": ["node", "react", "react-dom"],
     "outDir": "./out",
     "rootDir": ".",
-    "baseUrl": ".",
     "paths": {
       "Pages/*": ["./src/docs/*"],
       "portal-query": ["./vite/client/shims/portal-query.tsx"]

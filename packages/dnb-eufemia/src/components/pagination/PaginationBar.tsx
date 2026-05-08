@@ -3,7 +3,8 @@
  *
  */
 
-import React, { useContext, useRef, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   dispatchCustomElementEvent,
@@ -48,12 +49,12 @@ export type PaginationBarProps = {
   /**
    * Reference to the parent component. Used to contain height between updates.
    */
-  contentRef?: React.RefObject<HTMLElement>
+  contentRef?: RefObject<HTMLElement>
 
   /**
    *  the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
-  children?: React.ReactNode | (() => React.ReactNode)
+  children?: ReactNode | (() => ReactNode)
 
   skeleton?: SkeletonShow
 
@@ -62,7 +63,7 @@ export type PaginationBarProps = {
 
 export type PaginationBarAllProps = PaginationBarProps &
   LocaleProps &
-  React.HTMLProps<HTMLElement>
+  HTMLProps<HTMLElement>
 
 type PaginationBarContext = {
   currentPageInternal: number
@@ -242,7 +243,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           ))}
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
-            <React.Fragment key={idx}>
+            <Fragment key={idx}>
               <IconPrimary
                 role="separator"
                 aria-orientation="vertical"
@@ -288,7 +289,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                   />
                 )
               })}
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
       </div>

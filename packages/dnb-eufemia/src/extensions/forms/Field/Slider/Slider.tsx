@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
+import type { MouseEvent } from 'react'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -13,7 +14,7 @@ import useDataValue from '../../hooks/useDataValue'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
+export type SliderVisibilityEvent = MouseEvent<HTMLButtonElement> & {
   value: string
 }
 
