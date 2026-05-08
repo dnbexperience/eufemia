@@ -25,7 +25,7 @@ const hasSearch = (record) => String(record.search || '').length > 0
 const hasDescription = (record) =>
   String(record.description || '').length > 0
 
-export function shouldIncludeInAlgolia({ slug, draft }) {
+export function shouldIncludeInAlgolia({ slug, draft = undefined }) {
   return (
     !slug.includes('not_in_use') &&
     !excludedSlugPartials.some((partial) => slug.includes(partial)) &&
