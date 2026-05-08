@@ -15,6 +15,18 @@
     display: flex;
   }
 
+  &--variant-single &__bar .dnb-button {
+    color: var(--token-color-text-neutral);
+
+    .dnb-button__icon {
+      color: var(--token-color-icon-neutral);
+    }
+
+    .dnb-button__text::after {
+      display: none;
+    }
+  }
+
   &__list.dnb-section {
     display: flex;
 
