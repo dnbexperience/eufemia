@@ -1247,8 +1247,11 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
   flex-direction: column;
   align-items: flex-start;
   row-gap: 0;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0;
   margin-left: 1.5rem;
   padding: 0;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__list.dnb-section--divider {
+  --background-color: var(--token-color-background-page-background);
 }"
 `;
