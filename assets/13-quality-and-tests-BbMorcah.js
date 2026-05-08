@@ -1,5 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n,t as r}from"./Intro-CYZ-l3Op.js";var i=e();function a(e){let a={a:`a`,h1:`h1`,hr:`hr`,li:`li`,p:`p`,ul:`ul`,...t(),...e.components};return(0,i.jsxs)(r,{children:[(0,i.jsx)(a.h1,{children:`Quality and Tests`}),(0,i.jsx)(a.p,{children:`To ensure quality and ship future changes with confidence, Eufemia has both;`}),(0,i.jsxs)(a.ul,{children:[`
-`,(0,i.jsx)(a.li,{children:`static code tests`}),`
-`,(0,i.jsx)(a.li,{children:`integration tests`}),`
-`,(0,i.jsx)(a.li,{children:`and visual assertion tests / screenshot tests`}),`
-`]}),(0,i.jsxs)(a.p,{children:[`Read `,(0,i.jsx)(a.a,{href:`/uilib/usage/best-practices/for-testing`,children:`more about tests`}),`.`]}),(0,i.jsx)(a.hr,{}),(0,i.jsx)(n,{href:`/uilib/intro/14-helpers`,text:`Next - Helpers`})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Ir as t,Li as n,Ui as r}from"./index--zEB_f_m.js";var i=e();function a({className:e=null,...n}){return(0,i.jsx)(t,{className:r(`dnb-forms-test-element`,e),...n})}n(a,{_supportsSpacingProps:!0});export{a as t};

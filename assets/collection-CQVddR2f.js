@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";import n from"./ListAllBlocks-Lj0sf1N1.js";var r=e();function i(e){let i={h2:`h2`,p:`p`,...t(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(i.h2,{children:`List of all blocks`}),`
+`,(0,r.jsx)(i.p,{children:`These blocks are shown with both fields and values (summary) versions.`}),`
+`,(0,r.jsx)(n,{size:`small`})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

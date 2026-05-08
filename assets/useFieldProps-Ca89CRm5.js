@@ -1,2 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import n from"./info-DdpxncjY.js";import r from"./demos-otFoKmAv.js";var i=e();function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(n,{}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

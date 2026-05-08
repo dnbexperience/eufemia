@@ -1,0 +1,1 @@
+import{Ma as e}from"./index-2AO2Cu5K.js";var t=e[`en-GB`],n={"en-US":{...t,DatePicker:{...t.DatePicker,maskOrder:`mm/dd/yyyy`,maskPlaceholder:`mm/dd/yyyy`,firstDay:`sunday`}}};export{n as default};

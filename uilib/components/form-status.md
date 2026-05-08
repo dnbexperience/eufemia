@@ -1,8 +1,8 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 11.2.0
-generatedAt: 2026-05-08T07:25:36.688Z
+version: 11.2.1
+generatedAt: 2026-05-08T08:59:10.326Z
 checksum: 1917a74e4d47bb4108acb0382b864fc14f65214e17d98302bb720f1ceb1d227c
 ---
 

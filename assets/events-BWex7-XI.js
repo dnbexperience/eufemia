@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";import n from"./event-table-camel-case-AvQaumZ5.js";var r=e();function i(e){let i={a:`a`,h2:`h2`,p:`p`,...t(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(i.h2,{children:`Events`}),`
+`,(0,r.jsxs)(i.p,{children:[`Drawer includes the same events as `,(0,r.jsx)(i.a,{href:`/uilib/components/modal`,children:`Modal`}),`, only formatted as camel case.`]}),`
+`,(0,r.jsx)(n,{})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

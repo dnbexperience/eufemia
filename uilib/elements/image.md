@@ -1,8 +1,8 @@
 ---
 title: 'Image'
 description: 'Image element exists to have a future possibility to optimize and add features.'
-version: 11.2.0
-generatedAt: 2026-05-08T07:25:37.252Z
+version: 11.2.1
+generatedAt: 2026-05-08T08:59:10.939Z
 checksum: 3f908b8deac0d6ffa1f83a28d3ec7b989d69d662d133fc4fdaf4e7298a66a9df
 ---
 

@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{t}from"./GlobalError-LO81fNjo.js";var n=e();function r(){return(0,n.jsx)(t,{center:!0,statusCode:`500`})}export{r as default};

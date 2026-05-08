@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{n as r}from"./ModalDocs-z0irCARz.js";var i=e();function a(e){return(0,i.jsx)(n,{props:r})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

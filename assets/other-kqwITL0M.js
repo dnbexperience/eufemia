@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";import{t as n}from"./form-status-SA183U9w.js";var r=e();function i(e){let i={h1:`h1`,p:`p`,...t(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(i.h1,{children:`Other Icons`}),`
+`,(0,r.jsx)(i.p,{children:`Some icons are not a part of the icon library for various reasons.`}),`
+`,(0,r.jsx)(n,{})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

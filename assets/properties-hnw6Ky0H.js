@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";import{n}from"./PropertiesTable-2L_XcKi-.js";import{n as r}from"./SwitchDocs-BnlJVJ1b.js";var i=e();function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...t(),...e.components}.h2,{children:`Properties`}),`
+`,(0,i.jsx)(n,{props:r})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

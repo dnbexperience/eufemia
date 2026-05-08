@@ -1,8 +1,8 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 11.2.0
-generatedAt: 2026-05-08T07:25:36.755Z
+version: 11.2.1
+generatedAt: 2026-05-08T08:59:10.399Z
 checksum: 586895425dda6bc218565357fa56efb68214cf4323eae985f68cedbf626594c6
 ---
 

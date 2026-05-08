@@ -1,5 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{n as r,r as i}from"./AccordionDocs-NBO4B0pR.js";var a=e();function o(e){let o={code:`code`,h2:`h2`,p:`p`,...t(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(o.h2,{children:`Properties`}),`
-`,(0,a.jsxs)(o.p,{children:[`These properties can send along with the `,(0,a.jsx)(o.code,{children:`Accordion.Provider`}),` or `,(0,a.jsx)(o.code,{children:`Accordion.Group`}),`. It will affect every nested `,(0,a.jsx)(o.code,{children:`Accordion`}),`.`]}),`
-`,(0,a.jsx)(n,{props:r}),`
-`,(0,a.jsx)(o.h2,{children:`Accordion.Provider and Accordion.Group Properties`}),`
-`,(0,a.jsx)(n,{props:i})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,a.jsx)(n,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

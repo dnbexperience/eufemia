@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";import{n}from"./Examples-B2mOTOzo.js";var r=e();function i(e){let i={h1:`h1`,p:`p`,...t(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(i.h1,{children:`Case Demo 2`}),`
+`,(0,r.jsx)(i.p,{children:`Below, you can extend the demo code.`}),`
+`,(0,r.jsx)(n,{})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};
