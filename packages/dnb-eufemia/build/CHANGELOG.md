@@ -3,6 +3,49 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.2.0](https://github.com/dnbexperience/eufemia/compare/v11.1.1...v11.2.0) (2026-05-08)
+
+
+### :memo: Documentation
+
+* add dark mode guide ([#7960](https://github.com/dnbexperience/eufemia/issues/7960)) ([e8432b5](https://github.com/dnbexperience/eufemia/commit/e8432b52d43903e9f54e48d0d78ee8a9fb012aba))
+
+
+### :zap: Refactoring
+
+* **Accordion:** add border radius tokens for `Sbanken` theme ([#7992](https://github.com/dnbexperience/eufemia/issues/7992)) ([96c0379](https://github.com/dnbexperience/eufemia/commit/96c03790d775734b5bdf8892dc62bc0614f0482b))
+* **Code:** add border radius tokens ([#7969](https://github.com/dnbexperience/eufemia/issues/7969)) ([d4d79ef](https://github.com/dnbexperience/eufemia/commit/d4d79efaa9f25c3195d1c1d8fefd141adb1f3ab0))
+* **DrawerList:** use border radius tokens ([#7970](https://github.com/dnbexperience/eufemia/issues/7970)) ([4b71dde](https://github.com/dnbexperience/eufemia/commit/4b71dde48e56b53c2b9dfd0c03c732e7685061b3))
+* **Flex:** rename --sizeCount CSS custom property to --size-count ([#7985](https://github.com/dnbexperience/eufemia/issues/7985)) ([eaf43da](https://github.com/dnbexperience/eufemia/commit/eaf43dad16d812dd279d0c89935e7114a7a768b9))
+* **ProgressIndicator:** add border radius token ([#7982](https://github.com/dnbexperience/eufemia/issues/7982)) ([632da45](https://github.com/dnbexperience/eufemia/commit/632da450ba26beaa31c44d1c62a71dd4cbe85980))
+* replace default React imports with named imports ([#7681](https://github.com/dnbexperience/eufemia/issues/7681)) ([0b61f41](https://github.com/dnbexperience/eufemia/commit/0b61f419d3c4666da18de07930d1185c72b6c04e))
+* **Table:** add border radius token for `outline` variant ([#7983](https://github.com/dnbexperience/eufemia/issues/7983)) ([e2f14a7](https://github.com/dnbexperience/eufemia/commit/e2f14a7866f01d567819120f90212f24bf66ab5c))
+* **Timeline:** add border radius tokens ([#7940](https://github.com/dnbexperience/eufemia/issues/7940)) ([9143a88](https://github.com/dnbexperience/eufemia/commit/9143a88253ae134eff1eba7478520df39bb24fb1))
+* **Tooltip:** add correct border radius token ([#7964](https://github.com/dnbexperience/eufemia/issues/7964)) ([ca33fee](https://github.com/dnbexperience/eufemia/commit/ca33fee0ee5f03a3a836f7c87572a1b0b15932eb))
+
+
+### :sparkles: Features
+
+* add ESLint and Stylelint Plugin to detecting deprecated color variable usage ([#7971](https://github.com/dnbexperience/eufemia/issues/7971)) ([71fcb87](https://github.com/dnbexperience/eufemia/commit/71fcb87cbcf42a41f4e2d77bb543cd8d4627dd47))
+* generate markdown for all docs pages including MCP server docs ([#7945](https://github.com/dnbexperience/eufemia/issues/7945)) ([72ed11c](https://github.com/dnbexperience/eufemia/commit/72ed11cf8d9b0f5d82b55904369a1cdfbc8ef4a3))
+* **StyleIsolation:** warn when deprecated color variables are used via PostCSS plugin ([#7972](https://github.com/dnbexperience/eufemia/issues/7972)) ([8b278cf](https://github.com/dnbexperience/eufemia/commit/8b278cf284a2a119d3be575b056218dc1b5c6e85)), closes [#7971](https://github.com/dnbexperience/eufemia/issues/7971)
+* **Table:** add `selected` state to Table `Td` ([#7996](https://github.com/dnbexperience/eufemia/issues/7996)) ([b438f62](https://github.com/dnbexperience/eufemia/commit/b438f6296805237d2660c539a57a6c3d36e38246))
+* **Table:** add `verticalAlign` prop to `Tr` ([#7981](https://github.com/dnbexperience/eufemia/issues/7981)) ([1cbbdca](https://github.com/dnbexperience/eufemia/commit/1cbbdca87a04c20995a5a3f3bcaa62580f2addd9)), closes [#7977](https://github.com/dnbexperience/eufemia/issues/7977)
+* **Table:** add clickable table cells ([#7977](https://github.com/dnbexperience/eufemia/issues/7977)) ([963b0f6](https://github.com/dnbexperience/eufemia/commit/963b0f606171f058354e3a4e6cc95bd0d13aea8b))
+
+
+### :bug: Bug Fixes
+
+* **Field.Expiry:** prevent focus when clicking outside the component ([#7958](https://github.com/dnbexperience/eufemia/issues/7958)) ([af8cc4d](https://github.com/dnbexperience/eufemia/commit/af8cc4d8a920a9999e9de217a911d084a9418bc3))
+* **HeightAnimation:** fix hydration mismatches for SSR compatibility ([#8002](https://github.com/dnbexperience/eufemia/issues/8002)) ([9421228](https://github.com/dnbexperience/eufemia/commit/942122889ad1b582a2ff7a6f1429315528a12521))
+* **HelpButtonInline:** remove backgroundColor from Section ([#8004](https://github.com/dnbexperience/eufemia/issues/8004)) ([35bb802](https://github.com/dnbexperience/eufemia/commit/35bb80243d832586c2800999f4c252ab93bb3d29))
+* **Iterate.Array:** clear open-delay timeout on unmount in ArrayItemArea ([#7979](https://github.com/dnbexperience/eufemia/issues/7979)) ([fc5b963](https://github.com/dnbexperience/eufemia/commit/fc5b9635b2a9dcd3fab1ed7f3d934b04da75a66b))
+* **List:** make entire Item.Action clickable, not just the text ([#7993](https://github.com/dnbexperience/eufemia/issues/7993)) ([56d9512](https://github.com/dnbexperience/eufemia/commit/56d951228d49326d2f0273aa64e8087b23a9ec0d))
+* prevent whatinput from interfering with React hydration (SSR) ([#8000](https://github.com/dnbexperience/eufemia/issues/8000)) ([ff44088](https://github.com/dnbexperience/eufemia/commit/ff440885b2a19fbd033a80d58b037643706f1877))
+* remove unused @babel/runtime-corejs3 dependency ([#7994](https://github.com/dnbexperience/eufemia/issues/7994)) ([c3b699e](https://github.com/dnbexperience/eufemia/commit/c3b699e15aaa546201d687d93786dcfd5a20e98a))
+* render help title in div instead of p to support block-level elements ([#7942](https://github.com/dnbexperience/eufemia/issues/7942)) ([d4d949f](https://github.com/dnbexperience/eufemia/commit/d4d949f4f2cf5a8d87ce35e74fb05a04160e537a))
+* **Table:** fix focus ring width on accordion and clickable rows ([#7975](https://github.com/dnbexperience/eufemia/issues/7975)) ([753569c](https://github.com/dnbexperience/eufemia/commit/753569c6a650930aa90ebf58416fdffab7bd03f9))
+
 ## [11.1.1](https://github.com/dnbexperience/eufemia/compare/v11.1.0...v11.1.1) (2026-05-05)
 
 
