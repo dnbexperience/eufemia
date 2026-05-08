@@ -29,7 +29,11 @@ export const BreadcrumbMultiple = ({
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >
-      <Section className="dnb-breadcrumb__list" element="ol">
+      <Section
+        className="dnb-breadcrumb__list"
+        element="ol"
+        variant="divider"
+      >
         {data?.map((breadcrumbItem, i) => {
           return (
             <BreadcrumbItemContext key={i} value={{ itemNo: i, hideIcon }}>
