@@ -11,7 +11,7 @@ const lintWithRule = async (code: string) => {
     codeFilename: 'test.scss',
     customSyntax: 'postcss-scss',
     config: {
-      plugins: [stylelintPlugin],
+      plugins: stylelintPlugin,
       rules: {
         'eufemia/no-deprecated-color-variables': true,
       },
@@ -28,7 +28,7 @@ describe('stylelint recommended config', () => {
     ).toBe(true)
   })
 
-  it('includes the plugin in recommended', () => {
+  it('includes the plugin pack in recommended', () => {
     expect(plugin.recommended.plugins).toContain(stylelintPlugin)
   })
 })
