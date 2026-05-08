@@ -290,12 +290,6 @@ function ListItem({
   )
   const [manualClick, setManualClick] = useState(false)
 
-  useEffect(() => {
-    if (ref.current && nr && nr < 20) {
-      ref.current.style.setProperty('--delay', `${nr * 12}ms`)
-    }
-  }, [nr])
-
   if (hideInMenu) {
     return null
   }
