@@ -1702,21 +1702,31 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
-  // Sync shared state when the data prop value changes (or when id changes).
-  // Skipped when shared state was seeded externally (hadInitialData=true).
+  // Sync shared state when the data prop value genuinely changes (or when id changes).
+  // prevSyncedRef is initialized with the current id/data so the initial mount is always skipped
+  // (the useMemo already applies the data prop on mount). Only genuine value changes propagate.
+  // This intentionally runs even when hadInitialData=true so that subsequent explicit data prop
+  // changes still reach external Form.useData consumers, while the initial seed from
+  // Form.useData(id, initialData) is still respected on mount (prevSyncedRef guards that).
   // isDeepEqual prevents re-syncing inline objects that have the same values.
+  // preventSyncOfSameInstance is intentionally NOT used: that flag relies on the shouldSync
+  // closure captured when the shared state was first created. When an external Form.useData
+  // consumer renders before the Provider and creates the shared state, preventSyncOfSameInstance
+  // would exclude that consumer (not the Provider) from notifications, silently swallowing
+  // genuine data prop changes. Without the flag all subscribers are notified; prevSyncedRef
+  // guards against the resulting extra Provider re-render causing a second sync.
   // sharedData.update is omitted from deps: it is stable and never changes.
   const prevSyncedRef = useRef({ id, data })
   useLayoutEffect(() => {
-    if (id && data !== undefined && !sharedData?.hadInitialData) {
+    if (id && data !== undefined) {
       const prev = prevSyncedRef.current
       if (prev.id !== id || !isDeepEqual(data, prev.data)) {
         prevSyncedRef.current = { id, data }
-        sharedData.update(data, { preventSyncOfSameInstance: true })
+        sharedData.update(data)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, data, sharedData, sharedData?.hadInitialData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sharedData.update is stable
+  }, [id, data, sharedData])
 
   useLayoutEffect(() => {
     if (id) {

@@ -305,9 +305,9 @@ describe('DataContext.Provider', () => {
 
     it('should give priority to Form.useData(id, initialData) when rendered as a sibling before the Provider', () => {
       // When Form.useData(id, initialData) renders before the Provider (e.g. as a
-      // sibling above it), it seeds the shared store with hadInitialData=true.
-      // The Provider's !hadInitialData guard then permanently prevents the data prop
-      // from overwriting the shared state, so useData's initialData takes precedence.
+      // sibling above it), it seeds the shared store first. prevSyncedRef is initialized
+      // with the initial data value so the first effect run is a no-op, leaving the
+      // useData-seeded value intact on initial mount.
       const MockConsumer = () => {
         const { data } = Form.useData(identifier, { foo: 'from-useData' })
         return <span data-testid="consumer">{JSON.stringify(data)}</span>
@@ -328,19 +328,68 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
       const span = document.querySelector('[data-testid="consumer"]')
 
-      // MockConsumer renders first and seeds shared state with hadInitialData=true.
-      // The Provider's sync effect guard (!hadInitialData) evaluates to false,
-      // so 'from-data-prop' never overwrites the shared store.
+      // MockConsumer renders first and seeds shared state.
+      // prevSyncedRef matches the initial data prop so the sync effect is skipped,
+      // and 'from-data-prop' does not overwrite the shared store on mount.
       expect(input).toHaveValue('from-useData')
       expect(span).toHaveTextContent('{"foo":"from-useData"}')
     })
 
+    it('should propagate data prop changes to sibling Form.useData consumer even when Form.useData was rendered first', () => {
+      // On initial mount the sibling useData seed takes precedence (the sync effect
+      // is a no-op because prevSyncedRef matches the initial data value). But when
+      // the Provider's data prop subsequently changes to a new value, the sync effect
+      // fires and pushes the new value into shared state so all consumers update.
+      const MockConsumer = () => {
+        const { data } = Form.useData(identifier, { foo: 'from-useData' })
+        return <span data-testid="consumer">{JSON.stringify(data)}</span>
+      }
+
+      const { rerender } = render(
+        <>
+          <MockConsumer />
+          <DataContext.Provider
+            id={identifier}
+            data={{ foo: 'from-data-prop' }}
+          >
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        </>
+      )
+
+      // Initial mount: useData seed wins
+      expect(document.querySelector('input')).toHaveValue('from-useData')
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"from-useData"}')
+
+      // Explicitly update the data prop to a new value
+      rerender(
+        <>
+          <MockConsumer />
+          <DataContext.Provider
+            id={identifier}
+            data={{ foo: 'explicitly-updated' }}
+          >
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        </>
+      )
+
+      // The genuine change propagates to both the field inside and the external consumer
+      expect(document.querySelector('input')).toHaveValue(
+        'explicitly-updated'
+      )
+      expect(
+        document.querySelector('[data-testid="consumer"]')
+      ).toHaveTextContent('{"foo":"explicitly-updated"}')
+    })
+
     it('should update both field and Form.useData consumers when data prop changes (Form.useData inside Provider)', () => {
-      // When Form.useData is inside the Provider, hadInitialData is false (Provider
-      // creates the shared state first). On initial mount the child's useMountEffect
-      // extends shared state with its initialData and the merge path returns it.
-      // On subsequent data prop changes, the sync useLayoutEffect fires (because
-      // !hadInitialData is true) and updates both the field and useData consumers.
+      // When Form.useData is inside the Provider, the Provider creates the shared state
+      // first. On initial mount the child's useMountEffect extends shared state with
+      // its initialData and the merge path returns it. On subsequent data prop changes,
+      // the sync useLayoutEffect fires and updates both the field and useData consumers.
       const MockConsumer = () => {
         const { data } = Form.useData(identifier, { foo: 'from-useData' })
         return <span data-testid="consumer">{JSON.stringify(data)}</span>

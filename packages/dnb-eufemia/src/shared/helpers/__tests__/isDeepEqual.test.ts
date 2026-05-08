@@ -45,4 +45,11 @@ describe('isDeepEqual', () => {
   it('should return false for object vs array', () => {
     expect(isDeepEqual({}, [])).toBe(false)
   })
+
+  it('should return true for objects with the same keys and values in different order', () => {
+    expect(isDeepEqual({ a: 1, b: 2 }, { b: 2, a: 1 })).toBe(true)
+    expect(isDeepEqual({ x: { a: 1, b: 2 } }, { x: { b: 2, a: 1 } })).toBe(
+      true
+    )
+  })
 })
