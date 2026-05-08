@@ -960,4 +960,19 @@ describe('package.json dependencies', () => {
       '@babel/runtime-corejs3': expect.any(String),
     })
   })
+
+  it('includes postcss-selector-parser as a runtime dependency', () => {
+    // The published package ships the postcss-isolated-style-scope plugin
+    // (build/plugins/) which requires "postcss-selector-parser" at runtime.
+    // Consumers who use this plugin for style isolation need this package to be
+    // listed as a dependency so their package manager installs it automatically.
+    // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
+    const packageJson = fs.readJsonSync(
+      path.resolve(packpath.self(), 'package.json')
+    )
+
+    expect(packageJson.dependencies).toMatchObject({
+      'postcss-selector-parser': expect.any(String),
+    })
+  })
 })
