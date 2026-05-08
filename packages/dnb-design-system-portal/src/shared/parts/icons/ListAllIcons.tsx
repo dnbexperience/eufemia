@@ -2,8 +2,13 @@
  * List all the Icons available
  */
 
-import { Fragment, useMemo } from 'react'
-import { Icon, CopyOnClick } from '@dnb/eufemia/src/components'
+import { Fragment, useMemo, useState } from 'react'
+import {
+  Icon,
+  CopyOnClick,
+  ToggleButton,
+} from '@dnb/eufemia/src/components'
+import filledIconSet from '@dnb/eufemia/src/components/icon/filledIconSet'
 import { P } from '@dnb/eufemia/src'
 import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
 import * as SecondaryIcons from '@dnb/eufemia/src/icons/dnb/secondary_icons'
@@ -57,6 +62,7 @@ type Props = {
 
 export default function ListAllIcons(props: Props) {
   const { groupBy, variant } = props
+  const [showFilled, setShowFilled] = useState(false)
 
   const iconsToRender = useMemo(() => {
     let icons = {}
@@ -74,8 +80,14 @@ export default function ListAllIcons(props: Props) {
         break
     }
 
-    return getListOfIcons(icons)
-  }, [variant])
+    const all = getListOfIcons(icons)
+
+    if (showFilled) {
+      return all.filter(({ iconName }) => filledIconSet.has(iconName))
+    }
+
+    return all
+  }, [variant, showFilled])
 
   const renderListItem = (icons) => {
     return icons.map(({ iconName, Svg, variant, tags }) => {
@@ -95,8 +107,8 @@ export default function ListAllIcons(props: Props) {
         <li key={iconName} className={listItemStyle}>
           <div className={listItemInnerStyle}>
             <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
-              <Icon icon={Svg} right />
-              <Icon icon={SvgMedium} size="medium" />
+              <Icon icon={Svg} filled={showFilled} right />
+              <Icon icon={SvgMedium} size="medium" filled={showFilled} />
             </figure>
 
             <AutoLinkHeader
@@ -119,16 +131,36 @@ export default function ListAllIcons(props: Props) {
     return <></>
   }
 
+  const toggle = (
+    <ToggleButton
+      checked={showFilled}
+      onChange={({ checked }) => setShowFilled(checked)}
+      bottom="medium"
+    >
+      Show filled
+    </ToggleButton>
+  )
+
   if (groupBy === 'category') {
-    return groupByCategory(iconsToRender).map(([categoryName, icons]) => (
-      <Fragment key={categoryName}>
-        <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
-          {categoryName}
-        </AutoLinkHeader>
-        <ul className={listStyle}>{renderListItem(icons)}</ul>
-      </Fragment>
-    ))
-  } else {
-    return <ul className={listStyle}>{renderListItem(iconsToRender)}</ul>
+    return (
+      <>
+        {toggle}
+        {groupByCategory(iconsToRender).map(([categoryName, icons]) => (
+          <Fragment key={categoryName}>
+            <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
+              {categoryName}
+            </AutoLinkHeader>
+            <ul className={listStyle}>{renderListItem(icons)}</ul>
+          </Fragment>
+        ))}
+      </>
+    )
   }
+
+  return (
+    <>
+      {toggle}
+      <ul className={listStyle}>{renderListItem(iconsToRender)}</ul>
+    </>
+  )
 }

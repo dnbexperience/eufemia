@@ -9,7 +9,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
 import Icon, { prerenderIcon } from '../Icon'
-import { question } from './test-files'
+import { question, star } from './test-files'
 
 const props: IconAllProps = {
   icon: question,
@@ -277,6 +277,76 @@ describe('Icon component', () => {
 
     const svgAfter = document.querySelector('svg')
     expect(svgAfter).toBe(svgBefore)
+  })
+
+  it('should have filled class when filled prop is true', () => {
+    render(<Icon icon={question} filled />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
+  })
+
+  it('should apply filled prop even for icons not in the allowlist', () => {
+    render(<Icon icon={question} filled />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
+  })
+
+  it('should not have filled class by default', () => {
+    render(<Icon icon={question} />)
+    expect(
+      document.querySelector('span.dnb-icon').classList
+    ).not.toContain('dnb-icon--filled')
+  })
+
+  it('should have filled class when wrapped in Icon.Filled with a supported icon', () => {
+    render(
+      <Icon.Filled>
+        <Icon icon={star} />
+      </Icon.Filled>
+    )
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
+  })
+
+  it('should not apply filled from Icon.Filled for icons not in the allowlist', () => {
+    render(
+      <Icon.Filled>
+        <Icon icon={question} />
+      </Icon.Filled>
+    )
+    expect(
+      document.querySelector('span.dnb-icon').classList
+    ).not.toContain('dnb-icon--filled')
+  })
+
+  it('should apply filled via Icon.Filled only to supported icons', () => {
+    render(
+      <Icon.Filled>
+        <Icon icon={star} />
+        <Icon icon={question} />
+      </Icon.Filled>
+    )
+    const icons = document.querySelectorAll('span.dnb-icon')
+    expect(icons).toHaveLength(2)
+    expect(icons[0].classList).toContain('dnb-icon--filled')
+    expect(icons[1].classList).not.toContain('dnb-icon--filled')
+  })
+
+  it('should not apply filled to icons outside Icon.Filled', () => {
+    render(
+      <>
+        <Icon.Filled>
+          <Icon icon={star} />
+        </Icon.Filled>
+        <Icon icon={star} />
+      </>
+    )
+    const icons = document.querySelectorAll('span.dnb-icon')
+    expect(icons[0].classList).toContain('dnb-icon--filled')
+    expect(icons[1].classList).not.toContain('dnb-icon--filled')
   })
 })
 

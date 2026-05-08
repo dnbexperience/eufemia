@@ -16,6 +16,11 @@ export const IconProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  filled: {
+    doc: 'If set to `true`, the icon paths will be filled with `currentColor`. Can also be set via the `Icon.Filled` context provider to fill all nested icons.',
+    type: 'boolean',
+    status: 'optional',
+  },
   alt: {
     doc: 'The alternative label (text version) of the icon. Defaults to the imported icon name.',
     type: 'string',

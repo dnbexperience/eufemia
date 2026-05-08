@@ -4,6 +4,7 @@ import type {
   HTMLProps,
   JSX,
   ReactElement,
+  ReactNode,
   SVGProps,
 } from 'react'
 import clsx from 'clsx'
@@ -22,6 +23,8 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import IconFilledContext from './IconFilledContext'
+import filledIconSet from './filledIconSet'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -112,6 +115,11 @@ export type IconProps = {
    */
   modifier?: string
 
+  /**
+   * If set to `true`, the icon paths will be filled with `currentColor`. Can also be set via the `Icon.Filled` context provider.
+   */
+  filled?: boolean
+
   border?: boolean
   width?: `${IconSize}` | `${number}%` | number
   height?: `${IconSize}` | `${number}%` | number
@@ -120,14 +128,23 @@ export type IconProps = {
 
 export type IconAllProps = IconProps &
   SpacingProps &
-  Omit<HTMLProps<HTMLElement>, 'size' | 'children'>
+  Omit<HTMLProps<HTMLElement>, 'size' | 'children'> & {
+    /** @internal Set by Icon when filled comes from context */
+    _filledViaContext?: boolean
+  }
 
 export default function Icon(localProps: IconAllProps) {
   const context = useContext(Context)
+  const filledFromContext = useContext(IconFilledContext)
+
+  // When filled comes from context, only apply it if the icon supports it.
+  // When filled is set directly as a prop, always apply it.
+  const filledViaContext =
+    filledFromContext && !('filled' in localProps) ? true : undefined
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
-    localProps,
+    { ...localProps, _filledViaContext: filledViaContext },
     {},
     { skeleton: context?.skeleton },
     context.Icon
@@ -352,6 +369,8 @@ function prepareIconCore(
     height,
     border,
     color,
+    filled,
+    _filledViaContext,
     inheritColor,
     modifier,
     alt,
@@ -376,6 +395,14 @@ function prepareIconCore(
 
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
+
+  // When filled comes from context, only apply it for icons in the allowlist.
+  // When filled is set directly as a prop, always apply it.
+  const isFilled = filled
+    ? true
+    : _filledViaContext && label
+      ? filledIconSet.has(label)
+      : false
 
   // some wrapper params
   // also used for code markup simulation
@@ -410,6 +437,7 @@ function prepareIconCore(
         'dnb-icon',
         modifier && `dnb-icon--${modifier}`,
         border && 'dnb-icon--border',
+        isFilled && 'dnb-icon--filled',
         inheritColor !== false && 'dnb-icon--inherit-color',
         sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
         createSkeletonClass(null, skeleton, context),
@@ -509,4 +537,15 @@ function getIcon(props) {
   return processChildren(props)
 }
 
+function IconFilled({ children }: { children: ReactNode }) {
+  return (
+    <IconFilledContext.Provider value={true}>
+      {children}
+    </IconFilledContext.Provider>
+  )
+}
+
+Icon.Filled = IconFilled
+
 withComponentMarkers(Icon, { _supportsSpacingProps: true })
+withComponentMarkers(Icon.Filled, { _supportsSpacingProps: 'children' })

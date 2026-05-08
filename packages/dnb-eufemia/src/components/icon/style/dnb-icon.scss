@@ -39,6 +39,16 @@
     height: inherit;
   }
 
+  // filled
+  &--filled svg {
+    path,
+    circle,
+    rect,
+    polygon {
+      fill: currentcolor;
+    }
+  }
+
   // color
   &--inherit-color svg:not([fill]),
   &--inherit-color svg [fill] {

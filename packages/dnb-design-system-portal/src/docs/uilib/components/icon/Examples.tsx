@@ -7,11 +7,14 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
   bell as Bell,
+  star as Star,
+  heart as Heart,
+  language as Language,
 } from '@dnb/eufemia/src/icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
-import { Icon, P, H2, IconPrimary, Button } from '@dnb/eufemia/src'
+import { Icon, P, H2, IconPrimary, Button, Flex } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const IconDefault = () => (
@@ -32,12 +35,41 @@ export const IconBorder = () => (
     scope={{ Bell, BellMedium }}
   >
     <P>
-      <Icon border={true} icon={Bell} right />
-      <Icon border={true} icon={BellMedium} size="medium" right />
-      <IconPrimary border={true} icon="information" right />
-      <IconPrimary border={true} icon="information" size="medium" right />
-      <Button icon={<IconPrimary icon="add" border />} text="Button" />
+      <Flex.Horizontal align="center">
+        <Icon border={true} icon={Bell} />
+        <Icon border={true} icon={BellMedium} size="medium" />
+        <IconPrimary border={true} icon="information" />
+        <IconPrimary border={true} icon="information" size="medium" />
+        <Button icon={<IconPrimary icon="add" border />} text="Button" />
+      </Flex.Horizontal>
     </P>
+  </ComponentBox>
+)
+
+export const IconFilled = () => (
+  <ComponentBox
+    data-visual-test="icon-filled"
+    scope={{ Star, Heart, BellMedium, Language }}
+  >
+    <Flex.Stack>
+      <P>
+        <Flex.Horizontal align="center">
+          <Icon icon={Star} filled />
+          <Icon icon={Heart} filled />
+          <Icon icon={BellMedium} filled />
+        </Flex.Horizontal>
+      </P>
+      <P top="small">
+        <Flex.Horizontal align="center">
+          <Icon.Filled>
+            <Icon icon={Star} />
+            <Icon icon={Heart} />
+            <Icon icon={Language} />
+            {/* Language is not in the filled list, so it stays outlined */}
+          </Icon.Filled>
+        </Flex.Horizontal>
+      </P>
+    </Flex.Stack>
   </ComponentBox>
 )
 
