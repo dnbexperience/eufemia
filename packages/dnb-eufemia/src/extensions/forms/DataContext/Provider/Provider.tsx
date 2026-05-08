@@ -950,9 +950,15 @@ export default function Provider<Data extends JsonObject>(
       const prevData = cacheRef.current.data
       cacheRef.current.data = data
 
+      // prevData === undefined handles the transition from no data prop to a defined one
+      // (cacheRef starts with the initial prop; if that was undefined the block was skipped,
+      // so the first defined value should always be treated as a change).
       const valueChanged =
         prevData !== data &&
         (prevData === undefined || !isDeepEqual(data, prevData))
+      // !id: when there is no shared state, always apply data on first render.
+      // !hadInitialData: when shared state was seeded externally (Form.useData sibling),
+      // skip the initial apply so the seeded value takes precedence on mount.
       const notYetApplied =
         !cacheRef.current.hasAppliedDataProp &&
         (!id || !sharedData?.hadInitialData)
@@ -1715,9 +1721,12 @@ export default function Provider<Data extends JsonObject>(
   // would exclude that consumer (not the Provider) from notifications, silently swallowing
   // genuine data prop changes. Without the flag all subscribers are notified; prevSyncedRef
   // guards against the resulting extra Provider re-render causing a second sync.
-  // sharedData.update is omitted from deps: it is a stable useCallback on [id, sharedState]
-  // and sharedState is a useMemo on [id, initialData, shouldSync] — neither changes on normal rerenders.
-  // Including the sharedData object itself would be wrong: useSharedState returns a new plain-object
+  // sharedData.update is omitted from deps: it is a useCallback on [id, sharedState].
+  // Any id change is already captured by the id dep, triggering the effect with the correct update.
+  // sharedState (a useMemo on [id, initialData, shouldSync]) can also change when initialData
+  // changes, but update always routes to the same per-id singleton in the global sharedStates Map,
+  // so a stale closure still reaches the correct shared state — the dep is safe to omit.
+  // Including sharedData itself would be wrong: useSharedState returns a new plain-object
   // literal every render, so it would never be referentially equal and the effect would run every render.
   const prevSyncedRef = useRef({ id, data })
   useLayoutEffect(() => {
