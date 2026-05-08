@@ -1,0 +1,1 @@
+import{t as e}from"./TypographyDocs-KW7zo553.js";var t={...e};export{t};

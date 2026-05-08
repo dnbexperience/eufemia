@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions."
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.612Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.133Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
@@ -75,7 +75,7 @@ Every step can be clicked.
 
 ```tsx
 const InteractiveDemo = () => {
-  const [step, setStep] = React.useState(1);
+  const [step, setStep] = useState(1);
   return <div style={{
     display: 'flex'
   }}>
@@ -155,8 +155,8 @@ render(<StepIndicator mode="static" currentStep={1} onChange={({
 
 ```tsx
 const StepIndicatorWithRouter = () => {
-  const [currentStep, setCurrentStep] = React.useState(1);
-  React.useEffect(() => {
+  const [currentStep, setCurrentStep] = useState(1);
+  useEffect(() => {
     const step = parseFloat(window.location.search?.replace(/[?]/, '')) || 1;
     setCurrentStep(step);
   }, []);
@@ -191,12 +191,12 @@ function CustomStepIndicator({
   data,
   ...props
 }) {
-  const [step, setStep] = React.useState(0);
+  const [step, setStep] = useState(0);
   return <>
             <StepIndicator mode="loose" data={data} currentStep={step} onChange={({
       currentStep
     }) => setStep(currentStep)} bottom {...props} />
-            <Section backgroundColor="lavender" innerSpace>
+            <Section variant="information" innerSpace>
               {children(step)}
             </Section>
           </>;

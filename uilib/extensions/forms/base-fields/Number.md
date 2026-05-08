@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.299Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.775Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -207,7 +207,7 @@ render(<Field.Number label="Label text" showStepControls minimum={0} maximum={10
 
 ```tsx
 const Component = () => {
-  const [value, setValue] = React.useState(50000);
+  const [value, setValue] = useState(50000);
   const settings = {
     min: 0,
     max: 100000,

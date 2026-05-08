@@ -1,0 +1,35 @@
+---
+title: 'Commit changes'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.815Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Commit changes
+
+Commit your change and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
+
+From a Fork:
+
+- Make your changes in your Fork and create a _Pull Request_ back to the Eufemia repo and `origin/main`.
+- Watch the result of the tests.
+
+With access to the Eufemia repo:
+
+- Make your changes and commit it to the repo in a new branch.
+- Make a _Pull Request_ to `origin/main`.
+- Watch the result of the tests.
+
+## How to write a commit message
+
+Please have a look at the [Git convention](/contribute/style-guides/git) for how to write a commit message.
+
+## Submit Algolia search queries locally
+
+In order to submit Algolia search queries to the `dev_eufemia_docs` index, you have to:
+
+Create a `.env` file inside `dnb-design-system-portal` with valid:
+
+- `ALGOLIA_INDEX_NAME=dev_eufemia_docs`
+- `ALGOLIA_APP_ID=SLD6KEYMQ9`
+- `ALGOLIA_API_KEY=secret`

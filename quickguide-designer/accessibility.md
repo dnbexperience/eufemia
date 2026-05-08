@@ -1,0 +1,118 @@
+---
+title: 'WCAG Accessibility'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.831Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Accessibility, Inclusiveness, and WCAG
+
+Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
+
+Remember – test for accessibility early in the design process.
+
+## Useful Resources
+
+- [What is Universal Design? (DNB Sharepoint)](https://dnbasa.sharepoint.com/sites/n1317)
+- [Gjeldende regelverk og krav (Uutilsynet)](https://www.uutilsynet.no/regelverk/gjeldende-regelverk-og-krav/746) (in Norwegian)
+
+## WCAG (Web Content Accessibility Guidelines)
+
+The four main tenets of the WCAG 2.1 are:
+
+- Perceivable
+- Operable
+- Understandable
+- Robust
+
+### Perceivable
+
+Perceivable content must be readable.
+
+Make sure there is enough contrast between background and text colors.
+
+Larger text is generally more readable. Make sure text can easily be resized.
+
+Images should have alt text.
+
+For video, provide transcripts and captions for visual-heavy videos.
+
+#### Dos and Don'ts
+
+- Do not use font sizes below 14px (0.875 em).
+- Avoid fixed pixel sizes, use relative sizing.
+- Never put important text as part of an image.
+
+### Operable
+
+All users should be able to get to all the pages and forms.
+
+Users should be able to interact with what they need to:
+
+- Links
+- Forms
+- Buttons
+- All other navigating and information retrieval
+
+#### Keyboard navigation
+
+Keyboard navigation covers many use cases and contexts. Users who cannot see the position of the cursor on the screen, or who do not possess fine motor skills in their hands, often rely on the keyboard.
+
+Keyboard shortcuts can increase task efficiency.
+
+See **Focus management** below for more on this topic.
+
+#### Progressive enhancement
+
+Forms, navigation, and other essential components and actions should work on older browsers and devices. Styling comes second to content and accessibility.
+
+### Understandable
+
+The contents' intended meaning is easily understandable.
+
+Use simple, honest, direct language.
+
+#### Avoid assumptions
+
+This especially applies to the use of icons and symbols. What may be obvious to a designer or a user in one culture may not be so to another.
+
+Back up icons and symbols with clear labels, captions, or subtitles.
+
+### Robustness
+
+Make content accessible from a wide variety of devices.
+
+#### Semantic markup
+
+Semantic markup makes robust content that's accessible. Pay attention to the following:
+
+- Semantic HTML tags
+- Proper use of ARIA tags
+- Logically ordering DOM elements
+- Server-side rendering to ensure it is delivered properly
+
+#### Responsive design
+
+Responsive design ensures that content can be viewed on a wide spectrum of display sizes.
+Responsive components and layout design should be planned from the beginning and not applied as an afterthought. Build prototypes early in code or design and begin testing their breakpoints sooner rather than later.
+
+## Focus management
+
+There are several situations where we need to help the user to overcome focus management. The two most important are:
+
+- If your page contains large parts of content (tables, lists, etc.), you need to give the user, when using a keyboard for navigation, the ability to skip these parts – similar to a Skip-Link. Use the [SkipContent](/uilib/components/skip-content) component to handle such situations.
+- If you open a context menu or something similar, you need to set focus actively via JavaScript in order to let the user continue the correct tab placement and order. You may consider if this [focus-helper](/uilib/usage/accessibility/focus/#focus-helper) could help you out with your focus management.
+
+### Where should the focus start on the first page initialization?
+
+A skip link is typically placed as the very first focusable element.
+It helps people using keyboard navigation, skipping header areas with many focusable elements, and lets the user directly navigate to the main content.
+
+### Is a skip link required?
+
+It depends on content, context, and user needs. If your page has blocks of content that are identical throughout many pages, then you should give the user the ability to skip these blocks.
+It is not a requirement to have a skip link, but it is a necessary consideration.
+
+## Accessibility checklist for designers
+
+Check out the [Accessibility checklist for designers](/quickguide-designer/accessibility/checklist) for the most important features in accessibility.

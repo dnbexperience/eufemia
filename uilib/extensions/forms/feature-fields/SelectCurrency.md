@@ -1,8 +1,8 @@
 ---
 title: 'Field.SelectCurrency'
 description: '`Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.330Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.820Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -216,7 +216,39 @@ render(<Field.SelectCurrency value="NOK" htmlAttributes={{
 
 ### Field-specific properties
 
-<PropertiesTable props={SelectCurrencyProperties} />
+
+```json
+{
+  "props": {
+    "currencies": {
+      "doc": "List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all currencies [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.",
+      "type": [
+        "\"Scandinavia\"",
+        "\"Nordic\"",
+        "\"Europe\"",
+        "\"Prioritized\""
+      ],
+      "status": "optional"
+    },
+    "filterCurrencies": {
+      "doc": "Use this property to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.",
+      "type": "function",
+      "status": "optional"
+    },
+    "size": {
+      "doc": "Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "type": [
+        "\"small\"",
+        "\"default\"",
+        "\"medium\"",
+        "\"large\""
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General properties
 
@@ -532,7 +564,34 @@ render(<Table.ScrollView>
 
 ## Events
 
-<PropertiesTable props={SelectCurrencyGeneralEvents} />
+
+```json
+{
+  "props": {
+    "onChange": {
+      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs?: object) => void",
+      "status": "optional"
+    },
+    "onFocus": {
+      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs?: object) => void",
+      "status": "optional"
+    },
+    "onBlur": {
+      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs?: object) => void",
+      "status": "optional"
+    },
+    "onStatusChange": {
+      "doc": "Called whenever the status messages (info, warning or error) gets visible or changes. Receives the current `{ info, warning, error }` object.",
+      "type": "({ info?, warning?, error? }: FieldStatus) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### Details about argument values
 

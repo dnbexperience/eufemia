@@ -1,7 +1,7 @@
 ---
 title: 'What are fields?'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.292Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.769Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -38,11 +38,119 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
 These components are data-driven React components—named and structured—according to the "type" of data they can display and produce, based on the user's input and action in the interface.
 
 - **input category**—which consists of field types that accept and produce values based on input from the user, such as text and numbers.
-  <ListBaseInputComponents />
+  
+## [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/)
+
+`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
+
+## [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/)
+
+`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
+
+## [Field.Composition](/uilib/extensions/forms/base-fields/Composition/)
+
+`Field.Composition` is a component for when you create a field block that contains of several existing fields.
+
+## [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate/)
+
+`Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
+
+## [Field.Number](/uilib/extensions/forms/base-fields/Number/)
+
+`Field.Number` is the base component for receiving user input where the target data is of type `number`.
+
+## [Field.Option](/uilib/extensions/forms/base-fields/Option/)
+
+`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
+
+## [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
+
+`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
+
+## [Field.String](/uilib/extensions/forms/base-fields/String/)
+
+`Field.String` is the base component for receiving user input where the target data is of type `string`.
+
+## [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/)
+
+`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
 - **selection category**—which consists of field types that allow the user to choose between a fixed set of values (options) represented by different UI components:
-  <ListBaseSelectionComponents />
+  
+## [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/)
+
+`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
+
+## [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/)
+
+`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
+
+## [Field.Composition](/uilib/extensions/forms/base-fields/Composition/)
+
+`Field.Composition` is a component for when you create a field block that contains of several existing fields.
+
+## [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate/)
+
+`Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
+
+## [Field.Number](/uilib/extensions/forms/base-fields/Number/)
+
+`Field.Number` is the base component for receiving user input where the target data is of type `number`.
+
+## [Field.Option](/uilib/extensions/forms/base-fields/Option/)
+
+`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
+
+## [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
+
+`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
+
+## [Field.String](/uilib/extensions/forms/base-fields/String/)
+
+`Field.String` is the base component for receiving user input where the target data is of type `string`.
+
+## [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/)
+
+`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
 - **toggle category**—which consists of field types that allow the user to toggle between two values, such as `true` and `false`:
-  <ListBaseToggleComponents />
+  
+## [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/)
+
+`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
+
+## [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/)
+
+`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
+
+## [Field.Composition](/uilib/extensions/forms/base-fields/Composition/)
+
+`Field.Composition` is a component for when you create a field block that contains of several existing fields.
+
+## [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate/)
+
+`Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
+
+## [Field.Number](/uilib/extensions/forms/base-fields/Number/)
+
+`Field.Number` is the base component for receiving user input where the target data is of type `number`.
+
+## [Field.Option](/uilib/extensions/forms/base-fields/Option/)
+
+`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
+
+## [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
+
+`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
+
+## [Field.String](/uilib/extensions/forms/base-fields/String/)
+
+`Field.String` is the base component for receiving user input where the target data is of type `string`.
+
+## [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/)
+
+`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
 
 On top of these, a number of [feature fields](#feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
 

@@ -1,1 +1,0 @@
-import{t as e}from"./TypographyDocs-Bbsy7OYf.js";var t={...e};export{t};

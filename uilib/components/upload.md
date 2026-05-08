@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.679Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.230Z
 checksum: d3a8a00b18c6e6a9112ad2956a8c56788a7272b04874c248627d875ba23af2ab
 ---
 
@@ -153,8 +153,8 @@ const Component = () => {
   function Preview({
     files
   }) {
-    const [images, setImages] = React.useState([]);
-    React.useEffect(() => {
+    const [images, setImages] = useState([]);
+    useEffect(() => {
       files.map(({
         file
       }) => {
@@ -208,7 +208,7 @@ const Component = () => {
     files,
     setFiles
   } = Upload.useUpload('upload-is-loading');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('fileName.png', 123, 'image/png'),
       isLoading: true
@@ -295,7 +295,7 @@ const Component = () => {
   if (files.length) {
     console.log('files', files);
   }
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('fileName.png', 123, 'image/png'),
       errorMessage: 'This is no real file!'
@@ -432,7 +432,7 @@ const Component = () => {
   const {
     setFiles
   } = Upload.useUpload('upload-on-file-click');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 123, 'image/png'),
       id: '1',
@@ -465,7 +465,7 @@ const Component = () => {
     setFiles,
     clearFiles
   } = Upload.useUpload('upload-clear-files');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 123, 'image/png'),
       id: '1'
@@ -493,7 +493,7 @@ const Component = () => {
   const {
     setFiles
   } = Upload.useUpload('upload-description');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 0, 'image/png'),
       id: '1',
@@ -534,7 +534,7 @@ const Component = () => {
   const {
     setFiles
   } = Upload.useUpload('upload-remove-delete-button');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 0, 'image/png'),
       id: '1'
@@ -575,7 +575,7 @@ const Component = () => {
   const {
     setFiles
   } = Upload.useUpload('upload-file-size-empty');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 0, 'image/png'),
       id: '1'
@@ -603,7 +603,7 @@ const Component = () => {
     setInternalFiles,
     setFiles
   } = Upload.useUpload('upload-files-amount-message');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('fileName1.png', 123, 'image/png')
     }, {
@@ -631,7 +631,7 @@ const Component = () => {
     setInternalFiles,
     setFiles
   } = Upload.useUpload('upload-files-amount-limit');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('fileName1.png', 123, 'image/png')
     }, {
@@ -672,7 +672,7 @@ const Component = () => {
   const {
     setFiles
   } = Upload.useUpload('upload-compact-variant-files');
-  React.useEffect(() => {
+  useEffect(() => {
     setFiles([{
       file: createMockFile('1501870.jpg', 0, 'image/png'),
       id: '1'

@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.304Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.668Z
 checksum: 81d2fd74236351b8fe0315805263344b8c22fd30effa05c50ee9683818ab648c
 ---
 
@@ -223,9 +223,9 @@ render(<Drawer title="No spacing or animation" noAnimation spacing={false} hideC
   
 ```tsx
 const DrawerMock = () => {
-  const scrollRef = React.useRef(null);
-  const ref = React.useRef(null);
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const scrollRef = useRef(null);
+  const ref = useRef(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const message = errorMessage ? errorMessage : 'Yes, the "dnb-scroll-view" is used!';
   return <Drawer contentRef={ref} scrollRef={scrollRef} onOpen={() => {
     const innerOverflowY = window.getComputedStyle(ref.current).overflowY;
@@ -283,7 +283,7 @@ render(<Drawer title="Drawer title" containerPlacement="bottom">
   
 ```tsx
 const MockComponent = () => {
-  const scrollRef = React.useRef(null);
+  const scrollRef = useRef(null);
   return <Drawer title="Drawer title" scrollRef={scrollRef} onOpen={() => {
     scrollRef.current.scrollTop = 50;
   }}>
@@ -336,8 +336,8 @@ render(<MockComponent />);
   
 ```tsx
 const MockComponent = () => {
-  const [showMe, setShowMe] = React.useState(false);
-  const scrollRef = React.useRef(null);
+  const [showMe, setShowMe] = useState(false);
+  const scrollRef = useRef(null);
   return <Drawer title="Drawer title" scrollRef={scrollRef} onOpen={() => {
     setShowMe(!showMe);
     scrollRef.current.scrollTop = 50;

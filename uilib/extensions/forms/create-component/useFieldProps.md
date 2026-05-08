@@ -1,8 +1,8 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.314Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.792Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -302,8 +302,8 @@ It is recommended to use Zod schemas instead of JSON Schemas, as they provide be
 
 ```tsx
 const MySliderComponent = props => {
-  const fromInput = React.useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
-  const errorMessages = React.useMemo(() => {
+  const fromInput = useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
+  const errorMessages = useMemo(() => {
     return {
       'Field.errorRequired': 'This field is required',
       ...props.errorMessages
@@ -367,8 +367,8 @@ render(<Form.Handler data={{
 
 ```tsx
 const MySliderComponent = props => {
-  const fromInput = React.useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
-  const errorMessages = React.useMemo(() => {
+  const fromInput = useCallback(event => typeof event === 'number' ? event : event?.value || 0, []);
+  const errorMessages = useMemo(() => {
     return {
       'Field.errorRequired': 'This field is required',
       ...props.errorMessages

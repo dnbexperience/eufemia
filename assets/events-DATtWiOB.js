@@ -1,7 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import{a as r,t as i}from"./TableDocs-D0QnOIQG.js";var a=e();function o(e){let o={code:`code`,h2:`h2`,p:`p`,...t(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(o.h2,{children:`Table events`}),`
-`,(0,a.jsx)(n,{props:i,showDefaultValue:!0}),`
-`,(0,a.jsxs)(o.h2,{children:[`Table Row `,(0,a.jsx)(o.code,{children:`<Tr>`}),` events`]}),`
-`,(0,a.jsxs)(o.p,{children:[`Table Row `,(0,a.jsx)(o.code,{children:`<Tr>`}),` events are a part of the mode feature and needs to be enabled with the `,(0,a.jsx)(o.code,{children:`mode`}),` property on the main Table.`]}),`
-`,(0,a.jsxs)(o.p,{children:[`Table with navigation mode(`,(0,a.jsx)(o.code,{children:`mode="navigation"`}),`) only supports the `,(0,a.jsx)(o.code,{children:`<Tr>`}),` event `,(0,a.jsx)(o.code,{children:`onClick`}),`.`]}),`
-`,(0,a.jsxs)(o.p,{children:[`Table with accordion mode(`,(0,a.jsx)(o.code,{children:`mode="accordion"`}),`) supports all the `,(0,a.jsx)(o.code,{children:`<Tr>`}),` events listed below.`]}),`
-`,(0,a.jsx)(n,{props:r,showDefaultValue:!0})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,a.jsx)(n,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

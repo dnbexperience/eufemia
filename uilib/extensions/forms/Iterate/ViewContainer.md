@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.082Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.560Z
 checksum: fd927e5e6079ac54f6e5194de24331ff79e64fc4982b0071ecc885c7a6568fde
 ---
 
@@ -109,7 +109,60 @@ When the item (view and edit) container gets removed, the active element focus w
 
 ## Demos
 
-<Examples.ViewAndEditContainer />
+
+```tsx
+const MyEditItemForm = () => {
+  return <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last itemPath="/lastName" width="medium" required />
+            </Field.Composition>;
+};
+const MyEditItem = () => {
+  return <Iterate.EditContainer title="Edit account holder {itemNo}" titleWhenNew="New account holder {itemNo}">
+              <MyEditItemForm />
+            </Iterate.EditContainer>;
+};
+const MyViewItem = () => {
+  const item = Iterate.useItem();
+  console.log('index:', item.index);
+  return <Iterate.ViewContainer title="Account holder {itemNo}">
+              <Value.SummaryList>
+                <Value.Name.First itemPath="/firstName" showEmpty />
+                <Value.Name.Last itemPath="/lastName" placeholder="-" />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>;
+};
+const CreateNewEntry = () => {
+  return <Iterate.PushContainer path="/accounts" title="New account holder" openButton={<Iterate.PushContainer.OpenButton text="Add another account" />} showOpenButtonWhen={list => list.length > 0}>
+              <MyEditItemForm />
+            </Iterate.PushContainer>;
+};
+const MyForm = () => {
+  return <Form.Handler data={{
+    accounts: [{
+      firstName: 'Tony',
+      lastName: 'Rogers'
+    }]
+  }} onChange={data => console.log('DataContext/onChange', data)} onSubmit={async data => console.log('onSubmit', data)}>
+              <Flex.Stack>
+                <Form.MainHeading>Accounts</Form.MainHeading>
+
+                <Form.Card gap={false}>
+                  <Iterate.Array path="/accounts" animate>
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+
+                  <CreateNewEntry />
+                </Form.Card>
+
+                <Form.SubmitButton variant="send" />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
+```
+
 
 ### Toolbar variant
 
@@ -117,11 +170,32 @@ When the item (view and edit) container gets removed, the active element focus w
 
 When having one item in the Iterate.Array:
 
-<Examples.ToolbarVariantMiniumOneItemOneItem />
+
+```tsx
+render(<Iterate.Array defaultValue={['foo']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>)
+```
+
 
 When having two items in the Iterate.Array:
 
-<Examples.ToolbarVariantMiniumOneItemTwoItems />
+
+```tsx
+render(<Iterate.Array defaultValue={['foo', 'bar']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>)
+```
 
 ## Properties
 

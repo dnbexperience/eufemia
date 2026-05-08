@@ -1,0 +1,7 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{t as r}from"./TranslationsTable-DR7hXILI.js";import{n as i}from"./SliderDocs-D81dMJO0.js";import{n as a}from"./FieldDocs-Cop16Xau.js";var o=e(),s={paths:{doc:`Define an array with JSON Pointer paths for multiple thumb buttons.`,type:`Array<string>`,status:`optional`},min:i.min,max:i.max,step:i.step,vertical:i.vertical,reverse:i.reverse,stretch:i.stretch,hideButtons:i.hideButtons,multiThumbBehavior:i.multiThumbBehavior,thumbTitle:i.thumbTitle,subtractTitle:i.subtractTitle,addTitle:i.addTitle,numberFormat:i.numberFormat,tooltip:i.tooltip,alwaysShowTooltip:i.alwaysShowTooltip,extensions:i.extensions,"[Space](/uilib/layout/space/properties)":i[`[Space](/uilib/layout/space/properties)`]};function c(e){let i={h2:`h2`,h3:`h3`,...t(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(i.h2,{children:`Properties`}),`
+`,(0,o.jsx)(i.h3,{children:`Field-specific properties`}),`
+`,(0,o.jsx)(n,{props:s}),`
+`,(0,o.jsx)(i.h3,{children:`General properties`}),`
+`,(0,o.jsx)(n,{props:a,valueType:[`number`,`Array<number>`]}),`
+`,(0,o.jsx)(i.h2,{children:`Translations`}),`
+`,(0,o.jsx)(r,{localeKey:[`Field`]})]})}function l(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,o.jsx)(n,{...e,children:(0,o.jsx)(c,{...e})}):c(e)}export{l as default};

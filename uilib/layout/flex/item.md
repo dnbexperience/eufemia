@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.355Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.845Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -103,13 +103,99 @@ render(<Flex.Container>
 
 With the default `sizeCount` of 12 parts.
 
-<Examples.BasicSizeExample />
+
+```tsx
+render(<Flex.Container>
+        <Flex.Item span={8}>
+          <TestElement style={colors[0]}>FlexItem (8)</TestElement>
+        </Flex.Item>
+        <Flex.Item span={4}>
+          <TestElement style={colors[1]}>FlexItem (4)</TestElement>
+        </Flex.Item>
+        <Flex.Item span={{
+    small: 12,
+    medium: 4
+  }}>
+          <TestElement style={colors[2]}>
+            FlexItem (small: 8, medium: 4)
+          </TestElement>
+        </Flex.Item>
+        <Flex.Item span={{
+    small: 12,
+    medium: 8
+  }}>
+          <TestElement style={colors[3]}>
+            FlexItem (small: 4, medium: 8)
+          </TestElement>
+        </Flex.Item>
+      </Flex.Container>)
+```
+
 
 ### Advanced `span` usage
 
 The following example has a customized amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
 
-<Examples.AdvancedSizeExample />
+
+```tsx
+const breakpoints = {
+  ...defaultBreakpoints,
+  xsmall: '30em'
+};
+const queries = {
+  ...defaultQueries,
+  xsmall: {
+    min: 0,
+    max: 'xsmall'
+  },
+  small: {
+    min: 'xsmall',
+    max: 'small'
+  }
+};
+const CustomMediaQuery = styled.div`
+          display: flex;
+          flex-direction: column;
+          .dnb-flex-container[data-media-key='xsmall']
+            .dnb-flex-item--responsive {
+            --span: var(--xsmall);
+          }
+        `;
+render(<CustomMediaQuery>
+            <Flex.Container direction="horizontal" sizeCount={4} breakpoints={breakpoints} queries={queries}>
+              <Flex.Item span={{
+      small: 2,
+      medium: 3,
+      large: 1
+    }}>
+                <TestElement style={colors[0]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      small: 2,
+      medium: 1,
+      large: 2
+    }}>
+                <TestElement style={colors[1]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      xsmall: 4,
+      small: 2,
+      medium: 1,
+      large: 1
+    }}>
+                <TestElement style={colors[2]}>FlexItem</TestElement>
+              </Flex.Item>
+              <Flex.Item span={{
+      xsmall: 4,
+      small: 2,
+      medium: 3,
+      large: 4
+    }}>
+                <TestElement style={colors[3]}>FlexItem</TestElement>
+              </Flex.Item>
+            </Flex.Container>
+          </CustomMediaQuery>);
+```
 
 ## Properties
 

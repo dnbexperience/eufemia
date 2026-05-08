@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.425Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.793Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -183,6 +183,33 @@ render(<List.Container>
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>)
+```
+
+
+### Navigable item with custom element
+
+Use the `element` prop to render a custom link component such as React Router's `Link`. Pass the route via the `to` prop directly on `List.Item.Action` — the entire row will be clickable.
+
+
+```tsx
+// Example using a custom link component (e.g. React Router's Link).
+// Pass the component via the `element` prop and the route via `to`.
+function MyLink({
+  to,
+  children,
+  ...rest
+}) {
+  return <a href={to} {...rest}>
+              {children}
+            </a>;
+}
+render(<List.Container>
+            <List.Item.Action element={MyLink} to="#custom-route" icon={fish_medium} title="Navigate with custom element">
+              <List.Cell.End>
+                <NumberFormat.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>);
 ```
 
 

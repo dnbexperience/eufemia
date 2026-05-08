@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.030Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.522Z
 checksum: 7de0da6b383745c27475497c9f7478a9fc68eeee197f8230e3b44dd10106380b
 ---
 
@@ -306,7 +306,33 @@ render(<Form.Handler defaultData={{
 
 With an optional `title` and [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/).
 
-<Examples.AnimatedContainer />
+
+```tsx
+const MyForm = () => {
+  const {
+    count
+  } = Iterate.useCount('myForm');
+  return <Form.Handler defaultData={{
+    myList: ['Item 1']
+  }} id="myForm">
+              <Form.Card>
+                <Iterate.Array path="/myList" placeholder={<>Empty list</>} animate>
+                  <Iterate.AnimatedContainer title="Title {itemNo}">
+                    <Field.String label="Label" itemPath="/" />
+
+                    <Iterate.Toolbar>
+                      <Iterate.RemoveButton />
+                    </Iterate.Toolbar>
+                  </Iterate.AnimatedContainer>
+                </Iterate.Array>
+
+                <Iterate.PushButton path="/myList" pushValue={`Item ${String(count('/myList') + 1)}`} text="Add new item" />
+              </Form.Card>
+            </Form.Handler>;
+};
+render(<MyForm />);
+```
+
 
 ### Toggle between a view and edit container
 

@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{t as n}from"./ListFormComponents-ByM5KOCj.js";var r=e();function i(e){return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)({h2:`h2`,...t(),...e.components}.h2,{children:`Components`}),`
+`,(0,r.jsx)(n,{size:`small`})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

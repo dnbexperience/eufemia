@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSnapshot'
 description: '`Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.010Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.501Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -133,19 +133,19 @@ const MyComponent = () => {
     createSnapshot,
     applySnapshot
   } = Form.useSnapshot();
-  const pointerRef = React.useRef(0);
-  React.useEffect(() => {
+  const pointerRef = useRef(0);
+  useEffect(() => {
     createSnapshot(pointerRef.current, 'my-snapshot-slice');
   }, [createSnapshot]);
-  const changeHandler = React.useCallback(() => {
+  const changeHandler = useCallback(() => {
     pointerRef.current += 1;
     createSnapshot(pointerRef.current, 'my-snapshot-slice');
   }, [createSnapshot]);
-  const undoHandler = React.useCallback(() => {
+  const undoHandler = useCallback(() => {
     pointerRef.current -= 1;
     applySnapshot(pointerRef.current, 'my-snapshot-slice');
   }, [applySnapshot]);
-  const redoHandler = React.useCallback(() => {
+  const redoHandler = useCallback(() => {
     pointerRef.current += 1;
     applySnapshot(pointerRef.current, 'my-snapshot-slice');
   }, [applySnapshot]);

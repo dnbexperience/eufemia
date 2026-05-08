@@ -1,0 +1,82 @@
+---
+title: 'About'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.826Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# About Eufemia
+
+## The vision
+
+> Eufemia empowers us to innovate efficiently and create holistic, world-class experiences.
+
+Eufemia is [DNB's](https://www.dnb.no/) design system, providing resources for designers and developers to maintain consistency and efficiency when building accessible web applications. The goal is a single source of truth for design—covering color, typography, layout guidelines, and fully coded components for applications.
+
+### For everyone
+
+With Eufemia, DNB can continually increase product quality for both visual users and users relying on assistive technologies. It follows industry and regulatory standards—[UU Tilsynet](https://www.uutilsynet.no/) and [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
+
+You can read more about DNB UX's minimal [accessibility requirements](/uilib/usage/accessibility) for web applications.
+
+
+# Welcome Info
+
+## Please contribute
+
+Eufemia is a [living design system](/design-system/about/living-system) that does not have a "finished" state. Continuous improvement, removal, and addition of content are essential to keeping it relevant as a resource for current and future DNB products and services.
+
+Your input, comments, and discussions are all valuable. Please [reach out to us](/design-system/contact) and [contribute](/contribute).
+
+
+## Special thanks
+
+Thank you to everyone who has contributed to building Eufemia. Notable contributors include:
+
+- Jens Thuland
+- Casper Brekke
+- Mats Ødegaard Vassli
+- Sindre Marken
+- Kevin Murphy
+- Tobias Høegh
+- Anders Langseth
+- Joakim Bjerknes
+- Snorre Kim
+- Henrik Haugberg
+- Yngve Sundfjord
+- Dina Rosvoll
+- Thayanan Tharmapalan
+- Hans Kristian Smedsrød
+- Arne Haltstrand
+- Kirsti Merete Frelsøy
+
+## Transparency
+
+The UX team created the Eufemia design system to streamline design and development processes at DNB.
+
+Access to code and documentation is essential for building strong relationships and maintaining balance between contribution, development, and communication.
+
+To ensure transparency, we've made both the code on [GitHub](https://github.com/dnbexperience/eufemia) and the [Eufemia Portal](/) available without restrictions.
+
+This approach:
+
+- Enables anyone to contribute
+- Strengthens the identity of design and development processes at DNB
+- Defines user ownership of the design system
+- Increases professionalization of development processes
+- Contributes to maximum transparency with partners and DNB customers
+- Simplifies daily work for design system users
+- Makes the design system available to those without internal DNB access
+
+It reflects DNB's reputation for clarity, transparency, and pride in our work. Sharing our design system openly makes it accessible to collaborators and signals our continuous commitment to creating the best solutions.
+
+---
+
+## Credits
+
+The Eufemia Portal includes [third-party services](/design-system/credits).
+
+## Additional links
+
+- [Privacy](/design-system/privacy)
+- [License](/license)

@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.638Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.164Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 
@@ -92,7 +92,7 @@ Removable tags can for example be used in filter lists. This is a simple example
 
 ```tsx
 const Genres = () => {
-  const [tagsAdded, setTagsAdded] = React.useState([{
+  const [tagsAdded, setTagsAdded] = useState([{
     key: 0,
     text: 'Action'
   }, {
@@ -105,15 +105,15 @@ const Genres = () => {
     key: 3,
     text: 'Horror'
   }]);
-  const [tagsRemoved, setTagsRemoved] = React.useState([{
+  const [tagsRemoved, setTagsRemoved] = useState([{
     key: 4,
     text: 'Fantasy'
   }]);
-  const handleRemove = React.useCallback(tagToRemove => () => {
+  const handleRemove = useCallback(tagToRemove => () => {
     setTagsAdded(tagsAdded.filter(tag => tag.key !== tagToRemove.key));
     setTagsRemoved([...tagsRemoved, tagToRemove]);
   }, [tagsAdded, tagsRemoved]);
-  const handleAdd = React.useCallback(tagToAdd => () => {
+  const handleAdd = useCallback(tagToAdd => () => {
     setTagsAdded([...tagsAdded, tagToAdd]);
     setTagsRemoved(tagsRemoved.filter(tag => tag.key !== tagToAdd.key));
   }, [tagsAdded, tagsRemoved]);

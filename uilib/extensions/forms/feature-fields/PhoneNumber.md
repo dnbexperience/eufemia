@@ -1,8 +1,8 @@
 ---
 title: 'Field.PhoneNumber'
 description: '`Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.326Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.817Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -404,7 +404,108 @@ render(<Form.Card>
 
 ### Field-specific properties
 
-<PropertiesTable props={PhoneNumberProperties} />
+
+```json
+{
+  "props": {
+    "countries": {
+      "doc": "List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.",
+      "type": [
+        "\"Scandinavia\"",
+        "\"Nordic\"",
+        "\"Europe\"",
+        "\"Prioritized\""
+      ],
+      "status": "optional"
+    },
+    "filterCountries": {
+      "doc": "Use this property to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.",
+      "type": "function",
+      "status": "optional"
+    },
+    "pattern": {
+      "doc": "Validation based on regex pattern for the combined E.164 value e.g. `pattern=\"^\\+47[49]\\d{7}$\"`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "omitCountryCodeField": {
+      "doc": "If `true` is given, then everything related to country code is removed.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "countryCodeFieldClassName": {
+      "doc": "Class name for the country code component.",
+      "type": "string",
+      "status": "optional"
+    },
+    "numberFieldClassName": {
+      "doc": "Class name for the number component.",
+      "type": "string",
+      "status": "optional"
+    },
+    "countryCodePlaceholder": {
+      "doc": "Placeholder for the country code field.",
+      "type": "string",
+      "status": "optional"
+    },
+    "countryCodeLabel": {
+      "doc": "Label to show above / before the country code field.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "numberLabel": {
+      "doc": "Label to show above / before the number field. Defaults to the translated label from `PhoneNumber.label`.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "numberMask": {
+      "doc": "See property `mask` of the [InputMasked](/uilib/components/input-masked/properties) component.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "width": {
+      "doc": "`large` for predefined standard width, `stretch` for fill available width.",
+      "type": [
+        "string",
+        "false"
+      ],
+      "status": "optional"
+    },
+    "label": {
+      "doc": "Label to show on the FieldBlock (wrapper around the phone number fields). Use `numberLabel` to customize the label for the number input field.",
+      "type": "string",
+      "status": "optional"
+    },
+    "labelDescription": {
+      "doc": "Description text shown below the label on the FieldBlock (wrapper around the phone number fields).",
+      "type": "string",
+      "status": "optional"
+    },
+    "labelSrOnly": {
+      "doc": "Use `true` to make the label only readable by screen readers.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "size": {
+      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "type": [
+        "string",
+        "number"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General properties
 
@@ -699,17 +800,318 @@ render(<Form.Card>
 
 [Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
 
-<AvailableCountriesTable />
+
+| ISO 3166-1 alpha-2 code | en | nb |
+| --- | --- | --- |
+| `AF` | Afghanistan | Afghanistan |
+| `AL` | Albania | Albania |
+| `DZ` | Algeria | Algerie |
+| `AS` | American Samoa | Amerikansk Samoa |
+| `AD` | Andorra | Andorra |
+| `AO` | Angola | Angola |
+| `AI` | Anguilla | Anguilla |
+| `AQ` | Antarctica | Antarktis |
+| `AG` | Antigua and Barbuda | Antigua og Barbuda |
+| `AR` | Argentina | Argentina |
+| `AM` | Armenia | Armenia |
+| `AW` | Aruba | Aruba |
+| `AU` | Australia | Australia |
+| `AT` | Austria | Østerrike |
+| `AZ` | Azerbaijan | Aserbajdsjan |
+| `BS` | Bahamas | Bahamas |
+| `BH` | Bahrain | Bahrain |
+| `BD` | Bangladesh | Bangladesh |
+| `BB` | Barbados | Barbados |
+| `BY` | Belarus | Belarus |
+| `BE` | Belgium | Belgia |
+| `BZ` | Belize | Belize |
+| `BJ` | Benin | Benin |
+| `BM` | Bermuda | Bermuda |
+| `BT` | Bhutan | Bhutan |
+| `BO` | Bolivia | Bolivia |
+| `BA` | Bosnia and Herzegovina | Bosnia-Hercegovina |
+| `BW` | Botswana | Botswana |
+| `BV` | Bouvet Island | Bouvetøya |
+| `BR` | Brazil | Brasil |
+| `IO` | British Indian Ocean Territory | Det britiske territoriet i Indiahavet |
+| `VG` | British Virgin Islands | De britiske Jomfruøyer |
+| `BN` | Brunei | Brunei |
+| `BG` | Bulgaria | Bulgaria |
+| `BF` | Burkina Faso | Burkina Faso |
+| `BI` | Burundi | Burundi |
+| `KH` | Cambodia | Kambodsja |
+| `CM` | Cameroon | Kamerun |
+| `CA` | Canada | Canada |
+| `CV` | Cape Verde | Kapp Verde |
+| `BQ` | Bonaire, Sint Eustatius and Saba | Bonaire, Sint Eustatius og Saba |
+| `KY` | Cayman Islands | Caymanøyene |
+| `CF` | Central African Republic | Den sentralafrikanske republikk |
+| `TD` | Chad | Tsjad |
+| `CL` | Chile | Chile |
+| `CN` | China | Kina |
+| `CX` | Christmas Island | Juleøya |
+| `CC` | Cocos Islands | Kokosøyene |
+| `CO` | Colombia | Colombia |
+| `KM` | Comoros | Komorene |
+| `CK` | Cook Islands | Cookøyene |
+| `CR` | Costa Rica | Costa Rica |
+| `HR` | Croatia | Kroatia |
+| `CU` | Cuba | Cuba |
+| `CW` | Curaçao | Curaçao |
+| `CY` | Cyprus | Kypros |
+| `CZ` | Czech Republic | Tsjekkia |
+| `CD` | Congo, the Democratic Republic | Kongo, den demokratiske republikken |
+| `DK` | Denmark | Danmark |
+| `DJ` | Djibouti | Djibouti |
+| `DM` | Dominica | Dominica |
+| `DO` | Dominican Republic | Den dominikanske republikk |
+| `TL` | East Timor | Øst-Timor |
+| `EC` | Ecuador | Ecuador |
+| `EG` | Egypt | Egypt |
+| `SV` | El Salvador | El Salvador |
+| `GQ` | Equatorial Guinea | Ekvatorial-Guinea |
+| `ER` | Eritrea | Eritrea |
+| `EE` | Estonia | Estland |
+| `SZ` | Eswatini | Eswatini |
+| `ET` | Ethiopia | Etiopia |
+| `FK` | Falkland Islands | Falklandsøyene |
+| `FO` | Faroe Islands | Færøyene |
+| `FJ` | Fiji | Fiji |
+| `FI` | Finland | Finland |
+| `FR` | France | Frankrike |
+| `GF` | French Guiana | Fransk Guyana |
+| `PF` | French Polynesia | Fransk Polynesia |
+| `TF` | French Southern and Antarctic Lands | De franske sørterritorier |
+| `GA` | Gabon | Gabon |
+| `GM` | Gambia | Gambia |
+| `GE` | Georgia | Georgia |
+| `DE` | Germany | Tyskland |
+| `GH` | Ghana | Ghana |
+| `GI` | Gibraltar | Gibraltar |
+| `GR` | Greece | Hellas |
+| `GL` | Greenland | Grønland |
+| `GD` | Grenada | Grenada |
+| `GP` | Guadeloupe | Guadeloupe |
+| `GU` | Guam | Guam |
+| `GT` | Guatemala | Guatemala |
+| `GG` | Guernsey | Guernsey |
+| `GN` | Guinea | Guinea |
+| `GW` | Guinea-Bissau | Guinea-Bissau |
+| `GY` | Guyana | Guyana |
+| `HT` | Haiti | Haiti |
+| `HM` | Heard Island and McDonald Islands | Heard- og McDonaldøyene |
+| `HN` | Honduras | Honduras |
+| `HK` | Hong Kong | Hongkong |
+| `HU` | Hungary | Ungarn |
+| `IS` | Iceland | Island |
+| `IN` | India | India |
+| `ID` | Indonesia | Indonesia |
+| `IR` | Iran | Iran |
+| `IQ` | Iraq | Irak |
+| `IE` | Ireland | Irland |
+| `IM` | Isle of Man | Man |
+| `IL` | Israel | Israel |
+| `IT` | Italy | Italia |
+| `CI` | Ivory Coast | Elfenbenskysten |
+| `JM` | Jamaica | Jamaica |
+| `JP` | Japan | Japan |
+| `JE` | Jersey | Jersey |
+| `JO` | Jordan | Jordan |
+| `KZ` | Kazakhstan | Kasakhstan |
+| `KE` | Kenya | Kenya |
+| `KI` | Kiribati | Kiribati |
+| `XK` | Kosovo | Kosovo |
+| `KW` | Kuwait | Kuwait |
+| `KG` | Kyrgyzstan | Kirgisistan |
+| `LA` | Laos | Laos |
+| `LV` | Latvia | Latvia |
+| `LB` | Lebanon | Libanon |
+| `LS` | Lesotho | Lesotho |
+| `LR` | Liberia | Liberia |
+| `LY` | Libya | Libya |
+| `LI` | Liechtenstein | Liechtenstein |
+| `LT` | Lithuania | Litauen |
+| `LU` | Luxembourg | Luxembourg |
+| `MO` | Macao | Macao |
+| `MG` | Madagascar | Madagaskar |
+| `MW` | Malawi | Malawi |
+| `MY` | Malaysia | Malaysia |
+| `MV` | Maldives | Maldivene |
+| `ML` | Mali | Mali |
+| `MT` | Malta | Malta |
+| `MH` | Marshall Islands | Marshalløyene |
+| `MQ` | Martinique | Martinique |
+| `MR` | Mauritania | Mauritania |
+| `MU` | Mauritius | Mauritius |
+| `YT` | Mayotte | Mayotte |
+| `MX` | Mexico | Mexico |
+| `FM` | Micronesia | Mikronesia |
+| `MD` | Moldova | Moldova |
+| `MC` | Monaco | Monaco |
+| `MN` | Mongolia | Mongolia |
+| `ME` | Montenegro | Montenegro |
+| `MS` | Montserrat | Montserrat |
+| `MA` | Morocco | Marokko |
+| `MZ` | Mozambique | Mosambik |
+| `MM` | Myanmar | Myanmar |
+| `NA` | Namibia | Namibia |
+| `NR` | Nauru | Nauru |
+| `NP` | Nepal | Nepal |
+| `NL` | Netherlands | Nederland |
+| `NC` | New Caledonia | Ny-Caledonia |
+| `NZ` | New Zealand | New Zealand |
+| `NI` | Nicaragua | Nicaragua |
+| `NE` | Niger | Niger |
+| `NG` | Nigeria | Nigeria |
+| `NU` | Niue | Niue |
+| `NF` | Norfolk Island | Norfolkøya |
+| `KP` | North Korea | Nord-Korea |
+| `MK` | North Macedonia | Nord-Makedonia |
+| `MP` | Northern Mariana Islands | Nord-Marianene |
+| `NO` | Norway | Norge |
+| `OM` | Oman | Oman |
+| `PK` | Pakistan | Pakistan |
+| `PW` | Palau | Palau |
+| `PS` | Palestine | Palestina |
+| `PA` | Panama | Panama |
+| `PG` | Papua New Guinea | Papua Ny-Guinea |
+| `PY` | Paraguay | Paraguay |
+| `PE` | Peru | Peru |
+| `PH` | Philippines | Filippinene |
+| `PN` | Pitcairn | Pitcairnøyene |
+| `PL` | Poland | Polen |
+| `PT` | Portugal | Portugal |
+| `PR` | Puerto Rico | Puerto Rico |
+| `QA` | Qatar | Qatar |
+| `CG` | Congo, the Republic | Kongo, republikken |
+| `RE` | Réunion | Réunion |
+| `RO` | Romania | Romania |
+| `RU` | Russia | Russland |
+| `RW` | Rwanda | Rwanda |
+| `BL` | Saint-Barthélemy | Saint-Barthélemy |
+| `SH` | Saint Helena, Ascension and Tristan da Cunha | Saint Helena, Ascension og Tristan da Cunha |
+| `KN` | Saint Kitts and Nevis | Saint Kitts og Nevis |
+| `LC` | Saint Lucia | Saint Lucia |
+| `MF` | Saint-Martin (FR) | Saint-Martin (FR) |
+| `PM` | Saint Pierre and Miquelon | Saint Pierre og Miquelon |
+| `VC` | Saint Vincent and the Grenadines | Saint Vincent og Grenadinene |
+| `WS` | Samoa | Samoa |
+| `SM` | San Marino | San Marino |
+| `ST` | Sao Tome and Principe | São Tomé og Príncipe |
+| `SA` | Saudi Arabia | Saudi-Arabia |
+| `SN` | Senegal | Senegal |
+| `RS` | Serbia | Serbia |
+| `SC` | Seychelles | Seychellene |
+| `SL` | Sierra Leone | Sierra Leone |
+| `SG` | Singapore | Singapore |
+| `SX` | Sint Maarten (NL) | Sint Maarten (NL) |
+| `SK` | Slovakia | Slovakia |
+| `SI` | Slovenia | Slovenia |
+| `SB` | Solomon Islands | Salomonøyene |
+| `SO` | Somalia | Somalia |
+| `ZA` | South Africa | Sør-Afrika |
+| `GS` | South Georgia and the South Sandwich Islands | Sør-Georgia og Sør-Sandwichøyene |
+| `KR` | South Korea | Sør-Korea |
+| `SS` | South Sudan | Sør-Sudan |
+| `ES` | Spain | Spania |
+| `LK` | Sri Lanka | Sri Lanka |
+| `SD` | Sudan | Sudan |
+| `SR` | Suriname | Surinam |
+| `SJ` | Svalbard and Jan Mayen | Svalbard og Jan Mayen |
+| `SE` | Sweden | Sverige |
+| `CH` | Switzerland | Sveits |
+| `SY` | Syria | Syria |
+| `TW` | Taiwan | Taiwan |
+| `TJ` | Tajikistan | Tadsjikistan |
+| `TZ` | Tanzania | Tanzania |
+| `TH` | Thailand | Thailand |
+| `TG` | Togo | Togo |
+| `TK` | Tokelau | Tokelau |
+| `TO` | Tonga | Tonga |
+| `TT` | Trinidad and Tobago | Trinidad og Tobago |
+| `TN` | Tunisia | Tunisia |
+| `TR` | Turkey | Tyrkia |
+| `TM` | Turkmenistan | Turkmenistan |
+| `TC` | Turks and Caicos Islands | Turks- og Caicosøyene |
+| `TV` | Tuvalu | Tuvalu |
+| `VI` | Virgin Islands (U.S) | De amerikanske Jomfruøyer |
+| `UG` | Uganda | Uganda |
+| `UA` | Ukraine | Ukraina |
+| `AE` | United Arab Emirates | De forente arabiske emirater |
+| `GB` | United Kingdom | Storbritannia |
+| `US` | United States | USA |
+| `UM` | United States Minor Outlying Islands | USAs ytre småøyer |
+| `UY` | Uruguay | Uruguay |
+| `UZ` | Uzbekistan | Usbekistan |
+| `VU` | Vanuatu | Vanuatu |
+| `VA` | Vatican | Vatikanstaten |
+| `VE` | Venezuela | Venezuela |
+| `VN` | Vietnam | Vietnam |
+| `WF` | Wallis and Futuna | Wallis og Futuna |
+| `EH` | Western Sahara | Vest-Sahara |
+| `YE` | Yemen | Jemen |
+| `ZM` | Zambia | Zambia |
+| `ZW` | Zimbabwe | Zimbabwe |
+| `AX` | Åland Islands | Åland |
 
 ## Events
 
 ### Field-specific events
 
-<PropertiesTable props={PhoneNumberSpecificEvents} />
+
+```json
+{
+  "props": {
+    "onChange": {
+      "doc": "Callback on phone number and country code change. The combined value is only set when there is a phone number.",
+      "type": "(value?: string, additionalArgs?: { countryCode?: string, phoneNumber?: string, iso?: string }) => void",
+      "status": "optional"
+    },
+    "onCountryCodeChange": {
+      "doc": "Callback on country code change.",
+      "type": "(value?: string) => void",
+      "status": "optional"
+    },
+    "onNumberChange": {
+      "doc": "Callback on phone number change.",
+      "type": "(value?: string) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General events
 
-<PropertiesTable props={PhoneNumberGeneralEvents} />
+
+```json
+{
+  "props": {
+    "onChange": {
+      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onFocus": {
+      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onBlur": {
+      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onStatusChange": {
+      "doc": "Called whenever the status messages (info, warning or error) gets visible or changes. Receives the current `{ info, warning, error }` object.",
+      "type": "({ info?, warning?, error? }: FieldStatus) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 #### Details about general events arguments
 

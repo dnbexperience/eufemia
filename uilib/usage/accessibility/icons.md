@@ -1,7 +1,7 @@
 ---
 title: 'Icons'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.368Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.859Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -49,7 +49,7 @@ const Responsive = styled.span`
         }
       `;
 const Svg = props => <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-          <path fillRule="evenodd" clipRule="evenodd" d="M4.03 5.22a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l4.5-4.5a.75.75 0 0 0-1.06-1.06L8 9.19 4.03 5.22z" fill="#000" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M4.03 5.22a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l4.5-4.5a.75.75 0 0 0-1.06-1.06L8 9.19 4.03 5.22z" fill="currentColor" />
         </svg>;
 render(<>
           <p>

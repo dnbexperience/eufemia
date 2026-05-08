@@ -1,0 +1,69 @@
+---
+title: 'Code guide'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.820Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Code guide
+
+To assure that the source code remains consistent regardless of the amount of contributors, a set of code principles has been established.
+
+The set of main code principles within JS, CSS, Typography and testing are located in the [UI Library - Best practices](/uilib/usage/best-practices). Below is more related to further developing the Eufemia repository.
+
+## Recommended Tools
+
+- Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) version handling.
+- Use [ESLint](https://eslint.org/docs/user-guide/integrations) and [Prettier](https://prettier.io/docs/en/editors.html) plugins in your favorite code editor to show related issues inline.
+- See the helpers section about [Eufemia tools](/uilib/usage/first-steps/tools) for more recommendations.
+
+## Linting
+
+JavaScript and Style linting is mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested with both static and integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
+
+The Code Base is based on several Static Tests to help the code to be uniform:
+
+- Prettier
+- ESLint
+- StyleLint
+
+You may consider installing plugins for your editor of choice - to visualize and run the code formatters and linters based on the given config files. This way you can immediately see how the code needs to look.
+
+Either include the plugins in your code editor, or run the following command after you made changes:
+
+```bash
+yarn workspace dnb/eufemia lint:js && yarn workspace @dnb/eufemia lint:styles
+```
+
+For only checking valid formatting, you can run `yarn workspace @dnb/eufemia prettier:check`. You may want to run `yarn workspace @dnb/eufemia prettier:write` to format all relevant files.
+
+Fix the resulting warnings and errors before you commit and merge.
+
+The same command as above applies to the workspace: `yarn workspace dnb-design-system-portal ...`.
+
+## TypeScript and type checking
+
+TypeScript types are mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested. You may run:
+
+```bash
+yarn workspace @dnb/eufemia test:types
+```
+
+Fix the resulting warnings and errors before you commit and merge.
+
+## CSS code formatting
+
+Eufemia uses [CSS rational order](/uilib/usage/best-practices/for-styling/#styling-structure).
+
+## Code comments
+
+Commenting code can be a helpful hint to understand written code for other developers trying to get a picture of what's going on. But code comments can also quickly become an extra layer of complexity while reading code.
+
+Follow this list below to increase consistent code:
+
+1. An intro at the start of a file can give an overview.
+1. Enhance the naming of variables and functions over comments.
+1. Do not explain what code does, but rather what is the rationale behind a block of code.
+1. Code comments should be optional to consume while reading the code. They should be a helping hand – if needed.
+
+Eufemia has some (`multiline-comment-style` and `spaced-comment`) ESLint and StyleLint rules to enhance consistent code comment styles.

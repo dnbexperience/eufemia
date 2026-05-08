@@ -1,0 +1,1 @@
+import{Ei as e,Or as t,kr as n}from"./index--zEB_f_m.js";import{t as r}from"./properties-PtCwfDeT.js";var i={sbanken:t,ui:n,eiendom:r},a=t=>{let n=(i[e().name]||i.ui)[t];return n&&n.startsWith(`var(`)?a(n.substring(4,n.indexOf(`)`))):n},o=e=>s(a(e)),s=(e=``)=>e.endsWith(`rem`)?parseFloat(e)*16+`px`:e;export{a as n,o as t};

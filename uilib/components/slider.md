@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.510Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.894Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
@@ -111,7 +111,7 @@ render(<VerticalWrapper>
 
 ```tsx
 const Component = () => {
-  const [value, setValue] = React.useState(70);
+  const [value, setValue] = useState(70);
   return <>
             <Slider value={value} step={1} hideButtons label="Slider A" numberFormat={{
       currency: 'EUR'

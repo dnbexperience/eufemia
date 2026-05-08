@@ -1,0 +1,5 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{t as r}from"./ValueDocs-BXzRcbid.js";var i=e(),a={trueText:{doc:`The text to use when the value is true.`,type:`string`,status:`optional`},falseText:{doc:`The text to use when the value is false.`,type:`string`,status:`optional`}};function o(e){let o={h2:`h2`,h3:`h3`,...t(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(o.h2,{children:`Properties`}),`
+`,(0,i.jsx)(o.h3,{children:`Value-specific properties`}),`
+`,(0,i.jsx)(n,{props:a}),`
+`,(0,i.jsx)(o.h3,{children:`General properties`}),`
+`,(0,i.jsx)(n,{props:r,valueType:`boolean`})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(o,{...e})}):o(e)}export{s as default};

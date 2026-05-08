@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.345Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.715Z
 checksum: 0ce3addcfcfa735263d0f47955de9dc9632600df2345c730edde9e2d95f50e31
 ---
 
@@ -110,15 +110,31 @@ First, warnings will not show up in production builds. And to skip the auto corr
 
 ### Heading levels interceptor modification
 
-```js
-import { resetLevels, setNextLevel } from '@dnb/eufemia/components/Heading'
+```jsx
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { resetLevels } from '@dnb/eufemia/components/Heading'
 
-// e.g. during Gatsby route change
-export const onRouteUpdate = () => {
-  resetLevels(1)
+function HeadingLevelReset() {
+  const { pathname } = useLocation()
 
-  // You can also call this method like this:
-  Heading.resetLevels(1)
+  useEffect(() => {
+    resetLevels(1)
+
+    // You can also call this method like this:
+    Heading.resetLevels(1)
+  }, [pathname])
+
+  return null
+}
+
+function App() {
+  return (
+    <>
+      <HeadingLevelReset />
+      <Routes>{/* page routes */}</Routes>
+    </>
+  )
 }
 
 // e.g. if you for some reason have to force setting a new level (Heading.setNextLevel)
@@ -136,7 +152,7 @@ Heading.setNextLevel(4, { overwriteContext: true })
 #### Heading and routers
 
 In order to reset the leveling during a page transition on using `react-router-dom` v5, you can make use of `withRouter`.
-In v6 or `@gatsbyjs/reach-router`, you just call it in the correct "page" component.
+In v6 or another router with page-level components, you just call it in the correct "page" component.
 You could additionally define "what is a page change" and what not, by using the `location: { pathname }` property you get inside these routing components.
 
 ### Basic heading elements
@@ -217,7 +233,7 @@ render(<Style>
     <ComponentBox>
       {() => {
       const App = () => {
-        const [showHeading, setShowHeading] = React.useState(false);
+        const [showHeading, setShowHeading] = useState(false);
         return <Heading.Level debug reset={1}>
               <Heading>h1</Heading>
               <Heading>h2</Heading>

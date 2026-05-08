@@ -1,8 +1,8 @@
 ---
 title: 'Field.DateOfBirth'
 description: '`Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.322Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.811Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -247,7 +247,29 @@ render(<Form.Handler defaultData={{
 
 ### Field-specific properties
 
-<PropertiesTable props={DateOfBirthProperties} />
+
+```json
+{
+  "props": {
+    "dateFormat": {
+      "doc": "Defines the date format. The default value is `yyyy-MM-dd`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "validate": {
+      "doc": "Using this prop you can disable the default validation.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "onBlurValidator": {
+      "doc": "Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to date of birth validation, using `dateOfBirthValidator`. Can be disabled using `false`.",
+      "type": "function",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General properties
 
@@ -575,11 +597,65 @@ render(<Form.Handler defaultData={{
 
 ### Field-specific events
 
-<PropertiesTable props={DateOfBirthSpecificEvents} />
+
+```json
+{
+  "props": {
+    "onChange": {
+      "doc": "Callback on day, month, and year change.",
+      "type": "(value?: string, additionalArgs?: { day?: string, month?: string, year?: string }) => void",
+      "status": "optional"
+    },
+    "onDayChange": {
+      "doc": "Callback on day change.",
+      "type": "(value?: string) => void",
+      "status": "optional"
+    },
+    "onMonthChange": {
+      "doc": "Callback on month change.",
+      "type": "(value?: string) => void",
+      "status": "optional"
+    },
+    "onYearChange": {
+      "doc": "Callback on year change.",
+      "type": "(value?: string) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General events
 
-<PropertiesTable props={DateOfBirthGeneralEvents} />
+
+```json
+{
+  "props": {
+    "onChange": {
+      "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onFocus": {
+      "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onBlur": {
+      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "type": "(value?: string, additionalArgs: object) => void",
+      "status": "optional"
+    },
+    "onStatusChange": {
+      "doc": "Called whenever the status messages (info, warning or error) gets visible or changes. Receives the current `{ info, warning, error }` object.",
+      "type": "({ info?, warning?, error? }: FieldStatus) => void",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 #### Details about general events arguments
 

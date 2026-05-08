@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.497Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.881Z
 checksum: 53374fcb803db9b71917a510cd257d02fc6f5f5162662ae0c6b86b36cb0c880c
 ---
 
@@ -155,7 +155,7 @@ render(<Section innerSpace={{
 ```
 
 
-### Variant: section
+### Variant: divider
 
 
 ```tsx

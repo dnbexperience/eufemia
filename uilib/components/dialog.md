@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.297Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.661Z
 checksum: f91afb853f928a3457a9c398609a83c641460bd09d60035d0979063b35d264b0
 ---
 
@@ -227,7 +227,7 @@ Use the `open` property to automatically trigger the Dialog, here demonstrated w
 
 ```tsx
 const DemoComponent = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const loginHandler = () => null;
   return <>
               <Button id="custom-triggerer" text="Manually trigger" onClick={() => setOpen(true)} />
@@ -285,7 +285,7 @@ render(<Dialog triggerAttributes={{
   
 ```tsx
 const MockComponent = () => {
-  const scrollRef = React.useRef(null);
+  const scrollRef = useRef(null);
   return <Dialog triggerAttributes={{
     text: 'Show cookie dialog'
   }} variant="confirmation" title="Informasjonskapsler (cookies)" scrollRef={scrollRef} onOpen={() => {
@@ -373,7 +373,7 @@ render(<MockComponent />);
   
 ```tsx
 const MockComponent = () => {
-  const scrollRef = React.useRef(null);
+  const scrollRef = useRef(null);
   return <Dialog triggerAttributes={{
     text: 'Show information dialog with sticky header'
   }} variant="information" scrollRef={scrollRef} onOpen={() => {

@@ -1,8 +1,8 @@
 ---
 title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.388Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.883Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -88,6 +88,86 @@ Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemNa
 
 ![Auto completion for font-size](./assets/eufemia-vscode-extension-font-size.png)
 
-## ESLint Plugin
+## Lint Plugins
 
-You may have a look at the [Eufemia ESLint Plugin](https://github.com/dnbexperience/eslint-plugin-eufemia) it will over time extend with more rules that can help you detect issues or recommendations.
+Eufemia ships lint plugins as part of `@dnb/eufemia`, so you can import them directly from the main package.
+
+Install `eslint` and/or `stylelint` in your application if you do not already use them.
+
+### ESLint
+
+Use the recommended flat config preset:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [eufemiaEslint.recommended]
+```
+
+If you need full control, register the plugin and configure the rules yourself:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [
+  {
+    plugins: {
+      eufemia: eufemiaEslint,
+    },
+    rules: {
+      // All rules
+      ...eufemiaEslint.recommended.rules,
+
+      // Or specific rules
+      'eufemia/no-deprecated-color-variables': 'error',
+    },
+  },
+]
+```
+
+### Stylelint
+
+Use the recommended preset:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default eufemiaStylelint.recommended
+```
+
+If you need full control, register the plugin and configure the rules yourself:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default {
+  plugins: [eufemiaStylelint],
+  rules: {
+    'eufemia/no-deprecated-color-variables': true,
+  },
+}
+```
+
+For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
+
+### PostCSS (Style Isolation)
+
+If you use the [style isolation](/uilib/usage/customisation/styling/style-isolation/) PostCSS plugin, deprecation warnings for `--color-*` variables are enabled by default at build time:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/plugins/postcss-isolated-style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin()],
+}
+```
+
+To disable the warnings, set `warnOnDeprecatedColorVariables: false`:
+
+```js
+export default {
+  plugins: [styleScopePlugin({ warnOnDeprecatedColorVariables: false })],
+}
+```
+
+Both plugins ship with one rule: `no-deprecated-color-variables`. It reports deprecated `--color-*` CSS variables and guides towards design tokens instead.

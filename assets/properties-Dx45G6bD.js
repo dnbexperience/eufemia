@@ -1,0 +1,4 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{n as r}from"./TextareaDocs-C5XQhK4E.js";var i=e();function a(e){let a={code:`code`,h2:`h2`,h3:`h3`,p:`p`,...t(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(a.h2,{children:`Properties`}),`
+`,(0,i.jsx)(n,{props:r}),`
+`,(0,i.jsx)(a.h3,{children:`Set Textarea height`}),`
+`,(0,i.jsxs)(a.p,{children:[`You can set the height of a Textarea by both CSS styles or the `,(0,i.jsx)(a.code,{children:`rows`}),` attribute.`]})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,i.jsx)(n,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

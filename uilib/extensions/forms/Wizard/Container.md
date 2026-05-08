@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.280Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.753Z
 checksum: 86b46674b06fab5602f900bc81c6815d4910d531de92397e46f3eb3c0e72e8d2
 ---
 
@@ -314,7 +314,7 @@ render(<MyForm />);
 
 ```tsx
 const MyForm = () => {
-  const onStepChange = React.useCallback(async (index, mode) => {
+  const onStepChange = useCallback(async (index, mode) => {
     console.log('onStepChange', index);
     if (mode === 'next') {
       try {
@@ -330,7 +330,7 @@ const MyForm = () => {
       info: `Info message: ${index}`
     };
   }, []);
-  const onSubmit = React.useCallback(async data => {
+  const onSubmit = useCallback(async data => {
     console.log('onSubmit', data);
     try {
       const request = createRequest();
@@ -344,7 +344,7 @@ const MyForm = () => {
       warning: 'Warning message'
     };
   }, []);
-  const validator = React.useCallback(async value => {
+  const validator = useCallback(async value => {
     try {
       const request = createRequest();
       await request(1000); // Simulate a request

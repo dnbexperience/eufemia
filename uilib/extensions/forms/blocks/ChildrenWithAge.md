@@ -1,8 +1,8 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.309Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.786Z
 checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
 ---
 
@@ -26,6 +26,8 @@ All features, and additional questions (`enableAdditionalQuestions`) and custom 
 
 
 ```tsx
+const props = {}
+
 const MyForm = () => {
   const myTranslations = {
     'nb-NO': {
@@ -80,6 +82,8 @@ render(<MyForm />);
 
 
 ```tsx
+const props = {}
+
 render(<Form.Handler onSubmit={(data, {
   reduceToVisibleFields
 }) => {
@@ -97,19 +101,66 @@ render(<Form.Handler onSubmit={(data, {
 
 ### With `joint-responsibility` question
 
-<Examples.ChildrenWithAge
-  enableAdditionalQuestions={['joint-responsibility']}
-/>
+
+```tsx
+const props = { enableAdditionalQuestions: ['joint-responsibility'] }
+
+render(<Form.Handler onSubmit={(data, {
+  reduceToVisibleFields
+}) => {
+  console.log(reduceToVisibleFields(data));
+}}>
+      <WithToolbar>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge {...props} />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
+        </Flex.Stack>
+      </WithToolbar>
+    </Form.Handler>)
+```
+
 
 ### With `daycare` question
 
-<Examples.ChildrenWithAge enableAdditionalQuestions={['daycare']} />
+
+```tsx
+const props = { enableAdditionalQuestions: ['daycare'] }
+
+render(<Form.Handler onSubmit={(data, {
+  reduceToVisibleFields
+}) => {
+  console.log(reduceToVisibleFields(data));
+}}>
+      <WithToolbar>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge {...props} />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
+        </Flex.Stack>
+      </WithToolbar>
+    </Form.Handler>)
+```
+
 
 ### With `daycare` and `joint-responsibility` question
 
-<Examples.ChildrenWithAge
-  enableAdditionalQuestions={['daycare', 'joint-responsibility']}
-/>
+
+```tsx
+const props = { enableAdditionalQuestions: ['daycare', 'joint-responsibility'] }
+
+render(<Form.Handler onSubmit={(data, {
+  reduceToVisibleFields
+}) => {
+  console.log(reduceToVisibleFields(data));
+}}>
+      <WithToolbar>
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge {...props} />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
+        </Flex.Stack>
+      </WithToolbar>
+    </Form.Handler>)
+```
+
 
 
   

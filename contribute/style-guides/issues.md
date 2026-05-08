@@ -1,0 +1,78 @@
+---
+title: 'Issue reporting'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.821Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Issue reporting
+
+If you discover a **security issue** in the `@dnb/eufemia` library, please report it by sending an
+email to [tobias.hoegh@dnb.no](mailto:tobias.hoegh@dnb.no). This will allow us to assess the risk, and make a fix available before we add a
+bug report to the GitHub repository. Thanks for helping out.
+
+When reporting issues or suggesting new features, we would appreciate if you use [GitHub Issues](https://github.com/dnbexperience/eufemia/issues) or our [Jira Kanban board](https://dnb-asa.atlassian.net/jira/software/c/projects/EDS/summary). Another option is to send a Slack message in [#eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY).
+
+For reproduction of issues you can use our [starter templates](/issue/) (StackBlitz or CodeSandbox). Including this in your report helps us out a lot.
+
+## GitHub issues
+
+When reporting issues on GitHub, you need to have a [GitHub account](https://github.com/join).
+
+First step is to click on the `New issue` button in the `Issues tab` on GitHub.
+
+<InlineImg
+  src="/images/report-issue.png"
+  width="900"
+  alt="Screenshot of the location of new issue button on GitHub"
+  top
+  bottom
+/>
+
+The next step will show you all the possibilities for new issues. Create a new `Bug Report` or a `Feature Proposal` to go next.
+
+<InlineImg
+  src="/images/report-issue-part-2.png"
+  width="900"
+  alt="Screenshot of the possibilities in creating a new issue"
+  top
+/>
+
+These will each have a prepared template you need to fill out in order to submit your issue.
+
+## Eufemia Version
+
+### Browser – JS
+
+To check the JS version used on the current page, type in your browser console:
+
+```js
+Eufemia.version
+```
+
+To view both the JS and CSS versions, along with all Eufemia versions currently rendered on the page:
+
+```js
+Eufemia.versions
+```
+
+### Browser – CSS
+
+To check the CSS version used on the current page, run in your browser console:
+
+```js
+window
+  .getComputedStyle(document.body)
+  .getPropertyValue('--eufemia-version')
+```
+
+### Node.js
+
+To find out which Eufemia version is imported in Node.js:
+
+```js
+// Use "require" instead of "import" if needed
+import { version } from '@dnb/eufemia/shared/Eufemia'
+
+console.log('Eufemia version:', version)
+```

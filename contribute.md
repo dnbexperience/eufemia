@@ -1,0 +1,120 @@
+---
+title: 'Contribution Guide'
+description: 'Project overview, development guides, conventions, etc.'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.824Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Contribution Guide
+
+Welcome to the contribution pages of Eufemia.
+
+We want to **thank you** for being interested, and we are so glad you want to help out! Following these guidelines will help you get started, make appropriate changes, and guide you through Eufemia's environment.
+
+Eufemia is a [living design system](/design-system/about/living-system). It does not have a 'finished' state. Continuous improvement, removal, and addition of content is important if it is to remain relevant as a resource for current and future DNB products and services.
+
+Note that the [license](/license) states `@dnb/eufemia` is for internal DNB development only.
+
+## How can I contribute?
+
+There are more ways to contribute than submitting code. Other contributions are equally valuable:
+
+- Report bugs.
+- Suggest new features.
+- Add more demos.
+- Fix spelling.
+- Add more documentation.
+- Give feedback on design and usage.
+- Test and review pull requests.
+- Test and verify new releases of Eufemia in your application code.
+
+## DNB Brand Guidelines
+
+Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital version, [Brand Center](https://bc.dnb.no/). Please make sure to familiarize yourself with them.
+
+## Dive in
+
+<ul
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: 0,
+    marginBottom: '1rem',
+    padding: 0,
+  }}
+>
+  <Card
+    url="/contribute/rules"
+    about="Code of conduct and Development principles"
+    title="Ground rules"
+    icon={Principles}
+  />
+  <Card
+    url="/contribute/first-contribution"
+    about="Your first contribution, Pull Requests and Technical information"
+    title="New contributor"
+    icon={NewContributor}
+  />
+  <Card
+    url="/contribute/getting-started"
+    about="Set up environment, Make changes and Run tests"
+    title="Getting started"
+    icon={GettingStarted}
+  />
+</ul>
+
+### Or go directly to
+
+<div
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '1rem',
+    justifyContent: 'center',
+  }}
+>
+  <Button
+    href="/contribute/style-guides"
+    size="large"
+    variant="secondary"
+    text="Style guides"
+    icon="chevron_right"
+  />
+  <Button
+    href="/contribute/deploy"
+    size="large"
+    variant="secondary"
+    text="Deployment"
+    icon="chevron_right"
+  />
+  <Button
+    href="/contribute/faq"
+    size="large"
+    variant="secondary"
+    text="FAQ"
+    icon="chevron_right"
+  />
+  <Button
+    href="/contribute/contact"
+    size="large"
+    variant="secondary"
+    text="Contact"
+    icon="chevron_right"
+  />
+</div>
+
+### Links to important resources
+
+[Eufemia GitHub Repository](https://github.com/dnbexperience/eufemia): The repository where you make changes in code and documentation.
+
+[Slack channel #eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY): For all kinds of discussion topics and questions
+
+[Jira Issue Tracking](https://dnb-asa.atlassian.net/jira/software/c/projects/EDS/summary) or [GitHub Issue Tracking](https://github.com/dnbexperience/eufemia/issues): Where you can report or find new issues
+
+[Starter Templates](https://eufemia.dnb.no/issue/): For quickly reproducing issues when reporting bugs (StackBlitz or CodeSandbox).
+
+### People of Eufemia
+
+We want to thank every [contributor of Eufemia](/design-system/about#special-thanks), without you Eufemia would not be the design system it is today.

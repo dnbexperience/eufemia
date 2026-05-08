@@ -1,0 +1,10 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{n as t,r as n,t as r}from"./Tr-OllJMBt6.js";import{t as i}from"./currencies-D_nwXGYu.js";import{Lr as a,Lt as o}from"./index--zEB_f_m.js";import{n as s,t as c}from"./PropertiesTable-NQTsOnC6.js";import{t as l}from"./TranslationsTable-DR7hXILI.js";import{n as u}from"./FieldDocs-Cop16Xau.js";import{n as d}from"./SelectCurrencyDocs-CUQ459v4.js";var f=e();function p(){return(0,f.jsx)(o.ScrollView,{children:(0,f.jsxs)(o,{children:[(0,f.jsx)(`thead`,{children:(0,f.jsxs)(r,{children:[(0,f.jsx)(t,{children:`ISO 4217 code`}),Object.entries(i[0].i18n).map(([e])=>(0,f.jsx)(t,{children:e},e))]})}),(0,f.jsx)(`tbody`,{children:Object.entries(i).map(([e,t])=>(0,f.jsxs)(r,{children:[(0,f.jsx)(n,{children:(0,f.jsx)(c,{variant:`prop`,children:t.iso})}),Object.entries(t.i18n).map(([e,t],r)=>(0,f.jsx)(n,{children:t},r+e))]},e))})]})})}function m(e){let t={a:`a`,code:`code`,h2:`h2`,h3:`h3`,p:`p`,...a(),...e.components};return(0,f.jsxs)(f.Fragment,{children:[(0,f.jsx)(t.h3,{children:`Field-specific properties`}),`
+`,(0,f.jsx)(s,{props:d}),`
+`,(0,f.jsx)(t.h3,{children:`General properties`}),`
+`,(0,f.jsx)(s,{props:u}),`
+`,(0,f.jsx)(t.h2,{children:`Translations`}),`
+`,(0,f.jsx)(l,{localeKey:[`SelectCurrency`,`Field`]}),`
+`,(0,f.jsx)(t.h2,{children:`List of available currencies`}),`
+`,(0,f.jsxs)(t.p,{children:[(0,f.jsx)(t.a,{href:`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/currencies.ts#L21`,children:`Link to the code of the available currencies`}),`.`]}),`
+`,(0,f.jsxs)(t.p,{children:[`NOTE: This list does not say anything about the order in which they will appear in component `,(0,f.jsx)(t.code,{children:`Field.SelectCurrency`}),`. And is only meant to easily find which currencies that's supported and available to use.`]}),`
+`,(0,f.jsx)(p,{})]})}function h(e={}){let{wrapper:t}={...a(),...e.components};return t?(0,f.jsx)(t,{...e,children:(0,f.jsx)(m,{...e})}):m(e)}export{h as default};

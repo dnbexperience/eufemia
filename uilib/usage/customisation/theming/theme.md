@@ -1,8 +1,8 @@
 ---
 title: 'Theme component'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.383Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.877Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -166,8 +166,13 @@ The `Theme` component accepts a `colorScheme` prop that controls dark and light 
 
 When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 
+Dark mode tokens are not included in the default theme import. Import the extra dark mode stylesheet before using `colorScheme`:
+
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'
+
+// Required: import dark mode tokens
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode--isolated.min.css' // If style isolation is used
 
 render(
   <Theme colorScheme="auto">
@@ -175,6 +180,8 @@ render(
   </Theme>
 )
 ```
+
+For guidance on choosing between base, `inverse`, and `ondark` token variants in your own components, see the [Design Tokens dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode).
 
 ## Persisting the theme with `getTheme` and `setTheme`
 
@@ -266,7 +273,7 @@ render(
 
 ### Integrations
 
-By using the [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin, your app will get wrapped with this theme component.
+When integrating runtime theme switching, your app can be wrapped with this theme component.
 
 ## Properties
 

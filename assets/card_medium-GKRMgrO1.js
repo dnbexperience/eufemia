@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";var t=e(),n=e=>(0,t.jsx)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:24,height:24,fill:`none`,viewBox:`0 0 24 24`,...e,children:(0,t.jsx)(`path`,{stroke:`#000`,strokeLinecap:`round`,strokeWidth:1.5,d:`M4.5 8h3.75M4.5 16h15M2.75 19.5h18.5a2 2 0 0 0 2-2v-11a2 2 0 0 0-2-2H2.75a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2Z`})});export{n as t};

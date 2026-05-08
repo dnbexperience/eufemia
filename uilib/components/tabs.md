@@ -1,9 +1,9 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.634Z
-checksum: 2046a9cbb12d10b529ad0c48201d630e5630828beda14e1d5cffd8c5d84e98dd
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.158Z
+checksum: 127845fde504021a88cad9b5b6a7648aea9db653f05f136bc9e3c2e6b95d08ad
 ---
 
 # Tabs
@@ -141,7 +141,7 @@ render(<Wrapper>
         <Tabs.Content title="First" key="first">
           <Section innerSpace={{
           block: 'large'
-        }} top bottom backgroundColor="white">
+        }} top bottom>
             <H2 top={0} bottom>
               First
             </H2>
@@ -150,7 +150,7 @@ render(<Wrapper>
         <Tabs.Content title="Second" key="second">
           <Section innerSpace={{
           block: 'large'
-        }} top bottom backgroundColor="white">
+        }} top bottom>
             <H2 top={0} bottom>
               Second
             </H2>
@@ -325,9 +325,58 @@ render(<TabsMaxWidth />);
 
 ### Router integration
 
-This demo uses `@gatsbyjs/reach-router` (Gatsby's maintained fork of `@reach/router`).
+This demo uses a Reach Router compatible API for tab navigation.
 
-<TabsExampleReachRouterNavigation />
+
+```tsx
+render(<Wrapper>
+    <ComponentBox scope={{
+    useLocation,
+    Router,
+    navigate
+  }}>
+      {() => {
+      const Home = ({
+        path,
+        default: d
+      }) => <H2>Home</H2>;
+      const About = ({
+        path
+      }) => <H2>About</H2>;
+      const Topics = ({
+        path
+      }) => <H2>Topics</H2>;
+      const Component = () => {
+        const {
+          pathname
+        } = useLocation();
+        return <Tabs data={[{
+          title: 'Home',
+          key: '/'
+        }, {
+          title: 'About',
+          key: '/about'
+        }, {
+          title: 'Topics',
+          key: '/topics'
+        }]} selectedKey={pathname} onChange={({
+          key
+        }) => navigate(String(key))} tabsStyle="information">
+              <Suspense fallback={<em>Loading ...</em>}>
+                <Router>
+                  <Home path="/" default />
+                  <About path="/about" />
+                  <Topics path="/topics" />
+                </Router>
+              </Suspense>
+            </Tabs>;
+      };
+      return <Component />;
+    }}
+    </ComponentBox>
+  </Wrapper>)
+```
+
 
 ### Example Content
 
@@ -479,7 +528,7 @@ render(<Wrapper>
       "status": "optional"
     },
     "tabElement": {
-      "doc": "Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
+      "doc": "Define what HTML element should be used. You can provide e.g. `tabElement={Link}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
       "type": "React.ReactNode",
       "status": "optional"
     },

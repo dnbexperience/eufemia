@@ -1,8 +1,8 @@
 ---
 title: 'Value.Name'
 description: '`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.172Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.654Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -49,15 +49,27 @@ function MyForm() {
 
 ### First name
 
-<Examples.FirstName value="Nora" />
+
+```tsx
+render(<Value.Name.First value="Nora" />)
+```
+
 
 ### Last name
 
-<Examples.LastName value="Mørk" />
+
+```tsx
+render(<Value.Name.Last value="Mørk" />)
+```
+
 
 ### Company name
 
-<Examples.CompanyName value="DNB" />
+
+```tsx
+render(<Value.Name.Company value="DNB" />)
+```
+
 
 ### Placeholder
 

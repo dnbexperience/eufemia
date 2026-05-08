@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.340Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.709Z
 checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
 ---
 
@@ -207,7 +207,7 @@ render(<GlobalStatus icon={<Icon icon={confetti_medium} />} show={true} autoScro
 
 ```tsx
 const InputWithError = () => {
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   return <Input label="Input" placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..." stretch status={errorMessage} onBlur={({
     value
   }) => {
@@ -224,11 +224,11 @@ render(<InputWithError />);
 
 
 ```tsx
-const Context = React.createContext(null);
+const Context = createContext(null);
 const UpdateDemo = () => {
-  const [errorA, setErrorA] = React.useState(false);
-  const [errorB, setErrorB] = React.useState(false);
-  const [isVisible, setVisibility] = React.useState(false);
+  const [errorA, setErrorA] = useState(false);
+  const [errorB, setErrorB] = useState(false);
+  const [isVisible, setVisibility] = useState(false);
   return <Context value={{
     errorA,
     errorB,
@@ -247,7 +247,7 @@ const UpdateDemoStatus = () => {
     errorB,
     setErrorA,
     setErrorB
-  } = React.useContext(Context);
+  } = useContext(Context);
   return <>
             <GlobalStatus title="Custom Title" text="Failure text" id="demo-2" />
             <Input top right label="Label A" placeholder="Placeholder A" status={errorA} globalStatus={{
@@ -274,11 +274,11 @@ const UpdateDemoTools = () => {
     setErrorB,
     isVisible,
     setVisibility
-  } = React.useContext(Context);
+  } = useContext(Context);
 
   // Only to demonstrate the usage of an interceptor situation
-  const inst = React.useRef(null);
-  React.useEffect(() => {
+  const inst = useRef(null);
+  useEffect(() => {
     if (!inst.current) {
       inst.current = GlobalStatus.create({
         id: 'demo-2',
@@ -308,7 +308,7 @@ const UpdateDemoTools = () => {
       show: isVisible
     });
   }, [isVisible]);
-  React.useEffect(() => () => inst.current.remove(), []);
+  useEffect(() => () => inst.current.remove(), []);
   return <Section top innerSpace={{
     block: 'large'
   }} variant="divider">
@@ -332,7 +332,7 @@ render(<UpdateDemo />);
 
 ```tsx
 function AddRemoveItems() {
-  const [count, toggleUpdateStatus] = React.useState(0);
+  const [count, toggleUpdateStatus] = useState(0);
   return <>
             <GlobalStatus id="custom-status" autoScroll={false} onClose={() => toggleUpdateStatus(0)} onHide={() => toggleUpdateStatus(0)} />
             <Button text={`Show step #${count}`} onClick={() => {

@@ -1,6 +1,6 @@
 ---
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.380Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.874Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -30,6 +30,8 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ## Choosing the right token
 
 When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
+
+If you still find yourself reaching for legacy `--color-*` variables, treat that as a migration signal. Those variables are deprecated; prefer semantic `--token-*` design tokens instead.
 
 All Eufemia components already use design tokens. Their stylesheets are the best reference for how to apply tokens correctly. When you are unsure which token to use, inspect the Eufemia component that is closest to what you are building.
 

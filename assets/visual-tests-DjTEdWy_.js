@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{w as n}from"./Examples-s7mu58V_.js";var r=e();function i(e){return(0,r.jsx)(n,{})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

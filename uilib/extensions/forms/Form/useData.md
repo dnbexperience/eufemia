@@ -1,8 +1,8 @@
 ---
 title: 'Form.useData'
 description: '`Form.useData` lets you access or modify your form data outside of the form context within your application.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.010Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.500Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -336,7 +336,7 @@ const Component = () => {
     data,
     update
   } = Form.useData('update-id', existingData);
-  const increment = React.useCallback(() => {
+  const increment = useCallback(() => {
     update('/count', count => {
       return count + 1;
     });
@@ -364,7 +364,7 @@ const Component = () => {
     data,
     update
   } = Form.useData('independent-id', existingData);
-  const increment = React.useCallback(() => {
+  const increment = useCallback(() => {
     update('/count', count => {
       return count + 1;
     });
@@ -391,7 +391,7 @@ const MyForm = () => {
   } = Form.useData();
 
   // Use useEffect to ensure we get the latest data
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('Result of reduceToVisibleFields:\n', reduceToVisibleFields(data, {
       removePaths: ['/isVisible']
     }));

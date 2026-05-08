@@ -1,7 +1,7 @@
 ---
 title: 'HTML Elements'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.837Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.359Z
 checksum: 18e00ad06523acfe60001e6744349201af717bf0b58581da85eb2dc34ca5d85b
 ---
 
@@ -11,7 +11,18 @@ checksum: 18e00ad06523acfe60001e6744349201af717bf0b58581da85eb2dc34ca5d85b
 
 ## Elements
 
-<ListElements />
+
+- [Blockquote](/uilib/elements/blockquote/): The blockquote element is used to indicate the quotation of a large section of text from another source.
+- [Code](/uilib/elements/code/): The code and pre element is used for code and syntax highlighting.
+- [Heading](/uilib/elements/heading/): The heading element is used to indicate the quotation of a large section of text from another source.
+- [HorizontalRule](/uilib/elements/horizontal-rule/): The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.
+- [Image](/uilib/elements/image/): Image element exists to have a future possibility to optimize and add features.
+- [Ingress](/uilib/elements/ingress/): Ingress is a brief, introductory paragraph that follows immediately after the title of an article.
+- [Lead](/uilib/elements/lead/): A lead paragraph is the opening paragraph of an article, etc.
+- [Lists](/uilib/elements/lists/): Lists are used to specify lists of information.
+- [Paragraph](/uilib/elements/paragraph/): Paragraphs are block-level elements, used to structure and format text contents.
+- [Span](/uilib/elements/span/): Spans are inline-elements, used to define parts of text content.
+
 
 ### Vanilla HTML
 
@@ -91,7 +102,7 @@ const StyledButton = styled.button`
         }
       `;
 const CustomImage = () => {
-  const [state, setState] = React.useState(false);
+  const [state, setState] = useState(false);
   return <Skeleton show={state}>
             <Box>
               <StyledButton className="dnb-button dnb-button--reset">

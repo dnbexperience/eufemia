@@ -1,7 +1,7 @@
 ---
 title: 'Importing CSS'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.377Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.869Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -34,9 +34,9 @@ import '@dnb/eufemia/style/core'
 import '@dnb/eufemia/style/themes/sbanken'
 ```
 
-## Gatsby Plugin
+## Runtime theme switching
 
-The [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin makes it easy to add the needed styles and provides also a runtime style switch mechanism.
+If your application needs to switch theme at runtime, preload the relevant theme CSS files and update the active theme through your application state.
 
 ## Importing styles from within JavaScript
 

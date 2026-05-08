@@ -1,8 +1,8 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.491Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.875Z
 checksum: 5795f4aaf0b630532144f40f337f7e987269d7bb018d76733aa0070ace662f39
 ---
 

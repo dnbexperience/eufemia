@@ -1,4 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as t}from"./index-CMgyXmp3.js";import{n}from"./PropertiesTable-UfuSIzSr.js";import r from"./event-table-camel-case-ArNqJ3qH.js";import{t as i}from"./DialogDocs-DHTHPJHR.js";var a=e();function o(e){let o={a:`a`,h2:`h2`,p:`p`,...t(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(o.h2,{children:`Events`}),`
-`,(0,a.jsx)(n,{props:i}),`
-`,(0,a.jsxs)(o.p,{children:[`Dialog also includes the same events as `,(0,a.jsx)(o.a,{href:`/uilib/components/modal`,children:`Modal`}),`, only formatted as camel case.`]}),`
-`,(0,a.jsx)(r,{})]})}function s(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,a.jsx)(n,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

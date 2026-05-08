@@ -1,8 +1,8 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.129Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.617Z
 checksum: e3522aee1be54e30e25b95ff91988fbeaba0252bc2dea14d58ec502c1c1d7d10
 ---
 

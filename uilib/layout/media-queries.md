@@ -1,7 +1,7 @@
 ---
 title: 'Media Queries'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.360Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.850Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -39,8 +39,6 @@ So when dealing with the naming of breakpoint ranges (between breakpoints), we u
   alt="Breakpoint ranges clarification"
 />
 
-<br />
-<br />
 
 Here is how ranges breaks down in pixels:
 
@@ -233,7 +231,7 @@ This example uses the `not` property to reverse the behavior.
 
 ```tsx
 const Playground = () => {
-  const [query, updateQuery] = React.useState({
+  const [query, updateQuery] = useState({
     screen: true,
     not: true,
     min: 'small',
@@ -248,7 +246,7 @@ const Playground = () => {
     not: true,
     when: query
   });
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('mediaQuery:', match1, match2);
   }, [match1, match2]);
   return <>

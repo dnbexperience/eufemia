@@ -1,22 +1,38 @@
 <!doctype html>
 <html lang="nb">
-
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title id="head-title">Eufemia</title>
-	<meta id="head-description" name="description" content="Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB." />
-	<link rel="icon" type="image/png" sizes="32x32" href="/dnb/favicon-32x32.png" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/dnb/apple-touch-icon.png" />
-  <script type="module" crossorigin src="/assets/index-CMgyXmp3.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-BYbx6iT9.js">
-  <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-BgMs7Gb-.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-BT5R2vK7.css">
-<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('eufemia-scope--portal');if(s){globalThis.__eufemiaColorScheme=s}}catch(e){}})()</script>
-    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-ui-Cv6f7oMT.css" data-eufemia-theme="ui">
-    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-sbanken-CfseRpnT.css" data-eufemia-theme="sbanken" disabled>
-    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-eiendom-BaisvIZf.css" data-eufemia-theme="eiendom" disabled>
-    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-carnegie-Cg2_aVaA.css" data-eufemia-theme="carnegie" disabled>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title id="head-title">Eufemia</title>
+    <meta
+      id="head-description"
+      name="description"
+      content="Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB."
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/dnb/favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/dnb/apple-touch-icon.png"
+    />
+    <script type="module" crossorigin src="/assets/index--zEB_f_m.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-BYbx6iT9.js">
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-D4M6sveU.js">
+    <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-BgMs7Gb-.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DQ4tTMmH.css">
+  <script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('eufemia-scope--portal');if(s){globalThis.__eufemiaColorScheme=s}}catch(e){}})()</script>
+    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-ui-DLQZMNsP.css" data-eufemia-theme="ui">
+    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-sbanken--5QgPthD.css" data-eufemia-theme="sbanken" disabled>
+    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-eiendom-7aWN33G1.css" data-eufemia-theme="eiendom" disabled>
+    <link rel="stylesheet" crossorigin href="/assets/_virtual_eufemia-theme-carnegie-DM1RlIAj.css" data-eufemia-theme="carnegie" disabled>
       <meta property="og:type" content="website">
     <meta property="og:site_name" content="Eufemia">
     <meta property="og:title" content="Eufemia">
@@ -27,24 +43,26 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Eufemia Design System">
     <link rel="alternate" type="text/markdown" title="Markdown documentation" href="/uilib/extensions/forms/Iterate.md">
-      <link rel="modulepreload" crossorigin href="/assets/ListIterateComponents-ClrvXCUl.js">
+      <link rel="modulepreload" crossorigin href="/assets/ListIterateComponents-C4Xa8BeB.js">
   </head>
 
-<body class="dnb-page-background">
+  <body class="dnb-page-background">
 	<script>(function(){var s=globalThis.__eufemiaColorScheme;if(s){document.body.classList.add('eufemia-theme__color-scheme--'+s)}})()</script>
-	<script>
-		// Prevent layout flicker for visual test mode — hide sidebar
-		// and header before first paint, matching React's fullscreen mode.
-		if (location.search.includes('data-visual-test')) {
-			var s = document.createElement('style')
-			s.textContent =
-				'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
-			document.head.appendChild(s)
-		}
-	</script>
-	<div id="root"><div data-scope-hash="eufemia-scope--portal" data-scope-hash-id="default" data-scope-sha="da6ad2415" class="eufemia-scope--portal"><div class="eufemia-theme eufemia-theme__color-scheme--light"></div></div><script>window.__staticRouterHydrationData = JSON.parse("{\"loaderData\":{},\"actionData\":null,\"errors\":null}");</script></div>
-	<script>(function(){var s=globalThis.__eufemiaColorScheme;if(s&&s!=='light'){var o=s==='dark'?'light':'dark';document.querySelectorAll('.eufemia-theme__color-scheme--'+o).forEach(function(el){el.classList.remove('eufemia-theme__color-scheme--'+o);el.classList.add('eufemia-theme__color-scheme--'+s)})}})()</script>
-<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'ui';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>
+    <script>
+      // Prevent layout flicker for visual test mode — hide sidebar
+      // and header before first paint, matching React's fullscreen mode.
+      if (location.search.includes('data-visual-test')) {
+        var s = document.createElement('style')
+        s.textContent =
+          'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
+        document.head.appendChild(s)
+      }
+    </script>
+    <noscript id="portal-noscript">
+      Eufemia works best with JavaScript enabled.
+    </noscript>
+    <div id="root"><div data-scope-hash="eufemia-scope--portal" data-scope-hash-id="default" data-scope-sha="c458c0f" class="eufemia-scope--portal"><div data-name="ui" class="eufemia-theme eufemia-theme__ui eufemia-theme__color-scheme--light"><!--$--><!--/$--></div></div></div>
+	<script>(function(){var s=globalThis.__eufemiaColorScheme;if(s&&s!=='light'){var o=s==='dark'?'light':'dark';document.querySelectorAll('.eufemia-theme__color-scheme--'+o).forEach(function(el){el.classList.remove('eufemia-theme__color-scheme--'+o);el.classList.add('eufemia-theme__color-scheme--'+s)})}})();(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(localStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()</script>
+  <script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'ui';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>
 </body>
-
 </html>

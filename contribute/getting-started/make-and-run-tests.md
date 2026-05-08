@@ -1,0 +1,314 @@
+---
+title: 'Make and run tests'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.816Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Make and run tests
+
+Make tests for the new component (or for your current issue) and set up screenshot tests from the Eufemia portal. The tests should be located under `__tests__` in the component folder.
+
+- Tip 1: Create tests for each _prop_ that change your component.
+- Tip 2: Always check and make the tests fail when you are writing tests.
+
+More on testing in the [UI Library](/uilib/usage/best-practices/for-testing#testing-frontend-code).
+
+## Running tests locally
+
+Run the commands from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
+
+1. Run the integration tests:
+
+```bash
+# Run all tests
+yarn test
+```
+
+```bash
+# Execute the tests on file (git) changes
+yarn test:watch
+
+# Run all tests including the word 'breadcrumb'
+yarn test breadcrumb
+
+# Or be more specific
+yarn test /breadcrumb.test.tsx
+
+# Run several together
+yarn test breadcrumb avatar button
+```
+
+2. Update the changed snapshots:
+
+```bash
+yarn test:update
+
+# More specific
+yarn test:update breadcrumb avatar
+```
+
+Jest integration tests uses this naming convention: `/__tests__/{ComponentName}.test.tsx`
+
+3. Run visual and end-to-end tests:
+
+**NB:** Make sure you have the portal running locally on port 8000.
+
+**Visual tests:**
+
+```bash
+# 1. First start the portal
+yarn start
+
+# 2. Then run screenshot tests for e.g. 'breadcrumb' or 'avatar'
+yarn test:screenshots breadcrumb avatar
+
+# You can also start it in watch mode
+yarn test:screenshots:watch breadcrumb avatar
+```
+
+Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`
+
+### Run selected themes only on `main`
+
+For screenshot tests, you can mark individual themes as main-only and keep the rest on all branches.
+
+```ts
+import {
+  makeScreenshot,
+  setupPageScreenshot,
+  selectThemes,
+  onMain,
+} from '../../../core/jest/jestSetupScreenshots'
+
+describe.each(
+  selectThemes({
+    always: ['ui', 'sbanken'],
+    onMain: ['eiendom'],
+  })
+)('Button for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/button/demos/',
+  })
+
+  it('matches default state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-primary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+```
+
+`selectThemes({ always, onMain })` only applies branch filtering in CI. In CI, `onMain` runs on `main` and branches starting with `v` followed by a digit, such as `v11` or `v11-fix`. Outside CI, the guarded themes still run locally.
+
+You can also use callback mode for single tests:
+
+```ts
+onMain(() =>
+  it('matches default state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-primary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+)
+```
+
+### Conditional screenshot testing
+
+In CI, screenshot tests are selected from changed files instead of always running all screenshot suites.
+
+Selection includes:
+
+- Direct screenshot owners of changed files.
+- Reverse TypeScript/JavaScript dependencies.
+- Reverse SCSS dependencies.
+- Demo/example composition usage from Portal docs.
+- Portal docs/demo path impact (changed docs can trigger only related screenshot tests).
+
+Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch).
+
+You can run the same logic locally:
+
+```bash
+yarn workspace @dnb/eufemia test:screenshots:ci:conditional
+yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain
+```
+
+You can choose change scope explicitly if needed:
+
+```bash
+yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain --branch
+yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain --uncommitted
+```
+
+`auto` behavior:
+
+- Local: combines `uncommitted` + `branch` files (deduplicated).
+- CI: uses `VISUAL_TEST_CHANGED_FILES` provided by GitHub Actions from `pulls.listFiles`.
+- CI does not fallback to git history when `VISUAL_TEST_CHANGED_FILES` is missing.
+
+In explain mode, each selected test includes one or more causes:
+
+- `TS/JS dependency impact`
+- `SCSS dependency impact`
+- `Component usage in demo/examples`
+- `Portal docs/demo impact`
+
+By default, CI still stops on the first failure (`--bail`). You can force a full run without `--bail` by including `--run-all` in your commit message.
+
+**Default behavior (stops on first failure):**
+
+```bash
+git commit -m "feat: implement new feature"
+# Runs: playwright test --config=./playwright.config.screenshots.ts
+```
+
+**Run all tests (continues on failures):**
+
+```bash
+git commit -m "feat: implement new feature --run-all"
+# Runs: playwright test --config=./playwright.config.screenshots.ts
+```
+
+This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
+
+### Skip dependency audit in CI
+
+You can skip the dependency audit step in the Verify workflow by including `--skip-audit` in your commit message:
+
+```bash
+git commit -m "chore: update snapshots --skip-audit"
+```
+
+The CI will detect `--skip-audit` and skip the "Audit dependencies" step accordingly.
+
+**Playwright end-to-end tests:**
+
+```bash
+# 1. First start the portal
+yarn start
+
+# 2. Then run Playwright tests including 'Slider' or 'Button'
+yarn test:e2e /Slider\|Button/
+
+# You can also start it in watch mode
+yarn test:e2e:watch
+
+# Or run the tests for the portal
+yarn test:e2e:portal
+yarn test:e2e:portal:watch
+```
+
+Playwright uses this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
+
+4. Update any new or changed visual PNG snapshots:
+
+```bash
+# Update screenshot tests including 'breadcrumb'
+yarn test:screenshots:update breadcrumb
+```
+
+You can also press the `u` during a watch mode to update outdated snapshots.
+
+5. How to deal with failing visual tests?
+
+When a visual test fails, a visual comparison file (diff) will be created. Its location and name will be:
+
+- `**/__tests__/__image_snapshots__/__diff_output__/*.snap-diff.png`
+
+you can find a report entry (`index.html`), that lists all of the failed tests here:
+
+- `/packages/dnb-eufemia/visual-diff-report/index.html`
+
+You may check out the CI/CLI logs for more details.
+
+**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you can find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files as well as the report entry inside `/visual-diff-report`.
+
+## Support SCSS snapshot test
+
+Add a similar code snippet to your tests for watching changes in the SCSS you just created.
+
+```js
+import { loadScss } from '../../../core/jest/jestSetup'
+describe('Button scss', () => {
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
+  })
+
+  it.each(['ui', 'sbanken'])(
+    'has to match theme css for %s',
+    (themeName) => {
+      const css = loadScss(
+        require.resolve(
+          `../style/themes/dnb-button-theme-${themeName}.scss`
+        )
+      )
+      expect(css).toMatchSnapshot()
+    }
+  )
+})
+```
+
+## Support Axe test
+
+Add a similar code snippet to your tests (as the last test). It will test the accessibility of your new component. Read more on [Jest Axe](https://github.com/nickcolley/jest-axe).
+
+```js
+describe('Breadcrumb aria', () => {
+  it('should validate', async () => {
+    const Component = render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+        variant="collapse"
+        collapsed={false}
+      />
+    )
+    expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+})
+```
+
+### Bundle size checks
+
+Eufemia uses [BundleWatch](https://bundlewatch.io/) to track selected build artifacts in CI.
+
+How it works:
+
+- The setup lives in `packages/dnb-eufemia/bundlewatch.config.js`.
+- CI runs the check in `.github/workflows/verify.yml` after `postbuild:ci`, so it measures the actual emitted build files.
+- Each watched file has its own `maxSize`, based on the current gzip-compressed output with some headroom for future changes.
+- The check is meant to catch regressions in meaningful emitted bundles, not to report every generated file in the package.
+
+What is included:
+
+- UMD and ESM `dnb-ui-*` bundles, except icon entry bundles.
+- Core `dnb-ui-*` CSS bundles.
+- Non-isolated theme CSS bundles under `build/style/themes/`.
+
+What is excluded:
+
+- `dnb-ui-icons` entry bundles are excluded on purpose because they are thin import/re-export wrappers and do not represent a meaningful payload by themselves.
+- Isolated CSS bundles are excluded to keep the reporting focused on the primary outputs.
+
+When updating limits:
+
+- If a deliberate change increases a bundle size, update the matching limit in `bundlewatch.config.js`.
+- Prefer checking the local `build:size` output before changing limits, so the new threshold is based on the current emitted gzip size.
+
+Run the commands locally if needed to emulate the CI checks:
+
+```bash
+# Build the library outputs that BundleWatch measures
+yarn workspace @dnb/eufemia build:ci
+
+# Check the watched bundle sizes locally
+yarn workspace @dnb/eufemia build:size
+```

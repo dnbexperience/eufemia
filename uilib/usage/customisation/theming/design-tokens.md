@@ -1,8 +1,8 @@
 ---
 title: 'Design Tokens (beta)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.382Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.876Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,6 +11,8 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 **Beta:** The `--token-*` CSS custom properties are in beta. We encourage you to start using them and welcome your feedback. The token API may still change, but we will communicate any breaking changes.
+
+**Deprecated legacy colors:** The old `--color-*` CSS custom properties are deprecated. Prefer semantic design tokens such as `--token-color-text-neutral` instead. If you want automated help finding legacy color usage, Eufemia ships integrated ESLint and Stylelint plugins via `@dnb/eufemia/plugins/eslint.js` and `@dnb/eufemia/plugins/stylelint.js`. If you use the [style isolation](/uilib/usage/customisation/styling/style-isolation/) PostCSS plugin, `warnOnDeprecatedColorVariables` is enabled by default to give you build-time warnings. You can disable it by setting `warnOnDeprecatedColorVariables: false`.
 
 ---
 
@@ -28,7 +30,7 @@ They follow the naming pattern `--token-color-{section}-{role}` and are the reco
 
 ## Getting started
 
-Design tokens are included when you import a Eufemia theme. No separate import is needed, except if you need [dark mode support](/uilib/usage/customisation/theming#dark-mode--color-scheme).
+Design tokens are included when you import a Eufemia theme. No separate import is needed, except if you need dark mode support. In that case, import the extra dark mode stylesheet described in the [Dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode).
 
 Read more about how to use design tokens in your own styles, and how Eufemia components use them internally, in the [Theming](/uilib/usage/customisation/theming#design-tokens) section.
 
@@ -109,7 +111,7 @@ And the component internally moves that value to a token-based custom property, 
 
 The `ondark` suffix identifies token variants designed for use on dark backgrounds. Eufemia components use these tokens automatically when `surface="dark"` is active — you do not need to select them yourself.
 
-For practical guidance on using `ondark` tokens in your own components, see the [Guide](/uilib/usage/customisation/theming/design-tokens/guide#dark-surfaces-use-ondark-tokens).
+For practical guidance on using `ondark`, `inverse`, and base tokens in your own components, see the [Dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode).
 
 ## Tailwind CSS integration
 
@@ -127,7 +129,7 @@ Tokens are organized into sections. Each section covers a specific surface:
 | Stroke     | `--token-color-stroke-*`     | Borders, dividers, outlines, focus rings |
 | Decorative | `--token-color-decorative-*` | Advanced decorative use cases            |
 
-See the [Tokens](/uilib/usage/customisation/theming/design-tokens/tokens) tab for the full catalog.
+See the [Color Tokens](/uilib/usage/customisation/theming/design-tokens/colors/) tab for the full catalog.
 
 ## Naming contract
 
@@ -177,13 +179,12 @@ render(<Table>
 ```
 
 
-<br />
 
 Typical examples:
 
-- semantic token: <TokenExample name="--token-color-text-neutral" />
-- semantic state token: <TokenExample name="--token-color-background-action-hover-subtle" />
-- component token: <TokenExample name="--token-color-component-button-background-action" />
+- semantic token: `--token-color-text-neutral`
+- semantic state token: `--token-color-background-action-hover-subtle`
+- component token: `--token-color-component-button-background-action`
 
 ## Source of truth
 

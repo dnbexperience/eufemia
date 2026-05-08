@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.627Z
-checksum: 6e9fa27ebec057122167cb73d33f263ff724cf849dbc2372dd27f14d233cfb63
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.151Z
+checksum: 79b310f161d0a51d9a77a2099923350d8871e296877d7e84d9a24132d5abc654
 ---
 
 # Table
@@ -233,7 +233,7 @@ const BasicTable = () => {
   });
 
   // Handle your "column1" logic
-  React.useEffect(() => {
+  useEffect(() => {
     switch (sortState.column1.direction) {
       case 'asc':
         break;
@@ -586,7 +586,7 @@ const AccordionTable = ({
   const Content = ({
     shareId
   }) => {
-    const ref = React.useRef(undefined);
+    const ref = useRef(undefined);
     const {
       copy,
       copyTooltip
@@ -773,6 +773,153 @@ return (
 )
 ```
 
+### Table with clickable rows (navigation mode)
+
+Use `mode="navigation"` on the `<Table>` and `onClick` on individual `<Tr>` rows to make them clickable. A chevron icon is rendered in an additional cell at the end of each clickable row for screen reader and keyboard accessibility. Rows respond to click as well as keyboard interaction with Space and Enter. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+
+```tsx
+const NavigationTable = ({
+  id,
+  showCheckbox = false,
+  ...props
+}) => {
+  const TdCheckbox = () => {
+    return <Checkbox label="Select row" labelSrOnly />;
+  };
+  const TdInput = () => {
+    return <Input label="Label" labelSrOnly size={4} />;
+  };
+  const Row = ({
+    nr
+  }) => {
+    const shareId = id + '-' + nr;
+    const handleClick = useCallback((_event, {
+      trElement
+    }) => {
+      console.log('Clicked row', trElement.dataset.rowId);
+    }, []);
+    return <Tr id={shareId} data-row-id={nr} onClick={handleClick}>
+              <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
+              <Td>Row {nr}</Td>
+              <Td spacing="horizontal">
+                <TdInput />
+              </Td>
+              <Td align="right">Row {nr}</Td>
+            </Tr>;
+  };
+  return <Table mode="navigation" id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Row nr="1" />
+              <Row nr="2" />
+              <Row nr="3" />
+            </tbody>
+          </Table>;
+};
+render(<>
+          <Table.ScrollView>
+            <NavigationTable id="navigation-table-1" showCheckbox />
+          </Table.ScrollView>
+
+          <Table.ScrollView top>
+            <NavigationTable id="navigation-table-2" border outline size="medium" />
+          </Table.ScrollView>
+        </>);
+```
+
+
+### Table with clickable cells
+
+Use `onClick` on individual `<Td>` cells to make them clickable. A native `<button>` is rendered inside the cell for screen reader and keyboard accessibility. The chevron icon is included by default, but is only shown on hover, active, and keyboard focus. Use `icon={false}` to hide it entirely, or pass a custom icon. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+When the `selected` prop is provided (either `true` or `false`) together with `onClick`, the cell button is announced as a toggle button by screen readers, conveying its pressed state. The `selected` prop requires `onClick` to take effect, since the selected styling targets the cell button.
+
+
+```tsx
+const handleClick = (event, {
+  trElement,
+  thElement
+}) => {
+  console.log(`Clicked row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`);
+};
+const handleSelectedClick = (event, {
+  trElement,
+  thElement,
+  isSelected,
+  setSelected
+}) => {
+  const selected = setSelected(!isSelected);
+  console.log(`Selected: "${selected}" on row ${trElement.dataset.rowId}, column "${thElement?.dataset.columnId}"`);
+};
+render(<Table.ScrollView>
+          <Table border outline>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th style={{
+          width: '50%'
+        }} data-column-id="account">
+                  Account
+                </Th>
+                <Th style={{
+          width: '35%'
+        }} data-column-id="balance">
+                  Balance
+                </Th>
+                <Th style={{
+          width: '15%'
+        }} data-column-id="type">
+                  Details
+                </Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Tr data-row-id="1" verticalAlign="middle">
+                <Td onClick={handleClick}>Savings Account</Td>
+                <Td onClick={handleClick}>1 234,56 kr</Td>
+                <Td onClick={handleClick}>Default</Td>
+              </Tr>
+              <Tr data-row-id="2" verticalAlign="middle">
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Checking Account
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  5 678,90 kr
+                </Td>
+                <Td icon={launchIcon} onClick={handleClick}>
+                  Custom icon
+                </Td>
+              </Tr>
+              <Tr data-row-id="3" verticalAlign="middle">
+                <Td icon={eyeIcon} selected={false} onClick={handleSelectedClick}>
+                  Press me to select with a lot of text
+                </Td>
+                <Td icon={eyeIcon} selected={false} onClick={handleSelectedClick}>
+                  12 345,00 kr
+                </Td>
+                <Td icon={eyeIcon} selected={false} onClick={handleSelectedClick}>
+                  Selectable
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Table.ScrollView>);
+```
+
+
 ### Table with keyboard navigation
 
 Use the `useTableKeyboardNavigation` hook to navigate between cells with arrow keys. Focusable elements inside cells (inputs, buttons) receive focus automatically.
@@ -788,7 +935,7 @@ import Table, {
 const KeyboardNavigationTable = () => {
   const navRef = useTableKeyboardNavigation();
   return <div ref={navRef}>
-            <Table>
+            <Table border outline>
               <caption className="dnb-sr-only">
                 Keyboard navigable table
               </caption>
@@ -847,68 +994,6 @@ const KeyboardNavigationTable = () => {
           </div>;
 };
 render(<KeyboardNavigationTable />);
-```
-
-
-### Table with navigation
-
-
-```tsx
-const NavigationTable = ({
-  id,
-  showCheckbox = false,
-  ...props
-}) => {
-  const TdCheckbox = () => {
-    return <Checkbox label="Select row" labelSrOnly />;
-  };
-  const TdInput = () => {
-    return <Input label="Label" labelSrOnly size={4} />;
-  };
-  const Row = ({
-    nr
-  }) => {
-    const shareId = id + '-' + nr;
-    return <Tr id={shareId} onClick={() => {
-      console.log('your navigation logic here');
-      // window.location.href = 'https://eufemia.dnb.no/'
-    }}>
-              <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
-              <Td>Row {nr}</Td>
-              <Td spacing="horizontal">
-                <TdInput />
-              </Td>
-              <Td align="right">Row {nr}</Td>
-            </Tr>;
-  };
-  return <Table mode="navigation" id={id} {...props}>
-            <caption className="dnb-sr-only">A Table Caption</caption>
-
-            <thead>
-              <Tr>
-                <Th>Column A</Th>
-                <Th>Column B</Th>
-                <Th>Column C</Th>
-                <Th align="right">Column D</Th>
-              </Tr>
-            </thead>
-
-            <tbody>
-              <Row nr="1" />
-              <Row nr="2" />
-              <Row nr="3" />
-            </tbody>
-          </Table>;
-};
-render(<>
-          <Table.ScrollView>
-            <NavigationTable id="navigation-table-1" showCheckbox />
-          </Table.ScrollView>
-
-          <Table.ScrollView top>
-            <NavigationTable id="navigation-table-2" border outline size="medium" />
-          </Table.ScrollView>
-        </>);
 ```
 
 
@@ -1289,8 +1374,8 @@ render(<Table.ScrollView>
 ```tsx
 const TablePagination = () => {
   const amountPerPage = 5;
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [data] = React.useState(() => getDataFromAPI(0, 100));
+  const [currentPage, setCurrentPage] = useState(1);
+  const [data] = useState(() => getDataFromAPI(0, 100));
   return <Pagination pageCount={data.length / amountPerPage} currentPage={currentPage} onChange={({
     pageNumber
   }) => {
@@ -1604,7 +1689,7 @@ const AccordionTable = ({
   const Content = ({
     shareId
   }) => {
-    const ref = React.useRef(undefined);
+    const ref = useRef(undefined);
     const {
       copy,
       copyTooltip
@@ -1709,6 +1794,11 @@ const NavigationTable = ({
   const TdInput = () => {
     return <Input label="Label" labelSrOnly size={4} />;
   };
+  const handleClick = useCallback((_event, {
+    trElement
+  }) => {
+    console.log('Clicked row', trElement.dataset.rowId);
+  }, []);
   return <Table mode="navigation" id={id} {...props}>
             <caption className="dnb-sr-only">A Table Caption</caption>
 
@@ -1722,10 +1812,7 @@ const NavigationTable = ({
             </thead>
 
             <tbody>
-              <Tr id={id + '-' + 1} onClick={() => {
-        console.log('your navigation logic here');
-        // window.location.href = 'https://eufemia.dnb.no/'
-      }}>
+              <Tr id={id + '-' + 1} data-row-id={1} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 1}</Td>
                 <Td>Row {1}</Td>
                 <Td spacing="horizontal">
@@ -1741,10 +1828,7 @@ const NavigationTable = ({
                 </Td>
                 <Td align="right">Row {2}</Td>
               </Tr>
-              <Tr id={id + '-' + 3} onClick={() => {
-        console.log('your navigation logic here');
-        // window.location.href = 'https://eufemia.dnb.no/'
-      }}>
+              <Tr id={id + '-' + 3} data-row-id={3} onClick={handleClick}>
                 <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + 3}</Td>
                 <Td>Row {3}</Td>
                 <Td spacing="horizontal">
@@ -1957,6 +2041,16 @@ render(<Table.ScrollView>
       "defaultValue": "false",
       "status": "optional"
     },
+    "verticalAlign": {
+      "doc": "Vertical alignment of all cell content in the row.",
+      "type": [
+        "\"top\"",
+        "\"middle\"",
+        "\"bottom\""
+      ],
+      "defaultValue": "undefined",
+      "status": "optional"
+    },
     "expanded": {
       "doc": "Use `true` to render the `<Tr>` initially as expanded.",
       "type": "boolean",
@@ -2071,6 +2165,12 @@ render(<Table.ScrollView>
       "defaultValue": "undefined",
       "status": "optional"
     },
+    "selected": {
+      "doc": "When `true`, the cell is styled as selected (highlighted background and selected icon/border). Requires `onClick` to take effect, since the selected styling targets the cell button. When provided (either `true` or `false`), the cell button is announced as a toggle button by screen readers via `aria-pressed`. Use `setSelected` from the `onClick` callback to toggle the state.",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "status": "optional"
+    },
     "children": {
       "doc": "The content of the component.",
       "type": "React.ReactNode",
@@ -2148,8 +2248,8 @@ Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events lis
 {
   "props": {
     "onClick": {
-      "doc": "Will emit when user clicks/expands or on keydown space/enter (in `mode=\"accordion\"` and `mode=\"navigation\"`) in the table row. Returns a native click.",
-      "type": "(event) => void",
+      "doc": "Will emit when user clicks/expands or on keydown space/enter (in `mode=\"accordion\"` and `mode=\"navigation\"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).",
+      "type": "(event, { trElement }) => void",
       "defaultValue": "undefined",
       "status": "optional"
     },
@@ -2163,6 +2263,35 @@ Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events lis
       "doc": "Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.",
       "type": "({ target }) => void",
       "defaultValue": "undefined",
+      "status": "optional"
+    }
+  },
+  "showDefaultValue": true
+}
+```
+
+
+## Table Data `<Td>` events
+
+The `<Td>` `onClick` event renders a native `<button>` inside the cell for accessibility and provides element references in the second argument.
+
+
+```json
+{
+  "props": {
+    "onClick": {
+      "doc": "Will emit when user clicks the cell button. The second argument is an object with `trElement` (the parent `HTMLTableRowElement`), `tdElement` (the `HTMLTableCellElement`), `thElement` (the matching `<Th>` from `<thead>`, or `null` if not found), `isSelected` (current selected state), and `setSelected` (function to update the selected state — only effective when the `selected` prop is provided).",
+      "type": "(event, { trElement, tdElement, thElement, isSelected, setSelected }) => void",
+      "defaultValue": "undefined",
+      "status": "optional"
+    },
+    "icon": {
+      "doc": "Icon to show in the clickable cell. Set to `true` for the default chevron icon, or pass a custom icon. Set to `false` to hide the icon. Only takes effect when `onClick` is provided.",
+      "type": [
+        "boolean",
+        "IconIcon"
+      ],
+      "defaultValue": "true",
       "status": "optional"
     }
   },

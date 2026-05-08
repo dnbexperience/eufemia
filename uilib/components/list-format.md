@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'A ready to use DNB list formatter.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.408Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.774Z
 checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
 ---
 
@@ -60,7 +60,7 @@ The `listFormat` function supports an object with `{ format, locale }` as the se
 
 
 ```tsx
-render(<ListFormat value={[<React.Fragment key="a">A</React.Fragment>, <>
+render(<ListFormat value={[<Fragment key="a">A</Fragment>, <>
             <b>B</b>
           </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
             Link to Eufemia's Github Repo
@@ -75,7 +75,7 @@ render(<ListFormat value={[<React.Fragment key="a">A</React.Fragment>, <>
 
 ```tsx
 render(<ListFormat>
-        <React.Fragment key="a">A</React.Fragment>
+        <Fragment key="a">A</Fragment>
         <>
           <b>B</b>
         </>
@@ -97,7 +97,7 @@ render(<ListFormat>
 
 ```tsx
 render(<Provider locale="en-GB">
-        <ListFormat value={[<React.Fragment key="a">A</React.Fragment>, <>
+        <ListFormat value={[<Fragment key="a">A</Fragment>, <>
               <b>B</b>
             </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
               Link to Eufemia's Github Repo
@@ -162,7 +162,7 @@ render(<P>
 
 
 ```tsx
-{listFormat([<React.Fragment key="a">A</React.Fragment>, <>
+{listFormat([<Fragment key="a">A</Fragment>, <>
             <b>B</b>
           </>, <>C</>, 'D', 123, <Anchor target="_blank" href="https://github.com/dnbexperience/eufemia" rel="noopener noreferrer" key="github">
             Link to Eufemia's Github Repo

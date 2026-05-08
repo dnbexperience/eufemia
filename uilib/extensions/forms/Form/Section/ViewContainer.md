@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.ViewContainer'
 description: '`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.958Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.452Z
 checksum: 860d80482d33f1099e61af4d0bef4096954adb5a37a6228f2b462ddf83cb7822
 ---
 
@@ -64,7 +64,38 @@ When the item (view and edit) container gets removed, the active element focus w
 
 ## Demos
 
-<Examples.ViewAndEditContainer />
+
+```tsx
+const MyEditContainer = () => {
+  return <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>;
+};
+const MyViewContainer = () => {
+  return <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>;
+};
+render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defaultData={{
+  nestedPath: {
+    firstName: 'Nora',
+    lastName: 'Mørk'
+  }
+}}>
+            <Form.Card>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>);
+```
 
 ## Properties
 

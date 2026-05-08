@@ -1,8 +1,8 @@
 ---
 title: 'Field.Selection'
 description: '`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.300Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.777Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -235,7 +235,7 @@ render(<Field.Selection value="bar" label="Label text" onChange={value => consol
 
 ```tsx
 const Example = () => {
-  const [numOptions, setNumOptions] = React.useState(3);
+  const [numOptions, setNumOptions] = useState(3);
   return <>
             <Field.Selection value="option-15" label="Label text" onChange={value => console.log('onChange', value)}>
               {Array.from(Array(numOptions).keys()).map(key => <Field.Option key={key} value={key} title={`Option ${key + 1}`} />)}

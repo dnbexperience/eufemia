@@ -1,8 +1,8 @@
 ---
 title: 'Image'
 description: 'Image element exists to have a future possibility to optimize and add features.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.712Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.252Z
 checksum: 3f908b8deac0d6ffa1f83a28d3ec7b989d69d662d133fc4fdaf4e7298a66a9df
 ---
 
@@ -73,7 +73,7 @@ const StyledImg = styled(Img)`
         border-radius: 1rem;
       `;
 const CustomImage = () => {
-  const [state, setState] = React.useState(true);
+  const [state, setState] = useState(true);
   return <Skeleton show={state}>
             <StyledImg width="100" height="100" alt="DNB logo" src="/dnb/android-chrome-192x192.png" />
             <br />

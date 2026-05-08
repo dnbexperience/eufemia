@@ -1,8 +1,8 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.485Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.869Z
 checksum: fb55382fa240410045194bad0e3cb50e96ad1800e40b16e4d927c9de2a86b467
 ---
 
@@ -93,7 +93,7 @@ render(<ProgressIndicator type="circular" progress="50" size="large" noAnimation
 
 ```tsx
 const ChangeValue = () => {
-  const [value, setValue] = React.useState(50);
+  const [value, setValue] = useState(50);
   return <Flex.Horizontal align="center">
             <ProgressIndicator type="circular" progress={value} showDefaultLabel labelDirection="horizontal" noAnimation />
             <Button left size="small" variant="secondary" onClick={() => setValue(Math.random() * 100)}>
@@ -111,8 +111,8 @@ render(<ChangeValue />);
 ```tsx
 const Example = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [progress, setProgressIndicator] = React.useState(random(1, 100));
-  React.useEffect(() => {
+  const [progress, setProgressIndicator] = useState(random(1, 100));
+  useEffect(() => {
     const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3);
     return () => clearInterval(timer);
   });
@@ -128,8 +128,8 @@ render(<Example />);
 ```tsx
 const Example = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [show, setShow] = React.useState(true);
-  React.useEffect(() => {
+  const [show, setShow] = useState(true);
+  useEffect(() => {
     const timer = setInterval(() => setShow(!show), random(2400, 4200));
     return () => clearTimeout(timer);
   });
@@ -200,7 +200,7 @@ render(<ProgressIndicator type="linear" progress="50" size="large" noAnimation /
 
 ```tsx
 const ChangeValue = () => {
-  const [value, setValue] = React.useState(50);
+  const [value, setValue] = useState(50);
   return <Flex.Horizontal align="center">
             <ProgressIndicator type="linear" progress={value} noAnimation />
             <Button left size="small" variant="secondary" onClick={() => setValue(Math.random() * 100)}>
@@ -218,8 +218,8 @@ render(<ChangeValue />);
 ```tsx
 const Example = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [progress, setProgressIndicator] = React.useState(random(1, 100));
-  React.useEffect(() => {
+  const [progress, setProgressIndicator] = useState(random(1, 100));
+  useEffect(() => {
     const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3);
     return () => clearInterval(timer);
   });
@@ -235,8 +235,8 @@ render(<Example />);
 ```tsx
 const Example = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [show, setShow] = React.useState(true);
-  React.useEffect(() => {
+  const [show, setShow] = useState(true);
+  useEffect(() => {
     const timer = setInterval(() => setShow(!show), random(2400, 4200));
     return () => clearTimeout(timer);
   });
@@ -266,8 +266,8 @@ render(<Dialog spacing={false} maxWidth="12rem" fullscreen={false} alignContent=
 ```tsx
 const ChangeValue = () => {
   const max = 60;
-  const [current, setCurrent] = React.useState(10);
-  React.useEffect(() => {
+  const [current, setCurrent] = useState(10);
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrent(current === 0 ? max - 1 : current - 1);
     }, 1000);

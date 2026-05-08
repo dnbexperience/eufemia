@@ -1,0 +1,7 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import{n}from"./PropertiesTable-NQTsOnC6.js";import{t as r}from"./TranslationsTable-DR7hXILI.js";import{n as i}from"./InputDocs-B-Sa3UTK.js";import{n as a}from"./FieldDocs-Cop16Xau.js";var o=e(),s={size:{...i.size,doc:`${i.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`},onBlurValidator:{doc:"Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid month and year, using `expiryValidator`.",type:`function`,status:`optional`}};function c(e){let i={h2:`h2`,h3:`h3`,...t(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(i.h2,{children:`Properties`}),`
+`,(0,o.jsx)(i.h3,{children:`Field-specific properties`}),`
+`,(0,o.jsx)(n,{props:s}),`
+`,(0,o.jsx)(i.h3,{children:`General properties`}),`
+`,(0,o.jsx)(n,{props:a,omit:[`width`,`contentWidth`,`onBlurValidator`]}),`
+`,(0,o.jsx)(i.h2,{children:`Translations`}),`
+`,(0,o.jsx)(r,{localeKey:[`Expiry`,`Field`]})]})}function l(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,o.jsx)(n,{...e,children:(0,o.jsx)(c,{...e})}):c(e)}export{l as default};

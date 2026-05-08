@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.501Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.885Z
 checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 
@@ -31,9 +31,9 @@ It should be used carefully and not as a quick loading indicator replacement. Th
 
 Also, in some setups, the user may need to download almost the entire web application before skeletons can be shown during API calls.
 
-### Gatsby
+### Prerendered pages
 
-Gatsby as a framework is the perfect fit to utilize a good skeleton user experience from the very first page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). We can take advantage of this and show our skeleton as our initial state.
+A prerendered setup is a good fit to utilize a strong skeleton user experience from the very first page visit. Every page can load quickly, and we can take advantage of this by showing our skeleton as the initial state.
 
 1. The skeletons will show up during the very first paint – even without JavaScript enabled.
 1. Next, our page loads the needed application bundle, so we can start an API call to get our user data.
@@ -142,7 +142,7 @@ function Component({
   skeleton = false,
   ...params
 } = {}) {
-  const context = React.useContext(Context);
+  const context = useContext(Context);
 
   // Handle accessibility features
   skeletonDOMAttributes(params, skeleton, context);
@@ -174,7 +174,7 @@ render(<Input label="Input" skeleton />)
 
 ```tsx
 const UserData = () => {
-  const [state, setState] = React.useState(true);
+  const [state, setState] = useState(true);
   return <Skeleton show={state}>
             <H2 top bottom>
               Heading

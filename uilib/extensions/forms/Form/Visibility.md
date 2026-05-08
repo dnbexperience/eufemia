@@ -1,8 +1,8 @@
 ---
 title: 'Form.Visibility'
 description: '`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.005Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.495Z
 checksum: 4124652588375b94b40a30fcb102910a53970d9a7800b7246035b0da7dd690a9
 ---
 
@@ -251,7 +251,7 @@ const MyComponent = () => {
   } = Form.useData('example-form', {
     toggleValue: false
   });
-  const inferDataFunc = React.useCallback(() => data.toggleValue, [data.toggleValue]);
+  const inferDataFunc = useCallback(() => data.toggleValue, [data.toggleValue]);
   return <Form.Handler id="example-form">
               <Flex.Stack>
                 <Field.Boolean path="/toggleValue" label="Check me" />

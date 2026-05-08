@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.449Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:36.821Z
 checksum: 0f1328ec8c9ab15b2d0358b83bfa13d94aaed954143bcd737eb68567b59cd7d9
 ---
 
@@ -133,7 +133,7 @@ Use a custom trigger button and state handling by setting `omitTriggerButton` to
 
 ```tsx
 const Component = () => {
-  const [modalIsActive, setModalState] = React.useState(false);
+  const [modalIsActive, setModalState] = useState(false);
   return <>
             <Button id="custom-triggerer" text="Custom trigger Button" onClick={() => setModalState(s => !s)} />
             <Modal title="Modal Title" omitTriggerButton open={modalIsActive} labelledBy="custom-triggerer" onClose={() => setModalState(false)}>

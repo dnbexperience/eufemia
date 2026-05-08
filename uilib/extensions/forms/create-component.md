@@ -1,7 +1,7 @@
 ---
 title: 'Create your own component'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.316Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.805Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -99,7 +99,7 @@ Here is a working example with code you can edit in the playground:
 
 ```tsx
 const MyField = props => {
-  const fromInput = React.useCallback(({
+  const fromInput = useCallback(({
     value
   }) => value, []);
   const preparedProps = {
@@ -191,7 +191,7 @@ const MyComposedField = props => {
   } = useFieldProps({
     path: '/birthYear'
   });
-  const handleBirthYearChange = React.useCallback(sliderData => {
+  const handleBirthYearChange = useCallback(sliderData => {
     handleChange(sliderData.value);
   }, [handleChange]);
   return <FieldBlock id={id} label={props.label ?? 'Name and age'}>

@@ -1,7 +1,7 @@
 ---
 title: 'Extensions'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.338Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.828Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -34,4 +34,15 @@ import '@dnb/eufemia/style/themes/ui/extensions'
 
 ## Available Extensions
 
-<ListExtensions />
+
+## [Forms for applications](/uilib/extensions/forms/)
+
+Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
+
+## [PaymentCard](/uilib/extensions/payment-card/)
+
+The Payment Card component is used to display payment card information in a standardized format.
+
+## [VippsWalletButton](/uilib/extensions/vipps-wallet-button/)
+
+A branded Vipps wallet call-to-action button extension.

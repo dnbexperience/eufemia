@@ -1,8 +1,8 @@
 ---
 title: 'Field.String'
 description: '`Field.String` is the base component for receiving user input where the target data is of type `string`.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.301Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.777Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -209,7 +209,7 @@ render(<Field.String defaultValue="foo" label="Label text (maximum 8 characters)
 
 ```tsx
 const MyFieldStringWithTextCounter = () => {
-  const [text, setText] = React.useState('');
+  const [text, setText] = useState('');
   return <Flex.Vertical gap="x-small">
               <Field.String label="Label text (maximum 8 characters)" maxLength={8} onChange={setText} />
               <TextCounter variant="down" text={text} max={8} />
@@ -346,7 +346,7 @@ You can use the `onInput` property together with the `htmlAttributes` property t
 
 ```tsx
 const forbiddenRegex = /\\d/;
-const onInput = (event: React.FormEvent<HTMLInputElement>) => {
+const onInput = (event: FormEvent<HTMLInputElement>) => {
   const inputEl = event.currentTarget;
   const oldVal = inputEl.dataset.oldVal || '';
   const addedLength = inputEl.value.length - oldVal.length;
@@ -373,13 +373,13 @@ const onInput = (event: React.FormEvent<HTMLInputElement>) => {
   }
   inputEl.dataset.oldVal = inputEl.value;
 };
-const onFocus = (event: React.FormEvent<HTMLInputElement>) => {
+const onFocus = (event: FormEvent<HTMLInputElement>) => {
   const inputEl = event.currentTarget;
   if (typeof inputEl.dataset.oldVal === 'undefined') {
     inputEl.dataset.oldVal = inputEl.value;
   }
 };
-const onSelect = (event: React.FormEvent<HTMLInputElement>) => {
+const onSelect = (event: FormEvent<HTMLInputElement>) => {
   const inputEl = event.currentTarget;
   inputEl.dataset.selectionStart = String(inputEl.selectionStart);
   inputEl.dataset.selectionEnd = String(inputEl.selectionEnd);

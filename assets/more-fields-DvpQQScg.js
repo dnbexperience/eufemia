@@ -1,0 +1,3 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index--zEB_f_m.js";import n from"./ListMoreFieldComponents-JzKo5zjp.js";var r=e();function i(e){let i={a:`a`,h1:`h1`,p:`p`,...t(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(i.h1,{children:`More feature fields`}),`
+`,(0,r.jsxs)(i.p,{children:[`Here is also a list of `,(0,r.jsx)(i.a,{href:`/uilib/extensions/forms/all-fields/`,children:`all available fields`}),`.`]}),`
+`,(0,r.jsx)(n,{size:`medium`})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

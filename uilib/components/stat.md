@@ -1,9 +1,9 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.604Z
-checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.125Z
+checksum: 9f97f348797f3f7f76bb39e17f84fe34b688885bf4e9e471db5c2085ddc3c0a1
 ---
 
 # Stat
@@ -376,7 +376,7 @@ Use the [AriaLive](/uilib/components/aria-live/) component to announce dynamic v
 
 ```tsx
 function Example() {
-  const [value, setValue] = React.useState(1234);
+  const [value, setValue] = useState(1234);
   return <Flex.Stack>
             <AriaLive variant="content">
               <Stat.Root>
@@ -395,39 +395,815 @@ render(<Example />);
 
 ## Stat.Currency
 
-<PropertiesTable props={CurrencyProperties} />
+
+```json
+{
+  "props": {
+    "currencyDisplay": {
+      "doc": "Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "currencyPosition": {
+      "doc": "Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).",
+      "type": "string",
+      "status": "optional"
+    },
+    "value": {
+      "doc": "A number or a string containing a number.",
+      "type": [
+        "number",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "decimals": {
+      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
+      "type": "number",
+      "status": "optional"
+    },
+    "rounding": {
+      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
+      "status": "optional"
+    },
+    "signDisplay": {
+      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
+      "type": [
+        "\"auto\"",
+        "\"always\"",
+        "\"exceptZero\"",
+        "\"negative\"",
+        "\"never\""
+      ],
+      "status": "optional"
+    },
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "prefix": {
+      "doc": "Add a string or React component before the number, including white space.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "suffix": {
+      "doc": "Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix=\"/mnd\"` renders \"123/mnd\").",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "options": {
+      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "fontSize": {
+      "doc": "Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "status": "optional"
+    },
+    "mainSize": {
+      "doc": "Typography size for the main content. When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "mainWeight": {
+      "doc": "Typography weight for the main content.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "defaultValue": "medium",
+      "status": "optional"
+    },
+    "auxiliaryWeight": {
+      "doc": "Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "status": "optional"
+    },
+    "auxiliarySize": {
+      "doc": "Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`). When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "colorizeBySign": {
+      "doc": "If `true`, text color follows sign tone (`+` green, `-` red).",
+      "type": [
+        "boolean"
+      ],
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Percent
 
-<PropertiesTable props={PercentProperties} />
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "A number or a string containing a number.",
+      "type": [
+        "number",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "decimals": {
+      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
+      "type": "number",
+      "status": "optional"
+    },
+    "rounding": {
+      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
+      "status": "optional"
+    },
+    "signDisplay": {
+      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
+      "type": [
+        "\"auto\"",
+        "\"always\"",
+        "\"exceptZero\"",
+        "\"negative\"",
+        "\"never\""
+      ],
+      "status": "optional"
+    },
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "prefix": {
+      "doc": "Add a string or React component before the number, including white space.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "suffix": {
+      "doc": "Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix=\"/mnd\"` renders \"123/mnd\").",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "options": {
+      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "fontSize": {
+      "doc": "Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "status": "optional"
+    },
+    "mainSize": {
+      "doc": "Typography size for the main content. When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "mainWeight": {
+      "doc": "Typography weight for the main content.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "defaultValue": "medium",
+      "status": "optional"
+    },
+    "auxiliaryWeight": {
+      "doc": "Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "status": "optional"
+    },
+    "auxiliarySize": {
+      "doc": "Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`). When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "colorizeBySign": {
+      "doc": "If `true`, text color follows sign tone (`+` green, `-` red).",
+      "type": [
+        "boolean"
+      ],
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Number
 
-<PropertiesTable props={NumberProperties} />
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "A number or a string containing a number.",
+      "type": [
+        "number",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "currency": {
+      "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.",
+      "type": [
+        "string",
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "currencyDisplay": {
+      "doc": "Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "currencyPosition": {
+      "doc": "Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).",
+      "type": "string",
+      "status": "optional"
+    },
+    "decimals": {
+      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
+      "type": "number",
+      "status": "optional"
+    },
+    "rounding": {
+      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
+      "type": [
+        "\"omit\"",
+        "\"half-even\"",
+        "\"half-up\""
+      ],
+      "status": "optional"
+    },
+    "signDisplay": {
+      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
+      "type": [
+        "\"auto\"",
+        "\"always\"",
+        "\"exceptZero\"",
+        "\"negative\"",
+        "\"never\""
+      ],
+      "status": "optional"
+    },
+    "compact": {
+      "doc": "Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.",
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "prefix": {
+      "doc": "Add a string or React component before the number, including white space.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "suffix": {
+      "doc": "Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix=\"/mnd\"` renders \"123/mnd\").",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "options": {
+      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "percent": {
+      "doc": "Formats the value as a percentage.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "fontSize": {
+      "doc": "Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "status": "optional"
+    },
+    "mainSize": {
+      "doc": "Typography size for the main content. When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "mainWeight": {
+      "doc": "Typography weight for the main content.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "defaultValue": "medium",
+      "status": "optional"
+    },
+    "auxiliaryWeight": {
+      "doc": "Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "status": "optional"
+    },
+    "auxiliarySize": {
+      "doc": "Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`). When omitted, it falls back to `fontSize` if provided.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)",
+      "status": "optional"
+    },
+    "colorizeBySign": {
+      "doc": "If `true`, text color follows sign tone (`+` green, `-` red).",
+      "type": [
+        "boolean"
+      ],
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Trend
 
-<PropertiesTable props={TrendProperties} />
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "Numeric or string value used to resolve the trend sign and tone. When omitted, the value is extracted from `children`.",
+      "type": [
+        "number",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Trend value content, e.g. `+12.4%` or `-2.1%`.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "tone": {
+      "doc": "Tone override for state styling.",
+      "type": [
+        "\"positive\"",
+        "\"negative\"",
+        "\"neutral\""
+      ],
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Rating
 
-<PropertiesTable props={RatingProperties} />
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "Rating value used to colorize stars.",
+      "type": [
+        "number"
+      ],
+      "defaultValue": "0",
+      "status": "optional"
+    },
+    "max": {
+      "doc": "Total number of items to render. Defaults to `5` for `stars` and `7` for `progressive`. Values above `20` are clamped and a warning is emitted.",
+      "type": [
+        "number"
+      ],
+      "defaultValue": "5 (stars), 7 (progressive)",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Visual variant.",
+      "type": [
+        "\"stars\"",
+        "\"progressive\""
+      ],
+      "defaultValue": "\"stars\"",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Info
 
-<PropertiesTable props={InfoProperties} />
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Additional descriptive information.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Info color style variant.",
+      "type": [
+        "\"plain\"",
+        "\"subtle\"",
+        "\"prominent\""
+      ],
+      "defaultValue": "\"subtle\"",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Root
 
-<PropertiesTable props={RootProperties} />
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Use `Stat.Label` (`dt`) and `Stat.Content` (`dd`) inside root.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "visualOrder": {
+      "doc": "Visual order of label and content while keeping semantic `dt`/`dd` markup in DOM.",
+      "type": [
+        "\"label-content\"",
+        "\"content-label\""
+      ],
+      "defaultValue": "\"label-content\"",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state to all Stat sub-components.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Label
 
-<PropertiesTable props={LabelProperties} />
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Label content.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "srOnly": {
+      "doc": "If `true`, hides the label visually while keeping it available for screen readers.",
+      "type": [
+        "boolean"
+      ],
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "fontWeight": {
+      "doc": "Typography weight for the label.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "defaultValue": "\"regular\"",
+      "status": "optional"
+    },
+    "fontSize": {
+      "doc": "Typography size for the label. Line-height is derived from the shared heading/text scale.",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "defaultValue": "\"basis\"",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Label color style variant.",
+      "type": [
+        "\"plain\"",
+        "\"subtle\""
+      ],
+      "defaultValue": "\"plain\"",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Content
 
-<PropertiesTable props={ContentProperties} />
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Content value area. Typically contains `Stat.Number`, `Stat.Currency`, `Stat.Percent`, `Stat.Text`, `Stat.Trend`, or `Stat.Info`.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "direction": {
+      "doc": "Layout direction for the content items.",
+      "type": [
+        "\"horizontal\"",
+        "\"vertical\""
+      ],
+      "defaultValue": "\"horizontal\"",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Stat.Inline
 
@@ -459,7 +1235,71 @@ render(<Example />);
 
 ## Stat.Text
 
-<PropertiesTable props={TextProperties} />
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Custom visible content rendered using Stat value typography.",
+      "type": [
+        "React.ReactNode"
+      ],
+      "status": "optional"
+    },
+    "fontSize": {
+      "doc": "Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).",
+      "type": [
+        "\"x-small\"",
+        "\"small\"",
+        "\"basis\"",
+        "\"medium\"",
+        "\"large\"",
+        "\"x-large\"",
+        "\"xx-large\""
+      ],
+      "status": "optional"
+    },
+    "fontWeight": {
+      "doc": "Typography weight for the text content.",
+      "type": [
+        "\"regular\"",
+        "\"medium\""
+      ],
+      "status": "optional"
+    },
+    "colorizeBySign": {
+      "doc": "If `true`, text color follows a signed child value when possible. You can also pass a number directly to control the tone for custom content.",
+      "type": [
+        "boolean",
+        "number"
+      ],
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "srLabel": {
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton loading state.",
+      "type": [
+        "boolean"
+      ],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Translations
 

@@ -1,0 +1,76 @@
+---
+title: 'FAQ'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.811Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Frequently Asked Questions (FAQ)
+
+## Visual tests and Playwright
+
+Jest starts several workers at the same time. When we simulate states on e.g., ToggleButton and Button, Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest never executes several workers at the same time, we set `--maxWorkers=1`.
+
+### Installing screenshot browser
+
+For running screenshot tests (visual tests), a headless Firefox browser is needed.
+
+In normal circumstances, the browser will be installed automatically via `yarn install` – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run these commands, depending on your needs:
+
+```
+yarn workspace @dnb/eufemia playwright uninstall --all
+yarn workspace @dnb/eufemia add -D @playwright/test
+yarn workspace @dnb/eufemia playwright install firefox
+
+yarn workspace dnb-design-system-portal playwright uninstall --all
+yarn workspace dnb-design-system-portal add -D @playwright/test
+yarn workspace dnb-design-system-portal playwright install firefox
+```
+
+#### Alternative install: skip authentication
+
+However, since Node.js and corporate proxies do not enjoy each other's company, this might
+fail with an `Error: unable to get local issuer certificate` error. In that case, your only
+option might be to disable all authentication for this command.
+
+```
+NODE_TLS_REJECT_UNAUTHORIZED=0 yarn workspace @dnb/eufemia playwright install firefox
+```
+
+#### Alternative install: manually
+
+Or, in the very worst case, you can manually download the zip file that `yarn workspace 
+@dnb/eufemia playwright install firefox` attempts to download, and extract the file
+("Nightly" for Firefox) to the folder indicated when `yarn test:screenshots` fails.
+
+## How can I run all screenshot tests without stopping on first failure?
+
+By default, CI runs only affected screenshot tests based on changed files and reverse dependencies. If a global style change is detected, all screenshot tests are run.
+
+To force all screenshot tests and continue after failures, include `--run-all` in your commit message:
+
+```bash
+git commit -m "feat: implement new feature --run-all"
+```
+
+This disables `--bail` and runs all screenshot tests, so you can see all visual differences at once.
+
+The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
+
+### What dies `build:mini` do?
+
+When running `build:mini` scripts, the build will be faster and the output will be smaller. It's used for the CI/CD pipeline to build the package for the Sandbox or documentation preview.
+
+## Dependency issues
+
+### ESLint compat patch
+
+- We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
+
+### Jest
+
+- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` via `Object.defineProperty` in Jest. Jest 30 with `jest-environment-jsdom` bundles jsdom v26. Tests that need to manipulate the URL now use `window.history.replaceState` instead of overriding `window.location`.
+
+### Babel
+
+- Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they do not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`

@@ -1,6 +1,6 @@
 ---
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.381Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.875Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -15,29 +15,12 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 Radius tokens control border-radius values across themes. They map to foundation size values and may differ between brands.
 
 
-```tsx
-render(<Table>
-      <thead>
-        <Tr>
-          <Th noWrap>Token</Th>
-          <Th noWrap>DNB Light</Th>
-          <Th noWrap>DNB Dark</Th>
-          <Th noWrap>Sbanken Light</Th>
-          <Th noWrap>Sbanken Dark</Th>
-          <Th noWrap>Carnegie</Th>
-        </Tr>
-      </thead>
-      <tbody>
-        {tokens.map(token => <Tr key={token.name}>
-            <Td style={cellVerticalMiddle}>
-              <MDXCode>{token.name}</MDXCode>
-            </Td>
-            <Td>{renderRadiusValue(token.references.uiLight)}</Td>
-            <Td>{renderRadiusValue(token.references.uiDark)}</Td>
-            <Td>{renderRadiusValue(token.references.sbankenLight)}</Td>
-            <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
-            <Td>{renderRadiusValue(token.references.carnegie)}</Td>
-          </Tr>)}
-      </tbody>
-    </Table>)
-```
+| Token | DNB Light | DNB Dark | Sbanken Light | Sbanken Dark | Carnegie |
+| --- | --- | --- | --- | --- | --- |
+| `--token-radius-0` | `0` | `0` | `0` | `0` | `0` |
+| `--token-radius-xs` | `0.125rem` | `0.125rem` | `0.125rem` | `0.125rem` | `0` |
+| `--token-radius-sm` | `0.25rem` | `0.25rem` | `0.25rem` | `0.25rem` | `0.125rem` |
+| `--token-radius-md` | `0.5rem` | `0.5rem` | `0.5rem` | `0.5rem` | `0.125rem` |
+| `--token-radius-lg` | `1rem` | `1rem` | `1rem` | `1rem` | `0.25rem` |
+| `--token-radius-xl` | `1.5rem` | `1.5rem` | `1.5rem` | `1.5rem` | `1.5rem` |
+| `--token-radius-full` | `9999px` | `9999px` | `9999px` | `9999px` | `9999px` |

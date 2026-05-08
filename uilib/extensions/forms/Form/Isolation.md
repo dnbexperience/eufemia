@@ -1,8 +1,8 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.905Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.418Z
 checksum: 8c30fcf9db0046ff78ccbc19b00d0a8a4deeeb526e37286460980ebe062f8e21
 ---
 
@@ -376,7 +376,7 @@ render(<Form.Handler onSubmit={data => console.log('onSubmit', data)} onChange={
 
 ```tsx
 const MyForm = () => {
-  const commitHandleRef = React.useRef(null);
+  const commitHandleRef = useRef(null);
   return <>
               <Form.Handler bottom="large" data={{
       contactPersons: [{
@@ -507,7 +507,7 @@ const SetDelayedData = () => {
   const {
     update
   } = Form.useData();
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       update('/isolated', 'With a delayed default value');
       dataReference.refresh(); // <-- refresh the data reference

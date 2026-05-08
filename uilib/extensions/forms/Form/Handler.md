@@ -1,8 +1,8 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:12.890Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.406Z
 checksum: adde9d9b5451327df41e0ca0f0c278288337a85881bae513fbf9c5a3d266859e
 ---
 
@@ -885,7 +885,7 @@ It's possible to use the `transformOut` on the Form.Handler method to achieve th
 
 ```tsx
 const MyForm = () => {
-  const [submitData, setSubmitData] = React.useState({});
+  const [submitData, setSubmitData] = useState({});
   const onSubmit = (data, {
     transformData
   }) => {

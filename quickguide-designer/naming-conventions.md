@@ -1,0 +1,74 @@
+---
+title: 'Naming Conventions'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.834Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Naming conventions (Designers)
+
+> Persist the same component name throughout the design, code, and conversation <cite>Nathan Curtis</cite>
+
+## Naming space
+
+Eufemia makes use of a very simple 8px unit grid. Margins, paddings, and distances consist of multiples of 8 (mostly, though sometimes half and quarter units are required). If we were to combine multiples of this 8px 'space block', we could end up with something like this:
+
+<InlineImg
+  src={NamingSpace}
+  caption="Naming space units"
+  alt="Naming space units"
+/>
+
+These titles can then be transferred to components, such as tables. A 'medium' table would refer to the amount of padding in the cells.
+
+<InlineImg
+  src={TablesSpace}
+  caption="Applying space to tables"
+  alt="Applying space to tables"
+/>
+
+The same applies to components such as cards, form rows, etc. Responsive breakpoints can switch between these spacing units to expand or contract the overall size of an object.
+
+## Naming Colors
+
+Eufemia for the web uses a simple naming system:
+
+<TypographyBox>Color name + percentage</TypographyBox>
+
+Depending on where the color will be used, its name formation will be different. For example, in Figma (and other design tools), the name is constructed as follows:
+
+The color name is written with spaces between words. The first word starts with a capital letter. Some color names have a percentage sign denoting the tint value.
+
+Example:
+
+<TypographyBox>Fire red 8%</TypographyBox>
+
+Whereas in CSS as a custom property this is written:
+
+<TypographyBox>--color-fire-red-8</TypographyBox>
+
+Colors have a naming convention across all platforms and formats. Please refer to the table in [colors section](/quickguide-designer/colors).
+
+**NB!** Android and iOS will have a different format for the same names. This guide is for application in **web** products.
+
+### Naming conventions in design applications
+
+We do not have a strict naming convention for design files in Figma. However, it is encouraged to name your design file frames and interface designs with clear, logical names in English.
+
+To maintain consistency, in Figma we name Pages and Frames (canvases) with the first letter capitalized.
+
+Example of a Figma Page name:
+
+<TypographyBox>04 Spacing & Common components</TypographyBox>
+
+Example of a Figma Frame name:
+
+<TypographyBox>02 Spacing components - horizontal</TypographyBox>
+
+Actual components are written with all small letters.
+
+Example of a Figma component name:
+
+<TypographyBox>date picker</TypographyBox>
+
+If in doubt, look at the main Eufemia file - [Eufemia - Web](https://www.figma.com/file/cdtwQD8IJ7pTeE45U148r1/Eufemia-Web?node-id=530%3A49).

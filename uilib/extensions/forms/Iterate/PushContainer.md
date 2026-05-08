@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushContainer'
 description: '`Iterate.PushContainer` enables users to create a new item in the array.'
-version: 11.1.1
-generatedAt: 2026-05-05T18:42:13.070Z
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:37.549Z
 checksum: 8cd3382923d837703c0c254f89691158d72c5e342606f2caa400df09037c9260
 ---
 
@@ -224,7 +224,60 @@ render(<MyForm />);
 
 ### With existing data
 
-<Examples.ViewAndEditContainer />
+
+```tsx
+const MyEditItemForm = () => {
+  return <Field.Composition>
+              <Field.Name.First itemPath="/firstName" width="medium" />
+              <Field.Name.Last itemPath="/lastName" width="medium" required />
+            </Field.Composition>;
+};
+const MyEditItem = () => {
+  return <Iterate.EditContainer title="Edit account holder {itemNo}" titleWhenNew="New account holder {itemNo}">
+              <MyEditItemForm />
+            </Iterate.EditContainer>;
+};
+const MyViewItem = () => {
+  const item = Iterate.useItem();
+  console.log('index:', item.index);
+  return <Iterate.ViewContainer title="Account holder {itemNo}">
+              <Value.SummaryList>
+                <Value.Name.First itemPath="/firstName" showEmpty />
+                <Value.Name.Last itemPath="/lastName" placeholder="-" />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>;
+};
+const CreateNewEntry = () => {
+  return <Iterate.PushContainer path="/accounts" title="New account holder" openButton={<Iterate.PushContainer.OpenButton text="Add another account" />} showOpenButtonWhen={list => list.length > 0}>
+              <MyEditItemForm />
+            </Iterate.PushContainer>;
+};
+const MyForm = () => {
+  return <Form.Handler data={{
+    accounts: [{
+      firstName: 'Tony',
+      lastName: 'Rogers'
+    }]
+  }} onChange={data => console.log('DataContext/onChange', data)} onSubmit={async data => console.log('onSubmit', data)}>
+              <Flex.Stack>
+                <Form.MainHeading>Accounts</Form.MainHeading>
+
+                <Form.Card gap={false}>
+                  <Iterate.Array path="/accounts" animate>
+                    <MyViewItem />
+                    <MyEditItem />
+                  </Iterate.Array>
+
+                  <CreateNewEntry />
+                </Form.Card>
+
+                <Form.SubmitButton variant="send" />
+              </Flex.Stack>
+            </Form.Handler>;
+};
+render(<MyForm />);
+```
+
 
 ### Isolated data
 
@@ -284,7 +337,7 @@ function PushContainerContent() {
 
   // Clear the PushContainer data when the selected person is "other",
   // so the fields do not inherit existing data.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (selectedPerson === 'other') {
       update('/pushContainerItems/0', {});
     }

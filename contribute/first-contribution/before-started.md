@@ -1,0 +1,222 @@
+---
+title: 'Before getting started'
+version: 11.2.0
+generatedAt: 2026-05-08T07:25:35.812Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# What you should know before getting started
+
+Before you get started, there are some technical decisions you should know about—as with every project.
+
+**Table of Contents**
+
+- [What you should know before getting started](#what-you-should-know-before-getting-started)
+  - [About technology](#about-technology)
+  - [Eufemia is a Mono Repository](#eufemia-is-a-mono-repository)
+    - [dnb-eufemia](#dnb-eufemia)
+    - [dnb-design-system-portal](#dnb-design-system-portal)
+    - [Configuration files](#configuration-files)
+    - [About Types](#about-types)
+      - [Shared Properties docs](#shared-properties-docs)
+  - [About component structure](#about-component-structure)
+    - [Component folder](#component-folder)
+      - [Modifications](#modifications)
+  - [Development environments](#development-environments)
+    - [Storybook development](#storybook-development)
+    - [Eufemia portal](#eufemia-portal)
+      - [Local build](#local-build)
+    - [Testing](#testing)
+    - [Run Algolia search queries locally](#run-algolia-search-queries-locally)
+  - [What happens in the build steps](#what-happens-in-the-build-steps)
+    - [During prebuild](#during-prebuild)
+    - [During postbuild](#during-postbuild)
+
+<Hr top="large" />
+
+## About technology
+
+The library consists of React components. The newer components are written as functional components with [React hooks](https://reactjs.org/docs/hooks-intro.html). This was added to React version 16.8 and has become the new standard of React.
+
+Components are written in [TypeScript](https://www.typescriptlang.org/).
+
+Components are styled using [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](https://getbem.com/naming/) (Block Element Modifier).
+
+## Eufemia is a Mono Repository
+
+The Eufemia repository is a monorepo consisting of the following workspaces:
+
+- **dnb-design-system-portal**: Source code of the portal website - this website.
+- **dnb-eufemia**: Source code of the npm package - where all the components are located.
+
+### dnb-eufemia
+
+The only folders you should need to know about to add new features are:
+
+- `src/components`: The folder containing all the components, structured in [component folders](/contribute/first-contribution/before-started#component-folder).
+- `src/extensions`: The folder containing all extensions, also structured in [component folders](/contribute/first-contribution/before-started#component-folder).
+
+### dnb-design-system-portal
+
+The documentation in markdown (MDX) is located at `src/docs` and the portal will automatically create pages and menu items based on that current structure.
+
+All you need to do to add a new page is to create a new markdown (`.mdx`) file within one of the folders. All documentation for components and elements are located at `src/docs/uilib`, which corresponds to the URL [eufemia.dnb.no/uilib](eufemia.dnb.no/uilib).
+
+### Configuration files
+
+- `ncurc.json` is used to ignore certain dependencies during a dependency update made by [npm-check-updates](https://www.npmjs.com/package/npm-check-updates).
+- `.eslintrc` is a file with configurations to [ESLint](https://eslint.org/docs/user-guide/configuring/), which is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
+- `.prettierrc` is a file with configurations to [Prettier](https://prettier.io/docs/en/configuration.html), which is a code formatter for multiple languages.
+- `.stylelintrc` is a file with configurations to [stylelint](https://stylelint.io/user-guide/configure), which is a linter for styling (SCSS/CSS).
+- `babel.config.js` configures [Babel](https://babeljs.io/docs/en/configuration), a JavaScript compiler.
+- `vitest.config.ts` configures [Vitest](https://vitest.dev/config/), the unit testing framework for this project.
+- `playwright.config.screenshots.ts` configures [Playwright](https://playwright.dev/) for screenshot testing (visual assertion).
+- `tsconfig.json` is a file with configurations to [TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+
+### About Types
+
+The two main purposes of delivering TypeScript types are:
+
+- Inline property documentation
+- Property validation and type safety
+
+Components are written in [TypeScript](https://www.typescriptlang.org/) (`.tsx`).
+
+#### Shared Properties docs (legacy)
+
+If you have one `/properties.md` file, but e.g., two components share most or all of the properties—like a component and a provider for that component (Accordion and AccordionProvider)—then you can define both components in the markdown table header name. You can then provide a second table with more specific properties for a second component.
+
+```md
+#### Properties
+
+| Accordion and AccordionProvider Properties | Description                                                           |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| `id`                                       | _(optional)_ docs.                                                    |
+| [Space](/uilib/layout/space/properties)    | _(optional)_ spacing properties like `top` or `bottom` are supported. |
+
+| AccordionProvider Properties | Description                   |
+| ---------------------------- | ----------------------------- |
+| `expandedId`                 | _(optional)_ expandedId docs. |
+```
+
+## About component structure
+
+Eufemia has a couple of common parts, so every component behaves consistently:
+
+- [Locale](/uilib/usage/customisation/localization) support.
+- [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding.
+- [Spacing](/uilib/layout/space) support.
+- [Skeleton](/uilib/components/skeleton) support.
+- [FormLabel](/uilib/components/form-label) / [FormStatus](/uilib/components/form-status) support if it's a form component.
+- Automatic id generation and linking of HTML elements to enhance accessibility.
+- Handling of `aria-describedby` with `combineDescribedBy` etc.
+
+How to add support for each of these is explained in [Additional support - Getting started](/contribute/getting-started#additional-component-support).
+
+### Component folder
+
+Every component and extension should have a similar structure, as described here.
+
+As an example, we show the folder structure of component Breadcrumb. You can also check out the [source on Github](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb).
+
+<InlineImg
+  src="/images/folder-structure.png"
+  width="360"
+  caption="Folder structure of component Breadcrumb"
+  alt="Folder structure with tests, style, TypeScript files and index files"
+  right
+/>
+
+1. **`/__tests__`**: Contains the tests (`Breadcrumb.test.tsx`) and screenshot tests (`Breadcrumb.screenshot.test.tsx`) for the component. All screenshots will be placed within the folder `__snapshots__`.
+1. **`/style`**: Contains the styling of the component. The file `_breadcrumb.scss` defines all styling using [BEM](https://getbem.com/naming/). `dnb-breadcrumb.scss` contains the component style exports.
+1. **`Breadcrumb.tsx`** and **`BreadcrumbItem.tsx`**: The React components for the Breadcrumb are defined and exported from these files.
+1. **`index.js`**: Contains component exports.
+1. **`style.js`**: Contains component style exports.
+
+#### Modifications
+
+- Adding theming files under a folder `style/themes` will unlock the possibility of having different themes in the future. Check out the [source for theming in Button](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button/style).
+
+## Development environments
+
+There are a couple of environments for different purposes.
+
+- For developing and styling new components, you can run [Storybook development](/contribute/first-contribution/before-started#storybook-development).
+- For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
+- After development, you can run [your tests](/contribute/getting-started#make-and-run-tests).
+- If you want to see the local changes in the search results, you can run [Algolia search queries locally](/).
+
+### Storybook development
+
+[Storybook](https://storybook.js.org/) is used for quick examples and component development. They do not need to be perfect.
+
+Stories are placed inside a `/stories` directory and contain _.stories_ in the filename: `/components/button/stories/Button.stories.tsx`
+
+Run Storybook locally by running
+
+```bash
+yarn dev
+```
+
+in the root folder. Then you can view the Storybook website by visiting [localhost:8002](http://localhost:8002/).
+
+Add new pages to the storybook by adding a new directory `/stories` and a new file under `ComponentName.stories.tsx` and following the similar structure of the other files.
+
+### Eufemia portal
+
+The portal is powered by [Vite](https://vite.dev/) with a custom static site generation pipeline for pre-rendered SSR.
+
+Run the Portal locally:
+
+```bash
+$ yarn start
+```
+
+This will start the Portal. You can view the portal website by visiting [localhost:8000](http://localhost:8000/).
+
+Content changes to both Markdown (MDX) files and styles (SCSS) and code changes will be reflected immediately.
+
+#### Local build
+
+In case you have to create a local static build of the portal website (for various reasons), you can do so by:
+
+```bash
+$ yarn workspace dnb-design-system-portal build
+```
+
+The build will be exported to the `/public` directory. You can now also run a local static server to view it at the given port [localhost:8000](http://localhost:8000/):
+
+```bash
+$ yarn workspace dnb-design-system-portal serve
+```
+
+## What happens in the build steps
+
+During the build, various things will happen. First, a prebuild step before the build, and afterward a postbuild step.
+
+### During prebuild
+
+```bash
+$ yarn workspace @dnb/eufemia build
+```
+
+- Assets are getting generated
+- All index and lib files are getting generated
+- All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
+- All SASS styles are validated and compiled (to support IE)
+- Compiled CSS under `build/**/*.css` is parsed with [Lightning CSS](https://github.com/parcel-bundler/lightningcss) so invalid selectors (for example pseudo-elements not last in a compound selector) fail the build
+- All bundles get minified
+- Icons are getting converted
+
+To use the local build, you can either run the portal, or use `yarn link` to link the package with a totally different project.
+
+### During postbuild
+
+```bash
+$ yarn workspace @dnb/eufemia postbuild:ci
+```
+
+- Assets are getting generated
+- All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
+- UMD/ESM/ES/CJS bundles are getting generated
+- TypeScript definitions are getting generated
