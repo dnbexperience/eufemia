@@ -15,7 +15,7 @@ describe('scroll-position plugin', () => {
       ) => string | undefined
 
       expect(resolveId('virtual:scroll-position')).toBe(
-        '\0virtual:scroll-position'
+        '\0virtual:scroll-position.ts'
       )
     })
 
@@ -32,7 +32,7 @@ describe('scroll-position plugin', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
 
-      const result = load('\0virtual:scroll-position')
+      const result = load('\0virtual:scroll-position.ts')
 
       expect(result).toBeDefined()
       expect(result).toContain('saveScrollPosition')
@@ -52,7 +52,7 @@ describe('scroll-position plugin', () => {
     it('configures the sidebar menu element', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('#portal-sidebar-menu')
       expect(code).toContain('is-active')
@@ -61,7 +61,7 @@ describe('scroll-position plugin', () => {
     it('exports saveScrollPosition function', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('export function saveScrollPosition()')
     })
@@ -69,7 +69,7 @@ describe('scroll-position plugin', () => {
     it('exports restoreScrollPosition function', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('export function restoreScrollPosition(')
     })
@@ -77,7 +77,7 @@ describe('scroll-position plugin', () => {
     it('exports useScrollPosition hook', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('export function useScrollPosition()')
     })
@@ -85,7 +85,7 @@ describe('scroll-position plugin', () => {
     it('uses sessionStorage for persistence', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('sessionStorage.setItem')
       expect(code).toContain('sessionStorage.getItem')
@@ -94,7 +94,7 @@ describe('scroll-position plugin', () => {
     it('handles beforeunload and pagehide events', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain("'beforeunload'")
       expect(code).toContain("'pagehide'")
@@ -103,7 +103,7 @@ describe('scroll-position plugin', () => {
     it('uses requestAnimationFrame for rendering', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('requestAnimationFrame')
     })
@@ -111,7 +111,7 @@ describe('scroll-position plugin', () => {
     it('supports smooth scrolling option', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('smooth')
       expect(code).toContain('scrollBehavior')
@@ -120,7 +120,7 @@ describe('scroll-position plugin', () => {
     it('has ensureInView logic for active menu items', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('ensureInView')
       expect(code).toContain('offsetTop')
@@ -196,7 +196,7 @@ describe('scroll-position plugin', () => {
     it('saves window.scrollY to sessionStorage', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('scroll-window')
       expect(code).toContain('window.scrollY')
@@ -205,7 +205,7 @@ describe('scroll-position plugin', () => {
     it('restores window scroll via window.scrollTo', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('window.scrollTo')
     })
@@ -213,7 +213,7 @@ describe('scroll-position plugin', () => {
     it('supports restoreWindow option to skip window scroll restore', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('restoreWindow')
     })
@@ -221,7 +221,7 @@ describe('scroll-position plugin', () => {
     it('scrolls window to top on route change instead of restoring', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:scroll-position')!
+      const code = load('\0virtual:scroll-position.ts')!
 
       expect(code).toContain('window.scrollTo({ top: 0 })')
       expect(code).toContain('restoreWindow: false')
