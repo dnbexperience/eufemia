@@ -3,7 +3,6 @@ import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 
 // Components
 import type { ButtonProps } from '../Button'
-import Button from '../Button'
 import type { AnchorAllProps } from '../Anchor'
 import Anchor from '../Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -85,7 +84,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const context = useContext(Context)
   const breadcrumbItemContext = useContext(BreadcrumbItemContext)
   const {
-    theme,
     translation: {
       Breadcrumb: { homeText },
     },
@@ -140,36 +138,23 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       style={style}
     >
       {isInteractive ? (
-        theme?.name === 'sbanken' ? (
-          <Button
-            variant="tertiary"
+        <>
+          {!hideIcon && variant !== 'home' && (
+            <IconPrimary
+              icon={iconToUse}
+              className="dnb-breadcrumb__item__span__icon"
+            />
+          )}
+          <Anchor
             href={href}
-            icon={hideIcon && variant !== 'home' ? undefined : iconToUse}
-            iconPosition="left"
             onClick={onClick}
-            text={currentText}
+            icon={variant === 'home' ? iconToUse : null}
             skeleton={skeleton}
             {...props}
-          />
-        ) : (
-          <>
-            {!hideIcon && variant !== 'home' && (
-              <IconPrimary
-                icon={iconToUse}
-                className="dnb-breadcrumb__item__span__icon"
-              />
-            )}
-            <Anchor
-              href={href}
-              onClick={onClick}
-              icon={variant === 'home' ? iconToUse : null}
-              skeleton={skeleton}
-              {...props}
-            >
-              {currentText}
-            </Anchor>
-          </>
-        )
+          >
+            {currentText}
+          </Anchor>
+        </>
       ) : (
         <span className="dnb-breadcrumb__item__span">
           {!hideIcon && (
