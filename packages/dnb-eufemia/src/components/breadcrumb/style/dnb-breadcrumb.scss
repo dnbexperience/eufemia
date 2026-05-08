@@ -117,10 +117,6 @@
   &__collapse {
     display: flex;
     flex-direction: column;
-
-    &.dnb-section--divider {
-      --background-color: var(--token-color-background-page-background);
-    }
   }
 
   &__collapse &__item {
@@ -135,5 +131,9 @@
     margin: 0;
 
     padding: 1rem 0 2rem 1rem;
+
+    &--divider {
+      --background-color: var(--token-color-background-page-background);
+    }
   }
 }
