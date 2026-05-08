@@ -318,7 +318,9 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       {(currentVariant === 'collapse' ||
         currentVariant === 'responsive') && (
         <Section
-          variant={collapsedStyleType}
+          variant={
+            currentVariant === 'collapse' ? 'divider' : collapsedStyleType
+          }
           className="dnb-breadcrumb__collapse"
         >
           <BreadcrumbMultiple
@@ -326,7 +328,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             items={items}
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
-            useDivider={currentVariant === 'collapse'}
+            hideIcon={currentVariant === 'collapse'}
           />
         </Section>
       )}

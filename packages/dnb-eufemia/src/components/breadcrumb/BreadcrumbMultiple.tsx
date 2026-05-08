@@ -9,7 +9,7 @@ import BreadcrumbItemContext from './BreadcrumbItemContext'
 type BreadcrumbMultipleProps = {
   collapsed: boolean
   noAnimation: boolean
-  useDivider?: boolean
+  hideIcon?: boolean
   data: Array<BreadcrumbItemProps>
   items:
     | ReactElement<BreadcrumbItemProps>
@@ -20,7 +20,7 @@ export const BreadcrumbMultiple = ({
   collapsed,
   items,
   noAnimation,
-  useDivider,
+  hideIcon,
   data,
 }: BreadcrumbMultipleProps) => {
   return (
@@ -29,17 +29,10 @@ export const BreadcrumbMultiple = ({
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >
-      <Section
-        className="dnb-breadcrumb__list"
-        element="ol"
-        variant={useDivider ? 'divider' : undefined}
-      >
+      <Section className="dnb-breadcrumb__list" element="ol">
         {data?.map((breadcrumbItem, i) => {
           return (
-            <BreadcrumbItemContext
-              key={i}
-              value={{ itemNo: i, hideIcon: useDivider }}
-            >
+            <BreadcrumbItemContext key={i} value={{ itemNo: i, hideIcon }}>
               <BreadcrumbItem
                 variant={
                   (i === 0 && 'home') ||
@@ -56,10 +49,7 @@ export const BreadcrumbMultiple = ({
         {(Array.isArray(items) ? items : [items])
           .filter((item) => isValidElement(item))
           .map((item, i) => (
-            <BreadcrumbItemContext
-              key={i}
-              value={{ itemNo: i, hideIcon: useDivider }}
-            >
+            <BreadcrumbItemContext key={i} value={{ itemNo: i, hideIcon }}>
               {item}
             </BreadcrumbItemContext>
           ))}
