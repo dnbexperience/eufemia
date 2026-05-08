@@ -63,6 +63,13 @@
     // Home icon spacing
     &:first-child .dnb-anchor {
       border-left: none;
+
+      // Reset the click area pseudo-element for icon anchors
+      &::after {
+        transform: none;
+        border: none;
+      }
+
       .dnb-icon svg {
         margin-right: 0.5rem;
       }
