@@ -82,13 +82,13 @@ describe('scroll-position plugin', () => {
       expect(code).toContain('export function useScrollPosition()')
     })
 
-    it('uses localStorage for persistence', () => {
+    it('uses sessionStorage for persistence', () => {
       const plugin = scrollPositionPlugin()
       const load = plugin.load as (id: string) => string | undefined
       const code = load('\0virtual:scroll-position')!
 
-      expect(code).toContain('localStorage.setItem')
-      expect(code).toContain('localStorage.getItem')
+      expect(code).toContain('sessionStorage.setItem')
+      expect(code).toContain('sessionStorage.getItem')
     })
 
     it('handles beforeunload and pagehide events', () => {
@@ -131,7 +131,7 @@ describe('scroll-position plugin', () => {
     let sidebarEl: HTMLElement
 
     beforeEach(() => {
-      localStorage.clear()
+      sessionStorage.clear()
 
       sidebarEl = document.createElement('nav')
       sidebarEl.id = 'portal-sidebar-menu'
@@ -144,33 +144,33 @@ describe('scroll-position plugin', () => {
 
     afterEach(() => {
       document.body.innerHTML = ''
-      localStorage.clear()
+      sessionStorage.clear()
     })
 
-    it('saves scrollTop to localStorage', () => {
+    it('saves scrollTop to sessionStorage', () => {
       sidebarEl.scrollTop = 150
 
       // Simulate saveScrollPosition logic
       const selector = '#portal-sidebar-menu'
       const el = document.querySelector(selector)
       if (el) {
-        localStorage.setItem('scroll-' + selector, String(el.scrollTop))
+        sessionStorage.setItem('scroll-' + selector, String(el.scrollTop))
       }
 
-      expect(localStorage.getItem('scroll-#portal-sidebar-menu')).toBe(
+      expect(sessionStorage.getItem('scroll-#portal-sidebar-menu')).toBe(
         '150'
       )
     })
 
-    it('restores scrollTop from localStorage', () => {
-      localStorage.setItem('scroll-#portal-sidebar-menu', '200')
+    it('restores scrollTop from sessionStorage', () => {
+      sessionStorage.setItem('scroll-#portal-sidebar-menu', '200')
 
       // Simulate restoreScrollPosition logic
       const selector = '#portal-sidebar-menu'
       const el = document.querySelector(selector)
       if (el) {
         const stored = parseFloat(
-          localStorage.getItem('scroll-' + selector) || '0'
+          sessionStorage.getItem('scroll-' + selector) || '0'
         )
         ;(el as HTMLElement).scrollTop = stored
       }
@@ -183,12 +183,48 @@ describe('scroll-position plugin', () => {
       const el = document.querySelector(selector)
       if (el) {
         const stored = parseFloat(
-          localStorage.getItem('scroll-' + selector) || '0'
+          sessionStorage.getItem('scroll-' + selector) || '0'
         )
         ;(el as HTMLElement).scrollTop = stored
       }
 
       expect(sidebarEl.scrollTop).toBe(0)
+    })
+  })
+
+  describe('runtime code – window scroll', () => {
+    it('saves window.scrollY to sessionStorage', () => {
+      const plugin = scrollPositionPlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:scroll-position')!
+
+      expect(code).toContain('scroll-window')
+      expect(code).toContain('window.scrollY')
+    })
+
+    it('restores window scroll via window.scrollTo', () => {
+      const plugin = scrollPositionPlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:scroll-position')!
+
+      expect(code).toContain('window.scrollTo')
+    })
+
+    it('supports restoreWindow option to skip window scroll restore', () => {
+      const plugin = scrollPositionPlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:scroll-position')!
+
+      expect(code).toContain('restoreWindow')
+    })
+
+    it('scrolls window to top on route change instead of restoring', () => {
+      const plugin = scrollPositionPlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:scroll-position')!
+
+      expect(code).toContain('window.scrollTo({ top: 0 })')
+      expect(code).toContain('restoreWindow: false')
     })
   })
 })

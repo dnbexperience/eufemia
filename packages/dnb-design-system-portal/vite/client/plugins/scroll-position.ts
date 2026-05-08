@@ -48,12 +48,16 @@ const SCROLL_ELEMENTS = [
   },
 ]
 
+const WINDOW_SCROLL_KEY = 'scroll-window'
+
 export function saveScrollPosition() {
   try {
+    sessionStorage.setItem(WINDOW_SCROLL_KEY, String(window.scrollY))
+
     for (const { selector } of SCROLL_ELEMENTS) {
       const el = document.querySelector(selector)
       if (el) {
-        localStorage.setItem('scroll-' + selector, String(el.scrollTop))
+        sessionStorage.setItem('scroll-' + selector, String(el.scrollTop))
       }
     }
   } catch (e) {
@@ -61,8 +65,21 @@ export function saveScrollPosition() {
   }
 }
 
-export function restoreScrollPosition({ smooth = false } = {}) {
+export function restoreScrollPosition({ smooth = false, restoreWindow = true } = {}) {
   try {
+    if (restoreWindow) {
+      const storedWindowScroll = parseFloat(
+        sessionStorage.getItem(WINDOW_SCROLL_KEY) || '0'
+      )
+
+      if (storedWindowScroll) {
+        window.scrollTo({
+          top: storedWindowScroll,
+          behavior: smooth ? 'smooth' : 'auto',
+        })
+      }
+    }
+
     for (const { selector, ensureInView } of SCROLL_ELEMENTS) {
       const el = document.querySelector(selector)
       if (!el) {
@@ -70,7 +87,7 @@ export function restoreScrollPosition({ smooth = false } = {}) {
       }
 
       const stored = parseFloat(
-        localStorage.getItem('scroll-' + selector) || '0'
+        sessionStorage.getItem('scroll-' + selector) || '0'
       )
       let scrollTop = stored || 0
 
@@ -120,8 +137,10 @@ export function useScrollPosition() {
     if (prevPath !== location.pathname) {
       saveScrollPosition()
 
+      window.scrollTo({ top: 0 })
+
       requestAnimationFrame(() => {
-        restoreScrollPosition({ smooth: true })
+        restoreScrollPosition({ smooth: true, restoreWindow: false })
       })
     }
   }, [location])
