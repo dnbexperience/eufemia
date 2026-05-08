@@ -1,6 +1,21 @@
-import { makeSlug } from '../utils/slug'
+/**
+ * Algolia record helpers for the portal search index.
+ *
+ * Shared between push-algolia.mjs and the existing portal search
+ * code. Kept as plain JS so Node can import it directly without
+ * a TypeScript build step.
+ */
 
-const excludedSlugPartials = [
+import GHSlugger from 'github-slugger'
+
+const slugger = new GHSlugger()
+
+export function makeSlug(value) {
+  slugger.reset()
+  return slugger.slug(String(value))
+}
+
+export const excludedSlugPartials = [
   'uilib/about-the-lib/releases/',
   'EUFEMIA_CHANGELOG',
 ]
@@ -78,8 +93,7 @@ export function buildAlgoliaRecord({
         if (first && first.depth === 2) {
           nextHeadings = nextHeadings.slice(1)
           nextTitle = nextTitle
-            ? // eslint-disable-next-line no-irregular-whitespace
-              `${nextTitle} → ${first.value}`
+            ? `${nextTitle} \u2192 ${first.value}`
             : first.value
         }
 
@@ -121,20 +135,6 @@ export function buildAlgoliaRecord({
   return result
 }
 
-export function flattenPageEdges(edges = []) {
-  return edges
-    .filter(
-      ({
-        node: {
-          fields: { slug },
-          frontmatter: { draft } = {},
-        },
-      }) => shouldIncludeInAlgolia({ slug, draft })
-    )
-    .map(({ node }) => buildAlgoliaRecord(node))
-    .filter(Boolean)
-}
-
 export function findAncestorPages(slug, nodes = []) {
   return nodes
     .filter(({ fields, frontmatter }) => {
@@ -149,5 +149,3 @@ export function findAncestorPages(slug, nodes = []) {
     })
     .sort((a, b) => b.fields.slug.length - a.fields.slug.length)
 }
-
-export { excludedSlugPartials }
