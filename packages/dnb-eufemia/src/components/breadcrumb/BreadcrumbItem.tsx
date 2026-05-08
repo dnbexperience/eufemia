@@ -144,7 +144,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           <Button
             variant="tertiary"
             href={href}
-            icon={hideIcon ? undefined : iconToUse}
+            icon={hideIcon && variant !== 'home' ? undefined : iconToUse}
             iconPosition="left"
             onClick={onClick}
             text={currentText}
@@ -162,7 +162,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             <Anchor
               href={href}
               onClick={onClick}
-              icon={!hideIcon && variant === 'home' ? iconToUse : null}
+              icon={variant === 'home' ? iconToUse : null}
               skeleton={skeleton}
               {...props}
             >
