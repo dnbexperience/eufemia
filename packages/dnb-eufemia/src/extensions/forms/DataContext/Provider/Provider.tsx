@@ -1715,7 +1715,10 @@ export default function Provider<Data extends JsonObject>(
   // would exclude that consumer (not the Provider) from notifications, silently swallowing
   // genuine data prop changes. Without the flag all subscribers are notified; prevSyncedRef
   // guards against the resulting extra Provider re-render causing a second sync.
-  // sharedData.update is omitted from deps: it is stable and never changes.
+  // sharedData.update is omitted from deps: it is a stable useCallback on [id, sharedState]
+  // and sharedState is a useMemo on [id, initialData, shouldSync] — neither changes on normal rerenders.
+  // Including the sharedData object itself would be wrong: useSharedState returns a new plain-object
+  // literal every render, so it would never be referentially equal and the effect would run every render.
   const prevSyncedRef = useRef({ id, data })
   useLayoutEffect(() => {
     if (id && data !== undefined) {
@@ -1725,8 +1728,8 @@ export default function Provider<Data extends JsonObject>(
         sharedData.update(data)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sharedData.update is stable
-  }, [id, data, sharedData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sharedData.update is stable; see comment above
+  }, [id, data])
 
   useLayoutEffect(() => {
     if (id) {
