@@ -944,8 +944,6 @@ export default function Provider<Data extends JsonObject>(
     //  b) it hasn't been applied yet on this mount and shared state wasn't seeded
     //     externally (hadInitialData guards against overwriting Form.useData(id,
     //     initialData) rendered before the Provider on initial mount).
-    // Inline objects that create a new reference each render but have the same
-    // value are treated as unchanged (isDeepEqual).
     if (data !== undefined) {
       const prevData = cacheRef.current.data
       cacheRef.current.data = data
@@ -1708,20 +1706,10 @@ export default function Provider<Data extends JsonObject>(
   // This intentionally runs even when hadInitialData=true so that subsequent explicit data prop
   // changes still reach external Form.useData consumers, while the initial seed from
   // Form.useData(id, initialData) is still respected on mount (prevSyncedRef guards that).
-  // isDeepEqual prevents re-syncing inline objects that have the same values.
-  // preventSyncOfSameInstance is intentionally NOT used: that flag relies on the shouldSync
-  // closure captured when the shared state was first created. When an external Form.useData
-  // consumer renders before the Provider and creates the shared state, preventSyncOfSameInstance
-  // would exclude that consumer (not the Provider) from notifications, silently swallowing
-  // genuine data prop changes. Without the flag all subscribers are notified; prevSyncedRef
-  // guards against the resulting extra Provider re-render causing a second sync.
-  // sharedData.update is omitted from deps: it is a useCallback on [id, sharedState].
-  // Any id change is already captured by the id dep, triggering the effect with the correct update.
-  // sharedState (a useMemo on [id, initialData, shouldSync]) can also change when initialData
-  // changes, but update always routes to the same per-id singleton in the global sharedStates Map,
-  // so a stale closure still reaches the correct shared state — the dep is safe to omit.
-  // Including sharedData itself would be wrong: useSharedState returns a new plain-object
-  // literal every render, so it would never be referentially equal and the effect would run every render.
+  // preventSyncOfSameInstance is intentionally NOT used: it would exclude external Form.useData
+  // consumers (created before the Provider) from notifications, silently swallowing data prop changes.
+  // sharedData.update is omitted from deps: it always routes to the same per-id singleton
+  // in the global sharedStates Map, so a stale closure is safe and the id dep captures any id change.
   const prevSyncedRef = useRef({ id, data })
   useLayoutEffect(() => {
     if (id && data !== undefined) {
