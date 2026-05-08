@@ -35,7 +35,7 @@ export default defineConfig({
   },
 
   use: {
-    baseURL: `http://localhost:${process.env.PORT || 8000}`,
+    baseURL: `http://localhost:${process.env.PORT || process.env.port || 8000}`,
     browserName: 'firefox',
     viewport: { width: 1280, height: 2048 },
     actionTimeout: 30_000,
