@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Table from '../Table'
 import Td from '../TableTd'
@@ -14,10 +14,15 @@ function TableWithKeyboardNavigation({
 }) {
   const navRef = useTableKeyboardNavigation({ enabled })
   return (
-    <div ref={navRef}>
+    <div ref={navRef as RefObject<HTMLDivElement>}>
       <Table>{children}</Table>
     </div>
   )
+}
+
+function TableWithDirectRef({ children }: { children: ReactNode }) {
+  const navRef = useTableKeyboardNavigation()
+  return <Table ref={navRef}>{children}</Table>
 }
 
 function BasicTable() {
@@ -1077,6 +1082,40 @@ describe('useTableKeyboardNavigation', () => {
       expect(thCells[1].classList.contains('dnb-table__cell--focus')).toBe(
         true
       )
+    })
+  })
+
+  describe('direct ref on Table', () => {
+    it('should navigate with ref on Table element instead of a wrapper', () => {
+      render(
+        <TableWithDirectRef>
+          <tbody>
+            <tr>
+              <Td>Cell 1</Td>
+              <Td>Cell 2</Td>
+            </tr>
+            <tr>
+              <Td>Cell 3</Td>
+              <Td>Cell 4</Td>
+            </tr>
+          </tbody>
+        </TableWithDirectRef>
+      )
+
+      const cells = document.querySelectorAll('td')
+      cells[0].focus()
+
+      fireEvent.keyDown(cells[0], { key: 'ArrowRight' })
+      expect(document.activeElement).toBe(cells[1])
+
+      fireEvent.keyDown(cells[1], { key: 'ArrowDown' })
+      expect(document.activeElement).toBe(cells[3])
+
+      fireEvent.keyDown(cells[3], { key: 'ArrowLeft' })
+      expect(document.activeElement).toBe(cells[2])
+
+      fireEvent.keyDown(cells[2], { key: 'ArrowUp' })
+      expect(document.activeElement).toBe(cells[0])
     })
   })
 })

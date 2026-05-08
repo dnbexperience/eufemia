@@ -1079,101 +1079,99 @@ export const KeyboardNavigation = () => (
         const navRef = useTableKeyboardNavigation()
 
         return (
-          <div ref={navRef}>
-            <Table border outline>
-              <caption className="dnb-sr-only">
-                Keyboard navigable table
-              </caption>
+          <Table border outline ref={navRef}>
+            <caption className="dnb-sr-only">
+              Keyboard navigable table
+            </caption>
 
-              <thead>
-                <tr>
-                  <Th>Name</Th>
-                  <Th>Email</Th>
-                  <Th>Action</Th>
-                </tr>
-              </thead>
+            <thead>
+              <tr>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Action</Th>
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr>
-                  <Td>
-                    <Field.String label="Name" labelSrOnly value="Ola" />
-                  </Td>
-                  <Td>
-                    <Field.Email labelSrOnly value="ola@example.no" />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button
-                      variant="tertiary"
-                      icon={trashIcon}
-                      tooltip="Delete row"
-                    />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>
-                    <Field.String
-                      label="Name"
-                      labelSrOnly
-                      value="Kari"
-                      multiline
-                    />
-                  </Td>
-                  <Td>
-                    <Field.Email
-                      labelSrOnly
-                      value="kari@example.no"
-                      multiline
-                    />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button
-                      variant="tertiary"
-                      icon={trashIcon}
-                      tooltip="Delete row"
-                    />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>
-                    <Field.Number
-                      label="Quantity"
-                      labelSrOnly
-                      showStepControls
-                      width="small"
-                      value={1}
-                    />
-                  </Td>
-                  <Td>
-                    <Field.Number
-                      label="Quantity"
-                      labelSrOnly
-                      showStepControls
-                      width="small"
-                      value={2}
-                    />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button
-                      variant="tertiary"
-                      icon={trashIcon}
-                      tooltip="Delete row"
-                    />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>Kari</Td>
-                  <Td>kari@example.no</Td>
-                  <Td>
-                    <Button
-                      variant="tertiary"
-                      icon={trashIcon}
-                      tooltip="Delete row"
-                    />
-                  </Td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>
+            <tbody>
+              <tr>
+                <Td>
+                  <Field.String label="Name" labelSrOnly value="Ola" />
+                </Td>
+                <Td>
+                  <Field.Email labelSrOnly value="ola@example.no" />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button
+                    variant="tertiary"
+                    icon={trashIcon}
+                    tooltip="Delete row"
+                  />
+                </Td>
+              </tr>
+              <tr>
+                <Td>
+                  <Field.String
+                    label="Name"
+                    labelSrOnly
+                    value="Kari"
+                    multiline
+                  />
+                </Td>
+                <Td>
+                  <Field.Email
+                    labelSrOnly
+                    value="kari@example.no"
+                    multiline
+                  />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button
+                    variant="tertiary"
+                    icon={trashIcon}
+                    tooltip="Delete row"
+                  />
+                </Td>
+              </tr>
+              <tr>
+                <Td>
+                  <Field.Number
+                    label="Quantity"
+                    labelSrOnly
+                    showStepControls
+                    width="small"
+                    value={1}
+                  />
+                </Td>
+                <Td>
+                  <Field.Number
+                    label="Quantity"
+                    labelSrOnly
+                    showStepControls
+                    width="small"
+                    value={2}
+                  />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button
+                    variant="tertiary"
+                    icon={trashIcon}
+                    tooltip="Delete row"
+                  />
+                </Td>
+              </tr>
+              <tr>
+                <Td>Kari</Td>
+                <Td>kari@example.no</Td>
+                <Td>
+                  <Button
+                    variant="tertiary"
+                    icon={trashIcon}
+                    tooltip="Delete row"
+                  />
+                </Td>
+              </tr>
+            </tbody>
+          </Table>
         )
       }
 
