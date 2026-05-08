@@ -184,7 +184,6 @@
     "current-git-branch": "1.1.0",
     "dependency-cruiser": "17.3.8",
     "dnb-design-system-portal": "workspace:*",
-    "dotenv": "10.0.0",
     "dotenv-cli": "4.1.0",
     "eslint": "9.39.2",
     "eslint-plugin-compat": "6.1.0",
