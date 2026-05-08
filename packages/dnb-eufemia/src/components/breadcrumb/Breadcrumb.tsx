@@ -329,6 +329,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
             hideIcon={currentVariant === 'collapse'}
+            useDivider={currentVariant === 'collapse'}
           />
         </Section>
       )}

@@ -10,6 +10,7 @@ type BreadcrumbMultipleProps = {
   collapsed: boolean
   noAnimation: boolean
   hideIcon?: boolean
+  useDivider?: boolean
   data: Array<BreadcrumbItemProps>
   items:
     | ReactElement<BreadcrumbItemProps>
@@ -21,6 +22,7 @@ export const BreadcrumbMultiple = ({
   items,
   noAnimation,
   hideIcon,
+  useDivider,
   data,
 }: BreadcrumbMultipleProps) => {
   return (
@@ -32,7 +34,7 @@ export const BreadcrumbMultiple = ({
       <Section
         className="dnb-breadcrumb__list"
         element="ol"
-        variant="divider"
+        variant={useDivider ? 'divider' : undefined}
       >
         {data?.map((breadcrumbItem, i) => {
           return (
