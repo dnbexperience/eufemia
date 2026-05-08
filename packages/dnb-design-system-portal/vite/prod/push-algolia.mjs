@@ -24,23 +24,24 @@ import remarkParse from 'remark-parse'
 import remarkMdx from 'remark-mdx'
 import { visit } from 'unist-util-visit'
 import { toString as nodeToString } from 'mdast-util-to-string'
-import GHSlugger from 'github-slugger'
 import matter from 'gray-matter'
 import algoliasearch from 'algoliasearch'
 import {
+  makeSlug,
+  shouldIncludeInAlgolia,
   buildAlgoliaRecord,
   findAncestorPages,
-  shouldIncludeInAlgolia,
-} from '../../src/uilib/search/algoliaRecords.js'
+} from './algolia-helpers.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 const docsDir = path.resolve(portalRoot, 'src/docs')
-const slugger = new GHSlugger()
 
-function makeSlug(value) {
-  slugger.reset()
-  return slugger.slug(String(value))
+// Load .env from the portal root when running locally
+try {
+  process.loadEnvFile(path.resolve(portalRoot, '.env'))
+} catch {
+  // .env is optional — CI provides env vars directly
 }
 
 /**
