@@ -950,15 +950,9 @@ export default function Provider<Data extends JsonObject>(
       const prevData = cacheRef.current.data
       cacheRef.current.data = data
 
-      // prevData === undefined handles the transition from no data prop to a defined one
-      // (cacheRef starts with the initial prop; if that was undefined the block was skipped,
-      // so the first defined value should always be treated as a change).
       const valueChanged =
         prevData !== data &&
         (prevData === undefined || !isDeepEqual(data, prevData))
-      // !id: when there is no shared state, always apply data on first render.
-      // !hadInitialData: when shared state was seeded externally (Form.useData sibling),
-      // skip the initial apply so the seeded value takes precedence on mount.
       const notYetApplied =
         !cacheRef.current.hasAppliedDataProp &&
         (!id || !sharedData?.hadInitialData)
