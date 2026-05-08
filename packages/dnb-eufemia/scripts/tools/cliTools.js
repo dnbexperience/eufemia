@@ -1,5 +1,7 @@
 const { execFile } = require('child_process')
 
+const DEFAULT_TIMEOUT = 10000
+
 function assertSafeCommand(command) {
   // Reject potentially dangerous shell control characters when using `/bin/sh -c`.
   // This keeps existing API while preventing command injection from dynamic values.
@@ -8,14 +10,14 @@ function assertSafeCommand(command) {
   }
 }
 
-function runCommand(command) {
+function runCommand(command, options = {}) {
   return new Promise((resolve, reject) => {
     try {
       assertSafeCommand(command)
       execFile(
         '/bin/sh',
         ['-c', command],
-        { timeout: 10000 },
+        { timeout: options.timeout ?? DEFAULT_TIMEOUT },
         (error, stdout, stderr) => {
           if (error) {
             return reject(error)
@@ -68,5 +70,6 @@ const getCommittedFiles = async (countCommits = 10) => {
   }
 }
 
+exports.DEFAULT_TIMEOUT = DEFAULT_TIMEOUT
 exports.runCommand = runCommand
 exports.getCommittedFiles = getCommittedFiles

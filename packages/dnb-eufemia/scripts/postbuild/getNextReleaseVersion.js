@@ -26,7 +26,7 @@ async function getNextReleaseVersion() {
 
   if (releaseBranches.includes(branchName)) {
     try {
-      const log = await runCommand(command)
+      const log = await runCommand(command, { timeout: 120000 })
       const nextVersion = log.match(
         /The next release version is ([^\n]*)/
       )?.[1]
