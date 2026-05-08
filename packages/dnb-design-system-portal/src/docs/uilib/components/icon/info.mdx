@@ -69,16 +69,15 @@ Set `filled` directly on a single `Icon` to fill it. This always applies regardl
 <Icon icon={star} filled />
 ```
 
-#### Using `Icon.Filled` (context provider)
+#### Using the `filled()` wrapper
 
-Wrap multiple components with `Icon.Filled` to fill all supported icons within that subtree. Only icons in the [supported list](/icons#filled-icons) will be filled — unsupported icons are left as-is:
+Import `filled` and wrap individual icons to mark them as filled:
 
 ```jsx
-<Icon.Filled>
-  <Icon icon={star} /> {/* filled — supported */}
-  <Icon icon="chevron_right" /> {/* not filled — not supported */}
-  <Button icon={bell} /> {/* filled — supported */}
-</Icon.Filled>
+import { filled } from '@dnb/eufemia/components/Icon'
+
+<Icon icon={filled(heart)} />
+<Button icon={filled(star)} />
 ```
 
 See the [Icon Library](/icons#filled-icons) for the full list of icons that support the filled variant.

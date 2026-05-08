@@ -17,7 +17,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   filled: {
-    doc: 'If set to `true`, the icon paths will be filled with `currentColor`. Can also be set via the `Icon.Filled` context provider to fill all nested icons.',
+    doc: 'If set to `true`, the icon paths will be filled with `currentColor`. Can also use the `filled()` wrapper to mark individual icons.',
     type: 'boolean',
     status: 'optional',
   },

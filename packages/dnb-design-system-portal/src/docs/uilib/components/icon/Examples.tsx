@@ -15,6 +15,7 @@ import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_me
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 import { Icon, P, H2, IconPrimary, Button, Flex } from '@dnb/eufemia/src'
+import { filled } from '@dnb/eufemia/src/components/icon'
 import styled from '@emotion/styled'
 
 export const IconDefault = () => (
@@ -34,41 +35,29 @@ export const IconBorder = () => (
     data-visual-test="icon-border"
     scope={{ Bell, BellMedium }}
   >
-    <P>
-      <Flex.Horizontal align="center">
-        <Icon border={true} icon={Bell} />
-        <Icon border={true} icon={BellMedium} size="medium" />
-        <IconPrimary border={true} icon="information" />
-        <IconPrimary border={true} icon="information" size="medium" />
-        <Button icon={<IconPrimary icon="add" border />} text="Button" />
-      </Flex.Horizontal>
-    </P>
+    <Flex.Horizontal align="center">
+      <Icon border={true} icon={Bell} />
+      <Icon border={true} icon={BellMedium} size="medium" />
+      <IconPrimary border={true} icon="information" />
+      <IconPrimary border={true} icon="information" size="medium" />
+      <Button icon={<IconPrimary icon="add" border />} text="Button" />
+    </Flex.Horizontal>
   </ComponentBox>
 )
 
 export const IconFilled = () => (
   <ComponentBox
     data-visual-test="icon-filled"
-    scope={{ Star, Heart, BellMedium, Language }}
+    scope={{ Star, Heart, BellMedium, Language, filled }}
   >
     <Flex.Stack>
-      <P>
-        <Flex.Horizontal align="center">
-          <Icon icon={Star} filled />
-          <Icon icon={Heart} filled />
-          <Icon icon={BellMedium} filled />
-        </Flex.Horizontal>
-      </P>
-      <P top="small">
-        <Flex.Horizontal align="center">
-          <Icon.Filled>
-            <Icon icon={Star} />
-            <Icon icon={Heart} />
-            <Icon icon={Language} />
-            {/* Language is not in the filled list, so it stays outlined */}
-          </Icon.Filled>
-        </Flex.Horizontal>
-      </P>
+      <Flex.Horizontal align="center">
+        <Icon icon={Star} filled />
+        <Icon icon={Heart} filled />
+        <Icon icon={BellMedium} filled />
+        <Button icon={filled(Star)} />
+        <Button icon={filled(Heart)} />
+      </Flex.Horizontal>
     </Flex.Stack>
   </ComponentBox>
 )

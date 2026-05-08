@@ -4,7 +4,6 @@ import type {
   HTMLProps,
   JSX,
   ReactElement,
-  ReactNode,
   SVGProps,
 } from 'react'
 import clsx from 'clsx'
@@ -23,8 +22,6 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import IconFilledContext from './IconFilledContext'
-import filledIconSet from './filledIconSet'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -116,7 +113,7 @@ export type IconProps = {
   modifier?: string
 
   /**
-   * If set to `true`, the icon paths will be filled with `currentColor`. Can also be set via the `Icon.Filled` context provider.
+   * If set to `true`, the icon paths will be filled with `currentColor`. Can also use the `filled()` wrapper.
    */
   filled?: boolean
 
@@ -128,23 +125,14 @@ export type IconProps = {
 
 export type IconAllProps = IconProps &
   SpacingProps &
-  Omit<HTMLProps<HTMLElement>, 'size' | 'children'> & {
-    /** @internal Set by Icon when filled comes from context */
-    _filledViaContext?: boolean
-  }
+  Omit<HTMLProps<HTMLElement>, 'size' | 'children'>
 
 export default function Icon(localProps: IconAllProps) {
   const context = useContext(Context)
-  const filledFromContext = useContext(IconFilledContext)
-
-  // When filled comes from context, only apply it if the icon supports it.
-  // When filled is set directly as a prop, always apply it.
-  const filledViaContext =
-    filledFromContext && !('filled' in localProps) ? true : undefined
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
-    { ...localProps, _filledViaContext: filledViaContext },
+    localProps,
     {},
     { skeleton: context?.skeleton },
     context.Icon
@@ -370,7 +358,6 @@ function prepareIconCore(
     border,
     color,
     filled,
-    _filledViaContext,
     inheritColor,
     modifier,
     alt,
@@ -396,13 +383,8 @@ function prepareIconCore(
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
-  // When filled comes from context, only apply it for icons in the allowlist.
-  // When filled is set directly as a prop, always apply it.
-  const isFilled = filled
-    ? true
-    : _filledViaContext && label
-      ? filledIconSet.has(label)
-      : false
+  // When filled is set directly as a prop or via filled(), always apply it.
+  const isFilled = filled ? true : isFilledIcon(icon)
 
   // some wrapper params
   // also used for code markup simulation
@@ -537,15 +519,41 @@ function getIcon(props) {
   return processChildren(props)
 }
 
-function IconFilled({ children }: { children: ReactNode }) {
+/**
+ * Wraps an icon component so it renders as filled when passed to `Icon`.
+ *
+ * ```tsx
+ * import { filled } from '@dnb/eufemia/components/Icon'
+ * <Icon icon={filled(star)} />
+ * ```
+ */
+export function filled(icon: IconIcon): IconIcon {
+  if (typeof icon === 'function') {
+    const wrapper = (props?: IconSVGProps) => (icon as IconFunction)(props)
+    wrapper.__filled = true
+    wrapper.displayName =
+      (icon as { displayName?: string }).displayName || icon.name
+    return wrapper
+  }
+
+  // For React elements, wrap in a thin component with the marker
+  const wrapper = ((props?: IconSVGProps) => {
+    if (isValidElement(icon)) {
+      return icon
+    }
+    return null
+  }) as FilledIcon
+  wrapper.__filled = true
+  return wrapper
+}
+
+type FilledIcon = IconFunction & { __filled?: boolean }
+
+/** @internal Check whether an icon was wrapped with `filled()` */
+export function isFilledIcon(icon: unknown): boolean {
   return (
-    <IconFilledContext.Provider value={true}>
-      {children}
-    </IconFilledContext.Provider>
+    typeof icon === 'function' && (icon as FilledIcon).__filled === true
   )
 }
 
-Icon.Filled = IconFilled
-
 withComponentMarkers(Icon, { _supportsSpacingProps: true })
-withComponentMarkers(Icon.Filled, { _supportsSpacingProps: 'children' })
