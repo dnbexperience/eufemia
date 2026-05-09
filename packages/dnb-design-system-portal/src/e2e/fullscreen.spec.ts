@@ -22,4 +22,56 @@ test.describe('Fullscreen', () => {
 
     expect(page.url()).toContain('/uilib/components/button/demos/')
   })
+
+  test('should not produce hydration errors when visiting a fullscreen URL directly', async ({
+    page,
+  }) => {
+    const errors: string[] = []
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') {
+        errors.push(msg.text())
+      }
+    })
+
+    await page.goto('/uilib/components/button/demos/?fullscreen')
+    await page.waitForSelector('.dnb-app-content')
+
+    const hydrationErrors = errors.filter(
+      (e) =>
+        e.includes('#418') || e.includes('#423') || e.includes('Hydration')
+    )
+    expect(hydrationErrors).toHaveLength(0)
+  })
+
+  test('should show header and sidebar after quitting fullscreen from a direct fullscreen URL', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/button/demos/?fullscreen')
+    await page.waitForSelector('.dnb-app-content')
+
+    // Header and sidebar should be hidden
+    await expect(page.locator('header.sticky-menu')).toHaveCount(0)
+    await expect(page.locator('nav#portal-sidebar-menu')).toHaveCount(0)
+
+    // Quit fullscreen
+    await page.click('a.fullscreen')
+    await page.waitForURL('**/uilib/components/button/demos/')
+
+    // Header and sidebar should reappear
+    await expect(page.locator('header.sticky-menu')).toBeVisible()
+    await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+  })
+
+  test('should highlight the correct tab when visiting a fullscreen URL directly', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/heading/demos/?fullscreen')
+    await page.waitForSelector('.dnb-app-content')
+
+    const selectedTab = page.locator(
+      '.dnb-tabs .dnb-tabs__button.selected'
+    )
+    await expect(selectedTab).toBeVisible()
+    await expect(selectedTab).toContainText('Demos')
+  })
 })

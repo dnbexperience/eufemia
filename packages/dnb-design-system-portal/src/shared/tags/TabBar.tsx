@@ -3,7 +3,7 @@
  *
  */
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import type { TabsTabElement } from '@dnb/eufemia/src/components/tabs/Tabs'
@@ -34,9 +34,11 @@ export default function TabBar({
   defaultTabs = defaultTabsValue,
   children,
 }: TabbarProps) {
-  const [wasFullscreen, setFullscreen] = useState(
-    /fullscreen/.test(location.search)
-  )
+  const [wasFullscreen, setFullscreen] = useState(false)
+
+  useEffect(() => {
+    setFullscreen(/fullscreen/.test(location.search))
+  }, [location.search])
 
   const cleanFullscreen = (s) =>
     s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
@@ -99,7 +101,10 @@ export default function TabBar({
 
   const selectedKey = [
     location.pathname.replace(/(\/+)$/, ''),
-    location.search,
+    cleanFullscreen(location.search),
+    wasFullscreen
+      ? (cleanFullscreen(location.search) ? '&' : '?') + 'fullscreen'
+      : '',
     location.hash,
   ].join('')
 
