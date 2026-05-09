@@ -235,16 +235,14 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
  *   const navRef = useTableKeyboardNavigation()
  *
  *   return (
- *     <div ref={navRef}>
- *       <Table>
- *         <tbody>
- *           <tr>
- *             <Table.Td><input /></Table.Td>
- *             <Table.Td><input /></Table.Td>
- *           </tr>
- *         </tbody>
- *       </Table>
- *     </div>
+ *      <Table ref={navRef}>
+ *        <tbody>
+ *          <tr>
+ *            <Table.Td><input /></Table.Td>
+ *            <Table.Td><input /></Table.Td>
+ *          </tr>
+ *        </tbody>
+ *      </Table>
  *   )
  * }
  * ```
@@ -252,24 +250,39 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
 export function useTableKeyboardNavigation({
   enabled = true,
 }: UseTableKeyboardNavigationOptions = {}) {
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
 
-  const handler = useCallback((event: KeyboardEvent) => {
-    const table =
-      wrapperRef.current?.querySelector<HTMLTableElement>('table')
-
-    if (table) {
-      handleKeyDown(event, table)
+  const getTable = useCallback((): HTMLTableElement | null => {
+    const el = ref.current
+    if (!el) {
+      return null // stop here
     }
+
+    if (el.tagName === 'TABLE') {
+      return el as HTMLTableElement
+    }
+
+    return el.querySelector<HTMLTableElement>('table')
   }, [])
 
+  const handler = useCallback(
+    (event: KeyboardEvent) => {
+      const table = getTable()
+
+      if (table) {
+        handleKeyDown(event, table)
+      }
+    },
+    [getTable]
+  )
+
   useEffect(() => {
-    const wrapper = wrapperRef.current
-    if (!wrapper || !enabled) {
+    const el = ref.current
+    if (!el || !enabled) {
       return undefined // stop here
     }
 
-    const table = wrapper.querySelector<HTMLTableElement>('table')
+    const table = getTable()
     if (!table) {
       return undefined // stop here
     }
@@ -277,13 +290,13 @@ export function useTableKeyboardNavigation({
     setupTabindex(table)
     const cleanupFocus = setupFocusCleanup(table)
 
-    wrapper.addEventListener('keydown', handler)
+    el.addEventListener('keydown', handler)
 
     return () => {
-      wrapper.removeEventListener('keydown', handler)
+      el.removeEventListener('keydown', handler)
       cleanupFocus()
     }
-  }, [enabled, handler])
+  }, [enabled, handler, getTable])
 
-  return wrapperRef
+  return ref
 }
