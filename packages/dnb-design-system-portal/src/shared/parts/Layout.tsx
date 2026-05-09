@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import clsx from 'clsx'
@@ -40,6 +40,30 @@ function Layout(props: LayoutProps) {
 
   const { fullscreen, location, hideSidebar, children } = props
 
+  // Prop-based and IS_TEST fullscreen are known at SSR time
+  const ssrFullscreen = fullscreen || globalThis.IS_TEST
+
+  // URL-based fullscreen is deferred to useEffect to avoid hydration
+  // mismatch — the server does not see the ?fullscreen query parameter.
+  // An inline script in index.html hides the header/sidebar with CSS
+  // before first paint so the user never sees a flash.
+  const [urlFullscreen, setUrlFullscreen] = useState(false)
+
+  useEffect(() => {
+    if (typeof location !== 'undefined') {
+      const isFs = /fullscreen/.test(location.search)
+      setUrlFullscreen(isFs)
+
+      // Remove the inline style injected by index.html when quitting
+      // fullscreen, so the header and sidebar can reappear.
+      if (!isFs) {
+        document.getElementById('fullscreen-preload-style')?.remove()
+      }
+    }
+  }, [location])
+
+  const fs = ssrFullscreen || urlFullscreen
+
   useEffect(() => {
     // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
@@ -64,16 +88,6 @@ function Layout(props: LayoutProps) {
       console.error('Failed to set focus on skip link target:', e)
     }
   }
-
-  const isFullscreen = () => {
-    return (
-      fullscreen ||
-      (typeof location !== 'undefined' &&
-        /fullscreen/.test(location.search))
-    )
-  }
-
-  const fs = fullscreen || isFullscreen() || globalThis.IS_TEST
 
   return (
     <div className={clsx(portalStyle, fs && fullscreenStyle)}>
