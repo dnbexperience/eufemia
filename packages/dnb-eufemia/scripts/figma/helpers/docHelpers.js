@@ -14,10 +14,12 @@ import Color from 'color'
 import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
-import dotenv from 'dotenv'
 
-// import .env variables
-dotenv.config()
+try {
+  process.loadEnvFile()
+} catch {
+  // .env is optional — CI provides env vars directly
+}
 
 const Figma = Client({
   personalAccessToken: process.env.FIGMA_TOKEN,
