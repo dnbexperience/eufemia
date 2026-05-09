@@ -6,6 +6,7 @@
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { GlobalErrorAllProps } from '../GlobalError'
 import GlobalError from '../GlobalError'
+import Heading from '../../heading/Heading'
 import { render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
@@ -80,13 +81,38 @@ describe('GlobalError', () => {
     render(<GlobalError {...props} />)
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content h1')
-        .textContent
+      document.querySelector(
+        '.dnb-global-error__inner__content .dnb-heading'
+      ).textContent
     ).toBe('title')
     expect(
       document.querySelector('.dnb-global-error__inner__content .dnb-p')
         .textContent
     ).toBe('text')
+  })
+
+  it('should render title as h1 by default', () => {
+    render(<GlobalError {...props} />)
+
+    const heading = document.querySelector(
+      '.dnb-global-error__inner__content .dnb-heading'
+    )
+    expect(heading.tagName).toBe('H1')
+  })
+
+  it('should respect Heading.Level context for its title', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading>Page Title</Heading>
+        <GlobalError {...props} />
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[0].textContent).toBe('Page Title')
+    expect(headings[1].tagName).toBe('H2')
+    expect(headings[1].textContent).toBe('title')
   })
 
   it('should render text strings without interpreting HTML', () => {
