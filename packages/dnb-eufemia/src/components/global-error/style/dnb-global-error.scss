@@ -61,7 +61,7 @@
     }
   }
 
-  h1 {
+  .dnb-heading {
     @include utilities.allBelow(small) {
       // margin-top: 0;
       font-size: var(--font-size-large);

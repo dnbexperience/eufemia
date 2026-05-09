@@ -16,7 +16,8 @@ import { applySpacing } from '../space/SpacingUtils'
 import Anchor from '../anchor/Anchor'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Skeleton from '../skeleton/Skeleton'
-import { H1, P } from '../../elements'
+import Heading from '../heading/Heading'
+import { P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -152,9 +153,9 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     >
       <div className="dnb-global-error__inner">
         <div className="dnb-global-error__inner__content">
-          <H1 size="x-large" top bottom>
+          <Heading size="x-large" top bottom>
             {title}
-          </H1>
+          </Heading>
           <P bottom {...textParams} />
           {errorMessageCode && (
             <P bottom className="dnb-global-error__status">

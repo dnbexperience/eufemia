@@ -1015,7 +1015,7 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 @media screen and (max-width: 40em) {
-  .dnb-global-error h1 {
+  .dnb-global-error .dnb-heading {
     font-size: var(--font-size-large);
   }
 }"
