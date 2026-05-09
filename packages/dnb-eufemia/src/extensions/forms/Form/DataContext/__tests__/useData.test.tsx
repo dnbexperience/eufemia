@@ -1676,4 +1676,39 @@ describe('Form.useData', () => {
       })
     })
   })
+
+  it('should sync useData when the data prop changes', () => {
+    const UseDataResult = () => {
+      const { data } = Form.useData(identifier)
+      return <output>{JSON.stringify(data)}</output>
+    }
+
+    const { rerender } = render(
+      <>
+        <UseDataResult />
+        <Form.Handler id={identifier} data={{ example: 'first' }}>
+          <Field.String path="/example" />
+        </Form.Handler>
+      </>
+    )
+
+    expect(document.querySelector('input').value).toBe('first')
+    expect(document.querySelector('output').textContent).toBe(
+      JSON.stringify({ example: 'first' })
+    )
+
+    rerender(
+      <>
+        <UseDataResult />
+        <Form.Handler id={identifier} data={{ example: 'second' }}>
+          <Field.String path="/example" />
+        </Form.Handler>
+      </>
+    )
+
+    expect(document.querySelector('input').value).toBe('second')
+    expect(document.querySelector('output').textContent).toBe(
+      JSON.stringify({ example: 'second' })
+    )
+  })
 })

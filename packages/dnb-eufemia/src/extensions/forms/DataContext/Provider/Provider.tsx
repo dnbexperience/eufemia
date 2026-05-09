@@ -918,6 +918,7 @@ export default function Provider<Data extends JsonObject>(
     schema,
     shared: sharedData.data,
     hasUsedInitialData: false,
+    dataPropChanged: false,
   })
 
   const internalData = useMemo(() => {
@@ -978,7 +979,14 @@ export default function Provider<Data extends JsonObject>(
 
     // When external data has changed, update the internal data
     if (data !== cacheRef.current.data) {
+      const contentChanged =
+        JSON.stringify(data) !== JSON.stringify(cacheRef.current.data)
       cacheRef.current.data = data
+
+      if (contentChanged) {
+        cacheRef.current.dataPropChanged = true
+      }
+
       return data
     }
 
@@ -1668,6 +1676,16 @@ export default function Provider<Data extends JsonObject>(
       }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
+
+  // Sync shared state when the data prop changes
+  useLayoutEffect(() => {
+    if (id && cacheRef.current.dataPropChanged) {
+      cacheRef.current.dataPropChanged = false
+      extendSharedData(internalDataRef.current, {
+        preventSyncOfSameInstance: true,
+      })
+    }
+  })
 
   useLayoutEffect(() => {
     if (id) {
