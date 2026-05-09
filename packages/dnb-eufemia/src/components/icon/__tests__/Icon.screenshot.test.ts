@@ -68,7 +68,7 @@ test.describe('Icon', () => {
   })
 })
 
-// eslint-disable-next-line jest/no-identical-title
+// eslint-disable-next-line playwright-extras/no-identical-title
 test.describe('Icon', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/visual-tests/',
