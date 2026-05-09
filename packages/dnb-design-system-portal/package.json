@@ -22,7 +22,7 @@
     "build:e2e": "IS_E2E=1 node vite/prod/prerender.mjs",
     "build:version": "node ./scripts/version.js --new-version",
     "build:visual-test": "IS_VISUAL_TEST=1 node vite/prod/prerender.mjs",
-    "clean": "rm -rf ./public ./node_modules/.vite",
+    "clean": "rm -rf ./public",
     "lint": "eslint --quiet .",
     "lint:ci": "NODE_ENV=test yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
     "lint:js": "yarn lint",

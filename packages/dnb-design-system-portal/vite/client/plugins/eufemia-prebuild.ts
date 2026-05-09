@@ -51,7 +51,7 @@ export function logPrebuildWarning() {
     '\n😱 There is a "/packages/dnb-eufemia/build" in your local repo. ' +
       'It is used during your Portal build!\n' +
       'Keep in mind, the code from "dnb-eufemia/build" may be outdated.\n\n' +
-      '👉 You can remove the build with: "yarn workspace @dnb/eufemia build:clean"\n'
+      '👉 You can remove the build with: "yarn workspace @dnb/eufemia clean"\n'
   )
 }
 
