@@ -119,6 +119,19 @@ describe('Table', () => {
     )
   })
 
+  it('should forward ref to the table element', () => {
+    const ref = { current: null }
+
+    render(
+      <Table ref={ref}>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(ref.current).toBe(document.querySelector('.dnb-table'))
+    expect(ref.current.tagName).toBe('TABLE')
+  })
+
   it('should set the border class', () => {
     render(
       <Table border>
