@@ -118,6 +118,8 @@ export const correctInternalHeadingLevel = ({
     )
   }
 
+  const hasExplicitReset = reset === true || parseFloat(String(reset)) > -1
+
   if (globalResetNextTime.current) {
     const { level: resetLevel, overwriteContext } =
       globalResetNextTime.current
@@ -134,7 +136,10 @@ export const correctInternalHeadingLevel = ({
   } else if (globalNextLevel.current) {
     const { level: nextLevel, overwriteContext } = globalNextLevel.current
     globalNextLevel.current = null
-    if (canBeManipulatedNextTime(overwriteContext)) {
+
+    // An explicit reset prop takes priority over a stale globalNextLevel
+    // set by a previous render (e.g. from H components with level="use").
+    if (canBeManipulatedNextTime(overwriteContext) && !hasExplicitReset) {
       counter.enableBypassChecks()
       update(nextLevel)
       counter.disableBypassChecks()
@@ -143,7 +148,7 @@ export const correctInternalHeadingLevel = ({
   }
 
   if (!skipUpdateFromProp) {
-    if (reset === true || parseFloat(String(reset)) > -1) {
+    if (hasExplicitReset) {
       counter.reset(reset)
     } else {
       update(level)
