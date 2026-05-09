@@ -101,7 +101,10 @@ export default function TabBar({
 
   const selectedKey = [
     location.pathname.replace(/(\/+)$/, ''),
-    location.search,
+    cleanFullscreen(location.search),
+    wasFullscreen
+      ? (cleanFullscreen(location.search) ? '&' : '?') + 'fullscreen'
+      : '',
     location.hash,
   ].join('')
 

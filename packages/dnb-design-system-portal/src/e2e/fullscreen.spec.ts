@@ -61,4 +61,17 @@ test.describe('Fullscreen', () => {
     await expect(page.locator('header.sticky-menu')).toBeVisible()
     await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
   })
+
+  test('should highlight the correct tab when visiting a fullscreen URL directly', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/heading/demos/?fullscreen')
+    await page.waitForSelector('.dnb-app-content')
+
+    const selectedTab = page.locator(
+      '.dnb-tabs .dnb-tabs__button.selected'
+    )
+    await expect(selectedTab).toBeVisible()
+    await expect(selectedTab).toContainText('Demos')
+  })
 })
