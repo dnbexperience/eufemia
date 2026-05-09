@@ -4,11 +4,13 @@
  */
 
 import { StrictMode, useEffect, useState } from 'react'
+import { renderToString } from 'react-dom/server'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 import type { HeadingProps, HeadingLevel } from '../Heading'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
+import { windupHeadings, teardownHeadings } from '../HeadingHelpers'
 import H3 from '../../../elements/H3'
 
 const warn = jest.fn()
@@ -279,6 +281,50 @@ describe('Heading component', () => {
       </Heading>
     )
     expect(h3.querySelector('.dnb-heading').textContent).toBe('[h3] h1')
+  })
+
+  it('should not let stale globalNextLevel override an explicit reset prop', () => {
+    setNextLevel(3)
+
+    render(
+      <Heading.Level debug={warn} reset={1}>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[0].textContent).toBe('[h1] h1')
+    expect(headings[1].tagName).toBe('H2')
+    expect(headings[1].textContent).toBe('[h2] h2')
+  })
+
+  it('should produce correct heading levels when renderToString runs before hydration', () => {
+    const App = () => (
+      <Heading.Level debug={warn} reset={1}>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+      </Heading.Level>
+    )
+
+    // SSR pass — runs the component tree synchronously but
+    // never fires effects (windupHeadings/teardownHeadings).
+    const html = renderToString(<App />)
+    expect(html).toContain('<h1')
+    expect(html).toContain('<h2')
+
+    // Simulate the effect lifecycle that SSR skipped so the
+    // global counter state is properly torn down.
+    windupHeadings()
+    teardownHeadings()
+
+    // Client hydration pass
+    render(<App />)
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
   })
 
   it('should have correct leveling after using resetLevels', () => {
