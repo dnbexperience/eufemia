@@ -22,9 +22,10 @@
   z-index: 3201;
 
   /* stylelint-disable-next-line */
-  html[data-dnb-modal-active] & {
-    /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
-    z-index: 3000;
+  html[data-dnb-modal-active] &,
+  html[data-portal-tools-open] & {
+    /* When a modal/drawer is open, lower the header behind it */
+    z-index: 2999;
   }
   html[data-dnb-drawer-list-active='portal-search'] & {
     /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */

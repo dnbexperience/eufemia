@@ -20,7 +20,8 @@ test.describe('CodeBlock', () => {
 
     await expect(textareaList.nth(0)).toBeFocused()
 
-    // Tab past the toolbar (Dark mode checkbox) to reach the code editor
+    // Tab past the toolbar (Dark mode checkbox + Fullscreen button) to reach the code editor
+    await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
 
@@ -30,7 +31,8 @@ test.describe('CodeBlock', () => {
 
     await expect(textareaList.nth(1)).toBeFocused()
 
-    // Tab past the toolbar (Dark mode checkbox) to reach the code editor
+    // Tab past the toolbar (Dark mode checkbox + Fullscreen button) to reach the code editor
+    await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
 

@@ -45,17 +45,17 @@ describe('data-visual-test detection', () => {
 
 describe('visual test FOUC prevention script in index.html', () => {
   it('contains an inline script that hides sidebar and header for data-visual-test', () => {
-    const html = readFileSync(
-      resolve(__dirname, '../client/index.html'),
+    const runtime = readFileSync(
+      resolve(__dirname, '../client/plugins/preload-styles.runtime.ts'),
       'utf-8'
     )
 
-    expect(html).toContain('data-visual-test')
-    expect(html).toContain('header.sticky-menu')
-    expect(html).toContain('nav#portal-sidebar-menu')
-    expect(html).toContain('--aside-width:0')
-    expect(html).toContain('.dnb-live-editor')
-    expect(html).toContain('.dnb-live-toolbar')
+    expect(runtime).toContain('data-visual-test')
+    expect(runtime).toContain('header.sticky-menu')
+    expect(runtime).toContain('nav#portal-sidebar-menu')
+    expect(runtime).toContain('--aside-width:0')
+    expect(runtime).toContain('.dnb-live-editor')
+    expect(runtime).toContain('.dnb-live-toolbar')
   })
 
   it('injects a style tag when search includes data-visual-test', () => {
