@@ -62,7 +62,6 @@ import type {
 } from '../Context'
 import DataContext from '../Context'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
-import { isDeepEqual } from '../../../../shared/helpers/isDeepEqual'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -915,11 +914,10 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const cacheRef = useRef({
-    id,
     data,
     schema,
     shared: sharedData.data,
-    hasAppliedDataProp: false,
+    hasUsedInitialData: false,
   })
 
   const internalData = useMemo(() => {
@@ -930,44 +928,9 @@ export default function Provider<Data extends JsonObject>(
       sharedData.update(initialData)
     }
 
-    // When id changes, treat this as a fresh mount so the data prop is
-    // re-applied to the new shared state.
-    if (id !== cacheRef.current.id) {
-      cacheRef.current.id = id
-      cacheRef.current.hasAppliedDataProp = false
-      cacheRef.current.shared = sharedData.data
-    }
-
-    // Return the data prop when it has a value and either:
-    //  a) its value genuinely changed — always honored, even when hadInitialData
-    //     is true (e.g. a controlled data prop overriding a useData-seeded store), or
-    //  b) it hasn't been applied yet on this mount and shared state wasn't seeded
-    //     externally (hadInitialData guards against overwriting Form.useData(id,
-    //     initialData) rendered before the Provider on initial mount).
-    if (data !== undefined) {
-      const prevData = cacheRef.current.data
-      cacheRef.current.data = data
-
-      const valueChanged =
-        prevData !== data &&
-        (prevData === undefined || !isDeepEqual(data, prevData))
-      const notYetApplied =
-        !cacheRef.current.hasAppliedDataProp &&
-        (!id || !sharedData?.hadInitialData)
-
-      if (valueChanged || notYetApplied) {
-        cacheRef.current.hasAppliedDataProp = true
-        return data
-      }
-    }
-
-    // Merge both internal data and the shared state, if both were given
-    // and the shared state was externally initialized (e.g. via Form.useData(id, initialData)).
-    // Without the hadInitialData check, stale shared data from a previous mount
-    // could overwrite the current data prop on remount.
+    // Merge both internal data and the shared state, if it both where given
     if (
       id &&
-      sharedData?.hadInitialData &&
       initialData &&
       sharedData.data &&
       cacheRef.current.shared === sharedData.data &&
@@ -1011,6 +974,12 @@ export default function Provider<Data extends JsonObject>(
         ...internalDataRef.current,
         ...(sharedData.data || {}),
       }
+    }
+
+    // When external data has changed, update the internal data
+    if (data !== cacheRef.current.data) {
+      cacheRef.current.data = data
+      return data
     }
 
     return internalDataRef.current
@@ -1699,28 +1668,6 @@ export default function Provider<Data extends JsonObject>(
       }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
-
-  // Sync shared state when the data prop value genuinely changes (or when id changes).
-  // prevSyncedRef is initialized with the current id/data so the initial mount is always skipped
-  // (the useMemo already applies the data prop on mount). Only genuine value changes propagate.
-  // This intentionally runs even when hadInitialData=true so that subsequent explicit data prop
-  // changes still reach external Form.useData consumers, while the initial seed from
-  // Form.useData(id, initialData) is still respected on mount (prevSyncedRef guards that).
-  // preventSyncOfSameInstance is intentionally NOT used: it would exclude external Form.useData
-  // consumers (created before the Provider) from notifications, silently swallowing data prop changes.
-  // sharedData.update is omitted from deps: it always routes to the same per-id singleton
-  // in the global sharedStates Map, so a stale closure is safe and the id dep captures any id change.
-  const prevSyncedRef = useRef({ id, data })
-  useLayoutEffect(() => {
-    if (id && data !== undefined) {
-      const prev = prevSyncedRef.current
-      if (prev.id !== id || !isDeepEqual(data, prev.data)) {
-        prevSyncedRef.current = { id, data }
-        sharedData.update(data)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sharedData.update is stable; see comment above
-  }, [id, data])
 
   useLayoutEffect(() => {
     if (id) {
