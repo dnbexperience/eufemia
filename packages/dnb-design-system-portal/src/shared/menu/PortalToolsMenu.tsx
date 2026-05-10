@@ -103,6 +103,26 @@ export default function PortalToolsMenu({
       restoredRef.current = true
       setDisableAnimation(true)
       setIsOpen(true)
+
+      // When restoring with noAnimation, the Modal skips setting
+      // data-dnb-modal-active, so the header stays on top. Set a
+      // custom attribute so the header's z-index rule applies.
+      document.documentElement.setAttribute(
+        'data-portal-tools-open',
+        'true'
+      )
+
+      // Re-enable animation after the drawer has opened without
+      // animation, so subsequent interactions animate normally.
+      const timeoutId = window.setTimeout(() => {
+        setDisableAnimation(false)
+      }, disableAnimationResetDelay)
+
+      return () => window.clearTimeout(timeoutId)
+    } else {
+      // Nothing to restore — enable animation so the first manual
+      // open animates normally.
+      setDisableAnimation(false)
     }
   }, [storageKey])
 
@@ -145,6 +165,7 @@ export default function PortalToolsMenu({
     setDisableAnimation(false)
     setIsOpen(false)
     setStoredPortalToolsOpen(false, storageKey)
+    document.documentElement.removeAttribute('data-portal-tools-open')
   }, [storageKey])
 
   return (

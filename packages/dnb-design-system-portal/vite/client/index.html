@@ -12,26 +12,6 @@
 </head>
 
 <body class="dnb-page-background">
-  <script>
-    // Prevent layout flicker for fullscreen and visual test mode —
-    // hide sidebar and header before first paint so React's deferred
-    // useEffect toggle never causes a visible flash.
-    if (
-      location.search.includes('fullscreen') ||
-      location.search.includes('data-visual-test')
-    ) {
-      var s = document.createElement('style')
-      var css =
-        'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}'
-      if (location.search.includes('data-visual-test')) {
-        css +=
-          '.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
-      }
-      s.id = 'fullscreen-preload-style'
-      s.textContent = css
-      document.head.appendChild(s)
-    }
-  </script>
   <noscript id="portal-noscript">
     Eufemia works best with JavaScript enabled.
   </noscript>

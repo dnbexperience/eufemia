@@ -4,6 +4,7 @@
 
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
+import { useFullscreenCode } from './FullscreenCodeContext'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
@@ -131,6 +132,16 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   usePortalHead(headData)
 
+  const makeUseOfCategory = Boolean(
+    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
+  )
+  const rootPath =
+    '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
+  const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
+
+  const { fullscreenCodeId } = useFullscreenCode()
+  const codeFullscreen = fullscreenCodeId !== null
+
   if (!mdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
@@ -140,16 +151,9 @@ export default function PortalLayout(props: PortalLayoutProps) {
     setPortalHeadData(pageContext, headData)
   }
 
-  const makeUseOfCategory = Boolean(
-    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
-  )
-  const rootPath =
-    '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
-  const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
-
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
-      {fmData.breadcrumb && (
+      {!codeFullscreen && fmData.breadcrumb && (
         <Breadcrumb key="breadcrumb" top="large">
           {fmData.breadcrumb.map((item, i, a) => {
             return (
@@ -170,7 +174,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
         </Breadcrumb>
       )}
 
-      {currentFm.showTabs && (
+      {!codeFullscreen && currentFm.showTabs && (
         <TabBar
           key="tab-bar"
           location={location}

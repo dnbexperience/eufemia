@@ -17,6 +17,7 @@ import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html'
 import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover'
 import catchLinksPlugin from './vite/client/plugins/catch-links'
 import scrollPositionPlugin from './vite/client/plugins/scroll-position'
+import preloadStylesPlugin from './vite/client/plugins/preload-styles'
 import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
 import buildInfoPlugin from './vite/client/plugins/build-info'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
@@ -64,6 +65,9 @@ export default defineConfig({
 
     // Persist sidebar scroll position across route changes
     scrollPositionPlugin(),
+
+    // Inject preload styles to prevent layout flicker
+    preloadStylesPlugin(),
 
     // Filter pages for test builds (IS_VISUAL_TEST, IS_E2E)
     testPageFilterPlugin(),
