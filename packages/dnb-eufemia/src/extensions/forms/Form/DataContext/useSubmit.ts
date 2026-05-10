@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from 'react'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
-  useSharedState,
+  createSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
@@ -31,9 +31,11 @@ export type UseSubmitReturn = {
  * @throws Error when used outside Form.Handler and no valid id is provided.
  */
 export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
-  const { get } = useSharedState<ContextState>(
-    createReferenceKey(id, 'data-context')
-  )
+  const sharedDataContext = id
+    ? createSharedState<ContextState>(
+        createReferenceKey(id, 'data-context')
+      )
+    : null
   const dataContext = useContext(DataContext)
 
   if (!id && !dataContext?.hasContext) {
@@ -41,14 +43,14 @@ export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
   }
 
   const submit = useCallback(() => {
-    const context = id ? get() : dataContext
+    const context = id ? sharedDataContext?.get() : dataContext
 
     if (!context?.hasContext) {
       return Promise.reject(new Error(invalidUseSubmitErrorMessage))
     }
 
     return context.handleSubmit?.() ?? Promise.resolve(undefined)
-  }, [dataContext, get, id])
+  }, [dataContext, id, sharedDataContext])
 
   return useMemo(() => ({ submit }), [submit])
 }

@@ -1,15 +1,10 @@
-import {
-  useCallback,
-  useContext,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  createSharedState,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -76,20 +71,18 @@ export default function useData<Data = JsonObject>(
     typeof useSharedState<Data>
   > | null>(null)
   const sharedAttachmentsRef = useRef<ReturnType<
-    typeof useSharedState<SharedAttachments<Data>>
+    typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
-  const [, forceUpdate] = useReducer(() => ({}), {})
 
-  sharedDataRef.current = useSharedState<Data>(
-    id,
-    initialData,
-    forceUpdate
-  )
+  sharedDataRef.current = useSharedState<Data>(id, initialData)
 
-  sharedAttachmentsRef.current = useSharedState<SharedAttachments<Data>>(
-    createReferenceKey(id, 'attachments'),
-    { rerenderUseDataHook: forceUpdate }
-  )
+  // Use createSharedState (non-reactive) for attachments — we only ever access
+  // them imperatively, so subscribing to changes would cause unnecessary re-renders.
+  sharedAttachmentsRef.current = id
+    ? createSharedState<SharedAttachments<Data>>(
+        createReferenceKey(id, 'attachments')
+      )
+    : null
 
   // If no id is provided, use the context data
   const dataContext = useContext(DataContext)
@@ -101,25 +94,33 @@ export default function useData<Data = JsonObject>(
     }
 
     sharedDataRef.current.data = dataContext.data
-    sharedAttachmentsRef.current.data.filterDataHandler =
-      dataContext.filterDataHandler
+    if (sharedAttachmentsRef.current?.data) {
+      sharedAttachmentsRef.current.data.filterDataHandler =
+        dataContext.filterDataHandler
+    }
   }
 
   const updateDataValue = dataContext?.updateDataValue
   const setData = dataContext?.setData
 
   const getExistingData = useCallback(() => {
+    // Use the live store value (always current) when available.
+    // Prefer get() over the stale useSyncExternalStore snapshot (.data) and
+    // the stale internalDataRef.current, because Provider may not have
+    // re-rendered yet to reflect a previous update().
+    const liveStoreData = id ? sharedDataRef.current.get() : null
     return structuredClone(
-      sharedAttachmentsRef.current?.data?.internalDataRef?.current ||
-        sharedDataRef.current.data ||
+      liveStoreData ??
+        dataContext?.data ??
+        sharedAttachmentsRef.current?.data?.internalDataRef?.current ??
         {}
     ) as Data & JsonObject
-  }, [])
+  }, [dataContext?.data, id])
 
   const set = useCallback(
     (newData: Data) => {
       if (id) {
-        sharedDataRef.current.update(newData)
+        sharedDataRef.current.set(newData)
       } else {
         setData?.(newData)
       }
@@ -212,7 +213,7 @@ export default function useData<Data = JsonObject>(
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current.hadInitialData && initialData) {
-      sharedDataRef.current.extend(initialData)
+      sharedDataRef.current.extend(initialData, { forceSync: true })
     }
   })
 

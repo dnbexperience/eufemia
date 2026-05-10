@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect, useReducer } from 'react'
 import {
   renderHook,
   act,
@@ -1677,38 +1677,166 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should sync useData when the data prop changes', () => {
-    const UseDataResult = () => {
-      const { data } = Form.useData(identifier)
-      return <output>{JSON.stringify(data)}</output>
-    }
+  describe('data and defaultData', () => {
+    it('should set data to be defaultData when no data is provided', () => {
+      let collectData = null
 
-    const { rerender } = render(
-      <>
-        <UseDataResult />
-        <Form.Handler id={identifier} data={{ example: 'first' }}>
-          <Field.String path="/example" />
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler defaultData={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
         </Form.Handler>
-      </>
-    )
+      )
 
-    expect(document.querySelector('input').value).toBe('first')
-    expect(document.querySelector('output').textContent).toBe(
-      JSON.stringify({ example: 'first' })
-    )
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
 
-    rerender(
-      <>
-        <UseDataResult />
-        <Form.Handler id={identifier} data={{ example: 'second' }}>
-          <Field.String path="/example" />
+    it('should not override data when providing defaultData', () => {
+      let collectData = null
+
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler data={{ foo: 'bar' }} defaultData={{ foo: 'foo' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
         </Form.Handler>
-      </>
-    )
+      )
 
-    expect(document.querySelector('input').value).toBe('second')
-    expect(document.querySelector('output').textContent).toBe(
-      JSON.stringify({ example: 'second' })
-    )
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
+
+    it('should sync useData when the data prop changes', () => {
+      const UseDataResult = () => {
+        const { data } = Form.useData(identifier)
+        return <output>{JSON.stringify(data)}</output>
+      }
+
+      const { rerender } = render(
+        <>
+          <UseDataResult />
+          <Form.Handler id={identifier} data={{ example: 'first' }}>
+            <Field.String path="/example" />
+          </Form.Handler>
+        </>
+      )
+
+      expect(document.querySelector('input').value).toBe('first')
+      expect(document.querySelector('output').textContent).toBe(
+        JSON.stringify({ example: 'first' })
+      )
+
+      rerender(
+        <>
+          <UseDataResult />
+          <Form.Handler id={identifier} data={{ example: 'second' }}>
+            <Field.String path="/example" />
+          </Form.Handler>
+        </>
+      )
+
+      expect(document.querySelector('input').value).toBe('second')
+      expect(document.querySelector('output').textContent).toBe(
+        JSON.stringify({ example: 'second' })
+      )
+    })
+
+    describe('without StrictMode', () => {
+      it('should return data when id is used', () => {
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+
+          return (
+            <Form.Handler data={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
+
+      it('should set data to be defaultData when no data is provided and id is used', () => {
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+
+          return (
+            <Form.Handler defaultData={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
+    })
+
+    describe('StrictMode', () => {
+      it('should return data when id is used', () => {
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+
+          return (
+            <Form.Handler data={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
+
+      it('should set data to be defaultData when no data is provided and id is used', () => {
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+
+          return (
+            <Form.Handler defaultData={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
+    })
   })
 })
