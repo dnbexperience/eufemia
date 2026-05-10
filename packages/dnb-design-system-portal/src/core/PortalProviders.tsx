@@ -18,6 +18,7 @@ import {
   getSkeletonEnabled,
   loadTranslations,
 } from './portalRuntimeUtils'
+import { FullscreenCodeProvider } from './FullscreenCodeContext'
 
 // This ensures we process the css prop during build.
 const createCacheInstance = () =>
@@ -44,21 +45,23 @@ export const rootElement =
       <CacheProvider
         value={type === 'ssr' ? createCacheInstance() : emotionCache}
       >
-        <EufemiaProvider>
-          <IsolatedStyleScope
-            disableCoreStyleWrapper // Make exception, because using "dnb-core-style" does not work well for screenshot tests (as of now).
-            scopeHash={
-              process.env.ENABLE_BUILD_STYLE_SCOPE ||
-              process.env.ENABLE_PORTAL_STYLE_SCOPE
-                ? 'eufemia-scope--portal'
-                : undefined
-            }
-          >
-            <SkeletonEnabled>
-              <ThemeProvider>{element}</ThemeProvider>
-            </SkeletonEnabled>
-          </IsolatedStyleScope>
-        </EufemiaProvider>
+        <FullscreenCodeProvider>
+          <EufemiaProvider>
+            <IsolatedStyleScope
+              disableCoreStyleWrapper // Make exception, because using "dnb-core-style" does not work well for screenshot tests (as of now).
+              scopeHash={
+                process.env.ENABLE_BUILD_STYLE_SCOPE ||
+                process.env.ENABLE_PORTAL_STYLE_SCOPE
+                  ? 'eufemia-scope--portal'
+                  : undefined
+              }
+            >
+              <SkeletonEnabled>
+                <ThemeProvider>{element}</ThemeProvider>
+              </SkeletonEnabled>
+            </IsolatedStyleScope>
+          </EufemiaProvider>
+        </FullscreenCodeProvider>
       </CacheProvider>
     )
   }

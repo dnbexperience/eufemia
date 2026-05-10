@@ -72,7 +72,14 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
+
+  :global(.dnb-forms-field-selection) {
+    :global(.dnb-toggle-button__shell) {
+      display: flex;
+    }
+  }
 
   margin: 0 0.0625rem; // So the border of the example box is not covered by the toolbar
   padding: 0.5rem 1rem;
