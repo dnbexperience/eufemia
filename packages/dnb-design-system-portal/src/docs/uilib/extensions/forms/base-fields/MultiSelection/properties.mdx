@@ -1,0 +1,37 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { MultiSelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/MultiSelection/MultiSelectionDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={MultiSelectionProperties} showDefaultValue />
+
+### General properties
+
+```ts
+type MultiSelectItem = {
+  value: number | string
+  title: ReactNode
+  text?: ReactNode
+  description?: ReactNode
+  disabled?: boolean
+  children?: Array<MultiSelectItem> // Optional nested items for grouping
+}
+```
+
+<PropertiesTable
+  props={FieldProperties}
+  omit={['width', 'contentWidth']}
+  valueType="Array<MultiSelectItem>"
+/>
+
+## Translations
+
+<TranslationsTable localeKey={['MultiSelectionField', 'Field']} />

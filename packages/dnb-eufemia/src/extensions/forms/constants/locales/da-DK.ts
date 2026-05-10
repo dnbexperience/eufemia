@@ -108,6 +108,18 @@ export default {
       yes: 'Ja',
       no: 'Nej',
     },
+    MultiSelectionField: {
+      placeholder: 'Vælg en eller flere',
+      selectAll: 'Vælg alle',
+      searchPlaceholder: 'Søg...',
+      noOptions: 'Ingen muligheder',
+      confirmButton: 'Bekræft ({count} valgt)',
+      cancelButton: 'Annuller',
+      selectionCount: '{count} af {total} valgt',
+      clearAll: 'Ryd alt',
+      errorMinItems: 'Du skal vælge mindst {minItems}.',
+      errorMaxItems: 'Du kan ikke vælge mere end {maxItems}.',
+    },
 
     /**
      * Feature fields
