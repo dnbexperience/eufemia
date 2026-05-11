@@ -181,7 +181,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const [tempValue, setTempValue] = useState<Array<number | string>>(
     value || []
   )
-  const [showSelectedItemsList, setShowSelectedItemsList] = useState(true)
+  const [showSelectedItemsList, setShowSelectedItemsList] = useState(false)
   const [ariaLiveCheckedCount, setAriaLiveCheckedCount] = useState('')
   const confirmedRef = useRef(false)
   const popoverContentRef = useRef<HTMLDivElement>(null)

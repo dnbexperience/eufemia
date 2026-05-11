@@ -1555,14 +1555,14 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__selected-items-header button:first-child'
       ) as HTMLElement
 
-      // Initially expanded
-      expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
+      // Initially collapsed
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
 
       fireEvent.click(toggleButton)
 
       await waitFor(
         () => {
-          expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
+          expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
         },
         { timeout: 3000 }
       )
@@ -1797,8 +1797,8 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__accordion'
       ) as HTMLElement
 
-      // Expanded by default
-      expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
+      // Collapsed by default
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
 
       const controlledId = toggleButton.getAttribute('aria-controls')
       expect(controlledId).toBeTruthy()
@@ -1811,13 +1811,13 @@ describe('MultiSelection', () => {
         'dnb-forms-field-multi-selection__selected-items'
       )
 
-      // Collapse
-      fireEvent.click(toggleButton)
-      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
-
       // Expand
       fireEvent.click(toggleButton)
       expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
+
+      // Collapse
+      fireEvent.click(toggleButton)
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
     })
   })
 
