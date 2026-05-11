@@ -537,9 +537,6 @@ exports[`Anchor scss > should match theme css for sbanken 1`] = `
   --anchor-icon-gutter: 0.125em;
   --anchor-icon-separator: '\\00a0';
 }
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
-  text-decoration-color: var(--sb-color-green-dark);
-}
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
   --anchor-background-gutter-right: 0rem;
 }
@@ -559,9 +556,6 @@ exports[`Anchor scss > should match theme css for sbanken 1`] = `
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor {
     --anchor-icon-gutter: 0.125em;
     --anchor-icon-separator: '\\00a0';
-  }
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right {
-    text-decoration-color: var(--sb-color-green-dark);
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
     --anchor-background-gutter-right: 0rem;
@@ -607,9 +601,6 @@ exports[`Anchor scss > should match theme css for sbanken 1`] = `
     --anchor-icon-gutter: 0.125em;
     --anchor-icon-separator: '\\00a0';
   }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
-    text-decoration-color: var(--sb-color-green-dark);
-  }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
     --anchor-background-gutter-right: 0rem;
   }
@@ -629,9 +620,6 @@ exports[`Anchor scss > should match theme css for sbanken 1`] = `
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor {
       --anchor-icon-gutter: 0.125em;
       --anchor-icon-separator: '\\00a0';
-    }
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right {
-      text-decoration-color: var(--sb-color-green-dark);
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
       --anchor-background-gutter-right: 0rem;
