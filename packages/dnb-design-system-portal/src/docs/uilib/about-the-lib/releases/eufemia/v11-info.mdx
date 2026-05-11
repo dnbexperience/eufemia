@@ -3138,6 +3138,12 @@ You can override these on `:root` or any wrapper element to adjust Eufemia's lay
 }
 ```
 
+> **Note for `basis`-only imports:** These z-index tokens are included in the `core` stylesheet (`@dnb/eufemia/style/core`) and the full style bundle, but **not** in the `basis` stylesheet (`@dnb/eufemia/style/basis`). If you import only `basis`, components like Modal, Dialog, Tooltip, and Popover will have broken z-index layering (e.g. rendering behind other content). To fix this, either switch to importing `core`, or add the z-index tokens explicitly:
+>
+> ```js
+> import '@dnb/eufemia/style/core/z-index.scss'
+> ```
+
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`.
 - Replace import from path `style/themes/theme-sbanken/` with `style/themes/sbanken/`.
 - Replace import from path `style/themes/theme-eiendom/` with `style/themes/eiendom/`.
