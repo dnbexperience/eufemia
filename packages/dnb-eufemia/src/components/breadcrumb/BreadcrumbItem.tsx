@@ -102,7 +102,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = extendPropsWithContext(localProps, {}, context?.BreadcrumbItem)
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
-  const hideIcon = breadcrumbItemContext?.hideIcon
 
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
@@ -139,7 +138,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     >
       {isInteractive ? (
         <>
-          {!hideIcon && variant !== 'home' && (
+          {variant !== 'home' && (
             <IconPrimary
               icon={iconToUse}
               className="dnb-breadcrumb__item__span__icon"
@@ -157,12 +156,10 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
         </>
       ) : (
         <span className="dnb-breadcrumb__item__span">
-          {!hideIcon && (
-            <IconPrimary
-              icon={iconToUse}
-              className="dnb-breadcrumb__item__span__icon"
-            />
-          )}
+          <IconPrimary
+            icon={iconToUse}
+            className="dnb-breadcrumb__item__span__icon"
+          />
           <P space="0">{currentText}</P>
         </span>
       )}

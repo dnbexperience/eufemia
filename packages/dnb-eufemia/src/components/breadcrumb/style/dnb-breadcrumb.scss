@@ -101,6 +101,11 @@
 
   &__collapse &__item {
     padding: 0;
+
+    // Hide chevron icons in collapse mode, but keep the home icon
+    &:not(:first-child) .dnb-breadcrumb__item__span__icon {
+      display: none;
+    }
   }
 
   &__multiple {
@@ -157,8 +162,6 @@
 
     padding: 1rem 0 2rem 1rem;
 
-    &--divider {
-      --background-color: var(--token-color-background-page-background);
-    }
+    --background-color: var(--token-color-background-page-background);
   }
 }
