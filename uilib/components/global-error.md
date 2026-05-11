@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.341Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:54.779Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 
@@ -19,6 +19,18 @@ import { GlobalError } from '@dnb/eufemia'
 The GlobalError is a simple component to integrate when a `404` or `500` has to be shown.
 
 This page component is **responsive** and should be used as a **client wide** (fullscreen) component.
+
+### Heading level
+
+The GlobalError component uses the [Heading](/uilib/components/heading) component for its title. By default it renders as an `h1`, but it automatically respects the surrounding `Heading.Level` context. This means you can place it inside a `Heading.Level` to avoid duplicate `h1` elements on your page:
+
+```tsx
+<Heading.Level reset={1}>
+  <Heading>Page Title</Heading>
+  {/* GlobalError title will render as h2 */}
+  <GlobalError statusCode="500" />
+</Heading.Level>
+```
 
 You may also take a look at how it behaves once [404](/404) or [500](/500) is used in an application.
 

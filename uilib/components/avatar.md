@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
 description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.213Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:54.661Z
 checksum: c59305543e09288b063df9b00145783c12205cd482bccea6c9f2e7ee0774949f
 ---
 

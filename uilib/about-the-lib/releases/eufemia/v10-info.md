@@ -1,8 +1,8 @@
 ---
 title: 'v10'
 description: 'May, 31. 2023'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:09.405Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:53.865Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

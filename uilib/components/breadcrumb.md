@@ -1,8 +1,8 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.233Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:54.679Z
 checksum: d64f91f44b0713a618053013c3d2b68a096909bdf9d4f815b94eb02f72bd00b3
 ---
 

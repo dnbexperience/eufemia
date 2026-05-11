@@ -1,7 +1,7 @@
 ---
 title: 'Getting started'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:09.360Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:53.823Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -437,6 +437,9 @@ yarn test:screenshots breadcrumb avatar
 
 # You can also start it in watch mode
 yarn test:screenshots:watch breadcrumb avatar
+
+# To run against a portal on a different port, set the PORT (or port) env variable
+PORT=8001 yarn test:screenshots breadcrumb
 ```
 
 Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`

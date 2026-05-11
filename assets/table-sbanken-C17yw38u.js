@@ -1,0 +1,2 @@
+import{r as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as n}from"./index-DVm0MbGb.js";import{t as r}from"./ColorTable-CsqqBww2.js";var i=e({default:()=>s}),a=t();function o(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Sbanken Colors`}),`
+`,(0,a.jsx)(r,{theme:`sbanken`})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{i as n,s as t};

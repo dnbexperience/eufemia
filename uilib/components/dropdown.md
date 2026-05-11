@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.315Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:54.756Z
 checksum: 1e3d4837783b622f108440442703c9b366fa7ad611927f646b6ea18919b836fa
 ---
 

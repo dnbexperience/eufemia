@@ -1,7 +1,0 @@
-import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-2AO2Cu5K.js";var n=e();function r(e){let r={a:`a`,h1:`h1`,h2:`h2`,p:`p`,strong:`strong`,...t(),...e.components};return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(r.h1,{children:`Tools`}),`
-`,(0,n.jsxs)(r.p,{children:[`DNB's main (original) design templates and guides are created and maintained in Figma.
-Designers are `,(0,n.jsx)(r.strong,{children:`strongly encouraged`}),` to work in Figma to maintain compatibility and ease of sharing.`]}),`
-`,(0,n.jsxs)(r.p,{children:[`Link: `,(0,n.jsx)(r.a,{href:`https://www.figma.com`,children:`Figma.com`})]}),`
-`,(0,n.jsx)(r.h2,{children:`Why not Sketch?`}),`
-`,(0,n.jsx)(r.p,{children:`We are working on the 'single-source-of-truth' principle. For that reason, only one design application will be used to generate Eufemia's main documents.`}),`
-`,(0,n.jsxs)(r.p,{children:[`In general, if a team decides `,(0,n.jsx)(r.strong,{children:`together`}),` to use a specific application or technology because they feel that the product or service will be built better or that they are more comfortable using it, they may do so. Even then, it is recommended that data and file formats remain agnostic and reusable in other common applications and technologies.`]})]})}function i(e={}){let{wrapper:i}={...t(),...e.components};return i?(0,n.jsx)(i,{...e,children:(0,n.jsx)(r,{...e})}):r(e)}export{i as default};

@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-DVm0MbGb.js";import{n}from"./PropertiesTable-C9mjC5N9.js";var r=e(),i={size:{doc:"The sizes you can choose is `default`, `medium` and `large`.",type:[`"medium"`,`"large"`],status:`optional`}};function a(e){return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)({h2:`h2`,...t(),...e.components}.h2,{children:`Properties`}),`
+`,(0,r.jsx)(n,{props:i})]})}function o(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(a,{...e})}):a(e)}export{o as default};

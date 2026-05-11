@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BgMs7Gb-.js";import{Lr as t}from"./index-DVm0MbGb.js";import n from"./ListUiLibVersions-DNei77Rd.js";var r=e();function i(e){return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)({h1:`h1`,...t(),...e.components}.h1,{children:`dnb-ui-lib releases`}),`
+`,(0,r.jsx)(n,{size:`small`,returnListItems:!0})]})}function a(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,r.jsx)(n,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

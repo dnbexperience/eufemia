@@ -1,8 +1,8 @@
 ---
 title: 'HorizontalRule'
 description: 'The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.934Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:55.321Z
 checksum: 5fd9fdfe6031fc1b45bdcca23d523d244f08aafdbae5b1435dc866e3b0bf7164
 ---
 

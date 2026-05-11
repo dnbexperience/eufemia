@@ -739,5 +739,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.2.1
-GeneratedAt: 2026-05-08T08:59:17.047Z
+Version: 11.2.2
+GeneratedAt: 2026-05-11T08:18:01.005Z

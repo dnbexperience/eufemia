@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.278Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:54.720Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 

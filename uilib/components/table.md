@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.2.1
-generatedAt: 2026-05-08T08:59:10.835Z
+version: 11.2.2
+generatedAt: 2026-05-11T08:17:55.228Z
 checksum: 79b310f161d0a51d9a77a2099923350d8871e296877d7e84d9a24132d5abc654
 ---
 
@@ -934,64 +934,62 @@ import Table, {
 ```tsx
 const KeyboardNavigationTable = () => {
   const navRef = useTableKeyboardNavigation();
-  return <div ref={navRef}>
-            <Table border outline>
-              <caption className="dnb-sr-only">
-                Keyboard navigable table
-              </caption>
+  return <Table border outline ref={navRef}>
+            <caption className="dnb-sr-only">
+              Keyboard navigable table
+            </caption>
 
-              <thead>
-                <tr>
-                  <Th>Name</Th>
-                  <Th>Email</Th>
-                  <Th>Action</Th>
-                </tr>
-              </thead>
+            <thead>
+              <tr>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Action</Th>
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr>
-                  <Td>
-                    <Field.String label="Name" labelSrOnly value="Ola" />
-                  </Td>
-                  <Td>
-                    <Field.Email labelSrOnly value="ola@example.no" />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>
-                    <Field.String label="Name" labelSrOnly value="Kari" multiline />
-                  </Td>
-                  <Td>
-                    <Field.Email labelSrOnly value="kari@example.no" multiline />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>
-                    <Field.Number label="Quantity" labelSrOnly showStepControls width="small" value={1} />
-                  </Td>
-                  <Td>
-                    <Field.Number label="Quantity" labelSrOnly showStepControls width="small" value={2} />
-                  </Td>
-                  <Td verticalAlign="middle">
-                    <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
-                  </Td>
-                </tr>
-                <tr>
-                  <Td>Kari</Td>
-                  <Td>kari@example.no</Td>
-                  <Td>
-                    <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
-                  </Td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>;
+            <tbody>
+              <tr>
+                <Td>
+                  <Field.String label="Name" labelSrOnly value="Ola" />
+                </Td>
+                <Td>
+                  <Field.Email labelSrOnly value="ola@example.no" />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                </Td>
+              </tr>
+              <tr>
+                <Td>
+                  <Field.String label="Name" labelSrOnly value="Kari" multiline />
+                </Td>
+                <Td>
+                  <Field.Email labelSrOnly value="kari@example.no" multiline />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                </Td>
+              </tr>
+              <tr>
+                <Td>
+                  <Field.Number label="Quantity" labelSrOnly showStepControls width="small" value={1} />
+                </Td>
+                <Td>
+                  <Field.Number label="Quantity" labelSrOnly showStepControls width="small" value={2} />
+                </Td>
+                <Td verticalAlign="middle">
+                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                </Td>
+              </tr>
+              <tr>
+                <Td>Kari</Td>
+                <Td>kari@example.no</Td>
+                <Td>
+                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                </Td>
+              </tr>
+            </tbody>
+          </Table>;
 };
 render(<KeyboardNavigationTable />);
 ```
