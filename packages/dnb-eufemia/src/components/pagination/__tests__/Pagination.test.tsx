@@ -344,6 +344,15 @@ describe('Infinity scroller', () => {
       })
 
     const intersect = async () => {
+      // Ensure the observer callback is initialized before calling it
+      let attempts = 0
+      while (!callObserver && attempts < 50) {
+        await wait(10)
+        attempts++
+      }
+      if (!callObserver) {
+        throw new Error('IntersectionObserver was not initialized')
+      }
       callObserver([{ isIntersecting: true }])
       await waitForComponent()
     }
