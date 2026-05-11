@@ -370,6 +370,28 @@ describe('CodeBlock', () => {
     ).toBe(false)
   })
 
+  it('should assign fullscreen id to the LiveCode wrapper element', () => {
+    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
+      fullscreenCodeId: null,
+      setFullscreenCodeId: vi.fn(),
+      savedScrollY: { current: 0 },
+    })
+
+    const { container } = render(
+      <CodeBlock
+        reactLive
+        scope={{}}
+        language="jsx"
+        data-visual-test="my-live-block"
+      >
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    const wrapper = container.querySelector('#my-live-block')
+    expect(wrapper).toBeTruthy()
+  })
+
   it('should scroll to top when entering focusmode', () => {
     const scrollTo = vi
       .spyOn(window, 'scrollTo')
