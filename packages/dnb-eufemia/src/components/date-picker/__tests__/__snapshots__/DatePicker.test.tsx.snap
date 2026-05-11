@@ -2280,7 +2280,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 .dnb-toggle-button__button .dnb-radio__input {
   pointer-events: none;
 }
-.dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+.dnb-toggle-button__button .dnb-radio__button {
   width: calc(var(--radio-width--medium) - 0.5rem);
   height: calc(var(--radio-height--medium) - 0.5rem);
   border-width: 0.0625rem;
