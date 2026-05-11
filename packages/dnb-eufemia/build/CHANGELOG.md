@@ -3,6 +3,17 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.2.2](https://github.com/dnbexperience/eufemia/compare/v11.2.1...v11.2.2) (2026-05-11)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** ensure Form.useData is in sync when data prop changes (using id) ([#8009](https://github.com/dnbexperience/eufemia/issues/8009)) ([d6a34df](https://github.com/dnbexperience/eufemia/commit/d6a34df5b4669844130b52daa437c74b1cc28f48))
+* **GlobalError:** use Heading instead of H1 to respect heading level context ([#8036](https://github.com/dnbexperience/eufemia/issues/8036)) ([fed7ec4](https://github.com/dnbexperience/eufemia/commit/fed7ec463595a222ab8e54d73e7d2ef8305588d7))
+* **Heading:** ensure correct leveling during React hydration ([#8035](https://github.com/dnbexperience/eufemia/issues/8035)) ([eefbe67](https://github.com/dnbexperience/eufemia/commit/eefbe676038bc048ad94e3e82ba5d11980b66f0e))
+* include z-index tokens in basis stylesheet ([#8044](https://github.com/dnbexperience/eufemia/issues/8044)) ([72c23c1](https://github.com/dnbexperience/eufemia/commit/72c23c11a0943b18b8986e5ddc954b6ded856a0e)), closes [#7356](https://github.com/dnbexperience/eufemia/issues/7356)
+* **Table:** add ref prop support and update keyboard navigation hook ([#8028](https://github.com/dnbexperience/eufemia/issues/8028)) ([507ee0a](https://github.com/dnbexperience/eufemia/commit/507ee0a786ac24840d87d447f2bc040c68ce4569))
+
 ## [11.2.1](https://github.com/dnbexperience/eufemia/compare/v11.2.0...v11.2.1) (2026-05-08)
 
 
