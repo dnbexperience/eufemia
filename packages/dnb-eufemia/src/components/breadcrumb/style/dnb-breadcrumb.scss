@@ -13,6 +13,7 @@
 
   &__bar.dnb-section {
     display: flex;
+    --background-color: var(--token-color-background-neutral);
   }
 
   &--variant-single &__bar .dnb-button {
