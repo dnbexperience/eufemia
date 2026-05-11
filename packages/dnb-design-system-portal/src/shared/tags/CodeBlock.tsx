@@ -278,6 +278,7 @@ function LiveCode(props: LiveCodeProps) {
   return (
     <div
       ref={wrapperRef}
+      id={fullscreenId}
       className={clsx(
         liveCodeEditorStyle,
         hideCode && 'hide-code',
