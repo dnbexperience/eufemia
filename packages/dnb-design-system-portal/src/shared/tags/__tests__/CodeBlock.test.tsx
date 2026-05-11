@@ -13,6 +13,7 @@ import type {
   ReactNode,
 } from 'react'
 import { act, render } from '@testing-library/react'
+import * as FullscreenCodeContext from '../../../core/FullscreenCodeContext'
 
 // Mock CSS modules
 vi.mock('../CodeBlock.module.scss', () => ({
@@ -153,6 +154,7 @@ describe('CodeBlock', () => {
   beforeEach(() => {
     mockLiveEditorOnChange = undefined
     mockLiveProviderCode = undefined
+    vi.restoreAllMocks()
   })
 
   afterAll(() => {
@@ -293,6 +295,44 @@ describe('CodeBlock', () => {
     expect(queryByLabelText('Dark surface')).toBeTruthy()
   })
 
+  it('should not render LiveProvider when another code block is in focusmode', () => {
+    // Simulate a block that is NOT in this render tree being in fullscreen.
+    // Using an unmatched id means neither block below enters isFullscreen,
+    // so ChangeStyleTheme never renders and we avoid pulling in extra mocks.
+    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
+      fullscreenCodeId: 'some-other-block',
+      setFullscreenCodeId: vi.fn(),
+      savedScrollY: { current: 0 },
+    })
+
+    const { container } = render(
+      <>
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          data-visual-test="block-a"
+        >
+          {'<div>A</div>'}
+        </CodeBlock>
+
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          data-visual-test="block-b"
+        >
+          {'<div>B</div>'}
+        </CodeBlock>
+      </>
+    )
+
+    // Both blocks see anotherIsFullscreen=true and suppress their LiveProvider
+    expect(
+      container.querySelectorAll('[data-testid="live-provider"]')
+    ).toHaveLength(0)
+  })
+
   it('should toggle color scheme class when clicking Dark mode checkbox', () => {
     const { container } = render(
       <CodeBlock reactLive scope={{}} language="jsx">
@@ -328,5 +368,41 @@ describe('CodeBlock', () => {
     expect(
       themeWrapper.classList.contains('eufemia-theme__color-scheme--dark')
     ).toBe(false)
+  })
+
+  it('should scroll to top when entering focusmode', () => {
+    const scrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => {})
+
+    const mockSetFullscreenCodeId = vi.fn()
+    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
+      fullscreenCodeId: null,
+      setFullscreenCodeId: mockSetFullscreenCodeId,
+      savedScrollY: { current: 0 },
+    })
+
+    const { container } = render(
+      <CodeBlock
+        reactLive
+        scope={{}}
+        language="jsx"
+        data-visual-test="block-a"
+      >
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    const fullscreenButton = container.querySelector(
+      'button[aria-label="Fullscreen"]'
+    ) as HTMLButtonElement
+    expect(fullscreenButton).toBeTruthy()
+
+    act(() => {
+      fullscreenButton.click()
+    })
+
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0 })
+    expect(mockSetFullscreenCodeId).toHaveBeenCalledWith('block-a')
   })
 })

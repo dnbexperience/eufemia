@@ -177,6 +177,7 @@ function LiveCode(props: LiveCodeProps) {
   const { fullscreenCodeId, setFullscreenCodeId, savedScrollY } =
     useFullscreenCode()
   const isFullscreen = fullscreenCodeId === fullscreenId
+  const anotherIsFullscreen = fullscreenCodeId !== null && !isFullscreen
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -269,6 +270,11 @@ function LiveCode(props: LiveCodeProps) {
     return code
   }, [props.code])
 
+  const transformCode = useCallback(
+    (code: string) => (!noInline && noFragments ? `<>${code}</>` : code),
+    [noInline, noFragments]
+  )
+
   return (
     <div
       ref={wrapperRef}
@@ -281,162 +287,166 @@ function LiveCode(props: LiveCodeProps) {
         surface && `surface--${surface}`
       )}
     >
-      <LiveProvider
-        theme={prismTheme}
-        code={codeToUse}
-        scope={scope}
-        language={language}
-        transformCode={useCallback(
-          (code: string) =>
-            !noInline && noFragments ? `<>${code}</>` : code,
-          [noInline, noFragments]
-        )}
-        noInline={noInline}
-        {...restProps}
-      >
-        {!hidePreview && (
-          <Theme colorScheme={colorScheme} surface={surface}>
-            {omitWrapper ? (
-              <LivePreview
-                className={clsx('dnb-live-preview')}
-                data-visual-test={visualTest}
-              />
-            ) : (
-              <div className={clsx('example-box', exampleBoxStyle)}>
+      {!anotherIsFullscreen && (
+        <LiveProvider
+          theme={prismTheme}
+          code={codeToUse}
+          scope={scope}
+          language={language}
+          transformCode={transformCode}
+          noInline={noInline}
+          {...restProps}
+        >
+          {!hidePreview && (
+            <Theme colorScheme={colorScheme} surface={surface}>
+              {omitWrapper ? (
                 <LivePreview
                   className={clsx('dnb-live-preview')}
                   data-visual-test={visualTest}
                 />
-              </div>
-            )}
-          </Theme>
-        )}
-
-        {!global.IS_TEST && !hideToolbar && (
-          <Space
-            // align="center"
-            element="section"
-            aria-label="Customize appearance"
-            className={clsx('dnb-live-toolbar', toolbarStyle)}
-          >
-            {(omitWrapper && (
-              <Button
-                variant="tertiary"
-                icon={hideCode ? 'chevron_down' : 'chevron_up'}
-                onClick={() => setHideCode((checked) => !checked)}
-                size="medium"
-                left
-              >
-                {hideCode ? 'Show Code' : 'Hide Code'}
-              </Button>
-            )) || (
-              <>
-                {hideCodeProp && (
-                  <ToggleButton
-                    checked={!hideCode}
-                    onChange={({ checked }) => setHideCode(!checked)}
-                    size="medium"
-                  >
-                    {hideCode ? 'Show Code' : 'Hide Code'}
-                  </ToggleButton>
-                )}
-
-                {hidePreviewProp && (
-                  <ToggleButton
-                    checked={!hidePreview}
-                    onChange={({ checked }) => setHidePreview(!checked)}
-                    size="medium"
-                  >
-                    Preview
-                  </ToggleButton>
-                )}
-
-                {isFullscreen && (
-                  <ChangeStyleTheme
-                    variant="button"
-                    size="medium"
-                    optionsLayout="horizontal"
-                    labelSrOnly
+              ) : (
+                <div className={clsx('example-box', exampleBoxStyle)}>
+                  <LivePreview
+                    className={clsx('dnb-live-preview')}
+                    data-visual-test={visualTest}
                   />
-                )}
+                </div>
+              )}
+            </Theme>
+          )}
 
-                <Checkbox
-                  checked={
-                    colorScheme === (inheritedDark ? 'light' : 'dark')
-                  }
-                  onChange={({ checked }) => {
-                    setColorScheme(
-                      checked
-                        ? inheritedDark
-                          ? 'light'
-                          : 'dark'
-                        : undefined
-                    )
-                  }}
+          {!global.IS_TEST && !hideToolbar && (
+            <Space
+              // align="center"
+              element="section"
+              aria-label="Customize appearance"
+              className={clsx('dnb-live-toolbar', toolbarStyle)}
+            >
+              {(omitWrapper && (
+                <Button
+                  variant="tertiary"
+                  icon={hideCode ? 'chevron_down' : 'chevron_up'}
+                  onClick={() => setHideCode((checked) => !checked)}
                   size="medium"
-                  label={inheritedDark ? 'Light mode' : 'Dark mode'}
-                />
+                  left
+                >
+                  {hideCode ? 'Show Code' : 'Hide Code'}
+                </Button>
+              )) || (
+                <>
+                  {hideCodeProp && (
+                    <ToggleButton
+                      checked={!hideCode}
+                      onChange={({ checked }) => setHideCode(!checked)}
+                      size="medium"
+                    >
+                      {hideCode ? 'Show Code' : 'Hide Code'}
+                    </ToggleButton>
+                  )}
 
-                {surfaceProp === 'dark' && (
+                  {hidePreviewProp && (
+                    <ToggleButton
+                      checked={!hidePreview}
+                      onChange={({ checked }) => setHidePreview(!checked)}
+                      size="medium"
+                    >
+                      Preview
+                    </ToggleButton>
+                  )}
+
+                  {isFullscreen && (
+                    <ChangeStyleTheme
+                      variant="button"
+                      size="medium"
+                      optionsLayout="horizontal"
+                      labelSrOnly
+                    />
+                  )}
+
                   <Checkbox
-                    checked={colorScheme !== 'dark' && surface === 'dark'}
-                    onChange={({ checked }) =>
-                      setSurface(checked ? 'dark' : undefined)
+                    checked={
+                      colorScheme === (inheritedDark ? 'light' : 'dark')
                     }
+                    onChange={({ checked }) => {
+                      setColorScheme(
+                        checked
+                          ? inheritedDark
+                            ? 'light'
+                            : 'dark'
+                          : undefined
+                      )
+                    }}
                     size="medium"
-                    label="Dark surface"
+                    label={inheritedDark ? 'Light mode' : 'Dark mode'}
                   />
-                )}
-              </>
-            )}
 
-            <Button
-              onClick={() => {
-                if (!isFullscreen) {
-                  savedScrollY.current = window.scrollY
+                  {surfaceProp === 'dark' && (
+                    <Checkbox
+                      checked={
+                        colorScheme !== 'dark' && surface === 'dark'
+                      }
+                      onChange={({ checked }) =>
+                        setSurface(checked ? 'dark' : undefined)
+                      }
+                      size="medium"
+                      label="Dark surface"
+                    />
+                  )}
+                </>
+              )}
 
-                  try {
-                    sessionStorage.setItem(
-                      'scroll-window',
-                      String(window.scrollY)
-                    )
-                  } catch {
-                    // ignore
+              <Button
+                onClick={() => {
+                  if (!isFullscreen) {
+                    savedScrollY.current = window.scrollY
+
+                    try {
+                      sessionStorage.setItem(
+                        'scroll-window',
+                        String(window.scrollY)
+                      )
+                    } catch {
+                      // ignore
+                    }
+
+                    window.scrollTo({ top: 0 })
                   }
+
+                  setFullscreenCodeId(isFullscreen ? null : fullscreenId)
+                }}
+                variant="tertiary"
+                title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+                aria-label={
+                  isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'
                 }
+                icon={isFullscreen ? 'close' : fullscreenIcon}
+                size="medium"
+              />
+            </Space>
+          )}
 
-                setFullscreenCodeId(isFullscreen ? null : fullscreenId)
-              }}
-              variant="tertiary"
-              title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-              aria-label={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-              icon={isFullscreen ? 'close' : fullscreenIcon}
-              size="medium"
-            />
-          </Space>
-        )}
+          {!global.IS_TEST && !hideCode && (
+            <Space
+              title="Code Editor"
+              element="section"
+              className={clsx(
+                'dnb-live-editor',
+                createSkeletonClass('code', context.skeleton)
+              )}
+              ref={editorElementRef}
+            >
+              <LiveEditor
+                prism={Prism}
+                id={id}
+                tabMode={tabMode}
+                className="dnb-live-editor__editable dnb-pre"
+              />
+            </Space>
+          )}
 
-        {!global.IS_TEST && !hideCode && (
-          <Space
-            title="Code Editor"
-            element="section"
-            className={clsx(
-              'dnb-live-editor',
-              createSkeletonClass('code', context.skeleton)
-            )}
-            ref={editorElementRef}
-          >
-            <LiveEditor
-              prism={Prism}
-              id={id}
-              tabMode={tabMode}
-              className="dnb-live-editor__editable dnb-pre"
-            />
-          </Space>
-        )}
-
-        <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
-      </LiveProvider>
+          <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
+        </LiveProvider>
+      )}
     </div>
   )
 }
