@@ -19,10 +19,6 @@ import clsx from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { useSpacing } from '../space/SpacingUtils'
-import type {
-  SectionBackgroundColor,
-  SectionVariants,
-} from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
@@ -122,18 +118,6 @@ export type BreadcrumbProps = {
   collapsed?: boolean
 
   /**
-   * Use one of the Section background colors.
-   * Default: `var(--token-color-background-neutral)`
-   */
-  backgroundColor?: SectionBackgroundColor
-
-  /**
-   * Use one of the Section component variants
-   * Default: `undefined`
-   */
-  collapsedStyleType?: SectionVariants
-
-  /**
    * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
    * Default: `false`
    */
@@ -167,7 +151,6 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   homeText: 'Home',
   backToText: 'Back to...',
   collapsed: true,
-  backgroundColor: 'var(--token-color-background-neutral)',
   spacing: false,
 }
 
@@ -194,8 +177,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
-    backgroundColor,
-    collapsedStyleType,
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,
@@ -273,11 +254,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <Section
-        className="dnb-breadcrumb__bar"
-        backgroundColor={backgroundColor}
-        innerSpace={innerSpace}
-      >
+      <Section className="dnb-breadcrumb__bar" innerSpace={innerSpace}>
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}
@@ -318,9 +295,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       {(currentVariant === 'collapse' ||
         currentVariant === 'responsive') && (
         <Section
-          variant={
-            currentVariant === 'collapse' ? 'divider' : collapsedStyleType
-          }
+          variant={currentVariant === 'collapse' ? 'divider' : undefined}
           className="dnb-breadcrumb__collapse"
         >
           <BreadcrumbMultiple
