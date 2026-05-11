@@ -26,6 +26,44 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).toHaveProperty('peerDependencies')
     expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
   })
+
+  it('includes @babel/runtime-corejs3 as a runtime dependency', async () => {
+    // The published build artifacts contain imports from
+    // "@babel/runtime-corejs3/helpers/esm/*" because they were compiled with
+    // @babel/plugin-transform-runtime using corejs: 3. Consumers bundling with
+    // tools like esbuild or Vite will get a build error if this package is not
+    // listed as a dependency in the published package.json.
+    // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
+    //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
+    const filepath = path.resolve(packpath.self(), 'package.json')
+    const packageString = await fs.readFile(filepath, 'utf-8')
+    const cleanedPackage = await cleanupPackage({
+      packageString,
+    })
+
+    const deps = cleanedPackage.dependencies as Record<string, string>
+    expect(deps).toMatchObject({
+      '@babel/runtime-corejs3': expect.any(String),
+    })
+  })
+
+  it('includes postcss-selector-parser as a runtime dependency', async () => {
+    // The published package ships the postcss-isolated-style-scope plugin
+    // (build/plugins/) which requires "postcss-selector-parser" at runtime.
+    // Consumers who use this plugin for style isolation need this package to be
+    // listed as a dependency so their package manager installs it automatically.
+    // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
+    const filepath = path.resolve(packpath.self(), 'package.json')
+    const packageString = await fs.readFile(filepath, 'utf-8')
+    const cleanedPackage = await cleanupPackage({
+      packageString,
+    })
+
+    const deps = cleanedPackage.dependencies as Record<string, string>
+    expect(deps).toMatchObject({
+      'postcss-selector-parser': expect.any(String),
+    })
+  })
 })
 
 describe('buildExportsMap', () => {
@@ -113,6 +151,21 @@ describe('package.json', () => {
         'react-dom': expect.anything(),
       })
     )
+  })
+
+  it('has @babel/runtime-corejs3 as a dependency', () => {
+    // The published build artifacts (e.g. build/shared/useTranslation.js) contain
+    // imports from "@babel/runtime-corejs3/helpers/esm/*" because they were compiled
+    // with @babel/plugin-transform-runtime using corejs: 3. Consumers who do not have
+    // this package installed (e.g. via bundlers like esbuild or Vite) will get a
+    // build error if this runtime dependency is missing from the published package.
+    // See: https://github.com/dnbexperience/eufemia/issues/7994
+    expect(
+      (packageJson as { dependencies?: Record<string, string> })
+        .dependencies
+    ).toMatchObject({
+      '@babel/runtime-corejs3': expect.any(String),
+    })
   })
 
   it('has main and module fields to be equal', () => {

@@ -103,6 +103,10 @@ describe('renderPortalApp', () => {
   })
 
   it('passes onRecoverableError to hydrateRoot to suppress mismatch warnings', () => {
+    vi.spyOn(console, 'group').mockImplementation(() => {})
+    vi.spyOn(console, 'groupEnd').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+
     const container = document.createElement('div')
     container.innerHTML = '<div>Pre-rendered</div>'
 

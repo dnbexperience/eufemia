@@ -71,7 +71,8 @@ const log = ora()
 
 export const config = {
   testScreenshotOnHost: 'localhost',
-  testScreenshotOnPort: 8000,
+  testScreenshotOnPort:
+    Number(process.env.PORT || process.env.port) || 8000,
   pixelGrid: 8,
   pageViewport: {
     width: 1280,

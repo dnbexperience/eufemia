@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react'
-import type { ReactNode, RefObject, TableHTMLAttributes } from 'react'
+import type { ReactNode, Ref, RefObject, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -18,6 +18,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
@@ -92,7 +93,9 @@ export type TableProps = {
 export type TableAllProps = TableProps &
   Omit<TableHTMLAttributes<HTMLTableElement>, 'border'> &
   LocaleProps &
-  SpacingProps
+  SpacingProps & {
+    ref?: Ref<HTMLElement>
+  }
 
 const defaultProps: Partial<TableAllProps> = {
   size: 'large',
@@ -125,10 +128,13 @@ const Table = (componentProps: TableAllProps) => {
     mode,
     accordionChevronPlacement,
     collapseAllHandleRef,
+    ref,
     ...props
   } = allProps
 
   const { elementRef } = useStickyHeader(allProps)
+  const mergedRef = useCombinedRef(elementRef, ref)
+
   const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
   const collapseTrCallbacks = useRef<(() => void)[]>([])
 
@@ -148,7 +154,7 @@ const Table = (componentProps: TableAllProps) => {
 
   const tableProps = applySpacing(allProps, {
     ...props,
-    ref: elementRef,
+    ref: mergedRef,
     className: clsx(
       'dnb-table',
       variant && `dnb-table__variant--${variant}`,

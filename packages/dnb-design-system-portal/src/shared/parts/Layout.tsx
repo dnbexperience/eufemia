@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import clsx from 'clsx'
@@ -27,6 +27,30 @@ import {
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
 import { scrollToAnimation } from './layout-utils'
+import { useFullscreenCode } from '../../core/FullscreenCodeContext'
+
+const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
+const SIDEBAR_SCROLL_KEY = 'scroll-' + SIDEBAR_SELECTOR
+
+function restoreSidebarScroll() {
+  try {
+    const el = document.querySelector(SIDEBAR_SELECTOR) as HTMLElement
+    if (!el) {
+      return // stop here
+    }
+
+    const stored = parseFloat(
+      sessionStorage.getItem(SIDEBAR_SCROLL_KEY) || '0'
+    )
+    if (stored) {
+      el.style.scrollBehavior = 'auto'
+      el.scrollTop = stored
+      el.style.scrollBehavior = ''
+    }
+  } catch {
+    // ignore
+  }
+}
 
 type LayoutProps = {
   fullscreen?: boolean
@@ -39,6 +63,65 @@ function Layout(props: LayoutProps) {
   const mainRef = useRef<HTMLElement>(undefined)
 
   const { fullscreen, location, hideSidebar, children } = props
+
+  // Prop-based and IS_TEST fullscreen are known at SSR time
+  const ssrFullscreen = fullscreen || globalThis.IS_TEST
+
+  // URL-based fullscreen is deferred to useEffect to avoid hydration
+  // mismatch — the server does not see the ?fullscreen query parameter.
+  // An inline script in index.html hides the header/sidebar with CSS
+  // before first paint so the user never sees a flash.
+  const [urlFullscreen, setUrlFullscreen] = useState(false)
+
+  useEffect(() => {
+    if (typeof location !== 'undefined') {
+      const isFs = /fullscreen/.test(location.search)
+      setUrlFullscreen(isFs)
+
+      // Remove the inline style injected by index.html when quitting
+      // fullscreen, so the header and sidebar can reappear.
+      if (!isFs) {
+        document.getElementById('fullscreen-preload-style')?.remove()
+      }
+    }
+  }, [location])
+
+  const { fullscreenCodeId, savedScrollY } = useFullscreenCode()
+  const codeFullscreen = fullscreenCodeId !== null
+
+  const fs = ssrFullscreen || urlFullscreen || codeFullscreen
+
+  // Restore scroll and sidebar position after exiting any fullscreen mode
+  const wasFullscreenRef = useRef(false)
+  useEffect(() => {
+    if (fs) {
+      wasFullscreenRef.current = true
+    } else if (wasFullscreenRef.current) {
+      wasFullscreenRef.current = false
+      const scrollTarget = savedScrollY.current
+      savedScrollY.current = 0
+
+      // Use double requestAnimationFrame to ensure the DOM has fully
+      // settled after the sidebar, header, and footer are re-rendered
+      let cancelled = false
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cancelled) {
+            return // stop here
+          }
+
+          if (scrollTarget) {
+            window.scrollTo({ top: scrollTarget })
+          }
+
+          restoreSidebarScroll()
+        })
+      })
+      return () => {
+        cancelled = true
+      }
+    }
+  }, [fs, savedScrollY])
 
   useEffect(() => {
     // gets applied on "onRouteUpdate"
@@ -64,16 +147,6 @@ function Layout(props: LayoutProps) {
       console.error('Failed to set focus on skip link target:', e)
     }
   }
-
-  const isFullscreen = () => {
-    return (
-      fullscreen ||
-      (typeof location !== 'undefined' &&
-        /fullscreen/.test(location.search))
-    )
-  }
-
-  const fs = fullscreen || isFullscreen() || globalThis.IS_TEST
 
   return (
     <div className={clsx(portalStyle, fs && fullscreenStyle)}>
@@ -102,7 +175,7 @@ function Layout(props: LayoutProps) {
               </div>
             </MainContent>
 
-            <Footer />
+            {!codeFullscreen && <Footer />}
           </Content>
 
           {fs && <ToggleGrid hidden />}

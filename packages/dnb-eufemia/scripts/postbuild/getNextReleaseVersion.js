@@ -9,9 +9,12 @@
 
 const { runCommand } = require('../tools/cliTools')
 const getBranchName = require('current-git-branch')
-const dotenv = require('dotenv')
 
-dotenv.config()
+try {
+  process.loadEnvFile()
+} catch {
+  // .env is optional — CI provides env vars directly
+}
 
 const command = 'yarn workspace @dnb/eufemia semantic-release --dry-run'
 const releaseBranches = ['release', 'beta', 'alpha']

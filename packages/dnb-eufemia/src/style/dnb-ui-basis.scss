@@ -6,6 +6,7 @@
 // core imports
 @use 'sass:meta';
 @use './core/scopes.scss' as scopes;
+@use './core/z-index.scss';
 
 // make sure we have dynamic root font size
 @include scopes.htmlDefault();

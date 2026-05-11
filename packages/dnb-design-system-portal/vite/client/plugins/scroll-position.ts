@@ -8,10 +8,11 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { transformWithEsbuild } from 'vite'
 import type { Plugin } from 'vite'
 
 const VIRTUAL_MODULE_ID = 'virtual:scroll-position'
-const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID + '.ts'
+const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 
 export default function scrollPositionPlugin(): Plugin {
   return {
@@ -23,13 +24,17 @@ export default function scrollPositionPlugin(): Plugin {
       }
     },
 
-    load(id) {
+    async load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
         const runtimeFile = path.resolve(
           __dirname,
           'scroll-position.runtime.ts'
         )
-        return fs.readFileSync(runtimeFile, 'utf-8')
+        const code = fs.readFileSync(runtimeFile, 'utf-8')
+        const result = await transformWithEsbuild(code, runtimeFile, {
+          loader: 'ts',
+        })
+        return result.code
       }
     },
   }

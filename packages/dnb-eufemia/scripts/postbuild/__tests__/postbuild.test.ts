@@ -942,3 +942,37 @@ describe('style build', () => {
     })
   })
 })
+
+describe('package.json dependencies', () => {
+  it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
+    // The published build artifacts contain imports from
+    // "@babel/runtime-corejs3/helpers/esm/*" because they were compiled with
+    // @babel/plugin-transform-runtime using corejs: 3. Consumers bundling with
+    // tools like esbuild or Vite will get a build error if this package is not
+    // listed as a dependency in the published package.json.
+    // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
+    //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
+    const packageJson = fs.readJsonSync(
+      path.resolve(packpath.self(), 'package.json')
+    )
+
+    expect(packageJson.dependencies).toMatchObject({
+      '@babel/runtime-corejs3': expect.any(String),
+    })
+  })
+
+  it('includes postcss-selector-parser as a runtime dependency', () => {
+    // The published package ships the postcss-isolated-style-scope plugin
+    // (build/plugins/) which requires "postcss-selector-parser" at runtime.
+    // Consumers who use this plugin for style isolation need this package to be
+    // listed as a dependency so their package manager installs it automatically.
+    // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
+    const packageJson = fs.readJsonSync(
+      path.resolve(packpath.self(), 'package.json')
+    )
+
+    expect(packageJson.dependencies).toMatchObject({
+      'postcss-selector-parser': expect.any(String),
+    })
+  })
+})

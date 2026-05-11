@@ -7,6 +7,7 @@ import globals from 'globals'
 import babelParser from '@babel/eslint-parser'
 import importPlugin from 'eslint-plugin-import'
 import jestPlugin from 'eslint-plugin-jest'
+import playwrightPlugin from 'eslint-plugin-playwright'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import prettierPlugin from 'eslint-plugin-prettier'
 import reactPlugin from 'eslint-plugin-react'
@@ -17,6 +18,7 @@ import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
 import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
+import playwrightExtrasPlugin from './scripts/eslint/plugins/playwright-extras/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -516,6 +518,18 @@ export default [
     },
     rules: {
       'naming-conventions/no-bare-props-export': 'error',
+    },
+  },
+  {
+    files: ['**/*.screenshot.test.{ts,tsx}', '**/*.e2e.spec.{ts,tsx}'],
+    ...playwrightPlugin.configs['flat/recommended'],
+    plugins: {
+      ...playwrightPlugin.configs['flat/recommended'].plugins,
+      'playwright-extras': playwrightExtrasPlugin,
+    },
+    rules: {
+      ...playwrightPlugin.configs['flat/recommended'].rules,
+      'playwright-extras/no-identical-title': 'error',
     },
   },
 ]

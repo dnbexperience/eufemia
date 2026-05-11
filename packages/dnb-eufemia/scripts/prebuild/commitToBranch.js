@@ -3,14 +3,16 @@
  *
  */
 
-const dotenv = require('dotenv')
 const { isCI } = require('repo-utils')
 const ora = require('ora')
 const path = require('path')
 const simpleGit = require('simple-git') // More info: https://github.com/steveukx/git-js#readme
 
-// import .env variables
-dotenv.config()
+try {
+  process.loadEnvFile()
+} catch {
+  // .env is optional — CI provides env vars directly
+}
 
 const log = ora()
 

@@ -13,6 +13,11 @@ const WINDOW_SCROLL_KEY = 'scroll-window'
 
 export function saveScrollPosition() {
   try {
+    // Don't save scroll position during code block fullscreen mode
+    if (document.documentElement.hasAttribute('data-code-fullscreen')) {
+      return // stop here
+    }
+
     sessionStorage.setItem(WINDOW_SCROLL_KEY, String(window.scrollY))
 
     for (const { selector } of SCROLL_ELEMENTS) {
@@ -31,6 +36,11 @@ export function restoreScrollPosition({
   restoreWindow = true,
 } = {}) {
   try {
+    // Don't restore scroll position during code block fullscreen mode
+    if (document.documentElement.hasAttribute('data-code-fullscreen')) {
+      return // stop here
+    }
+
     if (restoreWindow) {
       const storedWindowScroll = parseFloat(
         sessionStorage.getItem(WINDOW_SCROLL_KEY) || '0'

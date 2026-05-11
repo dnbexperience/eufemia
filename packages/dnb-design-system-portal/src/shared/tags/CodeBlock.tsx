@@ -22,6 +22,7 @@ import {
   Space,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
+import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -30,6 +31,7 @@ import type {
 
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
+import { useFullscreenCode } from '../../core/FullscreenCodeContext'
 import {
   liveCodeEditorStyle,
   exampleBoxStyle,
@@ -45,6 +47,7 @@ import {
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
+import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 // Import other languages not included in the default bundle of prism-react-renderer
 import './prismLanguages'
@@ -159,6 +162,7 @@ function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
   const editorElementRef = useRef<HTMLDivElement>(null)
   const id = useId()
+  const fullscreenId = props['data-visual-test'] || id.replace(/:/g, '')
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
@@ -169,6 +173,11 @@ function LiveCode(props: LiveCodeProps) {
   const [surface, setSurface] = useState<ThemeSurface | undefined>(
     props.surface
   )
+
+  const { fullscreenCodeId, setFullscreenCodeId, savedScrollY } =
+    useFullscreenCode()
+  const isFullscreen = fullscreenCodeId === fullscreenId
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const {
     scope: scopeProp,
@@ -200,6 +209,55 @@ function LiveCode(props: LiveCodeProps) {
     setInheritedDark(theme.colorScheme === 'dark')
   }, [theme.colorScheme])
 
+  // Hide sibling DOM elements when fullscreen so only this code block is visible
+  useEffect(() => {
+    if (!isFullscreen) {
+      return // stop here
+    }
+
+    const el = wrapperRef.current
+    if (!el) {
+      return // stop here
+    }
+
+    document.documentElement.setAttribute('data-code-fullscreen', 'true')
+
+    const hidden: HTMLElement[] = []
+    let current = el as HTMLElement
+
+    while (current.parentElement) {
+      const parent = current.parentElement
+
+      for (const sibling of Array.from(parent.children)) {
+        if (sibling !== current && sibling instanceof HTMLElement) {
+          sibling.setAttribute('data-prev-display', sibling.style.display)
+          sibling.style.display = 'none'
+          hidden.push(sibling)
+        }
+      }
+
+      if (parent.id === 'dnb-app-content' || parent === document.body) {
+        break
+      }
+
+      current = parent
+    }
+
+    window.scrollTo({ top: 0 })
+
+    // Remove the preload style now that sibling hiding has taken over
+    document.getElementById('fullscreen-preload-style')?.remove()
+
+    return () => {
+      document.documentElement.removeAttribute('data-code-fullscreen')
+
+      for (const el of hidden) {
+        el.style.display = el.getAttribute('data-prev-display') || ''
+        el.removeAttribute('data-prev-display')
+      }
+    }
+  }, [isFullscreen, savedScrollY])
+
   const codeToUse = useMemo(() => {
     const code =
       typeof props.code === 'string' ? prepareCode(props.code) : ''
@@ -213,6 +271,7 @@ function LiveCode(props: LiveCodeProps) {
 
   return (
     <div
+      ref={wrapperRef}
       className={clsx(
         liveCodeEditorStyle,
         hideCode && 'hide-code',
@@ -255,6 +314,7 @@ function LiveCode(props: LiveCodeProps) {
 
         {!global.IS_TEST && !hideToolbar && (
           <Space
+            // align="center"
             element="section"
             aria-label="Customize appearance"
             className={clsx('dnb-live-toolbar', toolbarStyle)}
@@ -291,6 +351,15 @@ function LiveCode(props: LiveCodeProps) {
                   </ToggleButton>
                 )}
 
+                {isFullscreen && (
+                  <ChangeStyleTheme
+                    variant="button"
+                    size="medium"
+                    optionsLayout="horizontal"
+                    labelSrOnly
+                  />
+                )}
+
                 <Checkbox
                   checked={
                     colorScheme === (inheritedDark ? 'light' : 'dark')
@@ -320,6 +389,30 @@ function LiveCode(props: LiveCodeProps) {
                 )}
               </>
             )}
+
+            <Button
+              onClick={() => {
+                if (!isFullscreen) {
+                  savedScrollY.current = window.scrollY
+
+                  try {
+                    sessionStorage.setItem(
+                      'scroll-window',
+                      String(window.scrollY)
+                    )
+                  } catch {
+                    // ignore
+                  }
+                }
+
+                setFullscreenCodeId(isFullscreen ? null : fullscreenId)
+              }}
+              variant="tertiary"
+              title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+              aria-label={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+              icon={isFullscreen ? 'close' : fullscreenIcon}
+              size="medium"
+            />
           </Space>
         )}
 
