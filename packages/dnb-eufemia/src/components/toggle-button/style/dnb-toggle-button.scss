@@ -198,7 +198,6 @@
     @include utilities.focusVisible() {
       .dnb-radio {
         .dnb-radio__button {
-          // todo: missing default in radio
           --radio-border-inset--default: var(--radio-border-inset--focus);
           --radio-border-width--default: var(--radio-border-width--focus);
           --radio-color-border--default: var(--radio-color-border--focus);
