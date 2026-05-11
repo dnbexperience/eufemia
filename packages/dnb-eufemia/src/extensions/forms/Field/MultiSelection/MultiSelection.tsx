@@ -186,6 +186,45 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const confirmedRef = useRef(false)
   const popoverContentRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
+
+  // Calculate max height of popover content to prevent it from growing too large and going off-screen
+  const handlePopoverContentRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      popoverContentRef.current = el
+
+      if (!el || !isOpen) {
+        return
+      }
+
+      // Defer until after browser paints and positions the element
+      requestAnimationFrame(() => {
+        const trigger =
+          triggerRef.current ??
+          (document.getElementById(id) as HTMLElement)
+        triggerRef.current = trigger
+
+        const contentRect = el.getBoundingClientRect()
+        const triggerRect = trigger?.getBoundingClientRect()
+        const margin = 16
+
+        // Determine placement from the rendered geometry so max-height matches the resolved popover position.
+        const isBottomPlacement =
+          !triggerRect || contentRect.top >= triggerRect.bottom
+
+        const maxHeight = isBottomPlacement
+          ? window.innerHeight - contentRect.top - margin
+          : contentRect.bottom - margin
+
+        if (maxHeight > 100) {
+          el.style.setProperty(
+            '--popover-max-height',
+            `${Math.max(0, maxHeight)}px`
+          )
+        }
+      })
+    },
+    [id, isOpen]
+  )
   const pendingTriggerNavigationRef = useRef<-1 | 1 | null>(null)
   const pendingCheckedCountAnnouncementRef = useRef(false)
   const previousTempValueRef = useRef<Array<number | string>>(value || [])
@@ -710,7 +749,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         >
           <div
             className="dnb-forms-field-multi-selection__popover-content"
-            ref={popoverContentRef}
+            ref={handlePopoverContentRef}
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
           >

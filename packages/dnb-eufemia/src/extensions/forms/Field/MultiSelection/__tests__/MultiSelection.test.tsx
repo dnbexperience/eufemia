@@ -1820,4 +1820,212 @@ describe('MultiSelection', () => {
       expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
     })
   })
+
+  describe('adaptive popover max-height', () => {
+    const mockLayout = ({
+      popoverTop,
+      popoverBottom = popoverTop + 200,
+      viewportHeight = 800,
+    }: {
+      popoverTop: number
+      popoverBottom?: number
+      viewportHeight?: number
+    }) => {
+      const originalInnerHeight = window.innerHeight
+
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: viewportHeight,
+      })
+
+      const getBoundingClientRectMock = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockImplementation(function (this: HTMLElement) {
+          if (
+            this.classList.contains(
+              'dnb-forms-field-multi-selection__popover-content'
+            )
+          ) {
+            return {
+              top: popoverTop,
+              left: 0,
+              width: 320,
+              height: popoverBottom - popoverTop,
+              bottom: popoverBottom,
+              right: 320,
+              x: 0,
+              y: popoverTop,
+              toJSON: () => null,
+            } as DOMRect
+          }
+
+          if (this.classList.contains('dnb-dropdown__trigger')) {
+            return {
+              top: 100,
+              left: 0,
+              width: 200,
+              height: 40,
+              bottom: 140,
+              right: 200,
+              x: 0,
+              y: 100,
+              toJSON: () => null,
+            } as DOMRect
+          }
+
+          return {
+            top: 0,
+            left: 0,
+            width: 1024,
+            height: 768,
+            bottom: 768,
+            right: 1024,
+            x: 0,
+            y: 0,
+            toJSON: () => null,
+          } as DOMRect
+        })
+
+      return () => {
+        getBoundingClientRectMock.mockRestore()
+
+        Object.defineProperty(window, 'innerHeight', {
+          configurable: true,
+          value: originalInnerHeight,
+        })
+      }
+    }
+
+    it('sets --popover-max-height CSS variable when popover opens', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const cleanup = mockLayout({ popoverTop: 200 })
+
+      try {
+        render(
+          <Provider locale="en-GB">
+            <Field.MultiSelection data={data} />
+          </Provider>
+        )
+
+        const trigger = screen.getByRole('button')
+        fireEvent.click(trigger)
+
+        await waitFor(
+          () => {
+            const popoverContent = document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            ) as HTMLElement
+            expect(popoverContent).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        await waitFor(
+          () => {
+            const popoverContent = document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            ) as HTMLElement
+            const maxHeightValue = popoverContent?.style.getPropertyValue(
+              '--popover-max-height'
+            )
+            expect(maxHeightValue).toBe(`${800 - 200 - 16}px`)
+          },
+          { timeout: 3000 }
+        )
+
+        return
+      } finally {
+        cleanup()
+      }
+    })
+
+    it('only sets max-height if calculated value is greater than 100px', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const cleanup = mockLayout({ popoverTop: 200 })
+
+      try {
+        render(
+          <Provider locale="en-GB">
+            <Field.MultiSelection data={data} />
+          </Provider>
+        )
+
+        const trigger = screen.getByRole('button')
+        fireEvent.click(trigger)
+
+        await waitFor(
+          () => {
+            const popoverContent = document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            ) as HTMLElement
+            expect(popoverContent).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        await waitFor(
+          () => {
+            const popoverContent = document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            ) as HTMLElement
+            const maxHeightValue = popoverContent?.style.getPropertyValue(
+              '--popover-max-height'
+            )
+
+            expect(parseInt(maxHeightValue, 10)).toBeGreaterThan(100)
+          },
+          { timeout: 3000 }
+        )
+
+        return
+      } finally {
+        cleanup()
+      }
+    })
+
+    it('keeps --popover-max-height unset when the calculated value is 100px or less', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const cleanup = mockLayout({ popoverTop: 700 })
+
+      try {
+        render(
+          <Provider locale="en-GB">
+            <Field.MultiSelection data={data} />
+          </Provider>
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        await waitFor(
+          () => {
+            const popoverContent = document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            ) as HTMLElement
+
+            expect(popoverContent).toBeInTheDocument()
+            expect(
+              popoverContent.style.getPropertyValue('--popover-max-height')
+            ).toBe('')
+          },
+          { timeout: 3000 }
+        )
+
+        return
+      } finally {
+        cleanup()
+      }
+    })
+  })
 })

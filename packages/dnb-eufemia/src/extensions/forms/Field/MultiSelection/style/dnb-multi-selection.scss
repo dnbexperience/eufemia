@@ -172,7 +172,9 @@
     @include utilities.allBelow('x-small') {
       width: 70dvw;
     }
-    max-height: 90vh;
+    max-height: calc(
+      var(--popover-max-height, 90dvh) - var(--inner-space, 0)
+    );
 
     .dnb-popover--no-inner-space & {
       --inner-space: -0.5rem;
