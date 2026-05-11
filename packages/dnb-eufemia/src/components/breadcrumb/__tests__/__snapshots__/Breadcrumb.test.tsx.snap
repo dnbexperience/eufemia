@@ -1211,6 +1211,13 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__item:first-child .dnb-anchor .dnb-icon svg {
   margin-right: 0.5rem;
 }
+.dnb-breadcrumb__collapse {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__item {
+  padding: 0;
+}
 .dnb-breadcrumb__multiple {
   display: flex;
   flex-direction: column;
@@ -1251,13 +1258,6 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
   .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__toggle {
     display: none;
   }
-}
-.dnb-breadcrumb__collapse {
-  display: flex;
-  flex-direction: column;
-}
-.dnb-breadcrumb__collapse .dnb-breadcrumb__item {
-  padding: 0;
 }
 .dnb-breadcrumb__collapse .dnb-breadcrumb__list.dnb-section {
   flex-direction: column;

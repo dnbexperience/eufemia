@@ -88,6 +88,15 @@
     }
   }
 
+  &__collapse {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__collapse &__item {
+    padding: 0;
+  }
+
   &__multiple {
     display: flex;
     flex-direction: column;
@@ -131,15 +140,6 @@
     @include utilities.allAbove(medium) {
       display: none;
     }
-  }
-
-  &__collapse {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__collapse &__item {
-    padding: 0;
   }
 
   &__collapse &__list.dnb-section {
