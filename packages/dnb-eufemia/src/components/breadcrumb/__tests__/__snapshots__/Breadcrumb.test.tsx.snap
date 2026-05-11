@@ -1156,6 +1156,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__bar.dnb-section {
   display: flex;
+  --background-color: var(--token-color-background-neutral);
 }
 .dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button {
   color: var(--token-color-text-neutral);
