@@ -161,9 +161,11 @@ describe('useSharedState', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({ foo: 'bar' })
 
-    expect(resultA.current.data).toEqual(undefined)
-    expect(resultB.current.data).toEqual(undefined)
-    expect(resultC.current.data).toEqual(undefined)
+    // With useSyncExternalStore, set() now triggers sync (like extend/update),
+    // so all hooks re-render with the updated data.
+    expect(resultA.current.data).toEqual({ foo: 'bar' })
+    expect(resultB.current.data).toEqual({ foo: 'bar' })
+    expect(resultC.current.data).toEqual({ foo: 'bar' })
 
     expect(resultA.current.get()).toEqual({ foo: 'bar' })
     expect(resultB.current.get()).toEqual({ foo: 'bar' })
@@ -240,16 +242,17 @@ describe('useSharedState', () => {
     expect(resultB.current.data).toEqual({ foo: 'bar' })
 
     act(() => {
-      // If "preventSyncOfSameInstance" is set to true,
-      // then the "resultA" will not be synced, so resultA will still have "bar".
+      // With useSyncExternalStore, preventSyncOfSameInstance now correctly skips
+      // the CALLER (resultB) instead of the first-hook's instance (OLD: resultA).
+      // So resultA IS re-rendered with the new data, and resultB keeps its old snapshot.
       resultB.current.update(
         { foo: 'baz' },
         { preventSyncOfSameInstance: true }
       )
     })
 
-    expect(resultA.current.data).toEqual({ foo: 'bar' })
-    expect(resultB.current.data).toEqual({ foo: 'baz' })
+    expect(resultA.current.data).toEqual({ foo: 'baz' })
+    expect(resultB.current.data).toEqual({ foo: 'bar' })
   })
 })
 

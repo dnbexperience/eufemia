@@ -3,6 +3,7 @@ import type { RefObject } from 'react'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  createSharedState,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextState } from '../../DataContext/Context'
@@ -21,9 +22,11 @@ type UseDataReturn = {
 export default function useValidation(
   id: SharedStateId = undefined
 ): UseDataReturn {
-  const { data: sharedDataContext } = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
-  )
+  const sharedDataContext = id
+    ? createSharedState<ContextState>(
+        createReferenceKey(id, 'data-context')
+      )
+    : null
 
   const { data } = useSharedState<
     UseDataReturn & SharedAttachments<unknown>
@@ -33,7 +36,7 @@ export default function useValidation(
 
   // If no id is provided, use the context version
   const context = useContext(DataContext)
-  const sharedContext = id ? sharedDataContext : undefined
+  const sharedContext = id ? sharedDataContext?.get() : undefined
   const hasErrors =
     sharedContext?.hasErrors ||
     data?.hasErrors ||
@@ -81,9 +84,11 @@ type UseConnectionsSharedState = {
 }
 
 function useConnections(id: SharedStateId = undefined) {
-  const { data: sharedDataContext } = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
-  )
+  const sharedDataContext = id
+    ? createSharedState<ContextState>(
+        createReferenceKey(id, 'data-context')
+      )
+    : null
 
   const { get } = useSharedState<UseConnectionsSharedState>(
     id ? createReferenceKey(id, 'attachments') : undefined
@@ -91,7 +96,8 @@ function useConnections(id: SharedStateId = undefined) {
 
   const dataContext = useContext(DataContext)
   const { fieldConnectionsRef } = dataContext || {}
-  const sharedFieldConnectionsRef = sharedDataContext?.fieldConnectionsRef
+  const sharedFieldConnectionsRef =
+    sharedDataContext?.get()?.fieldConnectionsRef
 
   const getFieldConnections = useCallback(() => {
     const attachments = get()

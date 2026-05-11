@@ -41,6 +41,8 @@ import { isAsync } from '../../../../shared/helpers/isAsync'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  preSeedSharedState,
+  shallowEqual,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextProps } from '../../../../shared/Context'
@@ -62,7 +64,6 @@ import type {
 } from '../Context'
 import DataContext from '../Context'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
-import { isDeepEqual } from '../../../../shared/helpers/isDeepEqual'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -883,6 +884,17 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Shared state
+  // Pre-seed the shared store synchronously so that child components (e.g.
+  // Form.useData consumers rendered inside this Provider) see the data on
+  // their very first render. This avoids a "torn snapshot" re-render that
+  // useSyncExternalStore would otherwise schedule when the store is empty
+  // but the Provider already knows the data.
+  // preSeedSharedState is used instead of createSharedState so that
+  // hadInitialData stays false, allowing Form.useData(..., initialData) calls
+  // to still merge their own initialData via useMountEffect.
+  if (id && initialData !== undefined) {
+    preSeedSharedState<Data>(id, initialData)
+  }
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
     id ? createReferenceKey(id, 'attachments') : undefined
@@ -915,59 +927,19 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const cacheRef = useRef({
-    id,
     data,
     schema,
     shared: sharedData.data,
-    hasAppliedDataProp: false,
   })
 
   const internalData = useMemo(() => {
-    // NB: "sharedData.data" is only available on a rerender.
-    // Update the shared state, if initialData is given and no shared state is available.
-    // We do almost the same later in a useLayoutEffect, but we need to do it here as well, so we set the data as early as possible.
-    if (id && initialData && !sharedData.data) {
-      sharedData.update(initialData)
-    }
+    // NB: With useSyncExternalStore in useSharedState, sharedData.data is available
+    // from the first render via the getSnapshot function, so we no longer need to
+    // call update during render (which would cause "setState while rendering" warnings).
 
-    // When id changes, treat this as a fresh mount so the data prop is
-    // re-applied to the new shared state.
-    if (id !== cacheRef.current.id) {
-      cacheRef.current.id = id
-      cacheRef.current.hasAppliedDataProp = false
-      cacheRef.current.shared = sharedData.data
-    }
-
-    // Return the data prop when it has a value and either:
-    //  a) its value genuinely changed — always honored, even when hadInitialData
-    //     is true (e.g. a controlled data prop overriding a useData-seeded store), or
-    //  b) it hasn't been applied yet on this mount and shared state wasn't seeded
-    //     externally (hadInitialData guards against overwriting Form.useData(id,
-    //     initialData) rendered before the Provider on initial mount).
-    if (data !== undefined) {
-      const prevData = cacheRef.current.data
-      cacheRef.current.data = data
-
-      const valueChanged =
-        prevData !== data &&
-        (prevData === undefined || !isDeepEqual(data, prevData))
-      const notYetApplied =
-        !cacheRef.current.hasAppliedDataProp &&
-        (!id || !sharedData?.hadInitialData)
-
-      if (valueChanged || notYetApplied) {
-        cacheRef.current.hasAppliedDataProp = true
-        return data
-      }
-    }
-
-    // Merge both internal data and the shared state, if both were given
-    // and the shared state was externally initialized (e.g. via Form.useData(id, initialData)).
-    // Without the hadInitialData check, stale shared data from a previous mount
-    // could overwrite the current data prop on remount.
+    // Merge both internal data and the shared state, if it both where given
     if (
       id &&
-      sharedData?.hadInitialData &&
       initialData &&
       sharedData.data &&
       cacheRef.current.shared === sharedData.data &&
@@ -1010,6 +982,16 @@ export default function Provider<Data extends JsonObject>(
       return {
         ...internalDataRef.current,
         ...(sharedData.data || {}),
+      }
+    }
+
+    // When external data has changed, update the internal data
+    if (data !== cacheRef.current.data) {
+      const hasChanged = !shallowEqual(data, cacheRef.current.data)
+      cacheRef.current.data = data
+
+      if (hasChanged) {
+        return data
       }
     }
 
@@ -1700,27 +1682,16 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
-  // Sync shared state when the data prop value genuinely changes (or when id changes).
-  // prevSyncedRef is initialized with the current id/data so the initial mount is always skipped
-  // (the useMemo already applies the data prop on mount). Only genuine value changes propagate.
-  // This intentionally runs even when hadInitialData=true so that subsequent explicit data prop
-  // changes still reach external Form.useData consumers, while the initial seed from
-  // Form.useData(id, initialData) is still respected on mount (prevSyncedRef guards that).
-  // preventSyncOfSameInstance is intentionally NOT used: it would exclude external Form.useData
-  // consumers (created before the Provider) from notifications, silently swallowing data prop changes.
-  // sharedData.update is omitted from deps: it always routes to the same per-id singleton
-  // in the global sharedStates Map, so a stale closure is safe and the id dep captures any id change.
-  const prevSyncedRef = useRef({ id, data })
+  // Sync shared state when the data prop content changes so that Form.useData
+  // consumers outside the Provider stay in sync. Use set() instead of extend()
+  // so that removed keys are cleaned up from the shared state.
   useLayoutEffect(() => {
     if (id && data !== undefined) {
-      const prev = prevSyncedRef.current
-      if (prev.id !== id || !isDeepEqual(data, prev.data)) {
-        prevSyncedRef.current = { id, data }
-        sharedData.update(data)
-      }
+      setSharedData(internalDataRef.current, {
+        preventSyncOfSameInstance: true,
+      })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sharedData.update is stable; see comment above
-  }, [id, data])
+  }, [id, data, setSharedData])
 
   useLayoutEffect(() => {
     if (id) {
@@ -1866,7 +1837,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   if (id) {
-    sharedDataContext.set(contextValue)
+    sharedDataContext.set(contextValue, { silent: true })
   }
 
   const show = Boolean(showAllErrorsRef.current)
