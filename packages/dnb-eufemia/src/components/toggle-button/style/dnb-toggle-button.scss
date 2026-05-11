@@ -106,7 +106,6 @@
         pointer-events: none;
       }
 
-      &__focus,
       &__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
