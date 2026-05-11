@@ -76,6 +76,10 @@
     &:first-child .dnb-anchor {
       border-left: none;
 
+      // The Sbanken theme uses a non-breaking space as icon separator which
+      // gets underlined. Reset to zero-width separator to avoid the underline.
+      --anchor-icon-separator: '\2060';
+
       // Reset the click area pseudo-element for icon anchors
       &::after {
         transform: none;

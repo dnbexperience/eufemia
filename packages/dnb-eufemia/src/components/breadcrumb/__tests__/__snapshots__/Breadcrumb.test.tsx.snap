@@ -1206,6 +1206,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;
+  --anchor-icon-separator: '\\2060';
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor::after {
   transform: none;
