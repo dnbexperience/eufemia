@@ -59,6 +59,25 @@ describe('MultiSelection', () => {
     )
   })
 
+  it('renders trigger with dropdown styling classes', () => {
+    const data = [
+      { value: 'option1', title: 'Option 1' },
+      { value: 'option2', title: 'Option 2' },
+    ]
+
+    render(<Field.MultiSelection data={data} />)
+
+    const triggerButton = screen.getByRole('button')
+    expect(triggerButton).toHaveClass('dnb-dropdown__trigger')
+
+    const shell = triggerButton.closest('.dnb-dropdown__shell')
+    expect(shell).toBeInTheDocument()
+
+    const wrapper = shell?.closest('.dnb-dropdown--stretch')
+    expect(wrapper).toBeInTheDocument()
+    expect(wrapper).toHaveClass('dnb-dropdown--icon-position-right')
+  })
+
   it('opens popover when label is clicked', async () => {
     const data = [
       { value: 'option1', title: 'Option 1' },

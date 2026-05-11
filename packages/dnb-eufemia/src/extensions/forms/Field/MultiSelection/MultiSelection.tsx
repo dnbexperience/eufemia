@@ -1,5 +1,4 @@
 import {
-  Fragment,
   useCallback,
   useContext,
   useEffect,
@@ -7,23 +6,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { MouseEvent, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import * as z from 'zod'
 import clsx from 'clsx'
-import {
-  AriaLive,
-  Button,
-  Checkbox,
-  IconPrimary,
-  Input,
-  Tag,
-  Popover,
-  HeightAnimation,
-  Flex,
-} from '../../../../components'
-import ScrollView from '../../../../fragments/scroll-view/ScrollView'
-import { Hr, P } from '../../../../elements'
-import { close, chevron_down } from '../../../../icons'
+import { AriaLive, Popover } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -33,13 +19,15 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import useTranslation from '../../hooks/useTranslation'
 import type { FormError } from '../../utils'
-import {
-  combineDescribedBy,
-  convertJsxToString,
-} from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/component-helper'
 import whatInput from '../../../../shared/helpers/whatInput'
 import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { MultiSelectionTrigger } from './MultiSelectionTrigger'
+import { MultiSelectionSearch } from './MultiSelectionSearch'
+import { MultiSelectionSelectedTags } from './MultiSelectionSelectedTags'
+import { MultiSelectionItemList } from './MultiSelectionItemList'
+import { MultiSelectionActions } from './MultiSelectionActions'
 
 export type MultiSelectItem = {
   value: number | string
@@ -197,6 +185,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const [ariaLiveCheckedCount, setAriaLiveCheckedCount] = useState('')
   const confirmedRef = useRef(false)
   const popoverContentRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
   const pendingTriggerNavigationRef = useRef<-1 | 1 | null>(null)
   const pendingCheckedCountAnnouncementRef = useRef(false)
   const previousTempValueRef = useRef<Array<number | string>>(value || [])
@@ -313,8 +302,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const displayCount = showConfirmButton
     ? confirmedItems.length
     : selectedCount
-
-  const selectionCountId = `${id}-selection-count`
 
   useEffect(() => {
     const previousValue = previousTempValueRef.current
@@ -653,31 +640,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   fieldBlockProps.contentWidth = width ?? 'large'
 
-  const handleItemClick = useCallback(
-    (event: MouseEvent<HTMLLIElement>, item: MultiSelectItemInternal) => {
-      if (disabled || item.disabled) {
-        return
-      }
-
-      const target = event.target as HTMLElement | null
-
-      if (
-        target?.closest('.dnb-checkbox__input') ||
-        target?.closest('.dnb-checkbox__label')
-      ) {
-        return
-      }
-
-      if (item.children) {
-        handleToggleParent(item)
-        return
-      }
-
-      handleToggleItem(item.value)
-    },
-    [disabled, handleToggleItem, handleToggleParent]
-  )
-
   const handleTriggerKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
@@ -708,76 +670,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     [disabled, getCheckboxes, getSearchInput, isOpen]
   )
 
-  // Recursively render items with support for nested items
-  const renderItems = (
-    items: MultiSelectionData,
-    depth = 0,
-    parentPath = ''
-  ) => {
-    return items.map((item: MultiSelectItemInternal, index) => {
-      const itemPath = parentPath ? `${parentPath}-${index}` : `${index}`
-
-      return (
-        <Fragment key={item.value}>
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */}
-          <li
-            className={clsx(
-              'dnb-forms-field-multi-selection__item',
-              item.children &&
-                'dnb-forms-field-multi-selection__item--parent',
-              tempValue.includes(item.value) &&
-                'dnb-forms-field-multi-selection__item--selected',
-              item.disabled &&
-                'dnb-forms-field-multi-selection__item--disabled',
-              depth > 0 &&
-                `dnb-forms-field-multi-selection__item--level-${depth}`
-            )}
-            onClick={(event) => handleItemClick(event, item)}
-          >
-            <Checkbox
-              checked={
-                item.children
-                  ? getParentState(item).checked
-                  : tempValue.includes(item.value)
-              }
-              indeterminate={
-                item.children ? getParentState(item).indeterminate : false
-              }
-              onChange={() =>
-                item.children
-                  ? handleToggleParent(item)
-                  : handleToggleItem(item.value)
-              }
-              disabled={disabled || item.disabled}
-              label={item.title}
-              className="dnb-forms-field-multi-selection__checkbox"
-              {...htmlAttributes}
-            />
-            {(item.text || item.description) && (
-              <div className="dnb-forms-field-multi-selection__item-details">
-                {item.text && (
-                  <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-text">
-                    {item.text}
-                  </span>
-                )}
-                {item.description && (
-                  <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-description">
-                    {item.description}
-                  </span>
-                )}
-              </div>
-            )}
-          </li>
-          {item.children && item.children.length > 0 && (
-            <ul className="dnb-forms-field-multi-selection__nested-items">
-              {renderItems(item.children, depth + 1, itemPath)}
-            </ul>
-          )}
-        </Fragment>
-      )
-    })
-  }
-
   return (
     <FieldBlock {...fieldBlockProps}>
       <div className="dnb-forms-field-multi-selection__container">
@@ -803,78 +695,17 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           noInnerSpace={!hasFeature}
           hideArrow
           className="dnb-forms-field-multi-selection__popover"
-          trigger={({
-            active,
-            className: triggerClassName,
-            ...triggerProps
-          }) => (
-            <span
-              className={clsx(
-                'dnb-dropdown',
-                'dnb-dropdown--stretch',
-                'dnb-dropdown--default',
-                'dnb-dropdown--right',
-                'dnb-dropdown--icon-position-right',
-                'dnb-dropdown--vertical',
-                'dnb-form-component',
-                active && 'dnb-dropdown--open'
-              )}
-            >
-              <span className="dnb-dropdown__inner">
-                <span className="dnb-dropdown__row">
-                  <span className="dnb-dropdown__shell">
-                    <Button
-                      variant="secondary"
-                      size="medium"
-                      className={clsx(
-                        'dnb-dropdown__trigger',
-                        triggerClassName
-                      )}
-                      disabled={disabled}
-                      customContent={
-                        <>
-                          <span
-                            aria-hidden="true"
-                            className="dnb-dropdown__text dnb-button__text"
-                          >
-                            <span className="dnb-dropdown__text__inner">
-                              {formatSelectionCount(
-                                displayCount,
-                                totalCount
-                              )}
-                            </span>
-                          </span>
-                          <span
-                            id={selectionCountId}
-                            className="dnb-sr-only"
-                          >
-                            {formatSelectionCount(
-                              displayCount,
-                              totalCount
-                            )}
-                          </span>
-                          <span aria-hidden className="dnb-dropdown__icon">
-                            <IconPrimary icon="chevron_down" />
-                          </span>
-                        </>
-                      }
-                      role="combobox"
-                      aria-haspopup="listbox"
-                      {...triggerProps}
-                      aria-describedby={combineDescribedBy(
-                        triggerProps,
-                        selectionCountId
-                      )}
-                      onKeyDown={(event) => {
-                        handleTriggerKeyDown(event)
-                        triggerProps.onKeyDown?.(event)
-                      }}
-                      id={id}
-                    />
-                  </span>
-                </span>
-              </span>
-            </span>
+          trigger={({ active, ...triggerProps }) => (
+            <MultiSelectionTrigger
+              id={id}
+              active={active}
+              disabled={disabled}
+              displayCount={displayCount}
+              totalCount={totalCount}
+              formatSelectionCount={formatSelectionCount}
+              onKeyDown={handleTriggerKeyDown}
+              triggerProps={triggerProps}
+            />
           )}
         >
           <div
@@ -883,165 +714,70 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
           >
-            {showSearchField && (
-              <>
-                <Input
-                  label={false}
-                  icon="loupe"
-                  iconPosition="left"
-                  placeholder={translation.searchPlaceholder}
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.value)}
-                  disabled={disabled}
-                  stretch
-                  showClearButton={searchValue.length > 0}
-                  onClear={() => setSearchValue('')}
-                  className="dnb-forms-field-multi-selection__search"
-                />
-                <Hr
-                  space={0}
-                  className="dnb-forms-field-multi-selection__separator"
-                />
-              </>
-            )}
+            <MultiSelectionSearch
+              show={showSearchField}
+              placeholder={translation.searchPlaceholder}
+              value={searchValue}
+              disabled={disabled}
+              onSearchChange={setSearchValue}
+            />
 
-            {showSelectedTags && (
-              <>
-                {isCollapsible && (
-                  <Flex.Horizontal
-                    className="dnb-forms-field-multi-selection__selected-items-header"
-                    justify="space-between"
-                    align="center"
-                    bottom="x-small"
-                  >
-                    <Button
-                      variant="tertiary"
-                      icon={chevron_down}
-                      className={clsx(
-                        'dnb-forms-field-multi-selection__accordion',
-                        showSelectedItemsList &&
-                          'dnb-forms-field-multi-selection__accordion--open'
-                      )}
-                      aria-expanded={showSelectedItemsList}
-                      aria-controls={`${id}-selected-items`}
-                      onClick={() =>
-                        setShowSelectedItemsList(!showSelectedItemsList)
-                      }
-                      disabled={disabled}
-                    >
-                      {formatSelectionCount(
-                        selectedItems.length,
-                        totalCount
-                      )}
-                    </Button>
-                    {selectedItems.length > 0 && (
-                      <Button
-                        variant="tertiary"
-                        icon={close}
-                        onClick={() => {
-                          setTempValue([])
-                          setShowSelectedItemsList(true)
-                          if (!showConfirmButton) {
-                            applyChange([])
-                          }
-                        }}
-                        disabled={disabled}
-                      >
-                        {translation.clearAll}
-                      </Button>
-                    )}
-                  </Flex.Horizontal>
-                )}
+            <MultiSelectionSelectedTags
+              id={id}
+              show={showSelectedTags}
+              disabled={disabled}
+              isCollapsible={isCollapsible}
+              showSelectedItemsList={showSelectedItemsList}
+              selectedItems={selectedItems}
+              totalCount={totalCount}
+              formatSelectionCount={formatSelectionCount}
+              translation={{
+                clearAll: translation.clearAll,
+                placeholder: translation.placeholder,
+              }}
+              onToggleList={setShowSelectedItemsList}
+              onRemoveTag={handleRemoveTag}
+              onClearAll={() => {
+                setTempValue([])
+                setShowSelectedItemsList(true)
+                if (!showConfirmButton) {
+                  applyChange([])
+                }
+              }}
+            />
 
-                <HeightAnimation
-                  open={isCollapsible ? showSelectedItemsList : true}
-                  keepInDOM={isCollapsible}
-                  id={`${id}-selected-items`}
-                  className="dnb-forms-field-multi-selection__selected-items"
-                >
-                  <ScrollView className="dnb-forms-field-multi-selection__selected-items__inner">
-                    {selectedItems.length > 0 ? (
-                      selectedItems.map((item) => (
-                        <Tag
-                          key={item.value}
-                          variant="removable"
-                          hasLabel
-                          onClick={() => handleRemoveTag(item.value)}
-                        >
-                          {item.title}
-                        </Tag>
-                      ))
-                    ) : (
-                      <P className="dnb-forms-field-multi-selection__placeholder">
-                        {translation.placeholder}
-                      </P>
-                    )}
-                  </ScrollView>
-                </HeightAnimation>
-                <Hr
-                  space={0}
-                  className="dnb-forms-field-multi-selection__separator"
-                />
-              </>
-            )}
+            <MultiSelectionItemList
+              disabled={disabled}
+              filteredItems={filteredItems}
+              tempValue={tempValue}
+              searchValue={searchValue}
+              showSelectAll={showSelectAll}
+              htmlAttributes={htmlAttributes}
+              translation={{
+                selectAll: translation.selectAll,
+                noOptions: translation.noOptions,
+              }}
+              getParentState={getParentState}
+              onToggleItem={handleToggleItem}
+              onToggleParent={handleToggleParent}
+              onToggleSelectAll={handleSelectAll}
+              selectableFilteredFlat={selectableFilteredFlat}
+              allFilteredSelected={allFilteredSelected}
+              someFilteredSelected={someFilteredSelected}
+            />
 
-            <ScrollView
-              className={clsx('dnb-forms-field-multi-selection__items')}
-            >
-              <ul className="dnb-forms-field-multi-selection__list">
-                {showSelectAll && selectableFilteredFlat.length > 0 && (
-                  <li className="dnb-forms-field-multi-selection__item dnb-forms-field-multi-selection__item--select-all">
-                    <Checkbox
-                      checked={allFilteredSelected}
-                      indeterminate={someFilteredSelected}
-                      onChange={handleSelectAll}
-                      disabled={disabled}
-                      label={translation.selectAll}
-                      className="dnb-forms-field-multi-selection__checkbox"
-                    />
-                  </li>
-                )}
-
-                {filteredItems.length === 0 && searchValue ? (
-                  <li className="dnb-forms-field-multi-selection__no-options">
-                    <P className="dnb-forms-field-multi-selection__no-options-text">
-                      {translation.noOptions}
-                    </P>
-                  </li>
-                ) : (
-                  renderItems(filteredItems)
-                )}
-              </ul>
-            </ScrollView>
-
-            {showConfirmButton && (
-              <>
-                <Hr
-                  space={0}
-                  className="dnb-forms-field-multi-selection__separator"
-                />
-                <div className="dnb-forms-field-multi-selection__actions">
-                  <Button
-                    variant="primary"
-                    onClick={handleConfirm}
-                    disabled={disabled}
-                    className="dnb-forms-field-multi-selection__confirm-button"
-                  >
-                    {formatMessage(translation.confirmButton, {
-                      count: tempValue.length,
-                    })}
-                  </Button>
-                  <Button
-                    variant="tertiary"
-                    onClick={handleCancel}
-                    disabled={disabled}
-                    icon={close}
-                  >
-                    {translation.cancelButton}
-                  </Button>
-                </div>
-              </>
-            )}
+            <MultiSelectionActions
+              show={showConfirmButton}
+              disabled={disabled}
+              tempValueLength={tempValue.length}
+              formatMessage={formatMessage}
+              translation={{
+                confirmButton: translation.confirmButton,
+                cancelButton: translation.cancelButton,
+              }}
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+            />
           </div>
         </Popover>
       </div>
