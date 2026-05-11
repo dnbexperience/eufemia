@@ -41,7 +41,6 @@ import SharedContext from '../../../shared/Context'
 import {
   createReferenceKey,
   createSharedState,
-  useSharedState,
 } from '../../../shared/helpers/useSharedState'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
@@ -1749,8 +1748,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
   }
 
-  const sharedData = useSharedState('field-block-props-' + id)
-  sharedData.set(fieldBlockProps)
+  const sharedData = createSharedState('field-block-props-' + id)
+  sharedData.set(fieldBlockProps, { silent: true })
 
   useEffect(() => {
     isInternalRerenderRef.current = undefined

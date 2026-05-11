@@ -41,6 +41,8 @@ import { isAsync } from '../../../../shared/helpers/isAsync'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  preSeedSharedState,
+  shallowEqual,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextProps } from '../../../../shared/Context'
@@ -882,6 +884,17 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Shared state
+  // Pre-seed the shared store synchronously so that child components (e.g.
+  // Form.useData consumers rendered inside this Provider) see the data on
+  // their very first render. This avoids a "torn snapshot" re-render that
+  // useSyncExternalStore would otherwise schedule when the store is empty
+  // but the Provider already knows the data.
+  // preSeedSharedState is used instead of createSharedState so that
+  // hadInitialData stays false, allowing Form.useData(..., initialData) calls
+  // to still merge their own initialData via useMountEffect.
+  if (id && initialData !== undefined) {
+    preSeedSharedState<Data>(id, initialData)
+  }
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
     id ? createReferenceKey(id, 'attachments') : undefined
@@ -917,16 +930,12 @@ export default function Provider<Data extends JsonObject>(
     data,
     schema,
     shared: sharedData.data,
-    hasUsedInitialData: false,
   })
 
   const internalData = useMemo(() => {
-    // NB: "sharedData.data" is only available on a rerender.
-    // Update the shared state, if initialData is given and no shared state is available.
-    // We do almost the same later in a useLayoutEffect, but we need to do it here as well, so we set the data as early as possible.
-    if (id && initialData && !sharedData.data) {
-      sharedData.update(initialData)
-    }
+    // NB: With useSyncExternalStore in useSharedState, sharedData.data is available
+    // from the first render via the getSnapshot function, so we no longer need to
+    // call update during render (which would cause "setState while rendering" warnings).
 
     // Merge both internal data and the shared state, if it both where given
     if (
@@ -978,8 +987,12 @@ export default function Provider<Data extends JsonObject>(
 
     // When external data has changed, update the internal data
     if (data !== cacheRef.current.data) {
+      const hasChanged = !shallowEqual(data, cacheRef.current.data)
       cacheRef.current.data = data
-      return data
+
+      if (hasChanged) {
+        return data
+      }
     }
 
     return internalDataRef.current
@@ -1669,6 +1682,17 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
+  // Sync shared state when the data prop content changes so that Form.useData
+  // consumers outside the Provider stay in sync. Use set() instead of extend()
+  // so that removed keys are cleaned up from the shared state.
+  useLayoutEffect(() => {
+    if (id && data !== undefined) {
+      setSharedData(internalDataRef.current, {
+        preventSyncOfSameInstance: true,
+      })
+    }
+  }, [id, data, setSharedData])
+
   useLayoutEffect(() => {
     if (id) {
       extendAttachment(
@@ -1813,7 +1837,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   if (id) {
-    sharedDataContext.set(contextValue)
+    sharedDataContext.set(contextValue, { silent: true })
   }
 
   const show = Boolean(showAllErrorsRef.current)
