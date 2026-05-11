@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from 'react'
 import type { Context } from 'react'
-import useMounted from './useMounted'
-import useMountEffect from './useMountEffect'
-import { useIsomorphicLayoutEffect as useLayoutEffect } from './useIsomorphicLayoutEffect'
 
 export type SharedStateId =
   | string
@@ -42,55 +45,26 @@ export function useSharedState<Data>(
     weak = false,
   } = {}
 ) {
-  const [, forceUpdate] = useReducer(() => ({}), {})
-  const hasMountedRef = useMounted()
-  const waitForMountedRef = useRef(false)
   const instanceRef = useRef({})
-
-  const forceRerender = useCallback(() => {
-    if (hasMountedRef.current) {
-      forceUpdate()
-    } else {
-      waitForMountedRef.current = true
-    }
-  }, [hasMountedRef])
-
-  const shouldSync = useCallback((fn: () => void) => {
-    // Do not rerender the "same component", when the hook is used. Only other subscribers will rerender.
-    if (instanceRef.current === fn?.['ref']) {
-      return false
-    }
-
-    return undefined
-  }, [])
-
-  useMountEffect(() => {
-    if (waitForMountedRef.current) {
-      forceUpdate()
-    }
-  })
 
   const sharedState = useMemo(() => {
     if (id) {
-      return createSharedState<Data>(id, initialData, { shouldSync })
+      return createSharedState<Data>(id, initialData)
     }
 
     return undefined
-  }, [id, initialData, shouldSync])
+  }, [id, initialData])
+
   const sharedAttachment = useMemo(() => {
     if (id) {
-      return createSharedState(
-        createReferenceKey(id, 'oc'),
-        { onChange },
-        { shouldSync }
-      )
+      return createSharedState(createReferenceKey(id, 'oc'), { onChange })
     }
 
     return undefined
-  }, [id, onChange, shouldSync])
+  }, [id, onChange])
 
   const syncAttachment = useCallback(
-    (newData: Data) => {
+    (newData: Data | Partial<Data>) => {
       if (id) {
         sharedAttachment.data?.onChange?.(newData)
       }
@@ -98,14 +72,36 @@ export function useSharedState<Data>(
     [id, sharedAttachment]
   )
 
-  const update = useCallback(
-    (newData: Data, opts?: Options) => {
-      if (id) {
-        sharedState.update(newData, opts)
+  // Subscribe to the shared state using useSyncExternalStore.
+  // This reads the snapshot synchronously during render, solving the StrictMode
+  // initial-render issue where subscribers would otherwise see stale data.
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      if (!id || !sharedState) {
+        return () => {}
+      }
+
+      const subscriber: Subscriber = () => onStoreChange()
+      subscriber['ref'] = instanceRef.current
+
+      sharedState.subscribe(subscriber)
+
+      return () => {
+        sharedState.unsubscribe(subscriber)
+
+        if (weak && sharedState.subscribersRef.current.length === 0) {
+          sharedState.update(undefined)
+        }
       }
     },
-    [id, sharedState]
+    [id, sharedState, weak]
   )
+
+  const getSnapshot = useCallback(() => {
+    return id ? (sharedState?.get?.() ?? undefined) : undefined
+  }, [id, sharedState])
+
+  const data = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
 
   const get = useCallback(() => {
     if (id) {
@@ -115,42 +111,57 @@ export function useSharedState<Data>(
     return undefined
   }, [id, sharedState])
 
-  const set = useCallback(
-    (newData: Data) => {
+  const update = useCallback(
+    (newData: Data | Partial<Data>, opts?: Options) => {
       if (id) {
-        sharedState.set(newData)
+        sharedState.update(newData, {
+          ...opts,
+          callerRef: instanceRef.current,
+        })
+      }
+    },
+    [id, sharedState]
+  )
+
+  const set = useCallback(
+    (newData: Data | Partial<Data>, opts?: Options) => {
+      if (!id) {
+        return false
+      }
+
+      const changed = sharedState.set(newData, {
+        ...opts,
+        callerRef: instanceRef.current,
+      })
+
+      if (changed) {
         syncAttachment(newData)
       }
+
+      return changed
     },
     [id, sharedState, syncAttachment]
   )
 
   const extend = useCallback(
-    (newData: Data, opts?: Options) => {
-      if (id) {
-        sharedState.extend(newData, opts)
+    (newData: Data | Partial<Data>, opts?: Options) => {
+      if (!id) {
+        return false
+      }
+
+      const changed = sharedState.extend(newData, {
+        ...opts,
+        callerRef: instanceRef.current,
+      })
+
+      if (changed) {
         syncAttachment(newData)
       }
+
+      return changed
     },
     [id, sharedState, syncAttachment]
   )
-
-  useLayoutEffect(() => {
-    if (!id) {
-      return undefined
-    }
-
-    forceRerender['ref'] = instanceRef.current
-    sharedState.subscribe(forceRerender)
-
-    return () => {
-      sharedState.unsubscribe(forceRerender)
-
-      if (weak && sharedState.subscribersRef.current.length === 0) {
-        sharedState.update(undefined)
-      }
-    }
-  }, [forceRerender, id, onChange, sharedState, weak])
 
   useEffect(() => {
     // Set the onChange function in case it is not set yet
@@ -161,7 +172,7 @@ export function useSharedState<Data>(
 
   return {
     get,
-    data: sharedState?.get?.() as Data,
+    data: data as Data,
     hadInitialData: sharedState?.hadInitialData,
     update,
     set,
@@ -169,14 +180,14 @@ export function useSharedState<Data>(
   }
 }
 
-type Subscriber = () => void
+type Subscriber = (() => void) & { ref?: unknown }
 
 export type SharedStateReturn<Data = undefined> = {
   data: Data
   get: () => Data
-  set: (newData: Partial<Data>) => void
-  extend: (newData: Partial<Data>, opts?: Options) => void
-  update: (newData: Partial<Data>, opts?: Options) => void
+  set: (newData: Data | Partial<Data>, opts?: Options) => boolean
+  extend: (newData: Data | Partial<Data>, opts?: Options) => boolean
+  update: (newData: Data | Partial<Data>, opts?: Options) => void
   subscribersRef?: { current: Subscriber[] }
 }
 
@@ -193,6 +204,9 @@ const sharedStates: Map<
 
 type Options = {
   preventSyncOfSameInstance?: boolean
+  callerRef?: unknown
+  forceSync?: boolean
+  silent?: boolean
 }
 
 /**
@@ -202,12 +216,7 @@ export function createSharedState<Data>(
   /** The identifier for the shared state. */
   id: SharedStateId,
   /** The initial data for the shared state. */
-  initialData?: Data,
-  /** Optional configuration options. */
-  {
-    /** A function that returns true if the component should be rerendered. */
-    shouldSync = null,
-  } = {}
+  initialData?: Data
 ): SharedStateInstance<Data> {
   if (!sharedStates.get(id)) {
     const subscribersRef = {
@@ -216,33 +225,82 @@ export function createSharedState<Data>(
 
     const sync = (opts: Options = {}) => {
       subscribersRef.current.forEach((subscriber) => {
-        const syncNow = opts.preventSyncOfSameInstance
-          ? shouldSync?.(subscriber) !== false
-          : true
-        if (syncNow) {
-          subscriber()
+        if (
+          opts.preventSyncOfSameInstance &&
+          opts.callerRef !== undefined &&
+          subscriber['ref'] === opts.callerRef
+        ) {
+          return
         }
+
+        subscriber()
       })
     }
 
     const get = () => sharedStates.get(id).data
 
-    const set = (newData: Partial<Data>) => {
-      sharedStates.get(id).data =
-        newData === undefined ? undefined : { ...newData }
-    }
+    const set = (
+      newData: Data | Partial<Data>,
+      opts?: Options
+    ): boolean => {
+      const store = sharedStates.get(id)
+      const current = store.data
 
-    const update = (newData: Partial<Data>, opts?: Options) => {
-      set(newData)
-      sync(opts)
-    }
+      if (newData === undefined) {
+        if (current === undefined) {
+          return false
+        }
 
-    const extend = (newData: Data, opts?: Options) => {
-      sharedStates.get(id).data = {
-        ...sharedStates.get(id).data,
-        ...newData,
+        store.data = undefined
+        if (!opts?.silent) {
+          sync(opts)
+        }
+        return true
       }
-      sync(opts)
+
+      const next = cloneData(newData)
+      if (!opts?.forceSync && shallowEqual(current, next)) {
+        return false
+      }
+
+      store.data = next as Data
+      if (!opts?.silent) {
+        sync(opts)
+      }
+      return true
+    }
+
+    const update = (
+      newData: Data | Partial<Data>,
+      opts?: Options
+    ): void => {
+      set(newData, opts)
+    }
+
+    const extend = (
+      newData: Data | Partial<Data>,
+      opts?: Options
+    ): boolean => {
+      const store = sharedStates.get(id)
+      const current = store.data
+
+      if (!isMergeableObject(newData)) {
+        return set(newData, opts)
+      }
+
+      const base = isMergeableObject(current)
+        ? (current as Record<string, unknown>)
+        : {}
+      const next = { ...base, ...newData }
+      if (!opts?.forceSync && shallowEqual(base, next)) {
+        return false
+      }
+
+      store.data = next as Data
+      if (!opts?.silent) {
+        sync(opts)
+      }
+      return true
     }
 
     const subscribe = (subscriber: Subscriber) => {
@@ -276,10 +334,35 @@ export function createSharedState<Data>(
     sharedStates.get(id).data === undefined &&
     initialData !== undefined
   ) {
-    sharedStates.get(id).data = { ...initialData }
+    // Silently seed the store so children render with data on their first pass.
+    // No sync here — we may be in the render phase where calling subscribers
+    // would cause a "setState during render" warning. The store value will be
+    // picked up by useSyncExternalStore's getSnapshot on the next render.
+    sharedStates.get(id).data = cloneData(initialData) as Data
   }
 
   return sharedStates.get(id)
+}
+
+/**
+ * Pre-seed a shared state with data silently — without notifying subscribers,
+ * without triggering useSyncExternalStore subscriptions, and crucially without
+ * setting `hadInitialData = true`. This lets subsequent `Form.useData(id, data)`
+ * calls still merge their own initialData, which `createSharedState(id, data)`
+ * would prevent by setting `hadInitialData = true`.
+ *
+ * Safe to call during the render phase when no subscribers exist yet.
+ */
+export function preSeedSharedState<Data>(
+  id: SharedStateId,
+  data: Data
+): void {
+  // Ensure the store exists with hadInitialData = false
+  createSharedState<Data>(id)
+  const store = sharedStates.get(id)
+  if (store && store.data === undefined && data !== undefined) {
+    store.data = cloneData(data) as Data
+  }
 }
 
 /**
@@ -300,3 +383,66 @@ export function createReferenceKey(ref1, ref2) {
   return innerMap.get(ref2)
 }
 const cache = new Map()
+
+function isObjectLike(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function isMergeableObject(
+  value: unknown
+): value is Record<string, unknown> {
+  return isObjectLike(value) && !Array.isArray(value)
+}
+
+function cloneData<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return [...value] as T
+  }
+
+  if (isMergeableObject(value)) {
+    return { ...value } as T
+  }
+
+  return value
+}
+
+// set and extend create new containers, so reference equality alone would
+// re-sync unchanged values and can trigger subscriber feedback loops.
+export function shallowEqual(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) {
+    return true
+  }
+
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) {
+      return false
+    }
+
+    for (let i = 0; i < a.length; i++) {
+      if (!Object.is(a[i], b[i])) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  if (isMergeableObject(a) && isMergeableObject(b)) {
+    const keysA = Object.keys(a)
+    const keysB = Object.keys(b)
+
+    if (keysA.length !== keysB.length) {
+      return false
+    }
+
+    for (const key of keysA) {
+      if (!Object.hasOwn(b, key) || !Object.is(a[key], b[key])) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  return false
+}
