@@ -2665,6 +2665,120 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('keeps bottom placement when autoAlignViewportThreshold prevents flipping', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerHeight'
+      )
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: 320,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 120,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 40, top: 220, width: 120, height: 40 })
+      )
+
+      setElementSize(200, 160)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          placement="bottom"
+          targetElement={targetElement}
+          autoAlignViewportThreshold={0.75}
+        >
+          Threshold bottom
+        </Popover>
+      )
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
+        ).toBeInTheDocument()
+      )
+
+      if (windowHeightDescriptor) {
+        Object.defineProperty(
+          window,
+          'innerHeight',
+          windowHeightDescriptor
+        )
+      }
+      targetElement.remove()
+    })
+
+    it('flips to top when autoAlignViewportThreshold allows it near the bottom edge', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerHeight'
+      )
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: 320,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 120,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 40, top: 260, width: 120, height: 40 })
+      )
+
+      setElementSize(200, 160)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          placement="bottom"
+          targetElement={targetElement}
+          autoAlignViewportThreshold={0.75}
+        >
+          Threshold top
+        </Popover>
+      )
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__arrow__placement--top')
+        ).toBeInTheDocument()
+      )
+
+      if (windowHeightDescriptor) {
+        Object.defineProperty(
+          window,
+          'innerHeight',
+          windowHeightDescriptor
+        )
+      }
+      targetElement.remove()
+    })
+
     it('autoAlignMode "initial" keeps placement after viewport expands', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
