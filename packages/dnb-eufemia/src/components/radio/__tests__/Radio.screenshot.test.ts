@@ -52,6 +52,8 @@ for (const themeName of ['ui', 'sbanken']) {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="radio-error-unchecked"] .dnb-radio',
+          simulateSelector:
+            '[data-visual-test="radio-error-unchecked"] .dnb-radio__input',
           simulate: 'hover',
         })
         expect(screenshot).toMatchSnapshot()
@@ -156,6 +158,8 @@ for (const themeName of ['ui', 'sbanken']) {
       test('have to match radio in checked state with error and hover', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="radio-error-checked"] .dnb-radio',
+          simulateSelector:
+            '[data-visual-test="radio-error-checked"] .dnb-radio__input',
           simulate: 'hover',
         })
         expect(screenshot).toMatchSnapshot()
