@@ -76,7 +76,7 @@ export type SwitchProps = {
   disabled?: boolean
   id?: string
   /**
-   * The size of the switch. For now there are `default`, `medium` (default) and `large`.
+   * The size of the switch. For now there are `medium` (default) and `large`.
    */
   size?: SwitchSize
   /**
