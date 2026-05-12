@@ -22,14 +22,14 @@ export type HeightAnimationProps = {
   showOverflow?: boolean
 
   /**
-   * Defines the duration of the animation in milliseconds.
-   * Default: `400`
+   * Custom duration of the animation in milliseconds.
+   * Default: `400ms`
    */
   duration?: number
 
   /**
-   * Defines the delay of the animation in milliseconds.
-   * Default: `0`
+   * Custom delay of the animation in milliseconds.
+   * Default: `0ms`
    */
   delay?: number
 

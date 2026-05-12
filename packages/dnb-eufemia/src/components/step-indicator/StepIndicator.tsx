@@ -104,7 +104,7 @@ export type StepIndicatorProps = Omit<
      */
     statusState?: FormStatusState
     /**
-     * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
+     * If set to `true`, the height animation on step change and list expansion will be omitted. Defaults to `false`.
      */
     noAnimation?: boolean
     /**
