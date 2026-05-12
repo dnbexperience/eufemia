@@ -5,23 +5,27 @@
  * paths are filled with `currentColor`.
  */
 const filledIconNames = [
-  'animal_print',
-  'bell',
-  'boat',
-  'bubble',
-  'folder',
-  'graph_increase',
   'heart',
-  'home',
-  'lightbulb',
-  'pause',
-  'pin',
-  'play',
-  'reply',
-  'shield',
   'star',
-  'travel',
-  'volume_on',
+
+  // Interesting icons that work with fill:
+  // 'bell',
+  // 'bubble',
+  // 'folder',
+  // 'graph_increase',
+  // 'home',
+  // 'lightbulb',
+  // 'pause',
+  // 'pin',
+  // 'play',
+  // 'reply',
+  // 'shield',
+  // 'volume_on',
+
+  // Additional icons that work with fill:
+  // 'travel',
+  // 'animal_print',
+  // 'boat',
 ] as const
 
 export type FilledIconName = (typeof filledIconNames)[number]
