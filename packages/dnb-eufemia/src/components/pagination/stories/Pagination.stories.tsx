@@ -375,3 +375,55 @@ export function PaginationBarSpacing() {
     </Section>
   )
 }
+
+export const PaginationWithGetPageHref = () => (
+  <Wrapper>
+    <Box>
+      <P>Path-based URLs</P>
+      <Pagination
+        pageCount={30}
+        currentPage={4}
+        getPageHref={(pageNumber) => `/page/${pageNumber}`}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Query parameter URLs</P>
+      <Pagination
+        pageCount={10}
+        currentPage={2}
+        getPageHref={(pageNumber) =>
+          `/search?q=eufemia&page=${pageNumber}`
+        }
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Constructed URL (preserving existing query parameters)</P>
+      <Pagination
+        pageCount={10}
+        currentPage={3}
+        getPageHref={(pageNumber) => {
+          const url = new URL(window.location.href)
+          url.searchParams.set('page', String(pageNumber))
+          return url.toString()
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+  </Wrapper>
+)
