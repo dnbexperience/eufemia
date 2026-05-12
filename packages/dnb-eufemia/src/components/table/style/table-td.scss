@@ -9,7 +9,7 @@
 .dnb-table {
   &__td {
     position: relative;
-    background-color: var(--background-color);
+    background-color: var(--table-td-background);
   }
 
   // Table border
@@ -71,7 +71,7 @@
     padding: 0;
 
     &:active {
-      --background-color: var(--table-accordion-background--active);
+      --table-td-background: var(--table-accordion-background--active);
     }
   }
 
@@ -159,7 +159,7 @@
 
   // Highlighted cell
   &__td--highlight {
-    --background-color: var(--table-th-highlight-background);
+    --table-td-background: var(--table-highlight-background);
   }
   &__td--highlight-border {
     --table-border-top: var(--table-border-width) solid
@@ -174,7 +174,7 @@
 
   // Selected cell
   &__td--selected {
-    --background-color: var(
+    --table-td-background: var(
       --table-td-background--selected,
       var(--token-color-background-selected-subtle)
     );

@@ -46,7 +46,7 @@ import Table, {
   Td,
   Tr,
   useTableKeyboardNavigation,
-  highlightPlugin,
+  useTableHighlight,
 } from '@dnb/eufemia/src/components/Table'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
@@ -2171,53 +2171,58 @@ export const ColumnHighlight = () => (
   <ComponentBox
     hideCode
     data-visual-test="table-column-highlight"
-    scope={{ highlightPlugin }}
+    scope={{ useTableHighlight }}
   >
     {() => {
-      const plugins = [highlightPlugin]
-      return (
-        <Table.ScrollView>
-          <Table outline border plugins={plugins}>
-            <caption className="dnb-sr-only">
-              Table with highlighted column
-            </caption>
+      const ColumnHighlightTable = () => {
+        const highlightRef = useTableHighlight()
 
-            <thead>
-              <Tr>
-                <Th />
-                <Th highlight>Column A</Th>
-                <Th highlight>Column B</Th>
-                <Th>Column C</Th>
-                <Th>Column D</Th>
-              </Tr>
-            </thead>
+        return (
+          <Table.ScrollView>
+            <Table outline border ref={highlightRef}>
+              <caption className="dnb-sr-only">
+                Table with highlighted column
+              </caption>
 
-            <tbody>
-              <Tr highlight>
-                <Th>Row 1 Header</Th>
-                <Td>Row 1</Td>
-                <Td>Row 1</Td>
-                <Td>Row 1</Td>
-                <Td>Row 1</Td>
-              </Tr>
-              <Tr>
-                <Th>Row 2 Header</Th>
-                <Td>Row 2</Td>
-                <Td>Row 2</Td>
-                <Td>Row 2</Td>
-                <Td>Row 2</Td>
-              </Tr>
-              <Tr>
-                <Th>Row 3 Header</Th>
-                <Td>Row 3</Td>
-                <Td>Row 3</Td>
-                <Td highlight>Row 3</Td>
-                <Td>Row 3</Td>
-              </Tr>
-            </tbody>
-          </Table>
-        </Table.ScrollView>
-      )
+              <thead>
+                <Tr>
+                  <Th />
+                  <Th highlight>Column A</Th>
+                  <Th highlight>Column B</Th>
+                  <Th>Column C</Th>
+                  <Th>Column D</Th>
+                </Tr>
+              </thead>
+
+              <tbody>
+                <Tr highlight>
+                  <Th>Row 1 Header</Th>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 2 Header</Th>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 3 Header</Th>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                  <Td highlight>Row 3</Td>
+                  <Td>Row 3</Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+      }
+
+      return <ColumnHighlightTable />
     }}
   </ComponentBox>
 )

@@ -36,7 +36,8 @@ export type TableThProps = {
   noWrap?: boolean
 
   /**
-   * Highlights the entire column with a subtle background overlay.
+   * Highlights the cell with a subtle background overlay.
+   * Use together with `useTableHighlight` to highlight the entire column.
    * Default: `false`
    */
   highlight?: boolean

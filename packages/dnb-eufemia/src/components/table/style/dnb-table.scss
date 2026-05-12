@@ -11,9 +11,7 @@
   --table-th-background-color: var(--token-color-background-neutral);
 
   // Highlight
-  --table-th-highlight-background: var(
-    --token-color-decorative-first-muted
-  );
+  --table-highlight-background: var(--token-color-decorative-first-muted);
   --table-th-highlight-border: var(--token-color-decorative-first-subtle);
 
   display: table;

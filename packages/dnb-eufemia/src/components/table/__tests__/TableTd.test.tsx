@@ -4,7 +4,7 @@ import type { TableTdProps } from '../TableTd'
 import TableTd from '../TableTd'
 import TableTh from '../TableTh'
 import TableTr from '../TableTr'
-import Table, { highlightPlugin } from '../Table'
+import Table, { useTableHighlight } from '../Table'
 import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {
@@ -854,24 +854,30 @@ describe('TableTd selected state', () => {
   })
 
   it('should inherit highlight from Th in the same column', () => {
-    render(
-      <Table plugins={[highlightPlugin]}>
-        <thead>
-          <TableTr>
-            <TableTh>A</TableTh>
-            <TableTh highlight>B</TableTh>
-            <TableTh>C</TableTh>
-          </TableTr>
-        </thead>
-        <tbody>
-          <TableTr>
-            <TableTd>1</TableTd>
-            <TableTd>2</TableTd>
-            <TableTd>3</TableTd>
-          </TableTr>
-        </tbody>
-      </Table>
-    )
+    const HighlightTable = () => {
+      const highlightRef = useTableHighlight()
+
+      return (
+        <Table ref={highlightRef}>
+          <thead>
+            <TableTr>
+              <TableTh>A</TableTh>
+              <TableTh highlight>B</TableTh>
+              <TableTh>C</TableTh>
+            </TableTr>
+          </thead>
+          <tbody>
+            <TableTr>
+              <TableTd>1</TableTd>
+              <TableTd>2</TableTd>
+              <TableTd>3</TableTd>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+    }
+
+    render(<HighlightTable />)
 
     const cells = document.querySelectorAll('td')
     expect(Array.from(cells[0].classList)).not.toContain(

@@ -25,7 +25,7 @@
   }
 
   &__th--highlight {
-    --table-th-background-color: var(--table-th-highlight-background);
+    --table-th-background-color: var(--table-highlight-background);
   }
   &--border &__th--highlight + &__th--highlight {
     @include table-mixins.tableBorder() {

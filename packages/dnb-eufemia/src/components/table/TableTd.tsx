@@ -99,8 +99,6 @@ export default function Td(
   const trContext = useContext(TableTrContext)
   const highlight = highlightProp || trContext?.highlight
 
-  const tdRef = useRef<HTMLTableCellElement>(undefined)
-
   const hasOnClick = typeof onClick === 'function'
   const isSelectable = selectedProp !== undefined
   const [selectedState, setSelectedState] = useState(selectedProp ?? false)
@@ -126,7 +124,6 @@ export default function Td(
 
   return (
     <td
-      ref={tdRef}
       // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
       role="cell"
       className={clsx(
