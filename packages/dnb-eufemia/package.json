@@ -47,7 +47,7 @@
     "icons:commit": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/tasks/commitChanges",
     "icons:convert": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons && babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateIcons",
     "icons:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons' --ext ts --ignore '/icons/**' --ignore '*.json'",
-    "lint": "eslint --quiet ./src ./scripts",
+    "lint": "eslint --quiet --cache ./src ./scripts",
     "lint:ci": "yarn lint:lockfile && yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
     "lint:js": "yarn lint",
     "lint:lockfile": "yarn lockfile-lint --path ../../yarn.lock --type yarn --allowed-schemes https: npm: workspace: patch: --allowed-hosts yarn github.com codeload.github.com",

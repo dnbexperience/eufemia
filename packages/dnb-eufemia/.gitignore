@@ -18,6 +18,7 @@
 # misc
 package-lock.json
 completions.json
+.eslintcache
 *snapshot.json
 *.emotion.css
 .DS_Store

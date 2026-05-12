@@ -8,6 +8,7 @@ node_modules/
 # misc
 package-lock.json
 completions.json
+.eslintcache
 .DS_Store
 .history
 *not_in_use*
