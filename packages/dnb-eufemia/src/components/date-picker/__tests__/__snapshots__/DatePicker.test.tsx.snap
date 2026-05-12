@@ -1484,7 +1484,8 @@ html[data-visual-test] .dnb-input__input {
   --checkbox-width--medium: 1.25rem;
   --checkbox-height--medium: 1.25rem;
   --checkbox-border-radius: var(--token-radius-sm);
-  --checkbox-border-width: 0.0625rem;
+  --checkbox-border-width--default: 0.0625rem;
+  --checkbox-border-inset: inset;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
   --checkbox-gfx-size__indeterminate: 0.625rem;
@@ -1526,6 +1527,8 @@ html[data-visual-test] .dnb-input__input {
   --checkbox-color-background__indeterminate--disabled: var(
     --token-color-background-neutral
   );
+  --checkbox-border-inset--active: inset;
+  --checkbox-color-gfx-on--active: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-off--active: var(
     --token-color-background-action-pressed-subtle
   );
@@ -1542,6 +1545,7 @@ html[data-visual-test] .dnb-input__input {
     --token-color-background-action-pressed
   );
   --checkbox-border-width--hover: 0.125rem;
+  --checkbox-border-inset--hover: ;
   --checkbox-color-gfx--hover: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-on--hover: var(
     --token-color-background-action-hover
@@ -1603,7 +1607,7 @@ html[data-visual-test] .dnb-input__input {
 }
 .dnb-checkbox__button {
   display: inline-block;
-  border: var(--checkbox-border-width) solid var(--checkbox-color-border-off);
+  box-shadow: var(--checkbox-border-inset) 0 0 0 var(--checkbox-border-width, var(--checkbox-border-width--default)) var(--checkbox-color-border, var(--checkbox-color-border-off));
   background-color: var(--checkbox-color-background-off);
 }
 .dnb-checkbox__focus {
@@ -1712,8 +1716,8 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   color: var(--checkbox-color-gfx-on);
 }
 .dnb-checkbox__input:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[data-checked=true] ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border-on);
   background-color: var(--checkbox-color-background-on);
-  border-color: var(--checkbox-color-border-on);
 }
 .dnb-checkbox__input:not(:checked):not([data-checked=true]):not(:indeterminate) ~ .dnb-checkbox__gfx {
   opacity: 0;
@@ -1736,8 +1740,8 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   opacity: 1;
 }
 .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border__indeterminate);
   background-color: var(--checkbox-color-background__indeterminate);
-  border-color: var(--checkbox-color-border__indeterminate);
 }
 .dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
   color: transparent;
@@ -1750,14 +1754,14 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   /** Disabled state **/
 }
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border-on--disabled);
   background-color: var(--checkbox-color-background-on--disabled);
-  border-color: var(--checkbox-color-border-on--disabled);
 }
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--disabled);
 }
 .dnb-checkbox__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
-  border-color: var(--checkbox-color-border-off--disabled);
+  --checkbox-color-border: var(--checkbox-color-border-off--disabled);
   background-color: var(--checkbox-color-background-off--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
@@ -1773,7 +1777,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   /** Error state **/
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
-  border-color: var(--checkbox-color-border--error);
+  --checkbox-color-border: var(--checkbox-color-border--error);
   background-color: var(--checkbox-color-background-off--error);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
@@ -1789,21 +1793,25 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   /** Hover state **/
 }
 .dnb-checkbox__input:not([disabled]):hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
-  border-color: var(--checkbox-color-border--hover);
+  --checkbox-color-border: var(--checkbox-color-border--hover);
+  --checkbox-border-width: var(--checkbox-border-width--hover);
+  --checkbox-border-inset: var(--checkbox-border-inset--hover);
   background-color: var(--checkbox-color-background-off--hover);
-  border-width: var(--checkbox-border-width--hover);
 }
 .dnb-checkbox__input:hover:not(:active):not(:focus) ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--hover);
 }
 .dnb-checkbox__input:not([disabled]):checked:hover:not(:active):not(:focus) ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border--hover);
+  --checkbox-border-width: var(--checkbox-border-width--hover);
+  --checkbox-border-inset: var(--checkbox-border-inset--hover);
   background-color: var(--checkbox-color-background-on--hover);
-  border-color: var(--checkbox-color-border--hover);
-  border-width: var(--checkbox-border-width--hover);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active):not(:focus) ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(
+    --checkbox-color-border__indeterminate--hover
+  );
   background-color: var(--checkbox-color-background__indeterminate--hover);
-  border-color: var(--checkbox-color-border__indeterminate--hover);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active):not(:focus) ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--hover);
@@ -1815,22 +1823,24 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   /** Active state **/
 }
 .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border-off--active);
+  --checkbox-border-width: var(--checkbox-border-width--default);
+  --checkbox-border-inset: var(--checkbox-border-inset--active);
   background-color: var(--checkbox-color-background-off--active);
-  border-color: var(--checkbox-color-border-off--active);
-  border-width: var(--checkbox-border-width);
 }
 .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border-on--active);
+  --checkbox-border-width: var(--checkbox-border-width--default);
   background-color: var(--checkbox-color-background-on--active);
-  border-color: var(--checkbox-color-border-on--active);
-  border-width: var(--checkbox-border-width);
 }
 .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx, .dnb-checkbox__input:not([disabled])[data-checked=true]:active ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx-on);
+  color: var(--checkbox-color-gfx-on--active);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(--checkbox-color-border-off--active);
+  --checkbox-border-width: var(--checkbox-border-width--default);
+  --checkbox-border-inset: var(--checkbox-border-inset--active);
   background-color: var(--checkbox-color-background-off--active);
-  border-color: var(--checkbox-color-border-off--active);
-  border-width: var(--checkbox-border-width);
 }
 .dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--active);
@@ -1839,7 +1849,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   /** Focus state **/
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
-  border: none;
+  box-shadow: none;
   background-color: var(--checkbox-color-background--focus);
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
@@ -1885,15 +1895,13 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.0625rem;
-  --radio-color-dot-on: var(--token-color-background-selected);
-  --radio-color-background-on: var(
-    --token-color-background-selected-subtle
+  --radio-border-inset--default: inset;
+  --radio-border-width--default: 0.0625rem;
+  --radio-color-dot-on--default: var(--token-color-background-selected);
+  --radio-color-background--default: var(--token-color-background-neutral);
+  --radio-color-border--default: var(
+    --token-color-stroke-action-alternative
   );
-  --radio-color-background-off: var(--token-color-background-neutral);
-  --radio-color-border-on: var(--token-color-stroke-selected);
-  --radio-color-border-off: var(--token-color-stroke-action-alternative);
-  --radio-border-width--disabled: 0.125rem;
   --radio-color-dot-on--disabled: var(
     --token-color-background-action-disabled
   );
@@ -1903,7 +1911,8 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-color-border--disabled: var(
     --token-color-stroke-action-disabled
   );
-  --radio-border-width-on--active: 0.125rem;
+  --radio-border-inset--active: inset;
+  --radio-border-width--active: 0.0625rem;
   --radio-color-dot-on--active: var(
     --token-color-background-action-pressed
   );
@@ -1911,25 +1920,20 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
     --token-color-background-action-pressed-subtle
   );
   --radio-color-border--active: var(--token-color-stroke-action-pressed);
+  --radio-border-inset--hover: ;
   --radio-border-width--hover: 0.125rem;
-  --radio-border-width-on--hover: 0.125rem;
   --radio-color-dot-on--hover: var(--token-color-background-action-hover);
   --radio-color-background--hover: var(
     --token-color-background-action-hover-subtle
   );
   --radio-color-border--hover: var(--token-color-stroke-action-hover);
-  --radio-border-width--focus: 0.125rem;
+  --radio-border-inset--focus: ;
+  --radio-border-width--focus: 0.25rem;
   --radio-color-dot-on--focus: var(--token-color-background-action-focus);
   --radio-color-background--focus: var(
     --token-color-background-action-focus-subtle
   );
   --radio-color-border--focus: var(--token-color-stroke-action-focus);
-  --radio-color-dot-on--error: var(--token-color-background-error);
-  --radio-color-background--error: var(
-    --token-color-background-error-subtle
-  );
-  --radio-color-border--error: var(--token-color-stroke-error);
-  --radio-focus-ring-width--error: var(--radio-border-width);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
   display: inline-flex;
@@ -1949,40 +1953,28 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
-  width: calc(var(--radio-width--medium) + var(--radio-scale, 0px));
-  height: calc(var(--radio-height--medium) + var(--radio-scale, 0px));
+  width: var(--radio-width--medium);
+  height: var(--radio-height--medium);
 }
-.dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+.dnb-radio__button, .dnb-radio__dot {
   position: absolute;
   z-index: 4;
 }
 .dnb-radio__button {
-  border: var(--radio-border-width) solid transparent;
+  box-shadow: var(--radio-border-inset, var(--radio-border-inset--default)) 0 0 0 var(--radio-border-width, var(--radio-border-width--default)) var(--radio-color-border, var(--radio-color-border--default));
+  background-color: var(--radio-color-background, var(--radio-color-background--default));
+  width: calc(var(--radio-width--medium) - 0.25rem);
+  height: calc(var(--radio-height--medium) - 0.25rem);
+  border-radius: var(--token-radius-full);
 }
-.dnb-radio__focus {
-  display: none;
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-radio__focus {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-radio__focus, .dnb-radio__button {
-  width: calc(var(--radio-width--medium) - 0.25rem + var(--radio-scale, 0px));
-  height: calc(var(--radio-height--medium) - 0.25rem + var(--radio-scale, 0px));
-  border-radius: 50%;
-}
-.dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-  width: calc(var(--radio-width--large) + var(--radio-scale, 0px));
-  height: calc(var(--radio-height--large) + var(--radio-scale, 0px));
+.dnb-radio--large .dnb-radio__button {
+  width: var(--radio-width--large);
+  height: var(--radio-height--large);
 }
 .dnb-radio__dot {
   width: var(--radio-dot--medium);
   height: var(--radio-dot--medium);
-  border-radius: 50%;
-  background-color: var(--radio-color-dot-on);
+  border-radius: var(--token-radius-full);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
 }
 .dnb-radio--large .dnb-radio__dot {
@@ -2125,10 +2117,15 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   /** Normal state **/
 }
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-on);
-  border-color: var(--radio-color-border-on);
+  --radio-border-width--default: 0.09375rem;
+  --radio-border-width--active: 0.09375rem;
+  --radio-color-border--default: var(--token-color-stroke-selected);
+  --radio-color-background--default: var(
+    --token-color-background-selected-subtle
+  );
 }
 .dnb-radio__input:checked ~ .dnb-radio__dot, .dnb-radio__input[data-checked=true] ~ .dnb-radio__dot {
+  background-color: var(--radio-color-dot-on, var(--radio-color-dot-on--default));
   opacity: 1;
   transform: scale(1);
 }
@@ -2136,87 +2133,74 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   opacity: 0;
   transform: scale(0.8);
 }
-.dnb-radio__input:not(:checked):not([data-checked=true]) ~ .dnb-radio__button {
-  background-color: var(--radio-color-background-off);
-  border-color: var(--radio-color-border-off);
+.dnb-radio {
+  /** Error state **/
+}
+.dnb-radio__status--error .dnb-radio__input ~ .dnb-radio__button {
+  --radio-border-width--default: 0.0625rem;
+  --radio-color-background--default: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-border--default: var(--token-color-stroke-error);
+}
+.dnb-radio__status--error {
+  --radio-color-dot-on--default: var(--token-color-background-error);
+}
+.dnb-radio {
+  /** Hover state **/
+}
+.dnb-radio__input:hover ~ .dnb-radio__button {
+  --radio-border-inset: var(--radio-border-inset--hover);
+  --radio-border-width: var(--radio-border-width--hover);
+  --radio-color-border: var(--radio-color-border--hover);
+  --radio-color-background: var(--radio-color-background--hover);
+}
+.dnb-radio__input:hover ~ .dnb-radio__dot {
+  --radio-color-dot-on: var(--radio-color-dot-on--hover);
+}
+.dnb-radio {
+  /** Active state **/
+}
+.dnb-radio__input:active ~ .dnb-radio__button {
+  --radio-border-inset: var(--radio-border-inset--active);
+  --radio-border-width: var(--radio-border-width--active);
+  --radio-color-border: var(--radio-color-border--active);
+  --radio-color-background: var(--radio-color-background--active);
+}
+.dnb-radio__input:active ~ .dnb-radio__dot {
+  --radio-color-dot-on: var(--radio-color-dot-on--active);
+}
+.dnb-radio {
+  /** Focus state **/
+}
+html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
+  --radio-border-inset: var(--radio-border-inset--focus);
+  --radio-border-width: var(--radio-border-width--focus);
+  --radio-color-border: var(--radio-color-border--focus);
+  --radio-color-background: var(--radio-color-background--focus);
+}
+html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
+  --radio-color-dot-on: var(--radio-color-dot-on--focus);
 }
 .dnb-radio {
   /** Disabled state **/
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button {
-  border-width: var(--radio-border-width--disabled);
+  --radio-border-inset: var(--radio-border-inset--disabled);
+  --radio-border-width: var(--radio-border-width--disabled);
+  --radio-color-border: var(--radio-color-border--disabled);
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
-  border-color: var(--radio-color-border--disabled);
-  background-color: var(--radio-color-background--disabled);
+  --radio-color-background: var(--radio-color-background--disabled);
 }
-.dnb-radio__input[disabled]:checked ~ .dnb-radio__dot, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--disabled);
+.dnb-radio__input[disabled] ~ .dnb-radio__dot {
+  --radio-color-dot-on: var(--radio-color-dot-on--disabled);
+}
+.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
+  --radio-color-border: var(--skeleton-color);
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton::before {
   border-radius: 0;
-}
-.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
-  border-color: var(--skeleton-color);
-}
-.dnb-radio {
-  /** Active state **/
-}
-.dnb-radio__input:not([disabled]):active ~ .dnb-radio__button {
-  background-color: var(--radio-color-background--active);
-  border-color: var(--radio-color-border--active);
-}
-.dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__dot, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--active);
-}
-.dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__button {
-  border-width: var(--radio-border-width-on--active);
-}
-.dnb-radio {
-  /** Hover state **/
-}
-.dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
-  --radio-scale: 0.125rem;
-}
-.dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus):hover ~ .dnb-radio__button {
-  background-color: var(--radio-color-background--hover);
-  border-color: var(--radio-color-border--hover);
-}
-.dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot, .dnb-radio:not(.dnb-radio__status--error) .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--hover);
-}
-.dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__button, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__button {
-  border-width: var(--radio-border-width-on--hover);
-}
-.dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked=true]):hover ~ .dnb-radio__button {
-  border-width: var(--radio-border-width--hover);
-}
-.dnb-radio {
-  /** Focus state **/
-}
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
-  border: none;
-}
-.dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
-  display: block;
-}
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):focus ~ .dnb-radio__button {
-  background-color: var(--radio-color-background--focus);
-}
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--focus);
-}
-.dnb-radio {
-  /** Error state **/
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
-  border-color: var(--radio-color-border--error);
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__button {
-  background-color: var(--radio-color-background--error);
-}
-.dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-radio__dot {
-  background-color: var(--radio-color-dot-on--error);
 }
 
 /*
@@ -2247,6 +2231,21 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
   display: inline-flex;
   align-items: center;
 }
+.dnb-toggle-button__button {
+  --button-border-radius: var(--token-radius-md);
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-bg--hover: var(--token-color-background-neutral);
+  --button-color-bg--active: var(--token-color-background-neutral);
+  --button-color-border--default: var(--token-color-stroke-neutral-bold);
+  --button-color-border--hover: var(--token-color-stroke-action-hover);
+  --button-color-border--active: var(
+    --token-color-stroke-action-pressed
+  );
+  --button-color-icon--default: var(--token-color-icon-neutral);
+  --button-color-text--default: var(--token-color-text-neutral);
+  --button-color-text--hover: var(--token-color-text-neutral);
+  --button-color-text--active: var(--token-color-text-neutral);
+}
 .dnb-toggle-button__button.dnb-button--has-text {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -2272,8 +2271,8 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
   height: calc(var(--checkbox-height--medium) - 1rem);
 }
 .dnb-toggle-button__button .dnb-checkbox__gfx {
-  width: calc(var(--checkbox-width--medium) - 0.5rem);
-  height: calc(var(--checkbox-height--medium) - 0.5rem);
+  width: calc(var(--checkbox-width--medium) - 0.625rem);
+  height: calc(var(--checkbox-height--medium) - 0.625rem);
 }
 .dnb-toggle-button__button .dnb-radio {
   margin-left: -0.5rem;
@@ -2281,14 +2280,153 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
 .dnb-toggle-button__button .dnb-radio__input {
   pointer-events: none;
 }
-.dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+.dnb-toggle-button__button .dnb-radio__button {
   width: calc(var(--radio-width--medium) - 0.5rem);
   height: calc(var(--radio-height--medium) - 0.5rem);
   border-width: 0.0625rem;
 }
 .dnb-toggle-button__button .dnb-radio__dot {
-  width: calc(var(--radio-width--medium) - 1rem);
-  height: calc(var(--radio-height--medium) - 1rem);
+  width: calc(var(--radio-dot--medium) - 0.125rem);
+  height: calc(var(--radio-dot--medium) - 0.125rem);
+}
+html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio .dnb-radio__button {
+  --radio-border-inset--default: var(--radio-border-inset--hover);
+  --radio-border-width--default: var(--radio-border-width--hover);
+  --radio-color-border--default: var(--radio-color-border--hover);
+  --radio-color-background--default: var(
+    --radio-color-background--hover
+  );
+}
+html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio .dnb-radio__dot {
+  --radio-color-dot-on--default: var(--radio-color-dot-on--hover);
+}
+html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox .dnb-checkbox__button {
+  --checkbox-color-background-off: var(
+    --checkbox-color-background-off--hover
+  );
+  --checkbox-color-background-off--error: var(
+    --checkbox-color-background-off--hover
+  );
+  --checkbox-color-background-on: var(
+    --checkbox-color-background-on--hover
+  );
+  --checkbox-color-background-on--error: var(
+    --checkbox-color-background-on--hover
+  );
+  --checkbox-border-inset: var(--checkbox-border-inset--hover);
+  --checkbox-border-width: var(--checkbox-border-width--hover);
+  --checkbox-color-border: var(--checkbox-color-border--hover);
+}
+html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox .dnb-checkbox__gfx {
+  --checkbox-color-gfx-on: var(--checkbox-color-gfx--hover);
+}
+.dnb-toggle-button__button:active[disabled], html:not([data-whatintent=touch]) .dnb-toggle-button__button:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-toggle-button__button:active:not([disabled]) .dnb-radio .dnb-radio__button, html:not([data-whatintent=touch]) .dnb-toggle-button__button:active:not([disabled]) .dnb-radio .dnb-radio__button {
+  --radio-border-inset--default: var(--radio-border-inset--active);
+  --radio-border-width--default: var(--radio-border-width--active);
+  --radio-color-border--default: var(--radio-color-border--active);
+  --radio-color-background--default: var(
+    --radio-color-background--active
+  );
+}
+.dnb-toggle-button__button:active:not([disabled]) .dnb-radio .dnb-radio__dot, html:not([data-whatintent=touch]) .dnb-toggle-button__button:active:not([disabled]) .dnb-radio .dnb-radio__dot {
+  --radio-color-dot-on--default: var(--radio-color-dot-on--active);
+}
+.dnb-toggle-button__button:active:not([disabled]) .dnb-checkbox .dnb-checkbox__button, html:not([data-whatintent=touch]) .dnb-toggle-button__button:active:not([disabled]) .dnb-checkbox .dnb-checkbox__button {
+  --checkbox-color-background-off: var(
+    --checkbox-color-background-off--active
+  );
+  --checkbox-color-background-off--error: var(
+    --checkbox-color-background-off--active
+  );
+  --checkbox-color-background-on: var(
+    --checkbox-color-background-on--active
+  );
+  --checkbox-color-background-on--error: var(
+    --checkbox-color-background-on--active
+  );
+  --checkbox-border-inset: var(--checkbox-border-inset--active);
+  --checkbox-border-width: var(--checkbox-border-width--default);
+  --checkbox-color-border: var(--checkbox-color-border-on--active);
+}
+.dnb-toggle-button__button:active:not([disabled]) .dnb-checkbox .dnb-checkbox__gfx, html:not([data-whatintent=touch]) .dnb-toggle-button__button:active:not([disabled]) .dnb-checkbox .dnb-checkbox__gfx {
+  --checkbox-color-gfx-on: var(--checkbox-color-gfx-on--active);
+}
+html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([disabled]) .dnb-radio .dnb-radio__button {
+  --radio-border-inset--default: var(--radio-border-inset--focus);
+  --radio-border-width--default: var(--radio-border-width--focus);
+  --radio-color-border--default: var(--radio-color-border--focus);
+  --radio-color-background--default: var(
+    --radio-color-background--focus
+  );
+}
+html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([disabled]) .dnb-radio .dnb-radio__dot {
+  --radio-color-dot-on--default: var(--radio-color-dot-on--focus);
+}
+html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([disabled]) .dnb-checkbox .dnb-checkbox__button {
+  --checkbox-color-background-off: var(
+    --checkbox-color-background--focus
+  );
+  --checkbox-color-background-off--error: var(
+    --checkbox-color-background--focus
+  );
+  --checkbox-color-background-on: var(
+    --checkbox-color-background--focus
+  );
+  --checkbox-color-background-on--error: var(
+    --checkbox-color-background--focus
+  );
+  --checkbox-border-inset: ;
+  --checkbox-border-width: 0.25rem;
+  --checkbox-color-border: var(--token-color-stroke-action-focus);
+}
+html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([disabled]) .dnb-checkbox .dnb-checkbox__gfx {
+  --checkbox-color-gfx-on: var(--checkbox-color-gfx--focus);
+  --checkbox-color-gfx--error: var(--checkbox-color-gfx--focus);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button {
+  --button-color-bg--default: var(
+    --token-color-background-selected-subtle
+  );
+  --button-color-bg--hover: var(
+    --token-color-background-selected-subtle
+  );
+  --button-color-bg--active: var(
+    --token-color-background-selected-subtle
+  );
+  --button-color-bg--disabled: var(
+    --token-color-background-neutral-base
+  );
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-selected
+  );
+  --button-color-icon--default: var(--token-color-text-selected);
+  --button-color-text--default: var(--token-color-text-selected);
+  --button-color-text--hover: var(--token-color-text-selected);
+  --button-color-text--active: var(--token-color-text-selected);
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button {
+  --button-color-bg--default: var(--token-color-background-neutral);
+  --button-color-border--default: var(
+    --token-color-component-button-stroke-action-destructive
+  );
+  --button-color-icon--default: var(
+    --token-color-component-button-icon-action-destructive
+  );
+  --button-color-text--default: var(
+    --token-color-component-button-text-action-destructive
+  );
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button {
+  --button-color-bg--default: var(--token-color-background-error-subtle);
 }
 :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
   vertical-align: top;

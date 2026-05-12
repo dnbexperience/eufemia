@@ -9,7 +9,8 @@
   --checkbox-width--medium: 1.25rem;
   --checkbox-height--medium: 1.25rem;
   --checkbox-border-radius: var(--token-radius-sm);
-  --checkbox-border-width: 0.0625rem;
+  --checkbox-border-width--default: 0.0625rem;
+  --checkbox-border-inset: inset;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
   --checkbox-gfx-size__indeterminate: 0.625rem;
@@ -59,6 +60,8 @@
   );
 
   // Active state
+  --checkbox-border-inset--active: inset;
+  --checkbox-color-gfx-on--active: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-off--active: var(
     --token-color-background-action-pressed-subtle
   );
@@ -77,6 +80,7 @@
 
   // Hover state
   --checkbox-border-width--hover: 0.125rem;
+  --checkbox-border-inset--hover: ;
   --checkbox-color-gfx--hover: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-on--hover: var(
     --token-color-background-action-hover
@@ -152,8 +156,9 @@
   &__button {
     display: inline-block;
 
-    border: var(--checkbox-border-width) solid
-      var(--checkbox-color-border-off);
+    box-shadow: var(--checkbox-border-inset) 0 0 0
+      var(--checkbox-border-width, var(--checkbox-border-width--default))
+      var(--checkbox-color-border, var(--checkbox-color-border-off));
     background-color: var(--checkbox-color-background-off);
   }
 
@@ -306,8 +311,8 @@
 
   &__input:checked ~ &__button,
   &__input[data-checked='true'] ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border-on);
     background-color: var(--checkbox-color-background-on);
-    border-color: var(--checkbox-color-border-on);
   }
 
   // Off
@@ -344,8 +349,8 @@
   }
 
   &__input:indeterminate ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border__indeterminate);
     background-color: var(--checkbox-color-background__indeterminate);
-    border-color: var(--checkbox-color-border__indeterminate);
   }
 
   &__input:indeterminate:hover ~ &__gfx,
@@ -363,8 +368,8 @@
   // On
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border-on--disabled);
     background-color: var(--checkbox-color-background-on--disabled);
-    border-color: var(--checkbox-color-border-on--disabled);
   }
 
   &__input[disabled]:checked ~ &__gfx,
@@ -374,7 +379,7 @@
 
   // Off
   &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
-    border-color: var(--checkbox-color-border-off--disabled);
+    --checkbox-color-border: var(--checkbox-color-border-off--disabled);
     background-color: var(--checkbox-color-background-off--disabled);
   }
 
@@ -398,7 +403,7 @@
 
   // General
   &__status--error &__input:not([disabled]) ~ &__button {
-    border-color: var(--checkbox-color-border--error);
+    --checkbox-color-border: var(--checkbox-color-border--error);
     background-color: var(--checkbox-color-background-off--error);
   }
 
@@ -422,9 +427,10 @@
 
   // General
   &__input:not([disabled]):hover:not(:active):not(:focus) ~ &__button {
-    border-color: var(--checkbox-color-border--hover);
+    --checkbox-color-border: var(--checkbox-color-border--hover);
+    --checkbox-border-width: var(--checkbox-border-width--hover);
+    --checkbox-border-inset: var(--checkbox-border-inset--hover);
     background-color: var(--checkbox-color-background-off--hover);
-    border-width: var(--checkbox-border-width--hover);
   }
 
   &__input:hover:not(:active):not(:focus) ~ &__gfx {
@@ -438,18 +444,21 @@
       :focus
     )
     ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border--hover);
+    --checkbox-border-width: var(--checkbox-border-width--hover);
+    --checkbox-border-inset: var(--checkbox-border-inset--hover);
     background-color: var(--checkbox-color-background-on--hover);
-    border-color: var(--checkbox-color-border--hover);
-    border-width: var(--checkbox-border-width--hover);
   }
 
   // Indeterminate
   &__input:not([disabled]):indeterminate:hover:not(:active):not(:focus)
     ~ &__button {
+    --checkbox-color-border: var(
+      --checkbox-color-border__indeterminate--hover
+    );
     background-color: var(
       --checkbox-color-background__indeterminate--hover
     );
-    border-color: var(--checkbox-color-border__indeterminate--hover);
   }
 
   &__input:not([disabled]):indeterminate:hover:not(:active):not(:focus)
@@ -466,29 +475,31 @@
 
   // General
   &__input:not([disabled]):active ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border-off--active);
+    --checkbox-border-width: var(--checkbox-border-width--default);
+    --checkbox-border-inset: var(--checkbox-border-inset--active);
     background-color: var(--checkbox-color-background-off--active);
-    border-color: var(--checkbox-color-border-off--active);
-    border-width: var(--checkbox-border-width);
   }
 
   // On
   &__input:not([disabled]):checked:active ~ &__button,
   &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border-on--active);
+    --checkbox-border-width: var(--checkbox-border-width--default);
     background-color: var(--checkbox-color-background-on--active);
-    border-color: var(--checkbox-color-border-on--active);
-    border-width: var(--checkbox-border-width);
   }
 
   &__input:not([disabled]):checked:active ~ &__gfx,
   &__input:not([disabled])[data-checked='true']:active ~ &__gfx {
-    color: var(--checkbox-color-gfx-on);
+    color: var(--checkbox-color-gfx-on--active);
   }
 
   // Indeterminate
   &__input:not([disabled]):indeterminate:active ~ &__button {
+    --checkbox-color-border: var(--checkbox-color-border-off--active);
+    --checkbox-border-width: var(--checkbox-border-width--default);
+    --checkbox-border-inset: var(--checkbox-border-inset--active);
     background-color: var(--checkbox-color-background-off--active);
-    border-color: var(--checkbox-color-border-off--active);
-    border-width: var(--checkbox-border-width);
   }
 
   &__input:not([disabled]):indeterminate:active ~ &__indeterminate {
@@ -500,7 +511,7 @@
   // General
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      border: none;
+      box-shadow: none;
       background-color: var(--checkbox-color-background--focus);
     }
   }

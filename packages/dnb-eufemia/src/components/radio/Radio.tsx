@@ -492,7 +492,6 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
                 )}
                 aria-hidden
               />
-              <span className="dnb-radio__focus" aria-hidden />
               <span
                 className={clsx(
                   'dnb-radio__dot',
