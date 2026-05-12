@@ -45,6 +45,9 @@ type PopoverPortalProps = {
   contentRef?: RefObject<HTMLSpanElement>
   triggerOffset?: number
   autoAlignMode?: PopoverAutoAlignMode
+  autoAlignViewportThreshold?: ComponentProps<
+    typeof PopoverContainer
+  >['autoAlignViewportThreshold']
   hideArrow?: boolean
   arrowEdgeOffset?: ComponentProps<
     typeof PopoverContainer
@@ -90,6 +93,7 @@ function PopoverPortal(props: PopoverPortalProps) {
     contentRef,
     triggerOffset,
     autoAlignMode,
+    autoAlignViewportThreshold,
     hideArrow,
     arrowEdgeOffset,
     targetRefreshKey,
@@ -139,6 +143,7 @@ function PopoverPortal(props: PopoverPortalProps) {
           contentRef={contentRef}
           triggerOffset={triggerOffset}
           autoAlignMode={autoAlignMode}
+          autoAlignViewportThreshold={autoAlignViewportThreshold}
           hideArrow={hideArrow}
           arrowEdgeOffset={arrowEdgeOffset}
           targetRefreshKey={targetRefreshKey}
