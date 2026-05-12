@@ -69,7 +69,7 @@ export type SectionProps = {
   outlineWidth?: number | string | ResponsiveProp<number | string>
 
   /**
-   * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
+   * Define a custom text color to complement the backgroundColor. Use a Eufemia color.
    */
   textColor?: SectionTextColor | ResponsiveProp<SectionTextColor>
 

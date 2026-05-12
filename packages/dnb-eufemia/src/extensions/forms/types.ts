@@ -623,7 +623,7 @@ export type SubmitState =
   | 'abort' // Used to abort the state regardless (step change)
 
 /**
- * Provide a error that shows in the FormStatus of a field.
+ * Provide an error that shows in the FormStatus of a field.
  * Use null/undefined to remove an existing error.
  */
 type EventStateObjectError = Error | null | undefined

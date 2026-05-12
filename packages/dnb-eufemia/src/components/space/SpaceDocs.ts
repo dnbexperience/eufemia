@@ -45,7 +45,7 @@ export const SpaceProperties: PropertiesTableProps = {
     status: 'optional',
   },
   innerSpace: {
-    doc: "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
+    doc: "Will add a padding around the content. Also supports media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
     type: ['object', 'string', 'number', 'boolean'],
     status: 'optional',
   },

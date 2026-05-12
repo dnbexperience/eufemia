@@ -193,7 +193,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
 
   if (!label && contentIsNum) {
     warn(
-      `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
+      `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantics and accessibility.`
     )
   }
 

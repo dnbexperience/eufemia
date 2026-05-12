@@ -1441,7 +1441,7 @@ export default function Provider<Data extends JsonObject>(
           setFormState(undefined)
 
           if (!skipFieldValidation) {
-            // Add a event listener to continue the submit after the pending state is resolved
+            // Add an event listener to continue the submit after the pending state is resolved
             onSubmitContinueRef.current = () => {
               window.requestAnimationFrame(() => {
                 // Do not call the validators again,

@@ -287,7 +287,7 @@ function Accordion({
   function changeOpened(expanded: boolean) {
     setExpanded(expanded)
 
-    // check if a event exists, because, then it's a user click
+    // check if an event exists, because, then it's a user click
     if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }

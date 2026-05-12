@@ -51,7 +51,7 @@ const nb = nbNO['nb-NO']
 type OnChangeValue = DataValueWriteProps<any>['onChange']
 
 if (isCI) {
-  jest.retryTimes(5) // because of an flaky async validation test
+  jest.retryTimes(5) // because of a flaky async validation test
 }
 
 function TestField(props: StringFieldProps) {

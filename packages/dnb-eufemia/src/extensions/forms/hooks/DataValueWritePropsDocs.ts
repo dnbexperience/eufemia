@@ -110,7 +110,7 @@ export const DataValueWritePropsEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
+    doc: 'Will be called when the component stops being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
     type: '(value) => void',
     status: 'optional',
   },
