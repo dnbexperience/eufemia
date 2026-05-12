@@ -8,7 +8,7 @@ import {
   CopyOnClick,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
-import filledIconSet from '@dnb/eufemia/src/components/icon/filledIconSet'
+import { isSupportedFilled } from '@dnb/eufemia/src/components/icon/filledIconSet'
 import { P } from '@dnb/eufemia/src'
 import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
 import * as SecondaryIcons from '@dnb/eufemia/src/icons/dnb/secondary_icons'
@@ -83,7 +83,7 @@ export default function ListAllIcons(props: Props) {
     const all = getListOfIcons(icons)
 
     if (showFilled) {
-      return all.filter(({ iconName }) => filledIconSet.has(iconName))
+      return all.filter(({ iconName }) => isSupportedFilled(iconName))
     }
 
     return all

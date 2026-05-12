@@ -18,6 +18,7 @@ import Context from '../../shared/Context'
 import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
+import { isSupportedFilled } from './filledIconSet'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
@@ -113,7 +114,7 @@ export type IconProps = {
   modifier?: string
 
   /**
-   * If set to `true`, the icon paths will be filled with `currentColor`. Can also use the `filled()` wrapper.
+   * If set to `true`, the icon paths will be filled with `currentColor`.
    */
   filled?: boolean
 
@@ -383,8 +384,7 @@ function prepareIconCore(
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
-  // When filled is set directly as a prop or via filled(), always apply it.
-  const isFilled = filled ? true : isFilledIcon(icon)
+  const isFilled = filled && label ? isSupportedFilled(label) : false
 
   // some wrapper params
   // also used for code markup simulation
@@ -517,43 +517,6 @@ function getIcon(props) {
     return props.icon
   }
   return processChildren(props)
-}
-
-/**
- * Wraps an icon component so it renders as filled when passed to `Icon`.
- *
- * ```tsx
- * import { filled } from '@dnb/eufemia/components/Icon'
- * <Icon icon={filled(star)} />
- * ```
- */
-export function filled(icon: IconIcon): IconIcon {
-  if (typeof icon === 'function') {
-    const wrapper = (props?: IconSVGProps) => (icon as IconFunction)(props)
-    wrapper.__filled = true
-    wrapper.displayName =
-      (icon as { displayName?: string }).displayName || icon.name
-    return wrapper
-  }
-
-  // For React elements, wrap in a thin component with the marker
-  const wrapper = ((props?: IconSVGProps) => {
-    if (isValidElement(icon)) {
-      return icon
-    }
-    return null
-  }) as FilledIcon
-  wrapper.__filled = true
-  return wrapper
-}
-
-type FilledIcon = IconFunction & { __filled?: boolean }
-
-/** @internal Check whether an icon was wrapped with `filled()` */
-export function isFilledIcon(icon: unknown): boolean {
-  return (
-    typeof icon === 'function' && (icon as FilledIcon).__filled === true
-  )
 }
 
 withComponentMarkers(Icon, { _supportsSpacingProps: true })

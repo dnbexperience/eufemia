@@ -34,4 +34,9 @@ const filledIconSet: ReadonlySet<string> = new Set(
   filledIconNames.flatMap((name) => [name, `${name}_medium`])
 )
 
+/** Check whether the given icon name supports the filled variant. */
+export function isSupportedFilled(name: string): boolean {
+  return filledIconSet.has(name)
+}
+
 export default filledIconSet

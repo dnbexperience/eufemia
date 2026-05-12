@@ -9,13 +9,19 @@ import {
   bell as Bell,
   star as Star,
   heart as Heart,
-  language as Language,
 } from '@dnb/eufemia/src/icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
-import { Icon, P, H2, IconPrimary, Button, Flex } from '@dnb/eufemia/src'
-import { filled } from '@dnb/eufemia/src/components/icon'
+import {
+  Icon,
+  P,
+  H2,
+  IconPrimary,
+  Button,
+  Flex,
+  Avatar,
+} from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const IconDefault = () => (
@@ -46,17 +52,13 @@ export const IconBorder = () => (
 )
 
 export const IconFilled = () => (
-  <ComponentBox
-    data-visual-test="icon-filled"
-    scope={{ Star, Heart, BellMedium, Language, filled }}
-  >
+  <ComponentBox data-visual-test="icon-filled" scope={{ Star, Heart }}>
     <Flex.Stack>
       <Flex.Horizontal align="center">
         <Icon icon={Star} filled />
         <Icon icon={Heart} filled />
-        <Icon icon={BellMedium} filled />
-        <Button icon={filled(Star)} />
-        <Button icon={filled(Heart)} />
+        <Avatar icon={<Icon icon={Star} filled />} size="small" />
+        <Button icon={<Icon icon={Heart} filled />} />
       </Flex.Horizontal>
     </Flex.Stack>
   </ComponentBox>
