@@ -27,12 +27,12 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   duration: {
-    doc: 'Custom duration of the animation in milliseconds. Defaults to `400ms`.',
+    doc: 'Custom duration of the animation in milliseconds. Defaults to `400`.',
     type: 'number',
     status: 'optional',
   },
   delay: {
-    doc: 'Custom delay of the animation in milliseconds. Defaults to `0ms`.',
+    doc: 'Custom delay of the animation in milliseconds. Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },

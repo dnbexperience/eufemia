@@ -187,12 +187,12 @@ export type ModalContentProps = {
   labelledBy?: string
 
   /**
-   * The Modal handles the first focus – automatically. However, you can defined a custom focus selector the will be used instead `focusSelector=".css-selector"`.
+   * The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=".css-selector"`.
    */
   focusSelector?: string
 
   /**
-   * Defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal/drawer content wrapper.
+   * Defines a unique identifier to a modal. Use it in case you have to refer in some way to the modal/drawer content wrapper.
    */
   contentId?: string
 

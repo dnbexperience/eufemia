@@ -128,7 +128,7 @@ export type ButtonProps = {
    */
   iconSize?: IconSize
   /**
-   * Only for icon buttons. If true, use the style for a selected icon button. Default: `false`.
+   * Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.
    */
   selected?: boolean
   /**
@@ -145,7 +145,7 @@ export type ButtonProps = {
    */
   target?: string
   /**
-   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples (non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
    */
   rel?: string
   /**

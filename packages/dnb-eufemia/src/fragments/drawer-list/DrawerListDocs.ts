@@ -127,12 +127,12 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pageOffset: {
-    doc: 'Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).',
+    doc: 'Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions in contrast to a scrollable page content).',
     type: 'string',
     status: 'optional',
   },
   observerElement: {
-    doc: 'Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.',
+    doc: 'Set an HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.',
     type: 'string',
     status: 'optional',
   },

@@ -409,7 +409,7 @@ export type ToggleButtonGroupProps = Omit<
      */
     value?: ToggleButtonGroupValue
     /**
-     * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+     * The size of the button. For now there are `small`, `medium`, `default` and `large`.
      */
     size?: ButtonSize
     /**

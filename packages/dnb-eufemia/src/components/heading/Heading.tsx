@@ -94,7 +94,7 @@ export type HeadingProps = {
   down?: boolean
 
   /**
-   * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
+   * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in production builds else either.
    */
   skipCorrection?: boolean
 

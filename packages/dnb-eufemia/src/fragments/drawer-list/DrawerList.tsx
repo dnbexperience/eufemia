@@ -260,11 +260,11 @@ export type DrawerListProps = {
    */
   enableBodyLock?: boolean
   /**
-   * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).
+   * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions in contrast to a scrollable page content).
    */
   pageOffset?: string | number
   /**
-   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
+   * Set an HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observerElement?: string | ReactNode
   onOpen?: (event: DrawerListEvent) => void

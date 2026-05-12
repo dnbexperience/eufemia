@@ -244,7 +244,7 @@ export type DatePickerProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.
    */
   size?: InputSize
   /**

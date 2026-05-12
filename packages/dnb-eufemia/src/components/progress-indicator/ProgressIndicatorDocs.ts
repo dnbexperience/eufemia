@@ -51,7 +51,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
+    doc: "Sets the position of the label. `'inside'` only works with `type='circular'`.",
     type: ['"horizontal"', '"vertical"', '"inside"'],
     defaultValue: '"vertical"',
     status: 'optional',
