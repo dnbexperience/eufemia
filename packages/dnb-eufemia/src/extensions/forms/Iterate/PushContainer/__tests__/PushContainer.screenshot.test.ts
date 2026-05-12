@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 const url = '/uilib/extensions/forms/Iterate/PushContainer/demos/'
 
@@ -13,21 +12,19 @@ test.describe('PushContainer', () => {
   })
 
   test('have to match variants', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match variants in error state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
         '[data-visual-test="push-container-variants"] .dnb-forms-next-button',
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })
 
@@ -38,20 +35,18 @@ test.describe('PushContainer on small screen', () => {
   })
 
   test('have to match variants', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match variants in error state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
         '[data-visual-test="push-container-variants"] .dnb-forms-next-button',
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

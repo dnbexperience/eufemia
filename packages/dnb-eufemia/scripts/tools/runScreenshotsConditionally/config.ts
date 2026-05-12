@@ -8,12 +8,14 @@ export const GLOBAL_VISUAL_FILES = new Set([
   'package.json',
   'playwright.config.screenshots',
   'playwright.config',
+  'vitest.config.screenshots',
 ])
 
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.
 export const GLOBAL_VISUAL_PATH_PREFIXES = [
   'src/style/',
   'src/core/playwright/',
+  'src/core/vitest-screenshots/',
 ]
 
 // Source paths that should not influence visual screenshot selection.

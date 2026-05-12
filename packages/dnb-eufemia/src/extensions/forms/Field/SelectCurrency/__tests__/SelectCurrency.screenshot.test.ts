@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Field.SelectCurrency', () => {
   setupPageScreenshot({
@@ -11,21 +10,19 @@ test.describe('Field.SelectCurrency', () => {
   })
 
   test('match vertical layout', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-currency-vertical-layout"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('match horizontal layout', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-currency-horizontal-layout"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('match when opened', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-currency-opened"]',
       simulateSelector:
         '[data-visual-test="select-currency-opened"] .dnb-autocomplete .dnb-input',
@@ -42,6 +39,5 @@ test.describe('Field.SelectCurrency', () => {
         })
       },
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Field.SelectCountry', () => {
   setupPageScreenshot({
@@ -11,21 +10,19 @@ test.describe('Field.SelectCountry', () => {
   })
 
   test('matches vertical layout', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-country-vertical-layout"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('matches horizontal layout', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-country-horizontal-layout"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('matches when opened', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="select-country-opened"]',
       simulateSelector:
         '[data-visual-test="select-country-opened"] .dnb-autocomplete .dnb-input',
@@ -34,6 +31,5 @@ test.describe('Field.SelectCountry', () => {
         height: '30rem',
       },
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

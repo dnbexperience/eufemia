@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Flex.Stack', () => {
   setupPageScreenshot({
@@ -11,37 +10,32 @@ test.describe('Flex.Stack', () => {
   })
 
   test('have to match flex-stack-form', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-form"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match flex-stack-paragraphs', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-paragraphs"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match flex-stack-card-stack', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-stack"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match flex-stack-card-heading', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-heading"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match flex-stack-card-two-headings', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-two-headings"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

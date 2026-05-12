@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Pagination for ${themeName}`, () => {
@@ -13,27 +12,25 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match the default pagination bar', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
         },
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the pagination with horizontal layout', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-horizontal"]',
         style: {
           width: '60rem',
         },
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the current button hover', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -42,11 +39,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--primary',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the current button active', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -55,11 +51,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--primary',
         simulate: 'active',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the current button focus', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -68,11 +63,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--primary',
         simulate: 'focus',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match unselected button hover', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -81,11 +75,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--secondary',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match unselected button active', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -94,11 +87,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--secondary',
         simulate: 'active',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match unselected button focus', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -107,11 +99,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] .dnb-button--secondary',
         simulate: 'focus',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match pagination bar at page one', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -120,11 +111,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:first-of-type',
         simulate: 'click',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match pagination bar at last page', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="pagination-default"]',
         style: {
           width: '50rem',
@@ -133,7 +123,6 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:last-of-type',
         simulate: 'click',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }
@@ -150,7 +139,7 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match the default pagination bar in small viewport', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         pageViewport: {
           width: 500,
           height: 600,
@@ -160,7 +149,6 @@ for (const themeName of ['ui', 'sbanken']) {
           width: '30rem',
         },
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

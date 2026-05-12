@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Popover for ${themeName}`, () => {
@@ -13,7 +12,7 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('matches the basic style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'margin-left': '180px',
           'padding-bottom': '200px',
@@ -23,7 +22,6 @@ for (const themeName of ['ui', 'sbanken']) {
         simulate: 'click',
         simulateSelector: '[data-visual-test="popover-basic"] button',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }
@@ -36,7 +34,7 @@ for (const themeName of ['ui']) {
     })
 
     test('have to match align center and arrow center', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-top': '3rem',
         },
@@ -45,11 +43,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-arrow-center"] button',
         selector: '[data-visual-test="popover-align-arrow-center"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -57,11 +54,10 @@ for (const themeName of ['ui']) {
         simulateSelector: '[data-visual-test="popover-align-left"] button',
         selector: '[data-visual-test="popover-align-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align left and arrow left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -70,11 +66,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-arrow-left"] button',
         selector: '[data-visual-test="popover-align-arrow-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align right and arrow right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -83,11 +78,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-arrow-right"] button',
         selector: '[data-visual-test="popover-align-arrow-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align left and arrow right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -96,11 +90,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-left-arrow-right"] button',
         selector: '[data-visual-test="popover-align-left-arrow-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align right and arrow left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -109,11 +102,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-right-arrow-left"] button',
         selector: '[data-visual-test="popover-align-right-arrow-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match align right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '3rem',
         },
@@ -122,11 +114,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-align-right"] button',
         selector: '[data-visual-test="popover-align-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match arrow left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -134,11 +125,10 @@ for (const themeName of ['ui']) {
         simulateSelector: '[data-visual-test="popover-arrow-left"] button',
         selector: '[data-visual-test="popover-arrow-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match arrow right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -147,11 +137,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-arrow-right"] button',
         selector: '[data-visual-test="popover-arrow-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -160,11 +149,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-right"] button',
         selector: '[data-visual-test="popover-placement-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -173,11 +161,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-left"] button',
         selector: '[data-visual-test="popover-placement-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement top', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-top': '2rem',
         },
@@ -186,11 +173,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-top"] button',
         selector: '[data-visual-test="popover-placement-top"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement bottom', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-bottom': '2rem',
         },
@@ -199,11 +185,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-bottom"] button',
         selector: '[data-visual-test="popover-placement-bottom"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement right and arrow top', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -212,11 +197,10 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-right-arrow-top"] button',
         selector: '[data-visual-test="popover-placement-right-arrow-top"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement right and arrow bottom', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -226,11 +210,10 @@ for (const themeName of ['ui']) {
         selector:
           '[data-visual-test="popover-placement-right-arrow-bottom"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement left and arrow bottom', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -240,11 +223,10 @@ for (const themeName of ['ui']) {
         selector:
           '[data-visual-test="popover-placement-left-arrow-bottom"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement right and arrow left', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-right': '2rem',
         },
@@ -254,11 +236,10 @@ for (const themeName of ['ui']) {
         selector:
           '[data-visual-test="popover-placement-right-arrow-left"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement left and arrow right', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -268,11 +249,10 @@ for (const themeName of ['ui']) {
         selector:
           '[data-visual-test="popover-placement-left-arrow-right"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match placement left and arrow top', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           'padding-left': '2rem',
         },
@@ -281,7 +261,6 @@ for (const themeName of ['ui']) {
           '[data-visual-test="popover-placement-left-arrow-top"] button',
         selector: '[data-visual-test="popover-placement-left-arrow-top"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

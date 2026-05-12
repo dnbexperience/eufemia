@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('HelpButton', () => {
   setupPageScreenshot({
@@ -11,30 +10,26 @@ test.describe('HelpButton', () => {
   })
 
   test('have to match default help button', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="help-button-default"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match help button sizes', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="help-button-sizes"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match help button suffix', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="help-button-suffix"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match help button used inside text', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="help-button-inline"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

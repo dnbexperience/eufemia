@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Slider for ${themeName}`, () => {
@@ -13,20 +12,19 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match default slider', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         styleSelector: '[data-visual-test="slider-default"]',
         selector:
           '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     /**
      * NB: "hover" needs to come before "focus"!
      */
     test('have to match the hover state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         styleSelector: '[data-visual-test="slider-default"]',
         selector:
@@ -35,11 +33,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         styleSelector: '[data-visual-test="slider-default"]',
         selector:
@@ -48,11 +45,10 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'focusclick',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the active state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         styleSelector: '[data-visual-test="slider-default"]',
         selector:
@@ -61,27 +57,24 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
         simulate: 'active',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match vertical slider', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector:
           '[data-visual-test="slider-vertical"] .dnb-slider__wrapper',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match multi thumbs slider', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         selector: '[data-visual-test="slider-multi"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match slider with marker', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: { width: '20rem' },
         styleSelector: '[data-visual-test="slider-marker"]',
         selector:
@@ -90,7 +83,6 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="slider-marker"] .dnb-slider__marker',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

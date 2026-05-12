@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`TextCounter for ${themeName}`, () => {
@@ -13,24 +12,21 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to character counter downwards', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="text-counter-down"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to character counter upwards', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="text-counter-up"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to character counter exceeded', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="text-counter-exceeded"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

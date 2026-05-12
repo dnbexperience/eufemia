@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken', 'carnegie']) {
   test.describe(`Textarea for ${themeName}`, () => {
@@ -16,47 +15,43 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
     })
 
     test('have to match the "default" textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match character counter', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-character-counter"]',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the default error textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the default disabled textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-disabled"]',
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-disabled"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the error textarea "hover"', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
         simulateSelector: '[data-visual-test="textarea-error"] textarea',
@@ -64,11 +59,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the error textarea mouse focus', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
         simulateSelector: '[data-visual-test="textarea-error"] textarea',
@@ -76,11 +70,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the error textarea "focus"', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
         simulateSelector: '[data-visual-test="textarea-error"] textarea',
@@ -88,11 +81,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-error"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match stretched textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           width: '30rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
         },
@@ -100,11 +92,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // styleSelector: '[data-visual-test="textarea-stretch"]',
         selector: '[data-visual-test="textarea-stretch"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the "hover" textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
         simulateSelector: '[data-visual-test="textarea-default"] textarea',
@@ -112,11 +103,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the mouse focus textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
         simulateSelector: '[data-visual-test="textarea-default"] textarea',
@@ -124,11 +114,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match the "focus" textarea style', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
         simulateSelector: '[data-visual-test="textarea-default"] textarea',
@@ -136,17 +125,15 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         // Only for screenshot testing - make textarea having same width on linux chromium
         styleSelector: '[data-visual-test="textarea-default"] textarea',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match different sizes', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-sizes"]',
         styleSelector:
           '[data-visual-test="textarea-sizes"] .dnb-flex-container',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

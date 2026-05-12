@@ -164,14 +164,14 @@ By default, CI still stops on the first failure (`--bail`). You can force a full
 
 ```bash
 git commit -m "feat: implement new feature"
-# Runs: playwright test --config=./playwright.config.screenshots.ts
+# Runs: vitest run --config vitest.config.screenshots.ts
 ```
 
 **Run all tests (continues on failures):**
 
 ```bash
 git commit -m "feat: implement new feature --run-all"
-# Runs: playwright test --config=./playwright.config.screenshots.ts
+# Runs: vitest run --config vitest.config.screenshots.ts
 ```
 
 This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
@@ -203,7 +203,7 @@ yarn test:e2e:portal
 yarn test:e2e:portal:watch
 ```
 
-Playwright uses this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
+Vitest screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
 4. Update any new or changed visual PNG snapshots:
 
@@ -218,7 +218,7 @@ You can also press the `u` during a watch mode to update outdated snapshots.
 
 When a visual test fails, a visual comparison file (diff) will be created. Its location and name will be:
 
-- `**/__tests__/__image_snapshots__/__diff_output__/*.snap-diff.png`
+- `**/__tests__/__image_snapshots__/.diff/*.diff.png` and `*.actual.png`
 
 you can find a report entry (`index.html`), that lists all of the failed tests here:
 
