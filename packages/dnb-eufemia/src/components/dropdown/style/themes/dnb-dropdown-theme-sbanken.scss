@@ -3,72 +3,12 @@
 *
 */
 
-@use '../../../../style/core/utilities.scss' as utilities;
-
 .dnb-dropdown {
   --dropdown-height: 2.5rem;
-  --dropdown-button-padding: 0 0.75rem 0 0.5rem;
-  --dropdown-sb-icon-color--default: var(--token-color-icon-action);
-  --dropdown-sb-icon-color--hover: var(--token-color-icon-action-hover);
-  --dropdown-sb-icon-color--active: var(--token-color-icon-action-pressed);
-  --dropdown-sb-icon-color--focus: var(--token-color-icon-action-focus);
-  --dropdown-error-border-inset: inset;
 
-  &__icon {
-    color: var(
-      --dropdown-sb-icon-color,
-      var(--dropdown-sb-icon-color--default)
-    );
-  }
-
-  &__status--error {
-    --dropdown-sb-icon-color--default: inherit;
-    --dropdown-sb-icon-color--hover: inherit;
-  }
-
-  // button
   &__trigger {
     &:not(.dnb-button--tertiary) {
       line-height: var(--dropdown-height);
     }
-
-    &:not(.dnb-button__status--error) {
-      @include utilities.hover() {
-        --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--hover);
-      }
-      @include utilities.active() {
-        --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--active);
-      }
-      @include utilities.focusVisible() {
-        --dropdown-sb-icon-color: var(--dropdown-sb-icon-color--focus);
-      }
-
-      &.dnb-button--secondary {
-        --button-color-border--hover: var(
-          --token-color-stroke-action-hover
-        );
-      }
-    }
-  }
-
-  &--open &__trigger {
-    --button-border-inset--hover: inset;
-    --button-border-width--default: 0.125rem;
-    // Makes sure the bottom borders have no radius
-    border-radius: var(--dropdown-border-radius)
-      var(--dropdown-border-radius) 0 0;
-  }
-
-  &__trigger[disabled] {
-    .dnb-dropdown__icon {
-      color: inherit;
-    }
-  }
-
-  // When it opens upwards
-  &--open#{&}--top &__trigger {
-    // Makes sure the top borders have no radius
-    border-radius: 0 0 var(--dropdown-border-radius)
-      var(--dropdown-border-radius);
   }
 }

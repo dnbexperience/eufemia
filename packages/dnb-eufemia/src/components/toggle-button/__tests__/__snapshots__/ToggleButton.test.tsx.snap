@@ -561,6 +561,12 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  --button-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --button-color-border--focus: var(--token-color-stroke-action-focus);
+  --button-color-icon--focus: var(--token-color-icon-action-focus);
+  --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
@@ -601,10 +607,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --button-color-bg: var(--token-color-background-action-focus-subtle);
-  --button-color-border: var(--token-color-stroke-action-focus);
-  --button-color-icon: var(--token-color-icon-action-focus);
-  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-bg: var(--button-color-bg--focus);
+  --button-color-border: var(--button-color-border--focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);

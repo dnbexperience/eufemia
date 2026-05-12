@@ -14,14 +14,12 @@
     --button-color-bg--default: var(--sb-color-white);
     --button-color-bg--hover: var(--sb-color-violet-light-3);
     --button-color-bg--active: var(--sb-color-violet);
-    --button-color-bg--focus: transparent;
     --button-color-text--default: var(--sb-color-violet);
     --button-color-text--hover: var(--sb-color-violet);
     --button-color-text--active: var(--sb-color-violet-light-3);
     --button-color-text--disabled: var(--sb-color-gray-dark);
     --button-color-border--default: var(--sb-color-violet);
     --button-color-border--active: var(--sb-color-violet-light-3);
-    --button-color-border--focus: var(--focus-ring-color);
     --button-color-border--disabled: var(--sb-color-gray-light);
 
     html[data-whatinput='keyboard']
@@ -57,7 +55,6 @@
     --button-color-bg--default: var(--sb-color-violet);
     --button-color-bg--hover: var(--sb-color-violet);
     --button-color-bg--active: var(--sb-color-violet);
-    --button-color-bg--focus: var(--sb-color-blue-light-2);
     --button-color-bg--disabled: var(--sb-color-gray-light);
     --button-color-border--hover: var(--sb-color-violet);
     --button-color-border--active: var(--sb-color-violet-light-3);
@@ -65,7 +62,6 @@
     --button-color-text--default: var(--sb-color-white);
     --button-color-text--hover: var(--sb-color-white);
     --button-color-text--active: var(--sb-color-violet-light-3);
-    --button-color-text--focus: var(--sb-color-blue-dark-2);
     --button-color-text--disabled: var(--sb-color-gray-dark);
 
     .dnb-checkbox {

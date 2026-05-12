@@ -12,11 +12,12 @@
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
-  --dropdown-error-border-width: 0.125rem;
+  --dropdown-border-width--closed: 0.0625rem;
+  --dropdown-border-width--open: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-button-padding: 0 1rem;
   --dropdown-border-radius: var(--token-radius-sm);
-  --dropdown-error-border-inset: ;
+  --dropdown-border-inset--open: inset;
 
   display: inline-flex;
   align-items: center;
@@ -70,23 +71,76 @@
 
     width: 100%;
 
-    --button-color-bg--disabled: var(
-      --token-color-background-neutral-subtle
-    );
-    --button-color-border--disabled: var(
-      --token-color-stroke-action-disabled
-    );
-    --button-color-text--disabled: var(
-      --token-color-text-neutral-alternative
-    );
-
-    &.dnb-button__status--error {
-      --button-color-border--default: var(--token-color-stroke-error);
-    }
-
     &.dnb-button {
       padding: var(--dropdown-button-padding);
       border-radius: var(--dropdown-border-radius);
+    }
+
+    &.dnb-button--secondary {
+      &.dnb-button__status--error {
+        // Background
+        --button-color-bg--hover: var(--token-color-background-neutral);
+        --button-color-bg--active: var(--token-color-background-neutral);
+
+        // Border
+        --button-color-border--default: var(--token-color-stroke-error);
+        --button-color-border--hover: var(
+          --token-color-component-button-stroke-action-destructive
+        );
+
+        // Icon
+        --button-color-icon--default: var(--token-color-icon-error);
+        --button-color-icon--hover: var(--token-color-icon-error);
+        --button-color-icon--active: var(--token-color-icon-error);
+        --button-color-icon--focus: var(--token-color-icon-error);
+
+        // Text
+        --button-color-text--default: var(--token-color-text-destructive);
+        --button-color-text--hover: var(--token-color-text-destructive);
+        --button-color-text--active: var(--token-color-text-destructive);
+        --button-color-text--focus: var(--token-color-text-destructive);
+      }
+
+      &,
+      &.dnb-button__status--error.dnb-dropdown__trigger--open {
+        // Background
+        --button-color-bg--hover: var(--token-color-background-neutral);
+        --button-color-bg--active: var(--token-color-background-neutral);
+        --button-color-bg--disabled: var(
+          --token-color-background-neutral-subtle
+        );
+
+        // Border
+        --button-color-border--default: var(--token-color-stroke-action);
+        --button-color-border--hover: var(
+          --token-color-stroke-action-hover
+        );
+        --button-color-border--active: var(
+          --token-color-stroke-action-pressed
+        );
+
+        // Icon
+        --button-color-icon--default: var(--token-color-icon-action);
+        --button-color-icon--hover: var(--token-color-icon-action-hover);
+        --button-color-icon--active: var(
+          --token-color-icon-action-pressed
+        );
+
+        // Text
+        --button-color-text--default: var(--token-color-text-action);
+        --button-color-text--hover: var(--token-color-text-action-hover);
+        --button-color-text--active: var(
+          --token-color-text-action-pressed
+        );
+      }
+
+      &.dnb-dropdown__trigger--open {
+        --button-border-inset--default: var(--dropdown-border-inset--open);
+        --button-border-width--default: var(--dropdown-border-width--open);
+        --button-border-width--active: var(
+          --dropdown-border-width--closed
+        );
+      }
     }
   }
 
@@ -171,17 +225,6 @@
     padding: 0;
   }
 
-  &--open &__trigger:not([disabled]).dnb-button--secondary {
-    --button-border-inset--default: var(--dropdown-error-border-inset);
-    --border-width: var(--dropdown-error-border-width);
-
-    &:not(.dnb-button__status--error) {
-      --button-color-border--default: var(
-        --token-color-stroke-action-pressed
-      );
-    }
-  }
-
   &__status--error .dnb-button--tertiary {
     @include button-mixins.buttonFocusRing('always');
 
@@ -199,11 +242,8 @@
   }
   &__status--error .dnb-button--tertiary:not([disabled]) {
     &:hover::before {
-      --border-width: var(--dropdown-error-border-width);
+      --border-width: var(--dropdown-border-width--open);
     }
-  }
-  .dnb-button--secondary {
-    --button-color-bg--hover: var(--token-color-background-neutral);
   }
 
   // Button only menu
