@@ -43,6 +43,36 @@ export const PaginationExampleDefault = () => (
   </ComponentBox>
 )
 
+export const PaginationExampleWithGetPageHref = () => (
+  <ComponentBox>
+    <Pagination
+      pageCount={30}
+      currentPage={4}
+      getPageHref={(pageNumber) => `/page/${pageNumber}`}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
+      }}
+    >
+      <P>Current Page Content</P>
+    </Pagination>
+  </ComponentBox>
+)
+
+export const PaginationExampleWithGetPageHrefQueryParams = () => (
+  <ComponentBox>
+    <Pagination
+      pageCount={10}
+      currentPage={2}
+      getPageHref={(pageNumber) => `/search?q=eufemia&page=${pageNumber}`}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
+      }}
+    >
+      <P>Current Page Content</P>
+    </Pagination>
+  </ComponentBox>
+)
+
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination
