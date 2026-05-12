@@ -145,7 +145,7 @@ export type ButtonProps = {
    */
   target?: string
   /**
-   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples (non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
    */
   rel?: string
   /**
