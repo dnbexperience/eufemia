@@ -495,3 +495,28 @@ export const WithManySelectedItems = () => (
     }}
   </ComponentBox>
 )
+
+export const VariantInline = () => (
+  <ComponentBox>
+    {() => {
+      const cities = [
+        { value: 'oslo', title: 'Oslo' },
+        { value: 'stockholm', title: 'Stockholm' },
+        { value: 'copenhagen', title: 'Copenhagen' },
+        { value: 'helsinki', title: 'Helsinki' },
+        { value: 'reykjavik', title: 'Reykjavik' },
+      ]
+      return (
+        <Field.MultiSelection
+          label="Select cities"
+          variant="inline"
+          value={['stockholm']}
+          data={cities}
+          showSelectAll
+          showSearchField
+          showSelectedTags
+        />
+      )
+    }}
+  </ComponentBox>
+)

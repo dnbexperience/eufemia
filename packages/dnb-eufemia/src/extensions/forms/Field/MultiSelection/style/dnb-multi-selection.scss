@@ -254,4 +254,15 @@
       transform: rotate(180deg);
     }
   }
+
+  &--inline {
+    .dnb-forms-field-multi-selection__inline-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dnb-forms-field-multi-selection__items {
+      max-height: none;
+    }
+  }
 }

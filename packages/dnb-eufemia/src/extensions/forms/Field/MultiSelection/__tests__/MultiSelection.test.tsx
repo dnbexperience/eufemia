@@ -2028,4 +2028,214 @@ describe('MultiSelection', () => {
       }
     })
   })
+
+  describe('variant="inline"', () => {
+    it('renders checkboxes inline without a popover trigger', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          label="Select items"
+          data={data}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-dropdown__trigger')
+      ).not.toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection--inline')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__inline-content'
+        )
+      ).toBeInTheDocument()
+
+      const checkboxes = document.querySelectorAll('.dnb-checkbox')
+      expect(checkboxes).toHaveLength(2)
+    })
+
+    it('renders as a fieldset for accessibility', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          label="Select items"
+          data={data}
+        />
+      )
+
+      expect(document.querySelector('fieldset')).toBeInTheDocument()
+    })
+
+    it('toggles items directly without a popover', () => {
+      const onChange = vi.fn()
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.MultiSelection
+            variant="inline"
+            path="/items"
+            data={data}
+          />
+        </Form.Handler>
+      )
+
+      const checkboxes = document.querySelectorAll('.dnb-checkbox__input')
+      fireEvent.click(checkboxes[0])
+
+      expect(onChange).toHaveBeenCalledWith(
+        { items: ['option1'] },
+        expect.anything()
+      )
+    })
+
+    it('supports showSelectedTags', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          value={['option1']}
+          showSelectedTags
+        />
+      )
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__selected-items'
+        )
+      ).toBeInTheDocument()
+    })
+
+    it('supports showSelectAll', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            variant="inline"
+            data={data}
+            showSelectAll
+          />
+        </Provider>
+      )
+
+      const selectAll = document.querySelector(
+        '.dnb-forms-field-multi-selection__item--select-all'
+      )
+      expect(selectAll).toBeInTheDocument()
+    })
+
+    it('supports showSearchField', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          showSearchField
+        />
+      )
+
+      const searchInput = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      )
+      expect(searchInput).toBeInTheDocument()
+    })
+
+    it('filters items when searching', () => {
+      const data = [
+        { value: 'apple', title: 'Apple' },
+        { value: 'banana', title: 'Banana' },
+        { value: 'cherry', title: 'Cherry' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          showSearchField
+        />
+      )
+
+      const searchInput = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      )
+
+      fireEvent.change(searchInput, { target: { value: 'ban' } })
+
+      const items = document.querySelectorAll(
+        '.dnb-forms-field-multi-selection__item'
+      )
+      expect(items).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+        'Banana'
+      )
+    })
+
+    it('does not render a popover', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection variant="inline" data={data} />)
+
+      expect(
+        document.querySelector('.dnb-popover')
+      ).not.toBeInTheDocument()
+    })
+
+    it('works with Form.Handler', () => {
+      const onChange = vi.fn()
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.MultiSelection
+            variant="inline"
+            path="/selection"
+            data={data}
+          />
+        </Form.Handler>
+      )
+
+      const checkboxes = document.querySelectorAll('.dnb-checkbox__input')
+      fireEvent.click(checkboxes[1])
+
+      expect(onChange).toHaveBeenCalledWith(
+        { selection: ['option2'] },
+        expect.anything()
+      )
+    })
+  })
 })

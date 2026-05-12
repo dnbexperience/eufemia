@@ -18,7 +18,6 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import useTranslation from '../../hooks/useTranslation'
-import type { FormError } from '../../utils'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import whatInput from '../../../../shared/helpers/whatInput'
 import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -59,6 +58,14 @@ export type FieldMultiSelectionProps = FieldProps<
    * The path to the context data (Form.Handler).
    */
   dataPath?: Path
+
+  /**
+   * Defines the variant of the component.
+   * `popover` renders a trigger button that opens a popover with the item list.
+   * `inline` renders the item list inline as checkboxes.
+   * Default: `popover`
+   */
+  variant?: 'popover' | 'inline'
 
   /**
    * The width of the component. Supported values: false, 'medium', 'large', or a custom width.
@@ -116,6 +123,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     dataPath,
     data,
     className,
+    variant = 'popover',
     width,
     showSearchField = false,
     showSelectedTags = false,
@@ -663,16 +671,24 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     pendingTriggerNavigationRef.current = null
   }, [])
 
+  const isInline = variant === 'inline'
+
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: clsx('dnb-forms-field-multi-selection', className),
+    className: clsx(
+      'dnb-forms-field-multi-selection',
+      isInline && 'dnb-forms-field-multi-selection--inline',
+      className
+    ),
     contentClassName: 'dnb-forms-field-multi-selection__field-content',
     disableStatusSummary: true,
-    asFieldset: false,
+    asFieldset: isInline,
     ...pickSpacingProps(props),
   }
 
-  fieldBlockProps.contentWidth = width ?? 'large'
+  if (!isInline) {
+    fieldBlockProps.contentWidth = width ?? 'large'
+  }
 
   const handleTriggerKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
@@ -703,6 +719,80 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     },
     [disabled, getCheckboxes, getSearchInput, isOpen]
   )
+
+  const searchContent = (
+    <MultiSelectionSearch
+      show={showSearchField}
+      placeholder={translation.searchPlaceholder}
+      value={searchValue}
+      disabled={disabled}
+      onSearchChange={setSearchValue}
+    />
+  )
+
+  const itemListContent = (
+    <MultiSelectionItemList
+      disabled={disabled}
+      filteredItems={filteredItems}
+      tempValue={tempValue}
+      searchValue={searchValue}
+      showSelectAll={showSelectAll}
+      htmlAttributes={htmlAttributes}
+      translation={{
+        selectAll: translation.selectAll,
+        noOptions: translation.noOptions,
+      }}
+      getParentState={getParentState}
+      onToggleItem={handleToggleItem}
+      onToggleParent={handleToggleParent}
+      onToggleSelectAll={handleSelectAll}
+      selectableFilteredFlat={selectableFilteredFlat}
+      allFilteredSelected={allFilteredSelected}
+      someFilteredSelected={someFilteredSelected}
+    />
+  )
+
+  const selectedTagsContent = (
+    <MultiSelectionSelectedTags
+      id={id}
+      show={showSelectedTags}
+      disabled={disabled}
+      isCollapsible={isCollapsible}
+      showSelectedItemsList={showSelectedItemsList}
+      selectedItems={selectedItems}
+      totalCount={totalCount}
+      formatSelectionCount={formatSelectionCount}
+      translation={{
+        clearAll: translation.clearAll,
+        placeholder: translation.placeholder,
+      }}
+      onToggleList={setShowSelectedItemsList}
+      onRemoveTag={handleRemoveTag}
+      onClearAll={() => {
+        setTempValue([])
+        setShowSelectedItemsList(true)
+        if (!showConfirmButton) {
+          applyChange([])
+        }
+      }}
+    />
+  )
+
+  if (isInline) {
+    return (
+      <FieldBlock {...fieldBlockProps}>
+        <div className="dnb-forms-field-multi-selection__container">
+          <AriaLive priority="high">{ariaLiveCheckedCount}</AriaLive>
+
+          <div className="dnb-forms-field-multi-selection__inline-content">
+            {searchContent}
+            {selectedTagsContent}
+            {itemListContent}
+          </div>
+        </div>
+      </FieldBlock>
+    )
+  }
 
   return (
     <FieldBlock {...fieldBlockProps}>
@@ -749,57 +839,11 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
           >
-            <MultiSelectionSearch
-              show={showSearchField}
-              placeholder={translation.searchPlaceholder}
-              value={searchValue}
-              disabled={disabled}
-              onSearchChange={setSearchValue}
-            />
+            {searchContent}
 
-            <MultiSelectionSelectedTags
-              id={id}
-              show={showSelectedTags}
-              disabled={disabled}
-              isCollapsible={isCollapsible}
-              showSelectedItemsList={showSelectedItemsList}
-              selectedItems={selectedItems}
-              totalCount={totalCount}
-              formatSelectionCount={formatSelectionCount}
-              translation={{
-                clearAll: translation.clearAll,
-                placeholder: translation.placeholder,
-              }}
-              onToggleList={setShowSelectedItemsList}
-              onRemoveTag={handleRemoveTag}
-              onClearAll={() => {
-                setTempValue([])
-                setShowSelectedItemsList(true)
-                if (!showConfirmButton) {
-                  applyChange([])
-                }
-              }}
-            />
+            {selectedTagsContent}
 
-            <MultiSelectionItemList
-              disabled={disabled}
-              filteredItems={filteredItems}
-              tempValue={tempValue}
-              searchValue={searchValue}
-              showSelectAll={showSelectAll}
-              htmlAttributes={htmlAttributes}
-              translation={{
-                selectAll: translation.selectAll,
-                noOptions: translation.noOptions,
-              }}
-              getParentState={getParentState}
-              onToggleItem={handleToggleItem}
-              onToggleParent={handleToggleParent}
-              onToggleSelectAll={handleSelectAll}
-              selectableFilteredFlat={selectableFilteredFlat}
-              allFilteredSelected={allFilteredSelected}
-              someFilteredSelected={someFilteredSelected}
-            />
+            {itemListContent}
 
             <MultiSelectionActions
               show={showConfirmButton}
