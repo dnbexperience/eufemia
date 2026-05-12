@@ -64,7 +64,7 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: 'Transforms the `value` before its displayed in the value component.',
+    doc: "Transforms the `value` before it's displayed in the value component.",
     type: 'function',
     status: 'optional',
   },

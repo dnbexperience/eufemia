@@ -157,7 +157,7 @@ export type ButtonProps = {
    */
   customContent?: ReactNode
   /**
-   * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
+   * If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.
    */
   wrap?: boolean
   /**

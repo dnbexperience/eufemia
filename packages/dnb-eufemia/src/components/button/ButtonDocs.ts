@@ -72,7 +72,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrap: {
-    doc: 'If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.',
+    doc: 'If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

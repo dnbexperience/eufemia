@@ -95,7 +95,7 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   independentWidth: {
-    doc: 'If set to `true`, the Dropdown will handle its width independent to the content width. Defaults to `false`.',
+    doc: 'If set to `true`, the Dropdown will handle its width independent of the content width. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

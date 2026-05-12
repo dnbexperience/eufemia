@@ -103,7 +103,7 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     flushRememberedState?: boolean
     /**
-     * If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.
+     * If set to `true`, a group of accordions will be wrapped into a sidebar-looking menu for medium and larger screens.
      */
     singleContainer?: boolean
     /**

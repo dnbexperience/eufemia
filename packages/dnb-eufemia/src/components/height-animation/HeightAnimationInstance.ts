@@ -182,7 +182,7 @@ export default class HeightAnimation {
     const clonedElem = this.elem.cloneNode(true) as HTMLElement
     const inputs = clonedElem.querySelectorAll('input')
     inputs.forEach((input) => {
-      input.removeAttribute('name') // because type="radio" will be else effected negatively
+      input.removeAttribute('name') // because type="radio" will otherwise be affected negatively
       input.removeAttribute('id') // don't put IDs twice in the DOM
     })
 

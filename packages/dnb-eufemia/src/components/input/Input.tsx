@@ -157,7 +157,7 @@ export type InputProps = Omit<
      */
     labelSrOnly?: boolean
     /**
-     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
+     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
      */
     inputState?: string
     /**

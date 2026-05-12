@@ -122,7 +122,7 @@ export type PaginationProps = {
    */
   parallelLoadCount?: PaginationParallelLoadCount
   /**
-   * if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * if set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
   placeMarkerBeforeContent?: boolean
   /**
@@ -146,7 +146,7 @@ export type PaginationProps = {
    */
   paginationBarLayout?: PaginationLayout
   /**
-   * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
+   * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.
    */
   useLoadButton?: boolean
   items?: PaginationItems

@@ -87,7 +87,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: 'Transforms the `value` before its displayed in the field (e.g. input).',
+    doc: "Transforms the `value` before it's displayed in the field (e.g. input).",
     type: 'function',
     status: 'optional',
   },
