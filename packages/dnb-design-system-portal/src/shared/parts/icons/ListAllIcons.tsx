@@ -107,8 +107,8 @@ export default function ListAllIcons(props: Props) {
         <li key={iconName} className={listItemStyle}>
           <div className={listItemInnerStyle}>
             <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
-              <Icon icon={Svg} filled={showFilled} right />
-              <Icon icon={SvgMedium} size="medium" filled={showFilled} />
+              <Icon icon={Svg} fill={showFilled} right />
+              <Icon icon={SvgMedium} size="medium" fill={showFilled} />
             </figure>
 
             <AutoLinkHeader

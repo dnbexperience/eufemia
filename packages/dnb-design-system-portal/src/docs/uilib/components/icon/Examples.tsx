@@ -55,10 +55,10 @@ export const IconFilled = () => (
   <ComponentBox data-visual-test="icon-filled" scope={{ Star, Heart }}>
     <Flex.Stack>
       <Flex.Horizontal align="center">
-        <Icon icon={Star} filled />
-        <Icon icon={Heart} filled />
-        <Avatar icon={<Icon icon={Star} filled />} size="small" />
-        <Button icon={<Icon icon={Heart} filled />} />
+        <Icon icon={Star} fill />
+        <Icon icon={Heart} fill />
+        <Avatar icon={<Icon icon={Star} fill />} size="small" />
+        <Button icon={<Icon icon={Heart} fill />} />
       </Flex.Horizontal>
     </Flex.Stack>
   </ComponentBox>

@@ -116,7 +116,7 @@ export type IconProps = {
   /**
    * If set to `true`, the icon paths will be filled with `currentColor`.
    */
-  filled?: boolean
+  fill?: boolean
 
   border?: boolean
   width?: `${IconSize}` | `${number}%` | number
@@ -358,7 +358,7 @@ function prepareIconCore(
     height,
     border,
     color,
-    filled,
+    fill,
     inheritColor,
     modifier,
     alt,
@@ -384,7 +384,7 @@ function prepareIconCore(
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
-  const isFilled = filled && label ? isSupportedFilled(label) : false
+  const isFilled = fill && label ? isSupportedFilled(label) : false
 
   // some wrapper params
   // also used for code markup simulation

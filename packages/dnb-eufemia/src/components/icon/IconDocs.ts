@@ -16,8 +16,8 @@ export const IconProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  filled: {
-    doc: 'If set to `true`, the icon paths will be filled with `currentColor`. Can also use the `filled()` wrapper to mark individual icons.',
+  fill: {
+    doc: 'If set to `true`, the icon paths will be filled with `currentColor`.',
     type: 'boolean',
     status: 'optional',
   },
