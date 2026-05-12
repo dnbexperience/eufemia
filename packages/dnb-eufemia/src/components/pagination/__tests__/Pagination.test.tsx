@@ -963,6 +963,152 @@ describe('undefined props should fall through to defaults', () => {
   })
 })
 
+describe('Pagination getPageHref', () => {
+  const getPageHref = (page: number) => `/page/${page}`
+
+  it('renders page buttons as anchor elements when getPageHref is provided', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const anchors = document.querySelectorAll(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button'
+    )
+
+    expect(anchors.length).toBeGreaterThan(0)
+    anchors.forEach((anchor) => {
+      expect(anchor.tagName).toBe('A')
+    })
+  })
+
+  it('sets correct href on page buttons', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const anchors = document.querySelectorAll(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:not(.dnb-pagination__button--prev):not(.dnb-pagination__button--next)'
+    )
+
+    anchors.forEach((anchor) => {
+      const pageNumber = anchor.textContent
+      expect(anchor.getAttribute('href')).toBe(`/page/${pageNumber}`)
+    })
+  })
+
+  it('renders prev/next as anchors inside the inner row', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const prevButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--prev'
+    )
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--next'
+    )
+
+    expect(prevButton.tagName).toBe('A')
+    expect(prevButton.getAttribute('href')).toBe('/page/2')
+
+    expect(nextButton.tagName).toBe('A')
+    expect(nextButton.getAttribute('href')).toBe('/page/4')
+  })
+
+  it('does not render prev button on first page', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const prevButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--prev'
+    )
+
+    expect(prevButton).toBeNull()
+  })
+
+  it('does not render next button on last page', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={5}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--next'
+    )
+
+    expect(nextButton).toBeNull()
+  })
+
+  it('renders as buttons when getPageHref is not provided', () => {
+    render(<Pagination pageCount={5} currentPage={1} />)
+
+    const buttons = document.querySelectorAll(
+      '.dnb-pagination__bar__inner .dnb-pagination__button'
+    )
+
+    buttons.forEach((button) => {
+      expect(button.tagName).toBe('BUTTON')
+    })
+  })
+
+  it('does not render skip bar when getPageHref is provided', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        getPageHref={getPageHref}
+      />
+    )
+
+    const skipBar = document.querySelector('.dnb-pagination__bar__skip')
+
+    expect(skipBar).toBeNull()
+  })
+
+  it('still calls onChange when clicking an anchor page button', () => {
+    const onChange = jest.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        getPageHref={getPageHref}
+        onChange={onChange}
+      />
+    )
+
+    const secondPage = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+    fireEvent.click(secondPage)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ pageNumber: 2 })
+    )
+  })
+})
+
 describe('Pagination scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
