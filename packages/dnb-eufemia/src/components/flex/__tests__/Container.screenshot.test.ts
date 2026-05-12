@@ -1,10 +1,8 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Flex.Container', () => {
-  test('have to match divider', async () => {
+describe('Flex.Container', () => {
+  it('have to match divider', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
@@ -12,7 +10,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match with children', async () => {
+  it('have to match with children', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
@@ -20,7 +18,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match bookend line', async () => {
+  it('have to match bookend line', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
@@ -28,7 +26,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match wrapped bookend line', async () => {
+  it('have to match wrapped bookend line', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {
@@ -39,7 +37,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match field on large viewport', async () => {
+  it('have to match field on large viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
@@ -47,7 +45,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match field on small viewport', async () => {
+  it('have to match field on small viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {
@@ -58,7 +56,7 @@ test.describe('Flex.Container', () => {
     })
   })
 
-  test('have to match field on x-small viewport', async () => {
+  it('have to match field on x-small viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {

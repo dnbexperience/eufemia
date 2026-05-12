@@ -1,23 +1,23 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 const url = '/uilib/extensions/forms/Iterate/PushContainer/demos/'
 
-test.describe('PushContainer', () => {
+describe('PushContainer', () => {
   setupPageScreenshot({
     url,
   })
 
-  test('have to match variants', async () => {
+  it('have to match variants', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
   })
 
-  test('have to match variants in error state', async () => {
+  it('have to match variants in error state', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
@@ -28,19 +28,19 @@ test.describe('PushContainer', () => {
   })
 })
 
-test.describe('PushContainer on small screen', () => {
+describe('PushContainer on small screen', () => {
   setupPageScreenshot({
     url,
     pageViewport: { width: 640 },
   })
 
-  test('have to match variants', async () => {
+  it('have to match variants', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
   })
 
-  test('have to match variants in error state', async () => {
+  it('have to match variants in error state', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:

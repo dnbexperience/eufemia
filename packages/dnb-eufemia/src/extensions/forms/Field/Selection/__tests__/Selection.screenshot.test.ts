@@ -1,16 +1,16 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Selection', () => {
+describe('Selection', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/base-fields/Selection/demos/',
   })
 
-  test.describe('autocomplete', () => {
-    test('have to match groups', async () => {
+  describe('autocomplete', () => {
+    it('have to match groups', async () => {
       await makeScreenshot({
         style: {
           height: '16rem',
@@ -24,51 +24,51 @@ test.describe('Selection', () => {
     })
   })
 
-  test.describe('dropdown', () => {
-    test('have to match dropdown-default', async () => {
+  describe('dropdown', () => {
+    it('have to match dropdown-default', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-default"]',
       })
     })
 
-    test('have to match dropdown-horizontal', async () => {
+    it('have to match dropdown-horizontal', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-horizontal"]',
       })
     })
 
-    test('have to match dropdown-help', async () => {
+    it('have to match dropdown-help', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-help"]',
       })
     })
 
-    test('have to match dropdown-widths', async () => {
+    it('have to match dropdown-widths', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-widths"]',
       })
     })
 
-    test('have to match dropdown-error-message', async () => {
+    it('have to match dropdown-error-message', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-error-message"]',
       })
     })
 
-    test('have to match dropdown-info-message', async () => {
+    it('have to match dropdown-info-message', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-info-message"]',
       })
     })
 
-    test('have to match dropdown-warning-message', async () => {
+    it('have to match dropdown-warning-message', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="selection-dropdown-warning-message"]',
       })
     })
 
-    test('have to match groups', async () => {
+    it('have to match groups', async () => {
       await makeScreenshot({
         style: {
           height: '16rem',
@@ -82,33 +82,33 @@ test.describe('Selection', () => {
     })
   })
 
-  test.describe('radio', () => {
-    test('have to match radio-options-vertical', async () => {
+  describe('radio', () => {
+    it('have to match radio-options-vertical', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-radio-options-vertical"]',
       })
     })
 
-    test('have to match radio-options-horizontal', async () => {
+    it('have to match radio-options-horizontal', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="selection-radio-options-horizontal"]',
       })
     })
 
-    test('have to match radio-vertical', async () => {
+    it('have to match radio-vertical', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-radio-vertical"]',
       })
     })
 
-    test('have to match radio-horizontal', async () => {
+    it('have to match radio-horizontal', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-radio-horizontal"]',
       })
     })
 
-    test('have to match radio-nesting-logic', async () => {
+    it('have to match radio-nesting-logic', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-radio-nesting-logic"]',
         simulate: 'click',
@@ -118,7 +118,7 @@ test.describe('Selection', () => {
       })
     })
 
-    test('have to match selection-radio-advanced-nesting-logic', async () => {
+    it('have to match selection-radio-advanced-nesting-logic', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="selection-radio-advanced-nesting-logic"]',
@@ -127,27 +127,27 @@ test.describe('Selection', () => {
     })
   })
 
-  test.describe('button', () => {
-    test('have to match button-options-vertical', async () => {
+  describe('button', () => {
+    it('have to match button-options-vertical', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-button-options-vertical"]',
       })
     })
 
-    test('have to match button-options-horizontal', async () => {
+    it('have to match button-options-horizontal', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="selection-button-options-horizontal"]',
       })
     })
 
-    test('have to match button-vertical', async () => {
+    it('have to match button-vertical', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-button-vertical"]',
       })
     })
 
-    test('have to match button-nesting-logic', async () => {
+    it('have to match button-nesting-logic', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="selection-button-nesting-logic"]',
         simulate: 'click',

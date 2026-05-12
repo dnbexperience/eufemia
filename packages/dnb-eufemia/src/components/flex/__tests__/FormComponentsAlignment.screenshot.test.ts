@@ -1,17 +1,18 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Form Components Alignment for ${themeName}`, () => {
+describe.each(['ui', 'sbanken'])(
+  `Form Components Alignment for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/layout/visual-tests/',
     })
 
-    test('have to match vertical direction', async () => {
+    it('have to match vertical direction', async () => {
       await makeScreenshot({
         withWrapper: false,
         style: { width: '30rem' },
@@ -20,7 +21,7 @@ for (const themeName of ['ui', 'sbanken']) {
       })
     })
 
-    test('have to match vertical-labels direction', async () => {
+    it('have to match vertical-labels direction', async () => {
       await makeScreenshot({
         withWrapper: false,
         style: { width: '30rem' },
@@ -29,7 +30,7 @@ for (const themeName of ['ui', 'sbanken']) {
       })
     })
 
-    test('have to match horizontal direction', async () => {
+    it('have to match horizontal direction', async () => {
       await makeScreenshot({
         withWrapper: false,
         style: {
@@ -42,5 +43,5 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="form-components-alignment-horizontal"] .dnb-flex-container',
       })
     })
-  })
-}
+  }
+)

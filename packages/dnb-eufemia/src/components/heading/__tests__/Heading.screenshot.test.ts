@@ -1,62 +1,61 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'eiendom']) {
-  test.describe(`Heading for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  `Heading for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/heading/demos/',
     })
 
-    test('have to match default headings', async () => {
+    it('have to match default headings', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
     })
 
-    test('have to match headings with context usage', async () => {
+    it('have to match headings with context usage', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-context"]',
       })
     })
 
-    test('have to match headings with manual mixin', async () => {
+    it('have to match headings with manual mixin', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-mixin"]',
       })
     })
+  }
+)
+
+describe.each(['sbanken'])(`Heading mobile for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/heading/demos/',
+    pageViewport: {
+      width: 400,
+    },
   })
-}
 
-for (const themeName of ['sbanken']) {
-  test.describe(`Heading mobile for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/heading/demos/',
-      pageViewport: {
-        width: 400,
-      },
-    })
-
-    test('have to match default headings', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-default"]',
-      })
-    })
-
-    test('have to match headings with context usage', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-context"]',
-      })
-    })
-
-    test('have to match headings with manual mixin', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-mixin"]',
-      })
+  it('have to match default headings', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-default"]',
     })
   })
-}
+
+  it('have to match headings with context usage', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-context"]',
+    })
+  })
+
+  it('have to match headings with manual mixin', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-mixin"]',
+    })
+  })
+})

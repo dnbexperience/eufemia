@@ -1,5 +1,5 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
@@ -9,313 +9,305 @@ const style = {
   'padding-top': '2rem',
 }
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Tooltip for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/tooltip/demos/',
-    })
+describe.each(['ui', 'sbanken'])(`Tooltip for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/tooltip/demos/',
+  })
 
-    test('have to match tooltip on button hover state', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="tooltip-hover"]',
-        simulateSelector: '[data-visual-test="tooltip-hover"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state with long tooltip text', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="tooltip-hover-button-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-button-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '2rem' },
-        selector: '[data-visual-test="tooltip-hover-align-left"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-left"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '6rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-left-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-left-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left and arrow left', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="tooltip-hover-align-arrow-left"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-arrow-left"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left and arrow left with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-arrow-left-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-arrow-left-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align right and arrow right', async () => {
-      await makeScreenshot({
-        style: style,
-        selector: '[data-visual-test="tooltip-hover-align-arrow-right"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-arrow-right"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align right and arrow right with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-arrow-right-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-arrow-right-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left and arrow right', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '6rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-left-arrow-right"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-left-arrow-right"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align left and arrow right with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-left-arrow-right-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-left-arrow-right-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align right and arrow left', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '6rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-right-arrow-left"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-right-arrow-left"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align right and arrow left with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-align-right-arrow-left-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-right-arrow-left-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align right', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '3rem' },
-        selector: '[data-visual-test="tooltip-hover-align-right"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-right"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align center and arrow center', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="tooltip-hover-align-center"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-center"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when align center and arrow center with long text', async () => {
-      await makeScreenshot({
-        style,
-        selector:
-          '[data-visual-test="tooltip-hover-align-center-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-center-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when arrow left', async () => {
-      await makeScreenshot({
-        style: style,
-        selector: '[data-visual-test="tooltip-hover-arrow-left"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-arrow-left"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when arrow left with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-arrow-left-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-arrow-left-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when arrow right', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="tooltip-hover-arrow-right"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-arrow-right"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when arrow right with long text', async () => {
-      await makeScreenshot({
-        style: {
-          ...style,
-          'padding-left': '6rem',
-          'padding-right': '6rem',
-        },
-        selector:
-          '[data-visual-test="tooltip-hover-arrow-right-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-arrow-right-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position right', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '6rem' },
-        selector: '[data-visual-test="tooltip-hover-position-right"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-right"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position left', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-left': '6rem' },
-        selector: '[data-visual-test="tooltip-hover-position-left"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-left"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position left with long text', async () => {
-      await makeScreenshot({
-        style,
-        selector:
-          '[data-visual-test="tooltip-hover-position-left-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-left-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position bottom', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
-        selector: '[data-visual-test="tooltip-hover-position-bottom"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-bottom"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position bottom with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-position-bottom-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-bottom-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip in large size', async () => {
-      await makeScreenshot({
-        style: {
-          height: '5rem',
-          padding: '3rem 0 0 2rem',
-        },
-        selector: '[data-visual-test="tooltip-large"]',
-        simulateSelector: '[data-visual-test="tooltip-large"] .dnb-span',
-        simulate: 'hover',
-      })
+  it('have to match tooltip on button hover state', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="tooltip-hover"]',
+      simulateSelector: '[data-visual-test="tooltip-hover"] button',
+      simulate: 'hover',
     })
   })
-}
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Tooltip for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/tooltip/demos/',
-    })
-
-    test('have to match tooltip on button hover state when align right with long text', async () => {
-      await makeScreenshot({
-        style: {
-          ...style,
-          'padding-right': '12rem',
-          'padding-bottom': '0',
-        },
-        selector:
-          '[data-visual-test="tooltip-hover-align-right-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-align-right-long-text"] button',
-        simulate: 'hover',
-      })
-    })
-
-    test('have to match tooltip on button hover state when position right with long text', async () => {
-      await makeScreenshot({
-        style: { ...style, 'padding-right': '12rem' },
-        selector:
-          '[data-visual-test="tooltip-hover-position-right-long-text"]',
-        simulateSelector:
-          '[data-visual-test="tooltip-hover-position-right-long-text"] button',
-        simulate: 'hover',
-      })
+  it('have to match tooltip on button hover state with long tooltip text', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="tooltip-hover-button-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-button-long-text"] button',
+      simulate: 'hover',
     })
   })
-}
+
+  it('have to match tooltip on button hover state when align left', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '2rem' },
+      selector: '[data-visual-test="tooltip-hover-align-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-left"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align left with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '6rem' },
+      selector: '[data-visual-test="tooltip-hover-align-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-left-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align left and arrow left', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="tooltip-hover-align-arrow-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-left"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align left and arrow left with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '12rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-arrow-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-left-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align right and arrow right', async () => {
+    await makeScreenshot({
+      style: style,
+      selector: '[data-visual-test="tooltip-hover-align-arrow-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-right"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align right and arrow right with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '12rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-arrow-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-right-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align left and arrow right', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '6rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-left-arrow-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-left-arrow-right"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align left and arrow right with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '12rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-left-arrow-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-left-arrow-right-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align right and arrow left', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '6rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-right-arrow-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-right-arrow-left"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align right and arrow left with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '12rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-align-right-arrow-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-right-arrow-left-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align right', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '3rem' },
+      selector: '[data-visual-test="tooltip-hover-align-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-right"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align center and arrow center', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="tooltip-hover-align-center"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-center"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when align center and arrow center with long text', async () => {
+    await makeScreenshot({
+      style,
+      selector:
+        '[data-visual-test="tooltip-hover-align-center-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-center-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when arrow left', async () => {
+    await makeScreenshot({
+      style: style,
+      selector: '[data-visual-test="tooltip-hover-arrow-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-left"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when arrow left with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '12rem' },
+      selector: '[data-visual-test="tooltip-hover-arrow-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-left-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when arrow right', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="tooltip-hover-arrow-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-right"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when arrow right with long text', async () => {
+    await makeScreenshot({
+      style: {
+        ...style,
+        'padding-left': '6rem',
+        'padding-right': '6rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-arrow-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-right-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position right', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '6rem' },
+      selector: '[data-visual-test="tooltip-hover-position-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-right"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position left', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-left': '6rem' },
+      selector: '[data-visual-test="tooltip-hover-position-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-left"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position left with long text', async () => {
+    await makeScreenshot({
+      style,
+      selector:
+        '[data-visual-test="tooltip-hover-position-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-left-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position bottom', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
+      selector: '[data-visual-test="tooltip-hover-position-bottom"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-bottom"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position bottom with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-position-bottom-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-bottom-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip in large size', async () => {
+    await makeScreenshot({
+      style: {
+        height: '5rem',
+        padding: '3rem 0 0 2rem',
+      },
+      selector: '[data-visual-test="tooltip-large"]',
+      simulateSelector: '[data-visual-test="tooltip-large"] .dnb-span',
+      simulate: 'hover',
+    })
+  })
+})
+
+describe.each(['ui', 'sbanken'])(`Tooltip for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/tooltip/demos/',
+  })
+
+  it('have to match tooltip on button hover state when align right with long text', async () => {
+    await makeScreenshot({
+      style: {
+        ...style,
+        'padding-right': '12rem',
+        'padding-bottom': '0',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-right-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match tooltip on button hover state when position right with long text', async () => {
+    await makeScreenshot({
+      style: { ...style, 'padding-right': '12rem' },
+      selector:
+        '[data-visual-test="tooltip-hover-position-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-right-long-text"] button',
+      simulate: 'hover',
+    })
+  })
+})

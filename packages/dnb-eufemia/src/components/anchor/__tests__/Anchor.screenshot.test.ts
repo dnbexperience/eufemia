@@ -1,23 +1,24 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
-  test.describe(`Anchor for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
+  `Anchor for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/anchor/demos/',
     })
 
-    test('have to match the preview states', async () => {
+    it('have to match the preview states', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-states"]',
       })
     })
 
-    test('have to match breaking lines', async () => {
+    it('have to match breaking lines', async () => {
       await makeScreenshot({
         style: {
           'white-space': 'nowrap',
@@ -26,73 +27,73 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test('have to match anchor with skeleton', async () => {
+    it('have to match anchor with skeleton', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-skeleton"]',
       })
     })
 
-    test('have to match anchor with icon-right', async () => {
+    it('have to match anchor with icon-right', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-right"]',
       })
     })
 
-    test('have to match anchor with icon left', async () => {
+    it('have to match anchor with icon left', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-left"]',
       })
     })
 
-    test('have to match anchor with icon node', async () => {
+    it('have to match anchor with icon node', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-node"]',
       })
     })
 
-    test('have to match anchor with paragraph', async () => {
+    it('have to match anchor with paragraph', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-paragraph"]',
       })
     })
 
-    test('have to match anchor in heading', async () => {
+    it('have to match anchor in heading', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-heading"]',
       })
     })
 
-    test('have to match anchor with no icon', async () => {
+    it('have to match anchor with no icon', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-no-icon-prop"]',
       })
     })
 
-    test('have to match anchor with no launch icon', async () => {
+    it('have to match anchor with no launch icon', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-no-launch-icon-prop"]',
       })
     })
 
-    test('have to match disabled anchor', async () => {
+    it('have to match disabled anchor', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-disabled"]',
       })
     })
 
-    test('have to match anchor on dark surface', async () => {
+    it('have to match anchor on dark surface', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-surface-dark"]',
       })
     })
 
-    test('have to match the "default" state', async () => {
+    it('have to match the "default" state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-basic"]',
       })
     })
 
-    test('have to match the "focus" state', async () => {
+    it('have to match the "focus" state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-basic"]',
         simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -100,7 +101,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test('have to match the "hover" state', async () => {
+    it('have to match the "hover" state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-basic"]',
         simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -108,7 +109,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test('have to match the "active" state', async () => {
+    it('have to match the "active" state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-basic"]',
         simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -116,21 +117,21 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test.describe('contrast', () => {
-      test('have to match the anchor-contrast no-underline "default" state', async () => {
+    describe('contrast', () => {
+      it('have to match the anchor-contrast no-underline "default" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-contrast-no-underline"]',
         })
       })
 
-      test('have to match the anchor-contrast no-underline no-hover "default" state', async () => {
+      it('have to match the anchor-contrast no-underline no-hover "default" state', async () => {
         await makeScreenshot({
           selector:
             '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
         })
       })
 
-      test('have to match the anchor-contrast no-underline no-hover "hover" state', async () => {
+      it('have to match the anchor-contrast no-underline no-hover "hover" state', async () => {
         await makeScreenshot({
           selector:
             '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
@@ -140,14 +141,14 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast no-underline no-radius "default" state', async () => {
+      it('have to match the anchor-contrast no-underline no-radius "default" state', async () => {
         await makeScreenshot({
           selector:
             '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
         })
       })
 
-      test('have to match the anchor-contrast no-underline no-radius "hover" state', async () => {
+      it('have to match the anchor-contrast no-underline no-radius "hover" state', async () => {
         await makeScreenshot({
           selector:
             '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
@@ -157,7 +158,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast no-hover "hover" state', async () => {
+      it('have to match the anchor-contrast no-hover "hover" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-contrast-no-hover"]',
           simulateSelector:
@@ -166,7 +167,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast no-radius "hover" state', async () => {
+      it('have to match the anchor-contrast no-radius "hover" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-contrast-no-radius"]',
           simulateSelector:
@@ -175,13 +176,13 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast "default" state', async () => {
+      it('have to match the anchor-contrast "default" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-surface-dark"]',
         })
       })
 
-      test('have to match the anchor-contrast "focus" state', async () => {
+      it('have to match the anchor-contrast "focus" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
@@ -190,7 +191,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast "hover" state', async () => {
+      it('have to match the anchor-contrast "hover" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
@@ -199,7 +200,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the anchor-contrast "active" state', async () => {
+      it('have to match the anchor-contrast "active" state', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
@@ -209,21 +210,21 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test.describe('modifiers', () => {
-      test('have to match the dnb-anchor--no-icon', async () => {
+    describe('modifiers', () => {
+      it('have to match the dnb-anchor--no-icon', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-no-icon"]',
         })
       })
 
-      test('have to match the dnb-anchor--no-underline', async () => {
+      it('have to match the dnb-anchor--no-underline', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-in-section"]',
         })
       })
     })
 
-    test('have to match the "hover" state for modifier no-style', async () => {
+    it('have to match the "hover" state for modifier no-style', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-no-style"]',
         simulateSelector:
@@ -232,7 +233,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     })
 
-    test('have to match the "hover" state for modifier no-hover', async () => {
+    it('have to match the "hover" state for modifier no-hover', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-no-hover"]',
         simulateSelector:
@@ -242,7 +243,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
     })
 
     if (themeName === 'sbanken') {
-      test('have to match the dnb-anchor--inline hover', async () => {
+      it('have to match the dnb-anchor--inline hover', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-paragraph"]',
           simulateSelector:
@@ -251,7 +252,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the dnb-anchor--inline active', async () => {
+      it('have to match the dnb-anchor--inline active', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-paragraph"]',
           simulateSelector:
@@ -260,7 +261,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match the dnb-anchor--inline focus', async () => {
+      it('have to match the dnb-anchor--inline focus', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-paragraph"]',
           simulateSelector:
@@ -269,7 +270,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match with icon hover', async () => {
+      it('have to match with icon hover', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-icon-left"]',
           simulateSelector:
@@ -278,7 +279,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match with icon active', async () => {
+      it('have to match with icon active', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-icon-left"]',
           simulateSelector:
@@ -287,7 +288,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
         })
       })
 
-      test('have to match with icon focus', async () => {
+      it('have to match with icon focus', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-icon-left"]',
           simulateSelector:
@@ -297,48 +298,49 @@ for (const themeName of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
       })
     }
 
-    test('have to break word with icon', async () => {
+    it('have to break word with icon', async () => {
       const widths = { sbanken: '16rem', ui: '17.5rem' }
       await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-break"]',
         style: { width: widths[themeName] },
       })
     })
-  })
-}
+  }
+)
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Anchor target blank for ${themeName}`, () => {
+describe.each(['ui', 'sbanken'])(
+  `Anchor target blank for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/anchor/demos/',
     })
 
-    test('have to match blank target anchor in heading', async () => {
+    it('have to match blank target anchor in heading', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-heading-blank"]',
       })
     })
 
-    test('have to match the target blank state', async () => {
+    it('have to match the target blank state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-blank"] a',
       })
     })
 
-    test('have to match blank target with icon left', async () => {
+    it('have to match blank target with icon left', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-blank-icon-left"] a',
       })
     })
 
-    test('have to match the target blank with href protocol', async () => {
+    it('have to match the target blank with href protocol', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="anchor-protocol"]',
       })
     })
 
-    test('have to match the target blank with tooltip', async () => {
+    it('have to match the target blank with tooltip', async () => {
       await makeScreenshot({
         style: {
           'padding-top': '2rem',
@@ -348,5 +350,5 @@ for (const themeName of ['ui', 'sbanken']) {
         simulate: 'hover',
       })
     })
-  })
-}
+  }
+)

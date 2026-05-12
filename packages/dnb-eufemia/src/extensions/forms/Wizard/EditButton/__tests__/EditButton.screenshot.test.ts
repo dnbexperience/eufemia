@@ -1,12 +1,10 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('EditButton', () => {
+describe('EditButton', () => {
   const url = '/uilib/extensions/forms/Wizard/EditButton/demos/'
 
-  test('have to match button with hr', async () => {
+  it('have to match button with hr', async () => {
     await makeScreenshot({
       url,
       wrapperStyle: {

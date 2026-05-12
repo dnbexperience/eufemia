@@ -1,13 +1,11 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Flex.Item', () => {
+describe('Flex.Item', () => {
   const selector =
     '[data-visual-test="flex-item-custom-size"] .dnb-flex-container'
 
-  test('have to match responsive size on large viewport', async () => {
+  it('have to match responsive size on large viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -17,7 +15,7 @@ test.describe('Flex.Item', () => {
     })
   })
 
-  test('have to match responsive size on medium viewport', async () => {
+  it('have to match responsive size on medium viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -27,7 +25,7 @@ test.describe('Flex.Item', () => {
     })
   })
 
-  test('have to match responsive size on small viewport', async () => {
+  it('have to match responsive size on small viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {
@@ -37,7 +35,7 @@ test.describe('Flex.Item', () => {
     })
   })
 
-  test('have to match responsive size on x-small viewport', async () => {
+  it('have to match responsive size on x-small viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/item/demos/',
       pageViewport: {

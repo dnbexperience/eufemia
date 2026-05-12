@@ -1,13 +1,11 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Grid.Container', () => {
+describe('Grid.Container', () => {
   const selector =
     '[data-visual-test="grid-container-responsive"] .dnb-grid-container'
 
-  test('have to match responsive size on large viewport', async () => {
+  it('have to match responsive size on large viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {
@@ -20,7 +18,7 @@ test.describe('Grid.Container', () => {
     })
   })
 
-  test('have to match responsive size on medium viewport', async () => {
+  it('have to match responsive size on medium viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {
@@ -30,7 +28,7 @@ test.describe('Grid.Container', () => {
     })
   })
 
-  test('have to match responsive size on small viewport', async () => {
+  it('have to match responsive size on small viewport', async () => {
     await makeScreenshot({
       url: '/uilib/layout/grid/container/demos/',
       pageViewport: {

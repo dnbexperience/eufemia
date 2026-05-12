@@ -1,19 +1,17 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Form.Section', () => {
+describe('Form.Section', () => {
   const url = '/uilib/extensions/forms/Form/Section/demos/'
 
-  test('have to match view container', async () => {
+  it('have to match view container', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
     })
   })
 
-  test('have to match edit container', async () => {
+  it('have to match edit container', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
@@ -23,14 +21,14 @@ test.describe('Form.Section', () => {
     })
   })
 
-  test('have to match basic view container', async () => {
+  it('have to match basic view container', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',
     })
   })
 
-  test('have to match basic edit container', async () => {
+  it('have to match basic edit container', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',

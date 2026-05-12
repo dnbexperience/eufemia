@@ -1,35 +1,35 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Drawer', () => {
-  test.describe('large', () => {
+describe('Drawer', () => {
+  describe('large', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos/',
     })
 
-    test('have to match default drawer trigger with title', async () => {
+    it('have to match default drawer trigger with title', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
       })
     })
 
-    test('have to match default drawer trigger', async () => {
+    it('have to match default drawer trigger', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
       })
     })
 
-    test('have to match customized drawer trigger', async () => {
+    it('have to match customized drawer trigger', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="drawer-custom-trigger"]',
       })
     })
   })
 
-  test.describe('open', () => {
+  describe('open', () => {
     const pageViewport = {
       width: 700,
       height: 600,
@@ -40,7 +40,7 @@ test.describe('Drawer', () => {
       pageViewport,
     })
 
-    test('have to match simple drawer window', async () => {
+    it('have to match simple drawer window', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
         simulate: 'click',
@@ -51,7 +51,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match fullscreen drawer', async () => {
+    it('have to match fullscreen drawer', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="fullscreen-drawer"]',
         simulate: 'click',
@@ -62,7 +62,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match left placement drawer', async () => {
+    it('have to match left placement drawer', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="left-placement-drawer"]',
         simulate: 'click',
@@ -73,7 +73,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match full drawer window', async () => {
+    it('have to match full drawer window', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
         simulate: 'click',
@@ -84,7 +84,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match callback drawer window', async () => {
+    it('have to match callback drawer window', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="callback-drawer"]',
         simulate: 'click',
@@ -95,7 +95,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match no-animation drawer window', async () => {
+    it('have to match no-animation drawer window', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="drawer-no-animation"]',
         simulate: 'click',
@@ -106,7 +106,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match correct scroll view setup', async () => {
+    it('have to match correct scroll view setup', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="drawer-scroll-view"]',
         simulate: 'click',
@@ -117,7 +117,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match large content drawer scrolled', async () => {
+    it('have to match large content drawer scrolled', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="large-content-drawer"]',
         simulate: 'click',
@@ -129,7 +129,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to apply sticky header when header content changes', async () => {
+    it('have to apply sticky header when header content changes', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="update-navigation-header-example"]',
         simulate: 'click',
@@ -142,7 +142,7 @@ test.describe('Drawer', () => {
     })
   })
 
-  test.describe('small', () => {
+  describe('small', () => {
     setupPageScreenshot({
       url: '/uilib/components/drawer/demos/',
       pageViewport: {
@@ -151,7 +151,7 @@ test.describe('Drawer', () => {
       },
     })
 
-    test('have to match top placement drawer', async () => {
+    it('have to match top placement drawer', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="top-placement-drawer"]',
         simulate: 'click',
@@ -163,7 +163,7 @@ test.describe('Drawer', () => {
       })
     })
 
-    test('have to match bottom placement drawer', async () => {
+    it('have to match bottom placement drawer', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="bottom-placement-drawer"]',
         simulate: 'click',

@@ -1,54 +1,54 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Value.Composition', () => {
+describe('Value.Composition', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Value/Composition/demos/',
   })
 
-  test('have to match forms-value-composition-default', async () => {
+  it('have to match forms-value-composition-default', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-default"]',
     })
   })
 
-  test('have to match forms-value-composition-summary-list', async () => {
+  it('have to match forms-value-composition-summary-list', async () => {
     await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list"]',
     })
   })
 
-  test('have to match forms-value-composition-summary-list-combined', async () => {
+  it('have to match forms-value-composition-summary-list-combined', async () => {
     await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list-combined"]',
     })
   })
 
-  test('have to match forms-value-composition-help', async () => {
+  it('have to match forms-value-composition-help', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-help"]',
     })
   })
 
-  test('have to match forms-value-composition-wrapping', async () => {
+  it('have to match forms-value-composition-wrapping', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="forms-value-composition-wrapping"]',
     })
   })
 
-  test('have to match forms-value-composition-summary-list-grid', async () => {
+  it('have to match forms-value-composition-summary-list-grid', async () => {
     await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-composition-summary-list-grid"]',
     })
   })
 
-  test.describe('small', () => {
+  describe('small', () => {
     setupPageScreenshot({
       url: '/uilib/extensions/forms/Value/Composition/demos/',
       pageViewport: {
@@ -56,14 +56,14 @@ test.describe('Value.Composition', () => {
       },
     })
 
-    test('have to match forms-value-composition-summary-list', async () => {
+    it('have to match forms-value-composition-summary-list', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list"]',
       })
     })
 
-    test('have to match forms-value-composition-summary-list-grid', async () => {
+    it('have to match forms-value-composition-summary-list-grid', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list-grid"]',
@@ -71,7 +71,7 @@ test.describe('Value.Composition', () => {
     })
   })
 
-  test.describe('x-small', () => {
+  describe('x-small', () => {
     setupPageScreenshot({
       url: '/uilib/extensions/forms/Value/Composition/demos/',
       pageViewport: {
@@ -79,7 +79,7 @@ test.describe('Value.Composition', () => {
       },
     })
 
-    test('have to match forms-value-composition-summary-list-grid', async () => {
+    it('have to match forms-value-composition-summary-list-grid', async () => {
       await makeScreenshot({
         selector:
           '[data-visual-test="forms-value-composition-summary-list-grid"]',

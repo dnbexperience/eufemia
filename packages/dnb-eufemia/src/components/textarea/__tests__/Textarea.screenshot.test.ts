@@ -1,11 +1,12 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'carnegie']) {
-  test.describe(`Textarea for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  `Textarea for %s`,
+  (themeName) => {
     const style = {
       width: '14rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
     }
@@ -14,7 +15,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       url: '/uilib/components/textarea/demos/',
     })
 
-    test('have to match the "default" textarea style', async () => {
+    it('have to match the "default" textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
@@ -23,7 +24,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match character counter', async () => {
+    it('have to match character counter', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-character-counter"]',
@@ -32,7 +33,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the default error textarea style', async () => {
+    it('have to match the default error textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
@@ -41,7 +42,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the default disabled textarea style', async () => {
+    it('have to match the default disabled textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-disabled"]',
@@ -50,7 +51,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the error textarea "hover"', async () => {
+    it('have to match the error textarea "hover"', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
@@ -61,7 +62,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the error textarea mouse focus', async () => {
+    it('have to match the error textarea mouse focus', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
@@ -72,7 +73,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the error textarea "focus"', async () => {
+    it('have to match the error textarea "focus"', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-error"]',
@@ -83,7 +84,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match stretched textarea style', async () => {
+    it('have to match stretched textarea style', async () => {
       await makeScreenshot({
         style: {
           width: '30rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
@@ -94,7 +95,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the "hover" textarea style', async () => {
+    it('have to match the "hover" textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
@@ -105,7 +106,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the mouse focus textarea style', async () => {
+    it('have to match the mouse focus textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
@@ -116,7 +117,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match the "focus" textarea style', async () => {
+    it('have to match the "focus" textarea style', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-default"]',
@@ -127,7 +128,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match different sizes', async () => {
+    it('have to match different sizes', async () => {
       await makeScreenshot({
         style,
         selector: '[data-visual-test="textarea-sizes"]',
@@ -135,5 +136,5 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           '[data-visual-test="textarea-sizes"] .dnb-flex-container',
       })
     })
-  })
-}
+  }
+)

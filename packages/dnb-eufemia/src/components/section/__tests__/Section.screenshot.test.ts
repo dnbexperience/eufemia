@@ -1,5 +1,5 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
@@ -18,25 +18,24 @@ const sections = {
   sbanken: ['default', 'information', 'error', 'warning', 'success'],
 }
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Section for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/section/demos/',
-    })
+describe.each(['ui', 'sbanken'])(`Section for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/section/demos/',
+  })
 
-    for (const sectionName of sections[themeName]) {
-      test(`have to match ${sectionName} section`, async () => {
-        await makeScreenshot({
-          selector: `[data-visual-test="section-${sectionName}"]`,
-        })
+  it.each(sections[themeName])(
+    `have to match %s section`,
+    async (...[sectionName]) => {
+      await makeScreenshot({
+        selector: `[data-visual-test="section-${sectionName}"]`,
       })
     }
-  })
-}
+  )
+})
 
-test.describe('Responsive', () => {
-  test('have to match section on "small" size', async () => {
+describe('Responsive', () => {
+  it('have to match section on "small" size', async () => {
     await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {
@@ -46,7 +45,7 @@ test.describe('Responsive', () => {
     })
   })
 
-  test('have to match section on "medium" size', async () => {
+  it('have to match section on "medium" size', async () => {
     await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {
@@ -56,7 +55,7 @@ test.describe('Responsive', () => {
     })
   })
 
-  test('have to match section on "large" size', async () => {
+  it('have to match section on "large" size', async () => {
     await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {

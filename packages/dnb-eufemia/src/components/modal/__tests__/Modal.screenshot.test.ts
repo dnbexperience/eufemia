@@ -1,19 +1,17 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Modal', () => {
+describe('Modal', () => {
   const url = '/uilib/components/modal/demos/'
 
-  test('have to match the default modal trigger button', async () => {
+  it('have to match the default modal trigger button', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="modal-standard"]',
     })
   })
 
-  test('have to match the default modal window', async () => {
+  it('have to match the default modal window', async () => {
     await makeScreenshot({
       url: url,
       pageViewport: {
