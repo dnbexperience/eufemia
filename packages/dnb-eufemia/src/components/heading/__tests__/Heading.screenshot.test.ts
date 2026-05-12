@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken', 'eiendom']) {
   test.describe(`Heading for ${themeName}`, () => {
@@ -13,24 +12,21 @@ for (const themeName of ['ui', 'sbanken', 'eiendom']) {
     })
 
     test('have to match default headings', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match headings with context usage', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-context"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match headings with manual mixin', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-mixin"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }
@@ -46,24 +42,21 @@ for (const themeName of ['sbanken']) {
     })
 
     test('have to match default headings', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match headings with context usage', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-context"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match headings with manual mixin', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="heading-mixin"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`ToggleButton for ${themeName}`, () => {
@@ -14,30 +13,27 @@ for (const themeName of ['ui', 'sbanken']) {
       })
 
       test('have to match toggle-button in unchecked state', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-default"]',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button in unchecked state with focus', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-default"]',
           simulateSelector:
             '[data-visual-test="toggle-button-default"] .dnb-toggle-button__button',
           simulate: 'focus',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button in unchecked state with hover', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-default"]',
           simulateSelector:
             '[data-visual-test="toggle-button-default"] .dnb-toggle-button__button',
           simulate: 'hover',
         })
-        expect(screenshot).toMatchSnapshot()
       })
     })
 
@@ -50,72 +46,64 @@ for (const themeName of ['ui', 'sbanken']) {
       })
 
       test('have to match toggle-button in checked state', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-checked"]',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button in checked state with focus', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-checked"]',
           simulateSelector:
             '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
           simulate: 'focus',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button in checked state with hover', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-checked"]',
           simulateSelector:
             '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
           simulate: 'hover',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button in active focus state', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector: '[data-visual-test="toggle-button-checked"]',
           simulateSelector:
             '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
           simulate: 'focusclick',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button group', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector:
             '[data-visual-test="toggle-button-group-default"] .dnb-toggle-button-group',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button group in vertical layout', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector:
             '[data-visual-test="toggle-button-group-vertical"] .dnb-toggle-button-group',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
       test('have to match toggle-button group with form-status', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector:
             '[data-visual-test="toggle-button-group-status"] .dnb-toggle-button-group',
         })
-        expect(screenshot).toMatchSnapshot()
       })
     })
 
     test('have to match toggle-button in disabled state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="toggle-button-group-disabled"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

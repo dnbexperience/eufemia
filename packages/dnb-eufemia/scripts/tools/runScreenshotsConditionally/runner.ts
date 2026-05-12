@@ -106,6 +106,42 @@ export function resolveCliOptions(argv: string[]): CliOptions {
   }
 }
 
+/**
+ * Split a shell command string into tokens, respecting single and
+ * double quotes so that e.g. `NODE_OPTIONS='--expose-gc --max=8192'`
+ * stays as one token instead of being broken on the inner space.
+ */
+function tokenizeShellCommand(command: string): string[] {
+  const tokens: string[] = []
+  let current = ''
+  let quote: string | null = null
+
+  for (const ch of command) {
+    if (quote) {
+      if (ch === quote) {
+        quote = null
+      } else {
+        current += ch
+      }
+    } else if (ch === "'" || ch === '"') {
+      quote = ch
+    } else if (ch === ' ') {
+      if (current) {
+        tokens.push(current)
+        current = ''
+      }
+    } else {
+      current += ch
+    }
+  }
+
+  if (current) {
+    tokens.push(current)
+  }
+
+  return tokens
+}
+
 function getBaseCommandTokens(
   packageJson: { scripts: Record<string, string> } | null,
   packageRoot: string,
@@ -122,7 +158,7 @@ function getBaseCommandTokens(
     )
   }
 
-  const tokens = baseCommand.split(' ').filter(Boolean)
+  const tokens = tokenizeShellCommand(baseCommand)
 
   if (!runAllWithoutBail) {
     return tokens
@@ -132,7 +168,19 @@ function getBaseCommandTokens(
 }
 
 function runCommand(packageRoot: string, commandTokens: string[]) {
-  const [command, ...args] = commandTokens
+  // Separate leading KEY=value env-var assignments from the actual
+  // command, because execFileSync does not use a shell and cannot
+  // interpret inline env prefixes like `NODE_OPTIONS='...' vitest`.
+  const envOverrides: Record<string, string> = {}
+  let i = 0
+  for (; i < commandTokens.length; i++) {
+    const match = commandTokens[i].match(/^([A-Z_][A-Z0-9_]*)=(.*)$/)
+    if (!match) {
+      break
+    }
+    envOverrides[match[1]] = match[2]
+  }
+  const [command, ...args] = commandTokens.slice(i)
 
   log.info(
     logWithLabel(`Running command: ${[command, ...args].join(' ')}`)
@@ -141,6 +189,7 @@ function runCommand(packageRoot: string, commandTokens: string[]) {
   execFileSync(command, args, {
     stdio: 'inherit',
     cwd: packageRoot,
+    env: { ...process.env, ...envOverrides },
   })
 }
 

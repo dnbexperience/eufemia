@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken', 'carnegie']) {
   test.describe(`Input for ${themeName}`, () => {
@@ -20,206 +19,183 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
     })
 
     test('have to match input with placeholder', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-placeholder'),
         selector: '[data-visual-test="input-placeholder"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match input with icon', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-icon'),
         selector: '[data-visual-test="input-icon"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match disabled input', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-disabled'),
         selector: '[data-visual-test="input-disabled"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with hover state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with button hover state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with button active state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
         simulate: 'active',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with mouse focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'click',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'focus', // should be tested first
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match search type with button focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
         simulate: 'focus',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match stretched and medium size', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...{ ...extend('input-medium'), style: { width: '300px' } },
         selector: '[data-visual-test="input-medium"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match stretched input with status', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...{ ...extend('input-stretch'), style: { width: '300px' } },
         selector: '[data-visual-test="input-stretch"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error hover state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error mouse focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
         simulate: 'click',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error focus state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
         simulate: 'focus',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error with button', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error with button hover', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
         simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error with button active', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
         simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
         simulate: 'active',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match error with button focus', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
         simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
         simulate: 'focus',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match input with clear button', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="input-clear"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match input with clear button in hover state', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="input-clear"]',
         simulateSelector:
           '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-input__clear-button',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match text align with icon', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         ...extend('input-align'),
         selector: '[data-visual-test="input-align"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

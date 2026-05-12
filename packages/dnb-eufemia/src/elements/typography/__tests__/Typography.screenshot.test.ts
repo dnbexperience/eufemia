@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
   test.describe(`Typography for ${themeName}`, () => {
@@ -13,10 +12,9 @@ for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
     })
 
     test('have to match all the typography variants', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }
@@ -32,10 +30,9 @@ for (const themeName of ['sbanken']) {
     })
 
     test('have to match all the typography variants', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

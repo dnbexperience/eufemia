@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Currency field for ${themeName}`, () => {
@@ -14,11 +13,10 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test.describe('with step control buttons', () => {
       test('matches the default state', async () => {
-        const screenshot = await makeScreenshot({
+        await makeScreenshot({
           selector:
             '[data-visual-test="currency-input-step-controls"] .dnb-forms-field-number',
         })
-        expect(screenshot).toMatchSnapshot()
       })
     })
   })

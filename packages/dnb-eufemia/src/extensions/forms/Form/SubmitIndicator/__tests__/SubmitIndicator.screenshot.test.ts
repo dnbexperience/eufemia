@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Form.SubmitIndicator', () => {
   setupPageScreenshot({
@@ -11,9 +10,8 @@ test.describe('Form.SubmitIndicator', () => {
   })
 
   test('have to match submit-indicator-with-label', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="submit-indicator-with-label"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

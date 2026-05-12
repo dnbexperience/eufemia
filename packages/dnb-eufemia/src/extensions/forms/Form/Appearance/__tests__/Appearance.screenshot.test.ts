@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Form.Appearance for ${themeName}`, () => {
@@ -13,17 +12,15 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match size', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-appearance-size"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match size nested', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-appearance-size-nested"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

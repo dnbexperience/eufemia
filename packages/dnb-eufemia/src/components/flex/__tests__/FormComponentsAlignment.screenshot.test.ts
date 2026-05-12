@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Form Components Alignment for ${themeName}`, () => {
@@ -13,27 +12,25 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match vertical direction', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         withWrapper: false,
         style: { width: '30rem' },
         selector:
           '[data-visual-test="form-components-alignment-vertical"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match vertical-labels direction', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         withWrapper: false,
         style: { width: '30rem' },
         selector:
           '[data-visual-test="form-components-alignment-vertical-labels"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match horizontal direction', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         withWrapper: false,
         style: {
           width: '60rem',
@@ -44,7 +41,6 @@ for (const themeName of ['ui', 'sbanken']) {
         selector:
           '[data-visual-test="form-components-alignment-horizontal"] .dnb-flex-container',
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

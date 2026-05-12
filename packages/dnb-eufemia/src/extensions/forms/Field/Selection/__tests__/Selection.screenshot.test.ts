@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Selection', () => {
   setupPageScreenshot({
@@ -12,7 +11,7 @@ test.describe('Selection', () => {
 
   test.describe('autocomplete', () => {
     test('have to match groups', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           height: '16rem',
         },
@@ -22,63 +21,55 @@ test.describe('Selection', () => {
           '[data-visual-test="selection-autocomplete-groups"] .dnb-autocomplete .dnb-input__input',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 
   test.describe('dropdown', () => {
     test('have to match dropdown-default', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-default"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-horizontal', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-horizontal"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-help', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-help"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-widths', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-widths"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-error-message', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-error-message"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-info-message', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-dropdown-info-message"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match dropdown-warning-message', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector:
           '[data-visual-test="selection-dropdown-warning-message"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match groups', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         style: {
           height: '16rem',
         },
@@ -88,93 +79,82 @@ test.describe('Selection', () => {
           '[data-visual-test="selection-dropdown-groups"] .dnb-dropdown__trigger',
         simulateAfter: { keypress: 'Escape' },
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 
   test.describe('radio', () => {
     test('have to match radio-options-vertical', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-radio-options-vertical"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match radio-options-horizontal', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector:
           '[data-visual-test="selection-radio-options-horizontal"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match radio-vertical', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-radio-vertical"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match radio-horizontal', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-radio-horizontal"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match radio-nesting-logic', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-radio-nesting-logic"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="selection-radio-nesting-logic"] .dnb-radio:nth-of-type(2) input',
         recalculateHeightAfterSimulate: true,
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match selection-radio-advanced-nesting-logic', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector:
           '[data-visual-test="selection-radio-advanced-nesting-logic"]',
         recalculateHeightAfterSimulate: true,
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 
   test.describe('button', () => {
     test('have to match button-options-vertical', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-button-options-vertical"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match button-options-horizontal', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector:
           '[data-visual-test="selection-button-options-horizontal"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match button-vertical', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-button-vertical"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match button-nesting-logic', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="selection-button-nesting-logic"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="selection-button-nesting-logic"] .dnb-toggle-button:nth-of-type(2) button',
         recalculateHeightAfterSimulate: true,
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 })

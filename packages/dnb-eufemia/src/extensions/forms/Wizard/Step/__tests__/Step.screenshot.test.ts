@@ -1,16 +1,14 @@
 import {
   test,
-  expect,
   makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Wizard.Step', () => {
   const url = '/uilib/extensions/forms/Wizard/Step/demos/'
   test('have to match inactive', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="wizard-step-inactive"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

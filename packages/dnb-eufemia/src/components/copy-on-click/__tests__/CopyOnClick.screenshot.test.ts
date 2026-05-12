@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('CopyOnClick', () => {
   setupPageScreenshot({
@@ -17,14 +16,13 @@ test.describe('CopyOnClick', () => {
   }
 
   test('have to match tooltip', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-default"]',
       style,
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })
 
@@ -39,13 +37,12 @@ test.describe('CopyOnClick in drawer', () => {
   })
 
   test('have to match tooltip', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-inside-drawer"]',
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
       screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

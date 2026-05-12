@@ -1,13 +1,12 @@
 import {
   test,
-  expect,
   makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 test.describe('Wizard.Container', () => {
   const url = '/uilib/extensions/forms/Wizard/Container/demos/'
   test('have to match border', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 700,
@@ -19,11 +18,10 @@ test.describe('Wizard.Container', () => {
       selector:
         '[data-visual-test="wizard-layout-card-border"] .dnb-forms-wizard-layout__contents',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match large screen', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 980,
@@ -34,22 +32,20 @@ test.describe('Wizard.Container', () => {
         '[data-visual-test="wizard-layout-card-border"] .dnb-step-indicator__trigger__button',
       selector: '[data-visual-test="wizard-layout-card-border"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match small screen', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 400,
       },
       selector: '[data-visual-test="wizard-layout-card-border"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match container with status message in menu', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 980,
@@ -60,11 +56,10 @@ test.describe('Wizard.Container', () => {
       recalculateHeightAfterSimulate: true,
       selector: '[data-visual-test="wizard-with-status-message-in-menu"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match container with status message', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 980,
@@ -75,11 +70,10 @@ test.describe('Wizard.Container', () => {
       recalculateHeightAfterSimulate: true,
       selector: '[data-visual-test="wizard-with-status-message"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
   test('have to match container with status message on a small screen', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       url,
       pageViewport: {
         width: 400,
@@ -90,6 +84,5 @@ test.describe('Wizard.Container', () => {
       recalculateHeightAfterSimulate: true,
       selector: '[data-visual-test="wizard-with-status-message"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken']) {
   test.describe(`Menu for ${themeName}`, () => {
@@ -13,7 +12,7 @@ for (const themeName of ['ui', 'sbanken']) {
     })
 
     test('have to match menu with accordion item', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="menu-accordion"]',
         style: {
           'padding-bottom': '14rem',
@@ -24,8 +23,6 @@ for (const themeName of ['ui', 'sbanken']) {
           '[data-visual-test="menu-accordion"] .dnb-button',
         simulateAfter: { keypress: 'Escape' },
       })
-
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }

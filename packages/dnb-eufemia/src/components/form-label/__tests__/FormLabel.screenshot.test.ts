@@ -1,9 +1,8 @@
 import {
   test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const themeName of ['ui', 'sbanken', 'carnegie']) {
   test.describe(`FormLabel for ${themeName}`, () => {
@@ -13,39 +12,35 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
     })
 
     test('have to match default form-label', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-label-default"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match default form-label with hover', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-label-default"]',
         simulate: 'hover',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match checkbox label hover', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-label-default"]',
         simulate: 'hover',
         simulateSelector:
           '[data-visual-test="form-label-default"] .dnb-checkbox .dnb-form-label',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match horizontal form-label', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-label-horizontal"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
     test('have to match fix-content width', async () => {
-      const screenshot = await makeScreenshot({
+      await makeScreenshot({
         selector: '[data-visual-test="form-label-default"] label',
         style: {
           'background-color': 'yellow',
@@ -55,7 +50,6 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           width: '20rem',
         },
       })
-      expect(screenshot).toMatchSnapshot()
     })
   })
 }
