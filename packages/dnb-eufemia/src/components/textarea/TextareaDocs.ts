@@ -62,7 +62,7 @@ export const TextareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
+    doc: 'The sizes you can choose for 1 row are `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
     type: ['"small"', '"medium"', '"large"'],
     status: 'optional',
   },

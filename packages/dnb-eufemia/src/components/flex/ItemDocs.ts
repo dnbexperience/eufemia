@@ -22,7 +22,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ref: {
-    doc: 'Provide a React.Ref to accessing the inner HTML element.',
+    doc: 'Provide a React.Ref to access the inner HTML element.',
     type: 'React.Ref',
     status: 'optional',
   },

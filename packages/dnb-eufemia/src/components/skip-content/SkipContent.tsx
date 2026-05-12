@@ -15,7 +15,7 @@ export type SkipContentProps = {
   selector: string
 
   /**
-   * Define a clear message describing the choices the users has.
+   * Define a clear message describing the choices the user has.
    * Optional
    */
   text?: ReactNode

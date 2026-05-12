@@ -54,13 +54,13 @@ export type TableProps = {
   variant?: TableVariants
 
   /**
-   * Use `true` to show borders between table data cell
+   * Use `true` to show borders between table data cells.
    * Default: `false`
    */
   border?: boolean
 
   /**
-   * Use `true` to show a outline border around the table
+   * Use `true` to show an outline border around the table.
    * Default: `false`
    */
   outline?: boolean

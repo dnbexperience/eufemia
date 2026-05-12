@@ -138,7 +138,7 @@ export type PaginationProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.
+   * If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.
    */
   mode?: PaginationMode
   /**

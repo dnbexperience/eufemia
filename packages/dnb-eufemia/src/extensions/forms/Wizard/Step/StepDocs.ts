@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const StepProperties: PropertiesTableProps = {
   title: {
-    doc: 'An unique title of the step.',
+    doc: 'A unique title of the step.',
     type: 'React.ReactNode',
     status: 'required',
   },

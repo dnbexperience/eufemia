@@ -88,12 +88,12 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   icon?: IconIcon
 
   /**
-   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to `information`.
+   * For variant confirmation, the dialog is either an informational (`information`) or a warning (`warning`) message. Defaults to `information`.
    */
   confirmType?: 'information' | 'warning'
 
   /**
-   * A description will be positioned below the title, but before the content.
+   * A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.
    */
   description?: ReactNode
 

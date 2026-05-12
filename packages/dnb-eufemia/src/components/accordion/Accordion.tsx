@@ -87,11 +87,11 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     preventRerender?: boolean
     /**
-     * Use this prop together with `preventRerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
+     * Use this property together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.
      */
     preventRerenderConditional?: boolean
     /**
-     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
+     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.
      */
     rememberState?: boolean
     /**
@@ -103,7 +103,7 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     flushRememberedState?: boolean
     /**
-     * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
+     * If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.
      */
     singleContainer?: boolean
     /**

@@ -49,7 +49,7 @@ export type InfoCardProps = {
    */
   icon?: IconIcon
   /**
-   * Props applied to the `img` element if the component is used to display an image. Replace the 'icon'
+   * Props applied to the `img` element if the component is used to display an image. Replaces the icon.
    * Default: `null`
    */
   imgProps?: ImgProps

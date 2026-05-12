@@ -106,11 +106,11 @@ export type TabsProps = Omit<
   SpacingProps & {
     data?: TabsData
     /**
-     * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+     * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     content?: TabsContent
     /**
-     * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+     * To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
     contentStyle?: SectionVariants | string
     /**
@@ -170,7 +170,7 @@ export type TabsProps = Omit<
     id?: string
     className?: string
     /**
-     * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+     * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     children?: TabsChildren
     render?: (components: TabsRenderComponents) => ReactNode
@@ -201,7 +201,7 @@ export type TabsRenderComponents = {
 
 export type TabsDummyProps = {
   /**
-   * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+   * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   children: ReactNode
 }

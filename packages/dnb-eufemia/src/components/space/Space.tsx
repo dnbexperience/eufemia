@@ -36,13 +36,11 @@ export type SpaceProps = {
 
   /**
    * If set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.
-   * Default: `false`
    */
   inline?: boolean
 
   /**
    * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.
-   * Default: `false`
    */
   noCollapse?: boolean
 

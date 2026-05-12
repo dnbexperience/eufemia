@@ -7,12 +7,12 @@ export const SkipContentProperties: PropertiesTableProps = {
     status: 'required',
   },
   text: {
-    doc: 'Define a clear message describing the choices the users has.',
+    doc: 'Define a clear message describing the choices the user has.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'Define a clear message describing the choices the users has.',
+    doc: 'Define a clear message describing the choices the user has.',
     type: 'React.ReactNode',
     status: 'optional',
   },

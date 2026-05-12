@@ -62,7 +62,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   rel: {
-    doc: 'When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.',
+    doc: 'When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples (non-exhaustive list) of values are `nofollow`, `search`, and `tag`.',
     type: 'string',
     status: 'optional',
   },
