@@ -218,6 +218,10 @@ export type PaginationProps = {
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
   barSpace?: SpaceTypeAll
+  /**
+   * A function that receives a page number and returns a URL string. When provided, page buttons render as links (`<a>`) instead of buttons, enabling native browser navigation.
+   */
+  getPageHref?: (pageNumber: number) => string
   className?: string
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -334,6 +338,7 @@ const PaginationInstance = memo(function PaginationInstance(
     loadButton: _loadButton,
     indicatorElement: _indicatorElement,
     placeMarkerBeforeContent: _placeMarkerBeforeContent,
+    getPageHref: _getPageHref,
 
     ...attributes
   } = props as Record<string, unknown>
