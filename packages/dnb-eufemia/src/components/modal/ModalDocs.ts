@@ -77,7 +77,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   focusSelector: {
-    doc: 'The Modal handles the first focus – automatically. However, you can define a custom focus selector the will be used instead `focusSelector=".css-selector"`.',
+    doc: 'The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=".css-selector"`.',
     type: 'string',
     status: 'optional',
   },

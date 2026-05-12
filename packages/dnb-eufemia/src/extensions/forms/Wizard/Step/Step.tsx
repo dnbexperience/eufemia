@@ -14,7 +14,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 export type WizardStepProps = ComponentProps &
   FlexContainerProps & {
     /**
-     * An unique title of the step.
+     * A unique title of the step.
      */
     title?: ReactNode
 
