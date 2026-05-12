@@ -17,6 +17,7 @@ import {
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
+import Anchor from '../anchor/Anchor'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
@@ -69,6 +70,7 @@ type PaginationBarContext = {
   currentPageInternal: number
   pageCountInternal: number
   disabled: boolean
+  getPageHref?: (pageNumber: number) => string
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
   updatePageContent: (currentPageInternal: number) => void
@@ -89,6 +91,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     disabled,
     skeleton,
     space,
+    getPageHref,
   } = props
 
   // because of accessibility
@@ -181,6 +184,115 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentScreenSize === 'small'
   )
 
+  const renderPageButton = (
+    pageNumber: number,
+    extraClassName?: string
+  ) => {
+    const isCurrent = pageNumber === currentPageInternal
+    const label = buttonTitle.replace('%s', String(pageNumber))
+
+    if (getPageHref) {
+      return (
+        <Anchor
+          key={pageNumber}
+          className={clsx(
+            'dnb-pagination__button',
+            isCurrent && 'dnb-pagination__button--current',
+            extraClassName
+          )}
+          href={getPageHref(pageNumber)}
+          aria-label={label}
+          aria-current={isCurrent ? 'page' : undefined}
+          onClick={(event) => clickHandler({ pageNumber, event })}
+        >
+          {String(pageNumber)}
+        </Anchor>
+      )
+    }
+
+    return (
+      <Button
+        key={pageNumber}
+        className={clsx('dnb-pagination__button', extraClassName)}
+        text={String(pageNumber)}
+        aria-label={label}
+        variant={isCurrent ? 'primary' : 'secondary'}
+        disabled={disabled}
+        skeleton={skeleton}
+        aria-current={isCurrent ? 'page' : null}
+        onClick={(event) => clickHandler({ pageNumber, event })}
+      />
+    )
+  }
+
+  const renderPrevNext = () => {
+    if (getPageHref) {
+      return (
+        <>
+          {!prevIsDisabled && (
+            <Anchor
+              key="left-arrow"
+              className="dnb-pagination__button dnb-pagination__button--prev"
+              href={getPageHref(currentPageInternal - 1)}
+              aria-label={prevTitle}
+              onClick={setPrevPage}
+            >
+              <IconPrimary icon="chevron_left" />
+            </Anchor>
+          )}
+        </>
+      )
+    }
+
+    return (
+      <Button
+        key="left-arrow"
+        disabled={disabled || prevIsDisabled}
+        skeleton={skeleton}
+        variant="tertiary"
+        icon="chevron_left"
+        iconPosition="left"
+        text={prevTitle}
+        onClick={setPrevPage}
+        title={prevIsDisabled ? null : prevTitle}
+      />
+    )
+  }
+
+  const renderNextButton = () => {
+    if (getPageHref) {
+      return (
+        <>
+          {!nextIsDisabled && (
+            <Anchor
+              key="right-arrow"
+              className="dnb-pagination__button dnb-pagination__button--next"
+              href={getPageHref(currentPageInternal + 1)}
+              aria-label={nextTitle}
+              onClick={setNextPage}
+            >
+              <IconPrimary icon="chevron_right" />
+            </Anchor>
+          )}
+        </>
+      )
+    }
+
+    return (
+      <Button
+        key="right-arrow"
+        disabled={disabled || nextIsDisabled}
+        skeleton={skeleton}
+        variant="tertiary"
+        icon="chevron_right"
+        iconPosition="right"
+        text={nextTitle}
+        onClick={setNextPage}
+        title={nextIsDisabled ? null : nextTitle}
+      />
+    )
+  }
+
   return (
     <div
       ref={paginationBarRef}
@@ -189,58 +301,26 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         {
           className: clsx(
             'dnb-pagination__bar',
-            pageCountInternal >= 8 && 'dnb-pagination--many-pages'
+            pageCountInternal >= 8 && 'dnb-pagination--many-pages',
+            getPageHref && 'dnb-pagination--has-href'
           ),
         }
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
-        <div className="dnb-pagination__bar__skip">
-          <Button
-            key="left-arrow"
-            disabled={disabled || prevIsDisabled}
-            skeleton={skeleton}
-            variant="tertiary"
-            icon="chevron_left"
-            iconPosition="left"
-            text={prevTitle}
-            onClick={setPrevPage}
-            title={prevIsDisabled ? null : prevTitle}
-          />
-
-          <Button
-            key="right-arrow"
-            disabled={disabled || nextIsDisabled}
-            skeleton={skeleton}
-            variant="tertiary"
-            icon="chevron_right"
-            iconPosition="right"
-            text={nextTitle}
-            onClick={setNextPage}
-            title={nextIsDisabled ? null : nextTitle}
-          />
-        </div>
+        {!getPageHref && (
+          <div className="dnb-pagination__bar__skip">
+            {renderPrevNext()}
+            {renderNextButton()}
+          </div>
+        )}
 
         <div className="dnb-pagination__bar__inner">
-          {(pageNumberGroups?.[0] || []).map((pageNumber) => (
-            <Button
-              key={pageNumber}
-              className="dnb-pagination__button"
-              text={String(pageNumber)}
-              aria-label={buttonTitle.replace('%s', String(pageNumber))}
-              variant={
-                pageNumber === currentPageInternal
-                  ? 'primary'
-                  : 'secondary'
-              }
-              disabled={disabled}
-              skeleton={skeleton}
-              aria-current={
-                pageNumber === currentPageInternal ? 'page' : null
-              }
-              onClick={(event) => clickHandler({ pageNumber, event })}
-            />
-          ))}
+          {getPageHref && renderPrevNext()}
+
+          {(pageNumberGroups?.[0] || []).map((pageNumber) =>
+            renderPageButton(pageNumber)
+          )}
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
             <Fragment key={idx}>
@@ -258,39 +338,18 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                 size="medium"
               />
 
-              {numbersList.map((pageNumber) => {
-                return (
-                  <Button
-                    key={(pageNumber || 0) + idx}
-                    className={clsx(
-                      'dnb-pagination__button',
-                      String(pageNumber).length > 3
-                        ? 'dnb-pagination__button--large-number'
-                        : null
-                    )}
-                    text={String(pageNumber)}
-                    aria-label={buttonTitle.replace(
-                      '%s',
-                      String(pageNumber)
-                    )}
-                    variant={
-                      pageNumber === currentPageInternal
-                        ? 'primary'
-                        : 'secondary'
-                    }
-                    disabled={disabled}
-                    skeleton={skeleton}
-                    aria-current={
-                      pageNumber === currentPageInternal ? 'page' : null
-                    }
-                    onClick={(event) =>
-                      clickHandler({ pageNumber, event })
-                    }
-                  />
+              {numbersList.map((pageNumber) =>
+                renderPageButton(
+                  pageNumber,
+                  String(pageNumber).length > 3
+                    ? 'dnb-pagination__button--large-number'
+                    : undefined
                 )
-              })}
+              )}
             </Fragment>
           ))}
+
+          {getPageHref && renderNextButton()}
         </div>
       </div>
 

@@ -69,6 +69,10 @@
     gap: 0.5rem;
   }
 
+  &--has-href &__bar__inner {
+    gap: 0.75rem;
+  }
+
   &__button {
     max-width: 3.5rem;
     &.dnb-button--secondary {
