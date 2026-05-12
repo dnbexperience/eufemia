@@ -88,7 +88,7 @@ export type RadioProps = {
    */
   group?: string
   /**
-   * The size of the Radio button. For now there are `default`, `medium` (default) and `large`.
+   * The size of the Radio button. For now there are `medium` (default) and `large`.
    */
   size?: RadioSize
   suffix?: RadioSuffix

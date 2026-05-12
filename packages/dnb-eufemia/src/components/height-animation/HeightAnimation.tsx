@@ -23,13 +23,13 @@ export type HeightAnimationProps = {
 
   /**
    * Custom duration of the animation in milliseconds.
-   * Default: `400ms`
+   * Default: `400`
    */
   duration?: number
 
   /**
    * Custom delay of the animation in milliseconds.
-   * Default: `0ms`
+   * Default: `0`
    */
   delay?: number
 
