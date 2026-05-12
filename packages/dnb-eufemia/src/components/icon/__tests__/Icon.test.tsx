@@ -9,7 +9,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
 import Icon, { prerenderIcon } from '../Icon'
-import { question } from './test-files'
+import { question, star } from './test-files'
 
 const props: IconAllProps = {
   icon: question,
@@ -277,6 +277,36 @@ describe('Icon component', () => {
 
     const svgAfter = document.querySelector('svg')
     expect(svgAfter).toBe(svgBefore)
+  })
+
+  it('should not have filled class by default', () => {
+    render(<Icon icon={question} />)
+    expect(
+      document.querySelector('span.dnb-icon').classList
+    ).not.toContain('dnb-icon--filled')
+  })
+})
+
+describe('Icon fill', () => {
+  it('should have filled class when fill prop is true', () => {
+    render(<Icon icon={star} fill />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
+  })
+
+  it('should apply fill for any icon', () => {
+    render(<Icon icon={question} fill />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
+  })
+
+  it('should not have filled class when fill prop is not set', () => {
+    render(<Icon icon={star} />)
+    expect(
+      document.querySelector('span.dnb-icon').classList
+    ).not.toContain('dnb-icon--filled')
   })
 })
 

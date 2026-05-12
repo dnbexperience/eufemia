@@ -24,11 +24,6 @@ test.describe('Icon', () => {
 
   test('have to match inherited sized icons', async () => {
     const screenshot = await makeScreenshot({
-      style: {
-        // Flex makes the pixel height 100% correct
-        display: 'flex',
-        'align-items': 'center',
-      },
       selector: '[data-visual-test="icon-inherit-sized"]',
     })
     expect(screenshot).toMatchSnapshot()
@@ -36,12 +31,14 @@ test.describe('Icon', () => {
 
   test('have to match icons with border', async () => {
     const screenshot = await makeScreenshot({
-      style: {
-        // Flex makes the pixel height 100% correct
-        display: 'flex',
-        'align-items': 'center',
-      },
       selector: '[data-visual-test="icon-border"]',
+    })
+    expect(screenshot).toMatchSnapshot()
+  })
+
+  test('have to match filled icons', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="icon-filled"]',
     })
     expect(screenshot).toMatchSnapshot()
   })

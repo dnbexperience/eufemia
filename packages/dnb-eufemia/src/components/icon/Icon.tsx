@@ -112,6 +112,11 @@ export type IconProps = {
    */
   modifier?: string
 
+  /**
+   * If set to `true`, the icon paths will be filled with `currentColor`.
+   */
+  fill?: boolean
+
   border?: boolean
   width?: `${IconSize}` | `${number}%` | number
   height?: `${IconSize}` | `${number}%` | number
@@ -352,6 +357,7 @@ function prepareIconCore(
     height,
     border,
     color,
+    fill,
     inheritColor,
     modifier,
     alt,
@@ -376,6 +382,8 @@ function prepareIconCore(
 
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
+
+  const isFilled = Boolean(fill)
 
   // some wrapper params
   // also used for code markup simulation
@@ -410,6 +418,7 @@ function prepareIconCore(
         'dnb-icon',
         modifier && `dnb-icon--${modifier}`,
         border && 'dnb-icon--border',
+        isFilled && 'dnb-icon--filled',
         inheritColor !== false && 'dnb-icon--inherit-color',
         sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
         createSkeletonClass(null, skeleton, context),

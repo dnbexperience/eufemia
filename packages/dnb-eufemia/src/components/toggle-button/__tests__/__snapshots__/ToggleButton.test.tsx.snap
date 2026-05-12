@@ -241,6 +241,9 @@ legend.dnb-form-label {
 .dnb-icon svg[height="100%"] {
   height: inherit;
 }
+.dnb-icon--filled svg path {
+  fill: currentcolor;
+}
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
   fill: currentcolor;
 }
