@@ -54,7 +54,7 @@ function createDocsFixture(): DocsFixture {
       '---',
       '# Input',
       '',
-      'The Input component is used in forms. This is a form component for text input.',
+      'The Input component is used in forms. This is a form components for text input.',
     ].join('\n')
   )
 
