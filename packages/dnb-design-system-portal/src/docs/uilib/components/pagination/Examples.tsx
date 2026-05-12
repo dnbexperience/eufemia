@@ -44,7 +44,7 @@ export const PaginationExampleDefault = () => (
 )
 
 export const PaginationExampleWithGetPageHref = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="pagination-href">
     <Pagination
       pageCount={30}
       currentPage={4}

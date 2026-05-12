@@ -135,6 +135,55 @@ for (const themeName of ['ui', 'sbanken']) {
       })
       expect(screenshot).toMatchSnapshot()
     })
+
+    test('have to match pagination with href', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="pagination-href"]',
+        style: {
+          width: '50rem',
+        },
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match pagination with href link hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="pagination-href"]',
+        style: {
+          width: '50rem',
+        },
+        simulateSelector:
+          '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match pagination with href link focus', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="pagination-href"]',
+        style: {
+          width: '50rem',
+        },
+        simulateSelector:
+          '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
+
+    test('have to match pagination with href current page', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="pagination-href"]',
+        style: {
+          width: '50rem',
+        },
+        simulateSelector:
+          '[data-visual-test="pagination-href"] a.dnb-pagination__button--current',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchSnapshot()
+    })
   })
 }
 
