@@ -122,7 +122,7 @@ export type TextareaProps = Omit<
      */
     labelSrOnly?: boolean
     /**
-     * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
+     * The sizes you can choose for 1 row are `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
      */
     size?: TextareaSize
     /**

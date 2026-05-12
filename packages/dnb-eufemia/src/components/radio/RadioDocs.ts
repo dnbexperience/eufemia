@@ -17,7 +17,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
+    doc: 'The size of the Radio button. For now there are `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -80,7 +80,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
+    doc: 'The size of the Radio button. For now there are `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },

@@ -83,7 +83,7 @@ export type CheckboxProps = {
    */
   indeterminate?: boolean
   /**
-   * The size of the checkbox. For now there is "medium" (default) and "large".
+   * The size of the checkbox. For now there are `medium` (default) and `large`.
    */
   size?: CheckboxSize
   /**
