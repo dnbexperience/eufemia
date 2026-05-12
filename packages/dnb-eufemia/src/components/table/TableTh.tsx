@@ -1,7 +1,9 @@
+import { useContext } from 'react'
 import type { ReactNode, ThHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
+import { TableTrContext } from './TableTrContext'
 
 export type TableThChildren =
   | ReactNode
@@ -34,6 +36,13 @@ export type TableThProps = {
   noWrap?: boolean
 
   /**
+   * Highlights the cell with a subtle background overlay.
+   * Use together with `useTableHighlight` to highlight the entire column.
+   * Default: `false`
+   */
+  highlight?: boolean
+
+  /**
    * Defines the visual variant of the table header.
    * `emphasis` renders with medium font weight.
    * `subtle` renders with regular font weight, smaller font size, and lighter color.
@@ -57,9 +66,13 @@ export default function Th(
     active,
     reversed,
     noWrap,
+    highlight: highlightProp,
     variant,
     ...props
   } = componentProps
+
+  const trContext = useContext(TableTrContext)
+  const highlight = highlightProp || trContext?.highlight
 
   const role =
     props.scope === 'row' || props.scope === 'rowgroup'
@@ -83,6 +96,7 @@ export default function Th(
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
         noWrap && 'dnb-table--no-wrap',
+        highlight && 'dnb-table__th--highlight',
         variant && `dnb-table__th--${variant}`,
         className
       )}

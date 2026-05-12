@@ -9,17 +9,19 @@
 .dnb-table {
   &__td {
     position: relative;
-    background-color: var(--background-color);
+    background-color: var(--table-td-background);
   }
 
-  // table border
+  // Table border
   &--border {
     tbody {
       .dnb-table__td,
       .dnb-table__th {
         @include table-mixins.tableBorder() {
-          border: var(--table-border);
-          border-bottom: none;
+          border-left: var(--table-border-left, var(--table-border));
+          border-right: var(--table-border-right, var(--table-border));
+          border-top: var(--table-border-top, var(--table-border));
+          border-bottom: var(--table-border-bottom, none);
         }
         &:first-child::after {
           border-left: none;
@@ -45,7 +47,7 @@
         .dnb-table__td,
         .dnb-table__th {
           &::after {
-            border-top: var(--table-border);
+            border-top: var(--table-border-top, var(--table-border));
           }
         }
       }
@@ -58,7 +60,7 @@
       .dnb-table__td,
       .dnb-table__th {
         @include table-mixins.tableBorder() {
-          border-top: var(--table-border);
+          border-top: var(--table-border-top, var(--table-border));
         }
       }
     }
@@ -69,10 +71,11 @@
     padding: 0;
 
     &:active {
-      --background-color: var(--table-accordion-background--active);
+      --table-td-background: var(--table-accordion-background--active);
     }
   }
 
+  // Clickable cell with button
   &__td__button {
     display: flex;
     align-items: center;
@@ -154,9 +157,44 @@
     }
   }
 
+  // Highlighted cell — transparent borders by default
+  &__td--highlight,
+  &__th--highlight {
+    --table-border-left: var(--table-border-width) solid transparent;
+    --table-border-right: var(--table-border-width) solid transparent;
+    --table-border-top: var(--table-border-width) solid transparent;
+    --table-border-bottom: var(--table-border-width) solid transparent;
+  }
+  &__td--highlight {
+    --table-td-background: var(--table-highlight-background);
+  }
+
+  // Adjacent highlighted cells — highlight border color between them
+  &__td--highlight-border {
+    --table-border-top: var(--table-border-width) solid
+      var(--table-th-highlight-border);
+  }
+  &__th--highlight + &__th--highlight,
+  &__th--highlight + &__td--highlight,
+  &__td--highlight + &__td--highlight {
+    --table-border-left: var(--table-border-width) solid
+      var(--table-th-highlight-border);
+  }
+
+  // Non-highlighted neighbors of highlighted cells
+  &--highlight-neighbor-left {
+    --table-border-left: var(--table-border-width) solid transparent;
+  }
+  &--highlight-neighbor-right {
+    --table-border-right: var(--table-border-width) solid transparent;
+  }
+  &--highlight-neighbor-top {
+    --table-border-top: var(--table-border-width) solid transparent;
+  }
+
   // Selected cell
   &__td--selected {
-    --background-color: var(
+    --table-td-background: var(
       --table-td-background--selected,
       var(--token-color-background-selected-subtle)
     );

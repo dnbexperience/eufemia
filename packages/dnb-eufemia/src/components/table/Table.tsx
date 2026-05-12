@@ -197,5 +197,6 @@ export { useTableKeyboardNavigation } from './useTableKeyboardNavigation'
 export { default as Th } from './TableTh'
 export { default as Td } from './TableTd'
 export { default as Tr } from './TableTr'
+export { useTableHighlight } from './useTableHighlight'
 
 Table.ScrollView = ScrollView
