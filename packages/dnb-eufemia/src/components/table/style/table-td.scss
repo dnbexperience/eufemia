@@ -157,10 +157,19 @@
     }
   }
 
-  // Highlighted cell
+  // Highlighted cell — transparent borders by default
+  &__td--highlight,
+  &__th--highlight {
+    --table-border-left: var(--table-border-width) solid transparent;
+    --table-border-right: var(--table-border-width) solid transparent;
+    --table-border-top: var(--table-border-width) solid transparent;
+    --table-border-bottom: var(--table-border-width) solid transparent;
+  }
   &__td--highlight {
     --table-td-background: var(--table-highlight-background);
   }
+
+  // Adjacent highlighted cells — highlight border color between them
   &__td--highlight-border {
     --table-border-top: var(--table-border-width) solid
       var(--table-th-highlight-border);
@@ -170,6 +179,17 @@
   &__td--highlight + &__td--highlight {
     --table-border-left: var(--table-border-width) solid
       var(--table-th-highlight-border);
+  }
+
+  // Non-highlighted neighbors of highlighted cells
+  &--highlight-neighbor-left {
+    --table-border-left: var(--table-border-width) solid transparent;
+  }
+  &--highlight-neighbor-right {
+    --table-border-right: var(--table-border-width) solid transparent;
+  }
+  &--highlight-neighbor-top {
+    --table-border-top: var(--table-border-width) solid transparent;
   }
 
   // Selected cell

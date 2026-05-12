@@ -8,6 +8,13 @@ export type UseTableHighlightOptions = {
   enabled?: boolean
 }
 
+function isHighlighted(cell: Element): boolean {
+  return (
+    cell.classList.contains('dnb-table__td--highlight') ||
+    cell.classList.contains('dnb-table__th--highlight')
+  )
+}
+
 function applyHighlight(table: HTMLTableElement) {
   const highlightedColumns = new Set<number>()
   const thElements = table.querySelectorAll(
@@ -20,13 +27,12 @@ function applyHighlight(table: HTMLTableElement) {
 
   const applied: { cell: HTMLTableCellElement; classes: string[] }[] = []
 
+  // First pass: propagate column highlights from Th to Td
   for (let r = 0; r < table.rows.length; r++) {
     const row = table.rows[r]
-    const prevRow = r > 0 ? table.rows[r - 1] : null
 
     for (let c = 0; c < row.cells.length; c++) {
       const cell = row.cells[c]
-      const classes: string[] = []
 
       if (
         cell.tagName === 'TD' &&
@@ -34,24 +40,54 @@ function applyHighlight(table: HTMLTableElement) {
         !cell.classList.contains('dnb-table__td--highlight')
       ) {
         cell.classList.add('dnb-table__td--highlight')
-        classes.push('dnb-table__td--highlight')
+        applied.push({ cell, classes: ['dnb-table__td--highlight'] })
+      }
+    }
+  }
+
+  // Second pass: handle borders between highlighted and non-highlighted cells
+  for (let r = 0; r < table.rows.length; r++) {
+    const row = table.rows[r]
+    const prevRow = r > 0 ? table.rows[r - 1] : null
+
+    for (let c = 0; c < row.cells.length; c++) {
+      const cell = row.cells[c]
+      const cellIsHighlighted = isHighlighted(cell)
+
+      // Highlighted cell next to highlighted cell — use highlight border color
+      if (cellIsHighlighted) {
+        const prevCell = prevRow?.cells[c]
+        if (prevCell && isHighlighted(prevCell)) {
+          cell.classList.add('dnb-table__td--highlight-border')
+          applied.push({
+            cell,
+            classes: ['dnb-table__td--highlight-border'],
+          })
+        }
+
+        continue // stop here — highlighted cells get transparent borders via CSS
       }
 
-      if (
-        cell.classList.contains('dnb-table__td--highlight') ||
-        cell.classList.contains('dnb-table__th--highlight')
-      ) {
-        const prevCell = prevRow?.cells[c]
-        if (
-          prevCell?.classList.contains('dnb-table__td--highlight') ||
-          prevCell?.classList.contains('dnb-table__th--highlight')
-        ) {
-          cell.classList.add('dnb-table__td--highlight-border')
-          classes.push('dnb-table__td--highlight-border')
-        }
+      // Non-highlighted cell — mark touching borders as transparent
+      const classes: string[] = []
+
+      const leftCell = row.cells[c - 1]
+      if (leftCell && isHighlighted(leftCell)) {
+        classes.push('dnb-table--highlight-neighbor-left')
+      }
+
+      const rightCell = row.cells[c + 1]
+      if (rightCell && isHighlighted(rightCell)) {
+        classes.push('dnb-table--highlight-neighbor-right')
+      }
+
+      const topCell = prevRow?.cells[c]
+      if (topCell && isHighlighted(topCell)) {
+        classes.push('dnb-table--highlight-neighbor-top')
       }
 
       if (classes.length > 0) {
+        cell.classList.add(...classes)
         applied.push({ cell, classes })
       }
     }

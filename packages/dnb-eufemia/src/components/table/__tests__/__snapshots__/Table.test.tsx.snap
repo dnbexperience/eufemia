@@ -109,9 +109,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
 */
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
-  --table-th-highlight-background: var(
-    --token-color-decorative-first-muted
-  );
+  --table-highlight-background: var(--token-color-decorative-first-muted);
   --table-th-highlight-border: var(--token-color-decorative-first-subtle);
   display: table;
   table-layout: auto;
@@ -224,6 +222,7 @@ html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container 
   --table-border-color: blue;
   --table-outline-color: red;
   --table-accordion-border-color: green;
+  --table-th-highlight-border: magenta;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
   color: var(--token-color-text-action);
@@ -437,7 +436,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table__th--highlight {
-  --table-th-background-color: var(--table-th-highlight-background);
+  --table-th-background-color: var(--table-highlight-background);
 }
 
 .dnb-table--border .dnb-table__th--highlight + .dnb-table__th--highlight::after {
@@ -447,7 +446,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   right: -0.0625rem;
   z-index: 1;
   pointer-events: none;
-  border-left: var(--table-border-left);
+  border-left: var(--table-border-width) solid var(--table-th-highlight-border);
 }
 
 .dnb-table--border .dnb-table__th--highlight + .dnb-table__th--highlight:last-child::after {
@@ -463,7 +462,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 */
 .dnb-table__td {
   position: relative;
-  background-color: var(--background-color);
+  background-color: var(--table-td-background);
 }
 
 .dnb-table--border tbody .dnb-table__td::after,
@@ -526,7 +525,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table__td--clickable:active {
-  --background-color: var(--table-accordion-background--active);
+  --table-td-background: var(--table-accordion-background--active);
 }
 
 .dnb-table__td__button {
@@ -605,8 +604,15 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   min-width: 0;
 }
 
+.dnb-table__td--highlight, .dnb-table__th--highlight {
+  --table-border-left: var(--table-border-width) solid transparent;
+  --table-border-right: var(--table-border-width) solid transparent;
+  --table-border-top: var(--table-border-width) solid transparent;
+  --table-border-bottom: var(--table-border-width) solid transparent;
+}
+
 .dnb-table__td--highlight {
-  --background-color: var(--table-th-highlight-background);
+  --table-td-background: var(--table-highlight-background);
 }
 
 .dnb-table__td--highlight-border {
@@ -619,8 +625,20 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
     var(--table-th-highlight-border);
 }
 
+.dnb-table--highlight-neighbor-left {
+  --table-border-left: var(--table-border-width) solid transparent;
+}
+
+.dnb-table--highlight-neighbor-right {
+  --table-border-right: var(--table-border-width) solid transparent;
+}
+
+.dnb-table--highlight-neighbor-top {
+  --table-border-top: var(--table-border-width) solid transparent;
+}
+
 .dnb-table__td--selected {
-  --background-color: var(
+  --table-td-background: var(
     --table-td-background--selected,
     var(--token-color-background-selected-subtle)
   );
@@ -743,13 +761,13 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 *
 */
 .dnb-table > tbody > tr, .dnb-table .dnb-table__tr, .dnb-table .dnb-table__tr--even {
-  --background-color: var(
+  --table-td-background: var(
     --token-color-component-table-background-neutral-alternative
   );
 }
 
 .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
-  --background-color: var(--token-color-background-neutral);
+  --table-td-background: var(--token-color-background-neutral);
 }
 
 /*
@@ -1086,7 +1104,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
-  --background-color: var(--table-accordion-header-background);
+  --table-td-background: var(--table-accordion-header-background);
 }
 
 html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
@@ -1109,7 +1127,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-  --background-color: var(--table-accordion-background--active);
+  --table-td-background: var(--table-accordion-background--active);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__button-icon .dnb-icon {
@@ -1117,7 +1135,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-  --background-color: var(--table-accordion-header-background);
+  --table-td-background: var(--table-accordion-header-background);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
@@ -1126,7 +1144,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 }
 
 html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
-  --background-color: var(--table-accordion-header-background);
+  --table-td-background: var(--table-accordion-header-background);
 }
 
 html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
@@ -1173,7 +1191,7 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
 }
 
 .dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
-  --background-color: var(--table-accordion-background);
+  --table-td-background: var(--table-accordion-background);
 }
 
 .dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
@@ -1232,7 +1250,7 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
 }
 
 .dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
-  --background-color: var(--table-accordion-background);
+  --table-td-background: var(--table-accordion-background);
   /**
     * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
     * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.

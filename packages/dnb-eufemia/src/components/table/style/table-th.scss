@@ -29,7 +29,8 @@
   }
   &--border &__th--highlight + &__th--highlight {
     @include table-mixins.tableBorder() {
-      border-left: var(--table-border-left);
+      border-left: var(--table-border-width) solid
+        var(--table-th-highlight-border);
     }
   }
 }
