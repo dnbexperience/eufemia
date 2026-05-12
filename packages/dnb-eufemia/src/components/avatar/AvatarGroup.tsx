@@ -66,7 +66,7 @@ export type AvatarGroupProps = {
   backgroundColor?: string
 
   /**
-   * Define a custom color to compliment the backgroundColor for the Avatars. Use a Eufemia color.
+   * Define a custom color to complement the backgroundColor for the Avatars. Use a Eufemia color.
    * Default: `undefined`
    */
   color?: string

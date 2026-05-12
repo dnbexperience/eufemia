@@ -155,7 +155,7 @@ function Step(props: WizardStepProps): JSX.Element {
   // If the index is greater than the total steps,
   // its a sign that e.g. React.StrictMode is used.
   // And if no title or id is given,
-  // we need to force an re-render and use an alternative render method,
+  // we need to force a re-render and use an alternative render method,
   // using React.Children.map(children, ...).
   if (!prerenderFieldProps && index >= totalSteps) {
     enableMapOverChildren()

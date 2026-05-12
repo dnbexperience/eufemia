@@ -52,7 +52,7 @@ export type LogoProps = {
    */
   color?: IconColor
   /**
-   * Set to `true`to inherit the color with `currentColor`. Defaults to `false`.
+   * Set to `true` to inherit the color with `currentColor`. Defaults to `false`.
    */
   inheritColor?: boolean
   /**

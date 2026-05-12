@@ -47,7 +47,7 @@ export const AvatarProperties: PropertiesTableProps = {
     status: 'optional',
   },
   color: {
-    doc: 'Define a custom color to compliment the backgroundColor. Use a Eufemia color.',
+    doc: 'Define a custom color to complement the backgroundColor. Use a Eufemia color.',
     type: 'string',
     status: 'optional',
   },

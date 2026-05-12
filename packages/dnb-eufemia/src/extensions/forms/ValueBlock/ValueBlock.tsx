@@ -38,7 +38,7 @@ import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 export type ValueBlockProps = Omit<ValueProps<any>, 'value'> & {
   id?: string
 
-  /** The id to link a element with */
+  /** The id to link an element with */
   forId?: string
 
   /**

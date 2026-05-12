@@ -128,7 +128,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputState: {
-    doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.',
+    doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
