@@ -521,6 +521,28 @@ export default [
     },
   },
   {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+      'src/extensions/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/*Docs.{ts,tsx}',
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.stories.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'docs-types': docsTypesPlugin,
+    },
+    rules: {
+      'docs-types/sync-docs-jsdoc': 'warn',
+    },
+  },
+  {
     files: ['**/*.screenshot.test.{ts,tsx}', '**/*.e2e.spec.{ts,tsx}'],
     ...playwrightPlugin.configs['flat/recommended'],
     plugins: {
