@@ -163,7 +163,7 @@ const Tag = (
 
   if (!tagGroupContext && !hasLabel) {
     warn(
-      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantics and accessibility.`
     )
   }
 

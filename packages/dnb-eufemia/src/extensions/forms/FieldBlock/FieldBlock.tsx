@@ -147,7 +147,7 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
   > & {
-    /** The id to link a element with */
+    /** The id to link an element with */
     forId?: string
     /** Use true if you have more than one form element */
     asFieldset?: boolean

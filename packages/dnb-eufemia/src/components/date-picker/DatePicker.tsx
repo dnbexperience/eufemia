@@ -176,7 +176,7 @@ export type DatePickerProps = {
    */
   showSubmitButton?: boolean
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: boolean
   /**

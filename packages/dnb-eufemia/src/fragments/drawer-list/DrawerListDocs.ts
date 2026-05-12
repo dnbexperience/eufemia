@@ -82,17 +82,17 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignDrawer: {
-    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.",
+    doc: "Use 'right' to change the options alignment direction. Only makes sense to use in combination with `preventSelection` - or if an independent width is used.",
     type: 'string',
     status: 'optional',
   },
   listClass: {
-    doc: 'Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.',
+    doc: 'Define an HTML class that will be set on the list, alongside `dnb-drawer-list__list`.',
     type: 'string',
     status: 'optional',
   },
   portalClass: {
-    doc: 'Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.',
+    doc: 'Define an HTML class that will be set on the DOM portal alongside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.',
     type: 'string',
     status: 'optional',
   },

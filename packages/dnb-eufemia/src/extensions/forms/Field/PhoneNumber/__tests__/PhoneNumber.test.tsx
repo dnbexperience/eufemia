@@ -15,7 +15,7 @@ const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
 
 if (isCI) {
-  jest.retryTimes(5) // because of an flaky async tests
+  jest.retryTimes(5) // because of a flaky async tests
 }
 
 describe('Field.PhoneNumber', () => {

@@ -63,7 +63,7 @@ export type ProgressIndicatorProps = {
    */
   onComplete?: () => void
   /**
-   * Send in custom css colors that overrides any css. Default: `undefined`.
+   * Send in custom CSS colors that override any CSS. Default: `undefined`.
    */
   customColors?: {
     /**
@@ -80,7 +80,7 @@ export type ProgressIndicatorProps = {
     background?: CSS.Property.BackgroundColor
   }
   /**
-   * Send in custom css width for circle progress line. Default: `undefined`. (`undefined` defaults to one eighth of the size).
+   * Send in custom CSS width for circle progress line. Default: `undefined`. (`undefined` defaults to one eighth of the size).
    */
   customCircleWidth?: CSS.Property.StrokeWidth
 }

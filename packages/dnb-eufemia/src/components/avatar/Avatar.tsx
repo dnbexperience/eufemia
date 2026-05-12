@@ -111,7 +111,7 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   backgroundColor?: string
 
   /**
-   * Define a custom color to compliment the backgroundColor. Use a Eufemia color.
+   * Define a custom color to complement the backgroundColor. Use a Eufemia color.
    * Default: `undefined`
    */
   color?: string
@@ -190,7 +190,7 @@ const Avatar = (localProps: AvatarAllProps) => {
 
   if (!avatarGroupContext && !hasLabel) {
     warn(
-      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantics and accessibility.`
     )
   }
 

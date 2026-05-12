@@ -120,7 +120,7 @@ export type DropdownProps = {
    */
   buttonRef?: Ref<HTMLElement>
   /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Only makes sense to use in combination with `preventSelection`. Defaults to `left`.
    */
   align?: DropdownAlign
   /**

@@ -103,7 +103,7 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     flushRememberedState?: boolean
     /**
-     * If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.
+     * If set to `true`, a group of accordions will be wrapped into a sidebar-looking menu for medium and larger screens.
      */
     singleContainer?: boolean
     /**
@@ -287,7 +287,7 @@ function Accordion({
   function changeOpened(expanded: boolean) {
     setExpanded(expanded)
 
-    // check if a event exists, because, then it's a user click
+    // check if an event exists, because, then it's a user click
     if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }

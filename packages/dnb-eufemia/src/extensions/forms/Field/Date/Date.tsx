@@ -64,7 +64,7 @@ export type DateProps = Omit<
   showInput?: DatePickerProps['showInput']
 
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**

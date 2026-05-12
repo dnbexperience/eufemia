@@ -189,7 +189,7 @@ export type DrawerListProps = {
   preventSelection?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Only makes sense to use in combination with `preventSelection` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
