@@ -12,7 +12,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   group: {
-    doc: 'Use a unique group identifier to define the Radio buttons that belongs together.',
+    doc: 'Use a unique group identifier to define the Radio buttons that belong together.',
     type: 'string',
     status: 'optional',
   },

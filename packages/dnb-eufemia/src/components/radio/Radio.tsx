@@ -84,7 +84,7 @@ export type RadioProps = {
   id?: string
   element?: ElementType
   /**
-   * Use a unique group identifier to define the Radio buttons that belongs together.
+   * Use a unique group identifier to define the Radio buttons that belong together.
    */
   group?: string
   /**

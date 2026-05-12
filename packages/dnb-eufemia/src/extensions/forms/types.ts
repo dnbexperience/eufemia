@@ -585,7 +585,7 @@ interface ValuePropsInterface<
   help?: HelpProps
 
   /**
-   * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.
+   * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.
    */
   transformLabel?: (
     label: ReactNode,
