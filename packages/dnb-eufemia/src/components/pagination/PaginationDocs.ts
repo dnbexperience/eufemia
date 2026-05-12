@@ -136,6 +136,11 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
+  getPageHref: {
+    doc: 'A function that receives a page number and returns a URL string. When provided, page buttons render as links (`<a>`) instead of buttons, enabling native browser navigation.',
+    type: 'function',
+    status: 'optional',
+  },
   loadButton: {
     doc: 'Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.',
     type: 'Various',
