@@ -55,7 +55,10 @@ expect.extend({ toBeType })
 expect.extend({
   async toNeverResolve(callable: () => void | Promise<void>) {
     try {
-      await waitFor(callable)
+      // Use a short timeout since we're asserting something does NOT happen.
+      // The default waitFor timeout (1000ms) would waste ~1s per call, and
+      // this matcher is used ~50+ times (often inside it.each blocks).
+      await waitFor(callable, { timeout: 150 })
       return {
         pass: false,
         message: () => 'Expected the function to reject, but it resolved.',
