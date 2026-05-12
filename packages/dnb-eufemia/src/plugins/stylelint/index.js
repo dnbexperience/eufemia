@@ -9,7 +9,7 @@ const pluginPack = [
 ]
 
 pluginPack.recommended = {
-  plugins: [pluginPack],
+  plugins: pluginPack,
   rules: {
     [noDeprecatedColorVariables.ruleName]: true,
     [tokenNamePolicy.ruleName]: true,

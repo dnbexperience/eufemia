@@ -29,7 +29,7 @@ describe('stylelint recommended config', () => {
   })
 
   it('includes the plugin pack in recommended', () => {
-    expect(plugin.recommended.plugins).toContain(stylelintPlugin)
+    expect(plugin.recommended.plugins).toBe(stylelintPlugin)
   })
 })
 
