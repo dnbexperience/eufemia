@@ -203,13 +203,11 @@
 
   padding: 0;
 
-  /* we use padding here, instead of margin,
-		because applyPageFocus is else scrolling the page unwanted
-		height of StickyMenuBar - 1px border */
+  /* we use padding here, instead of margin, because applyPageFocus is else scrolling the page unwanted height of StickyMenuBar */
   padding-top: 4rem;
 
   background-color: var(--token-color-background-neutral);
-  border-left: 1px solid var(--token-color-stroke-neutral-subtle);
+  box-shadow: inset 1px 0 0 0 var(--token-color-stroke-neutral-subtle);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @include utilities.allBelow(medium) {
