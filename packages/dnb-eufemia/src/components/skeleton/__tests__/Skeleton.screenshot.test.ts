@@ -48,7 +48,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match all components - horizontal', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         style: {
           width: '60rem',
           overflow: 'visible',

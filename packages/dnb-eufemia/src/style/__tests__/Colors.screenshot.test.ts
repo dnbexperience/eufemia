@@ -15,7 +15,7 @@ for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
     test('have to all colors', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="color-table"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })

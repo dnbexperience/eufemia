@@ -14,7 +14,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match vertical direction', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         style: { width: '30rem' },
         selector:
           '[data-visual-test="form-components-alignment-vertical"]',
@@ -24,7 +24,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match vertical-labels direction', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         style: { width: '30rem' },
         selector:
           '[data-visual-test="form-components-alignment-vertical-labels"]',
@@ -34,7 +34,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match horizontal direction', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         style: {
           width: '60rem',
           overflow: 'visible',

@@ -63,7 +63,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
 
     test('have to match flex', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector:
           '[data-visual-test="layout-card-flex"] .dnb-flex-container',
       })
@@ -133,7 +133,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match nested section', async () => {
       const screenshot = await makeScreenshot({
         ...params,
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="card-nested-section"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -142,7 +142,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match flex', async () => {
       const screenshot = await makeScreenshot({
         ...params,
-        addWrapper: false,
+        withWrapper: false,
         selector:
           '[data-visual-test="layout-card-flex"] .dnb-flex-container',
       })

@@ -14,7 +14,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match core-style', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="helper-core-style"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -22,7 +22,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match tap-focus', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="helper-tap-focus"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -30,7 +30,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match unstyled-list', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="helper-unstyled-list"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -38,7 +38,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match sr-only', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="helper-sr-only"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -46,7 +46,7 @@ for (const themeName of ['ui', 'sbanken']) {
 
     test('have to match selection', async () => {
       const screenshot = await makeScreenshot({
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="helper-selection"]',
       })
       expect(screenshot).toMatchSnapshot()

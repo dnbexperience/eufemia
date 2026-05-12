@@ -45,7 +45,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match the calendar in range mode', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="date-picker-calendar-range"] ',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -84,7 +84,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match calendar view when aligning picker right', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="date-picker-align-picker-right"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -93,7 +93,7 @@ for (const themeName of ['ui', 'sbanken']) {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="date-picker-align-picker-right-with-input"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -101,7 +101,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match calendar view with year navigation', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="date-picker-year-navigation"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -109,7 +109,7 @@ for (const themeName of ['ui', 'sbanken']) {
     test('have to match month only calendar', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="date-picker-only-month"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })

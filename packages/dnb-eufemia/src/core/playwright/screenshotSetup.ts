@@ -103,6 +103,7 @@ type DescribeDefaults = {
   pageViewport: { width?: number; height?: number } | null
   headers: Record<string, string> | null
   fullscreen: boolean
+  withWrapper: boolean | null
 }
 
 /**
@@ -117,6 +118,7 @@ let describeDefaults: DescribeDefaults = {
   pageViewport: null,
   headers: null,
   fullscreen: false,
+  withWrapper: null,
 }
 
 // Tracks rootClassName across tests (for cleanup between consecutive tests)
@@ -331,12 +333,14 @@ export const setupPageScreenshot = ({
   pageViewport = null,
   headers = null,
   fullscreen = false,
+  withWrapper = null,
 }: {
   url?: string
   themeName?: string
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
   fullscreen?: boolean
+  withWrapper?: boolean
   timeout?: number
 }) => {
   let previousDescribeDefaults: DescribeDefaults
@@ -350,6 +354,7 @@ export const setupPageScreenshot = ({
       pageViewport: pageViewport ?? describeDefaults.pageViewport,
       headers: headers ?? describeDefaults.headers,
       fullscreen: fullscreen || describeDefaults.fullscreen,
+      withWrapper: withWrapper ?? describeDefaults.withWrapper,
     }
   })
 
@@ -368,7 +373,7 @@ export const makeScreenshot = async ({
   selector,
   style = null,
   rootClassName = null,
-  addWrapper = true,
+  withWrapper = null,
   executeBeforeSimulate = null,
   simulate = null,
   simulateAfter = null,
@@ -387,7 +392,7 @@ export const makeScreenshot = async ({
   selector: string
   style?: Record<string, string>
   rootClassName?: string | string[]
-  addWrapper?: boolean
+  withWrapper?: boolean
   executeBeforeSimulate?: () => void
   simulate?: Simulate
   simulateAfter?: Simulate
@@ -404,6 +409,8 @@ export const makeScreenshot = async ({
     pageViewport ?? describeDefaults.pageViewport ?? null
   const effectiveHeaders = headers ?? describeDefaults.headers
   const effectiveFullscreen = fullscreen || describeDefaults.fullscreen
+  const effectiveWithWrapper =
+    withWrapper ?? describeDefaults.withWrapper ?? true
 
   const shouldHardResetAfter = Boolean(
     simulate ||
@@ -443,10 +450,10 @@ export const makeScreenshot = async ({
         page,
         selector,
         wrapperStyle,
-        addWrapper,
+        withWrapper: effectiveWithWrapper,
         element,
       })
-    wrapperWasAdded = addWrapper
+    wrapperWasAdded = effectiveWithWrapper
 
     if (executeBeforeSimulate) {
       await page.evaluate(executeBeforeSimulate)
@@ -506,7 +513,11 @@ export const makeScreenshot = async ({
     throw error
   } finally {
     if (wrapperWasAdded) {
-      await wrapperCleanup({ page, selector, addWrapper }).catch(() => {
+      await wrapperCleanup({
+        page,
+        selector,
+        withWrapper: effectiveWithWrapper,
+      }).catch(() => {
         needsHardReset = true
       })
     }
@@ -940,13 +951,13 @@ async function handleSimulation({
 async function wrapperCleanup({
   page,
   selector,
-  addWrapper,
+  withWrapper,
 }: {
   page: Page
   selector: string
-  addWrapper: boolean
+  withWrapper: boolean
 }) {
-  if (addWrapper) {
+  if (withWrapper) {
     await page.evaluate(
       ({ selector }) => {
         const element = document.querySelector(selector)
@@ -971,17 +982,17 @@ async function handleWrapper({
   page,
   selector,
   wrapperStyle,
-  addWrapper,
+  withWrapper,
   element,
 }: {
   page: Page
   selector: string
   wrapperStyle?: Record<string, string>
-  addWrapper: boolean
+  withWrapper: boolean
   element: ElementHandle<Element>
 }) {
   let wrapperId
-  if (addWrapper) {
+  if (withWrapper) {
     wrapperId = makeUniqueId()
 
     const background = await page.evaluate(
