@@ -26,25 +26,20 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
 import { MultiSelectionSearch } from './MultiSelectionSearch'
 import { MultiSelectionSelectedTags } from './MultiSelectionSelectedTags'
+import type { MultiSelectionItemInternal } from './MultiSelectionItemList'
 import { MultiSelectionItemList } from './MultiSelectionItemList'
 import { MultiSelectionActions } from './MultiSelectionActions'
 
-export type MultiSelectItem = {
+export type MultiSelectionItem = {
   value: number | string
   title: ReactNode
   text?: ReactNode
   description?: ReactNode
   disabled?: boolean
-  children?: Array<MultiSelectItem>
-}
-type MultiSelectItemInternal = MultiSelectItem & {
-  error?: Error | FormError
-  help?: { title: string; content: ReactNode }
-  className?: string
-  [key: string]: any
+  children?: Array<MultiSelectionItem>
 }
 
-type MultiSelectionData = Array<MultiSelectItem>
+type MultiSelectionData = Array<MultiSelectionItem>
 
 type MultiSelectionFieldBlockWidth = Exclude<
   FieldBlockWidth,
@@ -263,7 +258,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       if (!items) {
         return []
       }
-      return items.flatMap((item: MultiSelectItemInternal) => [
+      return items.flatMap((item: MultiSelectionItemInternal) => [
         item,
         ...(item.children ? flattenItems(item.children) : []),
       ])
@@ -291,7 +286,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       items: MultiSelectionData
     ): MultiSelectionData => {
       return items
-        .map((item: MultiSelectItemInternal) => {
+        .map((item: MultiSelectionItemInternal) => {
           const title = convertJsxToString(item.title).toLowerCase()
           const text = toSearchText(item.text)
           const description = toSearchText(item.description)
@@ -367,7 +362,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   // Calculate indeterminate state for a parent item based on its children
   const getParentState = useCallback(
-    (item: MultiSelectItemInternal) => {
+    (item: MultiSelectionItemInternal) => {
       if (!item.children || item.children.length === 0) {
         return {
           checked: tempValue.includes(item.value),
@@ -473,7 +468,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   // Toggle parent item and all its children
   const handleToggleParent = useCallback(
-    (item: MultiSelectItemInternal) => {
+    (item: MultiSelectionItemInternal) => {
       const children = item.children ? flattenItems(item.children) : []
       const allChildValues = children.map((child) => child.value)
       const allChildrenChecked = allChildValues.every((childVal) =>

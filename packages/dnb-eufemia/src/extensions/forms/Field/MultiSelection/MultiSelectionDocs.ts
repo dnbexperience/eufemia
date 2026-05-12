@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const MultiSelectionProperties: PropertiesTableProps = {
+  variant: {
+    doc: 'Defines the variant of the component. `popover` renders a trigger button that opens a popover with the item list. `checkbox` renders the item list inline as checkboxes.',
+    type: ['"popover"', '"checkbox"'],
+    status: 'optional',
+  },
   data: {
     doc: 'Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.',
     type: [

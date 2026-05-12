@@ -4,9 +4,9 @@ import clsx from 'clsx'
 import { Checkbox } from '../../../../components'
 import ScrollView from '../../../../fragments/scroll-view/ScrollView'
 import { P } from '../../../../elements'
-import type { MultiSelectItem } from './MultiSelection'
+import type { MultiSelectionItem } from './MultiSelection'
 
-export type MultiSelectionItemInternal = MultiSelectItem & {
+export type MultiSelectionItemInternal = MultiSelectionItem & {
   error?: Error | any
   help?: { title: string; content: ReactNode }
   className?: string
@@ -15,7 +15,7 @@ export type MultiSelectionItemInternal = MultiSelectItem & {
 
 export type MultiSelectionItemListProps = {
   disabled?: boolean
-  filteredItems: MultiSelectItem[]
+  filteredItems: MultiSelectionItem[]
   tempValue: Array<number | string>
   searchValue: string
   showSelectAll: boolean
@@ -31,7 +31,7 @@ export type MultiSelectionItemListProps = {
   onToggleItem: (value: number | string) => void
   onToggleParent: (item: MultiSelectionItemInternal) => void
   onToggleSelectAll: () => void
-  selectableFilteredFlat: MultiSelectItem[]
+  selectableFilteredFlat: MultiSelectionItem[]
   allFilteredSelected: boolean
   someFilteredSelected: boolean
 }
@@ -81,7 +81,7 @@ export function MultiSelectionItemList({
   )
 
   const renderItems = (
-    items: MultiSelectItem[],
+    items: MultiSelectionItem[],
     depth = 0,
     parentPath = ''
   ) => {

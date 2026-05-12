@@ -4,7 +4,7 @@ import { Button, Flex, HeightAnimation, Tag } from '../../../../components'
 import { Hr, P } from '../../../../elements'
 import ScrollView from '../../../../fragments/scroll-view/ScrollView'
 import { close, chevron_down } from '../../../../icons'
-import type { MultiSelectItem } from './MultiSelection'
+import type { MultiSelectionItem } from './MultiSelection'
 
 export type MultiSelectionSelectedTagsProps = {
   id: string
@@ -12,7 +12,7 @@ export type MultiSelectionSelectedTagsProps = {
   disabled?: boolean
   isCollapsible: boolean
   showSelectedItemsList: boolean
-  selectedItems: MultiSelectItem[]
+  selectedItems: MultiSelectionItem[]
   totalCount: number
   formatSelectionCount: (count: number, total: number) => string
   translation: {

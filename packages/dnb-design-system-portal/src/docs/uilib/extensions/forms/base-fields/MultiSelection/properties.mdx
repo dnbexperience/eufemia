@@ -16,20 +16,20 @@ import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDo
 ### General properties
 
 ```ts
-type MultiSelectItem = {
+type MultiSelectionItem = {
   value: number | string
   title: ReactNode
   text?: ReactNode
   description?: ReactNode
   disabled?: boolean
-  children?: Array<MultiSelectItem> // Optional nested items for grouping
+  children?: Array<MultiSelectionItem> // Optional nested items for grouping
 }
 ```
 
 <PropertiesTable
   props={FieldProperties}
   omit={['width', 'contentWidth']}
-  valueType="Array<MultiSelectItem>"
+  valueType="Array<MultiSelectionItem>"
 />
 
 ## Translations
