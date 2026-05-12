@@ -41,10 +41,7 @@
 
   // filled
   &--filled svg {
-    path,
-    circle,
-    rect,
-    polygon {
+    path {
       fill: currentcolor;
     }
   }
