@@ -18,7 +18,6 @@ import Context from '../../shared/Context'
 import { applySpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
-import { isSupportedFilled } from './filledIconSet'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
@@ -384,7 +383,7 @@ function prepareIconCore(
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
-  const isFilled = fill && label ? isSupportedFilled(label) : false
+  const isFilled = Boolean(fill)
 
   // some wrapper params
   // also used for code markup simulation

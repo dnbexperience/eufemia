@@ -288,18 +288,18 @@ describe('Icon component', () => {
 })
 
 describe('Icon fill', () => {
-  it('should have filled class when fill prop is true and icon is in the allowlist', () => {
+  it('should have filled class when fill prop is true', () => {
     render(<Icon icon={star} fill />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
       'dnb-icon--filled'
     )
   })
 
-  it('should not have filled class when fill prop is true but icon is not in the allowlist', () => {
+  it('should apply fill for any icon', () => {
     render(<Icon icon={question} fill />)
-    expect(
-      document.querySelector('span.dnb-icon').classList
-    ).not.toContain('dnb-icon--filled')
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--filled'
+    )
   })
 
   it('should not have filled class when fill prop is not set', () => {
