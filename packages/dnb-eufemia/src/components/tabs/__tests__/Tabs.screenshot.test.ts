@@ -108,7 +108,7 @@ for (const themeName of ['ui', 'sbanken']) {
           width: '80rem',
           padding: '0 2rem 4rem 2rem',
         },
-        addWrapper: false,
+        withWrapper: false,
         selector: '[data-visual-test="tabs-tablist-scrollable"]',
       })
       expect(screenshot).toMatchSnapshot()
@@ -171,7 +171,7 @@ for (const themeName of ['ui', 'sbanken']) {
           padding: '0 3rem 4rem 3rem',
         },
         selector: '[data-visual-test="tabs-tablist-scrollable"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -205,7 +205,7 @@ for (const themeName of ['ui', 'sbanken']) {
           padding: '0 3rem 4rem 3rem',
         },
         selector: '[data-visual-test="tabs-tablist-scrollable"]',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -220,7 +220,7 @@ for (const themeName of ['ui', 'sbanken']) {
         simulateSelector:
           '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__scroll-nav-button:first-child',
         simulate: 'click',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
@@ -244,7 +244,7 @@ for (const themeName of ['ui']) {
         simulateSelector:
           '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
         simulate: 'click',
-        addWrapper: false,
+        withWrapper: false,
       })
       expect(screenshot).toMatchSnapshot()
     })
