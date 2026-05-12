@@ -28,7 +28,7 @@ export type TimelineProps = {
   skeleton?: SkeletonShow
 
   /**
-   * Pass in a list of your events as objects of timelineitem, to render them as timelineitems.
+   * Pass in a list of your events as objects of TimelineItem, to render them as TimelineItems.
    * Default: `null`
    */
   data?: TimelineItemProps[]
