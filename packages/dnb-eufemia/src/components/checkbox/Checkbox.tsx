@@ -79,7 +79,7 @@ export type CheckboxProps = {
    */
   checked?: boolean | undefined | null
   /**
-   * Determine whether to show the indeterminate checked state when checked. The default is `false`.
+   * Controls the checkbox indeterminate (partial) state. The default is `false`.
    */
   indeterminate?: boolean
   /**
@@ -97,7 +97,7 @@ export type CheckboxProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
+   * Will be called on state changes made by the user. Returns `{ checked, event }`.
    */
   onChange?: (args: CheckboxOnChangeParams) => void
   /**

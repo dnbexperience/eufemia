@@ -118,7 +118,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noOptions: {
-    doc: 'Text show in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
+    doc: 'Text shown in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -55,8 +55,7 @@ export type BreadcrumbProps = {
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
