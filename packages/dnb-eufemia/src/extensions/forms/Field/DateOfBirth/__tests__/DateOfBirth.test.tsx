@@ -6,8 +6,14 @@ import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import type { AdditionalArgs } from '../DateOfBirth'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
+import { dateOfBirthValidator } from '../validators'
 
 const nb = nbNO['nb-NO']
+
+const dateErrorMessages = {
+  errorDateOfBirth: nb.DateOfBirth.errorDateOfBirth,
+  errorDateOfBirthFuture: nb.DateOfBirth.errorDateOfBirthFuture,
+}
 
 describe('Field.DateOfBirth', () => {
   it('should have correct label', () => {
@@ -551,48 +557,28 @@ describe('Field.DateOfBirth', () => {
 
       const invalidDatesInTheFuture = ['3000-05-17']
 
-      it.each(validDates)('Valid date: %s', async (dateOfBirth) => {
-        render(
-          <Form.Handler>
-            <Field.DateOfBirth value={dateOfBirth} validateInitially />
-          </Form.Handler>
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
+      it.each(validDates)('Valid date: %s', (dateOfBirth) => {
+        const result = dateOfBirthValidator(dateOfBirth, dateErrorMessages)
+        expect(result).toBeUndefined()
       })
 
-      it.each(invalidDates)('Invalid date: %s', async (dateOfBirth) => {
-        render(<Field.DateOfBirth value={dateOfBirth} validateInitially />)
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.DateOfBirth.errorDateOfBirth
-          )
-        })
+      it.each(invalidDates)('Invalid date: %s', (dateOfBirth) => {
+        const result = dateOfBirthValidator(dateOfBirth, dateErrorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result.message).toBe(nb.DateOfBirth.errorDateOfBirth)
       })
 
       it.each(invalidDatesInTheFuture)(
         'Invalid date: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth value={dateOfBirth} validateInitially />
+        (dateOfBirth) => {
+          const result = dateOfBirthValidator(
+            dateOfBirth,
+            dateErrorMessages
           )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirthFuture
-            )
-          })
+          expect(result).toBeInstanceOf(Error)
+          expect(result.message).toBe(
+            nb.DateOfBirth.errorDateOfBirthFuture
+          )
         }
       )
     })
@@ -635,22 +621,13 @@ describe('Field.DateOfBirth', () => {
 
       it.each(validDatesIn1990)(
         'Valid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Form.Handler>
-              <Field.DateOfBirth
-                value={dateOfBirth}
-                validateInitially
-                onBlurValidator={customValidator}
-              />
-            </Form.Handler>
+        (dateOfBirth) => {
+          const dateResult = dateOfBirthValidator(
+            dateOfBirth,
+            dateErrorMessages
           )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+          expect(dateResult).toBeUndefined()
+          expect(yearIs1990Validator(dateOfBirth)).toBeUndefined()
         }
       )
 

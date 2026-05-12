@@ -11,7 +11,6 @@ import type { FieldCompositionProps as CompositionFieldProps } from '../Composit
 import CompositionField from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isAfter } from 'date-fns'
 
 import useTranslation from '../../hooks/useTranslation'
 import type {
@@ -23,6 +22,11 @@ import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import {
+  dateOfBirthValidator as dateOfBirthValidatorFn,
+  splitValue,
+  DEFAULT_DATE_FORMAT,
+} from './validators'
 
 export type AdditionalArgs = {
   day: string
@@ -55,7 +59,7 @@ export type FieldDateOfBirthProps = Omit<
   onBlurValidator?: DateOfBirthValidator | false
 }
 
-export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
+export { DEFAULT_DATE_FORMAT }
 
 function DateOfBirth(props: FieldDateOfBirthProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -107,22 +111,12 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
   )
 
   const dateOfBirthValidator = useCallback(
-    (value: string) => {
-      const [year, month, day] = splitValue(value, dateFormat)
-      if (year && month && day) {
-        // Convert to ISO format for validation
-        const isoValue = `${year}-${month}-${day}`
-        const dateValue = parseISO(isoValue)
-        if (!isValid(dateValue)) {
-          return Error(errorDateOfBirth)
-        }
-        if (isAfter(dateValue, new Date())) {
-          return Error(errorDateOfBirthFuture)
-        }
-      }
-
-      return undefined
-    },
+    (value: string) =>
+      dateOfBirthValidatorFn(value, {
+        errorDateOfBirth,
+        errorDateOfBirthFuture,
+        dateFormat,
+      }),
     [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
   )
 
@@ -495,47 +489,4 @@ function joinValue(
     .replace('yyyy', year)
     .replace('MM', month)
     .replace('dd', day)
-}
-
-function splitValue(value: string, dateFormat = DEFAULT_DATE_FORMAT) {
-  if (typeof value !== 'string' || !value) {
-    return [undefined, undefined, undefined]
-  }
-
-  // Create a regex pattern based on the date format
-  const formatPattern = dateFormat
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
-    .replace(/yyyy/g, '(\\d{4})')
-    .replace(/MM/g, '(\\d{2})')
-    .replace(/dd/g, '(\\d{2})')
-
-  const regex = new RegExp(`^${formatPattern}$`)
-  const match = value.match(regex)
-
-  if (!match) {
-    return [undefined, undefined, undefined]
-  }
-
-  // Extract year, month, day based on their position in the format
-  const yearIndex = dateFormat.indexOf('yyyy')
-  const monthIndex = dateFormat.indexOf('MM')
-  const dayIndex = dateFormat.indexOf('dd')
-
-  // Create array of indices sorted by position in format
-  const sortedIndices = [yearIndex, monthIndex, dayIndex].sort(
-    (a, b) => a - b
-  )
-
-  // Map sorted indices to their corresponding match groups
-  const result = sortedIndices.map((originalIndex, sortedPosition) => {
-    const matchGroupIndex = sortedPosition + 1 // +1 because match[0] is the full match
-    return match[matchGroupIndex]
-  })
-
-  // Now map back to [year, month, day] order
-  const year = result[sortedIndices.indexOf(yearIndex)]
-  const month = result[sortedIndices.indexOf(monthIndex)]
-  const day = result[sortedIndices.indexOf(dayIndex)]
-
-  return [year, month, day]
 }

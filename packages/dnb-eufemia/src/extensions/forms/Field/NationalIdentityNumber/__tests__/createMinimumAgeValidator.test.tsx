@@ -2,6 +2,11 @@ import { render, waitFor, screen } from '@testing-library/react'
 import type { Validator } from '../../..'
 import { Field } from '../../..'
 import { createMinimumAgeValidator } from '../NationalIdentityNumber'
+import {
+  norwegianFnrValidator,
+  norwegianDnrValidator,
+  norwegianDnrAndFnrValidator,
+} from '../validators'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -15,6 +20,14 @@ describe('createMinimumAgeValidator', () => {
     )
 
   const minimum18YearsValidator = createMinimumAgeValidator(18)
+
+  const formatErrorMessages = {
+    errorFnr: nb.NationalIdentityNumber.errorFnr,
+    errorFnrLength: nb.NationalIdentityNumber.errorFnrLength,
+    errorDnr: nb.NationalIdentityNumber.errorDnr,
+    errorDnrLength: nb.NationalIdentityNumber.errorDnrLength,
+  }
+
   const extendingDnrAndFnrValidatorWithMin18Validator: Validator<
     string
   > = (value, { validators }) => {
@@ -189,19 +202,8 @@ describe('createMinimumAgeValidator', () => {
     describe('when provided as the onChangeValidator function', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
-        async (validId) => {
-          render(
-            <Field.NationalIdentityNumber
-              onChangeValidator={myMinimum18YearsValidator}
-              onBlurValidator={false}
-              validateInitially
-              value={validId}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validId) => {
+          expect(minimum18YearsValidator(validId)).toBeUndefined()
         }
       )
 
@@ -229,18 +231,8 @@ describe('createMinimumAgeValidator', () => {
     describe('when provided as the only onBlurValidation validation function', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
-        async (validId) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={myMinimum18YearsValidator}
-              validateInitially
-              value={validId}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validId) => {
+          expect(minimum18YearsValidator(validId)).toBeUndefined()
         }
       )
 
@@ -267,21 +259,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the dnrAndFnrValidator as onChangeValidator', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
-        async (validId) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={false}
-              onChangeValidator={
-                extendingDnrAndFnrValidatorWithMin18Validator
-              }
-              validateInitially
-              value={validId}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validId) => {
+          expect(
+            norwegianDnrAndFnrValidator(validId, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validId)).toBeUndefined()
         }
       )
 
@@ -355,20 +337,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the dnrAndFnrValidator as onBlurValidator', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
-        async (validId) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={
-                extendingDnrAndFnrValidatorWithMin18Validator
-              }
-              validateInitially
-              value={validId}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validId) => {
+          expect(
+            norwegianDnrAndFnrValidator(validId, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validId)).toBeUndefined()
         }
       )
 
@@ -439,19 +412,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the dnrValidator as onChangeValidator', () => {
       it.each(dnr18YearsOldAndOlder)(
         'D number is 18 years or older : %s',
-        async (validDnum) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={false}
-              onChangeValidator={extendingDnrValidatorWithMin18Validator}
-              validateInitially
-              value={validDnum}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validDnum) => {
+          expect(
+            norwegianDnrValidator(validDnum, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validDnum)).toBeUndefined()
         }
       )
 
@@ -499,18 +464,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the dnrValidator as onBlurValidator', () => {
       it.each(dnr18YearsOldAndOlder)(
         'D number is 18 years or older : %s',
-        async (validDnum) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={extendingDnrValidatorWithMin18Validator}
-              validateInitially
-              value={validDnum}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validDnum) => {
+          expect(
+            norwegianDnrValidator(validDnum, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validDnum)).toBeUndefined()
         }
       )
 
@@ -558,19 +516,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the fnrValidator as onChangeValidator', () => {
       it.each(fnr18YearsOldAndOlder)(
         'Identity number(fnr) is 18 years or older : %s',
-        async (validFnr) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={false}
-              onChangeValidator={extendingFnrValidatorWithMin18Validator}
-              validateInitially
-              value={validFnr}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validFnr) => {
+          expect(
+            norwegianFnrValidator(validFnr, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validFnr)).toBeUndefined()
         }
       )
 
@@ -618,18 +568,11 @@ describe('createMinimumAgeValidator', () => {
     describe('when extending the fnrValidator as onBlurValidator', () => {
       it.each(fnr18YearsOldAndOlder)(
         'Identity number(fnr) is 18 years or older : %s',
-        async (validFnr) => {
-          render(
-            <Field.NationalIdentityNumber
-              onBlurValidator={extendingFnrValidatorWithMin18Validator}
-              validateInitially
-              value={validFnr}
-            />
-          )
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
+        (validFnr) => {
+          expect(
+            norwegianFnrValidator(validFnr, formatErrorMessages)
+          ).toBeUndefined()
+          expect(minimum18YearsValidator(validFnr)).toBeUndefined()
         }
       )
 

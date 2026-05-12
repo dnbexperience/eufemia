@@ -1,11 +1,15 @@
 import { useCallback, useMemo } from 'react'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
-import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import {
+  norwegianFnrValidator,
+  norwegianDnrValidator,
+  norwegianDnrAndFnrValidator,
+} from './validators'
 
 export type NationalIdentityNumberValidator =
   ValidatorWithCustomValidators<
@@ -45,67 +49,27 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
     [errorRequired, errorFnr, props.errorMessages]
   )
 
-  const identificationNumberIsOfLength = (
-    identificationNumber: string,
-    length: number
-  ) => {
-    return identificationNumber?.length === length
-  }
-
   const fnrValidator = useCallback(
-    (value: string) => {
-      if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1), 10) > 3) {
-          return Error(errorFnr)
-        }
-
-        const fnrIs11Digits = identificationNumberIsOfLength(value, 11)
-
-        if (!fnrIs11Digits) {
-          return Error(errorFnrLength)
-        }
-        if (fnrIs11Digits && fnr(value).status === 'invalid') {
-          return Error(errorFnr)
-        }
-      }
-
-      return undefined
-    },
+    (value: string) =>
+      norwegianFnrValidator(value, { errorFnr, errorFnrLength }),
     [errorFnr, errorFnrLength]
   )
 
   const dnrValidator = useCallback(
-    (value: string) => {
-      if (value !== undefined) {
-        if (Number.parseInt(value.substring(0, 1), 10) < 4) {
-          return Error(errorDnr)
-        }
-
-        const dnrIs11Digits = identificationNumberIsOfLength(value, 11)
-
-        if (!dnrIs11Digits) {
-          return Error(errorDnrLength)
-        }
-        if (dnrIs11Digits && dnr(value).status === 'invalid') {
-          return Error(errorDnr)
-        }
-      }
-
-      return undefined
-    },
+    (value: string) =>
+      norwegianDnrValidator(value, { errorDnr, errorDnrLength }),
     [errorDnr, errorDnrLength]
   )
 
   const dnrAndFnrValidator = useCallback(
-    (value: string) => {
-      const dnrValidationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
-
-      if (new RegExp(dnrValidationPattern).test(value)) {
-        return dnrValidator(value)
-      }
-      return fnrValidator(value)
-    },
-    [dnrValidator, fnrValidator]
+    (value: string) =>
+      norwegianDnrAndFnrValidator(value, {
+        errorFnr,
+        errorFnrLength,
+        errorDnr,
+        errorDnrLength,
+      }),
+    [errorFnr, errorFnrLength, errorDnr, errorDnrLength]
   )
 
   const {
