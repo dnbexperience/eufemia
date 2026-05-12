@@ -52,7 +52,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepValue: {
-    doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
+    doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / be replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
