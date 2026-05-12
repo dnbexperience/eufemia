@@ -496,6 +496,43 @@ export const WithManySelectedItems = () => (
   </ComponentBox>
 )
 
+export const WithSearchConfig = () => (
+  <ComponentBox>
+    {() => {
+      const accounts = [
+        {
+          value: 'acc1',
+          title: 'Brukskonto',
+          text: '2000 12 34567',
+        },
+        {
+          value: 'acc2',
+          title: 'Sparekonto',
+          text: '2223 33 44425',
+        },
+        {
+          value: 'acc3',
+          title: 'BSU',
+          text: '1234 56 78901',
+        },
+        {
+          value: 'acc4',
+          title: 'Felleskonto',
+          text: '9876 54 32100',
+        },
+      ]
+      return (
+        <Field.MultiSelection
+          label="Select accounts"
+          data={accounts}
+          showSearchField
+          search={{ matchNumbers: true }}
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
 export const VariantInline = () => (
   <ComponentBox>
     {() => {

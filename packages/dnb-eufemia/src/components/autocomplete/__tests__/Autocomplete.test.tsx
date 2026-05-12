@@ -555,6 +555,7 @@ describe('Autocomplete component', () => {
       testAllIds(id)
     })
   })
+  // @deprecated - Test for deprecated `searchInWordIndex` prop.
   it('has correct options when searchInWordIndex is set to 1', () => {
     render(
       <Autocomplete
@@ -592,6 +593,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  // @deprecated - Tests for deprecated `searchMatch` prop.
   describe('searchMatch', () => {
     it('filters by starts-with when searchMatch is set', () => {
       const data = ['Back to the Future', 'The Godfather', 'The Matrix']
@@ -1084,6 +1086,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[5])
   })
 
+  // @deprecated - Test for deprecated `searchNumbers` prop.
   it('has correct options when using searchNumbers', () => {
     const mockData = [
       formatBankAccountNumber(20001234567),
@@ -1149,6 +1152,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[3])
   })
 
+  // @deprecated - Test for deprecated `searchNumbers` prop.
   it('matches last digits when using searchNumbers', () => {
     const mockData = [
       '2111 11 34567',
@@ -1187,6 +1191,7 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
+  // @deprecated - Test for deprecated `searchNumbers` prop.
   it('should narrow down when numbers with whitespace are given and searchNumbers is used', () => {
     const mockData = [
       '2111 11 34567',
@@ -1221,6 +1226,7 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
+  // @deprecated - Test for deprecated `searchNumbers` prop.
   it('has correct options when using searchNumbers, and searching with æøå', () => {
     const mockData = [
       ['Åge Ørn Ærlig', formatNumber('12345678901')],
@@ -1338,6 +1344,8 @@ describe('Autocomplete component', () => {
     expect(elem.getAttribute('aria-current')).toBe('true')
   })
 
+  // @deprecated - Tests for deprecated `disableFilter` prop.
+  // These should be removed when the deprecated prop is removed.
   describe('disableFilter', () => {
     it('has correct options after filter if filter is disabled', () => {
       render(
@@ -1403,6 +1411,290 @@ describe('Autocomplete component', () => {
       ).toBe(
         '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item item-nr-1"><span><span class="dnb-drawer-list__option__item--highlight">CC</span></span></span><span class="dnb-drawer-list__option__item item-nr-2"><span><span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span>'
       )
+    })
+  })
+
+  describe('search config', () => {
+    describe('search.filter', () => {
+      it('does not filter options when search.filter is false', () => {
+        render(
+          <Autocomplete
+            search={{ filter: false }}
+            data={mockData}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'aa' },
+        })
+        expect(
+          document.querySelectorAll(
+            'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+          ).length
+        ).toBe(3)
+      })
+
+      it('should still highlight when filter is false', () => {
+        render(
+          <Autocomplete
+            search={{ filter: false }}
+            data={mockData}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'c' },
+        })
+        expect(
+          document.querySelectorAll(
+            'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+          ).length
+        ).toBe(3)
+
+        expect(
+          document.querySelectorAll(
+            'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+          )[0].innerHTML
+        ).toBe(
+          '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>AA <span class="dnb-drawer-list__option__item--highlight">c</span></span></span></span>'
+        )
+      })
+    })
+
+    describe('search.highlight', () => {
+      it('has no highlighted value when search.highlight is false', () => {
+        render(
+          <Autocomplete
+            mode="async"
+            search={{ highlight: false }}
+            data={mockData}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        const result = document
+          .querySelectorAll('li.dnb-drawer-list__option')[0]
+          .querySelector('.dnb-drawer-list__option__inner').outerHTML
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'aa' },
+        })
+
+        expect(
+          document
+            .querySelectorAll('li.dnb-drawer-list__option')[0]
+            .querySelector('.dnb-drawer-list__option__inner').outerHTML
+        ).toBe(result)
+      })
+    })
+
+    describe('search.reorder', () => {
+      it('does not reorder results when search.reorder is false', () => {
+        const data = ['ccc', 'aaa bbb', 'bbb aaa ccc']
+
+        render(
+          <Autocomplete
+            search={{ reorder: false }}
+            data={data}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'aaa' },
+        })
+
+        const options = document.querySelectorAll(
+          'li.dnb-drawer-list__option'
+        )
+        // Order should be preserved (not reordered by relevance)
+        expect(options[0].textContent).toBe('aaa bbb')
+        expect(options[1].textContent).toBe('bbb aaa ccc')
+      })
+    })
+
+    describe('search.matchNumbers', () => {
+      it('filters numbers when search.matchNumbers is true', () => {
+        const numberData = [
+          formatBankAccountNumber(20001234567),
+          formatBankAccountNumber(22233344425),
+        ] as DrawerListData
+
+        render(
+          <Autocomplete
+            data={numberData}
+            search={{ matchNumbers: true }}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: '222333.444' },
+        })
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')[0]
+            .textContent
+        ).toBe(numberData[1])
+      })
+    })
+
+    describe('search.inWordIndex', () => {
+      it('searches inside words when search.inWordIndex is 1', () => {
+        render(
+          <Autocomplete
+            data={mockData}
+            search={{ inWordIndex: 1 }}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'ethx' },
+        })
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')[0]
+            .textContent
+        ).toBe(mockData[1])
+      })
+    })
+
+    describe('search.match', () => {
+      it('filters by starts-with when search.match is starts-with', () => {
+        const data = ['Back to the Future', 'The Godfather', 'The Matrix']
+
+        render(
+          <Autocomplete
+            data={data}
+            search={{ match: 'starts-with' }}
+            showSubmitButton
+            {...mockProps}
+          />
+        )
+
+        toggle()
+
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'The' },
+        })
+
+        const optionTexts = Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')
+        ).map((node) => node.textContent)
+
+        expect(optionTexts).toEqual(
+          expect.arrayContaining(['The Godfather', 'The Matrix'])
+        )
+        expect(optionTexts).not.toEqual(
+          expect.arrayContaining(['Back to the Future'])
+        )
+      })
+    })
+
+    it('search config takes precedence over deprecated props', () => {
+      render(
+        <Autocomplete
+          disableFilter
+          search={{ filter: true }}
+          data={mockData}
+          showSubmitButton
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+      // search.filter=true should override disableFilter=true, so items are filtered
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        ).length
+      ).toBe(1)
+    })
+
+    it('can combine multiple search options', () => {
+      const data = ['Back to the Future', 'The Godfather', 'The Matrix']
+
+      render(
+        <Autocomplete
+          search={{ filter: true, highlight: false, match: 'starts-with' }}
+          data={data}
+          showSubmitButton
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'The' },
+      })
+
+      const optionTexts = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      // starts-with: only items starting with "The"
+      expect(optionTexts).toEqual(
+        expect.arrayContaining(['The Godfather', 'The Matrix'])
+      )
+      expect(optionTexts).not.toEqual(
+        expect.arrayContaining(['Back to the Future'])
+      )
+
+      // No highlighting when highlight is false
+      const options = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+      expect(options[0].innerHTML).not.toContain(
+        'dnb-drawer-list__option__item--highlight'
+      )
+    })
+  })
+
+  describe('deprecated disableFilter', () => {
+    it('still works with deprecated disableFilter prop', () => {
+      render(
+        <Autocomplete
+          disableFilter
+          data={mockData}
+          showSubmitButton
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        ).length
+      ).toBe(3)
     })
   })
 
@@ -2767,6 +3059,8 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--open')
   })
 
+  // @deprecated - Test for deprecated `disableHighlighting` prop.
+  // This should be removed when the deprecated prop is removed.
   it('has no highlighted value by using "disableHighlighting"', () => {
     render(
       <Autocomplete

@@ -19,6 +19,13 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import type { SearchConfig } from '../../../../shared/search'
+import {
+  prepareSearchWords,
+  findMatchingWords,
+  calculateTotalScore,
+  checkMultipleNumericTerms,
+} from '../../../../shared/search'
 import whatInput from '../../../../shared/helpers/whatInput'
 import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -96,6 +103,13 @@ export type FieldMultiSelectionProps = FieldProps<
   selectedItemsCollapsibleThreshold?: number
 
   /**
+   * Configure search behavior. Options include `matchNumbers`, `inWordIndex`,
+   * `match`, `filter`, and `reorder`. `highlight` has no effect in
+   * MultiSelection because items are rendered as checkboxes.
+   */
+  search?: SearchConfig
+
+  /**
    * Show confirm/cancel buttons. Defaults to false.
    */
   showConfirmButton?: boolean
@@ -125,6 +139,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     className,
     variant = 'popover',
     width,
+    search,
     showSearchField = false,
     showSelectedTags = false,
     showConfirmButton = false,
@@ -234,10 +249,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const hasFeature =
     showSearchField || showSelectedTags || showConfirmButton
 
-  const toSearchText = useCallback((content?: ReactNode) => {
-    return convertJsxToString(content || '').toLowerCase()
-  }, [])
-
   // Match the existing menu pattern so arrow-key navigation is treated as
   // keyboard input even when focus is moved programmatically after mouse-open.
   useIsomorphicLayoutEffect(() => {
@@ -279,29 +290,58 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     [dataList, flattenItems]
   )
 
+  const disableFilter = search?.filter === false
+  const disableReorder = search?.reorder === false
+
   // Filter items based on search (includes nested items)
   const filteredItems = useMemo(() => {
     if (!dataList) {
       return []
     }
-    if (!searchValue) {
+    if (!searchValue || disableFilter) {
       return dataList
     }
 
-    const searchLower = searchValue.toLowerCase()
+    const searchOptions = {
+      matchNumbers: search?.matchNumbers,
+      inWordIndex: search?.inWordIndex ?? 1,
+      match: search?.match,
+    }
+    const prepared = prepareSearchWords(searchValue, searchOptions)
 
-    const filterRecursive = (
-      items: MultiSelectionData
-    ): MultiSelectionData => {
+    type ScoredItem = MultiSelectionItem & { __score?: number }
+
+    const filterRecursive = (items: MultiSelectionData): ScoredItem[] => {
       return items
-        .map((item: MultiSelectionItemInternal) => {
-          const title = convertJsxToString(item.title).toLowerCase()
-          const text = toSearchText(item.text)
-          const description = toSearchText(item.description)
+        .map((item: MultiSelectionItemInternal): ScoredItem | null => {
+          const title = convertJsxToString(item.title)
+          const text = convertJsxToString(item.text || '')
+          const description = convertJsxToString(item.description || '')
+
+          const contentChunk = [title, text, description]
+            .filter(Boolean)
+            .join(' ')
+
+          const matchedWords = findMatchingWords(contentChunk, prepared)
+
+          if (!checkMultipleNumericTerms(matchedWords, prepared)) {
+            const children = item.children
+              ? filterRecursive(item.children)
+              : []
+
+            if (children.length > 0) {
+              return {
+                ...item,
+                children,
+              }
+            }
+
+            return null
+          }
+
           const matches =
-            title.includes(searchLower) ||
-            text.includes(searchLower) ||
-            description.includes(searchLower)
+            matchedWords.length === prepared.searchWordsData.length
+
           const children = item.children
             ? filterRecursive(item.children)
             : []
@@ -310,15 +350,23 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             return {
               ...item,
               children: children.length > 0 ? children : item.children,
+              __score: matches ? calculateTotalScore(matchedWords) : 0,
             }
           }
+
           return null
         })
-        .filter(Boolean) as MultiSelectionData
+        .filter(Boolean) as ScoredItem[]
     }
 
-    return filterRecursive(dataList)
-  }, [dataList, searchValue, toSearchText])
+    const result = filterRecursive(dataList)
+
+    if (!disableReorder) {
+      result.sort((a, b) => (b.__score ?? 0) - (a.__score ?? 0))
+    }
+
+    return result.map(({ __score, ...item }) => item)
+  }, [dataList, searchValue, disableFilter, disableReorder, search])
 
   // Get items of selected values (based on tempValue)
   const selectedItems = useMemo(() => {

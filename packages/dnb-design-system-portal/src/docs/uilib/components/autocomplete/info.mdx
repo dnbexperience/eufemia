@@ -40,10 +40,10 @@ You may check out the [Dropdown](/uilib/components/dropdown/info) component for 
 Words found during typing are highlighted. The rules are:
 
 1. The first two words will match the beginning of a word
-1. The third word will match inside a word (can be changed with `searchInWordIndex`)
+1. The third word will match inside a word (can be changed with `search={{ inWordIndex: number }}`)
 1. Case-insensitive
 
-To only match items that begin with the first typed word, set `searchMatch="starts-with"`.
+To only match items that begin with the first typed word, set `search={{ match: "starts-with" }}`.
 
 #### Using Components inside content
 
@@ -89,7 +89,7 @@ const MyComponent = () => {
 
 ### Numbers
 
-Numbers are often different from a word filter. You can use `searchNumbers={true}` to enable number-specialized filtering. See examples in the demos.
+Numbers are often different from a word filter. You can use `search={{ matchNumbers: true }}` to enable number-specialized filtering. See examples in the demos.
 
 Now the user could search for e.g. bank account numbers by just entering `201`, even if you format it like `2000 12 34567` (e.g. use `format(20001234567, { ban: true })` from `@dnb/eufemia/components/number-format/NumberUtils`).
 

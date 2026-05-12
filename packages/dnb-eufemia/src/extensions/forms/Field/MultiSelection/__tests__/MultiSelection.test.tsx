@@ -1101,6 +1101,161 @@ describe('MultiSelection', () => {
 
       expect(screen.queryByText('Option 2')).not.toBeInTheDocument()
     })
+
+    describe('search config', () => {
+      it('supports matchNumbers to match numeric content', async () => {
+        const data = [
+          { value: 'a', title: 'Account 123-456' },
+          { value: 'b', title: 'Account 789-012' },
+          { value: 'c', title: 'Savings' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ matchNumbers: true }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: '123456' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Account 123-456')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(
+          screen.queryByText('Account 789-012')
+        ).not.toBeInTheDocument()
+        expect(screen.queryByText('Savings')).not.toBeInTheDocument()
+      })
+
+      it('supports search={{ filter: false }} to disable filtering', async () => {
+        const data = [
+          { value: 'a', title: 'Apple' },
+          { value: 'b', title: 'Banana' },
+          { value: 'c', title: 'Cherry' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ filter: false }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'apple' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Apple')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(screen.getByText('Banana')).toBeInTheDocument()
+        expect(screen.getByText('Cherry')).toBeInTheDocument()
+      })
+
+      it('supports search={{ reorder: false }} to keep original order', async () => {
+        const data = [
+          { value: 'a', title: 'Banana split' },
+          { value: 'b', title: 'Apple banana' },
+          { value: 'c', title: 'Cherry' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ reorder: false }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'banana' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            expect(items).toHaveLength(2)
+            expect(items[0]).toHaveTextContent('Banana split')
+            expect(items[1]).toHaveTextContent('Apple banana')
+          },
+          { timeout: 3000 }
+        )
+      })
+
+      it('supports search={{ match: "starts-with" }}', async () => {
+        const data = [
+          { value: 'a', title: 'Apple' },
+          { value: 'b', title: 'Pineapple' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ match: 'starts-with' }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'apple' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Apple')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(screen.queryByText('Pineapple')).not.toBeInTheDocument()
+      })
+
+      it('reorders results by relevance by default', async () => {
+        const data = [
+          { value: 'a', title: 'Something banana' },
+          { value: 'b', title: 'Banana cake' },
+        ]
+
+        render(<Field.MultiSelection data={data} showSearchField />)
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'banana' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            expect(items).toHaveLength(2)
+            // "Banana cake" starts with the search term so it should score higher
+            expect(items[0]).toHaveTextContent('Banana cake')
+            expect(items[1]).toHaveTextContent('Something banana')
+          },
+          { timeout: 3000 }
+        )
+      })
+    })
   })
 
   describe('minItems', () => {

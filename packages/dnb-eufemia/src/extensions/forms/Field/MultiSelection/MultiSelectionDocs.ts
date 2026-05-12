@@ -24,6 +24,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     type: ['boolean'],
     status: 'optional',
   },
+  search: {
+    doc: 'Configure search behavior when `showSearchField` is enabled. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `matchNumbers` (enable number-optimized matching, default `false`), `inWordIndex` (threshold for in-word search, default `1`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). Example: `search={{ matchNumbers: true }}`.',
+    type: 'SearchConfig',
+    status: 'optional',
+  },
   showSelectAll: {
     doc: 'Show a "Select all" checkbox at the top of the list.',
     type: ['boolean'],
