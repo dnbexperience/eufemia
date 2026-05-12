@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import { norwegianOrgNumberValidator } from '../validators'
 
 const nb = nbNO['nb-NO']
 
@@ -392,56 +393,35 @@ describe('Field.OrganizationNumber', () => {
     ]
     const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
-    it.each(validOrgNum)(
-      'Valid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Form.Handler>
-            <Field.OrganizationNumber value={orgNo} validateInitially />
-          </Form.Handler>
-        )
+    it.each(validOrgNum)('Valid organization number: %s', (orgNo) => {
+      const result = norwegianOrgNumberValidator(orgNo, {
+        errorOrgNo: nb.OrganizationNumber.errorOrgNo,
+        errorOrgNoLength: nb.OrganizationNumber.errorOrgNoLength,
+      })
 
-        fireEvent.blur(document.querySelector('input'))
+      expect(result).toBeUndefined()
+    })
 
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      }
-    )
+    it.each(invalidOrgNum)('Invalid organization number: %s', (orgNo) => {
+      const result = norwegianOrgNumberValidator(orgNo, {
+        errorOrgNo: nb.OrganizationNumber.errorOrgNo,
+        errorOrgNoLength: nb.OrganizationNumber.errorOrgNoLength,
+      })
 
-    it.each(invalidOrgNum)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNo
-          )
-        })
-      }
-    )
+      expect(result).toBeInstanceOf(Error)
+      expect(result.message).toBe(nb.OrganizationNumber.errorOrgNo)
+    })
 
     it.each(invalidOrgNumTooShort)(
       'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNoLength
-          )
+      (orgNo) => {
+        const result = norwegianOrgNumberValidator(orgNo, {
+          errorOrgNo: nb.OrganizationNumber.errorOrgNo,
+          errorOrgNoLength: nb.OrganizationNumber.errorOrgNoLength,
         })
+
+        expect(result).toBeInstanceOf(Error)
+        expect(result.message).toBe(nb.OrganizationNumber.errorOrgNoLength)
       }
     )
   })

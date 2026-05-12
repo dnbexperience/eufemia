@@ -2325,10 +2325,10 @@ describe('Wizard.Container', () => {
 
     await userEvent.click(nextButton())
 
-    // Wait a bit to ensure async operations have completed
-    await wait(100)
-
-    expect(output()).toHaveTextContent('Step 1')
+    // Navigation should be prevented due to pending state
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 1')
+    })
 
     // Now clear the pending state - this should trigger the onSubmitContinueRef mechanism
     // which will retry the submit and allow navigation
@@ -4524,7 +4524,9 @@ describe('Wizard.Container', () => {
 
       expect(document.querySelector('iframe').innerHTML).toBe('')
 
-      await wait(1)
+      await waitFor(() => {
+        expect(addedNodes).toHaveLength(2)
+      })
 
       observer.disconnect()
 

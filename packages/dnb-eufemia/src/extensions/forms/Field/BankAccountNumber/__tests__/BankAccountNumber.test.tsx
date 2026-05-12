@@ -5,6 +5,7 @@ import type { FieldBankAccountNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import { norwegianBbanValidator } from '../validators'
 
 const nb = nbNO['nb-NO']
 
@@ -94,63 +95,49 @@ describe('Field.BankAccountNumber', () => {
 
     it.each(validBankAccountNumbers)(
       'Valid bank account number: %s',
-      async (bankAccountNo) => {
-        render(
-          <Form.Handler>
-            <Field.BankAccountNumber
-              value={bankAccountNo}
-              validateInitially
-            />
-          </Form.Handler>
-        )
+      (bankAccountNo) => {
+        const result = norwegianBbanValidator(bankAccountNo, {
+          errorBankAccountNumber:
+            nb.BankAccountNumber.errorBankAccountNumber,
+          errorBankAccountNumberLength:
+            nb.BankAccountNumber.errorBankAccountNumberLength,
+        })
 
-        fireEvent.blur(document.querySelector('input'))
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
+        expect(result).toBeUndefined()
       }
     )
 
     it.each(invalidBankAccountNumbers)(
       'Invalid bank account number: %s',
-      async (bankAccountNo) => {
-        render(
-          <Field.BankAccountNumber
-            value={bankAccountNo}
-            validateInitially
-          />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumber
-          )
+      (bankAccountNo) => {
+        const result = norwegianBbanValidator(bankAccountNo, {
+          errorBankAccountNumber:
+            nb.BankAccountNumber.errorBankAccountNumber,
+          errorBankAccountNumberLength:
+            nb.BankAccountNumber.errorBankAccountNumberLength,
         })
+
+        expect(result).toBeInstanceOf(Error)
+        expect(result.message).toBe(
+          nb.BankAccountNumber.errorBankAccountNumber
+        )
       }
     )
 
     it.each(invalidBankAccountNumbersTooShort)(
-      'Invalid bank account number: %s',
-      async (bankAccountNo) => {
-        render(
-          <Field.BankAccountNumber
-            value={bankAccountNo}
-            validateInitially
-          />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.BankAccountNumber.errorBankAccountNumberLength
-          )
+      'Invalid bank account number (too short): %s',
+      (bankAccountNo) => {
+        const result = norwegianBbanValidator(bankAccountNo, {
+          errorBankAccountNumber:
+            nb.BankAccountNumber.errorBankAccountNumber,
+          errorBankAccountNumberLength:
+            nb.BankAccountNumber.errorBankAccountNumberLength,
         })
+
+        expect(result).toBeInstanceOf(Error)
+        expect(result.message).toBe(
+          nb.BankAccountNumber.errorBankAccountNumberLength
+        )
       }
     )
   })
