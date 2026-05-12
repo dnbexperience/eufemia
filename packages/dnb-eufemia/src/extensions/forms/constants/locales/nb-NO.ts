@@ -107,6 +107,18 @@ export default {
       yes: 'Ja',
       no: 'Nei',
     },
+    MultiSelectionField: {
+      placeholder: 'Velg en eller flere',
+      selectAll: 'Velg alle',
+      searchPlaceholder: 'Søk...',
+      noOptions: 'Ingen alternativer',
+      confirmButton: 'Bekreft ({count} valgt)',
+      cancelButton: 'Avbryt',
+      selectionCount: '{count} av {total} valgt',
+      clearAll: 'Fjern alle',
+      errorMinItems: 'Du må velge minst {minItems}.',
+      errorMaxItems: 'Du kan ikke velge mer enn {maxItems}.',
+    },
 
     /**
      * Feature fields
