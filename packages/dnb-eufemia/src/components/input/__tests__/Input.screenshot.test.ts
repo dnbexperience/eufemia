@@ -1,11 +1,12 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'carnegie']) {
-  test.describe(`Input for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  `Input for %s`,
+  (themeName) => {
     const extend = (selector) => ({
       style: {
         width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
@@ -18,35 +19,35 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       url: '/uilib/components/input/demos/',
     })
 
-    test('have to match input with placeholder', async () => {
+    it('have to match input with placeholder', async () => {
       await makeScreenshot({
         ...extend('input-placeholder'),
         selector: '[data-visual-test="input-placeholder"]',
       })
     })
 
-    test('have to match input with icon', async () => {
+    it('have to match input with icon', async () => {
       await makeScreenshot({
         ...extend('input-icon'),
         selector: '[data-visual-test="input-icon"]',
       })
     })
 
-    test('have to match disabled input', async () => {
+    it('have to match disabled input', async () => {
       await makeScreenshot({
         ...extend('input-disabled'),
         selector: '[data-visual-test="input-disabled"]',
       })
     })
 
-    test('have to match search type', async () => {
+    it('have to match search type', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
       })
     })
 
-    test('have to match search type with hover state', async () => {
+    it('have to match search type with hover state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -54,7 +55,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match search type with button hover state', async () => {
+    it('have to match search type with button hover state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -63,7 +64,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match search type with button active state', async () => {
+    it('have to match search type with button active state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -72,7 +73,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match search type with mouse focus state', async () => {
+    it('have to match search type with mouse focus state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -80,7 +81,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match search type with focus state', async () => {
+    it('have to match search type with focus state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -88,7 +89,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match search type with button focus state', async () => {
+    it('have to match search type with button focus state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
@@ -97,28 +98,28 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match stretched and medium size', async () => {
+    it('have to match stretched and medium size', async () => {
       await makeScreenshot({
         ...{ ...extend('input-medium'), style: { width: '300px' } },
         selector: '[data-visual-test="input-medium"]',
       })
     })
 
-    test('have to match stretched input with status', async () => {
+    it('have to match stretched input with status', async () => {
       await makeScreenshot({
         ...{ ...extend('input-stretch'), style: { width: '300px' } },
         selector: '[data-visual-test="input-stretch"]',
       })
     })
 
-    test('have to match error state', async () => {
+    it('have to match error state', async () => {
       await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
       })
     })
 
-    test('have to match error hover state', async () => {
+    it('have to match error hover state', async () => {
       await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
@@ -126,7 +127,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match error mouse focus state', async () => {
+    it('have to match error mouse focus state', async () => {
       await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
@@ -134,7 +135,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match error focus state', async () => {
+    it('have to match error focus state', async () => {
       await makeScreenshot({
         ...extend('input-error'),
         selector: '[data-visual-test="input-error"]',
@@ -142,14 +143,14 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match error with button', async () => {
+    it('have to match error with button', async () => {
       await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
       })
     })
 
-    test('have to match error with button hover', async () => {
+    it('have to match error with button hover', async () => {
       await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
@@ -158,7 +159,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match error with button active', async () => {
+    it('have to match error with button active', async () => {
       await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
@@ -167,7 +168,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match error with button focus', async () => {
+    it('have to match error with button focus', async () => {
       await makeScreenshot({
         ...extend('input-error-button'),
         selector: '[data-visual-test="input-error-button"]',
@@ -176,13 +177,13 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match input with clear button', async () => {
+    it('have to match input with clear button', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="input-clear"]',
       })
     })
 
-    test('have to match input with clear button in hover state', async () => {
+    it('have to match input with clear button in hover state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="input-clear"]',
         simulateSelector:
@@ -191,11 +192,11 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       })
     })
 
-    test('have to match text align with icon', async () => {
+    it('have to match text align with icon', async () => {
       await makeScreenshot({
         ...extend('input-align'),
         selector: '[data-visual-test="input-align"]',
       })
     })
-  })
-}
+  }
+)

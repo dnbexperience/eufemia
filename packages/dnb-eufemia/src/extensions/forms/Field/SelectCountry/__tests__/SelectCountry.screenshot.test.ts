@@ -1,27 +1,27 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Field.SelectCountry', () => {
+describe('Field.SelectCountry', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/feature-fields/SelectCountry/demos/',
   })
 
-  test('matches vertical layout', async () => {
+  it('matches vertical layout', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="select-country-vertical-layout"]',
     })
   })
 
-  test('matches horizontal layout', async () => {
+  it('matches horizontal layout', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="select-country-horizontal-layout"]',
     })
   })
 
-  test('matches when opened', async () => {
+  it('matches when opened', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="select-country-opened"]',
       simulateSelector:

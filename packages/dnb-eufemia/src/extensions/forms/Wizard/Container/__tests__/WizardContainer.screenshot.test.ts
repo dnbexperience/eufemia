@@ -1,11 +1,9 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Wizard.Container', () => {
+describe('Wizard.Container', () => {
   const url = '/uilib/extensions/forms/Wizard/Container/demos/'
-  test('have to match border', async () => {
+  it('have to match border', async () => {
     await makeScreenshot({
       url,
       pageViewport: {
@@ -20,7 +18,7 @@ test.describe('Wizard.Container', () => {
     })
   })
 
-  test('have to match large screen', async () => {
+  it('have to match large screen', async () => {
     await makeScreenshot({
       url,
       pageViewport: {
@@ -34,7 +32,7 @@ test.describe('Wizard.Container', () => {
     })
   })
 
-  test('have to match small screen', async () => {
+  it('have to match small screen', async () => {
     await makeScreenshot({
       url,
       pageViewport: {
@@ -44,7 +42,7 @@ test.describe('Wizard.Container', () => {
     })
   })
 
-  test('have to match container with status message in menu', async () => {
+  it('have to match container with status message in menu', async () => {
     await makeScreenshot({
       url,
       pageViewport: {
@@ -58,7 +56,7 @@ test.describe('Wizard.Container', () => {
     })
   })
 
-  test('have to match container with status message', async () => {
+  it('have to match container with status message', async () => {
     await makeScreenshot({
       url,
       pageViewport: {
@@ -72,7 +70,7 @@ test.describe('Wizard.Container', () => {
     })
   })
 
-  test('have to match container with status message on a small screen', async () => {
+  it('have to match container with status message on a small screen', async () => {
     await makeScreenshot({
       url,
       pageViewport: {

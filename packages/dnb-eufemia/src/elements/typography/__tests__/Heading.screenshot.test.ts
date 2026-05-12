@@ -1,15 +1,15 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Heading', () => {
+describe('Heading', () => {
   setupPageScreenshot({
     url: '/uilib/elements/heading/demos/',
   })
 
-  test('matches prose max width', async () => {
+  it('matches prose max width', async () => {
     await makeScreenshot({
       style: {
         'padding-bottom': '1rem',
@@ -20,82 +20,81 @@ test.describe('Heading', () => {
   })
 })
 
-for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
-  test.describe(`Heading for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  `Heading for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/elements/heading/demos/',
     })
 
-    test('have to match the default heading examples', async () => {
+    it('have to match the default heading examples', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
     })
 
-    test('have to match the additional heading examples', async () => {
+    it('have to match the additional heading examples', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-additional"]',
       })
     })
 
-    test('matches basic levels', async () => {
+    it('matches basic levels', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-basics"]',
       })
     })
 
-    test('matches all sizes and variants', async () => {
+    it('matches all sizes and variants', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-sizes"]',
       })
     })
 
-    test('matches base component', async () => {
+    it('matches base component', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="heading-base"]',
       })
     })
+  }
+)
+
+describe.each(['sbanken'])(`Heading mobile for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/elements/heading/demos/',
+    pageViewport: {
+      width: 400,
+    },
   })
-}
-
-for (const themeName of ['sbanken']) {
-  test.describe(`Heading mobile for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/elements/heading/demos/',
-      pageViewport: {
-        width: 400,
-      },
-    })
-    test('have to match the default heading examples', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-default"]',
-      })
-    })
-
-    test('have to match the additional heading examples', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-additional"]',
-      })
-    })
-
-    test('matches basic levels', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-basics"]',
-      })
-    })
-
-    test('matches all sizes and variants', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-sizes"]',
-      })
-    })
-
-    test('matches base component', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="heading-base"]',
-      })
+  it('have to match the default heading examples', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-default"]',
     })
   })
-}
+
+  it('have to match the additional heading examples', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-additional"]',
+    })
+  })
+
+  it('matches basic levels', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-basics"]',
+    })
+  })
+
+  it('matches all sizes and variants', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-sizes"]',
+    })
+  })
+
+  it('matches base component', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-base"]',
+    })
+  })
+})

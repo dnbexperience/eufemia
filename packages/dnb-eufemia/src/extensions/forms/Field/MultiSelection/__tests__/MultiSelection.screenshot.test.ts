@@ -1,31 +1,28 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('MultiSelection', () => {
+describe('MultiSelection', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/base-fields/MultiSelection/demos/',
   })
 
-  test('should match trigger button', async () => {
-    const screenshot = await makeScreenshot({
+  it('should match trigger button', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="multi-selection-basic"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('should match variant inline', async () => {
-    const screenshot = await makeScreenshot({
+  it('should match variant inline', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('should match hover state of item', async () => {
-    const screenshot = await makeScreenshot({
+  it('should match hover state of item', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',
       screenshotSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2)',
@@ -33,11 +30,10 @@ test.describe('MultiSelection', () => {
       simulateSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2)',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('should match active state of item', async () => {
-    const screenshot = await makeScreenshot({
+  it('should match active state of item', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',
       screenshotSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2)',
@@ -45,11 +41,10 @@ test.describe('MultiSelection', () => {
       simulateSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2)',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('should match focus state of item', async () => {
-    const screenshot = await makeScreenshot({
+  it('should match focus state of item', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',
       screenshotSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2)',
@@ -57,6 +52,5 @@ test.describe('MultiSelection', () => {
       simulateSelector:
         '[data-visual-test="multi-selection-variant-inline"] ul li:nth-of-type(2) input',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

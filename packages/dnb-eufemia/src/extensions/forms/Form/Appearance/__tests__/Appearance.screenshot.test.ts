@@ -1,26 +1,24 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Form.Appearance for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/extensions/forms/Form/Appearance/demos/',
-    })
+describe.each(['ui', 'sbanken'])(`Form.Appearance for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/extensions/forms/Form/Appearance/demos/',
+  })
 
-    test('have to match size', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="form-appearance-size"]',
-      })
-    })
-
-    test('have to match size nested', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="form-appearance-size-nested"]',
-      })
+  it('have to match size', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="form-appearance-size"]',
     })
   })
-}
+
+  it('have to match size nested', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="form-appearance-size-nested"]',
+    })
+  })
+})

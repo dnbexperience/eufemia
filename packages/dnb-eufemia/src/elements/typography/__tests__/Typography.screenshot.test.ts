@@ -1,38 +1,37 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
-  test.describe(`Typography for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  `Typography for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/typography/',
     })
 
-    test('have to match all the typography variants', async () => {
+    it('have to match all the typography variants', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
       })
     })
+  }
+)
+
+describe.each(['sbanken'])(`Typography mobile for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/typography/',
+    pageViewport: {
+      width: 400,
+    },
   })
-}
 
-for (const themeName of ['sbanken']) {
-  test.describe(`Typography mobile for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/typography/',
-      pageViewport: {
-        width: 400,
-      },
-    })
-
-    test('have to match all the typography variants', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="typography-variants"]',
-      })
+  it('have to match all the typography variants', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="typography-variants"]',
     })
   })
-}
+})

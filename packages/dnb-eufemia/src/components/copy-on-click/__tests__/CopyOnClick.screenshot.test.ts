@@ -1,10 +1,10 @@
+import { it, describe } from 'vitest'
 import {
-  test,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('CopyOnClick', () => {
+describe('CopyOnClick', () => {
   setupPageScreenshot({
     url: '/uilib/components/copy-on-click/demos/',
   })
@@ -15,7 +15,7 @@ test.describe('CopyOnClick', () => {
     'max-width': '30rem',
   }
 
-  test('have to match tooltip', async () => {
+  it('have to match tooltip', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-default"]',
       style,
@@ -26,7 +26,7 @@ test.describe('CopyOnClick', () => {
   })
 })
 
-test.describe('CopyOnClick in drawer', () => {
+describe('CopyOnClick in drawer', () => {
   const pageViewport = {
     width: 200,
     height: 200,
@@ -36,7 +36,7 @@ test.describe('CopyOnClick in drawer', () => {
     pageViewport,
   })
 
-  test('have to match tooltip', async () => {
+  it('have to match tooltip', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-inside-drawer"]',
       simulate: 'click',

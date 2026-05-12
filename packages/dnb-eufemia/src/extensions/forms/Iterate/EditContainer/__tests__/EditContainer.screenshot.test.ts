@@ -1,12 +1,10 @@
-import {
-  test,
-  makeScreenshot,
-} from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Iterate.EditContainer', () => {
+describe('Iterate.EditContainer', () => {
   const url = '/uilib/extensions/forms/Iterate/EditContainer/demos/'
 
-  test('have to match edit container with error', async () => {
+  it('have to match edit container with error', async () => {
     await makeScreenshot({
       url,
       selector: '[data-visual-test="edit-container-error"]',
