@@ -1011,12 +1011,9 @@ async function handleWrapper({
       { selector }
     )
 
-    const measuredWidth = await measureWrapperWidth({
-      page,
-      selector,
-      wrapperStyle,
-      background,
-    })
+    const hasExplicitWidth = Boolean(
+      wrapperStyle?.width || wrapperStyle?.['inline-size']
+    )
 
     const initialBox = await getElementBox({ page, selector, element })
     const yDecimals = initialBox.y.toString().split('.')[1] || 0
@@ -1024,14 +1021,20 @@ async function handleWrapper({
     const style = makeStyles({
       background,
       top: `0.${yDecimals}px`,
-      'min-width': measuredWidth ? `${Math.ceil(measuredWidth)}px` : null,
       height: `${Math.ceil(initialBox.height) + 32}px`,
       ...(wrapperStyle ? wrapperStyle : {}),
     })
 
     await page.$eval(
       selector,
-      (element: Element, { id, style }: { id: string; style: string }) => {
+      (
+        element: Element,
+        {
+          id,
+          style,
+          hasExplicitWidth,
+        }: { id: string; style: string; hasExplicitWidth: boolean }
+      ) => {
         const attrValue = element.getAttribute('data-visual-test')
 
         const wrapperElement = document.createElement('div')
@@ -1042,6 +1045,19 @@ async function handleWrapper({
         wrapperElement.appendChild(element)
 
         wrapperElement.setAttribute('style', style)
+
+        // Lock the inline-block width as min-width so it stays stable
+        // during later style adjustments (e.g. height corrections).
+        if (!hasExplicitWidth) {
+          const parentWidth =
+            wrapperElement.parentElement?.getBoundingClientRect().width ??
+            Infinity
+          const measuredWidth = Math.min(
+            wrapperElement.getBoundingClientRect().width,
+            parentWidth
+          )
+          wrapperElement.style.minWidth = `${Math.ceil(measuredWidth)}px`
+        }
 
         const elRec = element.getBoundingClientRect()
         const wrRec = wrapperElement.getBoundingClientRect()
@@ -1064,7 +1080,7 @@ async function handleWrapper({
 
         return element
       },
-      { id: wrapperId, style }
+      { id: wrapperId, style, hasExplicitWidth }
     )
 
     await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
@@ -1101,77 +1117,6 @@ async function getElementBox({
 
     return { height, y }
   })
-}
-
-async function measureWrapperWidth({
-  page,
-  selector,
-  wrapperStyle,
-  background,
-}: {
-  page: Page
-  selector: string
-  wrapperStyle?: Record<string, string>
-  background: string | null
-}) {
-  if (wrapperStyle?.width || wrapperStyle?.['inline-size']) {
-    return null
-  }
-
-  return await page.$eval(
-    selector,
-    (
-      element: Element,
-      {
-        background,
-        wrapperStyle,
-      }: {
-        background: string | null
-        wrapperStyle?: Record<string, string>
-      }
-    ) => {
-      const parentWidth =
-        element.parentElement?.getBoundingClientRect().width ?? Infinity
-
-      const probe = document.createElement('div')
-      probe.setAttribute(
-        'style',
-        'position:absolute; left:-99999px; top:0; opacity:0; pointer-events:none; z-index:-1;'
-      )
-
-      const wrapperElement = document.createElement('div')
-      wrapperElement.setAttribute(
-        'style',
-        [
-          `background: ${background ?? '#fff'}`,
-          'display: inline-block',
-          'padding: 1rem',
-          'margin: -1rem',
-          'box-shadow: 0 0 0 1px #fff',
-          wrapperStyle
-            ? Object.entries(wrapperStyle)
-                .filter(([key, value]) => key && value)
-                .map(([key, value]) => `${key}: ${value}`)
-                .join(';')
-            : '',
-        ]
-          .filter(Boolean)
-          .join(';')
-      )
-
-      const clone = element.cloneNode(true) as Element
-      wrapperElement.appendChild(clone)
-      probe.appendChild(wrapperElement)
-      element.parentNode.insertBefore(probe, element.nextSibling)
-
-      const measuredWidth = wrapperElement.getBoundingClientRect().width
-
-      probe.remove()
-
-      return Math.min(measuredWidth, parentWidth)
-    },
-    { background, wrapperStyle }
-  )
 }
 
 async function syncWrapperBounds({

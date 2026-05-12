@@ -50,17 +50,6 @@ html {
   }
 }
 
-/**
-* On non-Layout pages (no .dev-grid), reset .example-box padding
-* and grid overlay so screenshots match the old behavior.
-*/
-html[data-visual-test]:not(:has(.dev-grid)) .example-box {
-  padding: 0 !important;
-}
-html[data-visual-test]:not(:has(.dev-grid)) .example-box::after {
-  display: none !important;
-}
-
 [data-visual-test].hide-page-content #root {
   /* NB: visibility: hidden; does not work here, because playwright does not find the selectors anymore */
   opacity: 0;
