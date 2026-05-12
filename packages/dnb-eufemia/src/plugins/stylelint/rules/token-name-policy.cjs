@@ -69,7 +69,7 @@ const DEFAULT_POLICY = {
 }
 
 const RULE_NAME = 'eufemia/token-name-policy'
-const PROJECT_ROOT = path.resolve(__dirname, '../../..')
+const PROJECT_ROOT = path.resolve(__dirname, '../../../..')
 const THEME_FROM_PATH_REGEX = /\/style\/themes\/([^/]+)\//
 const TOKEN_DECLARATION_PATTERN = /(^|\s)(--token-[a-z0-9-]+)\s*:/gim
 const FOUNDATION_REFERENCE_REGEX =

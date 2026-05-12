@@ -125,7 +125,7 @@ export default [
 
 ### Stylelint
 
-Use the recommended preset:
+Use the recommended preset to enable all rules:
 
 ```js
 import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
@@ -133,7 +133,7 @@ import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
 export default eufemiaStylelint.recommended
 ```
 
-If you need full control, register the plugin and configure the rules yourself:
+If you need full control, register individual plugins and configure the rules yourself:
 
 ```js
 import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
@@ -142,9 +142,15 @@ export default {
   plugins: [eufemiaStylelint],
   rules: {
     'eufemia/no-deprecated-color-variables': true,
+    'eufemia/token-name-policy': [true, { themePrefixes: { ui: 'dnb' } }],
   },
 }
 ```
+
+Available rules:
+
+- **`eufemia/no-deprecated-color-variables`** — Warns when deprecated `--color-*` CSS variables are used. Suggests design tokens instead.
+- **`eufemia/token-name-policy`** — Validates `--token-*` naming conventions: prefix, category, color semantics, theme prefixes, cross-brand parity, and more. Accepts a `themePrefixes` option to map brand names to their CSS variable prefixes.
 
 For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
 

@@ -2,7 +2,7 @@ import stylelint from 'stylelint'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-const tokenNamePolicyPlugin = require('../token-name-policy.cjs')
+const tokenNamePolicyPlugin = require('../rules/token-name-policy.cjs')
 
 const lintWithRule = async ({
   code,

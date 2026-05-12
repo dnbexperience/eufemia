@@ -3,11 +3,7 @@
     "stylelint-config-recommended",
     "stylelint-config-standard-scss"
   ],
-  "plugins": [
-    "stylelint-scss",
-    "./scripts/stylelint/plugins/token-name-policy.cjs",
-    "./scripts/stylelint/plugins/no-unused-use.cjs"
-  ],
+  "plugins": ["stylelint-scss", "./src/plugins/stylelint/index.js"],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
     "scss/double-slash-comment-empty-line-before": null,
@@ -42,6 +38,10 @@
         }
       }
     ],
-    "eufemia/no-unused-use": true
+    "eufemia/no-unused-use": true,
+    "eufemia/no-deprecated-color-variables": [
+      true,
+      { "severity": "warning" }
+    ]
   }
 }
