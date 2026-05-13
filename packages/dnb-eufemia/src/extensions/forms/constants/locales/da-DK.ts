@@ -155,6 +155,16 @@ export default {
       errorYear: '{year} er ikke et gyldigt år.',
       errorRequired: 'Du skal udfylde en udløbsdato.',
     },
+    Time: {
+      label: 'Tidspunkt',
+      hours: 'Timer',
+      minutes: 'Minutter',
+      seconds: 'Sekunder',
+      errorHours: '{hours} er ikke et gyldigt klokkeslæt.',
+      errorMinutes: '{minutes} er ikke et gyldigt minut.',
+      errorSeconds: '{seconds} er ikke et gyldigt sekund.',
+      errorRequired: 'Du skal udfylde et tidspunkt.',
+    },
     Email: {
       label: 'E-mailadresse',
       errorRequired: 'Du skal udfylde en e-mailadresse.',
