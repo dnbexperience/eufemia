@@ -45,6 +45,14 @@ Both `space` and `innerSpace` properties support `inline` and `block` shorthand 
 
 <Examples.SpaceInlineBlock />
 
+### Responsive layout gap
+
+Wrap components in `Space.Responsive` to opt into viewport-aware spacing. Components inside the context automatically receive a `dnb-space-responsive--<density>` CSS class, which remaps their spacing from static `--spacing-*` tokens to the responsive `--responsive-spacing-*` custom properties. The default density is `basis`, which follows viewport breakpoints. Use `density="compact"` or `density="spacious"` to lock the spacing scale. See the [responsive spacing](/uilib/layout/space#responsive-spacing) table for the specific values.
+
+In this example, `gap` and `space` values adjust automatically based on the viewport size (applies also to `inline`, `block`, `top`, `right`, `bottom`, and `left`).
+
+<Examples.ResponsiveSpacing />
+
 ### Spacing with no margin collapse, due to the flex usage
 
 <Examples.MarginCollapse />

@@ -99,3 +99,48 @@ const merged = existing
   : style
 element.setAttribute('style', merged)
 ```
+
+### Responsive spacing
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `Space.Responsive` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
+
+This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
+
+#### Default breakpoint
+
+Use `defaultBreakpoint` to set which breakpoint's spacing scale to use as the default. It defaults to `medium` (the basis scale). Set `small` to default to compact spacing, or `large` to default to spacious spacing.
+
+```tsx
+<Space.Responsive defaultBreakpoint="small">
+  <MyComponent top="large" />
+</Space.Responsive>
+```
+
+#### Density
+
+Use `density` to force a specific spacing density regardless of viewport size and `defaultBreakpoint`. When set, it overrides the default breakpoint scale.
+
+```tsx
+<Space.Responsive density="compact">
+  <MyComponent top="large" />
+</Space.Responsive>
+```
+
+| Prop                | Description                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `defaultBreakpoint` | Which breakpoint's scale to default to (`small`, `medium`, `large`).               |
+| `density`           | Forces a specific density, overriding `defaultBreakpoint` (`compact`, `spacious`). |
+
+See the [Responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
+
+| CSS Variable                    | Compact `← small` | Basis `small → medium` | Spacious `medium →` |
+| ------------------------------- | ----------------- | ---------------------- | ------------------- |
+| `--responsive-spacing-xx-small` | 0.25rem (4px)     | 0.5rem (8px)           | 1rem (16px)         |
+| `--responsive-spacing-x-small`  | 0.5rem (8px)      | 1rem (16px)            | 1.5rem (24px)       |
+| `--responsive-spacing-small`    | 1rem (16px)       | 1.5rem (24px)          | 2rem (32px)         |
+| `--responsive-spacing-medium`   | 1.5rem (24px)     | 2rem (32px)            | 2.5rem (40px)       |
+| `--responsive-spacing-large`    | 2rem (32px)       | 2.5rem (40px)          | 3rem (48px)         |
+| `--responsive-spacing-x-large`  | 2.5rem (40px)     | 3rem (48px)            | 3.5rem (56px)       |
+| `--responsive-spacing-xx-large` | 3rem (48px)       | 3.5rem (56px)          | 4rem (64px)         |
