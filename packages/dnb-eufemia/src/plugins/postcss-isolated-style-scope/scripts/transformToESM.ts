@@ -3,9 +3,10 @@ import { globFilesSync } from '../../../../scripts/tools/globFiles'
 import fs from 'fs-extra'
 
 export function transformFilesToESM(): void {
-  const files: string[] = globFilesSync(
-    ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js']
-  )
+  const files: string[] = globFilesSync([
+    './build/**/plugins/**/*.js',
+    '!./build/cjs/plugins/**/*.js',
+  ])
 
   files.forEach((file: string) => {
     const codeIn = fs

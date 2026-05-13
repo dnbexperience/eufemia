@@ -49,9 +49,10 @@ describe('transformToESM script', () => {
     transformFilesToESM()
 
     // Verify globFilesSync was called with correct patterns
-    expect(mockGlobFilesSync).toHaveBeenCalledWith(
-      ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js']
-    )
+    expect(mockGlobFilesSync).toHaveBeenCalledWith([
+      './build/**/plugins/**/*.js',
+      '!./build/cjs/plugins/**/*.js',
+    ])
   })
 
   it('should exclude files in build/cjs/plugins directory', () => {
