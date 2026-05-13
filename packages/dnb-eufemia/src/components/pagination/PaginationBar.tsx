@@ -25,6 +25,8 @@ import {
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import type { AnchorAllProps } from '../anchor/Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
 import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
@@ -76,7 +78,9 @@ type PaginationBarContext = {
   currentPageInternal: number
   pageCountInternal: number
   disabled: boolean
-  transformPaginationButton?: (pageNumber: number) => ReactElement
+  transformPaginationButton?: (
+    pageNumber: number
+  ) => ReactElement<AnchorAllProps | ButtonProps>
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
   updatePageContent: (currentPageInternal: number) => void
@@ -226,7 +230,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         ),
         'aria-label': label,
         onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event)
+          element.props.onClick?.(event as never)
           clickHandler({ pageNumber, event })
         },
         children: String(pageNumber),
@@ -266,7 +270,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         ),
         'aria-label': prevTitle,
         onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event)
+          element.props.onClick?.(event as never)
           setPrevPage()
         },
         children: <IconPrimary icon="chevron_left" />,
@@ -306,7 +310,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         ),
         'aria-label': nextTitle,
         onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event)
+          element.props.onClick?.(event as never)
           setNextPage()
         },
         children: <IconPrimary icon="chevron_right" />,
