@@ -12,6 +12,7 @@ import clsx from 'clsx'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
+import useId from '../../../../shared/helpers/useId'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -224,6 +225,8 @@ function ArrayComponent(props: IterateArrayProps) {
   }, [countValue])
 
   const idsRef = useRef<Array<Identifier>>([])
+  const isInitialRenderRef = useRef(true)
+  const iterateBaseId = useId()
   const isNewRef = useRef<Record<string, boolean>>({})
   const modesRef = useRef<
     Record<
@@ -251,13 +254,21 @@ function ArrayComponent(props: IterateArrayProps) {
     arrayValueRef.current = arrayValue || []
   }, [arrayValue])
 
+  useEffect(() => {
+    isInitialRenderRef.current = false
+  }, [])
+
   const arrayItems = useMemo(() => {
     const list = Array.isArray(arrayValue) ? arrayValue : []
     const limitedList =
       typeof limit === 'number' ? list.slice(0, limit) : list
 
     const arrayItems = limitedList.map((value, index) => {
-      const id = idsRef.current[index] || makeUniqueId()
+      const id =
+        idsRef.current[index] ||
+        (isInitialRenderRef.current
+          ? `${iterateBaseId}-${index}`
+          : makeUniqueId())
 
       const hasNewItems =
         arrayValue?.length > valueCountRef.current?.length
