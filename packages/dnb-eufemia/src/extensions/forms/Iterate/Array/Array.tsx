@@ -2,7 +2,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useId,
   useMemo,
   useReducer,
   useRef,
@@ -16,6 +15,7 @@ import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useId from '../../../../shared/helpers/useId'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import type {
   FlexContainerProps,
