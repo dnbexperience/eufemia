@@ -137,7 +137,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformPaginationButton: {
-    doc: 'A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correctPaginationButtonProps',
+    doc: 'A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `PaginationButtonProps`.',
     type: 'function',
     status: 'optional',
   },
