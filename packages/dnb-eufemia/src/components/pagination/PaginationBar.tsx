@@ -264,82 +264,48 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     )
   }
 
-  const renderPrevButton = () => {
+  const renderNavButton = (direction: 'prev' | 'next') => {
+    const isPrev = direction === 'prev'
+    const isDisabled = isPrev ? prevIsDisabled : nextIsDisabled
+    const title = isPrev ? prevTitle : nextTitle
+    const icon = isPrev ? 'chevron_left' : 'chevron_right'
+    const onNavigate = isPrev ? setPrevPage : setNextPage
+
     if (isAnchorTransform) {
-      if (prevIsDisabled) {
+      if (isDisabled) {
         return null
       }
 
-      const prevPage = currentPageInternal - 1
-      const element = transformPaginationButton(prevPage)
+      const pageNumber = currentPageInternal + (isPrev ? -1 : 1)
+      const element = transformPaginationButton(pageNumber)
 
       return cloneElement(element, {
-        key: 'left-arrow',
+        key: `${direction}-arrow`,
         className: clsx(
           'dnb-pagination__button',
-          'dnb-pagination__button--prev',
+          `dnb-pagination__button--${direction}`,
           element.props.className
         ),
-        'aria-label': prevTitle,
+        'aria-label': title,
         onClick: (event: React.MouseEvent) => {
           element.props.onClick?.(event as never)
-          setPrevPage()
+          onNavigate()
         },
-        children: <IconPrimary icon="chevron_left" />,
+        children: <IconPrimary icon={icon} />,
       })
     }
 
     return (
       <Button
-        key="left-arrow"
-        disabled={disabled || prevIsDisabled}
+        key={`${direction}-arrow`}
+        disabled={disabled || isDisabled}
         skeleton={skeleton}
         variant="tertiary"
-        icon="chevron_left"
-        iconPosition="left"
-        text={prevTitle}
-        onClick={setPrevPage}
-        title={prevIsDisabled ? null : prevTitle}
-      />
-    )
-  }
-
-  const renderNextButton = () => {
-    if (isAnchorTransform) {
-      if (nextIsDisabled) {
-        return null
-      }
-
-      const nextPage = currentPageInternal + 1
-      const element = transformPaginationButton(nextPage)
-
-      return cloneElement(element, {
-        key: 'right-arrow',
-        className: clsx(
-          'dnb-pagination__button',
-          'dnb-pagination__button--next',
-          element.props.className
-        ),
-        'aria-label': nextTitle,
-        onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event as never)
-          setNextPage()
-        },
-        children: <IconPrimary icon="chevron_right" />,
-      })
-    }
-
-    return (
-      <Button
-        key="right-arrow"
-        disabled={disabled || nextIsDisabled}
-        skeleton={skeleton}
-        variant="tertiary"
-        icon="chevron_right"
-        iconPosition="right"
-        text={nextTitle}
-        onClick={setNextPage}
-        title={nextIsDisabled ? null : nextTitle}
+        icon={icon}
+        iconPosition={isPrev ? 'left' : 'right'}
+        text={title}
+        onClick={onNavigate}
+        title={isDisabled ? null : title}
       />
     )
   }
@@ -360,13 +326,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       <div className="dnb-pagination__bar__wrapper">
         {!isAnchorTransform && (
           <div className="dnb-pagination__bar__skip">
-            {renderPrevButton()}
-            {renderNextButton()}
+            {renderNavButton('prev')}
+            {renderNavButton('next')}
           </div>
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {isAnchorTransform && renderPrevButton()}
+          {isAnchorTransform && renderNavButton('prev')}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPaginationButton(pageNumber)
@@ -399,7 +365,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {isAnchorTransform && renderNextButton()}
+          {isAnchorTransform && renderNavButton('next')}
         </div>
       </div>
 
