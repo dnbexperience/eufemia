@@ -249,6 +249,9 @@ export function scrollToLocationHashId({
 }
 
 export function getSelectedText() {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
   try {
     return window.getSelection().toString()
   } catch (e) {
@@ -258,6 +261,9 @@ export function getSelectedText() {
 }
 
 export function emptySelectedText() {
+  if (typeof window === 'undefined') {
+    return
+  }
   try {
     if (window.getSelection && window.getSelection().empty) {
       window.getSelection().empty()
@@ -268,10 +274,13 @@ export function emptySelectedText() {
 }
 
 export function hasSelectedText() {
-  return getSelectedText().length > 0
+  return (getSelectedText() || '').length > 0
 }
 
 export function getSelectedElement() {
+  if (typeof window === 'undefined') {
+    return null
+  }
   try {
     const selection = window.getSelection()
     if (selection.rangeCount > 0) {

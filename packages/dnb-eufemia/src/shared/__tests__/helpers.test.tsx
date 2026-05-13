@@ -13,6 +13,7 @@ import {
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
+  emptySelectedText,
   isiOS,
   isSafari,
   isWin,
@@ -311,5 +312,34 @@ describe('"warn" should', () => {
       'message-1',
       'message-2'
     )
+  })
+})
+
+describe('SSR safety', () => {
+  let originalWindow: typeof globalThis.window
+
+  beforeEach(() => {
+    originalWindow = globalThis.window
+    delete (globalThis as Record<string, unknown>).window
+  })
+
+  afterEach(() => {
+    globalThis.window = originalWindow
+  })
+
+  it('getSelectedText returns undefined when window is undefined', () => {
+    expect(getSelectedText()).toBeUndefined()
+  })
+
+  it('emptySelectedText does not throw when window is undefined', () => {
+    expect(() => emptySelectedText()).not.toThrow()
+  })
+
+  it('hasSelectedText returns false when window is undefined', () => {
+    expect(hasSelectedText()).toBe(false)
+  })
+
+  it('getSelectedElement returns null when window is undefined', () => {
+    expect(getSelectedElement()).toBeNull()
   })
 })
