@@ -2369,10 +2369,7 @@ describe('MultiSelection', () => {
 
       const { rerender } = render(
         <Provider locale="en-GB">
-          <Field.MultiSelection
-            data={data}
-            value={['option1']}
-          />
+          <Field.MultiSelection data={data} value={['option1']} />
         </Provider>
       )
 
@@ -2416,13 +2413,8 @@ describe('MultiSelection', () => {
 
       const { container } = render(
         <Provider locale="en-GB">
-          <Form.Handler
-            defaultData={{ selection: ['option1'] }}
-          >
-            <Field.MultiSelection
-              path="/selection"
-              data={data}
-            />
+          <Form.Handler defaultData={{ selection: ['option1'] }}>
+            <Field.MultiSelection path="/selection" data={data} />
           </Form.Handler>
         </Provider>
       )
@@ -2441,9 +2433,7 @@ describe('MultiSelection', () => {
       await waitFor(() => {
         expect(screen.getByText('Option 2')).toBeInTheDocument()
       })
-      fireEvent.click(
-        screen.getByRole('checkbox', { name: /Option 2/ })
-      )
+      fireEvent.click(screen.getByRole('checkbox', { name: /Option 2/ }))
 
       await waitFor(() => {
         expect(
@@ -2516,10 +2506,7 @@ describe('MultiSelection', () => {
       // Clear value externally
       rerender(
         <Provider locale="en-GB">
-          <Field.MultiSelection
-            data={data}
-            value={undefined}
-          />
+          <Field.MultiSelection data={data} value={undefined} />
         </Provider>
       )
 
