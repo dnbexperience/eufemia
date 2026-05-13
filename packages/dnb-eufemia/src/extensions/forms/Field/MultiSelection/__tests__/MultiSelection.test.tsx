@@ -2405,15 +2405,15 @@ describe('MultiSelection', () => {
       })
     })
 
-    it('syncs tempValue on form reset', async () => {
+    it('syncs tempValue when Form.Handler data changes externally', async () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
         { value: 'option2', title: 'Option 2' },
       ]
 
-      const { container } = render(
+      const { rerender } = render(
         <Provider locale="en-GB">
-          <Form.Handler defaultData={{ selection: ['option1'] }}>
+          <Form.Handler data={{ selection: ['option1'] }}>
             <Field.MultiSelection path="/selection" data={data} />
           </Form.Handler>
         </Provider>
@@ -2421,24 +2421,32 @@ describe('MultiSelection', () => {
 
       await waitFor(() => {
         expect(
-          container.querySelector('.dnb-dropdown__text__inner')
+          document.querySelector('.dnb-dropdown__text__inner')
         ).toHaveTextContent('1 of 2 selected')
       })
 
-      // Open popover, select option2
-      const triggerButton = container.querySelector(
-        '.dnb-dropdown__trigger'
-      ) as HTMLElement
-      fireEvent.click(triggerButton)
-      await waitFor(() => {
-        expect(screen.getByText('Option 2')).toBeInTheDocument()
-      })
-      fireEvent.click(screen.getByRole('checkbox', { name: /Option 2/ }))
+      // Change form data externally (simulates form reset or external update)
+      rerender(
+        <Provider locale="en-GB">
+          <Form.Handler data={{ selection: ['option1', 'option2'] }}>
+            <Field.MultiSelection path="/selection" data={data} />
+          </Form.Handler>
+        </Provider>
+      )
 
       await waitFor(() => {
         expect(
-          container.querySelector('.dnb-dropdown__text__inner')
+          document.querySelector('.dnb-dropdown__text__inner')
         ).toHaveTextContent('2 of 2 selected')
+      })
+
+      // Open popover and verify both checkboxes reflect the external change
+      fireEvent.click(screen.getByRole('button'))
+
+      await waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox')
+        expect(checkboxes[0]).toBeChecked()
+        expect(checkboxes[1]).toBeChecked()
       })
     })
 
