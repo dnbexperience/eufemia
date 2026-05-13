@@ -340,8 +340,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         {
           className: clsx(
             'dnb-pagination__bar',
-            pageCountInternal >= 8 && 'dnb-pagination--many-pages',
-            transformPaginationButton && 'dnb-pagination--has-href'
+            pageCountInternal >= 8 && 'dnb-pagination--many-pages'
           ),
         }
       )}
