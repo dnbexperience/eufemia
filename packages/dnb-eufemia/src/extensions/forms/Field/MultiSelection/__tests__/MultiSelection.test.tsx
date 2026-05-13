@@ -2262,9 +2262,7 @@ describe('MultiSelection', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector(
-            '.dnb-forms-field-multi-selection__items'
-          )
+          document.querySelector('.dnb-forms-field-multi-selection__items')
         ).toBeInTheDocument()
       })
 
@@ -2300,9 +2298,7 @@ describe('MultiSelection', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector(
-            '.dnb-forms-field-multi-selection__items'
-          )
+          document.querySelector('.dnb-forms-field-multi-selection__items')
         ).toBeInTheDocument()
       })
 
@@ -2338,9 +2334,7 @@ describe('MultiSelection', () => {
 
       await waitFor(() => {
         expect(
-          document.querySelector(
-            '.dnb-forms-field-multi-selection__items'
-          )
+          document.querySelector('.dnb-forms-field-multi-selection__items')
         ).toBeInTheDocument()
       })
 

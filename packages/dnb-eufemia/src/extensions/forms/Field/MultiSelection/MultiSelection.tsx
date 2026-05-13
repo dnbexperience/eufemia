@@ -774,7 +774,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       onRemoveTag={handleRemoveTag}
       onClearAll={() => {
         const disabledValues = allFlatItems
-          .filter((item) => item.disabled && tempValue.includes(item.value))
+          .filter(
+            (item) => item.disabled && tempValue.includes(item.value)
+          )
           .map((item) => item.value)
         setTempValue(disabledValues)
         setShowSelectedItemsList(true)
