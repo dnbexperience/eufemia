@@ -9,8 +9,9 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import packpath from 'packpath'
 import { getCommittedFiles } from '../../tools/cliTools'
+
+const PKG_ROOT = path.resolve(__dirname, '../../..')
 
 const makeStagePathException = (stage: string) =>
   stage === '/esm' ? '' : stage
@@ -30,7 +31,7 @@ describe('type definitions', () => {
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
     stage = makeStagePathException(stage)
 
-    const file = path.resolve(packpath.self(), `build${stage}/index.d.ts`)
+    const file = path.resolve(PKG_ROOT, `build${stage}/index.d.ts`)
     const exists = fs.existsSync(file)
 
     expect(exists).toBe(true)
@@ -43,10 +44,7 @@ describe('type definitions', () => {
 
       expect(
         fs.existsSync(
-          path.resolve(
-            packpath.self(),
-            `build${stage}/components/Input.d.ts`
-          )
+          path.resolve(PKG_ROOT, `build${stage}/components/Input.d.ts`)
         )
       ).toBe(true)
 
@@ -54,7 +52,7 @@ describe('type definitions', () => {
       expect(
         fs.readFileSync(
           path.resolve(
-            packpath.self(),
+            PKG_ROOT,
             `build${stage}/components/input/Input.d.ts`
           ),
           'utf-8'
@@ -63,7 +61,7 @@ describe('type definitions', () => {
 
       // Test the output of js files
       const file = path.resolve(
-        packpath.self(),
+        PKG_ROOT,
         `build${stage}/components/input/Input.d.ts`
       )
 
@@ -85,11 +83,11 @@ describe('type definitions', () => {
 
       // Test the output of tsx files
       const tsxFile = path.resolve(
-        packpath.self(),
+        PKG_ROOT,
         `build${stage}/components/breadcrumb/Breadcrumb.tsx`
       )
       const dtsFile = path.resolve(
-        packpath.self(),
+        PKG_ROOT,
         `build${stage}/components/breadcrumb/Breadcrumb.d.ts`
       )
 
@@ -106,7 +104,7 @@ describe('babel build', () => {
   const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
 
   it('should not contain any .cjs or .mjs files', () => {
-    const buildDir = path.resolve(packpath.self(), 'build')
+    const buildDir = path.resolve(PKG_ROOT, 'build')
     const files = fs.readdirSync(buildDir, { recursive: true })
 
     // List of allowed .cjs or .mjs files
@@ -176,7 +174,7 @@ describe('babel build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build${stage}/index.js`),
+              path.resolve(PKG_ROOT, `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain(
@@ -189,12 +187,12 @@ describe('babel build', () => {
             // Has extra cjs package
             expect(
               fs.existsSync(
-                path.resolve(packpath.self(), `build${stage}/package.json`)
+                path.resolve(PKG_ROOT, `build${stage}/package.json`)
               )
             ).toBe(true)
 
             const packageJson = fs.readJsonSync(
-              path.resolve(packpath.self(), `build${stage}/package.json`)
+              path.resolve(PKG_ROOT, `build${stage}/package.json`)
             )
 
             expect(packageJson.type).toBe('commonjs')
@@ -203,7 +201,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/input/Input.js`
               ),
               'utf-8'
@@ -217,7 +215,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
@@ -236,7 +234,7 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build${stage}/index.js`),
+              path.resolve(PKG_ROOT, `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -245,7 +243,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/input/Input.js`
               ),
               'utf-8'
@@ -258,7 +256,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
@@ -270,7 +268,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/shared/useTranslation.js`
               ),
               'utf-8'
@@ -291,7 +289,7 @@ describe('babel build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build${stage}/index.js`),
+              path.resolve(PKG_ROOT, `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -300,7 +298,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/input/Input.js`
               ),
               'utf-8'
@@ -313,7 +311,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
@@ -326,7 +324,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                packpath.self(),
+                PKG_ROOT,
                 `build${stage}/shared/useTranslation.js`
               ),
               'utf-8'
@@ -348,16 +346,13 @@ describe('babel build', () => {
 
     expect(
       fs.existsSync(
-        path.resolve(packpath.self(), `build${stage}/components/Input.js`)
+        path.resolve(PKG_ROOT, `build${stage}/components/Input.js`)
       )
     ).toBe(true)
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build${stage}/components/card/Card.js`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/components/card/Card.js`),
         'utf-8'
       )
       expect(content).not.toContain('??')
@@ -366,7 +361,7 @@ describe('babel build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/components/button/Button.js`
         ),
         'utf-8'
@@ -378,7 +373,7 @@ describe('babel build', () => {
 
 const describeDocsBuild = process.env.BUILD_MINI ? describe.skip : describe
 describeDocsBuild('docs build', () => {
-  const docsRoot = path.resolve(packpath.self(), 'build/docs')
+  const docsRoot = path.resolve(PKG_ROOT, 'build/docs')
 
   it('generates llm entry file', () => {
     const readmePath = path.join(docsRoot, 'llm.md')
@@ -633,10 +628,7 @@ describe('tsdown build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/dnb-ui-lib.min.mjs`
-              ),
+              path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
@@ -652,10 +644,7 @@ describe('tsdown build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/dnb-ui-lib.min.js`
-              ),
+              path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.js`),
               'utf-8'
             )
             expect(content).toContain('function(e,t)')
@@ -677,10 +666,7 @@ describe('style build', () => {
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {
       const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build${stage}/style/dnb-ui-basis.scss`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.scss`),
         'utf-8'
       )
       expect(content).toContain(`@use './core/scopes.scss' as scopes;`)
@@ -696,7 +682,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/ui/ui-theme-basis.scss`
         ),
         'utf-8'
@@ -710,7 +696,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/sbanken/sbanken-theme-basis.scss`
         ),
         'utf-8'
@@ -723,10 +709,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build${stage}/style/dnb-ui-core.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-core.css`),
         'utf-8'
       )
       expect(content).toMatch(
@@ -739,10 +722,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build${stage}/style/dnb-ui-basis.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.css`),
         'utf-8'
       )
       expect(content).toMatch(
@@ -756,7 +736,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/ui/ui-theme-basis.css`
         ),
         'utf-8'
@@ -801,7 +781,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/sbanken/sbanken-theme-basis.css`
         ),
         'utf-8'
@@ -839,7 +819,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/sbanken/sbanken-theme-components.css`
         ),
         'utf-8'
@@ -850,7 +830,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/dnb-ui-components.css`
         ),
         'utf-8'
@@ -861,7 +841,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/ui/ui-theme-components.css`
         ),
         'utf-8'
@@ -872,7 +852,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/themes/ui/ui-theme-components.css`
         ),
         'utf-8'
@@ -883,10 +863,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build${stage}/style/dnb-ui-basis.min.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.min.css`),
         'utf-8'
       )
       expect(content).toContain('html{font-size:100%}')
@@ -895,7 +872,7 @@ describe('style build', () => {
     {
       const content = fs.readFileSync(
         path.resolve(
-          packpath.self(),
+          PKG_ROOT,
           `build${stage}/style/dnb-ui-basis--isolated.min.css`
         ),
         'utf-8'
@@ -926,7 +903,7 @@ describe('style build', () => {
 
     themeTests.forEach(({ theme, expectedFontFamily, expectedColor }) => {
       const filePath = path.resolve(
-        packpath.self(),
+        PKG_ROOT,
         `src/style/themes/${theme}/properties-tailwind.css`
       )
       expect(fs.existsSync(filePath)).toBe(true)
@@ -955,7 +932,7 @@ describe('package.json dependencies', () => {
     // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
     //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
     const packageJson = fs.readJsonSync(
-      path.resolve(packpath.self(), 'package.json')
+      path.resolve(PKG_ROOT, 'package.json')
     )
 
     expect(packageJson.dependencies).toMatchObject({
@@ -970,7 +947,7 @@ describe('package.json dependencies', () => {
     // listed as a dependency so their package manager installs it automatically.
     // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
     const packageJson = fs.readJsonSync(
-      path.resolve(packpath.self(), 'package.json')
+      path.resolve(PKG_ROOT, 'package.json')
     )
 
     expect(packageJson.dependencies).toMatchObject({

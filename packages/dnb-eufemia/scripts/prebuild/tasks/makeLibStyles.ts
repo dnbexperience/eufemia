@@ -6,7 +6,6 @@
 import sass from 'sass'
 import fs from 'fs-extra'
 import path from 'path'
-import packpath from 'packpath'
 import globby from 'globby'
 import { log } from '../../lib'
 import {
@@ -23,7 +22,7 @@ import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/c
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makeLibStyles() {
   log.info('> PrePublish: converting sass to css')
