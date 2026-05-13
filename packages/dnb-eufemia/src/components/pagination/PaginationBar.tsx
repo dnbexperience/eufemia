@@ -24,9 +24,10 @@ import {
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
+import Anchor from '../anchor/Anchor'
+import type { AnchorAllProps } from '../anchor/Anchor'
 import Button from '../button/Button'
 import type { ButtonProps } from '../button/Button'
-import type { AnchorAllProps } from '../anchor/Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
 import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
@@ -202,7 +203,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const label = buttonTitle.replace('%s', String(pageNumber))
 
     if (transformPaginationButton) {
-      if (isCurrent) {
+      const element = transformPaginationButton(pageNumber)
+
+      if (isCurrent && element.type === Anchor) {
         return (
           <span
             key={pageNumber}
@@ -219,16 +222,21 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         )
       }
 
-      const element = transformPaginationButton(pageNumber)
-
       return cloneElement(element, {
         key: pageNumber,
         className: clsx(
           'dnb-pagination__button',
+          isCurrent && 'dnb-pagination__button--current',
           extraClassName,
           element.props.className
         ),
         'aria-label': label,
+        'aria-current': isCurrent ? 'page' : undefined,
+        ...(element.type === Button && {
+          variant: isCurrent ? 'primary' : 'secondary',
+          disabled,
+          skeleton,
+        }),
         onClick: (event: React.MouseEvent) => {
           element.props.onClick?.(event as never)
           clickHandler({ pageNumber, event })
