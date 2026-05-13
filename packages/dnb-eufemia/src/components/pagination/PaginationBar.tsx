@@ -89,6 +89,7 @@ type PaginationBarContext = {
 
 const PaginationBar = (localProps: PaginationBarAllProps) => {
   const context = useContext(PaginationContext)
+  const sharedContext = useContext(Context)
 
   const props = extendPropsWithContext(
     localProps,
@@ -100,10 +101,12 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentPageInternal,
     pageCountInternal,
     disabled,
-    skeleton,
+    skeleton: skeletonProp,
     space,
     transformPaginationButton,
   } = props
+
+  const skeleton = skeletonProp ?? sharedContext?.skeleton
 
   // because of accessibility
   const focusPage = () => {
@@ -218,7 +221,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )
     }
 
-    if (isCurrent) {
+    if (isCurrent && !skeleton) {
       return (
         <span
           key={pageNumber}
