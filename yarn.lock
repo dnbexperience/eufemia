@@ -2280,7 +2280,6 @@ __metadata:
     babel-plugin-transform-next-use-client: "npm:1.1.1"
     bundlewatch: "npm:0.4.1"
     clsx: "npm:2.1.1"
-    color: "npm:4.0.1"
     conventional-changelog-conventionalcommits: "npm:5.0.0"
     core-js-pure: "npm:3.47.0"
     cross-env: "npm:7.0.3"
@@ -7910,20 +7909,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:^1.0.0, color-name@npm:~1.1.4":
+"color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: 10/b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
-  languageName: node
-  linkType: hard
-
-"color-string@npm:^1.6.0":
-  version: 1.9.1
-  resolution: "color-string@npm:1.9.1"
-  dependencies:
-    color-name: "npm:^1.0.0"
-    simple-swizzle: "npm:^0.2.2"
-  checksum: 10/72aa0b81ee71b3f4fb1ac9cd839cdbd7a011a7d318ef58e6cb13b3708dca75c7e45029697260488709f1b1c7ac4e35489a87e528156c1e365917d1c4ccb9b9cd
   languageName: node
   linkType: hard
 
@@ -7933,16 +7922,6 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 10/4bcfe30eea1498fe1cabc852bbda6c9770f230ea0e4faf4611c5858b1b9e4dde3730ac485e65f54ca182f4c50b626c1bea7c8441ceda47367a54a818c248aa7a
-  languageName: node
-  linkType: hard
-
-"color@npm:4.0.1":
-  version: 4.0.1
-  resolution: "color@npm:4.0.1"
-  dependencies:
-    color-convert: "npm:^2.0.1"
-    color-string: "npm:^1.6.0"
-  checksum: 10/93770e8009c43fb470bdd8c4a67844beedf306f82ee5e2cdd3eb2d7cbc64b7b2ab36a5e6a953c8349beac96000bba348125ae68c2283d0c0759e5084f1acfd3c
   languageName: node
   linkType: hard
 
@@ -12306,13 +12285,6 @@ __metadata:
   version: 0.2.1
   resolution: "is-arrayish@npm:0.2.1"
   checksum: 10/73ced84fa35e59e2c57da2d01e12cd01479f381d7f122ce41dcbb713f09dbfc651315832cd2bf8accba7681a69e4d6f1e03941d94dd10040d415086360e7005e
-  languageName: node
-  linkType: hard
-
-"is-arrayish@npm:^0.3.1":
-  version: 0.3.2
-  resolution: "is-arrayish@npm:0.3.2"
-  checksum: 10/81a78d518ebd8b834523e25d102684ee0f7e98637136d3bdc93fd09636350fa06f1d8ca997ea28143d4d13cb1b69c0824f082db0ac13e1ab3311c10ffea60ade
   languageName: node
   linkType: hard
 
@@ -20041,15 +20013,6 @@ __metadata:
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.3.5"
   checksum: 10/c56c88dd1b5f6ad45c6034eb44f25ee61929a2a5832bd015b8b1b71331071e43bf631edbcc4a8529fa692f9b17576595d95c89218bc5d67be66ed0c1aedc7a76
-  languageName: node
-  linkType: hard
-
-"simple-swizzle@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "simple-swizzle@npm:0.2.2"
-  dependencies:
-    is-arrayish: "npm:^0.3.1"
-  checksum: 10/c6dffff17aaa383dae7e5c056fbf10cf9855a9f79949f20ee225c04f06ddde56323600e0f3d6797e82d08d006e93761122527438ee9531620031c08c9e0d73cc
   languageName: node
   linkType: hard
 
