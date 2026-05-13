@@ -224,7 +224,7 @@ export type PaginationProps = {
    */
   transformPaginationButton?: (
     pageNumber: number,
-    props: PaginationButtonProps
+    paginationButtonProps: PaginationButtonProps
   ) => ReactNode
   className?: string
   /**
