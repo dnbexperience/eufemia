@@ -109,21 +109,25 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          REF_NAME: ${{ github.ref_name }}
+          REF_SHA: ${{ github.sha }}
+          DEPLOY_ENV: ${{ steps.target.outputs.env }}
+          WORKER_NAME: ${{ steps.target.outputs.name }}
         run: |
           set -euo pipefail
 
-          DEPLOY_MSG="${{ github.ref_name }}@${{ github.sha }} via GitHub Actions"
-          DEPLOY_TAG="${{ github.sha }}"
+          DEPLOY_MSG="${REF_NAME}@${REF_SHA} via GitHub Actions"
+          DEPLOY_TAG="${REF_SHA}"
 
-          if [ "${{ steps.target.outputs.env }}" = "prod" ]; then
+          if [ "${DEPLOY_ENV}" = "prod" ]; then
             yarn dlx wrangler deploy \
-              --name "${{ steps.target.outputs.name }}" \
+              --name "${WORKER_NAME}" \
               --message "${DEPLOY_MSG}" \
               --tag "${DEPLOY_TAG}"
           else
             yarn dlx wrangler deploy \
               --env preview \
-              --name "${{ steps.target.outputs.name }}" \
+              --name "${WORKER_NAME}" \
               --message "${DEPLOY_MSG}" \
               --tag "${DEPLOY_TAG}"
           fi
@@ -143,7 +147,7 @@ jobs:
             echo "url=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          url="https://${{ steps.target.outputs.name }}.${subdomain}.workers.dev"
+          url="https://${WORKER_NAME}.${subdomain}.workers.dev"
           echo "Deployed to ${url}"
           echo "url=${url}" >> "$GITHUB_OUTPUT"
 
