@@ -187,6 +187,16 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const [showSelectedItemsList, setShowSelectedItemsList] = useState(false)
   const [ariaLiveCheckedCount, setAriaLiveCheckedCount] = useState('')
   const confirmedRef = useRef(false)
+
+  // Sync tempValue when the external value changes (e.g. form reset,
+  // another field writing to the same path). Skip the sync while the
+  // popover is open so we don't overwrite in-progress selections.
+  const isInline = variant === 'inline'
+  useEffect(() => {
+    if (!isOpen || isInline) {
+      setTempValue(value || [])
+    }
+  }, [value, isOpen, isInline])
   const popoverContentRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
 
@@ -674,8 +684,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const handleFocusComplete = useCallback(() => {
     pendingTriggerNavigationRef.current = null
   }, [])
-
-  const isInline = variant === 'inline'
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
