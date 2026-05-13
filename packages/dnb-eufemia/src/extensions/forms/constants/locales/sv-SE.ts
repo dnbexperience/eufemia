@@ -155,6 +155,16 @@ export default {
       errorYear: '{year} är inte ett giltigt år.',
       errorRequired: 'Du måste fylla i ett utgångsdatum.',
     },
+    Time: {
+      label: 'Tid',
+      hours: 'Timmar',
+      minutes: 'Minuter',
+      seconds: 'Sekunder',
+      errorHours: '{hours} är inte en giltig timme.',
+      errorMinutes: '{minutes} är inte en giltig minut.',
+      errorSeconds: '{seconds} är inte en giltig sekund.',
+      errorRequired: 'Du måste ange en tid.',
+    },
     Email: {
       label: 'E-postadress',
       errorRequired: 'Du måste fylla i en e-postadress.',
