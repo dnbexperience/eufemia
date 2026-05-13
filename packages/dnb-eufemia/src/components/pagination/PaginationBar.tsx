@@ -195,7 +195,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentScreenSize === 'small'
   )
 
-  const renderPageButton = (
+  const renderPaginationButton = (
     pageNumber: number,
     extraClassName?: string
   ) => {
@@ -371,7 +371,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             renderPrevButton()}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
-            renderPageButton(pageNumber)
+            renderPaginationButton(pageNumber)
           )}
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
@@ -391,7 +391,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               />
 
               {numbersList.map((pageNumber) =>
-                renderPageButton(
+                renderPaginationButton(
                   pageNumber,
                   String(pageNumber).length > 3
                     ? 'dnb-pagination__button--large-number'
