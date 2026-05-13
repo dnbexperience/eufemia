@@ -1,6 +1,18 @@
-import { glob as nodeGlob } from 'node:fs/promises'
-import { globSync as nodeGlobSync, statSync } from 'node:fs'
+import fs from 'node:fs'
+import fsPromises from 'node:fs/promises'
 import path from 'path'
+
+// fs.glob and fs.globSync are available in Node 22+ but not yet
+// reflected in the @types/node type definitions.
+const nodeGlob = (fsPromises as any).glob as (
+  pattern: string,
+  options?: { cwd?: string }
+) => AsyncIterable<string>
+const nodeGlobSync = (fs as any).globSync as (
+  pattern: string,
+  options?: { cwd?: string }
+) => string[]
+const { statSync } = fs
 
 type GlobOptions = {
   cwd?: string
@@ -63,7 +75,7 @@ export async function globFiles(
     }
   }
 
-  let files = [...results]
+  let files = Array.from(results)
 
   if (negative.length > 0) {
     const negRegexes = negative.map(globPatternToRegex)
@@ -117,7 +129,7 @@ export function globFilesSync(
     }
   }
 
-  let files = [...results]
+  let files = Array.from(results)
 
   if (negative.length > 0) {
     const negRegexes = negative.map(globPatternToRegex)
