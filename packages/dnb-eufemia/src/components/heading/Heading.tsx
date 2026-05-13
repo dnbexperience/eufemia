@@ -8,7 +8,7 @@ import type { HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { HeadingContextValue } from './HeadingContext'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
@@ -280,7 +280,7 @@ export default function Heading(props: HeadingAllProps) {
     | string
     | ((props: HTMLProps<HTMLElement>) => JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
-  const elementProps = applySpacing(props, {
+  const elementProps = useSpacing(props, {
     ...attributes,
     ref: _ref,
     className: clsx(

@@ -24,7 +24,7 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -315,7 +315,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
 
   const showStatus = getStatusState(status)
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button',
       status && `dnb-toggle-button__status--${statusState}`,

@@ -30,7 +30,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -635,7 +635,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
       status && `dnb-date-picker__status--${statusState}`,

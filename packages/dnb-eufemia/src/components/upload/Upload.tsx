@@ -3,7 +3,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import clsx from 'clsx'
 
 // Shared
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import {
@@ -161,7 +161,7 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          {...applySpacing(props, {
+          {...useSpacing(props, {
             className: clsx(
               'dnb-upload',
               'dnb-form-component',

@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { applySpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
+import { useSpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
 import type { Theme } from '@emotion/react'
 
 export const Method1 = () => (
@@ -40,7 +40,7 @@ export const Method3 = () => (
     <ComponentBox
       scope={{
         RedBox,
-        applySpacing,
+        useSpacing,
       }}
       data-visual-test="spacing-method-form-row"
     >
@@ -50,7 +50,7 @@ export const Method3 = () => (
           style = null,
           ...props
         }) => {
-          const params = applySpacing(props, {
+          const params = useSpacing(props, {
             ...props,
             className: `my-component dnb-space ${className || ''}`.trim(),
             style,

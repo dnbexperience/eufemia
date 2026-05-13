@@ -523,6 +523,21 @@ export const applySpacing = <T extends ApplySpacingTarget>(
   return result
 }
 
+/**
+ * Hook-style alias for `applySpacing`, intended for use at the top level
+ * of React components. Follows the `use` naming convention so it can
+ * adopt React hooks internally in the future without breaking call sites.
+ *
+ * @see applySpacing
+ */
+export const useSpacing = <T extends ApplySpacingTarget>(
+  props: SpacingProps | SpacingUnknownProps,
+  target: T,
+  elementName: string | null = null
+): T => {
+  return applySpacing(props, target, elementName)
+}
+
 const spacingKeys = [
   'space',
   'innerSpace',

@@ -3,7 +3,7 @@ import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
@@ -132,11 +132,11 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
       ))
   }
 
-  const rootProps = applySpacing(props, {
+  const rootProps = useSpacing(props, {
     className: clsx('dnb-avatar__group', className),
   })
 
-  // validateDOMAttributes mutates props, so call it after applySpacing
+  // validateDOMAttributes mutates props, so call it after useSpacing
   const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (

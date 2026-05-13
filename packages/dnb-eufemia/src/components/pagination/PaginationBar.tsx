@@ -22,7 +22,7 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
 import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PaginationBarProps = {
@@ -184,7 +184,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   return (
     <div
       ref={paginationBarRef}
-      {...applySpacing(
+      {...useSpacing(
         { space },
         {
           className: clsx(

@@ -2,7 +2,7 @@ import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'
 import type { SpacingProps } from '../../shared/types'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 export type UploadFileLinkProps = UploadFileAnchorProps &
   UploadFileButtonProps
@@ -48,7 +48,7 @@ const UploadFileButton = (props: UploadFileButtonProps) => {
       icon={false}
       variant="tertiary"
       onClick={onClick}
-      {...applySpacing(props, {})}
+      {...useSpacing(props, {})}
     >
       {text}
     </Button>
@@ -69,7 +69,7 @@ const UploadFileAnchor = (props: UploadFileAnchorProps) => {
       target="_blank"
       href={href}
       download={download ? text : null}
-      {...applySpacing(props, {
+      {...useSpacing(props, {
         className: 'dnb-anchor--no-launch-icon',
       })}
       rel="noopener noreferrer"

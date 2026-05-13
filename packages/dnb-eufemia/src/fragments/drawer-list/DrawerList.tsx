@@ -24,7 +24,7 @@ import {
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
-import { applySpacing } from '../../components/space/SpacingUtils'
+import { useSpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'
@@ -499,7 +499,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
-  const mainParams = applySpacing(propsWithDefaults, {
+  const mainParams = useSpacing(propsWithDefaults, {
     id: `${id}-drawer-list`,
     className: clsx(
       'dnb-drawer-list',

@@ -16,7 +16,7 @@ import P from '../../elements/P'
 import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -166,7 +166,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const rootProps = applySpacing(allProps, {
+  const rootProps = useSpacing(allProps, {
     ...props,
     className: clsx(
       'dnb-info-card',

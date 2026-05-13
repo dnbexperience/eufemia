@@ -27,7 +27,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -357,7 +357,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
   const titleString = convertJsxToString(title) || undefined
 
-  const params = applySpacing(props, {
+  const params = useSpacing(props, {
     className: clsx(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,

@@ -3,7 +3,7 @@ import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 // Shared
 import {
@@ -71,7 +71,7 @@ const TagGroup = (
     })
   }
 
-  const spacingProps = applySpacing(props, {
+  const spacingProps = useSpacing(props, {
     className: clsx('dnb-tag__group', className),
   })
   const { skeleton, ...attributes } = validateDOMAttributes({}, {
