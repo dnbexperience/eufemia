@@ -2694,4 +2694,15 @@ describe('Iterate.Array', () => {
       })
     })
   })
+
+  it('should render without errors during SSR', () => {
+    const { renderToString } = require('react-dom/server')
+    expect(() => {
+      renderToString(
+        <Iterate.Array value={['a', 'b', 'c']}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+      )
+    }).not.toThrow()
+  })
 })

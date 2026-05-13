@@ -2,6 +2,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useReducer,
   useRef,
@@ -11,7 +12,6 @@ import * as z from 'zod'
 import clsx from 'clsx'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
-import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -54,6 +54,7 @@ export type * from './types'
 
 function ArrayComponent(props: IterateArrayProps) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
+  const baseId = useId()
 
   const {
     path: pathProp,
@@ -257,7 +258,7 @@ function ArrayComponent(props: IterateArrayProps) {
       typeof limit === 'number' ? list.slice(0, limit) : list
 
     const arrayItems = limitedList.map((value, index) => {
-      const id = idsRef.current[index] || makeUniqueId()
+      const id = idsRef.current[index] || `${baseId}-${index}`
 
       const hasNewItems =
         arrayValue?.length > valueCountRef.current?.length
