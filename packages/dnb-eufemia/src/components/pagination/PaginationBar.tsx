@@ -264,7 +264,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     )
   }
 
-  const renderNavButton = (direction: 'prev' | 'next') => {
+  const renderStepButton = (direction: 'prev' | 'next') => {
     const isPrev = direction === 'prev'
     const isDisabled = isPrev ? prevIsDisabled : nextIsDisabled
     const title = isPrev ? prevTitle : nextTitle
@@ -326,13 +326,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       <div className="dnb-pagination__bar__wrapper">
         {!isAnchorTransform && (
           <div className="dnb-pagination__bar__skip">
-            {renderNavButton('prev')}
-            {renderNavButton('next')}
+            {renderStepButton('prev')}
+            {renderStepButton('next')}
           </div>
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {isAnchorTransform && renderNavButton('prev')}
+          {isAnchorTransform && renderStepButton('prev')}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPaginationButton(pageNumber)
@@ -365,7 +365,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {isAnchorTransform && renderNavButton('next')}
+          {isAnchorTransform && renderStepButton('next')}
         </div>
       </div>
 
