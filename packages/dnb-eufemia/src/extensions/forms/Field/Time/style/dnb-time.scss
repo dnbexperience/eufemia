@@ -1,0 +1,15 @@
+.dnb-forms-field-time {
+  width: fit-content;
+
+  .dnb-forms-field-block__contents {
+    width: fit-content;
+  }
+
+  .dnb-segmented-field__fieldset {
+    width: var(--forms-field-width--small);
+  }
+
+  .dnb-segmented-field__group > .dnb-segmented-field__section:first-child {
+    padding: 0 0.25rem 0 0.75rem;
+  }
+}
