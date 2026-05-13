@@ -195,6 +195,7 @@
     "figma-js": "1.14.0",
     "fontmin": "0.9.9",
     "fs-extra": "10.0.0",
+    "globals": "16.4.0",
     "globby": "11.0.4",
     "jest-axe": "10.0.0",
     "jest-matchmedia-mock": "1.1.0",
