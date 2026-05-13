@@ -377,6 +377,19 @@ export function PaginationBarSpacing() {
   )
 }
 
+const urls = [
+  '/products/savings',
+  '/products/loans',
+  '/products/insurance',
+  '/accounts/overview',
+  '/accounts/transactions',
+  '/cards/credit',
+  '/cards/debit',
+  '/support/faq',
+  '/support/contact',
+  '/settings/profile',
+]
+
 export const PaginationWithTransformPaginationButton = () => (
   <Wrapper>
     <Box>
@@ -421,6 +434,51 @@ export const PaginationWithTransformPaginationButton = () => (
           url.searchParams.set('page', String(pageNumber))
           return <Anchor href={url.toString()} />
         }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        transformPaginationButton={(pageNumber) => {
+          return <Anchor href={urls[pageNumber - 1]} />
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        transformPaginationButton={(pageNumber) => {
+          return <Button href={urls[pageNumber - 1]} />
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)
         }}
