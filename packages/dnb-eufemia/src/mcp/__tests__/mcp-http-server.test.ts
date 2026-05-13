@@ -280,7 +280,6 @@ describe('mcp-http-server with auth token', () => {
   afterAll(async () => {
     await server.close()
     cleanup()
-    delete process.env.MCP_AUTH_TOKEN
   })
 
   it('rejects unauthenticated requests to /mcp', async () => {

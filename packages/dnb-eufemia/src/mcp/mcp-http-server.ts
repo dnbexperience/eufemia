@@ -23,7 +23,7 @@
  */
 
 import type http from 'node:http'
-import { randomUUID } from 'node:crypto'
+import { randomUUID, timingSafeEqual } from 'node:crypto'
 import path from 'node:path'
 import process from 'node:process'
 
@@ -89,15 +89,24 @@ function buildMcpServer(options: DocsToolsOptions = {}): {
   return { server, docsRoot: tools.docsRoot }
 }
 
-function authMiddleware(): Middleware {
-  const token = process.env.MCP_AUTH_TOKEN
+function safeEqual(a: string, b: string): boolean {
+  const encoder = new TextEncoder()
+  const bufA = encoder.encode(a)
+  const bufB = encoder.encode(b)
+  if (bufA.length !== bufB.length) {
+    return false
+  }
+  return timingSafeEqual(bufA, bufB)
+}
+
+function authMiddleware(token: string | undefined): Middleware {
   if (!token) {
     return (_req, _res, next) => next()
   }
   const expected = `Bearer ${token}`
   return (req, res, next) => {
-    const header = req.headers['authorization']
-    if (header === expected) {
+    const header = String(req.headers['authorization'] ?? '')
+    if (safeEqual(header, expected)) {
       next()
       return
     }
@@ -125,9 +134,10 @@ function hostAllowlistMiddleware(allowed?: string[]): Middleware {
       next()
       return
     }
+    logErr(`[eufemia] rejected Host header: ${host}`)
     res.status(403).json({
       jsonrpc: '2.0',
-      error: { code: -32002, message: `Host not allowed: ${host}` },
+      error: { code: -32002, message: 'Host not allowed' },
       id: null,
     })
   }
@@ -154,10 +164,7 @@ export async function startHttpServer(
   const port = options.port ?? Number(process.env.PORT ?? 8787)
   const host = options.host ?? process.env.HOST ?? '0.0.0.0'
   const allowedHosts = options.allowedHosts ?? parseAllowedHosts()
-
-  if (options.authToken !== undefined) {
-    process.env.MCP_AUTH_TOKEN = options.authToken
-  }
+  const authToken = options.authToken ?? process.env.MCP_AUTH_TOKEN
 
   const app = express()
   app.disable('x-powered-by')
@@ -247,9 +254,9 @@ export async function startHttpServer(
     }
   }
 
-  app.post('/mcp', authMiddleware(), handleStreamable)
-  app.get('/mcp', authMiddleware(), handleStreamable)
-  app.delete('/mcp', authMiddleware(), handleStreamable)
+  app.post('/mcp', authMiddleware(authToken), handleStreamable)
+  app.get('/mcp', authMiddleware(authToken), handleStreamable)
+  app.delete('/mcp', authMiddleware(authToken), handleStreamable)
 
   // ---------- Legacy SSE transport ----------
   // GET /sse opens an SSE stream that delivers an `endpoint` event with the
@@ -259,7 +266,7 @@ export async function startHttpServer(
 
   app.get(
     '/sse',
-    authMiddleware(),
+    authMiddleware(authToken),
     async (req: ExpressRequest, res: ExpressResponse) => {
       try {
         const transport = new SSEServerTransport('/messages', res)
@@ -288,7 +295,7 @@ export async function startHttpServer(
 
   app.post(
     '/messages',
-    authMiddleware(),
+    authMiddleware(authToken),
     async (req: ExpressRequest, res: ExpressResponse) => {
       const sessionId = String(
         (req.query as { sessionId?: string } | undefined)?.sessionId ?? ''

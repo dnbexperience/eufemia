@@ -68,20 +68,45 @@ function authResponse(): Response {
   )
 }
 
-function checkAuth(request: Request, env: Env): Response | null {
+/**
+ * Constant-time string comparison using the Web Crypto API. Works in
+ * Cloudflare Workers where `node:crypto.timingSafeEqual` is unavailable.
+ */
+async function safeEqual(a: string, b: string): Promise<boolean> {
+  const encoder = new TextEncoder()
+  const keyData = encoder.encode(a)
+  const key = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign', 'verify']
+  )
+  const sig = await crypto.subtle.sign('HMAC', key, encoder.encode(a))
+  return crypto.subtle.verify('HMAC', key, sig, encoder.encode(b))
+}
+
+async function checkAuth(
+  request: Request,
+  env: Env
+): Promise<Response | null> {
   const token = env.MCP_AUTH_TOKEN
   if (!token) {
     return null
   }
-  const header = request.headers.get('authorization')
-  if (header === `Bearer ${token}`) {
+  const header = request.headers.get('authorization') ?? ''
+  const expected = `Bearer ${token}`
+  if (
+    header.length === expected.length &&
+    (await safeEqual(header, expected))
+  ) {
     return null
   }
   return authResponse()
 }
 
 async function handleMcp(request: Request, env: Env): Promise<Response> {
-  const unauthorized = checkAuth(request, env)
+  const unauthorized = await checkAuth(request, env)
   if (unauthorized) {
     return unauthorized
   }
