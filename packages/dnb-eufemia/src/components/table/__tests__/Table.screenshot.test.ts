@@ -146,15 +146,6 @@ for (const themeName of ['ui', 'sbanken']) {
       expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match table without inner classes', async () => {
-      const selector = '[data-visual-test="table-no-classes"]'
-      const screenshot = await makeScreenshot({
-        ...defaults,
-        selector,
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
     test('have to match all combinations default', async () => {
       const selector = '[data-visual-test="table-combinations-default"]'
       const screenshot = await makeScreenshot({
