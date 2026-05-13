@@ -1,0 +1,52 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Time />)
+```
+
+## Description
+
+`Field.Time` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for time input (hours and minutes).
+
+It uses a segmented input with spin buttons, allowing users to input hours (0–23) and minutes (0–59). Optionally, seconds (0–59) can be enabled with the `withSeconds` prop.
+
+The value format is `"HH:mm"` (e.g. `"14:30"`), or `"HH:mm:ss"` (e.g. `"14:30:45"`) when `withSeconds` is enabled.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Time)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Time)
+
+## Validators
+
+### Internal validators exposed
+
+`Field.Time` exposes the `timeValidator` validator through its `onBlurValidator` property. Take a look at [this demo](/uilib/extensions/forms/feature-fields/Time/demos/#extend-validation-with-custom-validation-function).
+The `timeValidator` validator validates invalid hours, minutes, and seconds.
+
+### Extending validators
+
+Combine the exported validator with your own rules to keep the built-in checks and add custom guards. Import `TimeValidator` to type your validator and the shared `validators`.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { TimeValidator } from '@dnb/eufemia/extensions/forms/Field/Time'
+
+const myValidator: TimeValidator = (value, { validators }) => {
+  const { timeValidator } = validators ?? {}
+  const noMidnight = (value: string) => {
+    if (value === '00:00') {
+      return new Error('Midnight is not allowed')
+    }
+  }
+
+  return [timeValidator, noMidnight]
+}
+
+render(<Field.Time onBlurValidator={myValidator} />)
+```

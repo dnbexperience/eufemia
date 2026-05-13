@@ -1,0 +1,54 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Empty
+
+<Examples.Empty />
+
+### Label
+
+<Examples.Label />
+
+### With a horizontal layout
+
+<Examples.HorizontalLayout />
+
+### With help
+
+<Examples.WithHelp />
+
+### Disabled
+
+<Examples.Disabled />
+
+### Error
+
+<Examples.WithError />
+
+### Validation - Required
+
+<Examples.ValidationRequired />
+
+### With seconds
+
+<Examples.WithSeconds />
+
+### Transform in and out
+
+This example demonstrates how to transform data when it enters and leaves the form field.
+
+You can use the `transformIn` property to modify the incoming data before it is displayed in the field, and the `transformOut` property to adjust the data before it is submitted or processed.
+When `transformIn` one can either return a simple value `"14:30"` or an object `{ hours: "14", minutes: "30" }`.
+
+<Examples.TransformInAndOut />
+
+### Extend validation with custom validation function
+
+You can [extend the existing validation](/uilib/extensions/forms/create-component/useFieldProps/info/#validators) (`timeValidator`) with your own validation function.
+
+<Examples.ValidationExtendValidator />
