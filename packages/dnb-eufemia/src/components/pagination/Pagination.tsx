@@ -221,7 +221,7 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives a page number and returns a React element (`<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.
+   * A function that receives a page number and returns a React element (`<Anchor>` or `<Button>`). When provided, the returned element is used for navigation instead of the default buttons.
    */
   transformPaginationButton?: (
     pageNumber: number
