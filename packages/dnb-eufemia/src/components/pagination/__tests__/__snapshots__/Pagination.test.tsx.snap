@@ -1318,10 +1318,10 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-pagination__bar__inner {
   gap: 0.5rem;
 }
-.dnb-pagination--has-href .dnb-pagination__bar__inner {
+.dnb-pagination__bar__inner:has(.dnb-anchor) {
   gap: 0.75rem;
 }
-.dnb-pagination--has-href .dnb-pagination__button--current {
+.dnb-pagination__bar__inner:has(.dnb-anchor) .dnb-pagination__button--current {
   color: var(--token-color-text-neutral);
   text-decoration: none;
 }
