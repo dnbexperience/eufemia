@@ -7,6 +7,7 @@ import {
   memo,
   useCallback,
   useContext,
+  useId,
   useRef,
   useState,
 } from 'react'
@@ -325,6 +326,7 @@ function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
 
 function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const context = useContext(Context)
+  const fallbackStatusId = useId()
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -353,6 +355,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       providerRef.current = provider
       const status = provider.init({
         ...ownProps,
+        statusId: ownProps.statusId || fallbackStatusId,
         show: ownProps.show ?? 'auto',
       })
       globalStatusRef.current = status
