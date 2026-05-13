@@ -206,62 +206,62 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const isCurrent = pageNumber === currentPageInternal
     const label = buttonTitle.replace('%s', String(pageNumber))
 
-    if (transformPaginationButton) {
-      const element = transformPaginationButton(pageNumber)
-
-      if (isCurrent && isAnchorTransform) {
-        return (
-          <span
-            key={pageNumber}
-            className={clsx(
-              'dnb-pagination__button',
-              'dnb-pagination__button--current',
-              extraClassName
-            )}
-            aria-label={label}
-            aria-current="page"
-          >
-            {String(pageNumber)}
-          </span>
-        )
-      }
-
-      return cloneElement(element, {
-        key: pageNumber,
-        className: clsx(
-          'dnb-pagination__button',
-          isCurrent && 'dnb-pagination__button--current',
-          extraClassName,
-          element.props.className
-        ),
-        'aria-label': label,
-        'aria-current': isCurrent ? 'page' : undefined,
-        ...(!isAnchorTransform && {
-          variant: isCurrent ? 'primary' : 'secondary',
-          disabled,
-          skeleton,
-        }),
-        onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event as never)
-          clickHandler({ pageNumber, event })
-        },
-        children: String(pageNumber),
-      })
+    if (!transformPaginationButton) {
+      return (
+        <Button
+          key={pageNumber}
+          className={clsx('dnb-pagination__button', extraClassName)}
+          text={String(pageNumber)}
+          aria-label={label}
+          variant={isCurrent ? 'primary' : 'secondary'}
+          disabled={disabled}
+          skeleton={skeleton}
+          aria-current={isCurrent ? 'page' : null}
+          onClick={(event) => clickHandler({ pageNumber, event })}
+        />
+      )
     }
 
-    return (
-      <Button
-        key={pageNumber}
-        className={clsx('dnb-pagination__button', extraClassName)}
-        text={String(pageNumber)}
-        aria-label={label}
-        variant={isCurrent ? 'primary' : 'secondary'}
-        disabled={disabled}
-        skeleton={skeleton}
-        aria-current={isCurrent ? 'page' : null}
-        onClick={(event) => clickHandler({ pageNumber, event })}
-      />
-    )
+    const element = transformPaginationButton(pageNumber)
+
+    if (isCurrent && isAnchorTransform) {
+      return (
+        <span
+          key={pageNumber}
+          className={clsx(
+            'dnb-pagination__button',
+            'dnb-pagination__button--current',
+            extraClassName
+          )}
+          aria-label={label}
+          aria-current="page"
+        >
+          {String(pageNumber)}
+        </span>
+      )
+    }
+
+    return cloneElement(element, {
+      key: pageNumber,
+      className: clsx(
+        'dnb-pagination__button',
+        isCurrent && 'dnb-pagination__button--current',
+        extraClassName,
+        element.props.className
+      ),
+      'aria-label': label,
+      'aria-current': isCurrent ? 'page' : undefined,
+      ...(!isAnchorTransform && {
+        variant: isCurrent ? 'primary' : 'secondary',
+        disabled,
+        skeleton,
+      }),
+      onClick: (event: React.MouseEvent) => {
+        element.props.onClick?.(event as never)
+        clickHandler({ pageNumber, event })
+      },
+      children: String(pageNumber),
+    })
   }
 
   const renderStepButton = (direction: 'prev' | 'next') => {
@@ -271,43 +271,43 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const icon = isPrev ? 'chevron_left' : 'chevron_right'
     const onNavigate = isPrev ? setPrevPage : setNextPage
 
-    if (isAnchorTransform) {
-      if (isDisabled) {
-        return null
-      }
-
-      const pageNumber = currentPageInternal + (isPrev ? -1 : 1)
-      const element = transformPaginationButton(pageNumber)
-
-      return cloneElement(element, {
-        key: `${direction}-arrow`,
-        className: clsx(
-          'dnb-pagination__button',
-          `dnb-pagination__button--${direction}`,
-          element.props.className
-        ),
-        'aria-label': title,
-        onClick: (event: React.MouseEvent) => {
-          element.props.onClick?.(event as never)
-          onNavigate()
-        },
-        children: <IconPrimary icon={icon} />,
-      })
+    if (!isAnchorTransform) {
+      return (
+        <Button
+          key={`${direction}-arrow`}
+          disabled={disabled || isDisabled}
+          skeleton={skeleton}
+          variant="tertiary"
+          icon={icon}
+          iconPosition={isPrev ? 'left' : 'right'}
+          text={title}
+          onClick={onNavigate}
+          title={isDisabled ? null : title}
+        />
+      )
     }
 
-    return (
-      <Button
-        key={`${direction}-arrow`}
-        disabled={disabled || isDisabled}
-        skeleton={skeleton}
-        variant="tertiary"
-        icon={icon}
-        iconPosition={isPrev ? 'left' : 'right'}
-        text={title}
-        onClick={onNavigate}
-        title={isDisabled ? null : title}
-      />
-    )
+    if (isDisabled) {
+      return null
+    }
+
+    const pageNumber = currentPageInternal + (isPrev ? -1 : 1)
+    const element = transformPaginationButton(pageNumber)
+
+    return cloneElement(element, {
+      key: `${direction}-arrow`,
+      className: clsx(
+        'dnb-pagination__button',
+        `dnb-pagination__button--${direction}`,
+        element.props.className
+      ),
+      'aria-label': title,
+      onClick: (event: React.MouseEvent) => {
+        element.props.onClick?.(event as never)
+        onNavigate()
+      },
+      children: <IconPrimary icon={icon} />,
+    })
   }
 
   return (
