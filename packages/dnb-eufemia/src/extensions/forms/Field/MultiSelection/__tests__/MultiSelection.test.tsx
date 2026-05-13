@@ -2359,4 +2359,175 @@ describe('MultiSelection', () => {
       expect(tags[2]).toHaveClass('dnb-tag--removable')
     })
   })
+
+  describe('external value sync', () => {
+    it('syncs tempValue when value changes externally while popover is closed', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1']}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('1 of 2 selected')
+      })
+
+      // Change value externally
+      rerender(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2']}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('2 of 2 selected')
+      })
+
+      // Open popover and verify both checkboxes are checked
+      fireEvent.click(screen.getByRole('button'))
+
+      await waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox')
+        expect(checkboxes[0]).toBeChecked()
+        expect(checkboxes[1]).toBeChecked()
+      })
+    })
+
+    it('syncs tempValue on form reset', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { container } = render(
+        <Provider locale="en-GB">
+          <Form.Handler
+            defaultData={{ selection: ['option1'] }}
+          >
+            <Field.MultiSelection
+              path="/selection"
+              data={data}
+            />
+          </Form.Handler>
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          container.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('1 of 2 selected')
+      })
+
+      // Open popover, select option2
+      const triggerButton = container.querySelector(
+        '.dnb-dropdown__trigger'
+      ) as HTMLElement
+      fireEvent.click(triggerButton)
+      await waitFor(() => {
+        expect(screen.getByText('Option 2')).toBeInTheDocument()
+      })
+      fireEvent.click(
+        screen.getByRole('checkbox', { name: /Option 2/ })
+      )
+
+      await waitFor(() => {
+        expect(
+          container.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('2 of 2 selected')
+      })
+    })
+
+    it('syncs tempValue for inline variant when value changes externally', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            variant="inline"
+            data={data}
+            value={['option1']}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox')
+        expect(checkboxes[0]).toBeChecked()
+        expect(checkboxes[1]).not.toBeChecked()
+      })
+
+      // Change value externally
+      rerender(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            variant="inline"
+            data={data}
+            value={['option1', 'option2']}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox')
+        expect(checkboxes[0]).toBeChecked()
+        expect(checkboxes[1]).toBeChecked()
+      })
+    })
+
+    it('syncs tempValue when value is cleared externally', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2']}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('2 of 2 selected')
+      })
+
+      // Clear value externally
+      rerender(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={undefined}
+          />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('0 of 2 selected')
+      })
+    })
+  })
 })
