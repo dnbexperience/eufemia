@@ -222,8 +222,6 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )
     }
 
-    const element = transformPaginationButton(pageNumber)
-
     if (isCurrent && isAnchorTransform) {
       return (
         <span
@@ -240,6 +238,8 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         </span>
       )
     }
+
+    const element = transformPaginationButton(pageNumber)
 
     return cloneElement(element, {
       key: pageNumber,
