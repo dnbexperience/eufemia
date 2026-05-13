@@ -2434,4 +2434,53 @@ describe('Field.PhoneNumber', () => {
     // onChange should NOT have been called since we didn't change anything
     expect(onChange).not.toHaveBeenCalled()
   })
+
+  describe('external value sync', () => {
+    it('should update country code when value changes externally after focus', async () => {
+      const { rerender } = render(
+        <Field.PhoneNumber value="+4712345678" noAnimation />
+      )
+
+      const ccInput: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      expect(ccInput.value).toContain('+47')
+
+      // Focus to set wasFilled = true
+      await userEvent.click(ccInput)
+      await userEvent.click(document.body)
+
+      // Change value externally to a Swedish number
+      rerender(<Field.PhoneNumber value="+4687654321" noAnimation />)
+
+      expect(ccInput.value).toContain('+46')
+    })
+
+    it('should update country code when Form.Handler data changes externally', async () => {
+      const { rerender } = render(
+        <Form.Handler data={{ phone: '+4712345678' }}>
+          <Field.PhoneNumber path="/phone" noAnimation />
+        </Form.Handler>
+      )
+
+      const ccInput: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      expect(ccInput.value).toContain('+47')
+
+      // Focus to set wasFilled = true
+      await userEvent.click(ccInput)
+      await userEvent.click(document.body)
+
+      rerender(
+        <Form.Handler data={{ phone: '+4687654321' }}>
+          <Field.PhoneNumber path="/phone" noAnimation />
+        </Form.Handler>
+      )
+
+      expect(ccInput.value).toContain('+46')
+    })
+  })
 })

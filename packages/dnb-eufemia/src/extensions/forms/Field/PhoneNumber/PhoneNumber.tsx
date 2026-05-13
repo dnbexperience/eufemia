@@ -109,6 +109,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
   const currentCountryRef = useRef<CountryType>(undefined)
+  const lastEmittedValueRef = useRef<string>(undefined)
 
   const errorMessages = useMemo(
     () => ({
@@ -353,13 +354,13 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const callOnChange = useCallback(
     (data: EventValues) => {
       const eventValues = prepareEventValues(data)
+      const e164Value = toE164([
+        eventValues.countryCode,
+        eventValues.phoneNumber,
+      ])
+      lastEmittedValueRef.current = e164Value
 
-      handleChange(
-        toEvent(
-          toE164([eventValues.countryCode, eventValues.phoneNumber])
-        ),
-        eventValues
-      )
+      handleChange(toEvent(e164Value), eventValues)
     },
     [prepareEventValues, handleChange]
   )
@@ -391,6 +392,22 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       langRef.current = lang
 
       updateCurrentDataSet()
+    } else {
+      // Sync countryCodeRef when the value changes externally
+      // (e.g. form reset, another field writing to the same path).
+      // Compare with lastEmittedValueRef to skip user-driven changes,
+      // where splitValue can misparse short/ambiguous E.164 strings.
+      // We compare against `value` (from useFieldProps) rather than
+      // `props.value` because the latter may be stale in controlled
+      // components where the parent doesn't update the prop.
+      if (
+        value !== lastEmittedValueRef.current &&
+        countryCode &&
+        countryCode !== countryCodeRef.current
+      ) {
+        countryCodeRef.current = countryCode
+        updateCurrentDataSet()
+      }
     }
   }, [value, props.value, lang, updateCurrentDataSet])
 
