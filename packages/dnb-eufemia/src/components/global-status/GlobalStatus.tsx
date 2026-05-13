@@ -7,7 +7,6 @@ import {
   memo,
   useCallback,
   useContext,
-  useId,
   useRef,
   useState,
 } from 'react'
@@ -20,6 +19,7 @@ import type {
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
@@ -326,7 +326,7 @@ function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
 
 function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const context = useContext(Context)
-  const fallbackStatusId = useId()
+  const fallbackStatusId = useId(ownProps.statusId)
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -355,7 +355,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       providerRef.current = provider
       const status = provider.init({
         ...ownProps,
-        statusId: ownProps.statusId || fallbackStatusId,
+        statusId: fallbackStatusId,
         show: ownProps.show ?? 'auto',
       })
       globalStatusRef.current = status
