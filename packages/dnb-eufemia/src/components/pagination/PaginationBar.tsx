@@ -80,7 +80,7 @@ type PaginationBarContext = {
   disabled: boolean
   transformPaginationButton?: (
     pageNumber: number,
-    props: PaginationButtonProps
+    paginationButtonProps: PaginationButtonProps
   ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
