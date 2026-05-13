@@ -6,7 +6,7 @@
  * pages only load the JS they actually need.
  */
 
-import { Component, Suspense } from 'react'
+import { Suspense } from 'react'
 import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
@@ -25,6 +25,7 @@ import { routes, allMdxNodes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
+import { FullscreenCodeProvider } from '../../src/core/FullscreenCodeContext'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -89,14 +90,8 @@ export async function render(url: string) {
 
   const router = createStaticRouter(resolvedRouteConfig, context)
 
-  // Create a fresh Emotion cache for this render to ensure clean
-  // style extraction per page.
-  const emotionCache = createEmotionCache({ key: 'css' })
-
   let appHtml = renderToString(
-    <CacheProvider value={emotionCache}>
-      <StaticRouterProvider router={router} context={context} />
-    </CacheProvider>
+    <StaticRouterProvider router={router} context={context} />
   )
 
   // Extract Emotion <style> tags from the rendered HTML and collect
@@ -122,24 +117,46 @@ export async function render(url: string) {
 
 /**
  * Root layout component for SSR.
- * Mirrors the browser RootLayout but without browser-only hooks
- * (scroll persistence, catch-links, skeleton URL detection).
+ *
+ * IMPORTANT: The component tree structure here must exactly match the
+ * client RootLayout in portal-app.tsx. React's useId() generates
+ * deterministic IDs based on the component tree position. If the SSR
+ * and client trees differ (extra wrappers, missing providers, different
+ * nesting), every useId() call produces a different ID, causing
+ * hydration mismatches (React error #418) on every page that uses
+ * useId-based IDs (form fields, labels, aria attributes, etc.).
  */
 function RootLayout() {
+  const emotionCache = createEmotionCache({ key: 'css' })
+
   return (
-    <Provider locale={getLang()} translations={translations}>
-      <IsolatedStyleScope
-        disableCoreStyleWrapper
-        scopeHash="eufemia-scope--portal"
-      >
-        <Theme name="ui" colorScheme="auto">
-          <MDXProvider components={tags}>
-            <SSRPageWrapper />
-          </MDXProvider>
-        </Theme>
-      </IsolatedStyleScope>
-    </Provider>
+    <CacheProvider value={emotionCache}>
+      <FullscreenCodeProvider>
+        <Provider locale={getLang()} translations={translations}>
+          <IsolatedStyleScope
+            disableCoreStyleWrapper
+            scopeHash="eufemia-scope--portal"
+          >
+            <SkeletonEnabled>
+              <Theme name="ui" colorScheme="auto">
+                <MDXProvider components={tags}>
+                  <SSRPageWrapper />
+                </MDXProvider>
+              </Theme>
+            </SkeletonEnabled>
+          </IsolatedStyleScope>
+        </Provider>
+      </FullscreenCodeProvider>
+    </CacheProvider>
   )
+}
+
+/**
+ * Structural placeholder that mirrors the client's SkeletonEnabled
+ * component so the React tree shape matches during hydration.
+ */
+function SkeletonEnabled({ children }: { children: ReactNode }) {
+  return <>{children}</>
 }
 
 function SSRPageWrapper() {
@@ -150,36 +167,11 @@ function SSRPageWrapper() {
       location={location as unknown as Location}
       pageContext={{ frontmatter: {} }}
     >
-      <SSRErrorBoundary>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Outlet />
-        </Suspense>
-      </SSRErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </PortalLayout>
   )
-}
-
-/**
- * Catches render errors during SSR so the page shell (header, sidebar)
- * is still prerendered even when content components fail.
- * The client-side JS will render the content on hydration.
- */
-class SSRErrorBoundary extends Component<
-  { children: ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false }
-
-  static getDerivedStateFromError() {
-    return { hasError: true }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return null
-    }
-    return this.props.children
-  }
 }
 
 /**
