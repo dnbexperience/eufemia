@@ -111,12 +111,21 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -euo pipefail
+
+          DEPLOY_MSG="${{ github.ref_name }}@${{ github.sha }} via GitHub Actions"
+          DEPLOY_TAG="${{ github.sha }}"
+
           if [ "${{ steps.target.outputs.env }}" = "prod" ]; then
-            yarn dlx wrangler deploy --name "${{ steps.target.outputs.name }}"
+            yarn dlx wrangler deploy \
+              --name "${{ steps.target.outputs.name }}" \
+              --message "${DEPLOY_MSG}" \
+              --tag "${DEPLOY_TAG}"
           else
             yarn dlx wrangler deploy \
               --env preview \
-              --name "${{ steps.target.outputs.name }}"
+              --name "${{ steps.target.outputs.name }}" \
+              --message "${DEPLOY_MSG}" \
+              --tag "${DEPLOY_TAG}"
           fi
 
           # The Worker is served from <name>.<account>.workers.dev. We can
