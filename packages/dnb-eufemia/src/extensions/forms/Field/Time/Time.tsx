@@ -48,7 +48,7 @@ function Time(props: TimeProps = {}) {
     hours,
     minutes,
     seconds,
-  } = useTranslation().Time
+  } = useTranslation().Time ?? {}
 
   const { withSeconds } = props
 
@@ -102,7 +102,13 @@ function Time(props: TimeProps = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, error }) => {
+    (
+      value: string,
+      {
+        required,
+        error,
+      }: { required: boolean; error: FormError | undefined }
+    ) => {
       return required && !value ? error : undefined
     },
     []
@@ -121,7 +127,7 @@ function Time(props: TimeProps = {}) {
   }, [validateInitiallyProp, valueProp])
 
   const fromExternal = useCallback(
-    (external) => {
+    (external: string | undefined) => {
       if (typeof external === 'string') {
         const {
           hours,
@@ -138,7 +144,10 @@ function Time(props: TimeProps = {}) {
         }
 
         if (withSeconds) {
-          return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(secs, 2)}`
+          return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(
+            secs,
+            2
+          )}`
         }
 
         return `${padValue(hours, 2)}:${padValue(minutes, 2)}`
@@ -204,6 +213,7 @@ function Time(props: TimeProps = {}) {
     errorMessages,
     validateInitially,
     validateContinuously,
+    // @ts-expect-error - strictFunctionTypes
     fromExternal,
     // @ts-expect-error - strictFunctionTypes
     transformIn,
@@ -234,6 +244,7 @@ function Time(props: TimeProps = {}) {
     handleBlur,
     handleChange,
     setDisplayValue,
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const time: TimeValue = useMemo(() => {
@@ -242,7 +253,7 @@ function Time(props: TimeProps = {}) {
     return {
       hours: hours || '',
       minutes: minutes || '',
-      ...(withSeconds && { seconds: secs || '' }),
+      seconds: withSeconds ? secs || '' : '',
     }
   }, [value, withSeconds])
 
@@ -266,10 +277,10 @@ function Time(props: TimeProps = {}) {
   const status = hasError
     ? 'error'
     : warning
-      ? 'warning'
-      : info
-        ? 'information'
-        : null
+    ? 'warning'
+    : info
+    ? 'information'
+    : null
 
   const fieldBlockProps: FieldBlockProps = {
     id,
@@ -340,7 +351,7 @@ function Time(props: TimeProps = {}) {
   )
 }
 
-function isFieldEmpty(value: string) {
+function isFieldEmpty(value: string | undefined) {
   return !value || value.trim() === ''
 }
 
@@ -390,7 +401,7 @@ function validateTime(time: string, withSeconds?: boolean) {
   ) {
     messages.push(
       new FormError('Time.errorHours', {
-        messageValues: { hours: hours },
+        messageValues: { hours: hours ?? '' },
       })
     )
   }
@@ -403,7 +414,7 @@ function validateTime(time: string, withSeconds?: boolean) {
   ) {
     messages.push(
       new FormError('Time.errorMinutes', {
-        messageValues: { minutes: minutes },
+        messageValues: { minutes: minutes ?? '' },
       })
     )
   }
@@ -417,7 +428,7 @@ function validateTime(time: string, withSeconds?: boolean) {
   ) {
     messages.push(
       new FormError('Time.errorSeconds', {
-        messageValues: { seconds: seconds },
+        messageValues: { seconds: seconds ?? '' },
       })
     )
   }
