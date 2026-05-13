@@ -5,6 +5,7 @@ declare global {
     interface Matchers<R, T = {}> {
       toBeType(received: string, expected?: string): R;
       toNeverResolve(): Promise<R>;
+      toHaveNoViolations(): R;
     }
   }
 }
