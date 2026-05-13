@@ -30,7 +30,8 @@ import PaginationBar from './PaginationBar'
 
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
-import type { ButtonIconPosition } from '../Button'
+import type { ButtonIconPosition, ButtonProps } from '../Button'
+import type { AnchorAllProps } from '../anchor/Anchor'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
@@ -220,9 +221,11 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives a page number and returns a React element (e.g. `<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.
+   * A function that receives a page number and returns a React element (`<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.
    */
-  transformPaginationButton?: (pageNumber: number) => ReactElement
+  transformPaginationButton?: (
+    pageNumber: number
+  ) => ReactElement<AnchorAllProps | ButtonProps>
   className?: string
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.

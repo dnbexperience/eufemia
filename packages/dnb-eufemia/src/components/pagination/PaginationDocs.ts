@@ -137,7 +137,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformPaginationButton: {
-    doc: 'A function that receives a page number and returns a React element (e.g. `<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.',
+    doc: 'A function that receives a page number and returns either `<Anchor>` or `<Button>` components. When provided, the returned element is used for page navigation instead of the default buttons.',
     type: 'function',
     status: 'optional',
   },
