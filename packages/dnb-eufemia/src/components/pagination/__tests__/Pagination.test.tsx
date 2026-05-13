@@ -12,6 +12,7 @@ import {
 import { fireEvent, render } from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
+import Anchor from '../../anchor/Anchor'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
@@ -961,15 +962,17 @@ describe('undefined props should fall through to defaults', () => {
   })
 })
 
-describe('Pagination getPageHref', () => {
-  const getPageHref = (page: number) => `/page/${page}`
+describe('Pagination transformPaginationButton', () => {
+  const transformPaginationButton = (page: number) => (
+    <Anchor href={`/page/${page}`} />
+  )
 
-  it('renders page buttons as anchor elements when getPageHref is provided', () => {
+  it('renders page buttons as anchor elements when transformPaginationButton is provided', () => {
     render(
       <Pagination
         pageCount={5}
         currentPage={1}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -988,7 +991,7 @@ describe('Pagination getPageHref', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -1007,7 +1010,7 @@ describe('Pagination getPageHref', () => {
       <Pagination
         pageCount={5}
         currentPage={3}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -1030,7 +1033,7 @@ describe('Pagination getPageHref', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -1046,7 +1049,7 @@ describe('Pagination getPageHref', () => {
       <Pagination
         pageCount={5}
         currentPage={5}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -1057,7 +1060,7 @@ describe('Pagination getPageHref', () => {
     expect(nextButton).toBeNull()
   })
 
-  it('renders as buttons when getPageHref is not provided', () => {
+  it('renders as buttons when transformPaginationButton is not provided', () => {
     render(<Pagination pageCount={5} currentPage={1} />)
 
     const buttons = document.querySelectorAll(
@@ -1069,12 +1072,12 @@ describe('Pagination getPageHref', () => {
     })
   })
 
-  it('does not render skip bar when getPageHref is provided', () => {
+  it('does not render skip bar when transformPaginationButton is provided', () => {
     render(
       <Pagination
         pageCount={5}
         currentPage={3}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
       />
     )
 
@@ -1090,7 +1093,7 @@ describe('Pagination getPageHref', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        getPageHref={getPageHref}
+        transformPaginationButton={transformPaginationButton}
         onChange={onChange}
       />
     )
@@ -1104,6 +1107,25 @@ describe('Pagination getPageHref', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ pageNumber: 2 })
     )
+  })
+
+  it('renders current page as a non-interactive span', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformPaginationButton={transformPaginationButton}
+      />
+    )
+
+    const currentPage = document.querySelector(
+      '.dnb-pagination__button--current'
+    )
+
+    expect(currentPage.tagName).toBe('SPAN')
+    expect(currentPage.getAttribute('aria-current')).toBe('page')
+    expect(currentPage.textContent).toBe('3')
+    expect(currentPage.getAttribute('href')).toBeNull()
   })
 })
 

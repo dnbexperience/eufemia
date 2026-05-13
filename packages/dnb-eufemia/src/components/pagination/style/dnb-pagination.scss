@@ -73,6 +73,11 @@
     gap: 0.75rem;
   }
 
+  &--has-href &__button--current {
+    color: var(--token-color-text-neutral);
+    text-decoration: none;
+  }
+
   &__button {
     max-width: 3.5rem;
     &.dnb-button--secondary {

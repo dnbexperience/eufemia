@@ -3,8 +3,15 @@
  *
  */
 
-import { Fragment, useContext, useEffect, useRef, useState } from 'react'
-import type { HTMLProps, ReactNode, RefObject } from 'react'
+import {
+  Fragment,
+  cloneElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import type { HTMLProps, ReactElement, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   dispatchCustomElementEvent,
@@ -17,7 +24,6 @@ import {
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
-import Anchor from '../anchor/Anchor'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
@@ -70,7 +76,7 @@ type PaginationBarContext = {
   currentPageInternal: number
   pageCountInternal: number
   disabled: boolean
-  getPageHref?: (pageNumber: number) => string
+  transformPaginationButton?: (pageNumber: number) => ReactElement
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
   updatePageContent: (currentPageInternal: number) => void
@@ -91,7 +97,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     disabled,
     skeleton,
     space,
-    getPageHref,
+    transformPaginationButton,
   } = props
 
   // because of accessibility
@@ -191,23 +197,40 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const isCurrent = pageNumber === currentPageInternal
     const label = buttonTitle.replace('%s', String(pageNumber))
 
-    if (getPageHref) {
-      return (
-        <Anchor
-          key={pageNumber}
-          className={clsx(
-            'dnb-pagination__button',
-            isCurrent && 'dnb-pagination__button--current',
-            extraClassName
-          )}
-          href={getPageHref(pageNumber)}
-          aria-label={label}
-          aria-current={isCurrent ? 'page' : undefined}
-          onClick={(event) => clickHandler({ pageNumber, event })}
-        >
-          {String(pageNumber)}
-        </Anchor>
-      )
+    if (transformPaginationButton) {
+      if (isCurrent) {
+        return (
+          <span
+            key={pageNumber}
+            className={clsx(
+              'dnb-pagination__button',
+              'dnb-pagination__button--current',
+              extraClassName
+            )}
+            aria-label={label}
+            aria-current="page"
+          >
+            {String(pageNumber)}
+          </span>
+        )
+      }
+
+      const element = transformPaginationButton(pageNumber)
+
+      return cloneElement(element, {
+        key: pageNumber,
+        className: clsx(
+          'dnb-pagination__button',
+          extraClassName,
+          element.props.className
+        ),
+        'aria-label': label,
+        onClick: (event: React.MouseEvent) => {
+          element.props.onClick?.(event)
+          clickHandler({ pageNumber, event })
+        },
+        children: String(pageNumber),
+      })
     }
 
     return (
@@ -226,22 +249,28 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   }
 
   const renderPrevNext = () => {
-    if (getPageHref) {
-      return (
-        <>
-          {!prevIsDisabled && (
-            <Anchor
-              key="left-arrow"
-              className="dnb-pagination__button dnb-pagination__button--prev"
-              href={getPageHref(currentPageInternal - 1)}
-              aria-label={prevTitle}
-              onClick={setPrevPage}
-            >
-              <IconPrimary icon="chevron_left" />
-            </Anchor>
-          )}
-        </>
-      )
+    if (transformPaginationButton) {
+      if (prevIsDisabled) {
+        return null
+      }
+
+      const prevPage = currentPageInternal - 1
+      const element = transformPaginationButton(prevPage)
+
+      return cloneElement(element, {
+        key: 'left-arrow',
+        className: clsx(
+          'dnb-pagination__button',
+          'dnb-pagination__button--prev',
+          element.props.className
+        ),
+        'aria-label': prevTitle,
+        onClick: (event: React.MouseEvent) => {
+          element.props.onClick?.(event)
+          setPrevPage()
+        },
+        children: <IconPrimary icon="chevron_left" />,
+      })
     }
 
     return (
@@ -260,22 +289,28 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   }
 
   const renderNextButton = () => {
-    if (getPageHref) {
-      return (
-        <>
-          {!nextIsDisabled && (
-            <Anchor
-              key="right-arrow"
-              className="dnb-pagination__button dnb-pagination__button--next"
-              href={getPageHref(currentPageInternal + 1)}
-              aria-label={nextTitle}
-              onClick={setNextPage}
-            >
-              <IconPrimary icon="chevron_right" />
-            </Anchor>
-          )}
-        </>
-      )
+    if (transformPaginationButton) {
+      if (nextIsDisabled) {
+        return null
+      }
+
+      const nextPage = currentPageInternal + 1
+      const element = transformPaginationButton(nextPage)
+
+      return cloneElement(element, {
+        key: 'right-arrow',
+        className: clsx(
+          'dnb-pagination__button',
+          'dnb-pagination__button--next',
+          element.props.className
+        ),
+        'aria-label': nextTitle,
+        onClick: (event: React.MouseEvent) => {
+          element.props.onClick?.(event)
+          setNextPage()
+        },
+        children: <IconPrimary icon="chevron_right" />,
+      })
     }
 
     return (
@@ -302,13 +337,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           className: clsx(
             'dnb-pagination__bar',
             pageCountInternal >= 8 && 'dnb-pagination--many-pages',
-            getPageHref && 'dnb-pagination--has-href'
+            transformPaginationButton && 'dnb-pagination--has-href'
           ),
         }
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
-        {!getPageHref && (
+        {!transformPaginationButton && (
           <div className="dnb-pagination__bar__skip">
             {renderPrevNext()}
             {renderNextButton()}
@@ -316,7 +351,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {getPageHref && renderPrevNext()}
+          {transformPaginationButton && renderPrevNext()}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPageButton(pageNumber)
@@ -349,7 +384,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {getPageHref && renderNextButton()}
+          {transformPaginationButton && renderNextButton()}
         </div>
       </div>
 

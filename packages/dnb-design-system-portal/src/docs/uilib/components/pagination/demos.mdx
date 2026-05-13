@@ -4,8 +4,8 @@ showTabs: true
 
 import {
   PaginationExampleDefault,
-  PaginationExampleWithGetPageHref,
-  PaginationExampleWithGetPageHrefQueryParams,
+  PaginationExampleWithTransformPaginationButton,
+  PaginationExampleWithTransformPaginationButtonQueryParams,
   PaginationExampleWithHorizontalLayout,
   PaginationExampleWithCallback,
   PaginationExampleCentered,
@@ -21,15 +21,15 @@ If you need to access methods provided by the render property arguments.
 
 <PaginationExampleWithCallback />
 
-### Pagination with href
+### Pagination with custom navigation element
 
-Use `getPageHref` to render page buttons as links, enabling native browser navigation.
+Use `transformPaginationButton` to render page buttons as custom elements (e.g. `<Anchor>` or `<Button>`), enabling native browser navigation.
 
-<PaginationExampleWithGetPageHref />
+<PaginationExampleWithTransformPaginationButton />
 
 #### With query parameters
 
-<PaginationExampleWithGetPageHrefQueryParams />
+<PaginationExampleWithTransformPaginationButtonQueryParams />
 
 ### Horizontal pagination
 

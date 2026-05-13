@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import { P } from '../../..'
 import { Button, Section } from '../..'
+import Anchor from '../../anchor/Anchor'
 import Pagination, { createPagination } from '../Pagination'
 
 export default {
@@ -376,14 +377,16 @@ export function PaginationBarSpacing() {
   )
 }
 
-export const PaginationWithGetPageHref = () => (
+export const PaginationWithTransformPaginationButton = () => (
   <Wrapper>
     <Box>
       <P>Path-based URLs</P>
       <Pagination
         pageCount={30}
         currentPage={4}
-        getPageHref={(pageNumber) => `/page/${pageNumber}`}
+        transformPaginationButton={(pageNumber) => (
+          <Anchor href={`/page/${pageNumber}`} />
+        )}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)
         }}
@@ -397,9 +400,9 @@ export const PaginationWithGetPageHref = () => (
       <Pagination
         pageCount={10}
         currentPage={2}
-        getPageHref={(pageNumber) =>
-          `/search?q=eufemia&page=${pageNumber}`
-        }
+        transformPaginationButton={(pageNumber) => (
+          <Anchor href={`/search?q=eufemia&page=${pageNumber}`} />
+        )}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)
         }}
@@ -413,10 +416,10 @@ export const PaginationWithGetPageHref = () => (
       <Pagination
         pageCount={10}
         currentPage={3}
-        getPageHref={(pageNumber) => {
+        transformPaginationButton={(pageNumber) => {
           const url = new URL(window.location.href)
           url.searchParams.set('page', String(pageNumber))
-          return url.toString()
+          return <Anchor href={url.toString()} />
         }}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)

@@ -136,8 +136,8 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
-  getPageHref: {
-    doc: 'A function that receives a page number and returns a URL string. When provided, page buttons render as links (`<a>`) instead of buttons, enabling native browser navigation.',
+  transformPaginationButton: {
+    doc: 'A function that receives a page number and returns a React element (e.g. `<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.',
     type: 'function',
     status: 'optional',
   },
