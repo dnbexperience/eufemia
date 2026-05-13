@@ -6,7 +6,16 @@
 import { useEffect, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
+import {
+  Space,
+  Input,
+  Button,
+  P,
+  Code,
+  Flex,
+  Heading,
+  Section,
+} from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { useSpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
 import type { Theme } from '@emotion/react'
@@ -147,6 +156,27 @@ export const Margins = () => (
       </Space>
     </ComponentBox>
   </TestStyles>
+)
+
+export const ResponsiveSpacing = () => (
+  <ComponentBox>
+    <Space.Responsive defaultBreakpoint="medium">
+      <Section
+        innerSpace={{ block: 'medium' }}
+        breakout={false}
+        surface="dark"
+      >
+        <Flex.Stack space={{ inline: 'large' }} gap="small">
+          <Heading size="x-large">Heading</Heading>
+          <P>My spacing adjusts responsively</P>
+
+          <Space.Responsive off>
+            <P>My spacing stays fixed</P>
+          </Space.Responsive>
+        </Flex.Stack>
+      </Section>
+    </Space.Responsive>
+  </ComponentBox>
 )
 
 export const SpaceVisibleWhenVisualTestPatterns = () => (

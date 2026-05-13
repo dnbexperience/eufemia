@@ -26,6 +26,12 @@ import type {
 import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import SpaceResponsive from './SpaceResponsive'
+export type { SpaceResponsiveProps } from './SpaceResponsive'
+export type {
+  SpaceDensity,
+  SpaceBreakpoint,
+} from './SpaceResponsiveContext'
 
 export type SpaceProps = {
   /**
@@ -138,7 +144,12 @@ function Space(props: SpaceAllProps) {
   return <SpaceInstance {...props} />
 }
 
+Space.Responsive = SpaceResponsive
+
 withComponentMarkers(Space, { _supportsSpacingProps: true })
+withComponentMarkers(Space.Responsive, {
+  _supportsSpacingProps: 'passthrough',
+})
 
 export default Space
 
