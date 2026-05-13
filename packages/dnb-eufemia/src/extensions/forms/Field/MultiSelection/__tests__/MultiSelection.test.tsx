@@ -2238,4 +2238,123 @@ describe('MultiSelection', () => {
       )
     })
   })
+
+  describe('disabled items', () => {
+    it('preserves disabled items when "Clear all" is clicked', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2', disabled: true },
+        { value: 'option3', title: 'Option 3' },
+      ]
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2', 'option3']}
+            showSelectedTags
+            selectedItemsCollapsibleThreshold={0}
+          />
+        </Provider>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__items'
+          )
+        ).toBeInTheDocument()
+      })
+
+      // Click "Clear all"
+      fireEvent.click(screen.getByText('Clear all'))
+
+      // Option 2 (disabled) should still be selected
+      await waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox')
+        expect(checkboxes[0]).not.toBeChecked() // Option 1
+        expect(checkboxes[1]).toBeChecked() // Option 2 (disabled)
+        expect(checkboxes[2]).not.toBeChecked() // Option 3
+      })
+    })
+
+    it('does not remove a disabled item via tag click', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2', disabled: true },
+      ]
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2']}
+            showSelectedTags
+          />
+        </Provider>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__items'
+          )
+        ).toBeInTheDocument()
+      })
+
+      // The disabled item's tag should not be removable
+      const tags = document.querySelectorAll(
+        '.dnb-forms-field-multi-selection__selected-items .dnb-tag'
+      )
+      expect(tags).toHaveLength(2)
+
+      // The disabled tag should not have the removable variant
+      const disabledTag = tags[1]
+      expect(disabledTag).not.toHaveClass('dnb-tag--removable')
+    })
+
+    it('renders disabled tags as default variant and enabled tags as removable', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2', disabled: true },
+        { value: 'option3', title: 'Option 3' },
+      ]
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2', 'option3']}
+            showSelectedTags
+          />
+        </Provider>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__items'
+          )
+        ).toBeInTheDocument()
+      })
+
+      const tags = document.querySelectorAll(
+        '.dnb-forms-field-multi-selection__selected-items .dnb-tag'
+      )
+      expect(tags).toHaveLength(3)
+
+      // Option 1 - enabled, should be removable
+      expect(tags[0]).toHaveClass('dnb-tag--removable')
+      // Option 2 - disabled, should not be removable
+      expect(tags[1]).not.toHaveClass('dnb-tag--removable')
+      // Option 3 - enabled, should be removable
+      expect(tags[2]).toHaveClass('dnb-tag--removable')
+    })
+  })
 })
