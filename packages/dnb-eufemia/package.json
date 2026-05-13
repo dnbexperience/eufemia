@@ -175,7 +175,6 @@
     "babel-plugin-search-and-replace": "1.1.1",
     "babel-plugin-transform-next-use-client": "1.1.1",
     "bundlewatch": "0.4.1",
-    "color": "4.0.1",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "cross-env": "7.0.3",
     "cssnano": "6.0.1",
