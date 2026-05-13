@@ -2490,6 +2490,64 @@ describe('MultiSelection', () => {
       })
     })
 
+    it('does not overwrite in-progress selections when value changes while popover is open', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+        { value: 'option3', title: 'Option 3' },
+      ]
+
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection data={data} value={['option1']} />
+        </Provider>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('1 of 3 selected')
+      })
+
+      // Open popover
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+      await waitFor(() => {
+        const checkboxes = document.querySelectorAll(
+          '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+        )
+        expect(checkboxes).toHaveLength(3)
+      })
+
+      // User checks option2 (in-progress selection)
+      const checkboxes = document.querySelectorAll(
+        '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+      )
+      fireEvent.click(checkboxes[1])
+
+      // Verify the in-progress state: option1 and option2 checked
+      expect(checkboxes[0]).toBeChecked()
+      expect(checkboxes[1]).toBeChecked()
+      expect(checkboxes[2]).not.toBeChecked()
+
+      // Change value externally while popover is still open
+      rerender(
+        <Provider locale="en-GB">
+          <Field.MultiSelection data={data} value={['option3']} />
+        </Provider>
+      )
+
+      // The in-progress selections should be preserved (not overwritten)
+      await waitFor(() => {
+        const currentCheckboxes = document.querySelectorAll(
+          '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+        )
+        expect(currentCheckboxes[0]).toBeChecked()
+        expect(currentCheckboxes[1]).toBeChecked()
+        expect(currentCheckboxes[2]).not.toBeChecked()
+      })
+    })
+
     it('syncs tempValue when value is cleared externally', async () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
