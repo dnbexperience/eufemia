@@ -264,7 +264,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     transformPaginationButton &&
     transformPaginationButton(1).type === Button
 
-  const renderPrevNext = () => {
+  const renderPrevButton = () => {
     if (transformPaginationButton && !isButtonTransform) {
       if (prevIsDisabled) {
         return null
@@ -360,14 +360,15 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       <div className="dnb-pagination__bar__wrapper">
         {(!transformPaginationButton || isButtonTransform) && (
           <div className="dnb-pagination__bar__skip">
-            {renderPrevNext()}
+            {renderPrevButton()}
             {renderNextButton()}
           </div>
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {transformPaginationButton && !isButtonTransform &&
-            renderPrevNext()}
+          {transformPaginationButton &&
+            !isButtonTransform &&
+            renderPrevButton()}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPageButton(pageNumber)
@@ -400,7 +401,8 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {transformPaginationButton && !isButtonTransform &&
+          {transformPaginationButton &&
+            !isButtonTransform &&
             renderNextButton()}
         </div>
       </div>
