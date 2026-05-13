@@ -2265,7 +2265,6 @@ __metadata:
     "@testing-library/react": "npm:16.3.2"
     "@testing-library/user-event": "npm:14.6.1"
     "@types/jest": "npm:30.0.0"
-    "@types/jest-axe": "npm:3.5.9"
     "@types/json-schema": "npm:7.0.12"
     "@typescript-eslint/eslint-plugin": "npm:8.52.0"
     "@typescript-eslint/parser": "npm:8.52.0"
@@ -5648,17 +5647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest-axe@npm:3.5.9":
-  version: 3.5.9
-  resolution: "@types/jest-axe@npm:3.5.9"
-  dependencies:
-    "@types/jest": "npm:*"
-    axe-core: "npm:^3.5.5"
-  checksum: 10/ca93cf7b13f173278f8c67e4f7d73c9c0cf3c6110f5d76a8815e1044c1b2950fe4b4e83475f6d23bd82479edc908da19e037cf8e1a9c0e89f1c8f5b95355c93d
-  languageName: node
-  linkType: hard
-
-"@types/jest@npm:*, @types/jest@npm:30.0.0":
+"@types/jest@npm:30.0.0":
   version: 30.0.0
   resolution: "@types/jest@npm:30.0.0"
   dependencies:
@@ -6827,13 +6816,6 @@ __metadata:
   version: 4.10.2
   resolution: "axe-core@npm:4.10.2"
   checksum: 10/a69423b2ff16c15922c4ea7cf9cc5112728a2817bbe0f2cc212248d648885ffd1ba554e3a341dfc289cd9e67fc0d06f333b5c6837c5c38ca6652507381216fc1
-  languageName: node
-  linkType: hard
-
-"axe-core@npm:^3.5.5":
-  version: 3.5.6
-  resolution: "axe-core@npm:3.5.6"
-  checksum: 10/3e776d843737edbb189e909694518e925ff1830c89ad7a043044ca4f2136d43417dc1f3006d2b164488316d12bf6fbcf0d989f05e874d8eeab58b8e2393ba4bc
   languageName: node
   linkType: hard
 
