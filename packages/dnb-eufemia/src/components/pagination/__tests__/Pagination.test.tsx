@@ -965,8 +965,8 @@ describe('undefined props should fall through to defaults', () => {
 })
 
 describe('Pagination transformPaginationButton', () => {
-  const transformPaginationButton = (page: number) => (
-    <Anchor href={`/page/${page}`} />
+  const transformPaginationButton = (page: number, props) => (
+    <Anchor href={`/page/${page}`} {...props} />
   )
 
   it('renders navigation buttons as anchor elements when transformPaginationButton is provided', () => {

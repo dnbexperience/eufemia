@@ -8,7 +8,6 @@ import type {
   HTMLAttributes,
   HTMLProps,
   JSX,
-  ReactElement,
   ReactNode,
   Ref,
   RefObject,
@@ -27,11 +26,11 @@ import { applySpacing } from '../space/SpacingUtils'
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
+import type { PaginationButtonProps } from './PaginationBar'
 
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
-import type { ButtonIconPosition, ButtonProps } from '../Button'
-import type { AnchorAllProps } from '../anchor/Anchor'
+import type { ButtonIconPosition } from '../Button'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
@@ -221,11 +220,12 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives a page number and returns a React element (`<Anchor>` or `<Button>`). When provided, the returned element is used for navigation instead of the default buttons.
+   * A function that receives a page number and props, and returns a React node. Spread the props onto your element to get the correct className, aria-label, onClick, skeleton, and children.
    */
   transformPaginationButton?: (
-    pageNumber: number
-  ) => ReactElement<AnchorAllProps | ButtonProps>
+    pageNumber: number,
+    props: PaginationButtonProps
+  ) => ReactNode
   className?: string
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.

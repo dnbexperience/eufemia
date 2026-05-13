@@ -3,15 +3,8 @@
  *
  */
 
-import {
-  Fragment,
-  cloneElement,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-import type { HTMLProps, ReactElement, ReactNode, RefObject } from 'react'
+import { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import type { HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import {
   dispatchCustomElementEvent,
@@ -24,16 +17,22 @@ import {
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
-import Anchor from '../anchor/Anchor'
-import type { AnchorAllProps } from '../anchor/Anchor'
 import Button from '../button/Button'
-import type { ButtonProps } from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/ui/properties'
 import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { applySpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+
+export type PaginationButtonProps = {
+  className: string
+  'aria-label': string
+  'aria-current'?: 'page'
+  skeleton?: SkeletonShow
+  onClick: (event: React.MouseEvent) => void
+  children: ReactNode
+}
 
 export type PaginationBarProps = {
   /**
@@ -80,8 +79,9 @@ type PaginationBarContext = {
   pageCountInternal: number
   disabled: boolean
   transformPaginationButton?: (
-    pageNumber: number
-  ) => ReactElement<AnchorAllProps | ButtonProps>
+    pageNumber: number,
+    props: PaginationButtonProps
+  ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
   updatePageContent: (currentPageInternal: number) => void
@@ -195,10 +195,6 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentScreenSize === 'small'
   )
 
-  const isAnchorTransform =
-    transformPaginationButton &&
-    transformPaginationButton(1).type === Anchor
-
   const renderPaginationButton = (
     pageNumber: number,
     extraClassName?: string
@@ -222,7 +218,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )
     }
 
-    if (isCurrent && isAnchorTransform) {
+    if (isCurrent) {
       return (
         <span
           key={pageNumber}
@@ -239,29 +235,17 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )
     }
 
-    const element = transformPaginationButton(pageNumber)
-
-    return cloneElement(element, {
-      key: pageNumber,
-      className: clsx(
-        'dnb-pagination__button',
-        isCurrent && 'dnb-pagination__button--current',
-        extraClassName,
-        element.props.className
-      ),
-      'aria-label': label,
-      'aria-current': isCurrent ? 'page' : undefined,
-      skeleton,
-      ...(!isAnchorTransform && {
-        variant: isCurrent ? 'primary' : 'secondary',
-        disabled,
-      }),
-      onClick: (event: React.MouseEvent) => {
-        element.props.onClick?.(event as never)
-        clickHandler({ pageNumber, event })
-      },
-      children: String(pageNumber),
-    })
+    return (
+      <Fragment key={pageNumber}>
+        {transformPaginationButton(pageNumber, {
+          className: clsx('dnb-pagination__button', extraClassName),
+          'aria-label': label,
+          skeleton,
+          onClick: (event) => clickHandler({ pageNumber, event }),
+          children: String(pageNumber),
+        })}
+      </Fragment>
+    )
   }
 
   const renderStepButton = (direction: 'prev' | 'next') => {
@@ -271,7 +255,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const icon = isPrev ? 'chevron_left' : 'chevron_right'
     const onNavigate = isPrev ? setPrevPage : setNextPage
 
-    if (!isAnchorTransform) {
+    if (!transformPaginationButton) {
       return (
         <Button
           key={`${direction}-arrow`}
@@ -292,23 +276,21 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     }
 
     const pageNumber = currentPageInternal + (isPrev ? -1 : 1)
-    const element = transformPaginationButton(pageNumber)
 
-    return cloneElement(element, {
-      key: `${direction}-arrow`,
-      className: clsx(
-        'dnb-pagination__button',
-        `dnb-pagination__button--${direction}`,
-        element.props.className
-      ),
-      'aria-label': title,
-      skeleton,
-      onClick: (event: React.MouseEvent) => {
-        element.props.onClick?.(event as never)
-        onNavigate()
-      },
-      children: <IconPrimary icon={icon} />,
-    })
+    return (
+      <Fragment key={`${direction}-arrow`}>
+        {transformPaginationButton(pageNumber, {
+          className: clsx(
+            'dnb-pagination__button',
+            `dnb-pagination__button--${direction}`
+          ),
+          'aria-label': title,
+          skeleton,
+          onClick: () => onNavigate(),
+          children: <IconPrimary icon={icon} />,
+        })}
+      </Fragment>
+    )
   }
 
   return (
@@ -325,7 +307,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
-        {!isAnchorTransform && (
+        {!transformPaginationButton && (
           <div className="dnb-pagination__bar__skip">
             {renderStepButton('prev')}
             {renderStepButton('next')}
@@ -333,7 +315,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {isAnchorTransform && renderStepButton('prev')}
+          {transformPaginationButton && renderStepButton('prev')}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPaginationButton(pageNumber)
@@ -366,7 +348,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {isAnchorTransform && renderStepButton('next')}
+          {transformPaginationButton && renderStepButton('next')}
         </div>
       </div>
 
