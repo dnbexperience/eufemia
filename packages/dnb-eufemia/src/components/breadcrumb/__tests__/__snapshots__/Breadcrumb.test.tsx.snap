@@ -1264,6 +1264,12 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
     display: none;
   }
 }
+.dnb-breadcrumb__toggle .dnb-button__icon {
+  transition: transform 400ms var(--easing-default);
+}
+.dnb-breadcrumb__toggle[aria-expanded=true] .dnb-button__icon {
+  transform: rotate(180deg);
+}
 .dnb-breadcrumb__collapse .dnb-breadcrumb__list.dnb-section {
   flex-direction: column;
   align-items: flex-start;
