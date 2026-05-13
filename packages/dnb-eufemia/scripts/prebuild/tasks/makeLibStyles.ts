@@ -7,7 +7,7 @@ import sass from 'sass'
 import fs from 'fs-extra'
 import path from 'path'
 import packpath from 'packpath'
-import globby from 'globby'
+import { globFiles } from '../../tools/globFiles'
 import { log } from '../../lib'
 import {
   transformSass,
@@ -67,7 +67,7 @@ export const runFactory = async (
     '!**/stories/**',
     '!**/*_not_in_use*/**/*',
   ]
-  const matchedFiles = await globby(filePatterns, { cwd: ROOT_DIR })
+  const matchedFiles = await globFiles(filePatterns, { cwd: ROOT_DIR })
 
   const collectedEntries: Array<{ path: string; result: string }> = []
 

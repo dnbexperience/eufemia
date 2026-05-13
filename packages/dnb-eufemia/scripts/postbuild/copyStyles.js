@@ -5,14 +5,14 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import globby from 'globby'
+import { globFiles } from '../tools/globFiles'
 
 if (require.main === module) {
   copyCSSFiles(process.env.OUT_DIR)
 }
 
 async function copyCSSFiles(dist) {
-  const files = await globby([
+  const files = await globFiles([
     './build/**/*.css',
     '!./build/es/',
     '!./build/esm/',

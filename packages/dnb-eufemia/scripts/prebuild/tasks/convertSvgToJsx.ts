@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
-import globby from 'globby'
+import { globFiles } from '../../tools/globFiles'
 import { iconCase } from '../../../src/components/icon/IconHelpers'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -38,7 +38,7 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    const filesToDelete = await globby(
+    const filesToDelete = await globFiles(
       [
         `${destPath}/**/*.{js,ts,tsx}`,
         `!${destPath}`,
@@ -144,7 +144,7 @@ const transformSvg = async ({
 }
 
 const transformSvgToReact = async ({ srcPath, destPath }) => {
-  const files = await globby(srcPath, { cwd: ROOT_DIR })
+  const files = await globFiles(srcPath, { cwd: ROOT_DIR })
 
   const globBase = path.resolve(ROOT_DIR, srcPath.split('*')[0])
 
@@ -238,7 +238,7 @@ const makeIconsEntryFiles = async ({
 }) => {
   // get all the svg icons we find
   const icons: Array<IconItem> = (
-    await globby([
+    await globFiles([
       path.resolve(destPath, assetsDir, '*.tsx'),
       '!**/index*',
       '!**/__tests__/*',

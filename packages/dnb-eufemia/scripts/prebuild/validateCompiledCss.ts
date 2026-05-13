@@ -6,7 +6,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { transform } from 'lightningcss'
-import globby from 'globby'
+import { globFiles } from '../tools/globFiles'
 import packpath from 'packpath'
 
 const ROOT_DIR = packpath.self()
@@ -23,10 +23,9 @@ export function validateCssBuffer(
 }
 
 export async function validateCompiledCss(): Promise<void> {
-  const files = await globby('build/**/*.css', {
+  const files = await globFiles('build/**/*.css', {
     cwd: ROOT_DIR,
     absolute: true,
-    onlyFiles: true,
   })
 
   if (files.length === 0) {

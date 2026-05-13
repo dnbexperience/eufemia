@@ -7,7 +7,7 @@ import sass from 'sass'
 import fs from 'fs-extra'
 import path from 'path'
 import { log } from '../../lib'
-import globby from 'globby'
+import { globFiles } from '../../tools/globFiles'
 import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
 import {
@@ -30,7 +30,7 @@ export default async function makeMainStyle() {
   // info: use this approach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
-  const listWithThemesToProcess = await globby(
+  const listWithThemesToProcess = await globFiles(
     './src/style/themes/*/*-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
@@ -39,7 +39,7 @@ export default async function makeMainStyle() {
     await runFactory(themeFile)
   })
 
-  const listWithPackagesToProcess = await globby(
+  const listWithPackagesToProcess = await globFiles(
     './src/style/**/*-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
@@ -69,7 +69,7 @@ export const runFactory = async (
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
   const pathsTransform = transformPaths('../../assets/', '../assets/')
 
-  const files = await globby(src, { cwd: ROOT_DIR })
+  const files = await globFiles(src, { cwd: ROOT_DIR })
 
   const collectedEntries: Array<{ path: string; result: string }> = []
 

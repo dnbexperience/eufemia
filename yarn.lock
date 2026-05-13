@@ -2303,7 +2303,6 @@ __metadata:
     figma-js: "npm:1.14.0"
     fontmin: "npm:0.9.9"
     fs-extra: "npm:10.0.0"
-    globby: "npm:11.0.4"
     intl-messageformat: "npm:11.2.3"
     jest-axe: "npm:10.0.0"
     jest-matchmedia-mock: "npm:1.1.0"
@@ -10558,7 +10557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.1.1, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.2":
+"fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.2":
   version: 3.3.3
   resolution: "fast-glob@npm:3.3.3"
   dependencies:
@@ -11489,20 +11488,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:11.0.4":
-  version: 11.0.4
-  resolution: "globby@npm:11.0.4"
-  dependencies:
-    array-union: "npm:^2.1.0"
-    dir-glob: "npm:^3.0.1"
-    fast-glob: "npm:^3.1.1"
-    ignore: "npm:^5.1.4"
-    merge2: "npm:^1.3.0"
-    slash: "npm:^3.0.0"
-  checksum: 10/118c5ac92c2914342dec05648d217c8f31b0ccbfd3eb24d8722d350aa3003200dd4ae1b573b894cc4759e85156eb3bab35c5873f98ae9301572e22f656641964
-  languageName: node
-  linkType: hard
-
 "globby@npm:^11.0.0, globby@npm:^11.0.1, globby@npm:^11.1.0":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
@@ -12022,7 +12007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.1.4, ignore@npm:^5.2.0, ignore@npm:^5.2.4":
+"ignore@npm:^5.2.0, ignore@npm:^5.2.4":
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
   checksum: 10/4f7caf5d2005da21a382d4bd1d2aa741a3bed51de185c8562dd7f899a81a620ac4fd0619b06f7029a38ae79e4e4c134399db3bd0192c703c3ef54bb82df3086c

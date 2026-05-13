@@ -6,7 +6,7 @@
 import { log } from '../../lib'
 import path from 'path'
 import fs from 'fs-extra'
-import globby from 'globby'
+import { globFiles } from '../../tools/globFiles'
 import { create } from 'tar'
 import packpath from 'packpath'
 
@@ -36,7 +36,7 @@ const copyStylePackages = async (
 ) => {
   log.start('> PrePublish: copy style resources')
 
-  const files = await globby(src, { cwd: ROOT_DIR })
+  const files = await globFiles(src, { cwd: ROOT_DIR })
 
   for (const filePath of files) {
     const absolutePath = path.resolve(ROOT_DIR, filePath)
@@ -61,7 +61,7 @@ const copyStylePackages = async (
 }
 
 const copyFiles = async (src, destDir) => {
-  const files = await globby(src, { cwd: ROOT_DIR })
+  const files = await globFiles(src, { cwd: ROOT_DIR })
 
   for (const filePath of files) {
     const absolutePath = path.resolve(ROOT_DIR, filePath)

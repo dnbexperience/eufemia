@@ -5,7 +5,7 @@
 
 import fs, { promises } from 'fs'
 import path from 'path'
-import globby from 'globby'
+import { globFiles } from '../../tools/globFiles'
 import prettier from 'prettier'
 import stylelint from 'stylelint'
 import packpath from 'packpath'
@@ -143,7 +143,7 @@ export const runFactory = async ({
   log.start('> PrePublish: transforming style modules')
 
   const sassTransform = transformSass()
-  const files = await globby([glob], { cwd: ROOT_DIR })
+  const files = await globFiles([glob], { cwd: ROOT_DIR })
 
   for (const filePath of files) {
     const absolutePath = path.resolve(ROOT_DIR, filePath)

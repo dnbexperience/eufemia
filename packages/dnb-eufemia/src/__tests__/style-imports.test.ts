@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import globby from 'globby'
+import { globFiles } from '../../scripts/tools/globFiles'
 import { toKebabCase } from '../shared/component-helper'
 
 describe('Style Import References', () => {
@@ -92,7 +92,7 @@ function getFiles(): Promise<string[]> {
   return Promise.all(
     bases.flatMap((base) =>
       patterns.map((p) =>
-        globby(p, { cwd: base }).then((ms) =>
+        globFiles(p, { cwd: base }).then((ms) =>
           ms.map((m) => path.join(base, m))
         )
       )
