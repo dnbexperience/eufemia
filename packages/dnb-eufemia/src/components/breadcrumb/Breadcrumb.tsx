@@ -271,9 +271,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                 className="dnb-breadcrumb__toggle"
                 text={backToText}
                 variant="tertiary"
-                icon={
-                  isCollapsedRef.current ? 'chevron_down' : 'chevron_up'
-                }
+                icon="chevron_down"
                 iconPosition="left"
                 onClick={onClick ?? onClickHandler}
                 aria-expanded={!isCollapsedRef.current}
