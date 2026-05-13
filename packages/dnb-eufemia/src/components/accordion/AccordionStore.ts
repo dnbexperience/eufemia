@@ -82,7 +82,7 @@ export class Store {
         }
 
         const storeId = this.storeId(id)
-        if (storeId) {
+        if (storeId && typeof window !== 'undefined') {
           window.localStorage.setItem(storeId, JSON.stringify(store))
         }
       } catch (e) {
@@ -96,7 +96,7 @@ export class Store {
   getData(id = this.id): AccordionStoreDataReturn {
     const storeId = this.storeId(id)
 
-    if (storeId) {
+    if (storeId && typeof window !== 'undefined') {
       try {
         if (Object.hasOwn(window.localStorage, storeId)) {
           return JSON.parse(window.localStorage.getItem(storeId))
@@ -129,7 +129,7 @@ export class Store {
     if (id) {
       try {
         const storeId = this.storeId(id)
-        if (storeId) {
+        if (storeId && typeof window !== 'undefined') {
           window.localStorage.setItem(storeId, null)
         }
       } catch (e) {

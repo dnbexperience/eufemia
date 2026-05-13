@@ -203,6 +203,37 @@ describe('Accordion store API', () => {
     expect(inst.getState('remembered-state-2')).toBe(null)
     expect(inst.getData()).toBe(null)
   })
+
+  it('will return null from getData when window is undefined (SSR)', () => {
+    const originalWindow = globalThis.window
+    delete (globalThis as Record<string, unknown>).window
+
+    const inst = Accordion.Store('ssr-test-id')
+    expect(inst.getData()).toBe(null)
+    expect(inst.getState()).toBe(null)
+
+    globalThis.window = originalWindow
+  })
+
+  it('will not throw from saveState when window is undefined (SSR)', () => {
+    const originalWindow = globalThis.window
+    delete (globalThis as Record<string, unknown>).window
+
+    const inst = Accordion.Store('ssr-test-id')
+    expect(() => inst.saveState(true)).not.toThrow()
+
+    globalThis.window = originalWindow
+  })
+
+  it('will not throw from flush when window is undefined (SSR)', () => {
+    const originalWindow = globalThis.window
+    delete (globalThis as Record<string, unknown>).window
+
+    const inst = Accordion.Store('ssr-test-id')
+    expect(() => inst.flush()).not.toThrow()
+
+    globalThis.window = originalWindow
+  })
 })
 
 describe('Accordion group component', () => {
