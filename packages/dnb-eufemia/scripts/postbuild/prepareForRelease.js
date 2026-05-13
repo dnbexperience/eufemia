@@ -5,9 +5,10 @@
 
 import path from 'path'
 import fs from 'fs-extra'
-import packpath from 'packpath'
 import prettier from 'prettier'
 import { log } from '../lib'
+
+const ROOT_DIR = path.resolve(__dirname, '../..')
 
 // run this script if it is called from bash / command line
 if (require.main === module) {
@@ -15,8 +16,8 @@ if (require.main === module) {
 }
 
 export default async function prepareForRelease() {
-  const filepath = path.resolve(packpath.self(), './package.json')
-  const dest = path.resolve(packpath.self(), 'build', './package.json')
+  const filepath = path.resolve(ROOT_DIR, './package.json')
+  const dest = path.resolve(ROOT_DIR, 'build', './package.json')
   const packageString = await fs.readFile(filepath, 'utf-8')
   const packageJson = await cleanupPackage({
     packageString,
@@ -30,12 +31,12 @@ export default async function prepareForRelease() {
   // Bundlers do not support an array of export targets yet, so we skip this for now.
   // But at the time of writing we could not confirm a speed improvement by bundlers. So what are the benefits at the end? (only silent CJS fallback?)
   // packageJson.exports = await buildExportsMap({
-  //   buildDir: path.resolve(packpath.self(), 'build'),
+  //   buildDir: path.resolve(ROOT_DIR, 'build'),
   // })
 
   const prettierrc = JSON.parse(
     await fs.readFile(
-      path.resolve(packpath.self(), '.prettierrc'),
+      path.resolve(ROOT_DIR, '.prettierrc'),
       'utf-8'
     )
   )
@@ -53,7 +54,7 @@ export default async function prepareForRelease() {
   const sourcePackageJson = JSON.parse(packageString)
   if (sourcePackageJson.release) {
     const releaseRcPath = path.resolve(
-      packpath.self(),
+      ROOT_DIR,
       'build',
       '.releaserc.json'
     )

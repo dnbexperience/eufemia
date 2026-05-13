@@ -8,9 +8,8 @@ import path from 'path'
 import fs from 'fs-extra'
 import globby from 'globby'
 import { create } from 'tar'
-import packpath from 'packpath'
 
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makeResourcesPackage() {
   try {
