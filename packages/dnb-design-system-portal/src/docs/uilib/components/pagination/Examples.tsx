@@ -48,8 +48,8 @@ export const PaginationExampleWithTransformPaginationButton = () => (
     <Pagination
       pageCount={30}
       currentPage={4}
-      transformPaginationButton={(pageNumber) => (
-        <Anchor href={`/page/${pageNumber}`} />
+      transformPaginationButton={(pageNumber, props) => (
+        <Anchor href={`/page/${pageNumber}`} {...props} />
       )}
       onChange={({ pageNumber }) => {
         console.log('onChange:', pageNumber)
@@ -66,8 +66,11 @@ export const PaginationExampleWithTransformPaginationButtonQueryParams =
       <Pagination
         pageCount={10}
         currentPage={2}
-        transformPaginationButton={(pageNumber) => (
-          <Anchor href={`/search?q=eufemia&page=${pageNumber}`} />
+        transformPaginationButton={(pageNumber, props) => (
+          <Anchor
+            href={`/search?q=eufemia&page=${pageNumber}`}
+            {...props}
+          />
         )}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)
