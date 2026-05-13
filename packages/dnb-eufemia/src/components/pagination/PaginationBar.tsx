@@ -251,10 +251,10 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       ),
       'aria-label': label,
       'aria-current': isCurrent ? 'page' : undefined,
+      skeleton,
       ...(!isAnchorTransform && {
         variant: isCurrent ? 'primary' : 'secondary',
         disabled,
-        skeleton,
       }),
       onClick: (event: React.MouseEvent) => {
         element.props.onClick?.(event as never)
@@ -302,6 +302,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         element.props.className
       ),
       'aria-label': title,
+      skeleton,
       onClick: (event: React.MouseEvent) => {
         element.props.onClick?.(event as never)
         onNavigate()
