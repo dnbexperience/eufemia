@@ -7,7 +7,7 @@ import {
 
 test.describe('Upload', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/feature-fields/more-fields/Upload/demos/',
+    url: '/uilib/extensions/forms/base-fields/Upload/demos/',
   })
 
   test('have to match upload-field-customized', async () => {

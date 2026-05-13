@@ -1,5 +1,5 @@
 import { Flex, Anchor } from '@dnb/eufemia/src'
-import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Field,
   Form,
@@ -8,12 +8,12 @@ import {
   Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
-import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
+import { createMockFile } from '../../../../../../docs/uilib/components/upload/Examples'
 import type {
   UploadFile,
   UploadValue,
 } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
-import { createRequest } from '../../../Form/SubmitIndicator/Examples'
+import { createRequest } from '../../Form/SubmitIndicator/Examples'
 
 export const BasicUsage = () => {
   return (
