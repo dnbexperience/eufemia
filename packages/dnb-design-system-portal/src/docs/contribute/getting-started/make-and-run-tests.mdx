@@ -68,7 +68,7 @@ yarn test:screenshots:watch breadcrumb avatar
 PORT=8001 yarn test:screenshots breadcrumb
 ```
 
-Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`
+Visual screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
 ### Run selected themes only on `main`
 
@@ -80,7 +80,7 @@ import {
   setupPageScreenshot,
   selectThemes,
   onMain,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe.each(
   selectThemes({
@@ -94,10 +94,9 @@ describe.each(
   })
 
   it('matches default state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="button-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
 })
 ```
@@ -109,10 +108,9 @@ You can also use callback mode for single tests:
 ```ts
 onMain(() =>
   it('matches default state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="button-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
 )
 ```
@@ -202,8 +200,6 @@ yarn test:e2e:watch
 yarn test:e2e:portal
 yarn test:e2e:portal:watch
 ```
-
-Vitest screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
 4. Update any new or changed visual PNG snapshots:
 
