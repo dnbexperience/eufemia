@@ -97,42 +97,50 @@ export const RelativeTime = () => {
   return (
     <Style>
       <ComponentBox>
-        <P>
-          <DateFormat
-            value={new Date(new Date().getTime() - 30 * 1000)}
-            relativeTime
-          />
-          <DateFormat
-            value={new Date(new Date().getTime() - 2 * 60 * 1000)}
-            relativeTime
-          />
-          <DateFormat
-            value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)}
-            relativeTime
-          />
-        </P>
+        {() => {
+          const referenceDate = new Date('2025-06-01T12:00:00')
+          return (
+            <P>
+              <DateFormat
+                value={new Date('2025-06-01T11:59:30')}
+                relativeTime
+                relativeTimeReference={() => referenceDate}
+              />
+              <DateFormat
+                value={new Date('2025-06-01T11:58:00')}
+                relativeTime
+                relativeTimeReference={() => referenceDate}
+              />
+              <DateFormat
+                value={new Date('2025-05-31T12:00:00')}
+                relativeTime
+                relativeTimeReference={() => referenceDate}
+              />
+            </P>
+          )
+        }}
       </ComponentBox>
     </Style>
   )
 }
 
 export const RelativeTimeWithStyles = () => {
-  // Create dates for demonstration
-  const now = new Date()
+  // Use fixed dates with a fixed reference to avoid SSR hydration mismatches
+  const referenceDate = new Date('2025-06-01T12:00:00')
   const pastDates = [
-    new Date(now.getTime() - 30 * 1000), // 30 seconds ago
-    new Date(now.getTime() - 2 * 60 * 1000), // 2 minutes ago
-    new Date(now.getTime() - 3 * 60 * 60 * 1000), // 3 hours ago
-    new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
-    new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+    new Date('2025-06-01T11:59:30'), // 30 seconds before reference
+    new Date('2025-06-01T11:58:00'), // 2 minutes before reference
+    new Date('2025-06-01T09:00:00'), // 3 hours before reference
+    new Date('2025-05-30T12:00:00'), // 2 days before reference
+    new Date('2025-05-25T12:00:00'), // 1 week before reference
   ]
 
   const futureDates = [
-    new Date(now.getTime() + 45 * 1000), // 45 seconds from now
-    new Date(now.getTime() + 5 * 60 * 1000), // 5 minutes from now
-    new Date(now.getTime() + 2 * 60 * 60 * 1000), // 2 hours from now
-    new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
-    new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
+    new Date('2025-06-01T12:00:45'), // 45 seconds after reference
+    new Date('2025-06-01T12:05:00'), // 5 minutes after reference
+    new Date('2025-06-01T14:00:00'), // 2 hours after reference
+    new Date('2025-06-04T12:00:00'), // 3 days after reference
+    new Date('2025-06-15T12:00:00'), // 2 weeks after reference
   ]
 
   return (
@@ -141,6 +149,7 @@ export const RelativeTimeWithStyles = () => {
         scope={{
           pastDates,
           futureDates,
+          referenceDate,
         }}
         hideCode
       >
@@ -151,6 +160,7 @@ export const RelativeTimeWithStyles = () => {
               value={date}
               relativeTime
               relativeTimeStyle="short"
+              relativeTimeReference={() => referenceDate}
             />
             {index < pastDates.length - 1 && <br />}
           </P>
@@ -163,6 +173,7 @@ export const RelativeTimeWithStyles = () => {
               value={date}
               relativeTime
               relativeTimeStyle="medium"
+              relativeTimeReference={() => referenceDate}
             />
             {index < pastDates.length - 1 && <br />}
           </P>
@@ -175,6 +186,7 @@ export const RelativeTimeWithStyles = () => {
               value={date}
               relativeTime
               relativeTimeStyle="long"
+              relativeTimeReference={() => referenceDate}
             />
             {index < pastDates.length - 1 && <br />}
           </P>
@@ -187,6 +199,7 @@ export const RelativeTimeWithStyles = () => {
               value={date}
               relativeTime
               relativeTimeStyle="long"
+              relativeTimeReference={() => referenceDate}
             />
             {index < futureDates.length - 1 && <br />}
           </P>
@@ -198,12 +211,14 @@ export const RelativeTimeWithStyles = () => {
             value={pastDates[2]}
             relativeTime
             relativeTimeStyle="short"
+            relativeTimeReference={() => referenceDate}
             locale="de-DE"
           />
           <DateFormat
             value={futureDates[2]}
             relativeTime
             relativeTimeStyle="short"
+            relativeTimeReference={() => referenceDate}
             locale="sv-SE"
           />
         </P>
