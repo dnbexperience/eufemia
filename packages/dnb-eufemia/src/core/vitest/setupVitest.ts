@@ -10,6 +10,7 @@
  */
 
 import { vi, expect, beforeEach, beforeAll, afterAll } from 'vitest'
+import type { MockedFunction } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
 import { toBeType } from 'jest-tobetype'
@@ -29,15 +30,13 @@ const jestCompat = Object.assign(vi, {
   },
   // jest.mocked() returns the mock-typed version of a function
   mocked: <T>(fn: T) =>
-    fn as jest.MockedFunction<
-      T extends (...args: any[]) => any ? T : never
-    >,
+    fn as MockedFunction<T extends (...args: any[]) => any ? T : never>,
   // jest.setTimeout() maps to vi.setConfig
   setTimeout: (timeout: number) => vi.setConfig({ testTimeout: timeout }),
   // jest.retryTimes() — no direct vitest equivalent via setConfig, no-op
   retryTimes: (_numRetries: number) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 })
-globalThis.jest = jestCompat as unknown as typeof jest
+globalThis.jest = jestCompat as any
 
 // Tell React 18+ that this environment supports act()
 globalThis.IS_REACT_ACT_ENVIRONMENT = true

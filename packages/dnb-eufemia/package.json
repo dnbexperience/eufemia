@@ -165,7 +165,6 @@
     "@testing-library/jest-dom": "6.7.0",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
-    "@types/jest": "30.0.0",
     "@types/jest-axe": "3.5.9",
     "@types/json-schema": "7.0.12",
     "@typescript-eslint/eslint-plugin": "8.52.0",
