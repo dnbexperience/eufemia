@@ -89,9 +89,11 @@ export function MultiSelectionSelectedTags({
             selectedItems.map((item) => (
               <Tag
                 key={item.value}
-                variant="removable"
+                variant={item.disabled ? 'default' : 'removable'}
                 hasLabel
-                onClick={() => onRemoveTag(item.value)}
+                onClick={
+                  item.disabled ? undefined : () => onRemoveTag(item.value)
+                }
               >
                 {item.title}
               </Tag>

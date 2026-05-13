@@ -540,6 +540,10 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   const handleRemoveTag = useCallback(
     (itemValue: number | string) => {
+      const item = allFlatItems.find((i) => i.value === itemValue)
+      if (item?.disabled) {
+        return
+      }
       const next = tempValue.filter((v) => v !== itemValue)
       pendingCheckedCountAnnouncementRef.current = true
       setTempValue(next)
@@ -547,7 +551,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         applyChange(next)
       }
     },
-    [tempValue, showConfirmButton, applyChange]
+    [allFlatItems, tempValue, showConfirmButton, applyChange]
   )
 
   const handleConfirm = useCallback(() => {
@@ -769,10 +773,15 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       onToggleList={setShowSelectedItemsList}
       onRemoveTag={handleRemoveTag}
       onClearAll={() => {
-        setTempValue([])
+        const disabledValues = allFlatItems
+          .filter(
+            (item) => item.disabled && tempValue.includes(item.value)
+          )
+          .map((item) => item.value)
+        setTempValue(disabledValues)
         setShowSelectedItemsList(true)
         if (!showConfirmButton) {
-          applyChange([])
+          applyChange(disabledValues)
         }
       }}
     />
