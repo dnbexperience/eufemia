@@ -78,11 +78,9 @@ function Time(props: TimeProps = {}) {
 
   const fromInput = useCallback(
     (values: TimeValue) => {
-      const hoursString = padValue(values.hours, 2)
-      const minutesString = padValue(values.minutes, 2)
-      const secondsString = withSeconds
-        ? padValue(values.seconds, 2)
-        : undefined
+      const hoursString = values.hours
+      const minutesString = values.minutes
+      const secondsString = withSeconds ? values.seconds : undefined
 
       if (
         isFieldEmpty(hoursString) &&
