@@ -2241,6 +2241,7 @@ describe('MultiSelection', () => {
 
   describe('disabled items', () => {
     it('preserves disabled items when "Clear all" is clicked', async () => {
+      const onChange = vi.fn()
       const data = [
         { value: 'option1', title: 'Option 1' },
         { value: 'option2', title: 'Option 2', disabled: true },
@@ -2252,6 +2253,7 @@ describe('MultiSelection', () => {
           <Field.MultiSelection
             data={data}
             value={['option1', 'option2', 'option3']}
+            onChange={onChange}
             showSelectedTags
             selectedItemsCollapsibleThreshold={0}
           />
@@ -2276,6 +2278,12 @@ describe('MultiSelection', () => {
         expect(checkboxes[1]).toBeChecked() // Option 2 (disabled)
         expect(checkboxes[2]).not.toBeChecked() // Option 3
       })
+
+      // Verify onChange was called with only the disabled item's value
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['option2'],
+        expect.anything()
+      )
     })
 
     it('does not remove a disabled item via tag click', async () => {
