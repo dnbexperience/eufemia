@@ -92,10 +92,7 @@ describe('buildExportsMap', () => {
 })
 
 describe('package.json', () => {
-  const packageJsonFile = path.resolve(
-    PKG_ROOT,
-    'build/package.json'
-  )
+  const packageJsonFile = path.resolve(PKG_ROOT, 'build/package.json')
   const buildDir = path.resolve(PKG_ROOT, 'build')
 
   type ExportEntry = string | Record<string, string | string[]>
@@ -366,9 +363,7 @@ describe('release config', () => {
   let packageJson: PackageJsonWithRelease = {}
 
   beforeAll(async () => {
-    packageJson = await fs.readJson(
-      path.resolve(PKG_ROOT, 'package.json')
-    )
+    packageJson = await fs.readJson(path.resolve(PKG_ROOT, 'package.json'))
   })
 
   it('has npm plugin provenance config', () => {

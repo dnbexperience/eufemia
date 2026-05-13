@@ -44,10 +44,7 @@ describe('type definitions', () => {
 
       expect(
         fs.existsSync(
-          path.resolve(
-            PKG_ROOT,
-            `build${stage}/components/Input.d.ts`
-          )
+          path.resolve(PKG_ROOT, `build${stage}/components/Input.d.ts`)
         )
       ).toBe(true)
 
@@ -355,10 +352,7 @@ describe('babel build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          PKG_ROOT,
-          `build${stage}/components/card/Card.js`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/components/card/Card.js`),
         'utf-8'
       )
       expect(content).not.toContain('??')
@@ -634,10 +628,7 @@ describe('tsdown build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(
-                PKG_ROOT,
-                `build${stage}/dnb-ui-lib.min.mjs`
-              ),
+              path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
@@ -653,10 +644,7 @@ describe('tsdown build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(
-                PKG_ROOT,
-                `build${stage}/dnb-ui-lib.min.js`
-              ),
+              path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.js`),
               'utf-8'
             )
             expect(content).toContain('function(e,t)')
@@ -678,10 +666,7 @@ describe('style build', () => {
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {
       const content = fs.readFileSync(
-        path.resolve(
-          PKG_ROOT,
-          `build${stage}/style/dnb-ui-basis.scss`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.scss`),
         'utf-8'
       )
       expect(content).toContain(`@use './core/scopes.scss' as scopes;`)
@@ -724,10 +709,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          PKG_ROOT,
-          `build${stage}/style/dnb-ui-core.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-core.css`),
         'utf-8'
       )
       expect(content).toMatch(
@@ -740,10 +722,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          PKG_ROOT,
-          `build${stage}/style/dnb-ui-basis.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.css`),
         'utf-8'
       )
       expect(content).toMatch(
@@ -884,10 +863,7 @@ describe('style build', () => {
 
     {
       const content = fs.readFileSync(
-        path.resolve(
-          PKG_ROOT,
-          `build${stage}/style/dnb-ui-basis.min.css`
-        ),
+        path.resolve(PKG_ROOT, `build${stage}/style/dnb-ui-basis.min.css`),
         'utf-8'
       )
       expect(content).toContain('html{font-size:100%}')

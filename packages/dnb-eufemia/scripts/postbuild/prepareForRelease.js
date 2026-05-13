@@ -35,10 +35,7 @@ export default async function prepareForRelease() {
   // })
 
   const prettierrc = JSON.parse(
-    await fs.readFile(
-      path.resolve(ROOT_DIR, '.prettierrc'),
-      'utf-8'
-    )
+    await fs.readFile(path.resolve(ROOT_DIR, '.prettierrc'), 'utf-8')
   )
   const formattedPackageJson = await prettier.format(
     JSON.stringify(packageJson),
