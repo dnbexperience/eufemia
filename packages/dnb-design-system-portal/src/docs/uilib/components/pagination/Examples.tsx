@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { P, Pagination, Table, Button } from '@dnb/eufemia/src'
+import { P, Pagination, Table, Button, Anchor } from '@dnb/eufemia/src'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/pagination/Pagination'
@@ -43,12 +43,14 @@ export const PaginationExampleDefault = () => (
   </ComponentBox>
 )
 
-export const PaginationExampleWithGetPageHref = () => (
+export const PaginationExampleWithTransformPaginationButton = () => (
   <ComponentBox data-visual-test="pagination-href">
     <Pagination
       pageCount={30}
       currentPage={4}
-      getPageHref={(pageNumber) => `/page/${pageNumber}`}
+      transformPaginationButton={(pageNumber) => (
+        <Anchor href={`/page/${pageNumber}`} />
+      )}
       onChange={({ pageNumber }) => {
         console.log('onChange:', pageNumber)
       }}
@@ -58,20 +60,23 @@ export const PaginationExampleWithGetPageHref = () => (
   </ComponentBox>
 )
 
-export const PaginationExampleWithGetPageHrefQueryParams = () => (
-  <ComponentBox>
-    <Pagination
-      pageCount={10}
-      currentPage={2}
-      getPageHref={(pageNumber) => `/search?q=eufemia&page=${pageNumber}`}
-      onChange={({ pageNumber }) => {
-        console.log('onChange:', pageNumber)
-      }}
-    >
-      <P>Current Page Content</P>
-    </Pagination>
-  </ComponentBox>
-)
+export const PaginationExampleWithTransformPaginationButtonQueryParams =
+  () => (
+    <ComponentBox>
+      <Pagination
+        pageCount={10}
+        currentPage={2}
+        transformPaginationButton={(pageNumber) => (
+          <Anchor href={`/search?q=eufemia&page=${pageNumber}`} />
+        )}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </ComponentBox>
+  )
 
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">

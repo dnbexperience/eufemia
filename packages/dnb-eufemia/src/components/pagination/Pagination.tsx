@@ -8,6 +8,7 @@ import type {
   HTMLAttributes,
   HTMLProps,
   JSX,
+  ReactElement,
   ReactNode,
   Ref,
   RefObject,
@@ -219,9 +220,9 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives a page number and returns a URL string. When provided, page buttons render as links (`<a>`) instead of buttons, enabling native browser navigation.
+   * A function that receives a page number and returns a React element (e.g. `<Anchor>` or `<Button>`). When provided, the returned element is used for page navigation instead of the default buttons.
    */
-  getPageHref?: (pageNumber: number) => string
+  transformPaginationButton?: (pageNumber: number) => ReactElement
   className?: string
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -338,7 +339,7 @@ const PaginationInstance = memo(function PaginationInstance(
     loadButton: _loadButton,
     indicatorElement: _indicatorElement,
     placeMarkerBeforeContent: _placeMarkerBeforeContent,
-    getPageHref: _getPageHref,
+    transformPaginationButton: _transformPaginationButton,
 
     ...attributes
   } = props as Record<string, unknown>

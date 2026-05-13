@@ -179,7 +179,7 @@ for (const themeName of ['ui', 'sbanken']) {
           width: '50rem',
         },
         simulateSelector:
-          '[data-visual-test="pagination-href"] a.dnb-pagination__button--current',
+          '[data-visual-test="pagination-href"] .dnb-pagination__button--current',
         simulate: 'hover',
       })
       expect(screenshot).toMatchSnapshot()
