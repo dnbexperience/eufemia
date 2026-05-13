@@ -969,7 +969,7 @@ describe('Pagination transformPaginationButton', () => {
     <Anchor href={`/page/${page}`} />
   )
 
-  it('renders page buttons as anchor elements when transformPaginationButton is provided', () => {
+  it('renders navigation buttons as anchor elements when transformPaginationButton is provided', () => {
     render(
       <Pagination
         pageCount={5}
@@ -988,7 +988,7 @@ describe('Pagination transformPaginationButton', () => {
     })
   })
 
-  it('sets correct href on page buttons', () => {
+  it('sets correct href on navigation buttons', () => {
     render(
       <Pagination
         pageCount={5}
@@ -1088,7 +1088,7 @@ describe('Pagination transformPaginationButton', () => {
     expect(skipBar).toBeNull()
   })
 
-  it('still calls onChange when clicking an anchor page button', () => {
+  it('still calls onChange when clicking an anchor navigation button', () => {
     const onChange = jest.fn()
 
     render(
