@@ -4,7 +4,7 @@ import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { NumberFormat } from '@dnb/eufemia/src'
 
 export const Basic = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-basic">
     {() => {
       const cities = [
         {
@@ -497,7 +497,7 @@ export const WithManySelectedItems = () => (
 )
 
 export const VariantInline = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-variant-inline">
     {() => {
       const cities = [
         { value: 'oslo', title: 'Oslo' },
