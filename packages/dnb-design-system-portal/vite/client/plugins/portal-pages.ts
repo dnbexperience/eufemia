@@ -349,6 +349,42 @@ ${nodeEntries.join('\n')}
       }
     },
 
+    configureServer(server) {
+      function isPageFile(file: string) {
+        const normalized = file.replace(/\\/g, '/')
+        return (
+          normalized.startsWith(normalizedDocsDir + '/') &&
+          !shouldIgnore(normalized) &&
+          (normalized.endsWith('.mdx') || normalized.endsWith('.tsx'))
+        )
+      }
+
+      function invalidateRoutes() {
+        const mod = server.moduleGraph.getModuleById(
+          RESOLVED_VIRTUAL_MODULE_ID
+        )
+        if (mod) {
+          server.moduleGraph.invalidateModule(mod)
+          server.ws.send({ type: 'full-reload' })
+        }
+      }
+
+      // Rebuild routes when page files are added or removed (renames
+      // show up as an unlink + add pair). handleHotUpdate only fires
+      // for files already in the module graph, so it cannot detect new pages.
+      server.watcher.on('add', (file) => {
+        if (isPageFile(file)) {
+          invalidateRoutes()
+        }
+      })
+      server.watcher.on('unlink', (file) => {
+        if (isPageFile(file)) {
+          pageSignatures.delete(file.replace(/\\/g, '/'))
+          invalidateRoutes()
+        }
+      })
+    },
+
     handleHotUpdate({ file, modules, server }) {
       const normalizedFile = file.replace(/\\/g, '/')
 
