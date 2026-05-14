@@ -13,6 +13,20 @@
 
   &__bar.dnb-section {
     display: flex;
+
+    --background-color: var(--token-color-background-neutral);
+  }
+
+  &--variant-single &__bar .dnb-button {
+    color: var(--token-color-text-neutral);
+
+    .dnb-button__icon {
+      color: var(--token-color-icon-neutral);
+    }
+
+    .dnb-button__text::after {
+      display: none;
+    }
   }
 
   &__list.dnb-section {
@@ -63,9 +77,34 @@
     // Home icon spacing
     &:first-child .dnb-anchor {
       border-left: none;
+
+      // The Sbanken theme uses a non-breaking space as icon separator which
+      // gets underlined. Reset to zero-width separator to avoid the underline.
+      --anchor-icon-separator: '\2060';
+
+      // Reset the click area pseudo-element for icon anchors
+      &::after {
+        transform: none;
+        border: none;
+      }
+
       .dnb-icon svg {
         margin-right: 0.5rem;
       }
+    }
+  }
+
+  &__collapse {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__collapse &__item {
+    padding: 0;
+
+    // Hide chevron icons in collapse mode, but keep the home icon
+    &:not(:first-child) .dnb-breadcrumb__item__span__icon {
+      display: none;
     }
   }
 
@@ -114,18 +153,25 @@
     }
   }
 
-  &__collapse {
-    display: flex;
-    flex-direction: column;
+  /* stylelint-disable no-descending-specificity */
+  &__toggle .dnb-button__icon {
+    transition: transform 400ms var(--easing-default);
   }
+
+  &__toggle[aria-expanded='true'] .dnb-button__icon {
+    transform: rotate(180deg);
+  }
+  /* stylelint-enable no-descending-specificity */
 
   &__collapse &__list.dnb-section {
     flex-direction: column;
     align-items: flex-start;
-    row-gap: 0;
+    row-gap: 1.5rem;
 
-    margin: 0.5rem 0;
-    margin-left: 1.5rem;
-    padding: 0;
+    margin: 0;
+
+    padding: 1rem 0 2rem 1rem;
+
+    --background-color: var(--token-color-background-page-background);
   }
 }

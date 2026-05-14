@@ -1159,6 +1159,16 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__bar.dnb-section {
   display: flex;
+  --background-color: var(--token-color-background-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button {
+  color: var(--token-color-text-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__icon {
+  color: var(--token-color-icon-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__text::after {
+  display: none;
 }
 .dnb-breadcrumb__list.dnb-section {
   display: flex;
@@ -1197,9 +1207,24 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;
+  --anchor-icon-separator: '\\2060';
+}
+.dnb-breadcrumb__item:first-child .dnb-anchor::after {
+  transform: none;
+  border: none;
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor .dnb-icon svg {
   margin-right: 0.5rem;
+}
+.dnb-breadcrumb__collapse {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__item {
+  padding: 0;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__item:not(:first-child) .dnb-breadcrumb__item__span__icon {
+  display: none;
 }
 .dnb-breadcrumb__multiple {
   display: flex;
@@ -1242,16 +1267,24 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
     display: none;
   }
 }
-.dnb-breadcrumb__collapse {
-  display: flex;
-  flex-direction: column;
+.dnb-breadcrumb {
+  /* stylelint-disable no-descending-specificity */
+}
+.dnb-breadcrumb__toggle .dnb-button__icon {
+  transition: transform 400ms var(--easing-default);
+}
+.dnb-breadcrumb__toggle[aria-expanded=true] .dnb-button__icon {
+  transform: rotate(180deg);
+}
+.dnb-breadcrumb {
+  /* stylelint-enable no-descending-specificity */
 }
 .dnb-breadcrumb__collapse .dnb-breadcrumb__list.dnb-section {
   flex-direction: column;
   align-items: flex-start;
-  row-gap: 0;
-  margin: 0.5rem 0;
-  margin-left: 1.5rem;
-  padding: 0;
+  row-gap: 1.5rem;
+  margin: 0;
+  padding: 1rem 0 2rem 1rem;
+  --background-color: var(--token-color-background-page-background);
 }"
 `;

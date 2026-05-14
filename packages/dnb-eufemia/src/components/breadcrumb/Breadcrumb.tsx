@@ -19,10 +19,6 @@ import clsx from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { applySpacing } from '../space/SpacingUtils'
-import type {
-  SectionBackgroundColor,
-  SectionVariants,
-} from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
@@ -122,18 +118,6 @@ export type BreadcrumbProps = {
   collapsed?: boolean
 
   /**
-   * Use one of the Section background colors.
-   * Default: `transparent`
-   */
-  backgroundColor?: SectionBackgroundColor
-
-  /**
-   * Use one of the Section component variants
-   * Default: `information`
-   */
-  collapsedStyleType?: SectionVariants
-
-  /**
    * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
    * Default: `false`
    */
@@ -167,8 +151,6 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   homeText: 'Home',
   backToText: 'Back to...',
   collapsed: true,
-  backgroundColor: 'transparent',
-  collapsedStyleType: 'information',
   spacing: false,
 }
 
@@ -195,8 +177,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
-    backgroundColor,
-    collapsedStyleType,
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,
@@ -274,11 +254,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <Section
-        className="dnb-breadcrumb__bar"
-        backgroundColor={backgroundColor || 'transparent'}
-        innerSpace={innerSpace}
-      >
+      <Section className="dnb-breadcrumb__bar" innerSpace={innerSpace}>
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}
@@ -295,7 +271,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                 className="dnb-breadcrumb__toggle"
                 text={backToText}
                 variant="tertiary"
-                icon="chevron_left"
+                icon="chevron_down"
                 iconPosition="left"
                 onClick={onClick ?? onClickHandler}
                 aria-expanded={!isCollapsedRef.current}
@@ -317,7 +293,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       {(currentVariant === 'collapse' ||
         currentVariant === 'responsive') && (
         <Section
-          variant={collapsedStyleType}
+          variant={currentVariant === 'collapse' ? 'divider' : undefined}
           className="dnb-breadcrumb__collapse"
         >
           <BreadcrumbMultiple
