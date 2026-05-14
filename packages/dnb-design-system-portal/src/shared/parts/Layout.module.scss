@@ -163,10 +163,18 @@
 .mainStyle {
   width: 100%;
   min-height: 90vh;
-  padding: 0 32px;
+  padding: 0 2rem;
+  :global(.focusmode) & {
+    min-height: auto;
+    padding: 0;
+  }
 
   @include utilities.allBelow(small) {
-    padding: 0 16px;
+    padding: 0 1px;
+
+    :global(.focusmode) & {
+      padding: 0;
+    }
   }
 }
 
@@ -205,6 +213,9 @@
 
   /* we use padding here, instead of margin, because applyPageFocus is else scrolling the page unwanted height of StickyMenuBar */
   padding-top: 4rem;
+  :global(.focusmode) & {
+    padding-top: 0;
+  }
 
   background-color: var(--token-color-background-neutral);
   box-shadow: inset 1px 0 0 0 var(--token-color-stroke-neutral-subtle);
