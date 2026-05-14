@@ -43,5 +43,18 @@
       true,
       { "severity": "warning" }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/style/**/*.scss",
+        "src/elements/**/*.scss",
+        "src/extensions/**/*.scss",
+        "src/components/**/style/**/*.scss"
+      ],
+      "rules": {
+        "eufemia/no-deprecated-color-variables": null
+      }
+    }
+  ]
 }
