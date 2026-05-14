@@ -24,6 +24,7 @@
     "build:cjs": "./scripts/postbuild/babel-cjs.sh",
     "build:copy": "./scripts/postbuild/copy-build-artifacts.sh",
     "build:docs": "babel-node --extensions .js,.ts,.tsx ../../tools/eufemia-llm-metadata/scripts/generateDocs.ts",
+    "build:docs:bundle": "node --experimental-strip-types ../../tools/eufemia-llm-metadata/scripts/buildDocsBundle.ts",
     "build:es": "./scripts/postbuild/babel-es.sh",
     "build:esm": "./scripts/postbuild/babel-esm.sh",
     "build:lebab": "babel-node --extensions .ts ./src/plugins/postcss-isolated-style-scope/scripts/transformToESM",
