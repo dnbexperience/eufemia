@@ -72,6 +72,10 @@ vi.mock('@dnb/eufemia/src/components', async () => {
       ),
     Space: ({ children, ref, ...rest }: any) =>
       createElement('div', { ref: ref, ...rest }, children),
+    Flex: {
+      Horizontal: ({ children, ...rest }: any) =>
+        createElement('div', rest, children),
+    },
     ToggleButton: ({ children, checked, onChange, ...rest }: any) =>
       createElement(
         'button',

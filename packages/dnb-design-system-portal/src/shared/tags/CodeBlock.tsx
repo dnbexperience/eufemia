@@ -19,6 +19,7 @@ import Tag from './Tag'
 import {
   Button,
   Checkbox,
+  Flex,
   Space,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
@@ -275,6 +276,31 @@ function LiveCode(props: LiveCodeProps) {
     [noInline, noFragments]
   )
 
+  const fullscreenButton = (
+    <Button
+      onClick={() => {
+        if (!isFullscreen) {
+          savedScrollY.current = window.scrollY
+
+          try {
+            sessionStorage.setItem('scroll-window', String(window.scrollY))
+          } catch {
+            // ignore
+          }
+
+          window.scrollTo({ top: 0 })
+        }
+
+        setFullscreenCodeId(isFullscreen ? null : fullscreenId)
+      }}
+      variant="tertiary"
+      title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+      aria-label={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
+      icon={isFullscreen ? 'close' : fullscreenIcon}
+      size="medium"
+    />
+  )
+
   return (
     <div
       ref={wrapperRef}
@@ -318,7 +344,6 @@ function LiveCode(props: LiveCodeProps) {
 
           {!global.IS_TEST && !hideToolbar && (
             <Space
-              // align="center"
               element="section"
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
@@ -334,95 +359,74 @@ function LiveCode(props: LiveCodeProps) {
                   {hideCode ? 'Show Code' : 'Hide Code'}
                 </Button>
               )) || (
-                <>
-                  {hideCodeProp && (
-                    <ToggleButton
-                      checked={!hideCode}
-                      onChange={({ checked }) => setHideCode(!checked)}
-                      size="medium"
-                    >
-                      {hideCode ? 'Show Code' : 'Hide Code'}
-                    </ToggleButton>
-                  )}
+                  <>
+                    {hideCodeProp && (
+                      <ToggleButton
+                        checked={!hideCode}
+                        onChange={({ checked }) => setHideCode(!checked)}
+                        size="medium"
+                      >
+                        {hideCode ? 'Show Code' : 'Hide Code'}
+                      </ToggleButton>
+                    )}
 
-                  {hidePreviewProp && (
-                    <ToggleButton
-                      checked={!hidePreview}
-                      onChange={({ checked }) => setHidePreview(!checked)}
-                      size="medium"
-                    >
-                      Preview
-                    </ToggleButton>
-                  )}
+                    {hidePreviewProp && (
+                      <ToggleButton
+                        checked={!hidePreview}
+                        onChange={({ checked }) =>
+                          setHidePreview(!checked)
+                        }
+                        size="medium"
+                      >
+                        Preview
+                      </ToggleButton>
+                    )}
 
-                  {isFullscreen && (
-                    <ChangeStyleTheme
-                      variant="button"
-                      size="medium"
-                      optionsLayout="horizontal"
-                      labelSrOnly
-                    />
-                  )}
+                    {isFullscreen && (
+                      <ChangeStyleTheme
+                        variant="button"
+                        size="medium"
+                        optionsLayout="horizontal"
+                        labelSrOnly
+                      />
+                    )}
 
-                  <Checkbox
-                    checked={
-                      colorScheme === (inheritedDark ? 'light' : 'dark')
-                    }
-                    onChange={({ checked }) => {
-                      setColorScheme(
-                        checked
-                          ? inheritedDark
-                            ? 'light'
-                            : 'dark'
-                          : undefined
-                      )
-                    }}
-                    size="medium"
-                    label={inheritedDark ? 'Light mode' : 'Dark mode'}
-                  />
+                    <Flex.Horizontal align="center">
+                      <Checkbox
+                        checked={
+                          colorScheme ===
+                          (inheritedDark ? 'light' : 'dark')
+                        }
+                        onChange={({ checked }) => {
+                          setColorScheme(
+                            checked
+                              ? inheritedDark
+                                ? 'light'
+                                : 'dark'
+                              : undefined
+                          )
+                        }}
+                        size="medium"
+                        label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                      />
 
-                  {surfaceProp === 'dark' && (
-                    <Checkbox
-                      checked={
-                        colorScheme !== 'dark' && surface === 'dark'
-                      }
-                      onChange={({ checked }) =>
-                        setSurface(checked ? 'dark' : undefined)
-                      }
-                      size="medium"
-                      label="Dark surface"
-                    />
-                  )}
-                </>
-              )}
+                      {surfaceProp === 'dark' && (
+                        <Checkbox
+                          checked={
+                            colorScheme !== 'dark' && surface === 'dark'
+                          }
+                          onChange={({ checked }) =>
+                            setSurface(checked ? 'dark' : undefined)
+                          }
+                          size="medium"
+                          label="Dark surface"
+                        />
+                      )}
 
-              <Button
-                onClick={() => {
-                  if (!isFullscreen) {
-                    savedScrollY.current = window.scrollY
-
-                    try {
-                      sessionStorage.setItem(
-                        'scroll-window',
-                        String(window.scrollY)
-                      )
-                    } catch {
-                      // ignore
-                    }
-
-                    window.scrollTo({ top: 0 })
-                  }
-
-                  setFullscreenCodeId(isFullscreen ? null : fullscreenId)
-                }}
-                variant="tertiary"
-                title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-                aria-label={
-                  isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'
-                }
-                icon={isFullscreen ? 'close' : fullscreenIcon}
-                size="medium"
-              />
+                      {fullscreenButton}
+                    </Flex.Horizontal>
+                  </>
+                ) || <>{fullscreenButton}</>}
             </Space>
           )}
 
