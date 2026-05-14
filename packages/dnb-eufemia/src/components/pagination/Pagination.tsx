@@ -21,7 +21,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
@@ -345,19 +345,19 @@ const PaginationInstance = memo(function PaginationInstance(
   const { currentPageInternal, items, fallbackElement, indicatorElement } =
     ctx.pagination
 
+  const mainParams = useSpacing(props, {
+    className: clsx(
+      'dnb-pagination',
+      align && `dnb-pagination--${align}`,
+      paginationBarLayout &&
+        `dnb-pagination--layout-${paginationBarLayout}`,
+      className
+    ),
+    ...attributes,
+  })
+
   // Pagination mode
   if (ctx.pagination.mode === 'pagination') {
-    const mainParams = applySpacing(props, {
-      className: clsx(
-        'dnb-pagination',
-        align && `dnb-pagination--${align}`,
-        paginationBarLayout &&
-          `dnb-pagination--layout-${paginationBarLayout}`,
-        className
-      ),
-      ...attributes,
-    })
-
     validateDOMAttributes(props, mainParams)
 
     const content = items.find(

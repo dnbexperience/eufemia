@@ -29,7 +29,7 @@ import {
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
@@ -489,24 +489,23 @@ function ModalComponent(ownProps: ModalAllProps) {
     ? (trigger as () => JSX.Element)
     : HelpButtonInstance
 
+  const triggerSpacingProps = useSpacing(rest as SpacingProps, {
+    id: _id.current,
+    title,
+    onClick: (event: MouseEvent) => {
+      triggerAttributes?.onClick?.(event)
+      toggleOpenClose(event.nativeEvent)
+    },
+    ref: triggerRef,
+    className: clsx('dnb-modal__trigger', usedTriggerAttributes.className),
+  })
+
   return (
     <>
       {TriggerButton && !omitTriggerButton && (
         <TriggerButton
           {...usedTriggerAttributes}
-          {...applySpacing(rest as SpacingProps, {
-            id: _id.current,
-            title,
-            onClick: (event: MouseEvent) => {
-              triggerAttributes?.onClick?.(event)
-              toggleOpenClose(event.nativeEvent)
-            },
-            ref: triggerRef,
-            className: clsx(
-              'dnb-modal__trigger',
-              usedTriggerAttributes.className
-            ),
-          })}
+          {...triggerSpacingProps}
         />
       )}
 

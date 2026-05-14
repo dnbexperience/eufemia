@@ -36,7 +36,7 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type {
   DynamicElement,
   InnerSpaceType,
@@ -1109,17 +1109,22 @@ function TabsComponent(ownProps: TabsProps) {
     useRef<(p?: Record<string, unknown>) => ReactElement>(null)
 
   // Update render functions with latest state on every render
+  const { className } = ownProps as TabsProps
+  const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
+
+  const wrapperSpacingParams: Record<string, unknown> = useSpacing(
+    ownProps,
+    {
+      ...attributes,
+      className: clsx('dnb-tabs', className),
+    }
+  )
+
   renderWrapperRef.current = ({
     children,
     ...rest
   }: PropsWithChildren<Record<string, unknown>>) => {
-    const { className } = ownProps as TabsProps
-    const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
-
-    const params: Record<string, unknown> = applySpacing(ownProps, {
-      ...attributes,
-      className: clsx('dnb-tabs', className),
-    })
+    const params = { ...wrapperSpacingParams }
 
     validateDOMAttributes(ownProps, params)
 
