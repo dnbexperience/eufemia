@@ -78,9 +78,9 @@ type PaginationBarContext = {
   currentPageInternal: number
   pageCountInternal: number
   disabled: boolean
-  transformPaginationButton?: (
+  transformNavigationItem?: (
     pageNumber: number,
-    paginationButtonProps: PaginationButtonProps
+    navigationItemProps: PaginationButtonProps
   ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
@@ -103,7 +103,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     disabled,
     skeleton: skeletonProp,
     space,
-    transformPaginationButton,
+    transformNavigationItem,
   } = props
 
   const skeleton = skeletonProp ?? sharedContext?.skeleton
@@ -205,7 +205,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const isCurrent = pageNumber === currentPageInternal
     const label = buttonTitle.replace('%s', String(pageNumber))
 
-    if (!transformPaginationButton) {
+    if (!transformNavigationItem) {
       return (
         <Button
           key={pageNumber}
@@ -240,7 +240,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
 
     return (
       <Fragment key={pageNumber}>
-        {transformPaginationButton(pageNumber, {
+        {transformNavigationItem(pageNumber, {
           className: clsx('dnb-pagination__button', extraClassName),
           'aria-label': label,
           skeleton,
@@ -258,7 +258,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     const icon = isPrev ? 'chevron_left' : 'chevron_right'
     const onNavigate = isPrev ? setPrevPage : setNextPage
 
-    if (!transformPaginationButton) {
+    if (!transformNavigationItem) {
       return (
         <Button
           key={`${direction}-arrow`}
@@ -282,7 +282,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
 
     return (
       <Fragment key={`${direction}-arrow`}>
-        {transformPaginationButton(pageNumber, {
+        {transformNavigationItem(pageNumber, {
           className: clsx(
             'dnb-pagination__button',
             `dnb-pagination__button--${direction}`
@@ -310,7 +310,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
-        {!transformPaginationButton && (
+        {!transformNavigationItem && (
           <div className="dnb-pagination__bar__skip">
             {renderStepButton('prev')}
             {renderStepButton('next')}
@@ -318,7 +318,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         )}
 
         <div className="dnb-pagination__bar__inner">
-          {transformPaginationButton && renderStepButton('prev')}
+          {transformNavigationItem && renderStepButton('prev')}
 
           {(pageNumberGroups?.[0] || []).map((pageNumber) =>
             renderPaginationButton(pageNumber)
@@ -351,7 +351,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             </Fragment>
           ))}
 
-          {transformPaginationButton && renderStepButton('next')}
+          {transformNavigationItem && renderStepButton('next')}
         </div>
       </div>
 
