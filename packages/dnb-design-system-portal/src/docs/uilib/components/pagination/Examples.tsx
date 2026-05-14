@@ -43,13 +43,13 @@ export const PaginationExampleDefault = () => (
   </ComponentBox>
 )
 
-export const PaginationExampleWithTransformPaginationButton = () => (
+export const PaginationExampleWithTransformNavigationItem = () => (
   <ComponentBox data-visual-test="pagination-href">
     <Pagination
       pageCount={30}
       currentPage={4}
-      transformPaginationButton={(pageNumber, paginationButtonProps) => (
-        <Anchor href={`/page/${pageNumber}`} {...paginationButtonProps} />
+      transformNavigationItem={(pageNumber, navigationItemProps) => (
+        <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />
       )}
       onChange={({ pageNumber }) => {
         console.log('onChange:', pageNumber)
@@ -60,16 +60,16 @@ export const PaginationExampleWithTransformPaginationButton = () => (
   </ComponentBox>
 )
 
-export const PaginationExampleWithTransformPaginationButtonQueryParams =
+export const PaginationExampleWithTransformNavigationItemQueryParams =
   () => (
     <ComponentBox>
       <Pagination
         pageCount={10}
         currentPage={2}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => (
+        transformNavigationItem={(pageNumber, navigationItemProps) => (
           <Anchor
             href={`/search?q=eufemia&page=${pageNumber}`}
-            {...paginationButtonProps}
+            {...navigationItemProps}
           />
         )}
         onChange={({ pageNumber }) => {

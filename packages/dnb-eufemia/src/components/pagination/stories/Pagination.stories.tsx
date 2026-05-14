@@ -390,18 +390,15 @@ const urls = [
   '/settings/profile',
 ]
 
-export const PaginationWithTransformPaginationButton = () => (
+export const PaginationWithTransformNavigationItem = () => (
   <Wrapper>
     <Box>
       <P>Path-based URLs</P>
       <Pagination
         pageCount={30}
         currentPage={4}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => (
-          <Anchor
-            href={`/page/${pageNumber}`}
-            {...paginationButtonProps}
-          />
+        transformNavigationItem={(pageNumber, navigationItemProps) => (
+          <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />
         )}
         onChange={({ pageNumber }) => {
           console.log('onChange:', pageNumber)
@@ -416,10 +413,10 @@ export const PaginationWithTransformPaginationButton = () => (
       <Pagination
         pageCount={10}
         currentPage={2}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => (
+        transformNavigationItem={(pageNumber, navigationItemProps) => (
           <Anchor
             href={`/search?q=eufemia&page=${pageNumber}`}
-            {...paginationButtonProps}
+            {...navigationItemProps}
           />
         )}
         onChange={({ pageNumber }) => {
@@ -435,11 +432,27 @@ export const PaginationWithTransformPaginationButton = () => (
       <Pagination
         pageCount={10}
         currentPage={3}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => {
+        transformNavigationItem={(pageNumber, navigationItemProps) => {
           const url = new URL(window.location.href)
           url.searchParams.set('page', String(pageNumber))
+          return <Anchor href={url.toString()} {...navigationItemProps} />
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        transformNavigationItem={(pageNumber, navigationItemProps) => {
           return (
-            <Anchor href={url.toString()} {...paginationButtonProps} />
+            <Anchor href={urls[pageNumber - 1]} {...navigationItemProps} />
           )
         }}
         onChange={({ pageNumber }) => {
@@ -455,33 +468,9 @@ export const PaginationWithTransformPaginationButton = () => (
       <Pagination
         pageCount={urls.length}
         currentPage={3}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => {
+        transformNavigationItem={(pageNumber, navigationItemProps) => {
           return (
-            <Anchor
-              href={urls[pageNumber - 1]}
-              {...paginationButtonProps}
-            />
-          )
-        }}
-        onChange={({ pageNumber }) => {
-          console.log('onChange:', pageNumber)
-        }}
-      >
-        <P>Current Page Content</P>
-      </Pagination>
-    </Box>
-
-    <Box>
-      <P>Url Array</P>
-      <Pagination
-        pageCount={urls.length}
-        currentPage={3}
-        transformPaginationButton={(pageNumber, paginationButtonProps) => {
-          return (
-            <Button
-              href={urls[pageNumber - 1]}
-              {...paginationButtonProps}
-            />
+            <Button href={urls[pageNumber - 1]} {...navigationItemProps} />
           )
         }}
         onChange={({ pageNumber }) => {

@@ -962,18 +962,17 @@ describe('undefined props should fall through to defaults', () => {
   })
 })
 
-describe('Pagination transformPaginationButton', () => {
-  const transformPaginationButton = (
-    page: number,
-    paginationButtonProps
-  ) => <Anchor href={`/page/${page}`} {...paginationButtonProps} />
+describe('Pagination transformNavigationItem', () => {
+  const transformNavigationItem = (page: number, navigationItemProps) => (
+    <Anchor href={`/page/${page}`} {...navigationItemProps} />
+  )
 
-  it('renders navigation buttons as anchor elements when transformPaginationButton is provided', () => {
+  it('renders navigation buttons as anchor elements when transformNavigationItem is provided', () => {
     render(
       <Pagination
         pageCount={5}
         currentPage={1}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -992,7 +991,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -1011,7 +1010,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={3}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -1034,7 +1033,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -1050,7 +1049,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={5}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -1061,7 +1060,7 @@ describe('Pagination transformPaginationButton', () => {
     expect(nextButton).toBeNull()
   })
 
-  it('renders as buttons when transformPaginationButton is not provided', () => {
+  it('renders as buttons when transformNavigationItem is not provided', () => {
     render(<Pagination pageCount={5} currentPage={1} />)
 
     const buttons = document.querySelectorAll(
@@ -1073,12 +1072,12 @@ describe('Pagination transformPaginationButton', () => {
     })
   })
 
-  it('does not render skip bar when transformPaginationButton is provided', () => {
+  it('does not render skip bar when transformNavigationItem is provided', () => {
     render(
       <Pagination
         pageCount={5}
         currentPage={3}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 
@@ -1094,7 +1093,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={1}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
         onChange={onChange}
       />
     )
@@ -1115,7 +1114,7 @@ describe('Pagination transformPaginationButton', () => {
       <Pagination
         pageCount={5}
         currentPage={3}
-        transformPaginationButton={transformPaginationButton}
+        transformNavigationItem={transformNavigationItem}
       />
     )
 

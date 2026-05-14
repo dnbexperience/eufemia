@@ -222,9 +222,9 @@ export type PaginationProps = {
   /**
    * A function that receives a page number and props, and returns a React node. Spread the props onto your element to get the correct className, aria-label, onClick, skeleton, and children.
    */
-  transformPaginationButton?: (
+  transformNavigationItem?: (
     pageNumber: number,
-    paginationButtonProps: PaginationButtonProps
+    navigationItemProps: PaginationButtonProps
   ) => ReactNode
   className?: string
   /**
@@ -342,7 +342,7 @@ const PaginationInstance = memo(function PaginationInstance(
     loadButton: _loadButton,
     indicatorElement: _indicatorElement,
     placeMarkerBeforeContent: _placeMarkerBeforeContent,
-    transformPaginationButton: _transformPaginationButton,
+    transformNavigationItem: _transformNavigationItem,
 
     ...attributes
   } = props as Record<string, unknown>
