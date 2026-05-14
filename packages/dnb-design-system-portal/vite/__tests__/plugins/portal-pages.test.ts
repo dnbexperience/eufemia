@@ -2,7 +2,8 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
-import {
+import { EventEmitter } from 'node:events'
+import portalPagesPlugin, {
   getVirtualModuleSignature,
   readPageFileInfo,
   shouldIgnore,
@@ -10,7 +11,6 @@ import {
   slugify,
   extractTableOfContents,
 } from '../../client/plugins/portal-pages'
-import portalPagesPlugin from '../../client/plugins/portal-pages'
 
 describe('portal-pages plugin', () => {
   describe('shouldIgnore', () => {
@@ -651,6 +651,154 @@ describe('portal-pages plugin', () => {
 
       const files = scanPageFiles(tmpDir)
       expect(files[0].tableOfContents).toBeUndefined()
+    })
+  })
+
+  describe('configureServer file watcher', () => {
+    let tmpDir: string
+
+    function createMockServer() {
+      const watcher = new EventEmitter()
+      const mod = { id: '\0virtual:portal-pages' }
+      const invalidateModule = vi.fn()
+      const getModuleById = vi.fn(() => mod)
+      const send = vi.fn()
+
+      return {
+        watcher,
+        moduleGraph: { getModuleById, invalidateModule },
+        ws: { send },
+        mocks: { invalidateModule, getModuleById, send, mod },
+      }
+    }
+
+    beforeEach(() => {
+      tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), 'portal-pages-watcher-')
+      )
+    })
+
+    afterEach(() => {
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    })
+
+    it('invalidates routes when an MDX page file is added', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('add', path.join(tmpDir, 'new-page.mdx'))
+
+      expect(server.mocks.invalidateModule).toHaveBeenCalledWith(
+        server.mocks.mod
+      )
+      expect(server.mocks.send).toHaveBeenCalledWith({
+        type: 'full-reload',
+      })
+    })
+
+    it('invalidates routes when a TSX page file is added', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('add', path.join(tmpDir, 'new-page.tsx'))
+
+      expect(server.mocks.invalidateModule).toHaveBeenCalledWith(
+        server.mocks.mod
+      )
+      expect(server.mocks.send).toHaveBeenCalledWith({
+        type: 'full-reload',
+      })
+    })
+
+    it('invalidates routes when a page file is removed', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('unlink', path.join(tmpDir, 'old-page.mdx'))
+
+      expect(server.mocks.invalidateModule).toHaveBeenCalledWith(
+        server.mocks.mod
+      )
+      expect(server.mocks.send).toHaveBeenCalledWith({
+        type: 'full-reload',
+      })
+    })
+
+    it('does not invalidate routes for non-page files', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('add', path.join(tmpDir, 'styles.scss'))
+      server.watcher.emit('add', path.join(tmpDir, 'utils.js'))
+
+      expect(server.mocks.invalidateModule).not.toHaveBeenCalled()
+      expect(server.mocks.send).not.toHaveBeenCalled()
+    })
+
+    it('does not invalidate routes for ignored files', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('add', path.join(tmpDir, 'button/Examples.tsx'))
+
+      expect(server.mocks.invalidateModule).not.toHaveBeenCalled()
+      expect(server.mocks.send).not.toHaveBeenCalled()
+    })
+
+    it('does not invalidate routes for files outside docsDir', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('add', '/some/other/dir/page.mdx')
+
+      expect(server.mocks.invalidateModule).not.toHaveBeenCalled()
+      expect(server.mocks.send).not.toHaveBeenCalled()
+    })
+
+    it('handles a rename as unlink + add', () => {
+      const plugin = portalPagesPlugin({ docsDir: tmpDir })
+      const server = createMockServer()
+
+      const configureServer = plugin.configureServer as (
+        server: unknown
+      ) => void
+      configureServer(server)
+
+      server.watcher.emit('unlink', path.join(tmpDir, 'old-name.mdx'))
+      server.watcher.emit('add', path.join(tmpDir, 'new-name.mdx'))
+
+      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(2)
+      expect(server.mocks.send).toHaveBeenCalledTimes(2)
     })
   })
 })
