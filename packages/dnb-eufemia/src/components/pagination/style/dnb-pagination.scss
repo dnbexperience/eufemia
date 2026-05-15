@@ -69,6 +69,15 @@
     gap: 0.5rem;
   }
 
+  &__bar__inner:has(.dnb-anchor) {
+    gap: 0.75rem;
+
+    .dnb-pagination__button--current {
+      color: var(--token-color-text-neutral);
+      text-decoration: none;
+    }
+  }
+
   &__button {
     max-width: 3.5rem;
     &.dnb-button--secondary {

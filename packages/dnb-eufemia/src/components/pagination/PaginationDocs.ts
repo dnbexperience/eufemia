@@ -136,6 +136,11 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
+  transformNavigationItem: {
+    doc: 'A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `PaginationButtonProps`.',
+    type: 'function',
+    status: 'optional',
+  },
   loadButton: {
     doc: 'Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.',
     type: 'Various',

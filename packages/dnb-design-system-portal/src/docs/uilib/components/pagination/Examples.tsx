@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { P, Pagination, Table, Button } from '@dnb/eufemia/src'
+import { P, Pagination, Table, Button, Anchor } from '@dnb/eufemia/src'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/pagination/Pagination'
@@ -42,6 +42,44 @@ export const PaginationExampleDefault = () => (
     </Pagination>
   </ComponentBox>
 )
+
+export const PaginationExampleWithTransformNavigationItem = () => (
+  <ComponentBox data-visual-test="pagination-href">
+    <Pagination
+      pageCount={30}
+      currentPage={4}
+      transformNavigationItem={(pageNumber, navigationItemProps) => (
+        <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />
+      )}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
+      }}
+    >
+      <P>Current Page Content</P>
+    </Pagination>
+  </ComponentBox>
+)
+
+export const PaginationExampleWithTransformNavigationItemQueryParams =
+  () => (
+    <ComponentBox>
+      <Pagination
+        pageCount={10}
+        currentPage={2}
+        transformNavigationItem={(pageNumber, navigationItemProps) => (
+          <Anchor
+            href={`/search?q=eufemia&page=${pageNumber}`}
+            {...navigationItemProps}
+          />
+        )}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </ComponentBox>
+  )
 
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
