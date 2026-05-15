@@ -186,18 +186,24 @@ function useHandleTrVariant({ variant }) {
   }, [countRef, variant])
 
   const [count, setCount] = useState(() => {
-    // SSR Support
-    if (typeof window === 'undefined') {
-      hasIncrementedRef.current = true
-      return increment()
+    // Guard against StrictMode double-invocation of useState initializer.
+    // Refs persist across StrictMode's double-calls, so the second call
+    // returns the current count without re-incrementing.
+    if (hasIncrementedRef.current) {
+      return countRef?.count ?? 0
     }
 
-    return undefined
+    hasIncrementedRef.current = true
+    return increment()
   })
 
-  // StrictMode support
   useEffect(() => {
-    // SSR will not execute useEffect
+    if (lastRenderAliasRef.current === null) {
+      // Initial mount - useState already handled the count
+      lastRenderAliasRef.current = tableContext?.rerenderAlias
+      return // stop here
+    }
+
     if (lastRenderAliasRef.current !== tableContext?.rerenderAlias) {
       lastRenderAliasRef.current = tableContext?.rerenderAlias
       hasIncrementedRef.current = false
