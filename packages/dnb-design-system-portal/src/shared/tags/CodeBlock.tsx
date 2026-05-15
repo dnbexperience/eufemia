@@ -7,7 +7,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
@@ -71,6 +70,9 @@ export type CodeSectionProps = {
   children: string | ReactNode | (() => ReactNode)
   tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
+
+  /** Injected by the babel transform — enclosing export name, stable across HMR. */
+  stableName?: string
 }
 
 const CodeBlock = ({
@@ -162,8 +164,7 @@ function prepareCode(code: string) {
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
   const editorElementRef = useRef<HTMLDivElement>(null)
-  const id = useId()
-  const fullscreenId = props['data-visual-test'] || id.replace(/:/g, '')
+  const fullscreenId = props.stableName
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
@@ -195,6 +196,7 @@ function LiveCode(props: LiveCodeProps) {
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
     'data-visual-test': visualTest,
+    stableName: _stableName,
 
     ...restProps
   } = props
@@ -442,7 +444,6 @@ function LiveCode(props: LiveCodeProps) {
             >
               <LiveEditor
                 prism={Prism}
-                id={id}
                 tabMode={tabMode}
                 className="dnb-live-editor__editable dnb-pre"
               />

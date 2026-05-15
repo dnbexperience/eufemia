@@ -386,7 +386,7 @@ describe('CodeBlock', () => {
         reactLive
         scope={{}}
         language="jsx"
-        data-visual-test="my-live-block"
+        stableName="my-live-block"
       >
         {'<div>Hello</div>'}
       </CodeBlock>
@@ -409,12 +409,7 @@ describe('CodeBlock', () => {
     })
 
     const { container } = render(
-      <CodeBlock
-        reactLive
-        scope={{}}
-        language="jsx"
-        data-visual-test="block-a"
-      >
+      <CodeBlock reactLive scope={{}} language="jsx" stableName="block-a">
         {'<div>Hello</div>'}
       </CodeBlock>
     )
