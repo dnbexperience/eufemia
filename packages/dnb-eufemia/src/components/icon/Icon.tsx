@@ -515,6 +515,9 @@ function getIcon(props) {
   if (props.icon) {
     return props.icon
   }
+  if (typeof props.children === 'function') {
+    return props.children
+  }
   return processChildren(props)
 }
 
