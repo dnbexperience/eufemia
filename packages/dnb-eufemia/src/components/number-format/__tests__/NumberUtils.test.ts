@@ -23,6 +23,7 @@ import {
   formatPercent,
   formatBankAccountNumberByType,
 } from '../NumberUtils'
+import { resolveLocale } from '../utils/formatCore'
 
 const locale = LOCALE
 const value = 12345678.9876
@@ -1462,5 +1463,28 @@ describe('formatPhoneNumber', () => {
       expect(result.number).toBe('47 12 34 56 78')
       expect(result.aria).toBe('47 12 34 56 78')
     })
+  })
+})
+
+describe('resolveLocale', () => {
+  it('should return LOCALE when locale is null', () => {
+    expect(resolveLocale(null)).toBe(LOCALE)
+  })
+
+  it('should return LOCALE when locale is empty string', () => {
+    expect(resolveLocale('')).toBe(LOCALE)
+  })
+
+  it('should return the given locale when it is a specific value', () => {
+    expect(resolveLocale('en-US')).toBe('en-US')
+  })
+
+  it('should return LOCALE when locale is "auto" and window is undefined', () => {
+    const originalWindow = globalThis.window
+    delete (globalThis as Record<string, unknown>).window
+
+    expect(resolveLocale('auto')).toBe(LOCALE)
+
+    globalThis.window = originalWindow
   })
 })
