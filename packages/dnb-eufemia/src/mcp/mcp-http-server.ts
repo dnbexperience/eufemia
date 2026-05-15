@@ -64,8 +64,12 @@ type Middleware = (
 
 type DocsToolsOptions = { docsRoot?: string }
 
-function logErr(...args: unknown[]) {
-  console.error(...args)
+function createLogger(silent: boolean) {
+  return (...args: unknown[]) => {
+    if (!silent) {
+      console.error(...args)
+    }
+  }
 }
 
 function parseAllowedHosts(): string[] | undefined {
@@ -121,7 +125,10 @@ function authMiddleware(token: string | undefined): Middleware {
   }
 }
 
-function hostAllowlistMiddleware(allowed?: string[]): Middleware {
+function hostAllowlistMiddleware(
+  allowed: string[] | undefined,
+  logErr: (...args: unknown[]) => void
+): Middleware {
   if (!allowed || allowed.length === 0) {
     return (_req, _res, next) => next()
   }
@@ -148,6 +155,8 @@ export type HttpServerOptions = DocsToolsOptions & {
   host?: string
   allowedHosts?: string[]
   authToken?: string
+  /** Suppress console output (useful for tests). */
+  silent?: boolean
 }
 
 export type RunningHttpServer = {
@@ -165,11 +174,12 @@ export async function startHttpServer(
   const host = options.host ?? process.env.HOST ?? '0.0.0.0'
   const allowedHosts = options.allowedHosts ?? parseAllowedHosts()
   const authToken = options.authToken ?? process.env.MCP_AUTH_TOKEN
+  const logErr = createLogger(options.silent ?? false)
 
   const app = express()
   app.disable('x-powered-by')
   app.use(express.json({ limit: '4mb' }))
-  app.use(hostAllowlistMiddleware(allowedHosts))
+  app.use(hostAllowlistMiddleware(allowedHosts, logErr))
 
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
     res.json({
@@ -378,7 +388,7 @@ const shouldRun = (() => {
 
 if (shouldRun) {
   startHttpServer().catch((e) => {
-    logErr('[eufemia] fatal:', e)
+    console.error('[eufemia] fatal:', e)
     process.exit(1)
   })
 }

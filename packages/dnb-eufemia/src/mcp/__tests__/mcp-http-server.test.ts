@@ -110,6 +110,7 @@ describe('mcp-http-server', () => {
       docsRoot,
       port: 0,
       host: '127.0.0.1',
+      silent: true,
     })
   }, 15000)
 
@@ -236,6 +237,7 @@ describe('mcp-http-server docs root validation', () => {
         docsRoot: missing,
         port: 0,
         host: '127.0.0.1',
+        silent: true,
       })
     ).rejects.toThrow(/does not exist/)
   })
@@ -251,6 +253,7 @@ describe('mcp-http-server docs root validation', () => {
           docsRoot: emptyDir,
           port: 0,
           host: '127.0.0.1',
+          silent: true,
         })
       ).rejects.toThrow(/empty or unbuilt/)
     } finally {
@@ -274,6 +277,7 @@ describe('mcp-http-server with auth token', () => {
       port: 0,
       host: '127.0.0.1',
       authToken: 'secret-token',
+      silent: true,
     })
   }, 15000)
 
