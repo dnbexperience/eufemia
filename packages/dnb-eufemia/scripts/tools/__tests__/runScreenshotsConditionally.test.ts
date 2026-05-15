@@ -54,7 +54,7 @@ describe('runScreenshotsConditionally', () => {
   it('runs all tests when theme selection changes', () => {
     const selection = select({
       changedRepoFiles: [
-        'packages/dnb-eufemia/src/core/playwright/themeSelection.ts',
+        'packages/dnb-eufemia/src/core/vitest-screenshots/themeSelection.client.ts',
       ],
     })
 
@@ -258,8 +258,8 @@ describe('path helpers', () => {
   it('treats theme selection as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
-        'packages/dnb-eufemia/src/core/playwright/themeSelection.ts',
-        'src/core/playwright/themeSelection.ts'
+        'packages/dnb-eufemia/src/core/vitest-screenshots/themeSelection.client.ts',
+        'src/core/vitest-screenshots/themeSelection.client.ts'
       )
     ).toBe(true)
   })
