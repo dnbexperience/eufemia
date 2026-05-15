@@ -1610,7 +1610,7 @@ async function diffAndPersist(
     diff.data,
     refWidth,
     refHeight,
-    { threshold: 0.1 }
+    { threshold: 0.05 }
   )
 
   const totalPixels = refWidth * refHeight

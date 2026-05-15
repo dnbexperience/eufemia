@@ -134,7 +134,7 @@ export type MakeScreenshotOptions = {
   recalculateHeightAfterSimulate?: boolean
 }
 
-const defaultAllowedMismatchedPixelRatio = isCI ? 0.001 : 0
+const defaultAllowedMismatchedPixelRatio = 0
 
 const sanitize = (input: string) =>
   input.replace(/[^a-z0-9-_]+/gi, '-').replace(/^-+|-+$/g, '')

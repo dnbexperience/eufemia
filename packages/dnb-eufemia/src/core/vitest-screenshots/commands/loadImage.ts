@@ -121,7 +121,7 @@ export const matchImageSnapshot = defineBrowserCommand<
     diff.data,
     referencePng.width,
     referencePng.height,
-    { threshold: 0.1 }
+    { threshold: 0.05 }
   )
   const total = referencePng.width * referencePng.height
   const ratio = total === 0 ? 0 : diffPixels / total
