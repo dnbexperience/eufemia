@@ -12,6 +12,8 @@ import type {
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
 import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
@@ -35,6 +37,10 @@ export type TermDefinitionProps = {
    * Tooltip placement relative to the trigger.
    */
   placement?: 'top' | 'right' | 'bottom' | 'left'
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
 }
 
 export type TermDefinitionAllProps = TermDefinitionProps &
@@ -57,7 +63,10 @@ export default function TermDefinition(
     context?.TermDefinition
   )
 
-  const { children, content, className, placement, ...rest } = allProps
+  const { children, content, className, placement, skeleton, ...rest } =
+    allProps
+
+  const skeletonClasses = createSkeletonClass('font', skeleton, context)
 
   const [active, setActive] = useState(false)
   const triggerRef = useRef<HTMLSpanElement | null>(null)
@@ -110,6 +119,7 @@ export default function TermDefinition(
             'dnb-term-definition__trigger',
             'dnb-anchor',
             active && 'dnb-anchor--hover',
+            skeletonClasses,
             className
           ),
           'aria-expanded': active,
