@@ -52,29 +52,33 @@ export const HideCurrentYear = () => {
           const dateInOtherYear = `${currentYear - 1}-02-04`
 
           return (
-            <P>
-              <DateFormat
-                value={dateInCurrentYear}
-                dateStyle="medium"
-                hideCurrentYear
-              />
-              <DateFormat
-                value={dateInOtherYear}
-                dateStyle="medium"
-                hideCurrentYear
-              />
+            <>
+              <P>
+                <DateFormat
+                  value={dateInCurrentYear}
+                  dateStyle="medium"
+                  hideCurrentYear
+                />
+                <DateFormat
+                  value={dateInOtherYear}
+                  dateStyle="medium"
+                  hideCurrentYear
+                />
+              </P>
               <Hr />
-              <DateFormat
-                value={dateInCurrentYear}
-                dateStyle="long"
-                hideCurrentYear
-              />
-              <DateFormat
-                value={dateInOtherYear}
-                dateStyle="long"
-                hideCurrentYear
-              />
-            </P>
+              <P>
+                <DateFormat
+                  value={dateInCurrentYear}
+                  dateStyle="long"
+                  hideCurrentYear
+                />
+                <DateFormat
+                  value={dateInOtherYear}
+                  dateStyle="long"
+                  hideCurrentYear
+                />
+              </P>
+            </>
           )
         }}
       </ComponentBox>
