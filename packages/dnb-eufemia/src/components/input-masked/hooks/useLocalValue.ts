@@ -38,7 +38,9 @@ export const useLocalValue = () => {
       maskParams,
     })
 
-    setLocalValue(value)
+    if (localValue !== value) {
+      setLocalValue(value)
+    }
 
     // Do not set "localValue" and "maskParams" here
   }, [props, context, locale]) // eslint-disable-line

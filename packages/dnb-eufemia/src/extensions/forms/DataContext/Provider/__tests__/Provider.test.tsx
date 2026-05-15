@@ -6534,4 +6534,30 @@ describe('DataContext.Provider', () => {
       })
     })
   })
+
+  it('should not cause Maximum update depth exceeded when Form.useData is used outside Form.Handler with same id', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const MyForm = () => {
+      const { data } = Form.useData(identifier, {
+        locale: 'en-GB',
+      })
+
+      return (
+        <Form.Handler id={identifier} locale={data?.locale}>
+          <Field.String path="/myField" />
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Maximum update depth exceeded')
+    )
+
+    log.mockRestore()
+  })
 })

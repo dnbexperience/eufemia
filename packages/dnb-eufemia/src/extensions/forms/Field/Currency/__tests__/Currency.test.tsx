@@ -260,6 +260,24 @@ describe('Field.Currency', () => {
     )
   })
 
+  it('should not cause Maximum update depth exceeded inside Form.Handler required', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    render(
+      <Form.Handler required>
+        <Field.Currency path="/amount" label="Amount" />
+      </Form.Handler>
+    )
+
+    expect(log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Maximum update depth exceeded')
+    )
+
+    log.mockRestore()
+  })
+
   it('should handle unsupported currency', () => {
     const log = jest.spyOn(console, 'log').mockImplementation(() => {})
 

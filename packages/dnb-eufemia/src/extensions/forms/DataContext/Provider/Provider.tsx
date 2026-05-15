@@ -41,6 +41,7 @@ import { isAsync } from '../../../../shared/helpers/isAsync'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  createSharedState,
   preSeedSharedState,
   shallowEqual,
   useSharedState,
@@ -899,9 +900,17 @@ export default function Provider<Data extends JsonObject>(
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
     id ? createReferenceKey(id, 'attachments') : undefined
   )
-  const sharedDataContext = useSharedState<ContextState>(
-    id ? createReferenceKey(id, 'data-context') : undefined
-  )
+  // Use createSharedState (non-reactive) instead of useSharedState here
+  // because the Provider only writes to this store during render.
+  // Using useSharedState (which subscribes via useSyncExternalStore)
+  // would cause an infinite loop: the render-phase write updates the
+  // snapshot, useSyncExternalStore detects the change, and forces a
+  // re-render — repeatedly.
+  const sharedDataContext = id
+    ? createSharedState<ContextState>(
+        createReferenceKey(id, 'data-context')
+      )
+    : null
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
@@ -1837,7 +1846,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   if (id) {
-    sharedDataContext.set(contextValue, { silent: true })
+    sharedDataContext?.set(contextValue, { silent: true })
   }
 
   const show = Boolean(showAllErrorsRef.current)
