@@ -320,7 +320,7 @@ function StringComponent(props: FieldStringProps) {
 
   const inputProps = {
     type,
-    clear,
+    showClearButton: clear,
     size,
     align,
     selectAll,
