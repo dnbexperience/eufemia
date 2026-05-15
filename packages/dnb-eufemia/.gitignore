@@ -3,7 +3,7 @@
 
 # testing
 /coverage
-**/__diff_output__/
+**/__image_snapshots__/.diff/
 /visual-diff-report/*
 
 # production
