@@ -658,7 +658,9 @@ describe('portal-pages plugin', () => {
     let tmpDir: string
 
     function createMockServer() {
-      const watcher = new EventEmitter()
+      const watcher = Object.assign(new EventEmitter(), {
+        add: vi.fn(),
+      })
       const mod = { id: '\0virtual:portal-pages' }
       const invalidateModule = vi.fn()
       const getModuleById = vi.fn(() => mod)

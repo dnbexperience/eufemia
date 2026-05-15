@@ -350,6 +350,10 @@ ${nodeEntries.join('\n')}
     },
 
     configureServer(server) {
+      // Vite's root is vite/client/, so src/docs/ isn't watched by default.
+      // Add it explicitly so new page files trigger the 'add' event.
+      server.watcher.add(docsDir)
+
       function isPageFile(file: string) {
         const normalized = file.replace(/\\/g, '/')
         return (
