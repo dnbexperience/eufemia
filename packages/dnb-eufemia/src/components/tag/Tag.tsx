@@ -21,7 +21,7 @@ import {
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 export type TagProps = {
   /**
@@ -134,7 +134,7 @@ const Tag = (
 
   const addIcon = usedVariant === 'removable' || variant === 'addable'
   const isInteractive = usedVariant !== 'default'
-  const tagProps = applySpacing(props, {
+  const tagProps = useSpacing(props, {
     className: clsx(
       'dnb-tag',
       className,

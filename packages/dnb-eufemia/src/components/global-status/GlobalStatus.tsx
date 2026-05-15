@@ -38,7 +38,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
@@ -684,7 +684,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     ...attributes
   } = props as GlobalStatusProps & Record<string, unknown>
 
-  const wrapperParams = applySpacing(props, {
+  const wrapperParams = useSpacing(props, {
     id,
     className: clsx(
       'dnb-global-status__wrapper',

@@ -11,7 +11,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { applySpacing } from '../../components/space/SpacingUtils'
+import { useSpacing } from '../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -56,7 +56,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
   const mainParams: DetailedHTMLProps<
     HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  > = applySpacing(props, {
+  > = useSpacing(props, {
     ...(attributes as HTMLAttributes<unknown>),
     className: clsx(
       'dnb-scroll-view',

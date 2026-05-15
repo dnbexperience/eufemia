@@ -2,7 +2,7 @@ import { createElement, isValidElement, useContext } from 'react'
 import type { ButtonHTMLAttributes, ComponentType, ReactNode } from 'react'
 import clsx from 'clsx'
 import Context from '../../../shared/Context'
-import { applySpacing } from '../../space/SpacingUtils'
+import { useSpacing } from '../../space/SpacingUtils'
 import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
 import type { IconIcon, IconSize } from '../../icon/Icon'
 import type { SkeletonShow } from '../../skeleton/Skeleton'
@@ -96,7 +96,7 @@ export default function PopoverCloseButton({
     resolvedIconSize = 'medium'
   }
 
-  const buttonProps = applySpacing(
+  const buttonProps = useSpacing(
     { ...rest, stretch, wrap, skeleton },
     {
       title,

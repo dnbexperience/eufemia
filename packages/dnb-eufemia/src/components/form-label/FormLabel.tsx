@@ -17,7 +17,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -99,7 +99,7 @@ function FormLabel(localProps: FormLabelAllProps) {
     (typeof props.onClick === 'function' || forId)
   )
 
-  const params = applySpacing(
+  const params = useSpacing(
     content ? { right: 'small', ...props } : omitSpacingProps(props),
     {
       className: clsx(

@@ -20,7 +20,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 
 import type { ButtonIconPosition } from '../Button'
@@ -379,7 +379,7 @@ function Accordion({
     ...restOfExtendedProps
   } = extendedProps
 
-  const mainParams = applySpacing(extendedProps, {
+  const mainParams = useSpacing(extendedProps, {
     id,
     className: clsx(
       'dnb-accordion',

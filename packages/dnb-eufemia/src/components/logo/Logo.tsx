@@ -15,7 +15,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
 
@@ -156,7 +156,7 @@ function Logo(localProps: LogoProps) {
     inheritColor,
   ])
 
-  const rootParams = applySpacing(props, {
+  const rootParams = useSpacing(props, {
     role: 'img',
     'aria-hidden': true,
     className,

@@ -16,7 +16,7 @@ import {
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
@@ -193,7 +193,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
 
   const showStatus = getStatusState(status)
 
-  const rootProps = applySpacing(props, {
+  const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${statusState}`,

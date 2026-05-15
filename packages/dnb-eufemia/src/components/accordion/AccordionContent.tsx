@@ -15,7 +15,7 @@ import {
 import { useMediaQuery } from '../../shared'
 import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -148,7 +148,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   const keepInDOMContent = keepInDOM || preventRerender
 
-  const innerParams = applySpacing(rest, {
+  const innerParams = useSpacing(rest, {
     id: `${id}-content`,
     'aria-labelledby': `${id}-header`,
     className: 'dnb-accordion__content__inner',

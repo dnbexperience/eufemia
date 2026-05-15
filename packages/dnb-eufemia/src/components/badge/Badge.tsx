@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
 import clsx from 'clsx'
 
 // Components
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
@@ -111,22 +111,18 @@ function Badge(localProps: BadgeAllProps) {
   )
   const { children, className } = allProps
 
+  const spacingProps = useSpacing(allProps, { className })
+
   if (children) {
     return (
-      <BadgeRoot {...applySpacing(allProps, {})}>
+      <BadgeRoot {...spacingProps}>
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
     )
   }
 
-  return (
-    <BadgeElem
-      context={context}
-      {...allProps}
-      {...applySpacing(allProps, { className })}
-    />
-  )
+  return <BadgeElem context={context} {...allProps} {...spacingProps} />
 }
 
 function BadgeRoot({

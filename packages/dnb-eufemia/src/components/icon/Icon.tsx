@@ -15,7 +15,7 @@ import {
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import type { SpacingProps } from '../../shared/types'
@@ -341,7 +341,7 @@ function prepareIconParams({
   return { params, sizeAsString }
 }
 
-function prepareIconCore(
+export function prepareIcon(
   props: IconAllProps,
   context: ContextProps,
   cachedValues?: {
@@ -411,21 +411,15 @@ function prepareIconCore(
     delete wrapperParams['aria-label']
   }
 
-  Object.assign(
-    wrapperParams,
-    applySpacing(props, {
-      className: clsx(
-        'dnb-icon',
-        modifier && `dnb-icon--${modifier}`,
-        border && 'dnb-icon--border',
-        isFilled && 'dnb-icon--filled',
-        inheritColor !== false && 'dnb-icon--inherit-color',
-        sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
-        createSkeletonClass(null, skeleton, context),
-        className
-      ),
-      style: wrapperParams.style,
-    })
+  wrapperParams.className = clsx(
+    'dnb-icon',
+    modifier && `dnb-icon--${modifier}`,
+    border && 'dnb-icon--border',
+    isFilled && 'dnb-icon--filled',
+    inheritColor !== false && 'dnb-icon--inherit-color',
+    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
+    createSkeletonClass(null, skeleton, context),
+    className
   )
 
   const iconToRender = getIcon(props)
@@ -454,18 +448,24 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
     [icon]
   )
 
-  return useMemo(
+  const result = useMemo(
     () =>
-      prepareIconCore(props, context, {
+      prepareIcon(props, context, {
         ...cachedCalcSize,
         label,
       }),
     [props, context, cachedCalcSize, label]
   )
-}
 
-export function prepareIcon(props: IconAllProps, context: ContextProps) {
-  return prepareIconCore(props, context)
+  const spacingProps = useSpacing(props, {
+    className: result.wrapperParams.className,
+    style: result.wrapperParams.style,
+  })
+
+  return {
+    ...result,
+    wrapperParams: { ...result.wrapperParams, ...spacingProps },
+  }
 }
 
 export function prerenderIcon(

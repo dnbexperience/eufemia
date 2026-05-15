@@ -44,7 +44,7 @@ import {
 import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -530,7 +530,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-textarea',
       `dnb-textarea--${textareaState}`,

@@ -12,7 +12,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 
 import Context from '../../shared/Context'
@@ -97,7 +97,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     }
   }, [collapseAllHandleRef])
 
-  const rootProps = applySpacing(extendedProps, {
+  const rootProps = useSpacing(extendedProps, {
     className: clsx(
       'dnb-accordion-group',
       singleContainer && 'dnb-accordion-group--single-container',

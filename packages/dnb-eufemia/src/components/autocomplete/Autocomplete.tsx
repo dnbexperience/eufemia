@@ -57,7 +57,7 @@ import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
@@ -2351,7 +2351,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   attributesRef.current = validateDOMAttributes(null, attributes)
   Object.assign(drawerList.attributes, attributesRef.current)
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-autocomplete',
       direction && `dnb-autocomplete--${direction}`,

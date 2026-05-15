@@ -3,7 +3,7 @@ import type { ReactNode, Ref, RefObject, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
@@ -152,7 +152,7 @@ const Table = (componentProps: TableAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const tableProps = applySpacing(allProps, {
+  const tableProps = useSpacing(allProps, {
     ...props,
     ref: mergedRef,
     className: clsx(

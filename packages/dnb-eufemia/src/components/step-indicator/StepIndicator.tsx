@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { HTMLProps, MouseEvent, ReactNode } from 'react'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Card from '../Card'
 import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
@@ -146,7 +146,7 @@ function StepIndicator({
       <div className="dnb-step-indicator-wrapper">
         <Card
           align="stretch"
-          {...applySpacing(restOfProps, {
+          {...useSpacing(restOfProps, {
             className: 'dnb-step-indicator',
           })}
           backgroundColor="var(--step-indicator-trigger-content-background)"
