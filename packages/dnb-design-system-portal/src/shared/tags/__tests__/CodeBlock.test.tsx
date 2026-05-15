@@ -55,7 +55,7 @@ vi.mock('@dnb/eufemia/src/components', async () => {
     createElement: typeof CreateElement
   }
   return {
-    Button: ({ text, onClick, ...rest }: any) =>
+    Button: ({ text, onClick, icon: _icon, ...rest }: any) =>
       createElement('button', { onClick, ...rest }, text),
     Checkbox: ({ label, checked, onChange, ...rest }: any) =>
       createElement(
