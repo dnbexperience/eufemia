@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { memo, useCallback, useContext, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   HTMLProps,
   KeyboardEvent,
@@ -126,10 +133,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   skipNextPropSync.current = false
 
   // Register initial checked value with group context
-  const didInitRef = useRef(false)
-  if (!didInitRef.current) {
-    didInitRef.current = true
-
+  useLayoutEffect(() => {
     if (
       groupContext.name &&
       typeof ownProps.value !== 'undefined' &&
@@ -151,7 +155,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         })
       }
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const callOnChange = useCallback(
     ({
