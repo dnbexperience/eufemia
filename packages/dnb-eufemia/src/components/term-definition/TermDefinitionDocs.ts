@@ -17,6 +17,11 @@ export const TermDefinitionProperties: PropertiesTableProps = {
     defaultValue: '"bottom"',
     status: 'optional',
   },
+  skeleton: {
+    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `left` or `right` are supported.',
     type: ['string', 'object'],
