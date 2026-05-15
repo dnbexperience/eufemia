@@ -287,6 +287,15 @@ describe('Icon component', () => {
   })
 })
 
+describe('Icon with function children', () => {
+  it('should not leak Icon props like skeleton to the SVG element', () => {
+    render(<Icon skeleton>{question}</Icon>)
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg.getAttribute('skeleton')).toBeNull()
+  })
+})
+
 describe('Icon fill', () => {
   it('should have filled class when fill prop is true', () => {
     render(<Icon icon={star} fill />)
