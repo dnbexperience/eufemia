@@ -732,6 +732,7 @@ describe('createMarginProperties', () => {
   })
 })
 
+// @deprecated
 describe('applySpacing', () => {
   it('should add spacing classes to an existing target className', () => {
     const result = applySpacing(

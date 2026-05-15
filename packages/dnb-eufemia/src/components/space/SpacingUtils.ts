@@ -466,24 +466,8 @@ export type ApplySpacingTarget = {
 } & Record<string, unknown>
 
 /**
- * Applies spacing to an existing props object by appending spacing CSS
- * classes to `className` and merging spacing CSS custom properties
- * (from `innerSpace`) into `style`. Spacing props (`space`, `innerSpace`,
- * `top`, `right`, `bottom`, `left`, `noCollapse`) are removed from the
- * returned object so it can be spread directly onto a DOM element.
- * Returns a new object; the input is not mutated.
- *
- * @example
- *   const mainParams = applySpacing(props, {
- *     ...attributes,
- *     className: clsx('dnb-button', className),
- *   })
- *
- * @param props - component props containing spacing properties
- *                (top, right, bottom, left, space, innerSpace, noCollapse)
- * @param target - props object to merge spacing into
- * @param elementName - optional element name for inline detection
- * @returns a new object of the same shape as `target`, with spacing merged in
+ * @deprecated Use `useSpacing` instead. This plain-function variant
+ * does not support `Space.Responsive` context.
  */
 export const applySpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
@@ -524,11 +508,28 @@ export const applySpacing = <T extends ApplySpacingTarget>(
 }
 
 /**
- * Hook-style alias for `applySpacing`, intended for use at the top level
- * of React components. Follows the `use` naming convention so it can
- * adopt React hooks internally in the future without breaking call sites.
+ * Applies spacing to an existing props object by appending spacing CSS
+ * classes to `className` and merging spacing CSS custom properties
+ * (from `innerSpace`) into `style`. Spacing props (`space`, `innerSpace`,
+ * `top`, `right`, `bottom`, `left`, `noCollapse`) are removed from the
+ * returned object so it can be spread directly onto a DOM element.
+ * Returns a new object; the input is not mutated.
  *
- * @see applySpacing
+ * Must be called at the top level of a React component so it can read
+ * context (e.g. `Space.Responsive`). Follows the `use` naming convention
+ * because it may call React hooks internally.
+ *
+ * @example
+ *   const mainParams = useSpacing(props, {
+ *     ...attributes,
+ *     className: clsx('dnb-button', className),
+ *   })
+ *
+ * @param props - component props containing spacing properties
+ *                (top, right, bottom, left, space, innerSpace, noCollapse)
+ * @param target - props object to merge spacing into
+ * @param elementName - optional element name for inline detection
+ * @returns a new object of the same shape as `target`, with spacing merged in
  */
 export const useSpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
