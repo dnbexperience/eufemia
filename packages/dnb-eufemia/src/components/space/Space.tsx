@@ -4,7 +4,7 @@
  */
 
 import { useContext } from 'react'
-import type { CSSProperties, HTMLProps, Ref } from 'react'
+import type { HTMLProps, Ref } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
@@ -12,7 +12,7 @@ import {
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { createSpacing, isInline } from './SpacingUtils'
+import { useSpacing, isInline } from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -102,25 +102,23 @@ function SpaceInstance(localProps: SpaceAllProps) {
     ...attributes
   } = props
 
-  const spacing = createSpacing({ top, right, bottom, left, space })
-  const spacingInnerStyle = createSpacing(props).style
+  const params = useSpacing(
+    { top, right, bottom, left, space, innerSpace },
+    {
+      style,
+      className: clsx(
+        'dnb-space',
+        stretch && 'dnb-space--stretch',
+        inline && 'dnb-space--inline',
+        createSkeletonClass(null, skeleton) // do not send along context
+      ),
+      ...attributes,
+    }
+  )
 
-  const params = {
-    className: clsx(
-      'dnb-space',
-      stretch && 'dnb-space--stretch',
-      inline && 'dnb-space--inline',
-      createSkeletonClass(null, skeleton), // do not send along context
-      ...spacing.className,
-      className
-    ),
-    ...attributes,
-  }
-
-  const styleObj = {
-    ...style,
-    ...spacingInnerStyle,
-  } as CSSProperties
+  // Append component className after spacing classes to preserve
+  // the historical class order: dnb-space, spacing, component classes
+  params.className = clsx(params.className, className)
 
   skeletonDOMAttributes(params, skeleton) // do not send along context
 
@@ -129,7 +127,6 @@ function SpaceInstance(localProps: SpaceAllProps) {
       element={element}
       noCollapse={noCollapse}
       ref={ref}
-      style={styleObj}
       {...params}
     >
       {children}
