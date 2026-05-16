@@ -15,6 +15,7 @@ import {
 import { render, fireEvent } from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import userEvent from '@testing-library/user-event'
+import { useSharedState } from '../../../shared/helpers/useSharedState'
 
 new MatchMediaMock()
 
@@ -497,6 +498,426 @@ describe('Accordion container component', () => {
     expect(first).toHaveAttribute('aria-expanded', 'true')
     expect(second).toHaveAttribute('aria-expanded', 'true')
     expect(third).toHaveAttribute('aria-expanded', 'true')
+  })
+})
+
+describe('Accordion tertiary variant', () => {
+  it('renders a tertiary button with chevron icon', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button).toBeTruthy()
+    expect(button.textContent).toContain('Toggle')
+    expect(button.classList.contains('dnb-button--tertiary')).toBe(true)
+
+    const icon = button.querySelector('.dnb-icon')
+    expect(icon).toBeTruthy()
+  })
+
+  it('starts collapsed by default', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(document.querySelector('.dnb-accordion--expanded')).toBeFalsy()
+  })
+
+  it('starts expanded when expanded prop is true', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" expanded noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(document.querySelector('.dnb-accordion--expanded')).toBeTruthy()
+  })
+
+  it('reacts to expanded prop changes', () => {
+    const { rerender } = render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+
+    rerender(
+      <Accordion variant="tertiary" title="Toggle" expanded noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+
+    rerender(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        expanded={false}
+        noAnimation
+      >
+        <p>Content</p>
+      </Accordion>
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('toggles on click', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(document.querySelector('.dnb-accordion--expanded')).toBeTruthy()
+
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(document.querySelector('.dnb-accordion--expanded')).toBeFalsy()
+  })
+
+  it('calls onChange on click', () => {
+    const onChange = jest.fn()
+    render(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        noAnimation
+        onChange={onChange}
+      >
+        <p>Content</p>
+      </Accordion>
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-accordion__tertiary-button')
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true })
+    )
+  })
+
+  it('has correct aria-controls linking button to content', () => {
+    render(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        id="my-accordion"
+        noAnimation
+      >
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const controlledId = button.getAttribute('aria-controls')
+    expect(controlledId).toBe('my-accordion-content')
+
+    const content = document.getElementById(controlledId)
+    expect(content).toBeTruthy()
+  })
+
+  it('is disabled when disabled prop is set', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" disabled noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button).toHaveAttribute('disabled')
+  })
+
+  it('can be controlled externally via useSharedState', () => {
+    function ExternalControl() {
+      const { set } = useSharedState('shared-accordion', {
+        expanded: false,
+      })
+      return (
+        <button
+          data-testid="external"
+          onClick={() => set({ expanded: true })}
+        >
+          Open
+        </button>
+      )
+    }
+
+    render(
+      <>
+        <ExternalControl />
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="shared-accordion"
+          noAnimation
+        >
+          <p>Content</p>
+        </Accordion>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+
+    fireEvent.click(document.querySelector('[data-testid="external"]'))
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+  })
+
+  it('has correct variant class', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    expect(
+      document.querySelector('.dnb-accordion__variant--tertiary')
+    ).toBeTruthy()
+  })
+
+  it('renders button-only when no children are provided', () => {
+    render(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        id="btn-only"
+        noAnimation
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    expect(button).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-accordion__tertiary-content')
+    ).toBeFalsy()
+    expect(button.getAttribute('aria-controls')).toBe('btn-only-content')
+  })
+
+  it('connects button and separate Accordion.Content via shared id', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="split-test"
+          noAnimation
+        />
+        <Accordion.Content id="split-test">
+          <p>Remote content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    )
+
+    expect(button).toBeTruthy()
+    expect(content).toBeTruthy()
+    expect(content.textContent).toContain('Remote content')
+
+    // Initially collapsed
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+
+    // Click expands the remote content
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(
+      content.classList.contains('dnb-height-animation--is-in-dom')
+    ).toBe(true)
+
+    // Click collapses again
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('focuses content on user click', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+
+    fireEvent.click(button)
+
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    )
+    expect(document.activeElement).toBe(content)
+  })
+
+  it('does not focus content when expanded programmatically', () => {
+    const { rerender } = render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    rerender(
+      <Accordion variant="tertiary" title="Toggle" expanded noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    )
+    expect(document.activeElement).not.toBe(content)
+  })
+
+  it('focuses standalone content on user click', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="focus-split"
+          noAnimation
+        />
+        <Accordion.Content id="focus-split" title="Details">
+          <p>Remote content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+
+    fireEvent.click(button)
+
+    const content = document.getElementById('focus-split-content')
+    expect(document.activeElement).toBe(content)
+    expect(content.getAttribute('aria-label')).toBe('Details')
+  })
+
+  it('should have no accessibility violations', async () => {
+    const { container } = render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('should have no accessibility violations in split placement', async () => {
+    const { container } = render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="axe-split"
+          noAnimation
+        />
+        <Accordion.Content id="axe-split">
+          <p>Content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('renders standalone Accordion.Content as a section element', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="section-test"
+          noAnimation
+        />
+        <Accordion.Content id="section-test" title="Details">
+          <p>Content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const section = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    )
+    expect(section.tagName).toBe('SECTION')
+    expect(section.getAttribute('title')).toBe('Details')
+  })
+
+  it('supports keepInDOM=false on standalone Accordion.Content', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="keep-test"
+          noAnimation
+        />
+        <Accordion.Content id="keep-test" keepInDOM={false}>
+          <p>Content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    // When collapsed and keepInDOM=false, HeightAnimation removes from DOM
+    expect(
+      document.querySelector('.dnb-accordion__tertiary-content')
+    ).toBeFalsy()
+  })
+
+  it('supports spacing props on standalone Accordion.Content', () => {
+    render(
+      <>
+        <Accordion variant="tertiary" title="Toggle" id="spacing-test" />
+        <Accordion.Content id="spacing-test" top="large">
+          <p>Content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    )
+    expect(content).toHaveClass('dnb-space__top--large')
   })
 })
 

@@ -34,6 +34,8 @@ import AccordionHeader from './AccordionHeader'
 import AccordionContent from './AccordionContent'
 import AccordionContext from './AccordionContext'
 import AccordionProviderContext from './AccordionProviderContext'
+import type { AccordionTertiaryProps } from './AccordionTertiary'
+import AccordionTertiary from './AccordionTertiary'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
@@ -43,7 +45,12 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type { AccordionGroupProps, AccordionInstance } from './types'
 export { accordionDefaultProps } from './types'
 
-export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
+export type AccordionVariant =
+  | 'plain'
+  | 'default'
+  | 'outlined'
+  | 'filled'
+  | 'tertiary'
 
 export type AccordionHeading = boolean | ReactNode
 
@@ -107,7 +114,7 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     singleContainer?: boolean
     /**
-     * Defines the visual style variant. Available variants: `default`, `outlined`, `filled`, `plain`. Default: `outlined`
+     * Defines the used styling. `outlined`, `filled`, `plain` (no styling), `default`, or `tertiary` (renders a tertiary button). Defaults to `outlined`.
      */
     variant?: AccordionVariant
     /**
@@ -165,6 +172,21 @@ export type AccordionChangeEvent = {
 }
 
 function Accordion({
+  variant = 'outlined',
+  ...restOfProps
+}: AccordionProps) {
+  if (variant === 'tertiary') {
+    return (
+      <AccordionTertiary
+        {...(restOfProps as unknown as AccordionTertiaryProps)}
+      />
+    )
+  }
+
+  return <AccordionDefault variant={variant} {...restOfProps} />
+}
+
+function AccordionDefault({
   variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps

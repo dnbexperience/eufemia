@@ -3,7 +3,13 @@
  *
  */
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
 import clsx from 'clsx'
 import {
@@ -19,6 +25,8 @@ import { useSpacing } from '../space/SpacingUtils'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { useSharedState } from '../../shared/helpers/useSharedState'
+import type { AccordionTertiarySharedState } from './AccordionTertiary'
 
 export type AccordionContentProps = Omit<
   HTMLProps<HTMLElement>,
@@ -26,6 +34,15 @@ export type AccordionContentProps = Omit<
 > &
   SpacingProps & {
     instance?: RefObject<unknown>
+    /**
+     * If set to `true` the content will remain in the DOM when collapsed.
+     * Defaults to `true` in standalone mode.
+     */
+    keepInDOM?: boolean
+    /**
+     * An accessible label for the content section. Used as `aria-label` in standalone mode.
+     */
+    title?: ReactNode
     className?: string
     children?: ReactNode | (() => ReactNode)
   }
@@ -33,6 +50,73 @@ export type AccordionContentProps = Omit<
 export default function AccordionContent(props: AccordionContentProps) {
   const context = useContext<AccordionContextValue>(AccordionContext)
 
+  // Standalone mode: when used outside an Accordion parent with an explicit id,
+  // subscribe to the shared state from an AccordionTertiary button.
+  const isStandalone = !context.id && props.id
+  if (isStandalone) {
+    return <AccordionContentStandalone {...props} />
+  }
+
+  return <AccordionContentInner {...props} />
+}
+
+function AccordionContentStandalone({
+  ref: _ref,
+  ...props
+}: AccordionContentProps) {
+  const {
+    id,
+    className,
+    children,
+    title,
+    keepInDOM: keepInDOMProp = true,
+    ...rest
+  } = props
+
+  const contentRef = useRef<HTMLElement>(null)
+  const { data: sharedData, set } =
+    useSharedState<AccordionTertiarySharedState>(id)
+  const expanded = sharedData?.expanded ?? false
+  const userInteracted = sharedData?.userInteracted ?? false
+  const contentId = `${id}-content`
+
+  const handleOpen = useCallback(() => {
+    if (userInteracted && contentRef.current) {
+      contentRef.current.focus({ preventScroll: true })
+      set({ ...sharedData, userInteracted: false })
+    }
+  }, [userInteracted, sharedData, set])
+
+  const wrapperParams = useSpacing(props, {
+    className: clsx(
+      'dnb-accordion__content',
+      'dnb-accordion__tertiary-content',
+      className
+    ),
+    ...rest,
+  })
+  validateDOMAttributes(props, wrapperParams)
+
+  return (
+    <HeightAnimation
+      {...wrapperParams}
+      element="section"
+      ref={contentRef}
+      open={expanded}
+      keepInDOM={keepInDOMProp}
+      id={contentId}
+      onOpen={handleOpen}
+      tabIndex={-1}
+      title={typeof title === 'string' ? title : undefined}
+      aria-label={typeof title === 'string' ? title : undefined}
+    >
+      {children as ReactNode}
+    </HeightAnimation>
+  )
+}
+
+function AccordionContentInner(props: AccordionContentProps) {
+  const context = useContext<AccordionContextValue>(AccordionContext)
   const {
     id,
     expanded,

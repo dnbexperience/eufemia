@@ -108,6 +108,17 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
+    it('have to match tertiary variant expanded', async () => {
+      await makeScreenshot({
+        style: { width: '20rem' },
+        selector: '[data-visual-test="accordion-tertiary"]',
+        recalculateHeightAfterSimulate: true,
+        simulateSelector:
+          '[data-visual-test="accordion-tertiary"] .dnb-accordion__tertiary-button',
+        simulate: 'click',
+      })
+    })
+
     describe.each(['description', 'filled'])(`%s`, (testName) => {
       const style = { width: '20rem' }
       const selector = `[data-visual-test="accordion-${testName}"]`

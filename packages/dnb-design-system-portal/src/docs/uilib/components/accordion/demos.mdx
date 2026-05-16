@@ -15,6 +15,7 @@ import {
   AccordionFilledExample,
   AccordionInColumns,
   AccordionCloseAllInGroup,
+  AccordionTertiarySplitExample,
 } from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
@@ -65,6 +66,12 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 </VisibilityByTheme>
 
 <AccordionFilledExample />
+
+### Variant `tertiary`
+
+A lightweight variant that renders a tertiary button with a chevron icon. The button and content can be placed separately in the tree by sharing the same `id`. The button automatically sets `aria-expanded` and `aria-controls` to link it with the content panel.
+
+<AccordionTertiarySplitExample />
 
 <VisibleWhenVisualTest>
   <AccordionDescriptionExample />

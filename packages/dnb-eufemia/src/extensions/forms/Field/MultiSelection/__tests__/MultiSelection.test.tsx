@@ -1601,7 +1601,7 @@ describe('MultiSelection', () => {
       )
 
       const clearAllButton = document.querySelector(
-        '.dnb-forms-field-multi-selection__selected-items-header button:last-child'
+        '.dnb-forms-field-multi-selection__selected-items-header > .dnb-button'
       ) as HTMLElement
       fireEvent.click(clearAllButton)
 
@@ -1645,7 +1645,7 @@ describe('MultiSelection', () => {
       )
 
       const clearAllButton = document.querySelector(
-        '.dnb-forms-field-multi-selection__selected-items-header button:last-child'
+        '.dnb-forms-field-multi-selection__selected-items-header > .dnb-button'
       ) as HTMLElement
       fireEvent.click(clearAllButton)
 
@@ -1785,16 +1785,14 @@ describe('MultiSelection', () => {
       await waitFor(
         () => {
           expect(
-            document.querySelector(
-              '.dnb-forms-field-multi-selection__accordion'
-            )
+            document.querySelector('.dnb-accordion__tertiary-button')
           ).toBeInTheDocument()
         },
         { timeout: 3000 }
       )
 
       const toggleButton = document.querySelector(
-        '.dnb-forms-field-multi-selection__accordion'
+        '.dnb-accordion__tertiary-button'
       ) as HTMLElement
 
       // Collapsed by default
