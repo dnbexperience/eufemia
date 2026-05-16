@@ -42,8 +42,8 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.',
-    type: ['"default"', '"outlined"', '"filled"', '"plain"'],
+    doc: 'Defines the used styling. `outlined`, `filled`, `plain` (no styling), `default`, or `tertiary` (renders a tertiary button). Defaults to `outlined`.',
+    type: ['"default"', '"outlined"', '"filled"', '"plain"', '"tertiary"'],
     status: 'optional',
   },
   icon: {
@@ -122,6 +122,39 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   space: {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AccordionContentProperties: PropertiesTableProps = {
+  id: {
+    doc: 'A unique `id` used to connect standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same `id`.',
+    type: 'string',
+    status: 'optional',
+  },
+  title: {
+    doc: 'Provides a label for the content region in standalone tertiary mode. It is applied to both `aria-label` and `title`.',
+    type: 'string',
+    status: 'optional',
+  },
+  noAnimation: {
+    doc: 'If set to `true`, the open and close animation will be omitted in standalone tertiary mode.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  keepInDOM: {
+    doc: 'If set to `true` the content will be present, even when the accordion is not expanded. In standalone tertiary mode, the content region stays mounted to preserve `aria-controls`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Content displayed inside the accordion body.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

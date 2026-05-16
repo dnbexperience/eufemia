@@ -245,16 +245,6 @@
     padding: 0.5rem 0;
   }
 
-  &__accordion {
-    .dnb-icon {
-      transition: transform 0.4s var(--easing-default);
-    }
-
-    &--open .dnb-icon {
-      transform: rotate(180deg);
-    }
-  }
-
   &--inline {
     .dnb-forms-field-multi-selection__inline-content {
       display: flex;
