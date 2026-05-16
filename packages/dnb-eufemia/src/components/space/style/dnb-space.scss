@@ -7,6 +7,7 @@
 
 @use 'sass:string';
 @use '../../../style/core/utilities.scss' as utilities;
+@use './responsive-spacing.scss';
 
 @mixin marginDirection($direction) {
   // Get the first letter for the custom property name (top -> t, left -> l, etc.)
@@ -176,7 +177,7 @@
   }
 }
 
-/* stylelint-disable */
+/* stylelint-disable-next-line no-descending-specificity */
 .dnb-space {
   &--no-collapse {
     display: flow-root;
@@ -187,15 +188,19 @@
   &--inline {
     display: inline-block;
   }
+  /* stylelint-disable-next-line no-descending-specificity */
   &__top {
     @include marginDirection(top);
   }
+  /* stylelint-disable-next-line no-descending-specificity */
   &__right {
     @include marginDirection(right);
   }
+  /* stylelint-disable-next-line no-descending-specificity */
   &__bottom {
     @include marginDirection(bottom);
   }
+  /* stylelint-disable-next-line no-descending-specificity */
   &__left {
     @include marginDirection(left);
   }
@@ -235,8 +240,107 @@
     --padding-top: var(--padding-t-l);
     --padding-bottom: var(--padding-b-l);
   }
+
+  // Responsive modifiers
+  // A single --responsive-spacing-tier variable controls the active tier.
+  // Each --responsive-spacing-* is computed from its basis value + tier × 0.5rem.
+  // Default mapping: small viewport = -1, medium = 0, large = +1.
+  // Shifting the breakpoint shifts the tier integers accordingly.
+
+  &-responsive {
+    --responsive-spacing-tier: 0;
+
+    // Compute responsive spacing values
+    --responsive-spacing-xx-small: max(
+      0.25rem,
+      calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+    );
+    --responsive-spacing-x-small: max(
+      0.25rem,
+      calc(1rem + var(--responsive-spacing-tier) * 0.5rem)
+    );
+    --responsive-spacing-small: calc(
+      1.5rem + var(--responsive-spacing-tier) * 0.5rem
+    );
+    --responsive-spacing-medium: calc(
+      2rem + var(--responsive-spacing-tier) * 0.5rem
+    );
+    --responsive-spacing-large: calc(
+      2.5rem + var(--responsive-spacing-tier) * 0.5rem
+    );
+    --responsive-spacing-x-large: calc(
+      3rem + var(--responsive-spacing-tier) * 0.5rem
+    );
+    --responsive-spacing-xx-large: calc(
+      3.5rem + var(--responsive-spacing-tier) * 0.5rem
+    );
+
+    // Map spacing tokens to responsive spacing values
+    --spacing-xx-small: var(--responsive-spacing-xx-small);
+    --spacing-x-small: var(--responsive-spacing-xx-small);
+    --spacing-small: var(--responsive-spacing-x-small);
+    --spacing-medium: var(--responsive-spacing-small);
+    --spacing-large: var(--responsive-spacing-medium);
+    --spacing-x-large: var(--responsive-spacing-large);
+    --spacing-xx-large: var(--responsive-spacing-x-large);
+
+    // Default viewport mapping (medium = basis)
+    @include utilities.allBelow(small) {
+      --responsive-spacing-tier: -1;
+    }
+    @include utilities.allAbove(medium) {
+      --responsive-spacing-tier: 1;
+    }
+  }
+
+  // Breakpoint overrides – shift which viewport gets the "basis" tier
+  &-responsive--breakpoint-small {
+    @include utilities.allBelow(small) {
+      --responsive-spacing-tier: 0;
+    }
+    @include utilities.allBetween(small, medium) {
+      --responsive-spacing-tier: 1;
+    }
+    @include utilities.allAbove(medium) {
+      --responsive-spacing-tier: 2;
+    }
+  }
+
+  &-responsive--breakpoint-large {
+    @include utilities.allBelow(small) {
+      --responsive-spacing-tier: -2;
+    }
+    @include utilities.allBetween(small, medium) {
+      --responsive-spacing-tier: -1;
+    }
+    @include utilities.allAbove(medium) {
+      --responsive-spacing-tier: 0;
+    }
+  }
+
+  // Explicit density overrides (defined after defaults → wins by cascade)
+  &-responsive--force-compact {
+    --responsive-spacing-tier: -1;
+  }
+
+  &-responsive--force-spacious {
+    --responsive-spacing-tier: 1;
+  }
+
+  // Reset responsive overrides when Space.Responsive off is set,
+  // so inherited --spacing-* custom properties from an ancestor
+  // .dnb-space-responsive do not leak into opted-out subtrees.
+  // Values mirror the theme defaults in themes/ui/properties.scss.
+  &-responsive--off {
+    --spacing-xx-small: 0.25rem; // 4px
+    --spacing-x-small: 0.5rem; // 8px
+    --spacing-small: 1rem; // 16px
+    --spacing-medium: 1.5rem; // 24px
+    --spacing-large: 2rem; // 32px
+    --spacing-x-large: 3rem; // 48px
+    --spacing-xx-large: 3.5rem; // 56px
+  }
 }
 span.dnb-space--no-collapse > span {
   display: block;
 }
-/* stylelint-enable */

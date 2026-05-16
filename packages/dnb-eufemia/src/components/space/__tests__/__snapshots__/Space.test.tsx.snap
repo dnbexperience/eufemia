@@ -14,6 +14,46 @@ exports[`Space scss > should match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/*
+ * Space component
+ *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
+ */
+@media screen and (max-width: 40em) {
+  :root {
+    --responsive-spacing-xx-small: 0.25rem;
+    --responsive-spacing-x-small: 0.5rem;
+    --responsive-spacing-small: 1rem;
+    --responsive-spacing-medium: 1.5rem;
+    --responsive-spacing-large: 2rem;
+    --responsive-spacing-x-large: 2.5rem;
+    --responsive-spacing-xx-large: 3rem;
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  :root {
+    --responsive-spacing-xx-small: 0.5rem;
+    --responsive-spacing-x-small: 1rem;
+    --responsive-spacing-small: 1.5rem;
+    --responsive-spacing-medium: 2rem;
+    --responsive-spacing-large: 2.5rem;
+    --responsive-spacing-x-large: 3rem;
+    --responsive-spacing-xx-large: 3.5rem;
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  :root {
+    --responsive-spacing-xx-small: 1rem;
+    --responsive-spacing-x-small: 1.5rem;
+    --responsive-spacing-small: 2rem;
+    --responsive-spacing-medium: 2.5rem;
+    --responsive-spacing-large: 3rem;
+    --responsive-spacing-x-large: 3.5rem;
+    --responsive-spacing-xx-large: 4rem;
+  }
+}
+
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */
@@ -342,7 +382,7 @@ exports[`Space scss > should match style dependencies css 1`] = `
   margin-left: 0;
 }
 
-/* stylelint-disable */
+/* stylelint-disable-next-line no-descending-specificity */
 .dnb-space--no-collapse {
   display: flow-root;
 }
@@ -351,6 +391,9 @@ exports[`Space scss > should match style dependencies css 1`] = `
 }
 .dnb-space--inline {
   display: inline-block;
+}
+.dnb-space {
+  /* stylelint-disable-next-line no-descending-specificity */
 }
 .dnb-space__top--xx-small {
   margin-top: var(--spacing-xx-small);
@@ -433,6 +476,9 @@ exports[`Space scss > should match style dependencies css 1`] = `
 .dnb-space__top--zero {
   margin-top: 0;
 }
+.dnb-space {
+  /* stylelint-disable-next-line no-descending-specificity */
+}
 .dnb-space__right--xx-small {
   margin-right: var(--spacing-xx-small);
 }
@@ -514,6 +560,9 @@ exports[`Space scss > should match style dependencies css 1`] = `
 .dnb-space__right--zero {
   margin-right: 0;
 }
+.dnb-space {
+  /* stylelint-disable-next-line no-descending-specificity */
+}
 .dnb-space__bottom--xx-small {
   margin-bottom: var(--spacing-xx-small);
 }
@@ -594,6 +643,9 @@ exports[`Space scss > should match style dependencies css 1`] = `
 }
 .dnb-space__bottom--zero {
   margin-bottom: 0;
+}
+.dnb-space {
+  /* stylelint-disable-next-line no-descending-specificity */
 }
 .dnb-space__left--xx-small {
   margin-left: var(--spacing-xx-small);
@@ -724,10 +776,96 @@ exports[`Space scss > should match style dependencies css 1`] = `
     --padding-bottom: var(--padding-b-l);
   }
 }
+.dnb-space-responsive {
+  --responsive-spacing-tier: 0;
+  --responsive-spacing-xx-small: max(
+    0.25rem,
+    calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+  );
+  --responsive-spacing-x-small: max(
+    0.25rem,
+    calc(1rem + var(--responsive-spacing-tier) * 0.5rem)
+  );
+  --responsive-spacing-small: calc(
+    1.5rem + var(--responsive-spacing-tier) * 0.5rem
+  );
+  --responsive-spacing-medium: calc(
+    2rem + var(--responsive-spacing-tier) * 0.5rem
+  );
+  --responsive-spacing-large: calc(
+    2.5rem + var(--responsive-spacing-tier) * 0.5rem
+  );
+  --responsive-spacing-x-large: calc(
+    3rem + var(--responsive-spacing-tier) * 0.5rem
+  );
+  --responsive-spacing-xx-large: calc(
+    3.5rem + var(--responsive-spacing-tier) * 0.5rem
+  );
+  --spacing-xx-small: var(--responsive-spacing-xx-small);
+  --spacing-x-small: var(--responsive-spacing-xx-small);
+  --spacing-small: var(--responsive-spacing-x-small);
+  --spacing-medium: var(--responsive-spacing-small);
+  --spacing-large: var(--responsive-spacing-medium);
+  --spacing-x-large: var(--responsive-spacing-large);
+  --spacing-xx-large: var(--responsive-spacing-x-large);
+}
+@media screen and (max-width: 40em) {
+  .dnb-space-responsive {
+    --responsive-spacing-tier: -1;
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space-responsive {
+    --responsive-spacing-tier: 1;
+  }
+}
+@media screen and (max-width: 40em) {
+  .dnb-space-responsive--breakpoint-small {
+    --responsive-spacing-tier: 0;
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space-responsive--breakpoint-small {
+    --responsive-spacing-tier: 1;
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space-responsive--breakpoint-small {
+    --responsive-spacing-tier: 2;
+  }
+}
+@media screen and (max-width: 40em) {
+  .dnb-space-responsive--breakpoint-large {
+    --responsive-spacing-tier: -2;
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space-responsive--breakpoint-large {
+    --responsive-spacing-tier: -1;
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space-responsive--breakpoint-large {
+    --responsive-spacing-tier: 0;
+  }
+}
+.dnb-space-responsive--force-compact {
+  --responsive-spacing-tier: -1;
+}
+.dnb-space-responsive--force-spacious {
+  --responsive-spacing-tier: 1;
+}
+.dnb-space-responsive--off {
+  --spacing-xx-small: 0.25rem;
+  --spacing-x-small: 0.5rem;
+  --spacing-small: 1rem;
+  --spacing-medium: 1.5rem;
+  --spacing-large: 2rem;
+  --spacing-x-large: 3rem;
+  --spacing-xx-large: 3.5rem;
+}
 
 span.dnb-space--no-collapse > span {
   display: block;
-}
-
-/* stylelint-enable */"
+}"
 `;

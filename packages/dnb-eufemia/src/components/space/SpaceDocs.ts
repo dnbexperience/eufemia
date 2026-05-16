@@ -55,3 +55,21 @@ export const SpaceProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const SpaceResponsiveProperties: PropertiesTableProps = {
+  density: {
+    doc: 'Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.',
+    type: ['"compact"', '"basis"', '"spacious"'],
+    status: 'optional',
+  },
+  defaultBreakpoint: {
+    doc: "Sets which breakpoint's spacing scale to use as the default. Default: `medium`.",
+    type: ['"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
+  off: {
+    doc: 'When `true`, disables responsive spacing for descendants, overriding a parent `Space.Responsive`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+}
