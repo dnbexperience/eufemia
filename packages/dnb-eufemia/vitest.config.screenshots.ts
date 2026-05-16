@@ -23,7 +23,9 @@ import LiveReporter from './src/core/vitest-screenshots/liveReporter'
 
 export default defineConfig({
   test: {
-    include: ['src/**/*.screenshot.test.{ts,tsx}'],
+    include: process.env.SCREENSHOT_INCLUDE
+      ? process.env.SCREENSHOT_INCLUDE.split(',')
+      : ['src/**/*.screenshot.test.{ts,tsx}'],
     reporters: [new LiveReporter(), new ScreenshotReporter()],
 
     // Each worker gets its own forked process. The screenshot engine
