@@ -16,7 +16,7 @@ export type DrawerProps = {
 
 export type DrawerContentProps = {
   /**
-   * The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
+   * The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
   minWidth?: string | number
 

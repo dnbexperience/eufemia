@@ -20,7 +20,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 
 import type { ButtonIconPosition } from '../Button'
@@ -87,11 +87,11 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     preventRerender?: boolean
     /**
-     * Use this prop together with `preventRerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
+     * Use this property together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.
      */
     preventRerenderConditional?: boolean
     /**
-     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
+     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.
      */
     rememberState?: boolean
     /**
@@ -103,7 +103,7 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     flushRememberedState?: boolean
     /**
-     * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
+     * If set to `true`, a group of accordions will be wrapped into a sidebar-looking menu for medium and larger screens.
      */
     singleContainer?: boolean
     /**
@@ -287,7 +287,7 @@ function Accordion({
   function changeOpened(expanded: boolean) {
     setExpanded(expanded)
 
-    // check if a event exists, because, then it's a user click
+    // check if an event exists, because, then it's a user click
     if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }
@@ -379,7 +379,7 @@ function Accordion({
     ...restOfExtendedProps
   } = extendedProps
 
-  const mainParams = applySpacing(extendedProps, {
+  const mainParams = useSpacing(extendedProps, {
     id,
     className: clsx(
       'dnb-accordion',

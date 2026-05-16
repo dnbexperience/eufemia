@@ -52,7 +52,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepValue: {
-    doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
+    doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / be replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -118,7 +118,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noOptions: {
-    doc: 'Text show in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
+    doc: 'Text shown in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -256,7 +256,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
 
 export const AutocompleteEvents: PropertiesTableProps = {
   onType: {
-    doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
@@ -276,7 +276,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },

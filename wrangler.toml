@@ -1,0 +1,39 @@
+# Eufemia Docs MCP — Cloudflare Worker configuration.
+#
+# Deploy with:
+#   wrangler deploy            # production worker (`eufemia-mcp`)
+#   wrangler deploy --env preview --name eufemia-mcp-<branch>   # per-branch
+#
+# The CI workflow at .github/workflows/mcp-worker.yml automates this on every
+# push to a non-housekeeping branch and on `v*.*.*` tags.
+
+name = "eufemia-mcp"
+main = "packages/dnb-eufemia/src/mcp/worker/index.ts"
+compatibility_date = "2025-09-01"
+# Required so that any dynamic `import('node:*')` calls in the shared core
+# (used by the Node entry, never reached on Workers) resolve gracefully.
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Production worker. `MCP_AUTH_TOKEN` should be set via:
+#   wrangler secret put MCP_AUTH_TOKEN
+[vars]
+PUBLIC_NAME = "eufemia-mcp"
+
+[observability]
+enabled = true
+
+# ---------------------------------------------------------------------------
+# Preview environment used for per-branch deploys from CI.
+# Each branch deploy uses --name to publish a unique worker, e.g.
+#   eufemia-mcp-feat-mcp-server.<account>.workers.dev
+# ---------------------------------------------------------------------------
+[env.preview]
+name = "eufemia-mcp-preview"
+workers_dev = true
+
+[env.preview.vars]
+PUBLIC_NAME = "eufemia-mcp-preview"
+
+[env.preview.observability]
+enabled = true

@@ -1,6 +1,6 @@
 import type { ElementType, HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type {
   TypographySize,
   TypographyWeight,
@@ -68,7 +68,7 @@ function TextInternal(props: TextInternalProps) {
 
   const attributes = validateDOMAttributes(
     props,
-    applySpacing(props, {
+    useSpacing(props, {
       ...rest,
       'aria-label': ariaLabel,
       style,

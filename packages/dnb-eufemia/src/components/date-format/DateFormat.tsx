@@ -22,7 +22,7 @@ import {
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
 import clsx from 'clsx'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
@@ -115,18 +115,14 @@ function DateFormat(props: DateFormatProps) {
     return getDuration('full')
   }, [getDuration])
 
-  const attributes = useMemo(() => {
-    const attrs = applySpacing(props, {
-      className: clsx(
-        'dnb-date-format',
-        createSkeletonClass('font', skeleton, context)
-      ),
-      lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
-    })
-    skeletonDOMAttributes(attrs, skeleton, context)
-
-    return attrs
-  }, [props, skeleton, context, locale])
+  const attributes = useSpacing(props, {
+    className: clsx(
+      'dnb-date-format',
+      createSkeletonClass('font', skeleton, context)
+    ),
+    lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
+  })
+  skeletonDOMAttributes(attributes, skeleton, context)
 
   const getAbsoluteDateTime = useCallback(
     (style = 'yyyy-MM-dd') => {

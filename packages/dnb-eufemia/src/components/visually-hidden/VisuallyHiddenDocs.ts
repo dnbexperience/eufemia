@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const VisuallyHiddenProperties: PropertiesTableProps = {
   focusable: {
-    doc: 'Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.',
+    doc: 'Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

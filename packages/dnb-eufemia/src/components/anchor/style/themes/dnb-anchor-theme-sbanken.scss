@@ -34,11 +34,6 @@
       --anchor-icon-separator: '\00a0';
     }
 
-    &.dnb-anchor--icon-left,
-    &.dnb-anchor--icon-right {
-      text-decoration-color: var(--sb-color-green-dark);
-    }
-
     &.dnb-anchor--icon-left {
       &:not(.dnb-anchor--icon-right) {
         --anchor-background-gutter-right: 0rem;

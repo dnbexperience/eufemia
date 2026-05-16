@@ -1,39 +1,33 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Flex.Container', () => {
-  test('have to match divider', async () => {
-    const screenshot = await makeScreenshot({
+describe('Flex.Container', () => {
+  it('have to match divider', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-divider"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match with children', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match with children', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-with-children"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match bookend line', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match bookend line', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-line-framed"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match wrapped bookend line', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match wrapped bookend line', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {
         width: 240,
@@ -41,20 +35,18 @@ test.describe('Flex.Container', () => {
       selector:
         '[data-visual-test="flex-container-line-framed"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match field on large viewport', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match field on large viewport', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-field"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match field on small viewport', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match field on small viewport', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {
         width: 600,
@@ -62,11 +54,10 @@ test.describe('Flex.Container', () => {
       selector:
         '[data-visual-test="flex-container-field"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match field on x-small viewport', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match field on x-small viewport', async () => {
+    await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
       pageViewport: {
         width: 300,
@@ -74,6 +65,5 @@ test.describe('Flex.Container', () => {
       selector:
         '[data-visual-test="flex-container-field"] .dnb-flex-container',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

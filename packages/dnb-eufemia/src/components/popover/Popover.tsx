@@ -83,6 +83,7 @@ export default function Popover(props: PopoverProps) {
     alignOnTarget = 'center',
     horizontalOffset,
     autoAlignMode = 'initial',
+    autoAlignViewportThreshold,
     arrowPosition = 'center',
     arrowPositionSelector,
     hideArrow = false,
@@ -696,6 +697,7 @@ export default function Popover(props: PopoverProps) {
         hideDelay={hideDelay}
         keepInDOM={keepInDOM}
         autoAlignMode={autoAlignMode}
+        autoAlignViewportThreshold={autoAlignViewportThreshold}
         noAnimation={noAnimation}
         arrowPosition={arrowPosition}
         placement={placement}

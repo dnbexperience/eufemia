@@ -148,9 +148,23 @@ This example uses `scope="row"` with a table header (`<th>`) in each row.
 
 <Examples.ResponsiveInCard />
 
+### Column highlight
+
+Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
+
+```tsx
+import Table, { useTableHighlight } from '@dnb/eufemia/components/Table'
+
+const highlightRef = useTableHighlight()
+render(<Table ref={highlightRef}>...</Table>)
+```
+
+<Examples.ColumnHighlight />
+
 ### Example usage without and with classes
 
-<Examples.WithoutClasses />
 <Examples.ClassHelpers />
 
 <VisibleWhenVisualTest>

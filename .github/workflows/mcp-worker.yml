@@ -1,0 +1,210 @@
+name: MCP Worker
+
+# Build the docs bundle and deploy the Eufemia MCP server as a Cloudflare
+# Worker. The workflow only runs for changes that are intentionally MCP work
+# or an actual release:
+#
+# - `release` branch and `v*` / `v*.*.*` tags deploy to the production Worker
+#   `eufemia-mcp` (https://eufemia-mcp.<account>.workers.dev).
+# - Any branch named `mcp-server`, `mcp-server/**`, `**/mcp-server`, or
+#   `**-mcp-server` (e.g. `feat/mcp-server`) deploys to its own preview Worker
+#   `eufemia-mcp-preview-<sanitized-branch>`.
+# - `workflow_dispatch` lets you trigger an out-of-band deploy from the
+#   Actions tab; it deploys to a preview Worker named after the current
+#   branch.
+#
+# After the deploy the workflow smoke-tests `/healthz` against the published
+# URL and posts the URL in the run summary so it can be opened straight from
+# the Actions tab.
+
+on:
+  push:
+    branches:
+      - release
+      - '**/mcp-server'
+    tags:
+      - 'v*'
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        id: modules-cache
+        with:
+          path: node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+
+      - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Build Eufemia docs (produces packages/dnb-eufemia/build/docs)
+        run: yarn workspace @dnb/eufemia build:docs
+
+      - name: Build MCP docs bundle
+        run: yarn workspace @dnb/eufemia build:docs:bundle
+
+      - name: Compute deploy target
+        id: target
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          set -euo pipefail
+          if [ "${REF_TYPE}" = "tag" ] || [ "${REF_NAME}" = "release" ]; then
+            echo "env=prod" >> "$GITHUB_OUTPUT"
+            echo "name=eufemia-mcp" >> "$GITHUB_OUTPUT"
+          else
+            # Sanitize the branch name into a valid Worker name:
+            #   - lowercase
+            #   - keep [a-z0-9-]
+            #   - collapse other characters into a dash
+            #   - cap at 53 chars (Workers' practical limit minus prefix)
+            sanitized=$(echo "${REF_NAME}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g; s/--*/-/g; s/^-//; s/-$//' | cut -c1-53)
+            echo "env=preview" >> "$GITHUB_OUTPUT"
+            echo "name=eufemia-mcp-preview-${sanitized}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip if Cloudflare credentials are missing
+        id: gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "Cloudflare credentials are not set; skipping deploy."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy Worker
+        if: steps.gate.outputs.skip != 'true'
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          REF_NAME: ${{ github.ref_name }}
+          REF_SHA: ${{ github.sha }}
+          DEPLOY_ENV: ${{ steps.target.outputs.env }}
+          WORKER_NAME: ${{ steps.target.outputs.name }}
+        run: |
+          set -euo pipefail
+
+          DEPLOY_MSG="${REF_NAME}@${REF_SHA} via GitHub Actions"
+          DEPLOY_TAG="${REF_SHA}"
+
+          if [ "${DEPLOY_ENV}" = "prod" ]; then
+            yarn dlx wrangler deploy \
+              --name "${WORKER_NAME}" \
+              --message "${DEPLOY_MSG}" \
+              --tag "${DEPLOY_TAG}"
+          else
+            yarn dlx wrangler deploy \
+              --env preview \
+              --name "${WORKER_NAME}" \
+              --message "${DEPLOY_MSG}" \
+              --tag "${DEPLOY_TAG}"
+          fi
+
+          # The Worker is served from <name>.<account>.workers.dev. We can
+          # construct it from the API token's account info via wrangler whoami,
+          # or just print the canonical workers.dev URL pattern.
+          # Wrangler does not currently expose the URL programmatically in a
+          # stable way for `--name`, so we infer it from the configured
+          # account subdomain via the Cloudflare API.
+          subdomain=$(curl -fsS \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/subdomain" \
+            | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>{const j=JSON.parse(d);process.stdout.write(j?.result?.subdomain||"")})')
+          if [ -z "${subdomain}" ]; then
+            echo "Could not determine Workers subdomain; skipping smoke test." >&2
+            echo "url=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          url="https://${WORKER_NAME}.${subdomain}.workers.dev"
+          echo "Deployed to ${url}"
+          echo "url=${url}" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke test deployed Worker
+        if: steps.gate.outputs.skip != 'true' && steps.deploy.outputs.url != ''
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          set -euo pipefail
+          echo "Polling ${URL}/healthz ..."
+          for i in $(seq 1 30); do
+            if curl -fsS "${URL}/healthz" >/dev/null; then
+              echo "Healthy after ${i}s"
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              echo "Worker did not become healthy in 30s" >&2
+              curl -i "${URL}/healthz" || true
+              exit 1
+            fi
+            sleep 1
+          done
+
+          echo "/healthz response:"
+          curl -fsS "${URL}/healthz"
+          echo
+
+          echo "tools/list:"
+          curl -fsS -X POST "${URL}/mcp" \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json, text/event-stream' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}' \
+            | head -c 400
+          echo
+
+      - name: Summary
+        if: always()
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+          NAME: ${{ steps.target.outputs.name }}
+          SKIP: ${{ steps.gate.outputs.skip }}
+        run: |
+          {
+            echo "### Eufemia MCP Worker"
+            echo ""
+            if [ "${SKIP}" = "true" ]; then
+              echo "Cloudflare credentials are not configured; deploy was skipped."
+              echo ""
+              echo "Set \`CLOUDFLARE_API_TOKEN\` and \`CLOUDFLARE_ACCOUNT_ID\` in the repo secrets to enable deploys."
+            else
+              echo "**Worker:** \`${NAME}\`"
+              if [ -n "${URL}" ]; then
+                echo "**URL:** ${URL}"
+                echo ""
+                echo "Endpoints:"
+                echo "- ${URL}/healthz"
+                echo "- ${URL}/mcp"
+              fi
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

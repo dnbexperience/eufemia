@@ -16,13 +16,18 @@ export const IconProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  fill: {
+    doc: 'If set to `true`, the icon paths will be filled with `currentColor`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   alt: {
     doc: 'The alternative label (text version) of the icon. Defaults to the imported icon name.',
     type: 'string',
     status: 'optional',
   },
   size: {
-    doc: 'The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
+    doc: 'The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`, `medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
     type: [
       '"default"',
       '"small"',

@@ -10,7 +10,7 @@
  * pattern with a single type-safe call.
  */
 
-export type SpacingPropsVariant = boolean | 'children'
+export type SpacingPropsVariant = boolean | 'children' | 'passthrough'
 
 export type ComponentMarkers = {
   /**
@@ -23,7 +23,8 @@ export type ComponentMarkers = {
   /**
    * Whether the component accepts spacing props directly.
    * - `true` — spacing props are cloned onto the element
-   * - `'children'` — spacing is applied to the component's children
+   * - `'children'` — spacing is applied to the component's children inside a nested flex context
+   * - `'passthrough'` — spacing passes through to children directly (no flex wrapper)
    * - `false` — the component explicitly opts out of spacing
    *
    * Used by `Flex.Container` and `renderWithSpacing` to decide how

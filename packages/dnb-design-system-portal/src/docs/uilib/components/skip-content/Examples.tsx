@@ -89,7 +89,7 @@ const LargeTableWithInteractiveElements = (props) => {
 
   return (
     <Table.ScrollView top>
-      <Table accordion border outline size="medium" {...props}>
+      <Table mode="accordion" border outline size="medium" {...props}>
         <caption className="dnb-sr-only">A Table Caption</caption>
 
         <thead>

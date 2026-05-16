@@ -34,7 +34,7 @@ import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLay
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -120,7 +120,7 @@ export type DropdownProps = {
    */
   buttonRef?: Ref<HTMLElement>
   /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Only makes sense to use in combination with `preventSelection`. Defaults to `left`.
    */
   align?: DropdownAlign
   /**
@@ -510,7 +510,7 @@ const DropdownInstance = memo(function DropdownInstance({
     validateDOMAttributes(null, attributes)
   )
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-dropdown',
       `dnb-dropdown--${direction}`,

@@ -26,7 +26,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -84,11 +84,11 @@ export type RadioProps = {
   id?: string
   element?: ElementType
   /**
-   * Use a unique group identifier to define the Radio buttons that belongs together.
+   * Use a unique group identifier to define the Radio buttons that belong together.
    */
   group?: string
   /**
-   * The size of the Radio button. For now there is **medium** (default) and **large**.
+   * The size of the Radio button. For now there are `medium` (default) and `large`.
    */
   size?: RadioSize
   suffix?: RadioSuffix
@@ -390,7 +390,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
   const showStatus = getStatusState(status)
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-radio',
       status && `dnb-radio__status--${statusState}`,

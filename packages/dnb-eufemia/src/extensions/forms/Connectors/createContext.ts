@@ -46,7 +46,7 @@ export type ResponseResolver<
 ) => {
   /**
    * The matcher to be used to determine if and how the connector,
-   * such as an validator for `onChangeValidator` or `onBlurValidator`,
+   * such as a validator for `onChangeValidator` or `onBlurValidator`,
    * should validate the field value.
    */
   matcher?: (value: string) => boolean

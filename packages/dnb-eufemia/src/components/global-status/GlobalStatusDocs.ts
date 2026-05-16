@@ -125,7 +125,7 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusAnchorLabel: {
-    doc: 'Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have an `label`.',
+    doc: 'Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have a `label`.',
     type: 'string',
     status: 'optional',
   },

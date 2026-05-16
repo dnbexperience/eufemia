@@ -30,7 +30,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -176,7 +176,7 @@ export type DatePickerProps = {
    */
   showSubmitButton?: boolean
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: boolean
   /**
@@ -244,7 +244,7 @@ export type DatePickerProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.
    */
   size?: InputSize
   /**
@@ -635,7 +635,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
       status && `dnb-date-picker__status--${statusState}`,

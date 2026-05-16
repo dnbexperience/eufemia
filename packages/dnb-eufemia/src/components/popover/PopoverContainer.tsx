@@ -43,6 +43,7 @@ type PopoverContainerProps = {
   triggerOffset?: number
   keepInDOM?: boolean
   autoAlignMode?: PopoverAutoAlignMode
+  autoAlignViewportThreshold?: number
   hideArrow?: boolean
   arrowEdgeOffset?: number
   targetRefreshKey?: unknown
@@ -77,6 +78,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     targetElement,
     triggerOffset: triggerOffsetProp = 0,
     autoAlignMode = 'initial',
+    autoAlignViewportThreshold,
     hideArrow = false,
     arrowEdgeOffset,
     targetRefreshKey,
@@ -530,52 +532,83 @@ function PopoverContainer(props: PopoverContainerProps) {
       allowAutoAlign &&
       (placementKey === 'top' || placementKey === 'bottom')
     ) {
+      const clampedViewportThreshold =
+        typeof autoAlignViewportThreshold === 'number'
+          ? Math.min(Math.max(autoAlignViewportThreshold, 0), 1)
+          : null
       const viewportTopEdge = scrollYOffset + viewportMargin
       const viewportBottomEdge =
         scrollYOffset + window.innerHeight - viewportMargin
+      const canFlipFromBottom =
+        clampedViewportThreshold === null ||
+        verticalRect.top >= window.innerHeight * clampedViewportThreshold
+      const canFlipFromTop =
+        clampedViewportThreshold === null ||
+        verticalRect.bottom <=
+          window.innerHeight * (1 - clampedViewportThreshold)
 
       const fitsTop = topPlacement.top >= viewportTopEdge
       const fitsBottom =
         bottomPlacement.top + elementHeight <= viewportBottomEdge
 
-      if (placementKey === 'bottom' && !fitsBottom && fitsTop) {
+      if (
+        placementKey === 'bottom' &&
+        !fitsBottom &&
+        fitsTop &&
+        canFlipFromBottom
+      ) {
         placementKey = 'top'
         nextLeft = topPlacement.left
         nextTop = topPlacement.top
-      } else if (placementKey === 'top' && !fitsTop && fitsBottom) {
+      } else if (
+        placementKey === 'top' &&
+        !fitsTop &&
+        fitsBottom &&
+        canFlipFromTop
+      ) {
         placementKey = 'bottom'
         nextLeft = bottomPlacement.left
         nextTop = bottomPlacement.top
       } else if (!fitsTop && !fitsBottom) {
-        // If neither fits in the viewport, we pick the one with more visible area.
-        // However, we must ensure that 'top' placement doesn't go off the top of the document (negative coordinate),
-        // as that content would be unreachable.
-        const topInvalid = topPlacement.top < 0
-
-        if (topInvalid) {
+        if (placementKey === 'bottom' && !canFlipFromBottom) {
           placementKey = 'bottom'
           nextLeft = bottomPlacement.left
           nextTop = bottomPlacement.top
+        } else if (placementKey === 'top' && !canFlipFromTop) {
+          placementKey = 'top'
+          nextLeft = topPlacement.left
+          nextTop = topPlacement.top
         } else {
-          const getVisibleHeight = (y: number) => {
-            const top = y
-            const bottom = y + elementHeight
-            const visibleTop = Math.max(top, viewportTopEdge)
-            const visibleBottom = Math.min(bottom, viewportBottomEdge)
-            return Math.max(0, visibleBottom - visibleTop)
-          }
+          // If neither fits in the viewport, we pick the one with more visible area.
+          // However, we must ensure that 'top' placement doesn't go off the top of the document (negative coordinate),
+          // as that content would be unreachable.
+          const topInvalid = topPlacement.top < 0
 
-          const topVisible = getVisibleHeight(topPlacement.top)
-          const bottomVisible = getVisibleHeight(bottomPlacement.top)
-
-          if (topVisible > bottomVisible) {
-            placementKey = 'top'
-            nextLeft = topPlacement.left
-            nextTop = topPlacement.top
-          } else {
+          if (topInvalid) {
             placementKey = 'bottom'
             nextLeft = bottomPlacement.left
             nextTop = bottomPlacement.top
+          } else {
+            const getVisibleHeight = (y: number) => {
+              const top = y
+              const bottom = y + elementHeight
+              const visibleTop = Math.max(top, viewportTopEdge)
+              const visibleBottom = Math.min(bottom, viewportBottomEdge)
+              return Math.max(0, visibleBottom - visibleTop)
+            }
+
+            const topVisible = getVisibleHeight(topPlacement.top)
+            const bottomVisible = getVisibleHeight(bottomPlacement.top)
+
+            if (topVisible > bottomVisible) {
+              placementKey = 'top'
+              nextLeft = topPlacement.left
+              nextTop = topPlacement.top
+            } else {
+              placementKey = 'bottom'
+              nextLeft = bottomPlacement.left
+              nextTop = bottomPlacement.top
+            }
           }
         }
       }

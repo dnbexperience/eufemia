@@ -39,6 +39,13 @@
     height: inherit;
   }
 
+  // filled
+  &--filled svg {
+    path {
+      fill: currentcolor;
+    }
+  }
+
   // color
   &--inherit-color svg:not([fill]),
   &--inherit-color svg [fill] {

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 vi.mock('vite', () => ({
-  transformWithEsbuild: vi.fn(async (code: string) => ({ code })),
+  transformWithOxc: vi.fn(async (code: string) => ({ code })),
 }))
 
 import scrollPositionPlugin from '../../client/plugins/scroll-position'

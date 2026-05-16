@@ -7,6 +7,7 @@ import globals from 'globals'
 import babelParser from '@babel/eslint-parser'
 import importPlugin from 'eslint-plugin-import'
 import jestPlugin from 'eslint-plugin-jest'
+import vitestPlugin from '@vitest/eslint-plugin'
 import playwrightPlugin from 'eslint-plugin-playwright'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import prettierPlugin from 'eslint-plugin-prettier'
@@ -521,7 +522,30 @@ export default [
     },
   },
   {
-    files: ['**/*.screenshot.test.{ts,tsx}', '**/*.e2e.spec.{ts,tsx}'],
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+      'src/extensions/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/*Docs.{ts,tsx}',
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.stories.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'docs-types': docsTypesPlugin,
+    },
+    rules: {
+      'docs-types/sync-docs-jsdoc': 'warn',
+    },
+  },
+  {
+    // Playwright stays for E2E tests only.
+    files: ['**/*.e2e.spec.{ts,tsx}'],
     ...playwrightPlugin.configs['flat/recommended'],
     plugins: {
       ...playwrightPlugin.configs['flat/recommended'].plugins,
@@ -530,6 +554,35 @@ export default [
     rules: {
       ...playwrightPlugin.configs['flat/recommended'].rules,
       'playwright-extras/no-identical-title': 'error',
+    },
+  },
+  {
+    // The vitest-screenshots helper modules run inside Vitest's browser
+    // worker, where Vite handles all module resolution. We use
+    // \`@ts-nocheck\` to keep them out of the main project's tsc step
+    // (their types are validated by Vitest's own pipeline at runtime).
+    files: ['src/core/vitest-screenshots/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+    },
+  },
+  {
+    // Vitest browser-mode screenshot tests use the plain Jest-flavoured API
+    // (`describe` / `it`). Lint them with @vitest/eslint-plugin instead of
+    // eslint-plugin-playwright.
+    files: ['**/*.screenshot.test.{ts,tsx}'],
+    plugins: {
+      vitest: vitestPlugin,
+    },
+    rules: {
+      ...vitestPlugin.configs.recommended.rules,
+      // makeScreenshot is the assertion in our screenshot tests.
+      'vitest/expect-expect': [
+        'error',
+        {
+          assertFunctionNames: ['expect', 'makeScreenshot'],
+        },
+      ],
     },
   },
 ]

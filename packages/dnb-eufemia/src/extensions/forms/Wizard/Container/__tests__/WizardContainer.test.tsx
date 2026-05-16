@@ -4483,7 +4483,7 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should put prerendered fields (Step 1) in the portal inside an hidden iframe', async () => {
+    it('should put prerendered fields (Step 1) in the portal inside a hidden iframe', async () => {
       const addedNodes = []
       const removedNodes = []
 

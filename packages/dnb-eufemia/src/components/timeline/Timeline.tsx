@@ -3,7 +3,7 @@ import type { AllHTMLAttributes, ReactElement, Ref } from 'react'
 import clsx from 'clsx'
 
 // Components
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 // Shared
 import Context from '../../shared/Context'
@@ -28,7 +28,7 @@ export type TimelineProps = {
   skeleton?: SkeletonShow
 
   /**
-   * Pass in a list of your events as objects of timelineitem, to render them as timelineitems.
+   * Pass in a list of your events as objects of TimelineItem, to render them as TimelineItems.
    * Default: `null`
    */
   data?: TimelineItemProps[]
@@ -75,7 +75,7 @@ const Timeline = (localProps: TimelineAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const olProps = applySpacing(allProps, {
+  const olProps = useSpacing(allProps, {
     ...props,
     className: clsx('dnb-timeline', 'dnb-space__reset', className),
   })

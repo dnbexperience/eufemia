@@ -77,7 +77,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   focusSelector: {
-    doc: 'The Modal handles the first focus – automatically. However, you can define a custom focus selector the will be used instead `focusSelector=".css-selector"`.',
+    doc: 'The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=".css-selector"`.',
     type: 'string',
     status: 'optional',
   },
@@ -92,7 +92,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   omitTriggerButton: {
-    doc: 'Omits default showing trigger button.',
+    doc: 'Omits the default trigger button.',
     type: 'boolean',
     status: 'optional',
   },
@@ -162,7 +162,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minWidth: {
-    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
     type: ['string', 'number'],
     status: 'optional',
   },

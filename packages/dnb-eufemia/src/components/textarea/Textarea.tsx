@@ -44,7 +44,7 @@ import {
 import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -122,7 +122,7 @@ export type TextareaProps = Omit<
      */
     labelSrOnly?: boolean
     /**
-     * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
+     * The sizes you can choose for 1 row are `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
      */
     size?: TextareaSize
     /**
@@ -530,7 +530,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-textarea',
       `dnb-textarea--${textareaState}`,

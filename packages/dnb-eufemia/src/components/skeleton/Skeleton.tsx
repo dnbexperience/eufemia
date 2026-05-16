@@ -18,7 +18,7 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
@@ -156,7 +156,7 @@ function Skeleton(props: SkeletonProps) {
   const showSkeleton =
     typeof show === 'boolean' || typeof show === 'string' ? show : skeleton
 
-  const params = applySpacing(extendedProps, {
+  const params = useSpacing(extendedProps, {
     className: clsx(
       figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
       showSkeleton && 'dnb-skeleton',

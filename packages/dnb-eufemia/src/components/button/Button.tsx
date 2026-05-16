@@ -27,7 +27,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -128,7 +128,7 @@ export type ButtonProps = {
    */
   iconSize?: IconSize
   /**
-   * Only for icon buttons. If true, use the style for a selected icon button. Default: `false`.
+   * Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.
    */
   selected?: boolean
   /**
@@ -145,7 +145,7 @@ export type ButtonProps = {
    */
   target?: string
   /**
-   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples (non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
    */
   rel?: string
   /**
@@ -157,7 +157,7 @@ export type ButtonProps = {
    */
   customContent?: ReactNode
   /**
-   * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
+   * If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.
    */
   wrap?: boolean
   /**
@@ -357,7 +357,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
   const titleString = convertJsxToString(title) || undefined
 
-  const params = applySpacing(props, {
+  const params = useSpacing(props, {
     className: clsx(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,

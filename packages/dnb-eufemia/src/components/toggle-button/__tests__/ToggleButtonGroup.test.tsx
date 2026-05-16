@@ -4,7 +4,7 @@
  */
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
-import { useState } from 'react'
+import { StrictMode, useState } from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -566,5 +566,30 @@ describe('ToggleButton group component', () => {
       </ToggleButton.Group>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should not trigger setState-during-render warning when registering initial checked value', () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+
+    render(
+      <StrictMode>
+        <ToggleButton.Group label="Label" id="group">
+          <ToggleButton id="toggle-button-1" text="First" value="first" />
+          <ToggleButton
+            id="toggle-button-2"
+            text="Second"
+            value="second"
+            checked
+          />
+        </ToggleButton.Group>
+      </StrictMode>
+    )
+
+    expect(consoleError).not.toHaveBeenCalled()
+
+    const checkedButton = document.querySelector('button#toggle-button-2')
+    expect(checkedButton).toHaveAttribute('aria-pressed', 'true')
+
+    consoleError.mockRestore()
   })
 })

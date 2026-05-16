@@ -24,7 +24,7 @@ export const ValueProperties: PropertiesTableProps = {
   },
   help: FieldBlockProperties.help,
   transformLabel: {
-    doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
+    doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.',
     type: 'function',
     status: 'optional',
   },
@@ -64,7 +64,7 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: 'Transforms the `value` before its displayed in the value component.',
+    doc: "Transforms the `value` before it's displayed in the value component.",
     type: 'function',
     status: 'optional',
   },

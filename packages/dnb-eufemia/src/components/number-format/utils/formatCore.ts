@@ -39,10 +39,13 @@ export function resolveLocale(locale: string | null): string {
   }
   if (locale === 'auto') {
     try {
-      return window.navigator.language
+      if (typeof window !== 'undefined') {
+        return window.navigator.language
+      }
     } catch (e) {
       warn(e)
     }
+    return LOCALE
   }
   return locale
 }

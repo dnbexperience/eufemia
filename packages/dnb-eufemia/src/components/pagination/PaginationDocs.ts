@@ -52,12 +52,12 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   placeMarkerBeforeContent: {
-    doc: 'If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
+    doc: 'If set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   useLoadButton: {
-    doc: 'If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.',
+    doc: 'If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.',
     type: 'boolean',
     status: 'optional',
   },

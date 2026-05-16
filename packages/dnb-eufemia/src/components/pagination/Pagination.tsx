@@ -21,7 +21,7 @@ import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
@@ -122,7 +122,7 @@ export type PaginationProps = {
    */
   parallelLoadCount?: PaginationParallelLoadCount
   /**
-   * if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * if set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
   placeMarkerBeforeContent?: boolean
   /**
@@ -138,7 +138,7 @@ export type PaginationProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.
+   * If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.
    */
   mode?: PaginationMode
   /**
@@ -146,7 +146,7 @@ export type PaginationProps = {
    */
   paginationBarLayout?: PaginationLayout
   /**
-   * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
+   * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.
    */
   useLoadButton?: boolean
   items?: PaginationItems
@@ -345,19 +345,19 @@ const PaginationInstance = memo(function PaginationInstance(
   const { currentPageInternal, items, fallbackElement, indicatorElement } =
     ctx.pagination
 
+  const mainParams = useSpacing(props, {
+    className: clsx(
+      'dnb-pagination',
+      align && `dnb-pagination--${align}`,
+      paginationBarLayout &&
+        `dnb-pagination--layout-${paginationBarLayout}`,
+      className
+    ),
+    ...attributes,
+  })
+
   // Pagination mode
   if (ctx.pagination.mode === 'pagination') {
-    const mainParams = applySpacing(props, {
-      className: clsx(
-        'dnb-pagination',
-        align && `dnb-pagination--${align}`,
-        paginationBarLayout &&
-          `dnb-pagination--layout-${paginationBarLayout}`,
-        className
-      ),
-      ...attributes,
-    })
-
     validateDOMAttributes(props, mainParams)
 
     const content = items.find(

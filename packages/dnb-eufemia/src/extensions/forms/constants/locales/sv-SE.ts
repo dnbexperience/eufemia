@@ -108,6 +108,18 @@ export default {
       yes: 'Ja',
       no: 'Nej',
     },
+    MultiSelectionField: {
+      placeholder: 'Välj en eller flera',
+      selectAll: 'Välj alla',
+      searchPlaceholder: 'Sök...',
+      noOptions: 'Inga alternativ',
+      confirmButton: 'Bekräfta ({count} valda)',
+      cancelButton: 'Avbryt',
+      selectionCount: '{count} av {total} valda',
+      clearAll: 'Rensa alla',
+      errorMinItems: 'Du måste välja minst {minItems}.',
+      errorMaxItems: 'Du kan inte välja fler än {maxItems}.',
+    },
 
     /**
      * Feature fields

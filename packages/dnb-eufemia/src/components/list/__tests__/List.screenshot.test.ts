@@ -1,167 +1,145 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`List for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/list/demos',
-    })
+describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/list/demos',
+  })
 
-    test('have to match slots list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-slots"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match action list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-action"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match action list in hover state', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-action"]',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match action list with href', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-action-href"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match action list with href in hover state', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-action-href"]',
-        simulateSelector:
-          '[data-visual-test="list-action-href"] li:last-of-type',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match accordion list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-accordion"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match pending list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-pending"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match footer list with buttons', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-footer"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list overline', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-overline"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list subline', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-subline"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list inside card', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-card"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list inside card without scroll view', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '30rem' },
-        selector: '[data-visual-test="list-card-no-scroll-view"]',
-      })
-      expect(screenshot).toMatchSnapshot()
+  it('have to match slots list', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-slots"]',
     })
   })
-}
 
-for (const themeName of ['ui']) {
-  test.describe(`List for ${themeName} on small viewport`, () => {
-    const smallViewport = { width: 400, height: 600 }
-
-    setupPageScreenshot({
-      themeName,
-      pageViewport: smallViewport,
-      url: '/uilib/components/list/demos',
-    })
-
-    test('have to match separated list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-separated"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match avatar list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-avatar"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match form elements list', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-form-elements"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list overline', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-overline"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match list subline', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '20rem' },
-        selector: '[data-visual-test="list-subline"]',
-      })
-      expect(screenshot).toMatchSnapshot()
+  it('have to match action list', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action"]',
     })
   })
-}
+
+  it('have to match action list in hover state', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action"]',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match action list with href', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-href"]',
+    })
+  })
+
+  it('have to match action list with href in hover state', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-href"]',
+      simulateSelector:
+        '[data-visual-test="list-action-href"] li:last-of-type',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match accordion list', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-accordion"]',
+    })
+  })
+
+  it('have to match pending list', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-pending"]',
+    })
+  })
+
+  it('have to match footer list with buttons', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-footer"]',
+    })
+  })
+
+  it('have to match list overline', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-overline"]',
+    })
+  })
+
+  it('have to match list subline', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-subline"]',
+    })
+  })
+
+  it('have to match list inside card', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-card"]',
+    })
+  })
+
+  it('have to match list inside card without scroll view', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-card-no-scroll-view"]',
+    })
+  })
+})
+
+describe.each(['ui'])(`List for %s on small viewport`, (themeName) => {
+  const smallViewport = { width: 400, height: 600 }
+
+  setupPageScreenshot({
+    themeName,
+    pageViewport: smallViewport,
+    url: '/uilib/components/list/demos',
+  })
+
+  it('have to match separated list', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-separated"]',
+    })
+  })
+
+  it('have to match avatar list', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-avatar"]',
+    })
+  })
+
+  it('have to match form elements list', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-form-elements"]',
+    })
+  })
+
+  it('have to match list overline', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-overline"]',
+    })
+  })
+
+  it('have to match list subline', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-subline"]',
+    })
+  })
+})

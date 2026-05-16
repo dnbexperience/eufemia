@@ -15,7 +15,7 @@ import {
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import type { SpacingProps } from '../../shared/types'
@@ -78,7 +78,7 @@ export type IconProps = {
   icon?: IconIcon
 
   /**
-   * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.
+   * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`, `medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.
    */
   size?: IconSize
 
@@ -111,6 +111,11 @@ export type IconProps = {
    * Modifier class to define. Will result in: `dnb-icon--${modifier}`.
    */
   modifier?: string
+
+  /**
+   * If set to `true`, the icon paths will be filled with `currentColor`.
+   */
+  fill?: boolean
 
   border?: boolean
   width?: `${IconSize}` | `${number}%` | number
@@ -336,7 +341,7 @@ function prepareIconParams({
   return { params, sizeAsString }
 }
 
-function prepareIconCore(
+export function prepareIcon(
   props: IconAllProps,
   context: ContextProps,
   cachedValues?: {
@@ -352,6 +357,7 @@ function prepareIconCore(
     height,
     border,
     color,
+    fill,
     inheritColor,
     modifier,
     alt,
@@ -376,6 +382,8 @@ function prepareIconCore(
 
   const label =
     cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
+
+  const isFilled = Boolean(fill)
 
   // some wrapper params
   // also used for code markup simulation
@@ -403,20 +411,15 @@ function prepareIconCore(
     delete wrapperParams['aria-label']
   }
 
-  Object.assign(
-    wrapperParams,
-    applySpacing(props, {
-      className: clsx(
-        'dnb-icon',
-        modifier && `dnb-icon--${modifier}`,
-        border && 'dnb-icon--border',
-        inheritColor !== false && 'dnb-icon--inherit-color',
-        sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
-        createSkeletonClass(null, skeleton, context),
-        className
-      ),
-      style: wrapperParams.style,
-    })
+  wrapperParams.className = clsx(
+    'dnb-icon',
+    modifier && `dnb-icon--${modifier}`,
+    border && 'dnb-icon--border',
+    isFilled && 'dnb-icon--filled',
+    inheritColor !== false && 'dnb-icon--inherit-color',
+    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
+    createSkeletonClass(null, skeleton, context),
+    className
   )
 
   const iconToRender = getIcon(props)
@@ -445,18 +448,24 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
     [icon]
   )
 
-  return useMemo(
+  const result = useMemo(
     () =>
-      prepareIconCore(props, context, {
+      prepareIcon(props, context, {
         ...cachedCalcSize,
         label,
       }),
     [props, context, cachedCalcSize, label]
   )
-}
 
-export function prepareIcon(props: IconAllProps, context: ContextProps) {
-  return prepareIconCore(props, context)
+  const spacingProps = useSpacing(props, {
+    className: result.wrapperParams.className,
+    style: result.wrapperParams.style,
+  })
+
+  return {
+    ...result,
+    wrapperParams: { ...result.wrapperParams, ...spacingProps },
+  }
 }
 
 export function prerenderIcon(
@@ -505,6 +514,9 @@ export function prerenderIcon(
 function getIcon(props) {
   if (props.icon) {
     return props.icon
+  }
+  if (typeof props.children === 'function') {
+    return props.children
   }
   return processChildren(props)
 }

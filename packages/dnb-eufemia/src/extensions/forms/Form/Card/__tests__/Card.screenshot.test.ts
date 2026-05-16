@@ -1,17 +1,13 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 const url = '/uilib/extensions/forms/Form/Card/demos/'
 
-test.describe('Form.Card', () => {
-  test('have to match when used in wizard', async () => {
-    const screenshot = await makeScreenshot({
+describe('Form.Card', () => {
+  it('have to match when used in wizard', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="forms-card-in-wizard"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

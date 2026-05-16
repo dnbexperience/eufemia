@@ -8,7 +8,7 @@ import type {
 import clsx from 'clsx'
 import type { TableScrollViewProps } from './TableScrollView'
 import TableScrollView from './TableScrollView'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
 import type { SpacingProps } from '../../shared/types'
@@ -44,7 +44,7 @@ export default function TableContainer(props: TableContainerAllProps) {
 
   validateDOMAttributes(props, rest)
 
-  const sectionProps = applySpacing(props, {
+  const sectionProps = useSpacing(props, {
     className: clsx('dnb-table__container', className),
     ...rest,
   })

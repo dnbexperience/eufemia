@@ -24,7 +24,7 @@ import {
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
-import { applySpacing } from '../../components/space/SpacingUtils'
+import { useSpacing } from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'
@@ -189,7 +189,7 @@ export type DrawerListProps = {
   preventSelection?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Only makes sense to use in combination with `preventSelection` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
@@ -260,11 +260,11 @@ export type DrawerListProps = {
    */
   enableBodyLock?: boolean
   /**
-   * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).
+   * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions in contrast to a scrollable page content).
    */
   pageOffset?: string | number
   /**
-   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
+   * Set an HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observerElement?: string | ReactNode
   onOpen?: (event: DrawerListEvent) => void
@@ -499,7 +499,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
-  const mainParams = applySpacing(propsWithDefaults, {
+  const mainParams = useSpacing(propsWithDefaults, {
     id: `${id}-drawer-list`,
     className: clsx(
       'dnb-drawer-list',

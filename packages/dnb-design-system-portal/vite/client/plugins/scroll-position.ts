@@ -8,8 +8,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { transformWithEsbuild } from 'vite'
-import type { Plugin } from 'vite'
+import { transformWithOxc, type Plugin } from 'vite'
 
 const VIRTUAL_MODULE_ID = 'virtual:scroll-position'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -31,8 +30,8 @@ export default function scrollPositionPlugin(): Plugin {
           'scroll-position.runtime.ts'
         )
         const code = fs.readFileSync(runtimeFile, 'utf-8')
-        const result = await transformWithEsbuild(code, runtimeFile, {
-          loader: 'ts',
+        const result = await transformWithOxc(code, runtimeFile, {
+          lang: 'ts',
         })
         return result.code
       }

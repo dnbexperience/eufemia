@@ -1,42 +1,35 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Field.Toggle', () => {
+describe('Field.Toggle', () => {
   const url = '/uilib/extensions/forms/base-fields/Toggle/demos/'
 
-  test('have to match buttons variant with help', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match buttons variant with help', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-buttons-with-help"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match buttons variant without label', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match buttons variant without label', async () => {
+    await makeScreenshot({
       url,
       selector:
         '[data-visual-test="toggle-variant-buttons-without-label"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match radio variant with help', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match radio variant with help', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-with-help"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match radio variant without label', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match radio variant without label', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-without-label"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

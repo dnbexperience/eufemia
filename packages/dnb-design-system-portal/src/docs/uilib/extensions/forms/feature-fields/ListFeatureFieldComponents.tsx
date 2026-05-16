@@ -15,7 +15,7 @@ export default function ListFeatureFieldComponents(props) {
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/feature-fields/{more-fields/,}*"
+              glob: "**/uilib/extensions/forms/feature-fields/*"
             }
           }
         }

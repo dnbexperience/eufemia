@@ -9,7 +9,7 @@ export type CopyOnClickProps = {
   showCursor?: boolean
 
   /**
-   * Whether the CopyOnClick component is on or off.
+   * If `true`, the copy functionality and copy cursor will be omitted.
    * Default: `false`
    */
   disabled?: boolean

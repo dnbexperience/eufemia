@@ -24,7 +24,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -76,7 +76,7 @@ export type SwitchProps = {
   disabled?: boolean
   id?: string
   /**
-   * The size of the switch. For now there is "medium" (default) and "large".
+   * The size of the switch. For now there are `medium` (default) and `large`.
    */
   size?: SwitchSize
   /**
@@ -247,7 +247,7 @@ function Switch(props: SwitchProps) {
 
   const showStatus = useMemo(() => getStatusState(status), [status])
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,

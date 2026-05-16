@@ -75,7 +75,7 @@ export type ModalProps = ModalRootProps & {
   children?: ReactNode | ((props: ModalProps) => ReactNode)
 
   /**
-   * Omits default showing trigger button
+   * Omits the default trigger button
    */
   omitTriggerButton?: boolean
 
@@ -187,12 +187,12 @@ export type ModalContentProps = {
   labelledBy?: string
 
   /**
-   * The Modal handles the first focus – automatically. However, you can defined a custom focus selector the will be used instead `focusSelector=".css-selector"`.
+   * The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=".css-selector"`.
    */
   focusSelector?: string
 
   /**
-   * Defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal/drawer content wrapper.
+   * Defines a unique identifier to a modal. Use it in case you have to refer in some way to the modal/drawer content wrapper.
    */
   contentId?: string
 
@@ -243,7 +243,7 @@ export type ModalContentProps = {
   noAnimationOnMobile?: boolean
 
   /**
-   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
+   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
   minWidth?: ModalContentMinWidth
 

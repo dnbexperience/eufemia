@@ -36,6 +36,9 @@ exports[`Button scss > has to match style dependencies css 1`] = `
 .dnb-icon svg[height="100%"] {
   height: inherit;
 }
+.dnb-icon--filled svg path {
+  fill: currentcolor;
+}
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
   fill: currentcolor;
 }
@@ -1005,7 +1008,7 @@ exports[`Button scss > has to match theme css for sbanken 1`] = `
   bottom: -0.0625rem;
   transition: color 250ms ease-in-out;
 }
-[data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+html[data-visual-test] .dnb-button--tertiary .dnb-button__text::after {
   transition: none;
 }
 .dnb-button--tertiary .dnb-button__text::after {
@@ -1217,7 +1220,7 @@ exports[`Button scss > has to match theme css for ui 1`] = `
   bottom: -0.0625rem;
   transition: color 250ms ease-in-out;
 }
-[data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+html[data-visual-test] .dnb-button--tertiary .dnb-button__text::after {
   transition: none;
 }
 .dnb-button--tertiary .dnb-button__text::after {

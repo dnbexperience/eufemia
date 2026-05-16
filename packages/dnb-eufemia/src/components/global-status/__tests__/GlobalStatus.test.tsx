@@ -1302,6 +1302,15 @@ describe('GlobalStatus scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('should render without errors during SSR', () => {
+    const { renderToString } = require('react-dom/server')
+    expect(() => {
+      renderToString(
+        <GlobalStatus id="ssr-test" text="SSR test message" />
+      )
+    }).not.toThrow()
+  })
 })
 
 const refresh = async () => {

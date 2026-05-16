@@ -7,10 +7,10 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Field.Provider', () => {
-  it('should have constant of _supportsSpacingProps="children"', () => {
+  it('should have constant of _supportsSpacingProps="passthrough"', () => {
     expect(
       (Field.Provider as ComponentMarkers)._supportsSpacingProps
-    ).toBe('children')
+    ).toBe('passthrough')
   })
 
   it('should merge inheritedContext with props passed to extend', () => {
