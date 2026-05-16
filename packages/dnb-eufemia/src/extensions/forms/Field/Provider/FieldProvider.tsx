@@ -61,7 +61,7 @@ function FieldProviderProvider(props: FieldProviderProps) {
 }
 
 withComponentMarkers(FieldProviderProvider, {
-  _supportsSpacingProps: 'children',
+  _supportsSpacingProps: 'passthrough',
 })
 
 export default FieldProviderProvider
