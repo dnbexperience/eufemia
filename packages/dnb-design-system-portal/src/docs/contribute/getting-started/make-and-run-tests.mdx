@@ -210,6 +210,13 @@ yarn test:screenshots:update breadcrumb
 
 You can also press the `u` during a watch mode to update outdated snapshots.
 
+To fully renew snapshots (delete all existing PNGs first, then regenerate from scratch), use `test:screenshots:renew`. This is useful when snapshots have drifted or you want a clean baseline:
+
+```bash
+# Delete and regenerate all snapshots for 'phone' and 'radio'
+yarn test:screenshots:renew phone radio
+```
+
 5. How to deal with failing visual tests?
 
 When a visual test fails, a visual comparison file (diff) will be created. Its location and name will be:
