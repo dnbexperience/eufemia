@@ -603,6 +603,10 @@ const emulatePseudoStateViaCSS = async (
       }
 
       for (const sheet of Array.from(document.styleSheets)) {
+        if (sheet.disabled) {
+          continue
+        }
+
         try {
           for (const rule of Array.from(sheet.cssRules)) {
             processRule(rule)
