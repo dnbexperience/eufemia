@@ -846,19 +846,36 @@ function TabsComponent(ownProps: TabsProps) {
   }, [scrollToTab])
 
   // Synchronous shared state initialization (must happen during render, not in useEffect)
+  // Use silent: true to avoid notifying subscribers during render, which would
+  // cause "Cannot update a component while rendering" warnings in React.
+  // Subscribers are notified in useIsomorphicLayoutEffect below after mount.
+  const needsInitialSync = useRef(false)
   if (ownProps.id && !sharedStateRef.current) {
     sharedStateRef.current = createSharedState(ownProps.id)
-    sharedStateRef.current.set({
-      key: selectedKey,
-      selectedKey,
-      focusKey,
-      title: getCurrentTitle(selectedKey),
-    })
+    sharedStateRef.current.set(
+      {
+        key: selectedKey,
+        selectedKey,
+        focusKey,
+        title: getCurrentTitle(selectedKey),
+      },
+      { silent: true }
+    )
+    needsInitialSync.current = true
   }
 
   // Init on mount / window load
   useIsomorphicLayoutEffect(() => {
     let isMounted = true
+
+    // Notify subscribers after mount (silent was used during render phase
+    // to avoid React's "setState during render" warning)
+    if (needsInitialSync.current && sharedStateRef.current) {
+      needsInitialSync.current = false
+      sharedStateRef.current.update(sharedStateRef.current.get(), {
+        forceSync: true,
+      })
+    }
 
     const init = () => {
       if (isMounted && tablistRef.current) {
