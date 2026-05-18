@@ -33,6 +33,44 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
+  it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+
+    const sharedId = 'shared-tabs-id'
+
+    // First render ContentWrapper alone so it subscribes to shared state
+    const { rerender } = render(
+      <Tabs.ContentWrapper id={sharedId}>
+        <p>External content</p>
+      </Tabs.ContentWrapper>
+    )
+
+    // Then add Tabs - this simulates the navigation scenario where
+    // ContentWrapper is already subscribed when Tabs mounts and calls set()
+    rerender(
+      <>
+        <Tabs id={sharedId} data={tablistData}>
+          {contentWrapperData}
+        </Tabs>
+        <Tabs.ContentWrapper id={sharedId}>
+          <p>External content</p>
+        </Tabs.ContentWrapper>
+      </>
+    )
+
+    // Verify no "Cannot update a component while rendering" error was logged
+    const setStateWarnings = consoleError.mock.calls.filter((call) =>
+      call.some(
+        (arg) =>
+          typeof arg === 'string' &&
+          arg.includes('Cannot update a component')
+      )
+    )
+    expect(setStateWarnings).toHaveLength(0)
+
+    consoleError.mockRestore()
+  })
+
   it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
