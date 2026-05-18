@@ -586,6 +586,7 @@ var LiveContext_default = LiveContext
 
 // src/utils/transpile/index.ts
 var import_react4 = __toESM(require('react'))
+var import_jsx_runtime_scope = require('react/jsx-runtime')
 
 // src/utils/transpile/transform.ts
 var import_sucrase = require('sucrase')
@@ -594,7 +595,19 @@ function transform(opts = {}) {
   const transforms = Array.isArray(opts.transforms)
     ? opts.transforms.filter(Boolean)
     : defaultTransforms
-  return (code) => (0, import_sucrase.transform)(code, { transforms }).code
+  return (code) => {
+    const result = (0, import_sucrase.transform)(code, {
+      transforms,
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+      // Use production mode for smaller output; dev mode's jsxDEV isn't needed
+      // since errors are already handled by the ErrorBoundary wrapper
+      production: true
+    }).code
+    // Strip the jsx-runtime require/import since we inject it via scope.
+    // The 'imports' transform normalizes to CJS require() even in ESM context.
+    return result.replace(/"use strict";\s*var _jsxruntime\s*=\s*require\("react\/jsx-runtime"\);?/, '')
+  }
 }
 
 // src/utils/transpile/errorBoundary.tsx
@@ -634,22 +647,16 @@ function compose(...functions) {
 }
 
 // src/utils/transpile/index.ts
-var jsxConst = 'const _jsxFileName = "";'
 var trimCode = (code) => code.trim().replace(/;$/, '')
-var spliceJsxConst = (code) => code.replace(jsxConst, '').trim()
-var addJsxConst = (code) => jsxConst + code
 var wrapReturn = (code) => `return (${code})`
 var generateElement = (
   { code = '', scope = {}, enableTypeScript = true },
   errorCallback
 ) => {
-  const firstPassTransforms = ['jsx']
+  const firstPassTransforms = ['jsx', 'imports']
   enableTypeScript && firstPassTransforms.push('typescript')
   const transformed = compose(
-    addJsxConst,
-    transform({ transforms: ['imports'] }),
     wrapReturn,
-    spliceJsxConst,
     trimCode,
     transform({ transforms: firstPassTransforms }),
     trimCode
@@ -657,7 +664,7 @@ var generateElement = (
   return errorBoundary_default(
     evalCode_default(
       transformed,
-      __spreadValues({ React: import_react4.default }, scope)
+      __spreadValues({ React: import_react4.default, _jsxruntime: import_jsx_runtime_scope }, scope)
     ),
     errorCallback
   )
@@ -686,7 +693,7 @@ var renderElementAsync = (
   evalCode_default(
     transform({ transforms })(code),
     __spreadProps(
-      __spreadValues({ React: import_react4.default }, scope),
+      __spreadValues({ React: import_react4.default, _jsxruntime: import_jsx_runtime_scope }, scope),
       { render }
     )
   )
