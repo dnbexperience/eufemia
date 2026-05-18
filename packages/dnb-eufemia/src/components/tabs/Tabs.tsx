@@ -845,15 +845,20 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }, [scrollToTab])
 
-  // Synchronous shared state initialization (must happen during render, not in useEffect)
+  // Synchronous shared state initialization (must happen during render, not in useEffect).
+  // Use silent: true to avoid triggering subscribers during render, which would cause
+  // "Cannot update a component while rendering a different component" errors.
   if (ownProps.id && !sharedStateRef.current) {
     sharedStateRef.current = createSharedState(ownProps.id)
-    sharedStateRef.current.set({
-      key: selectedKey,
-      selectedKey,
-      focusKey,
-      title: getCurrentTitle(selectedKey),
-    })
+    sharedStateRef.current.set(
+      {
+        key: selectedKey,
+        selectedKey,
+        focusKey,
+        title: getCurrentTitle(selectedKey),
+      },
+      { silent: true }
+    )
   }
 
   // Init on mount / window load
