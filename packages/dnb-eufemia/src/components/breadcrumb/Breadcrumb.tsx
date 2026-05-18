@@ -21,6 +21,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { useSpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Accordion from '../accordion/Accordion'
 
 // Shared
 import Context from '../../shared/Context'
@@ -266,16 +267,43 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
           />
         ) : (
           <>
-            {currentVariant !== 'multiple' && (
-              <Button
-                className="dnb-breadcrumb__toggle"
-                text={backToText}
+            {currentVariant !== 'multiple' &&
+              currentVariant !== 'collapse' && (
+                <Button
+                  className="dnb-breadcrumb__toggle"
+                  text={backToText}
+                  variant="tertiary"
+                  icon="chevron_down"
+                  iconPosition="left"
+                  onClick={onClick ?? onClickHandler}
+                  aria-expanded={!isCollapsedRef.current}
+                />
+              )}
+
+            {currentVariant === 'collapse' && (
+              <Accordion
                 variant="tertiary"
-                icon="chevron_down"
-                iconPosition="left"
-                onClick={onClick ?? onClickHandler}
-                aria-expanded={!isCollapsedRef.current}
-              />
+                title={backToText}
+                expanded={!isCollapsedRef.current}
+                noAnimation={noAnimation}
+                onChange={({ expanded }) => {
+                  isCollapsedRef.current = !expanded
+                  onToggle?.(!expanded)
+                  onClick?.(null)
+                }}
+              >
+                <Section
+                  variant="divider"
+                  className="dnb-breadcrumb__collapse"
+                >
+                  <BreadcrumbMultiple
+                    data={data}
+                    items={items}
+                    collapsed={false}
+                    noAnimation={noAnimation}
+                  />
+                </Section>
+              </Accordion>
             )}
 
             {currentVariant !== 'collapse' && (
@@ -290,12 +318,8 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
         )}
       </Section>
 
-      {(currentVariant === 'collapse' ||
-        currentVariant === 'responsive') && (
-        <Section
-          variant={currentVariant === 'collapse' ? 'divider' : undefined}
-          className="dnb-breadcrumb__collapse"
-        >
+      {currentVariant === 'responsive' && (
+        <Section className="dnb-breadcrumb__collapse">
           <BreadcrumbMultiple
             data={data}
             items={items}
