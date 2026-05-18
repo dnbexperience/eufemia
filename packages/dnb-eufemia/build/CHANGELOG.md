@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.104.2](https://github.com/dnbexperience/eufemia/compare/v10.104.1...v10.104.2) (2026-05-18)
+
+
+### :bug: Bug Fixes
+
+* **MCP:** make @modelcontextprotocol/sdk a optional dependency — ⚠️ install it yourself to use the MCP server (beta) ([#8132](https://github.com/dnbexperience/eufemia/issues/8132)) ([1e7b700](https://github.com/dnbexperience/eufemia/commit/1e7b70087c7dd07dd5e1252f3ccea05af89e6495))
+
 ## [10.104.1](https://github.com/dnbexperience/eufemia/compare/v10.104.0...v10.104.1) (2026-04-20)
 
 
