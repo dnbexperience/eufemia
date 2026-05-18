@@ -2249,7 +2249,7 @@ __metadata:
     "@blazediff/core": "npm:1.9.1"
     "@dnb/browserslist-config": "npm:1.2.0"
     "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
+    "@emotion/styled": "npm:11.14.0"
     "@eslint/eslintrc": "npm:3.3.3"
     "@eslint/js": "npm:9.39.2"
     "@maskito/core": "npm:5.1.0"
@@ -2492,9 +2492,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:11.14.1":
-  version: 11.14.1
-  resolution: "@emotion/styled@npm:11.14.1"
+"@emotion/styled@npm:11.14.0":
+  version: 11.14.0
+  resolution: "@emotion/styled@npm:11.14.0"
   dependencies:
     "@babel/runtime": "npm:^7.18.3"
     "@emotion/babel-plugin": "npm:^11.13.5"
@@ -2508,7 +2508,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10/b20ffaaac76e16538051da8d417f1da75f47f0974000edf0999f39f309b23ee0a91ba7dc1d5f60c4017d29fadfed48631ae4a8f697e3662a88318c667d072117
+  checksum: 10/64bb3fd8c5d3042ba803eb2052fddf8e057b927682677f8fc41ecfe2b1abcc0da03944fde79fac8f2f55a56383d5c9547b93d4641bb51452cf59415c02dd9b10
   languageName: node
   linkType: hard
 
@@ -9069,7 +9069,7 @@ __metadata:
     "@dnb/eufemia": "workspace:*"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
+    "@emotion/styled": "npm:11.14.0"
     "@mdx-js/react": "npm:3.1.0"
     "@mdx-js/rollup": "npm:3.1.1"
     "@playwright/test": "npm:1.59.1"
@@ -20397,8 +20397,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook-utils@workspace:tools/storybook-utils"
   peerDependencies:
-    "@emotion/react": 11.14.1
-    "@emotion/styled": 11.14.1
+    "@emotion/react": 11.14.0
+    "@emotion/styled": 11.14.0
     clsx: 2.1.1
     react: ^19
     react-dom: ^19

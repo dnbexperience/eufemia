@@ -149,7 +149,7 @@
     "@blazediff/core": "1.9.1",
     "@dnb/browserslist-config": "1.2.0",
     "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.1",
+    "@emotion/styled": "11.14.0",
     "@eslint/eslintrc": "3.3.3",
     "@eslint/js": "9.39.2",
     "@modelcontextprotocol/sdk": "1.26.0",
