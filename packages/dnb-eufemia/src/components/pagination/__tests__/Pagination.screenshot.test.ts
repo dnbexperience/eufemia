@@ -125,51 +125,47 @@ describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
   })
 })
 
-test.describe('Pagination for ui', () => {
+describe('Pagination for ui', () => {
   setupPageScreenshot({
     themeName: 'ui',
     url: '/uilib/components/pagination/demos/',
   })
 
-  test('have to match pagination with href', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match pagination with href', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
       style: { width: 'fit-content' },
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match pagination with href link hover', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match pagination with href link hover', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
       style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
       simulate: 'hover',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match pagination with href link focus', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match pagination with href link focus', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
       style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
       simulate: 'focus',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match pagination with href current page', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match pagination with href current page', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
       style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] .dnb-pagination__button--current',
       simulate: 'hover',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })
 
