@@ -144,10 +144,10 @@ function Space(props: SpaceAllProps) {
   return <SpaceInstance {...props} />
 }
 
-Space.Responsive = SpaceResponsive
+Space.ResponsiveContext = SpaceResponsive
 
 withComponentMarkers(Space, { _supportsSpacingProps: true })
-withComponentMarkers(Space.Responsive, {
+withComponentMarkers(Space.ResponsiveContext, {
   _supportsSpacingProps: 'passthrough',
 })
 

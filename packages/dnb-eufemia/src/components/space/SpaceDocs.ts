@@ -56,7 +56,7 @@ export const SpaceProperties: PropertiesTableProps = {
   },
 }
 
-export const SpaceResponsiveProperties: PropertiesTableProps = {
+export const SpaceResponsiveContextProperties: PropertiesTableProps = {
   density: {
     doc: 'Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.',
     type: ['"compact"', '"basis"', '"spacious"'],
@@ -68,7 +68,7 @@ export const SpaceResponsiveProperties: PropertiesTableProps = {
     status: 'optional',
   },
   off: {
-    doc: 'When `true`, disables responsive spacing for descendants, overriding a parent `Space.Responsive`. Defaults to `false`.',
+    doc: 'When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

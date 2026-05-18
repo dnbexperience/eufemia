@@ -469,7 +469,7 @@ export type ApplySpacingTarget = {
 
 /**
  * @deprecated Use `useSpacing` instead. This plain-function variant
- * does not support `Space.Responsive` context.
+ * does not support `Space.ResponsiveContext` context.
  */
 export const applySpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
@@ -517,7 +517,7 @@ export const applySpacing = <T extends ApplySpacingTarget>(
  * spacing keys so the result can be spread onto a DOM element.
  *
  * Additionally reads `SpaceResponsiveContext` (provided by
- * `Space.Responsive`) and, when the component is rendered inside that
+ * `Space.ResponsiveContext`) and, when the component is rendered inside that
  * wrapper, appends a `dnb-space-responsive--<density>` CSS class.
  * This lets descendant components opt into responsive spacing driven
  * by `--responsive-spacing-*` custom properties.
@@ -532,10 +532,10 @@ export const applySpacing = <T extends ApplySpacingTarget>(
  *   })
  *
  * @example
- *   // Wrapping with Space.Responsive enables responsive spacing
- *   <Space.Responsive>
+ *   // Wrapping with Space.ResponsiveContext enables responsive spacing
+ *   <Space.ResponsiveContext>
  *     <Button top="large">Click</Button>
- *   </Space.Responsive>
+ *   </Space.ResponsiveContext>
  *   // Button's root element will include 'dnb-space-responsive--basis'
  *
  * @param props - component props containing spacing properties

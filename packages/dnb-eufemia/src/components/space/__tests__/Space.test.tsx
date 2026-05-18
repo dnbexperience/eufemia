@@ -448,12 +448,12 @@ describe('responsive innerSpace', () => {
   })
 })
 
-describe('Space.Responsive', () => {
+describe('Space.ResponsiveContext', () => {
   it('should render children without a wrapper element', () => {
     render(
-      <Space.Responsive>
+      <Space.ResponsiveContext>
         <p>Content</p>
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     expect(document.querySelector('p').textContent).toBe('Content')
@@ -472,11 +472,11 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive>
-        <Space.Responsive off>
+      <Space.ResponsiveContext>
+        <Space.ResponsiveContext off>
           <TestComponent />
-        </Space.Responsive>
-      </Space.Responsive>
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -496,9 +496,9 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive>
+      <Space.ResponsiveContext>
         <TestComponent />
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -518,9 +518,9 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive density="compact">
+      <Space.ResponsiveContext density="compact">
         <TestComponent />
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -539,9 +539,9 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive density="spacious">
+      <Space.ResponsiveContext density="spacious">
         <TestComponent />
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -560,9 +560,9 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive defaultBreakpoint="small">
+      <Space.ResponsiveContext defaultBreakpoint="small">
         <TestComponent />
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -584,9 +584,12 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive density="spacious" defaultBreakpoint="small">
+      <Space.ResponsiveContext
+        density="spacious"
+        defaultBreakpoint="small"
+      >
         <TestComponent />
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -600,9 +603,9 @@ describe('Space.Responsive', () => {
 
   it('should add dnb-space-responsive to Space component', () => {
     render(
-      <Space.Responsive>
+      <Space.ResponsiveContext>
         <Space top="large">Content</Space>
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.dnb-space')
@@ -612,9 +615,9 @@ describe('Space.Responsive', () => {
 
   it('should add breakpoint class to Space component', () => {
     render(
-      <Space.Responsive defaultBreakpoint="small">
+      <Space.ResponsiveContext defaultBreakpoint="small">
         <Space top="large">Content</Space>
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.dnb-space')
@@ -625,9 +628,9 @@ describe('Space.Responsive', () => {
 
   it('should add density class to Space component', () => {
     render(
-      <Space.Responsive density="compact">
+      <Space.ResponsiveContext density="compact">
         <Space top="large">Content</Space>
-      </Space.Responsive>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.dnb-space')
@@ -638,11 +641,11 @@ describe('Space.Responsive', () => {
 
   it('should not add dnb-space-responsive to Space when off is set', () => {
     render(
-      <Space.Responsive>
-        <Space.Responsive off>
+      <Space.ResponsiveContext>
+        <Space.ResponsiveContext off>
           <Space top="large">Content</Space>
-        </Space.Responsive>
-      </Space.Responsive>
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.dnb-space')
@@ -659,13 +662,13 @@ describe('Space.Responsive', () => {
     expect(element.className).not.toContain('dnb-space-responsive')
   })
 
-  it('should not wrap Space.Responsive in a Space element inside Flex', () => {
+  it('should not wrap Space.ResponsiveContext in a Space element inside Flex', () => {
     render(
       <Flex direction="vertical">
         <Space top="large">Before</Space>
-        <Space.Responsive off>
+        <Space.ResponsiveContext off>
           <Space top="small">Inside</Space>
-        </Space.Responsive>
+        </Space.ResponsiveContext>
         <Space top="large">After</Space>
       </Flex>
     )
@@ -675,13 +678,13 @@ describe('Space.Responsive', () => {
     expect(spaces).toHaveLength(4)
   })
 
-  it('should not add a wrapper around P inside Space.Responsive in Flex', () => {
+  it('should not add a wrapper around P inside Space.ResponsiveContext in Flex', () => {
     const { container } = render(
       <Flex direction="vertical">
         <P>Normal paragraph</P>
-        <Space.Responsive off>
+        <Space.ResponsiveContext off>
           <P>Fixed paragraph</P>
-        </Space.Responsive>
+        </Space.ResponsiveContext>
       </Flex>
     )
 
@@ -696,8 +699,10 @@ describe('Space.Responsive', () => {
     expect(wrapperDivs).toHaveLength(0)
   })
 
-  it('should have _supportsSpacingProps set to passthrough on Space.Responsive', () => {
-    expect(Space.Responsive['_supportsSpacingProps']).toBe('passthrough')
+  it('should have _supportsSpacingProps set to passthrough on Space.ResponsiveContext', () => {
+    expect(Space.ResponsiveContext['_supportsSpacingProps']).toBe(
+      'passthrough'
+    )
   })
 
   it('should have _supportsSpacingProps set to passthrough on SpaceResponsive', () => {
@@ -714,11 +719,11 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive density="compact">
-        <Space.Responsive defaultBreakpoint="small">
+      <Space.ResponsiveContext density="compact">
+        <Space.ResponsiveContext defaultBreakpoint="small">
           <TestComponent />
-        </Space.Responsive>
-      </Space.Responsive>
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
@@ -740,11 +745,11 @@ describe('Space.Responsive', () => {
     }
 
     render(
-      <Space.Responsive density="compact">
-        <Space.Responsive density="spacious">
+      <Space.ResponsiveContext density="compact">
+        <Space.ResponsiveContext density="spacious">
           <TestComponent />
-        </Space.Responsive>
-      </Space.Responsive>
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')

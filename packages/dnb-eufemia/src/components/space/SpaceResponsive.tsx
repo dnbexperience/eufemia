@@ -19,7 +19,7 @@ export type SpaceResponsiveProps = {
   defaultBreakpoint?: SpaceBreakpoint
 
   /**
-   * When `true`, disables responsive spacing for descendants, overriding a parent `Space.Responsive`. Defaults to `false`.
+   * When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.
    */
   off?: boolean
   children?: ReactNode

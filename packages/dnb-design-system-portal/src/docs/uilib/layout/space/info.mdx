@@ -104,7 +104,7 @@ element.setAttribute('style', merged)
 
 **NB**: This feature is in beta and may be subject to change.
 
-Wrap a section of your UI in `Space.Responsive` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
+Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
 
 This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
 
@@ -113,9 +113,9 @@ This is useful when you want consistent, viewport-aware gaps between elements wi
 Use `defaultBreakpoint` to set which breakpoint's spacing scale to use as the default. It defaults to `medium` (the basis scale). Set `small` to default to compact spacing, or `large` to default to spacious spacing.
 
 ```tsx
-<Space.Responsive defaultBreakpoint="small">
+<Space.ResponsiveContext defaultBreakpoint="small">
   <MyComponent top="large" />
-</Space.Responsive>
+</Space.ResponsiveContext>
 ```
 
 #### Density
@@ -123,9 +123,9 @@ Use `defaultBreakpoint` to set which breakpoint's spacing scale to use as the de
 Use `density` to force a specific spacing density regardless of viewport size and `defaultBreakpoint`. When set, it overrides the default breakpoint scale.
 
 ```tsx
-<Space.Responsive density="compact">
+<Space.ResponsiveContext density="compact">
   <MyComponent top="large" />
-</Space.Responsive>
+</Space.ResponsiveContext>
 ```
 
 | Prop                | Description                                                                        |

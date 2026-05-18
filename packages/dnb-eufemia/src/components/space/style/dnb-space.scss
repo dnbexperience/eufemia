@@ -327,7 +327,7 @@
     --responsive-spacing-tier: 1;
   }
 
-  // Reset responsive overrides when Space.Responsive off is set,
+  // Reset responsive overrides when Space.ResponsiveContext off is set,
   // so inherited --spacing-* custom properties from an ancestor
   // .dnb-space-responsive do not leak into opted-out subtrees.
   // Values mirror the theme defaults in themes/ui/properties.scss.

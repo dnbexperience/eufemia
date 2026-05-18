@@ -14,7 +14,7 @@ export type SpaceResponsiveContextValue = {
 }
 
 /**
- * Signals whether a component tree is wrapped in `Space.Responsive`.
+ * Signals whether a component tree is wrapped in `Space.ResponsiveContext`.
  *
  * When active, `useSpacing` appends CSS classes so descendant components
  * opt into responsive spacing via `--responsive-spacing-*` custom properties.

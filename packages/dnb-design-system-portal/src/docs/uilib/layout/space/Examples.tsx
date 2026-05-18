@@ -160,7 +160,7 @@ export const Margins = () => (
 
 export const ResponsiveSpacing = () => (
   <ComponentBox>
-    <Space.Responsive defaultBreakpoint="medium">
+    <Space.ResponsiveContext defaultBreakpoint="medium">
       <Section
         innerSpace={{ block: 'medium' }}
         breakout={false}
@@ -170,12 +170,12 @@ export const ResponsiveSpacing = () => (
           <Heading size="x-large">Heading</Heading>
           <P>My spacing adjusts responsively</P>
 
-          <Space.Responsive off>
+          <Space.ResponsiveContext off>
             <P>My spacing stays fixed</P>
-          </Space.Responsive>
+          </Space.ResponsiveContext>
         </Flex.Stack>
       </Section>
-    </Space.Responsive>
+    </Space.ResponsiveContext>
   </ComponentBox>
 )
 
