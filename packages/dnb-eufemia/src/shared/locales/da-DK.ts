@@ -125,6 +125,10 @@ export default {
       isLoadingText: 'Indlæser nyt indhold',
       loadButtonText: 'Vis mere indhold',
     },
+    Tabs: {
+      prevButtonTitle: 'Forrige fane',
+      nextButtonTitle: 'Næste fane',
+    },
     Skeleton: {
       ariaBusy: 'Behandler data ...',
       ariaReady: 'Klar til at interagere',

@@ -124,6 +124,10 @@ export default {
       isLoadingText: 'Laddar nytt innehåll',
       loadButtonText: 'Visa mer innehåll',
     },
+    Tabs: {
+      prevButtonTitle: 'Föregående flik',
+      nextButtonTitle: 'Nästa flik',
+    },
     Skeleton: {
       ariaBusy: 'Bearbetar data ...',
       ariaReady: 'Klar att interagera',

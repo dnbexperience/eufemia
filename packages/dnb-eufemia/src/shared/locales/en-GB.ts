@@ -128,6 +128,10 @@ export default {
       isLoadingText: 'Loading new content',
       loadButtonText: 'Show more content',
     },
+    Tabs: {
+      prevButtonTitle: 'Previous tab',
+      nextButtonTitle: 'Next tab',
+    },
     StepIndicator: {
       overviewTitle: 'Steps Overview',
       stepTitle: 'Step %step of %count:',

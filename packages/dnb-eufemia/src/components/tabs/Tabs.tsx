@@ -1120,6 +1120,9 @@ function TabsComponent(ownProps: TabsProps) {
     }
   )
 
+  const { prevButtonTitle, nextButtonTitle } =
+    context.getTranslation?.(props)?.Tabs || {}
+
   renderWrapperRef.current = ({
     children,
     ...rest
@@ -1181,6 +1184,7 @@ function TabsComponent(ownProps: TabsProps) {
         <ScrollNavButton
           onMouseDown={openPrevTab}
           icon="chevron_left"
+          title={prevButtonTitle}
           className={clsx(
             hasScrollbarRef.current &&
               (typeof isFirstRef.current !== 'undefined' ||
@@ -1195,6 +1199,7 @@ function TabsComponent(ownProps: TabsProps) {
         <ScrollNavButton
           onMouseDown={openNextTab}
           icon="chevron_right"
+          title={nextButtonTitle}
           className={clsx(
             hasScrollbarRef.current &&
               (typeof isLastRef.current !== 'undefined' ||
