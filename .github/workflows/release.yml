@@ -94,7 +94,8 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Release
-        if: (github.ref == 'refs/heads/release' ||
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/beta' ||
           github.ref == 'refs/heads/alpha' ||
           github.ref == 'refs/heads/next' ||
