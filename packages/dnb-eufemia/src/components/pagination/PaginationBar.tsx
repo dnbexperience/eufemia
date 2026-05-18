@@ -31,6 +31,7 @@ export type NavigationItemProps = {
   'aria-current'?: 'page'
   skeleton?: SkeletonShow
   disabled?: boolean
+  title?: string
   onClick: (event: React.MouseEvent) => void
   children: ReactNode
 }
@@ -290,6 +291,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             `dnb-pagination__button--${direction}`
           ),
           'aria-label': title,
+          title,
           skeleton,
           disabled,
           onClick: () => onNavigate(),
