@@ -97,5 +97,6 @@ jobs:
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/beta' ||
           github.ref == 'refs/heads/alpha' ||
-          github.ref == 'refs/heads/next')
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
