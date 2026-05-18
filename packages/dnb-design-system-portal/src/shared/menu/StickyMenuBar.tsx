@@ -49,7 +49,7 @@ export default function StickyMenuBar({
 
         <Link
           href="/"
-          className={centerWrapperStyle}
+          className={clsx(centerWrapperStyle, 'dnb-tab-focus')}
           title="Go to Eufemia home"
         >
           <PortalLogo />
