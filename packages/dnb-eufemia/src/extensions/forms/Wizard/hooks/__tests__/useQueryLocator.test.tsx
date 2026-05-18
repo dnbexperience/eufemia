@@ -14,6 +14,16 @@ describe('useQueryLocator', () => {
     identifier = makeUniqueId()
   })
 
+  afterEach(async () => {
+    // The Form.Handler's useFormStatusBuffer has setTimeout callbacks that may
+    // still be pending when the test ends. If these fire after vitest tears down
+    // the jsdom environment, React's forceUpdate() fails with "window is not defined".
+    // This delay lets pending timers (1-2ms in test mode) complete before teardown.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 10))
+    })
+  })
+
   const previousButton = () => {
     return document.querySelector('.dnb-forms-previous-button')
   }
