@@ -265,55 +265,50 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             onClick={onClick}
             href={href}
           />
-        ) : (
-          <>
-            {currentVariant !== 'multiple' &&
-              currentVariant !== 'collapse' && (
-                <Button
-                  className="dnb-breadcrumb__toggle"
-                  text={backToText}
-                  variant="tertiary"
-                  icon="chevron_down"
-                  iconPosition="left"
-                  onClick={onClick ?? onClickHandler}
-                  aria-expanded={!isCollapsedRef.current}
-                />
-              )}
-
-            {currentVariant === 'collapse' && (
-              <Accordion
-                variant="tertiary"
-                title={backToText}
-                expanded={!isCollapsedRef.current}
-                noAnimation={noAnimation}
-                onChange={({ expanded }) => {
-                  isCollapsedRef.current = !expanded
-                  onToggle?.(!expanded)
-                  onClick?.(null)
-                }}
-              >
-                <Section
-                  variant="divider"
-                  className="dnb-breadcrumb__collapse"
-                >
-                  <BreadcrumbMultiple
-                    data={data}
-                    items={items}
-                    collapsed={false}
-                    noAnimation={noAnimation}
-                  />
-                </Section>
-              </Accordion>
-            )}
-
-            {currentVariant !== 'collapse' && (
+        ) : currentVariant === 'collapse' ? (
+          <Accordion
+            variant="tertiary"
+            title={backToText}
+            expanded={!isCollapsedRef.current}
+            noAnimation={noAnimation}
+            onChange={({ expanded }) => {
+              isCollapsedRef.current = !expanded
+              onToggle?.(!expanded)
+              onClick?.(null)
+            }}
+          >
+            <Section
+              variant="divider"
+              className="dnb-breadcrumb__collapse"
+            >
               <BreadcrumbMultiple
                 data={data}
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
               />
+            </Section>
+          </Accordion>
+        ) : (
+          <>
+            {currentVariant === 'responsive' && (
+              <Button
+                className="dnb-breadcrumb__toggle"
+                text={backToText}
+                variant="tertiary"
+                icon="chevron_down"
+                iconPosition="left"
+                onClick={onClick ?? onClickHandler}
+                aria-expanded={!isCollapsedRef.current}
+              />
             )}
+
+            <BreadcrumbMultiple
+              data={data}
+              items={items}
+              collapsed={false}
+              noAnimation={noAnimation}
+            />
           </>
         )}
       </Section>
