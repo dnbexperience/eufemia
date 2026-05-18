@@ -4,7 +4,7 @@
  * Provides:
  * - jest→vi compatibility (so existing test files work unchanged)
  * - @testing-library/jest-dom matchers
- * - Custom matchers (toBeType, toNeverResolve)
+ * - Custom matchers (toNeverResolve)
  * - jest-axe setup
  * - bypassActWarning
  */
@@ -12,7 +12,6 @@
 import { vi, expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
-import { toBeType } from 'jest-tobetype'
 
 // ──────────────────────────────────────────────
 // jest → vi compatibility shim
@@ -48,9 +47,6 @@ beforeEach(() => {
     document.body.innerHTML = ''
   }
 })
-
-// Custom matchers
-expect.extend({ toBeType })
 
 expect.extend({
   async toNeverResolve(callable: () => void | Promise<void>) {

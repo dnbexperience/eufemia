@@ -8,14 +8,14 @@ import { Blockquote, Ul, Td } from '../dnb-ui-elements'
 
 describe('ESM elements library package', () => {
   it('has to have a Blockquote Component', () => {
-    expect(Blockquote).toBeType('function')
+    expect(typeof Blockquote).toBe('function')
   })
 
   it('has to have a Ul Component', () => {
-    expect(Ul).toBeType('function')
+    expect(typeof Ul).toBe('function')
   })
 
   it('has to have a Td Component', () => {
-    expect(Td).toBeType('function')
+    expect(typeof Td).toBe('function')
   })
 })

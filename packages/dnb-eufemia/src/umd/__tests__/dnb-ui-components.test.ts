@@ -8,14 +8,14 @@ import * as dnbComponents from '../dnb-ui-components'
 
 describe('UMD Components package', () => {
   it('has to have a named export of dnbComponents', () => {
-    expect(dnbComponents).toBeType('object')
+    expect(typeof dnbComponents).toBe('object')
   })
 
   it('has to have a Button Component', () => {
-    expect(dnbComponents.Button).toBeType('function')
+    expect(typeof dnbComponents.Button).toBe('function')
   })
 
   it('has to have a Anchor Component', () => {
-    expect(dnbComponents.Anchor).toBeType('function')
+    expect(typeof dnbComponents.Anchor).toBe('function')
   })
 })

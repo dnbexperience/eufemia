@@ -9,11 +9,11 @@ import * as dnbIcons from '../dnb-ui-icons'
 
 describe('UMD icons package', () => {
   it('has to have no default export', () => {
-    expect(dnbIcons['default']).toBeType('undefined')
+    expect(typeof dnbIcons['default']).toBe('undefined')
   })
 
   it('has to have a chevron_left icon', () => {
-    expect(dnbIcons.chevron_left).toBeType('function')
-    expect(chevron_left).toBeType('function')
+    expect(typeof dnbIcons.chevron_left).toBe('function')
+    expect(typeof chevron_left).toBe('function')
   })
 })
