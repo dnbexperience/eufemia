@@ -46,8 +46,8 @@ export const PaginationExampleDefault = () => (
 export const PaginationExampleWithTransformNavigationItem = () => (
   <ComponentBox data-visual-test="pagination-href">
     <Pagination
-      pageCount={30}
-      currentPage={4}
+      pageCount={10}
+      currentPage={3}
       transformNavigationItem={(pageNumber, navigationItemProps) => (
         <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />
       )}
