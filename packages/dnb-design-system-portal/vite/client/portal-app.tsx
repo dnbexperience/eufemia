@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
 } from 'react'
 import {
   createBrowserRouter,
@@ -16,8 +17,7 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
-import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
-import { scrollToHash } from '@dnb/eufemia/src/components/Anchor'
+import { applyRouteFocus } from './route-focus'
 import { MDXProvider } from '@mdx-js/react'
 import { usePrefetchOnHover } from 'virtual:prefetch-on-hover'
 import { useCatchLinks } from 'virtual:catch-links'
@@ -90,20 +90,45 @@ function SkeletonEnabled({ children }: { children: React.ReactNode }) {
 
 function PageWrapper() {
   const location = useLocation()
+  const initialRouteRef = useRef<string | null>(null)
+  const hasLeftInitialRouteRef = useRef(false)
   useNavigateSetup()
   useCatchLinks()
   usePrefetchOnHover()
   useScrollPosition()
 
-  useEffect(() => {
-    applyPageFocus('content')
+  if (initialRouteRef.current === null && typeof window !== 'undefined') {
+    initialRouteRef.current =
+      window.location.pathname +
+      window.location.search +
+      window.location.hash
+  }
 
-    if (location.hash) {
-      scrollToHash(location.hash)
+  useEffect(() => {
+    const hash =
+      typeof window !== 'undefined' ? window.location.hash : location.hash
+    const currentRoute =
+      typeof window !== 'undefined'
+        ? window.location.pathname +
+          window.location.search +
+          window.location.hash
+        : location.pathname + location.hash
+
+    if (
+      !hasLeftInitialRouteRef.current &&
+      currentRoute === initialRouteRef.current
+    ) {
+      if (hash) {
+        applyRouteFocus(hash)
+      }
+    } else {
+      hasLeftInitialRouteRef.current = true
+      applyRouteFocus(hash)
     }
 
+    // For e2e testing purposes, we set a data attribute on the document element to indicate that the portal is ready.
     document.documentElement.setAttribute('data-portal-ready', 'true')
-  }, [location.hash, location.pathname])
+  }, [location.hash, location.pathname, location.search])
 
   return (
     <PortalLayout

@@ -5,7 +5,7 @@
  * plus navigate for imperative routing outside React components.
  */
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, type To } from 'react-router-dom'
 import { allMdxNodes } from 'virtual:portal-pages'
 
 // graphql tag — preserves the query string so useStaticQuery can
@@ -144,7 +144,6 @@ function buildFilteredEdges(
     })
   }
 
-  // Sort by order ASC then title ASC if query requests sorting
   if (queryStr.includes('order: ASC')) {
     filtered = [...filtered].sort((a, b) => {
       const aFm = a.frontmatter as Record<string, unknown>
@@ -194,11 +193,37 @@ function buildFilteredEdges(
 // navigate shim using react-router
 let _navigate: ReturnType<typeof useNavigate> | null = null
 
+function normalizeTo(to: string): To {
+  if (
+    typeof window === 'undefined' ||
+    to.startsWith('#') ||
+    to.includes('#')
+  ) {
+    return to
+  }
+
+  const url = new URL(to, window.location.origin)
+
+  return {
+    pathname: url.pathname,
+    search: url.search,
+    hash: '',
+  }
+}
+
 export function navigate(to: string, options?: { replace?: boolean }) {
+  const normalizedTo = normalizeTo(to)
+
   if (_navigate) {
-    _navigate(to, options)
+    _navigate(normalizedTo, options)
   } else {
-    window.location.href = to
+    if (typeof normalizedTo === 'string') {
+      window.location.href = normalizedTo
+      return
+    }
+
+    window.location.href =
+      normalizedTo.pathname + normalizedTo.search + normalizedTo.hash
   }
 }
 
