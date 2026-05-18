@@ -1,9 +1,10 @@
 import { act } from 'react'
 import { render } from '@testing-library/react'
+import { vi } from 'vitest'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import BreadcrumbItem from '../BreadcrumbItem'
 import { Theme } from '../../../shared'
-import 'mock-match-media/jest-setup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 
 describe('BreadcrumbItem', () => {
@@ -33,7 +34,7 @@ describe('BreadcrumbItem', () => {
   })
 
   it('renders breadcrumb item as a button', () => {
-    render(<BreadcrumbItem {...defaultProps} onClick={jest.fn()} />)
+    render(<BreadcrumbItem {...defaultProps} onClick={vi.fn()} />)
 
     expect(document.querySelector('button')).toBeDefined()
   })
@@ -102,7 +103,7 @@ describe('BreadcrumbItem', () => {
       render(
         <BreadcrumbItem
           {...defaultProps}
-          onClick={jest.fn()}
+          onClick={vi.fn()}
           style={{ color: 'red' }}
         />
       )

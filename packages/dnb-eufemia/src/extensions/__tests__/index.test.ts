@@ -9,6 +9,6 @@ import { PaymentCard } from '../index'
 
 describe('Library', () => {
   it('has to have a PaymentCard Component', () => {
-    expect(PaymentCard).toBeType('function')
+    expect(typeof PaymentCard).toBe('function')
   })
 })

@@ -8,14 +8,14 @@ import * as dnbLib from '../dnb-ui-lib'
 
 describe('UMD main package', () => {
   it('has to have a named export of dnbLib', () => {
-    expect(dnbLib).toBeType('object')
+    expect(typeof dnbLib).toBe('object')
   })
 
   it('has to have a Button Component', () => {
-    expect(dnbLib.Button).toBeType('function')
+    expect(typeof dnbLib.Button).toBe('function')
   })
 
   it('has to have a Anchor Component', () => {
-    expect(dnbLib.Anchor).toBeType('function')
+    expect(typeof dnbLib.Anchor).toBe('function')
   })
 })

@@ -205,7 +205,6 @@
     "globby": "11.0.4",
     "jest-axe": "10.0.0",
     "jest-matchmedia-mock": "1.1.0",
-    "jest-tobetype": "1.2.3",
     "jsdom": "29.1.1",
     "lebab": "3.2.7",
     "lightningcss": "1.32.0",
