@@ -198,7 +198,10 @@ function AccordionDefault({
   const group = props.group || context?.group
   const id = useId(props.id)
 
-  const store = new Store({ id: props.id, group })
+  const store = useMemo(
+    () => new Store({ id: props.id, group }),
+    [props.id, group]
+  )
 
   // States ordered last here to make sure that the getInitialExpandedState have access to the store
   const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
