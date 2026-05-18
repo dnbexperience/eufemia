@@ -160,7 +160,7 @@ export const Margins = () => (
 
 export const ResponsiveSpacing = () => (
   <ComponentBox>
-    <Space.ResponsiveContext defaultBreakpoint="medium">
+    <Space.ResponsiveContext>
       <Section
         innerSpace={{ block: 'medium' }}
         breakout={false}

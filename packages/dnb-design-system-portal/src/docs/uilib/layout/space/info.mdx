@@ -108,31 +108,6 @@ Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that ad
 
 This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
 
-#### Default breakpoint
-
-Use `defaultBreakpoint` to set which breakpoint's spacing scale to use as the default. It defaults to `medium` (the basis scale). Set `small` to default to compact spacing, or `large` to default to spacious spacing.
-
-```tsx
-<Space.ResponsiveContext defaultBreakpoint="small">
-  <MyComponent top="large" />
-</Space.ResponsiveContext>
-```
-
-#### Density
-
-Use `density` to force a specific spacing density regardless of viewport size and `defaultBreakpoint`. When set, it overrides the default breakpoint scale.
-
-```tsx
-<Space.ResponsiveContext density="compact">
-  <MyComponent top="large" />
-</Space.ResponsiveContext>
-```
-
-| Prop                | Description                                                                        |
-| ------------------- | ---------------------------------------------------------------------------------- |
-| `defaultBreakpoint` | Which breakpoint's scale to default to (`small`, `medium`, `large`).               |
-| `density`           | Forces a specific density, overriding `defaultBreakpoint` (`compact`, `spacious`). |
-
 See the [Responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
 
 | CSS Variable                    | Compact `← small` | Basis `small → medium` | Spacious `medium →` |
