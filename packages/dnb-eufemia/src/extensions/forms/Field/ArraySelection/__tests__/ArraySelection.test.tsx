@@ -556,8 +556,12 @@ describe('ArraySelection', () => {
         },
       })
 
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
+      const checkboxes = document.querySelectorAll(
+        'input[type="checkbox"]'
+      )
+
+      // Select first checkbox
+      await userEvent.click(checkboxes[0])
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
@@ -566,9 +570,8 @@ describe('ArraySelection', () => {
         },
       })
 
-      await userEvent.tab()
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
+      // Select second checkbox
+      await userEvent.click(checkboxes[1])
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
@@ -577,8 +580,8 @@ describe('ArraySelection', () => {
         },
       })
 
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
+      // Deselect first checkbox
+      await userEvent.click(checkboxes[0])
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
@@ -587,9 +590,8 @@ describe('ArraySelection', () => {
         },
       })
 
-      await userEvent.tab()
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
+      // Deselect second checkbox
+      await userEvent.click(checkboxes[1])
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
@@ -626,6 +628,48 @@ describe('ArraySelection', () => {
           '900'
         )
       )
+    })
+
+    it('should retain focus on checkbox after selecting/deselecting with keyboard', async () => {
+      render(
+        <Field.ArraySelection variant="checkbox">
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+          <Field.Option value="option3">Option 3</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const checkboxes = document.querySelectorAll(
+        'input[type="checkbox"]'
+      )
+
+      // Tab to first checkbox and select it
+      await userEvent.tab()
+      expect(checkboxes[0]).toHaveFocus()
+      expect(checkboxes[0]).not.toBeChecked()
+
+      await userEvent.keyboard(' ')
+      expect(checkboxes[0]).toBeChecked()
+      expect(checkboxes[0]).toHaveFocus()
+
+      // Deselect the first checkbox - focus should be retained
+      await userEvent.keyboard(' ')
+      expect(checkboxes[0]).not.toBeChecked()
+      expect(checkboxes[0]).toHaveFocus()
+
+      // Tab to second checkbox and select it
+      await userEvent.tab()
+      expect(checkboxes[1]).toHaveFocus()
+      await userEvent.keyboard(' ')
+      expect(checkboxes[1]).toBeChecked()
+      expect(checkboxes[1]).toHaveFocus()
+
+      // Tab to third checkbox
+      await userEvent.tab()
+      expect(checkboxes[2]).toHaveFocus()
+      await userEvent.keyboard(' ')
+      expect(checkboxes[2]).toBeChecked()
+      expect(checkboxes[2]).toHaveFocus()
     })
 
     describe('ARIA', () => {
@@ -859,6 +903,46 @@ describe('ArraySelection', () => {
         expect(option2).toBeDisabled()
       })
 
+      it('should retain focus on button after selecting/deselecting with keyboard', async () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="option1">Option 1</Field.Option>
+            <Field.Option value="option2">Option 2</Field.Option>
+            <Field.Option value="option3">Option 3</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const buttons = document.querySelectorAll('button')
+
+        // Tab to first button and select it
+        await userEvent.tab()
+        expect(buttons[0]).toHaveFocus()
+        expect(buttons[0]).toHaveAttribute('aria-checked', 'false')
+
+        await userEvent.keyboard(' ')
+        expect(buttons[0]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[0]).toHaveFocus()
+
+        // Deselect the first button - focus should be retained
+        await userEvent.keyboard(' ')
+        expect(buttons[0]).toHaveAttribute('aria-checked', 'false')
+        expect(buttons[0]).toHaveFocus()
+
+        // Tab to second button and select it
+        await userEvent.tab()
+        expect(buttons[1]).toHaveFocus()
+        await userEvent.keyboard(' ')
+        expect(buttons[1]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[1]).toHaveFocus()
+
+        // Tab to third button
+        await userEvent.tab()
+        expect(buttons[2]).toHaveFocus()
+        await userEvent.keyboard(' ')
+        expect(buttons[2]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[2]).toHaveFocus()
+      })
+
       it('should render variant class', () => {
         render(
           <Field.ArraySelection variant={testVariant}>
@@ -1078,8 +1162,10 @@ describe('ArraySelection', () => {
           },
         })
 
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        const buttons = document.querySelectorAll('button')
+
+        // Select first button
+        await userEvent.click(buttons[0])
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
@@ -1088,9 +1174,8 @@ describe('ArraySelection', () => {
           },
         })
 
-        await userEvent.tab()
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        // Select second button
+        await userEvent.click(buttons[1])
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
@@ -1099,8 +1184,8 @@ describe('ArraySelection', () => {
           },
         })
 
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        // Deselect first button
+        await userEvent.click(buttons[0])
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
@@ -1109,9 +1194,8 @@ describe('ArraySelection', () => {
           },
         })
 
-        await userEvent.tab()
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        // Deselect second button
+        await userEvent.click(buttons[1])
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
@@ -1177,8 +1261,10 @@ describe('ArraySelection', () => {
           ],
         })
 
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        const buttons = document.querySelectorAll('button')
+
+        // Select first option (Foo)
+        await userEvent.click(buttons[0])
 
         fireEvent.submit(document.querySelector('form'))
 
@@ -1195,8 +1281,8 @@ describe('ArraySelection', () => {
           ],
         })
 
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
+        // Deselect first option (Foo)
+        await userEvent.click(buttons[0])
 
         fireEvent.submit(document.querySelector('form'))
 
