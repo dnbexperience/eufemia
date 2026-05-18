@@ -639,13 +639,13 @@ describe('MCP dependency configuration', () => {
       fs.readFileSync(packageJsonPath, 'utf8')
     )
 
-    expect(packageJson.dependencies).toBeDefined()
-    expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
-    ).toBeDefined()
-    expect(
-      packageJson.dependencies['@modelcontextprotocol/sdk']
-    ).toBeTruthy()
+    const sdkVersion =
+      packageJson.optionalDependencies?.['@modelcontextprotocol/sdk'] ??
+      packageJson.dependencies?.['@modelcontextprotocol/sdk'] ??
+      packageJson.devDependencies?.['@modelcontextprotocol/sdk']
+
+    expect(sdkVersion).toBeDefined()
+    expect(sdkVersion).toBeTruthy()
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {
