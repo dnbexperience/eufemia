@@ -335,3 +335,24 @@ export function AccordionCloseAllInGroup() {
     </>
   )
 }
+
+export const AccordionTertiarySplitExample = () => (
+  <ComponentBox data-visual-test="accordion-tertiary">
+    <P>
+      Text{' '}
+      <Accordion
+        variant="tertiary"
+        title="Toggle remote content"
+        id="accordion-tertiary"
+      />{' '}
+      Text
+    </P>
+    <P>Other content between button and accordion content.</P>
+    <Accordion.Content id="accordion-tertiary">
+      <P top>
+        This content is placed separately from the button, connected via
+        the id.
+      </P>
+    </Accordion.Content>
+  </ComponentBox>
+)

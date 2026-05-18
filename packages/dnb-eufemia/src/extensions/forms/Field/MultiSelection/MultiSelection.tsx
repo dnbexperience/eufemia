@@ -22,6 +22,7 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import whatInput from '../../../../shared/helpers/whatInput'
 import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
 import { MultiSelectionSearch } from './MultiSelectionSearch'
 import { MultiSelectionSelectedTags } from './MultiSelectionSelectedTags'
@@ -184,7 +185,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const [tempValue, setTempValue] = useState<Array<number | string>>(
     value || []
   )
-  const [showSelectedItemsList, setShowSelectedItemsList] = useState(false)
   const [ariaLiveCheckedCount, setAriaLiveCheckedCount] = useState('')
   const confirmedRef = useRef(false)
 
@@ -770,7 +770,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       show={showSelectedTags}
       disabled={disabled}
       isCollapsible={isCollapsible}
-      showSelectedItemsList={showSelectedItemsList}
       selectedItems={selectedItems}
       totalCount={totalCount}
       formatSelectionCount={formatSelectionCount}
@@ -778,7 +777,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         clearAll: translation.clearAll,
         placeholder: translation.placeholder,
       }}
-      onToggleList={setShowSelectedItemsList}
       onRemoveTag={handleRemoveTag}
       onClearAll={() => {
         const disabledValues = allFlatItems
@@ -787,7 +785,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           )
           .map((item) => item.value)
         setTempValue(disabledValues)
-        setShowSelectedItemsList(true)
+        createSharedState(`${id}-selected-accordion`).set({
+          expanded: true,
+        })
         if (!showConfirmButton) {
           applyChange(disabledValues)
         }
