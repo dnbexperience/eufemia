@@ -24,10 +24,10 @@ function SkeletonTable({
     // Do this so we get the same result each time
     // because of static generated markup
     const fill = [70, 80, 60, 40, 50, 20, 0]
-    return new Array(Number(rows)).fill(true).map((_, i) => {
+    return Array.from({ length: Number(rows) }, (_, i) => {
       const c = i % fill.length
       if (c === fill.length - 1) {
-        fill.concat(fill.reverse())
+        fill.reverse()
       }
       return fill[c]
     })
