@@ -26,7 +26,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
-import type { PaginationButtonProps } from './PaginationBar'
+import type { NavigationItemProps } from './PaginationBar'
 
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
@@ -224,7 +224,7 @@ export type PaginationProps = {
    */
   transformNavigationItem?: (
     pageNumber: number,
-    navigationItemProps: PaginationButtonProps
+    navigationItemProps: NavigationItemProps
   ) => ReactNode
   className?: string
   /**

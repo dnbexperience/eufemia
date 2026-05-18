@@ -25,7 +25,7 @@ import type { SkeletonShow } from '../Skeleton'
 import { useSpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type PaginationButtonProps = {
+export type NavigationItemProps = {
   className: string
   'aria-label': string
   'aria-current'?: 'page'
@@ -80,7 +80,7 @@ type PaginationBarContext = {
   disabled: boolean
   transformNavigationItem?: (
     pageNumber: number,
-    navigationItemProps: PaginationButtonProps
+    navigationItemProps: NavigationItemProps
   ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
