@@ -27,8 +27,9 @@
   padding: 1.25rem;
   text-align: center;
 
-  color: var(--token-color-text-neutral);
-  background-color: var(--token-color-background-neutral);
+  // Design tokens can not be used outside of Theme Provider
+  color: #000;
+  background-color: #fff;
 }
 
 .dnb-live-preview {
