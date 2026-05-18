@@ -66,7 +66,10 @@ export type AccordionIcon =
 
 export type AccordionIconPosition = ButtonIconPosition
 
-export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
+export type AccordionProps = Omit<
+  HTMLProps<HTMLElement>,
+  'ref' | 'onChange' | 'title'
+> &
   SpacingProps & {
     /**
      * A title as a string or React element. It will be used as the button text.

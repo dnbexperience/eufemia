@@ -25,7 +25,10 @@ import type {
 import { accordionDefaultProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type AccordionGroupProps = HTMLProps<HTMLElement> &
+export type AccordionGroupProps = Omit<
+  HTMLProps<HTMLElement>,
+  'onChange' | 'title'
+> &
   AccordionGroupBaseProps & {
     onInit?: (accordion: AccordionInstance) => void
   }
@@ -74,6 +77,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     iconPosition,
     onInit,
     className,
+    title: _title,
+    onChange: _onChange,
 
     id: _id,
     children,
@@ -103,7 +108,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
       singleContainer && 'dnb-accordion-group--single-container',
       className
     ),
-  })
+  }) as HTMLProps<HTMLDivElement>
 
   const params = {
     ...restOfExtendedProps,
