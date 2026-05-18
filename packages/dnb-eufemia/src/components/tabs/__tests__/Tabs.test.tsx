@@ -7,6 +7,8 @@ import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
+import { Provider } from '../../../shared'
+import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
 import Tabs from '../Tabs'
 import Input from '../../input/Input'
@@ -273,6 +275,74 @@ describe('Tabs component', () => {
     const tabs = document.querySelector('.dnb-tabs__tabs')
 
     expect(tabs.className).not.toContain('--breakout')
+  })
+
+  it('adds labels to the scroll navigation buttons', () => {
+    const translations = defaultLocales['nb-NO'].Tabs
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const buttons = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+
+    expect(buttons[0]).toHaveAttribute(
+      'title',
+      translations.prevButtonTitle
+    )
+    expect(buttons[0]).toHaveAttribute(
+      'aria-label',
+      translations.prevButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'title',
+      translations.nextButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'aria-label',
+      translations.nextButtonTitle
+    )
+  })
+
+  it('translates the scroll navigation button labels', () => {
+    const translations = defaultLocales['en-GB'].Tabs
+
+    render(
+      <Provider locale="en-GB">
+        <Tabs
+          {...props}
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        >
+          {contentWrapperData}
+        </Tabs>
+      </Provider>
+    )
+
+    const buttons = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+
+    expect(buttons[0]).toHaveAttribute(
+      'title',
+      translations.prevButtonTitle
+    )
+    expect(buttons[0]).toHaveAttribute(
+      'aria-label',
+      translations.prevButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'title',
+      translations.nextButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'aria-label',
+      translations.nextButtonTitle
+    )
   })
 
   it('warns when not providing any content', () => {
