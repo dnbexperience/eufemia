@@ -47,7 +47,7 @@ const CopyOnClick = ({
 
     try {
       const success = await copyToClipboard(str)
-      if (success === true) {
+      if (success) {
         setActive(true)
 
         timeoutRef.current = setTimeout(() => setActive(false), 2000)
