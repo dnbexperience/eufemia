@@ -306,6 +306,7 @@ export function useCheckboxOrToggleOptions({
       id,
       info,
       optionsCount,
+      size,
       value,
       variant,
       warning,
