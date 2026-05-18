@@ -17,14 +17,11 @@ import type { ReactNode, RefObject } from 'react'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
-import {
-  ContentObject,
-  // , detectScrollDirection // NB: We do currently not use scroll direction handling
-} from './PaginationHelpers'
-
+import { ContentObject } from './PaginationHelpers'
+import type { PaginationProps } from './Pagination'
 import PaginationContext from './PaginationContext'
 
-const PaginationProvider = (props: any) => {
+const PaginationProvider = (props: PaginationProps) => {
   const sharedContext = useContext(Context)
 
   // ---- Derive state from props ----
