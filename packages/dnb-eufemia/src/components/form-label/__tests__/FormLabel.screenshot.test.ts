@@ -28,7 +28,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     it('have to match checkbox label hover', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="form-label-default"]',
-        simulate: 'hover',
+        simulate: 'realhover',
         simulateSelector:
           '[data-visual-test="form-label-default"] .dnb-checkbox .dnb-form-label',
       })

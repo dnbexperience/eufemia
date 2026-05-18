@@ -25,7 +25,13 @@ import { recordFailure, recordNavigation } from '../failures'
 
 // ── shared types ─────────────────────────────────────────────────────
 
-type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
+type ActionName =
+  | 'click'
+  | 'hover'
+  | 'focus'
+  | 'focusclick'
+  | 'active'
+  | 'realhover'
 type Action = {
   action?: ActionName
   selector?: string
@@ -1334,6 +1340,10 @@ const handleSimulation = async (
       switch (sim.action) {
         case 'hover': {
           hoverCleanup = await emulatePseudoStateViaCSS(page, toSim)
+          break
+        }
+        case 'realhover': {
+          await toSim.hover()
           break
         }
         case 'click': {
