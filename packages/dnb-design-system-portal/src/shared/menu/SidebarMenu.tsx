@@ -329,6 +329,10 @@ function ListItem({
     params['aria-current'] = true
   }
 
+  const expandButtonTitle = isExpanded
+    ? `Collapse ${title}`
+    : `Expand ${title}`
+
   return (
     <>
       <li
@@ -390,6 +394,7 @@ function ListItem({
               className="dnb-sidebar-menu__expand-button"
               variant="tertiary"
               size="small"
+              title={expandButtonTitle}
               aria-expanded={isExpanded}
               icon={isExpanded ? 'subtract' : 'add'}
               onClick={() => {
