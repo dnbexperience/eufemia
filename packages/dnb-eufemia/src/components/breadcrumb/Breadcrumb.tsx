@@ -274,7 +274,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             onChange={({ expanded }) => {
               isCollapsedRef.current = !expanded
               onToggle?.(!expanded)
-              onClick?.(null)
             }}
           >
             <Section
