@@ -31,7 +31,7 @@ function SkeletonProduct({
     return new Array(Number(rows)).fill(true).map((_, i) => {
       const c = i % fill.length
       if (c === fill.length - 1) {
-        fill.concat(fill.reverse())
+        fill.reverse()
       }
       return fill[c]
     })
