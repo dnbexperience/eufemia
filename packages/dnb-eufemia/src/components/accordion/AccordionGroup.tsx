@@ -108,7 +108,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
       singleContainer && 'dnb-accordion-group--single-container',
       className
     ),
-  }) as HTMLProps<HTMLDivElement>
+  })
 
   const params = {
     ...restOfExtendedProps,
