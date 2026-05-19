@@ -31,7 +31,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-forms-submit-indicator', 'custom-class'],
+      'dnb-space dnb-forms-submit-indicator custom-class',
       { exact: true }
     )
   })
@@ -49,12 +49,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-space__top--large',
-        'dnb-forms-submit-indicator',
-        'dnb-forms-submit-indicator--state-pending',
-      ],
+      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-forms-submit-indicator--state-pending',
       { exact: true }
     )
   })

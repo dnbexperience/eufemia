@@ -302,17 +302,7 @@ describe('FormStatus component', () => {
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-form-status',
-        'dnb-form-status__size--default',
-        'dnb-form-status--error',
-        'dnb-form-status--has-content',
-        'dnb-space__top--large',
-        'dnb-height-animation--is-visible',
-        'dnb-height-animation--is-in-dom',
-      ],
+      'dnb-space dnb-height-animation dnb-form-status dnb-form-status__size--default dnb-form-status--error dnb-form-status--has-content dnb-space__top--large dnb-height-animation--is-visible dnb-height-animation--is-in-dom',
       { exact: true }
     )
   })

@@ -173,7 +173,7 @@ describe('FormLabel component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...['dnb-form-label', 'dnb-form-label--vertical'],
+      'dnb-form-label dnb-form-label--vertical',
       { exact: true }
     )
   })
@@ -188,7 +188,7 @@ describe('FormLabel component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...['dnb-form-label', 'dnb-form-label--vertical'],
+      'dnb-form-label dnb-form-label--vertical',
       { exact: true }
     )
   })

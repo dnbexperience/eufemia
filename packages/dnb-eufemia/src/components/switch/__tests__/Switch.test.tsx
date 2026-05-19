@@ -125,12 +125,7 @@ describe('Switch component', () => {
     const element = document.querySelector('.dnb-switch')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-switch',
-        'dnb-switch--label-position-right',
-        'dnb-form-component',
-        'dnb-space__top--large',
-      ],
+      'dnb-switch dnb-switch--label-position-right dnb-form-component dnb-space__top--large',
       { exact: true }
     )
   })
@@ -162,14 +157,10 @@ describe('Switch component', () => {
       'name',
     ])
     expect(element).toHaveClass(
-      ...[
-        'dnb-switch',
-        'dnb-switch--label-position-right',
-        'dnb-form-component',
-      ],
+      'dnb-switch dnb-switch--label-position-right dnb-form-component',
       { exact: true }
     )
-    expect(inputElement).toHaveClass(...['dnb-switch__input'], {
+    expect(inputElement).toHaveClass('dnb-switch__input', {
       exact: true,
     })
   })

@@ -64,10 +64,9 @@ describe('Grid.Item', () => {
 
     const element = document.querySelector('.dnb-grid-item')
 
-    expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-grid-item', 'custom-class'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-space dnb-grid-item custom-class', {
+      exact: true,
+    })
   })
 
   it('should set given span with media', () => {

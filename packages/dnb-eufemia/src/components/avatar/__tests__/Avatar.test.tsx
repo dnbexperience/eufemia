@@ -78,7 +78,7 @@ describe('Avatar', () => {
     const element = document.querySelector('.dnb-icon')
 
     expect(element).toHaveClass(
-      ...['dnb-icon', 'dnb-icon--auto', 'dnb-icon--inherit-color'],
+      'dnb-icon dnb-icon--auto dnb-icon--inherit-color',
       { exact: true }
     )
   })
@@ -95,7 +95,7 @@ describe('Avatar', () => {
     const element = document.querySelector('.dnb-icon')
 
     expect(element).toHaveClass(
-      ...['dnb-icon', 'dnb-icon--small', 'dnb-icon--inherit-color'],
+      'dnb-icon dnb-icon--small dnb-icon--inherit-color',
       { exact: true }
     )
   })
@@ -110,7 +110,7 @@ describe('Avatar', () => {
     const element = document.querySelector('.dnb-icon')
 
     expect(element).toHaveClass(
-      ...['dnb-icon', 'dnb-icon--auto', 'dnb-icon--inherit-color'],
+      'dnb-icon dnb-icon--auto dnb-icon--inherit-color',
       { exact: true }
     )
   })
@@ -125,7 +125,7 @@ describe('Avatar', () => {
     const element = document.querySelector('.dnb-icon')
 
     expect(element).toHaveClass(
-      ...['dnb-icon', 'dnb-icon--small', 'dnb-icon--inherit-color'],
+      'dnb-icon dnb-icon--small dnb-icon--inherit-color',
       { exact: true }
     )
   })
@@ -242,12 +242,7 @@ describe('Avatar', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-avatar',
-        'dnb-avatar--primary',
-        'dnb-avatar--size-medium',
-        'dnb-space__top--large',
-      ],
+      'dnb-avatar dnb-avatar--primary dnb-avatar--size-medium dnb-space__top--large',
       { exact: true }
     )
   })
@@ -276,13 +271,7 @@ describe('Avatar', () => {
     const element = document.querySelector('.dnb-avatar')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-avatar',
-        'dnb-avatar--primary',
-        'dnb-avatar--size-medium',
-        'dnb-space__top--large',
-        'dnb-space__bottom--small',
-      ],
+      'dnb-avatar dnb-avatar--primary dnb-avatar--size-medium dnb-space__top--large dnb-space__bottom--small',
       { exact: true }
     )
   })

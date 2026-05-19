@@ -105,12 +105,7 @@ describe('Value.SummaryList', () => {
     const element = document.querySelector('.dnb-forms-summary-list')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-forms-summary-list',
-        'custom-class',
-        'dnb-dl__layout--vertical',
-        'dnb-dl',
-      ],
+      'dnb-forms-summary-list custom-class dnb-dl__layout--vertical dnb-dl',
       { exact: true }
     )
   })

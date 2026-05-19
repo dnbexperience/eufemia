@@ -189,11 +189,7 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__tabs')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-tabs__tabs',
-        'dnb-tabs__tabs--right',
-        'dnb-tabs__tabs--breakout',
-      ],
+      'dnb-tabs__tabs dnb-tabs__tabs--right dnb-tabs__tabs--breakout',
       { exact: true }
     )
   })
@@ -208,12 +204,7 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__tabs')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-tabs__tabs',
-        'dnb-tabs__tabs--left',
-        'dnb-tabs__tabs--no-border',
-        'dnb-tabs__tabs--breakout',
-      ],
+      'dnb-tabs__tabs dnb-tabs__tabs--left dnb-tabs__tabs--no-border dnb-tabs__tabs--breakout',
       { exact: true }
     )
   })
@@ -228,7 +219,8 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__content')
 
     expect(element).toHaveClass(
-      ...['dnb-tabs__content', 'dnb-height-animation--is-in-dom']
+      'dnb-tabs__content',
+      'dnb-height-animation--is-in-dom'
     )
   })
 
@@ -253,7 +245,7 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs')
 
-    expect(element).toHaveClass(...['dnb-tabs', 'dnb-space__top--large'], {
+    expect(element).toHaveClass('dnb-tabs dnb-space__top--large', {
       exact: true,
     })
   })
@@ -269,12 +261,10 @@ describe('Tabs component', () => {
 
     expect(element.tagName).toBe('DIV')
     expect(element).toHaveClass(
-      ...[
-        'dnb-tabs__tabs',
-        'dnb-tabs__tabs--left',
-        'dnb-section',
-        'dnb-section--black-3',
-      ]
+      'dnb-tabs__tabs',
+      'dnb-tabs__tabs--left',
+      'dnb-section',
+      'dnb-section--black-3'
     )
   })
 
@@ -289,16 +279,14 @@ describe('Tabs component', () => {
 
     expect(element.tagName).toBe('SECTION')
     expect(element).toHaveClass(
-      ...[
-        'dnb-tabs__content',
-        'dnb-section',
-        'dnb-section--black-3',
-        'dnb-no-focus',
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--is-visible',
-      ]
+      'dnb-tabs__content',
+      'dnb-section',
+      'dnb-section--black-3',
+      'dnb-no-focus',
+      'dnb-space',
+      'dnb-height-animation',
+      'dnb-height-animation--is-in-dom',
+      'dnb-height-animation--is-visible'
     )
   })
 

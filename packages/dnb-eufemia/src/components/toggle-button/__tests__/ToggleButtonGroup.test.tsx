@@ -25,16 +25,7 @@ describe('ToggleButton group component', () => {
     const flexElement = element.querySelector('.dnb-flex-container')
 
     expect(flexElement).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-flex-start',
-        'dnb-flex-container--spacing-x-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-x-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
 
@@ -45,16 +36,7 @@ describe('ToggleButton group component', () => {
     )
 
     expect(flexElement).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-flex-start',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })
@@ -457,13 +439,7 @@ describe('ToggleButton group component', () => {
     const element = document.querySelector('.dnb-toggle-button-group')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-toggle-button-group',
-        'dnb-toggle-button-group--row',
-        'dnb-form-component',
-        'dnb-toggle-button-group--no-label',
-        'dnb-space__top--large',
-      ],
+      'dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component dnb-toggle-button-group--no-label dnb-space__top--large',
       { exact: true }
     )
   })
@@ -495,11 +471,7 @@ describe('ToggleButton group component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-toggle-button-group',
-        'dnb-toggle-button-group--row',
-        'dnb-form-component',
-      ],
+      'dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component',
       { exact: true }
     )
     expect(
@@ -507,29 +479,11 @@ describe('ToggleButton group component', () => {
         '.dnb-toggle-button-group .dnb-flex-container'
       )
     ).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-flex-start',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
     expect(document.querySelector('.dnb-flex-container')).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-flex-start',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })

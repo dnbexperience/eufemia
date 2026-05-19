@@ -98,23 +98,19 @@ describe('Dl', () => {
     const element = document.querySelector('.dnb-dl')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-dl__layout--horizontal',
-        'dnb-dl',
-        'dnb-space__top--medium',
-      ],
+      'dnb-dl__layout--horizontal dnb-dl dnb-space__top--medium',
       { exact: true }
     )
     expect(element.querySelector('dt')).toHaveClass(
-      ...['dnb-dt', 'dnb-space__top--medium'],
+      'dnb-dt dnb-space__top--medium',
       { exact: true }
     )
     expect(element.querySelector('dd')).toHaveClass(
-      ...['dnb-dd', 'dnb-space__top--medium'],
+      'dnb-dd dnb-space__top--medium',
       { exact: true }
     )
     expect(element.querySelector('.dnb-dl__item')).toHaveClass(
-      ...['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'],
+      'dnb-dl__item dnb-dd dnb-space__top--medium',
       { exact: true }
     )
   })

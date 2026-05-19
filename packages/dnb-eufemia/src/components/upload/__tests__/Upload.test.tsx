@@ -511,9 +511,7 @@ describe('Upload', () => {
       )
 
       expect(attributes).toEqual(['class'])
-      expect(element).toHaveClass(
-        ...['dnb-space', 'dnb-space__top--large']
-      )
+      expect(element).toHaveClass('dnb-space', 'dnb-space__top--large')
     })
 
     it('renders the singular upload button text when filesAmountLimit is 1', () => {
@@ -892,7 +890,7 @@ describe('Upload', () => {
     ).toHaveLength(1)
     expect(
       element.querySelectorAll('.dnb-upload__file-cell')[0]
-    ).toHaveClass(...['dnb-upload__file-cell--highlight'])
+    ).toHaveClass('dnb-upload__file-cell--highlight')
   })
 
   it('will accept duplicate files when allowDuplicates', async () => {

@@ -251,11 +251,7 @@ describe('Breadcrumb', () => {
 
     expect(attributes).toEqual(['aria-label', 'class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-breadcrumb',
-        'dnb-breadcrumb--variant-responsive',
-        'dnb-space__top--large',
-      ],
+      'dnb-breadcrumb dnb-breadcrumb--variant-responsive dnb-space__top--large',
       { exact: true }
     )
   })

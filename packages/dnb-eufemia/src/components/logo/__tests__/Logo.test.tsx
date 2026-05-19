@@ -152,7 +152,7 @@ describe('Logo component', () => {
 
     expect(attributes).not.toContain('top')
     expect(element).toHaveClass(
-      ...['dnb-logo', 'dnb-logo--ui', 'dnb-space__top--large'],
+      'dnb-logo dnb-logo--ui dnb-space__top--large',
       { exact: true }
     )
   })
@@ -161,14 +161,14 @@ describe('Logo component', () => {
     const { rerender } = render(<Logo />)
 
     expect(document.querySelector('span')).toHaveClass(
-      ...['dnb-logo', 'dnb-logo--ui'],
+      'dnb-logo dnb-logo--ui',
       { exact: true }
     )
 
     rerender(<Logo svg={SbankenDefault} />)
 
     expect(document.querySelector('span')).toHaveClass(
-      ...['dnb-logo', 'dnb-logo--sbanken'],
+      'dnb-logo dnb-logo--sbanken',
       { exact: true }
     )
   })

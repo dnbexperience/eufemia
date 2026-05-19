@@ -58,11 +58,9 @@ describe('Heading', () => {
 
       expect(element).toHaveClass(
         'custom-class',
-        selector.replace(/^\./, ''),
-        {
-          exact: true,
-        }
+        selector.replace(/^\./, '')
       )
+      expect(element.classList).toHaveLength(2)
     }
   )
 

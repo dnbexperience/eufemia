@@ -235,7 +235,7 @@ describe('Form.Handler', () => {
     const formElement = document.querySelector('form')
 
     expect(formElement).toHaveClass(
-      ...['dnb-space', 'dnb-forms-form', 'custom-class'],
+      'dnb-space dnb-forms-form custom-class',
       { exact: true }
     )
   })

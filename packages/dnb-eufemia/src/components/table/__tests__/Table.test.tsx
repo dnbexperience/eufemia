@@ -39,11 +39,7 @@ describe('Table', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-      ],
+      'dnb-table dnb-table__variant--generic dnb-table__size--large',
       { exact: true }
     )
   })
@@ -56,11 +52,7 @@ describe('Table', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-      ],
+      'dnb-table dnb-table__variant--generic dnb-table__size--large',
       { exact: true }
     )
   })
@@ -73,11 +65,7 @@ describe('Table', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--medium',
-      ],
+      'dnb-table dnb-table__variant--generic dnb-table__size--medium',
       { exact: true }
     )
   })
@@ -90,12 +78,10 @@ describe('Table', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'custom-class',
-      ]
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'custom-class'
     )
   })
 
@@ -119,12 +105,10 @@ describe('Table', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-table--fixed',
-      ]
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-table--fixed'
     )
   })
 
@@ -203,12 +187,10 @@ describe('Table', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-space__top--large',
-      ]
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-space__top--large'
     )
   })
 
@@ -226,13 +208,11 @@ describe('Table', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-skeleton',
-        'dnb-skeleton--font',
-      ]
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-skeleton',
+      'dnb-skeleton--font'
     )
   })
 

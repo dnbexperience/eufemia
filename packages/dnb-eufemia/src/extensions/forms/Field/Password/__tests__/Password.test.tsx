@@ -223,14 +223,7 @@ describe('Password component', () => {
     const element = document.querySelector('.dnb-forms-field-password')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-space__top--large',
-        'dnb-forms-field-block',
-        'dnb-forms-field-string',
-        'dnb-forms-field-password',
-        'dnb-forms-field-block--content-width-large',
-      ],
+      'dnb-space dnb-space__top--large dnb-forms-field-block dnb-forms-field-string dnb-forms-field-password dnb-forms-field-block--content-width-large',
       { exact: true }
     )
   })
@@ -253,16 +246,7 @@ describe('Password component', () => {
       'data-has-content',
     ])
     expect(element).toHaveClass(
-      ...[
-        'dnb-input',
-        'dnb-input__border--tokens',
-        'dnb-form-component',
-        'dnb-forms-field-string__input',
-        'dnb-input--password',
-        'dnb-input--has-submit-element',
-        'dnb-input--vertical',
-        'dnb-input--stretch',
-      ],
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-forms-field-string__input dnb-input--password dnb-input--has-submit-element dnb-input--vertical dnb-input--stretch',
       { exact: true }
     )
   })

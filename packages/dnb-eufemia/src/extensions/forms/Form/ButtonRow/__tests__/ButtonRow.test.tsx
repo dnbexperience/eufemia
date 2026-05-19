@@ -49,7 +49,7 @@ describe('Form.ButtonRow', () => {
     const element = document.querySelector('.dnb-forms-button-row')
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-forms-button-row', 'custom-class'],
+      'dnb-space dnb-forms-button-row custom-class',
       { exact: true }
     )
   })

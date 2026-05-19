@@ -45,7 +45,7 @@ describe('Element', () => {
 
     const element = document.querySelector('.dnb-p')
 
-    expect(element).toHaveClass(...['dnb-p', 'dnb-space__top--medium'], {
+    expect(element).toHaveClass('dnb-p dnb-space__top--medium', {
       exact: true,
     })
 
@@ -153,11 +153,11 @@ describe('Element', () => {
     const elementDiv = document.querySelector('#d')
     const elementA = document.querySelector('#a')
 
-    expect(elementSpan).toHaveClass(...['dnb-span'], { exact: true })
-    expect(elementP).toHaveClass(...['dnb-p'], { exact: true })
-    expect(elementHeading).toHaveClass(...['dnb-h1'], { exact: true })
-    expect(elementDiv).toHaveClass(...['dnb-div'], { exact: true })
-    expect(elementA).toHaveClass(...['dnb-a'], { exact: true })
+    expect(elementSpan).toHaveClass('dnb-span', { exact: true })
+    expect(elementP).toHaveClass('dnb-p', { exact: true })
+    expect(elementHeading).toHaveClass('dnb-h1', { exact: true })
+    expect(elementDiv).toHaveClass('dnb-div', { exact: true })
+    expect(elementA).toHaveClass('dnb-a', { exact: true })
   })
 
   it('should replace tag class with prop internalClass', () => {
@@ -169,7 +169,7 @@ describe('Element', () => {
 
     const element = document.querySelector('span')
 
-    expect(element).toHaveClass(...['replacement-class'], { exact: true })
+    expect(element).toHaveClass('replacement-class', { exact: true })
   })
 
   it('should not add tag class when internalClass is false', () => {

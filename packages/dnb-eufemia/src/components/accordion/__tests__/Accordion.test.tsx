@@ -108,7 +108,7 @@ describe('Accordion component', () => {
     render(<Accordion noAnimation />)
 
     expect(document.querySelector('.dnb-accordion__header')).toHaveClass(
-      ...['dnb-accordion__header--no-animation']
+      'dnb-accordion__header--no-animation'
     )
   })
 
@@ -155,13 +155,13 @@ describe('Accordion component', () => {
     render(<Accordion {...props} keepInDOM={true} />)
 
     expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
-      ...['dnb-height-animation--hidden']
+      'dnb-height-animation--hidden'
     )
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
     expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
-      ...['dnb-height-animation--is-in-dom']
+      'dnb-height-animation--is-in-dom'
     )
   })
 

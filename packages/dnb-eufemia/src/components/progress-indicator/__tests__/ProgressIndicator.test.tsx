@@ -140,13 +140,7 @@ describe('Circular ProgressIndicator component', () => {
 
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(indicator).toHaveClass(
-      ...[
-        'dnb-progress-indicator',
-        'dnb-progress-indicator--show',
-        'dnb-progress-indicator--vertical',
-        'dnb-progress-indicator--default',
-        'dnb-space__top--large',
-      ],
+      'dnb-progress-indicator dnb-progress-indicator--show dnb-progress-indicator--vertical dnb-progress-indicator--default dnb-space__top--large',
       { exact: true }
     )
   })
@@ -414,14 +408,7 @@ describe('Linear ProgressIndicator component', () => {
 
     const indicator = document.querySelector('.dnb-progress-indicator')
     expect(indicator).toHaveClass(
-      ...[
-        'dnb-progress-indicator',
-        'dnb-progress-indicator--show',
-        'dnb-progress-indicator--vertical',
-        'dnb-progress-indicator--default',
-        'dnb-progress-indicator--full-width',
-        'dnb-space__top--large',
-      ],
+      'dnb-progress-indicator dnb-progress-indicator--show dnb-progress-indicator--vertical dnb-progress-indicator--default dnb-progress-indicator--full-width dnb-space__top--large',
       { exact: true }
     )
   })

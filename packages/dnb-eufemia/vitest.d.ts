@@ -2,6 +2,12 @@
 import '@testing-library/jest-dom';
 import 'vitest';
 
+declare namespace matchers {
+  interface TestingLibraryMatchers<E, R> {
+    toHaveClass(classNames: string, options?: { exact?: boolean }): R;
+  }
+}
+
 declare module 'vitest' {
   interface Matchers<T> {
     toHaveNoViolations(): T;

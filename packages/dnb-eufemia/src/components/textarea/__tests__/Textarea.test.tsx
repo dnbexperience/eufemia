@@ -285,13 +285,7 @@ describe('Textarea component', () => {
     const element = document.querySelector('.dnb-textarea')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-textarea',
-        'dnb-textarea--virgin',
-        'dnb-form-component',
-        'dnb-textarea--vertical',
-        'dnb-space__top--large',
-      ],
+      'dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--vertical dnb-space__top--large',
       { exact: true }
     )
   })
@@ -310,12 +304,7 @@ describe('Textarea component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-textarea',
-        'dnb-textarea--virgin',
-        'dnb-form-component',
-        'dnb-textarea--vertical',
-      ],
+      'dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--vertical',
       { exact: true }
     )
   })

@@ -35,11 +35,7 @@ describe('Table.ScrollView', () => {
     const element = document.querySelector('.dnb-table__scroll-view')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-scroll-view',
-        'dnb-table__scroll-view',
-        'dnb-space__top--large',
-      ],
+      'dnb-scroll-view dnb-table__scroll-view dnb-space__top--large',
       { exact: true }
     )
   })

@@ -682,14 +682,7 @@ describe('Input with clear button', () => {
     const element = document.querySelector('.dnb-input')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-input',
-        'dnb-input__border--tokens',
-        'dnb-form-component',
-        'dnb-input--text',
-        'dnb-input--vertical',
-        'dnb-space__top--large',
-      ],
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-input--text dnb-input--vertical dnb-space__top--large',
       { exact: true }
     )
   })
@@ -712,13 +705,7 @@ describe('Input with clear button', () => {
       'data-has-content',
     ])
     expect(element).toHaveClass(
-      ...[
-        'dnb-input',
-        'dnb-input__border--tokens',
-        'dnb-form-component',
-        'dnb-input--text',
-        'dnb-input--vertical',
-      ],
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-input--text dnb-input--vertical',
       { exact: true }
     )
   })

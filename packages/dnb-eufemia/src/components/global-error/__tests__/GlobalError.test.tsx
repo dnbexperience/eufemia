@@ -174,13 +174,11 @@ describe('GlobalError', () => {
     const element = document.querySelector('.dnb-global-error')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-skeleton__root',
-        'dnb-global-error',
-        'dnb-global-error--404',
-        'dnb-space__top--large',
-      ]
+      'dnb-space',
+      'dnb-skeleton__root',
+      'dnb-global-error',
+      'dnb-global-error--404',
+      'dnb-space__top--large'
     )
     expect(element.classList).toHaveLength(5)
   })

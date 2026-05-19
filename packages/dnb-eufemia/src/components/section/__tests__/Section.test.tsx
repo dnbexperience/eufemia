@@ -31,14 +31,14 @@ describe('Section component', () => {
     const element = document.querySelector('section.dnb-section')
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-section', 'dnb-section--warning'],
+      'dnb-space dnb-section dnb-section--warning',
       { exact: true }
     )
 
     rerender(<Section variant="information">text</Section>)
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-section', 'dnb-section--information'],
+      'dnb-space dnb-section dnb-section--information',
       { exact: true }
     )
   })
@@ -49,12 +49,7 @@ describe('Section component', () => {
     const element = document.querySelector('section.dnb-section')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-section',
-        'dnb-section--default',
-        'custom-name',
-      ],
+      'dnb-space dnb-section dnb-section--default custom-name',
       { exact: true }
     )
   })
@@ -78,12 +73,7 @@ describe('Section component', () => {
     const element = document.querySelector('section.dnb-section')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-space__top--medium',
-        'dnb-section',
-        'dnb-section--default',
-      ],
+      'dnb-space dnb-space__top--medium dnb-section dnb-section--default',
       { exact: true }
     )
   })

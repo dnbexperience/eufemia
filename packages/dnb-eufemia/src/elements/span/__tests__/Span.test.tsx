@@ -15,7 +15,7 @@ describe('Span element', () => {
     const element = document.querySelector('.dnb-t__size--large')
 
     expect(element).toHaveClass(
-      ...['dnb-t__line-height--large', 'dnb-t__size--large', 'dnb-span'],
+      'dnb-t__line-height--large dnb-t__size--large dnb-span',
       { exact: true }
     )
   })
@@ -23,10 +23,9 @@ describe('Span element', () => {
     render(<Span lineHeight="large" />)
     const element = document.querySelector('.dnb-t__line-height--large')
 
-    expect(element).toHaveClass(
-      ...['dnb-t__line-height--large', 'dnb-span'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-t__line-height--large dnb-span', {
+      exact: true,
+    })
   })
   it('has correct style when several modifiers are defined', () => {
     render(
@@ -42,22 +41,14 @@ describe('Span element', () => {
     const element = document.querySelector('.dnb-t__size--small')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-t__line-height--xx-large',
-        'dnb-t__size--small',
-        'dnb-t__align--center',
-        'dnb-t__family--monospace',
-        'dnb-t__weight--medium',
-        'dnb-t__decoration--underline',
-        'dnb-span',
-      ],
+      'dnb-t__line-height--xx-large dnb-t__size--small dnb-t__align--center dnb-t__family--monospace dnb-t__weight--medium dnb-t__decoration--underline dnb-span',
       { exact: true }
     )
   })
   it('has correct style when medium is set to true', () => {
     render(<Span weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
-    expect(element).toHaveClass(...['dnb-t__weight--bold', 'dnb-span'], {
+    expect(element).toHaveClass('dnb-t__weight--bold dnb-span', {
       exact: true,
     })
   })

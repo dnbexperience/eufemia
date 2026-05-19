@@ -8,7 +8,7 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(element).toHaveClass(...['dnb-p', 'dnb-p--lead'], {
+    expect(element).toHaveClass('dnb-p dnb-p--lead', {
       exact: true,
     })
   })
@@ -47,10 +47,9 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(element).toHaveClass(
-      ...['dnb-p', 'dnb-p--lead', 'custom-class'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-p dnb-p--lead custom-class', {
+      exact: true,
+    })
   })
 
   it('should render children', () => {

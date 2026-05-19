@@ -87,17 +87,14 @@ describe('FieldBlock', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
     expect(document.querySelector('.dnb-forms-field-block')).toHaveClass(
-      ...['dnb-space', 'dnb-forms-field-block', 'custom-class'],
+      'dnb-space dnb-forms-field-block custom-class',
       { exact: true }
     )
 
     expect(
       document.querySelector('.dnb-forms-field-block__grid')
     ).toHaveClass(
-      ...[
-        'dnb-forms-field-block__grid',
-        'dnb-forms-field-block--layout-vertical',
-      ],
+      'dnb-forms-field-block__grid dnb-forms-field-block--layout-vertical',
       { exact: true }
     )
   })

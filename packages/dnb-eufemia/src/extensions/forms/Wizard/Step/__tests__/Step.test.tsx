@@ -180,26 +180,15 @@ describe('Step', () => {
       )
 
       expect(s1).toHaveClass(
-        ...[
-          'dnb-step-indicator__item',
-          'dnb-step-indicator__item--inactive',
-          'dnb-step-indicator__item--visited',
-        ],
+        'dnb-step-indicator__item dnb-step-indicator__item--inactive dnb-step-indicator__item--visited',
         { exact: true }
       )
       expect(s2).toHaveClass(
-        ...[
-          'dnb-step-indicator__item',
-          'dnb-step-indicator__item--current',
-          'dnb-step-indicator__item--inactive',
-        ],
+        'dnb-step-indicator__item dnb-step-indicator__item--current dnb-step-indicator__item--inactive',
         { exact: true }
       )
       expect(s3).toHaveClass(
-        ...[
-          'dnb-step-indicator__item',
-          'dnb-step-indicator__item--inactive',
-        ],
+        'dnb-step-indicator__item dnb-step-indicator__item--inactive',
         { exact: true }
       )
 

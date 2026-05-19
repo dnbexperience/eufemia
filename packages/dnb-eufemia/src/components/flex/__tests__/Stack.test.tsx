@@ -34,19 +34,7 @@ describe('Flex.Stack', () => {
     const element = document.querySelector('.dnb-flex-stack')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-stack',
-        'custom-class',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-stretch',
-        'dnb-flex-container--align-self-stretch',
-        'dnb-flex-container--spacing-medium',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-stack custom-class dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })

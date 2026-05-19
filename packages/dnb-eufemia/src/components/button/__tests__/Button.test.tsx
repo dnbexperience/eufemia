@@ -166,7 +166,7 @@ describe('Button component', () => {
     const element = document.querySelector('.dnb-button')
 
     expect(element).toHaveClass(
-      ...['dnb-button', 'dnb-button--primary', 'dnb-space__top--large'],
+      'dnb-button dnb-button--primary dnb-space__top--large',
       { exact: true }
     )
   })
@@ -190,7 +190,7 @@ describe('Button component', () => {
       'aria-disabled',
     ])
     expect(element).toHaveClass(
-      ...['dnb-button', 'dnb-button--primary', 'dnb-button--has-text'],
+      'dnb-button dnb-button--primary dnb-button--has-text',
       { exact: true }
     )
   })

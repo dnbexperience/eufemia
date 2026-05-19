@@ -20,7 +20,7 @@ describe('CopyOnClick', () => {
     const element = document.querySelector('.dnb-copy-on-click')
 
     expect(element).toHaveClass(
-      ...['dnb-copy-on-click', 'dnb-copy-on-click--cursor', 'dnb-span'],
+      'dnb-copy-on-click dnb-copy-on-click--cursor dnb-span',
       { exact: true }
     )
   })

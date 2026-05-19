@@ -381,7 +381,6 @@ export default [
     },
     rules: {
       ...vitestPlugin.configs.recommended.rules,
-      'vitest/expect-expect': 'off',
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',

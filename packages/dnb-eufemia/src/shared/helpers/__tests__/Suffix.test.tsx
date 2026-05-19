@@ -51,12 +51,7 @@ describe('Suffix', () => {
       suffixContent
     )
     expect(document.querySelector('.dnb-suffix')).toHaveClass(
-      ...[
-        'dnb-suffix',
-        'dnb-input__suffix',
-        'dnb-skeleton',
-        'dnb-skeleton--font',
-      ],
+      'dnb-suffix dnb-input__suffix dnb-skeleton dnb-skeleton--font',
       { exact: true }
     )
   })
@@ -69,17 +64,15 @@ describe('Suffix', () => {
     )
 
     expect(document.querySelector('.dnb-suffix')).toHaveClass(
-      ...['dnb-suffix', 'dnb-input__suffix'],
+      'dnb-suffix dnb-input__suffix',
       { exact: true }
     )
     expect(document.querySelector('.dnb-help-button')).toHaveClass(
-      ...[
-        'dnb-button',
-        'dnb-button--secondary',
-        'dnb-skeleton',
-        'dnb-skeleton--shape',
-        'dnb-help-button',
-      ]
+      'dnb-button',
+      'dnb-button--secondary',
+      'dnb-skeleton',
+      'dnb-skeleton--shape',
+      'dnb-help-button'
     )
   })
 })

@@ -300,11 +300,7 @@ describe('InfoCard', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-info-card',
-        'dnb-info-card--shadow',
-        'dnb-space__top--large',
-      ],
+      'dnb-info-card dnb-info-card--shadow dnb-space__top--large',
       { exact: true }
     )
   })

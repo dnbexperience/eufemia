@@ -119,10 +119,9 @@ describe('P element', () => {
     render(<P className="my-class" weight="regular" />)
     const element = document.querySelector('.dnb-p')
 
-    expect(element).toHaveClass(
-      ...['dnb-p', 'my-class', 'dnb-t__weight--regular'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-p my-class dnb-t__weight--regular', {
+      exact: true,
+    })
   })
 
   it('has correct size and line height when size is defined', () => {
@@ -130,7 +129,7 @@ describe('P element', () => {
     const element = document.querySelector('.dnb-t__size--large')
 
     expect(element).toHaveClass(
-      ...['dnb-p', 'dnb-t__line-height--large', 'dnb-t__size--large'],
+      'dnb-p dnb-t__line-height--large dnb-t__size--large',
       { exact: true }
     )
   })
@@ -139,7 +138,7 @@ describe('P element', () => {
     render(<P weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
 
-    expect(element).toHaveClass(...['dnb-p', 'dnb-t__weight--bold'], {
+    expect(element).toHaveClass('dnb-p dnb-t__weight--bold', {
       exact: true,
     })
   })
@@ -158,15 +157,7 @@ describe('P element', () => {
     const element = document.querySelector('.dnb-p')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-p',
-        'dnb-t__line-height--xx-large',
-        'dnb-t__size--small',
-        'dnb-t__align--center',
-        'dnb-t__family--monospace',
-        'dnb-t__weight--medium',
-        'dnb-t__decoration--underline',
-      ],
+      'dnb-p dnb-t__line-height--xx-large dnb-t__size--small dnb-t__align--center dnb-t__family--monospace dnb-t__weight--medium dnb-t__decoration--underline',
       { exact: true }
     )
   })
@@ -219,7 +210,7 @@ describe('P element', () => {
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element).toHaveClass(
-        ...['dnb-p', 'dnb-t__line-height--large', 'dnb-t__size--large'],
+        'dnb-p dnb-t__line-height--large dnb-t__size--large',
         { exact: true }
       )
       expect(element.style.maxWidth).toBe('100ch')
@@ -233,7 +224,7 @@ describe('P element', () => {
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
-      expect(element).toHaveClass(...['dnb-p', 'dnb-t__weight--bold'], {
+      expect(element).toHaveClass('dnb-p dnb-t__weight--bold', {
         exact: true,
       })
       expect(element.style.maxWidth).toBe('50ch')
@@ -254,14 +245,7 @@ describe('P element', () => {
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element).toHaveClass(
-        ...[
-          'dnb-p',
-          'dnb-t__line-height--medium',
-          'dnb-t__size--medium',
-          'dnb-t__align--center',
-          'dnb-t__family--monospace',
-          'dnb-t__weight--medium',
-        ],
+        'dnb-p dnb-t__line-height--medium dnb-t__size--medium dnb-t__align--center dnb-t__family--monospace dnb-t__weight--medium',
         { exact: true }
       )
       expect(element.style.maxWidth).toBe('70ch')

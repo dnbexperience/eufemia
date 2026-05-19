@@ -93,7 +93,7 @@ describe('Grid.Container', () => {
     const element = document.querySelector('.dnb-grid-container')
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-grid-container', 'custom-class'],
+      'dnb-space dnb-grid-container custom-class',
       { exact: true }
     )
   })

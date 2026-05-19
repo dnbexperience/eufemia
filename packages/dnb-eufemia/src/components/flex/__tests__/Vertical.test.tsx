@@ -40,17 +40,7 @@ describe('Flex.Vertical', () => {
     )
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'custom-class',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-flex-start',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container custom-class dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })

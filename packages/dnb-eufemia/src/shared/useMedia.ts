@@ -30,9 +30,6 @@ const makeLayoutEffect = () => {
       : useLayoutEffect
 }
 
-const isSSRTest = () =>
-  typeof window !== 'undefined' && Boolean(window['__SSR_TEST__'])
-
 export type UseMediaProps = {
   /**
    * Give a initial value, that is used during SSR as well.
@@ -204,7 +201,7 @@ export default function useMedia(
         return acc
       },
       {
-        isSSR: isSSRTest() || !isMatchMediaSupported(),
+        isSSR: !isMatchMediaSupported(),
         key: null,
       } as UseMediaResult
     ) as UseMediaResult

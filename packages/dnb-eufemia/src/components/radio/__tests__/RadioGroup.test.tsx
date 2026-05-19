@@ -98,12 +98,7 @@ describe('Radio group component', () => {
     const element = document.querySelector('.dnb-radio-group')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-radio-group',
-        'dnb-radio-group--row',
-        'dnb-form-component',
-        'dnb-space__top--large',
-      ],
+      'dnb-radio-group dnb-radio-group--row dnb-form-component dnb-space__top--large',
       { exact: true }
     )
   })
@@ -125,35 +120,17 @@ describe('Radio group component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...['dnb-radio-group', 'dnb-radio-group--row', 'dnb-form-component'],
+      'dnb-radio-group dnb-radio-group--row dnb-form-component',
       { exact: true }
     )
     expect(
       document.querySelector('.dnb-radio-group .dnb-flex-container')
     ).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-stretch',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
     expect(document.querySelector('.dnb-flex-container')).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-stretch',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })
@@ -169,16 +146,7 @@ describe('Radio group component', () => {
     const flexElement = element.querySelector('.dnb-flex-container')
 
     expect(flexElement).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-stretch',
-        'dnb-flex-container--spacing-x-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-x-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
 
@@ -189,16 +157,7 @@ describe('Radio group component', () => {
     )
 
     expect(flexElement).toHaveClass(
-      ...[
-        'dnb-space',
-        'dnb-flex-container',
-        'dnb-flex-container--direction-vertical',
-        'dnb-flex-container--justify-flex-start',
-        'dnb-flex-container--align-stretch',
-        'dnb-flex-container--spacing-small',
-        'dnb-flex-container--wrap',
-        'dnb-flex-container--divider-space',
-      ],
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
       { exact: true }
     )
   })

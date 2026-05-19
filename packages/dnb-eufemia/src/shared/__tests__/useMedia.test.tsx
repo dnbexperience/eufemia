@@ -10,10 +10,29 @@ import useMedia from '../useMedia'
 import Provider from '../Provider'
 import '../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
+import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
+
+const isMatchMediaSupported =
+  _isMatchMediaSupported as import('vitest').Mock
+
+vi.mock('../MediaQueryUtils', async () => ({
+  ...(await vi.importActual<typeof import('../MediaQueryUtils')>(
+    '../MediaQueryUtils'
+  )),
+  isMatchMediaSupported: vi.fn(),
+}))
 
 const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
 
 describe('useMedia', () => {
+  beforeEach(() => {
+    isMatchMediaSupported.mockImplementation(
+      () =>
+        typeof window !== 'undefined' &&
+        typeof window.matchMedia !== 'undefined'
+    )
+  })
+
   describe('using mock-match-media mocker', () => {
     const BELOW = '10em'
     const ABOVE = '100em'
@@ -924,6 +943,10 @@ describe('useMedia', () => {
   describe('ssr', () => {
     beforeAll(() => {
       global.window['__SSR_TEST__'] = true
+    })
+
+    beforeEach(() => {
+      isMatchMediaSupported.mockReturnValue(false)
     })
 
     afterAll(() => {

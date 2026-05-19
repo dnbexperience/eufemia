@@ -305,11 +305,7 @@ describe('ToggleButton component', () => {
     const element = document.querySelector('.dnb-toggle-button')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-toggle-button',
-        'dnb-toggle-button--vertical',
-        'dnb-space__top--large',
-      ],
+      'dnb-toggle-button dnb-toggle-button--vertical dnb-space__top--large',
       { exact: true }
     )
   })
@@ -328,7 +324,7 @@ describe('ToggleButton component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...['dnb-toggle-button', 'dnb-toggle-button--vertical'],
+      'dnb-toggle-button dnb-toggle-button--vertical',
       { exact: true }
     )
   })

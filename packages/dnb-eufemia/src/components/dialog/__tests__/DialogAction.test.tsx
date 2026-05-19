@@ -37,7 +37,7 @@ describe('Dialog.Action', () => {
     const element = document.querySelector('.dnb-dialog__actions')
 
     expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-space__top--large', 'dnb-dialog__actions'],
+      'dnb-space dnb-space__top--large dnb-dialog__actions',
       { exact: true }
     )
   })

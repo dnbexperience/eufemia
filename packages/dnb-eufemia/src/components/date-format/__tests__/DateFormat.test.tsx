@@ -635,7 +635,7 @@ describe('DateFormat', () => {
         const element = document.querySelector('.dnb-date-format')
 
         expect(element).toHaveClass(
-          ...['dnb-date-format', 'dnb-space__top--large'],
+          'dnb-date-format dnb-space__top--large',
           { exact: true }
         )
       })
@@ -650,7 +650,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...['dnb-date-format', 'dnb-skeleton', 'dnb-skeleton--font'],
+          'dnb-date-format dnb-skeleton dnb-skeleton--font',
           { exact: true }
         )
       })
@@ -668,12 +668,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...[
-            'dnb-date-format',
-            'dnb-skeleton',
-            'dnb-skeleton--font',
-            'dnb-space__top--large',
-          ],
+          'dnb-date-format dnb-skeleton dnb-skeleton--font dnb-space__top--large',
           { exact: true }
         )
       })
@@ -799,7 +794,8 @@ describe('DateFormat', () => {
 
       await waitFor(() => {
         expect(tooltipElem).toHaveClass(
-          ...['dnb-tooltip', 'dnb-tooltip--active']
+          'dnb-tooltip',
+          'dnb-tooltip--active'
         )
       })
 
@@ -807,9 +803,7 @@ describe('DateFormat', () => {
 
       // Wait for tooltip to hide
       await waitFor(() => {
-        expect(tooltipElem).toHaveClass(
-          ...['dnb-tooltip', 'dnb-tooltip--hide']
-        )
+        expect(tooltipElem).toHaveClass('dnb-tooltip', 'dnb-tooltip--hide')
       })
     })
 
@@ -1238,7 +1232,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...['dnb-date-format', 'dnb-space__top--large'],
+          'dnb-date-format dnb-space__top--large',
           { exact: true }
         )
       })
@@ -1257,12 +1251,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...[
-            'dnb-date-format',
-            'dnb-space__top--large',
-            'dnb-space__bottom--small',
-            'dnb-space__left--small',
-          ],
+          'dnb-date-format dnb-space__top--large dnb-space__bottom--small dnb-space__left--small',
           { exact: true }
         )
       })
@@ -1277,7 +1266,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...['dnb-date-format', 'dnb-skeleton', 'dnb-skeleton--font'],
+          'dnb-date-format dnb-skeleton dnb-skeleton--font',
           { exact: true }
         )
       })
@@ -1295,12 +1284,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
         expect(element).toHaveClass(
-          ...[
-            'dnb-date-format',
-            'dnb-skeleton',
-            'dnb-skeleton--font',
-            'dnb-space__top--large',
-          ],
+          'dnb-date-format dnb-skeleton dnb-skeleton--font dnb-space__top--large',
           { exact: true }
         )
       })
@@ -1603,7 +1587,7 @@ describe('DateFormat', () => {
 
       const element = document.querySelector('.dnb-date-format')
       expect(element).toHaveClass(
-        ...['dnb-date-format', 'dnb-space__top--large'],
+        'dnb-date-format dnb-space__top--large',
         { exact: true }
       )
     })
@@ -1613,7 +1597,7 @@ describe('DateFormat', () => {
 
       const element = document.querySelector('.dnb-date-format')
       expect(element).toHaveClass(
-        ...['dnb-date-format', 'dnb-skeleton', 'dnb-skeleton--font'],
+        'dnb-date-format dnb-skeleton dnb-skeleton--font',
         { exact: true }
       )
     })

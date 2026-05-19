@@ -39,12 +39,7 @@ describe('Form.MainHeading', () => {
     const element = document.querySelector('.dnb-forms-main-heading')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-heading',
-        'dnb-h--large',
-        'dnb-forms-main-heading',
-        'custom-class',
-      ],
+      'dnb-heading dnb-h--large dnb-forms-main-heading custom-class',
       { exact: true }
     )
   })

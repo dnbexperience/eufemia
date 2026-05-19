@@ -314,7 +314,7 @@ describe('Checkbox component', () => {
     const element = document.querySelector('.dnb-checkbox')
 
     expect(element).toHaveClass(
-      ...['dnb-checkbox', 'dnb-form-component', 'dnb-space__top--large'],
+      'dnb-checkbox dnb-form-component dnb-space__top--large',
       { exact: true }
     )
   })
@@ -348,14 +348,10 @@ describe('Checkbox component', () => {
       'name',
     ])
     expect(element).toHaveClass(
-      ...[
-        'dnb-checkbox',
-        'dnb-form-component',
-        'dnb-checkbox--label-position-right',
-      ],
+      'dnb-checkbox dnb-form-component dnb-checkbox--label-position-right',
       { exact: true }
     )
-    expect(inputElement).toHaveClass(...['dnb-checkbox__input'], {
+    expect(inputElement).toHaveClass('dnb-checkbox__input', {
       exact: true,
     })
   })

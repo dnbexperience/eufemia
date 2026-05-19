@@ -38,7 +38,7 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge')
 
-    expect(element).toHaveClass(...['dnb-badge', 'dnb-badge--inline'], {
+    expect(element).toHaveClass('dnb-badge dnb-badge--inline', {
       exact: true,
     })
   })
@@ -157,13 +157,7 @@ describe('Badge', () => {
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-badge',
-        'dnb-space__top--large',
-        'dnb-badge--variant-information',
-        'dnb-badge--inline',
-        'dnb-badge--status-default',
-      ],
+      'dnb-badge dnb-space__top--large dnb-badge--variant-information dnb-badge--inline dnb-badge--status-default',
       { exact: true }
     )
   })
@@ -177,10 +171,9 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge__root')
 
-    expect(element).toHaveClass(
-      ...['dnb-badge__root', 'dnb-space__top--large'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-badge__root dnb-space__top--large', {
+      exact: true,
+    })
 
     expect(
       Array.from(document.querySelector('.dnb-badge').classList)
@@ -205,14 +198,7 @@ describe('Badge', () => {
     const element = document.querySelector('.dnb-badge')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-badge',
-        'dnb-skeleton',
-        'dnb-skeleton--shape',
-        'dnb-badge--variant-information',
-        'dnb-badge--inline',
-        'dnb-badge--status-default',
-      ],
+      'dnb-badge dnb-skeleton dnb-skeleton--shape dnb-badge--variant-information dnb-badge--inline dnb-badge--status-default',
       { exact: true }
     )
   })

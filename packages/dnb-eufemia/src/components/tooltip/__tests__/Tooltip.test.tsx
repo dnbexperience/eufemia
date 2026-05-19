@@ -101,7 +101,7 @@ describe('Tooltip', () => {
     )
 
     expect(document.querySelector('.dnb-tooltip')).toHaveClass(
-      ...['dnb-tooltip--large']
+      'dnb-tooltip--large'
     )
   })
 
@@ -148,7 +148,7 @@ describe('Tooltip', () => {
     )
 
     expect(document.querySelector('.dnb-tooltip')).toHaveClass(
-      ...['dnb-tooltip--fixed']
+      'dnb-tooltip--fixed'
     )
   })
 
@@ -160,10 +160,8 @@ describe('Tooltip', () => {
     )
 
     expect(document.querySelector('.dnb-tooltip__arrow')).toHaveClass(
-      ...[
-        'dnb-tooltip__arrow__arrow--center',
-        'dnb-tooltip__arrow__placement--right',
-      ]
+      'dnb-tooltip__arrow__arrow--center',
+      'dnb-tooltip__arrow__placement--right'
     )
   })
 
@@ -175,10 +173,8 @@ describe('Tooltip', () => {
     )
 
     expect(document.querySelector('.dnb-tooltip__arrow')).toHaveClass(
-      ...[
-        'dnb-tooltip__arrow__arrow--right',
-        'dnb-tooltip__arrow__placement--top',
-      ]
+      'dnb-tooltip__arrow__arrow--right',
+      'dnb-tooltip__arrow__placement--top'
     )
   })
 
@@ -487,7 +483,8 @@ describe('Tooltip', () => {
 
         const portalRoot = document.querySelector('.dnb-tooltip__portal')
         expect(portalRoot).toHaveClass(
-          ...['dnb-tooltip__portal', 'dnb-popover__portal']
+          'dnb-tooltip__portal',
+          'dnb-popover__portal'
         )
       })
 
@@ -583,7 +580,9 @@ describe('Tooltip', () => {
       render(<Tooltip fixedPosition open />)
 
       expect(getMainElem()).toHaveClass(
-        ...['dnb-tooltip', 'dnb-tooltip--active', 'dnb-tooltip--fixed']
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+        'dnb-tooltip--fixed'
       )
     })
 
@@ -766,7 +765,7 @@ describe('Tooltip', () => {
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
       expect(wrapperElement).toHaveClass(
-        ...['dnb-tooltip__wrapper', 'dnb-tab-focus'],
+        'dnb-tooltip__wrapper dnb-tab-focus',
         { exact: true }
       )
 
@@ -781,9 +780,7 @@ describe('Tooltip', () => {
         }
         return node
       })
-      expect(tooltipElement).toHaveClass(
-        ...['dnb-tooltip', 'custom-class']
-      )
+      expect(tooltipElement).toHaveClass('dnb-tooltip', 'custom-class')
 
       const id = wrapperElement.getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)

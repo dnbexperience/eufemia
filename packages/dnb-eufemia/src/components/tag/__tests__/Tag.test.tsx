@@ -98,10 +98,9 @@ describe('Tag Group', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(element).toHaveClass(
-      ...['dnb-tag__group', 'dnb-space__top--large'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-tag__group dnb-space__top--large', {
+      exact: true,
+    })
   })
 })
 
@@ -242,15 +241,13 @@ describe('Tag', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-button',
-        'dnb-button--unstyled',
-        'dnb-button--has-text',
-        'dnb-tag',
-        'dnb-tag--default',
-        'dnb-space__left--large',
-        'dnb-button--size-small',
-      ]
+      'dnb-button',
+      'dnb-button--unstyled',
+      'dnb-button--has-text',
+      'dnb-tag',
+      'dnb-tag--default',
+      'dnb-space__left--large',
+      'dnb-button--size-small'
     )
     expect(element.classList).toHaveLength(7)
   })

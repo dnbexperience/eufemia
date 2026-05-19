@@ -37,12 +37,7 @@ describe('Form.SubHeading', () => {
     const element = document.querySelector('.dnb-forms-sub-heading')
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-heading',
-        'dnb-h--medium',
-        'dnb-forms-sub-heading',
-        'custom-class',
-      ],
+      'dnb-heading dnb-h--medium dnb-forms-sub-heading custom-class',
       { exact: true }
     )
   })

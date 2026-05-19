@@ -3393,14 +3393,7 @@ describe('Autocomplete component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-autocomplete',
-        'dnb-form-component',
-        'dnb-autocomplete--auto',
-        'dnb-autocomplete--vertical',
-        'dnb-autocomplete--icon-position-left',
-        'dnb-autocomplete--default',
-      ],
+      'dnb-autocomplete dnb-form-component dnb-autocomplete--auto dnb-autocomplete--vertical dnb-autocomplete--icon-position-left dnb-autocomplete--default',
       { exact: true }
     )
   })

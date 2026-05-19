@@ -4083,14 +4083,7 @@ describe('DatePicker component', () => {
     const element = getDatePickerRoot()
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-date-picker',
-        'dnb-form-component',
-        'dnb-date-picker--vertical',
-        'dnb-date-picker--hidden',
-        'dnb-date-picker--show-input',
-        'dnb-space__top--large',
-      ],
+      'dnb-date-picker dnb-form-component dnb-date-picker--vertical dnb-date-picker--hidden dnb-date-picker--show-input dnb-space__top--large',
       { exact: true }
     )
   })
@@ -4173,13 +4166,7 @@ describe('DatePicker component', () => {
 
     expect(attributes).toEqual(['class', 'lang'])
     expect(element).toHaveClass(
-      ...[
-        'dnb-date-picker',
-        'dnb-form-component',
-        'dnb-date-picker--vertical',
-        'dnb-date-picker--hidden',
-        'dnb-date-picker--show-input',
-      ],
+      'dnb-date-picker dnb-form-component dnb-date-picker--vertical dnb-date-picker--hidden dnb-date-picker--show-input',
       { exact: true }
     )
   })

@@ -75,10 +75,7 @@ describe('Table using mode="accordion" prop', () => {
     expect(element.getAttribute('aria-hidden')).toBe('true')
     expect(element.getAttribute('hidden')).toBe('')
     expect(element).toHaveClass(
-      ...[
-        'dnb-table__tr__accordion-content',
-        'dnb-table__tr__accordion-content--single',
-      ],
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single',
       { exact: true }
     )
   })
@@ -106,13 +103,7 @@ describe('Table using mode="accordion" prop', () => {
     expect(accordionElem.getAttribute('aria-hidden')).toBe('false')
     expect(accordionElem.getAttribute('role')).toBe('row')
     expect(accordionElem).toHaveClass(
-      ...[
-        'dnb-table__tr__accordion-content',
-        'dnb-table__tr__accordion-content--single',
-        'dnb-table__tr',
-        'dnb-table__tr__accordion-content--expanded',
-        'dnb-table__tr__accordion-content--parallax',
-      ],
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single dnb-table__tr dnb-table__tr__accordion-content--expanded dnb-table__tr__accordion-content--parallax',
       { exact: true }
     )
   })
@@ -132,13 +123,7 @@ describe('Table using mode="accordion" prop', () => {
     const element = document.querySelector('tr') as HTMLTableRowElement
 
     expect(element).toHaveClass(
-      ...[
-        'dnb-table__tr',
-        'dnb-table__tr--odd',
-        'dnb-table__tr--last',
-        'dnb-table__tr--clickable',
-        'dnb-table__tr--no-animation',
-      ],
+      'dnb-table__tr dnb-table__tr--odd dnb-table__tr--last dnb-table__tr--clickable dnb-table__tr--no-animation',
       { exact: true }
     )
   })
@@ -300,10 +285,7 @@ describe('Table using mode="accordion" prop', () => {
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
     expect(accordionElem).toHaveClass(
-      ...[
-        'dnb-table__tr__accordion-content',
-        'dnb-table__tr__accordion-content--single',
-      ],
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single',
       { exact: true }
     )
 
@@ -788,12 +770,7 @@ describe('Table using mode="accordion" prop', () => {
     const trElement = document.querySelector('tr')
 
     expect(trElement).toHaveClass(
-      ...[
-        'dnb-table__tr',
-        'dnb-table__tr--odd',
-        'dnb-table__tr--last',
-        'dnb-table__tr--clickable',
-      ],
+      'dnb-table__tr dnb-table__tr--odd dnb-table__tr--last dnb-table__tr--clickable',
       { exact: true }
     )
 

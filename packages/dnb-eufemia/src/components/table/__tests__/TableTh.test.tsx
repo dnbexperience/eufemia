@@ -201,7 +201,7 @@ describe('TableTh', () => {
     )
 
     const element = document.querySelector('th')
-    expect(element).toHaveClass(...['dnb-table__th', 'custom-class'], {
+    expect(element).toHaveClass('dnb-table__th custom-class', {
       exact: true,
     })
   })

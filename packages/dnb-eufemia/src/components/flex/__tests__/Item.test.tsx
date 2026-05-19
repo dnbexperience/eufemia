@@ -36,10 +36,9 @@ describe('Flex.Item', () => {
 
     const element = document.querySelector('.dnb-flex-item')
 
-    expect(element).toHaveClass(
-      ...['dnb-space', 'dnb-flex-item', 'custom-class'],
-      { exact: true }
-    )
+    expect(element).toHaveClass('dnb-space dnb-flex-item custom-class', {
+      exact: true,
+    })
   })
 
   it('should render children', () => {

@@ -44,12 +44,7 @@ describe('useStickyHeader', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-table--sticky',
-      ],
+      'dnb-table dnb-table__variant--generic dnb-table__size--large dnb-table--sticky',
       { exact: true }
     )
   })
@@ -62,12 +57,7 @@ describe('useStickyHeader', () => {
     )
 
     expect(screen.queryByRole('table')).toHaveClass(
-      ...[
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-table--sticky',
-      ],
+      'dnb-table dnb-table__variant--generic dnb-table__size--large dnb-table--sticky',
       { exact: true }
     )
   })
@@ -82,7 +72,10 @@ describe('useStickyHeader', () => {
     setSizes()
 
     expect(document.querySelector('tr')).toHaveClass(
-      ...['dnb-table__tr', 'dnb-table__tr--odd', 'sticky', 'css-position']
+      'dnb-table__tr',
+      'dnb-table__tr--odd',
+      'sticky',
+      'css-position'
     )
   })
 

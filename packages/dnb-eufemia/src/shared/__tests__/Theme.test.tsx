@@ -29,11 +29,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...[
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ],
+      'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
       { exact: true }
     )
   })
@@ -49,16 +45,11 @@ describe('Theme', () => {
 
     const element1 = document.querySelector('#theme-1')
     const element2 = document.querySelector('#theme-2')
-    expect(element1).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__eiendom'],
-      { exact: true }
-    )
+    expect(element1).toHaveClass('eufemia-theme eufemia-theme__eiendom', {
+      exact: true,
+    })
     expect(element2).toHaveClass(
-      ...[
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ],
+      'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
       { exact: true }
     )
   })
@@ -68,7 +59,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__size--basis'],
+      'eufemia-theme eufemia-theme__size--basis',
       { exact: true }
     )
   })
@@ -78,7 +69,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__contrast-mode'],
+      'eufemia-theme eufemia-theme__contrast-mode',
       { exact: true }
     )
   })
@@ -88,7 +79,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      'eufemia-theme eufemia-theme__color-scheme--dark',
       { exact: true }
     )
   })
@@ -98,7 +89,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      'eufemia-theme eufemia-theme__color-scheme--light',
       { exact: true }
     )
   })
@@ -116,7 +107,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      'eufemia-theme eufemia-theme__color-scheme--light',
       { exact: true }
     )
 
@@ -136,7 +127,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      'eufemia-theme eufemia-theme__color-scheme--dark',
       { exact: true }
     )
 
@@ -165,7 +156,7 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      'eufemia-theme eufemia-theme__color-scheme--light',
       { exact: true }
     )
 
@@ -175,7 +166,7 @@ describe('Theme', () => {
     })
 
     expect(element).toHaveClass(
-      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      'eufemia-theme eufemia-theme__color-scheme--dark',
       { exact: true }
     )
 
@@ -256,14 +247,14 @@ describe('Theme', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(element).toHaveClass(...['eufemia-theme'], { exact: true })
+    expect(element).toHaveClass('eufemia-theme', { exact: true })
   })
 
   it('does not set surface as HTML classes when "light"', () => {
     render(<Theme surface="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(element).toHaveClass(...['eufemia-theme'], { exact: true })
+    expect(element).toHaveClass('eufemia-theme', { exact: true })
   })
 
   it('resets surface to undefined when "initial" inside a dark surface context', () => {
@@ -370,13 +361,11 @@ describe('Portals', () => {
 
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toHaveClass(
-      ...[
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ]
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-dialog__root.dnb-modal__content')
@@ -395,13 +384,11 @@ describe('Portals', () => {
 
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toHaveClass(
-      ...[
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ]
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector(
@@ -420,13 +407,11 @@ describe('Portals', () => {
 
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toHaveClass(
-      ...[
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ]
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -443,13 +428,11 @@ describe('Portals', () => {
 
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toHaveClass(
-      ...[
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ]
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -469,13 +452,11 @@ describe('Portals', () => {
     expect(themeElement).toBeInTheDocument()
 
     expect(themeElement).toHaveClass(
-      ...[
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ]
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
