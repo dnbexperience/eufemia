@@ -1,9 +1,9 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.954Z
-checksum: 5795f4aaf0b630532144f40f337f7e987269d7bb018d76733aa0070ace662f39
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.742Z
+checksum: 0ff62ef4dc4f9902fb7503d2aff5efc2bb72d942d5a55d0a119bedfac85af14d
 ---
 
 # Radio
@@ -212,12 +212,12 @@ render(<ShowBoundingArea>
       "status": "optional"
     },
     "group": {
-      "doc": "Use a unique group identifier to define the Radio buttons that belongs together.",
+      "doc": "Use a unique group identifier to define the Radio buttons that belong together.",
       "type": "string",
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
+      "doc": "The size of the Radio button. For now there are `medium` (default) and `large`.",
       "type": [
         "\"default\"",
         "\"medium\"",
@@ -253,7 +253,7 @@ render(<ShowBoundingArea>
       "status": "optional"
     },
     "statusState": {
-      "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
       "type": [
         "\"error\"",
         "\"information\""
@@ -305,7 +305,7 @@ render(<ShowBoundingArea>
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the Radio button. For now there is `medium` (default) and `large`.",
+      "doc": "The size of the Radio button. For now there are `medium` (default) and `large`.",
       "type": [
         "\"default\"",
         "\"medium\"",
@@ -322,7 +322,7 @@ render(<ShowBoundingArea>
       "status": "optional"
     },
     "statusState": {
-      "doc": "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.",
       "type": [
         "\"error\"",
         "\"information\""

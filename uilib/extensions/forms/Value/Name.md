@@ -1,8 +1,8 @@
 ---
 title: 'Value.Name'
 description: '`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.732Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.493Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -139,7 +139,7 @@ render(<Form.Handler defaultData={{
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -184,7 +184,7 @@ render(<Form.Handler defaultData={{
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

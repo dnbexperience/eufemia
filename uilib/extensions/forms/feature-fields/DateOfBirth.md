@@ -1,8 +1,8 @@
 ---
 title: 'Field.DateOfBirth'
 description: '`Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.891Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.650Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -379,7 +379,7 @@ render(<Form.Handler defaultData={{
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the field (e.g. input).",
+      "doc": "Transforms the `value` before it's displayed in the field (e.g. input).",
       "type": "function",
       "status": "optional"
     },
@@ -643,7 +643,7 @@ render(<Form.Handler defaultData={{
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "doc": "Will be called when the component stops being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value?: string, additionalArgs: object) => void",
       "status": "optional"
     },

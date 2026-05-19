@@ -1,8 +1,8 @@
 ---
 title: 'FieldBlock'
 description: '`FieldBlock` is a reusable wrapper for building Field-components. It shows surrounding elements through properties from `FieldProps` like `label` and `error`.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.879Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.640Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -575,7 +575,7 @@ render(<Flex.Stack>
       "status": "optional"
     },
     "labelHeight": {
-      "doc": "Defines the height of an component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.",
+      "doc": "Defines the height of a component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.",
       "type": "string",
       "status": "optional"
     },

@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.228Z
-checksum: 79b310f161d0a51d9a77a2099923350d8871e296877d7e84d9a24132d5abc654
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.024Z
+checksum: bb67ff72e66e59cb08044768ac0c52123df6867883885602d9f81ecf18c74ff1
 ---
 
 # Table
@@ -184,20 +184,18 @@ function MyTable() {
   const navRef = useTableKeyboardNavigation()
 
   return (
-    <div ref={navRef}>
-      <Table>
-        <tbody>
-          <tr>
-            <Table.Td>
-              <input />
-            </Table.Td>
-            <Table.Td>
-              <input />
-            </Table.Td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <Table ref={navRef}>
+      <tbody>
+        <tr>
+          <Table.Td>
+            <input />
+          </Table.Td>
+          <Table.Td>
+            <input />
+          </Table.Td>
+        </tr>
+      </tbody>
+    </Table>
   )
 }
 ```
@@ -1592,43 +1590,70 @@ render(<Example />);
 ```
 
 
-### Example usage without and with classes
+### Column highlight
+
+Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
+
+```tsx
+import Table, { useTableHighlight } from '@dnb/eufemia/components/Table'
+
+const highlightRef = useTableHighlight()
+render(<Table ref={highlightRef}>...</Table>)
+```
 
 
 ```tsx
-render(<Table.ScrollView>
-      <table className="dnb-table">
-        <thead>
-          <tr>
-            <th>Header</th>
-            <th className="dnb-table--sortable dnb-table--reversed">
-              <Th.SortButton text="Sortable" />
-            </th>
-            <th className="dnb-table--sortable dnb-table--active">
-              <Th.SortButton text="Active" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Row 1</td>
-            <td>Row 1</td>
-            <td>Row 1</td>
-          </tr>
-          <tr>
-            <td>Row 2</td>
-            <td>Row 2</td>
-            <td>Row 2</td>
-          </tr>
-          <tr>
-            <td>Row 3</td>
-            <td>Row 3</td>
-            <td>Row 3</td>
-          </tr>
-        </tbody>
-      </table>
-    </Table.ScrollView>)
+const ColumnHighlightTable = () => {
+  const highlightRef = useTableHighlight();
+  return <Table.ScrollView>
+            <Table outline border ref={highlightRef}>
+              <caption className="dnb-sr-only">
+                Table with highlighted column
+              </caption>
+
+              <thead>
+                <Tr>
+                  <Th />
+                  <Th highlight>Column A</Th>
+                  <Th highlight>Column B</Th>
+                  <Th>Column C</Th>
+                  <Th>Column D</Th>
+                </Tr>
+              </thead>
+
+              <tbody>
+                <Tr highlight>
+                  <Th>Row 1 Header</Th>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 2 Header</Th>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 3 Header</Th>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                  <Td highlight>Row 3</Td>
+                  <Td>Row 3</Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>;
+};
+render(<ColumnHighlightTable />);
 ```
+
+
+### Example usage without and with classes
 
 
 ```tsx
@@ -2073,6 +2098,12 @@ render(<Table.ScrollView>
       "defaultValue": "false",
       "status": "optional"
     },
+    "highlight": {
+      "doc": "If set to `true`, all `<Td>` and `<Th>` cells in the row receive a highlighted background.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
     "children": {
       "doc": "The content of the component.",
       "type": "React.ReactNode",
@@ -2123,6 +2154,12 @@ render(<Table.ScrollView>
       "defaultValue": "false",
       "status": "optional"
     },
+    "highlight": {
+      "doc": "If set to `true`, the header cell and all `<Td>` cells in the same column receive a highlighted background. Also inherited from the parent `<Tr>` when it has `highlight`.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
     "children": {
       "doc": "The content of the component.",
       "type": "React.ReactNode",
@@ -2161,6 +2198,12 @@ render(<Table.ScrollView>
         "\"bottom\""
       ],
       "defaultValue": "undefined",
+      "status": "optional"
+    },
+    "highlight": {
+      "doc": "If set to `true`, the cell receives a highlighted background. Automatically set when the parent `<Tr>` has `highlight`, or when the corresponding `<Th>` in the same column has `highlight`.",
+      "type": "boolean",
+      "defaultValue": "false",
       "status": "optional"
     },
     "selected": {

@@ -1,7 +1,7 @@
 ---
 title: 'Locale / Translation'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.959Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.716Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -972,7 +972,7 @@ and use it like this:
 
 ```jsx
 import { Provider as EufemiaProvider } from '@dnb/eufemia/shared'
-import nb from './nb.json' // Has to be an JavaScript object
+import nb from './nb.json' // Has to be a JavaScript object
 
 render(
   <EufemiaProvider

@@ -1,6 +1,6 @@
 ---
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.626Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.429Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -20,12 +20,12 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `focusInput` will set focus on the input element.
 - `showIndicator` shows a progress indicator instead of the icon (inside the input).
 - `hideIndicator` hides the progress indicator inside the input.
-- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.
-- `showNoOptionsItem` shows the "no entries found" status as an data option item.
+- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as a data option item.
+- `showNoOptionsItem` shows the "no entries found" status as a data option item.
 - `setVisible` shows the [DrawerList](/uilib/components/fragments/drawer-list).
 - `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list).
 - `showAllItems` shows all [DrawerList](/uilib/components/fragments/drawer-list) items.
-- `setMode` switch the mode during runtime.
+- `setMode` switches the mode during runtime.
 - `debounce` a debounce method with a cancel invocation method on repeating calls. There is [more documentation](/uilib/helpers/functions/#debounce) about this method.
 
 ### Properties
@@ -116,7 +116,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "keepValue": {
-      "doc": "Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.",
+      "doc": "Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / be replaced by a selected value from the data list during the input field blur. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -198,7 +198,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "noOptions": {
-      "doc": "Text show in the \"no options\" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.",
+      "doc": "Text shown in the \"no options\" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -453,17 +453,17 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "alignDrawer": {
-      "doc": "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.",
+      "doc": "Use 'right' to change the options alignment direction. Only makes sense to use in combination with `preventSelection` - or if an independent width is used.",
       "type": "string",
       "status": "optional"
     },
     "listClass": {
-      "doc": "Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.",
+      "doc": "Define an HTML class that will be set on the list, alongside `dnb-drawer-list__list`.",
       "type": "string",
       "status": "optional"
     },
     "portalClass": {
-      "doc": "Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.",
+      "doc": "Define an HTML class that will be set on the DOM portal alongside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.",
       "type": "string",
       "status": "optional"
     },
@@ -498,12 +498,12 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "pageOffset": {
-      "doc": "Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).",
+      "doc": "Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions in contrast to a scrollable page content).",
       "type": "string",
       "status": "optional"
     },
     "observerElement": {
-      "doc": "Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.",
+      "doc": "Set an HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.",
       "type": "string",
       "status": "optional"
     },
@@ -808,7 +808,7 @@ There is technically support for sending in a JSON string of the data to the `da
 {
   "props": {
     "onType": {
-      "doc": "Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).",
+      "doc": "Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).",
       "type": "function",
       "status": "optional"
     },
@@ -828,7 +828,7 @@ There is technically support for sending in a JSON string of the data to the `da
       "status": "optional"
     },
     "onSelect": {
-      "doc": "Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The \"activeItem\" property is the currently selected item by keyboard navigation.",
+      "doc": "Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The \"activeItem\" property is the currently selected item by keyboard navigation.",
       "type": "function",
       "status": "optional"
     },
@@ -915,12 +915,12 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `focusInput` will set focus on the input element.
 - `showIndicator` shows a progress indicator instead of the icon (inside the input).
 - `hideIndicator` hides the progress indicator inside the input.
-- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.
-- `showNoOptionsItem` shows the "no entries found" status as an data option item.
+- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as a data option item.
+- `showNoOptionsItem` shows the "no entries found" status as a data option item.
 - `setVisible` shows the [DrawerList](/uilib/components/fragments/drawer-list).
 - `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list).
 - `showAllItems` shows all [DrawerList](/uilib/components/fragments/drawer-list) items.
-- `setMode` switch the mode during runtime.
+- `setMode` switches the mode during runtime.
 - `debounce` a debounce method with a cancel invocation method on repeating calls. There is [more documentation](/uilib/helpers/functions/#debounce) about this method.
 
 ### Properties

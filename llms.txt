@@ -511,15 +511,21 @@ For any page (component, field, value, etc.):
 
 - [Field.Indeterminate](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Indeterminate.md): `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
 
+- [Field.MultiSelection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/MultiSelection.md): `Field.MultiSelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options. This field accepts structured data with objects containing `value` and `title` properties.
+
 - [Field.Number](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Number.md): `Field.Number` is the base component for receiving user input where the target data is of type `number`.
 
 - [Field.Option](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Option.md): `Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
 
 - [Field.Selection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Selection.md): `Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
 
+- [Field.Slider](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Slider.md): `Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
+
 - [Field.String](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/String.md): `Field.String` is the base component for receiving user input where the target data is of type `string`.
 
 - [Field.Toggle](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle.md): `Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
+- [Field.Upload](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Upload.md): `Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.
 
 - [Base fields](https://eufemia.dnb.no/uilib/extensions/forms/base-fields.md): Look into the documentation for more details.
 
@@ -567,6 +573,8 @@ For any page (component, field, value, etc.):
 
 - [Field.OrganizationNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/OrganizationNumber.md): `Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.
 
+- [Field.Password](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Password.md): `Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.
+
 - [Field.PhoneNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PhoneNumber.md): `Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.
 
 - [Field.PostalCodeAndCity](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PostalCodeAndCity.md): `Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.
@@ -576,14 +584,6 @@ For any page (component, field, value, etc.):
 - [Field.SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCountry.md): `Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.
 
 - [Field.SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCurrency.md): `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
-
-- [Field.Password](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Password.md): `Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.
-
-- [Field.Slider](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Slider.md): `Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
-
-- [Field.Upload](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Upload.md): `Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.
-
-- [Field.more fields...](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields.md): Look into the documentation for more details.
 
 - [Field.Feature fields](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields.md): Look into the documentation for more details.
 
@@ -739,5 +739,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.2.2
-GeneratedAt: 2026-05-11T08:18:01.005Z
+Version: 11.3.0
+GeneratedAt: 2026-05-19T08:44:47.694Z

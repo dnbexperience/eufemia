@@ -1,9 +1,9 @@
 ---
 title: 'VisuallyHidden'
 description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.308Z
-checksum: 28d243b62406799fd86da1f9d89208ecb4b4735e8ed07aff554b859e2b71065c
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.083Z
+checksum: 04379dde0690518a2fc76a24effa77b9dc53bb2dbbf2bc55765063299a7adf41
 ---
 
 # VisuallyHidden
@@ -93,7 +93,7 @@ render(<>
 {
   "props": {
     "focusable": {
-      "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.",
+      "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

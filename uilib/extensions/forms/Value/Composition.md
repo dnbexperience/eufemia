@@ -1,9 +1,9 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.698Z
-checksum: e3522aee1be54e30e25b95ff91988fbeaba0252bc2dea14d58ec502c1c1d7d10
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.455Z
+checksum: 0f360428d625266b5ecee54f5cd7c46b3429cbb750f9d31d8f898dee45c53818
 ---
 
 # Value.Composition
@@ -255,7 +255,7 @@ render(<Flex.Stack>
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },

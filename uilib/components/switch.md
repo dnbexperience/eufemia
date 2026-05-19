@@ -1,9 +1,9 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.216Z
-checksum: 763f8973f7a19b170b8031de6065f88bda0b6d874f7ddcb1ee8b6e6175abed22
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.013Z
+checksum: e288cce458a9b54ddbb5f5d40392a7f958ceb267c5d4fcb59e172bd5f8205a0e
 ---
 
 # Switch
@@ -139,7 +139,7 @@ render(<Switch checked disabled label="Disabled" />)
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the switch. For now there is `medium` (default) and `large`.",
+      "doc": "The size of the switch. For now there are `medium` (default) and `large`.",
       "type": [
         "\"default\"",
         "\"medium\"",

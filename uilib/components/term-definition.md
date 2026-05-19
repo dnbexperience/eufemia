@@ -1,9 +1,9 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.245Z
-checksum: 5f27dd5c548c6ada6a44d280141da40e96c76f5c609f7acff36be2811ad6b469
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.039Z
+checksum: ddde1de4add0beaa3d7c7dbdc745c3cd9e3979a812b8f919df7d27f68010e307
 ---
 
 # TermDefinition
@@ -160,6 +160,11 @@ render(<Form.Handler>
         "\"left\""
       ],
       "defaultValue": "\"bottom\"",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

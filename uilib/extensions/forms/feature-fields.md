@@ -1,7 +1,7 @@
 ---
 title: 'Feature fields'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.908Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.662Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -16,8 +16,6 @@ render(<Field.Email />)
 
 Here is also a list of [all available fields](/uilib/extensions/forms/all-fields/).
 
-
-## [more fields...](/uilib/extensions/forms/feature-fields/more-fields/)
 
 ## [Field.Address](/uilib/extensions/forms/feature-fields/Address/)
 
@@ -59,7 +57,7 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 
 `Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.
 
-## [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/)
+## [Field.Password](/uilib/extensions/forms/feature-fields/Password/)
 
 `Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.
 
@@ -82,11 +80,3 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 ## [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency/)
 
 `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
-
-## [Field.Slider](/uilib/extensions/forms/feature-fields/more-fields/Slider/)
-
-`Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
-
-## [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/)
-
-`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.

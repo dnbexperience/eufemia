@@ -1,9 +1,9 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.703Z
-checksum: bb164c6a3535a7ad04203332e51a918cfe8e20dd89520b0925d627f9db05e9f0
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.500Z
+checksum: 939a8836250d6d2afd29993ca91817df714de36971250a394461495e70f32e64
 ---
 
 # Checkbox
@@ -171,7 +171,7 @@ render(<ShowBoundingArea>
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the checkbox. For now there is `medium` (default) and `large`.",
+      "doc": "The size of the checkbox. For now there are `medium` (default) and `large`.",
       "type": [
         "\"default\"",
         "\"medium\"",

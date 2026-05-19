@@ -1,8 +1,8 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.800Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.572Z
 checksum: 2a7a52120d556efbd19d5c6c8685173ae3f11d714033e0126daa1692311cdf8c
 ---
 
@@ -19,7 +19,7 @@ render(<Value.Upload />)
 
 `Value.Upload` is a value component for displaying a list of files.
 
-There is a corresponding [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload) component.
+There is a corresponding [Field.Upload](/uilib/extensions/forms/base-fields/Upload) component.
 
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
@@ -513,7 +513,7 @@ isLoading: true
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -558,7 +558,7 @@ isLoading: true
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

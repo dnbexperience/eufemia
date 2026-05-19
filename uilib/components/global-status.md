@@ -1,9 +1,9 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.786Z
-checksum: 152019dafedbaceb5839caa0e41d84e2c818240a5300b96b9df66c20fd439274
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.583Z
+checksum: 64fd2964805d3bba1c5674a24c6ac1d85698d1ba3e8c10234215a4e6ddc0d5a7
 ---
 
 # GlobalStatus
@@ -575,7 +575,7 @@ const items = [
       "status": "optional"
     },
     "statusAnchorLabel": {
-      "doc": "Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have an `label`.",
+      "doc": "Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have a `label`.",
       "type": "string",
       "status": "optional"
     }

@@ -1,7 +1,7 @@
 ---
 title: 'Deployment'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:53.813Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:40.639Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -26,8 +26,25 @@ The steps, from code changes to production builds, are:
 
 ### How to make releases
 
-Make sure you only make _Pull Request_ from `origin/main` into `origin/release`.
+Make sure you only make _Pull Request_ from `origin/main` into `origin/release` when you release the latest stable version.
 The release branch (`origin/release`) is more like a _secondary branch_. It contains the state of the latest version as well as all the git tags – each containing a new version number.
+
+Older major versions are released from maintenance branches named `<major>.x`, for example `10.x`.
+Both the release workflow and `semantic-release` are configured to publish maintenance releases from branches matching `*.x`, not from branches named `v10`, `v11`, and so on.
+
+#### How to release an older major version?
+
+Prepare the fix on the maintenance line locally, then push it to the matching maintenance branch on origin.
+
+Example for a v10 patch release:
+
+1. `git fetch origin 10.x`
+2. `git switch 10.x`
+3. `git push origin 10.x`
+
+This push triggers the release workflow on `origin/10.x`, and `semantic-release` will publish the next version for that major line.
+
+If you want to run a dry release locally for an older major version, do it from a local `<major>.x` branch that tracks the matching remote branch.
 
 _NB:_ All example steps are for `beta` versions, but will apply for `next` or `alpha` versions as well.
 

@@ -1,8 +1,8 @@
 ---
 title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.976Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.734Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,7 +12,32 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 **NB:** This feature is experimental and may change in the future. Please give us feedback on your experience with it!
 
-If your AI coding agent supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
+If your AI coding agent supports the Model Context Protocol (MCP), you have two options:
+
+1. **Use the hosted MCP server** at `https://eufemia-mcp.eufemia.workers.dev/mcp` — no installation needed, always serves the latest released docs.
+2. **Run a local MCP server** that exposes the packaged documentation from `/docs` — useful for offline / air-gapped work, and pinned to the exact `@dnb/eufemia` version installed in your project (so the docs the AI sees match the components you actually consume).
+
+### Hosted MCP server
+
+Point your MCP-aware client at the public Streamable HTTP endpoint:
+
+```
+https://eufemia-mcp.eufemia.workers.dev/mcp
+```
+
+It is hosted on Cloudflare Workers, supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://eufemia-mcp.eufemia.workers.dev/healthz`.
+
+#### Example: Claude CLI / raicode CLI
+
+```bash
+claude mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+# or
+raicode mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+```
+
+### Local MCP server (pinned to your installed Eufemia version)
+
+Run the local MCP server when you want the docs the AI sees to match the exact `@dnb/eufemia` version you have installed — for example to avoid suggestions that reference components or props from a newer release than your project consumes — or when the hosted Worker is unreachable (offline / air-gapped environments).
 
 But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/sdk` in your project:
 
@@ -127,7 +152,7 @@ export default [
 
 ### Stylelint
 
-Use the recommended preset:
+Use the recommended preset to enable all rules:
 
 ```js
 import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
@@ -135,7 +160,7 @@ import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
 export default eufemiaStylelint.recommended
 ```
 
-If you need full control, register the plugin and configure the rules yourself:
+If you need full control, register individual plugins and configure the rules yourself:
 
 ```js
 import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
@@ -144,9 +169,15 @@ export default {
   plugins: [eufemiaStylelint],
   rules: {
     'eufemia/no-deprecated-color-variables': true,
+    'eufemia/token-name-policy': [true, { themePrefixes: { ui: 'dnb' } }],
   },
 }
 ```
+
+Available rules:
+
+- **`eufemia/no-deprecated-color-variables`** — Warns when deprecated `--color-*` CSS variables are used. Suggests design tokens instead.
+- **`eufemia/token-name-policy`** — Validates `--token-*` naming conventions: prefix, category, color semantics, theme prefixes, cross-brand parity, and more. Accepts a `themePrefixes` option to map brand names to their CSS variable prefixes.
 
 For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
 

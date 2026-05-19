@@ -1,9 +1,9 @@
 ---
 title: 'Value.Provider'
 description: 'The `Value.Provider` lets you pass generic properties to all nested Value.* components.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.759Z
-checksum: cc86c48b6514ed0d129db65200bfaf13f2558a02b4eb08b99bcc87847b504d87
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.531Z
+checksum: e7b12e28bd1ae9d0be358d8e055696956c8ffd03ffe702cea4ffc9b0dcce4fb0
 ---
 
 # Value.Provider
@@ -95,7 +95,7 @@ render(<Form.Handler>
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -140,7 +140,7 @@ render(<Form.Handler>
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

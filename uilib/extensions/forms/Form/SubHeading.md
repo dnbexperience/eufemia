@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubHeading'
 description: '`Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.552Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.327Z
 checksum: fc167f457283cabe892e733be94ba69895180957e54d922b2d6aad09cb80fb4b
 ---
 

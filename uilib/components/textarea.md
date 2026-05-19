@@ -1,9 +1,9 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.253Z
-checksum: 32198e15044283c4ef9d2668c493cb2ee237d97fa9fcc3a795d93a8860eff7cd
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.046Z
+checksum: 8f79daa9efcfecb14f029267ef3b3c2bc0cfac94003138e897cd4e3fd0756103
 ---
 
 # Textarea
@@ -274,7 +274,7 @@ render(<Wrapper>
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.",
+      "doc": "The sizes you can choose for 1 row are `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.",
       "type": [
         "\"small\"",
         "\"medium\"",

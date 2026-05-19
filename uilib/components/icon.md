@@ -1,9 +1,9 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.808Z
-checksum: 9ab15f87276c87bf659491ebc7970a6033329a90d8cf417f7362df8c8a620fb2
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.607Z
+checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 
 # Icon
@@ -62,6 +62,20 @@ _Additional Sizes_
 - **x-large** `2.5rem` (40px)
 - **xx-large** `3rem` (48px)
 - **custom-size** will not be responsive. Width and Height is set as `pixels`
+
+### Filled Icons
+
+Some icons support a filled variant where the SVG paths are filled with `currentColor` instead of being stroked outlines. This is useful for visual emphasis — for example, a filled star to indicate a favorited item, or a filled chevron inside a button.
+
+#### Using the `fill` prop
+
+Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
+
+```jsx
+<Icon icon={star} fill />
+```
+
+See the [Icon Library](/icons#filled-icons) for icons that are known to look good when filled.
 
 ### Custom project Icons
 
@@ -127,13 +141,30 @@ There is also the [IconPrimary](/uilib/components/icon-primary) component, which
 
 
 ```tsx
-render(<P>
-      <Icon border={true} icon={Bell} right />
-      <Icon border={true} icon={BellMedium} size="medium" right />
-      <IconPrimary border={true} icon="information" right />
-      <IconPrimary border={true} icon="information" size="medium" right />
+render(<Flex.Horizontal align="center">
+      <Icon border={true} icon={Bell} />
+      <Icon border={true} icon={BellMedium} size="medium" />
+      <IconPrimary border={true} icon="information" />
+      <IconPrimary border={true} icon="information" size="medium" />
       <Button icon={<IconPrimary icon="add" border />} text="Button" />
-    </P>)
+    </Flex.Horizontal>)
+```
+
+
+### Filled icons
+
+Use the `fill` prop on a single icon to fill it.
+
+
+```tsx
+render(<Flex.Stack>
+      <Flex.Horizontal align="center">
+        <Icon icon={Star} fill />
+        <Icon icon={Heart} fill />
+        <Avatar icon={<Icon icon={Star} fill />} size="small" />
+        <Button icon={<Icon icon={Heart} fill />} />
+      </Flex.Horizontal>
+    </Flex.Stack>)
 ```
 
 
@@ -194,13 +225,18 @@ The official supported sizes are `default` and `medium`.
       "type": "boolean",
       "status": "optional"
     },
+    "fill": {
+      "doc": "If set to `true`, the icon paths will be filled with `currentColor`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "alt": {
       "doc": "The alternative label (text version) of the icon. Defaults to the imported icon name.",
       "type": "string",
       "status": "optional"
     },
     "size": {
-      "doc": "The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.",
+      "doc": "The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`, `medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.",
       "type": [
         "\"default\"",
         "\"small\"",

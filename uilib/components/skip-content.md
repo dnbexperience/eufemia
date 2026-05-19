@@ -1,9 +1,9 @@
 ---
 title: 'SkipContent'
 description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.967Z
-checksum: 7c98c8e5d60d0db423b6e5ad570d91048ff8cda443f07724825c4ba516792ad0
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.756Z
+checksum: 3827157a79b6b2af94d3f748ae7c4f7340cbd8ad13ed17fded2eb8c769066ec7
 ---
 
 # SkipContent
@@ -141,12 +141,12 @@ The following properties applies to `SkipContent.Return` as well.
       "status": "required"
     },
     "text": {
-      "doc": "Define a clear message describing the choices the users has.",
+      "doc": "Define a clear message describing the choices the user has.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "children": {
-      "doc": "Define a clear message describing the choices the users has.",
+      "doc": "Define a clear message describing the choices the user has.",
       "type": "React.ReactNode",
       "status": "optional"
     },

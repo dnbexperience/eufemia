@@ -1,9 +1,9 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.289Z
-checksum: 353894e3b19029b335e5ff143d3d62ae26b3ffbd961810568cf2141082dc8824
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.065Z
+checksum: 2c3b808fef08d0bfb8763edccfd9ac9869ede62ef435e4369d8a80aa4f8ad9ee
 ---
 
 # ToggleButton
@@ -328,7 +328,7 @@ render(<ToggleButton.Group label="Icons only">
       "status": "optional"
     },
     "multiselect": {
-      "doc": "Defines if the ToggleButton's should act as a multi-selectable list of toggle buttons. Defaults to `false`.",
+      "doc": "Defines if the ToggleButtons should act as a multi-selectable list of toggle buttons. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'HorizontalRule'
 description: 'The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.321Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.095Z
 checksum: 5fd9fdfe6031fc1b45bdcca23d523d244f08aafdbae5b1435dc866e3b0bf7164
 ---
 
@@ -46,14 +46,12 @@ In order to address different solutions, [here is a test case](https://r8ljo.csb
 
 
 ```tsx
-render(<P>
-      Before
-      <Hr space={{
-    top: '0.5rem',
-    bottom: '0.5rem'
-  }} />
-      After
-    </P>)
+<P>Before</P>
+<Hr space={{
+top: '0.5rem',
+bottom: '0.5rem'
+}} />
+<P>After</P>
 ```
 
 
@@ -61,14 +59,12 @@ render(<P>
 
 
 ```tsx
-render(<P>
-      Before
-      <Hr dashed space={{
-    top: '0.5rem',
-    bottom: '0.5rem'
-  }} />
-      After
-    </P>)
+<P>Before</P>
+<Hr dashed space={{
+top: '0.5rem',
+bottom: '0.5rem'
+}} />
+<P>After</P>
 ```
 
 
@@ -76,14 +72,12 @@ render(<P>
 
 
 ```tsx
-render(<P>
-      Before
-      <Hr breakout space={{
-    top: '0.5rem',
-    bottom: '0.5rem'
-  }} />
-      After
-    </P>)
+<P>Before</P>
+<Hr breakout space={{
+top: '0.5rem',
+bottom: '0.5rem'
+}} />
+<P>After</P>
 ```
 
 ## Properties

@@ -1,7 +1,7 @@
 ---
 title: 'Base fields'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.868Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.630Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -33,6 +33,10 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 
 `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
 
+## [Field.MultiSelection](/uilib/extensions/forms/base-fields/MultiSelection/)
+
+`Field.MultiSelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options. This field accepts structured data with objects containing `value` and `title` properties.
+
 ## [Field.Number](/uilib/extensions/forms/base-fields/Number/)
 
 `Field.Number` is the base component for receiving user input where the target data is of type `number`.
@@ -45,6 +49,10 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 
 `Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
 
+## [Field.Slider](/uilib/extensions/forms/base-fields/Slider/)
+
+`Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
+
 ## [Field.String](/uilib/extensions/forms/base-fields/String/)
 
 `Field.String` is the base component for receiving user input where the target data is of type `string`.
@@ -52,3 +60,7 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 ## [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/)
 
 `Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
+## [Field.Upload](/uilib/extensions/forms/base-fields/Upload/)
+
+`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.

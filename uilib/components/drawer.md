@@ -1,9 +1,9 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.748Z
-checksum: 81d2fd74236351b8fe0315805263344b8c22fd30effa05c50ee9683818ab648c
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.545Z
+checksum: 7aed09685bfb5a1ba5a8c8a5a6765e51e8e9443dd03bb316b7dd6e4b56af7f9d
 ---
 
 # Drawer
@@ -427,7 +427,7 @@ render(<MockComponent />);
       "status": "optional"
     },
     "minWidth": {
-      "doc": "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
+      "doc": "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
       "type": [
         "string",
         "number"
@@ -600,7 +600,7 @@ See the table below:
       "status": "optional"
     },
     "focusSelector": {
-      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector the will be used instead `focusSelector=\".css-selector\"`.",
+      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=\".css-selector\"`.",
       "type": "string",
       "status": "optional"
     },
@@ -615,7 +615,7 @@ See the table below:
       "status": "optional"
     },
     "omitTriggerButton": {
-      "doc": "Omits default showing trigger button.",
+      "doc": "Omits the default trigger button.",
       "type": "boolean",
       "status": "optional"
     },
@@ -700,7 +700,7 @@ See the table below:
       "status": "optional"
     },
     "minWidth": {
-      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
       "type": [
         "string",
         "number"

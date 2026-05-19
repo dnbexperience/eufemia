@@ -1,9 +1,9 @@
 ---
 title: 'HeightAnimation'
 description: 'HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.797Z
-checksum: 39da8a96e4f14c41c77a7da973abf2ca17efe40351d6bf65e3c341d2607cc690
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.595Z
+checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
 ---
 
 # HeightAnimation
@@ -211,12 +211,12 @@ render(<Example />);
       "status": "optional"
     },
     "duration": {
-      "doc": "Custom duration of the animation in milliseconds. Defaults to `400ms`.",
+      "doc": "Custom duration of the animation in milliseconds. Defaults to `400`.",
       "type": "number",
       "status": "optional"
     },
     "delay": {
-      "doc": "Custom delay of the animation in milliseconds. Defaults to `0ms`.",
+      "doc": "Custom delay of the animation in milliseconds. Defaults to `0`.",
       "type": "number",
       "status": "optional"
     },

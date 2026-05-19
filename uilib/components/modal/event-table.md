@@ -1,6 +1,6 @@
 ---
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.890Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.688Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -131,7 +131,7 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
       "status": "optional"
     },
     "focusSelector": {
-      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector the will be used instead `focusSelector=\".css-selector\"`.",
+      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=\".css-selector\"`.",
       "type": "string",
       "status": "optional"
     },
@@ -146,7 +146,7 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
       "status": "optional"
     },
     "omitTriggerButton": {
-      "doc": "Omits default showing trigger button.",
+      "doc": "Omits the default trigger button.",
       "type": "boolean",
       "status": "optional"
     },
@@ -231,7 +231,7 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
       "status": "optional"
     },
     "minWidth": {
-      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
       "type": [
         "string",
         "number"

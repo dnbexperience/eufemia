@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.932Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.690Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -109,7 +109,7 @@ const MyContainer = () => (
 
 Nested components should preferably support [spacing properties](/uilib/layout/space/).
 
-When a element or component was given, that does not support spacing, it will still work out of the box as it gets wrapped in a spacing block.
+When an element or component was given, that does not support spacing, it will still work out of the box as it gets wrapped in a spacing block.
 
 You may else wrap your custom component in a `Flex.Item` – this way, you still can change the spacing per component basis.
 
@@ -448,7 +448,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "ref": {
-      "doc": "Provide a React.Ref to accessing the inner HTML element.",
+      "doc": "Provide a React.Ref to access the inner HTML element.",
       "type": "React.RefObject",
       "defaultValue": "undefined",
       "status": "optional"

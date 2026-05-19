@@ -1,8 +1,8 @@
 ---
 title: 'Value.Boolean'
 description: '`Value.Boolean` is a base component for displaying values of the type `boolean`.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.684Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.442Z
 checksum: ac4682e58e3c1cc2aa3bde60f5c4226fddcdd1b758b90754a7a9ae0a6bfe0f74
 ---
 
@@ -154,7 +154,7 @@ render(<P>
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -199,7 +199,7 @@ render(<P>
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

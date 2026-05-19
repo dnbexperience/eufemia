@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.720Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.517Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -131,13 +131,17 @@ render(<Style>
       const currentYear = new Date().getFullYear();
       const dateInCurrentYear = `${currentYear}-02-04`;
       const dateInOtherYear = `${currentYear - 1}-02-04`;
-      return <P>
-              <DateFormat value={dateInCurrentYear} dateStyle="medium" hideCurrentYear />
-              <DateFormat value={dateInOtherYear} dateStyle="medium" hideCurrentYear />
+      return <>
+              <P>
+                <DateFormat value={dateInCurrentYear} dateStyle="medium" hideCurrentYear />
+                <DateFormat value={dateInOtherYear} dateStyle="medium" hideCurrentYear />
+              </P>
               <Hr />
-              <DateFormat value={dateInCurrentYear} dateStyle="long" hideCurrentYear />
-              <DateFormat value={dateInOtherYear} dateStyle="long" hideCurrentYear />
-            </P>;
+              <P>
+                <DateFormat value={dateInCurrentYear} dateStyle="long" hideCurrentYear />
+                <DateFormat value={dateInOtherYear} dateStyle="long" hideCurrentYear />
+              </P>
+            </>;
     }}
       </ComponentBox>
     </Style>)
@@ -192,11 +196,14 @@ render(<P>
 ```tsx
 render(<Style>
       <ComponentBox>
-        <P>
-          <DateFormat value={new Date(new Date().getTime() - 30 * 1000)} relativeTime />
-          <DateFormat value={new Date(new Date().getTime() - 2 * 60 * 1000)} relativeTime />
-          <DateFormat value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)} relativeTime />
-        </P>
+        {() => {
+      const referenceDate = new Date('2025-06-01T12:00:00');
+      return <P>
+              <DateFormat value={new Date('2025-06-01T11:59:30')} relativeTime relativeTimeReference={() => referenceDate} />
+              <DateFormat value={new Date('2025-06-01T11:58:00')} relativeTime relativeTimeReference={() => referenceDate} />
+              <DateFormat value={new Date('2025-05-31T12:00:00')} relativeTime relativeTimeReference={() => referenceDate} />
+            </P>;
+    }}
       </ComponentBox>
     </Style>)
 ```
@@ -211,36 +218,37 @@ Use `relativeTimeStyle` to control the relative time formatting without affectin
 render(<Style>
       <ComponentBox scope={{
     pastDates,
-    futureDates
+    futureDates,
+    referenceDate
   }} hideCode>
         <H4>Short:</H4>
         {pastDates.map((date, index) => <P key={index}>
-            <DateFormat value={date} relativeTime relativeTimeStyle="short" />
+            <DateFormat value={date} relativeTime relativeTimeStyle="short" relativeTimeReference={() => referenceDate} />
             {index < pastDates.length - 1 && <br />}
           </P>)}
 
         <H4>Medium:</H4>
         {pastDates.map((date, index) => <P key={index}>
-            <DateFormat value={date} relativeTime relativeTimeStyle="medium" />
+            <DateFormat value={date} relativeTime relativeTimeStyle="medium" relativeTimeReference={() => referenceDate} />
             {index < pastDates.length - 1 && <br />}
           </P>)}
 
         <H4>Long (default):</H4>
         {pastDates.map((date, index) => <P key={index}>
-            <DateFormat value={date} relativeTime relativeTimeStyle="long" />
+            <DateFormat value={date} relativeTime relativeTimeStyle="long" relativeTimeReference={() => referenceDate} />
             {index < pastDates.length - 1 && <br />}
           </P>)}
 
         <H4>Future dates with long style:</H4>
         {futureDates.map((date, index) => <P key={index}>
-            <DateFormat value={date} relativeTime relativeTimeStyle="long" />
+            <DateFormat value={date} relativeTime relativeTimeStyle="long" relativeTimeReference={() => referenceDate} />
             {index < futureDates.length - 1 && <br />}
           </P>)}
 
         <H4>Different locales with short style:</H4>
         <P>
-          <DateFormat value={pastDates[2]} relativeTime relativeTimeStyle="short" locale="de-DE" />
-          <DateFormat value={futureDates[2]} relativeTime relativeTimeStyle="short" locale="sv-SE" />
+          <DateFormat value={pastDates[2]} relativeTime relativeTimeStyle="short" relativeTimeReference={() => referenceDate} locale="de-DE" />
+          <DateFormat value={futureDates[2]} relativeTime relativeTimeStyle="short" relativeTimeReference={() => referenceDate} locale="sv-SE" />
         </P>
       </ComponentBox>
     </Style>)

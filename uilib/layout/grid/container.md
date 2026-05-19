@@ -1,8 +1,8 @@
 ---
 title: 'Grid.Container'
 description: '`Grid.Container` is a building block for CSS Grid based layout of contents and components.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.935Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.694Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -148,7 +148,7 @@ rowGap columnGap>
 {
   "props": {
     "columns": {
-      "doc": "Define how many columns your layout should be divided in. Can be just a number `columns={12}` or an object with media query sizes like `columns={{ small: 4, medium: 6, large: 12 }}` (default values). You can also disabled CSS Grid by providing `false` for one size, like so `columns={{ small: 4, medium: false, large: 12 }}`.",
+      "doc": "Define how many columns your layout should be divided in. Can be just a number `columns={12}` or an object with media query sizes like `columns={{ small: 4, medium: 6, large: 12 }}` (default values). You can also disable CSS Grid by providing `false` for one size, like so `columns={{ small: 4, medium: false, large: 12 }}`.",
       "type": [
         "number",
         "object"

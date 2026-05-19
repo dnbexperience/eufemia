@@ -1,9 +1,9 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.235Z
-checksum: 127845fde504021a88cad9b5b6a7648aea9db653f05f136bc9e3c2e6b95d08ad
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.030Z
+checksum: 91776e74210d6ca9e623100b8ac4eb5f0e1a682d3c673ade1e4340cc544176fb
 ---
 
 # Tabs
@@ -670,6 +670,34 @@ const tabsData = [
 
 The current Tab content can be a `string`, a function returning content or a `React component`.
 
+## Translations
+
+
+```json
+{
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
+  "entries": {
+    "Tabs.nextButtonTitle": {
+      "nb-NO": "Neste fane",
+      "en-GB": "Next tab",
+      "sv-SE": "Nästa flik",
+      "da-DK": "Næste fane"
+    },
+    "Tabs.prevButtonTitle": {
+      "nb-NO": "Forrige fane",
+      "en-GB": "Previous tab",
+      "sv-SE": "Föregående flik",
+      "da-DK": "Forrige fane"
+    }
+  }
+}
+```
+
 ## Events
 
 
@@ -677,7 +705,7 @@ The current Tab content can be a `string`, a function returning content or a `Re
 {
   "props": {
     "onChange": {
-      "doc": "(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, title, event }`.",
+      "doc": "(Preferred) This event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, title, event }`.",
       "type": "function",
       "status": "optional"
     },

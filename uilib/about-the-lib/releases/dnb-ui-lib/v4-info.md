@@ -1,8 +1,8 @@
 ---
 title: 'v4.0'
 description: 'July, 21. 2019'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:53.854Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:40.682Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

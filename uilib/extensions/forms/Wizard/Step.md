@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.838Z
-checksum: f2546e685fcc753e946be2623669dca1f578a3bf9bb37b12ba8d7f9ab4f5a460
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.609Z
+checksum: d4267f979af5fd389dfd0fcb23341d7377c957d5fed19b67aca6b01b91944c75
 ---
 
 # Wizard.Step
@@ -191,7 +191,7 @@ render(<Component />);
 {
   "props": {
     "title": {
-      "doc": "An unique title of the step.",
+      "doc": "A unique title of the step.",
       "type": "React.ReactNode",
       "status": "required"
     },

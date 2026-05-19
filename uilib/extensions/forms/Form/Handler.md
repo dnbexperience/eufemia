@@ -1,9 +1,9 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.481Z
-checksum: adde9d9b5451327df41e0ca0f0c278288337a85881bae513fbf9c5a3d266859e
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.250Z
+checksum: 7a494ed5dd1e6120b75cfbfd31835c9367979aa7dfce9b26a63fce7fb530366e
 ---
 
 # Form.Handler
@@ -1090,7 +1090,7 @@ render(<MyForm />);
       "status": "optional"
     },
     "onSubmit": {
-      "doc": "Will be called (on validation success) when the user submit the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called (on validation success) when the user submits the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },

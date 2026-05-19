@@ -1,9 +1,9 @@
 ---
 title: 'Avatar'
 description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.661Z
-checksum: c59305543e09288b063df9b00145783c12205cd482bccea6c9f2e7ee0774949f
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.461Z
+checksum: 43faf12b64b7da2f3d211c39b5dd628df0287e84db83733c36c5117b778785fd
 ---
 
 # Avatar
@@ -407,7 +407,7 @@ render(<Avatar.Group label="Persons">
       "status": "optional"
     },
     "color": {
-      "doc": "Define a custom color to compliment the backgroundColor. Use a Eufemia color.",
+      "doc": "Define a custom color to complement the backgroundColor. Use a Eufemia color.",
       "type": "string",
       "status": "optional"
     },

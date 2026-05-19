@@ -1,9 +1,9 @@
 ---
 title: 'Button'
 description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.688Z
-checksum: d8f0f51afe07b8fae7fa261acd1a32b428c621f23c5a6b1be8084bb4486da300
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.487Z
+checksum: 6a97999fa0abeb2712362b73f48b6c51fc08909f6b254b37e1e57a951977226f
 ---
 
 # Button
@@ -371,7 +371,7 @@ render(<Button variant="secondary">
       "status": "optional"
     },
     "rel": {
-      "doc": "When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.",
+      "doc": "When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples (non-exhaustive list) of values are `nofollow`, `search`, and `tag`.",
       "type": "string",
       "status": "optional"
     },
@@ -381,7 +381,7 @@ render(<Button variant="secondary">
       "status": "optional"
     },
     "wrap": {
-      "doc": "If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.",
+      "doc": "If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

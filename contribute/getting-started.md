@@ -1,7 +1,7 @@
 ---
 title: 'Getting started'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:53.823Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:40.649Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -267,7 +267,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
 
@@ -292,8 +292,8 @@ function MyComponent(props: ComponentAllProps) {
   // This helper will remove e.g. all spacing properties so you get only valid HTML attributes
   validateDOMAttributes(props, rest)
 
-  // This helper applies spacing classes and CSS custom properties to the root element props
-  const rootParams = applySpacing(props, {
+  // This hook applies spacing classes and CSS custom properties to the root element props
+  const rootParams = useSpacing(props, {
     ...rest,
     className: clsx('dnb-my-component', className),
   })
@@ -442,7 +442,7 @@ yarn test:screenshots:watch breadcrumb avatar
 PORT=8001 yarn test:screenshots breadcrumb
 ```
 
-Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`
+Visual screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
 ### Run selected themes only on `main`
 
@@ -454,7 +454,7 @@ import {
   setupPageScreenshot,
   selectThemes,
   onMain,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe.each(
   selectThemes({
@@ -468,10 +468,9 @@ describe.each(
   })
 
   it('matches default state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="button-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
 })
 ```
@@ -483,10 +482,9 @@ You can also use callback mode for single tests:
 ```ts
 onMain(() =>
   it('matches default state', async () => {
-    const screenshot = await makeScreenshot({
+    await makeScreenshot({
       selector: '[data-visual-test="button-primary"]',
     })
-    expect(screenshot).toMatchImageSnapshot()
   })
 )
 ```
@@ -538,14 +536,14 @@ By default, CI still stops on the first failure (`--bail`). You can force a full
 
 ```bash
 git commit -m "feat: implement new feature"
-# Runs: playwright test --config=./playwright.config.screenshots.ts
+# Runs: vitest run --config vitest.config.screenshots.ts
 ```
 
 **Run all tests (continues on failures):**
 
 ```bash
 git commit -m "feat: implement new feature --run-all"
-# Runs: playwright test --config=./playwright.config.screenshots.ts
+# Runs: vitest run --config vitest.config.screenshots.ts
 ```
 
 This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
@@ -577,8 +575,6 @@ yarn test:e2e:portal
 yarn test:e2e:portal:watch
 ```
 
-Playwright uses this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
-
 4. Update any new or changed visual PNG snapshots:
 
 ```bash
@@ -588,11 +584,18 @@ yarn test:screenshots:update breadcrumb
 
 You can also press the `u` during a watch mode to update outdated snapshots.
 
+To fully renew snapshots (delete all existing PNGs first, then regenerate from scratch), use `test:screenshots:renew`. This is useful when snapshots have drifted or you want a clean baseline:
+
+```bash
+# Delete and regenerate all snapshots for 'phone' and 'radio'
+yarn test:screenshots:renew phone radio
+```
+
 5. How to deal with failing visual tests?
 
 When a visual test fails, a visual comparison file (diff) will be created. Its location and name will be:
 
-- `**/__tests__/__image_snapshots__/__diff_output__/*.snap-diff.png`
+- `**/__tests__/__image_snapshots__/.diff/*.diff.png` and `*.actual.png`
 
 you can find a report entry (`index.html`), that lists all of the failed tests here:
 

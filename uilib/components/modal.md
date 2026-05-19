@@ -1,9 +1,9 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.901Z
-checksum: 0f1328ec8c9ab15b2d0358b83bfa13d94aaed954143bcd737eb68567b59cd7d9
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.697Z
+checksum: d7bcf667a7e561646dfd97d574cf9e8dd4ff454228a86dcaa9581558d7a4503b
 ---
 
 # Modal
@@ -265,7 +265,7 @@ render(<Modal title="Auto close" triggerAttributes={{
       "status": "optional"
     },
     "focusSelector": {
-      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector the will be used instead `focusSelector=\".css-selector\"`.",
+      "doc": "The Modal handles the first focus – automatically. However, you can define a custom focus selector that will be used instead `focusSelector=\".css-selector\"`.",
       "type": "string",
       "status": "optional"
     },
@@ -280,7 +280,7 @@ render(<Modal title="Auto close" triggerAttributes={{
       "status": "optional"
     },
     "omitTriggerButton": {
-      "doc": "Omits default showing trigger button.",
+      "doc": "Omits the default trigger button.",
       "type": "boolean",
       "status": "optional"
     },
@@ -365,7 +365,7 @@ render(<Modal title="Auto close" triggerAttributes={{
       "status": "optional"
     },
     "minWidth": {
-      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+      "doc": "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
       "type": [
         "string",
         "number"

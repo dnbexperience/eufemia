@@ -1,8 +1,8 @@
 ---
 title: 'Field.Indeterminate'
 description: '`Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.850Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.620Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -291,7 +291,7 @@ render(<MyForm />);
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the field (e.g. input).",
+      "doc": "Transforms the `value` before it's displayed in the field (e.g. input).",
       "type": "function",
       "status": "optional"
     },

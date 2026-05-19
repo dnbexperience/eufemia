@@ -1,8 +1,8 @@
 ---
 title: 'Value.Selection'
 description: '`Value.Selection` is a component for displaying a string value based on a user selection.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.764Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.537Z
 checksum: 6782e49a32910133869cc6a4d99a98cece9e7563cc006c70ef75edd7155531f6
 ---
 
@@ -175,7 +175,7 @@ render(<Form.Handler>
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -220,7 +220,7 @@ render(<Form.Handler>
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

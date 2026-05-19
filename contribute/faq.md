@@ -1,15 +1,15 @@
 ---
 title: 'FAQ'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:53.814Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:40.640Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Frequently Asked Questions (FAQ)
 
-## Visual tests and Playwright
+## Visual tests and Vitest browser mode
 
-Jest starts several workers at the same time. When we simulate states on e.g., ToggleButton and Button, Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest never executes several workers at the same time, we set `--maxWorkers=1`.
+Screenshot tests run with [Vitest browser mode](https://vitest.dev/guide/browser/) and use Playwright as the browser provider under the hood. The helper in `core/vitest-screenshots/` drives a single Firefox page per worker against the running portal on `http://localhost:8000`. The screenshot config sets `fileParallelism: true`, so test files run in parallel across workers while tests inside a file run sequentially on the same page.
 
 ### Installing screenshot browser
 

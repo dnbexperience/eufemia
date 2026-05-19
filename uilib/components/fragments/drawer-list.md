@@ -1,8 +1,8 @@
 ---
 title: 'DrawerList'
 description: 'The DrawerList component is a fragment inside other components.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.771Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.567Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -508,17 +508,17 @@ render(<Wrapper>
       "status": "optional"
     },
     "alignDrawer": {
-      "doc": "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` - or if an independent width is used.",
+      "doc": "Use 'right' to change the options alignment direction. Only makes sense to use in combination with `preventSelection` - or if an independent width is used.",
       "type": "string",
       "status": "optional"
     },
     "listClass": {
-      "doc": "Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.",
+      "doc": "Define an HTML class that will be set on the list, alongside `dnb-drawer-list__list`.",
       "type": "string",
       "status": "optional"
     },
     "portalClass": {
-      "doc": "Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.",
+      "doc": "Define an HTML class that will be set on the DOM portal alongside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.",
       "type": "string",
       "status": "optional"
     },
@@ -553,12 +553,12 @@ render(<Wrapper>
       "status": "optional"
     },
     "pageOffset": {
-      "doc": "Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).",
+      "doc": "Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions in contrast to a scrollable page content).",
       "type": "string",
       "status": "optional"
     },
     "observerElement": {
-      "doc": "Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.",
+      "doc": "Set an HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.",
       "type": "string",
       "status": "optional"
     },

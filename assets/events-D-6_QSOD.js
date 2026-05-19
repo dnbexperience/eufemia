@@ -1,0 +1,4 @@
+import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{zr as n}from"./index-DqqByKA2.js";import{n as r}from"./Examples-B3jV3Nra.js";import i from"./event-table-Q4eEhPz1.js";var a=e(t());function o(e){let t={h2:`h2`,h3:`h3`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Events`}),`
+`,(0,a.jsx)(i,{}),`
+`,(0,a.jsx)(t.h3,{children:`Selective onClosePrevent`}),`
+`,(0,a.jsx)(r,{})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

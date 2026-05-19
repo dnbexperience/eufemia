@@ -1,8 +1,8 @@
 ---
 title: 'UI Library'
 description: 'Buttons, dropdowns, input fields, components, etc.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.978Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.737Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

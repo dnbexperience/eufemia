@@ -1,8 +1,8 @@
 ---
 title: 'v11'
 description: 'April 21, 2026'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:53.868Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:40.695Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -2789,7 +2789,7 @@ See docs about changed [Dropdown properties](/uilib/about-the-lib/releases/eufem
 - Replace `search_content` with `searchContent`.
 - Replace `class_name` with `className`.
 
-### [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/)
+### [Field.Password](/uilib/extensions/forms/feature-fields/Password/)
 
 #### Properties
 
@@ -3176,11 +3176,11 @@ For example, update:
 
 An ESLint rule (`naming-conventions/no-bare-props-export`) is now enforced to prevent re-introducing bare `Props` exports.
 
-## `createSpacingClasses` replaced with `applySpacing`
+## `createSpacingClasses` replaced with `useSpacing`
 
-The internal spacing helper `createSpacingClasses` has been removed and replaced by `applySpacing` that returns both the spacing CSS classes and any CSS custom properties in one call:
+The internal spacing helper `createSpacingClasses` has been removed and replaced by `useSpacing` that returns both the spacing CSS classes and any CSS custom properties in one call:
 
-- `applySpacing(props, target)` – merges spacing into an existing props object (append to `className`, merge into `style`). Recommended for most component root elements.
+- `useSpacing(props, target)` – merges spacing into an existing props object (append to `className`, merge into `style`). Recommended for most component root elements.
 
 It is re-exported from `@dnb/eufemia/components/space/SpacingUtils`.
 
@@ -3203,9 +3203,9 @@ const mainParams = {
 **After (v11):**
 
 ```tsx
-import { applySpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+import { useSpacing } from '@dnb/eufemia/components/space/SpacingUtils'
 
-const mainParams = applySpacing(props, {
+const mainParams = useSpacing(props, {
   className: clsx('dnb-my-component', className),
 })
 ```

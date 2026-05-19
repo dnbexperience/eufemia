@@ -1,8 +1,8 @@
 ---
 title: 'Change log'
 description: 'Change log for the Eufemia Forms extension'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.878Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.639Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -57,7 +57,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 - Added variant `radio` to [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) and [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
 - Added variant `switch` to [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) and [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
-- Added variant `compact` to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added variant `compact` to [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Added address suggestions and autofill to the [Bring API Connector](/uilib/extensions/forms/Connectors/Bring/).
 - Fixed so the value of the phone number is truncated to 8 digits when changing country code to `NO` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/).
 - Fixed so [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate) supports the `required` property.
@@ -69,7 +69,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 ## v10.75.2
 
 - Fixed so maximum children can be 9 in [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
-- Fixed so `disabled` is correctly supported in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `disabled` is correctly supported in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Fixed so `onStepChange` assigned to [Wizard.useStep](/uilib/extensions/forms/Wizard/useStep/) is called every time.
 - Fixed so `preventUncommittedChanges` works properly within a [Wizard](/uilib/extensions/forms/Wizard/).
 
@@ -116,7 +116,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Fixed so `labelDescription` when rendered without `label` will not have additional spacing above, in all `Field.*` components.
 - Fixed so `width="large"` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) will be correct.
 - Fixed so fields do not overflow in width on certain screen sizes.
-- Fixed so [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) gracefully handles `undefined` file inputs/values.
+- Fixed so [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) gracefully handles `undefined` file inputs/values.
 - Fixed so [Form.Card](/uilib/extensions/forms/Form/Card/) used in [Wizard](/uilib/extensions/forms/Wizard/) has a default outline color.
 - Fixed so [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) shows red border on submit errors.
 - Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) sets correct `width` if given.
@@ -144,7 +144,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.71.0
 
-- Added `disableDragAndDrop` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) to disable file drag and drop.
+- Added `disableDragAndDrop` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) to disable file drag and drop.
 - Added `description` in Upload's [fileItem](/uilib/components/upload/properties/#fileitem) to add description for a given file.
 - Added `removeDeleteButton` in Upload's [fileItem](/uilib/components/upload/properties/#fileitem) to hide the remove button for a given file.
 - Added `iso` (country) to additional args in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) events.
@@ -155,9 +155,9 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.70.0
 
-- Added default `autoComplete` of `current-password` in [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/).
-- Added `allowDuplicates` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) to allow uploading duplicate files.
-- Fixed so only comparing existing properties of file's `name`, `size` and `lastModified` when determining if file is a duplicate in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added default `autoComplete` of `current-password` in [Field.Password](/uilib/extensions/forms/feature-fields/Password/).
+- Added `allowDuplicates` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) to allow uploading duplicate files.
+- Fixed so only comparing existing properties of file's `name`, `size` and `lastModified` when determining if file is a duplicate in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Fixed so `hasValue` runs in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when path is missing.
 - Fixed error reporting during [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) navigation with async event handlers and/or field validators.
 
@@ -165,7 +165,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 - Fixed so error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) is removed when unmounted.
 - Fixed the rendering routine of [Wizard.Step](/uilib/extensions/forms/Wizard/Step/).
-- Fixed so async removal of file in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) with same file name as an other file will not display spinner/loading for both files, but only the file where remove was clicked.
+- Fixed so async removal of file in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) with same file name as an other file will not display spinner/loading for both files, but only the file where remove was clicked.
 
 ## v10.69.0
 
@@ -203,11 +203,11 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.66.1
 
-- Fixed styling of help button in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed styling of help button in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Fixed spacing of help button in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/) when used in a [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/).
 - Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) always renders a `fieldset`.
 - Fixed so `skipPortal` can be used in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
-- Fixed so `aria-required` and `required` properties are set in the `input` element for [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `aria-required` and `required` properties are set in the `input` element for [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## v10.66.0
 
@@ -244,7 +244,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Fixed so wizard step changes scroll so the [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) is included at the top.
 - Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) does not open when `defaultValue` is given.
 - Fixed typing of `connectWithPath` in validators.
-- Fixed so `fileHandler` will not execute when validation errors in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `fileHandler` will not execute when validation errors in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Fixed so `{itemNo}` in `label` will work in [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
 - Fixed inactive [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) blocking [Wizard](/uilib/extensions/forms/Wizard/) navigation when `bubbleValidation` is `true`.
 - Fixed animation for [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when used inside [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/).
@@ -258,8 +258,8 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.62.1
 
-- Fixed font-size of non-clickable Field.Upload item in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
-- Fixed support for `sessionStorageId` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed font-size of non-clickable Field.Upload item in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
+- Fixed support for `sessionStorageId` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## v10.62
 
@@ -274,20 +274,20 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.60.1
 
-- Fixed so there's a gap between file and remove button in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
-- Fixed so there's no scrolling when removing file in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
-- Fixed handling of multiple chained async actions using `fileHandler`, `onFileClick`, and `onFileDelete` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so there's a gap between file and remove button in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
+- Fixed so there's no scrolling when removing file in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
+- Fixed handling of multiple chained async actions using `fileHandler`, `onFileClick`, and `onFileDelete` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## v10.60
 
 - Added [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/) to display error, success (receipt), or custom messages to users.
-- Added async `onFileDelete` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
-- Added async `onFileClick` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added async `onFileDelete` support to [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
+- Added async `onFileClick` support to [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 - Added `onFileClick` support to [Value.Upload](/uilib/extensions/forms/Value/Upload/).
 - Added `onVisible` property in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
 - Added `onAnimationEnd` property in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
 - Fixed unnecessary rerenders in [Form.Handler](/uilib/extensions/forms/Form/Handler/).
-- Fixed handling of multiple file upload actions when using async `fileHandler` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed handling of multiple file upload actions when using async `fileHandler` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## v10.58
 
@@ -296,7 +296,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added `showConfirmDialog` to [Iterate.RemoveButton](/uilib/extensions/forms/Iterate/RemoveButton/), to open a confirmation dialog before removing the item.
 - Added `decoupleForm` to [Form.Handler](/uilib/extensions/forms/Form/Handler/), to be able to use the data context in a more flexible way.
 - Added support for using function reference instead of a string based `id` in [Form.Handler](/uilib/extensions/forms/Form/Handler/).
-- Added `sessionStorageId` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) with empty file list rendering.
+- Added `sessionStorageId` support to [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) with empty file list rendering.
 - Added [docs on how to deal with TypeScript types](/uilib/extensions/forms/getting-started/#typescript-support), and enhanced typings.
 - Fixed so there is no outline when using `variant="basic"` in [Form.Section](/uilib/extensions/forms/Form/Section/) containers when used in [Wizard](/uilib/extensions/forms/Wizard/).
 - Fixed formatting of country prefixes in [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/).
@@ -308,7 +308,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added [Form.Card](/uilib/extensions/forms/Form/Card/) component to make it easier to use [Card](/uilib/components/card/) inside a form.
 - Added `outset` property to [Form.Card](/uilib/extensions/forms/Form/Card/) and [Card](/uilib/components/card/).
 - Deprecated `validator` property in favor of `onChangeValidator` in Field.\* components.
-- Renamed `asyncFileHandler` to `fileHandler` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/), to support both async and sync file handling.
+- Renamed `asyncFileHandler` to `fileHandler` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload/), to support both async and sync file handling.
 - Fixed displaying indicator with async `onBlurValidator` call when `validateInitially` is used.
 - Fixed sharing submit indicator for fields inside [Field.Composition](/uilib/extensions/forms/base-fields/Composition/).
 - Fixed so `errorMessages` will not result in infinite loops when not wrapped in `useMemo`.
@@ -317,7 +317,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 ## v10.56
 
 - Added inline help button (`help`) to all `Field.*` components as default (with option to open in Dialog).
-- Added `asyncFileHandler` to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/), to support async file handling during upload.
+- Added `asyncFileHandler` to [Field.Upload](/uilib/extensions/forms/base-fields/Upload/), to support async file handling during upload.
 - Added support for [DatePicker properties](/uilib/components/date-picker/properties/) in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
 - Added support for multiple `info`, `warning` and `error` messages by making it possible to provide an array of messages.
 - Fixed so `info` and `warning` properties renders given elements.
@@ -325,7 +325,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 ## v10.55.1
 
 - Added `console.log` warning when using invalid child in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
-- Fixed [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) error when using `required`, when navigating between Wizard step changes.
+- Fixed [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) error when using `required`, when navigating between Wizard step changes.
 
 ## v10.55
 
@@ -442,7 +442,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.41
 
-- Added [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) component.
+- Added [Field.Upload](/uilib/extensions/forms/base-fields/Upload/) component.
 
 ## v10.38
 
@@ -467,7 +467,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.32
 
-- Added [Field.Slider](/uilib/extensions/forms/feature-fields/more-fields/Slider/) component.
+- Added [Field.Slider](/uilib/extensions/forms/base-fields/Slider/) component.
 
 ## v10.31
 

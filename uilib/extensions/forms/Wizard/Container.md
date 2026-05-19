@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.828Z
-checksum: 86b46674b06fab5602f900bc81c6815d4910d531de92397e46f3eb3c0e72e8d2
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.600Z
+checksum: 8b632a0f0a7d1cedacf5c3c4d83e129b84828658a7d9ca90fd0b13334958a991
 ---
 
 # Wizard.Container
@@ -589,7 +589,7 @@ render(<Form.Handler onSubmitRequest={({
 {
   "props": {
     "onStepChange": {
-      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
+      "doc": "Will be called when the user navigates to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
       "type": "function",
       "status": "optional"
     }

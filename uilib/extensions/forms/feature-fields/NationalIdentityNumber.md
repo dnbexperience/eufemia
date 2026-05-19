@@ -1,8 +1,8 @@
 ---
 title: 'Field.NationalIdentityNumber'
 description: '`Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.895Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.655Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -372,7 +372,7 @@ render(<Field.NationalIdentityNumber required value="49100651997" onBlurValidato
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
       "type": [
         "string",
         "number"
@@ -442,7 +442,7 @@ render(<Field.NationalIdentityNumber required value="49100651997" onBlurValidato
       "status": "optional"
     },
     "onBlurValidator": {
-      "doc": "Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validation of the identification number(national identity numbers and D numbers), using `dnrAndFnrValidator`. Can be disabled using `false`.",
+      "doc": "Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validation of the identification number (national identity numbers and D numbers), using `dnrAndFnrValidator`. Can be disabled using `false`.",
       "type": "function",
       "status": "optional"
     }
@@ -559,7 +559,7 @@ render(<Field.NationalIdentityNumber required value="49100651997" onBlurValidato
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the field (e.g. input).",
+      "doc": "Transforms the `value` before it's displayed in the field (e.g. input).",
       "type": "function",
       "status": "optional"
     },
@@ -773,7 +773,7 @@ render(<Field.NationalIdentityNumber required value="49100651997" onBlurValidato
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "doc": "Will be called when the component stops being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },

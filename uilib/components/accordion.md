@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.603Z
-checksum: 76d269c424fdd431b910f35dc26bc8f29408b4edc3241452c3cc853a433b0122
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.399Z
+checksum: a7dc2d915a47ed9563c4a29e7f20b3c8f0ee1e8cb6b6f7100c140d8de10423e6
 ---
 
 # Accordion
@@ -278,6 +278,27 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 ```
 
 
+### Variant `tertiary`
+
+A lightweight variant that renders a tertiary button with a chevron icon. The button and content can be placed separately in the tree by sharing the same `id`. The button automatically sets `aria-expanded` and `aria-controls` to link it with the content panel. When activated by keyboard or screen reader style input, focus moves to the content region. Pointer clicks do not move focus.
+
+
+```tsx
+<P>
+    Text{' '}
+    <Accordion variant="tertiary" title="Toggle remote content" id="accordion-tertiary" />{' '}
+    Text
+  </P>
+<P>Other content between button and accordion content.</P>
+<Accordion.Content id="accordion-tertiary">
+    <P top>
+      This content is placed separately from the button, connected via
+      the id.
+    </P>
+  </Accordion.Content>
+```
+
+
 
   
 ```tsx
@@ -395,12 +416,13 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.",
+      "doc": "Defines the used styling. `outlined`, `filled`, `plain` (no styling), `default`, or `tertiary` (renders a tertiary button). Defaults to `outlined`.",
       "type": [
         "\"default\"",
         "\"outlined\"",
         "\"filled\"",
-        "\"plain\""
+        "\"plain\"",
+        "\"tertiary\""
       ],
       "status": "optional"
     },
@@ -443,7 +465,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "singleContainer": {
-      "doc": "If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.",
+      "doc": "If set to `true`, a group of accordions will be wrapped into a sidebar-looking menu for medium and larger screens.",
       "type": "boolean",
       "status": "optional"
     },
@@ -493,6 +515,50 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "status": "optional"
     },
     "space": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Accordion.Content Properties
+
+
+```json
+{
+  "props": {
+    "id": {
+      "doc": "A unique `id` used to connect standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same `id`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "title": {
+      "doc": "Provides a label for the content region in standalone tertiary mode. It is applied to both `aria-label` and `title`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "noAnimation": {
+      "doc": "If set to `true`, the open and close animation will be omitted in standalone tertiary mode.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "keepInDOM": {
+      "doc": "If set to `true` the content will be present, even when the accordion is not expanded. In standalone tertiary mode, the content region stays mounted to preserve `aria-controls`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Content displayed inside the accordion body.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": [
         "string",

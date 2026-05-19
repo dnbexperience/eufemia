@@ -1,8 +1,8 @@
 ---
 title: 'InfinityScroller'
 description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.922Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.708Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -302,12 +302,12 @@ render(<HeightLimit height="60rem">
       "status": "optional"
     },
     "placeMarkerBeforeContent": {
-      "doc": "If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.",
+      "doc": "If set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "useLoadButton": {
-      "doc": "If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.",
+      "doc": "If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.",
       "type": "boolean",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.742Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.503Z
 checksum: 0f307fc9ab46854e5268683f8f4217f9372ca167662cbb832362a6a5abb6e3a6
 ---
 
@@ -265,7 +265,7 @@ render(<P>
       "status": "optional"
     },
     "transformLabel": {
-      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.",
       "type": "function",
       "status": "optional"
     },
@@ -310,7 +310,7 @@ render(<P>
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the value component.",
+      "doc": "Transforms the `value` before it's displayed in the value component.",
       "type": "function",
       "status": "optional"
     },

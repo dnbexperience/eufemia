@@ -1,9 +1,9 @@
 ---
 title: 'Pagination'
 description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.930Z
-checksum: 07a66f925b4762223c976ee4ee900c3db782d6d0b1b999811b43fb1bfef280f6
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.715Z
+checksum: c329cb9caaca6c2c5bd7916230f4f32ae3bb1eacd99b00cf359885fe3a11b991
 ---
 
 # Pagination
@@ -269,12 +269,12 @@ Check out [demos for the Infinity Scroller](/uilib/components/pagination/infinit
       "status": "optional"
     },
     "placeMarkerBeforeContent": {
-      "doc": "If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.",
+      "doc": "If set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "useLoadButton": {
-      "doc": "If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.",
+      "doc": "If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.",
       "type": "boolean",
       "status": "optional"
     },

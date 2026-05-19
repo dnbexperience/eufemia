@@ -1,8 +1,8 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.679Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.479Z
 checksum: d64f91f44b0713a618053013c3d2b68a096909bdf9d4f815b94eb02f72bd00b3
 ---
 
@@ -27,7 +27,7 @@ The Breadcrumb is a component for navigation and for showing the current website
 
 ## Demos
 
-### Breadcrumb
+### Breadcrumb with pages as data
 
 To ensure the correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Breadcrumb](/uilib/components/breadcrumb/#pages-as-child-components).
 

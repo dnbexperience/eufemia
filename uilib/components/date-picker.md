@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.732Z
-checksum: 25039cac80cdfedb8658fbb8c024cef46bb745e93d9713305471dc308cb200a2
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.530Z
+checksum: 3e506a88315232a3b23cad1e09d4b385878c2794d40f946fae446c4014c61ff1
 ---
 
 # DatePicker
@@ -383,7 +383,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
 {
   "props": {
     "date": {
-      "doc": "Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date=\"2019-05-05\"` and `content`.",
+      "doc": "Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date=\"2019-05-05\"`.",
       "type": [
         "string",
         "Date"
@@ -693,7 +693,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.",
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.",
       "type": "string",
       "status": "optional"
     },

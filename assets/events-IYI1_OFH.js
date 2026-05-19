@@ -1,0 +1,4 @@
+import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{zr as n}from"./index-DqqByKA2.js";import{n as r}from"./PropertiesTable-DtEYioNW.js";import{r as i,t as a}from"./ToggleButtonGroupDocs-BdgnWTeP.js";var o=e(t());function s(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`ToggleButton`}),` events`]}),`
+`,(0,o.jsx)(r,{props:i}),`
+`,(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`ToggleButton.Group`}),` events`]}),`
+`,(0,o.jsx)(r,{props:a})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

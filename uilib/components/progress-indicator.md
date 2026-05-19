@@ -1,9 +1,9 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.948Z
-checksum: fb55382fa240410045194bad0e3cb50e96ad1800e40b16e4d927c9de2a86b467
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.735Z
+checksum: ffaea90c327ad61cf29b7449ea1a5e4a21b58c395f921b970883d755dbd451d6
 ---
 
 # ProgressIndicator
@@ -408,7 +408,7 @@ background: 'blue'
       "status": "optional"
     },
     "labelDirection": {
-      "doc": "Sets the position of the label. `'inside'` only works with `type='circular'.",
+      "doc": "Sets the position of the label. `'inside'` only works with `type='circular'`.",
       "type": [
         "\"horizontal\"",
         "\"vertical\"",
@@ -436,13 +436,13 @@ background: 'blue'
       "status": "optional"
     },
     "[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)": {
-      "doc": "Send in custom css colors that overrides any css. See below for data structure.",
+      "doc": "Send in custom CSS colors that override any CSS. See below for data structure.",
       "type": "object",
       "defaultValue": "undefined",
       "status": "optional"
     },
     "customCircleWidth": {
-      "doc": "Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).",
+      "doc": "Send in custom CSS width for circle progress line. (`undefined` defaults to one eighth of the size).",
       "type": "string",
       "defaultValue": "undefined",
       "status": "optional"

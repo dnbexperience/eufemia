@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.921Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.707Z
 checksum: 87a61c9318dc3fae366890f0d7cdbfb0a19ea0463fd4d7c1c87b54848f81d727
 ---
 

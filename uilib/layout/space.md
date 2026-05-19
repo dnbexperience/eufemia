@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.939Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.698Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -16,7 +16,7 @@ import { Space } from '@dnb/eufemia'
 
 ## Description
 
-The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` and inner `padding` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
 ## Relevant links
 
@@ -28,7 +28,7 @@ The reason this exists is to make your syntax as clean as possible. This way, yo
 ### Spacing Table
 
 
-| Pixel | Type       | Rem     | Custom Property      |
+| Pixel | Type       | Rem     | CSS Variable         |
 | ----- | ---------- | ------- | -------------------- |
 | 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
 | 16    | `small`    | **1**   | `--spacing-small`    |
@@ -147,6 +147,28 @@ const merged = existing
 element.setAttribute('style', merged)
 ```
 
+### Responsive spacing
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
+
+This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
+
+See the [Responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
+
+| CSS Variable                    | Compact `← small` | Basis `small → medium` | Spacious `medium →` |
+| ------------------------------- | ----------------- | ---------------------- | ------------------- |
+| `--responsive-spacing-xx-small` | 0.25rem (4px)     | 0.5rem (8px)           | 1rem (16px)         |
+| `--responsive-spacing-x-small`  | 0.5rem (8px)      | 1rem (16px)            | 1.5rem (24px)       |
+| `--responsive-spacing-small`    | 1rem (16px)       | 1.5rem (24px)          | 2rem (32px)         |
+| `--responsive-spacing-medium`   | 1.5rem (24px)     | 2rem (32px)            | 2.5rem (40px)       |
+| `--responsive-spacing-large`    | 2rem (32px)       | 2.5rem (40px)          | 3rem (48px)         |
+| `--responsive-spacing-x-large`  | 2.5rem (40px)     | 3rem (48px)            | 3.5rem (56px)       |
+| `--responsive-spacing-xx-large` | 3rem (48px)       | 3.5rem (56px)          | 4rem (64px)         |
+
+All `--responsive-spacing-*` CSS variables are scoped to the `.dnb-space` class as of now.
+
 
 ## Demos
 
@@ -187,14 +209,14 @@ render(<TestStyles>
 
 ### Spacing method #3
 
-Using `createSpacing` or `applySpacing`.
+Using the `useSpacing` hook.
 
 
 ```tsx
 render(<TestStyles>
     <ComponentBox scope={{
     RedBox,
-    applySpacing
+    useSpacing
   }} data-visual-test="spacing-method-form-row">
       {() => {
       const Component = ({
@@ -202,7 +224,7 @@ render(<TestStyles>
         style = null,
         ...props
       }) => {
-        const params = applySpacing(props, {
+        const params = useSpacing(props, {
           ...props,
           className: `my-component dnb-space ${className || ''}`.trim(),
           style
@@ -380,6 +402,37 @@ render(<TestStyles>
       </Space>
     </ComponentBox>
   </TestStyles>)
+```
+
+
+### Responsive layout gap
+
+**NB**: This feature is in beta and may be subject to change.
+
+Use `Space.ResponsiveContext` to preview responsive spacing in practice. The default `basis` density follows viewport breakpoints.
+
+See the [responsive spacing](/uilib/layout/space#responsive-spacing) table for the specific values.
+
+In this example, `gap` and `space` values adjust automatically based on the viewport size (applies also to `inline`, `block`, `top`, `right`, `bottom`, and `left`).
+
+
+```tsx
+render(<Space.ResponsiveContext>
+      <Section innerSpace={{
+    block: 'medium'
+  }} breakout={false} surface="dark">
+        <Flex.Stack space={{
+      inline: 'large'
+    }} gap="small">
+          <Heading size="x-large">Heading</Heading>
+          <P>My spacing adjusts responsively</P>
+
+          <Space.ResponsiveContext off>
+            <P>My spacing stays fixed</P>
+          </Space.ResponsiveContext>
+        </Flex.Stack>
+      </Section>
+    </Space.ResponsiveContext>)
 ```
 
 
@@ -701,7 +754,7 @@ These properties are available in many other components and elements.
       "status": "optional"
     },
     "innerSpace": {
-      "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
+      "doc": "Will add a padding around the content. Also supports media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
       "type": [
         "object",
         "string",
@@ -712,6 +765,42 @@ These properties are available in many other components and elements.
     },
     "noCollapse": {
       "doc": "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
+      "type": "boolean",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Space.ResponsiveContext Properties
+
+Wrap components in `Space.ResponsiveContext` to opt into viewport-aware spacing. See the [responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
+
+
+```json
+{
+  "props": {
+    "density": {
+      "doc": "Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.",
+      "type": [
+        "\"compact\"",
+        "\"basis\"",
+        "\"spacious\""
+      ],
+      "status": "optional"
+    },
+    "defaultBreakpoint": {
+      "doc": "Sets which breakpoint's spacing scale to use as the default. Default: `medium`.",
+      "type": [
+        "\"small\"",
+        "\"medium\"",
+        "\"large\""
+      ],
+      "status": "optional"
+    },
+    "off": {
+      "doc": "When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     }

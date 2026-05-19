@@ -1,9 +1,9 @@
 ---
 title: 'DataContext.Provider'
 description: '`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.444Z
-checksum: 4e01b67cf74fc2e0291f1a54a58983de792be25025c8d5dc17bbad73de94bea3
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.228Z
+checksum: 8963986bfb9a13149613ef78ea5a16aebe64809409dc0c277948b0256111599f
 ---
 
 # DataContext.Provider
@@ -252,7 +252,7 @@ render(<DataContext.Provider data={testData} schema={TestDataSchema} ajvInstance
       "status": "optional"
     },
     "onSubmit": {
-      "doc": "Will be called (on validation success) when the user submit the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called (on validation success) when the user submits the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },

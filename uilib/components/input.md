@@ -1,9 +1,9 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.831Z
-checksum: 586895425dda6bc218565357fa56efb68214cf4323eae985f68cedbf626594c6
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.636Z
+checksum: be649a9ff91a38a580f5e1bc9e9180c65cde0483daa4ac26f852d969d2f43eb3
 ---
 
 # Input
@@ -209,7 +209,7 @@ You can check out the [Field.String](/uilib/extensions/forms/base-fields/String/
 
 The password component has to ensure that there is still room for password managers to inject the input with their UX functionality.
 
-Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/).
+Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Password/).
 
 
   
@@ -366,7 +366,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/mo
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.",
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.",
       "type": [
         "string",
         "number"
@@ -399,7 +399,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/mo
       "status": "optional"
     },
     "inputState": {
-      "doc": "Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.",
+      "doc": "Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.",
       "type": "string",
       "status": "optional"
     },

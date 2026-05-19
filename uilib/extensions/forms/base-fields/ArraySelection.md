@@ -1,8 +1,8 @@
 ---
 title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.848Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.617Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -806,7 +806,7 @@ render(<Field.ArraySelection label="Label text" value={['bar']} variant="checkbo
       "status": "optional"
     },
     "transformIn": {
-      "doc": "Transforms the `value` before its displayed in the field (e.g. input).",
+      "doc": "Transforms the `value` before it's displayed in the field (e.g. input).",
       "type": "function",
       "status": "optional"
     },
@@ -920,7 +920,7 @@ render(<Field.ArraySelection label="Label text" value={['bar']} variant="checkbo
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
+      "doc": "Will be called when the component stops being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).",
       "type": "(value) => void",
       "status": "optional"
     },

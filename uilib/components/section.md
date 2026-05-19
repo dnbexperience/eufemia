@@ -1,9 +1,9 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:54.959Z
-checksum: 53374fcb803db9b71917a510cd257d02fc6f5f5162662ae0c6b86b36cb0c880c
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:41.748Z
+checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 
 # Section
@@ -324,7 +324,7 @@ render(<Section innerSpace={{
       "status": "optional"
     },
     "breakout": {
-      "doc": "Use `true` to enable a fullscreen breakout look. Supports also media query breakpoints like `{ small: boolean }`. Defaults to `true`.",
+      "doc": "Use `true` to enable a fullscreen breakout look. Also supports media query breakpoints like `{ small: boolean }`. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -334,12 +334,12 @@ render(<Section innerSpace={{
       "status": "optional"
     },
     "outline": {
-      "doc": "Define a custom border color. If `true` is given, `color-black-8` is used. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-8' }`.",
+      "doc": "Define a custom border color. If `true` is given, `color-black-8` is used. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'black-8' }`.",
       "type": "string",
       "status": "optional"
     },
     "outlineWidth": {
-      "doc": "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
+      "doc": "Define a custom border width. Defaults to `var(--card-outline-width)`. Also supports media query breakpoints like `{ small: '2px' }`.",
       "type": [
         "string",
         "number"
@@ -347,27 +347,27 @@ render(<Section innerSpace={{
       "status": "optional"
     },
     "roundedCorner": {
-      "doc": "Use `true` to enable rounded corners (border-radius). Supports also media query breakpoints like `{ small: boolean }`. Defaults to `false`.",
+      "doc": "Use `true` to enable rounded corners (border-radius). Also supports media query breakpoints like `{ small: boolean }`. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
     "backgroundColor": {
-      "doc": "Define a custom background color, instead of a variant. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'white' }`.",
+      "doc": "Define a custom background color, instead of a variant. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'white' }`.",
       "type": "string",
       "status": "optional"
     },
     "dropShadow": {
-      "doc": "Use `true` to show the default Eufemia DropShadow. Supports also media query breakpoints like `{ small: true }`.",
+      "doc": "Use `true` to show the default Eufemia DropShadow. Also supports media query breakpoints like `{ small: true }`.",
       "type": "boolean",
       "status": "optional"
     },
     "textColor": {
-      "doc": "Define a custom text color to compliment the `backgroundColor`. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
+      "doc": "Define a custom text color to complement the `backgroundColor`. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'black-80' }`.",
       "type": "string",
       "status": "optional"
     },
     "innerSpace": {
-      "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}`.",
+      "doc": "Will add a padding around the content. Also supports media query breakpoints like `{small: { top: 'medium' }}`.",
       "type": "string",
       "status": "optional"
     },

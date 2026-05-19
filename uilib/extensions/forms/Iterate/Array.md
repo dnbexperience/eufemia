@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.607Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.375Z
 checksum: 7de0da6b383745c27475497c9f7478a9fc68eeee197f8230e3b44dd10106380b
 ---
 
@@ -886,7 +886,7 @@ render(<Form.Handler data={{
 
 ### Nested Iterate with PushContainer
 
-This demo uses the [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) component to add new items to an nested array by using the `itemPath` property.
+This demo uses the [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) component to add new items to a nested array by using the `itemPath` property.
 
 
 ```tsx

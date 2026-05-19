@@ -1,0 +1,4 @@
+import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{zr as n}from"./index-DqqByKA2.js";import{n as r}from"./PropertiesTable-DtEYioNW.js";import{n as i}from"./ButtonDocs-BP28rTG3.js";var a=e(t());function o(e){let t={code:`code`,h2:`h2`,h3:`h3`,p:`p`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Properties`}),`
+`,(0,a.jsx)(r,{props:i}),`
+`,(0,a.jsx)(t.h3,{children:`Unstyled variant`}),`
+`,(0,a.jsxs)(t.p,{children:[`In cases where it makes sense to use the button component, but with very different styles, you can use `,(0,a.jsx)(t.code,{children:`unstyled`}),` as a variant. For now, it is only meant to be used internally.`]})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

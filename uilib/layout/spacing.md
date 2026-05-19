@@ -1,7 +1,7 @@
 ---
 title: 'Spacing'
-version: 11.2.2
-generatedAt: 2026-05-11T08:17:55.940Z
+version: 11.3.0
+generatedAt: 2026-05-19T08:44:42.699Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -20,7 +20,7 @@ Also have a look at the designers example guide on [using Eufemia's spatial syst
 Spacing follows a specific pattern:
 
 
-| Pixel | Type       | Rem     | Custom Property      |
+| Pixel | Type       | Rem     | CSS Variable         |
 | ----- | ---------- | ------- | -------------------- |
 | 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
 | 16    | `small`    | **1**   | `--spacing-small`    |
