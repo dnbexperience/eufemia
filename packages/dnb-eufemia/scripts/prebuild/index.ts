@@ -11,7 +11,7 @@ import { ErrorHandler, log } from '../lib'
 /**
  * The Templates (prepareTemplates) generation is special in the sense
  * That it has to be run locally to generate the files statically
- * so we can commit them as as core part.
+ * so we can commit them as a core part.
  * The rest is only generated during the package build
  */
 import { makeReleaseVersion } from './tasks/makeReleaseVersion'
