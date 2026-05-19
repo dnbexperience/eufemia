@@ -47,7 +47,13 @@ declare module 'vitest/internal/browser' {
   }
 }
 
-type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
+type ActionName =
+  | 'click'
+  | 'hover'
+  | 'focus'
+  | 'focusclick'
+  | 'active'
+  | 'realhover'
 type Action = {
   action?: ActionName
   selector?: string
