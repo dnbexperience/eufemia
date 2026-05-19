@@ -108,7 +108,7 @@ export type BreadcrumbProps = {
 
   /**
    * Add custom 'Back to...' text, for variant collapse
-   * Default 'Back to...' or defined by Context translation
+   * Default 'Gå til ...' or defined by Context translation
    */
   backToText?: ReactNode
 
@@ -150,7 +150,7 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
-  backToText: 'Back to...',
+  backToText: 'Gå til ...',
   collapsed: true,
   spacing: false,
 }

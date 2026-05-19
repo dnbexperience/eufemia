@@ -15,7 +15,7 @@ export default {
       navText: 'Page hierarchy',
       goBackText: 'Back',
       homeText: 'Home',
-      backToText: 'Back to...',
+      backToText: 'Go to ...',
     },
     DateFormat: {
       invalidDate: 'Invalid date: {value}',

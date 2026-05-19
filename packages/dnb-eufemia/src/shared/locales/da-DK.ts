@@ -16,7 +16,7 @@ export default {
       navText: 'Sidehierarki',
       goBackText: 'Tilbage',
       homeText: 'Hjem',
-      backToText: 'Tilbage til...',
+      backToText: 'Gå til ...',
     },
     DateFormat: {
       invalidDate: 'Ugyldig dato: {value}',
