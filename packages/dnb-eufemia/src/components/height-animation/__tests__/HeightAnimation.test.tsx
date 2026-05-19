@@ -12,7 +12,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('HeightAnimation', () => {
@@ -96,7 +96,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should call onOpen', () => {
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
     const { rerender } = render(
       <HeightAnimation open={false} onOpen={onOpen} />
     )
@@ -120,7 +120,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should call onAnimationEnd', () => {
-    const onAnimationEnd = jest.fn()
+    const onAnimationEnd = vi.fn()
     const { rerender } = render(
       <HeightAnimation open={false} onAnimationEnd={onAnimationEnd} />
     )
@@ -147,7 +147,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should call onInit', () => {
-    const onInit = jest.fn()
+    const onInit = vi.fn()
     const { rerender } = render(
       <HeightAnimation onInit={onInit} open={false} />
     )
@@ -403,9 +403,10 @@ describe('HeightAnimation without initializeTestSetup()', () => {
   })
 
   it('should open without animation', () => {
-    window.requestAnimationFrame = jest.fn((callback) =>
-      setTimeout(callback, 0)
-    )
+    window.requestAnimationFrame = vi.fn(
+      (callback: FrameRequestCallback) =>
+        window.setTimeout(() => callback(0), 0)
+    ) as typeof window.requestAnimationFrame
 
     const { rerender } = render(
       <HeightAnimation open={false}>visible content</HeightAnimation>

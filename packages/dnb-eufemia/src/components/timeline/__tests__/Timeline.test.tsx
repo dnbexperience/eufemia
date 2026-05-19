@@ -7,7 +7,7 @@ import type { TimelineItemAllProps } from '../TimelineItem'
 import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 

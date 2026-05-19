@@ -3,8 +3,14 @@ import Menu from '../Menu'
 import { MenuContext } from '../MenuContext'
 import { createMockContext } from './testHelpers'
 
-jest.mock('../../popover/Popover', () => {
-  return { default: jest.requireActual('./testHelpers').MockPopover }
+vi.mock('../../popover/Popover', async () => {
+  return {
+    default: (
+      await vi.importActual<typeof import('./testHelpers')>(
+        './testHelpers'
+      )
+    ).MockPopover,
+  }
 })
 
 describe('MenuAccordion', () => {
@@ -301,7 +307,7 @@ describe('MenuAccordion', () => {
   })
 
   it('closes all menus when child action is clicked', () => {
-    const closeAll = jest.fn()
+    const closeAll = vi.fn()
     const ctx = createMockContext({ closeAll })
 
     render(
@@ -359,7 +365,7 @@ describe('MenuAccordion', () => {
   })
 
   it('registers in parent context', () => {
-    const registerItem = jest.fn().mockReturnValue(2)
+    const registerItem = vi.fn().mockReturnValue(2)
     const ctx = createMockContext({ registerItem })
 
     render(
@@ -404,7 +410,7 @@ describe('MenuAccordion', () => {
   })
 
   it('calls onOpenChange when opened via click', () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
     const ctx = createMockContext()
 
     render(
@@ -427,7 +433,7 @@ describe('MenuAccordion', () => {
   })
 
   it('calls onOpenChange when opened via keyboard', () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
     const ctx = createMockContext()
 
     render(
@@ -446,7 +452,7 @@ describe('MenuAccordion', () => {
   })
 
   it('calls onOpenChange with false when closed via ArrowLeft', () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
     const ctx = createMockContext()
 
     render(
@@ -468,7 +474,7 @@ describe('MenuAccordion', () => {
   })
 
   it('does not call onOpenChange when disabled', () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
     const ctx = createMockContext()
 
     render(

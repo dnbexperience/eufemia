@@ -1,7 +1,7 @@
 import { createMinimumAgeVerifier } from '../NationalIdentityNumber'
 
 describe('createMinimumAgeVerifier', () => {
-  jest.useFakeTimers().setSystemTime(new Date('2024-10-09').getTime())
+  vi.useFakeTimers().setSystemTime(new Date('2024-10-09').getTime())
 
   it('should validate with true', () => {
     const isAdult = createMinimumAgeVerifier(18)

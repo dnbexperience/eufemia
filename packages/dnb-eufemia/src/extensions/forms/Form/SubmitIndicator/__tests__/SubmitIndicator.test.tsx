@@ -2,7 +2,7 @@ import { useReducer } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import locales from '../../../constants/locales'
 
 const nbNO = locales['nb-NO']

@@ -1,19 +1,19 @@
 import { useCallback } from 'react'
 import { render } from '@testing-library/react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import { Wizard } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 import useStep from '../../hooks/useStep'
 import { Button } from '../../../../../components'
 
-jest.mock('../../../../../shared/component-helper', () => {
-  const original = jest.requireActual(
-    '../../../../../shared/component-helper'
-  )
+vi.mock('../../../../../shared/component-helper', async () => {
+  const original = await vi.importActual<
+    typeof import('../../../../../shared/component-helper')
+  >('../../../../../shared/component-helper')
   return {
     ...original,
-    warn: jest.fn(),
+    warn: vi.fn(),
   }
 })
 
@@ -30,7 +30,7 @@ describe('Wizard.Context', () => {
     }
 
     it('should skip onStepChange call when skipStepChangeCallBeforeMounted is true', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const MyStep = ({ title }) => {
         const { activeIndex, setActiveIndex } = useStep()
@@ -86,7 +86,7 @@ describe('Wizard.Context', () => {
     })
 
     it('should skip onStepChange call when skipStepChangeCall is true', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const MyStep = ({ title }) => {
         const { activeIndex, setActiveIndex } = useStep()
@@ -145,7 +145,7 @@ describe('Wizard.Context', () => {
     })
 
     it('should skip internal (given in the hook) data onStepChange call when skipStepChangeCallFromHook is true', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const MyStep = ({ title }) => {
         const { activeIndex, setActiveIndex } = useStep(undefined, {

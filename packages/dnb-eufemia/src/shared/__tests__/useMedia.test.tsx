@@ -8,7 +8,7 @@ import { render, waitFor, renderHook } from '@testing-library/react'
 import type { UseMediaProps } from '../useMedia'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
-import 'mock-match-media/jest-setup'
+import '../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
@@ -24,7 +24,7 @@ describe('useMedia', () => {
     const LARGE = '79em' // 80em
 
     beforeEach(() => {
-      jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
     })
 
     const matchMediaOriginal = window.matchMedia
@@ -813,12 +813,12 @@ describe('useMedia', () => {
     })
   })
 
-  describe('using jest-matchmedia-mock mocker', () => {
+  describe('using MatchMediaMock helper', () => {
     const matchMedia = mockMediaQuery()
     const matchMediaMock = window.matchMedia // set in mockMediaQuery
 
     beforeEach(() => {
-      jest.spyOn(window, 'matchMedia').mockImplementation(matchMediaMock)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMediaMock)
     })
 
     it('will return positive isSmall', () => {

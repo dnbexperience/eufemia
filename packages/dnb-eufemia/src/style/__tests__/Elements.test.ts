@@ -3,7 +3,7 @@
  *
  */
 
-import { loadScss } from '../../core/jest/jestSetup'
+import { loadScss } from '../../core/test-utils/testSetup'
 
 describe('Elements scss', () => {
   it('has to match style dependencies css', () => {

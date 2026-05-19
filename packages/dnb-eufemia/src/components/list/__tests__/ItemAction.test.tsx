@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import ItemAction from '../ItemAction'
 import Container from '../Container'
 
@@ -99,7 +99,7 @@ describe('ItemAction', () => {
   })
 
   it('calls onClick when clicked', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
@@ -113,7 +113,7 @@ describe('ItemAction', () => {
   })
 
   it('calls onClick when the outer item element is clicked', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
@@ -125,7 +125,7 @@ describe('ItemAction', () => {
   })
 
   it('calls onClick when the outer item element is clicked with href', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(
       <ItemAction href="/foo" onClick={handleClick}>
@@ -141,7 +141,7 @@ describe('ItemAction', () => {
   })
 
   it('does not call onClick when the outer item element is clicked while disabled', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(
       <ItemAction onClick={handleClick} disabled>
@@ -157,7 +157,7 @@ describe('ItemAction', () => {
   })
 
   it('calls onClick when Enter key is pressed', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
@@ -171,7 +171,7 @@ describe('ItemAction', () => {
   })
 
   it('calls onClick when Space key is pressed', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
@@ -288,7 +288,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on click when pending is true', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction pending onClick={handleClick}>
@@ -306,7 +306,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on Enter key when pending is true', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction pending onClick={handleClick}>
@@ -324,7 +324,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on Space key when pending is true', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction pending onClick={handleClick}>
@@ -370,7 +370,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on click when disabled', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction disabled onClick={handleClick}>
@@ -388,7 +388,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on Enter key when disabled', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction disabled onClick={handleClick}>
@@ -552,7 +552,7 @@ describe('ItemAction', () => {
 
       expect(anchor).toBeInTheDocument()
 
-      const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
+      const clickSpy = vi.spyOn(anchor as HTMLAnchorElement, 'click')
 
       fireEvent.keyDown(listItem as Element, { key: ' ' })
 
@@ -586,7 +586,7 @@ describe('ItemAction', () => {
     })
 
     it('calls onClick on click when href is provided', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction href="/path" onClick={handleClick}>
@@ -602,7 +602,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on click when href is provided and pending', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction href="/path" pending onClick={handleClick}>
@@ -618,7 +618,7 @@ describe('ItemAction', () => {
     })
 
     it('does not call onClick on click when href is provided and disabled', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction href="/path" disabled onClick={handleClick}>
@@ -719,7 +719,7 @@ describe('ItemAction', () => {
     })
 
     it('calls onClick on Space key when using to', () => {
-      const handleClick = jest.fn()
+      const handleClick = vi.fn()
 
       render(
         <ItemAction element={MockLink} to="/route" onClick={handleClick}>

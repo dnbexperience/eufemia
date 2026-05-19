@@ -1,6 +1,6 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import { afterAll, beforeEach, vi } from 'vitest'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
 import { Field, Form } from '../../..'
 

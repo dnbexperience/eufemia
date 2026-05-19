@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import {
   axeComponent,
   spyOnEufemiaWarn,
-} from '../../../core/jest/jestSetup'
+} from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 import Provider from '../../../shared/Provider'
 import SharedContext from '../../../shared/Context'

@@ -5,7 +5,7 @@
 
 import { Fragment, useContext } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
   act,
   render,
@@ -199,7 +199,7 @@ describe('DrawerList component', () => {
     })
 
     it('sends onSelect events', async () => {
-      const onSelect = jest.fn()
+      const onSelect = vi.fn()
 
       render(<DrawerList {...disabledOptionProps} onSelect={onSelect} />)
 
@@ -226,8 +226,8 @@ describe('DrawerList component', () => {
     })
 
     it('cannot be clicked', async () => {
-      const onChange = jest.fn()
-      const onSelect = jest.fn()
+      const onChange = vi.fn()
+      const onSelect = vi.fn()
 
       render(
         <DrawerList
@@ -535,7 +535,7 @@ describe('DrawerList component', () => {
   })
 
   it('has valid onSelect callback', async () => {
-    const onSelect = jest.fn()
+    const onSelect = vi.fn()
 
     const { rerender } = render(
       <DrawerList
@@ -741,8 +741,8 @@ describe('DrawerList component', () => {
   })
 
   it('has valid onChange callback', async () => {
-    const onChange = jest.fn()
-    const onSelect = jest.fn()
+    const onChange = vi.fn()
+    const onSelect = vi.fn()
 
     const { rerender } = render(
       <DrawerList
@@ -796,7 +796,7 @@ describe('DrawerList component', () => {
   })
 
   it('does not fire onChange when selecting the selected item', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DrawerList
@@ -838,7 +838,7 @@ describe('DrawerList component', () => {
   })
 
   it('will call onClose after "esc" key', async () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
 
     render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
@@ -892,8 +892,8 @@ describe('DrawerList component', () => {
   })
 
   it('has correct value on data given as an object', async () => {
-    const onChange = jest.fn()
-    const onSelect = jest.fn()
+    const onChange = vi.fn()
+    const onSelect = vi.fn()
 
     render(
       <DrawerList
@@ -984,8 +984,8 @@ describe('DrawerList component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
     const params = { 'data-attr': 'value' }
 
     render(
@@ -1018,9 +1018,11 @@ describe('DrawerList component', () => {
     })
 
     it('has correct max-height with direction top', () => {
-      jest
-        .spyOn(document.documentElement, 'clientHeight', 'get')
-        .mockImplementationOnce(() => 100)
+      vi.spyOn(
+        document.documentElement,
+        'clientHeight',
+        'get'
+      ).mockImplementationOnce(() => 100)
 
       let count = 0
       Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
@@ -1052,9 +1054,11 @@ describe('DrawerList component', () => {
     })
 
     it('has correct max-height with direction bottom', () => {
-      jest
-        .spyOn(document.documentElement, 'clientHeight', 'get')
-        .mockImplementationOnce(() => 300)
+      vi.spyOn(
+        document.documentElement,
+        'clientHeight',
+        'get'
+      ).mockImplementationOnce(() => 300)
 
       Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
         configurable: true,
@@ -1264,7 +1268,7 @@ describe('DrawerList component', () => {
 
   describe('groups', () => {
     beforeEach(() => {
-      global.console.log = jest.fn()
+      global.console.log = vi.fn()
     })
 
     const dataProp: DrawerListDataArray = [
@@ -1491,7 +1495,7 @@ describe('DrawerList portal', () => {
       getPropertyValue: () => 20,
     } as undefined
 
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
     const { rerender } = render(<DrawerList open noAnimation />)
 
@@ -1522,7 +1526,7 @@ describe('DrawerList portal', () => {
       getPropertyValue: () => 20,
     } as undefined
 
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
     const { rerender } = render(
       <IsolatedStyleScope>

@@ -6,7 +6,7 @@ import { DataContext, Field, Form, Iterate } from '../../..'
 
 describe('PushButton', () => {
   it('should call handlePush when clicked inside an Iterate element', () => {
-    const handlePush = jest.fn()
+    const handlePush = vi.fn()
     const pushValue = 'push value'
 
     render(
@@ -30,7 +30,7 @@ describe('PushButton', () => {
   })
 
   it('should call handleChange when clicked outside an Iterate element', () => {
-    const handleChange = jest.fn()
+    const handleChange = vi.fn()
     const pushValue = 'push value'
 
     render(
@@ -52,8 +52,8 @@ describe('PushButton', () => {
   })
 
   it('should accept "pushValue" from a function call', () => {
-    const handleChange = jest.fn()
-    const pushValue = jest.fn(() => 'push value')
+    const handleChange = vi.fn()
+    const pushValue = vi.fn(() => 'push value')
 
     render(
       <Form.Handler onChange={handleChange}>
@@ -145,7 +145,7 @@ describe('PushButton', () => {
   })
 
   it('should not overwrite initial data because of the same path as the Iterate.Array', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -489,7 +489,7 @@ describe('PushButton', () => {
 
   describe('when in Form.Section', () => {
     it('should push new entry to the correct array', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>

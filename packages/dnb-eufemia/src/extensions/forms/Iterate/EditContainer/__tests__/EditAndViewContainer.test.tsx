@@ -736,7 +736,7 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should removed item from data context', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -826,7 +826,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should validate on done button click', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler>

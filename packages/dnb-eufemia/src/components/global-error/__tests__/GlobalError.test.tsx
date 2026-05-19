@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { GlobalErrorAllProps } from '../GlobalError'
 import GlobalError from '../GlobalError'
 import Heading from '../../heading/Heading'

@@ -4,7 +4,11 @@
  */
 
 import { act, useState } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
@@ -601,7 +605,7 @@ describe('Tooltip', () => {
         type: string
       }> = []
 
-      const spy = jest
+      const spy = vi
         .spyOn(HTMLElement.prototype, 'addEventListener')
         .mockImplementation(function (
           this: EventTarget,
@@ -1006,7 +1010,7 @@ describe('Tooltip', () => {
   it('passes triggerOffset down to Popover when positioning the tooltip', () => {
     const collectedOffsets: Array<number | undefined> = []
     const originalPopover = PopoverModule.default
-    const spy = jest
+    const spy = vi
       .spyOn(PopoverModule, 'default')
       .mockImplementation((props) => {
         if (

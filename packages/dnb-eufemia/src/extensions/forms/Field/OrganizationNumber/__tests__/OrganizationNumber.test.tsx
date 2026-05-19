@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
@@ -97,7 +97,7 @@ describe('Field.OrganizationNumber', () => {
 
   it('should validate given function as onChangeValidator', async () => {
     const text = 'Custom Error message'
-    const onChangeValidator = jest.fn((value) => {
+    const onChangeValidator = vi.fn((value) => {
       return value.length < 4 ? new Error(text) : undefined
     })
 
@@ -170,7 +170,7 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should support custom pattern without validator', async () => {
-    const dummyValidator = jest.fn()
+    const dummyValidator = vi.fn()
 
     render(
       <Form.Handler>
@@ -225,10 +225,10 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should replace the internal validator with the given one', async () => {
-    const myValidator = jest.fn(() => {
+    const myValidator = vi.fn(() => {
       return new Error('My error message')
     })
-    const onBlurValidator = jest.fn(() => {
+    const onBlurValidator = vi.fn(() => {
       return [myValidator]
     })
 
@@ -630,7 +630,7 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.OrganizationNumber
@@ -672,7 +672,7 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 

@@ -10,17 +10,20 @@ import {
   fireEvent,
   renderHook,
 } from '@testing-library/react'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import MatchMediaMock from '../../core/test-utils/MatchMediaMock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
 import type { MediaQueryProps } from '../MediaQueryUtils'
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
-const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
+const isMatchMediaSupported =
+  _isMatchMediaSupported as import('vitest').Mock
 
-jest.mock('../MediaQueryUtils', () => ({
-  ...jest.requireActual('../MediaQueryUtils'),
-  isMatchMediaSupported: jest.fn(),
+vi.mock('../MediaQueryUtils', async () => ({
+  ...(await vi.importActual<typeof import('../MediaQueryUtils')>(
+    '../MediaQueryUtils'
+  )),
+  isMatchMediaSupported: vi.fn(),
 }))
 
 const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
@@ -109,8 +112,8 @@ describe('useMediaQuery', () => {
       'not screen and (min-width: 40.00625em) and (max-width: 72em)'
     )
 
-    const match1Handler = jest.fn()
-    const match2Handler = jest.fn()
+    const match1Handler = vi.fn()
+    const match2Handler = vi.fn()
 
     const Playground = () => {
       const [query, updateQuery] = useState({
@@ -164,9 +167,9 @@ describe('useMediaQuery', () => {
   })
 
   it('can be disabled', () => {
-    jest
-      .spyOn(window, 'matchMedia')
-      .mockImplementationOnce(jest.fn(window.matchMedia))
+    vi.spyOn(window, 'matchMedia').mockImplementationOnce(
+      vi.fn(window.matchMedia)
+    )
 
     matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
 
@@ -183,9 +186,9 @@ describe('useMediaQuery', () => {
     expect(window.matchMedia).toHaveBeenCalledTimes(6)
     expect(resultA.current).toBe(true)
 
-    jest
-      .spyOn(window, 'matchMedia')
-      .mockImplementationOnce(jest.fn(window.matchMedia))
+    vi.spyOn(window, 'matchMedia').mockImplementationOnce(
+      vi.fn(window.matchMedia)
+    )
 
     const { result: resultB } = renderHook(
       () =>

@@ -1,18 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Table from '../Table'
 import { BasicTable } from './TableMocks'
 
 describe('useStickyHeader', () => {
   const setSizes = () => {
     const tableElement = document.querySelector('table')
-    jest.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(480)
-    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(160)
+    vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(480)
+    vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(160)
 
     const thElement = document.querySelector('th')
-    jest.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
+    vi.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
 
-    jest.runAllTimers() // run applyObservers
+    vi.runAllTimers() // run applyObservers
   }
 
   const simulateScroll = (
@@ -20,7 +20,7 @@ describe('useStickyHeader', () => {
     scrollElement: HTMLElement = null
   ) => {
     if (scrollElement) {
-      jest.spyOn(scrollElement, 'scrollTop', 'get').mockReturnValue(y)
+      vi.spyOn(scrollElement, 'scrollTop', 'get').mockReturnValue(y)
     } else {
       window.scrollY = y
     }
@@ -29,11 +29,11 @@ describe('useStickyHeader', () => {
   }
 
   beforeEach(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('should contain valid HTML classes when sticky', () => {
@@ -120,7 +120,7 @@ describe('useStickyHeader', () => {
     const thElement = document.querySelector('th')
     const trElem = document.querySelector('tr')
 
-    jest.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
+    vi.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
 
     setSizes()
 
@@ -177,7 +177,7 @@ describe('useStickyHeader', () => {
     )
 
     // change the table offset
-    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
+    vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
     fireEvent.resize(window)
 
     // Should set correct value (320-(80-64)=304)
@@ -221,7 +221,7 @@ describe('useStickyHeader', () => {
 
     // Simulate a banner appearing above the table, pushing it down by 80px
     // (no resize event fired, only the table's offsetTop changes)
-    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(240)
+    vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(240)
 
     // On the next scroll, the new offset should be picked up automatically
     // offset = 320 - (240 - 64) = 144
@@ -245,8 +245,8 @@ describe('useStickyHeader', () => {
       document.querySelector('.dnb-scroll-view')
 
     // Make ScrollView have a scrollbar
-    jest.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(120)
-    jest.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(80)
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(120)
+    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(80)
 
     setSizes()
 
@@ -295,7 +295,7 @@ describe('useStickyHeader', () => {
     const scrollElem: HTMLElement =
       document.querySelector('.dnb-scroll-view')
 
-    jest.spyOn(barElem, 'offsetHeight', 'get').mockReturnValue(40)
+    vi.spyOn(barElem, 'offsetHeight', 'get').mockReturnValue(40)
 
     setSizes()
 
@@ -326,7 +326,7 @@ describe('useStickyHeader', () => {
     )
 
     // change the table offset
-    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
+    vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
     fireEvent.resize(window)
 
     // Should set correct value (320-(80-40)=280)

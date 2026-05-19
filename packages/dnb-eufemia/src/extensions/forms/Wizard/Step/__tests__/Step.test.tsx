@@ -10,7 +10,7 @@ import type { Steps } from '../../Context/types'
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (!String(args[1]).includes('initialActiveIndex=')) {
       log(...args)
     }
@@ -18,7 +18,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Step', () => {
@@ -347,10 +347,10 @@ describe('Step', () => {
     })
 
     it('should not prerender the step', () => {
-      const step0 = jest.fn()
-      const step1 = jest.fn()
-      const step2 = jest.fn()
-      const step3 = jest.fn()
+      const step0 = vi.fn()
+      const step1 = vi.fn()
+      const step2 = vi.fn()
+      const step3 = vi.fn()
 
       const prerenderFieldPropsRef = {
         current: {

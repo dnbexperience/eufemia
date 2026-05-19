@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Dialog from '../../../components/dialog/Dialog'
 import Drawer from '../../../components/drawer/Drawer'
 import type { PProps } from '../P'

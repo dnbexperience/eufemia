@@ -2,26 +2,27 @@ import { render } from '@testing-library/react'
 import TextMask from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'
 
-jest.mock('@maskito/react', () => ({
-  useMaskito: jest.fn(() => jest.fn()),
+vi.mock('@maskito/react', () => ({
+  useMaskito: vi.fn(() => vi.fn()),
 }))
 
-jest.mock('@maskito/core', () => ({
-  maskitoTransform: jest.fn(),
-  maskitoUpdateElement: jest.fn(),
+vi.mock('@maskito/core', () => ({
+  maskitoTransform: vi.fn(),
+  maskitoUpdateElement: vi.fn(),
 }))
 
 describe('TextMask', () => {
-  const maskitoTransformMock = maskitoTransform as jest.MockedFunction<
-    typeof maskitoTransform
-  >
+  const maskitoTransformMock =
+    maskitoTransform as import('vitest').MockedFunction<
+      typeof maskitoTransform
+    >
   const maskitoUpdateElementMock =
-    maskitoUpdateElement as jest.MockedFunction<
+    maskitoUpdateElement as import('vitest').MockedFunction<
       typeof maskitoUpdateElement
     >
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     maskitoTransformMock.mockImplementation(({ value, selection }) => ({
       value,

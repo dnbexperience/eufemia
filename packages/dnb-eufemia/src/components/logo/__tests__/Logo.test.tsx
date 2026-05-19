@@ -4,7 +4,7 @@
  */
 
 import type { ReactNode, SVGProps } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
   CarnegieDefault,

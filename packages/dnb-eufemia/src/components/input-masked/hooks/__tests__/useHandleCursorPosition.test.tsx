@@ -42,7 +42,7 @@ const createEvent = (
 ): KeyboardEvent<HTMLInputElement> =>
   ({
     key,
-    preventDefault: jest.fn(),
+    preventDefault: vi.fn(),
     target: input,
     currentTarget: input,
   }) as unknown as KeyboardEvent<HTMLInputElement>
@@ -65,7 +65,7 @@ describe('useHandleCursorPosition', () => {
 
   afterEach(() => {
     document.body.innerHTML = ''
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('moves focus to previous input on Backspace when field is empty', () => {
@@ -76,7 +76,7 @@ describe('useHandleCursorPosition', () => {
 
     const prev = inputs[0]
     const current = inputs[1]
-    const focusSpy = jest.spyOn(prev, 'focus')
+    const focusSpy = vi.spyOn(prev, 'focus')
 
     current.value = ''
     current.placeholder = 'dd'
@@ -99,7 +99,7 @@ describe('useHandleCursorPosition', () => {
 
     const current = inputs[0]
     const next = inputs[1]
-    const focusSpy = jest.spyOn(next, 'focus')
+    const focusSpy = vi.spyOn(next, 'focus')
 
     current.value = '12'
     current.placeholder = ''
@@ -122,9 +122,9 @@ describe('useHandleCursorPosition', () => {
 
     const current = inputs[0]
     const next = inputs[1]
-    const focusSpy = jest.spyOn(next, 'focus')
-    ;(current as any).setSelectionRange = jest.fn()
-    const selectionSpy = current.setSelectionRange as jest.Mock
+    const focusSpy = vi.spyOn(next, 'focus')
+    ;(current as any).setSelectionRange = vi.fn()
+    const selectionSpy = current.setSelectionRange as import('vitest').Mock
 
     current.value = '12'
     current.selectionStart = 0
@@ -146,7 +146,7 @@ describe('useHandleCursorPosition', () => {
 
     const current = inputs[1]
     const prev = inputs[0]
-    const focusSpy = jest.spyOn(prev, 'focus')
+    const focusSpy = vi.spyOn(prev, 'focus')
 
     current.value = '11'
     current.selectionStart = 0
@@ -168,7 +168,7 @@ describe('useHandleCursorPosition', () => {
 
     const current = inputs[0]
     const next = inputs[1]
-    const focusSpy = jest.spyOn(next, 'focus')
+    const focusSpy = vi.spyOn(next, 'focus')
 
     current.value = '12'
     current.placeholder = 'dd'
@@ -210,14 +210,14 @@ describe('useHandleCursorPosition', () => {
 
   it('moves focus and transfers key to next input when typing at end of full input', () => {
     const { scopeRef, inputs } = setupScope(2)
-    const onTransferToNext = jest.fn()
+    const onTransferToNext = vi.fn()
     const { result } = renderHook(() =>
       useHandleCursorPosition(/\d/, scopeRef, { onTransferToNext })
     )
 
     const current = inputs[0]
     const next = inputs[1]
-    const focusSpy = jest.spyOn(next, 'focus')
+    const focusSpy = vi.spyOn(next, 'focus')
 
     current.value = '12'
     current.placeholder = 'dd'
@@ -254,7 +254,7 @@ describe('useHandleCursorPosition', () => {
 
     const current = inputs[0]
     const next = inputs[1]
-    const focusSpy = jest.spyOn(next, 'focus')
+    const focusSpy = vi.spyOn(next, 'focus')
 
     current.dataset.maskId = 'month'
     current.value = ''

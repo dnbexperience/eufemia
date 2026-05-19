@@ -159,7 +159,7 @@ describe('correctCaretPosition', () => {
   let element: HTMLInputElement
 
   beforeEach(() => {
-    window.requestAnimationFrame = jest.fn((callback) => {
+    window.requestAnimationFrame = vi.fn((callback) => {
       callback(1)
       return 1
     })
@@ -173,7 +173,7 @@ describe('correctCaretPosition', () => {
   it('should not change caret position if start and end are not equal', () => {
     element.selectionStart = 2
     element.selectionEnd = 5
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     correctCaretPosition(element, {}, {})
 
@@ -186,7 +186,7 @@ describe('correctCaretPosition', () => {
     element.value = '1234suffixprefix5678'
     element.selectionStart = 10
     element.selectionEnd = 10
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     const maskParams = {
       current: {
@@ -205,7 +205,7 @@ describe('correctCaretPosition', () => {
     element.value = 'prefix1234suffix'
     element.selectionStart = 6
     element.selectionEnd = 6
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     const maskParams = {
       current: {
@@ -224,7 +224,7 @@ describe('correctCaretPosition', () => {
     element.value = '1234_'
     element.selectionStart = 4
     element.selectionEnd = 4
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     const props = {
       mask: [/\d/, /\d/, /\d/, /\d/],
@@ -237,7 +237,7 @@ describe('correctCaretPosition', () => {
 
   it('should handle mask when element value length is greater than end', () => {
     element.value = '123_'
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     const props = {
       mask: [/\d/, /\d/, /\d/, /\d/],
@@ -253,7 +253,7 @@ describe('correctCaretPosition', () => {
     element.value = '1234_'
     element.selectionStart = 4
     element.selectionEnd = 4
-    element.setSelectionRange = jest.fn()
+    element.setSelectionRange = vi.fn()
 
     const props = {
       mask: [/\d/, /\d/, /\d/, /\d/],

@@ -1,8 +1,8 @@
 import { act, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
-import 'mock-match-media/jest-setup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
 import { useSpacing } from '../../space/SpacingUtils'
@@ -287,7 +287,7 @@ describe('Flex.Container', () => {
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
+          class="dnb-hr dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
@@ -998,7 +998,7 @@ describe('Flex.Container', () => {
 
   describe('size', () => {
     beforeEach(() => {
-      jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
     })
 
     const matchMediaOriginal = window.matchMedia

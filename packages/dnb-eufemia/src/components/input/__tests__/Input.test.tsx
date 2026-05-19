@@ -5,7 +5,11 @@
 
 import { useRef, useState } from 'react'
 import type { Ref, RefObject } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { InputProps } from '../Input'
@@ -87,7 +91,7 @@ describe('Input component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Input {...props} ref={refFn} />)
 
@@ -175,8 +179,8 @@ describe('Input component', () => {
     const newValue = 'new value'
     const emptyValue = null // gets emitted also on values as null
 
-    const onChange = jest.fn()
-    const onKeyDown = jest.fn() // additional native event test
+    const onChange = vi.fn()
+    const onKeyDown = vi.fn() // additional native event test
 
     render(
       <Input
@@ -389,7 +393,7 @@ describe('Input component', () => {
   it('will select the whole input when selectAll is set', async () => {
     render(<Input selectAll={true} value="1234" />)
 
-    const select = jest.fn()
+    const select = vi.fn()
     document.querySelector('input').select = select
 
     fireEvent.focus(document.querySelector('input'))
@@ -530,7 +534,7 @@ describe('Input component', () => {
   })
 
   it('should call onSubmit event handler on enter key press', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
     render(
       <Input
         id="input-id"
@@ -550,7 +554,7 @@ describe('Input component', () => {
   })
 
   it('should call onSubmit event handler on submit button click', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
     render(
       <Input
         id="input-id"
@@ -570,7 +574,7 @@ describe('Input component', () => {
   })
 
   it('should call onSubmitFocus event handler on submit button focus', () => {
-    const onSubmitFocus = jest.fn()
+    const onSubmitFocus = vi.fn()
     render(
       <Input
         id="input-id"
@@ -590,7 +594,7 @@ describe('Input component', () => {
   })
 
   it('should call onSubmitBlur event handler on submit button blur', () => {
-    const onSubmitBlur = jest.fn()
+    const onSubmitBlur = vi.fn()
     render(
       <Input
         id="input-id"
@@ -744,7 +748,7 @@ describe('Input with clear button', () => {
   })
 
   it('should warn about clear button and right icon position', () => {
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(
       <Input showClearButton={true} icon="bell" iconPosition="right" />
     )
@@ -781,8 +785,8 @@ describe('Input with clear button', () => {
   })
 
   it('should emit onClear event on clear button click', () => {
-    const onClear = jest.fn()
-    const onChange = jest.fn()
+    const onClear = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <Input
@@ -833,7 +837,7 @@ describe('Input icon memoization', () => {
   })
 
   it('should NOT re-render when the same string icon is used', () => {
-    const renderSpy = jest.fn()
+    const renderSpy = vi.fn()
 
     // Create a wrapper to spy on renders
     const IconWrapper = ({

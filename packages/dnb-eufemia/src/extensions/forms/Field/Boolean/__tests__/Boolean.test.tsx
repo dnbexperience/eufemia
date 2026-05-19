@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -105,7 +105,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should toggle when clicking', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(
         <Field.Boolean
           variant="checkbox"
@@ -246,7 +246,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should not change the state when calling preventDefault on the onClick event', async () => {
-      const onClick = jest.fn((value, { preventDefault }) => {
+      const onClick = vi.fn((value, { preventDefault }) => {
         preventDefault()
       })
 
@@ -412,7 +412,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should toggle when clicking', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(
         <Field.Boolean
           variant="switch"
@@ -551,7 +551,7 @@ describe('Field.Boolean', () => {
     })
 
     it('should not change the state when calling preventDefault on the onClick event', async () => {
-      const onClick = jest.fn((value, { preventDefault }) => {
+      const onClick = vi.fn((value, { preventDefault }) => {
         preventDefault()
       })
 

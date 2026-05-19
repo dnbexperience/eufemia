@@ -21,15 +21,15 @@ import {
   warn,
 } from '../helpers'
 
-import { mockClipboard } from '../../core/jest/jestSetup'
+import { mockClipboard } from '../../core/test-utils/testSetup'
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
 let userAgentGetter, platformGetter
 
 beforeAll(() => {
-  userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get')
-  platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+  userAgentGetter = vi.spyOn(window.navigator, 'userAgent', 'get')
+  platformGetter = vi.spyOn(window.navigator, 'platform', 'get')
 
   mockClipboard()
 })
@@ -123,8 +123,8 @@ describe('"scrollToLocationHashId" should', () => {
   it('should not call scrollTo when internal "totalOffset" is 0 or less', () => {
     window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     render(<div id="unique-id">content</div>)
 
@@ -136,13 +136,13 @@ describe('"scrollToLocationHashId" should', () => {
   it('will call scrollTo with correct top value', () => {
     window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     render(<div id="unique-id">content</div>)
 
     const elem = document.getElementById('unique-id')
-    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(400)
+    vi.spyOn(elem, 'offsetTop', 'get').mockReturnValue(400)
 
     scrollToLocationHashId({ offset: 100 })
 
@@ -156,14 +156,14 @@ describe('"scrollToLocationHashId" should', () => {
   it('will handle document.readyState with hash', () => {
     window.history.replaceState({}, '', 'http://localhost/#unique-id')
 
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
-    jest.spyOn(document, 'readyState', 'get').mockReturnValue('loading')
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('loading')
 
     render(<div id="unique-id">content</div>)
 
     const elem = document.getElementById('unique-id')
-    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
+    vi.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
 
     scrollToLocationHashId({ offset: 100 })
 
@@ -179,13 +179,13 @@ describe('"scrollToLocationHashId" should', () => {
   it('will handle document.readyState', () => {
     window.history.replaceState({}, '', 'http://localhost/')
 
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     render(<div id="unique-id">content</div>)
 
     const elem = document.getElementById('unique-id')
-    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
+    vi.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
 
     scrollToLocationHashId({ offset: 100 })
 
@@ -248,13 +248,13 @@ describe('"warn" should', () => {
   const log = global.console.log
 
   beforeEach(() => {
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
   })
 
   afterEach(() => {
     global.console.log = log
 
-    jest.resetAllMocks()
+    vi.resetAllMocks()
   })
 
   it('run console.log in development', () => {

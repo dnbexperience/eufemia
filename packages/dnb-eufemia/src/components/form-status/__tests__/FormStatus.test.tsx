@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { FormStatusProps } from '../FormStatus'
 import FormStatus from '../FormStatus'
 import Input from '../../input/Input'
@@ -162,7 +162,7 @@ describe('FormStatus component', () => {
   })
 
   it('should interact with GlobalStatus via Provider props', async () => {
-    jest.spyOn(window, 'scrollTo').mockImplementation()
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
 
     // Should be rendered as closed
     const { rerender } = render(

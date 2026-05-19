@@ -6,7 +6,7 @@ import { UploadContext } from '../UploadContext'
 
 const defaultProps: UploadContextValue = {
   acceptedFileTypes: ['png'],
-  onInputUpload: jest.fn(),
+  onInputUpload: vi.fn(),
   buttonText: 'upload button text',
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
@@ -94,7 +94,7 @@ describe('UploadFileInput', () => {
 
     const inputElement = document.querySelector('.dnb-upload__file-input')
 
-    const clickEventListener = jest.fn()
+    const clickEventListener = vi.fn()
     inputElement.addEventListener('click', clickEventListener)
 
     fireEvent.click(buttonElement)
@@ -105,7 +105,7 @@ describe('UploadFileInput', () => {
   it('calls the onInputUpload function', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
-    const onInputUpload = jest.fn()
+    const onInputUpload = vi.fn()
 
     render(<UploadFileInput />, {
       wrapper: makeWrapper({ onInputUpload }),
@@ -123,7 +123,7 @@ describe('UploadFileInput', () => {
   it('will reset input value on click', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
-    const onInputUpload = jest.fn()
+    const onInputUpload = vi.fn()
 
     render(<UploadFileInput />, {
       wrapper: makeWrapper({ onInputUpload }),
@@ -182,7 +182,7 @@ describe('UploadFileInput', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
     const file2 = createMockFile('fileName2.png', 100, 'image/png')
 
-    const onInputUpload = jest.fn()
+    const onInputUpload = vi.fn()
 
     render(<UploadFileInput />, {
       wrapper: makeWrapper({ onInputUpload }),

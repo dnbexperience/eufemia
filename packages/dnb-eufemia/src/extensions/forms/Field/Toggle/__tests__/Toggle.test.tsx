@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
 import type { FieldToggleProps } from '../Toggle'
@@ -142,7 +142,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should toggle when clicking', async () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
         render(
           <Field.Toggle
             valueOn="on"
@@ -247,7 +247,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should not change the state when calling preventDefault on the onClick event', async () => {
-        const onClick = jest.fn((value, { preventDefault }) => {
+        const onClick = vi.fn((value, { preventDefault }) => {
           preventDefault()
         })
 
@@ -288,7 +288,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
-        const onClick = jest.fn((value, { preventDefault }) => {
+        const onClick = vi.fn((value, { preventDefault }) => {
           preventDefault()
         })
 
@@ -437,7 +437,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should render correct HTML', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Field.Toggle
@@ -661,7 +661,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should render correct HTML', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Field.Toggle
@@ -950,7 +950,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should render correct HTML', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Field.Toggle
@@ -1172,7 +1172,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should render correct HTML', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Field.Toggle
@@ -1372,7 +1372,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should render correct HTML', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Field.Toggle
@@ -1539,7 +1539,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should not change the state when calling preventDefault on the onClick event', async () => {
-        const onClick = jest.fn((value, { preventDefault }) => {
+        const onClick = vi.fn((value, { preventDefault }) => {
           preventDefault()
         })
 
@@ -1580,7 +1580,7 @@ describe('Field.Toggle', () => {
       })
 
       it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
-        const onClick = jest.fn((value, { preventDefault }) => {
+        const onClick = vi.fn((value, { preventDefault }) => {
           preventDefault()
         })
 

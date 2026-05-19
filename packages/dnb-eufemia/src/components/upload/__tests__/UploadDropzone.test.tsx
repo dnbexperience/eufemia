@@ -3,7 +3,7 @@ import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
 import type { UploadAllProps, UploadContextValue } from '../types'
-import { wait } from '../../../core/jest/jestSetup'
+import { wait } from '../../../core/test-utils/testSetup'
 
 const defaultProps: Partial<UploadAllProps> = {
   id: 'unique',
@@ -13,7 +13,7 @@ const defaultProps: Partial<UploadAllProps> = {
 const defaultContext: UploadContextValue = {
   id: 'unique-id',
   acceptedFileTypes: ['png'],
-  onInputUpload: jest.fn(),
+  onInputUpload: vi.fn(),
   buttonText: 'upload button text',
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
@@ -22,7 +22,7 @@ const defaultContext: UploadContextValue = {
 }
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('UploadDropzone', () => {
@@ -52,7 +52,7 @@ describe('UploadDropzone', () => {
   })
 
   it('has drop event', () => {
-    defaultContext.onInputUpload = jest.fn()
+    defaultContext.onInputUpload = vi.fn()
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
@@ -122,7 +122,7 @@ describe('UploadDropzone', () => {
     })
 
     it('has drop event', async () => {
-      defaultContext.onInputUpload = jest.fn()
+      defaultContext.onInputUpload = vi.fn()
       render(<MockComponent {...defaultProps} />)
 
       const bodyDropZone = getBodyElement()

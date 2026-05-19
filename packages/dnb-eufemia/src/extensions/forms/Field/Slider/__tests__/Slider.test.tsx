@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import { DataContext, Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   resetMouseSimulation,
   simulateMouseMove,
@@ -155,14 +155,14 @@ describe('Field.Slider', () => {
     })
 
     it('should support transformers', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const value = 70
 
-      const transformOut = jest.fn((internal) => {
+      const transformOut = vi.fn((internal) => {
         return { value: internal }
       })
 
-      const transformIn = jest.fn((external) => {
+      const transformIn = vi.fn((external) => {
         if (external) {
           const { value } = external
           return value
@@ -211,7 +211,7 @@ describe('Field.Slider', () => {
 
   describe('multi thumb', () => {
     it('with "value"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const value = [30, 40]
 
       render(<Field.Slider value={value} onChange={onChange} />)

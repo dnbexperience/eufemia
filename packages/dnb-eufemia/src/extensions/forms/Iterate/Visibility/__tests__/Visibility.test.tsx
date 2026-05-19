@@ -172,7 +172,7 @@ describe('Iterate.Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      const inferData = jest.fn((data) => true)
+      const inferData = vi.fn((data) => true)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>
           <Iterate.Array path="/myList">
@@ -186,7 +186,7 @@ describe('Iterate.Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      const inferData = jest.fn((data) => false)
+      const inferData = vi.fn((data) => false)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>
           <Iterate.Array path="/myList">

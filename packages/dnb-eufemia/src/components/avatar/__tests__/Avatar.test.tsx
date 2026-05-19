@@ -5,7 +5,7 @@ import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
@@ -185,14 +185,14 @@ describe('Avatar', () => {
 
   it('warns when Avatar is used without a Avatar.Group as parent component', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Avatar />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Avatar hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()
   })

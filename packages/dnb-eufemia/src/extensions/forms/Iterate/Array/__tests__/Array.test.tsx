@@ -49,7 +49,7 @@ describe('Iterate.Array', () => {
 
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
@@ -105,8 +105,8 @@ describe('Iterate.Array', () => {
     })
 
     it('should support a function callback as the children prop', async () => {
-      const onChange = jest.fn()
-      const callback = jest.fn(() => {
+      const onChange = vi.fn()
+      const callback = vi.fn(() => {
         return <Field.String itemPath="/" />
       })
 
@@ -161,7 +161,7 @@ describe('Iterate.Array', () => {
 
     describe('placeholder', () => {
       it('should show placeholder when value is undefined', () => {
-        const renderProp = jest.fn()
+        const renderProp = vi.fn()
 
         const list = undefined
 
@@ -180,7 +180,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should show placeholder when emptyValue is same as instance', () => {
-        const renderProp = jest.fn()
+        const renderProp = vi.fn()
 
         const list = []
 
@@ -203,7 +203,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should show given placeholder when value is empty', () => {
-        const renderProp = jest.fn()
+        const renderProp = vi.fn()
 
         const list = []
 
@@ -331,7 +331,7 @@ describe('Iterate.Array', () => {
 
   describe('with object elements', () => {
     it('should distribute values and receive callbacks', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Iterate.Array
@@ -459,7 +459,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should keep data context in sync when countPath value changes', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       let collectedContext: ContextState = null
 
       render(
@@ -991,7 +991,7 @@ describe('Iterate.Array', () => {
 
   describe('onChangeValidator', () => {
     it('should validate onChangeValidator initially (validateInitially)', async () => {
-      const onChangeValidator = jest.fn((arrayValue) => {
+      const onChangeValidator = vi.fn((arrayValue) => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
@@ -1047,7 +1047,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should validate onChangeValidator on form submit', async () => {
-      const onChangeValidator = jest.fn((arrayValue) => {
+      const onChangeValidator = vi.fn((arrayValue) => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
@@ -1110,7 +1110,7 @@ describe('Iterate.Array', () => {
       const findFirstDuplication = (arr) =>
         arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
-      const onChangeValidator = jest.fn((arrayValue) => {
+      const onChangeValidator = vi.fn((arrayValue) => {
         const index = findFirstDuplication(arrayValue)
         if (index > -1) {
           const value = arrayValue[index]
@@ -1149,7 +1149,7 @@ describe('Iterate.Array', () => {
   describe('using single render prop', () => {
     describe('with primitive elements', () => {
       it('should call renderers with each element value', () => {
-        const renderProp = jest.fn()
+        const renderProp = vi.fn()
 
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
@@ -1181,8 +1181,8 @@ describe('Iterate.Array', () => {
 
     describe('with object elements and multiple render props', () => {
       it('should call renderers with each element value', () => {
-        const renderProp1 = jest.fn()
-        const renderProp2 = jest.fn()
+        const renderProp1 = vi.fn()
+        const renderProp2 = vi.fn()
 
         render(
           <Iterate.Array
@@ -1255,8 +1255,8 @@ describe('Iterate.Array', () => {
 
   describe('in DataContext', () => {
     it('should call onChange when new item is added', () => {
-      const onChangeDataContext = jest.fn()
-      const onChangeIterate = jest.fn()
+      const onChangeDataContext = vi.fn()
+      const onChangeIterate = vi.fn()
 
       render(
         <DataContext.Provider onChange={onChangeDataContext}>
@@ -1289,7 +1289,7 @@ describe('Iterate.Array', () => {
 
     describe('defaultValue on Iterate.Array', () => {
       it('should validate required fields', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -1312,7 +1312,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should handle "defaultValue" (empty string) in React.StrictMode', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1339,7 +1339,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should handle "defaultValue" (with value) in React.StrictMode', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1366,7 +1366,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should handle "defaultValue" (with null) in React.StrictMode', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1393,7 +1393,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should not set defaultValue when item gets removed', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1420,7 +1420,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should set empty array in the data context', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1441,7 +1441,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should set undefined in the data context when not defaultValue is given', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <StrictMode>
@@ -1462,7 +1462,7 @@ describe('Iterate.Array', () => {
       })
 
       it('should respect an explicit emptyValue of undefined', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -1486,8 +1486,8 @@ describe('Iterate.Array', () => {
     describe('with primitive elements', () => {
       describe('referenced with path', () => {
         it('should distribute values and receive callbacks on both iterate and context', async () => {
-          const dataContextOnChange = jest.fn()
-          const iterateOnChange = jest.fn()
+          const dataContextOnChange = vi.fn()
+          const iterateOnChange = vi.fn()
 
           render(
             <DataContext.Provider
@@ -1626,7 +1626,7 @@ describe('Iterate.Array', () => {
 
         it('should filter data based with multi wildcard paths', () => {
           let filteredData = undefined
-          const onSubmit = jest.fn(
+          const onSubmit = vi.fn(
             (data, { filterData }) =>
               (filteredData = filterData({
                 '/firstList/0/secondList/*/foo': false,
@@ -1731,7 +1731,7 @@ describe('Iterate.Array', () => {
 
   describe('should render without flex', () => {
     it('when "withoutFlex" is true', () => {
-      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
       const { container } = render(
         <Iterate.Array value={['one', 'two', 'three']} withoutFlex>
@@ -1777,7 +1777,7 @@ describe('Iterate.Array', () => {
 
   describe('value and defaultValue', () => {
     it('should support "value" on fields inside iterate', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -1818,7 +1818,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should support "defaultValue" on fields inside iterate', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -1920,7 +1920,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should iterate over the values given in data context', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       let collectedContext = null
 
       render(
@@ -1969,7 +1969,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should iterate over the values given as defaultValue', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       let collectedContext = null
 
       render(
@@ -2015,7 +2015,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should iterate over the values given as defaultValue (nested)', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       let collectedContext = null
 
       render(
@@ -2061,7 +2061,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should update data context on changes', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -2104,7 +2104,7 @@ describe('Iterate.Array', () => {
     })
 
     it('should support "defaultValue" on fields inside nested iterate', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -2575,7 +2575,7 @@ describe('Iterate.Array', () => {
 
   describe('when in Form.Section', () => {
     it('should write the correct path to the data context', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler

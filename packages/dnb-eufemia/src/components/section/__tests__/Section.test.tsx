@@ -6,7 +6,7 @@
 import { useContext, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SectionAllProps } from '../Section'
 import Section from '../Section'
 import Provider from '../../../shared/Provider'

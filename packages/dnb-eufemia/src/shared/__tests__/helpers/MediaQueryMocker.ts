@@ -1,11 +1,14 @@
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../../MediaQueryUtils'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import MatchMediaMock from '../../../core/test-utils/MatchMediaMock'
 
-const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
+const isMatchMediaSupported =
+  _isMatchMediaSupported as import('vitest').Mock
 
-jest.mock('../../MediaQueryUtils', () => ({
-  ...jest.requireActual('../../MediaQueryUtils'),
-  isMatchMediaSupported: jest.fn(),
+vi.mock('../../MediaQueryUtils', async () => ({
+  ...(await vi.importActual<typeof import('../../MediaQueryUtils')>(
+    '../../MediaQueryUtils'
+  )),
+  isMatchMediaSupported: vi.fn(),
 }))
 
 export function mockMediaQuery() {

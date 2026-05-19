@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { TypographyProps } from '../Typography'
 import Typography from '../Typography'
 import P from '../P'

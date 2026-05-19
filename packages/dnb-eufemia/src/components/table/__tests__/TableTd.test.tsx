@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { TableTdProps } from '../TableTd'
 import TableTd from '../TableTd'
 import TableTh from '../TableTh'
@@ -188,7 +188,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>content</TableTd>
+            <TableTd onClick={vi.fn()}>content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -205,7 +205,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>content</TableTd>
+            <TableTd onClick={vi.fn()}>content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -238,7 +238,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>content</TableTd>
+            <TableTd onClick={vi.fn()}>content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -253,7 +253,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()} icon={false}>
+            <TableTd onClick={vi.fn()} icon={false}>
               content
             </TableTd>
           </tr>
@@ -270,7 +270,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()} icon="bell">
+            <TableTd onClick={vi.fn()} icon="bell">
               content
             </TableTd>
           </tr>
@@ -287,7 +287,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>cell content</TableTd>
+            <TableTd onClick={vi.fn()}>cell content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -301,7 +301,7 @@ describe('TableTd with onClick (navigable cell)', () => {
   })
 
   it('should emit onClick when clicking the button', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -320,7 +320,7 @@ describe('TableTd with onClick (navigable cell)', () => {
   })
 
   it('should pass enriched info as second argument to onClick', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -356,7 +356,7 @@ describe('TableTd with onClick (navigable cell)', () => {
   })
 
   it('should return null thElement when no thead exists', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -378,7 +378,7 @@ describe('TableTd with onClick (navigable cell)', () => {
   })
 
   it('should emit onClick on Enter key (native button behavior)', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -404,7 +404,7 @@ describe('TableTd with onClick (navigable cell)', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>content</TableTd>
+            <TableTd onClick={vi.fn()}>content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -425,8 +425,8 @@ describe('TableTd with onClick (navigable cell)', () => {
         </thead>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>Cell A</TableTd>
-            <TableTd onClick={jest.fn()}>Cell B</TableTd>
+            <TableTd onClick={vi.fn()}>Cell A</TableTd>
+            <TableTd onClick={vi.fn()}>Cell B</TableTd>
           </tr>
         </tbody>
       </table>
@@ -446,11 +446,11 @@ describe('TableTd with onClick (navigable cell)', () => {
         <tbody>
           <tr>
             <TableTh scope="row">Row 1</TableTh>
-            <TableTd onClick={jest.fn()}>Cell A</TableTd>
+            <TableTd onClick={vi.fn()}>Cell A</TableTd>
           </tr>
           <tr>
             <TableTh scope="row">Row 2</TableTh>
-            <TableTd onClick={jest.fn()} icon={false}>
+            <TableTd onClick={vi.fn()} icon={false}>
               Cell B
             </TableTd>
           </tr>
@@ -496,7 +496,7 @@ describe('TableTd selected state', () => {
   })
 
   it('should render selected class and clickable button when selected and onClick are both provided', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -545,7 +545,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd selected onClick={jest.fn()}>
+            <TableTd selected onClick={vi.fn()}>
               content
             </TableTd>
           </tr>
@@ -562,7 +562,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd onClick={jest.fn()}>content</TableTd>
+            <TableTd onClick={vi.fn()}>content</TableTd>
           </tr>
         </tbody>
       </table>
@@ -577,7 +577,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd selected={false} onClick={jest.fn()}>
+            <TableTd selected={false} onClick={vi.fn()}>
               content
             </TableTd>
           </tr>
@@ -590,7 +590,7 @@ describe('TableTd selected state', () => {
   })
 
   it('should provide setSelected and isSelected in onClick callback', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <table>
@@ -613,7 +613,7 @@ describe('TableTd selected state', () => {
   })
 
   it('should not apply selection when selected prop is not provided', () => {
-    const onClick = jest.fn((_event, { setSelected }) => {
+    const onClick = vi.fn((_event, { setSelected }) => {
       setSelected(true)
     })
 
@@ -639,7 +639,7 @@ describe('TableTd selected state', () => {
   })
 
   it('should toggle selected state via setSelected from onClick', () => {
-    const onClick = jest.fn((_event, { isSelected, setSelected }) => {
+    const onClick = vi.fn((_event, { isSelected, setSelected }) => {
       const result = setSelected(!isSelected)
       expect(result).toBe(!isSelected)
     })
@@ -679,7 +679,7 @@ describe('TableTd selected state', () => {
   it('should allow deselecting via setSelected(false)', () => {
     let setSelectedRef: (v: boolean) => void
 
-    const onClick = jest.fn((_event, { setSelected }) => {
+    const onClick = vi.fn((_event, { setSelected }) => {
       setSelectedRef = setSelected
       setSelected(true)
     })
@@ -727,7 +727,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd selected onClick={jest.fn()}>
+            <TableTd selected onClick={vi.fn()}>
               content
             </TableTd>
           </tr>
@@ -743,7 +743,7 @@ describe('TableTd selected state', () => {
   })
 
   it('should let internal state take precedence after setSelected', () => {
-    const onClick = jest.fn((_event, { setSelected }) => {
+    const onClick = vi.fn((_event, { setSelected }) => {
       setSelected(true)
     })
 
@@ -778,7 +778,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd selected={false} onClick={jest.fn()}>
+            <TableTd selected={false} onClick={vi.fn()}>
               content
             </TableTd>
           </tr>
@@ -797,7 +797,7 @@ describe('TableTd selected state', () => {
       <table>
         <tbody>
           <tr>
-            <TableTd selected onClick={jest.fn()}>
+            <TableTd selected onClick={vi.fn()}>
               content
             </TableTd>
           </tr>
@@ -819,7 +819,7 @@ describe('TableTd selected state', () => {
         </thead>
         <tbody>
           <tr>
-            <TableTd selected onClick={jest.fn()}>
+            <TableTd selected onClick={vi.fn()}>
               Cell A
             </TableTd>
           </tr>
@@ -840,10 +840,10 @@ describe('TableTd selected state', () => {
         </thead>
         <tbody>
           <tr>
-            <TableTd selected onClick={jest.fn()}>
+            <TableTd selected onClick={vi.fn()}>
               Cell A
             </TableTd>
-            <TableTd selected={false} onClick={jest.fn()}>
+            <TableTd selected={false} onClick={vi.fn()}>
               Cell B
             </TableTd>
           </tr>

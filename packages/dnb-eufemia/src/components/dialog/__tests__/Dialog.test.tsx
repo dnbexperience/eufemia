@@ -5,7 +5,7 @@ import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
@@ -30,7 +30,7 @@ beforeEach(() => {
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
         'A Dialog or Drawer needs a h1 as its first element!'
@@ -42,7 +42,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Dialog', () => {
@@ -85,8 +85,8 @@ describe('Dialog', () => {
   })
 
   it('will close by using callback method', () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
     render(
       <Dialog
         noAnimation
@@ -272,7 +272,7 @@ describe('Dialog', () => {
 
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
-    const onClose = jest.fn(
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
@@ -291,7 +291,7 @@ describe('Dialog', () => {
   })
 
   it('is closed by keyboardevent esc by window listener', async () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
 
     const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
@@ -366,14 +366,14 @@ describe('Dialog', () => {
 
   it('has support for nested Dialogs', async () => {
     const onOpen = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
     const onClose = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
 
     const getComponent = (props) => {
@@ -527,8 +527,8 @@ describe('Dialog', () => {
   })
 
   it('will close dialog by using callback method', () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
 
     render(
       <Dialog
@@ -645,7 +645,7 @@ describe('Dialog', () => {
 
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     const Comp = render(<Dialog {...props} open={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

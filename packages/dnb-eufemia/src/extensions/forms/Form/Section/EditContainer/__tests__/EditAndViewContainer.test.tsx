@@ -197,20 +197,20 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should call restoreOriginalData and restore values on Cancel after submit error', async () => {
-      const restoreSpy = jest.fn()
-      const useContainerDataStoreModule = jest.requireActual(
-        '../useContainerDataStore'
-      )
+      const restoreSpy = vi.fn()
+      const useContainerDataStoreModule = await vi.importActual<
+        typeof import('../useContainerDataStore')
+      >('../useContainerDataStore')
       const originalHook = useContainerDataStoreModule.default
-      const mockUseContainerDataStore = jest
+      const mockUseContainerDataStore = vi
         .spyOn(useContainerDataStoreModule, 'default')
         .mockImplementation(() => {
           const res = originalHook()
           return {
             ...res,
-            restoreOriginalData: (...args: unknown[]) => {
+            restoreOriginalData: () => {
               restoreSpy()
-              return res.restoreOriginalData(...args)
+              return res.restoreOriginalData()
             },
           }
         })
@@ -1027,7 +1027,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should emit "onDone" event when done button is clicked', async () => {
-    const onDone = jest.fn()
+    const onDone = vi.fn()
 
     render(
       <Form.Section>
@@ -1050,7 +1050,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should emit "onCancel" event when cancel button is clicked', async () => {
-    const onCancel = jest.fn()
+    const onCancel = vi.fn()
 
     render(
       <Form.Section>
@@ -1097,7 +1097,7 @@ describe('EditContainer and ViewContainer', () => {
   })
 
   it('should emit "onEdit" event when edit button is clicked', async () => {
-    const onEdit = jest.fn()
+    const onEdit = vi.fn()
 
     render(
       <Form.Section>

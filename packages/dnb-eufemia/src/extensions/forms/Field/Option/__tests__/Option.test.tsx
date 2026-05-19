@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { FieldOptionProps } from '..'
 import { Field } from '../../..'

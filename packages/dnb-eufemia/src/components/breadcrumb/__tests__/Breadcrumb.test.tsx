@@ -11,10 +11,10 @@ import type { BreadcrumbProps } from '../Breadcrumb'
 import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import IconPrimary from '../../icon-primary/IconPrimary'
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import type { AnchorAllProps } from '../../Anchor'
-import 'mock-match-media/jest-setup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 
 describe('Breadcrumb', () => {
@@ -154,7 +154,7 @@ describe('Breadcrumb', () => {
         ]}
         variant="collapse"
         collapsed={overrideCollapse}
-        onClick={jest.fn()}
+        onClick={vi.fn()}
       />
     )
 
@@ -225,7 +225,7 @@ describe('Breadcrumb', () => {
   it('inherits skeleton prop from provider', () => {
     render(
       <Provider skeleton>
-        <Breadcrumb data={[{ onClick: jest.fn(), text: 'Page 1' }]} />
+        <Breadcrumb data={[{ onClick: vi.fn(), text: 'Page 1' }]} />
       </Provider>
     )
 
@@ -297,7 +297,7 @@ describe('Breadcrumb', () => {
   })
 
   it('should fire onToggle when breadcrumb expands and collapses', async () => {
-    const onToggle = jest.fn()
+    const onToggle = vi.fn()
 
     render(
       <Breadcrumb
@@ -358,7 +358,7 @@ describe('Breadcrumb', () => {
     })
 
     it('renders breadcrumbitem as a button', () => {
-      render(<BreadcrumbItem onClick={jest.fn()} text="Page" />)
+      render(<BreadcrumbItem onClick={vi.fn()} text="Page" />)
 
       expect(screen.queryByRole('button')).toBeDefined()
     })
@@ -416,7 +416,7 @@ describe('Breadcrumb', () => {
     })
 
     it('fires onClick event', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       render(<BreadcrumbItem onClick={onClick} text="Page" />)
 
       fireEvent.click(document.querySelector('a'))
@@ -441,9 +441,7 @@ describe('Breadcrumb', () => {
     })
 
     it('renders a skeleton if skeleton is true', () => {
-      render(
-        <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
-      )
+      render(<BreadcrumbItem skeleton onClick={vi.fn()} text="skeleton" />)
 
       expect(document.querySelector('a')).toHaveClass('dnb-skeleton')
     })
@@ -451,7 +449,7 @@ describe('Breadcrumb', () => {
     it('inherits skeleton prop from provider', () => {
       render(
         <Provider skeleton>
-          <BreadcrumbItem onClick={jest.fn()} text="skeleton" />
+          <BreadcrumbItem onClick={vi.fn()} text="skeleton" />
         </Provider>
       )
 

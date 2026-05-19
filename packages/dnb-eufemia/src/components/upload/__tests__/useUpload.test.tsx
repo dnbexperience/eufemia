@@ -7,11 +7,11 @@ import type { UploadFile } from '../types'
 
 describe('useUpload', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('return an empty list', () => {
-    const validationFunction = jest.fn()
+    const validationFunction = vi.fn()
 
     const MockComponents = () => {
       const { files } = useUpload('id')
@@ -27,7 +27,7 @@ describe('useUpload', () => {
   })
 
   it('return the setFiles function', () => {
-    const validationFunction = jest.fn()
+    const validationFunction = vi.fn()
 
     const MockComponents = () => {
       const { setFiles } = useUpload('id')
@@ -43,7 +43,7 @@ describe('useUpload', () => {
   })
 
   it('return the clearFiles function', () => {
-    const validationFunction = jest.fn()
+    const validationFunction = vi.fn()
 
     const MockComponents = () => {
       const { clearFiles } = useUpload('id')
@@ -59,7 +59,7 @@ describe('useUpload', () => {
   })
 
   it('return the added files', () => {
-    const validationFunction = jest.fn()
+    const validationFunction = vi.fn()
 
     const mockFile = createMockFile('fileName.png', 100, 'image/png')
 
@@ -109,7 +109,7 @@ describe('useUpload', () => {
     }
     const id = 'unique-id-2'
 
-    const validationFunction = jest.fn()
+    const validationFunction = vi.fn()
 
     const MockComponents = () => {
       const { files } = useUpload(id)

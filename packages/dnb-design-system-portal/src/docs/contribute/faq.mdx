@@ -66,10 +66,6 @@ When running `build:mini` scripts, the build will be faster and the output will 
 
 - We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
 
-### Jest
-
-- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` via `Object.defineProperty` in Jest. Jest 30 with `jest-environment-jsdom` bundles jsdom v26. Tests that need to manipulate the URL now use `window.history.replaceState` instead of overriding `window.location`.
-
 ### Babel
 
 - Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they do not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`

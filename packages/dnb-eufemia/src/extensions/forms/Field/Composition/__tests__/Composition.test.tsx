@@ -2,7 +2,10 @@ import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import { Field, Form, makeAjvInstance } from '../../..'
-import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

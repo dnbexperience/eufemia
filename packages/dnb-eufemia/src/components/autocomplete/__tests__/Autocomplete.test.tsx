@@ -5,7 +5,11 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
@@ -75,7 +79,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></span></li>`
+      /* html */ `<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></span></li>`
     )
   })
 
@@ -236,7 +240,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></span></li>`
+      /* html */ `<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></span></li>`
     )
 
     // check "invalid"
@@ -254,7 +258,7 @@ describe('Autocomplete component', () => {
       getPropertyValue: () => 20,
     } as undefined
 
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
     const { rerender } = render(
       <Autocomplete value={1} data={mockData} open />
@@ -780,7 +784,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // First result direction
@@ -790,7 +794,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
     )
 
     // Second result direction
@@ -800,7 +804,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // With three matches, we prioritize the second one to be on the first place
@@ -810,7 +814,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type first-item closest-to-top closest-to-bottom dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
+      '<li class="first-item closest-to-top closest-to-bottom first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
     // Do not find item, as there is defined a searchContent
@@ -1113,7 +1117,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>2223 33 44425</span></span></span></li>`
+      /* html */ `<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>2223 33 44425</span></span></span></li>`
     )
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
@@ -1482,10 +1486,10 @@ describe('Autocomplete component', () => {
   })
 
   it('has valid events returning all additional attributes in the event return', () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
-    const onFocus = jest.fn()
-    const onBlur = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
     const params = { 'data-attr': 'value' }
 
     render(
@@ -1673,8 +1677,8 @@ describe('Autocomplete component', () => {
       }
     }
 
-    const onChange = jest.fn()
-    const onType = jest.fn(onTypeHandler)
+    const onChange = vi.fn()
+    const onType = vi.fn(onTypeHandler)
 
     const { rerender } = render(
       <Autocomplete
@@ -1899,8 +1903,8 @@ describe('Autocomplete component', () => {
       }
     }
 
-    const onChange = jest.fn()
-    const onType = jest.fn(onTypeHandler)
+    const onChange = vi.fn()
+    const onType = vi.fn(onTypeHandler)
 
     render(
       <Autocomplete
@@ -1961,7 +1965,7 @@ describe('Autocomplete component', () => {
       { selectedKey: 'id-456', content: '456 value' },
     ]
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <Autocomplete
@@ -2155,7 +2159,7 @@ describe('Autocomplete component', () => {
 
   describe('should have correct values on input blur', () => {
     it('when no selection is made and "keepValue" and "keepValueAndSelection" is false', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete data={mockData} {...mockProps} onChange={onChange} />
@@ -2212,7 +2216,7 @@ describe('Autocomplete component', () => {
     })
 
     it('when a selection is made and "keepValue" and "keepValueAndSelection" is false', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete data={mockData} {...mockProps} onChange={onChange} />
@@ -2271,7 +2275,7 @@ describe('Autocomplete component', () => {
     })
 
     it('if "keepValue" is true and value is empty', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete
@@ -2368,7 +2372,7 @@ describe('Autocomplete component', () => {
     })
 
     it('if "keepValueAndSelection" is true', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete
@@ -2461,7 +2465,7 @@ describe('Autocomplete component', () => {
     })
 
     it('if "keep_election" is true', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete
@@ -2667,8 +2671,8 @@ describe('Autocomplete component', () => {
   })
 
   it('will open drawer-list when openOnFocus is set to true', () => {
-    const onFocus = jest.fn()
-    const onChange = jest.fn()
+    const onFocus = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <Autocomplete
@@ -2697,8 +2701,8 @@ describe('Autocomplete component', () => {
   })
 
   it('will not open drawer-list when openOnFocus is set to true and data is not valid', () => {
-    const onFocus = jest.fn()
-    const onChange = jest.fn()
+    const onFocus = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <Autocomplete
@@ -2719,7 +2723,7 @@ describe('Autocomplete component', () => {
 
   it('will prevent close if false gets returned from onClose event', () => {
     let preventClose = false
-    const onClose = jest.fn(() => !preventClose)
+    const onClose = vi.fn(() => !preventClose)
     render(
       <Autocomplete
         onClose={onClose}
@@ -2829,7 +2833,7 @@ describe('Autocomplete component', () => {
   })
 
   it('and updateData has to replace all data properly in async mode', () => {
-    const onType = jest.fn()
+    const onType = vi.fn()
     const replaceData = ['aaa']
 
     render(
@@ -3129,7 +3133,7 @@ describe('Autocomplete component', () => {
   })
 
   it('supports inputElement properly', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <Autocomplete
         {...mockProps}
@@ -3520,7 +3524,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should emit onClear event on clear button click', async () => {
-    const onClear = jest.fn()
+    const onClear = vi.fn()
 
     render(
       <Autocomplete
@@ -3608,7 +3612,7 @@ describe('Autocomplete component', () => {
       document.querySelector('li.dnb-drawer-list__option--selected')
 
     it('should emit with empty value', async () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
 
       render(
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
@@ -3665,7 +3669,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should not emit on submit button press', () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
 
       render(
         <Autocomplete
@@ -3714,7 +3718,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should include custom input value and not emit on input enter key', async () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
 
       render(
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
@@ -3767,7 +3771,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should not emit on item selection with enter key', async () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
 
       render(
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
@@ -3831,7 +3835,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should not emit on item selection with mouse click', async () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
 
       render(
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
@@ -3896,7 +3900,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should dismiss focus only on blur', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Autocomplete onChange={onChange} data={mockData} {...mockProps} />
@@ -3928,7 +3932,7 @@ describe('Autocomplete component', () => {
 
   describe('onSubmit', () => {
     it('should call onSubmit when pressing Enter with no active item', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
@@ -3949,7 +3953,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should call onSubmit with the current input value', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
@@ -3970,7 +3974,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should not call onSubmit when an item is active via arrow key', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
@@ -3993,7 +3997,7 @@ describe('Autocomplete component', () => {
     })
 
     it('should include event methods in the onSubmit callback', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Autocomplete onSubmit={onSubmit} data={mockData} {...mockProps} />
@@ -4071,7 +4075,7 @@ describe('Autocomplete component', () => {
       expect(screen.getAllByRole('option')).toHaveLength(2)
     })
 
-    await userEvent.click(screen.getAllByRole('option')[0])
+    fireEvent.click(screen.getAllByRole('option')[0])
     await userEvent.click(input)
 
     await waitFor(() => {
@@ -4135,13 +4139,15 @@ describe('Autocomplete component', () => {
     )
 
     // Select the first item by clicking
-    await userEvent.click(screen.getAllByRole('option')[0])
+    fireEvent.click(screen.getAllByRole('option')[0])
 
     // Ensure it is selected and drawer is closed
-    expect(input.value).toBe('The Shawshank Redemption')
-    expect(
-      document.querySelector('.dnb-drawer-list__options')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(input.value).toBe('The Shawshank Redemption')
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
+    })
 
     // Clear input (simulate user erasing the text)
     await userEvent.clear(input)
@@ -4162,7 +4168,9 @@ describe('Autocomplete component', () => {
     // And allow selecting it
     await userEvent.click(screen.getAllByRole('option')[0])
 
-    expect(input.value).toBe('The Godfather')
+    await waitFor(() => {
+      expect(input.value).toBe('The Godfather')
+    })
   })
 
   it('should close dropdown when selecting an option with Enter after arrow key navigation', async () => {
@@ -4322,7 +4330,7 @@ describe('Autocomplete component', () => {
 
   describe('groups', () => {
     beforeEach(() => {
-      global.console.log = jest.fn()
+      global.console.log = vi.fn()
     })
     const dataProp: DrawerListDataArray = [
       { groupIndex: 0, content: 'Item 0.1' },
@@ -4641,7 +4649,7 @@ describe('Autocomplete markup', () => {
 
 describe('Autocomplete onItemMouseEnter', () => {
   it('should call onItemMouseEnter when hovering a dropdown item', () => {
-    const onItemMouseEnter = jest.fn()
+    const onItemMouseEnter = vi.fn()
 
     render(
       <Autocomplete
@@ -4671,7 +4679,7 @@ describe('Autocomplete onItemMouseEnter', () => {
   })
 
   it('should return data object for complex items', () => {
-    const onItemMouseEnter = jest.fn()
+    const onItemMouseEnter = vi.fn()
 
     render(
       <Autocomplete
@@ -4699,7 +4707,7 @@ describe('Autocomplete onItemMouseEnter', () => {
   })
 
   it('should call onItemMouseEnter for each hovered item', () => {
-    const onItemMouseEnter = jest.fn()
+    const onItemMouseEnter = vi.fn()
 
     render(
       <Autocomplete

@@ -75,6 +75,31 @@ describe('prerender-utils', () => {
       const urls = collectUrls(routes)
       expect(urls).toEqual(['/'])
     })
+
+    it('collects nested child routes', () => {
+      const routes: RouteEntry[] = [
+        {
+          path: '/quickguide-designer',
+          children: [
+            { path: '/quickguide-designer/fonts' },
+            {
+              path: '/quickguide-designer/colors',
+              children: [{ path: '/quickguide-designer/colors/tables' }],
+            },
+          ],
+        },
+      ]
+
+      const urls = collectUrls(routes)
+
+      expect(urls).toEqual([
+        '/',
+        '/quickguide-designer/',
+        '/quickguide-designer/fonts/',
+        '/quickguide-designer/colors/',
+        '/quickguide-designer/colors/tables/',
+      ])
+    })
   })
 
   describe('getPageMeta', () => {

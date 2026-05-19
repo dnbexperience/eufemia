@@ -56,7 +56,7 @@ describe('InputModeNumber', () => {
     })
 
     it('should set custom inputMode', () => {
-      const onKeyDown = jest.fn()
+      const onKeyDown = vi.fn()
 
       render(<MockComponent onKeyDown={onKeyDown} inputMode="tel" />)
 
@@ -187,7 +187,7 @@ describe('InputModeNumber', () => {
       )
 
       const inputElement = document.querySelector('input')
-      jest.spyOn(inputElement, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(inputElement, 'offsetWidth', 'get').mockReturnValue(100)
 
       expect(inputElement).toHaveAttribute('type', 'text')
       expect(inputElement).toHaveStyle({ width: '2rem' })
@@ -210,7 +210,7 @@ describe('InputModeNumber', () => {
       )
 
       const inputElement = document.querySelector('input')
-      jest.spyOn(inputElement, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(inputElement, 'offsetWidth', 'get').mockReturnValue(100)
 
       expect(inputElement).toHaveAttribute('type', 'text')
       expect(inputElement).not.toHaveClass(
@@ -232,7 +232,7 @@ describe('InputModeNumber', () => {
     })
 
     it('should call runCorrectCaretPosition when mouseEnter is called', async () => {
-      const runCorrectCaretPosition = jest.fn()
+      const runCorrectCaretPosition = vi.fn()
 
       render(<MockComponent type="text" value="1234" />)
 

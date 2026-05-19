@@ -2,7 +2,7 @@
 import { format } from 'date-fns'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
@@ -11,7 +11,7 @@ describe('DateFormat', () => {
   const originalWarn = console.warn
   beforeAll(() => {
     console.warn = (arg) => {
-      if (arg.includes('jest.useFakeTimers')) {
+      if (arg.includes('vi.useFakeTimers')) {
         return
       }
       originalWarn.call(console, arg)
@@ -44,7 +44,7 @@ describe('DateFormat', () => {
 
     it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
-      jest.useFakeTimers({ now: now.getTime() })
+      vi.useFakeTimers({ now: now.getTime() })
 
       const dateInCurrentYear = '2025-02-04'
 
@@ -73,12 +73,12 @@ describe('DateFormat', () => {
         expect(dateFormat?.textContent).toMatch(/\d{1,2}/)
       }
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('should include year when hideCurrentYear but date is in another year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
-      jest.useFakeTimers({ now: now.getTime() })
+      vi.useFakeTimers({ now: now.getTime() })
 
       const { container } = render(
         <DateFormat
@@ -90,7 +90,7 @@ describe('DateFormat', () => {
       const dateFormat = container.querySelector('.dnb-date-format')
       expect(dateFormat?.textContent).toContain('2024')
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('should always hide year when hideYear is true', () => {
@@ -145,34 +145,37 @@ describe('DateFormat', () => {
 
     it('should show year in tooltip when hideCurrentYear is true and date is in current year', async () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
-      jest.useFakeTimers({ now: now.getTime() })
+      vi.useFakeTimers({ now: now.getTime() })
 
-      render(
-        <DateFormat value="2025-08-01" dateStyle="long" hideCurrentYear />
-      )
+      try {
+        render(
+          <DateFormat
+            value="2025-08-01"
+            dateStyle="long"
+            hideCurrentYear
+          />
+        )
 
-      const timeElem = document.querySelector('.dnb-date-format')
+        const timeElem = document.querySelector('.dnb-date-format')
 
-      // The displayed content should not contain the year (since date is in current year)
-      expect(timeElem?.textContent).not.toContain('2025')
+        expect(timeElem?.textContent).not.toContain('2025')
 
-      // The tooltip should show on hover
-      fireEvent.mouseEnter(timeElem)
+        vi.useRealTimers()
 
-      await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
+        fireEvent.mouseEnter(timeElem)
 
-        const tooltipElem = document.body.querySelector('#' + tooltipId)
+        await waitFor(() => {
+          const tooltipId = timeElem.getAttribute('aria-describedby')
+          expect(tooltipId).toBeTruthy()
 
-        // The tooltip should contain the year
-        expect(tooltipElem).toHaveTextContent('2025')
-        expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
-      })
+          const tooltipElem = document.body.querySelector('#' + tooltipId)
 
-      // Flush all pending timers and React updates before switching back to real timers
-      jest.runOnlyPendingTimers()
-      jest.useRealTimers()
+          expect(tooltipElem).toHaveTextContent('2025')
+          expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+        })
+      } finally {
+        vi.useRealTimers()
+      }
     })
 
     it('should show year in tooltip when hideYear is true with timeStyle', async () => {
@@ -187,11 +190,9 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      // The displayed content should not contain the year
       expect(timeElem?.textContent).not.toContain('2025')
       expect(timeElem?.textContent).toContain('14:30')
 
-      // The tooltip should show on hover
       fireEvent.mouseEnter(timeElem)
 
       await waitFor(() => {
@@ -200,7 +201,6 @@ describe('DateFormat', () => {
 
         const tooltipElem = document.body.querySelector('#' + tooltipId)
 
-        // The tooltip should contain the year and time
         expect(tooltipElem).toHaveTextContent('2025')
         expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
         expect(tooltipElem).toHaveTextContent('14:30')
@@ -215,7 +215,7 @@ describe('DateFormat', () => {
       async (_, extraProps, useFakeNow) => {
         if (useFakeNow) {
           const now = new Date('2025-06-15T12:00:00.000Z')
-          jest.useFakeTimers({ now: now.getTime() })
+          vi.useFakeTimers({ now: now.getTime() })
         }
 
         try {
@@ -229,6 +229,10 @@ describe('DateFormat', () => {
 
           const timeElem = document.querySelector('.dnb-date-format')
           expect(timeElem).toBeTruthy()
+
+          if (useFakeNow) {
+            vi.useRealTimers()
+          }
 
           fireEvent.mouseEnter(timeElem)
 
@@ -244,9 +248,7 @@ describe('DateFormat', () => {
             expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
           })
         } finally {
-          if (useFakeNow) {
-            jest.useRealTimers()
-          }
+          vi.useRealTimers()
         }
       }
     )
@@ -315,7 +317,7 @@ describe('DateFormat', () => {
 
     it('should use locale-aware separator with hideYear', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
-      jest.useFakeTimers({ now: now.getTime() })
+      vi.useFakeTimers({ now: now.getTime() })
 
       const { rerender } = render(
         <DateFormat
@@ -344,7 +346,7 @@ describe('DateFormat', () => {
       )
       expect(dateFormat).toHaveTextContent('1 August at 14:30')
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('should allow empty string as custom dateTimeSeparator', () => {
@@ -427,7 +429,7 @@ describe('DateFormat', () => {
     })
 
     it('should return an invalid date message if the date is invalid', () => {
-      global.console.log = jest.fn()
+      global.console.log = vi.fn()
 
       const { rerender } = render(<DateFormat>2025-13-01</DateFormat>)
 
@@ -708,12 +710,12 @@ describe('DateFormat', () => {
   describe('relative time', () => {
     beforeEach(() => {
       // Mock setTimeout and clearTimeout to track calls
-      jest.spyOn(global, 'setTimeout')
-      jest.spyOn(global, 'clearTimeout')
+      vi.spyOn(global, 'setTimeout')
+      vi.spyOn(global, 'clearTimeout')
     })
 
     afterEach(() => {
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
     })
 
     it('should render relative time when relativeTime prop is true', () => {
@@ -770,7 +772,7 @@ describe('DateFormat', () => {
     it('should render a tooltip with absolute date and show on hover', async () => {
       // Restore setTimeout spy to prevent @testing-library/dom waitFor
       // from trying to advance fake timers (vitest detects spy as fake timer)
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
 
       render(<DateFormat value="2025-08-01" relativeTime />)
 
@@ -812,7 +814,7 @@ describe('DateFormat', () => {
     it('tooltip content should match the full absolute formatted date', async () => {
       // Restore setTimeout spy to prevent @testing-library/dom waitFor
       // from trying to advance fake timers (vitest detects spy as fake timer)
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
 
       render(
         <DateFormat
@@ -1068,10 +1070,12 @@ describe('DateFormat', () => {
 
       // Get initial timer calls
       const initialTimerCalls = (
-        setTimeout as jest.MockedFunction<typeof setTimeout>
+        setTimeout as import('vitest').MockedFunction<typeof setTimeout>
       ).mock.calls.length
       const initialClearCalls = (
-        clearTimeout as jest.MockedFunction<typeof clearTimeout>
+        clearTimeout as import('vitest').MockedFunction<
+          typeof clearTimeout
+        >
       ).mock.calls.length
 
       // Change the date
@@ -1091,10 +1095,12 @@ describe('DateFormat', () => {
 
       // Get initial timer calls
       const initialTimerCalls = (
-        setTimeout as jest.MockedFunction<typeof setTimeout>
+        setTimeout as import('vitest').MockedFunction<typeof setTimeout>
       ).mock.calls.length
       const initialClearCalls = (
-        clearTimeout as jest.MockedFunction<typeof clearTimeout>
+        clearTimeout as import('vitest').MockedFunction<
+          typeof clearTimeout
+        >
       ).mock.calls.length
 
       // Change the locale
@@ -1110,7 +1116,7 @@ describe('DateFormat', () => {
       render(<DateFormat value={pastDate} relativeTime={false} />)
 
       const timerCalls = (
-        setTimeout as jest.MockedFunction<typeof setTimeout>
+        setTimeout as import('vitest').MockedFunction<typeof setTimeout>
       ).mock.calls
 
       const hasRelativeTimeTimer = timerCalls.some(
@@ -1123,7 +1129,7 @@ describe('DateFormat', () => {
       render(<DateFormat value="invalid-date" relativeTime />)
 
       const timerCalls = (
-        setTimeout as jest.MockedFunction<typeof setTimeout>
+        setTimeout as import('vitest').MockedFunction<typeof setTimeout>
       ).mock.calls
 
       const hasRelativeTimeTimer = timerCalls.some(
@@ -1191,7 +1197,7 @@ describe('DateFormat', () => {
       it('should call relativeTimeReference function for each update calculation', () => {
         const referenceDate = new Date('2025-01-15T14:30:00Z')
         const pastDate = new Date('2025-01-15T12:30:00Z')
-        const relativeTimeReferenceFn = jest.fn(() => referenceDate)
+        const relativeTimeReferenceFn = vi.fn(() => referenceDate)
 
         render(
           <DateFormat

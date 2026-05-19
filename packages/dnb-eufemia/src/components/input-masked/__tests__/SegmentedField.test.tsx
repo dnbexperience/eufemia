@@ -1,5 +1,5 @@
 import { act } from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SegmentedField, {
@@ -881,7 +881,7 @@ describe('SegmentedField', () => {
     })
 
     it('should call onFocus when the group receives focus', async () => {
-      const onFocus = jest.fn()
+      const onFocus = vi.fn()
       renderSegmentedField({
         onFocus,
         values: { first: '12', second: '34' },
@@ -899,7 +899,7 @@ describe('SegmentedField', () => {
     })
 
     it('should not call onFocus again when moving between sections', async () => {
-      const onFocus = jest.fn()
+      const onFocus = vi.fn()
       renderSegmentedField({ onFocus })
 
       const first = getFirst()
@@ -913,11 +913,11 @@ describe('SegmentedField', () => {
     })
 
     it('should call onBlur when leaving the group', async () => {
-      window.requestAnimationFrame = jest.fn((callback) => {
+      window.requestAnimationFrame = vi.fn((callback) => {
         return setTimeout(callback, 0) as unknown as number
       })
 
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
       renderSegmentedField({
         onBlur,
         values: { first: '12', second: '34' },
@@ -938,11 +938,11 @@ describe('SegmentedField', () => {
     })
 
     it('should not call onBlur when moving between sections', async () => {
-      window.requestAnimationFrame = jest.fn((callback) => {
+      window.requestAnimationFrame = vi.fn((callback) => {
         return setTimeout(callback, 0) as unknown as number
       })
 
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
       renderSegmentedField({ onBlur })
 
       const first = getFirst()
@@ -959,7 +959,7 @@ describe('SegmentedField', () => {
 
   describe('onChange', () => {
     it('should call onChange when value changes', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       renderSegmentedField({ onChange })
 
       const first = getFirst()
@@ -974,7 +974,7 @@ describe('SegmentedField', () => {
     })
 
     it('should provide all values in onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       renderSegmentedField({
         onChange,
         values: { first: '12', second: '' },
@@ -1154,7 +1154,7 @@ describe('SegmentedField', () => {
         ctrlKey: true,
       })
 
-      const setData = jest.fn()
+      const setData = vi.fn()
       fireEvent.copy(second, {
         clipboardData: { setData },
       })

@@ -6,7 +6,7 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
 import { Provider } from '../../../shared'
@@ -40,7 +40,7 @@ describe('Switch component', () => {
   })
 
   it('has "onChange" event which will trigger on a input change', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
 
     render(<Switch onChange={myEvent} checked={false} />)
 

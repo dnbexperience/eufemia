@@ -1,6 +1,6 @@
 import { act, useEffect, useState } from 'react'
 import { isCI } from 'repo-utils'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
@@ -14,11 +14,7 @@ import type { ComponentMarkers } from '../../../../../shared/helpers/withCompone
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
 
-if (isCI) {
-  jest.retryTimes(5) // because of a flaky async tests
-}
-
-describe('Field.PhoneNumber', () => {
+describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
   it('should default to 47', () => {
     render(<Field.PhoneNumber />)
 
@@ -383,8 +379,8 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should return correct value onFocus and onBlur event', async () => {
-    const onFocus = jest.fn()
-    const onBlur = jest.fn()
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
     render(<Field.PhoneNumber onFocus={onFocus} onBlur={onBlur} />)
 
     const phoneElement = document.querySelector(
@@ -436,7 +432,7 @@ describe('Field.PhoneNumber', () => {
 
   // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
   it('should truncate the phone number of more than 8 digits when changing country code to Norway', async () => {
-    const onNumberChange = jest.fn()
+    const onNumberChange = vi.fn()
 
     render(
       <Field.PhoneNumber
@@ -496,9 +492,9 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should update internal state from outside', () => {
-    const onChange = jest.fn()
-    const onFocus = jest.fn()
-    const onCountryCodeChange = jest.fn()
+    const onChange = vi.fn()
+    const onFocus = vi.fn()
+    const onCountryCodeChange = vi.fn()
 
     const MockPhoneNumber = () => {
       const [state, update] = useState('+471')
@@ -627,7 +623,7 @@ describe('Field.PhoneNumber', () => {
 
   describe('onCountryCodeChange', () => {
     it('should return correct value', async () => {
-      const onCountryCodeChange = jest.fn()
+      const onCountryCodeChange = vi.fn()
 
       render(
         <Field.PhoneNumber
@@ -655,7 +651,7 @@ describe('Field.PhoneNumber', () => {
 
   describe('onNumberChange', () => {
     it('should return correct value', async () => {
-      const onNumberChange = jest.fn()
+      const onNumberChange = vi.fn()
 
       render(
         <Field.PhoneNumber onNumberChange={onNumberChange} noAnimation />
@@ -676,7 +672,7 @@ describe('Field.PhoneNumber', () => {
 
   describe('onChange', () => {
     it('should return correct value onChange event', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
@@ -748,7 +744,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should return correct value onChange event in data context', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -776,7 +772,7 @@ describe('Field.PhoneNumber', () => {
         countryCodePrefix: string
       }
 
-      const transformIn = jest.fn((external: unknown) => {
+      const transformIn = vi.fn((external: unknown) => {
         const {
           countryCode: iso,
           phoneNumber,
@@ -912,7 +908,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should support transformOut', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       type PhoneNumberDataShape = {
         countryCode: string
@@ -920,7 +916,7 @@ describe('Field.PhoneNumber', () => {
         countryCodePrefix: string
       }
 
-      const transformOut = jest.fn((internal, additionalArgs = {}) => {
+      const transformOut = vi.fn((internal, additionalArgs = {}) => {
         const {
           countryCode: countryCodePrefix,
           phoneNumber,
@@ -934,7 +930,7 @@ describe('Field.PhoneNumber', () => {
         } satisfies PhoneNumberDataShape
       })
 
-      const transformIn = jest.fn((external: unknown) => {
+      const transformIn = vi.fn((external: unknown) => {
         const {
           countryCode: iso,
           phoneNumber,
@@ -1015,7 +1011,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should return phoneNumber in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
@@ -1037,7 +1033,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should return countryCode in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
@@ -1080,7 +1076,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should return iso in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
@@ -1124,8 +1120,8 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should handle events correctly with initial value', async () => {
-    const onChange = jest.fn()
-    const onCountryCodeChange = jest.fn()
+    const onChange = vi.fn()
+    const onCountryCodeChange = vi.fn()
 
     render(
       <Field.PhoneNumber
@@ -1193,9 +1189,9 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should handle events correctly', async () => {
-    const formHandlerOnChange = jest.fn()
-    const onChange = jest.fn()
-    const onCountryCodeChange = jest.fn()
+    const formHandlerOnChange = vi.fn()
+    const onChange = vi.fn()
+    const onCountryCodeChange = vi.fn()
 
     render(
       <Form.Handler onChange={formHandlerOnChange}>
@@ -1305,7 +1301,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should support country code autofill', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.PhoneNumber onChange={onChange} />)
 
@@ -1348,7 +1344,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should support autofill with spaceless E.164 country code', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.PhoneNumber onChange={onChange} />)
 
@@ -1553,7 +1549,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should handle "onChangeValidator" property with country code', async () => {
-    const onChangeValidator = jest.fn(() => {
+    const onChangeValidator = vi.fn(() => {
       return new Error('some error')
     })
 
@@ -1724,7 +1720,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should omit country code implementation with omitCountryCodeField', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <Field.PhoneNumber omitCountryCodeField onChange={onChange} />
@@ -2204,7 +2200,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should emit E.164 value without space on change', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.PhoneNumber value="+4712345678" onChange={onChange} />)
 
@@ -2224,7 +2220,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should round-trip a 00-prefixed value correctly', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.PhoneNumber value="004712345678" onChange={onChange} />
@@ -2266,7 +2262,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should provide correct iso in additionalArgs for dashed CDC codes', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.PhoneNumber value="+16841234567" onChange={onChange} />
@@ -2295,7 +2291,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     it('should provide correct iso in additionalArgs for spaceless dashed CDC on initial render', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.PhoneNumber value="+16841234567" onChange={onChange} />
@@ -2317,12 +2313,12 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should not leak dashed country code digits into the number field when selecting a country like American Samoa', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.PhoneNumber
         onChange={onChange}
-        onCountryCodeChange={jest.fn()}
+        onCountryCodeChange={vi.fn()}
         noAnimation
       />
     )
@@ -2368,7 +2364,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should not leak dashed country code digits into the number field when switching from another country', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.PhoneNumber value="+411234" onChange={onChange} noAnimation />
@@ -2407,7 +2403,7 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should not change country code on blur when value has non-default country code', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler onChange={onChange}>

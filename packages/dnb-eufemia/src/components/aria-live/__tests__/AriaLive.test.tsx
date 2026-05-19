@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import AriaLive from '../AriaLive'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('AriaLive', () => {

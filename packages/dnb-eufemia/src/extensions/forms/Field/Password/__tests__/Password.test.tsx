@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { PasswordProps } from '../Password'
@@ -181,8 +181,8 @@ describe('Password component', () => {
   })
 
   it('events gets triggered on interaction', async () => {
-    const onShowPassword = jest.fn()
-    const onHidePassword = jest.fn()
+    const onShowPassword = vi.fn()
+    const onHidePassword = vi.fn()
 
     render(
       <Field.Password

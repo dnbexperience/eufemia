@@ -31,7 +31,7 @@ describe('useReachRouter', () => {
     const realReplaceState = window.history.replaceState.bind(
       window.history
     )
-    window.history.pushState = jest.fn((data, unused, url) => {
+    window.history.pushState = vi.fn((data, unused, url) => {
       realReplaceState(data, unused, url)
     })
   }
@@ -40,10 +40,10 @@ describe('useReachRouter', () => {
       current: null,
     }
 
-    const navigate = jest.fn((href) => {
+    const navigate = vi.fn((href) => {
       window.history.replaceState({}, '', href)
     })
-    const useLocation = jest.fn(() => {
+    const useLocation = vi.fn(() => {
       const [, fU] = useReducer(() => ({}), {})
       forceUpdateRef.current = useCallback(() => fU(), [])
 
@@ -210,8 +210,8 @@ describe('useReachRouter', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    const navigate = jest.fn()
-    const useLocation = jest.fn(() => {
+    const navigate = vi.fn()
+    const useLocation = vi.fn(() => {
       return {
         href: 'invalid-url',
       }

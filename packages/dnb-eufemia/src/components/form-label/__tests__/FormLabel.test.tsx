@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
 import Input from '../../input/Input'

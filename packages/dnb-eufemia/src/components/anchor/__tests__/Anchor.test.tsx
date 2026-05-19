@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import type { AnchorHTMLAttributes, Ref, RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { AnchorAllProps } from '../Anchor'
 import Anchor from '../Anchor'
@@ -722,7 +722,7 @@ describe('Anchor element', () => {
     })
 
     it('should disable anchor interactions', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(
         <Anchor href="/url" disabled onClick={onClick}>

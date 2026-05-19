@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import { Button, Anchor } from '../dnb-ui-components'
 
 describe('ESM components library package', () => {

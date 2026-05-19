@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldSelectCurrencyProps } from '../SelectCurrency'
@@ -34,9 +34,9 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should return correct value onChange event', () => {
-    const onChange = jest.fn()
-    const onBlur = jest.fn()
-    const onFocus = jest.fn()
+    const onChange = vi.fn()
+    const onBlur = vi.fn()
+    const onFocus = vi.fn()
 
     render(
       <Field.SelectCurrency
@@ -108,7 +108,7 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should select matching currency on type change to support autofill', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.SelectCurrency onChange={onChange} />)
 
@@ -553,21 +553,21 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should support "transformIn" and "transformOut"', async () => {
-    const transformOut = jest.fn((value, currency) => {
+    const transformOut = vi.fn((value, currency) => {
       if (value) {
         return `${currency.name} (${value})`
       }
 
       return undefined
     })
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] || external
     })
-    const valueTransformIn = jest.fn((internal) => {
+    const valueTransformIn = vi.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]
     })
 
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -698,21 +698,21 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should support "transformIn" and "transformOut" when value is given by the data context', async () => {
-    const transformOut = jest.fn((value, currency) => {
+    const transformOut = vi.fn((value, currency) => {
       if (value) {
         return `${currency.name} (${value})`
       }
 
       return undefined
     })
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] as CurrencyISO
     })
-    const valueTransformIn = jest.fn((internal) => {
+    const valueTransformIn = vi.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]
     })
 
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -938,7 +938,7 @@ describe('Field.SelectCurrency', () => {
   })
 
   it('should not change value on blur when initial value is SEK', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler onChange={onChange}>

@@ -3,7 +3,7 @@ import type { InfoCardAllProps } from '../InfoCard'
 import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import { Li, Ul } from '../../../elements'
 
@@ -145,7 +145,7 @@ describe('InfoCard', () => {
   })
 
   it('renders the accept button when onAccept is provided', () => {
-    const onAccept = jest.fn()
+    const onAccept = vi.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
     const buttonElement = document.querySelector(
@@ -189,7 +189,7 @@ describe('InfoCard', () => {
   })
 
   it('renders the close button when onClose is provided', () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
     const buttonElement = document.querySelector(

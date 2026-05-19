@@ -33,7 +33,10 @@ import Field, {
 } from '../../Forms'
 import type { SectionContextState } from '../../Form/Section/SectionContext'
 import SectionContext from '../../Form/Section/SectionContext'
-import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
+import {
+  spyOnEufemiaWarn,
+  wait,
+} from '../../../../core/test-utils/testSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
 import nbNO from '../../constants/locales/nb-NO'
@@ -47,7 +50,7 @@ function getError(error: unknown) {
 
 describe('useFieldProps', () => {
   it('should call external onChange based change callbacks', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const { result } = renderHook(() => useFieldProps({ onChange }))
 
     const { handleChange } = result.current
@@ -96,7 +99,7 @@ describe('useFieldProps', () => {
 
   describe('onStatusChange', () => {
     it('should call onStatusChange when statuses change', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const initialError = new Error('initial')
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -136,7 +139,7 @@ describe('useFieldProps', () => {
     })
 
     it('calls onStatusChange when validateInitially reveals validation errors', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
 
       renderHook(
         () =>
@@ -161,7 +164,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when info is set', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
         {
@@ -198,7 +201,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when warning is set', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
 
       renderHook(
         () =>
@@ -220,7 +223,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when error prop is set', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const errorValue = new Error('some error')
 
       renderHook(
@@ -243,7 +246,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when going from error to no error', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const errorValue = new Error('some error')
       const { rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -281,7 +284,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when info, warning and error are set together', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const errorValue = new Error('total problem')
 
       renderHook(
@@ -306,7 +309,7 @@ describe('useFieldProps', () => {
     })
 
     it('should not call onStatusChange when validateInitially is true but no status is visible', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
 
       renderHook(
         () =>
@@ -323,7 +326,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
 
       const { rerender } = renderHook(
         (props) =>
@@ -377,7 +380,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-      const onStatusChange = jest.fn()
+      const onStatusChange = vi.fn()
       const error1 = new Error('Error 1')
       const error2 = new Error('Error 2')
 
@@ -487,7 +490,7 @@ describe('useFieldProps', () => {
     })
 
     it('should automatically use onBlurValidator as onChangeValidator when validateContinuously is enabled', async () => {
-      const onBlurValidator = jest.fn((value: string) => {
+      const onBlurValidator = vi.fn((value: string) => {
         if (value.length < 3) {
           return new Error('Value must be at least 3 characters')
         }
@@ -537,11 +540,11 @@ describe('useFieldProps', () => {
     })
 
     it('should not use onBlurValidator as onChangeValidator when explicit onChangeValidator is provided', async () => {
-      const onBlurValidator = jest.fn((value: string) => {
+      const onBlurValidator = vi.fn((value: string) => {
         return new Error('onBlurValidator error')
       })
 
-      const onChangeValidator = jest.fn((value: string) => {
+      const onChangeValidator = vi.fn((value: string) => {
         if (value.length < 3) {
           return new Error('onChangeValidator error')
         }
@@ -579,7 +582,7 @@ describe('useFieldProps', () => {
     })
 
     it('should not use onBlurValidator as onChangeValidator when validateContinuously is false', async () => {
-      const onBlurValidator = jest.fn((value: string) => {
+      const onBlurValidator = vi.fn((value: string) => {
         return new Error('onBlurValidator error')
       })
 
@@ -970,7 +973,7 @@ describe('useFieldProps', () => {
     })
 
     it('should bypass schema type error when empty string or null is given', async () => {
-      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'number',
@@ -1022,7 +1025,7 @@ describe('useFieldProps', () => {
     })
 
     it('should show schema type error initially', async () => {
-      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'number',
@@ -1517,13 +1520,13 @@ describe('useFieldProps', () => {
     })
 
     it('should validate "validateRequired"', async () => {
-      const validateRequired = jest.fn((v, { emptyValue, required }) => {
+      const validateRequired = vi.fn((v, { emptyValue, required }) => {
         return required && emptyValue === 'empty' && v > 1
           ? new FormError('Field.errorRequired')
           : undefined
       })
-      const onChange = jest.fn()
-      const onBlur = jest.fn()
+      const onChange = vi.fn()
+      const onBlur = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -1628,7 +1631,7 @@ describe('useFieldProps', () => {
 
   describe('onBlur', () => {
     it('should provide "additionalArgs" to onBlur', () => {
-      const onBlur: OnChange<unknown> = jest.fn()
+      const onBlur: OnChange<unknown> = vi.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -1659,7 +1662,7 @@ describe('useFieldProps', () => {
 
   describe('onFocus', () => {
     it('should provide "additionalArgs" to onFocus', () => {
-      const onFocus: OnChange<unknown> = jest.fn()
+      const onFocus: OnChange<unknown> = vi.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -1690,7 +1693,7 @@ describe('useFieldProps', () => {
 
   describe('with sync onChange', () => {
     it('should provide "additionalArgs" to onChange', () => {
-      const onChange: OnChange<unknown> = jest.fn()
+      const onChange: OnChange<unknown> = vi.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -2100,10 +2103,10 @@ describe('useFieldProps', () => {
 
     it('should skip onChange call when "onBlurValidator" returns error', async () => {
       const events = []
-      const onChange: OnChange<unknown> = jest.fn(async () => {
+      const onChange: OnChange<unknown> = vi.fn(async () => {
         events.push('onChange')
       })
-      const onBlurValidator = jest.fn(async () => {
+      const onBlurValidator = vi.fn(async () => {
         events.push('onBlurValidator')
 
         return new Error('Error message')
@@ -2675,7 +2678,7 @@ describe('useFieldProps', () => {
     })
 
     it('should provide "additionalArgs" to onChange', async () => {
-      const onChange: OnChange<unknown> = jest.fn(async () => {
+      const onChange: OnChange<unknown> = vi.fn(async () => {
         return null
       })
 
@@ -2938,9 +2941,9 @@ describe('useFieldProps', () => {
 
   describe('value manipulation with transformers', () => {
     it('should call "transformIn" and "transformOut"', () => {
-      const transformIn = jest.fn((v) => v - 1)
-      const transformOut = jest.fn((v) => v + 1)
-      const onChange = jest.fn()
+      const transformIn = vi.fn((v) => v - 1)
+      const transformOut = vi.fn((v) => v + 1)
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -2979,7 +2982,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call "transformOut" initially when path is given', () => {
-      const transformOut = jest.fn((v) => v + 1)
+      const transformOut = vi.fn((v) => v + 1)
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -2999,7 +3002,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call "transformOut" initially when "value" is given', () => {
-      const transformOut = jest.fn((v) => v + 1)
+      const transformOut = vi.fn((v) => v + 1)
       const value = 1
 
       const { result } = renderHook(
@@ -3015,8 +3018,8 @@ describe('useFieldProps', () => {
     })
 
     it('should call "transformOut" initially when "defaultValue" is given', () => {
-      const transformOut = jest.fn((v) => v + 1)
-      const transformIn = jest.fn((v) => v - 1)
+      const transformOut = vi.fn((v) => v + 1)
+      const transformIn = vi.fn((v) => v - 1)
       const defaultValue = 2
 
       const { result } = renderHook(
@@ -3039,11 +3042,11 @@ describe('useFieldProps', () => {
     })
 
     it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {
-      const transformIn = jest.fn((v) => v - 1)
-      const transformOut = jest.fn((v) => v + 1)
-      const toInput = jest.fn((v) => v - 1)
-      const fromInput = jest.fn((v) => v + 1)
-      const onChange = jest.fn()
+      const transformIn = vi.fn((v) => v - 1)
+      const transformOut = vi.fn((v) => v + 1)
+      const toInput = vi.fn((v) => v - 1)
+      const fromInput = vi.fn((v) => v + 1)
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3084,9 +3087,9 @@ describe('useFieldProps', () => {
     })
 
     it('should call "fromInput" and "toInput"', () => {
-      const fromInput = jest.fn((v) => v + 1)
-      const toInput = jest.fn((v) => v - 1)
-      const onChange = jest.fn()
+      const fromInput = vi.fn((v) => v + 1)
+      const toInput = vi.fn((v) => v - 1)
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3126,10 +3129,10 @@ describe('useFieldProps', () => {
     })
 
     it('should call "toEvent"', () => {
-      const toEvent = jest.fn((v) => v + 1)
-      const onChange = jest.fn()
-      const onFocus = jest.fn()
-      const onBlur = jest.fn()
+      const toEvent = vi.fn((v) => v + 1)
+      const onChange = vi.fn()
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3179,10 +3182,10 @@ describe('useFieldProps', () => {
     })
 
     it('should call "fromExternal"', () => {
-      const fromExternal = jest.fn((v) => v + 1)
-      const onChange = jest.fn()
-      const onFocus = jest.fn()
-      const onBlur = jest.fn()
+      const fromExternal = vi.fn((v) => v + 1)
+      const onChange = vi.fn()
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3231,7 +3234,7 @@ describe('useFieldProps', () => {
     })
 
     it('should call "transformValue"', () => {
-      const transformValue = jest.fn((v) => v + 1)
+      const transformValue = vi.fn((v) => v + 1)
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3264,11 +3267,11 @@ describe('useFieldProps', () => {
     })
 
     it('"provideAdditionalArgs" should provide additional arguments to "onFocus", "onBlur" and "onChange" and "transformOut"', () => {
-      const onFocus = jest.fn()
-      const onBlur = jest.fn()
-      const onChange = jest.fn()
-      const transformOut = jest.fn((value) => value + 1)
-      const provideAdditionalArgs = jest.fn((value) => {
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
+      const onChange = vi.fn()
+      const transformOut = vi.fn((value) => value + 1)
+      const provideAdditionalArgs = vi.fn((value) => {
         return {
           value,
           foo: 'bar',
@@ -3382,9 +3385,9 @@ describe('useFieldProps', () => {
 
   describe('updating internal value', () => {
     it('should update the internal value, but not call any event handler', () => {
-      const onFocus = jest.fn()
-      const onBlur = jest.fn()
-      const onChange = jest.fn()
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3421,9 +3424,9 @@ describe('useFieldProps', () => {
     })
 
     it('should not call fromInput', () => {
-      const fromInput = jest.fn((v) => v)
-      const toInput = jest.fn((v) => v)
-      const onChange = jest.fn()
+      const fromInput = vi.fn((v) => v)
+      const toInput = vi.fn((v) => v)
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3473,9 +3476,9 @@ describe('useFieldProps', () => {
     })
 
     it('should update the internal value and run error validation', async () => {
-      const onFocus = jest.fn()
-      const onBlur = jest.fn()
-      const onChange = jest.fn()
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
+      const onChange = vi.fn()
 
       const { result } = renderHook(() =>
         useFieldProps({
@@ -3639,8 +3642,8 @@ describe('useFieldProps', () => {
       emptyValue: 'custom empty value',
     }
 
-    const setFieldInternalsDataContext = jest.fn()
-    const setMountedFieldState = jest.fn()
+    const setFieldInternalsDataContext = vi.fn()
+    const setMountedFieldState = vi.fn()
 
     const dataContextValue = {
       setFieldInternals: setFieldInternalsDataContext,
@@ -3681,7 +3684,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call async context onChange when no error is present', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = vi.fn(async () => null)
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3704,7 +3707,7 @@ describe('useFieldProps', () => {
   })
 
   it('should not call async context onChange when error is present', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = vi.fn(async () => null)
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3723,7 +3726,7 @@ describe('useFieldProps', () => {
   })
 
   it('should set emptyValue when handleChange gets undefined', async () => {
-    const onSubmit = jest.fn(() => null)
+    const onSubmit = vi.fn(() => null)
 
     const first = {}
     const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -3771,7 +3774,7 @@ describe('useFieldProps', () => {
   })
 
   it('should not call onChange when value is not changed', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = vi.fn(async () => null)
 
     const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
@@ -3789,7 +3792,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call onChange regardless of value is changed or not when executeOnChangeRegardlessOfUnchangedValue is true', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = vi.fn(async () => null)
 
     const { result } = renderHook(
       (props) =>
@@ -3817,7 +3820,7 @@ describe('useFieldProps', () => {
   })
 
   it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
-    const onChange = jest.fn(async () => null)
+    const onChange = vi.fn(async () => null)
 
     const { result } = renderHook(
       (props) =>
@@ -4150,11 +4153,13 @@ describe('useFieldProps', () => {
 
       it('should not show error when onChangeValidator has no error, but schema has', async () => {
         const original = window.requestAnimationFrame
-        window.requestAnimationFrame = jest.fn((callback) => {
-          return setTimeout(callback, 0)
-        })
+        window.requestAnimationFrame = vi.fn(
+          (callback: FrameRequestCallback) => {
+            return window.setTimeout(() => callback(0), 0)
+          }
+        ) as typeof window.requestAnimationFrame
 
-        const onChangeValidator = jest.fn(async (value) => {
+        const onChangeValidator = vi.fn(async (value) => {
           if (value === '1234') {
             return new Error('onChangeValidator error')
           }
@@ -4196,7 +4201,7 @@ describe('useFieldProps', () => {
 
     describe('validateInitially', () => {
       it('should show error message initially', async () => {
-        const onChangeValidator = jest.fn(() => {
+        const onChangeValidator = vi.fn(() => {
           return new Error('My Error')
         })
 
@@ -4216,7 +4221,7 @@ describe('useFieldProps', () => {
       })
 
       it('should show error message initially when onChangeValidator is async', async () => {
-        const onChangeValidator = jest.fn(async () => {
+        const onChangeValidator = vi.fn(async () => {
           return new Error('My Error')
         })
 
@@ -4250,7 +4255,7 @@ describe('useFieldProps', () => {
         }
 
       it('should show onChangeValidator error on form submit', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4284,7 +4289,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4323,7 +4328,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4366,7 +4371,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden after validation is successful and another input change', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4408,7 +4413,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4432,7 +4437,7 @@ describe('useFieldProps', () => {
         })
 
         it('should show error message continuously when using onChangeValidator', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4472,7 +4477,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4496,7 +4501,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4539,7 +4544,7 @@ describe('useFieldProps', () => {
 
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4558,7 +4563,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4616,7 +4621,7 @@ describe('useFieldProps', () => {
         }
 
       it('should show onChangeValidator error on form submit', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler
@@ -4660,7 +4665,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler
@@ -4704,7 +4709,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler
@@ -4752,7 +4757,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden after validation is successful and another input change', async () => {
-        const onChangeValidator = jest.fn(onChangeValidatorFn)
+        const onChangeValidator = vi.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler
@@ -4799,7 +4804,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -4825,7 +4830,7 @@ describe('useFieldProps', () => {
         })
 
         it('should show error message continuously when using onChangeValidator', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -4867,7 +4872,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myList: [{}] }}>
@@ -4893,7 +4898,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myList: [{}] }}>
@@ -4938,7 +4943,7 @@ describe('useFieldProps', () => {
 
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myList: [{}] }}>
@@ -4959,7 +4964,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(onChangeValidatorFn)
+          const onChangeValidator = vi.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myList: [{}] }}>
@@ -5008,7 +5013,7 @@ describe('useFieldProps', () => {
 
     describe('onChangeValidators given as an array', () => {
       it('should call all onChangeValidators returned as an array', async () => {
-        const fooValidator = jest.fn((value) => {
+        const fooValidator = vi.fn((value) => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
@@ -5016,7 +5021,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const barValidator = jest.fn((value) => {
+        const barValidator = vi.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
@@ -5024,7 +5029,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const myOnChangeValidator = jest.fn(() => {
+        const myOnChangeValidator = vi.fn(() => {
           return [fooValidator, barValidator]
         })
 
@@ -5060,7 +5065,7 @@ describe('useFieldProps', () => {
       })
 
       it('should call all validators returned as an array (mixed async and sync)', async () => {
-        const fooValidator = jest.fn(async (value) => {
+        const fooValidator = vi.fn(async (value) => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
@@ -5068,7 +5073,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const barValidator = jest.fn((value) => {
+        const barValidator = vi.fn((value) => {
           if (value.includes('bar')) {
             return new Error('bar')
           }
@@ -5077,7 +5082,7 @@ describe('useFieldProps', () => {
         })
 
         // The main validator needs to be async, because it contains async validators in the array
-        const myValidator = jest.fn(async () => {
+        const myValidator = vi.fn(async () => {
           return [fooValidator, barValidator]
         })
 
@@ -5190,7 +5195,7 @@ describe('useFieldProps', () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
+          barValidator = vi.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
@@ -5198,7 +5203,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          bazValidator = jest.fn((value) => {
+          bazValidator = vi.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
@@ -5206,7 +5211,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          internalValidators = jest.fn((value) => {
+          internalValidators = vi.fn((value) => {
             return barValidator(value) || bazValidator(value)
           })
 
@@ -5219,9 +5224,9 @@ describe('useFieldProps', () => {
           )
         }
 
-        const publicValidator = jest.fn(
+        const publicValidator = vi.fn(
           (value, { validators: { barValidator, bazValidator } }) => {
-            fooValidator = jest.fn(() => {
+            fooValidator = vi.fn(() => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
@@ -5292,7 +5297,7 @@ describe('useFieldProps', () => {
       })
 
       it('should export and call same validator without "Maximum call stack size exceeded"', async () => {
-        const onBlurValidator = jest.fn((value) => {
+        const onBlurValidator = vi.fn((value) => {
           if (value === '1234') {
             return Error('Error message')
           }
@@ -5327,7 +5332,7 @@ describe('useFieldProps', () => {
       })
 
       it('should show error on every value change', async () => {
-        const exportedValidator = jest.fn((value) => {
+        const exportedValidator = vi.fn((value) => {
           if (value === '1234') {
             return Error('Error message')
           }
@@ -5335,7 +5340,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const myValidator = jest.fn((value, { validators }) => {
+        const myValidator = vi.fn((value, { validators }) => {
           const { exportedValidator } = validators
 
           return [exportedValidator]
@@ -5384,7 +5389,7 @@ describe('useFieldProps', () => {
       })
 
       it('should support mixed sync and async validators', async () => {
-        const exportedValidator = jest.fn(async (value) => {
+        const exportedValidator = vi.fn(async (value) => {
           if (value === '1234') {
             return Error('Error message')
           }
@@ -5392,7 +5397,7 @@ describe('useFieldProps', () => {
           return undefined
         })
 
-        const myValidator = jest.fn((value, { validators }) => {
+        const myValidator = vi.fn((value, { validators }) => {
           const { exportedValidator } = validators
 
           return [exportedValidator]
@@ -5444,7 +5449,7 @@ describe('useFieldProps', () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
+          barValidator = vi.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
@@ -5452,7 +5457,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          bazValidator = jest.fn((value) => {
+          bazValidator = vi.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
@@ -5460,7 +5465,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          internalValidators = jest.fn((value) => {
+          internalValidators = vi.fn((value) => {
             return barValidator(value) || bazValidator(value)
           })
 
@@ -5473,9 +5478,9 @@ describe('useFieldProps', () => {
           )
         }
 
-        const publicValidator = jest.fn(
+        const publicValidator = vi.fn(
           (value, { validators: { bazValidator } }) => {
-            fooValidator = jest.fn(() => {
+            fooValidator = vi.fn(() => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
@@ -5547,11 +5552,11 @@ describe('useFieldProps', () => {
       })
 
       it('should show error when validateInitially is set to true', async () => {
-        const exportedValidator = jest.fn(() => {
+        const exportedValidator = vi.fn(() => {
           return Error('Error message')
         })
 
-        const myValidator = jest.fn((value, { validators }) => {
+        const myValidator = vi.fn((value, { validators }) => {
           const { exportedValidator } = validators
           return [exportedValidator]
         })
@@ -5577,11 +5582,11 @@ describe('useFieldProps', () => {
       })
 
       it('should not run exported internal validators when a onChangeValidator is given', async () => {
-        const exportedValidator = jest.fn(() => {
+        const exportedValidator = vi.fn(() => {
           return undefined
         })
 
-        const myValidator = jest.fn(() => {
+        const myValidator = vi.fn(() => {
           return undefined
         })
 
@@ -5609,7 +5614,7 @@ describe('useFieldProps', () => {
         let internalValidators, barValidator, bazValidator
 
         const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
+          barValidator = vi.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
@@ -5617,7 +5622,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          bazValidator = jest.fn((value) => {
+          bazValidator = vi.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
@@ -5625,7 +5630,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          internalValidators = jest.fn((value) => {
+          internalValidators = vi.fn((value) => {
             return barValidator(value) || bazValidator(value)
           })
 
@@ -5638,7 +5643,7 @@ describe('useFieldProps', () => {
           )
         }
 
-        const publicValidator = jest.fn((value) => {
+        const publicValidator = vi.fn((value) => {
           if (value.includes('foo')) {
             return new Error('foo')
           }
@@ -5706,7 +5711,7 @@ describe('useFieldProps', () => {
   describe('onBlurValidator', () => {
     describe('validateInitially', () => {
       it('should show error message initially', async () => {
-        const onBlurValidator = jest.fn(() => {
+        const onBlurValidator = vi.fn(() => {
           return new Error('My Error')
         })
 
@@ -5726,7 +5731,7 @@ describe('useFieldProps', () => {
       })
 
       it('should show error message initially when onBlurValidator is async', async () => {
-        const onBlurValidator = jest.fn(async () => {
+        const onBlurValidator = vi.fn(async () => {
           return new Error('My Error')
         })
 
@@ -5766,7 +5771,7 @@ describe('useFieldProps', () => {
       }
 
       it('should show onBlurValidator error on form submit', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5801,7 +5806,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5841,7 +5846,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5881,7 +5886,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden during ref input change', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5920,7 +5925,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5941,7 +5946,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5974,7 +5979,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5993,7 +5998,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -6026,7 +6031,7 @@ describe('useFieldProps', () => {
 
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -6061,7 +6066,7 @@ describe('useFieldProps', () => {
       }
 
       it('should show onBlurValidator error on form submit', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler
@@ -6102,7 +6107,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler
@@ -6148,7 +6153,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler
@@ -6194,7 +6199,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden during ref input change', async () => {
-        const onBlurValidator = jest.fn(onBlurValidatorFn)
+        const onBlurValidator = vi.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler
@@ -6239,7 +6244,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -6262,7 +6267,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler
@@ -6301,7 +6306,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -6322,7 +6327,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -6357,7 +6362,7 @@ describe('useFieldProps', () => {
 
       describe('validateContinuously', () => {
         it('should show not show error message initially', async () => {
-          const onBlurValidator = jest.fn(onBlurValidatorFn)
+          const onBlurValidator = vi.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler defaultData={{ myArray: [{}] }}>
@@ -6384,7 +6389,7 @@ describe('useFieldProps', () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
-          barValidator = jest.fn((value) => {
+          barValidator = vi.fn((value) => {
             if (value.includes('bar')) {
               return new Error('bar')
             }
@@ -6392,7 +6397,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          bazValidator = jest.fn((value) => {
+          bazValidator = vi.fn((value) => {
             if (value.includes('baz')) {
               return new Error('baz')
             }
@@ -6400,7 +6405,7 @@ describe('useFieldProps', () => {
             return undefined
           })
 
-          internalValidators = jest.fn((value) => {
+          internalValidators = vi.fn((value) => {
             return barValidator(value) || bazValidator(value)
           })
 
@@ -6413,9 +6418,9 @@ describe('useFieldProps', () => {
           )
         }
 
-        const publicValidator = jest.fn(
+        const publicValidator = vi.fn(
           (value, { validators: { bazValidator } }) => {
-            fooValidator = jest.fn(() => {
+            fooValidator = vi.fn(() => {
               if (value.includes('foo')) {
                 return new Error('foo')
               }
@@ -6490,7 +6495,7 @@ describe('useFieldProps', () => {
     })
 
     it('should not call onBlurValidator when required error is present', () => {
-      const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
+      const onBlurValidator = vi.fn(() => new Error('This is wrong...'))
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -6527,7 +6532,7 @@ describe('useFieldProps', () => {
         pattern: '[0-9]',
       }
 
-      const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
+      const onBlurValidator = vi.fn(() => new Error('This is wrong...'))
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -6561,11 +6566,11 @@ describe('useFieldProps', () => {
     })
 
     it('should always show onBlurValidator over onChangeValidator', () => {
-      const onChangeValidator = jest.fn(
+      const onChangeValidator = vi.fn(
         () => new Error('Error message by onChangeValidator')
       )
 
-      const onBlurValidator = jest.fn(
+      const onBlurValidator = vi.fn(
         () => new Error('Error message by onBlurValidator')
       )
 
@@ -6598,10 +6603,10 @@ describe('useFieldProps', () => {
     })
 
     it('should call onBlurValidator when the error initiator is an async onChangeValidator', async () => {
-      const onBlurValidator = jest.fn(
+      const onBlurValidator = vi.fn(
         () => new Error('Error message by onBlurValidator')
       )
-      const onChangeValidator = jest.fn(
+      const onChangeValidator = vi.fn(
         async () => new Error('Error message by onChangeValidator')
       )
 
@@ -6632,10 +6637,10 @@ describe('useFieldProps', () => {
     })
 
     it('should call onBlurValidator when the error initiator is an async onChange handler', async () => {
-      const onBlurValidator = jest.fn(
+      const onBlurValidator = vi.fn(
         () => new Error('Error message by onBlurValidator')
       )
-      const onChange = jest.fn(async () => null)
+      const onChange = vi.fn(async () => null)
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
@@ -6664,10 +6669,10 @@ describe('useFieldProps', () => {
     })
 
     it('should call onBlurValidator when the error initiator is onChangeValidator and the onChangeValidator is async', async () => {
-      const onBlurValidator = jest.fn(
+      const onBlurValidator = vi.fn(
         () => new Error('Error message by onBlurValidator')
       )
-      const onChangeValidator = jest.fn(
+      const onChangeValidator = vi.fn(
         async () => new Error('Error message by onChangeValidator')
       )
 
@@ -6697,11 +6702,11 @@ describe('useFieldProps', () => {
     })
 
     it('should show error when validateInitially is set to true', async () => {
-      const exportedValidator = jest.fn(() => {
+      const exportedValidator = vi.fn(() => {
         return Error('Error message')
       })
 
-      const myValidator = jest.fn((value, { validators }) => {
+      const myValidator = vi.fn((value, { validators }) => {
         const { exportedValidator } = validators
         return [exportedValidator]
       })
@@ -6981,11 +6986,11 @@ describe('useFieldProps', () => {
 
   describe('revealError', () => {
     it('should report error downwards', () => {
-      const revealErrorDataContext = jest.fn()
-      const revealErrorBoundary = jest.fn()
-      const setFieldErrorWizard = jest.fn()
-      const showFieldErrorFieldBlock = jest.fn()
-      const handlePathChangeUnvalidated = jest.fn()
+      const revealErrorDataContext = vi.fn()
+      const revealErrorBoundary = vi.fn()
+      const setFieldErrorWizard = vi.fn()
+      const showFieldErrorFieldBlock = vi.fn()
+      const handlePathChangeUnvalidated = vi.fn()
 
       const { result, rerender } = renderHook(
         (props: any) => useFieldProps(props),
@@ -6998,7 +7003,7 @@ describe('useFieldProps', () => {
             const dataContextValue = {
               revealError: revealErrorDataContext,
               handlePathChangeUnvalidated,
-              setMountedFieldState: jest.fn(),
+              setMountedFieldState: vi.fn(),
             } as unknown as ContextState
             const fieldBoundaryContextErrorValue = {
               revealError: revealErrorBoundary,
@@ -7182,7 +7187,7 @@ describe('useFieldProps', () => {
 
   describe('setMountedFieldState', () => {
     it('should mount and unmount when the field is removed from the DOM', () => {
-      const setMountedFieldState = jest.fn()
+      const setMountedFieldState = vi.fn()
 
       const { unmount } = renderHook(
         (props: any) => useFieldProps(props),
@@ -7218,7 +7223,7 @@ describe('useFieldProps', () => {
     })
 
     it('should set isVisible when within a visibility context', () => {
-      const setMountedFieldState = jest.fn()
+      const setMountedFieldState = vi.fn()
 
       const { unmount } = renderHook(
         (props: any) => useFieldProps(props),
@@ -7261,7 +7266,7 @@ describe('useFieldProps', () => {
     })
 
     it('should set isVisible when within a visibility context with a negative visibility', () => {
-      const setMountedFieldState = jest.fn()
+      const setMountedFieldState = vi.fn()
 
       const { unmount } = renderHook(
         (props: any) => useFieldProps(props),
@@ -7307,7 +7312,7 @@ describe('useFieldProps', () => {
 
     it('should set isMounted to true when Wizard step has changed', () => {
       const log = spyOnEufemiaWarn()
-      const setMountedFieldState = jest.fn()
+      const setMountedFieldState = vi.fn()
 
       let activeIndex = 0
       const { rerender, unmount } = renderHook(
@@ -7545,12 +7550,12 @@ describe('AJV schema warnings', () => {
 describe('Zod schema support', () => {
   // Mock Zod schema for testing
   const mockZodSchema = {
-    safeParse: jest.fn(),
-    parse: jest.fn(),
+    safeParse: vi.fn(),
+    parse: vi.fn(),
   }
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
     // Mock successful Zod validation by default
     mockZodSchema.safeParse.mockReturnValue({ success: true, data: {} })
   })

@@ -6,7 +6,6 @@ import globals from 'globals'
 
 import babelParser from '@babel/eslint-parser'
 import importPlugin from 'eslint-plugin-import'
-import jestPlugin from 'eslint-plugin-jest'
 import vitestPlugin from '@vitest/eslint-plugin'
 import playwrightPlugin from 'eslint-plugin-playwright'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
@@ -47,8 +46,18 @@ const securityRecommendedRules =
   securityPlugin.configs.recommended.rules || {}
 const nodeGlobals = globals.node || {}
 const browserGlobals = globals.browser || {}
-const jestGlobals = globals.jest || {}
 const esGlobals = globals.es2021 || {}
+const vitestGlobals = {
+  afterAll: 'readonly',
+  afterEach: 'readonly',
+  beforeAll: 'readonly',
+  beforeEach: 'readonly',
+  describe: 'readonly',
+  expect: 'readonly',
+  it: 'readonly',
+  test: 'readonly',
+  vi: 'readonly',
+}
 
 export default [
   {
@@ -80,7 +89,7 @@ export default [
         ...esGlobals,
         ...browserGlobals,
         ...nodeGlobals,
-        ...jestGlobals,
+        ...vitestGlobals,
       },
       parserOptions: {
         babelOptions: {
@@ -93,7 +102,6 @@ export default [
       },
     },
     plugins: {
-      jest: jestPlugin,
       import: importPlugin,
       prettier: prettierPlugin,
       react: reactPlugin,
@@ -225,7 +233,7 @@ export default [
       globals: {
         ...esGlobals,
         ...nodeGlobals,
-        ...jestGlobals,
+        ...vitestGlobals,
       },
     },
     rules: {
@@ -304,7 +312,7 @@ export default [
         ...esGlobals,
         ...browserGlobals,
         ...nodeGlobals,
-        ...jestGlobals,
+        ...vitestGlobals,
         JSX: 'readonly',
       },
     },
@@ -366,27 +374,14 @@ export default [
       ],
     },
   },
-  ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
-    ...config,
-    files: ['**/__tests__/**'],
-    settings: {
-      ...(config.settings || {}),
-      // Hardcoded because the jest package is no longer installed (vitest is the
-      // sole runner). eslint-plugin-jest still lints test files via the compat
-      // shim, but it can't auto-detect the version without the jest package.
-      jest: { version: 30 },
-    },
-  })),
   {
     files: ['**/__tests__/**'],
     plugins: {
-      jest: jestPlugin,
-    },
-    settings: {
-      // See comment above — jest package is removed; version must be explicit.
-      jest: { version: 30 },
+      vitest: vitestPlugin,
     },
     rules: {
+      ...vitestPlugin.configs.recommended.rules,
+      'vitest/expect-expect': 'off',
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
@@ -400,6 +395,22 @@ export default [
                 "react-dom/test-utils is removed in React 19. Import 'act' from '@testing-library/react' or 'react' instead.",
             },
           ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/__tests__/**/*.{ts,tsx}'],
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+          disallowTypeAnnotations: false,
         },
       ],
     },

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
@@ -8,7 +8,7 @@ const nb = nbNO['nb-NO']
 
 describe('Form.SubmitButton', () => {
   it('should call "onSubmit" on form element', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Element onSubmit={onSubmit}>
@@ -33,8 +33,8 @@ describe('Form.SubmitButton', () => {
   })
 
   it('should call preventDefault', () => {
-    const preventDefault = jest.fn()
-    const onSubmit = jest.fn(preventDefault)
+    const preventDefault = vi.fn()
+    const onSubmit = vi.fn(preventDefault)
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -209,7 +209,7 @@ describe('Form.SubmitButton', () => {
   })
 
   it('should only show submit indicator on the clicked submit button', async () => {
-    const onSubmit = jest.fn(async () => {
+    const onSubmit = vi.fn(async () => {
       await wait(10)
     })
 

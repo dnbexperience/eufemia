@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import * as dnbExtensions from '../dnb-ui-extensions'
 
 describe('UMD Web Extensions package', () => {

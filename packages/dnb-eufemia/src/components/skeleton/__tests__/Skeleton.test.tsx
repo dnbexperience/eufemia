@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SkeletonProps } from '../Skeleton'
 import Skeleton from '../Skeleton'
 import Input from '../../input/Input'

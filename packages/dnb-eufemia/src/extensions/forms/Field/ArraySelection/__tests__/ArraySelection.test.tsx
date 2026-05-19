@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   Field,
   FieldBlock,
@@ -232,7 +232,7 @@ describe('ArraySelection', () => {
     })
 
     it('handles selection correctly', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
       render(
         <Field.ArraySelection onChange={handleChange}>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -260,7 +260,7 @@ describe('ArraySelection', () => {
     })
 
     it('handles emptyValue correctly', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
       render(
         <Field.ArraySelection onChange={handleChange} emptyValue={[]}>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -1206,7 +1206,7 @@ describe('ArraySelection', () => {
 
       it('should transform submit data with "transformData" when inside Iterate', async () => {
         let transformedData = undefined
-        const onSubmit = jest.fn((data, { transformData }) => {
+        const onSubmit = vi.fn((data, { transformData }) => {
           transformedData = transformData(
             data,
             ({ value, displayValue, label }) => {

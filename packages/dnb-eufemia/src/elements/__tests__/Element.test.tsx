@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../core/jest/jestSetup'
+import { axeComponent } from '../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { ElementAllProps } from '../Element'
 import Element, { defaultProps } from '../Element'
@@ -17,6 +17,10 @@ const props: ElementAllProps = {
   skeleton: true,
 }
 
+const sortClassNames = (className: string | null) => {
+  return (className || '').split(/\s+/).filter(Boolean).sort()
+}
+
 describe('Element', () => {
   it('have to merge className', () => {
     const { container } = render(
@@ -25,8 +29,10 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'extra dnb-skeleton dnb-skeleton--font dnb-p'
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(
+      sortClassNames('extra dnb-skeleton dnb-skeleton--font dnb-p')
     )
   })
 
@@ -70,9 +76,9 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--font dnb-p'
-    )
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(sortClassNames('dnb-skeleton dnb-skeleton--font dnb-p'))
 
     rerender(
       <Element as="p" skeleton skeletonMethod="shape">
@@ -80,9 +86,9 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--shape dnb-p'
-    )
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(sortClassNames('dnb-skeleton dnb-skeleton--shape dnb-p'))
   })
 
   it('have inherit skeleton prop from shared Provider', () => {
@@ -96,8 +102,8 @@ describe('Element', () => {
 
     const element = container.querySelector('.my-p')
 
-    expect(element.getAttribute('class')).toBe(
-      'my-p dnb-skeleton dnb-skeleton--font dnb-p'
+    expect(sortClassNames(element.getAttribute('class'))).toEqual(
+      sortClassNames('my-p dnb-skeleton dnb-skeleton--font dnb-p')
     )
 
     const attributes = Array.from(element.attributes).map(

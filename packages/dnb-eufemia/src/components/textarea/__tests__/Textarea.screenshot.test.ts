@@ -29,7 +29,8 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         style,
         selector: '[data-visual-test="textarea-character-counter"]',
         // Only for screenshot testing - make textarea having same width on linux chromium
-        styleSelector: '[data-visual-test="textarea-default"] textarea',
+        styleSelector:
+          '[data-visual-test="textarea-character-counter"] textarea',
       })
     })
 

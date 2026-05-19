@@ -4,7 +4,7 @@
  */
 
 import { fireEvent, render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
@@ -14,7 +14,7 @@ describe('Radio group component', () => {
   })
 
   it('has to set correct value using keys', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <Radio.Group
         label="Label"
@@ -284,7 +284,7 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        onChange={jest.fn()}
+        onChange={vi.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -303,7 +303,7 @@ describe('Radio ARIA', () => {
 
   it('should validate with ARIA rules for Radio.Group without label', async () => {
     const Comp = render(
-      <Radio.Group name="group" id="group" onChange={jest.fn()}>
+      <Radio.Group name="group" id="group" onChange={vi.fn()}>
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>

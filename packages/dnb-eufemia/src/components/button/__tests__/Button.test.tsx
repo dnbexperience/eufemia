@@ -4,7 +4,7 @@
  */
 
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
@@ -18,7 +18,7 @@ const props: ButtonProps = {
 }
 
 beforeAll(() => {
-  jest.spyOn(global.console, 'log')
+  vi.spyOn(global.console, 'log')
 })
 
 describe('Button component', () => {
@@ -198,7 +198,7 @@ describe('Button component', () => {
   })
 
   it('has "onClick" event which will trigger on a click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<Button onClick={myEvent} />)
     const button = document.querySelector('button')
     fireEvent.click(button)
@@ -219,7 +219,7 @@ describe('Button component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Button id="unique" ref={refFn} />)
 
@@ -396,7 +396,7 @@ describe('Button component', () => {
   })
 
   it('will only have attached event listener if one is given', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     const { rerender } = render(<Button text="Button" onClick={onClick} />)
 
     type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
@@ -422,14 +422,14 @@ describe('Button component', () => {
 
   it('will warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Button text="Button" variant="tertiary" />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will warn when icon-only button has no title or aria-label', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Button icon="bell" />)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.anything(),
@@ -442,7 +442,7 @@ describe('Button component', () => {
 
   it('will not warn when icon-only button has a title', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Button icon="bell" title="Bell" />)
     expect(global.console.log).not.toHaveBeenCalledWith(
       expect.anything(),
@@ -455,7 +455,7 @@ describe('Button component', () => {
 
   it('will not warn when icon-only button has an aria-label', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Button icon="bell" aria-label="Bell" />)
     expect(global.console.log).not.toHaveBeenCalledWith(
       expect.anything(),

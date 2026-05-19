@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { BasicTable } from './TableMocks'
 import type { TableAllProps } from '../Table'
 import Table from '../Table'
@@ -8,10 +8,10 @@ const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
 
 beforeEach(() => {
-  window.IntersectionObserver = jest.fn().mockImplementation(() => {
+  window.IntersectionObserver = vi.fn().mockImplementation(() => {
     return {
-      observe: jest.fn(),
-      disconnect: jest.fn(),
+      observe: vi.fn(),
+      disconnect: vi.fn(),
     }
   })
 })

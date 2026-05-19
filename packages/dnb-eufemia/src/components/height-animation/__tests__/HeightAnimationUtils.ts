@@ -7,13 +7,13 @@ export function initializeTestSetup() {
     globalThis.bypassTime = -1
     globalThis.animationDuration = -1
 
-    const requestAnimationFrame = jest.fn((fn) => {
+    const requestAnimationFrame = vi.fn((fn) => {
       nextAnimationFrame = fn
       return 1
     })
-    jest
-      .spyOn(window, 'requestAnimationFrame')
-      .mockImplementation(requestAnimationFrame)
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+      requestAnimationFrame
+    )
   })
   afterEach(() => {
     globalThis.IS_TEST = undefined
@@ -39,7 +39,7 @@ export const mockHeight = (
   height: number,
   element = document.querySelector('.dnb-height-animation')
 ) => {
-  jest.spyOn(element, 'clientHeight', 'get').mockReturnValueOnce(height)
+  vi.spyOn(element, 'clientHeight', 'get').mockReturnValueOnce(height)
   element.setAttribute('data-height', String(height))
 }
 

@@ -10,7 +10,11 @@ import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
-import { loadScss, axeComponent, wait } from '../../../core/jest/jestSetup'
+import {
+  loadScss,
+  axeComponent,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import type { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
@@ -19,7 +23,7 @@ import IconPrimary from '../../IconPrimary'
 const nb = nbNO['nb-NO'].Upload
 const en = enGB['en-GB'].Upload
 
-global.URL.createObjectURL = jest.fn(() => 'url')
+global.URL.createObjectURL = vi.fn(() => 'url')
 
 const defaultProps: UploadAllProps = {
   acceptedFileTypes: ['png'],
@@ -27,7 +31,7 @@ const defaultProps: UploadAllProps = {
 
 describe('Upload', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('renders the component', () => {
@@ -77,7 +81,7 @@ describe('Upload', () => {
     render(<Upload {...defaultProps} />)
 
     const input = document.querySelector('.dnb-upload__file-input')
-    const inputClick = jest.spyOn(input as HTMLInputElement, 'click')
+    const inputClick = vi.spyOn(input as HTMLInputElement, 'click')
 
     fireEvent.click(
       document.querySelector('.dnb-upload__file-input-button')
@@ -87,7 +91,7 @@ describe('Upload', () => {
   })
 
   it('renders custom onClick using buttonProps', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Upload
@@ -99,7 +103,7 @@ describe('Upload', () => {
     )
 
     const input = document.querySelector('.dnb-upload__file-input')
-    const inputClick = jest.spyOn(input as HTMLInputElement, 'click')
+    const inputClick = vi.spyOn(input as HTMLInputElement, 'click')
 
     fireEvent.click(
       document.querySelector('.dnb-upload__file-input-button')
@@ -1092,7 +1096,7 @@ describe('Upload', () => {
 
   describe('useUpload', () => {
     it('calls the useUpload hook to store files', async () => {
-      const validationFunction = jest.fn()
+      const validationFunction = vi.fn()
 
       const file = createMockFile('fileName.png', 100, 'image/png')
 
@@ -1829,7 +1833,7 @@ describe('Upload', () => {
   describe('events', () => {
     it('will call onChange when file gets added or removed', async () => {
       const id = 'onChange'
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Upload {...defaultProps} id={id} onChange={onChange} />)
 
@@ -1859,7 +1863,7 @@ describe('Upload', () => {
 
     it('will call onFileClick when file gets clicked', async () => {
       const id = 'onFileClick-sync'
-      const onFileClick = jest.fn()
+      const onFileClick = vi.fn()
 
       render(
         <Upload {...defaultProps} id={id} onFileClick={onFileClick} />
@@ -1893,7 +1897,7 @@ describe('Upload', () => {
 
     it('will display loading state when onFileClick is async function', async () => {
       const id = 'onFileClick-async'
-      const onFileClick = jest.fn(async () => {
+      const onFileClick = vi.fn(async () => {
         await wait(1)
       })
 
@@ -1931,7 +1935,7 @@ describe('Upload', () => {
       ]
 
       const id = 'onFileClick-async-no-id'
-      const onFileClick = jest.fn(async () => {
+      const onFileClick = vi.fn(async () => {
         await wait(1)
       })
 
@@ -1963,7 +1967,7 @@ describe('Upload', () => {
 
     it('will stop loading spinner when onFileClick promise rejects', async () => {
       const id = 'onFileClick-reject'
-      const onFileClick = jest.fn(async () => {
+      const onFileClick = vi.fn(async () => {
         await wait(1)
         throw new Error('File click failed')
       })
@@ -2008,7 +2012,7 @@ describe('Upload', () => {
 
     it('will call onFileDelete when file gets removed', async () => {
       const id = 'onFileDelete-sync'
-      const onFileDelete = jest.fn()
+      const onFileDelete = vi.fn()
 
       render(
         <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
@@ -2037,7 +2041,7 @@ describe('Upload', () => {
 
     it('will display loading state when onFileDelete is async function', async () => {
       const id = 'onFileDelete-async'
-      const onFileDelete = jest.fn(async () => {
+      const onFileDelete = vi.fn(async () => {
         await wait(1)
       })
 
@@ -2068,7 +2072,7 @@ describe('Upload', () => {
 
     it('will call onFileDelete when async function succeed', async () => {
       const id = 'onFileDelete-async-success'
-      const onFileDelete = jest.fn(async () => {
+      const onFileDelete = vi.fn(async () => {
         await wait(1)
       })
 
@@ -2105,7 +2109,7 @@ describe('Upload', () => {
 
     it('will call onFileDelete when async function fails', async () => {
       const id = 'onFileDelete-async-fail'
-      const onFileDelete = jest.fn(async () => {
+      const onFileDelete = vi.fn(async () => {
         await wait(1)
 
         throw new Error('My remove file message error')
@@ -2144,7 +2148,7 @@ describe('Upload', () => {
 
     it('will display error message when async onFileDelete function fails', async () => {
       const id = 'onFileDelete-async-fail-error-message'
-      const onFileDelete = jest.fn(async () => {
+      const onFileDelete = vi.fn(async () => {
         await wait(1)
 
         throw new Error('My remove file message error')

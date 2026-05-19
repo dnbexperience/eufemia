@@ -6,7 +6,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { TextareaProps } from '../Textarea'
 import Textarea from '../Textarea'
 import userEvent from '@testing-library/user-event'
@@ -90,8 +90,8 @@ describe('Textarea component', () => {
     const initValue = 'init value'
     const newValue = 'new value'
 
-    const onChange = jest.fn()
-    const onKeyDown = jest.fn() // additional native event test
+    const onChange = vi.fn()
+    const onKeyDown = vi.fn() // additional native event test
 
     render(
       <Textarea
@@ -258,23 +258,23 @@ describe('Textarea component', () => {
       lineHeight: String(1.5 * 16),
     } as CSSStyleDeclaration
 
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
-    jest
-      .spyOn(elem, 'scrollHeight', 'get')
-      .mockImplementation(() => 1.5 * 16)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16
+    )
     await userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('24px')
 
-    jest
-      .spyOn(elem, 'scrollHeight', 'get')
-      .mockImplementation(() => 1.5 * 32)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 32
+    )
     await userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('48px')
 
-    jest
-      .spyOn(elem, 'scrollHeight', 'get')
-      .mockImplementation(() => 1.5 * 2000)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 2000
+    )
     await userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('96px')
   })
@@ -343,7 +343,7 @@ describe('Textarea component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Textarea id="unique" ref={refFn} />)
 
@@ -482,48 +482,48 @@ describe('Textarea component', () => {
     const textarea = () => document.querySelector('.dnb-textarea')
 
     it('Firefox will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Firefox')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Firefox')
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Edge will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Edg')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Edg')
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Chrome on Windows will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Win')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
+      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Win')
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Chrome on Mac will get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
+      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Safari on Mac will get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
+      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Safari on Mac with autoResize will not get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
+      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
       render(<Textarea autoResize />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Other browsers and platforms will not get "medium" or "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('foo')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('bar')
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('foo')
+      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('bar')
       render(<Textarea />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--large')

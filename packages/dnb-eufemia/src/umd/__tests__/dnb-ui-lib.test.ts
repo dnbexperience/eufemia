@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import * as dnbLib from '../dnb-ui-lib'
 
 describe('UMD main package', () => {

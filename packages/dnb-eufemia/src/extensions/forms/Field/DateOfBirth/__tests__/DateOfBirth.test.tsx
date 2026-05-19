@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
@@ -53,7 +53,7 @@ describe('Field.DateOfBirth', () => {
 
   describe('onChange', () => {
     it('should return correct value onChange event', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.DateOfBirth onChange={onChange} />)
 
@@ -82,7 +82,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return correct value onChange event in data context', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -111,7 +111,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should support transformIn', async () => {
-      const transformIn = jest.fn((external: unknown) => {
+      const transformIn = vi.fn((external: unknown) => {
         const { year, month, day } = external as AdditionalArgs
         if (external) {
           return `${year}-${month}-${day}`
@@ -158,9 +158,9 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should support transformOut', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
-      const transformOut = jest.fn(
+      const transformOut = vi.fn(
         (internal: unknown, additionalArgs?: unknown) => {
           const args = additionalArgs as AdditionalArgs
           if (args) {
@@ -172,7 +172,7 @@ describe('Field.DateOfBirth', () => {
         }
       )
 
-      const transformIn = jest.fn((external: unknown) => {
+      const transformIn = vi.fn((external: unknown) => {
         const ext = external as AdditionalArgs
         if (ext) {
           const { year, month, day } = ext
@@ -227,7 +227,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return year in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.DateOfBirth onChange={onChange} />)
 
@@ -258,7 +258,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return month in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.DateOfBirth onChange={onChange} />)
 
@@ -289,7 +289,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return day in additional args', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.DateOfBirth onChange={onChange} />)
 
@@ -320,8 +320,8 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return undefined onChange event when removing inputted data', async () => {
-      const onChangeContext = jest.fn()
-      const onChange = jest.fn()
+      const onChangeContext = vi.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChangeContext}>
@@ -376,7 +376,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should pad single-digit day on blur', async () => {
-      const onDayChange = jest.fn()
+      const onDayChange = vi.fn()
 
       render(<Field.DateOfBirth onDayChange={onDayChange} />)
 
@@ -482,7 +482,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should expand two-digit year on blur', async () => {
-      const onYearChange = jest.fn()
+      const onYearChange = vi.fn()
       const currentYear = new Date().getFullYear()
       const computeExpectedYear = (value: string) => {
         const padded = value.padStart(2, '0')
@@ -517,7 +517,7 @@ describe('Field.DateOfBirth', () => {
   describe('Validation', () => {
     it('should validate given function as onChangeValidator', async () => {
       const customErrorMessage = 'Custom Error message'
-      const onChangeValidator = jest.fn((value) => {
+      const onChangeValidator = vi.fn((value) => {
         if (value.substring(0, 4) !== '1990') {
           return new Error(customErrorMessage)
         }
@@ -768,7 +768,7 @@ describe('Field.DateOfBirth', () => {
 
   describe('dateFormat', () => {
     it('should use default format yyyy-MM-dd when no dateFormat is provided', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.DateOfBirth value="2023-12-25" onChange={onChange} />)
 
@@ -783,7 +783,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should accept and return dates in yyyy/MM/dd format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -818,7 +818,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should accept and return dates in dd/MM/yyyy format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -853,7 +853,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should accept and return dates in MM/dd/yyyy format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -888,7 +888,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should accept and return dates in dd-MM-yyyy format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -977,7 +977,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should handle empty values with custom format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -997,7 +997,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should handle malformed input gracefully with custom format', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.DateOfBirth
@@ -1130,7 +1130,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should update form data when user types in fields', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const sourceData = {
         personalInfo: {
           dateOfBirth: '1990-05-15',
@@ -1174,7 +1174,7 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should update form data when source data changes', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const sourceData = {
         personalInfo: {
           dateOfBirth: '1990-05-15',
@@ -1287,7 +1287,7 @@ describe('Field.DateOfBirth', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.DateOfBirth
@@ -1334,7 +1334,7 @@ describe('Field.DateOfBirth', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 

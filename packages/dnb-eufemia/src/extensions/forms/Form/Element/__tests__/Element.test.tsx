@@ -4,7 +4,7 @@ import { Form, DataContext, Field } from '../../..'
 
 describe('Form.Element', () => {
   it('should call "onSubmit"', () => {
-    const onSubmitElement = jest.fn()
+    const onSubmitElement = vi.fn()
 
     render(
       <Form.Element onSubmit={onSubmitElement}>
@@ -30,8 +30,8 @@ describe('Form.Element', () => {
   })
 
   it('should call "onSubmit" from Provider at the same time', () => {
-    const onSubmit = jest.fn()
-    const onSubmitElement = jest.fn()
+    const onSubmit = vi.fn()
+    const onSubmitElement = vi.fn()
 
     render(
       <DataContext.Provider
@@ -76,7 +76,7 @@ describe('Form.Element', () => {
   })
 
   it('should call preventDefault', () => {
-    const onSubmitElement = jest.fn()
+    const onSubmitElement = vi.fn()
 
     render(
       <Form.Element onSubmit={onSubmitElement}>
@@ -98,7 +98,7 @@ describe('Form.Element', () => {
   })
 
   it('should allow native submit when preventDefaultOnSubmit is false', () => {
-    const onSubmitElement = jest.fn()
+    const onSubmitElement = vi.fn()
 
     render(
       <Form.Element

@@ -10,7 +10,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { ToggleButtonProps } from '../ToggleButton'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -98,7 +98,7 @@ describe('ToggleButton component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<ToggleButton onChange={myEvent} checked={false} />)
 
     // first click
@@ -287,7 +287,7 @@ describe('ToggleButton component', () => {
   })
 
   it('should support enter key', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<ToggleButton onChange={onChange} />)
 
     const element = document.querySelector('button')

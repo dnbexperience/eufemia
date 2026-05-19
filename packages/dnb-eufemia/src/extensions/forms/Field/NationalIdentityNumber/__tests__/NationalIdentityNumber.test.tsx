@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import type { FieldNationalIdentityNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import nbNO from '../../../constants/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
 
@@ -112,7 +112,7 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should support custom pattern without validator', async () => {
-    const dummyValidator = jest.fn()
+    const dummyValidator = vi.fn()
 
     render(
       <Form.Handler>
@@ -137,7 +137,7 @@ describe('Field.NationalIdentityNumber', () => {
 
   it('should validate given function as onChangeValidator', async () => {
     const text = 'Custom Error message'
-    const onChangeValidator = jest.fn((value) => {
+    const onChangeValidator = vi.fn((value) => {
       return value.length < 4 ? new Error(text) : undefined
     })
 
@@ -161,7 +161,7 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should contain errorMessages as second parameter', () => {
-    const onChangeValidator = jest.fn()
+    const onChangeValidator = vi.fn()
 
     render(
       <Field.NationalIdentityNumber
@@ -691,7 +691,7 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.NationalIdentityNumber
@@ -733,7 +733,7 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 

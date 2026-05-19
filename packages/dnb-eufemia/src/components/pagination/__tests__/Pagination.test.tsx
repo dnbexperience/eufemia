@@ -4,7 +4,11 @@
  */
 
 import { useEffect, useReducer, useState } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
@@ -242,7 +246,7 @@ describe('Pagination bar', () => {
   })
 
   it('has valid onChange callback', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Pagination {...props} onChange={onChange} />)
 
@@ -263,14 +267,12 @@ describe('Pagination bar', () => {
 
 describe('Infinity scroller', () => {
   beforeEach(() => {
-    window.IntersectionObserver = jest
-      .fn()
-      .mockImplementation(function () {
-        return {
-          observe: jest.fn(),
-          disconnect: jest.fn(),
-        }
-      })
+    window.IntersectionObserver = vi.fn().mockImplementation(function () {
+      return {
+        observe: vi.fn(),
+        disconnect: vi.fn(),
+      }
+    })
   })
 
   const props: PaginationProps = {
@@ -288,7 +290,7 @@ describe('Infinity scroller', () => {
   }
 
   it('should derive startupPage from currentPage set after mount', async () => {
-    const onStartup = jest.fn()
+    const onStartup = vi.fn()
 
     const MyComponent = () => {
       const [currentPage, setCurrentPage] = useState(null)
@@ -325,15 +327,15 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onEnd = jest.fn()
-    const onStartup = jest.fn(action)
-    const onChange = jest.fn(action)
-    const onLoad = jest.fn()
-    const observe = jest.fn()
-    const disconnect = jest.fn()
+    const onEnd = vi.fn()
+    const onStartup = vi.fn(action)
+    const onChange = vi.fn(action)
+    const onLoad = vi.fn()
+    const observe = vi.fn()
+    const disconnect = vi.fn()
 
     let callObserver
-    window.IntersectionObserver = jest
+    window.IntersectionObserver = vi
       .fn()
       .mockImplementation(function (cb) {
         callObserver = cb
@@ -408,17 +410,17 @@ describe('Infinity scroller', () => {
   it('should handle startupCount properly', async () => {
     let resetInfinityHandler
 
-    const onStartup = jest.fn()
-    const onChange = jest.fn()
+    const onStartup = vi.fn()
+    const onChange = vi.fn()
 
     let callObserver
-    window.IntersectionObserver = jest
+    window.IntersectionObserver = vi
       .fn()
       .mockImplementation(function (cb) {
         callObserver = cb
         return {
-          observe: jest.fn(),
-          disconnect: jest.fn(),
+          observe: vi.fn(),
+          disconnect: vi.fn(),
         }
       })
 
@@ -605,9 +607,9 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
-    const onChange = jest.fn(action)
-    const onLoad = jest.fn()
+    const onStartup = vi.fn(action)
+    const onChange = vi.fn(action)
+    const onLoad = vi.fn()
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
@@ -765,10 +767,10 @@ describe('Infinity scroller', () => {
   it('should support InfinityMarker from createPagination', async () => {
     let resetInfinityHandler
 
-    const onStartup = jest.fn()
-    const onChange = jest.fn()
-    const onLoad = jest.fn()
-    const onEnd = jest.fn()
+    const onStartup = vi.fn()
+    const onChange = vi.fn()
+    const onLoad = vi.fn()
+    const onEnd = vi.fn()
 
     const MyComponent = () => {
       const startupPage = 3
@@ -869,7 +871,7 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
+    const onStartup = vi.fn(action)
 
     render(
       <Pagination
@@ -896,7 +898,7 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
+    const onStartup = vi.fn(action)
 
     render(
       <Pagination

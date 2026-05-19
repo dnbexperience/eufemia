@@ -6,19 +6,22 @@
 import { act, useState } from 'react'
 import { render, screen } from '@testing-library/react'
 
-import MatchMediaMock from 'jest-matchmedia-mock'
+import MatchMediaMock from '../../core/test-utils/MatchMediaMock'
 import type { MediaQueryProps } from '../MediaQuery'
 import MediaQuery from '../MediaQuery'
 import Provider from '../Provider'
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
-const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
+const isMatchMediaSupported =
+  _isMatchMediaSupported as import('vitest').Mock
 
-jest.mock('../MediaQueryUtils', () => {
-  const orig = jest.requireActual('../MediaQueryUtils')
+vi.mock('../MediaQueryUtils', async () => {
+  const orig = await vi.importActual<typeof import('../MediaQueryUtils')>(
+    '../MediaQueryUtils'
+  )
   return {
     ...orig,
-    isMatchMediaSupported: jest.fn(),
+    isMatchMediaSupported: vi.fn(),
   }
 })
 

@@ -1,8 +1,8 @@
 /**
  * ESM-compatible mock-match-media setup for vitest.
  *
- * Replaces `mock-match-media/jest-setup` (CJS) to avoid the dual-package
- * hazard: jest-setup.cjs uses require("./") which loads a separate CJS
+ * Replaces the package's legacy CJS setup entry to avoid the dual-package
+ * hazard: the CJS setup uses require("./") which loads a separate CJS
  * module instance from the ESM import used by test files. This means
  * setMedia() operates on a different MQLs map than the polyfilled
  * window.matchMedia, so change events never fire.

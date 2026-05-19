@@ -107,7 +107,7 @@ describe('useValidation', () => {
       })
 
       it('should keep validation state when locale changes', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const { rerender } = render(
           <Form.Handler id={identifier} locale="nb-NO" onSubmit={onSubmit}>
@@ -137,7 +137,7 @@ describe('useValidation', () => {
       })
 
       it('should keep field status error when locale changes', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const { rerender } = render(
           <Form.Handler
@@ -189,7 +189,7 @@ describe('useValidation', () => {
       })
 
       it('should keep field status error when form remounts due to locale switch', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const { result } = renderHook(() => useValidation(identifier))
 
@@ -562,7 +562,7 @@ describe('useValidation', () => {
     describe('with an identifier', () => {
       it('should handle the setFormError method outside of the form context', async () => {
         const myId = () => null
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const MockComponent = () => {
           const { setFieldStatus } = useValidation(myId)
@@ -598,7 +598,7 @@ describe('useValidation', () => {
       })
 
       it('should set and remove a field error', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler id={identifier} onSubmit={onSubmit}>
@@ -649,7 +649,7 @@ describe('useValidation', () => {
 
     describe('without an identifier', () => {
       it('should set and remove a field error', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const MockProvider = ({ children }) => {
           return (
@@ -705,7 +705,7 @@ describe('useValidation', () => {
       })
 
       it('should set and remove a field error, warning and info', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const MockProvider = ({ children }) => {
           return (

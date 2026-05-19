@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 

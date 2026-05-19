@@ -3,7 +3,7 @@
  *
  */
 
-import { mockClipboard } from '../../../core/jest/jestSetup'
+import { mockClipboard } from '../../../core/test-utils/testSetup'
 import type { CountryCdc } from '../../../extensions/forms/constants/countries'
 import countries from '../../../extensions/forms/constants/countries'
 import type { InternalLocale } from '../../../shared/Context'
@@ -33,8 +33,8 @@ const value = 12345678.9876
 let languageGetter, platformGetter
 
 beforeAll(() => {
-  languageGetter = jest.spyOn(window.navigator, 'language', 'get')
-  platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+  languageGetter = vi.spyOn(window.navigator, 'language', 'get')
+  platformGetter = vi.spyOn(window.navigator, 'platform', 'get')
 
   // simulate mac, has to run on the first render
   platformGetter.mockReturnValue('Mac')
@@ -121,7 +121,7 @@ describe('Decimals format', () => {
   })
 
   it('should handle unusual cases', () => {
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
 
     expect(formatNumber(num, { decimals: 0 })).toBe('-12 346')
     expect(formatNumber(num, { decimals: 1 })).toBe('-12 345,7')

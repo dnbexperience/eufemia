@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
 import type { ProgressIndicatorAllProps } from '../types'

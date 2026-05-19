@@ -14,7 +14,7 @@ const matchMedia = mockMediaQuery()
 
 describe('onMediaQueryChange', () => {
   it('should emit callback when give media query matches', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     onMediaQueryChange({ min: 'small' }, callback)
 
     matchMedia.useMediaQuery('(min-width: 40em)')
@@ -33,7 +33,7 @@ describe('onMediaQueryChange', () => {
   })
 
   it('should accept a "when" property', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     onMediaQueryChange({ when: { min: 'small' } }, callback)
 
     matchMedia.useMediaQuery('(min-width: 40em)')
@@ -41,7 +41,7 @@ describe('onMediaQueryChange', () => {
   })
 
   it('should emit callback on init', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     onMediaQueryChange({ min: 'large' }, callback, {
       runOnInit: true,
     })
@@ -65,7 +65,7 @@ describe('onMediaQueryChange', () => {
   })
 
   it('should emit callback on invalid query when "not" was given', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     onMediaQueryChange({ not: true, when: { min: 'small' } }, callback)
 
     matchMedia.useMediaQuery('not all and (min-width: 40em)')
@@ -73,7 +73,7 @@ describe('onMediaQueryChange', () => {
   })
 
   it('should accept a string query', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     onMediaQueryChange('(min-width: 40em)', callback)
 
     matchMedia.useMediaQuery('(min-width: 40em)')
@@ -263,11 +263,11 @@ describe('makeMediaQueryList', () => {
 
   beforeEach(() => {
     log = global.console.log
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
   })
 
   afterEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
 
     global.console.log = log
   })

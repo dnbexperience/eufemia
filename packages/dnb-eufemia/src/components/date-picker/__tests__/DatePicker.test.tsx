@@ -6,7 +6,7 @@
 import { StrictMode, useLayoutEffect, useState } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
   addDays,
   addMonths,
@@ -33,7 +33,7 @@ import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
 import { getOsloDate } from '../../date-format/DateFormatUtils'
 
-jest.setTimeout(30e3)
+vi.setConfig({ testTimeout: 30e3 })
 
 const defaultProps: DatePickerAllProps = {
   noAnimation: true,
@@ -255,7 +255,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on click outside when `onOpen` callback sets a state', async () => {
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
 
     const Component = () => {
       const [open, setOpen] = useState(true)
@@ -304,7 +304,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker after selection', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const { rerender } = render(
       <DatePicker {...defaultProps} onChange={onChange} />
     )
@@ -378,7 +378,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on reset', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(
       <DatePicker
@@ -804,9 +804,9 @@ describe('DatePicker component', () => {
   })
 
   it('should seed empty spinbutton values from today', async () => {
-    jest
-      .useFakeTimers()
-      .setSystemTime(new Date('2026-03-13T12:00:00.000Z').getTime())
+    vi.useFakeTimers().setSystemTime(
+      new Date('2026-03-13T12:00:00.000Z').getTime()
+    )
 
     try {
       render(<DatePicker showInput={true} />)
@@ -833,7 +833,7 @@ describe('DatePicker component', () => {
       expect(year.selectionStart).toBe(0)
       expect(year.selectionEnd).toBe(4)
     } finally {
-      jest.useRealTimers()
+      vi.useRealTimers()
     }
   })
 
@@ -1051,7 +1051,7 @@ describe('DatePicker component', () => {
 
   it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
-    const onDaysRender = jest.fn((days) => {
+    const onDaysRender = vi.fn((days) => {
       return days.map((dateObject) => {
         if (isWeekend(dateObject.date)) {
           dateObject.isInactive = true
@@ -1096,7 +1096,7 @@ describe('DatePicker component', () => {
   it('will render the result of "onDaysRender" using getOsloDate', () => {
     const osloDate = getOsloDate()
 
-    const onDaysRender = jest.fn((days) => {
+    const onDaysRender = vi.fn((days) => {
       return days.map((dayObject) => {
         dayObject.isToday = isSameDay(dayObject.date, osloDate)
         return dayObject
@@ -1134,7 +1134,7 @@ describe('DatePicker component', () => {
   })
 
   it('should work with shortcuts', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <DatePicker
         noAnimation
@@ -1266,7 +1266,7 @@ describe('DatePicker component', () => {
   })
 
   it('should receive all dates in the shortcut callback', async () => {
-    const onShortcutClick = jest.fn()
+    const onShortcutClick = vi.fn()
 
     render(
       <DatePicker
@@ -1715,7 +1715,7 @@ describe('DatePicker component', () => {
   })
 
   it('uses shift overwrite mode for inline inputs by default', () => {
-    const optionsEnhancer = jest.fn((options) => options)
+    const optionsEnhancer = vi.fn((options) => options)
     render(<DatePicker showInput {...({ optionsEnhancer } as any)} />)
 
     expect(optionsEnhancer).toHaveBeenCalled()
@@ -1781,9 +1781,9 @@ describe('DatePicker component', () => {
   })
 
   it('footer buttons work properly', async () => {
-    const onSubmit = jest.fn()
-    const onCancel = jest.fn()
-    const onReset = jest.fn()
+    const onSubmit = vi.fn()
+    const onCancel = vi.fn()
+    const onReset = vi.fn()
 
     const date = '2020-10-20'
 
@@ -1921,7 +1921,7 @@ describe('DatePicker component', () => {
   })
 
   it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(
       <DatePicker
@@ -2101,8 +2101,8 @@ describe('DatePicker component', () => {
   })
 
   it('has a working min and max date limitation', async () => {
-    const onType = jest.fn()
-    const onChange = jest.fn()
+    const onType = vi.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <DatePicker
@@ -2222,8 +2222,8 @@ describe('DatePicker component', () => {
   })
 
   it('has valid onType and onChange event calls', async () => {
-    const onType = jest.fn()
-    const onChange = jest.fn()
+    const onType = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -2464,7 +2464,7 @@ describe('DatePicker component', () => {
 
   it('resets date correctly between interactions', async () => {
     let outerState
-    const onChange = jest.fn(({ date }) => (outerState = date))
+    const onChange = vi.fn(({ date }) => (outerState = date))
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput date="2019-02-01" />
     )
@@ -2556,7 +2556,7 @@ describe('DatePicker component', () => {
   })
 
   it('should clear internal date when null is passed', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput />
@@ -2677,7 +2677,7 @@ describe('DatePicker component', () => {
   })
 
   it('should return all additional attributes the event return', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     const params = { 'data-attr': 'value' }
     render(<DatePicker onOpen={myEvent} {...params} />)
     fireEvent.click(getDatePickerTriggerButton())
@@ -3247,7 +3247,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event when input loses focus with existing date', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput onBlur={onBlur} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
@@ -3290,7 +3290,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event with `date`', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput onBlur={onBlur} />)
 
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
@@ -3348,7 +3348,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire focus event with `date`', async () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
     render(<DatePicker showInput onFocus={onFocus} />)
 
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
@@ -3413,7 +3413,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire focus event with `startDate` and `endDate`', async () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
     render(<DatePicker showInput range onFocus={onFocus} />)
 
     const startDayInput = document.querySelector(
@@ -3529,7 +3529,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event with `startDate` and `endDate`', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput range onBlur={onBlur} />)
 
     const startDayInput = document.querySelector(
@@ -3736,7 +3736,7 @@ describe('DatePicker component', () => {
   })
 
   it('should trigger `onChange` with `invalidDate` when input is fully filled out with an invalid date', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<DatePicker onChange={onChange} showInput />)
 
     const dayInput = document.querySelector(
@@ -3760,7 +3760,7 @@ describe('DatePicker component', () => {
   })
 
   it('should trigger `onChange` with `invalidStartDate` and `invalidEndDate` when input is fully filled out with an invalid dates in `range` mode', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<DatePicker onChange={onChange} range showInput />)
 
     const [startDayInput, endDayInput] = Array.from(
@@ -3933,7 +3933,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date after clearing with select-all', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
@@ -3969,7 +3969,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date after deleting the year', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
@@ -3995,7 +3995,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date on onType after deleting the year', async () => {
-    const onType = jest.fn()
+    const onType = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onType={onType} />
@@ -4097,7 +4097,7 @@ describe('DatePicker component', () => {
 
     const PopoverModule = await import('../../popover/Popover')
 
-    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+    vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
       return (
@@ -4122,7 +4122,7 @@ describe('DatePicker component', () => {
     // When reverted: alignPicker === 'right' ? 'right' : 'left'
     expect(capturedAlignOnTarget).toBe('right')
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should align popover to left when stretch prop is false', async () => {
@@ -4130,7 +4130,7 @@ describe('DatePicker component', () => {
 
     const PopoverModule = await import('../../popover/Popover')
 
-    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+    vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
       return (
@@ -4153,7 +4153,7 @@ describe('DatePicker component', () => {
     // Verify alignOnTarget is 'left' when stretch is false
     expect(capturedAlignOnTarget).toBe('left')
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should inherit formElement vertical label', () => {
@@ -4389,7 +4389,7 @@ describe('DatePicker component', () => {
   })
 
   it('should enable navigation by year in the calendar when `yearNavigation` is set to `true`', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -4486,7 +4486,7 @@ describe('DatePicker component', () => {
   })
 
   it('should enable navigation by year in the calendar when `yearNavigation` is set to `true` and in range mode', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -4894,7 +4894,7 @@ describe('DatePicker calc', () => {
   describe('isDisabledCalc', () => {
     it('should correctly determine `date` is before `minDate`', async () => {
       const date = new Date('2025-02-12')
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DatePicker
@@ -4935,7 +4935,7 @@ describe('DatePicker calc', () => {
 
     it('should correctly determine `date` is after `maxDate`', async () => {
       const date = new Date('2025-02-12')
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DatePicker
@@ -5050,7 +5050,7 @@ describe('Custom text for buttons', () => {
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const setData = jest.fn()
+      const setData = vi.fn()
       const clipboardData = { setData }
 
       day.focus()
@@ -5086,7 +5086,7 @@ describe('Custom text for buttons', () => {
 
       const [month]: Array<HTMLInputElement> = getDatePickerInputs()
 
-      const setData = jest.fn()
+      const setData = vi.fn()
       const clipboardData = { setData }
 
       month.focus()
@@ -5106,7 +5106,7 @@ describe('Custom text for buttons', () => {
 
       let date = null
 
-      const getData = jest.fn(() => date)
+      const getData = vi.fn(() => date)
       const clipboardData = { getData }
 
       date = '01.04.2025'
@@ -5138,8 +5138,8 @@ describe('Custom text for buttons', () => {
     })
 
     it('should paste the whole date in US English order', async () => {
-      const log = jest.fn()
-      const mock = jest.spyOn(console, 'log').mockImplementation(log)
+      const log = vi.fn()
+      const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
       render(
         <Provider locale="en-US">
@@ -5150,7 +5150,7 @@ describe('Custom text for buttons', () => {
       const [month, day, year]: Array<HTMLInputElement> =
         getDatePickerInputs()
 
-      const getData = jest.fn(() => '04/01/2019')
+      const getData = vi.fn(() => '04/01/2019')
       const clipboardData = { getData }
 
       month.focus()
@@ -5176,7 +5176,7 @@ describe('Custom text for buttons', () => {
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const getData = jest.fn(() => '12.31')
+      const getData = vi.fn(() => '12.31')
       const clipboardData = { getData }
 
       day.focus()
@@ -5189,15 +5189,15 @@ describe('Custom text for buttons', () => {
     })
 
     it('should preserve the existing year when pasting a partial date', async () => {
-      const log = jest.fn()
-      const mock = jest.spyOn(console, 'log').mockImplementation(log)
+      const log = vi.fn()
+      const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
       render(<DatePicker showInput date="2026-06-15" />)
 
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const getData = jest.fn(() => '20.11')
+      const getData = vi.fn(() => '20.11')
       const clipboardData = { getData }
 
       day.focus()
@@ -5277,8 +5277,8 @@ describe('DatePickerPortal', () => {
   })
 
   it('should unmount portal when `onOpen` and `onClose` callbacks are setting a state', async () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
 
     const DatePickerComponent = () => {
       const [, setShow] = useState(false)
@@ -5692,7 +5692,7 @@ describe('DatePicker ARIA', () => {
     })
 
     it('toggles popover open/close when submit button is clicked', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       render(<DatePicker showSubmitButton onSubmit={onSubmit} open />)
 
       // Popover should be open initially
@@ -5718,7 +5718,7 @@ describe('DatePicker ARIA', () => {
     })
 
     it('opens popover when submit button is clicked and popover is closed', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       render(<DatePicker showSubmitButton onSubmit={onSubmit} />)
 
       // Initially popover should be closed

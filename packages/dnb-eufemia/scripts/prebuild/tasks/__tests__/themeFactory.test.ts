@@ -8,15 +8,23 @@ import * as globby from 'globby'
 import * as fs from 'fs-extra'
 import { runFactory } from '../themeFactory'
 
-jest.mock('globby', () => jest.fn(jest.requireActual('globby')))
-jest.mock('fs-extra', () => {
-  const orig = jest.requireActual('fs-extra')
+vi.mock('globby', async () => {
   return {
-    ...orig,
-    readFile: jest.fn(async (source, encoding) => {
+    ...(await vi.importActual<typeof import('globby')>('globby')),
+    default: vi.fn(),
+  }
+})
+vi.mock('fs-extra', async () => {
+  const orig = await vi.importActual<typeof import('fs-extra')>('fs-extra')
+  const actualFs = ('default' in orig ? orig.default : orig) as typeof fs
+  const mockedFs = {
+    ...actualFs,
+    readFile: vi.fn(async (source, encoding) => {
       if (source.endsWith('theme-components.scss')) {
         const { editAdvice, insertBelowAdvice } =
-          jest.requireActual('../themeFactory')
+          await vi.importActual<typeof import('../themeFactory')>(
+            '../themeFactory'
+          )
         return `${editAdvice.replace(
           '<file>',
           'components'
@@ -25,19 +33,24 @@ jest.mock('fs-extra', () => {
 
       return await orig.readFile(source, encoding)
     }),
-    writeFile: jest.fn(),
-    mkdir: jest.fn(),
+    writeFile: vi.fn(),
+    mkdir: vi.fn(),
+    existsSync: vi.fn((file) => actualFs.existsSync(file)),
+  }
+
+  return {
+    ...orig,
+    ...mockedFs,
+    default: mockedFs,
   }
 })
 
 describe('runFactory', () => {
   it('has to find all related "ui" theme files', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
-      ])
+    vi.spyOn(globby, 'default').mockResolvedValue([
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
+    ])
 
     const result = await getThemeContent({ name: 'ui' })
     expect(result).toMatchInlineSnapshot(`
@@ -66,12 +79,10 @@ describe('runFactory', () => {
   })
 
   it('has to find all related "ui" and "sbanken" theme files', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
-      ])
+    vi.spyOn(globby, 'default').mockResolvedValue([
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
+    ])
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(result).toMatchInlineSnapshot(`
@@ -100,13 +111,11 @@ describe('runFactory', () => {
   })
 
   it('has to fallback replacement', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
-      ])
+    vi.spyOn(globby, 'default').mockResolvedValue([
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
+    ])
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(fs.mkdir).toHaveBeenCalledTimes(0)
@@ -137,19 +146,23 @@ describe('runFactory', () => {
   })
 
   it('has to write new theme file if it not exists', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValueOnce([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
-        './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss',
-      ])
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValueOnce([
-        './src/style/themes/ui/ui-theme-components.scss',
-        './src/style/themes/sbanken/sbanken-theme-components.scss',
-      ])
+    vi.spyOn(globby, 'default').mockResolvedValueOnce([
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
+      './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss',
+    ])
+    vi.spyOn(globby, 'default').mockResolvedValueOnce([
+      './src/style/themes/ui/ui-theme-components.scss',
+      './src/style/themes/sbanken/sbanken-theme-components.scss',
+    ])
+    vi.mocked(fs.existsSync).mockImplementation((file) => {
+      return ![
+        './sbanken',
+        './ui',
+        './sbanken/sbanken-theme-components.scss',
+        './ui/ui-theme-components.scss',
+      ].includes(String(file))
+    })
 
     const result = await getThemeContent({
       name: 'sbanken',

@@ -12,9 +12,9 @@ import type { SupportedCountries } from '../Bring/postalCode'
 
 describe('createContext', () => {
   // Mock fetch to avoid making actual network requests
-  global.fetch = jest.fn().mockResolvedValue({
+  global.fetch = vi.fn().mockResolvedValue({
     ok: true,
-    json: jest.fn().mockResolvedValue({ key: 'value' }),
+    json: vi.fn().mockResolvedValue({ key: 'value' }),
     status: 200,
   })
 
@@ -30,7 +30,7 @@ describe('createContext', () => {
       },
     })
 
-    const mock = jest.fn()
+    const mock = vi.fn()
     withConfig(mock)
 
     expect(mock).toHaveBeenCalledTimes(1)
@@ -55,7 +55,7 @@ describe('createContext', () => {
       },
     })
 
-    const mock = jest.fn()
+    const mock = vi.fn()
     withConfig(mock)
 
     expect(mock).toHaveBeenCalledTimes(1)
@@ -74,7 +74,7 @@ describe('createContext', () => {
   })
 
   it('should provide countryCode given in handler config', async () => {
-    const url = jest.fn((value, countryCode) => {
+    const url = vi.fn((value, countryCode) => {
       return `https://example.com/${countryCode}`
     })
 
@@ -91,7 +91,7 @@ describe('createContext', () => {
         | Lowercase<SupportedCountries>
     }
 
-    const connector = jest.fn(
+    const connector = vi.fn(
       (generalConfig: GeneralConfig, handlerConfig?: MyHandlerConfig) => {
         return async () => {
           const parameters = {
@@ -131,7 +131,7 @@ describe('additional tests', () => {
   const mockDefaultCountry = 'NO'
 
   it('should fetch data and handle preResponseResolver if provided', async () => {
-    const mockPreResponseResolver = jest
+    const mockPreResponseResolver = vi
       .fn()
       .mockReturnValue({ data: { key: 'preResolvedValue' }, status: 201 })
 
@@ -150,7 +150,7 @@ describe('additional tests', () => {
   it('should handle undefined response', async () => {
     // Override the global fetch mock for this test
     const originalFetch = global.fetch
-    global.fetch = jest.fn().mockResolvedValue(undefined)
+    global.fetch = vi.fn().mockResolvedValue(undefined)
 
     let error = null
     try {
@@ -170,7 +170,7 @@ describe('additional tests', () => {
   it('should handle default country code in getCountryCodeValue', () => {
     const mockAdditionalArgs = {
       props: {},
-      getSourceValue: jest.fn().mockReturnValue(mockDefaultCountry),
+      getSourceValue: vi.fn().mockReturnValue(mockDefaultCountry),
     }
 
     const { countryCode, countryCodeValue } = getCountryCodeValue({
@@ -182,11 +182,11 @@ describe('additional tests', () => {
   })
 
   it('should add handler on path change in handleCountryPath', () => {
-    const handler = jest.fn()
+    const handler = vi.fn()
     const mockAdditionalArgs = {
       props: { 'data-country-code': '/SE' },
-      getSourceValue: jest.fn(),
-      setFieldEventListener: jest.fn(),
+      getSourceValue: vi.fn(),
+      setFieldEventListener: vi.fn(),
     } as any
 
     handleCountryPath({
@@ -203,11 +203,11 @@ describe('additional tests', () => {
   })
 
   it('should return countryCode provided in props', () => {
-    const handler = jest.fn()
+    const handler = vi.fn()
     const mockAdditionalArgs = {
       props: { 'data-country-code': 'SE' },
-      getSourceValue: jest.fn(),
-      setFieldEventListener: jest.fn(),
+      getSourceValue: vi.fn(),
+      setFieldEventListener: vi.fn(),
     } as any
 
     const { countryCode } = handleCountryPath({
@@ -223,13 +223,13 @@ describe('additional tests', () => {
     const dataContext = {
       myCountryCode: 'SE',
     }
-    const handler = jest.fn()
+    const handler = vi.fn()
     const mockAdditionalArgs = {
       props: { 'data-country-code': '/myCountryCode' },
-      getSourceValue: jest.fn(() => {
+      getSourceValue: vi.fn(() => {
         return dataContext.myCountryCode
       }),
-      setFieldEventListener: jest.fn(),
+      setFieldEventListener: vi.fn(),
     } as any
 
     const { countryCode } = handleCountryPath({
@@ -242,9 +242,9 @@ describe('additional tests', () => {
   })
 
   it('should return countryCode as path provided in config', () => {
-    const handler = jest.fn()
+    const handler = vi.fn()
     const mockAdditionalArgs = {
-      getSourceValue: jest.fn(),
+      getSourceValue: vi.fn(),
     } as any
 
     const { countryCode } = handleCountryPath({

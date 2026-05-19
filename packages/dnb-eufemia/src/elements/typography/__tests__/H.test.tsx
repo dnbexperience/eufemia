@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { SharedHProps } from '../H'
 import H from '../H'
 import { render } from '@testing-library/react'

@@ -5,7 +5,7 @@
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 
@@ -96,7 +96,7 @@ describe('ToggleButton group component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <ToggleButton.Group
         id="group"
@@ -237,7 +237,7 @@ describe('ToggleButton group component', () => {
   })
 
   it('has multiselect "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <ToggleButton.Group
         id="group"
@@ -569,7 +569,9 @@ describe('ToggleButton group component', () => {
   })
 
   it('should not trigger setState-during-render warning when registering initial checked value', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
 
     render(
       <StrictMode>

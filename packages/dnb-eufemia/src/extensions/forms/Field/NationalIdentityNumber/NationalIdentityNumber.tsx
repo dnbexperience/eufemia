@@ -161,8 +161,10 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
   return <StringField {...StringFieldProps} />
 }
 
-export function getAgeByBirthDate(birthDate: Date): number {
-  const today = new Date()
+export function getAgeByBirthDate(
+  birthDate: Date,
+  today = new Date()
+): number {
   const age = today.getFullYear() - birthDate.getFullYear()
   const month = today.getMonth() - birthDate.getMonth()
   const day = today.getDate() - birthDate.getDate()
@@ -199,7 +201,10 @@ export function getBirthDateByFnrOrDnr(value: string) {
   return new Date(Number.parseInt(year, 10), month - 1, day)
 }
 
-export function createMinimumAgeValidator(age: number) {
+export function createMinimumAgeValidator(
+  age: number,
+  getToday: () => Date = () => new Date()
+) {
   return (value: string) => {
     if (typeof value !== 'string') {
       return undefined // stop here
@@ -215,7 +220,7 @@ export function createMinimumAgeValidator(age: number) {
 
     if (identificationNumberIs7DigitsOrMore) {
       const date = getBirthDateByFnrOrDnr(value)
-      if (getAgeByBirthDate(date) >= age) {
+      if (getAgeByBirthDate(date, getToday()) >= age) {
         return undefined // stop here
       }
     }
@@ -227,8 +232,11 @@ export function createMinimumAgeValidator(age: number) {
   }
 }
 
-export function createMinimumAgeVerifier(age: number) {
-  const validator = createMinimumAgeValidator(age)
+export function createMinimumAgeVerifier(
+  age: number,
+  getToday?: () => Date
+) {
+  const validator = createMinimumAgeValidator(age, getToday)
   return (value: string) => {
     if (value?.length >= 7) {
       return !(validator(value) instanceof Error)

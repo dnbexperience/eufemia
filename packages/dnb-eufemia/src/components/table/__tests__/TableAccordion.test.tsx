@@ -406,7 +406,7 @@ describe('TableAccordion', () => {
     const inputElem = trElement.querySelector('input')
     const buttonElem = trElement.querySelector('button#test-button')
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.click(inputElem)
 
@@ -414,9 +414,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(buttonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(buttonElem)
 
     fireEvent.click(buttonElem)
 
@@ -424,7 +422,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
 
     fireEvent.click(inputElem)
 
@@ -451,10 +449,10 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    const getSelection = jest.fn(() => ({
+    const getSelection = vi.fn(() => ({
       toString: () => 'mock selection',
-    })) as jest.Mock
-    jest.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
+    })) as import('vitest').Mock
+    vi.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
 
     // Open again, but with selection
     fireEvent.click(trElement)
@@ -464,7 +462,7 @@ describe('TableAccordion', () => {
     )
 
     // Simulate keyboard usage
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.keyDown(inputElem, { key: 'Enter' })
 
@@ -478,9 +476,9 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(labelElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      labelElement
+    )
 
     fireEvent.keyDown(labelElement, { key: 'Enter' })
 
@@ -494,7 +492,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
   })
 
   it('tr should open on toggle button click', () => {
@@ -514,9 +512,9 @@ describe('TableAccordion', () => {
       '.dnb-table__button button'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(toggleButtonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      toggleButtonElem
+    )
 
     fireEvent.click(toggleButtonElem)
 
@@ -698,7 +696,7 @@ describe('TableAccordion', () => {
     const trElement = document.querySelector('tbody tr')
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -708,7 +706,7 @@ describe('TableAccordion', () => {
     const enterKey = createEvent.keyDown(trElement, {
       key: 'Enter',
     })
-    enterKey.preventDefault = jest.fn()
+    enterKey.preventDefault = vi.fn()
     fireEvent(trElement, enterKey)
 
     expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
@@ -723,7 +721,7 @@ describe('TableAccordion', () => {
     const spaceKey = createEvent.keyDown(trElement, {
       key: ' ',
     })
-    spaceKey.preventDefault = jest.fn()
+    spaceKey.preventDefault = vi.fn()
     fireEvent(trElement, spaceKey)
 
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)
@@ -844,7 +842,7 @@ describe('TableAccordion', () => {
     })
 
     it('should call startViewTransition', () => {
-      const startViewTransition = jest.fn()
+      const startViewTransition = vi.fn()
       document.startViewTransition = startViewTransition
 
       render(
@@ -868,7 +866,7 @@ describe('TableAccordion', () => {
     })
 
     it('should not call startViewTransition on close', () => {
-      const startViewTransition = jest.fn((cb) => cb())
+      const startViewTransition = vi.fn((cb) => cb())
       document.startViewTransition = startViewTransition
 
       render(
@@ -942,7 +940,7 @@ describe('TableAccordion', () => {
 
   describe('events', () => {
     it('should emit onClick event', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       const trid = '123'
 
       render(
@@ -968,7 +966,7 @@ describe('TableAccordion', () => {
     })
 
     it('should emit onOpen event', () => {
-      const onOpen = jest.fn()
+      const onOpen = vi.fn()
 
       render(
         <Table mode="accordion">
@@ -992,8 +990,8 @@ describe('TableAccordion', () => {
     })
 
     it('should emit onClose event', () => {
-      const onClose = jest.fn()
-      const onOpen = jest.fn()
+      const onClose = vi.fn()
+      const onOpen = vi.fn()
 
       render(
         <Table mode="accordion">

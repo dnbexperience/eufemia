@@ -4,7 +4,11 @@
  */
 
 import { useState } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
@@ -136,7 +140,7 @@ describe('Slider component', () => {
 
   describe('min', () => {
     it('should respect min value', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Slider min={50} value={60} onChange={onChange} />)
 
@@ -154,7 +158,7 @@ describe('Slider component', () => {
     })
 
     it('should respect min value with too large "step"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Slider min={5} step={10} value={50} onChange={onChange} />)
 
@@ -168,7 +172,7 @@ describe('Slider component', () => {
 
   describe('max', () => {
     it('should respect max value value', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Slider max={200} onChange={onChange} />)
 
@@ -180,7 +184,7 @@ describe('Slider component', () => {
     })
 
     it('should respect "step" that do not divide with max', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Slider step={3} max={100} onChange={onChange} />)
 
@@ -192,7 +196,7 @@ describe('Slider component', () => {
     })
 
     it('should respect max value with too large "step"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Slider max={105} step={10} value={50} onChange={onChange} />)
 
@@ -204,7 +208,7 @@ describe('Slider component', () => {
     })
 
     it('should respect max value with too large "step" and large number', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Slider max={2040} step={100} value={1000} onChange={onChange} />
@@ -385,7 +389,7 @@ describe('Slider component', () => {
     })
 
     it('updates Tooltip targetRefreshKey when the thumb value changes', () => {
-      const popoverSpy = jest.spyOn(PopoverModule, 'default')
+      const popoverSpy = vi.spyOn(PopoverModule, 'default')
       render(<Slider {...props} id="tooltip-key" tooltip />)
 
       const findTooltipPopoverCall = () =>
@@ -520,7 +524,7 @@ describe('Slider component', () => {
   })
 
   it('has events that return a correct value', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Slider onChange={onChange} />)
 
@@ -538,7 +542,7 @@ describe('Slider component', () => {
   })
 
   it('return valid value if numberFormat was given', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Slider
@@ -566,7 +570,7 @@ describe('Slider component', () => {
   })
 
   it('will not emit onChange with same value twice', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Slider onChange={onChange} />)
 
@@ -597,7 +601,7 @@ describe('Slider component', () => {
     }
 
     it('will not emit onChange with same value twice', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       props.value = [20, 30, 90]
       render(<SliderWithStateUpdate {...props} onChange={onChange} />)
@@ -645,7 +649,7 @@ describe('Slider component', () => {
     })
 
     it('tracks mousemove on track', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       props.value = [20, 30, 90]
       render(
@@ -684,7 +688,7 @@ describe('Slider component', () => {
     })
 
     it('updates thumb index and returns correct event value', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       props.value = [10, 30, 40]
       render(<SliderWithStateUpdate {...props} onChange={onChange} />)
@@ -710,7 +714,7 @@ describe('Slider component', () => {
     })
 
     it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       props.value = [10, 30, 60]
 
@@ -762,7 +766,7 @@ describe('Slider component', () => {
     })
 
     it('will push thumb positions when multiThumbBehavior="push"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       props.value = [10, 30, 60]
 
@@ -848,7 +852,7 @@ describe('Slider component', () => {
     })
 
     it('should allow negative values', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Slider

@@ -2,7 +2,7 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SummaryList from '../SummaryList'
 import { Field, Form, Value } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 
 describe('Value.SummaryList', () => {
   it('should forward HTML attributes', () => {
@@ -39,7 +39,7 @@ describe('Value.SummaryList', () => {
   })
 
   it('should warn when child is not a Value.* component', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <SummaryList>
@@ -61,7 +61,7 @@ describe('Value.SummaryList', () => {
   })
 
   it('should warn when child is not a Value.* component and is inside a Fragment', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <SummaryList>

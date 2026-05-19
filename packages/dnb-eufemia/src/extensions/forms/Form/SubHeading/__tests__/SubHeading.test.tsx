@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import SubHeading from '../SubHeading'
 
 beforeEach(() => {
-  global.console.log = jest.fn()
+  global.console.log = vi.fn()
 })
 
 describe('Form.SubHeading', () => {

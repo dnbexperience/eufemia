@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import type { TagProps } from '../Tag'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import type { TagGroupProps } from '../TagGroup'
 
@@ -280,7 +280,7 @@ describe('Tag', () => {
     })
 
     it('fires onClick event if onClick is defined', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       render(
         <Tag.Group label="tags">
           <Tag variant="clickable" onClick={onClick}>
@@ -296,7 +296,7 @@ describe('Tag', () => {
     it('does support icon', () => {
       render(
         <Tag.Group label="tags">
-          <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
+          <Tag text="Tag with icon" icon="bell" onClick={vi.fn()} />
         </Tag.Group>
       )
 
@@ -332,7 +332,7 @@ describe('Tag', () => {
     })
 
     it('fires onClick event if onClick is defined', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       render(
         <Tag.Group label="tags">
           <Tag variant="addable" onClick={onClick}>
@@ -352,7 +352,7 @@ describe('Tag', () => {
             text="Tag with icon"
             icon="bell"
             variant="addable"
-            onClick={jest.fn()}
+            onClick={vi.fn()}
           />
         </Tag.Group>
       )
@@ -364,7 +364,7 @@ describe('Tag', () => {
     it('renders the delete icon if variant="addable" is provided', () => {
       render(
         <Tag.Group label="addable">
-          <Tag text="Addable" variant="addable" onClick={jest.fn()} />
+          <Tag text="Addable" variant="addable" onClick={vi.fn()} />
         </Tag.Group>
       )
 
@@ -400,7 +400,7 @@ describe('Tag', () => {
     })
 
     it('fires onClick event if onClick is defined', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       render(
         <Tag.Group label="tags">
           <Tag variant="removable" onClick={onClick}>
@@ -420,7 +420,7 @@ describe('Tag', () => {
             text="Tag with icon"
             icon="bell"
             variant="removable"
-            onClick={jest.fn()}
+            onClick={vi.fn()}
           />
         </Tag.Group>
       )
@@ -432,7 +432,7 @@ describe('Tag', () => {
     it('renders the delete icon if variant="removable" is provided', () => {
       render(
         <Tag.Group label="removable">
-          <Tag text="Removable" variant="removable" onClick={jest.fn()} />
+          <Tag text="Removable" variant="removable" onClick={vi.fn()} />
         </Tag.Group>
       )
 
@@ -441,7 +441,7 @@ describe('Tag', () => {
     })
 
     it('fires onClick event when releasing Backspace or Delete (key up)', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(
         <Tag.Group label="tags">
@@ -490,7 +490,7 @@ describe('Tag', () => {
     })
 
     it('fires onClick event if onClick is defined', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       render(
         <Tag.Group label="tags">
           <Tag onClick={onClick}>onClick</Tag>
@@ -504,7 +504,7 @@ describe('Tag', () => {
     it('does support icon', () => {
       render(
         <Tag.Group label="tags">
-          <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
+          <Tag text="Tag with icon" icon="bell" onClick={vi.fn()} />
         </Tag.Group>
       )
 
@@ -514,14 +514,14 @@ describe('Tag', () => {
 
   it('warns when Tag is used without a Tag.Group as parent component', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Tag text="Tag" />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Tag text="Tag" hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()
   })

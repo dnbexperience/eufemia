@@ -365,7 +365,7 @@ describe('ItemAccordion', () => {
   })
 
   it('calls onClick when header is clicked', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     render(
       <ItemAccordion onClick={handleClick}>
@@ -814,7 +814,7 @@ describe('ItemAccordion', () => {
   })
 
   it('warns and returns null when AccordionHeader is used outside ItemAccordion', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<ItemAccordion.Header>Orphan header</ItemAccordion.Header>)
 
@@ -837,7 +837,7 @@ describe('ItemAccordion', () => {
   })
 
   it('warns and returns null when AccordionContent is used outside ItemAccordion', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<ItemAccordion.Content>Orphan content</ItemAccordion.Content>)
 
@@ -861,7 +861,7 @@ describe('ItemAccordion', () => {
 
   describe('onChange', () => {
     it('calls onChange with { expanded: true } when accordion opens', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
 
       render(
         <ItemAccordion onChange={handleChange}>
@@ -881,7 +881,7 @@ describe('ItemAccordion', () => {
     })
 
     it('calls onChange with { expanded: false } when accordion closes', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
 
       render(
         <ItemAccordion open onChange={handleChange}>
@@ -901,7 +901,7 @@ describe('ItemAccordion', () => {
     })
 
     it('calls onChange on keyboard toggle with Enter', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
 
       render(
         <ItemAccordion onChange={handleChange}>
@@ -921,7 +921,7 @@ describe('ItemAccordion', () => {
     })
 
     it('does not call onChange when pending', () => {
-      const handleChange = jest.fn()
+      const handleChange = vi.fn()
 
       render(
         <ItemAccordion pending onChange={handleChange}>

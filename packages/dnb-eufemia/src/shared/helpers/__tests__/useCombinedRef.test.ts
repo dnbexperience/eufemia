@@ -4,7 +4,7 @@ import useCombinedRef from '../useCombinedRef'
 
 describe('useCombinedRef', () => {
   it('should assign to a callback ref', () => {
-    const callbackRef = jest.fn()
+    const callbackRef = vi.fn()
     const { result } = renderHook(() => useCombinedRef(callbackRef))
 
     const node = document.createElement('div')
@@ -24,7 +24,7 @@ describe('useCombinedRef', () => {
   })
 
   it('should assign to multiple refs', () => {
-    const callbackRef = jest.fn()
+    const callbackRef = vi.fn()
     const objectRef: RefObject<HTMLDivElement | null> = { current: null }
     const { result } = renderHook(() =>
       useCombinedRef(callbackRef, objectRef)
@@ -38,7 +38,7 @@ describe('useCombinedRef', () => {
   })
 
   it('should handle undefined refs', () => {
-    const callbackRef = jest.fn()
+    const callbackRef = vi.fn()
     const { result } = renderHook(() =>
       useCombinedRef(undefined, callbackRef, undefined)
     )
@@ -50,7 +50,7 @@ describe('useCombinedRef', () => {
   })
 
   it('should handle null unset', () => {
-    const callbackRef = jest.fn()
+    const callbackRef = vi.fn()
     const objectRef: RefObject<HTMLDivElement | null> = { current: null }
     const { result } = renderHook(() =>
       useCombinedRef(callbackRef, objectRef)
@@ -65,7 +65,7 @@ describe('useCombinedRef', () => {
   })
 
   it('should return a stable callback when refs do not change', () => {
-    const callbackRef = jest.fn()
+    const callbackRef = vi.fn()
     const { result, rerender } = renderHook(() =>
       useCombinedRef(callbackRef)
     )
