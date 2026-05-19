@@ -4,7 +4,7 @@
 
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
-import { useFullscreenCode } from './FullscreenCodeContext'
+import { useFocusModeCode } from './FocusModeCodeContext'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
@@ -139,8 +139,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
     '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
   const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
 
-  const { fullscreenCodeId } = useFullscreenCode()
-  const codeFullscreen = fullscreenCodeId !== null
+  const { focusModeCodeId } = useFocusModeCode()
+  const codeFocusMode = focusModeCodeId !== null
 
   if (!mdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
@@ -153,7 +153,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
-      {!codeFullscreen && fmData.breadcrumb && (
+      {!codeFocusMode && fmData.breadcrumb && (
         <Breadcrumb key="breadcrumb" top="large">
           {fmData.breadcrumb.map((item, i, a) => {
             return (
@@ -174,7 +174,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
         </Breadcrumb>
       )}
 
-      {!codeFullscreen && currentFm.showTabs && (
+      {!codeFocusMode && currentFm.showTabs && (
         <TabBar
           key="tab-bar"
           location={location}

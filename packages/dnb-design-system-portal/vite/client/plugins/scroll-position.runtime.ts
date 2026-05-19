@@ -13,8 +13,8 @@ const WINDOW_SCROLL_KEY = 'scroll-window'
 
 export function saveScrollPosition() {
   try {
-    // Don't save scroll position during code block fullscreen mode
-    if (document.documentElement.hasAttribute('data-code-fullscreen')) {
+    // Don't save scroll position during code block focus mode.
+    if (document.documentElement.hasAttribute('data-code-focus-mode')) {
       return // stop here
     }
 
@@ -36,8 +36,8 @@ export function restoreScrollPosition({
   restoreWindow = true,
 } = {}) {
   try {
-    // Don't restore scroll position during code block fullscreen mode
-    if (document.documentElement.hasAttribute('data-code-fullscreen')) {
+    // Don't restore scroll position during code block focus mode.
+    if (document.documentElement.hasAttribute('data-code-focus-mode')) {
       return // stop here
     }
 

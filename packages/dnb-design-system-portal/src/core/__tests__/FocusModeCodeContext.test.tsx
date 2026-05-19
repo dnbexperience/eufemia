@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act, cleanup, render } from '@testing-library/react'
 import {
-  FullscreenCodeProvider,
-  useFullscreenCode,
-} from '../FullscreenCodeContext'
+  FocusModeCodeProvider,
+  useFocusModeCode,
+} from '../FocusModeCodeContext'
 
 function Consumer() {
-  const { fullscreenCodeId } = useFullscreenCode()
-  return <div data-testid="consumer">{fullscreenCodeId ?? 'null'}</div>
+  const { focusModeCodeId } = useFocusModeCode()
+  return <div data-testid="consumer">{focusModeCodeId ?? 'null'}</div>
 }
 
-describe('FullscreenCodeContext', () => {
+describe('FocusModeCodeContext', () => {
   const originalLocation = window.location
 
   beforeEach(() => {
@@ -39,9 +39,9 @@ describe('FullscreenCodeContext', () => {
     document.body.appendChild(element)
 
     const { getByTestId } = render(
-      <FullscreenCodeProvider>
+      <FocusModeCodeProvider>
         <Consumer />
-      </FullscreenCodeProvider>
+      </FocusModeCodeProvider>
     )
 
     expect(getByTestId('consumer').textContent).toBe('my-block')
@@ -55,20 +55,17 @@ describe('FullscreenCodeContext', () => {
     ) as unknown as Location & string
 
     const { getByTestId } = render(
-      <FullscreenCodeProvider>
+      <FocusModeCodeProvider>
         <Consumer />
-      </FullscreenCodeProvider>
+      </FocusModeCodeProvider>
     )
 
-    // State is initially set from URL param
     expect(getByTestId('consumer').textContent).toBe('non-existent-id')
 
-    // Advance past the 500ms validation timeout
     await act(async () => {
       vi.advanceTimersByTime(500)
     })
 
-    // Element didn't exist, so state should be cleared
     expect(getByTestId('consumer').textContent).toBe('null')
     expect(window.history.replaceState).toHaveBeenCalledWith(
       null,
@@ -87,9 +84,9 @@ describe('FullscreenCodeContext', () => {
     document.body.appendChild(element)
 
     const { getByTestId } = render(
-      <FullscreenCodeProvider>
+      <FocusModeCodeProvider>
         <Consumer />
-      </FullscreenCodeProvider>
+      </FocusModeCodeProvider>
     )
 
     expect(getByTestId('consumer').textContent).toBe('existing-block')
@@ -98,7 +95,6 @@ describe('FullscreenCodeContext', () => {
       vi.advanceTimersByTime(500)
     })
 
-    // Element exists, so state should remain set
     expect(getByTestId('consumer').textContent).toBe('existing-block')
     expect(window.history.replaceState).not.toHaveBeenCalledWith(
       null,
@@ -114,9 +110,9 @@ describe('FullscreenCodeContext', () => {
       string
 
     const { getByTestId } = render(
-      <FullscreenCodeProvider>
+      <FocusModeCodeProvider>
         <Consumer />
-      </FullscreenCodeProvider>
+      </FocusModeCodeProvider>
     )
 
     expect(getByTestId('consumer').textContent).toBe('null')
