@@ -17,7 +17,10 @@ import {
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
-import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
+import {
+  applyPageFocus,
+  isModifiedClickEvent,
+} from '@dnb/eufemia/src/shared/helpers'
 
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
@@ -222,17 +225,13 @@ const handleSearchResultNavigation = ({
   allowBrowserDefaultOnModified = false,
 }: SearchResultNavigationArgs) => {
   const url = `/${slug}${hash ? `#${hash}` : ''}`.replace('//', '/')
-  const modifiedClick =
-    event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey
-  const isMouseEvent =
-    !!event && 'button' in event && typeof event.button === 'number'
-  const isMiddleClick = isMouseEvent && (event as MouseEvent).button !== 0
+  const modifiedClick = isModifiedClickEvent(event)
 
-  if ((modifiedClick || isMiddleClick) && allowBrowserDefaultOnModified) {
+  if (modifiedClick && allowBrowserDefaultOnModified) {
     return false
   }
 
-  if (modifiedClick || isMiddleClick) {
+  if (modifiedClick) {
     if (typeof window !== 'undefined') {
       window.open(url, '_blank', 'noopener')
     }
