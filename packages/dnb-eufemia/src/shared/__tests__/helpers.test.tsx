@@ -13,6 +13,7 @@ import {
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
+  isModifiedClickEvent,
   isiOS,
   isSafari,
   isWin,
@@ -241,6 +242,25 @@ describe('selection related methods', () => {
   })
   it('hasSelectedText should be true', () => {
     expect(hasSelectedText()).toBe(true)
+  })
+})
+
+describe('"isModifiedClickEvent" should', () => {
+  it('be true on modifier keys', () => {
+    expect(isModifiedClickEvent({ metaKey: true })).toBe(true)
+    expect(isModifiedClickEvent({ ctrlKey: true })).toBe(true)
+    expect(isModifiedClickEvent({ shiftKey: true })).toBe(true)
+    expect(isModifiedClickEvent({ altKey: true })).toBe(true)
+  })
+
+  it('be true on non-primary mouse buttons', () => {
+    expect(isModifiedClickEvent({ button: 1 })).toBe(true)
+    expect(isModifiedClickEvent({ button: 2 })).toBe(true)
+  })
+
+  it('be false on a plain primary click', () => {
+    expect(isModifiedClickEvent({ button: 0 })).toBe(false)
+    expect(isModifiedClickEvent({})).toBe(false)
   })
 })
 

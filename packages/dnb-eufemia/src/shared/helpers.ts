@@ -257,6 +257,30 @@ export function getSelectedText() {
   return undefined
 }
 
+type ModifiedClickLikeEvent = {
+  metaKey?: boolean
+  ctrlKey?: boolean
+  shiftKey?: boolean
+  altKey?: boolean
+  button?: number
+}
+
+export function isModifiedClickEvent(
+  event?: ModifiedClickLikeEvent | null
+) {
+  if (!event) {
+    return false
+  }
+
+  return Boolean(
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey ||
+    (typeof event.button === 'number' && event.button !== 0)
+  )
+}
+
 export function emptySelectedText() {
   try {
     if (window.getSelection && window.getSelection().empty) {
