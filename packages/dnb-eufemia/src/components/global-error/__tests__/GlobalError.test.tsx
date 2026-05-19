@@ -173,13 +173,16 @@ describe('GlobalError', () => {
 
     const element = document.querySelector('.dnb-global-error')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-skeleton__root',
-      'dnb-global-error',
-      'dnb-global-error--404',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-skeleton__root',
+        'dnb-global-error',
+        'dnb-global-error--404',
+        'dnb-space__top--large',
+      ]
+    )
+    expect(element.classList).toHaveLength(5)
   })
 
   it('should add additional html props to main element', () => {

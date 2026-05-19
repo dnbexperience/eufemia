@@ -68,16 +68,19 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-flex-item',
-      'dnb-flex-item--align-self-stretch',
-      'dnb-section',
-      'dnb-section--default',
-      'dnb-card',
-      'custom-class',
-      'dnb-card--responsive',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-flex-item',
+        'dnb-flex-item--align-self-stretch',
+        'dnb-section',
+        'dnb-section--default',
+        'dnb-card',
+        'custom-class',
+        'dnb-card--responsive',
+      ],
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

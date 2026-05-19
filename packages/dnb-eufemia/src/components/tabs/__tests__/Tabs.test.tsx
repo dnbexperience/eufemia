@@ -188,11 +188,14 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--right',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-tabs__tabs',
+        'dnb-tabs__tabs--right',
+        'dnb-tabs__tabs--breakout',
+      ],
+      { exact: true }
+    )
   })
 
   it('should support "noBorder" prop', () => {
@@ -204,12 +207,15 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-tabs__tabs--no-border',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-tabs__tabs',
+        'dnb-tabs__tabs--left',
+        'dnb-tabs__tabs--no-border',
+        'dnb-tabs__tabs--breakout',
+      ],
+      { exact: true }
+    )
   })
 
   it('should support "contentInnerSpace" prop', () => {
@@ -221,11 +227,8 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__content')
 
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining([
-        'dnb-tabs__content',
-        'dnb-height-animation--is-in-dom',
-      ])
+    expect(element).toHaveClass(
+      ...['dnb-tabs__content', 'dnb-height-animation--is-in-dom']
     )
   })
 
@@ -250,10 +253,9 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-tabs',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(...['dnb-tabs', 'dnb-space__top--large'], {
+      exact: true,
+    })
   })
 
   it('should use section component when "tabsStyle" is set', () => {
@@ -266,13 +268,13 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__tabs')
 
     expect(element.tagName).toBe('DIV')
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(element).toHaveClass(
+      ...[
         'dnb-tabs__tabs',
         'dnb-tabs__tabs--left',
         'dnb-section',
         'dnb-section--black-3',
-      ])
+      ]
     )
   })
 
@@ -286,8 +288,8 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__content')
 
     expect(element.tagName).toBe('SECTION')
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(element).toHaveClass(
+      ...[
         'dnb-tabs__content',
         'dnb-section',
         'dnb-section--black-3',
@@ -296,7 +298,7 @@ describe('Tabs component', () => {
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
-      ])
+      ]
     )
   })
 

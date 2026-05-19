@@ -2084,15 +2084,18 @@ describe('InputMasked component asCurrency', () => {
 
     const element = document.querySelector('.dnb-input')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-input',
-      'dnb-input__border--tokens',
-      'dnb-form-component',
-      'dnb-input-masked',
-      'dnb-input--text',
-      'dnb-input--vertical',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-input',
+        'dnb-input__border--tokens',
+        'dnb-form-component',
+        'dnb-input-masked',
+        'dnb-input--text',
+        'dnb-input--vertical',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -2112,14 +2115,17 @@ describe('InputMasked component asCurrency', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-input',
-      'dnb-input__border--tokens',
-      'dnb-form-component',
-      'dnb-input-masked',
-      'dnb-input--text',
-      'dnb-input--vertical',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-input',
+        'dnb-input__border--tokens',
+        'dnb-form-component',
+        'dnb-input-masked',
+        'dnb-input--text',
+        'dnb-input--vertical',
+      ],
+      { exact: true }
+    )
   })
 })
 

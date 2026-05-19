@@ -124,12 +124,15 @@ describe('Switch component', () => {
 
     const element = document.querySelector('.dnb-switch')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-switch',
-      'dnb-switch--label-position-right',
-      'dnb-form-component',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-switch',
+        'dnb-switch--label-position-right',
+        'dnb-form-component',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -158,14 +161,17 @@ describe('Switch component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-switch',
-      'dnb-switch--label-position-right',
-      'dnb-form-component',
-    ])
-    expect(Array.from(inputElement.classList)).toEqualClassNames([
-      'dnb-switch__input',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-switch',
+        'dnb-switch--label-position-right',
+        'dnb-form-component',
+      ],
+      { exact: true }
+    )
+    expect(inputElement).toHaveClass(...['dnb-switch__input'], {
+      exact: true,
+    })
   })
 
   it('should validate with ARIA rules', async () => {

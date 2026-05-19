@@ -304,11 +304,14 @@ describe('ToggleButton component', () => {
 
     const element = document.querySelector('.dnb-toggle-button')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-toggle-button',
-      'dnb-toggle-button--vertical',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-toggle-button',
+        'dnb-toggle-button--vertical',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -324,10 +327,10 @@ describe('ToggleButton component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-toggle-button',
-      'dnb-toggle-button--vertical',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-toggle-button', 'dnb-toggle-button--vertical'],
+      { exact: true }
+    )
   })
 
   it('should show tooltip on hover', async () => {

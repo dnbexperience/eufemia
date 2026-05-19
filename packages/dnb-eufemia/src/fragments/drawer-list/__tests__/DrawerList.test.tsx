@@ -642,6 +642,11 @@ describe('DrawerList component', () => {
     describe('when component', () => {
       it('is same when given', () => {
         render(<DrawerList {...props} data={mockData} />)
+
+        expect(document.querySelector('.dnb-drawer-list')).toHaveAttribute(
+          'id',
+          `${props.id}-drawer-list`
+        )
         testAllIds(props.id)
       })
 
@@ -669,6 +674,10 @@ describe('DrawerList component', () => {
           </DrawerListProvider>
         )
 
+        expect(document.querySelector('.dnb-drawer-list')).toHaveAttribute(
+          'id',
+          `${props.id}-drawer-list`
+        )
         testAllIds(props.id)
       })
 
@@ -679,6 +688,10 @@ describe('DrawerList component', () => {
           </DrawerListProvider>
         )
 
+        expect(document.querySelector('.dnb-drawer-list')).toHaveAttribute(
+          'id',
+          `${props.id}-drawer-list`
+        )
         testAllIds(props.id)
       })
 
@@ -842,35 +855,35 @@ describe('DrawerList component', () => {
 
     render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
-    expect(
-      Array.from(document.querySelector('span.dnb-drawer-list').classList)
-    ).toEqualClassNames([
-      'dnb-drawer-list',
-      'dnb-drawer-list--bottom',
-      'dnb-drawer-list--open',
-      'dnb-drawer-list--arrow-position-left',
-      'dnb-drawer-list--left',
-      'dnb-drawer-list--default',
-      'dnb-drawer-list--scroll',
-    ])
+    expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
+      ...[
+        'dnb-drawer-list',
+        'dnb-drawer-list--bottom',
+        'dnb-drawer-list--open',
+        'dnb-drawer-list--arrow-position-left',
+        'dnb-drawer-list--left',
+        'dnb-drawer-list--default',
+        'dnb-drawer-list--scroll',
+      ],
+      { exact: true }
+    )
 
     keydown('Escape')
     expect(onClose.mock.calls.length).toBe(1)
 
     await waitFor(() => {
-      expect(
-        Array.from(
-          document.querySelector('span.dnb-drawer-list').classList
-        )
-      ).toEqualClassNames([
-        'dnb-drawer-list',
-        'dnb-drawer-list--bottom',
-        'dnb-drawer-list--hidden',
-        'dnb-drawer-list--arrow-position-left',
-        'dnb-drawer-list--left',
-        'dnb-drawer-list--default',
-        'dnb-drawer-list--scroll',
-      ])
+      expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
+        ...[
+          'dnb-drawer-list',
+          'dnb-drawer-list--bottom',
+          'dnb-drawer-list--hidden',
+          'dnb-drawer-list--arrow-position-left',
+          'dnb-drawer-list--left',
+          'dnb-drawer-list--default',
+          'dnb-drawer-list--scroll',
+        ],
+        { exact: true }
+      )
     })
   })
 
@@ -1088,6 +1101,10 @@ describe('DrawerList component', () => {
   describe('direction observer', () => {
     it('should results in correct direction', async () => {
       render(<DrawerList {...props} data={mockData} />)
+
+      expect(
+        document.querySelector('.dnb-drawer-list--bottom')
+      ).toBeInTheDocument()
       await testDirectionObserver()
     })
 

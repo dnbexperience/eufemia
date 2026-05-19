@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import '@testing-library/jest-dom';
 import 'vitest';
 
@@ -5,14 +6,13 @@ declare module 'vitest' {
   interface Matchers<T> {
     toHaveNoViolations(): T;
     toNeverResolve(): Promise<T>;
-    toEqualClassNames(expected: unknown): T;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Assertion<T> extends Matchers<T> {}
 
   interface AsymmetricMatchersContaining {
     toHaveNoViolations(): void;
     toNeverResolve(): void;
-    toEqualClassNames(expected: unknown): void;
   }
 }

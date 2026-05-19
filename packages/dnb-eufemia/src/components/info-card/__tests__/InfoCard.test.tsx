@@ -299,11 +299,14 @@ describe('InfoCard', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-info-card',
-      'dnb-info-card--shadow',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-info-card',
+        'dnb-info-card--shadow',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should apply spacing classes and innerSpace style on the root', () => {

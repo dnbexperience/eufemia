@@ -38,27 +38,6 @@ expect.extend({
       }
     }
   },
-
-  toEqualClassNames(received: string[], expected: unknown) {
-    const pass =
-      typeof expected === 'object' &&
-      expected !== null &&
-      'asymmetricMatch' in expected &&
-      typeof expected.asymmetricMatch === 'function'
-        ? expected.asymmetricMatch(received)
-        : this.equals(
-            [...received].sort(),
-            [...(expected as string[])].sort()
-          )
-
-    return {
-      pass,
-      message: () =>
-        `Expected ${this.utils.printReceived(received)} ${
-          pass ? 'not ' : ''
-        }to equal class names ${this.utils.printExpected(expected)}`,
-    }
-  },
 })
 
 if (typeof window !== 'undefined') {

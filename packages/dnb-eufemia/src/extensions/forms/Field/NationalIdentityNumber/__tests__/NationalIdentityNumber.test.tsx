@@ -12,6 +12,8 @@ describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
     const props: FieldNationalIdentityNumberProps = {}
     render(<Field.NationalIdentityNumber {...props} />)
+
+    expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   it('should have correct mask', () => {

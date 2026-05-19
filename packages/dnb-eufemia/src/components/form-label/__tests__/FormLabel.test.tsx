@@ -172,10 +172,10 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-form-label',
-      'dnb-form-label--vertical',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-form-label', 'dnb-form-label--vertical'],
+      { exact: true }
+    )
   })
 
   it('should support vertical class', () => {
@@ -187,10 +187,10 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-form-label',
-      'dnb-form-label--vertical',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-form-label', 'dnb-form-label--vertical'],
+      { exact: true }
+    )
   })
 
   it('should support heading size prop', () => {

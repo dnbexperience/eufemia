@@ -79,13 +79,16 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
 
-    expect(Array.from(buttonElement.classList)).toEqualClassNames([
-      'dnb-button',
-      'dnb-button--primary',
-      'dnb-button--has-text',
-      'dnb-forms-submit-button',
-      'custom-class',
-    ])
+    expect(buttonElement).toHaveClass(
+      ...[
+        'dnb-button',
+        'dnb-button--primary',
+        'dnb-button--has-text',
+        'dnb-forms-submit-button',
+        'custom-class',
+      ],
+      { exact: true }
+    )
   })
 
   it('should have default text', () => {

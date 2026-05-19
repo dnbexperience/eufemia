@@ -165,11 +165,10 @@ describe('Button component', () => {
 
     const element = document.querySelector('.dnb-button')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-button',
-      'dnb-button--primary',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-button', 'dnb-button--primary', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should inherit disabled from formElement', () => {
@@ -190,11 +189,10 @@ describe('Button component', () => {
       'type',
       'aria-disabled',
     ])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-button',
-      'dnb-button--primary',
-      'dnb-button--has-text',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-button', 'dnb-button--primary', 'dnb-button--has-text'],
+      { exact: true }
+    )
   })
 
   it('has "onClick" event which will trigger on a click', () => {

@@ -92,11 +92,10 @@ describe('Grid.Container', () => {
 
     const element = document.querySelector('.dnb-grid-container')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-grid-container',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-space', 'dnb-grid-container', 'custom-class'],
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

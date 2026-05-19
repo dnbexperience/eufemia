@@ -556,7 +556,10 @@ describe('useValidation', () => {
   describe('setFieldStatus', () => {
     it('should not throw when no id is given', () => {
       const { result } = renderHook(useValidation)
-      result.current.setFieldStatus('/path', { error: null })
+
+      expect(() => {
+        result.current.setFieldStatus('/path', { error: null })
+      }).not.toThrow()
     })
 
     describe('with an identifier', () => {

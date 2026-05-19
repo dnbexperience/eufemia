@@ -86,10 +86,9 @@ describe('TableTd', () => {
     )
 
     const element = document.querySelector('td')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-table__td',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(...['dnb-table__td', 'custom-class'], {
+      exact: true,
+    })
   })
 
   it('should set noSpacing class', () => {

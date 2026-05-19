@@ -28,11 +28,14 @@ describe('Theme', () => {
     )
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-      'eufemia-theme__eiendom--soft',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ],
+      { exact: true }
+    )
   })
 
   it('supports nested themes', () => {
@@ -46,55 +49,58 @@ describe('Theme', () => {
 
     const element1 = document.querySelector('#theme-1')
     const element2 = document.querySelector('#theme-2')
-    expect(Array.from(element1.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-    ])
-    expect(Array.from(element2.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-      'eufemia-theme__eiendom--soft',
-    ])
+    expect(element1).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__eiendom'],
+      { exact: true }
+    )
+    expect(element2).toHaveClass(
+      ...[
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ],
+      { exact: true }
+    )
   })
 
   it('sets size as HTML classes', () => {
     render(<Theme size="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__size--basis',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__size--basis'],
+      { exact: true }
+    )
   })
 
   it('sets contrast-mode as HTML classes', () => {
     render(<Theme contrastMode>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__contrast-mode',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__contrast-mode'],
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="dark" as HTML class', () => {
     render(<Theme colorScheme="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="light" as HTML class', () => {
     render(<Theme colorScheme="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="auto" as HTML class', () => {
@@ -109,10 +115,10 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
@@ -129,10 +135,10 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
@@ -158,20 +164,20 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--light'],
+      { exact: true }
+    )
 
     matches = true
     act(() => {
       listener?.({ matches: true })
     })
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      ...['eufemia-theme', 'eufemia-theme__color-scheme--dark'],
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
@@ -250,14 +256,14 @@ describe('Theme', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames(['eufemia-theme'])
+    expect(element).toHaveClass(...['eufemia-theme'], { exact: true })
   })
 
   it('does not set surface as HTML classes when "light"', () => {
     render(<Theme surface="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqualClassNames(['eufemia-theme'])
+    expect(element).toHaveClass(...['eufemia-theme'], { exact: true })
   })
 
   it('resets surface to undefined when "initial" inside a dark surface context', () => {
@@ -363,14 +369,14 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(themeElement).toHaveClass(
+      ...[
         'dnb-core-style',
         'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]
     )
     expect(
       themeElement.querySelector('.dnb-dialog__root.dnb-modal__content')
@@ -388,14 +394,14 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(themeElement).toHaveClass(
+      ...[
         'dnb-core-style',
         'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]
     )
     expect(
       themeElement.querySelector(
@@ -413,14 +419,14 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(themeElement).toHaveClass(
+      ...[
         'dnb-core-style',
         'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -436,14 +442,14 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(themeElement).toHaveClass(
+      ...[
         'dnb-core-style',
         'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -462,14 +468,14 @@ describe('Portals', () => {
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toBeInTheDocument()
 
-    expect(Array.from(themeElement.classList)).toEqualClassNames(
-      expect.arrayContaining([
+    expect(themeElement).toHaveClass(
+      ...[
         'dnb-core-style',
         'eufemia-portal-root',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ])
+      ]
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })

@@ -313,11 +313,10 @@ describe('Checkbox component', () => {
 
     const element = document.querySelector('.dnb-checkbox')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-checkbox',
-      'dnb-form-component',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-checkbox', 'dnb-form-component', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -348,14 +347,17 @@ describe('Checkbox component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-checkbox',
-      'dnb-form-component',
-      'dnb-checkbox--label-position-right',
-    ])
-    expect(Array.from(inputElement.classList)).toEqualClassNames([
-      'dnb-checkbox__input',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-checkbox',
+        'dnb-form-component',
+        'dnb-checkbox--label-position-right',
+      ],
+      { exact: true }
+    )
+    expect(inputElement).toHaveClass(...['dnb-checkbox__input'], {
+      exact: true,
+    })
   })
 
   it('should validate with ARIA rules', async () => {

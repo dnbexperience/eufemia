@@ -86,20 +86,20 @@ describe('FieldBlock', () => {
   it('should contain given classes', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-forms-field-block').classList
-      )
-    ).toEqualClassNames(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
+    expect(document.querySelector('.dnb-forms-field-block')).toHaveClass(
+      ...['dnb-space', 'dnb-forms-field-block', 'custom-class'],
+      { exact: true }
+    )
 
     expect(
-      Array.from(
-        document.querySelector('.dnb-forms-field-block__grid').classList
-      )
-    ).toEqualClassNames([
-      'dnb-forms-field-block__grid',
-      'dnb-forms-field-block--layout-vertical',
-    ])
+      document.querySelector('.dnb-forms-field-block__grid')
+    ).toHaveClass(
+      ...[
+        'dnb-forms-field-block__grid',
+        'dnb-forms-field-block--layout-vertical',
+      ],
+      { exact: true }
+    )
   })
 
   it('should support "forId" property', () => {

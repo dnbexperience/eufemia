@@ -24,16 +24,19 @@ describe('ToggleButton group component', () => {
     const element = document.querySelector('.dnb-toggle-button-group')
     const flexElement = element.querySelector('.dnb-flex-container')
 
-    expect(Array.from(flexElement.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-x-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+        'dnb-flex-container--justify-flex-start',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-x-small',
+        'dnb-flex-container--wrap',
+        'dnb-flex-container--divider-space',
+      ],
+      { exact: true }
+    )
 
     rerender(
       <ToggleButton.Group label="Label" labelDirection="vertical">
@@ -41,16 +44,19 @@ describe('ToggleButton group component', () => {
       </ToggleButton.Group>
     )
 
-    expect(Array.from(flexElement.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+        'dnb-flex-container--justify-flex-start',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-small',
+        'dnb-flex-container--wrap',
+        'dnb-flex-container--divider-space',
+      ],
+      { exact: true }
+    )
   })
 
   it('should have variant="radio', () => {
@@ -450,13 +456,16 @@ describe('ToggleButton group component', () => {
 
     const element = document.querySelector('.dnb-toggle-button-group')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-toggle-button-group',
-      'dnb-toggle-button-group--row',
-      'dnb-form-component',
-      'dnb-toggle-button-group--no-label',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-toggle-button-group',
+        'dnb-toggle-button-group--row',
+        'dnb-form-component',
+        'dnb-toggle-button-group--no-label',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -485,39 +494,44 @@ describe('ToggleButton group component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-toggle-button-group',
-      'dnb-toggle-button-group--row',
-      'dnb-form-component',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-toggle-button-group',
+        'dnb-toggle-button-group--row',
+        'dnb-form-component',
+      ],
+      { exact: true }
+    )
     expect(
-      Array.from(
-        document.querySelector(
-          '.dnb-toggle-button-group .dnb-flex-container'
-        ).classList
+      document.querySelector(
+        '.dnb-toggle-button-group .dnb-flex-container'
       )
-    ).toEqualClassNames([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
-    expect(
-      Array.from(document.querySelector('.dnb-flex-container').classList)
-    ).toEqualClassNames([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    ).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+        'dnb-flex-container--justify-flex-start',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-small',
+        'dnb-flex-container--wrap',
+        'dnb-flex-container--divider-space',
+      ],
+      { exact: true }
+    )
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+        'dnb-flex-container--justify-flex-start',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-small',
+        'dnb-flex-container--wrap',
+        'dnb-flex-container--divider-space',
+      ],
+      { exact: true }
+    )
   })
 
   it('should validate with ARIA rules with label', async () => {

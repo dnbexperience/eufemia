@@ -151,27 +151,26 @@ describe('Logo component', () => {
     )
 
     expect(attributes).not.toContain('top')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-logo',
-      'dnb-logo--ui',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-logo', 'dnb-logo--ui', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should have a certain set of HTML classes', () => {
     const { rerender } = render(<Logo />)
 
-    expect(Array.from(document.querySelector('span').classList)).toEqualClassNames([
-      'dnb-logo',
-      'dnb-logo--ui',
-    ])
+    expect(document.querySelector('span')).toHaveClass(
+      ...['dnb-logo', 'dnb-logo--ui'],
+      { exact: true }
+    )
 
     rerender(<Logo svg={SbankenDefault} />)
 
-    expect(Array.from(document.querySelector('span').classList)).toEqualClassNames([
-      'dnb-logo',
-      'dnb-logo--sbanken',
-    ])
+    expect(document.querySelector('span')).toHaveClass(
+      ...['dnb-logo', 'dnb-logo--sbanken'],
+      { exact: true }
+    )
   })
 
   it('should have a certain set of HTML attributes', () => {

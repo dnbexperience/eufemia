@@ -142,11 +142,10 @@ describe('Timeline', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-timeline',
-      'dnb-space__reset',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-timeline', 'dnb-space__reset', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should support extra attributes', () => {

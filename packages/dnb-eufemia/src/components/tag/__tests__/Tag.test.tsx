@@ -98,10 +98,10 @@ describe('Tag Group', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-tag__group',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-tag__group', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 })
 
@@ -241,15 +241,18 @@ describe('Tag', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-button',
-      'dnb-button--unstyled',
-      'dnb-button--has-text',
-      'dnb-tag',
-      'dnb-tag--default',
-      'dnb-space__left--large',
-      'dnb-button--size-small',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-button',
+        'dnb-button--unstyled',
+        'dnb-button--has-text',
+        'dnb-tag',
+        'dnb-tag--default',
+        'dnb-space__left--large',
+        'dnb-button--size-small',
+      ]
+    )
+    expect(element.classList).toHaveLength(7)
   })
 
   describe('variant clickable', () => {

@@ -120,10 +120,10 @@ describe('Radio component', () => {
 
     const element = document.querySelector('.dnb-radio')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-radio',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-radio', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should support inline styling', () => {
@@ -161,10 +161,10 @@ describe('Radio component', () => {
       'type',
       'value',
     ])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-radio',
-      'dnb-radio--label-position-right',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-radio', 'dnb-radio--label-position-right'],
+      { exact: true }
+    )
   })
 })
 

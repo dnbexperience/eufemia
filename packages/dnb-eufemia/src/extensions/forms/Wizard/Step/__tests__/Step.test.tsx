@@ -179,20 +179,29 @@ describe('Step', () => {
         document.querySelectorAll('.dnb-step-indicator__item')
       )
 
-      expect(Array.from(s1.classList)).toEqualClassNames([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--inactive',
-        'dnb-step-indicator__item--visited',
-      ])
-      expect(Array.from(s2.classList)).toEqualClassNames([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--current',
-        'dnb-step-indicator__item--inactive',
-      ])
-      expect(Array.from(s3.classList)).toEqualClassNames([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--inactive',
-      ])
+      expect(s1).toHaveClass(
+        ...[
+          'dnb-step-indicator__item',
+          'dnb-step-indicator__item--inactive',
+          'dnb-step-indicator__item--visited',
+        ],
+        { exact: true }
+      )
+      expect(s2).toHaveClass(
+        ...[
+          'dnb-step-indicator__item',
+          'dnb-step-indicator__item--current',
+          'dnb-step-indicator__item--inactive',
+        ],
+        { exact: true }
+      )
+      expect(s3).toHaveClass(
+        ...[
+          'dnb-step-indicator__item',
+          'dnb-step-indicator__item--inactive',
+        ],
+        { exact: true }
+      )
 
       expect(s1.querySelector('.dnb-anchor').tagName).toBe('SPAN')
       expect(s2.querySelector('.dnb-anchor').tagName).toBe('SPAN')

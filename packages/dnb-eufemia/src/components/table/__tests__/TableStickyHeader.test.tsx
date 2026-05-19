@@ -43,12 +43,15 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--large',
-      'dnb-table--sticky',
-    ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      ...[
+        'dnb-table',
+        'dnb-table__variant--generic',
+        'dnb-table__size--large',
+        'dnb-table--sticky',
+      ],
+      { exact: true }
+    )
   })
 
   it('should contain valid HTML classes when sticky is true', () => {
@@ -58,12 +61,15 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--large',
-      'dnb-table--sticky',
-    ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      ...[
+        'dnb-table',
+        'dnb-table__variant--generic',
+        'dnb-table__size--large',
+        'dnb-table--sticky',
+      ],
+      { exact: true }
+    )
   })
 
   it('should add "css-position" class', () => {
@@ -75,13 +81,8 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    expect(Array.from(document.querySelector('tr').classList)).toEqualClassNames(
-      expect.arrayContaining([
-        'dnb-table__tr',
-        'dnb-table__tr--odd',
-        'sticky',
-        'css-position',
-      ])
+    expect(document.querySelector('tr')).toHaveClass(
+      ...['dnb-table__tr', 'dnb-table__tr--odd', 'sticky', 'css-position']
     )
   })
 
@@ -124,7 +125,7 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    expect(trElem.style.getPropertyValue('--table-top')).toEqualClassNames('4rem')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
 
     // stickyOffset should support pixels as well
     rerender(
@@ -258,7 +259,7 @@ describe('useStickyHeader', () => {
 
     simulateScroll(32, scrollElem)
 
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqualClassNames('')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(Array.from(trElem.classList)).toContain('is-sticky')
 
     rerender(
@@ -271,7 +272,7 @@ describe('useStickyHeader', () => {
 
     simulateScroll(46, scrollElem)
 
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqualClassNames('')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('1rem')
   })
 

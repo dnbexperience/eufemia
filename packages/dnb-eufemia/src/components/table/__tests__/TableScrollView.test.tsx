@@ -34,11 +34,14 @@ describe('Table.ScrollView', () => {
 
     const element = document.querySelector('.dnb-table__scroll-view')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-scroll-view',
-      'dnb-table__scroll-view',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-scroll-view',
+        'dnb-table__scroll-view',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should have tabindex="0"', () => {

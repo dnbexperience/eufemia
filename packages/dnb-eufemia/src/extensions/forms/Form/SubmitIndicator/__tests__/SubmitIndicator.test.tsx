@@ -30,11 +30,10 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-forms-submit-indicator',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-space', 'dnb-forms-submit-indicator', 'custom-class'],
+      { exact: true }
+    )
   })
 
   it('should have three dots', () => {
@@ -49,12 +48,15 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-space__top--large',
-      'dnb-forms-submit-indicator',
-      'dnb-forms-submit-indicator--state-pending',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-space',
+        'dnb-space__top--large',
+        'dnb-forms-submit-indicator',
+        'dnb-forms-submit-indicator--state-pending',
+      ],
+      { exact: true }
+    )
   })
 
   it('should forward HTML attributes', () => {

@@ -19,11 +19,10 @@ describe('CopyOnClick', () => {
 
     const element = document.querySelector('.dnb-copy-on-click')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-copy-on-click',
-      'dnb-copy-on-click--cursor',
-      'dnb-span',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-copy-on-click', 'dnb-copy-on-click--cursor', 'dnb-span'],
+      { exact: true }
+    )
   })
 
   it('does not render the cursor when disabled', () => {

@@ -139,20 +139,19 @@ describe('ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-scroll-view',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(...['dnb-scroll-view', 'custom-class'], {
+      exact: true,
+    })
   })
 
   it('should support spacing', () => {
     render(<ScrollView top="large">overflow content</ScrollView>)
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-scroll-view',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-scroll-view', 'dnb-space__top--large'],
+      { exact: true }
+    )
   })
 
   it('should have constant of _supportsSpacingProps', () => {

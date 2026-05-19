@@ -77,11 +77,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-icon',
-      'dnb-icon--auto',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-icon', 'dnb-icon--auto', 'dnb-icon--inherit-color'],
+      { exact: true }
+    )
   })
 
   it('children icon can set own size', () => {
@@ -95,11 +94,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-icon',
-      'dnb-icon--small',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-icon', 'dnb-icon--small', 'dnb-icon--inherit-color'],
+      { exact: true }
+    )
   })
 
   it('prop icon has correct auto size', () => {
@@ -111,11 +109,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-icon',
-      'dnb-icon--auto',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-icon', 'dnb-icon--auto', 'dnb-icon--inherit-color'],
+      { exact: true }
+    )
   })
 
   it('prop icon can set own size', () => {
@@ -127,11 +124,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-icon',
-      'dnb-icon--small',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      ...['dnb-icon', 'dnb-icon--small', 'dnb-icon--inherit-color'],
+      { exact: true }
+    )
   })
 
   it('renders img from src', () => {
@@ -245,12 +241,15 @@ describe('Avatar', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-avatar',
-      'dnb-avatar--primary',
-      'dnb-avatar--size-medium',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-avatar',
+        'dnb-avatar--primary',
+        'dnb-avatar--size-medium',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('supports inline styling', () => {
@@ -276,13 +275,16 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-avatar')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-avatar',
-      'dnb-avatar--primary',
-      'dnb-avatar--size-medium',
-      'dnb-space__top--large',
-      'dnb-space__bottom--small',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-avatar',
+        'dnb-avatar--primary',
+        'dnb-avatar--size-medium',
+        'dnb-space__top--large',
+        'dnb-space__bottom--small',
+      ],
+      { exact: true }
+    )
   })
 
   it('should apply innerSpace CSS custom properties on Avatar root', () => {

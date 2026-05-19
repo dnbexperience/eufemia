@@ -107,12 +107,8 @@ describe('Accordion component', () => {
   it('has correct classes when noAnimation', () => {
     render(<Accordion noAnimation />)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__header').classList
-      )
-    ).toEqualClassNames(
-      expect.arrayContaining(['dnb-accordion__header--no-animation'])
+    expect(document.querySelector('.dnb-accordion__header')).toHaveClass(
+      ...['dnb-accordion__header--no-animation']
     )
   })
 
@@ -158,19 +154,15 @@ describe('Accordion component', () => {
   it('should have hidden content when "keepInDOM" is true but closed', () => {
     render(<Accordion {...props} keepInDOM={true} />)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
-    ).toEqualClassNames(expect.arrayContaining(['dnb-height-animation--hidden']))
+    expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
+      ...['dnb-height-animation--hidden']
+    )
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
-    ).toEqualClassNames(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
+    expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
+      ...['dnb-height-animation--is-in-dom']
+    )
   })
 
   it('should validate with ARIA rules', async () => {

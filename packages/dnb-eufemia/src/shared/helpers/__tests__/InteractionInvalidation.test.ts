@@ -96,16 +96,19 @@ describe('InteractionInvalidation', () => {
     }
 
     it('be in its original state', () => {
+      expect.hasAssertions()
       hasDefaultState('.effected')
     })
 
     it('have invalidated everything', () => {
+      expect.hasAssertions()
       ii.activate()
 
       hasInvalidatedState('.effected')
     })
 
     it('have reverted the invalidation', () => {
+      expect.hasAssertions()
       ii.activate()
       ii.revert()
 
@@ -113,6 +116,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated everything, even with a bypassed selector', () => {
+      expect.hasAssertions()
       ii.setBypassSelector('.bypass-invalid')
       ii.activate()
 
@@ -121,6 +125,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated only .effected by using setBypassSelector', () => {
+      expect.hasAssertions()
       ii.activate()
       ii.revert()
       ii.setBypassSelector('.bypass *')
@@ -131,6 +136,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated only .effected by using setBypassElements', () => {
+      expect.hasAssertions()
       const bypassElems = Array.from(
         document.querySelectorAll('.bypass *')
       ) as HTMLElement[]
@@ -142,6 +148,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated only .effected', () => {
+      expect.hasAssertions()
       ii.activate('.effected')
 
       hasDefaultState('.bypass')
@@ -220,10 +227,12 @@ describe('InteractionInvalidation', () => {
     }
 
     it('be in its original state', () => {
+      expect.hasAssertions()
       hasDefaultState('.effected')
     })
 
     it('have invalidated everything', () => {
+      expect.hasAssertions()
       ii = new InteractionInvalidation({ ariaHidden: false })
 
       ii.activate()
@@ -232,6 +241,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have reverted the invalidation', () => {
+      expect.hasAssertions()
       ii.activate()
       ii.revert()
 
@@ -239,6 +249,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated everything, even with a bypassed selector', () => {
+      expect.hasAssertions()
       ii.setBypassSelector('.bypass-invalid')
       ii.activate()
 
@@ -247,6 +258,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated only .effected by using setBypassSelector', () => {
+      expect.hasAssertions()
       ii.activate()
       ii.revert()
       ii.setBypassSelector('.bypass *')
@@ -257,6 +269,7 @@ describe('InteractionInvalidation', () => {
     })
 
     it('have invalidated only .effected', () => {
+      expect.hasAssertions()
       ii.activate('.effected')
 
       hasDefaultState('.bypass')

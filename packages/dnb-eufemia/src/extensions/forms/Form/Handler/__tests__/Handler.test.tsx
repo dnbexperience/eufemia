@@ -234,11 +234,10 @@ describe('Form.Handler', () => {
 
     const formElement = document.querySelector('form')
 
-    expect(Array.from(formElement.classList)).toEqualClassNames([
-      'dnb-space',
-      'dnb-forms-form',
-      'custom-class',
-    ])
+    expect(formElement).toHaveClass(
+      ...['dnb-space', 'dnb-forms-form', 'custom-class'],
+      { exact: true }
+    )
   })
 
   it('should handle spacing prop', () => {

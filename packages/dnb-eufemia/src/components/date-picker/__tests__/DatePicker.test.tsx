@@ -4082,14 +4082,17 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-date-picker--vertical',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-date-picker',
+        'dnb-form-component',
+        'dnb-date-picker--vertical',
+        'dnb-date-picker--hidden',
+        'dnb-date-picker--show-input',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should align popover to right when stretch prop is true', async () => {
@@ -4169,13 +4172,16 @@ describe('DatePicker component', () => {
     )
 
     expect(attributes).toEqual(['class', 'lang'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-date-picker--vertical',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-date-picker',
+        'dnb-form-component',
+        'dnb-date-picker--vertical',
+        'dnb-date-picker--hidden',
+        'dnb-date-picker--show-input',
+      ],
+      { exact: true }
+    )
   })
 
   it('should display a month ahead in right picker when range is linked', async () => {

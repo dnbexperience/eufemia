@@ -1599,6 +1599,9 @@ describe('Dropdown component', () => {
     // open first
     open()
 
+    expect(
+      document.querySelector('.dnb-drawer-list--bottom')
+    ).toBeInTheDocument()
     await testDirectionObserver()
   })
 

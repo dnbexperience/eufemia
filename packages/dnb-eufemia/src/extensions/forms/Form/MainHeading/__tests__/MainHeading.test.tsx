@@ -38,12 +38,15 @@ describe('Form.MainHeading', () => {
 
     const element = document.querySelector('.dnb-forms-main-heading')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-heading',
-      'dnb-h--large',
-      'dnb-forms-main-heading',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-heading',
+        'dnb-h--large',
+        'dnb-forms-main-heading',
+        'custom-class',
+      ],
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

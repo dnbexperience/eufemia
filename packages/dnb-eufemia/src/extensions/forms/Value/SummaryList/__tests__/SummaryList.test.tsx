@@ -104,12 +104,15 @@ describe('Value.SummaryList', () => {
 
     const element = document.querySelector('.dnb-forms-summary-list')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-forms-summary-list',
-      'custom-class',
-      'dnb-dl__layout--vertical',
-      'dnb-dl',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-forms-summary-list',
+        'custom-class',
+        'dnb-dl__layout--vertical',
+        'dnb-dl',
+      ],
+      { exact: true }
+    )
   })
 
   it('should set grid class', () => {

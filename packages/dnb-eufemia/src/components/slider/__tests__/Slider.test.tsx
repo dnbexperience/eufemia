@@ -48,9 +48,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining(['dnb-space__top--large'])
-    )
+    expect(element).toHaveClass(...['dnb-space__top--large'])
   })
 
   it('should include className', () => {
@@ -58,9 +56,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining(['custom-class'])
-    )
+    expect(element).toHaveClass(...['custom-class'])
   })
 
   it('should apply custom attributes to thumb button', () => {
@@ -78,9 +74,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqualClassNames(
-      expect.arrayContaining(['dnb-slider--stretch'])
-    )
+    expect(element).toHaveClass(...['dnb-slider--stretch'])
   })
 
   it('has correct value on mouse move', () => {
@@ -239,8 +233,8 @@ describe('Slider component', () => {
       const tooltipElem = document.querySelector('.dnb-tooltip')
 
       expect(tooltipElem.textContent).toBe('70')
-      expect(Array.from(tooltipElem.classList)).toEqualClassNames(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      expect(tooltipElem).toHaveClass(
+        ...['dnb-tooltip', 'dnb-tooltip--active']
       )
     })
 
@@ -920,11 +914,14 @@ describe('Slider component', () => {
       )
 
       expect(attributes).toEqual(['class'])
-      expect(Array.from(element.classList)).toEqualClassNames([
-        'dnb-slider',
-        'dnb-form-component',
-        'dnb-slider__label--vertical',
-      ])
+      expect(element).toHaveClass(
+        ...[
+          'dnb-slider',
+          'dnb-form-component',
+          'dnb-slider__label--vertical',
+        ],
+        { exact: true }
+      )
     })
   })
 

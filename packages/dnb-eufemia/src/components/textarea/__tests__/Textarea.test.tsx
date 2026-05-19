@@ -284,13 +284,16 @@ describe('Textarea component', () => {
 
     const element = document.querySelector('.dnb-textarea')
 
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-textarea',
-      'dnb-textarea--virgin',
-      'dnb-form-component',
-      'dnb-textarea--vertical',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-textarea',
+        'dnb-textarea--virgin',
+        'dnb-form-component',
+        'dnb-textarea--vertical',
+        'dnb-space__top--large',
+      ],
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -306,12 +309,15 @@ describe('Textarea component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-textarea',
-      'dnb-textarea--virgin',
-      'dnb-form-component',
-      'dnb-textarea--vertical',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-textarea',
+        'dnb-textarea--virgin',
+        'dnb-form-component',
+        'dnb-textarea--vertical',
+      ],
+      { exact: true }
+    )
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {

@@ -538,6 +538,10 @@ describe('Autocomplete component', () => {
 
       toggle()
 
+      expect(document.querySelector('.dnb-drawer-list')).toHaveAttribute(
+        'id',
+        'custom-id-drawer-list'
+      )
       testAllIds('custom-id')
     })
 
@@ -3284,6 +3288,9 @@ describe('Autocomplete component', () => {
       )
     )
 
+    expect(
+      document.querySelector('.dnb-drawer-list--bottom')
+    ).toBeInTheDocument()
     await testDirectionObserver()
   })
 
@@ -3385,14 +3392,17 @@ describe('Autocomplete component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqualClassNames([
-      'dnb-autocomplete',
-      'dnb-form-component',
-      'dnb-autocomplete--auto',
-      'dnb-autocomplete--vertical',
-      'dnb-autocomplete--icon-position-left',
-      'dnb-autocomplete--default',
-    ])
+    expect(element).toHaveClass(
+      ...[
+        'dnb-autocomplete',
+        'dnb-form-component',
+        'dnb-autocomplete--auto',
+        'dnb-autocomplete--vertical',
+        'dnb-autocomplete--icon-position-left',
+        'dnb-autocomplete--default',
+      ],
+      { exact: true }
+    )
   })
 
   it('should set correct value in input', async () => {
