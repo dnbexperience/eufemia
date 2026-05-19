@@ -3,24 +3,22 @@ export type AriaLiveProps = {
   element?: ElementType
 
   /**
-   * The variant of the announcement. Can be 'text' or 'content'.
+   * The variant of the announcement. Can be `text` or `content`. Defaults to `text`.
    */
   variant?: 'text' | 'content'
 
   /**
-   * The priority level of the announcement. Can be 'low', or 'high'.
+   * The priority level of the announcement. Can be `low`, or `high`.
    */
   priority?: 'low' | 'high'
 
   /**
    * Delay in milliseconds before the announcement is made. Defaults to `1000`.
-   * Default: `1000`
    */
   delay?: number
 
   /**
-   * Whether the AriaLive component is on or off.
-   * Default: `false`
+   * If `true`, the announcement will not be made. Defaults to `false`.
    */
   disabled?: boolean
 

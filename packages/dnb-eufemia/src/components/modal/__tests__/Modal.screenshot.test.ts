@@ -1,22 +1,18 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Modal', () => {
+describe('Modal', () => {
   const url = '/uilib/components/modal/demos/'
 
-  test('have to match the default modal trigger button', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match the default modal trigger button', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="modal-standard"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match the default modal window', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match the default modal window', async () => {
+    await makeScreenshot({
       url: url,
       pageViewport: {
         width: 700,
@@ -29,6 +25,5 @@ test.describe('Modal', () => {
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

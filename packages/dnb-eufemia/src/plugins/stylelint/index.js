@@ -1,16 +1,19 @@
 const noDeprecatedColorVariables = require('./rules/no-deprecated-color-variables.js')
+const tokenNamePolicy = require('./rules/token-name-policy.cjs')
+const noUnusedUse = require('./rules/no-unused-use.cjs')
 
-const stylelintPlugin = noDeprecatedColorVariables
+const pluginPack = [
+  noDeprecatedColorVariables,
+  tokenNamePolicy,
+  noUnusedUse,
+]
 
-stylelintPlugin.rules = {
-  'no-deprecated-color-variables': noDeprecatedColorVariables,
-}
-
-stylelintPlugin.recommended = {
-  plugins: [noDeprecatedColorVariables],
+pluginPack.recommended = {
+  plugins: pluginPack,
   rules: {
     [noDeprecatedColorVariables.ruleName]: true,
+    [tokenNamePolicy.ruleName]: true,
   },
 }
 
-module.exports = stylelintPlugin
+module.exports = pluginPack

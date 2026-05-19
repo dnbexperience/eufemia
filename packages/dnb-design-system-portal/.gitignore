@@ -15,6 +15,7 @@
 # misc
 package-lock.json
 completions.json
+.eslintcache
 *.emotion.css
 .DS_Store
 .history

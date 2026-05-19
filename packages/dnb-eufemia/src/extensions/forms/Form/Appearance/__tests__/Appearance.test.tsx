@@ -3,10 +3,10 @@ import { Form, Field } from '../../..'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 describe('Form.Appearance', () => {
-  it('should have constant of _supportsSpacingProps="children"', () => {
+  it('should have constant of _supportsSpacingProps="passthrough"', () => {
     expect(
       (Form.Appearance as ComponentMarkers)._supportsSpacingProps
-    ).toBe('children')
+    ).toBe('passthrough')
   })
 
   describe('size', () => {

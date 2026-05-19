@@ -27,7 +27,7 @@ export default defineConfig({
     ],
     exclude: [
       '**/not_in_use/**',
-      '**/*screenshot*',
+      '**/*.screenshot.test.{ts,tsx,js,jsx}',
       '**/postTypeGeneration/**',
       '**/scripts/postbuild/**',
       '**/build/**',

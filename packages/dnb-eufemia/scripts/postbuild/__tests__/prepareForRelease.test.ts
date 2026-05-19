@@ -3,7 +3,6 @@
  *
  */
 
-import packpath from 'packpath'
 import fs from 'fs-extra'
 import path from 'path'
 import prepareForRelease, {
@@ -11,9 +10,11 @@ import prepareForRelease, {
   cleanupPackage,
 } from '../prepareForRelease'
 
+const PKG_ROOT = path.resolve(__dirname, '../../..')
+
 describe('cleanupPackage', () => {
   it('gets prepared properly and have the expected props', async () => {
-    const filepath = path.resolve(packpath.self(), 'package.json')
+    const filepath = path.resolve(PKG_ROOT, 'package.json')
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
@@ -35,7 +36,7 @@ describe('cleanupPackage', () => {
     // listed as a dependency in the published package.json.
     // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
     //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
-    const filepath = path.resolve(packpath.self(), 'package.json')
+    const filepath = path.resolve(PKG_ROOT, 'package.json')
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
@@ -53,7 +54,7 @@ describe('cleanupPackage', () => {
     // Consumers who use this plugin for style isolation need this package to be
     // listed as a dependency so their package manager installs it automatically.
     // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
-    const filepath = path.resolve(packpath.self(), 'package.json')
+    const filepath = path.resolve(PKG_ROOT, 'package.json')
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
@@ -69,7 +70,7 @@ describe('cleanupPackage', () => {
 describe('buildExportsMap', () => {
   it('returns a stable exports map', async () => {
     const exportsMap = await buildExportsMap({
-      buildDir: packpath.self(),
+      buildDir: PKG_ROOT,
     })
 
     expect(exportsMap['.']).toEqual(
@@ -91,11 +92,8 @@ describe('buildExportsMap', () => {
 })
 
 describe('package.json', () => {
-  const packageJsonFile = path.resolve(
-    packpath.self(),
-    'build/package.json'
-  )
-  const buildDir = path.resolve(packpath.self(), 'build')
+  const packageJsonFile = path.resolve(PKG_ROOT, 'build/package.json')
+  const buildDir = path.resolve(PKG_ROOT, 'build')
 
   type ExportEntry = string | Record<string, string | string[]>
   type PackageJson = {
@@ -365,9 +363,7 @@ describe('release config', () => {
   let packageJson: PackageJsonWithRelease = {}
 
   beforeAll(async () => {
-    packageJson = await fs.readJson(
-      path.resolve(packpath.self(), 'package.json')
-    )
+    packageJson = await fs.readJson(path.resolve(PKG_ROOT, 'package.json'))
   })
 
   it('has npm plugin provenance config', () => {
@@ -388,7 +384,7 @@ describe('release config', () => {
   })
 
   it('creates .releaserc.json with provenance config in build directory', async () => {
-    const buildDir = path.resolve(packpath.self(), 'build')
+    const buildDir = path.resolve(PKG_ROOT, 'build')
 
     // Ensure build directory exists
     await fs.ensureDir(buildDir)

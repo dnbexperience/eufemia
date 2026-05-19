@@ -123,6 +123,10 @@ export default {
       isLoadingText: 'Laster nytt innhold',
       loadButtonText: 'Vis mer innhold',
     },
+    Tabs: {
+      prevButtonTitle: 'Forrige fane',
+      nextButtonTitle: 'Neste fane',
+    },
     Skeleton: {
       ariaBusy: 'Behandler data ...',
       ariaReady: 'Klar til å samhandle',

@@ -3,6 +3,7 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { IconAllProps, IconProps } from '../icon/Icon'
 import { prerenderIcon, prepareIcon } from '../icon/Icon'
+import { useSpacing } from '../space/SpacingUtils'
 
 // NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
 import * as primaryIcons from '../../icons/dnb/primary_icons'
@@ -33,6 +34,11 @@ export default function IconPrimary(localProps: IconAllProps) {
     context
   )
 
+  const spacingProps = useSpacing(props, {
+    className: wrapperParams.className,
+    style: wrapperParams.style,
+  })
+
   const IconContainer = prerenderIcon({
     icon,
     size,
@@ -45,7 +51,7 @@ export default function IconPrimary(localProps: IconAllProps) {
   }
 
   return (
-    <span {...wrapperParams}>
+    <span {...wrapperParams} {...spacingProps}>
       <IconContainer {...iconParams} />
     </span>
   )

@@ -128,7 +128,9 @@ test.describe('Focusmode', () => {
   test('should enter focusmode when visiting a focusmode URL directly', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/radio/demos/?focusmode=radio-sizes')
+    await page.goto(
+      '/uilib/components/radio/demos/?focusmode=RadioExampleSizes'
+    )
     await waitForApp(page)
 
     // Should be in focusmode

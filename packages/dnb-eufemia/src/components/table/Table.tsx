@@ -3,7 +3,7 @@ import type { ReactNode, Ref, RefObject, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   extendPropsWithContext,
@@ -54,13 +54,13 @@ export type TableProps = {
   variant?: TableVariants
 
   /**
-   * Use `true` to show borders between table data cell
+   * Use `true` to show borders between table data cells.
    * Default: `false`
    */
   border?: boolean
 
   /**
-   * Use `true` to show a outline border around the table
+   * Use `true` to show an outline border around the table.
    * Default: `false`
    */
   outline?: boolean
@@ -152,7 +152,7 @@ const Table = (componentProps: TableAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const tableProps = applySpacing(allProps, {
+  const tableProps = useSpacing(allProps, {
     ...props,
     ref: mergedRef,
     className: clsx(
@@ -197,5 +197,6 @@ export { useTableKeyboardNavigation } from './useTableKeyboardNavigation'
 export { default as Th } from './TableTh'
 export { default as Td } from './TableTd'
 export { default as Tr } from './TableTr'
+export { useTableHighlight } from './useTableHighlight'
 
 Table.ScrollView = ScrollView

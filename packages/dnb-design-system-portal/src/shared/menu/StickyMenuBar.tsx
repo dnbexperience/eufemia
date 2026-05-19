@@ -47,9 +47,13 @@ export default function StickyMenuBar({
         <HomeButton id="toggle-main-menu" text="Home" />
         <HomeButton id="toggle-main-menu-small-screen" size="default" />
 
-        <span aria-hidden className={centerWrapperStyle}>
+        <Link
+          href="/"
+          className={clsx(centerWrapperStyle, 'dnb-tab-focus')}
+          title="Go to Eufemia home"
+        >
           <PortalLogo />
-        </span>
+        </Link>
 
         <span className={toolsStyle}>
           <SearchBarInput />

@@ -1215,7 +1215,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const internalData = dataContext.internalDataRef?.current
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({
-    // Use an unique (per field) starting value (id) for the itemPath, so we later can check if the valueToStore is the same as the current value.
+    // Use a unique (per field) starting value (id) for the itemPath, so we later can check if the valueToStore is the same as the current value.
     itemPath: id,
   })
   const setContextData = useCallback(

@@ -1,12 +1,12 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-for (const themeName of ['ui', 'sbanken', 'carnegie']) {
-  test.describe(`Dialog for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  `Dialog for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/components/dialog/demos/',
@@ -16,31 +16,28 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
       },
     })
 
-    test('have to match default dialog trigger', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match default dialog trigger', async () => {
+      await makeScreenshot({
         selector:
           '[data-visual-test="dialog-default"] .dnb-modal__trigger',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match suffix dialog trigger', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match suffix dialog trigger', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-help-button"] .dnb-input',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match custom dialog trigger', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match custom dialog trigger', async () => {
+      await makeScreenshot({
         selector:
           '[data-visual-test="dialog-custom-trigger"] .dnb-modal__trigger',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the dialog help window', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the dialog help window', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-help-button"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -49,11 +46,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content', // leave one with the background
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match a top aligned dialog', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match a top aligned dialog', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-vertical-alignment"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -62,11 +58,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the dialog fullscreen window', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the dialog fullscreen window', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-fullscreen"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -75,11 +70,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the dialog window using custom trigger', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the dialog window using custom trigger', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-custom-trigger"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -88,11 +82,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the custom dialog window', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the custom dialog window', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="full-dialog"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -101,11 +94,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the default dialog window', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the default dialog window', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-default"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -114,11 +106,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the default confirmation', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the default confirmation', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-confirm-default"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -127,11 +118,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the delete confirmation', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the delete confirmation', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-confirm-delete"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -140,11 +130,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the logged out confirmation', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the logged out confirmation', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-confirm-loggedout"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -153,11 +142,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the cookie consent confirmation', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the cookie consent confirmation', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-confirm-cookie"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -166,11 +154,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the dialog progressindicator window', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the dialog progressindicator window', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="dialog-progress-indicator"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
@@ -179,10 +166,9 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
         rootClassName: 'hide-page-content',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test.describe('scrollable content', () => {
+    describe('scrollable content', () => {
       setupPageScreenshot({
         themeName,
         url: '/uilib/components/dialog/demos/',
@@ -193,8 +179,8 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         headers: { 'User-Agent': 'iPhone OS 15' },
       })
 
-      test('have to match scrolled to top', async () => {
-        const screenshot = await makeScreenshot({
+      it('have to match scrolled to top', async () => {
+        await makeScreenshot({
           selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
           simulate: 'click',
           simulateSelector:
@@ -203,11 +189,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
           rootClassName: 'hide-page-content',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
-      test('have to match scrolled to bottom', async () => {
-        const screenshot = await makeScreenshot({
+      it('have to match scrolled to bottom', async () => {
+        await makeScreenshot({
           selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
           simulate: 'click',
           simulateSelector:
@@ -216,11 +201,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
           rootClassName: ['hide-page-content', 'scroll-to-bottom'],
         })
-        expect(screenshot).toMatchSnapshot()
       })
     })
 
-    test.describe('scrollable content in variant info', () => {
+    describe('scrollable content in variant info', () => {
       setupPageScreenshot({
         themeName,
         url: '/uilib/components/dialog/demos/',
@@ -231,8 +215,8 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
         headers: { 'User-Agent': 'iPhone OS 15' },
       })
 
-      test('have to match scrolled to top', async () => {
-        const screenshot = await makeScreenshot({
+      it('have to match scrolled to top', async () => {
+        await makeScreenshot({
           selector: '[data-visual-test="dialog-scroll-content-info"]', // only to make sure we have a valid selector
           simulate: 'click',
           simulateSelector:
@@ -241,11 +225,10 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           screenshotSelector: '.dnb-modal__content',
           rootClassName: 'hide-page-content',
         })
-        expect(screenshot).toMatchSnapshot()
       })
 
-      test('have to match scrolled to bottom', async () => {
-        const screenshot = await makeScreenshot({
+      it('have to match scrolled to bottom', async () => {
+        await makeScreenshot({
           selector: '[data-visual-test="dialog-scroll-content-info"]', // only to make sure we have a valid selector
           simulate: 'click',
           simulateSelector:
@@ -254,8 +237,7 @@ for (const themeName of ['ui', 'sbanken', 'carnegie']) {
           screenshotSelector: '.dnb-modal__content',
           rootClassName: ['hide-page-content', 'scroll-to-bottom-info'],
         })
-        expect(screenshot).toMatchSnapshot()
       })
     })
-  })
-}
+  }
+)

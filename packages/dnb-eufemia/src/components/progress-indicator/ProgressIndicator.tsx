@@ -19,7 +19,7 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { formatPercent } from '../number-format/NumberUtils'
@@ -101,7 +101,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   return (
     <span
-      {...applySpacing(allProps, {
+      {...useSpacing(allProps, {
         className: clsx(
           'dnb-progress-indicator',
           show && 'dnb-progress-indicator--show',

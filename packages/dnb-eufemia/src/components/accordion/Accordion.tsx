@@ -20,7 +20,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 
 import type { ButtonIconPosition } from '../Button'
@@ -34,6 +34,8 @@ import AccordionHeader from './AccordionHeader'
 import AccordionContent from './AccordionContent'
 import AccordionContext from './AccordionContext'
 import AccordionProviderContext from './AccordionProviderContext'
+import type { AccordionTertiaryProps } from './AccordionTertiary'
+import AccordionTertiary from './AccordionTertiary'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
@@ -43,7 +45,12 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type { AccordionGroupProps, AccordionInstance } from './types'
 export { accordionDefaultProps } from './types'
 
-export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
+export type AccordionVariant =
+  | 'plain'
+  | 'default'
+  | 'outlined'
+  | 'filled'
+  | 'tertiary'
 
 export type AccordionHeading = boolean | ReactNode
 
@@ -87,11 +94,11 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     preventRerender?: boolean
     /**
-     * Use this prop together with `preventRerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
+     * Use this property together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.
      */
     preventRerenderConditional?: boolean
     /**
-     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
+     * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.
      */
     rememberState?: boolean
     /**
@@ -103,11 +110,11 @@ export type AccordionProps = Omit<HTMLProps<HTMLElement>, 'ref'> &
      */
     flushRememberedState?: boolean
     /**
-     * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
+     * If set to `true`, a group of accordions will be wrapped into a sidebar-looking menu for medium and larger screens.
      */
     singleContainer?: boolean
     /**
-     * Defines the visual style variant. Available variants: `default`, `outlined`, `filled`, `plain`. Default: `outlined`
+     * Defines the used styling. `outlined`, `filled`, `plain` (no styling), `default`, or `tertiary` (renders a tertiary button). Defaults to `outlined`.
      */
     variant?: AccordionVariant
     /**
@@ -166,6 +173,21 @@ export type AccordionChangeEvent = {
 
 function Accordion({
   variant = 'outlined',
+  ...restOfProps
+}: AccordionProps) {
+  if (variant === 'tertiary') {
+    return (
+      <AccordionTertiary
+        {...(restOfProps as unknown as AccordionTertiaryProps)}
+      />
+    )
+  }
+
+  return <AccordionDefault variant={variant} {...restOfProps} />
+}
+
+function AccordionDefault({
+  variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps
 }: AccordionProps) {
@@ -176,7 +198,10 @@ function Accordion({
   const group = props.group || context?.group
   const id = useId(props.id)
 
-  const store = new Store({ id: props.id, group })
+  const store = useMemo(
+    () => new Store({ id: props.id, group }),
+    [props.id, group]
+  )
 
   // States ordered last here to make sure that the getInitialExpandedState have access to the store
   const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
@@ -287,7 +312,7 @@ function Accordion({
   function changeOpened(expanded: boolean) {
     setExpanded(expanded)
 
-    // check if a event exists, because, then it's a user click
+    // check if an event exists, because, then it's a user click
     if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }
@@ -379,7 +404,7 @@ function Accordion({
     ...restOfExtendedProps
   } = extendedProps
 
-  const mainParams = applySpacing(extendedProps, {
+  const mainParams = useSpacing(extendedProps, {
     id,
     className: clsx(
       'dnb-accordion',

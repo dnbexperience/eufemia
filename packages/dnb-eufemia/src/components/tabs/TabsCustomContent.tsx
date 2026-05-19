@@ -1,6 +1,6 @@
 import type { HTMLProps, ReactNode } from 'react'
 import clsx from 'clsx'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,
@@ -52,6 +52,10 @@ function CustomContent(props: TabsCustomContentProps) {
     ...rest
   } = props
 
+  const spacingProps = useSpacing(rest, {
+    className: clsx('dnb-tabs__content__inner', className),
+  })
+
   if (id) {
     const contentWrapperProps = rest as unknown as Omit<
       TabsContentWrapperProps,
@@ -64,15 +68,7 @@ function CustomContent(props: TabsCustomContentProps) {
     )
   }
 
-  return (
-    <div
-      {...applySpacing(rest, {
-        className: clsx('dnb-tabs__content__inner', className),
-      })}
-    >
-      {children as ReactNode}
-    </div>
-  )
+  return <div {...spacingProps}>{children as ReactNode}</div>
 }
 
 export default CustomContent

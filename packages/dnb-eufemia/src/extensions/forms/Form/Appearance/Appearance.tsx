@@ -23,7 +23,7 @@ function FormAppearance({ children, size, ...rest }: FormAppearanceProps) {
 }
 
 withComponentMarkers(FormAppearance, {
-  _supportsSpacingProps: 'children',
+  _supportsSpacingProps: 'passthrough',
 })
 
 export default FormAppearance

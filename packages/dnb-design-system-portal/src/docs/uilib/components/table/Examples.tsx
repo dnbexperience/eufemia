@@ -46,6 +46,7 @@ import Table, {
   Td,
   Tr,
   useTableKeyboardNavigation,
+  useTableHighlight,
 } from '@dnb/eufemia/src/components/Table'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
@@ -657,43 +658,6 @@ export const ClassHelpers = () => (
             <td colSpan={3} className="dnb-table__td">
               .dnb-table__tr--odd{' > '}.dnb-table__td
             </td>
-          </tr>
-        </tbody>
-      </table>
-    </Table.ScrollView>
-  </ComponentBox>
-)
-
-export const WithoutClasses = () => (
-  <ComponentBox hideCode data-visual-test="table-no-classes">
-    <Table.ScrollView>
-      <table className="dnb-table">
-        <thead>
-          <tr>
-            <th>Header</th>
-            <th className="dnb-table--sortable dnb-table--reversed">
-              <Th.SortButton text="Sortable" />
-            </th>
-            <th className="dnb-table--sortable dnb-table--active">
-              <Th.SortButton text="Active" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Row 1</td>
-            <td>Row 1</td>
-            <td>Row 1</td>
-          </tr>
-          <tr>
-            <td>Row 2</td>
-            <td>Row 2</td>
-            <td>Row 2</td>
-          </tr>
-          <tr>
-            <td>Row 3</td>
-            <td>Row 3</td>
-            <td>Row 3</td>
           </tr>
         </tbody>
       </table>
@@ -2162,6 +2126,66 @@ export const TableInAccordionTable = () => (
           />
         </Table.ScrollView>
       )
+    }}
+  </ComponentBox>
+)
+
+export const ColumnHighlight = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-column-highlight"
+    scope={{ useTableHighlight }}
+  >
+    {() => {
+      const ColumnHighlightTable = () => {
+        const highlightRef = useTableHighlight()
+
+        return (
+          <Table.ScrollView>
+            <Table outline border ref={highlightRef}>
+              <caption className="dnb-sr-only">
+                Table with highlighted column
+              </caption>
+
+              <thead>
+                <Tr>
+                  <Th />
+                  <Th highlight>Column A</Th>
+                  <Th highlight>Column B</Th>
+                  <Th>Column C</Th>
+                  <Th>Column D</Th>
+                </Tr>
+              </thead>
+
+              <tbody>
+                <Tr highlight>
+                  <Th>Row 1 Header</Th>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 2 Header</Th>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                </Tr>
+                <Tr>
+                  <Th>Row 3 Header</Th>
+                  <Td>Row 3</Td>
+                  <Td>Row 3</Td>
+                  <Td highlight>Row 3</Td>
+                  <Td>Row 3</Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+      }
+
+      return <ColumnHighlightTable />
     }}
   </ComponentBox>
 )

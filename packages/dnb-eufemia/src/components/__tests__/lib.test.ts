@@ -8,9 +8,9 @@ import { getComponents, Button } from '../lib'
 
 describe('Library', () => {
   it('has to have a named export of getComponents', () => {
-    expect(getComponents).toBeType('function')
+    expect(typeof getComponents).toBe('function')
   })
   it('has to have a Button Component', () => {
-    expect(Button).toBeType('function')
+    expect(typeof Button).toBe('function')
   })
 })

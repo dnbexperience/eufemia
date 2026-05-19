@@ -5,7 +5,6 @@
 
 import fs from 'fs-extra'
 import globby from 'globby'
-import packpath from 'packpath'
 import path, { basename } from 'path'
 import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
@@ -323,11 +322,11 @@ async function collectRelatedThemeFiles(themeSources: ThemeSources) {
   // make a group of all gathered themes we later will iterate through
   const relatedFiles: RelatedFiles = []
   Object.entries(themeSources).forEach(([name, list]) => {
+    const pkgRoot = path.resolve(__dirname, '../../..')
     const files = list.reduce((acc, { source }) => {
-      const path = packpath.self()
       acc.push(
         `\n@use '${source.replace(
-          new RegExp(`${path}/src/`, 'g'),
+          new RegExp(`${pkgRoot}/src/`, 'g'),
           '../../../'
         )}';`
       )

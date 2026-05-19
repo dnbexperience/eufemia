@@ -1,49 +1,40 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Form.Section', () => {
+describe('Form.Section', () => {
   const url = '/uilib/extensions/forms/Form/Section/demos/'
 
-  test('have to match view container', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match view container', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match edit container', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match edit container', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
       simulateSelector:
         '[data-visual-test="view-and-edit-container"] .dnb-forms-section-view-block .dnb-button--tertiary',
       simulate: 'click',
     })
-
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match basic view container', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match basic view container', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match basic edit container', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match basic edit container', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="basic-view-and-edit-container"]',
       simulateSelector:
         '[data-visual-test="basic-view-and-edit-container"] .dnb-forms-section-view-block .dnb-button--tertiary',
       simulate: 'click',
     })
-
-    expect(screenshot).toMatchSnapshot()
   })
 })

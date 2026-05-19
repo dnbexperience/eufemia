@@ -106,6 +106,18 @@ export default {
       yes: 'Yes',
       no: 'No',
     },
+    MultiSelectionField: {
+      placeholder: 'Select one or more',
+      selectAll: 'Select all',
+      searchPlaceholder: 'Search...',
+      noOptions: 'No options',
+      confirmButton: 'Confirm ({count} selected)',
+      cancelButton: 'Cancel',
+      selectionCount: '{count} of {total} selected',
+      clearAll: 'Clear all',
+      errorMinItems: 'You must select at least {minItems} items.',
+      errorMaxItems: 'You cannot select more than {maxItems} items.',
+    },
 
     /**
      * Feature fields

@@ -23,7 +23,7 @@ function ValueProviderProvider(props: ValueProviderProps) {
 }
 
 withComponentMarkers(ValueProviderProvider, {
-  _supportsSpacingProps: 'children',
+  _supportsSpacingProps: 'passthrough',
 })
 
 export default ValueProviderProvider

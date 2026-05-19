@@ -19,6 +19,7 @@ import type {
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
@@ -38,7 +39,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
@@ -102,7 +103,7 @@ export type GlobalStatusProps = {
    */
   text?: GlobalStatusText
   /**
-   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+   * The items (list items) appear as a part of the status content. You can both use a JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
    */
   items?: GlobalStatusItem[]
   /**
@@ -194,7 +195,7 @@ export type GlobalStatusAddProps = {
   text: string
   item?: GlobalStatusItem
   /**
-   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+   * The items (list items) appear as a part of the status content. You can both use a JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
    */
   items?: GlobalStatusItem[]
   onClose?: ({ statusId }: { statusId: GlobalStatusStatusId }) => void
@@ -325,6 +326,7 @@ function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
 
 function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const context = useContext(Context)
+  const fallbackStatusId = useId(ownProps.statusId)
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -353,6 +355,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       providerRef.current = provider
       const status = provider.init({
         ...ownProps,
+        statusId: fallbackStatusId,
         show: ownProps.show ?? 'auto',
       })
       globalStatusRef.current = status
@@ -684,7 +687,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     ...attributes
   } = props as GlobalStatusProps & Record<string, unknown>
 
-  const wrapperParams = applySpacing(props, {
+  const wrapperParams = useSpacing(props, {
     id,
     className: clsx(
       'dnb-global-status__wrapper',

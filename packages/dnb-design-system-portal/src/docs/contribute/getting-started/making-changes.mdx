@@ -231,7 +231,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
 
@@ -256,8 +256,8 @@ function MyComponent(props: ComponentAllProps) {
   // This helper will remove e.g. all spacing properties so you get only valid HTML attributes
   validateDOMAttributes(props, rest)
 
-  // This helper applies spacing classes and CSS custom properties to the root element props
-  const rootParams = applySpacing(props, {
+  // This hook applies spacing classes and CSS custom properties to the root element props
+  const rootParams = useSpacing(props, {
     ...rest,
     className: clsx('dnb-my-component', className),
   })

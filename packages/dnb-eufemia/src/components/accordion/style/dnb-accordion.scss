@@ -354,4 +354,33 @@
   html[data-visual-test] & &__header &__header__icon {
     transition: none;
   }
+
+  // Variant: "tertiary"
+  &__variant--tertiary {
+    display: inline-flex;
+
+    border: none;
+    background: none;
+    box-shadow: none;
+
+    .dnb-accordion__tertiary-button {
+      .dnb-icon {
+        transition: transform 0.4s var(--easing-default);
+
+        @include utilities.reducedMotion() {
+          transition-duration: 0.01ms;
+        }
+      }
+    }
+
+    &.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
+      transform: rotate(180deg);
+    }
+
+    &.dnb-accordion--expanded
+      .dnb-accordion__tertiary-button.dnb-button--icon-position-left
+      .dnb-icon {
+      transform: rotate(-180deg);
+    }
+  }
 }

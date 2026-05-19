@@ -30,11 +30,12 @@ function ComponentBox(props: CodeSectionProps) {
   const { children, scope = {}, ...rest } = props
 
   const hash = children as string
+
   if (globalThis.ComponentBoxMemo[hash]) {
     return globalThis.ComponentBoxMemo[hash]
   }
 
-  return (globalThis.ComponentBoxMemo[hash] = (
+  const element = (
     <CodeBlock
       scope={{
         ...getComponents(),
@@ -68,7 +69,11 @@ function ComponentBox(props: CodeSectionProps) {
     >
       {children}
     </CodeBlock>
-  ))
+  )
+
+  globalThis.ComponentBoxMemo[hash] = element
+
+  return element
 }
 
 export default ComponentBox

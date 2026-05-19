@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const GridContainerProperties: PropertiesTableProps = {
   columns: {
-    doc: 'Define how many columns your layout should be divided in. Can be just a number `columns={12}` or an object with media query sizes like `columns={{ small: 4, medium: 6, large: 12 }}` (default values). You can also disabled CSS Grid by providing `false` for one size, like so `columns={{ small: 4, medium: false, large: 12 }}`.',
+    doc: 'Define how many columns your layout should be divided in. Can be just a number `columns={12}` or an object with media query sizes like `columns={{ small: 4, medium: 6, large: 12 }}` (default values). You can also disable CSS Grid by providing `false` for one size, like so `columns={{ small: 4, medium: false, large: 12 }}`.',
     type: ['number', 'object'],
     status: 'optional',
   },

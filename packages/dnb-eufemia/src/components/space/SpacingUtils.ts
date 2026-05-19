@@ -4,9 +4,11 @@
  */
 
 import type { CSSProperties } from 'react'
+import { useContext } from 'react'
 import clsx, { type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
+import SpaceResponsiveContext from './SpaceResponsiveContext'
 
 import type {
   SpaceType,
@@ -466,24 +468,8 @@ export type ApplySpacingTarget = {
 } & Record<string, unknown>
 
 /**
- * Applies spacing to an existing props object by appending spacing CSS
- * classes to `className` and merging spacing CSS custom properties
- * (from `innerSpace`) into `style`. Spacing props (`space`, `innerSpace`,
- * `top`, `right`, `bottom`, `left`, `noCollapse`) are removed from the
- * returned object so it can be spread directly onto a DOM element.
- * Returns a new object; the input is not mutated.
- *
- * @example
- *   const mainParams = applySpacing(props, {
- *     ...attributes,
- *     className: clsx('dnb-button', className),
- *   })
- *
- * @param props - component props containing spacing properties
- *                (top, right, bottom, left, space, innerSpace, noCollapse)
- * @param target - props object to merge spacing into
- * @param elementName - optional element name for inline detection
- * @returns a new object of the same shape as `target`, with spacing merged in
+ * @deprecated Use `useSpacing` instead. This plain-function variant
+ * does not support `Space.ResponsiveContext` context.
  */
 export const applySpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
@@ -518,6 +504,65 @@ export const applySpacing = <T extends ApplySpacingTarget>(
 
   if (hasStyle) {
     result.style = { ...target.style, ...style }
+  }
+
+  return result
+}
+
+/**
+ * React hook that applies spacing to a target props object.
+ *
+ * Works like `applySpacing` — appends spacing CSS classes to
+ * `className`, merges CSS custom properties into `style`, and strips
+ * spacing keys so the result can be spread onto a DOM element.
+ *
+ * Additionally reads `SpaceResponsiveContext` (provided by
+ * `Space.ResponsiveContext`) and, when the component is rendered inside that
+ * wrapper, appends a `dnb-space-responsive--<density>` CSS class.
+ * This lets descendant components opt into responsive spacing driven
+ * by `--responsive-spacing-*` custom properties.
+ *
+ * Must be called at the top level of a React component (hook rules).
+ *
+ * @example
+ *   // Basic usage inside a component
+ *   const mainParams = useSpacing(props, {
+ *     ...attributes,
+ *     className: clsx('dnb-button', className),
+ *   })
+ *
+ * @example
+ *   // Wrapping with Space.ResponsiveContext enables responsive spacing
+ *   <Space.ResponsiveContext>
+ *     <Button top="large">Click</Button>
+ *   </Space.ResponsiveContext>
+ *   // Button's root element will include 'dnb-space-responsive--basis'
+ *
+ * @param props - component props containing spacing properties
+ *                (top, right, bottom, left, space, innerSpace, noCollapse)
+ * @param target - props object to merge spacing into
+ * @param elementName - optional element name for inline detection
+ * @returns a new object of the same shape as `target`, with spacing merged in
+ */
+export const useSpacing = <T extends ApplySpacingTarget>(
+  props: SpacingProps | SpacingUnknownProps,
+  target: T,
+  elementName: string | null = null
+): T => {
+  const responsive = useContext(SpaceResponsiveContext)
+  const result = applySpacing(props, target, elementName)
+
+  if (responsive && !responsive.off) {
+    result.className = clsx(
+      result.className,
+      'dnb-space-responsive',
+      responsive.defaultBreakpoint &&
+        `dnb-space-responsive--breakpoint-${responsive.defaultBreakpoint}`,
+      responsive.density &&
+        `dnb-space-responsive--force-${responsive.density}`
+    )
+  } else if (responsive && responsive.off) {
+    result.className = clsx(result.className, 'dnb-space-responsive--off')
   }
 
   return result

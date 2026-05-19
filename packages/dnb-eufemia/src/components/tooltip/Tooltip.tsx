@@ -10,7 +10,7 @@ import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import TooltipWithEvents from './TooltipWithEvents'
 import {
   defaultProps,
@@ -54,11 +54,7 @@ function Tooltip(localProps: TooltipAllProps) {
   const internalId = useId(id)
   const isControlled = typeof open === 'boolean'
 
-  if (targetSource && !target) {
-    return null
-  }
-
-  const attributes = applySpacing(props, {
+  const attributes = useSpacing(props, {
     ...attributeProps,
     className: clsx(
       'dnb-tooltip',
@@ -69,6 +65,11 @@ function Tooltip(localProps: TooltipAllProps) {
 
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
+
+  if (targetSource && !target) {
+    return null
+  }
+
   return (
     <TooltipContext value={{ isControlled, internalId, props }}>
       <TooltipWithEvents

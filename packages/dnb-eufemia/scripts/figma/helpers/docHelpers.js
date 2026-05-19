@@ -10,10 +10,26 @@ import { Client } from 'figma-js'
 import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
-import Color from 'color'
 import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
+
+/**
+ * Convert an [r, g, b] array (0–255) to a hex color string.
+ * Replaces the 'color' npm package which was only used for this conversion.
+ */
+function rgbaToHex([r, g, b]) {
+  return (
+    '#' +
+    [r, g, b]
+      .map((c) => {
+        const hex = Math.round(Math.max(0, Math.min(255, c))).toString(16)
+        return hex.length === 1 ? '0' + hex : hex
+      })
+      .join('')
+      .toUpperCase()
+  )
+}
 
 try {
   process.loadEnvFile()
@@ -31,7 +47,7 @@ export const fetchTextColor = (node) => {
     // type: 'TEXT'
   })
   if (!vector) return null
-  return Color(fetchColors(vector.fills)[0]).hex()
+  return fetchColors(vector.fills)[0]
 }
 export const fetchFillColor = (node) => {
   const vector = findNode(node, {
@@ -39,7 +55,7 @@ export const fetchFillColor = (node) => {
     // type: 'VECTOR'
   })
   if (!vector) return null
-  return Color(fetchColors(vector.fills)[0]).hex()
+  return fetchColors(vector.fills)[0]
 }
 export const fetchStrokes = (node) => {
   const vector = findNode(node, {
@@ -60,7 +76,7 @@ export const fetchColors = (fills) => {
     })
     .reduce((acc, c) => {
       acc.push(
-        Color([c.r * 255, c.g * 255, c.b * 255, c.a]).hex()
+        rgbaToHex([c.r * 255, c.g * 255, c.b * 255, c.a])
         // .rgb()
         // .string()
       )

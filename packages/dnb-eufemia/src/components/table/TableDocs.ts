@@ -128,6 +128,12 @@ export const TrProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  highlight: {
+    doc: 'If set to `true`, all `<Td>` and `<Th>` cells in the row receive a highlighted background.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
@@ -187,6 +193,12 @@ export const ThProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  highlight: {
+    doc: 'If set to `true`, the header cell and all `<Td>` cells in the same column receive a highlighted background. Also inherited from the parent `<Tr>` when it has `highlight`.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
@@ -212,6 +224,12 @@ export const TdProperties: PropertiesTableProps = {
     doc: 'Vertical alignment of the cell content.',
     type: ['"top"', '"middle"', '"bottom"'],
     defaultValue: 'undefined',
+    status: 'optional',
+  },
+  highlight: {
+    doc: 'If set to `true`, the cell receives a highlighted background. Automatically set when the parent `<Tr>` has `highlight`, or when the corresponding `<Th>` in the same column has `highlight`.',
+    type: 'boolean',
+    defaultValue: 'false',
     status: 'optional',
   },
   selected: {

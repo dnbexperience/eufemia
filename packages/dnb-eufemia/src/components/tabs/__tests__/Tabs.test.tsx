@@ -7,6 +7,8 @@ import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
+import { Provider } from '../../../shared'
+import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
 import Tabs from '../Tabs'
 import Input from '../../input/Input'
@@ -31,6 +33,44 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
+  it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+
+    const sharedId = 'shared-tabs-id'
+
+    // First render ContentWrapper alone so it subscribes to shared state
+    const { rerender } = render(
+      <Tabs.ContentWrapper id={sharedId}>
+        <p>External content</p>
+      </Tabs.ContentWrapper>
+    )
+
+    // Then add Tabs - this simulates the navigation scenario where
+    // ContentWrapper is already subscribed when Tabs mounts and calls set()
+    rerender(
+      <>
+        <Tabs id={sharedId} data={tablistData}>
+          {contentWrapperData}
+        </Tabs>
+        <Tabs.ContentWrapper id={sharedId}>
+          <p>External content</p>
+        </Tabs.ContentWrapper>
+      </>
+    )
+
+    // Verify no "Cannot update a component while rendering" error was logged
+    const setStateWarnings = consoleError.mock.calls.filter((call) =>
+      call.some(
+        (arg) =>
+          typeof arg === 'string' &&
+          arg.includes('Cannot update a component')
+      )
+    )
+    expect(setStateWarnings).toHaveLength(0)
+
+    consoleError.mockRestore()
+  })
+
   it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
@@ -273,6 +313,74 @@ describe('Tabs component', () => {
     const tabs = document.querySelector('.dnb-tabs__tabs')
 
     expect(tabs.className).not.toContain('--breakout')
+  })
+
+  it('adds labels to the scroll navigation buttons', () => {
+    const translations = defaultLocales['nb-NO'].Tabs
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const buttons = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+
+    expect(buttons[0]).toHaveAttribute(
+      'title',
+      translations.prevButtonTitle
+    )
+    expect(buttons[0]).toHaveAttribute(
+      'aria-label',
+      translations.prevButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'title',
+      translations.nextButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'aria-label',
+      translations.nextButtonTitle
+    )
+  })
+
+  it('translates the scroll navigation button labels', () => {
+    const translations = defaultLocales['en-GB'].Tabs
+
+    render(
+      <Provider locale="en-GB">
+        <Tabs
+          {...props}
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        >
+          {contentWrapperData}
+        </Tabs>
+      </Provider>
+    )
+
+    const buttons = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+
+    expect(buttons[0]).toHaveAttribute(
+      'title',
+      translations.prevButtonTitle
+    )
+    expect(buttons[0]).toHaveAttribute(
+      'aria-label',
+      translations.prevButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'title',
+      translations.nextButtonTitle
+    )
+    expect(buttons[1]).toHaveAttribute(
+      'aria-label',
+      translations.nextButtonTitle
+    )
   })
 
   it('warns when not providing any content', () => {

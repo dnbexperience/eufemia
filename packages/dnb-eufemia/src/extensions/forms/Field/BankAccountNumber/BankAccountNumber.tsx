@@ -55,6 +55,10 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
   const [maskValue, setMaskValue] = useState(value ?? defaultValue)
 
   useEffect(() => {
+    valueRef.current = value ?? defaultValue
+  }, [value, defaultValue])
+
+  useEffect(() => {
     if (value !== undefined && hasVariableMask(bankAccountType)) {
       setMaskValue(value)
     }

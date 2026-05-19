@@ -21,7 +21,7 @@ import {
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 export type TagProps = {
   /**
@@ -36,13 +36,13 @@ export type TagProps = {
   icon?: IconIcon
 
   /**
-   * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
+   * If a label is given, typically inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
    * Default: `null`
    */
   hasLabel?: boolean
 
   /**
-   * Defines the variant
+   * Defines the variant. Possible values are `default`, `clickable`, `addable`, or `removable`.
    * Default: `'default'`
    */
   variant?: 'default' | 'clickable' | 'addable' | 'removable'
@@ -72,8 +72,8 @@ export type TagProps = {
   onClick?: (args: { event: MouseEvent<HTMLButtonElement> }) => void
 
   /**
-   * Handle the delete event on 'tag' element
-   * Default: `null`
+   * Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys.
+   * Default: `false`
    */
   omitOnKeyUpDeleteEvent?: boolean
 
@@ -134,7 +134,7 @@ const Tag = (
 
   const addIcon = usedVariant === 'removable' || variant === 'addable'
   const isInteractive = usedVariant !== 'default'
-  const tagProps = applySpacing(props, {
+  const tagProps = useSpacing(props, {
     className: clsx(
       'dnb-tag',
       className,
@@ -163,7 +163,7 @@ const Tag = (
 
   if (!tagGroupContext && !hasLabel) {
     warn(
-      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantics and accessibility.`
     )
   }
 

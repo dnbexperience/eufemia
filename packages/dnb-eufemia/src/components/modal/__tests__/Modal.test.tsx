@@ -944,7 +944,7 @@ describe('Modal component', () => {
 
     await waitFor(() => {
       expect(onClosePrevent).toHaveBeenCalledTimes(2)
-      expect(onClosePrevent.mock.calls[1][0].close).toBeType('function')
+      expect(typeof onClosePrevent.mock.calls[1][0].close).toBe('function')
       expect(onClosePrevent.mock.calls[1][0].triggeredBy).toBe('overlay')
       expect(testTriggeredBy).toBe(null)
     })

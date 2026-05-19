@@ -87,7 +87,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: 'Transforms the `value` before its displayed in the field (e.g. input).',
+    doc: "Transforms the `value` before it's displayed in the field (e.g. input).",
     type: 'function',
     status: 'optional',
   },
@@ -110,7 +110,7 @@ export const DataValueWritePropsEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
+    doc: 'Will be called when the component stops being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `properties` (all given `Field.*` properties).',
     type: '(value) => void',
     status: 'optional',
   },

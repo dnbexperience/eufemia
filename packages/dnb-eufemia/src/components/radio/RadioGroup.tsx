@@ -16,7 +16,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -197,7 +197,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
 
   const showStatus = getStatusState(status)
 
-  const rootProps = applySpacing(props, {
+  const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-radio-group',
       status && `dnb-radio-group__status--${statusState}`,

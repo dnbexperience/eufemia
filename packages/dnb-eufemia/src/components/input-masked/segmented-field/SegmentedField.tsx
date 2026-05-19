@@ -6,7 +6,7 @@ import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'
 import FormLabel from '../../FormLabel'
-import { applySpacing } from '../../space/SpacingUtils'
+import { useSpacing } from '../../space/SpacingUtils'
 import { useSegmentedFieldValues } from '../hooks/useSegmentedFieldValues'
 import SegmentedFieldSection from './SegmentedFieldSection'
 import { ensureTextNode, listAllSections } from './dom'
@@ -362,7 +362,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     </FormLabel>
   )
 
-  const wrapperProps = applySpacing(rest, {
+  const wrapperProps = useSpacing(rest, {
     ref: (element: HTMLFieldSetElement | HTMLDivElement | null) => {
       if (!hasExternalScopeRef && !scopeRef.current) {
         scopeRef.current = element as HTMLElement | null

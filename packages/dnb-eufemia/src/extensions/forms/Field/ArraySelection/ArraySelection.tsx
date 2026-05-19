@@ -269,7 +269,7 @@ export function useCheckboxOrToggleOptions({
       return (
         <Component
           id={optionsCount === 1 ? id : undefined}
-          key={`option-${i}-${value}`}
+          key={`option-${i}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
           className={clsx(
             `dnb-forms-field-array-selection__${
@@ -306,6 +306,7 @@ export function useCheckboxOrToggleOptions({
       id,
       info,
       optionsCount,
+      size,
       value,
       variant,
       warning,

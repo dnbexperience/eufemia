@@ -3,8 +3,10 @@
  *
  */
 
-import type { CSSProperties } from 'react'
+import { createElement, type CSSProperties } from 'react'
+import { renderHook } from '@testing-library/react'
 import '../../../core/jest/jestSetup'
+import SpaceResponsiveContext from '../SpaceResponsiveContext'
 import {
   spacePatterns,
   translateSpace,
@@ -19,6 +21,7 @@ import {
   createSpacingProperties,
   createMarginProperties,
   applySpacing,
+  useSpacing,
 } from '../SpacingUtils'
 import type { SpaceType } from '../types'
 
@@ -730,6 +733,7 @@ describe('createMarginProperties', () => {
   })
 })
 
+// @deprecated
 describe('applySpacing', () => {
   it('should add spacing classes to an existing target className', () => {
     const result = applySpacing(
@@ -841,6 +845,95 @@ describe('applySpacing', () => {
     const target = { className: 'dnb-my-component', id: 'my-id' }
     const result = applySpacing({}, target)
     expect(result).toBe(target)
+  })
+})
+
+describe('useSpacing', () => {
+  it('should add spacing classes like applySpacing', () => {
+    const { result } = renderHook(() =>
+      useSpacing({ top: 'large' }, { className: 'dnb-my-component' })
+    )
+    expect(result.current.className).toContain('dnb-my-component')
+    expect(result.current.className).toContain('dnb-space__top--large')
+  })
+
+  it('should strip spacing props from the target', () => {
+    const { result } = renderHook(() =>
+      useSpacing({ top: 'small' }, {
+        className: 'dnb-my-component',
+        top: 'small',
+        space: 'large',
+        id: 'my-id',
+      } as Parameters<typeof useSpacing>[1])
+    )
+    expect(result.current).not.toHaveProperty('top')
+    expect(result.current).not.toHaveProperty('space')
+    expect(result.current.id).toBe('my-id')
+  })
+
+  it('should add dnb-space-responsive base class when inside SpaceResponsiveContext', () => {
+    const wrapper = ({ children }) =>
+      createElement(SpaceResponsiveContext, { value: {} }, children)
+
+    const { result } = renderHook(
+      () =>
+        useSpacing({ top: 'large' }, { className: 'dnb-my-component' }),
+      { wrapper }
+    )
+
+    expect(result.current.className).toContain('dnb-space-responsive')
+    expect(result.current.className).not.toContain(
+      'dnb-space-responsive--breakpoint'
+    )
+    expect(result.current.className).toContain('dnb-space__top--large')
+  })
+
+  it('should add default and density classes for compact', () => {
+    const wrapper = ({ children }) =>
+      createElement(
+        SpaceResponsiveContext,
+        { value: { density: 'compact' } },
+        children
+      )
+
+    const { result } = renderHook(
+      () =>
+        useSpacing({ top: 'large' }, { className: 'dnb-my-component' }),
+      { wrapper }
+    )
+
+    expect(result.current.className).toContain('dnb-space-responsive')
+    expect(result.current.className).toContain(
+      'dnb-space-responsive--force-compact'
+    )
+  })
+
+  it('should add dnb-space-responsive--off when off is set', () => {
+    const wrapper = ({ children }) =>
+      createElement(
+        SpaceResponsiveContext,
+        { value: { off: true } },
+        children
+      )
+
+    const { result } = renderHook(
+      () =>
+        useSpacing({ top: 'large' }, { className: 'dnb-my-component' }),
+      { wrapper }
+    )
+
+    expect(result.current.className).toContain('dnb-space-responsive--off')
+    expect(result.current.className).not.toContain(
+      'dnb-space-responsive dnb-space-responsive--breakpoint'
+    )
+  })
+
+  it('should not add dnb-space-responsive when outside SpaceResponsiveContext', () => {
+    const { result } = renderHook(() =>
+      useSpacing({ top: 'large' }, { className: 'dnb-my-component' })
+    )
+
+    expect(result.current.className).not.toContain('dnb-space-responsive')
   })
 })
 

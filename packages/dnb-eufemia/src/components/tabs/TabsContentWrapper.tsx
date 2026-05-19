@@ -6,7 +6,7 @@ import {
   validateDOMAttributes,
   combineLabelledBy,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
@@ -70,6 +70,26 @@ export default function ContentWrapper({
     }
   }, [id])
 
+  const resolvedInnerSpace =
+    contentInnerSpace === true ? 'large' : contentInnerSpace
+
+  const spacingProps = useSpacing(
+    {
+      ...rest,
+      innerSpace:
+        !contentStyle && resolvedInnerSpace
+          ? resolvedInnerSpace
+          : undefined,
+    },
+    {
+      className: clsx(
+        'dnb-tabs__content',
+        'dnb-no-focus',
+        !contentStyle && resolvedInnerSpace && 'dnb-space'
+      ),
+    }
+  )
+
   if (!children) {
     return null
   }
@@ -108,9 +128,6 @@ export default function ContentWrapper({
     content = children(stateToPass) as ReactNode
   }
 
-  const resolvedInnerSpace =
-    contentInnerSpace === true ? 'large' : contentInnerSpace
-
   return (
     <HeightAnimation
       role="tabpanel"
@@ -136,22 +153,7 @@ export default function ContentWrapper({
             }
           : 'div') as DynamicElement
       }
-      {...applySpacing(
-        {
-          ...rest,
-          innerSpace:
-            !contentStyle && resolvedInnerSpace
-              ? resolvedInnerSpace
-              : undefined,
-        },
-        {
-          className: clsx(
-            'dnb-tabs__content',
-            'dnb-no-focus',
-            !contentStyle && resolvedInnerSpace && 'dnb-space'
-          ),
-        }
-      )}
+      {...spacingProps}
       duration={600}
       animate={animate === true}
       {...params}

@@ -90,12 +90,12 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   align: {
-    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection`. Defaults to `left`.',
+    doc: 'Use `right` to change the options alignment direction. Only makes sense to use in combination with `preventSelection`. Defaults to `left`.',
     type: ['"left"', '"right"'],
     status: 'optional',
   },
   independentWidth: {
-    doc: 'If set to `true`, the Dropdown will handle its width independent to the content width. Defaults to `false`.',
+    doc: 'If set to `true`, the Dropdown will handle its width independent of the content width. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -115,7 +115,7 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
     status: 'optional',
   },

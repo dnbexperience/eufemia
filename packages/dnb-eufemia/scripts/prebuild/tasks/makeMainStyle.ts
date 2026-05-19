@@ -9,7 +9,6 @@ import path from 'path'
 import { log } from '../../lib'
 import globby from 'globby'
 import { asyncForEach } from '../../tools/index'
-import packpath from 'packpath'
 import {
   transformSass,
   transformPaths,
@@ -24,7 +23,7 @@ import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/c
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makeMainStyle() {
   // info: use this approach to process files because:

@@ -7,9 +7,8 @@ import fs from 'fs-extra'
 import path from 'path'
 import { transform } from 'lightningcss'
 import globby from 'globby'
-import packpath from 'packpath'
 
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../..')
 
 export function validateCssBuffer(
   filenameForErrors: string,

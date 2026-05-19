@@ -48,7 +48,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -136,7 +136,7 @@ export type InputProps = Omit<
      */
     type?: string
     /**
-     * The sizes you can choose is `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.
+     * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.
      */
     size?: InputSize
     /**
@@ -157,7 +157,7 @@ export type InputProps = Omit<
      */
     labelSrOnly?: boolean
     /**
-     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
+     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
      */
     inputState?: string
     /**
@@ -587,7 +587,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       ? 'medium'
       : iconSize
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-input',
       'dnb-input__border--tokens',

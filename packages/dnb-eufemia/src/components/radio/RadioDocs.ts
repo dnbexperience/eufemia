@@ -12,12 +12,12 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   group: {
-    doc: 'Use a unique group identifier to define the Radio buttons that belongs together.',
+    doc: 'Use a unique group identifier to define the Radio buttons that belong together.',
     type: 'string',
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
+    doc: 'The size of the Radio button. For now there are `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -42,7 +42,7 @@ export const RadioProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
     status: 'optional',
   },
@@ -80,7 +80,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Radio button. For now there is `medium` (default) and `large`.',
+    doc: 'The size of the Radio button. For now there are `medium` (default) and `large`.',
     type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -90,7 +90,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: "Defines the state of the status. It's two statuses `[error, information]`. Defaults to `error`.",
+    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
     status: 'optional',
   },

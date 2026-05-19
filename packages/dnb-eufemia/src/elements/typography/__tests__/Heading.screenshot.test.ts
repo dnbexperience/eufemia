@@ -1,113 +1,100 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Heading', () => {
+describe('Heading', () => {
   setupPageScreenshot({
     url: '/uilib/elements/heading/demos/',
   })
 
-  test('matches prose max width', async () => {
-    const screenshot = await makeScreenshot({
+  it('matches prose max width', async () => {
+    await makeScreenshot({
       style: {
         'padding-bottom': '1rem',
         'padding-left': '1rem',
       },
       selector: '[data-visual-test="heading-prose-max-width"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })
 
-for (const themeName of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
-  test.describe(`Heading for ${themeName}`, () => {
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  `Heading for %s`,
+  (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/elements/heading/demos/',
     })
 
-    test('have to match the default heading examples', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the default heading examples', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('have to match the additional heading examples', async () => {
-      const screenshot = await makeScreenshot({
+    it('have to match the additional heading examples', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="heading-additional"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('matches basic levels', async () => {
-      const screenshot = await makeScreenshot({
+    it('matches basic levels', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="heading-basics"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('matches all sizes and variants', async () => {
-      const screenshot = await makeScreenshot({
+    it('matches all sizes and variants', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="heading-sizes"]',
       })
-      expect(screenshot).toMatchSnapshot()
     })
 
-    test('matches base component', async () => {
-      const screenshot = await makeScreenshot({
+    it('matches base component', async () => {
+      await makeScreenshot({
         selector: '[data-visual-test="heading-base"]',
       })
-      expect(screenshot).toMatchSnapshot()
+    })
+  }
+)
+
+describe.each(['sbanken'])(`Heading mobile for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/elements/heading/demos/',
+    pageViewport: {
+      width: 400,
+    },
+  })
+  it('have to match the default heading examples', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-default"]',
     })
   })
-}
 
-for (const themeName of ['sbanken']) {
-  test.describe(`Heading mobile for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/elements/heading/demos/',
-      pageViewport: {
-        width: 400,
-      },
-    })
-    test('have to match the default heading examples', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="heading-default"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('have to match the additional heading examples', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="heading-additional"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('matches basic levels', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="heading-basics"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('matches all sizes and variants', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="heading-sizes"]',
-      })
-      expect(screenshot).toMatchSnapshot()
-    })
-
-    test('matches base component', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="heading-base"]',
-      })
-      expect(screenshot).toMatchSnapshot()
+  it('have to match the additional heading examples', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-additional"]',
     })
   })
-}
+
+  it('matches basic levels', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-basics"]',
+    })
+  })
+
+  it('matches all sizes and variants', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-sizes"]',
+    })
+  })
+
+  it('matches base component', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="heading-base"]',
+    })
+  })
+})

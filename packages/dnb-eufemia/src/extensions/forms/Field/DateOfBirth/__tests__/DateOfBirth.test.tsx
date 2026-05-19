@@ -1402,4 +1402,65 @@ describe('Field.DateOfBirth', () => {
       (Field.DateOfBirth as ComponentMarkers)._supportsSpacingProps
     ).toBe(undefined)
   })
+
+  describe('external value sync', () => {
+    it('should clear day/month/year inputs when value is reset to undefined', () => {
+      const { rerender } = render(<Field.DateOfBirth value="1990-01-15" />)
+
+      const [day, month, year] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(day).toHaveValue('15')
+      expect(month).toHaveValue('Januar')
+      expect(year).toHaveValue('1990')
+
+      rerender(<Field.DateOfBirth value={undefined} />)
+
+      expect(day).toHaveValue('')
+      expect(month).toHaveValue('')
+      expect(year).toHaveValue('')
+    })
+
+    it('should clear inputs when Form.Handler data is reset', () => {
+      const { rerender } = render(
+        <Form.Handler data={{ birthDate: '1990-01-15' }}>
+          <Field.DateOfBirth path="/birthDate" />
+        </Form.Handler>
+      )
+
+      const [day, month, year] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(day).toHaveValue('15')
+      expect(month).toHaveValue('Januar')
+      expect(year).toHaveValue('1990')
+
+      rerender(
+        <Form.Handler data={{ birthDate: undefined }}>
+          <Field.DateOfBirth path="/birthDate" />
+        </Form.Handler>
+      )
+
+      expect(day).toHaveValue('')
+      expect(month).toHaveValue('')
+      expect(year).toHaveValue('')
+    })
+
+    it('should update inputs when value changes externally', () => {
+      const { rerender } = render(<Field.DateOfBirth value="1990-01-15" />)
+
+      const [day, month, year] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(day).toHaveValue('15')
+      expect(month).toHaveValue('Januar')
+      expect(year).toHaveValue('1990')
+
+      rerender(<Field.DateOfBirth value="2000-06-25" />)
+
+      expect(day).toHaveValue('25')
+      expect(month).toHaveValue('Juni')
+      expect(year).toHaveValue('2000')
+    })
+  })
 })

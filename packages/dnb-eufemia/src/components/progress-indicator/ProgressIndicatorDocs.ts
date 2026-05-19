@@ -51,7 +51,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: "Sets the position of the label. `'inside'` only works with `type='circular'.",
+    doc: "Sets the position of the label. `'inside'` only works with `type='circular'`.",
     type: ['"horizontal"', '"vertical"', '"inside"'],
     defaultValue: '"vertical"',
     status: 'optional',
@@ -76,13 +76,13 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   },
   '[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)':
     {
-      doc: 'Send in custom css colors that overrides any css. See below for data structure.',
+      doc: 'Send in custom CSS colors that override any CSS. See below for data structure.',
       type: 'object',
       defaultValue: 'undefined',
       status: 'optional',
     },
   customCircleWidth: {
-    doc: 'Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).',
+    doc: 'Send in custom CSS width for circle progress line. (`undefined` defaults to one eighth of the size).',
     type: 'string',
     defaultValue: 'undefined',
     status: 'optional',

@@ -178,20 +178,18 @@ function MyTable() {
   const navRef = useTableKeyboardNavigation()
 
   return (
-    <div ref={navRef}>
-      <Table>
-        <tbody>
-          <tr>
-            <Table.Td>
-              <input />
-            </Table.Td>
-            <Table.Td>
-              <input />
-            </Table.Td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <Table ref={navRef}>
+      <tbody>
+        <tr>
+          <Table.Td>
+            <input />
+          </Table.Td>
+          <Table.Td>
+            <input />
+          </Table.Td>
+        </tr>
+      </tbody>
+    </Table>
   )
 }
 ```

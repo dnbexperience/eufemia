@@ -18,10 +18,9 @@ import {
   ICON_SIZES,
   NAME_SEPARATOR,
 } from '../../figma/tasks/assetsExtractors'
-import packpath from 'packpath'
 
 const FALLBACK = 'dnb' // defines if an index file should be created
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 type TransformedIcons = Array<{ name: string }>
 type IconItem = { filename: string; basename: string; name: string }

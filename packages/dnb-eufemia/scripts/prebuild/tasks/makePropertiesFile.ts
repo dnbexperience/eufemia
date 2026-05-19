@@ -8,7 +8,6 @@ import path from 'path'
 import globby from 'globby'
 import prettier from 'prettier'
 import stylelint from 'stylelint'
-import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
@@ -69,7 +68,7 @@ const TOKEN_SETS = {
   },
 }
 
-const ROOT_DIR = packpath.self()
+const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makePropertiesFile() {
   await runFactory()

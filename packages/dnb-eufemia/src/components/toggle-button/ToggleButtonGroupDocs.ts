@@ -12,7 +12,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   multiselect: {
-    doc: "Defines if the ToggleButton's should act as a multi-selectable list of toggle buttons. Defaults to `false`.",
+    doc: 'Defines if the ToggleButtons should act as a multi-selectable list of toggle buttons. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

@@ -10,6 +10,10 @@
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
 
+  // Highlight
+  --table-highlight-background: var(--token-color-decorative-first-muted);
+  --table-th-highlight-border: var(--token-color-decorative-first-subtle);
+
   display: table;
   table-layout: auto;
   width: 100%;
@@ -143,6 +147,7 @@
       --table-border-color: blue;
       --table-outline-color: red;
       --table-accordion-border-color: green;
+      --table-th-highlight-border: magenta;
     }
   }
 

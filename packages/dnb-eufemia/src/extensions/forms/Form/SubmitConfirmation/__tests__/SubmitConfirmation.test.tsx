@@ -8,7 +8,7 @@ import type { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
 
 if (isCI) {
-  jest.retryTimes(5) // because of an flaky async tests
+  jest.retryTimes(5) // because of a flaky async tests
 }
 
 describe('Form.SubmitConfirmation', () => {

@@ -2,7 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import { Field, Form, makeAjvInstance } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -781,5 +781,33 @@ describe('Field.Composition', () => {
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
+  })
+
+  it('should show submit indicator on Form.SubmitButton inside Field.Composition', async () => {
+    const onSubmit = async () => {
+      await wait(100)
+    }
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Composition width="large">
+          <Field.String path="/value" value="test" />
+          <Form.SubmitButton text="Submit" />
+        </Field.Composition>
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const indicator = button.querySelector('.dnb-forms-submit-indicator')
+
+    expect(indicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+
+    await userEvent.click(button)
+
+    expect(indicator).toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
   })
 })

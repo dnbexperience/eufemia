@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { HTMLProps, MouseEvent, ReactNode } from 'react'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Card from '../Card'
 import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
@@ -104,7 +104,7 @@ export type StepIndicatorProps = Omit<
      */
     statusState?: FormStatusState
     /**
-     * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
+     * If set to `true`, the height animation on step change and list expansion will be omitted. Defaults to `false`.
      */
     noAnimation?: boolean
     /**
@@ -146,7 +146,7 @@ function StepIndicator({
       <div className="dnb-step-indicator-wrapper">
         <Card
           align="stretch"
-          {...applySpacing(restOfProps, {
+          {...useSpacing(restOfProps, {
             className: 'dnb-step-indicator',
           })}
           backgroundColor="var(--step-indicator-trigger-content-background)"

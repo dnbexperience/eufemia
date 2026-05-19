@@ -24,7 +24,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
@@ -496,7 +496,7 @@ function FormStatusComponent(
     ...rest
   } = restOfProps
 
-  const params: Record<string, unknown> = applySpacing(props, {
+  const params: Record<string, unknown> = useSpacing(props, {
     className: clsx(
       'dnb-form-status',
       state && `dnb-form-status--${state}`,
@@ -530,7 +530,7 @@ function FormStatusComponent(
     id: !String(textId).startsWith('null') ? textId : null,
   }
 
-  const shellParams = applySpacing(
+  const shellParams = useSpacing(
     { space: shellSpace },
     {
       className: 'dnb-form-status__shell',

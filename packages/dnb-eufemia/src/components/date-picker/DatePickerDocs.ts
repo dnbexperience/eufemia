@@ -4,7 +4,7 @@ const dateType = ['string', 'Date']
 
 export const DatePickerProperties: PropertiesTableProps = {
   date: {
-    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"` and `content`.',
+    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.',
     type: dateType,
     status: 'optional',
   },
@@ -274,7 +274,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.',
+    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.',
     type: 'string',
     status: 'optional',
   },

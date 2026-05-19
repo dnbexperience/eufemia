@@ -178,7 +178,7 @@ export function unescape(str: string): string {
 }
 
 /**
- * Converts a json pointer into a array of reference tokens
+ * Converts a json pointer into an array of reference tokens
  */
 export function parse(pointer: Extract<PointerPath, string>): PointerPath {
   if (pointer === '') {
@@ -191,7 +191,7 @@ export function parse(pointer: Extract<PointerPath, string>): PointerPath {
 }
 
 /**
- * Builds a json pointer from a array of reference tokens
+ * Builds a json pointer from an array of reference tokens
  */
 export function compile(
   refTokens: Extract<PointerPath, Array<string>>

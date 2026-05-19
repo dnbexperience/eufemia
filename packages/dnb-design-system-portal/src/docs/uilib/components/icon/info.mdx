@@ -57,6 +57,20 @@ _Additional Sizes_
 - **xx-large** `3rem` (48px)
 - **custom-size** will not be responsive. Width and Height is set as `pixels`
 
+### Filled Icons
+
+Some icons support a filled variant where the SVG paths are filled with `currentColor` instead of being stroked outlines. This is useful for visual emphasis — for example, a filled star to indicate a favorited item, or a filled chevron inside a button.
+
+#### Using the `fill` prop
+
+Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
+
+```jsx
+<Icon icon={star} fill />
+```
+
+See the [Icon Library](/icons#filled-icons) for icons that are known to look good when filled.
+
 ### Custom project Icons
 
 For decorative or functional icons (not illustrations), use `SVG` as it gives the user responsiveness and better accessibility. It also gives you more control, so you can change the color and size inherited by the parent HTML element.

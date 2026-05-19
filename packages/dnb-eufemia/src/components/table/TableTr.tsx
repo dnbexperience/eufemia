@@ -11,6 +11,7 @@ import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
 import { TableContext } from './TableContext'
+import { TableTrContext } from './TableTrContext'
 
 export type TableTrClickInfo = {
   trElement: HTMLTableRowElement | null
@@ -33,6 +34,12 @@ export type TableTrProps = {
    * Default: `undefined`
    */
   verticalAlign?: 'top' | 'middle' | 'bottom'
+
+  /**
+   * Highlights all cells in the row with a subtle background.
+   * Default: `false`
+   */
+  highlight?: boolean
 
   /**
    * Set true to render the tr initially as expanded.
@@ -95,6 +102,7 @@ export default function Tr(
     variant,
     noWrap,
     verticalAlign,
+    highlight,
     className: _className,
     ...restProps
   } = componentProps
@@ -113,18 +121,25 @@ export default function Tr(
   )
 
   const tableContext = useContext(TableContext)
+  const trContext = highlight ? { highlight } : null
 
   if (tableContext?.allProps?.mode == 'accordion') {
     return (
-      <TableAccordionHead
-        count={count}
-        className={className}
-        {...restProps}
-      />
+      <TableTrContext value={trContext}>
+        <TableAccordionHead
+          count={count}
+          className={className}
+          {...restProps}
+        />
+      </TableTrContext>
     )
   }
   if (tableContext?.allProps?.mode === 'navigation') {
-    return <TableNavigationHead className={className} {...restProps} />
+    return (
+      <TableTrContext value={trContext}>
+        <TableNavigationHead className={className} {...restProps} />
+      </TableTrContext>
+    )
   }
 
   const {
@@ -138,7 +153,11 @@ export default function Tr(
     ...trProps
   } = restProps
 
-  return <tr role="row" className={className} {...trProps} />
+  return (
+    <TableTrContext value={trContext}>
+      <tr role="row" className={className} {...trProps} />
+    </TableTrContext>
+  )
 }
 
 function useHandleTrVariant({ variant }) {
@@ -167,18 +186,24 @@ function useHandleTrVariant({ variant }) {
   }, [countRef, variant])
 
   const [count, setCount] = useState(() => {
-    // SSR Support
-    if (typeof window === 'undefined') {
-      hasIncrementedRef.current = true
-      return increment()
+    // Guard against StrictMode double-invocation of useState initializer.
+    // Refs persist across StrictMode's double-calls, so the second call
+    // returns the current count without re-incrementing.
+    if (hasIncrementedRef.current) {
+      return countRef?.count ?? 0
     }
 
-    return undefined
+    hasIncrementedRef.current = true
+    return increment()
   })
 
-  // StrictMode support
   useEffect(() => {
-    // SSR will not execute useEffect
+    if (lastRenderAliasRef.current === null) {
+      // Initial mount - useState already handled the count
+      lastRenderAliasRef.current = tableContext?.rerenderAlias
+      return // stop here
+    }
+
     if (lastRenderAliasRef.current !== tableContext?.rerenderAlias) {
       lastRenderAliasRef.current = tableContext?.rerenderAlias
       hasIncrementedRef.current = false

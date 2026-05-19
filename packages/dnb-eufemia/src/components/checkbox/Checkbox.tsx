@@ -27,7 +27,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -79,11 +79,11 @@ export type CheckboxProps = {
    */
   checked?: boolean | undefined | null
   /**
-   * Determine whether to show the indeterminate checked state when checked. The default is `false`.
+   * Controls the checkbox indeterminate (partial) state. The default is `false`.
    */
   indeterminate?: boolean
   /**
-   * The size of the checkbox. For now there is "medium" (default) and "large".
+   * The size of the checkbox. For now there are `medium` (default) and `large`.
    */
   size?: CheckboxSize
   /**
@@ -97,7 +97,7 @@ export type CheckboxProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * Will be called on state changes made by the user. Returns an boolean `{ checked, event }`.
+   * Will be called on state changes made by the user. Returns `{ checked, event }`.
    */
   onChange?: (args: CheckboxOnChangeParams) => void
   /**
@@ -299,7 +299,7 @@ function Checkbox(localProps: CheckboxProps) {
     suffix,
   ])
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-checkbox',
       status && `dnb-checkbox__status--${statusState}`,

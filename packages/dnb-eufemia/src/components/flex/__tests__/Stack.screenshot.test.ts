@@ -1,47 +1,41 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Flex.Stack', () => {
+describe('Flex.Stack', () => {
   setupPageScreenshot({
     url: '/uilib/layout/flex/stack/demos/',
   })
 
-  test('have to match flex-stack-form', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match flex-stack-form', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-form"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match flex-stack-paragraphs', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match flex-stack-paragraphs', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-paragraphs"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match flex-stack-card-stack', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match flex-stack-card-stack', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-stack"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match flex-stack-card-heading', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match flex-stack-card-heading', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-heading"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match flex-stack-card-two-headings', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match flex-stack-card-two-headings', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="flex-stack-card-two-headings"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

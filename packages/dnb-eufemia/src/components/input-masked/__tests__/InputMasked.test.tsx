@@ -2160,11 +2160,11 @@ describe('InputMasked with custom mask', () => {
 
     const input = document.querySelector('input')
 
-    expect(input['runCorrectCaretPosition']).toBeType('undefined')
+    expect(typeof input['runCorrectCaretPosition']).toBe('undefined')
 
     fireEvent.focus(input)
 
-    expect(input['runCorrectCaretPosition']).toBeType('function')
+    expect(typeof input['runCorrectCaretPosition']).toBe('function')
   })
 
   it('should set correct cursor position when navigating using keyboard', async () => {
@@ -2622,9 +2622,11 @@ describe('types', () => {
           cleanedValue satisfies NotAny<typeof cleanedValue>
           numberValue satisfies NotAny<typeof numberValue>
 
-          expect(value satisfies string).toBeType('string')
-          expect(cleanedValue satisfies string | number).toBeType('string')
-          expect(numberValue satisfies number).toBeType('number')
+          expect(typeof (value satisfies string)).toBe('string')
+          expect(typeof (cleanedValue satisfies string | number)).toBe(
+            'string'
+          )
+          expect(typeof (numberValue satisfies number)).toBe('number')
         }}
       />
     )

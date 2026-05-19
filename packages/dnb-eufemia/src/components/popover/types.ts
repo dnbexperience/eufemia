@@ -119,6 +119,14 @@ type PopoverPropsBase = {
    * Default: `initial`
    */
   autoAlignMode?: PopoverAutoAlignMode
+  /**
+   * Bias vertical auto alignment toward the preferred placement until the trigger crosses
+   * a viewport threshold. Only used for `placement="top"` and `placement="bottom"`.
+   * Example: `0.75` keeps `placement="bottom"` until the trigger reaches the bottom quarter
+   * of the viewport, and keeps `placement="top"` until it leaves the top quarter.
+   * Default: `undefined`
+   */
+  autoAlignViewportThreshold?: number
 }
 
 export type PopoverAllProps = PopoverPropsBase &

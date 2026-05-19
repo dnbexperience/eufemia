@@ -51,7 +51,7 @@ const nb = nbNO['nb-NO']
 type OnChangeValue = DataValueWriteProps<any>['onChange']
 
 if (isCI) {
-  jest.retryTimes(5) // because of an flaky async validation test
+  jest.retryTimes(5) // because of a flaky async validation test
 }
 
 function TestField(props: StringFieldProps) {
@@ -6533,5 +6533,31 @@ describe('DataContext.Provider', () => {
         expect(contextValue?.hasFieldWithAsyncValidator?.()).toBeTruthy()
       })
     })
+  })
+
+  it('should not cause Maximum update depth exceeded when Form.useData is used outside Form.Handler with same id', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const MyForm = () => {
+      const { data } = Form.useData(identifier, {
+        locale: 'en-GB',
+      })
+
+      return (
+        <Form.Handler id={identifier} locale={data?.locale}>
+          <Field.String path="/myField" />
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Maximum update depth exceeded')
+    )
+
+    log.mockRestore()
   })
 })

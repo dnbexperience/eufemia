@@ -159,7 +159,7 @@
   }
 
   &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover &__td {
-    --background-color: var(--table-accordion-header-background);
+    --table-td-background: var(--table-accordion-header-background);
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
@@ -188,7 +188,7 @@
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active &__td {
-    --background-color: var(--table-accordion-background--active);
+    --table-td-background: var(--table-accordion-background--active);
 
     @include tableAccordionActiveColor();
   }
@@ -197,7 +197,7 @@
       &__tr--disabled
     )#{&}__tr--hover:not(:active):hover
     &__td {
-    --background-color: var(--table-accordion-header-background);
+    --table-td-background: var(--table-accordion-header-background);
 
     &::before {
       border: none;
@@ -209,7 +209,7 @@
       :active
     ):not(:hover) {
     @include utilities.whatInputNot('keyboard') {
-      --background-color: var(--table-accordion-header-background);
+      --table-td-background: var(--table-accordion-header-background);
 
       td::before {
         border: none;
@@ -256,7 +256,7 @@
 
     &--expanded {
       > td.dnb-table__td {
-        --background-color: var(--table-accordion-background);
+        --table-td-background: var(--table-accordion-background);
       }
 
       + .dnb-table__tr--clickable .dnb-table__td {
@@ -315,7 +315,7 @@
   }
 
   &__tr__accordion-content#{&}__tr &__td {
-    --background-color: var(--table-accordion-background);
+    --table-td-background: var(--table-accordion-background);
 
     /**
       * Safari on iOS and macOS has problems on animating when vertical-align is baseline.

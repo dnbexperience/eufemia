@@ -37,8 +37,8 @@ export type TooltipProps = {
   showDelay?: number
   hideDelay?: number
   /**
-   * Optional className added to the Tooltip portal root element.
-   * Has effect only when not using skipPortal.
+   * CSS class name applied to the Tooltip portal root element.
+   * Has effect only when not using `skipPortal`.
    */
   portalRootClass?: string
   targetSelector?: string

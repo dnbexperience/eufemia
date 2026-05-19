@@ -34,7 +34,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -505,7 +505,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     rest = injectTooltipSemantic(rest)
   }
 
-  const attributes = applySpacing(ownProps, {
+  const attributes = useSpacing(ownProps, {
     lang,
     ref: elRef,
     className: clsx(

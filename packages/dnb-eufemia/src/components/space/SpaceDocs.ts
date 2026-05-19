@@ -45,12 +45,30 @@ export const SpaceProperties: PropertiesTableProps = {
     status: 'optional',
   },
   innerSpace: {
-    doc: "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
+    doc: "Will add a padding around the content. Also supports media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
     type: ['object', 'string', 'number', 'boolean'],
     status: 'optional',
   },
   noCollapse: {
     doc: "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
+    type: 'boolean',
+    status: 'optional',
+  },
+}
+
+export const SpaceResponsiveContextProperties: PropertiesTableProps = {
+  density: {
+    doc: 'Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.',
+    type: ['"compact"', '"basis"', '"spacious"'],
+    status: 'optional',
+  },
+  defaultBreakpoint: {
+    doc: "Sets which breakpoint's spacing scale to use as the default. Default: `medium`.",
+    type: ['"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
+  off: {
+    doc: 'When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

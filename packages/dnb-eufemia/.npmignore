@@ -3,8 +3,6 @@
 
 # testing
 /coverage
-/__diff_output__
-playwright.config.screenshots.ts
 /reports
 __tests__
 

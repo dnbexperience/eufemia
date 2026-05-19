@@ -124,6 +124,27 @@ export function renderWithSpacing(
     return element
   }
 
+  if (variant === 'passthrough') {
+    const childElement = element as ReactElement<any>
+    const children = childElement?.props?.children
+    const childKey = childElement?.key
+    const childProps = childElement?.props || {}
+
+    return Children.toArray(children).map((child, i) => {
+      const wrapped = wrapWithSpace({
+        element: child as ReactNode,
+        spaceProps,
+        wrapInSpace,
+      })
+
+      return createElement(
+        childElement.type as ComponentType<any>,
+        { ...childProps, key: childKey ? `${childKey}-${i}` : `${i}` },
+        wrapped
+      )
+    })
+  }
+
   if (variant === 'children') {
     return (Children.toArray(element) as ReactElement[]).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

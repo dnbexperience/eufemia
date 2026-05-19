@@ -1292,4 +1292,66 @@ describe('Field.BankAccountNumber', () => {
       expect(onChange).toHaveBeenLastCalledWith(undefined)
     })
   })
+
+  describe('external value sync', () => {
+    it('should sync valueRef when value prop changes externally', async () => {
+      const { rerender } = render(
+        <Field.BankAccountNumber
+          bankAccountType="swedishBankgiro"
+          value="1234567"
+          validate={false}
+        />
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('123-4567')
+
+      // Change value externally
+      rerender(
+        <Field.BankAccountNumber
+          bankAccountType="swedishBankgiro"
+          value="9876543"
+          validate={false}
+        />
+      )
+
+      // Focus and blur to trigger handleBlur which uses valueRef
+      fireEvent.focus(input)
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(input).toHaveValue('987-6543')
+      })
+    })
+
+    it('should sync valueRef when value is cleared externally', async () => {
+      const { rerender } = render(
+        <Field.BankAccountNumber
+          bankAccountType="swedishBankgiro"
+          value="1234567"
+          validate={false}
+        />
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('123-4567')
+
+      // Clear value externally
+      rerender(
+        <Field.BankAccountNumber
+          bankAccountType="swedishBankgiro"
+          value={undefined}
+          validate={false}
+        />
+      )
+
+      // Focus and blur to trigger handleBlur which uses valueRef
+      fireEvent.focus(input)
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(input).toHaveValue('')
+      })
+    })
+  })
 })

@@ -1,9 +1,8 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 const sections = {
   ui: [
@@ -19,55 +18,50 @@ const sections = {
   sbanken: ['default', 'information', 'error', 'warning', 'success'],
 }
 
-for (const themeName of ['ui', 'sbanken']) {
-  test.describe(`Section for ${themeName}`, () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/section/demos/',
-    })
+describe.each(['ui', 'sbanken'])(`Section for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/section/demos/',
+  })
 
-    for (const sectionName of sections[themeName]) {
-      test(`have to match ${sectionName} section`, async () => {
-        const screenshot = await makeScreenshot({
-          selector: `[data-visual-test="section-${sectionName}"]`,
-        })
-        expect(screenshot).toMatchSnapshot()
+  it.each(sections[themeName])(
+    `have to match %s section`,
+    async (...[sectionName]) => {
+      await makeScreenshot({
+        selector: `[data-visual-test="section-${sectionName}"]`,
       })
     }
-  })
-}
+  )
+})
 
-test.describe('Responsive', () => {
-  test('have to match section on "small" size', async () => {
-    const screenshot = await makeScreenshot({
+describe('Responsive', () => {
+  it('have to match section on "small" size', async () => {
+    await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 400,
       },
       selector: '[data-visual-test="section-responsive-appearance"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match section on "medium" size', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match section on "medium" size', async () => {
+    await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 800,
       },
       selector: '[data-visual-test="section-responsive-appearance"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match section on "large" size', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match section on "large" size', async () => {
+    await makeScreenshot({
       url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 1000,
       },
       selector: '[data-visual-test="section-responsive-appearance"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

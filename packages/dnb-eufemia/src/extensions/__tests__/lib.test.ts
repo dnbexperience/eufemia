@@ -8,9 +8,9 @@ import { getExtensions, PaymentCard } from '../lib'
 
 describe('Library', () => {
   it('has to have a named export of getExtensions', () => {
-    expect(getExtensions).toBeType('function')
+    expect(typeof getExtensions).toBe('function')
   })
   it('has to have a PaymentCard Component', () => {
-    expect(PaymentCard).toBeType('function')
+    expect(typeof PaymentCard).toBe('function')
   })
 })

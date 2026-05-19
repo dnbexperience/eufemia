@@ -1,17 +1,13 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Form.Handler', () => {
+describe('Form.Handler', () => {
   const url = '/uilib/extensions/forms/Form/Handler/demos/'
 
-  test('have to match required and optional fields', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match required and optional fields', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="required-and-optional-fields"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

@@ -57,6 +57,22 @@ export function FullscreenCodeProvider({
       } catch {
         // ignore
       }
+
+      // Defer validation until after components have rendered
+      // If the ID doesn't exist after a short delay, remove the focusmode param
+      const timeoutId = setTimeout(() => {
+        const elementExists = document.getElementById(value)
+
+        if (!elementExists) {
+          // Remove invalid focusmode param from URL
+          const url = new URL(window.location.href)
+          url.searchParams.delete(FULLSCREEN_CODE_PARAM)
+          window.history.replaceState(null, '', url.toString())
+          setFullscreenCodeIdState(null)
+        }
+      }, 500) // Wait 500ms for components to render
+
+      return () => clearTimeout(timeoutId)
     }
   }, [])
 

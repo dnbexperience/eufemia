@@ -78,15 +78,19 @@ export default function TabBar({
             index === 0
               ? ''
               : key.replace(rootPath, '').replace(/(\/+)$/, '')
-          key = [
-            rootPath,
-            tabPath,
+          const pathname = [rootPath, tabPath].join('')
+          const tabSearch = [
             search,
             wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
-            location.hash,
           ].join('')
 
-          return { ...rest, key, to: key }
+          key = [rootPath, tabPath, tabSearch].join('')
+
+          return {
+            ...rest,
+            key,
+            to: { pathname, search: tabSearch, hash: '' },
+          }
         })
     )
   }, [
@@ -95,7 +99,6 @@ export default function TabBar({
     defaultTabs,
     hideTabs,
     tabs,
-    location.hash,
     location.search,
   ])
 
@@ -105,7 +108,6 @@ export default function TabBar({
     wasFullscreen
       ? (cleanFullscreen(location.search) ? '&' : '?') + 'fullscreen'
       : '',
-    location.hash,
   ].join('')
 
   return (

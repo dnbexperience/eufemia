@@ -303,13 +303,18 @@ fieldset.dnb-forms-field-block {
 
   // Because we want to hide / show the indicator responsively,
   // we render both, but hide the one we don't want to show.
+  // Use the specific __indicator class to avoid hiding the
+  // SubmitIndicator inside Form.SubmitButton.
   @include utilities.allBelow(x-small) {
-    &__composition > &__grid > .dnb-forms-submit-indicator {
+    &__composition > &__grid > .dnb-forms-field-block__indicator {
       display: none;
     }
   }
   @include utilities.allAbove(x-small) {
-    &__composition > &__grid > &__contents .dnb-forms-submit-indicator {
+    &__composition
+      > &__grid
+      > &__contents
+      .dnb-forms-field-block__indicator {
       display: none;
     }
   }

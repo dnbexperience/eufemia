@@ -2,6 +2,9 @@
 
 .codeBlockStyle {
   margin-bottom: 2rem;
+  :global(.focusmode) & {
+    margin-bottom: 0;
+  }
 
   :global {
     textarea {
@@ -20,6 +23,9 @@
   height: 100%;
 
   padding: 2rem;
+  :global(.focusmode) & {
+    padding: 0;
+  }
 
   border-start-start-radius: var(--border-radius);
   border-start-end-radius: var(--border-radius);
@@ -84,6 +90,11 @@
   margin: 0 0.0625rem; // So the border of the example box is not covered by the toolbar
   padding: 0.5rem 1rem;
 
+  :global(.focusmode) & {
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+  }
+
   &:empty {
     display: none;
   }
@@ -123,7 +134,8 @@
     box-shadow: none;
   }
 
-  // Remove the outline and border-radius in visual tests
+  // Remove the outline and border-radius in visual tests or focusmode
+  :global(.focusmode) &,
   :global(html[data-visual-test]) & {
     --border-radius: 0;
     box-shadow: none;

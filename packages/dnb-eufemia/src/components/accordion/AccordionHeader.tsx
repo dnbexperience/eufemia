@@ -19,7 +19,7 @@ import {
 import IconPrimary from '../icon-primary/IconPrimary'
 import clsx from 'clsx'
 import AccordionContext from './AccordionContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -45,7 +45,7 @@ function AccordionHeaderTitle({
 }: AccordionHeaderTitleProps) {
   return (
     <span
-      {...applySpacing(rest, {
+      {...useSpacing(rest, {
         className: 'dnb-accordion__header__title',
       })}
     >
@@ -62,15 +62,11 @@ function AccordionHeaderDescription({
   children = null,
   ...rest
 }: AccordionHeaderDescriptionProps) {
-  return children ? (
-    <span
-      {...applySpacing(rest, {
-        className: 'dnb-accordion__header__description',
-      })}
-    >
-      {children}
-    </span>
-  ) : null
+  const spacingProps = useSpacing(rest, {
+    className: 'dnb-accordion__header__description',
+  })
+
+  return children ? <span {...spacingProps}>{children}</span> : null
 }
 
 export type AccordionHeaderContainerProps = SpacingProps & {
@@ -81,15 +77,11 @@ function AccordionHeaderContainer({
   children = null,
   ...rest
 }: AccordionHeaderContainerProps) {
-  return children ? (
-    <span
-      {...applySpacing(rest, {
-        className: 'dnb-accordion__header__container',
-      })}
-    >
-      {children}
-    </span>
-  ) : null
+  const spacingProps = useSpacing(rest, {
+    className: 'dnb-accordion__header__container',
+  })
+
+  return children ? <span {...spacingProps}>{children}</span> : null
 }
 
 type AccordionHeaderIconIcon =
@@ -349,7 +341,7 @@ export const AccordionHeader = ({
     }
   }
 
-  const headerParams = applySpacing(rest, {
+  const headerParams = useSpacing(rest, {
     id: `${id}-header`,
     'aria-controls': `${id}-content`,
     'aria-expanded': context.expanded,

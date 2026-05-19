@@ -3,14 +3,13 @@
  * layout flicker when entering fullscreen, focusmode, or visual test mode.
  *
  * The script is read from preload-styles.runtime.ts, compiled with
- * esbuild, and injected as an inline <script> in the <body> before
+ * OxC, and injected as an inline <script> in the <body> before
  * the app entry point.
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { transformWithEsbuild } from 'vite'
-import type { Plugin } from 'vite'
+import { transformWithOxc, minify, type Plugin } from 'vite'
 
 export default function preloadStylesPlugin(): Plugin {
   return {
@@ -22,12 +21,12 @@ export default function preloadStylesPlugin(): Plugin {
         'preload-styles.runtime.ts'
       )
       const code = fs.readFileSync(runtimeFile, 'utf-8')
-      const result = await transformWithEsbuild(code, runtimeFile, {
-        loader: 'ts',
-        minify: true,
+      const transformed = await transformWithOxc(code, runtimeFile, {
+        lang: 'ts',
       })
+      const minified = await minify(runtimeFile, transformed.code)
 
-      const script = `<script>${result.code}</script>`
+      const script = `<script>${minified.code}</script>`
 
       // Inject right after <body> so it runs before any rendering
       html = html.replace(

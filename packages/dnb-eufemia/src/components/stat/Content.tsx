@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import type { ElementType, HTMLProps } from 'react'
 import clsx from 'clsx'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -46,7 +46,7 @@ function Content(props: ContentProps) {
 
   const attributes = validateDOMAttributes(
     props,
-    applySpacing(props, {
+    useSpacing(props, {
       ...rest,
       style,
       className: clsx(

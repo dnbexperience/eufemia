@@ -186,8 +186,6 @@ jobs:
         with:
           name: visual-test-artifact
           path: |
-            ./packages/dnb-eufemia/src/**/*.snap-diff.png
-            ./packages/dnb-eufemia/test-results/**/*.png
             ./packages/dnb-eufemia/visual-diff-report/**
 
       - name: Run visual tests info

@@ -6,9 +6,18 @@
 import { useEffect, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
+import {
+  Space,
+  Input,
+  Button,
+  P,
+  Code,
+  Flex,
+  Heading,
+  Section,
+} from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { applySpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
+import { useSpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
 import type { Theme } from '@emotion/react'
 
 export const Method1 = () => (
@@ -40,7 +49,7 @@ export const Method3 = () => (
     <ComponentBox
       scope={{
         RedBox,
-        applySpacing,
+        useSpacing,
       }}
       data-visual-test="spacing-method-form-row"
     >
@@ -50,7 +59,7 @@ export const Method3 = () => (
           style = null,
           ...props
         }) => {
-          const params = applySpacing(props, {
+          const params = useSpacing(props, {
             ...props,
             className: `my-component dnb-space ${className || ''}`.trim(),
             style,
@@ -147,6 +156,27 @@ export const Margins = () => (
       </Space>
     </ComponentBox>
   </TestStyles>
+)
+
+export const ResponsiveSpacing = () => (
+  <ComponentBox>
+    <Space.ResponsiveContext>
+      <Section
+        innerSpace={{ block: 'medium' }}
+        breakout={false}
+        surface="dark"
+      >
+        <Flex.Stack space={{ inline: 'large' }} gap="small">
+          <Heading size="x-large">Heading</Heading>
+          <P>My spacing adjusts responsively</P>
+
+          <Space.ResponsiveContext off>
+            <P>My spacing stays fixed</P>
+          </Space.ResponsiveContext>
+        </Flex.Stack>
+      </Section>
+    </Space.ResponsiveContext>
+  </ComponentBox>
 )
 
 export const SpaceVisibleWhenVisualTestPatterns = () => (

@@ -533,6 +533,7 @@ var LiveContext_default = LiveContext
 
 // src/utils/transpile/index.ts
 import React2 from 'react'
+import * as _jsxRuntime from 'react/jsx-runtime'
 
 // src/utils/transpile/transform.ts
 import { transform as _transform } from 'sucrase'
@@ -541,7 +542,19 @@ function transform(opts = {}) {
   const transforms = Array.isArray(opts.transforms)
     ? opts.transforms.filter(Boolean)
     : defaultTransforms
-  return (code) => _transform(code, { transforms }).code
+  return (code) => {
+    const result = _transform(code, {
+      transforms,
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+      // Use production mode for smaller output; dev mode's jsxDEV isn't needed
+      // since errors are already handled by the ErrorBoundary wrapper
+      production: true
+    }).code
+    // Strip the jsx-runtime require/import since we inject it via scope.
+    // The 'imports' transform normalizes to CJS require() even in ESM context.
+    return result.replace(/"use strict";\s*var _jsxruntime\s*=\s*require\("react\/jsx-runtime"\);?/, '')
+  }
 }
 
 // src/utils/transpile/errorBoundary.tsx
@@ -581,22 +594,16 @@ function compose(...functions) {
 }
 
 // src/utils/transpile/index.ts
-var jsxConst = 'const _jsxFileName = "";'
 var trimCode = (code) => code.trim().replace(/;$/, '')
-var spliceJsxConst = (code) => code.replace(jsxConst, '').trim()
-var addJsxConst = (code) => jsxConst + code
 var wrapReturn = (code) => `return (${code})`
 var generateElement = (
   { code = '', scope = {}, enableTypeScript = true },
   errorCallback
 ) => {
-  const firstPassTransforms = ['jsx']
+  const firstPassTransforms = ['jsx', 'imports']
   enableTypeScript && firstPassTransforms.push('typescript')
   const transformed = compose(
-    addJsxConst,
-    transform({ transforms: ['imports'] }),
     wrapReturn,
-    spliceJsxConst,
     trimCode,
     transform({ transforms: firstPassTransforms }),
     trimCode
@@ -604,7 +611,7 @@ var generateElement = (
   return errorBoundary_default(
     evalCode_default(
       transformed,
-      __spreadValues({ React: React2 }, scope)
+      __spreadValues({ React: React2, _jsxruntime: _jsxRuntime }, scope)
     ),
     errorCallback
   )
@@ -632,7 +639,7 @@ var renderElementAsync = (
   enableTypeScript && transforms.splice(1, 0, 'typescript')
   evalCode_default(
     transform({ transforms })(code),
-    __spreadProps(__spreadValues({ React: React2 }, scope), { render })
+    __spreadProps(__spreadValues({ React: React2, _jsxruntime: _jsxRuntime }, scope), { render })
   )
 }
 

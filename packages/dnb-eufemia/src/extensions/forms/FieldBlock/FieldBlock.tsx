@@ -147,7 +147,7 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
   > & {
-    /** The id to link a element with */
+    /** The id to link an element with */
     forId?: string
     /** Use true if you have more than one form element */
     asFieldset?: boolean
@@ -159,7 +159,7 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     contentClassName?: string
     /** To show the SubmitIndicator during async validation */
     fieldState?: SubmitState
-    /** Defines the height of an component (size prop), so the label can be aligned correctly */
+    /** Defines the height of a component (size prop), so the label can be aligned correctly */
     labelHeight?: FieldBlockHorizontalLabelHeight
     /** Disable the error summary for this field block */
     disableStatusSummary?: boolean

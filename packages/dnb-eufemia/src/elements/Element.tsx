@@ -11,7 +11,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../shared/component-helper'
-import { applySpacing } from '../components/space/SpacingUtils'
+import { useSpacing } from '../components/space/SpacingUtils'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,
@@ -84,9 +84,9 @@ function Element(localProps: ElementAllProps) {
     createSkeletonClass(skeletonMethod, skeleton, context)
   )
 
-  // applySpacing must be called before validateDOMAttributes
+  // useSpacing must be called before validateDOMAttributes
   // because the validator removes non-DOM attributes like spacing props
-  const params = applySpacing(
+  const params = useSpacing(
     attributes,
     { ...attributes, className: internalClassName },
     typeof Tag === 'string' ? `dnb-${Tag}` : null

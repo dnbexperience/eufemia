@@ -1,23 +1,18 @@
-#!/usr/bin/env node
-
 /**
- * Eufemia Docs MCP Server
+ * Eufemia Docs MCP Server — runtime-agnostic core.
  *
- * Entry points:
- * - docs/llm.md
- * - docs/uilib/.../*.md
+ * This module deliberately avoids importing any Node built-ins so that it can
+ * be bundled for non-Node runtimes (Cloudflare Workers, Deno, Bun, ...).
+ * The Node-only stdio entry point lives in `./mcp-stdio.ts` and the local
+ * Express HTTP server lives in `./mcp-http-server.ts`.
  */
-
-import type { Dirent } from 'node:fs'
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import process from 'node:process'
 
 import { z } from 'zod'
 
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
+
+import { type DocsSource, normalizeDocsPath } from './docs-source'
 
 type ToolResult = CallToolResult
 
@@ -40,104 +35,24 @@ type SearchHit = {
   snippet: string
 }
 
-function logErr(...args: unknown[]) {
-  console.error(...args)
-}
-
-function normalizeRelPath(p: unknown) {
-  return String(p ?? '')
-    .replace(/^\/+/, '')
-    .replaceAll('\\', '/')
-}
-
-function resolveInside(rootAbs: string, userPath: string) {
-  const cleaned = normalizeRelPath(userPath)
-  const abs = path.resolve(rootAbs, cleaned)
-  const rel = path.relative(rootAbs, abs)
-
-  if (rel.startsWith('..') || path.isAbsolute(rel)) {
-    throw new Error(`Path escapes docs root: ${userPath}`)
+function withLeadingSlash(p: string): string {
+  if (!p) {
+    return '/'
   }
-
-  const relNorm = rel.replaceAll(path.sep, '/')
-  return { abs, rel: relNorm, relWithLeadingSlash: '/' + relNorm }
+  return p.startsWith('/') ? p : `/${p}`
 }
 
-async function statSafe(p: string) {
-  try {
-    return await fs.stat(p)
-  } catch {
-    return null
-  }
-}
+/**
+ * Computes the default Node.js docs root (used when neither `{ docsRoot }`
+ * nor `{ source }` is passed to {@link createDocsTools}). Imports `node:*`
+ * lazily so this module can still be bundled for non-Node runtimes.
+ */
+async function computeDocsRoot(): Promise<string> {
+  const [{ default: path }, { default: process }] = await Promise.all([
+    import('node:path'),
+    import('node:process'),
+  ])
 
-async function fileExists(p: string) {
-  try {
-    await fs.access(p)
-    return true
-  } catch {
-    return false
-  }
-}
-
-async function readTextFile(absPath: string) {
-  const buf = await fs.readFile(absPath)
-  return buf.toString('utf8')
-}
-
-async function listDirSafe(absDir: string, max = 60): Promise<string[]> {
-  try {
-    const items = await fs.readdir(absDir)
-    return items.slice(0, max)
-  } catch {
-    return []
-  }
-}
-
-async function listMarkdownFiles(rootAbs: string): Promise<string[]> {
-  const out: string[] = []
-  const stack = ['']
-
-  while (stack.length > 0) {
-    const relDir = stack.pop() ?? ''
-    const absDir = path.join(rootAbs, relDir)
-
-    let entries: Dirent[]
-    try {
-      entries = await fs.readdir(absDir, { withFileTypes: true })
-    } catch {
-      continue
-    }
-
-    for (const entry of entries) {
-      if (entry.name.startsWith('.')) {
-        continue
-      }
-
-      const relPath = path.join(relDir, entry.name)
-
-      if (entry.isDirectory()) {
-        if (entry.name === 'node_modules') {
-          continue
-        }
-        stack.push(relPath)
-        continue
-      }
-
-      if (
-        entry.isFile() &&
-        (entry.name.toLowerCase().endsWith('.md') ||
-          entry.name.toLowerCase().endsWith('.mdx'))
-      ) {
-        out.push(relPath)
-      }
-    }
-  }
-
-  return out
-}
-
-function computeDocsRoot() {
   if (process.env.EUFEMIA_DOCS_ROOT) {
     return path.resolve(process.env.EUFEMIA_DOCS_ROOT)
   }
@@ -147,6 +62,69 @@ function computeDocsRoot() {
     return path.resolve(path.dirname(entryPath), '../docs')
   }
   return path.resolve(process.cwd(), 'docs')
+}
+
+/**
+ * Verify that the docs source is populated before the MCP server starts
+ * serving requests. We have hit cases where the server is pointed at a
+ * relative path that resolves to the wrong working directory and silently
+ * returns empty results for every tool call. Failing fast here makes that
+ * misconfiguration impossible to miss.
+ *
+ * The source is considered valid when it can read `llm.md` and reports at
+ * least one markdown/MDX file.
+ */
+export async function validateDocsSource(
+  source: DocsSource
+): Promise<void> {
+  const llmStat = await source.stat('llm.md')
+  const hasEntry = llmStat.kind === 'file'
+
+  const markdownFiles = await source.listMarkdown()
+
+  if (!hasEntry || markdownFiles.length === 0) {
+    throw new Error(
+      `Eufemia docs source is empty or unbuilt: ${source.label}\n` +
+        `  Found ${markdownFiles.length} markdown file(s); llm.md present: ${hasEntry}.\n` +
+        '  For Node.js: run `yarn workspace @dnb/eufemia build:docs` and point\n' +
+        '  EUFEMIA_DOCS_ROOT at the resulting build/docs directory using an absolute path.\n' +
+        '  For the Cloudflare Worker: rebuild the docs bundle.'
+    )
+  }
+}
+
+/**
+ * Backwards-compatible wrapper: validates a Node docs directory by path.
+ * Throws an immediate, clear error when the directory is missing or not a
+ * directory; otherwise delegates to {@link validateDocsSource}.
+ */
+export async function validateDocsRoot(
+  docsRootAbs: string
+): Promise<void> {
+  const fs = await import('node:fs/promises')
+
+  let stat
+  try {
+    stat = await fs.stat(docsRootAbs)
+  } catch {
+    stat = null
+  }
+
+  if (!stat) {
+    throw new Error(
+      `Eufemia docs root does not exist: ${docsRootAbs}\n` +
+        '  Set EUFEMIA_DOCS_ROOT to an absolute path that contains the built docs,\n' +
+        '  or run `yarn workspace @dnb/eufemia build:docs` to generate them.'
+    )
+  }
+
+  if (!stat.isDirectory()) {
+    throw new Error(`Eufemia docs root is not a directory: ${docsRootAbs}`)
+  }
+
+  const { createNodeDocsSource } = await import('./docs-source')
+  const source = await createNodeDocsSource(docsRootAbs)
+  await validateDocsSource(source)
 }
 
 function extractFrontmatterLinks(markdown: string) {
@@ -245,9 +223,7 @@ function makeTextResult(text: string): ToolResult {
   }
 }
 
-function createDocsContext(docsRoot: string) {
-  const llmMdAbs = path.resolve(docsRoot, 'llm.md')
-
+function createDocsContext(source: DocsSource) {
   let cachedMdFiles: string[] | null = null
   let cachedMdFilesAt = 0
   const MD_FILES_TTL_MS = 30_000
@@ -256,8 +232,8 @@ function createDocsContext(docsRoot: string) {
     const now = Date.now()
 
     if (!cachedMdFiles || now - cachedMdFilesAt > MD_FILES_TTL_MS) {
-      const files = await listMarkdownFiles(docsRoot)
-      cachedMdFiles = files.map((f) => '/' + f.replaceAll(path.sep, '/'))
+      const files = await source.listMarkdown()
+      cachedMdFiles = files.map((f) => withLeadingSlash(f))
       cachedMdFilesAt = now
     }
 
@@ -265,7 +241,10 @@ function createDocsContext(docsRoot: string) {
       return cachedMdFiles
     }
 
-    const pfx = '/' + normalizeRelPath(prefix).replace(/\/?$/, '/')
+    const pfx = withLeadingSlash(normalizeDocsPath(prefix)).replace(
+      /\/?$/,
+      '/'
+    )
     return cachedMdFiles.filter((p) => p.startsWith(pfx))
   }
 
@@ -283,20 +262,18 @@ function createDocsContext(docsRoot: string) {
     // Find the first path that exists
     for (const candidatePath of possiblePaths) {
       try {
-        const candidateAbs = resolveInside(docsRoot, candidatePath).abs
-        const st = await statSafe(candidateAbs)
-        if (st?.isFile()) {
+        const st = await source.stat(candidatePath)
+        if (st.kind === 'file') {
           doc = candidatePath
           break
         }
         // If it's a directory, try adding .md or .mdx
-        if (st?.isDirectory()) {
+        if (st.kind === 'dir') {
           const tryMd = candidatePath.replace(/\.(mdx?)?$/, '') + '.md'
           const tryMdx = candidatePath.replace(/\.(mdx?)?$/, '') + '.mdx'
           for (const tryPath of [tryMd, tryMdx]) {
-            const tryAbs = resolveInside(docsRoot, tryPath).abs
-            const trySt = await statSafe(tryAbs)
-            if (trySt?.isFile()) {
+            const trySt = await source.stat(tryPath)
+            if (trySt.kind === 'file') {
               doc = tryPath
               break
             }
@@ -317,10 +294,8 @@ function createDocsContext(docsRoot: string) {
     // links from frontmatter
     if (!properties || !events) {
       try {
-        const docAbs = resolveInside(docsRoot, doc).abs
-        const st = await statSafe(docAbs)
-        if (st?.isFile()) {
-          const mdText = await readTextFile(docAbs)
+        const mdText = await source.read(doc)
+        if (mdText !== null) {
           const links = extractFrontmatterLinks(mdText)
           if (links?.properties) {
             properties = links.properties
@@ -341,15 +316,10 @@ function createDocsContext(docsRoot: string) {
       events = doc
     }
 
-    const docExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, doc).abs))?.isFile()
-    )
-    const propertiesExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, properties).abs))?.isFile()
-    )
-    const eventsExists = Boolean(
-      (await statSafe(resolveInside(docsRoot, events).abs))?.isFile()
-    )
+    const docExists = (await source.stat(doc)).kind === 'file'
+    const propertiesExists =
+      (await source.stat(properties)).kind === 'file'
+    const eventsExists = (await source.stat(events)).kind === 'file'
 
     return {
       name,
@@ -414,12 +384,13 @@ function createDocsContext(docsRoot: string) {
         }
 
         const relPath = files[i]
-        const { abs } = resolveInside(docsRoot, relPath)
-
-        let text
+        let text: string | null = null
         try {
-          text = await readTextFile(abs)
+          text = await source.read(relPath)
         } catch {
+          continue
+        }
+        if (text === null) {
           continue
         }
 
@@ -550,8 +521,7 @@ function createDocsContext(docsRoot: string) {
   }
 
   return {
-    docsRoot,
-    llmMdAbs,
+    source,
     getMarkdownFilesCached,
     resolveComponentPaths,
     searchInMarkdown,
@@ -609,22 +579,74 @@ type DocsToolHandlers = {
   componentDoc: (input: ComponentNameInputType) => Promise<ToolResult>
   componentApi: (input: ComponentNameInputType) => Promise<ToolResult>
   componentProps: (input: ComponentNameInputType) => Promise<ToolResult>
+  source: DocsSource
+  /**
+   * Convenience accessor for Node deployments. Equals the absolute docs root
+   * when the tools were created with `{ docsRoot }`; otherwise mirrors the
+   * source `label` so log lines stay readable.
+   */
   docsRoot: string
 }
 
 export function createDocsTools(
-  options: { docsRoot?: string } = {}
+  options:
+    | { docsRoot?: string; source?: never }
+    | { source: DocsSource; docsRoot?: never }
+    | { docsRoot?: string; source?: DocsSource } = {}
 ): DocsToolHandlers {
-  const docsRoot = options.docsRoot ?? computeDocsRoot()
-  const context = createDocsContext(docsRoot)
+  let source: DocsSource
+  let docsRoot: string
+
+  if (options.source) {
+    source = options.source
+    docsRoot = source.label
+  } else {
+    // Node-only fallback: lazily resolve the docs root and the Node FS source
+    // so this module stays loadable in runtimes without `node:fs/promises`
+    // (e.g. Cloudflare Workers). Consumers that pass `{ source }` never hit
+    // this branch.
+    const docsRootPromise: Promise<string> = options.docsRoot
+      ? Promise.resolve(options.docsRoot)
+      : computeDocsRoot()
+
+    let resolvedDocsRoot: string | null =
+      typeof options.docsRoot === 'string' ? options.docsRoot : null
+
+    docsRoot = resolvedDocsRoot ?? '<pending>'
+
+    let nodeSourcePromise: Promise<DocsSource> | null = null
+    const getNodeSource = () => {
+      if (!nodeSourcePromise) {
+        nodeSourcePromise = (async () => {
+          const root = await docsRootPromise
+          resolvedDocsRoot = root
+          docsRoot = root
+          const { createNodeDocsSource } = await import('./docs-source')
+          return createNodeDocsSource(root)
+        })()
+      }
+      return nodeSourcePromise
+    }
+    source = {
+      label: `node:${docsRoot}`,
+      listMarkdown: () => getNodeSource().then((s) => s.listMarkdown()),
+      read: (relPath) => getNodeSource().then((s) => s.read(relPath)),
+      stat: (relPath) => getNodeSource().then((s) => s.stat(relPath)),
+      listDir: (relPath, max) =>
+        getNodeSource().then((s) => s.listDir(relPath, max)),
+    }
+  }
+
+  const context = createDocsContext(source)
 
   const docsEntry = async (
     _input: EmptyInputType
   ): Promise<ToolResult> => {
-    if (!(await fileExists(context.llmMdAbs))) {
+    const text = await context.source.read('llm.md')
+    if (text === null) {
       return makeTextResult('llm.md not found in docs root.')
     }
-    return makeTextResult(await readTextFile(context.llmMdAbs))
+    return makeTextResult(text)
   }
 
   const docsIndex = async (
@@ -645,29 +667,25 @@ export function createDocsTools(
   const docsRead = async ({
     path: userPath,
   }: DocsReadInputType): Promise<ToolResult> => {
-    let resolved
+    let normalised: string
     try {
-      resolved = resolveInside(context.docsRoot, userPath)
+      normalised = normalizeDocsPath(userPath)
     } catch (e) {
       return makeTextResult(
         `Invalid path: ${e instanceof Error ? e.message : String(e)}`
       )
     }
 
-    const { abs, relWithLeadingSlash } = resolved
-    const st = await statSafe(abs)
+    const relWithLeadingSlash = withLeadingSlash(normalised)
+    const st = await context.source.stat(normalised)
 
-    if (!st) {
+    if (st.kind === 'missing') {
       const base = relWithLeadingSlash.replace(/\/+$/, '')
       const mdGuess = `${base}.md`
 
       let mdExists = false
       try {
-        mdExists = Boolean(
-          (
-            await statSafe(resolveInside(context.docsRoot, mdGuess).abs)
-          )?.isFile()
-        )
+        mdExists = (await context.source.stat(mdGuess)).kind === 'file'
       } catch {
         mdExists = false
       }
@@ -686,8 +704,8 @@ export function createDocsTools(
       )
     }
 
-    if (st.isDirectory()) {
-      const children = await listDirSafe(abs, 60)
+    if (st.kind === 'dir') {
+      const children = await context.source.listDir(normalised, 60)
       const base = relWithLeadingSlash.replace(/\/+$/, '')
 
       const guessList = [
@@ -710,9 +728,8 @@ export function createDocsTools(
       const suggestions = []
       for (const s of [...guessList, ...childCandidates]) {
         try {
-          const sAbs = resolveInside(context.docsRoot, s).abs
-          const sSt = await statSafe(sAbs)
-          if (sSt?.isFile()) {
+          const sSt = await context.source.stat(s)
+          if (sSt.kind === 'file') {
             suggestions.push(s)
           }
         } catch {
@@ -735,7 +752,21 @@ export function createDocsTools(
       )
     }
 
-    return makeTextResult(await readTextFile(abs))
+    const text = await context.source.read(normalised)
+    if (text === null) {
+      return makeTextResult(
+        JSON.stringify(
+          {
+            error: 'ENOENT',
+            message: 'Not found.',
+            path: relWithLeadingSlash,
+          },
+          null,
+          2
+        )
+      )
+    }
+    return makeTextResult(text)
   }
 
   const docsSearch = async ({
@@ -761,24 +792,20 @@ export function createDocsTools(
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const abs = resolveInside(context.docsRoot, info.doc).abs
-    const st = await statSafe(abs)
-
-    if (!st?.isFile()) {
+    const text = await context.source.read(info.doc)
+    if (text === null) {
       return makeTextResult(`Component doc not found: ${info.doc}`)
     }
-
-    return makeTextResult(await readTextFile(abs))
+    return makeTextResult(text)
   }
 
   const componentApi = async ({
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const abs = resolveInside(context.docsRoot, info.doc).abs
-    const st = await statSafe(abs)
+    const text = await context.source.read(info.doc)
 
-    if (!st?.isFile()) {
+    if (text === null) {
       return makeTextResult(
         JSON.stringify(
           {
@@ -792,7 +819,7 @@ export function createDocsTools(
       )
     }
 
-    const jsonBlocks = extractJsonBlocks(await readTextFile(abs))
+    const jsonBlocks = extractJsonBlocks(text)
     return makeTextResult(
       JSON.stringify(
         {
@@ -809,10 +836,9 @@ export function createDocsTools(
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const abs = resolveInside(context.docsRoot, info.doc).abs
-    const st = await statSafe(abs)
+    const text = await context.source.read(info.doc)
 
-    if (!st?.isFile()) {
+    if (text === null) {
       return makeTextResult(
         JSON.stringify(
           {
@@ -826,7 +852,7 @@ export function createDocsTools(
       )
     }
 
-    const blocks = extractJsonBlocks(await readTextFile(abs))
+    const blocks = extractJsonBlocks(text)
     return makeTextResult(JSON.stringify(blocks, null, 2))
   }
 
@@ -840,16 +866,17 @@ export function createDocsTools(
     componentDoc,
     componentApi,
     componentProps,
+    source,
     docsRoot,
   }
 }
 
-async function main() {
-  const tools = createDocsTools()
-  logErr(`[eufemia] docsRoot: ${tools.docsRoot}`)
+export const SERVER_INFO = { name: 'eufemia', version: '2.2.0' }
 
-  const server = new McpServer({ name: 'eufemia', version: '2.2.0' })
-
+export function registerDocsTools(
+  server: McpServer,
+  tools: DocsToolHandlers
+) {
   server.registerTool(
     'docs_entry',
     {
@@ -948,28 +975,18 @@ async function main() {
     },
     (input) => tools.componentProps(input)
   )
-
-  const transport = new StdioServerTransport()
-  await server.connect(transport)
-  logErr('[eufemia] connected (stdio)')
 }
 
-const shouldRun = (() => {
-  const entryPath = process.argv[1] ? path.resolve(process.argv[1]) : ''
-  const entryName = entryPath ? path.basename(entryPath) : ''
-  const allowed = new Set([
-    'mcp-docs-server.js',
-    'mcp-docs-server.mjs',
-    'mcp-docs-server.cjs',
-    'mcp-docs-server.ts',
-    'mcp-docs-server.mts',
-  ])
-  return entryName ? allowed.has(entryName) : false
-})()
-
-if (shouldRun) {
-  main().catch((e) => {
-    logErr('[eufemia] fatal:', e)
-    process.exit(1)
-  })
+export function createDocsServer(options: { docsRoot?: string } = {}): {
+  server: McpServer
+  tools: DocsToolHandlers
+} {
+  const tools = createDocsTools(options)
+  const server = new McpServer(SERVER_INFO)
+  registerDocsTools(server, tools)
+  return { server, tools }
 }
+
+// The Node-only stdio entry lives in `./mcp-stdio.ts`. Keeping it out of
+// this module ensures the shared core stays runtime-agnostic and can be
+// bundled for Cloudflare Workers, Deno, Bun, etc.

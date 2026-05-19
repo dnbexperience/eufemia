@@ -245,7 +245,7 @@ describe('Field.Date', () => {
     expect(endMonth).toHaveValue('09')
     expect(endYear).toHaveValue('2024')
 
-    // Should handle undfined or null end date
+    // Should handle undefined or null end date
     rerender(<Field.Date range value="2024-09-01|undefined" />)
 
     // Start date
@@ -258,7 +258,7 @@ describe('Field.Date', () => {
     expect(endMonth).toHaveValue('mm')
     expect(endYear).toHaveValue('åååå')
 
-    // Should handle undfined or null start and end dates
+    // Should handle undefined or null start and end dates
     rerender(<Field.Date range value="null|undefined" />)
 
     // Start date
@@ -271,7 +271,7 @@ describe('Field.Date', () => {
     expect(endMonth).toHaveValue('mm')
     expect(endYear).toHaveValue('åååå')
 
-    // Should handle undfined or null start date
+    // Should handle undefined or null start date
     rerender(<Field.Date range value="null|2024-04-01" />)
 
     // Start date

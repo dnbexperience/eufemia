@@ -149,7 +149,13 @@ function Layout(props: LayoutProps) {
   }
 
   return (
-    <div className={clsx(portalStyle, fs && fullscreenStyle)}>
+    <div
+      className={clsx(
+        portalStyle,
+        fs && fullscreenStyle,
+        codeFullscreen && 'focusmode'
+      )}
+    >
       <a
         className="dnb-skip-link"
         href="#dnb-app-content"

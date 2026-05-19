@@ -1,14 +1,11 @@
-import {
-  test,
-  expect,
-  makeScreenshot,
-} from '../../../../../core/playwright/screenshotSetup'
+import { it, describe } from 'vitest'
+import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Iterate.EditContainer', () => {
+describe('Iterate.EditContainer', () => {
   const url = '/uilib/extensions/forms/Iterate/EditContainer/demos/'
 
-  test('have to match edit container with error', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match edit container with error', async () => {
+    await makeScreenshot({
       url,
       selector: '[data-visual-test="edit-container-error"]',
       simulate: 'click',
@@ -16,6 +13,5 @@ test.describe('Iterate.EditContainer', () => {
         '[data-visual-test="edit-container-error"] .dnb-forms-submit-button',
       recalculateHeightAfterSimulate: true,
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

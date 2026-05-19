@@ -1,0 +1,36 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+// If we need it later, we may open this up to :root.
+// For now, we scope it to the component because,
+// if we ever serve token values from brand files at some point,
+// we need a way to make that compatible with :root.
+// The theme is not compatible with :root today.
+.dnb-space {
+  @include utilities.allBelow(small) {
+    --responsive-spacing-xx-small: 0.25rem; // 4px
+    --responsive-spacing-x-small: 0.5rem; // 8px
+    --responsive-spacing-small: 1rem; // 16px
+    --responsive-spacing-medium: 1.5rem; // 24px
+    --responsive-spacing-large: 2rem; // 32px
+    --responsive-spacing-x-large: 2.5rem; // 40px
+    --responsive-spacing-xx-large: 3rem; // 48px
+  }
+  @include utilities.allBetween(small, medium) {
+    --responsive-spacing-xx-small: 0.5rem; // 8px
+    --responsive-spacing-x-small: 1rem; // 16px
+    --responsive-spacing-small: 1.5rem; // 24px
+    --responsive-spacing-medium: 2rem; // 32px
+    --responsive-spacing-large: 2.5rem; // 40px
+    --responsive-spacing-x-large: 3rem; // 48px
+    --responsive-spacing-xx-large: 3.5rem; // 56px
+  }
+  @include utilities.allAbove(medium) {
+    --responsive-spacing-xx-small: 1rem; // 16px
+    --responsive-spacing-x-small: 1.5rem; // 24px
+    --responsive-spacing-small: 2rem; // 32px
+    --responsive-spacing-medium: 2.5rem; // 40px
+    --responsive-spacing-large: 3rem; // 48px
+    --responsive-spacing-x-large: 3.5rem; // 56px
+    --responsive-spacing-xx-large: 4rem; // 64px
+  }
+}

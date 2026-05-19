@@ -1,4 +1,4 @@
-@mixin tableBorderHelper($offset: -0.0625rem) {
+@mixin tableBorderHelper($offset) {
   content: '';
   position: absolute;
   inset: 0;

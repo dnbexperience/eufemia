@@ -1,33 +1,29 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('Horizontal rule', () => {
+describe('Horizontal rule', () => {
   setupPageScreenshot({
     url: '/uilib/elements/horizontal-rule/demos/',
   })
 
-  test('have to match default horizontal rule', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match default horizontal rule', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="hr-default"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match breakout horizontal rule', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match breakout horizontal rule', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="hr-breakout"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match dashed horizontal rule', async () => {
-    const screenshot = await makeScreenshot({
+  it('have to match dashed horizontal rule', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="hr-dashed"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

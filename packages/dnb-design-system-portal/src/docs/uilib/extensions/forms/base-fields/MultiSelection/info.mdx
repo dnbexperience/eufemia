@@ -1,0 +1,164 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.MultiSelection />)
+```
+
+## Description
+
+`Field.MultiSelection` is a component for selecting multiple items from a fixed set with a confirmation flow. The selection interface appears in a popover overlay, keeping your form layout clean.
+
+This is ideal when users need to:
+
+1. Browse and filter through many options.
+2. See their selections clearly before confirming.
+3. Cancel and discard changes without applying them.
+4. Work with structured data beyond simple strings.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+const data = [
+  {
+    value: 'option1',
+    title: 'Option 1',
+    text: 'Text',
+    description: 'Description',
+  },
+  { value: 'option2', title: 'Option 2', text: 'Text' },
+  { value: 'option3', title: 'Option 3', description: 'Description' },
+]
+
+render(
+  <Field.MultiSelection
+    label="Select items"
+    data={data}
+    showSearchField
+    showSelectedTags
+  />
+)
+```
+
+## Using with dataPath
+
+You can also use the `dataPath` property to provide the data from the Form context:
+
+```jsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    data={{
+      myItems: [
+        { value: 'oslo', title: 'Oslo', text: 'Capital of Norway' },
+        {
+          value: 'stockholm',
+          title: 'Stockholm',
+          text: 'Capital of Sweden',
+        },
+        {
+          value: 'copenhagen',
+          title: 'Copenhagen',
+          text: 'Capital of Denmark',
+        },
+      ],
+    }}
+  >
+    <Field.MultiSelection
+      label="Select cities"
+      dataPath="/myItems"
+      showSearchField
+      showSelectedTags
+    />
+  </Form.Handler>
+)
+```
+
+## Features
+
+### Popover Interface
+
+The selection interface appears in a popover overlay, keeping your form clean and maintaining focus on the current field. Click the trigger button to open the selection interface, showing the search field, items list, and action buttons.
+
+### Selected Items Display
+
+Shows currently selected items as removable tags when `showSelectedTags` is enabled.
+
+### Collapsible Selected Items (`selectedItemsCollapsibleThreshold`)
+
+When `showSelectedTags` is enabled and the **total number of available items** exceeds `selectedItemsCollapsibleThreshold` (default: `20`), the selected items are hidden by default and a collapsible header appears with two controls:
+
+- **Toggle button**: Shows the count of selected items relative to the total (e.g. _"22 of 30 selected"_) with a rotating chevron icon. Announces its state to screen readers via `aria-expanded`. Click to expand or collapse the tag list.
+- **Clear all button**: A tertiary button with a close icon that deselects all items at once. Hidden when nothing is selected.
+
+The tag list expands and collapses with a smooth height animation.
+
+Set `selectedItemsCollapsibleThreshold` to a custom number to control when the collapsible header kicks in:
+
+```jsx
+<Field.MultiSelection
+  showSelectedTags
+  selectedItemsCollapsibleThreshold={10}
+  {/* ... */}
+/>
+```
+
+### Search Functionality
+
+When `showSearchField` is enabled, users can filter through items by typing in the search field. The filtering applies to both the item title and text and description.
+
+### Item Details
+
+Each item can include optional `text` and `description` content below the main title. `text` renders as black primary lines, while `description` renders as grey secondary lines.
+
+### Disabled Items
+
+Individual items can be disabled by setting their `disabled` property to `true`.
+
+### Confirmation Flow
+
+When `showConfirmButton` is enabled, users must click "Confirm selection" to apply changes, or "Cancel" to discard them without modifying the form value.
+
+## Accessibility
+
+### Keyboard interaction
+
+| Key               | Behavior                                                                                                                                            |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Opens or closes the popover when the trigger button is focused. Toggles an item when a checkbox is focused.                                         |
+| `ArrowDown`       | When the trigger is focused: opens the popover and moves focus to the first checkbox. When inside the popover: moves focus to the next checkbox.    |
+| `ArrowUp`         | When the trigger is focused: opens the popover and moves focus to the last checkbox. When inside the popover: moves focus to the previous checkbox. |
+| `Escape`          | Closes the popover and discards any pending changes (same as Cancel).                                                                               |
+| `Tab`             | Moves focus through the interactive elements inside the popover (search field, checkboxes, confirm/cancel buttons).                                 |
+
+### Screen reader announcements
+
+- The trigger button exposes the current selection count via `aria-describedby`. Screen readers will read e.g. _"2 of 5 selected"_ when the button receives focus.
+- After each checkbox toggle (or tag removal), a live region (`aria-live="assertive"`) announces the updated count, e.g. _"3 of 5 selected"_. This announcement does not fire when the popover is closed via Cancel, since changes are discarded.
+- The trigger button uses `role="combobox"` with `aria-haspopup="listbox"` so assistive technologies describe it as a combobox that opens a list.
+- Each checkbox announces its own checked/unchecked state natively. No duplicate descriptions are added.
+- Nested item groups are rendered as sibling `<ul>` elements after their parent `<li>`, so assistive technologies announce them as a new list level (e.g. _"list, 3 items, level 2"_).
+
+### Focus management
+
+- Opening the popover with the mouse moves focus to the popover content area so arrow-key navigation works immediately.
+- Opening the popover with `ArrowDown` moves focus directly to the first checkbox; `ArrowUp` moves focus to the last checkbox.
+- During keyboard navigation inside the popover, the focused item is automatically scrolled into view.
+- Closing the popover (confirm, cancel, or Escape) returns focus to the trigger button.
+
+### Semantic structure
+
+- The item list is rendered as a `<ul>` with each option as an `<li>`, giving assistive technologies correct list semantics.
+- Nested item groups use a child `<ul>` inside the parent `<li>`.
+- The field label is linked to the trigger button via a `<label for="…">` relationship provided by `FieldBlock`.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=61839-11710&t=oe60OMkAhyFE8eje-4)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/MultiSelection)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/base-fields/MultiSelection)

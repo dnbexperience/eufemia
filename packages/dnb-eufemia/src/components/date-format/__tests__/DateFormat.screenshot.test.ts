@@ -1,28 +1,23 @@
+import { it, describe } from 'vitest'
 import {
-  test,
-  expect,
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/playwright/screenshotSetup'
+} from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-test.describe('DateFormat', () => {
+describe('DateFormat', () => {
   setupPageScreenshot({
     url: '/uilib/components/date-format/demos',
   })
 
-  test('have to match date styles', async ({ page }) => {
-    const screenshot = await makeScreenshot({
-      page,
+  it('have to match date styles', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="date-format-date-styles"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 
-  test('have to match date when inline', async ({ page }) => {
-    const screenshot = await makeScreenshot({
-      page,
+  it('have to match date when inline', async () => {
+    await makeScreenshot({
       selector: '[data-visual-test="date-format-date-inline"]',
     })
-    expect(screenshot).toMatchSnapshot()
   })
 })

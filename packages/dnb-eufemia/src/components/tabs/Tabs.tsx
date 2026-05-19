@@ -36,7 +36,7 @@ import {
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type {
   DynamicElement,
   InnerSpaceType,
@@ -106,11 +106,11 @@ export type TabsProps = Omit<
   SpacingProps & {
     data?: TabsData
     /**
-     * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+     * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     content?: TabsContent
     /**
-     * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+     * To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
     contentStyle?: SectionVariants | string
     /**
@@ -170,7 +170,7 @@ export type TabsProps = Omit<
     id?: string
     className?: string
     /**
-     * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+     * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     children?: TabsChildren
     render?: (components: TabsRenderComponents) => ReactNode
@@ -201,7 +201,7 @@ export type TabsRenderComponents = {
 
 export type TabsDummyProps = {
   /**
-   * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
+   * The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   children: ReactNode
 }
@@ -845,15 +845,20 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }, [scrollToTab])
 
-  // Synchronous shared state initialization (must happen during render, not in useEffect)
+  // Synchronous shared state initialization (must happen during render, not in useEffect).
+  // Use silent: true to avoid triggering subscribers during render, which would cause
+  // "Cannot update a component while rendering a different component" errors.
   if (ownProps.id && !sharedStateRef.current) {
     sharedStateRef.current = createSharedState(ownProps.id)
-    sharedStateRef.current.set({
-      key: selectedKey,
-      selectedKey,
-      focusKey,
-      title: getCurrentTitle(selectedKey),
-    })
+    sharedStateRef.current.set(
+      {
+        key: selectedKey,
+        selectedKey,
+        focusKey,
+        title: getCurrentTitle(selectedKey),
+      },
+      { silent: true }
+    )
   }
 
   // Init on mount / window load
@@ -1109,17 +1114,25 @@ function TabsComponent(ownProps: TabsProps) {
     useRef<(p?: Record<string, unknown>) => ReactElement>(null)
 
   // Update render functions with latest state on every render
+  const { className } = ownProps as TabsProps
+  const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
+
+  const wrapperSpacingParams: Record<string, unknown> = useSpacing(
+    ownProps,
+    {
+      ...attributes,
+      className: clsx('dnb-tabs', className),
+    }
+  )
+
+  const { prevButtonTitle, nextButtonTitle } =
+    context.getTranslation?.(props)?.Tabs || {}
+
   renderWrapperRef.current = ({
     children,
     ...rest
   }: PropsWithChildren<Record<string, unknown>>) => {
-    const { className } = ownProps as TabsProps
-    const { ...attributes } = filterProps(ownProps, tabsDefaultProps)
-
-    const params: Record<string, unknown> = applySpacing(ownProps, {
-      ...attributes,
-      className: clsx('dnb-tabs', className),
-    })
+    const params = { ...wrapperSpacingParams }
 
     validateDOMAttributes(ownProps, params)
 
@@ -1176,6 +1189,7 @@ function TabsComponent(ownProps: TabsProps) {
         <ScrollNavButton
           onMouseDown={openPrevTab}
           icon="chevron_left"
+          title={prevButtonTitle}
           className={clsx(
             hasScrollbarRef.current &&
               (typeof isFirstRef.current !== 'undefined' ||
@@ -1190,6 +1204,7 @@ function TabsComponent(ownProps: TabsProps) {
         <ScrollNavButton
           onMouseDown={openNextTab}
           icon="chevron_right"
+          title={nextButtonTitle}
           className={clsx(
             hasScrollbarRef.current &&
               (typeof isLastRef.current !== 'undefined' ||

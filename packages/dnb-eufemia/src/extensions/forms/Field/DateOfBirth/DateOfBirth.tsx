@@ -258,8 +258,26 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
 
         forceUpdate()
       }
+    } else {
+      // Clear refs when the external value is reset (e.g. form reset).
+      // Only clear when the refs still form a complete date, which means
+      // the reset came from outside. During normal editing the individual
+      // change handlers already set the cleared ref to emptyValue, so
+      // joinValue will return undefined and we skip the clear.
+      const currentValues = joinValue(
+        [yearRef.current, monthRef.current, dayRef.current],
+        dateFormat
+      )
+
+      if (currentValues) {
+        dayRef.current = emptyValue
+        monthRef.current = emptyValue
+        yearRef.current = emptyValue
+
+        forceUpdate()
+      }
     }
-  }, [fieldValue, dateFormat])
+  }, [fieldValue, dateFormat, emptyValue])
 
   const handleDayChange = useCallback(
     (value: string) => {

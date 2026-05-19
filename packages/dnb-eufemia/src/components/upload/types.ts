@@ -26,15 +26,14 @@ export type UploadProps = {
   variant?: 'default' | 'compact'
 
   /**
-   * list of accepted file types.
+   * List of accepted file types.
    */
   acceptedFileTypes:
     | UploadAcceptedFiles
     | UploadAcceptedFileTypesWithFileMaxSize
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
@@ -65,7 +64,7 @@ export type UploadProps = {
   }) => void | Promise<void>
 
   /**
-   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.
+   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.
    */
   onFileClick?: ({
     fileItem,

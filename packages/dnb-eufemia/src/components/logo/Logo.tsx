@@ -15,7 +15,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
 
@@ -52,7 +52,7 @@ export type LogoProps = {
    */
   color?: IconColor
   /**
-   * Set to `true`to inherit the color with `currentColor`. Defaults to `false`.
+   * Set to `true` to inherit the color with `currentColor`. Defaults to `false`.
    */
   inheritColor?: boolean
   /**
@@ -61,7 +61,7 @@ export type LogoProps = {
   inheritSize?: boolean
   /**
    * Provide a custom SVG to render instead of the built-in logos.
-   * Can be a React component (receives standard SVG props), a React element, or a function that receives the theme and returns a SVG component.
+   * Can be a React component (receives standard SVG props), a React element, or a function that receives the theme and returns an SVG component.
    */
   svg?: Svg
 } & SpacingProps &
@@ -156,7 +156,7 @@ function Logo(localProps: LogoProps) {
     inheritColor,
   ])
 
-  const rootParams = applySpacing(props, {
+  const rootParams = useSpacing(props, {
     role: 'img',
     'aria-hidden': true,
     className,

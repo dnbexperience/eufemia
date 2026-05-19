@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { memo, useCallback, useContext, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   HTMLProps,
   KeyboardEvent,
@@ -24,7 +31,7 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -126,10 +133,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   skipNextPropSync.current = false
 
   // Register initial checked value with group context
-  const didInitRef = useRef(false)
-  if (!didInitRef.current) {
-    didInitRef.current = true
-
+  useLayoutEffect(() => {
     if (
       groupContext.name &&
       typeof ownProps.value !== 'undefined' &&
@@ -151,7 +155,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         })
       }
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const callOnChange = useCallback(
     ({
@@ -315,7 +319,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
 
   const showStatus = getStatusState(status)
 
-  const mainParams = applySpacing(props, {
+  const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button',
       status && `dnb-toggle-button__status--${statusState}`,
@@ -542,7 +546,7 @@ export type ToggleButtonProps = Omit<
      */
     value?: ToggleButtonValue
     /**
-     * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+     * The size of the button. For now there are `small`, `medium`, `default` and `large`.
      */
     size?: ButtonSize
     /**

@@ -211,6 +211,11 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: '"initial"',
     status: 'optional',
   },
+  autoAlignViewportThreshold: {
+    doc: 'Bias vertical auto alignment toward the preferred placement until the trigger crosses a viewport threshold. Only applies to `placement="top"` and `placement="bottom"`. Example: `0.75` keeps `placement="bottom"` until the trigger reaches the bottom quarter of the viewport.',
+    type: 'number',
+    status: 'optional',
+  },
   contentRef: {
     doc: 'Ref forwarded to the popover content element.',
     type: 'React.RefObject<HTMLSpanElement>',

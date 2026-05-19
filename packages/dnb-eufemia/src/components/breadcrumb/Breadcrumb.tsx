@@ -18,7 +18,7 @@ import clsx from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type {
   SectionBackgroundColor,
   SectionVariants,
@@ -55,8 +55,7 @@ export type BreadcrumbProps = {
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
@@ -93,7 +92,7 @@ export type BreadcrumbProps = {
   href?: string
 
   /**
-   * Every <nav> on a page needs an unique aria-label text
+   * Every <nav> on a page needs a unique aria-label text
    * Default: `Page hierarchy`
    */
   navText?: ReactNode
@@ -262,7 +261,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       : spacing
     : undefined
 
-  const navProps = applySpacing(allProps, {
+  const navProps = useSpacing(allProps, {
     ...props,
     'aria-label': convertJsxToString(navText),
     className: clsx(

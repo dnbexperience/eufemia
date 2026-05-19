@@ -7,7 +7,7 @@ import { useContext } from 'react'
 import type { ElementType } from 'react'
 import clsx from 'clsx'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { applySpacing } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -58,7 +58,7 @@ export function SliderInstance() {
     extensions,
   } = allProps
 
-  const mainParams = applySpacing(allProps, {
+  const mainParams = useSpacing(allProps, {
     className: clsx(
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',

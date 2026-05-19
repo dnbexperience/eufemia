@@ -69,7 +69,7 @@ export type SectionProps = {
   outlineWidth?: number | string | ResponsiveProp<number | string>
 
   /**
-   * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
+   * Define a custom text color to complement the backgroundColor. Use a Eufemia color.
    */
   textColor?: SectionTextColor | ResponsiveProp<SectionTextColor>
 
@@ -81,12 +81,12 @@ export type SectionProps = {
     | ResponsiveProp<SectionBackgroundColor>
 
   /**
-   * Define a custom drop-shadow.
+   * Use `true` to show the default Eufemia DropShadow. Supports media query breakpoints like `{ small: true }`.
    */
   dropShadow?: SectionDropShadow | ResponsiveProp<SectionDropShadow>
 
   /**
-   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors.
+   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context.
    */
   surface?: ThemeSurface
 

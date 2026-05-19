@@ -33,21 +33,44 @@ export default function Table({ children }) {
         }
       }
 
-      if (isValidElement(child) && child.type === 'td') {
-        const tdChildren = getChildren(child as ChildWithChildren)
-        if (tdChildren?.length === 1) {
-          const text = String(tdChildren?.[0])
-          if (
-            text.startsWith('#') &&
-            (text.length === 7 || text.length === 4)
-          ) {
-            // manipulate the colors, if provided
-            return (
-              <td aria-hidden style={prepareStyleWithSameColor(text)}>
-                {text}
-              </td>
-            )
+      if (isValidElement(child)) {
+        const htmlChild = child as ReactElement<
+          React.HTMLAttributes<HTMLElement>
+        >
+
+        // Add Eufemia table classes to plain HTML elements from MDX
+        if (child.type === 'tr') {
+          child = cloneElement(htmlChild, {
+            className: 'dnb-table__tr',
+          })
+        } else if (child.type === 'th') {
+          child = cloneElement(htmlChild, {
+            className: 'dnb-table__th',
+          })
+        } else if (child.type === 'td') {
+          const tdChildren = getChildren(child as ChildWithChildren)
+          if (tdChildren?.length === 1) {
+            const text = String(tdChildren?.[0])
+            if (
+              text.startsWith('#') &&
+              (text.length === 7 || text.length === 4)
+            ) {
+              // manipulate the colors, if provided
+              return (
+                <td
+                  className="dnb-table__td"
+                  aria-hidden
+                  style={prepareStyleWithSameColor(text)}
+                >
+                  {text}
+                </td>
+              )
+            }
           }
+
+          child = cloneElement(htmlChild, {
+            className: 'dnb-table__td',
+          })
         }
       }
 

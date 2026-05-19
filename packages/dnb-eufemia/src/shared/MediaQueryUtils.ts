@@ -126,7 +126,7 @@ export const isMatchMediaSupported = (): boolean =>
   typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined'
 
 /**
- * Convert user defined media queries to an valid MediaQueryList we can assign a listener to
+ * Convert user defined media queries to a valid MediaQueryList we can assign a listener to
  */
 export function makeMediaQueryList(
   { query, when, not = null }: MediaQueryProperties = {},

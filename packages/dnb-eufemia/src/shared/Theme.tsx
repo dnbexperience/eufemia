@@ -103,7 +103,7 @@ Theme.Context = ({ element, ...themeProps }: ThemeAllProps) => {
   return <Theme {...themeProps} element={false} />
 }
 withComponentMarkers(Theme.Context, {
-  _supportsSpacingProps: 'children',
+  _supportsSpacingProps: 'passthrough',
 })
 
 export function ThemeWrapper({

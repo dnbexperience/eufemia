@@ -1,0 +1,79 @@
+/* stop scrolling */
+*,
+html {
+  scroll-behavior: auto !important;
+}
+
+/* Force scrollbar to always be visible so viewport width
+   stays consistent across tests sharing a page */
+html {
+  overflow-y: scroll !important;
+}
+
+.sticky-menu,
+#portal-sidebar-menu {
+  display: none !important;
+}
+
+.dnb-live-editor {
+  padding: 0 !important;
+}
+.dnb-app-content {
+  margin-left: 0 !important;
+}
+
+[data-visual-test-wrapper] {
+  position: relative;
+  z-index: 9999;
+
+  /* to get smaller width to the right (no white space) */
+  display: inline-block;
+
+  /**
+	* to get a space around the element,
+	* so we can include a box-shadow in the screenshot
+	*/
+  padding: 1rem;
+  margin: -1rem;
+  box-shadow: 0 0 0 1px #fff;
+
+  background: #fff;
+}
+
+[data-visual-test]:has(
+  .dnb-section[style*='--outset--medium: 1'],
+  .dnb-section[style*='--outset--large: 1']
+) {
+  @media (min-width: 40em) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+[data-visual-test].hide-page-content #root {
+  /* NB: visibility: hidden; does not work here, because playwright does not find the selectors anymore */
+  opacity: 0;
+}
+
+/*
+ * Disable all transitions and animations during visual tests.
+ *
+ * The screenshot engine reuses the same long-lived page across many
+ * tests; when we apply a `:hover` programmatically the browser
+ * dispatches the synthetic mouse events but the resulting paint can
+ * be deferred by an in-flight transition (200-250ms on radio dot,
+ * tertiary button underline, etc.). A subsequent reload/screenshot
+ * then races the transition end and captures an intermediate frame.
+ *
+ * Killing transitions/animations universally is the cheapest way to
+ * make the screenshots deterministic without per-component overrides.
+ */
+html[data-visual-test] *,
+html[data-visual-test] *::before,
+html[data-visual-test] *::after {
+  transition-duration: 0ms !important;
+  transition-delay: 0ms !important;
+  animation-duration: 0ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+}

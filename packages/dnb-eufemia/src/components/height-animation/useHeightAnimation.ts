@@ -258,7 +258,7 @@ function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
 
   /**
    * Wait for some criteria and a certain time, before we adjust the height,
-   * so it will not run when a open/close animation is running.
+   * so it will not run when an open/close animation is running.
    */
   const shouldAdjust = () => {
     switch (instRef.current?.state) {

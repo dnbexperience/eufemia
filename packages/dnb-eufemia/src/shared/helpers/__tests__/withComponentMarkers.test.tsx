@@ -8,7 +8,7 @@ import {
 } from '../../../components/flex/utils'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import Flex from '../../../components/flex/Flex'
-import { applySpacing } from '../../../components/space/SpacingUtils'
+import { useSpacing } from '../../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../../components/space/types'
 
 describe('withComponentMarkers', () => {
@@ -201,7 +201,7 @@ describe('withComponentMarkers', () => {
   describe('_supportsSpacingProps behavior', () => {
     it('should apply spacing classes directly when _supportsSpacingProps is true', () => {
       function TestItem(props: SpacingProps) {
-        const params = applySpacing(props, { className: 'test-item' })
+        const params = useSpacing(props, { className: 'test-item' })
         return <div {...params}>content</div>
       }
       withComponentMarkers(TestItem, { _supportsSpacingProps: true })
@@ -269,7 +269,7 @@ describe('withComponentMarkers', () => {
 
     it('should pass spacing to children when _supportsSpacingProps is "children"', () => {
       function ChildItem(props: SpacingProps) {
-        const params = applySpacing(props, { className: 'child-item' })
+        const params = useSpacing(props, { className: 'child-item' })
         return <div {...params}>child</div>
       }
       withComponentMarkers(ChildItem, { _supportsSpacingProps: true })
