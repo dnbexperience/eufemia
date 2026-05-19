@@ -3,8 +3,10 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "allowJs": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

@@ -3,6 +3,7 @@ import path from 'node:path'
 
 export default defineConfig({
   test: {
+    reporters: ['default'],
     include: [
       'vite/__tests__/**/*.test.{ts,tsx}',
       'src/**/__tests__/**/*.test.{ts,tsx}',
