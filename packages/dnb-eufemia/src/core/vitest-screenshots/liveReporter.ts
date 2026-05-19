@@ -8,9 +8,9 @@
  * data across the suite.
  *
  * Pairs with `ScreenshotReporter` (which writes the HTML diff at the
- * end). Vitest's own banner and the final
- * `Test Files / Tests / Duration` block come from the runner, so we
- * can omit `'default'` and keep the output clean.
+ * end). The screenshot config also includes Vitest's `'default'`
+ * reporter so the run keeps the standard final summary and timing
+ * breakdown.
  */
 
 import type {

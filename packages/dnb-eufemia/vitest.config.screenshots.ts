@@ -26,7 +26,7 @@ export default defineConfig({
     include: process.env.SCREENSHOT_INCLUDE
       ? process.env.SCREENSHOT_INCLUDE.split(',')
       : ['src/**/*.screenshot.test.{ts,tsx}'],
-    reporters: [new LiveReporter(), new ScreenshotReporter()],
+    reporters: ['default', new LiveReporter(), new ScreenshotReporter()],
 
     // Each worker gets its own forked process. The screenshot engine
     // launches a dedicated Firefox process per worker slot (via a
