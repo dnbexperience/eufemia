@@ -1,7 +1,8 @@
 import { StrictMode, useContext, useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import MatchMediaMock from '../../../../../core/test-utils/MatchMediaMock'
+import '../../../../../core/vitest/mockMatchMediaSetup'
+import { setMedia } from 'mock-match-media'
 import {
   spyOnEufemiaWarn,
   wait,
@@ -15,15 +16,13 @@ import WizardContext from '../../Context'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-const matchMedia = new MatchMediaMock()
-
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 60em)')
+  setMedia({ width: '61em' })
   globalThis.IS_TEST = true
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+  setMedia({ width: '59em' })
 }
 
 const expandStepIndicator = async () => {

@@ -10,7 +10,6 @@ import useMedia from '../useMedia'
 import Provider from '../Provider'
 import '../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
-import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
 const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
 
@@ -813,17 +812,13 @@ describe('useMedia', () => {
     })
   })
 
-  describe('using MatchMediaMock helper', () => {
-    const matchMedia = mockMediaQuery()
-    const matchMediaMock = window.matchMedia // set in mockMediaQuery
-
+  describe('using mock-match-media helper', () => {
     beforeEach(() => {
-      vi.spyOn(window, 'matchMedia').mockImplementation(matchMediaMock)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
     })
 
     it('will return positive isSmall', () => {
-      const query = `(min-width: 0em) and (max-width: 40em)`
-      matchMedia.useMediaQuery(query)
+      setMedia({ width: '39em' })
 
       const { result } = renderHook(useMedia, { wrapper })
 
@@ -837,8 +832,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isMedium', () => {
-      const query = `(min-width: 40.00625em) and (max-width: 60em)`
-      matchMedia.useMediaQuery(query)
+      setMedia({ width: '59em' })
 
       const { result } = renderHook(useMedia, { wrapper })
 
@@ -852,8 +846,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isLarge', () => {
-      const query = `(min-width: 60.00625em)`
-      matchMedia.useMediaQuery(query)
+      setMedia({ width: '79em' })
 
       const { result } = renderHook(useMedia, { wrapper })
 
@@ -867,8 +860,7 @@ describe('useMedia', () => {
     })
 
     it('will render once when same result was detected in layout effect', () => {
-      const query = `(min-width: 60.00625em)`
-      matchMedia.useMediaQuery(query)
+      setMedia({ width: '79em' })
 
       const results = []
 
@@ -891,8 +883,7 @@ describe('useMedia', () => {
     })
 
     it('will render twice when different result was detected in layout effect', () => {
-      const query = `(min-width: 60.00625em)`
-      matchMedia.useMediaQuery(query)
+      setMedia({ width: '79em' })
 
       const results = []
 

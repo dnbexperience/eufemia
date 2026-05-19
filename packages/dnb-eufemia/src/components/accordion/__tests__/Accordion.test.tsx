@@ -13,11 +13,9 @@ import {
   subtract_medium as SubtractIcon,
 } from '../../../icons'
 import { render, fireEvent } from '@testing-library/react'
-import MatchMediaMock from '../../../core/test-utils/MatchMediaMock'
 import userEvent from '@testing-library/user-event'
 import { useSharedState } from '../../../shared/helpers/useSharedState'
-
-new MatchMediaMock()
+import '../../../core/vitest/mockMatchMediaSetup'
 
 const props: AccordionProps = {
   noAnimation: true,

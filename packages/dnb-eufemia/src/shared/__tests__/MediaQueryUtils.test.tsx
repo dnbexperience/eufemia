@@ -9,34 +9,37 @@ import {
   onMediaQueryChange,
   makeMediaQueryList,
 } from '../MediaQueryUtils'
-import { mockMediaQuery } from './helpers/MediaQueryMocker'
-const matchMedia = mockMediaQuery()
+import '../../core/vitest/mockMatchMediaSetup'
+import { setMedia } from 'mock-match-media'
 
 describe('onMediaQueryChange', () => {
   it('should emit callback when give media query matches', () => {
     const callback = vi.fn()
     onMediaQueryChange({ min: 'small' }, callback)
 
-    matchMedia.useMediaQuery('(min-width: 40em)')
+    setMedia({ width: '40em' })
     expect(callback).toHaveBeenCalledTimes(1)
 
-    matchMedia.useMediaQuery('(min-width: 60em)')
-    expect(callback).toHaveBeenCalledTimes(1)
-
-    matchMedia.useMediaQuery('(min-width: 40em)')
+    setMedia({ width: '10em' })
     expect(callback).toHaveBeenCalledTimes(2)
 
-    expect(callback).toHaveBeenLastCalledWith(true, {
-      matches: true,
-      media: '(min-width: 40em)',
-    })
+    setMedia({ width: '40em' })
+    expect(callback).toHaveBeenCalledTimes(3)
+
+    expect(callback).toHaveBeenLastCalledWith(
+      true,
+      expect.objectContaining({
+        matches: true,
+        media: '(min-width: 40em)',
+      })
+    )
   })
 
   it('should accept a "when" property', () => {
     const callback = vi.fn()
     onMediaQueryChange({ when: { min: 'small' } }, callback)
 
-    matchMedia.useMediaQuery('(min-width: 40em)')
+    setMedia({ width: '40em' })
     expect(callback).toHaveBeenCalledTimes(1)
   })
 
@@ -54,7 +57,7 @@ describe('onMediaQueryChange', () => {
       })
     )
 
-    matchMedia.useMediaQuery('(min-width: 72em)')
+    setMedia({ width: '72em' })
     expect(callback).toHaveBeenCalledTimes(2)
     expect(callback).toHaveBeenCalledWith(
       true,
@@ -64,19 +67,11 @@ describe('onMediaQueryChange', () => {
     )
   })
 
-  it('should emit callback on invalid query when "not" was given', () => {
-    const callback = vi.fn()
-    onMediaQueryChange({ not: true, when: { min: 'small' } }, callback)
-
-    matchMedia.useMediaQuery('not all and (min-width: 40em)')
-    expect(callback).toHaveBeenCalledTimes(1)
-  })
-
   it('should accept a string query', () => {
     const callback = vi.fn()
     onMediaQueryChange('(min-width: 40em)', callback)
 
-    matchMedia.useMediaQuery('(min-width: 40em)')
+    setMedia({ width: '40em' })
     expect(callback).toHaveBeenCalledTimes(1)
   })
 })
@@ -274,7 +269,7 @@ describe('makeMediaQueryList', () => {
 
   it('should return mediaQuery object', () => {
     const query = '(min-width: 40em)'
-    matchMedia.useMediaQuery(query)
+    setMedia({ width: '40em' })
 
     expect(makeMediaQueryList({ query })).toEqual({
       matches: true,

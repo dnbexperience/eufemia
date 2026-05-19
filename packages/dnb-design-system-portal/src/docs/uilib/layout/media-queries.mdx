@@ -343,17 +343,32 @@ or like this:
 
 Based on the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684), Eufemia recommends using `em` units for media queries to achieve the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#css-units).
 
-## How to deal with Jest
+## How to test `matchMedia`
 
-You can mock `window.matchMedia` with e.g. [jest-matchmedia-mock](https://www.npmjs.com/package/jest-matchmedia-mock).
+You can mock `window.matchMedia` with e.g. [mock-match-media](https://www.npmjs.com/package/mock-match-media).
 
 ```js
-import MatchMediaMock from 'jest-matchmedia-mock'
+import {
+  cleanup,
+  matchMedia,
+  MediaQueryListEvent,
+  setMedia,
+} from 'mock-match-media'
 
-const matchMedia = new MatchMediaMock()
+beforeAll(() => {
+  window.matchMedia = matchMedia
+
+  if (!('MediaQueryListEvent' in globalThis)) {
+    globalThis.MediaQueryListEvent = MediaQueryListEvent
+  }
+})
+
+afterEach(() => {
+  cleanup()
+})
 
 it('your test', () => {
-  matchMedia.useMediaQuery('(min-width: 40em) and (max-width: 60em)')
+  setMedia({ width: '50em' })
   ...
 })
 ```
