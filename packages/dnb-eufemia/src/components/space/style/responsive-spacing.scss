@@ -1,6 +1,11 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
-:root {
+// If we need it later, we may open this up to :root.
+// For now, we scope it to the component because,
+// if we ever serve token values from brand files at some point,
+// we need a way to make that compatible with :root.
+// The theme is not compatible with :root today.
+.dnb-space {
   @include utilities.allBelow(small) {
     --responsive-spacing-xx-small: 0.25rem; // 4px
     --responsive-spacing-x-small: 0.5rem; // 8px

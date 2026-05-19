@@ -21,7 +21,7 @@ exports[`Space scss > should match style dependencies css 1`] = `
  *
  */
 @media screen and (max-width: 40em) {
-  :root {
+  .dnb-space {
     --responsive-spacing-xx-small: 0.25rem;
     --responsive-spacing-x-small: 0.5rem;
     --responsive-spacing-small: 1rem;
@@ -32,7 +32,7 @@ exports[`Space scss > should match style dependencies css 1`] = `
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  :root {
+  .dnb-space {
     --responsive-spacing-xx-small: 0.5rem;
     --responsive-spacing-x-small: 1rem;
     --responsive-spacing-small: 1.5rem;
@@ -43,7 +43,7 @@ exports[`Space scss > should match style dependencies css 1`] = `
   }
 }
 @media screen and (min-width: 60.00625em) {
-  :root {
+  .dnb-space {
     --responsive-spacing-xx-small: 1rem;
     --responsive-spacing-x-small: 1.5rem;
     --responsive-spacing-small: 2rem;
