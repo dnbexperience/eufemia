@@ -22442,22 +22442,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.18.0":
-  version: 8.19.0
-  resolution: "ws@npm:8.19.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10/26e4901e93abaf73af9f26a93707c95b4845e91a7a347ec8c569e6e9be7f9df066f6c2b817b2d685544e208207898a750b78461e6e8d810c11a370771450c31b
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.19.0":
+"ws@npm:^8.18.0, ws@npm:^8.19.0":
   version: 8.20.1
   resolution: "ws@npm:8.20.1"
   peerDependencies:
