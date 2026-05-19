@@ -433,6 +433,33 @@ describe('TableTd with onClick (navigable cell)', () => {
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('should have no axe violations with clickable cells and row headers', async () => {
+    const Component = render(
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Column A</th>
+            <th scope="col">Column B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <TableTh scope="row">Row 1</TableTh>
+            <TableTd onClick={jest.fn()}>Cell A</TableTd>
+          </tr>
+          <tr>
+            <TableTh scope="row">Row 2</TableTh>
+            <TableTd onClick={jest.fn()} icon={false}>
+              Cell B
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    expect(await axeComponent(Component)).toHaveNoViolations()
+  })
 })
 
 describe('TableTd selected state', () => {
@@ -799,6 +826,31 @@ describe('TableTd selected state', () => {
         </tbody>
       </table>
     )
+    expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it('should have no axe violations with selectable cells in mixed states', async () => {
+    const Component = render(
+      <table>
+        <thead>
+          <tr>
+            <th>Column A</th>
+            <th>Column B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <TableTd selected onClick={jest.fn()}>
+              Cell A
+            </TableTd>
+            <TableTd selected={false} onClick={jest.fn()}>
+              Cell B
+            </TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
