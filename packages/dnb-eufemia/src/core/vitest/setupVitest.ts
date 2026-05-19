@@ -8,7 +8,7 @@
  * - bypassActWarning
  */
 
-import { vi, expect, beforeEach, beforeAll, afterAll } from 'vitest'
+import { expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
 
@@ -62,37 +62,7 @@ expect.addEqualityTesters([
   },
 ])
 
-// For Yarn v3 we need this fix to make jest-axe work properly
-// https://github.com/nickcolley/jest-axe/issues/147
 if (typeof window !== 'undefined') {
-  const { getComputedStyle } = window
-  window.getComputedStyle = (...args) => getComputedStyle(...args)
-
-  // jsdom's window.scrollTo throws "Not implemented" — replace unconditionally
-  window.scrollTo = vi.fn() as unknown as typeof window.scrollTo
-  Element.prototype.scrollTo =
-    vi.fn() as unknown as typeof Element.prototype.scrollTo
-
-  // Suppress jsdom "Not implemented: navigation" errors emitted via virtualConsole
-  const win = window as unknown as Record<string, unknown>
-  const virtualConsole = win._virtualConsole as
-    | { emit: (...args: unknown[]) => boolean }
-    | undefined
-  if (virtualConsole) {
-    const origEmit = virtualConsole.emit.bind(virtualConsole)
-    virtualConsole.emit = (...allArgs: unknown[]) => {
-      const [event, ...args] = allArgs
-      if (
-        event === 'jsdomError' &&
-        args[0] instanceof Error &&
-        /Not implemented/.test(args[0].message)
-      ) {
-        return false
-      }
-      return origEmit(event, ...args)
-    }
-  }
-
   // Vitest's populateGlobal creates accessor (get/set) properties on
   // globalThis that delegate to dom.window. Since jsdom doesn't implement
   // matchMedia, the accessor returns undefined. But the accessor's
